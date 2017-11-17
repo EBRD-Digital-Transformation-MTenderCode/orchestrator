@@ -1,0 +1,36 @@
+server:
+  port: 8088
+
+logging.level: error
+
+#spring:
+#  datasource:
+#    url: jdbc:h2:mem:example-simple;MODE=Oracle;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+
+spring:
+  jpa:
+    database: mysql
+    hibernate.ddl-auto: update
+  datasource:
+    driver-class-processDefinitionName: com.mysql.jdbc.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:mysql://localhost:3306/camunda?useSSL=false
+    username: root
+    password: mysql
+    hikari:
+     maximum-pool-size: 10
+
+camunda:
+  bpm:
+    application:
+      isDeleteUponUndeploy: false
+      isScanForProcessDefinitions: true
+      isDeployChangedOnly: true
+      isResumePreviousVersions: true
+      resumePreviousBy: a value
+    job-execution:
+      enabled: true
+    metrics:
+      enabled: false
+      db-reporter-activate: false
+
