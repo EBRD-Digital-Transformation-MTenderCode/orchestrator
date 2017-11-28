@@ -1,4 +1,4 @@
-package com.procurement.orchestrator;
+package com.procurement.orchestrator.service;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;

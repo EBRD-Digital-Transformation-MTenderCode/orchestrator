@@ -1,4 +1,4 @@
-package com.procurement.orchestrator;
+package com.procurement.orchestrator.service;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
@@ -8,13 +8,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Component
-public class SayEndDelegate implements JavaDelegate {
+public class RemoveFocusDelegate implements JavaDelegate {
 
     @Override
     public void execute(DelegateExecution execution) throws Exception {
         System.out.println("");
-        System.out.println(new SimpleDateFormat("HH:mm:ss").format(new Date()));
-        System.out.println("->End");
+        System.out.println("->Remove focus");
         System.out.println("");
     }
 }

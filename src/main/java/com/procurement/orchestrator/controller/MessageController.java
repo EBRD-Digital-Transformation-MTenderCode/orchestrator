@@ -1,7 +1,7 @@
-package com.procurement.orchestrator;
+package com.procurement.orchestrator.controller;
 
-import com.procurement.orchestrator.model.Message;
-import com.procurement.orchestrator.model.MessageRepository;
+import com.procurement.orchestrator.model.entity.Message;
+import com.procurement.orchestrator.repository.MessageRepository;
 import org.camunda.bpm.engine.RepositoryService;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.runtime.EventSubscription;

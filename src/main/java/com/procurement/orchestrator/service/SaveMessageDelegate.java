@@ -1,7 +1,7 @@
-package com.procurement.orchestrator;
+package com.procurement.orchestrator.service;
 
-import com.procurement.orchestrator.model.Message;
-import com.procurement.orchestrator.model.MessageRepository;
+import com.procurement.orchestrator.model.entity.Message;
+import com.procurement.orchestrator.repository.MessageRepository;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.springframework.beans.factory.annotation.Autowired;

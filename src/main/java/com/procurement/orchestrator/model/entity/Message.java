@@ -1,4 +1,4 @@
-package com.procurement.orchestrator.model;
+package com.procurement.orchestrator.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
