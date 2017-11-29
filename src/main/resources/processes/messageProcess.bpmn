@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.10.0">
-  <bpmn:process id="messageProcess" name="message process" isExecutable="true">
+  <bpmn:process id="messageProcess" name="transactionEntity process" isExecutable="true">
     <bpmn:startEvent id="StartEvent">
       <bpmn:outgoing>SequenceFlow_1</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:subProcess id="SubProcess_message" name="message sub process">
+    <bpmn:subProcess id="SubProcess_message" name="transactionEntity sub process">
       <bpmn:incoming>SequenceFlow_1</bpmn:incoming>
       <bpmn:sequenceFlow id="SequenceFlow_3_sub" sourceRef="MessageEvent_sub" targetRef="SaveMessageTask_sub" />
       <bpmn:endEvent id="EndEvent_sub">
         <bpmn:incoming>SequenceFlow_6_sub</bpmn:incoming>
       </bpmn:endEvent>
       <bpmn:sequenceFlow id="SequenceFlow_6_sub" sourceRef="SaveMessageTask_sub" targetRef="EndEvent_sub" />
-      <bpmn:serviceTask id="SaveMessageTask_sub" name="Save message" camunda:delegateExpression="${saveMessageDelegate}">
+      <bpmn:serviceTask id="SaveMessageTask_sub" name="Save transactionEntity" camunda:delegateExpression="${saveMessageDelegate}">
         <bpmn:incoming>SequenceFlow_3_sub</bpmn:incoming>
         <bpmn:outgoing>SequenceFlow_6_sub</bpmn:outgoing>
         <bpmn:outgoing>SequenceFlow_4_sub</bpmn:outgoing>
@@ -50,7 +50,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_2" sourceRef="TimerBoundaryEvent_sub" targetRef="RemoveFocusTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1" sourceRef="StartEvent" targetRef="SubProcess_message" />
   </bpmn:process>
-  <bpmn:message id="bidder" name="bidderMessage" />
+  <bpmn:transactionEntity id="bidder" name="bidderMessage" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="messageProcess">
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent">

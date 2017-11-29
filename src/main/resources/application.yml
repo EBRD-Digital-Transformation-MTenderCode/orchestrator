@@ -14,7 +14,24 @@ spring:
     username: root
     password: mysql
     hikari:
-     maximum-pool-size: 10
+      maximum-pool-size: 10
+
+  data:
+    cassandra:
+      contact-points: 127.0.0.1
+      keyspace-name: ocds
+      port: 9042
+      username: cassandra
+      password: cassandra
+
+kafka:
+  producer:
+    bootstrap: localhost:9092
+    topic: orchestrator
+  consumer:
+    bootstrap: localhost:9092
+    group: orchestrator
+    topic: chronograph
 
 camunda:
   bpm:
@@ -30,3 +47,4 @@ camunda:
       enabled: false
       db-reporter-activate: false
 
+ocds.prefix: ocds-t1s2t3

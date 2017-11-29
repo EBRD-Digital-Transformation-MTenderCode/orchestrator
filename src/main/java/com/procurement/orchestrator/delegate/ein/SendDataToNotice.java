@@ -1,19 +1,16 @@
-package com.procurement.orchestrator.service;
+package com.procurement.orchestrator.delegate.ein;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.springframework.stereotype.Component;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 @Component
-public class RemoveFocusDelegate implements JavaDelegate {
+public class SendDataToNotice implements JavaDelegate {
 
     @Override
     public void execute(DelegateExecution execution) throws Exception {
         System.out.println("");
-        System.out.println("->Remove focus");
+        System.out.println("->Send Data To E-Access");
         System.out.println("");
     }
 }

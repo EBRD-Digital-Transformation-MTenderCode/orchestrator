@@ -14,7 +14,7 @@
       <bpmn:outgoing>SequenceFlow_2</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_3" sourceRef="receiveMessageTask" targetRef="TimeEvent1" />
-    <bpmn:receiveTask id="receiveMessageTask" name="Receive message">
+    <bpmn:receiveTask id="receiveMessageTask" name="Receive transactionEntity">
       <bpmn:incoming>SequenceFlow_2</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_3</bpmn:outgoing>
     </bpmn:receiveTask>
