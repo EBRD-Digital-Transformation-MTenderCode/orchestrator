@@ -10,7 +10,7 @@ public class SendDataToAccess implements JavaDelegate {
     @Override
     public void execute(DelegateExecution execution) throws Exception {
         System.out.println("");
-        System.out.println("->Send Data To E-Access");
+        System.out.println("->Send data to E-Access.");
         System.out.println("");
     }
 }
