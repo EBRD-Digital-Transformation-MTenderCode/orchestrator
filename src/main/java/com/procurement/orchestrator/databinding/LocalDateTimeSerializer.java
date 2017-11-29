@@ -3,7 +3,6 @@ package com.procurement.orchestrator.databinding;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
-
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -15,12 +14,12 @@ import static java.time.format.DateTimeFormatter.ISO_LOCAL_TIME;
 public class LocalDateTimeSerializer extends StdSerializer<LocalDateTime> {
 
     private static final DateTimeFormatter FORMATTER = new DateTimeFormatterBuilder()
-        .parseCaseInsensitive()
-        .append(ISO_LOCAL_DATE)
-        .appendLiteral('T')
-        .append(ISO_LOCAL_TIME)
-        .appendLiteral('Z')
-        .toFormatter();
+            .parseCaseInsensitive()
+            .append(ISO_LOCAL_DATE)
+            .appendLiteral('T')
+            .append(ISO_LOCAL_TIME)
+            .appendLiteral('Z')
+            .toFormatter();
 
     public LocalDateTimeSerializer() {
         super(LocalDateTime.class);

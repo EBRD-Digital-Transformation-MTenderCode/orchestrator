@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 public class SendNoticeToPlatform implements JavaDelegate {
 
     @Override
-    public void execute(DelegateExecution execution) throws Exception {
+    public void execute(final DelegateExecution execution) throws Exception {
         System.out.println("");
         System.out.println("->Send notification to Platform.");
         System.out.println("");

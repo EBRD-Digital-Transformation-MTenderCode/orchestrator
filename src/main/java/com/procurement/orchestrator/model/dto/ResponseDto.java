@@ -3,9 +3,8 @@ package com.procurement.orchestrator.model.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.procurement.orchestrator.model.errors.ErrorResponse;
-import lombok.Data;
-
 import java.util.List;
+import lombok.Data;
 
 @Data
 public class ResponseDto<T> {

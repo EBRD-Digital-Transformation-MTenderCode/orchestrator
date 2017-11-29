@@ -8,5 +8,4 @@ import org.springframework.data.cassandra.repository.config.EnableCassandraRepos
 @ComponentScan(basePackages = "com.procurement.orchestrator.cassandra")
 @EnableCassandraRepositories(basePackages = "com.procurement.orchestrator.cassandra")
 public class CassandraConfig {
-
 }

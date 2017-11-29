@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 public class SendDataToNotice implements JavaDelegate {
 
     @Override
-    public void execute(DelegateExecution execution) throws Exception {
+    public void execute(final DelegateExecution execution) throws Exception {
         System.out.println("");
         System.out.println("->Send data to E-Notice.");
         System.out.println("");

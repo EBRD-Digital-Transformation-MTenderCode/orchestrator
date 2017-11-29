@@ -8,10 +8,10 @@ import org.springframework.context.annotation.Import;
 
 @Configuration
 @Import({
-    WebConfig.class,
-    ServiceConfig.class,
-    CassandraConfig.class,
-    ConverterConfig.class
+        WebConfig.class,
+        ServiceConfig.class,
+        CassandraConfig.class,
+        ConverterConfig.class
 })
 public class ApplicationConfig {
     @Bean

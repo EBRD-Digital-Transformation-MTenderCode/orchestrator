@@ -14,8 +14,8 @@ public class RestServiceImpl implements RestService {
     }
 
     @Override
-    public ResponseDto sendData(RequestDto requestDto) {
-        ResponseEntity<ResponseDto> response = restTemplate.postForEntity("url", requestDto, ResponseDto.class);
+    public ResponseDto sendData(final RequestDto requestDto) {
+        final ResponseEntity<ResponseDto> response = restTemplate.postForEntity("url", requestDto, ResponseDto.class);
         return response.getBody();
     }
 }
