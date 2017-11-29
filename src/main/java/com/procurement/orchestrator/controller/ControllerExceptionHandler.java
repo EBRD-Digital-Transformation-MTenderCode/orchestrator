@@ -15,7 +15,7 @@ public class ControllerExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(OperationException.class)
     public ErrorResponse handleValidationContractProcessPeriod(final OperationException e) {
-        return new ErrorResponse(e.getMessage());
+        return new ErrorResponse(HttpStatus.BAD_REQUEST.value(), e.getMessage());
     }
 
 }

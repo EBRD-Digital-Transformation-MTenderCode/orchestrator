@@ -6,9 +6,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by user on 29.11.17.
- */
 public enum ResponseMessage {
 
     OK("May the Force be with you."),
