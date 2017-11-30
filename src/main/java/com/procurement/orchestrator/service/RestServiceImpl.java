@@ -3,8 +3,10 @@ package com.procurement.orchestrator.service;
 import com.procurement.orchestrator.domain.constant.TargetUrl;
 import com.procurement.orchestrator.domain.dto.RequestDto;
 import com.procurement.orchestrator.domain.dto.ResponseDto;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+@Service
 public class RestServiceImpl implements RestService {
 
     private final RestTemplate restTemplate;

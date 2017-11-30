@@ -14,7 +14,8 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
-    public ProcessInstance startProcessInstanceByKey(final String operationId, final String operationType) {
-        return runtimeService.startProcessInstanceByKey(operationType, operationId);
+    public ProcessInstance startProcessInstanceByKey(final String operationType, final String operationId) {
+        ProcessInstance pi = runtimeService.startProcessInstanceByKey(operationType);
+        return pi;
     }
 }

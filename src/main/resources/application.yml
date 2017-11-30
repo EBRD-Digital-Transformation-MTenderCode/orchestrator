@@ -33,6 +33,7 @@ spring:
 #    group: orchestrator
 #    topic: chronograph
 
+
 #camunda:
 #  bpm:
 #    application:
@@ -48,3 +49,7 @@ spring:
 #      db-reporter-activate: false
 
 ocds.prefix: ocds-t1s2t3
+
+camunda:
+  bpm:
+    auto-deployment-enabled: true
