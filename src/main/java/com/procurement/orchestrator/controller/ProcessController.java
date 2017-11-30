@@ -1,6 +1,6 @@
 package com.procurement.orchestrator.controller;
 
-import com.procurement.orchestrator.model.dto.ResponseMessage;
+import com.procurement.orchestrator.domain.constant.ResponseMessage;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import org.springframework.http.HttpStatus;
@@ -26,7 +26,7 @@ public class ProcessController {
                                                @RequestParam final String operationId,
                                                @RequestBody final String jsonData) {
         /**check/save operation data*/
-        operationService.processOperation(operationType, operationId, jsonData);
+//        operationService.processOperation(operationType, operationId, jsonData);
         /**start new process for current operation*/
         processService.startProcessInstanceByKey(operationType, operationId);
         return new ResponseEntity<>(ResponseMessage.OK.value(), HttpStatus.CREATED);

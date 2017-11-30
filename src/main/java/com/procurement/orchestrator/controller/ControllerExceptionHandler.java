@@ -1,7 +1,9 @@
 package com.procurement.orchestrator.controller;
 
 import com.procurement.orchestrator.exception.OperationException;
-import com.procurement.orchestrator.model.errors.ErrorResponse;
+import com.procurement.orchestrator.domain.dto.ResponseDetailsDto;
+import com.procurement.orchestrator.domain.dto.ResponseDto;
+import java.util.Collections;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -14,8 +16,10 @@ public class ControllerExceptionHandler {
     @ResponseBody
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(OperationException.class)
-    public ErrorResponse handleValidationContractProcessPeriod(final OperationException e) {
-        return new ErrorResponse(HttpStatus.BAD_REQUEST.value(), e.getMessage());
+    public ResponseDto handleValidationContractProcessPeriod(final OperationException e) {
+        return new ResponseDto(false,
+                               Collections.singletonList(new ResponseDetailsDto(
+                                   HttpStatus.BAD_REQUEST.value(),
+                                   e.getMessage())), null);
     }
-
 }

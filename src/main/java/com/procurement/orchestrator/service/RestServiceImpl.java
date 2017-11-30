@@ -1,8 +1,8 @@
 package com.procurement.orchestrator.service;
 
-import com.procurement.orchestrator.model.dto.RequestDto;
-import com.procurement.orchestrator.model.dto.ResponseDto;
-import org.springframework.http.ResponseEntity;
+import com.procurement.orchestrator.domain.constant.TargetUrl;
+import com.procurement.orchestrator.domain.dto.RequestDto;
+import com.procurement.orchestrator.domain.dto.ResponseDto;
 import org.springframework.web.client.RestTemplate;
 
 public class RestServiceImpl implements RestService {
@@ -14,8 +14,11 @@ public class RestServiceImpl implements RestService {
     }
 
     @Override
-    public ResponseDto sendData(final RequestDto requestDto) {
-        final ResponseEntity<ResponseDto> response = restTemplate.postForEntity("url", requestDto, ResponseDto.class);
-        return response.getBody();
+    public ResponseDto postData(final TargetUrl url, final RequestDto requestDto) {
+        return restTemplate.postForEntity(
+            url.value(),
+            requestDto,
+            ResponseDto.class)
+                           .getBody();
     }
 }

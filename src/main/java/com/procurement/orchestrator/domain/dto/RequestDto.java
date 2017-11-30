@@ -1,4 +1,4 @@
-package com.procurement.orchestrator.model.dto;
+package com.procurement.orchestrator.domain.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
