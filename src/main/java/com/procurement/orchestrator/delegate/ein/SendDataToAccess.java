@@ -4,6 +4,8 @@ import com.procurement.orchestrator.domain.constant.TargetUrl;
 import com.procurement.orchestrator.domain.dto.RequestDto;
 import com.procurement.orchestrator.domain.dto.ResponseDto;
 import com.procurement.orchestrator.service.RestService;
+import java.util.HashMap;
+import java.util.Map;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
@@ -22,11 +24,14 @@ public class SendDataToAccess implements JavaDelegate {
     }
 
     @Override
-    public void execute(final DelegateExecution execution) throws Exception {
+    public void execute(final DelegateExecution execution) {
         LOG.info("->Send data to E-Access.");
         RequestDto request = new RequestDto();
-        request.setData(new String("hello from bpe"));
+        Map<String, String> data = new HashMap<>();
+        data.put("message", "hello from bpe");
+        request.setData(data);
         ResponseDto response = restService.postData(TargetUrl.ACCESS, request);
-        LOG.info((String)response.getData());
+        LOG.info("->Get response: " + response.getData()
+                                               .toString());
     }
 }

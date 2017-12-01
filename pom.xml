@@ -265,6 +265,7 @@
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
                 <includes>
+                    <include>processes/</include>
                     <include>bootstrap.yml</include>
                     <include>banner.txt</include>
                 </includes>

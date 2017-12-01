@@ -11,15 +11,15 @@
       <bpmn:incoming>SequenceFlow_5</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="SequenceFlow_5" sourceRef="Task_3" targetRef="EndEvent_1" />
-    <bpmn:serviceTask id="Task_1" name="Send Data To Access" camunda:delegateExpression="sendDataToAccess">
+    <bpmn:serviceTask id="Task_1" name="Send Data To Access" camunda:delegateExpression="${sendDataToAccess}">
       <bpmn:incoming>SequenceFlow_1</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_2</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="Task_2" name="Send Data To Notice" camunda:delegateExpression="sendDataToNotice">
+    <bpmn:serviceTask id="Task_2" name="Send Data To Notice" camunda:delegateExpression="${sendDataToNotice}">
       <bpmn:incoming>SequenceFlow_2</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_3</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="Task_3" name="Send Notice To Platform" camunda:delegateExpression="sendNoticeToPlatform">
+    <bpmn:serviceTask id="Task_3" name="Send Notice To Platform" camunda:delegateExpression="${sendNoticeToPlatform}">
       <bpmn:incoming>SequenceFlow_3</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_5</bpmn:outgoing>
     </bpmn:serviceTask>
