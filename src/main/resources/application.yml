@@ -53,3 +53,13 @@ ocds.prefix: ocds-t1s2t3
 camunda:
   bpm:
     auto-deployment-enabled: true
+
+ribbon:
+  eureka:
+   enabled: false
+access:
+  ribbon:
+    listOfServers: http://localhost:8080
+notice:
+  ribbon:
+    listOfServers: http://localhost:8080

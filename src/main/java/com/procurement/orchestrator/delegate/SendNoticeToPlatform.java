@@ -1,16 +1,16 @@
-package com.procurement.orchestrator.delegate.ein;
+package com.procurement.orchestrator.delegate;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SendDataToNotice implements JavaDelegate {
+public class SendNoticeToPlatform implements JavaDelegate {
 
     @Override
-    public void execute(final DelegateExecution execution){
+    public void execute(final DelegateExecution execution) {
         System.out.println("");
-        System.out.println("->Send data to E-Notice.");
+        System.out.println("->Send notification to Platform.");
         System.out.println("");
     }
 }

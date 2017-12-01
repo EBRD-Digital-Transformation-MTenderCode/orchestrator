@@ -16,5 +16,4 @@ public class ServiceConfig {
             new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory()));
         return restClient;
     }
-
 }

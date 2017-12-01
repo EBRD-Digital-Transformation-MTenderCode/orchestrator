@@ -11,7 +11,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.0.0.M5</version>
+        <version>1.5.9.RELEASE</version>
      </parent>
 
     <properties>
@@ -181,6 +181,11 @@
             <artifactId>camunda-bpm-spring-boot-starter</artifactId>
             <version>2.3.0</version>
         </dependency>
+        <!--Rest-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-feign</artifactId>
+        </dependency>
         <!--DB-->
         <!--<dependency>-->
             <!--<groupId>org.springframework.boot</groupId>-->
@@ -258,6 +263,18 @@
             <version>2.6.1</version>
         </dependency>
     </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>Edgware.RELEASE</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <resources>
