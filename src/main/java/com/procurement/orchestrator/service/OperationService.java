@@ -5,5 +5,5 @@ import org.springframework.stereotype.Service;
 @Service
 public interface OperationService {
 
-//    void processOperation(String operationId, String operationType, String jsonData);
+    void processOperation(String transactionId, String processType, String dataProvider, String jsonData);
 }

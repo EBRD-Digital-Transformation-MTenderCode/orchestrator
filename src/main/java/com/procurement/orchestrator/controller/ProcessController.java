@@ -1,6 +1,6 @@
 package com.procurement.orchestrator.controller;
 
-import com.procurement.orchestrator.domain.constant.ResponseMessage;
+import com.procurement.orchestrator.domain.constant.ResponseMessageType;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import org.springframework.http.HttpStatus;
@@ -22,14 +22,15 @@ public class ProcessController {
     }
 
     @RequestMapping(value = "/startProcess", method = RequestMethod.POST)
-    public ResponseEntity<String> startProcess(@RequestParam final String operationType,
-                                               @RequestParam final String operationId,
+    public ResponseEntity<String> startProcess(@RequestParam final String transactionId,
+                                               @RequestParam final String processType,
+                                               @RequestParam final String platformId,
                                                @RequestBody final String jsonData) {
         /**check/save operation data*/
-//        operationService.processOperation(operationType, operationId, jsonData);
+        operationService.processOperation(transactionId, processType, platformId, jsonData);
         /**start new process for current operation*/
-        processService.startProcessInstanceByKey(operationType, operationId);
-        return new ResponseEntity<>(ResponseMessage.OK.value(), HttpStatus.CREATED);
+        processService.startProcess(processType, transactionId);
+        return new ResponseEntity<>(ResponseMessageType.OK.value(), HttpStatus.CREATED);
     }
 }
 

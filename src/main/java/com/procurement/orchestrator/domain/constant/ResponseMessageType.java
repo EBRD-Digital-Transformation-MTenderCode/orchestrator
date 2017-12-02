@@ -5,28 +5,28 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.HashMap;
 import java.util.Map;
 
-public enum ResponseMessage {
+public enum ResponseMessageType {
 
     OK("May the Force be with you."),
     OPERATION_EXCEPTION("You will find only what you bring in.");
 
-    private static final Map<String, ResponseMessage> CONSTANTS = new HashMap<>();
+    private static final Map<String, ResponseMessageType> CONSTANTS = new HashMap<>();
 
     static {
-        for (final ResponseMessage c : values()) {
+        for (final ResponseMessageType c : values()) {
             CONSTANTS.put(c.value, c);
         }
     }
 
     private final String value;
 
-    ResponseMessage(final String value) {
+    ResponseMessageType(final String value) {
         this.value = value;
     }
 
     @JsonCreator
-    public static ResponseMessage fromValue(final String value) {
-        final ResponseMessage constant = CONSTANTS.get(value);
+    public static ResponseMessageType fromValue(final String value) {
+        final ResponseMessageType constant = CONSTANTS.get(value);
         if (constant == null) {
             throw new IllegalArgumentException(value);
         }

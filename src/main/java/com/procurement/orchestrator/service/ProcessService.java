@@ -6,5 +6,5 @@ import org.springframework.stereotype.Service;
 @Service
 public interface ProcessService {
 
-    ProcessInstance startProcessInstanceByKey(String operationType, String operationId);
+    ProcessInstance startProcess(String processType, String transactionId);
 }

@@ -16,13 +16,13 @@ spring:
     hikari:
       maximum-pool-size: 10
 
-#  data:
-#    cassandra:
-#      contact-points: 127.0.0.1
-#      keyspace-name: ocds
-#      port: 9042
-#      username: cassandra
-#      password: cassandra
+  data:
+    cassandra:
+      contact-points: 127.0.0.1
+      keyspace-name: ocds
+      port: 9042
+      username: cassandra
+      password: cassandra
 
 #kafka:
 #  producer:
@@ -33,26 +33,12 @@ spring:
 #    group: orchestrator
 #    topic: chronograph
 
-
-#camunda:
-#  bpm:
-#    application:
-#      isDeleteUponUndeploy: false
-#      isScanForProcessDefinitions: true
-#      isDeployChangedOnly: true
-#      isResumePreviousVersions: true
-#      resumePreviousBy: a value
-#    job-execution:
-#      enabled: true
-#    metrics:
-#      enabled: false
-#      db-reporter-activate: false
-
 ocds.prefix: ocds-t1s2t3
 
 camunda:
   bpm:
     auto-deployment-enabled: true
+    history-level: none
 
 ribbon:
   eureka:
