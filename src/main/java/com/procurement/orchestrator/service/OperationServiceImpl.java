@@ -19,7 +19,7 @@ public class OperationServiceImpl implements OperationService {
 
     @Override
     public void processOperation(final String transactionId, final String processType, final String dataProvider, final String jsonData) {
-        if (operationRepository.existsById(transactionId)) {
+        if (operationRepository.exists(transactionId)) {
             throw new OperationException(ResponseMessageType.OPERATION_EXCEPTION.value());
         }
         operationRepository.save(getEntity(transactionId, dataProvider, processType, "new", jsonData));
