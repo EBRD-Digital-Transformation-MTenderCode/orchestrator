@@ -1,10 +1,9 @@
 package com.procurement.orchestrator.cassandra;
 
+import java.util.Optional;
 import org.springframework.data.cassandra.repository.CassandraRepository;
 import org.springframework.data.cassandra.repository.Query;
 import org.springframework.stereotype.Repository;
-
-import java.util.Optional;
 
 @Repository
 public interface OperationRepository extends CassandraRepository<OperationEntity, String> {

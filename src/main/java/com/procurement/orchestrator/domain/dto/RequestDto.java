@@ -11,7 +11,7 @@ public class RequestDto<T> {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private T data;
 
-    public RequestDto(@JsonProperty(value = "data") T data) {
+    public RequestDto(@JsonProperty(value = "data") final T data) {
         this.data = data;
     }
 }

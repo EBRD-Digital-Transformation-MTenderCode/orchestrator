@@ -1,25 +1,22 @@
 package com.procurement.orchestrator.delegate;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.type.MapType;
-import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.procurement.orchestrator.cassandra.OperationEntity;
+import com.procurement.orchestrator.cassandra.OperationValue;
 import com.procurement.orchestrator.domain.constant.ResponseMessageType;
 import com.procurement.orchestrator.domain.dto.RequestDto;
 import com.procurement.orchestrator.domain.dto.ResponseDto;
 import com.procurement.orchestrator.rest.NoticeRestClient;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.utils.JsonUtil;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 import org.camunda.bpm.engine.delegate.BpmnError;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
 
 @Component
 public class SendDataToNotice implements JavaDelegate {
@@ -42,17 +39,17 @@ public class SendDataToNotice implements JavaDelegate {
     @Override
     public void execute(final DelegateExecution execution) {
         LOG.info("->Data preparation for E-Notice.");
-        String transactionId = execution.getProcessBusinessKey();
-        Optional<OperationEntity> entityOptional = operationService.getOperationByStep(transactionId, 2);
+        final String transactionId = execution.getProcessBusinessKey();
+        final Optional<OperationEntity> entityOptional = operationService.getOperationByStep(transactionId, 2);
         if (entityOptional.isPresent()) {
-            OperationEntity entity = entityOptional.get();
-            HashMap<String,String> jsonData = jsonUtil.toObject(HashMap.class, entity.getJsonData());
-            String osid = jsonData.get("ocid");
-            Map<String, String> requestData = new HashMap<>();
-            requestData.put("ein",  jsonData.get("ein"));
-            RequestDto request = new RequestDto(requestData);
+            final OperationEntity entity = entityOptional.get();
+            final HashMap<String, String> jsonData = jsonUtil.toObject(HashMap.class, entity.getJsonData());
+            final Map<String, String> requestData = new HashMap<>();
+            requestData.put(entity.getProcessType(), jsonData.get("ein"));
             LOG.info("->Send data to E-Notice.");
-            ResponseDto response;
+            final String osid = jsonData.get("ocid");
+            final RequestDto request = new RequestDto(requestData);
+            final ResponseDto response;
             try {
                 response = noticeRestClient.postData(osid, request).getBody();
                 LOG.info("->Get response: " + response.getData().toString());
@@ -60,15 +57,16 @@ public class SendDataToNotice implements JavaDelegate {
                 LOG.error(e.getMessage());
                 throw new BpmnError("TR_EXCEPTION", ResponseMessageType.SERVICE_EXCEPTION.value());
             }
-            operationService.saveOperation(
+            final OperationValue operation = new OperationValue(
                     transactionId,
                     3,
                     "get from e-notice",
                     "e-notice",
                     "platform",
-                    "ein",
+                    entity.getProcessType(),
                     jsonUtil.toJson(response.getData()));
 
+            operationService.saveOperation(operation);
         }
     }
 }

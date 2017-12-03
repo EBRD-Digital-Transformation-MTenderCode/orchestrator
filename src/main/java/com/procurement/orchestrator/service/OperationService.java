@@ -1,9 +1,9 @@
 package com.procurement.orchestrator.service;
 
 import com.procurement.orchestrator.cassandra.OperationEntity;
-import org.springframework.stereotype.Service;
-
+import com.procurement.orchestrator.cassandra.OperationValue;
 import java.util.Optional;
+import org.springframework.stereotype.Service;
 
 @Service
 public interface OperationService {
@@ -15,24 +15,10 @@ public interface OperationService {
                                    String processType,
                                    String jsonData);
 
-    void processOperation(String transactionId,
-                          Integer step,
-                          String description,
-                          String dataProducer,
-                          String dataConsumer,
-                          String processType,
-                          String jsonData);
-
-    Optional<String> getOperationData(String transactionId, Integer step);
+    void processOperation(OperationValue operation);
 
     Optional<OperationEntity> getOperationByStep(String transactionId, Integer step);
 
-    void saveOperation(String transactionId,
-                       Integer step,
-                       String description,
-                       String dataProducer,
-                       String dataConsumer,
-                       String processType,
-                       String jsonData);
+    void saveOperation(OperationValue operation);
 
 }

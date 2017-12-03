@@ -11,5 +11,5 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @FeignClient(name = "access")
 public interface AccessRestClient {
     @RequestMapping(path = "/saveEIN", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> postData(@RequestBody final RequestDto requestDto) throws Exception;
+    ResponseEntity<ResponseDto> postData(@RequestBody RequestDto requestDto) throws Exception;
 }
