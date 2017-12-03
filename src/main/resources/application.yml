@@ -40,12 +40,13 @@ camunda:
     auto-deployment-enabled: true
     history-level: none
 
-ribbon:
-  eureka:
-   enabled: false
 access:
   ribbon:
+    eureka:
+      enabled: false
     listOfServers: http://localhost:8080
 notice:
   ribbon:
+    eureka:
+      enabled: false
     listOfServers: http://localhost:8080

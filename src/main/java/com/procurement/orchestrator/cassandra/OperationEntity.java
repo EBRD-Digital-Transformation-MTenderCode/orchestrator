@@ -17,14 +17,20 @@ public class OperationEntity {
     @PrimaryKeyColumn(name = "transaction_id", type = PrimaryKeyType.PARTITIONED)
     private String transactionId;
 
+    @PrimaryKeyColumn(name = "operation_step", type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING)
+    private Integer step;
+
     @PrimaryKeyColumn(name = "operation_date", type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING)
     private LocalDateTime date;
 
-    @PrimaryKeyColumn(name = "data_provider", type = PrimaryKeyType.CLUSTERED)
-    private String dataProvider;
+    @Column(value = "operation_desc")
+    private String description;
 
-    @Column(value = "operation_state")
-    private String state;
+    @Column(value = "data_producer")
+    private String dataProducer;
+
+    @Column(value = "data_consumer")
+    private String dataConsumer;
 
     @Column(value = "process_type")
     private String processType;

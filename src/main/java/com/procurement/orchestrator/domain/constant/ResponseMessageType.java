@@ -8,7 +8,8 @@ import java.util.Map;
 public enum ResponseMessageType {
 
     OK("May the Force be with you."),
-    OPERATION_EXCEPTION("Transaction already exists.");
+    TRANSACTION_EXISTS("Transaction already exists."),
+    SERVICE_EXCEPTION("One of the services is unavailable.");
 
     private static final Map<String, ResponseMessageType> CONSTANTS = new HashMap<>();
 

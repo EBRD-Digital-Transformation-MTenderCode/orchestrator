@@ -27,8 +27,8 @@ public class ProcessController {
                                                @RequestParam final String platformId,
                                                @RequestBody final String jsonData) {
         /**check/save operation data*/
-        operationService.processOperation(transactionId, processType, platformId, jsonData);
-        /**start new process for current operation*/
+        operationService.processFirstOperationStep(transactionId, platformId, processType, jsonData);
+         /**start new process for current operation*/
         processService.startProcess(processType, transactionId);
         return new ResponseEntity<>(ResponseMessageType.OK.value(), HttpStatus.CREATED);
     }

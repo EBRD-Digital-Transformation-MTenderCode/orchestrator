@@ -8,6 +8,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.type.MapType;
+
 import java.io.IOException;
 import java.io.StringWriter;
 import java.net.URL;
@@ -40,6 +42,15 @@ public class JsonUtil {
         Objects.requireNonNull(json);
         try {
             return mapper.readValue(json, clazz);
+        } catch (IOException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+
+    public <T> T toMap(final MapType mapType, final String json) {
+        Objects.requireNonNull(json);
+        try {
+            return mapper.readValue(json, mapType);
         } catch (IOException e) {
             throw new IllegalArgumentException(e);
         }

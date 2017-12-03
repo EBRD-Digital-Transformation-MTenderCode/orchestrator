@@ -5,12 +5,12 @@ import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SendNoticeToPlatform implements JavaDelegate {
+public class SendMessageToPlatform implements JavaDelegate {
 
     @Override
     public void execute(final DelegateExecution execution) {
         System.out.println("");
-        System.out.println("->Send notification to Platform.");
+        System.out.println("->Send positive message to Platform.");
         System.out.println("");
     }
 }

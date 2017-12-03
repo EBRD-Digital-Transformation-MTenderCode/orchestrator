@@ -10,4 +10,8 @@ public class RequestDto<T> {
     @JsonProperty(value = "data")
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private T data;
+
+    public RequestDto(@JsonProperty(value = "data") T data) {
+        this.data = data;
+    }
 }
