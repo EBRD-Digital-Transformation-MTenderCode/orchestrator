@@ -1,10 +1,11 @@
-package com.procurement.orchestrator.service;
+package com.procurement.orchestrator.rest;
 
 import com.procurement.orchestrator.domain.dto.RequestDto;
 import com.procurement.orchestrator.domain.dto.ResponseDto;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-@Service
-public interface RestService {
+@Component
+public interface RestsClient {
     ResponseDto postData(RequestDto requestDto);
 }
