@@ -42,16 +42,19 @@ public class SendDataToNotice implements JavaDelegate {
         final String transactionId = execution.getProcessBusinessKey();
         final Optional<OperationEntity> entityOptional = operationService.getOperationByStep(transactionId, 2);
         if (entityOptional.isPresent()) {
+            LOG.info("->Send data to E-Notice.");
             final OperationEntity entity = entityOptional.get();
             final HashMap<String, String> jsonData = jsonUtil.toObject(HashMap.class, entity.getJsonData());
+
             final Map<String, String> requestData = new HashMap<>();
+
             requestData.put(entity.getProcessType(), jsonData.get("ein"));
-            LOG.info("->Send data to E-Notice.");
-            final String osid = jsonData.get("ocid");
+
+            final String ocid = jsonData.get("ocid");
             final RequestDto request = new RequestDto(requestData);
             final ResponseDto response;
             try {
-                response = noticeRestClient.postData(osid, request).getBody();
+                response = noticeRestClient.postData(ocid, request).getBody();
                 LOG.info("->Get response: " + response.getData().toString());
             } catch (Exception e) {
                 LOG.error(e.getMessage());
@@ -64,7 +67,7 @@ public class SendDataToNotice implements JavaDelegate {
                     "e-notice",
                     "platform",
                     entity.getProcessType(),
-                    jsonUtil.toJson(response.getData()));
+                    response.getData().toString());
 
             operationService.saveOperation(operation);
         }

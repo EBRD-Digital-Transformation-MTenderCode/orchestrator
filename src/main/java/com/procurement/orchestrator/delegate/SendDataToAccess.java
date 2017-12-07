@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.delegate;
 
+import com.fasterxml.jackson.databind.type.MapType;
 import com.procurement.orchestrator.cassandra.OperationEntity;
 import com.procurement.orchestrator.cassandra.OperationValue;
 import com.procurement.orchestrator.domain.constant.ResponseMessageType;
@@ -43,14 +44,12 @@ public class SendDataToAccess implements JavaDelegate {
         final String transactionId = execution.getProcessBusinessKey();
         final Optional<OperationEntity> entityOptional = operationService.getOperationByStep(transactionId, 1);
         if (entityOptional.isPresent()) {
-            final OperationEntity entity = entityOptional.get();
-            final Map<String, String> requestData = new HashMap<>();
-            requestData.put(entity.getProcessType(), entity.getJsonData());
             LOG.info("->Send data to E-Access.");
             final ResponseDto response;
-            final RequestDto request = new RequestDto(requestData);
+            final OperationEntity entity = entityOptional.get();
             try {
-                response = accessRestClient.postData(request).getBody();
+                HashMap<String, String> jsonData = jsonUtil.toObject(HashMap.class, entity.getJsonData());
+                response = accessRestClient.postData(jsonData).getBody();
                 LOG.info("->Get response: " + response.getData().toString());
             } catch (Exception e) {
                 LOG.error(e.getMessage());

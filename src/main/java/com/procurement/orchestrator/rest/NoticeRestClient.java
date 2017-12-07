@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient(name = "notice")
 public interface NoticeRestClient {
-    @RequestMapping(path = "/createRecordEIN", method = RequestMethod.POST)
+    @RequestMapping(path = "/package/save", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> postData(
-            @RequestParam("ocid") String ocid,
-            @RequestBody RequestDto requestDto) throws Exception;
+            @RequestParam("cpid") String cpid,
+            @RequestBody RequestDto data) throws Exception;
 }

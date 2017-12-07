@@ -25,6 +25,7 @@ public class JsonUtil {
     private final ObjectMapper mapper;
 
     public JsonUtil(final ObjectMapper objectMapper) {
+        objectMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
         this.mapper = objectMapper;
     }
 
