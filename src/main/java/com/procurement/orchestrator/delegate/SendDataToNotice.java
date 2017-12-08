@@ -43,31 +43,34 @@ public class SendDataToNotice implements JavaDelegate {
         final Optional<OperationEntity> entityOptional = operationService.getOperationByStep(transactionId, 2);
         if (entityOptional.isPresent()) {
             LOG.info("->Send data to E-Notice.");
+            /**getting json data from the entity*/
             final OperationEntity entity = entityOptional.get();
             final HashMap<String, String> jsonData = jsonUtil.toObject(HashMap.class, entity.getJsonData());
-
+            /**preparation ein data for the request*/
             final Map<String, String> requestData = new HashMap<>();
-
-            requestData.put(entity.getProcessType(), jsonData.get("ein"));
-
-            final String ocid = jsonData.get("ocid");
+            final String ein = jsonData.get("ein");
+            requestData.put(entity.getProcessType(), ein);
             final RequestDto request = new RequestDto(requestData);
+            /**preparation ocid data for the request*/
+            final String ocid = jsonData.get("ocid");
             final ResponseDto response;
             try {
-                response = noticeRestClient.postData(ocid, request).getBody();
-                LOG.info("->Get response: " + response.getData().toString());
+                response = noticeRestClient.postData(ocid, request)
+                                           .getBody();
+                LOG.info("->Get response: " + response.getData()
+                                                      .toString());
             } catch (Exception e) {
                 LOG.error(e.getMessage());
                 throw new BpmnError("TR_EXCEPTION", ResponseMessageType.SERVICE_EXCEPTION.value());
             }
             final OperationValue operation = new OperationValue(
-                    transactionId,
-                    3,
-                    "get from e-notice",
-                    "e-notice",
-                    "platform",
-                    entity.getProcessType(),
-                    response.getData().toString());
+                transactionId,
+                3,
+                "get from e-notice",
+                "e-notice",
+                "platform",
+                entity.getProcessType(),
+                jsonUtil.toJson(response.getData()));
 
             operationService.saveOperation(operation);
         }

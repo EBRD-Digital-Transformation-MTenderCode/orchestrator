@@ -20,5 +20,4 @@ public interface OperationService {
     Optional<OperationEntity> getOperationByStep(String transactionId, Integer step);
 
     void saveOperation(OperationValue operation);
-
 }

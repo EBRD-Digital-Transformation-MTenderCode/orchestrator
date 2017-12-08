@@ -1,16 +1,13 @@
 package com.procurement.orchestrator.delegate;
 
-import com.fasterxml.jackson.databind.type.MapType;
 import com.procurement.orchestrator.cassandra.OperationEntity;
 import com.procurement.orchestrator.cassandra.OperationValue;
 import com.procurement.orchestrator.domain.constant.ResponseMessageType;
-import com.procurement.orchestrator.domain.dto.RequestDto;
 import com.procurement.orchestrator.domain.dto.ResponseDto;
 import com.procurement.orchestrator.rest.AccessRestClient;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 import org.camunda.bpm.engine.delegate.BpmnError;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
@@ -48,7 +45,7 @@ public class SendDataToAccess implements JavaDelegate {
             final ResponseDto response;
             final OperationEntity entity = entityOptional.get();
             try {
-                HashMap<String, String> jsonData = jsonUtil.toObject(HashMap.class, entity.getJsonData());
+                final HashMap<String, String> jsonData = jsonUtil.toObject(HashMap.class, entity.getJsonData());
                 response = accessRestClient.postData(jsonData).getBody();
                 LOG.info("->Get response: " + response.getData().toString());
             } catch (Exception e) {

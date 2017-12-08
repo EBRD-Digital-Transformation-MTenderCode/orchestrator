@@ -5,7 +5,9 @@ import com.procurement.orchestrator.cassandra.OperationRepository;
 import com.procurement.orchestrator.cassandra.OperationValue;
 import com.procurement.orchestrator.domain.constant.ResponseMessageType;
 import com.procurement.orchestrator.exception.OperationException;
+import com.procurement.orchestrator.utils.JsonUtil;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 
@@ -14,8 +16,12 @@ public class OperationServiceImpl implements OperationService {
 
     private final OperationRepository operationRepository;
 
-    public OperationServiceImpl(final OperationRepository operationRepository) {
+    private final JsonUtil jsonUtil;
+
+    public OperationServiceImpl(final OperationRepository operationRepository,
+                                final JsonUtil jsonUtil) {
         this.operationRepository = operationRepository;
+        this.jsonUtil = jsonUtil;
     }
 
     @Override
@@ -38,7 +44,8 @@ public class OperationServiceImpl implements OperationService {
 
     @Override
     public Boolean isTransactionExists(final String transactionId) {
-        return operationRepository.getOneById(transactionId).isPresent();
+        return operationRepository.getOneById(transactionId)
+                                  .isPresent();
     }
 
     @Override
@@ -52,6 +59,7 @@ public class OperationServiceImpl implements OperationService {
     }
 
     private OperationEntity getEntity(final OperationValue operation) {
+        final HashMap<String, String> jsonData = jsonUtil.toObject(HashMap.class, operation.getJsonData());
         final OperationEntity entity = new OperationEntity();
         entity.setTransactionId(operation.getTransactionId());
         entity.setStep(operation.getStep());
@@ -60,9 +68,8 @@ public class OperationServiceImpl implements OperationService {
         entity.setDataProducer(operation.getDataProducer());
         entity.setDataConsumer(operation.getDataConsumer());
         entity.setProcessType(operation.getProcessType());
-        entity.setJsonData(operation.getJsonData());
+        entity.setJsonData(jsonUtil.toJson(jsonData));
         return entity;
     }
-
 }
 
