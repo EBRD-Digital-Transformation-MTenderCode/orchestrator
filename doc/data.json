@@ -1,7 +1,127 @@
 {
   "ein": {
-    "ocid": "ocds-t1s2t3-UA-1512743498683",
-    "id": "bcb928b0-dc13-11e7-8ea9-139325b77605"
+    "ocid": "ocds-t1s2t3-UA-1512752122856",
+    "id": "d1218680-dc27-11e7-baa8-593e3071c376",
+    "date": "2017-12-08T16:55:22.856Z",
+    "tag": [
+      "budget"
+    ],
+    "initiationType": "budget",
+    "planning": {
+      "budget": {
+        "id": "string",
+        "period": {
+          "startDate": "2017-12-05T16:04:25.000000107Z",
+          "endDate": "2017-12-05T16:04:25.000000107Z"
+        },
+        "amount": {
+          "amount": 1.9,
+          "currency": "AED"
+        }
+      },
+      "rationale": "string"
+    },
+    "tender": {
+      "id": "string",
+      "title": "string",
+      "description": "string",
+      "classification": {
+        "id": "string",
+        "scheme": "CPV",
+        "description": "string"
+      }
+    },
+    "parties": [
+      {
+        "id": "string",
+        "name": "string",
+        "identifier": {
+          "id": "string",
+          "scheme": "string",
+          "legalName": "string",
+          "uri": "string"
+        },
+        "additionalIdentifiers": [
+          {
+            "id": "string",
+            "scheme": "string",
+            "legalName": "string",
+            "uri": "string"
+          }
+        ],
+        "address": {
+          "streetAddress": "string",
+          "locality": "string",
+          "region": "string",
+          "postalCode": "string",
+          "countryName": "string"
+        },
+        "contactPoint": {
+          "name": "string",
+          "email": "string",
+          "telephone": "string",
+          "faxNumber": "string",
+          "url": "string"
+        },
+        "roles": [
+          "buyer"
+        ],
+        "details": {
+          "typeOfBuyer": "BODY_PUBLIC",
+          "mainGeneralActivity": "DEFENCE",
+          "mainSectoralActivity": "AIRPORT_RELATED_ACTIVITIES",
+          "isACentralPurchasingBody": true,
+          "NUTSCode": "string",
+          "scale": "micro"
+        },
+        "buyerProfile": "string"
+      }
+    ],
+    "buyer": {
+      "id": "string",
+      "name": "string",
+      "identifier": {
+        "id": "string",
+        "scheme": "string",
+        "legalName": "string",
+        "uri": "string"
+      },
+      "address": {
+        "streetAddress": "string",
+        "locality": "string",
+        "region": "string",
+        "postalCode": "string",
+        "countryName": "string"
+      },
+      "additionalIdentifiers": [
+        {
+          "id": "string",
+          "scheme": "string",
+          "legalName": "string",
+          "uri": "string"
+        }
+      ],
+      "contactPoint": {
+        "name": "string",
+        "email": "string",
+        "telephone": "string",
+        "faxNumber": "string",
+        "url": "string"
+      }
+    },
+    "language": "string",
+    "relatedProcesses": [
+      {
+        "id": "string",
+        "relationship": [
+          "framework"
+        ],
+        "title": "string",
+        "scheme": "ocid",
+        "identifier": "string",
+        "uri": "string"
+      }
+    ]
   },
-  "ocid": "ocds-t1s2t3-UA-1512743498683"
+  "ocid": "ocds-t1s2t3-UA-1512752122856"
 }

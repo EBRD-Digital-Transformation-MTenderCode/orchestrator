@@ -48,8 +48,7 @@ public class SendDataToNotice implements JavaDelegate {
             final HashMap<String, String> jsonData = jsonUtil.toObject(HashMap.class, entity.getJsonData());
             /**preparation ein data for the request*/
             final Map<String, String> requestData = new HashMap<>();
-            final String ein = jsonData.get("ein");
-            requestData.put(entity.getProcessType(), ein);
+            requestData.put(entity.getProcessType(), jsonData.get("ein"));
             final RequestDto request = new RequestDto(requestData);
             /**preparation ocid data for the request*/
             final String ocid = jsonData.get("ocid");
