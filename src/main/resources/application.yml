@@ -5,14 +5,21 @@ logging.level: error
 
 spring:
   jpa:
-    database: mysql
+    database: postgresql
     hibernate.ddl-auto: update
   datasource:
-    driver-class-processDefinitionName: com.mysql.jdbc.Driver
+#    driver-class-processDefinitionName: com.mysql.jdbc.Driver
+#    type: com.zaxxer.hikari.HikariDataSource
+#    url: jdbc:mysql://localhost:3306/orchestrator?useSSL=false
+#    username: root
+#    password: mysql
+#    hikari:
+#      maximum-pool-size: 10
+    driver-class-processDefinitionName: org.postgresql.Driver
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:mysql://localhost:3306/orchestrator?useSSL=false
-    username: root
-    password: mysql
+    url: jdbc:postgresql://localhost:5432/orchestrator
+    username: postgres
+    password: postgres
     hikari:
       maximum-pool-size: 10
 
