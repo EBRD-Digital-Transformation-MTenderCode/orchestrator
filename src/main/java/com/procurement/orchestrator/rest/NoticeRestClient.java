@@ -11,8 +11,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient(name = "notice")
 public interface NoticeRestClient {
-    @RequestMapping(path = "/package/save", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> postData(
-            @RequestParam("cpid") String cpid,
-            @RequestBody RequestDto data) throws Exception;
+    @RequestMapping(path = "/release/save", method = RequestMethod.POST)
+    ResponseEntity<ResponseDto> postData(@RequestParam("cpid") String cpid,
+                                         @RequestParam("ocid") String ocid,
+                                         @RequestParam("tag") String tag,
+                                         @RequestParam("initiationType") String initiationType,
+                                         @RequestParam("language") String language,
+                                         @RequestBody RequestDto data) throws Exception;
 }
