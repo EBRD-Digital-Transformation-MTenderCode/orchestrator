@@ -1,4 +1,4 @@
-package com.procurement.orchestrator.delegate;
+package com.procurement.orchestrator.delegate.ein;
 
 import com.procurement.orchestrator.cassandra.OperationEntity;
 import com.procurement.orchestrator.cassandra.OperationValue;
@@ -7,7 +7,8 @@ import com.procurement.orchestrator.domain.dto.ResponseDto;
 import com.procurement.orchestrator.rest.AccessRestClient;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.utils.JsonUtil;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Optional;
 import org.camunda.bpm.engine.delegate.BpmnError;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
@@ -18,9 +19,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SendDataToAccess implements JavaDelegate {
+public class EinAccessPostEin implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SendDataToAccess.class);
+    private static final Logger LOG = LoggerFactory.getLogger(EinAccessPostEin.class);
 
     private final AccessRestClient accessRestClient;
 
@@ -28,7 +29,7 @@ public class SendDataToAccess implements JavaDelegate {
 
     private final JsonUtil jsonUtil;
 
-    public SendDataToAccess(final AccessRestClient accessRestClient,
+    public EinAccessPostEin(final AccessRestClient accessRestClient,
                             final OperationService operationService,
                             final JsonUtil jsonUtil) {
         this.accessRestClient = accessRestClient;
@@ -46,8 +47,8 @@ public class SendDataToAccess implements JavaDelegate {
             final ResponseDto response;
             final OperationEntity entity = entityOptional.get();
             try {
-                final HashMap<String, String> jsonData = jsonUtil.toObject(HashMap.class, entity.getJsonData());
-                final ResponseEntity<ResponseDto> responseEntity = accessRestClient.postData(jsonData);
+                final Map<String, String> jsonData = jsonUtil.toObject(LinkedHashMap.class, entity.getJsonData());
+                final ResponseEntity<ResponseDto> responseEntity = accessRestClient.postCreateEin(jsonData);
                 response = responseEntity.getBody();
                 LOG.info("->Get response: " + response.getData());
             } catch (Exception e) {

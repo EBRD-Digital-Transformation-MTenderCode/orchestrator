@@ -1,11 +1,10 @@
-package com.procurement.orchestrator.delegate;
+package com.procurement.orchestrator.delegate.fs;
 
 import com.procurement.orchestrator.cassandra.OperationEntity;
 import com.procurement.orchestrator.cassandra.OperationValue;
 import com.procurement.orchestrator.domain.constant.ResponseMessageType;
-import com.procurement.orchestrator.domain.dto.RequestDto;
 import com.procurement.orchestrator.domain.dto.ResponseDto;
-import com.procurement.orchestrator.rest.NoticeRestClient;
+import com.procurement.orchestrator.rest.AccessRestClient;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.LinkedHashMap;
@@ -20,50 +19,49 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SendDataToNotice implements JavaDelegate {
-    private static final Logger LOG = LoggerFactory.getLogger(SendDataToNotice.class);
+public class FsAccessPostFs implements JavaDelegate {
+
+    private static final Logger LOG = LoggerFactory.getLogger(FsAccessPostFs.class);
+
+    private final AccessRestClient accessRestClient;
 
     private final OperationService operationService;
 
-    private final NoticeRestClient noticeRestClient;
-
     private final JsonUtil jsonUtil;
 
-    public SendDataToNotice(final OperationService operationService,
-                            final NoticeRestClient noticeRestClient,
-                            final JsonUtil jsonUtil) {
+    public FsAccessPostFs(final AccessRestClient accessRestClient,
+                          final OperationService operationService,
+                          final JsonUtil jsonUtil) {
+        this.accessRestClient = accessRestClient;
         this.operationService = operationService;
-        this.noticeRestClient = noticeRestClient;
         this.jsonUtil = jsonUtil;
     }
 
     @Override
     public void execute(final DelegateExecution execution) {
-        LOG.info("->Data preparation for E-Notice.");
+        LOG.info("->Data preparation for E-Access.");
         final String transactionId = execution.getProcessBusinessKey();
-        final Optional<OperationEntity> entityOptional = operationService.getOperationByStep(transactionId, 2);
+        final Optional<OperationEntity> entityOptional = operationService.getOperationByStep(transactionId, 1);
         if (entityOptional.isPresent()) {
-            LOG.info("->Send data to E-Notice.");
-            /**getting json data from the entity*/
-            final OperationEntity entity = entityOptional.get();
-            final Map<String, String> jsonData = jsonUtil.toObject(LinkedHashMap.class, entity.getJsonData());
-            /**preparation data for the request*/
-            final RequestDto request = new RequestDto(jsonData);
+            LOG.info("->Send data to E-Access.");
             final ResponseDto response;
+            final OperationEntity entity = entityOptional.get();
             try {
-                final ResponseEntity<ResponseDto> responseEntity = noticeRestClient.postData(request);
+                final Map<String, String> jsonData = jsonUtil.toObject(LinkedHashMap.class, entity.getJsonData());
+                final ResponseEntity<ResponseDto> responseEntity = accessRestClient.postCreateFs(jsonData);
                 response = responseEntity.getBody();
                 LOG.info("->Get response: " + response.getData());
             } catch (Exception e) {
                 LOG.error(e.getMessage());
                 throw new BpmnError("TR_EXCEPTION", ResponseMessageType.SERVICE_EXCEPTION.value());
             }
+
             final OperationValue operation = new OperationValue(
                 transactionId,
-                3,
-                "get from e-notice",
+                2,
+                "get from access",
+                "e-access",
                 "e-notice",
-                "platform",
                 entity.getProcessType(),
                 jsonUtil.toJson(response.getData()));
 

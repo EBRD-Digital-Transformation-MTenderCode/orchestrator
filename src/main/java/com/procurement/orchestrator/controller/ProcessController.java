@@ -45,8 +45,8 @@ public class ProcessController {
         return new ResponseEntity<>(ResponseMessageType.OK.value(), HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/testProcess", method = RequestMethod.POST)
-    public ResponseEntity<String> testProcess() {
+    @RequestMapping(value = "/testProcessEin", method = RequestMethod.POST)
+    public ResponseEntity<String> testProcessEin() {
         count=count+1;
         String transactionId = Integer.toString(count);
         String platformId = "front";
@@ -75,6 +75,99 @@ public class ProcessController {
             "\"scheme\":\"string\",\"legalName\":\"string\",\"uri\":\"string\"}]," +
             "\"contactPoint\":{\"name\":\"string\",\"email\":\"string\",\"telephone\":\"string\"," +
             "\"faxNumber\":\"string\",\"url\":\"string\"}}}";
+
+        /**check/save operation data*/
+        operationService.processFirstOperationStep(transactionId, platformId, processType, jsonData);
+        /**start new process for current operation*/
+        processService.startProcess(processType, transactionId);
+        return new ResponseEntity<>(ResponseMessageType.OK.value(), HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = "/testProcessFs", method = RequestMethod.POST)
+    public ResponseEntity<String> testProcessFs() {
+        count=count+1;
+        String transactionId = Integer.toString(count);
+        String platformId = "front";
+        String processType = "fs";
+        String jsonData = "{\n" +
+            "  \"planning\": {\n" +
+            "    \"budget\": {\n" +
+            "      \"id\": \"string\",\n" +
+            "      \"description\": \"string\",\n" +
+            "      \"amount\": {\n" +
+            "        \"amount\": 100.20,\n" +
+            "        \"currency\": \"AED\"\n" +
+            "      },\n" +
+            "      \"project\": \"string\",\n" +
+            "      \"projectID\": \"string\",\n" +
+            "      \"uri\": \"string\",\n" +
+            "      \"isEuropeanUnionFunded\": true,\n" +
+            "      \"sourceEntity\": {\n" +
+            "        \"name\": \"string\",\n" +
+            "        \"id\": \"string\"\n" +
+            "      },\n" +
+            "      \"period\": {\n" +
+            "        \"startDate\": \"2017-12-13T16:21:54.642Z\",\n" +
+            "        \"endDate\": \"2017-12-13T16:21:54.642Z\"\n" +
+            "      },\n" +
+            "      \"verified\": true,\n" +
+            "      \"verificationDetails\": \"string\"\n" +
+            "    },\n" +
+            "    \"rationale\": \"string\"\n" +
+            "  },\n" +
+            "  \"parties\": {\n" +
+            "    \"id\": \"string\",\n" +
+            "    \"name\": \"string\",\n" +
+            "    \"identifier\": {\n" +
+            "      \"scheme\": \"string\",\n" +
+            "      \"id\": \"string\",\n" +
+            "      \"legalName\": \"string\",\n" +
+            "      \"uri\": \"string\"\n" +
+            "    },\n" +
+            "    \"additionalIdentifiers\": [\n" +
+            "      {\n" +
+            "        \"scheme\": \"string\",\n" +
+            "        \"id\": \"string\",\n" +
+            "        \"legalName\": \"string\",\n" +
+            "        \"uri\": \"string\"\n" +
+            "      }\n" +
+            "    ],\n" +
+            "    \"address\": {\n" +
+            "      \"streetAddress\": \"string\",\n" +
+            "      \"locality\": \"string\",\n" +
+            "      \"region\": \"string\",\n" +
+            "      \"postalCode\": \"string\",\n" +
+            "      \"countryName\": \"string\"\n" +
+            "    },\n" +
+            "    \"contactPoint\": {\n" +
+            "      \"name\": \"string\",\n" +
+            "      \"email\": \"string\",\n" +
+            "      \"telephone\": \"string\",\n" +
+            "      \"faxNumber\": \"string\",\n" +
+            "      \"url\": \"string\"\n" +
+            "    },\n" +
+            "    \"roles\": \"buyer\",\n" +
+            "    \"details\": {\n" +
+            "      \"typeOfBuyer\": \"BODY_PUBLIC\",\n" +
+            "      \"mainGeneralActivity\": \"DEFENCE\",\n" +
+            "      \"mainSectoralActivity\": \"AIRPORT_RELATED_ACTIVITIES\",\n" +
+            "      \"isACentralPurchasingBody\": true,\n" +
+            "      \"NUTSCode\": \"string\",\n" +
+            "      \"scale\": \"micro\"\n" +
+            "    },\n" +
+            "    \"buyerProfile\": \"string\"\n" +
+            "  },\n" +
+            "  \"relatedProcesses\": [\n" +
+            "    {\n" +
+            "      \"ocid\": \"ocds-t1s2t3-UA-1513196909728\",\n" +
+            "      \"relationship\": \"framework\",\n" +
+            "      \"title\": \"string\",\n" +
+            "      \"scheme\": \"ocid\",\n" +
+            "      \"identifier\": \"string\",\n" +
+            "      \"uri\": \"string\"\n" +
+            "    }\n" +
+            "  ]\n" +
+            "}";
 
         /**check/save operation data*/
         operationService.processFirstOperationStep(transactionId, platformId, processType, jsonData);
