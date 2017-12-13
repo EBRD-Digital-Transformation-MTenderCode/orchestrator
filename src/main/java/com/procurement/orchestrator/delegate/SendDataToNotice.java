@@ -8,8 +8,7 @@ import com.procurement.orchestrator.domain.dto.ResponseDto;
 import com.procurement.orchestrator.rest.NoticeRestClient;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.utils.JsonUtil;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 import org.camunda.bpm.engine.delegate.BpmnError;
@@ -17,8 +16,8 @@ import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Component
 public class SendDataToNotice implements JavaDelegate {
@@ -47,18 +46,14 @@ public class SendDataToNotice implements JavaDelegate {
             LOG.info("->Send data to E-Notice.");
             /**getting json data from the entity*/
             final OperationEntity entity = entityOptional.get();
-            final HashMap<String, String> jsonData = jsonUtil.toObject(HashMap.class, entity.getJsonData());
+            final Map<String, String> jsonData = jsonUtil.toObject(LinkedHashMap.class, entity.getJsonData());
             /**preparation data for the request*/
-            final String cpid =  jsonData.get("ocid");
-            final String ocid = jsonData.get("ocid");
-            final String tag = "compiled";
-            final String language = "en";
-            final String initiationType = "tender";
             final RequestDto request = new RequestDto(jsonData);
             final ResponseDto response;
             try {
-                response = noticeRestClient.postData(cpid, ocid, tag, initiationType, language, request).getBody();
-                LOG.info("->Get response: " + response.getData().toString());
+                final ResponseEntity<ResponseDto> responseEntity = noticeRestClient.postData(request);
+                response = responseEntity.getBody();
+                LOG.info("->Get response: " + response.getData());
             } catch (Exception e) {
                 LOG.error(e.getMessage());
                 throw new BpmnError("TR_EXCEPTION", ResponseMessageType.SERVICE_EXCEPTION.value());

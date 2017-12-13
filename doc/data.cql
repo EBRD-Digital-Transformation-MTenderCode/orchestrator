@@ -14,3 +14,5 @@ CREATE TABLE IF NOT EXISTS  ocds.orchestrator_operation (
 
 
 SELECT * FROM ocds.orchestrator_operation;
+
+TRUNCATE ocds.orchestrator_operation;

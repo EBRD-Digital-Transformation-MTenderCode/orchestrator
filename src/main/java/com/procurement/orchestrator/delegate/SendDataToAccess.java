@@ -14,6 +14,7 @@ import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -46,24 +47,24 @@ public class SendDataToAccess implements JavaDelegate {
             final OperationEntity entity = entityOptional.get();
             try {
                 final HashMap<String, String> jsonData = jsonUtil.toObject(HashMap.class, entity.getJsonData());
-                response = accessRestClient.postData(jsonData).getBody();
-                LOG.info("->Get response: " + response.getData().toString());
+                final ResponseEntity<ResponseDto> responseEntity = accessRestClient.postData(jsonData);
+                response = responseEntity.getBody();
+                LOG.info("->Get response: " + response.getData());
             } catch (Exception e) {
                 LOG.error(e.getMessage());
                 throw new BpmnError("TR_EXCEPTION", ResponseMessageType.SERVICE_EXCEPTION.value());
             }
 
             final OperationValue operation = new OperationValue(
-                    transactionId,
-                    2,
-                    "get from access",
-                    "e-access",
-                    "e-notice",
-                    entity.getProcessType(),
-                    jsonUtil.toJson(response.getData()));
+                transactionId,
+                2,
+                "get from access",
+                "e-access",
+                "e-notice",
+                entity.getProcessType(),
+                jsonUtil.toJson(response.getData()));
 
             operationService.saveOperation(operation);
-
         }
     }
 }

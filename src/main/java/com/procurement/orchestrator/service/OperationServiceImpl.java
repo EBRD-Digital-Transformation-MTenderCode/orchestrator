@@ -7,7 +7,8 @@ import com.procurement.orchestrator.domain.constant.ResponseMessageType;
 import com.procurement.orchestrator.exception.OperationException;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.time.LocalDateTime;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 
@@ -59,7 +60,7 @@ public class OperationServiceImpl implements OperationService {
     }
 
     private OperationEntity getEntity(final OperationValue operation) {
-        final HashMap<String, String> jsonData = jsonUtil.toObject(HashMap.class, operation.getJsonData());
+        final Map<String, String> jsonData = jsonUtil.toObject(LinkedHashMap.class, operation.getJsonData());
         final OperationEntity entity = new OperationEntity();
         entity.setTransactionId(operation.getTransactionId());
         entity.setStep(operation.getStep());
