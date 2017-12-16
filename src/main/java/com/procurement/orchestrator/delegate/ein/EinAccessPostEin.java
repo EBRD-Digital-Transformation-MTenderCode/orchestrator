@@ -1,14 +1,13 @@
 package com.procurement.orchestrator.delegate.ein;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.cassandra.OperationEntity;
+import com.procurement.orchestrator.cassandra.OperationService;
 import com.procurement.orchestrator.cassandra.OperationValue;
 import com.procurement.orchestrator.domain.constant.ResponseMessageType;
 import com.procurement.orchestrator.domain.dto.ResponseDto;
 import com.procurement.orchestrator.rest.AccessRestClient;
-import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.utils.JsonUtil;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.Optional;
 import org.camunda.bpm.engine.delegate.BpmnError;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
@@ -44,11 +43,11 @@ public class EinAccessPostEin implements JavaDelegate {
         final Optional<OperationEntity> entityOptional = operationService.getOperationByStep(transactionId, 1);
         if (entityOptional.isPresent()) {
             LOG.info("->Send data to E-Access.");
-            final ResponseDto response;
             final OperationEntity entity = entityOptional.get();
+            final ResponseDto response;
             try {
-                final Map<String, String> jsonData = jsonUtil.toObject(LinkedHashMap.class, entity.getJsonData());
-                final ResponseEntity<ResponseDto> responseEntity = accessRestClient.postCreateEin(jsonData);
+                final JsonNode requestDto = jsonUtil.toJsonNode(entity.getJsonData());
+                final ResponseEntity<ResponseDto> responseEntity = accessRestClient.postCreateEin(requestDto);
                 response = responseEntity.getBody();
                 LOG.info("->Get response: " + response.getData());
             } catch (Exception e) {
@@ -59,7 +58,7 @@ public class EinAccessPostEin implements JavaDelegate {
             final OperationValue operation = new OperationValue(
                 transactionId,
                 2,
-                "get from access",
+                "get EIN release from access",
                 "e-access",
                 "e-notice",
                 entity.getProcessType(),

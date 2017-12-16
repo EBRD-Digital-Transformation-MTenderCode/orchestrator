@@ -1,7 +1,5 @@
-package com.procurement.orchestrator.service;
+package com.procurement.orchestrator.cassandra;
 
-import com.procurement.orchestrator.cassandra.OperationEntity;
-import com.procurement.orchestrator.cassandra.OperationValue;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 

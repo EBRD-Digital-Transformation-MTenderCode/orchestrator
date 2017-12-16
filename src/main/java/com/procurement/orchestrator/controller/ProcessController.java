@@ -1,7 +1,7 @@
 package com.procurement.orchestrator.controller;
 
+import com.procurement.orchestrator.cassandra.OperationService;
 import com.procurement.orchestrator.domain.constant.ResponseMessageType;
-import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
 import org.springframework.http.HttpStatus;
@@ -22,8 +22,7 @@ public class ProcessController {
 
     private final JsonUtil jsonUtil;
 
-    int count=0;
-
+    int count = 0;
 
     public ProcessController(final ProcessService processService,
                              final OperationService operationService,
@@ -47,7 +46,7 @@ public class ProcessController {
 
     @RequestMapping(value = "/testProcessEin", method = RequestMethod.POST)
     public ResponseEntity<String> testProcessEin() {
-        count=count+1;
+        count = count + 1;
         String transactionId = Integer.toString(count);
         String platformId = "front";
         String processType = "ein";
@@ -85,7 +84,7 @@ public class ProcessController {
 
     @RequestMapping(value = "/testProcessFs", method = RequestMethod.POST)
     public ResponseEntity<String> testProcessFs() {
-        count=count+1;
+        count = count + 1;
         String transactionId = Integer.toString(count);
         String platformId = "front";
         String processType = "fs";
@@ -159,11 +158,11 @@ public class ProcessController {
             "  },\n" +
             "  \"relatedProcesses\": [\n" +
             "    {\n" +
-            "      \"ocid\": \"ocds-t1s2t3-UA-1513196909728\",\n" +
+            "      \"id\": \"string\",\n" +
             "      \"relationship\": \"framework\",\n" +
             "      \"title\": \"string\",\n" +
             "      \"scheme\": \"ocid\",\n" +
-            "      \"identifier\": \"string\",\n" +
+            "      \"identifier\": \"ocds-t1s2t3-UA-1513433769869\",\n" +
             "      \"uri\": \"string\"\n" +
             "    }\n" +
             "  ]\n" +

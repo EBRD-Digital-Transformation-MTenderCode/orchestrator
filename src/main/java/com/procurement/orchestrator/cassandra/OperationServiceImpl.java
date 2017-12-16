@@ -1,14 +1,10 @@
-package com.procurement.orchestrator.service;
+package com.procurement.orchestrator.cassandra;
 
-import com.procurement.orchestrator.cassandra.OperationEntity;
-import com.procurement.orchestrator.cassandra.OperationRepository;
-import com.procurement.orchestrator.cassandra.OperationValue;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.constant.ResponseMessageType;
 import com.procurement.orchestrator.exception.OperationException;
+import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
-import java.time.LocalDateTime;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 
@@ -19,10 +15,14 @@ public class OperationServiceImpl implements OperationService {
 
     private final JsonUtil jsonUtil;
 
+    private final DateUtil dateUtil;
+
     public OperationServiceImpl(final OperationRepository operationRepository,
-                                final JsonUtil jsonUtil) {
+                                final JsonUtil jsonUtil,
+                                final DateUtil dateUtil) {
         this.operationRepository = operationRepository;
         this.jsonUtil = jsonUtil;
+        this.dateUtil = dateUtil;
     }
 
     @Override
@@ -33,7 +33,8 @@ public class OperationServiceImpl implements OperationService {
         if (isTransactionExists(transactionId)) {
             throw new OperationException(ResponseMessageType.TRANSACTION_EXISTS.value());
         }
-        processOperation(new OperationValue(transactionId, 1, "new", platformId, "yoda", processType, jsonData));
+        processOperation(new OperationValue(transactionId, 1, "new from platform", platformId, "yoda", processType,
+                                            jsonData));
     }
 
     @Override
@@ -60,11 +61,11 @@ public class OperationServiceImpl implements OperationService {
     }
 
     private OperationEntity getEntity(final OperationValue operation) {
-        final Map<String, String> jsonData = jsonUtil.toObject(LinkedHashMap.class, operation.getJsonData());
+        final JsonNode jsonData = jsonUtil.toJsonNode(operation.getJsonData());
         final OperationEntity entity = new OperationEntity();
         entity.setTransactionId(operation.getTransactionId());
         entity.setStep(operation.getStep());
-        entity.setDate(LocalDateTime.now());
+        entity.setDate(dateUtil.getNowUTC());
         entity.setDescription(operation.getDescription());
         entity.setDataProducer(operation.getDataProducer());
         entity.setDataConsumer(operation.getDataConsumer());
