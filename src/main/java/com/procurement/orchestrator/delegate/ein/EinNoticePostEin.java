@@ -8,6 +8,9 @@ import com.procurement.orchestrator.domain.dto.RequestNoticeDto;
 import com.procurement.orchestrator.domain.dto.ResponseDto;
 import com.procurement.orchestrator.rest.NoticeRestClient;
 import com.procurement.orchestrator.utils.JsonUtil;
+
+import java.util.Arrays;
+import java.util.Objects;
 import java.util.Optional;
 import org.camunda.bpm.engine.delegate.BpmnError;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
@@ -45,7 +48,7 @@ public class EinNoticePostEin implements JavaDelegate {
             final OperationEntity entity = entityOptional.get();
             final ResponseDto response;
             try {
-                final RequestNoticeDto requestDto = jsonUtil.toObject(RequestNoticeDto.class, entity.getJsonData());
+                final RequestNoticeDto requestDto = getRequestNoticeDto(entity);
                 final ResponseEntity<ResponseDto> responseEntity = noticeRestClient.postRelease(requestDto);
                 response = responseEntity.getBody();
                 LOG.info("->Get response: " + response.getData());
@@ -64,6 +67,15 @@ public class EinNoticePostEin implements JavaDelegate {
 
             operationService.saveOperation(operation);
         }
+    }
+
+    private RequestNoticeDto getRequestNoticeDto(OperationEntity entity){
+        final RequestNoticeDto requestDto = jsonUtil.toObject(RequestNoticeDto.class, entity.getJsonData());
+        requestDto.setTag(Arrays.asList("compiled"));
+        requestDto.setInitiationType("tender");
+        requestDto.setLanguage("en");
+        requestDto.setStage("EIN");
+        return  requestDto;
     }
 
 }
