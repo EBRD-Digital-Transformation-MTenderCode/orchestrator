@@ -15,7 +15,7 @@
       <bpmn:incoming>SequenceFlow_09qe4fe</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_14043zt</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="Task_Send_M" name="Send pjsitive message to platform" camunda:delegateExpression="${sendMessageToPlatform}">
+    <bpmn:serviceTask id="Task_Send_M" name="Send pjsitive task to platform" camunda:delegateExpression="${sendMessageToPlatform}">
       <bpmn:incoming>SequenceFlow_0jn6qp3</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_079o9l0</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -33,7 +33,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_0a5e66i" sourceRef="Task_Send_E" targetRef="EndEvent_2" />
     <bpmn:sequenceFlow id="SequenceFlow_0l0s6is" sourceRef="BoundaryEvent_1cwwpke" targetRef="Task_Send_E" />
     <bpmn:sequenceFlow id="SequenceFlow_1a2f8k3" sourceRef="BoundaryEvent_1s0golu" targetRef="Task_Send_E" />
-    <bpmn:serviceTask id="Task_Send_E" name="Send error message to platform" camunda:delegateExpression="${sendErrorMessageToPlatform}">
+    <bpmn:serviceTask id="Task_Send_E" name="Send error task to platform" camunda:delegateExpression="${sendErrorMessageToPlatform}">
       <bpmn:incoming>SequenceFlow_0l0s6is</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_1a2f8k3</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_0wutjx0</bpmn:incoming>

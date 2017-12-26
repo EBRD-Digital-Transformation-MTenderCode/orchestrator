@@ -25,21 +25,21 @@ public class MessageConsumer {
     }
 
     @KafkaListener(topics = "orchestrator")
-    public void onReceiving(Message message,
+    public void onReceiving(Task task,
                             @Header(KafkaHeaders.OFFSET) Integer offset,
                             @Header(KafkaHeaders.RECEIVED_PARTITION_ID) int partition,
                             @Header(KafkaHeaders.RECEIVED_TOPIC) String topic,
                             @Header(KafkaHeaders.ACKNOWLEDGMENT) Acknowledgment acknowledgment) {
 
-        log.info("Processing topic = {}, partition = {}, offset = {}, message = {}", topic, partition, offset, message);
+        log.info("Processing topic = {}, partition = {}, offset = {}, task = {}", topic, partition, offset, task);
         acknowledgment.acknowledge();
         try {
 //            ProcessInstance pi = runtimeService.createProcessInstanceQuery()
-//                    .processInstanceBusinessKey(message.getId())
+//                    .processInstanceBusinessKey(task.getId())
 //                    .singleResult();
 //            if (Objects.isNull(pi)) {
             String processType = "testChronographConsumer";
-            String transactionId = message.getId();
+            String transactionId = task.getId();
             processService.startProcess(processType, transactionId);
 //            }
         } catch (Exception e) {

@@ -25,8 +25,8 @@ public class KafkaConsumerConfig {
     private KafkaConsumerProperties kafkaConsumerProperties;
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, Message> kafkaListenerContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, Message> factory = new ConcurrentKafkaListenerContainerFactory<>();
+    public ConcurrentKafkaListenerContainerFactory<String, Task> kafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, Task> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConcurrency(1);
         factory.setConsumerFactory(consumerFactory());
         factory.getContainerProperties().setAckMode(AbstractMessageListenerContainer.AckMode.MANUAL);
@@ -34,7 +34,7 @@ public class KafkaConsumerConfig {
     }
 
     @Bean
-    public ConsumerFactory<String, Message> consumerFactory() {
+    public ConsumerFactory<String, Task> consumerFactory() {
         return new DefaultKafkaConsumerFactory<>(consumerProps(), stringKeyDeserializer(), messageJsonValueDeserializer());
     }
 
@@ -57,7 +57,7 @@ public class KafkaConsumerConfig {
 
     @Bean
     public Deserializer messageJsonValueDeserializer() {
-        return new JsonDeserializer(Message.class);
+        return new JsonDeserializer(Task.class);
     }
 
 }

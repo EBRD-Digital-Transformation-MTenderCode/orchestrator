@@ -2,7 +2,7 @@ package com.procurement.orchestrator.delegate.testChronograph;
 
 import com.procurement.orchestrator.cassandra.OperationService;
 import com.procurement.orchestrator.cassandra.OperationValue;
-import com.procurement.orchestrator.kafka.Message;
+import com.procurement.orchestrator.kafka.Task;
 import com.procurement.orchestrator.kafka.MessageProducer;
 import com.procurement.orchestrator.utils.JsonUtil;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
@@ -35,9 +35,9 @@ public class ChronographProduceTask implements JavaDelegate {
         LOG.info("->Data preparation for Chronograph.");
         final String transactionId = execution.getProcessBusinessKey();
         final String getProcessType = "testChronograph";
-        Message message = new Message(transactionId, getProcessType);
+        Task task = new Task(transactionId, getProcessType);
 
-        messageProducer.send(message);
+        messageProducer.send(task);
 
         final OperationValue operation = new OperationValue(
                 transactionId,
@@ -46,7 +46,7 @@ public class ChronographProduceTask implements JavaDelegate {
                 "yoda",
                 "chronograph",
                 getProcessType,
-                jsonUtil.toJson(message));
+                jsonUtil.toJson(task));
 
         operationService.saveOperation(operation);
     }
