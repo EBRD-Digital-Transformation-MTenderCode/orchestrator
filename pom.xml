@@ -6,15 +6,16 @@
 
     <groupId>com.procurement</groupId>
     <artifactId>orchestrator</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>17.12.1</version>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.0.0.M5</version>
-     </parent>
+    </parent>
 
     <properties>
+        <final-artifact-name>${project.artifactId}-${project.version}</final-artifact-name>
         <project.service.port>8900</project.service.port>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -26,6 +27,8 @@
         <maven-surefire-plugin.version>2.19</maven-surefire-plugin.version>
         <maven-failsafe-plugin.version>2.19</maven-failsafe-plugin.version>
         <spring-kafka.version>1.2.2.RELEASE</spring-kafka.version>
+        <docker-maven-plugin.version>0.23.0</docker-maven-plugin.version>
+        <docker-registry>docker-registry.eprocurement.systems</docker-registry>
     </properties>
 
     <profiles>
@@ -210,10 +213,10 @@
             <scope>runtime</scope>
         </dependency>
         <!--<dependency>-->
-            <!--<groupId>mysql</groupId>-->
-            <!--<artifactId>mysql-connector-java</artifactId>-->
-            <!--<version>5.1.40</version>-->
-            <!--<scope>runtime</scope>-->
+        <!--<groupId>mysql</groupId>-->
+        <!--<artifactId>mysql-connector-java</artifactId>-->
+        <!--<version>5.1.40</version>-->
+        <!--<scope>runtime</scope>-->
         <!--</dependency>-->
 
         <!-- spring-kafka -->
@@ -348,7 +351,26 @@
                     </execution>
                 </executions>
             </plugin>
-
+            <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>${docker-maven-plugin.version}</version>
+                <configuration>
+                    <images>
+                        <image>
+                            <registry>${docker-registry}</registry>
+                            <name>${docker-registry}/${project.artifactId}:${project.version}</name>
+                            <build>
+                                <dockerFileDir>${project.basedir}/src/main/docker</dockerFileDir>
+                                <nocache/>
+                                <assembly>
+                                    <descriptorRef>artifact</descriptorRef>
+                                </assembly>
+                            </build>
+                        </image>
+                    </images>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 

@@ -1,5 +1,5 @@
 server:
-  port: 8088
+  port: 8900
 
 logging.level: error
 
@@ -8,13 +8,6 @@ spring:
     database: postgresql
     hibernate.ddl-auto: update
   datasource:
-#    driver-class-processDefinitionName: com.mysql.jdbc.Driver
-#    type: com.zaxxer.hikari.HikariDataSource
-#    url: jdbc:mysql://localhost:3306/orchestrator?useSSL=false
-#    username: root
-#    password: mysql
-#    hikari:
-#      maximum-pool-size: 10
     driver-class-processDefinitionName: org.postgresql.Driver
     type: com.zaxxer.hikari.HikariDataSource
     url: jdbc:postgresql://localhost:5432/orchestrator
@@ -31,14 +24,14 @@ spring:
       username: cassandra
       password: cassandra
 
-#kafka:
-#  producer:
-#    bootstrap: localhost:9092
-#    topic: orchestrator
-#  consumer:
-#    bootstrap: localhost:9092
-#    group: orchestrator
-#    topic: chronograph
+kafka:
+  producer:
+    bootstrap: localhost:9092
+    topic: orchestrator
+  consumer:
+    bootstrap: localhost:9092
+    group: orchestrator
+    topic: chronograph
 
 ocds.prefix: ocds-t1s2t3
 
