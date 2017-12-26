@@ -44,6 +44,14 @@ public class ProcessController {
         return new ResponseEntity<>(ResponseMessageType.OK.value(), HttpStatus.CREATED);
     }
 
+    @RequestMapping(value = "/testChronographProcess", method = RequestMethod.POST)
+    public ResponseEntity<String> testChronographProcess(@RequestParam final String transactionId) {
+        /**start new process for current operation*/
+        String processType = "testChronographProducer";
+        processService.startProcess(processType, transactionId);
+        return new ResponseEntity<>(ResponseMessageType.OK.value(), HttpStatus.CREATED);
+    }
+
     @RequestMapping(value = "/testProcessEin", method = RequestMethod.POST)
     public ResponseEntity<String> testProcessEin() {
         count = count + 1;
