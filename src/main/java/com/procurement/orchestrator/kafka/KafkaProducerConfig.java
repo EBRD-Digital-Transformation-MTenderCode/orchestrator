@@ -3,7 +3,6 @@ package com.procurement.orchestrator.kafka;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.Serializer;
 import org.apache.kafka.common.serialization.StringSerializer;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,8 +18,11 @@ import java.util.Map;
 @EnableConfigurationProperties(KafkaConsumerProperties.class)
 public class KafkaProducerConfig {
 
-    @Autowired
-    private KafkaProducerProperties kafkaProducerProperties;
+    private final KafkaProducerProperties kafkaProducerProperties;
+
+    public KafkaProducerConfig(final KafkaProducerProperties kafkaProducerProperties) {
+        this.kafkaProducerProperties = kafkaProducerProperties;
+    }
 
     @Bean
     public ProducerFactory<String, Task> producerFactory() {

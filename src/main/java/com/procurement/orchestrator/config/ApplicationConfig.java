@@ -1,6 +1,8 @@
 package com.procurement.orchestrator.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.procurement.orchestrator.kafka.KafkaConsumerConfig;
+import com.procurement.orchestrator.kafka.KafkaProducerConfig;
 import com.procurement.orchestrator.utils.JsonUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,7 +13,9 @@ import org.springframework.context.annotation.Import;
         WebConfig.class,
         ServiceConfig.class,
         CassandraConfig.class,
-        ConverterConfig.class
+        ConverterConfig.class,
+        KafkaConsumerConfig.class,
+        KafkaProducerConfig.class
 })
 public class ApplicationConfig {
     @Bean

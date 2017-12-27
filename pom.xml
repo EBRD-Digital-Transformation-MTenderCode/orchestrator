@@ -26,7 +26,7 @@
         <jacoco-maven-plugin.version>0.7.9</jacoco-maven-plugin.version>
         <maven-surefire-plugin.version>2.19</maven-surefire-plugin.version>
         <maven-failsafe-plugin.version>2.19</maven-failsafe-plugin.version>
-        <spring-kafka.version>1.2.2.RELEASE</spring-kafka.version>
+        <spring-kafka.version>2.1.0.RELEASE</spring-kafka.version>
         <docker-maven-plugin.version>0.23.0</docker-maven-plugin.version>
         <docker-registry>docker-registry.eprocurement.systems</docker-registry>
     </properties>
@@ -219,7 +219,7 @@
         <!--<scope>runtime</scope>-->
         <!--</dependency>-->
 
-        <!-- spring-kafka -->
+         <!--spring-kafka-->
         <dependency>
             <groupId>org.springframework.kafka</groupId>
             <artifactId>spring-kafka</artifactId>

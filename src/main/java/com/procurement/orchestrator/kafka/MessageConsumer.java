@@ -39,7 +39,7 @@ public class MessageConsumer {
 //                    .singleResult();
 //            if (Objects.isNull(pi)) {
             String processType = "testChronographConsumer";
-            String transactionId = task.getId();
+            String transactionId = task.getIdentifier();
             processService.startProcess(processType, transactionId);
 //            }
         } catch (Exception e) {

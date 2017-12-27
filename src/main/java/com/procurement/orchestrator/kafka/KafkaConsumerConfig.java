@@ -4,7 +4,6 @@ package com.procurement.orchestrator.kafka;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.Deserializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
@@ -21,8 +20,11 @@ import java.util.Map;
 @EnableKafka
 public class KafkaConsumerConfig {
 
-    @Autowired
-    private KafkaConsumerProperties kafkaConsumerProperties;
+    private final KafkaConsumerProperties kafkaConsumerProperties;
+
+    public KafkaConsumerConfig(final KafkaConsumerProperties kafkaConsumerProperties) {
+        this.kafkaConsumerProperties = kafkaConsumerProperties;
+    }
 
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, Task> kafkaListenerContainerFactory() {

@@ -1,0 +1,52 @@
+server:
+  port: 8900
+
+logging.level: error
+
+spring:
+  jpa:
+    database: postgresql
+    hibernate.ddl-auto: update
+  datasource:
+    driver-class-processDefinitionName: org.postgresql.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:postgresql://localhost:5432/orchestrator
+    username: postgres
+    password: postgres
+    hikari:
+      maximum-pool-size: 10
+
+  data:
+    cassandra:
+      contact-points: 127.0.0.1
+      keyspace-name: ocds
+      port: 9042
+      username: cassandra
+      password: cassandra
+
+kafka:
+  producer:
+    bootstrap: localhost:9092
+    topic: orchestrator
+  consumer:
+    bootstrap: localhost:9092
+    group: orchestrator
+    topic: chronograph
+
+ocds.prefix: ocds-t1s2t3
+
+camunda:
+  bpm:
+    auto-deployment-enabled: true
+    history-level: none
+
+access:
+  ribbon:
+    eureka:
+      enabled: false
+    listOfServers: http://localhost:8081
+notice:
+  ribbon:
+    eureka:
+      enabled: false
+    listOfServers: http://localhost:8082

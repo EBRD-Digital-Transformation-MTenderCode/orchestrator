@@ -21,7 +21,7 @@ public class MessageProducer {
     public boolean send(Task task) {
         try {
 
-            SendResult<String, Task> sendResult = kafkaTemplate.sendDefault(task.getId().toString(), task).get();
+            SendResult<String, Task> sendResult = kafkaTemplate.sendDefault(task.getIdentifier(), task).get();
             RecordMetadata recordMetadata = sendResult.getRecordMetadata();
             LOGGER.info("topic = {}, partition = {}, offset = {}, task = {}", recordMetadata.topic(), recordMetadata.partition(), recordMetadata.offset(), task);
             return true;

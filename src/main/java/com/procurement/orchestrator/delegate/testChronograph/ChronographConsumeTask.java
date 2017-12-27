@@ -2,8 +2,9 @@ package com.procurement.orchestrator.delegate.testChronograph;
 
 import com.procurement.orchestrator.cassandra.OperationService;
 import com.procurement.orchestrator.cassandra.OperationValue;
-import com.procurement.orchestrator.kafka.Task;
 import com.procurement.orchestrator.kafka.MessageProducer;
+import com.procurement.orchestrator.kafka.Task;
+import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
@@ -21,13 +22,16 @@ public class ChronographConsumeTask implements JavaDelegate {
     private final OperationService operationService;
 
     private final JsonUtil jsonUtil;
+    private final DateUtil dateUtil;
 
     public ChronographConsumeTask(final MessageProducer messageProducer,
                                   final OperationService operationService,
-                                  final JsonUtil jsonUtil) {
+                                  final JsonUtil jsonUtil,
+                                  final DateUtil dateUtil) {
         this.messageProducer = messageProducer;
         this.operationService = operationService;
         this.jsonUtil = jsonUtil;
+        this.dateUtil = dateUtil;
     }
 
     @Override
@@ -35,7 +39,6 @@ public class ChronographConsumeTask implements JavaDelegate {
         LOG.info("->Data preparation for Chronograph.");
         final String transactionId = execution.getProcessBusinessKey();
         final String getProcessType = execution.getProcessDefinitionId();
-        Task task = new Task(transactionId, getProcessType);
         final OperationValue operation = new OperationValue(
                 transactionId,
                 2,
@@ -43,7 +46,7 @@ public class ChronographConsumeTask implements JavaDelegate {
                 "chronograph",
                 "yoda",
                 getProcessType,
-                jsonUtil.toJson(task));
+                transactionId);
 
         operationService.saveOperation(operation);
     }

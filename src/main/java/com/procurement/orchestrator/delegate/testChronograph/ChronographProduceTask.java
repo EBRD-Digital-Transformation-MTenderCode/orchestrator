@@ -4,6 +4,7 @@ import com.procurement.orchestrator.cassandra.OperationService;
 import com.procurement.orchestrator.cassandra.OperationValue;
 import com.procurement.orchestrator.kafka.Task;
 import com.procurement.orchestrator.kafka.MessageProducer;
+import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
@@ -22,12 +23,16 @@ public class ChronographProduceTask implements JavaDelegate {
 
     private final JsonUtil jsonUtil;
 
+    private final DateUtil dateUtil;
+
     public ChronographProduceTask(final MessageProducer messageProducer,
                                   final OperationService operationService,
-                                  final JsonUtil jsonUtil) {
+                                  final JsonUtil jsonUtil,
+                                  final DateUtil dateUtil) {
         this.messageProducer = messageProducer;
         this.operationService = operationService;
         this.jsonUtil = jsonUtil;
+        this.dateUtil = dateUtil;
     }
 
     @Override
@@ -35,10 +40,8 @@ public class ChronographProduceTask implements JavaDelegate {
         LOG.info("->Data preparation for Chronograph.");
         final String transactionId = execution.getProcessBusinessKey();
         final String getProcessType = "testChronograph";
-        Task task = new Task(transactionId, getProcessType);
-
+        Task task = new Task(Task.ActionType.SCHEDULE, "12345", "678910", dateUtil.getNowUTC(), "");
         messageProducer.send(task);
-
         final OperationValue operation = new OperationValue(
                 transactionId,
                 1,
