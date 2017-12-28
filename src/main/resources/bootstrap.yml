@@ -1,11 +1,9 @@
-#-Dspring.cloud.config.uri=http://IP:PORT
 server:
   port: @project.service.port@
 
 spring:
   application:
     name: orchestrator
-
   cloud:
     config:
       failFast: true

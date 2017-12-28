@@ -8,7 +8,7 @@ spring:
     database: postgresql
     hibernate.ddl-auto: update
   datasource:
-    driver-class-processDefinitionName: org.postgresql.Driver
+    driver-class-name: org.postgresql.Driver
     type: com.zaxxer.hikari.HikariDataSource
     url: jdbc:postgresql://localhost:5432/orchestrator
     username: postgres

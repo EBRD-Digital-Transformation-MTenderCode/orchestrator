@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-@FeignClient(name = "access")
+@FeignClient(name = "e-access")
 public interface AccessRestClient {
     @RequestMapping(path = "/ein/create", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> postCreateEin(@RequestBody JsonNode jsonData) throws Exception;

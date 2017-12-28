@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-@FeignClient(name = "notice")
+@FeignClient(name = "e-notice")
 public interface NoticeRestClient {
 
     @RequestMapping(path = "/release/saveRecordRelease", method = RequestMethod.POST)

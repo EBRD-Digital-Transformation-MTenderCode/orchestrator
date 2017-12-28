@@ -12,6 +12,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+
 @Component
 public class ChronographProduceTask implements JavaDelegate {
 
@@ -40,7 +42,9 @@ public class ChronographProduceTask implements JavaDelegate {
         LOG.info("->Data preparation for Chronograph.");
         final String transactionId = execution.getProcessBusinessKey();
         final String getProcessType = "testChronograph";
-        Task task = new Task(Task.ActionType.SCHEDULE, "12345", "678910", dateUtil.getNowUTC(), "");
+        LocalDateTime launchTime =  dateUtil.getNowUTC();
+        launchTime = launchTime.plusMinutes(5L);
+        Task task = new Task(Task.ActionType.SCHEDULE, "12345", "678910", launchTime, "");
         messageProducer.send(task);
         final OperationValue operation = new OperationValue(
                 transactionId,
