@@ -9,15 +9,16 @@ spring:
   datasource:
     driver-class-name: org.postgresql.Driver
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:postgresql://postgresql:5432/orchestrator
+    url: jdbc:postgresql://localhost:5432/orchestrator
     username: postgres
     password: postgres
     hikari:
       maximum-pool-size: 10
+      pool-name: orchestrator-pool0
 
   data:
     cassandra:
-      contact-points: AC-node1,AC-node2,AC-node3
+      contact-points: localhost
       keyspace-name: ocds
       port: 9042
       username: caclient
@@ -32,12 +33,12 @@ eureka:
 
 kafka:
   producer:
-    bootstrap: AK-node1:9092,AK-node2:9092,AK-node3:9092
-    topic: chronograph_in
+    bootstrap: localhost:9092
+    topic: chronograph-in
   consumer:
-    bootstrap: AK-node1:9092,AK-node2:9092,AK-node3:9092
+    bootstrap: localhost:9092
     group: orchestrator
-    topic: chronograph_out
+    topic: chronograph-out
 
 camunda:
   bpm:
@@ -46,3 +47,5 @@ camunda:
 
 ocds:
   prefix: ocds-t1s2t3
+
+-Dspring.cloud.config.uri=http://config-server:8700 -Dspring.profiles.active=default -Dspring.cloud.config.label=7130748

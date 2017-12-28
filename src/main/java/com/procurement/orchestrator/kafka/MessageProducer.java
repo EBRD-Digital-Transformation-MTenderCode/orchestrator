@@ -13,15 +13,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class MessageProducer {
 
-    @Autowired
-    private KafkaTemplate<String, Task> kafkaTemplate;
+    private final KafkaTemplate<String, String> taskKafkaTemplate;
+
+    public MessageProducer(final KafkaTemplate<String, String> taskKafkaTemplate) {
+        this.taskKafkaTemplate = taskKafkaTemplate;
+    }
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MessageProducer.class);
 
     public boolean send(Task task) {
         try {
 
-            SendResult<String, Task> sendResult = kafkaTemplate.sendDefault(task.getIdentifier(), task).get();
+            SendResult<String, String> sendResult = taskKafkaTemplate.sendDefault(task.getIdentifier(), task.toString()).get();
             RecordMetadata recordMetadata = sendResult.getRecordMetadata();
             LOGGER.info("topic = {}, partition = {}, offset = {}, task = {}", recordMetadata.topic(), recordMetadata.partition(), recordMetadata.offset(), task);
             return true;

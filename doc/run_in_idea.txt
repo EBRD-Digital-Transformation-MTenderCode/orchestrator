@@ -5,4 +5,4 @@ example
 
 -Xmx128m -Dspring.config.location=file:/home/user/IdeaProjects/OCDS/orchestrator/src/main/resources/application_local.yml
 
--Dspring.cloud.config.uri=http://config-server:8700 -Dspring.profiles.active=default -Dspring.cloud.config.label=8cd61ea
+-Dspring.cloud.config.uri=http://config-server:8700 -Dspring.profiles.active=default -Dspring.cloud.config.label=7130748

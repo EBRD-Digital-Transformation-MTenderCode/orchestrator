@@ -25,8 +25,8 @@ public class KafkaProducerConfig {
     }
 
     @Bean
-    public ProducerFactory<String, Task> producerFactory() {
-        return new DefaultKafkaProducerFactory<>(producerConfigs(), stringKeySerializer(), messageJsonSerializer());
+    public ProducerFactory<String, String> producerFactory() {
+        return new DefaultKafkaProducerFactory<>(producerConfigs());
     }
 
     @Bean
@@ -36,9 +36,9 @@ public class KafkaProducerConfig {
         return props;
     }
 
-    @Bean
-    public KafkaTemplate<String, Task> messageKafkaTemplate() {
-        KafkaTemplate<String, Task> kafkaTemplate = new KafkaTemplate<>(producerFactory());
+    @Bean(name = "taskKafkaTemplate")
+    public KafkaTemplate<String, String> taskKafkaTemplate() {
+        KafkaTemplate<String, String> kafkaTemplate = new KafkaTemplate<>(producerFactory());
         kafkaTemplate.setDefaultTopic(kafkaProducerProperties.getTopic());
         return kafkaTemplate;
     }

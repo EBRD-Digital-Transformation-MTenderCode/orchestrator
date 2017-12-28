@@ -50,6 +50,17 @@ public class Task {
         return this.ocid+this.phase;
     }
 
+    @Override
+    public String toString() {
+        return "{" +
+                "action:" + action +
+                ", ocid:'" + ocid + '\'' +
+                ", phase:'" + phase + '\'' +
+                ", launchTime:" + launchTime +
+                ", metaData:'" + metaData + '\'' +
+                '}';
+    }
+
     public enum ActionType {
 
         SCHEDULE("schedule"),
