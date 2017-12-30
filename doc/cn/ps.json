@@ -1,0 +1,319 @@
+{ "ocid": "",   // cpid from eAcces
+  "stage": "PS",   // присваивает BPE
+  "procurementMethodDetails": "",
+  "processType": "create CN",
+  "tenderPeriod": {
+    "startDate": "",    // получен из eSubmission
+    "endDate": ""    // получен из eSubmission
+  },
+  "enquiryPeriod": {
+    "startDate": "",    // получен из eClarification
+    "endDate": ""    // получен из eClarification
+  },
+  "tender": {
+    "id": "",     // равен cpid
+    "title": "",
+    "description": "",
+    "classification": {
+      "scheme": "",
+      "description": "",
+      "id": ""
+    },
+    "status": "",
+    "value": {
+      "amount": 0,
+      "currency": ""
+    },
+    "procurementMethod": "",
+    "procurementMethodDetails": "",
+    "procurementMethodRationale": "",
+    "procurementMethodAdditionalInfo": "",
+    "mainProcurementCategory": "",
+    "additionalProcurementCategories": "",
+    "eligibilityCriteria": "",
+    "submissionLanguages": [
+      {
+        "items": ""
+      }
+    ],
+    "contractPeriod": {
+      "startDate": "",
+      "endDate": "",
+      "durationInDays": ""
+    },
+    "acceleratedProcedure": {
+      "isAcceleratedProcedure": false
+    },
+    "designContest": {
+      "serviceContractAward": false
+    },
+    "ElectronicWorkflows": {
+      "useOrdering": false,
+      "usePayment": false,
+      "acceptInvoicing": false
+    },
+    "JointProcurement": {
+      "isJointProcurement": false
+    },
+    "ProcedureOutsourcing": {
+      "procedureOutsourced": false
+    },
+    "Framework": {
+      "isAFramework": false
+    },
+    "DynamicPurchasingSystem": {
+      "hasDynamicPurchasingSystem": false
+    },
+    "legalBasis": "",
+    "hasEnquiries": false,
+    "lotGroups": [
+      {
+        "optionToCombine": false
+      }
+    ],
+    "lots": [
+      {
+        "id": "",
+        "title": "",
+        "description": "",
+        "status": "",
+        "value": {
+          "amount": 0,
+          "currency": ""
+        },
+        "options": {
+          "hasOptions": false
+        },
+        "variants": {
+          "hasVariants": false
+        },
+        "renewals": {
+          "hasRenewals": false
+        },
+        "recurrentProcurement": {
+          "isRecurrent": false
+        },
+        "contractPeriod": {
+          "startDate": "",
+          "endDate": "",
+          "durationInDays": ""
+        },
+        "placeOfPerformance": {
+          "address": {
+            "streetAddress": "",
+            "locality": "",
+            "region": "",
+            "postalCode": "",
+            "countryName": ""
+          },
+          "description": ""
+        }
+      }
+    ],
+    "items": [
+      {
+        "id": "",
+        "classification": {
+          "scheme": "",
+          "description": "",
+          "id": ""
+        },
+        "additionalClassifications": [
+          {
+            "items": {
+              "scheme": "",
+              "description": "",
+              "id": ""
+            }
+          }
+        ],
+        "quantity": 0,
+        "unit": {
+          "id": "",
+          "name": ""
+        },
+        "description": "",
+        "relatedLot": ""
+      }
+    ],
+    "awardCriteria": "priceOnly",
+    "requiresElectronicCatalogue": false,
+    "submissionMethod": {
+      "items": "electronicSubmission"
+    },
+    "submissionMethodRationale": "",
+    "submissionMethodDetails": "",
+    "procuringEntity": {
+      "name": "",
+      "id": "",
+      "identifier": {
+        "scheme": "",
+        "id": "",
+        "legalName": "",
+        "uri": ""
+      },
+      "additionalIdentifiers": [
+        {
+          "scheme": "",
+          "id": "",
+          "legalName": "",
+          "uri": ""
+        }
+      ],
+      "address": {
+        "streetAddress": "",
+        "locality": "",
+        "region": "",
+        "postalCode": "",
+        "countryName": ""
+      },
+      "contactPoint": {
+        "name": "",
+        "email": "",
+        "telephone": "",
+        "faxNumber": "",
+        "url": ""
+      }
+    },
+    "tenderPeriod": {
+      "startDate": "",
+      "endDate": ""     // получен с фронт
+    },
+    "contractPeriod": {
+      "startDate": "",
+      "endDate": "",
+      "durationInDays": ""
+    },
+    "documents": [
+      {
+        "documentType": "",
+        "datePublished": "",
+        "id": "",
+        "url": "",
+        "title": "",
+        "description": "",
+        "language": "",
+        "relatedLot": ""
+      }
+    ]
+  },
+  "buyer": {
+    "name": "",
+    "id": "",
+    "identifier": {
+      "scheme": "",
+      "id": "",
+      "legalName": "",
+      "uri": ""
+    },
+    "additionalIdentifiers": [
+      {
+        "scheme": "",
+        "id": "",
+        "legalName": "",
+        "uri": ""
+      }
+    ],
+    "address": {
+      "streetAddress": "",
+      "locality": "",
+      "region": "",
+      "postalCode": "",
+      "countryName": ""
+    },
+    "contactPoint": {
+      "name": "",
+      "email": "",
+      "telephone": "",
+      "faxNumber": "",
+      "url": ""
+    }
+  },
+  "planning": {
+    "rationale": "",
+    "budget": {
+      "description": "",
+      "amount": {
+        "amount": 0,
+        "currency": ""
+      },
+      "isEuropenUnionFunded": false,
+      "europenUnionFunding": {
+        "projectIdentifier": "",
+        "projectName": ""
+      },
+      "budgetBreakdown": [
+        {
+          "id": "",           // записываем ocid каждого использованого FS
+          "description": "",
+          "amount": {
+            "amount": 0,
+            "currency": ""
+          },
+          "period": {
+            "startDate": "",
+            "endDate": ""
+          },
+          "sourceParty": {
+            "name": "",
+            "id": ""
+          }
+        }
+      ]
+    }
+  },
+  "parties": [
+    {
+      "name": "",
+      "id": "",
+      "identifier": {
+        "scheme": "",
+        "id": "",
+        "legalName": "",
+        "uri": ""
+      },
+      "additionalIdentifiers": [
+        {
+          "scheme": "",
+          "id": "",
+          "legalName": "",
+          "uri": ""
+        }
+      ],
+      "address": {
+        "streetAddress": "",
+        "locality": "",
+        "region": "",
+        "postalCode": "",
+        "countryName": ""
+      },
+      "contactPoint": {
+        "name": "",
+        "email": "",
+        "telephone": "",
+        "faxNumber": "",
+        "url": ""
+      },
+      "roles": [
+        ""                   // Помещаем организации с ролями Bayer, Procuring Entity
+      ],
+      "details": {
+        "typeOfBuyer": "",
+        "mainGeneralActivity": "",
+        "mainSectoralActivity": "",
+        "isACentralPurchasingBody": false,
+        "scale": ""
+      },
+      "buyerProfile": ""
+    }
+  ],
+  "language": "",
+  "relatedProcesses": [
+    {
+      "identifier": "",             // EIN ocid с площадки
+    },
+    {
+      "identifier": ""              // FS ocid с площадки
+    }
+  ]
+}

@@ -9,12 +9,12 @@ spring:
     hibernate.ddl-auto: update
   datasource:
     driver-class-name: org.postgresql.Driver
-    type: com.zaxxer.hikari.HikariDataSource
     url: jdbc:postgresql://localhost:5432/orchestrator
     username: postgres
     password: postgres
     hikari:
       maximum-pool-size: 10
+      pool-name: orchestrator-pool
 
   data:
     cassandra:
@@ -24,14 +24,14 @@ spring:
       username: cassandra
       password: cassandra
 
-kafka:
-  producer:
-    bootstrap: localhost:9092
-    topic: orchestrator
-  consumer:
-    bootstrap: localhost:9092
-    group: orchestrator
-    topic: chronograph
+#kafka:
+#  producer:
+#    bootstrap: localhost:9092
+#    topic: orchestrator
+#  consumer:
+#    bootstrap: localhost:9092
+#    group: orchestrator
+#    topic: chronograph
 
 ocds.prefix: ocds-t1s2t3
 
@@ -40,12 +40,17 @@ camunda:
     auto-deployment-enabled: true
     history-level: none
 
-access:
+e-submission:
+  ribbon:
+    eureka:
+      enabled: false
+    listOfServers: http://localhost:8080
+e-access:
   ribbon:
     eureka:
       enabled: false
     listOfServers: http://localhost:8081
-notice:
+e-notice:
   ribbon:
     eureka:
       enabled: false

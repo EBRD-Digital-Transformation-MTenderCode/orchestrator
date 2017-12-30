@@ -9,7 +9,8 @@ public enum ResponseMessageType {
 
     OK("May the Force be with you."),
     TRANSACTION_EXISTS("Transaction already exists."),
-    SERVICE_EXCEPTION("One of the services is unavailable.");
+    SERVICE_EXCEPTION("One of the services is unavailable."),
+    PERIOD_EXCEPTION("Period not valid.");
 
     private static final Map<String, ResponseMessageType> CONSTANTS = new HashMap<>();
 

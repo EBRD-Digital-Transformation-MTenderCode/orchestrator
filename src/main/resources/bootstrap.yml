@@ -1,11 +1,61 @@
 server:
   port: @project.service.port@
 
+#spring:
+#  application:
+#    name: orchestrator
+
+#  cloud:
+#    config:
+#      failFast: true
+#      name: orchestrator
+
 spring:
   application:
     name: orchestrator
 
-  cloud:
-    config:
-      failFast: true
-      name: orchestrator
+#  jpa:
+#    database: postgresql
+#    hibernate.ddl-auto: update
+#
+#  datasource:
+#    driver-class-name: org.postgresql.Driver
+#    type: com.zaxxer.hikari.HikariDataSource
+#    url: jdbc:postgresql://localhost:5432/orchestrator
+#    username: postgres
+#    password: postgres
+#    hikari:
+#      maximum-pool-size: 10
+#      pool-name: orchestrator-pool
+#
+#  data:
+#    cassandra:
+#      contact-points: localhost
+#      keyspace-name: ocds
+#      port: 9042
+#      username: cassandra
+#      password: cassandra
+
+#eureka:
+#  client:
+#    fetchRegistry: true
+#    registerWithEureka: true
+#    serviceUrl:
+#      defaultZone: http://eureka-peer-1:8800/eureka/,http://eureka-peer-2:8800/eureka/
+
+#kafka:
+#  producer:
+#    bootstrap: localhost:9092
+#    topic: chronograph-in
+#  consumer:
+#    bootstrap: localhost:9092
+#    group: orchestrator
+#    topic: chronograph-out
+#
+#camunda:
+#  bpm:
+#    auto-deployment-enabled: true
+#    history-level: none
+#
+#ocds:
+#  prefix: ocds-t1s2t3

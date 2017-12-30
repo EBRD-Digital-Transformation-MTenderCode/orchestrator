@@ -18,4 +18,7 @@ public interface AccessRestClient {
 
     @RequestMapping(path = "/fs/create", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> postCreateFs(@RequestBody JsonNode jsonData) throws Exception;
+
+    @RequestMapping(path = "/cn/create", method = RequestMethod.POST)
+    ResponseEntity<ResponseDto> postCreateCn(@RequestBody JsonNode jsonData) throws Exception;
 }

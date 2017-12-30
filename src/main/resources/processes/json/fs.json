@@ -1,0 +1,79 @@
+{
+  "planning": {
+    "budget": {
+      "id": "string",
+      "description": "string",
+      "amount": {
+        "amount": 100.20,
+        "currency": "AED"
+      },
+      "project": "string",
+      "projectID": "string",
+      "uri": "string",
+      "isEuropeanUnionFunded": true,
+      "sourceEntity": {
+        "name": "string",
+        "id": "string"
+      },
+      "period": {
+        "startDate": "2017-12-13T16:21:54.642Z",
+        "endDate": "2017-12-13T16:21:54.642Z"
+      },
+      "verified": true,
+      "verificationDetails": "string"
+    },
+    "rationale": "string"
+  },
+  "parties": {
+    "id": "string",
+    "name": "string",
+    "identifier": {
+      "scheme": "string",
+      "id": "string",
+      "legalName": "string",
+      "uri": "string"
+    },
+    "additionalIdentifiers": [
+      {
+        "scheme": "string",
+        "id": "string",
+        "legalName": "string",
+        "uri": "string"
+      }
+    ],
+    "address": {
+      "streetAddress": "string",
+      "locality": "string",
+      "region": "string",
+      "postalCode": "string",
+      "countryName": "string"
+    },
+    "contactPoint": {
+      "name": "string",
+      "email": "string",
+      "telephone": "string",
+      "faxNumber": "string",
+      "url": "string"
+    },
+    "roles": "buyer",
+    "details": {
+      "typeOfBuyer": "BODY_PUBLIC",
+      "mainGeneralActivity": "DEFENCE",
+      "mainSectoralActivity": "AIRPORT_RELATED_ACTIVITIES",
+      "isACentralPurchasingBody": true,
+      "NUTSCode": "string",
+      "scale": "micro"
+    },
+    "buyerProfile": "string"
+  },
+  "relatedProcesses": [
+    {
+      "id": "string",
+      "relationship": "framework",
+      "title": "string",
+      "scheme": "ocid",
+      "identifier": "ocds-t1s2t3-UA-1513433769869",
+      "uri": "string"
+    }
+  ]
+}

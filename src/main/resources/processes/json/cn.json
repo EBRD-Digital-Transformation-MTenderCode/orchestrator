@@ -1,0 +1,15 @@
+{
+  "ocid": "null",
+  "processType": "createCN",
+  "country": "UA",
+  "procurementMethodDetails": "micro",
+  "transactionId": "",
+  "tender": {
+    "contractPeriod": {
+      "startDate": "",
+      "endDate": "2018-01-30T14:35:37.393Z",
+      "durationInDays": ""
+    }
+  },
+  "language": ""
+}
