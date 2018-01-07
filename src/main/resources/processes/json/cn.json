@@ -1,15 +1,296 @@
 {
-  "ocid": "null",
-  "processType": "createCN",
-  "country": "UA",
-  "procurementMethodDetails": "micro",
-  "transactionId": "",
-  "tender": {
-    "contractPeriod": {
-      "startDate": "",
-      "endDate": "2018-01-30T14:35:37.393Z",
-      "durationInDays": ""
+  "planning": {
+    "rationale": "",
+    "budget": {
+      "description": "",
+      "amount": {
+        "amount": 0,
+        "currency": ""
+      },
+      "isEuropeanUnionFunded": false,
+      "europeanUnionFunding": {
+        "projectIdentifier": "",
+        "projectName": ""
+      },
+      "budgetBreakdown": [
+        {
+          "id": "",
+          "description": "",
+          "amount": {
+            "amount": 0,
+            "currency": ""
+          },
+          "period": {
+            "startDate": "",
+            "endDate": ""
+          },
+          "sourceParty": {
+            "name": "",
+            "id": ""
+          }
+        }
+      ]
     }
   },
-  "language": ""
+  "tender": {
+    "title": "",
+    "description": "",
+    "classification": {
+      "scheme": "",
+      "description": "",
+      "id": ""
+    },
+    "acceleratedProcedure": {
+      "isAcceleratedProcedure": false
+    },
+    "designContest": {
+      "serviceContractAward": false
+    },
+    "ElectronicWorkflows": {
+      "useOrdering": false,
+      "usePayment": false,
+      "acceptInvoicing": false
+    },
+    "JointProcurement": {
+      "isJointProcurement": false
+    },
+    "ProcedureOutsourcing": {
+      "procedureOutsourced": false
+    },
+    "Framework": {
+      "isAFramework": false
+    },
+    "DynamicPurchasingSystem": {
+      "hasDynamicPurchasingSystem": false
+    },
+    "legalBasis": "",
+    "procurementMethod": "",
+    "procurementMethodDetails": "",
+    "procurementMethodRationale": "",
+    "procurementMethodAdditionalInfo": "",
+    "mainProcurementCategory": "",
+    "additionalProcurementCategories": "",
+    "eligibilityCriteria": "",
+    "submissionLanguages": [
+      {
+        "items": ""
+      }
+    ],
+    "tenderPeriod": {
+      "endDate": "2018-02-01T16:04:25.000000107Z"
+    },
+    "contractPeriod": {
+      "startDate": "",
+      "endDate": "",
+      "durationInDays": ""
+    },
+    "hasEnquiries": false,
+    "value": {
+      "amount": 0,
+      "currency": ""
+    },
+    "lotGroups": [
+      {
+        "optionToCombine": false
+      }
+    ],
+    "lots": [
+      {
+        "id": "",
+        "title": "",
+        "description": "",
+        "value": {
+          "amount": 0,
+          "currency": ""
+        },
+        "options": {
+          "hasOptions": false
+        },
+        "variants": {
+          "hasVariants": false
+        },
+        "renewals": {
+          "hasRenewals": false
+        },
+        "recurrentProcurement": {
+          "isRecurrent": false
+        },
+        "contractPeriod": {
+          "startDate": "",
+          "endDate": "",
+          "durationInDays": ""
+        },
+        "placeOfPerformance": {
+          "address": {
+            "streetAddress": "",
+            "locality": "",
+            "region": "",
+            "postalCode": "",
+            "countryName": ""
+          },
+          "description": ""
+        }
+      }
+    ],
+    "items": [
+      {
+        "classification": {
+          "scheme": "CPV",
+          "description": "",
+          "id": ""
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "",
+            "description": "",
+            "id": ""
+          }
+        ],
+        "quantity": 0,
+        "unit": {
+          "id": "",
+          "name": ""
+        },
+        "description": "",
+        "relatedLot": ""
+      }
+    ],
+    "awardCriteria": "priceOnly",
+    "requiresElectronicCatalogue": false,
+    "submissionMethod": [
+      "electronicSubmission"
+    ],
+    "submissionMethodRationale": "",
+    "submissionMethodDetails": "",
+    "procuringEntity": {
+      "name": "",
+      "id": "",
+      "identifier": {
+        "scheme": "",
+        "id": "",
+        "legalName": "",
+        "uri": ""
+      },
+      "additionalIdentifiers": [
+        {
+          "scheme": "",
+          "id": "",
+          "legalName": "",
+          "uri": ""
+        }
+      ],
+      "address": {
+        "streetAddress": "",
+        "locality": "",
+        "region": "",
+        "postalCode": "",
+        "countryName": ""
+      },
+      "contactPoint": {
+        "name": "",
+        "email": "",
+        "telephone": "",
+        "faxNumber": "",
+        "url": ""
+      }
+    },
+    "documents": [
+      {
+        "documentType": "",
+        "datePublished": "",
+        "id": "",
+        "url": "",
+        "title": "",
+        "description": "",
+        "language": "",
+        "relatedLot": ""
+      }
+    ]
+  },
+  "parties": [
+    {
+      "name": "",
+      "id": "",
+      "identifier": {
+        "scheme": "",
+        "id": "",
+        "legalName": "",
+        "uri": ""
+      },
+      "additionalIdentifiers": [
+        {
+          "scheme": "",
+          "id": "",
+          "legalName": "",
+          "uri": ""
+        }
+      ],
+      "address": {
+        "streetAddress": "",
+        "locality": "",
+        "region": "",
+        "postalCode": "",
+        "countryName": ""
+      },
+      "contactPoint": {
+        "name": "",
+        "email": "",
+        "telephone": "",
+        "faxNumber": "",
+        "url": ""
+      },
+      "roles": [
+        ""
+      ],
+      "details": {
+        "typeOfBuyer": "",
+        "mainGeneralActivity": "",
+        "mainSectoralActivity": "",
+        "isACentralPurchasingBody": false,
+        "scale": ""
+      },
+      "buyerProfile": ""
+    }
+  ],
+  "buyer": {
+    "name": "",
+    "id": "",
+    "identifier": {
+      "scheme": "",
+      "id": "",
+      "legalName": "",
+      "uri": ""
+    },
+    "additionalIdentifiers": [
+      {
+        "scheme": "",
+        "id": "",
+        "legalName": "",
+        "uri": ""
+      }
+    ],
+    "address": {
+      "streetAddress": "",
+      "locality": "",
+      "region": "",
+      "postalCode": "",
+      "countryName": ""
+    },
+    "contactPoint": {
+      "name": "",
+      "email": "",
+      "telephone": "",
+      "faxNumber": "",
+      "url": ""
+    }
+  },
+  "relatedProcesses": [
+    {
+      "id": "",
+      "title": "",
+      "identifier": "",
+      "scheme": "",
+      "uri": ""
+    }
+  ]
 }

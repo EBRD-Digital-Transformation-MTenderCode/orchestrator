@@ -11,7 +11,7 @@ package com.procurement.orchestrator.kafka;
 //
 //@Service
 public class MessageProducer {
-//
+
 //    private static final Logger LOGGER = LoggerFactory.getLogger(MessageProducer.class);
 //    private final KafkaTemplate<String, String> taskKafkaTemplate;
 //    private final JsonUtil jsonUtil;

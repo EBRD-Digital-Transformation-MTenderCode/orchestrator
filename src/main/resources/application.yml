@@ -1,46 +1,57 @@
-spring:
-  profiles: default
+server:
+  port: 8900
 
+logging.level: error
+
+spring:
   jpa:
     database: postgresql
-    hibernate.ddl-auto: update
+    hibernate:
+      ddl-auto: update
   datasource:
     driver-class-name: org.postgresql.Driver
-    type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:postgresql://postgresql:5432/orchestrator
+    url: jdbc:postgresql://localhost:5432/orchestrator
     username: postgres
     password: postgres
     hikari:
       maximum-pool-size: 10
+      pool-name: orchestrator-pool
 
-  data:
-    cassandra:
-      contact-points: AC-node1,AC-node2,AC-node3
-      keyspace-name: ocds
-      port: 9042
-      username: caclient
-      password: brT4Kn27RQs
+cassandra:
+  datasource:
+    contact-point: 127.0.0.1
+    keyspace: ocds
+    username: cassandra
+    password: cassandra
 
-eureka:
-  client:
-    fetchRegistry: true
-    registerWithEureka: true
-    serviceUrl:
-      defaultZone: http://eureka-peer-1:8800/eureka/,http://eureka-peer-2:8800/eureka/
+#kafka:
+#  producer:
+#    bootstrap: localhost:9092
+#    topic: orchestrator
+#  consumer:
+#    bootstrap: localhost:9092
+#    group: orchestrator
+#    topic: chronograph
 
-kafka:
-  producer:
-    bootstrap: AK-node1:9092,AK-node2:9092,AK-node3:9092
-    topic: chronograph_in
-  consumer:
-    bootstrap: AK-node1:9092,AK-node2:9092,AK-node3:9092
-    group: orchestrator
-    topic: chronograph_out
+ocds.prefix: ocds-t1s2t3
 
 camunda:
   bpm:
     auto-deployment-enabled: true
     history-level: none
 
-ocds:
-  prefix: ocds-t1s2t3
+e-submission:
+  ribbon:
+    eureka:
+      enabled: false
+    listOfServers: http://localhost:8080
+e-access:
+  ribbon:
+    eureka:
+      enabled: false
+    listOfServers: http://localhost:8081
+e-notice:
+  ribbon:
+    eureka:
+      enabled: false
+    listOfServers: http://localhost:8082

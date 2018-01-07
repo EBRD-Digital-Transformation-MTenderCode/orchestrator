@@ -6,7 +6,7 @@ package com.procurement.orchestrator.kafka;
 //@Component
 //@ConfigurationProperties(prefix = "kafka.consumer")
 public class KafkaConsumerProperties {
-//
+
 //    private String bootstrap;
 //    private String group;
 //    private String topic;

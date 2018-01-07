@@ -1,9 +1,8 @@
 package com.procurement.orchestrator.delegate.cn;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.procurement.orchestrator.cassandra.OperationEntity;
-import com.procurement.orchestrator.cassandra.OperationService;
-import com.procurement.orchestrator.cassandra.OperationValue;
+import com.procurement.orchestrator.cassandra.model.OperationEntity;
+import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.domain.constant.ResponseMessageType;
 import com.procurement.orchestrator.domain.dto.ResponseDto;
 import com.procurement.orchestrator.domain.dto.cn.RequestSubmissionPeriodDto;
@@ -48,49 +47,49 @@ public class CnSubmissionCheckPeriod implements JavaDelegate {
     @Override
     public void execute(final DelegateExecution execution) {
         LOG.info("->Data preparation for E-Submission.");
-        final String transactionId = execution.getProcessBusinessKey();
-        final Optional<OperationEntity> entityOptional = operationService.getOperationByStep(transactionId, 1);
-        if (entityOptional.isPresent()) {
-            LOG.info("->Send data to E-Submission.");
-            final OperationEntity entity = entityOptional.get();
-            final ResponseDto response;
-            try {
-                RequestSubmissionPeriodDto submissionPeriodDto = getRequestSubmissionPeriodDto(entity);
-                final ResponseEntity<ResponseDto> responseEntity = submissionRestClient.postCheckPeriod(submissionPeriodDto);
-                response = responseEntity.getBody();
-                LOG.info("->Get response: " + response.getData());
-                if (!response.getSuccess()) {
-                    throw new BpmnError("TR_EXCEPTION", ResponseMessageType.PERIOD_EXCEPTION.value());
-                }
-            } catch (Exception e) {
-                LOG.error(e.getMessage());
-                throw new BpmnError("TR_EXCEPTION", ResponseMessageType.SERVICE_EXCEPTION.value());
-            }
-
-            final OperationValue operation = new OperationValue(
-                    transactionId,
-                    2,
-                    "check period in submission",
-                    "e-submission",
-                    "orchestrator",
-                    entity.getProcessType(),
-                    jsonUtil.toJson(response.getData()));
-
-            operationService.saveOperation(operation);
-        }
+//        final String transactionId = execution.getProcessBusinessKey();
+//        final Optional<OperationEntity> entityOptional = operationService.getOperationByStep(transactionId, 1);
+//        if (entityOptional.isPresent()) {
+//            LOG.info("->Send data to E-Submission.");
+//            final OperationEntity entity = entityOptional.get();
+//            final ResponseDto response;
+//            try {
+//                RequestSubmissionPeriodDto submissionPeriodDto = getRequestSubmissionPeriodDto(entity);
+//                final ResponseEntity<ResponseDto> responseEntity = submissionRestClient.postCheckPeriod(submissionPeriodDto);
+//                response = responseEntity.getBody();
+//                LOG.info("->Get response: " + response.getData());
+//                if (!response.getSuccess()) {
+//                    throw new BpmnError("TR_EXCEPTION", ResponseMessageType.PERIOD_EXCEPTION.value());
+//                }
+//            } catch (Exception e) {
+//                LOG.error(e.getMessage());
+//                throw new BpmnError("TR_EXCEPTION", ResponseMessageType.SERVICE_EXCEPTION.value());
+//            }
+//
+//            final OperationValue operation = new OperationValue(
+//                    transactionId,
+//                    2,
+//                    "check period in submission",
+//                    "e-submission",
+//                    "orchestrator",
+//                    entity.getProcessType(),
+//                    jsonUtil.toJson(response.getData()));
+//
+//            operationService.saveOperation(operation);
+//        }
     }
 
-    private RequestSubmissionPeriodDto getRequestSubmissionPeriodDto(OperationEntity entity) throws Exception {
-        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
-        final JsonNode tenderNode = jsonData.get("tender");
-        final JsonNode contractPeriodNode = tenderNode.get("contractPeriod");
-        final JsonNode endDateNode = contractPeriodNode.get("endDate");
-        final LocalDateTime startDate = dateUtil.getNowUTC();
-        final LocalDateTime endDate = dateUtil.stringToLocalDateTime(endDateNode.asText());
-        return new RequestSubmissionPeriodDto(null,
-                jsonData.get("country").asText(),
-                jsonData.get("procurementMethodDetails").asText(),
-                new TenderPeriodDto(startDate, endDate));
-    }
+//    private RequestSubmissionPeriodDto getRequestSubmissionPeriodDto(OperationEntity entity) throws Exception {
+//        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
+//        final JsonNode tenderNode = jsonData.get("tender");
+//        final JsonNode tenderPeriodNode = tenderNode.get("tenderPeriod");
+//        final JsonNode endDateNode = tenderNode.get("endDate");
+//        final LocalDateTime startDate = dateUtil.getNowUTC();
+//        final LocalDateTime endDate = dateUtil.stringToLocalDateTime(endDateNode.asText());
+//        return new RequestSubmissionPeriodDto(null,
+//                jsonData.get("country").asText(),
+//                jsonData.get("procurementMethodDetails").asText(),
+//                new TenderPeriodDto(startDate, endDate));
+//    }
 
 }

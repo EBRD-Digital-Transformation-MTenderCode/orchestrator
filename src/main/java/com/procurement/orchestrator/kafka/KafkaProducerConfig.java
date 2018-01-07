@@ -16,7 +16,7 @@ package com.procurement.orchestrator.kafka;
 //@Configuration
 //@EnableConfigurationProperties(KafkaConsumerProperties.class)
 public class KafkaProducerConfig {
-//
+
 //    private final KafkaProducerProperties kafkaProducerProperties;
 //
 //    public KafkaProducerConfig(final KafkaProducerProperties kafkaProducerProperties) {

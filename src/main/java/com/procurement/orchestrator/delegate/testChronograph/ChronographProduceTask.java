@@ -1,18 +1,8 @@
 package com.procurement.orchestrator.delegate.testChronograph;
 
-import com.procurement.orchestrator.cassandra.OperationService;
-import com.procurement.orchestrator.cassandra.OperationValue;
-import com.procurement.orchestrator.kafka.Task;
-import com.procurement.orchestrator.kafka.MessageProducer;
-import com.procurement.orchestrator.utils.DateUtil;
-import com.procurement.orchestrator.utils.JsonUtil;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDateTime;
 
 @Component
 public class ChronographProduceTask implements JavaDelegate {

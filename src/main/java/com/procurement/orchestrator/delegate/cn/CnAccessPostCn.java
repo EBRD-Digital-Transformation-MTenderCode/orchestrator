@@ -1,10 +1,8 @@
 package com.procurement.orchestrator.delegate.cn;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.procurement.orchestrator.cassandra.OperationEntity;
-import com.procurement.orchestrator.cassandra.OperationService;
-import com.procurement.orchestrator.cassandra.OperationValue;
+import com.procurement.orchestrator.cassandra.model.OperationEntity;
+import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.domain.constant.ResponseMessageType;
 import com.procurement.orchestrator.domain.dto.ResponseDto;
 import com.procurement.orchestrator.rest.AccessRestClient;
@@ -41,33 +39,33 @@ public class CnAccessPostCn implements JavaDelegate {
     @Override
     public void execute(final DelegateExecution execution) {
         LOG.info("->Data preparation for E-Access.");
-        final String transactionId = execution.getProcessBusinessKey();
-        final Optional<OperationEntity> entityOptional = operationService.getOperationByStep(transactionId, 1);
-        if (entityOptional.isPresent()) {
-            LOG.info("->Send data to E-Access.");
-            final OperationEntity entity = entityOptional.get();
-            final ResponseDto response;
-            try {
-                final JsonNode requestDto = getJsonForRequest(entity);
-                final ResponseEntity<ResponseDto> responseEntity = accessRestClient.postCreateCn(requestDto);
-                response = responseEntity.getBody();
-                LOG.info("->Get response: " + response.getData());
-            } catch (Exception e) {
-                LOG.error(e.getMessage());
-                throw new BpmnError("TR_EXCEPTION", ResponseMessageType.SERVICE_EXCEPTION.value());
-            }
-
-            final OperationValue operation = new OperationValue(
-                    transactionId,
-                    2,
-                    "get MS release from access",
-                    "e-access",
-                    "e-notice",
-                    entity.getProcessType(),
-                    jsonUtil.toJson(response.getData()));
-
-            operationService.saveOperation(operation);
-        }
+//        final String transactionId = execution.getProcessBusinessKey();
+//        final Optional<OperationEntity> entityOptional = operationService.getOperationByStep(transactionId, 1);
+//        if (entityOptional.isPresent()) {
+//            LOG.info("->Send data to E-Access.");
+//            final OperationEntity entity = entityOptional.get();
+//            final ResponseDto response;
+//            try {
+//                final JsonNode requestDto = getJsonForRequest(entity);
+//                final ResponseEntity<ResponseDto> responseEntity = accessRestClient.postCreateCn(requestDto);
+//                response = responseEntity.getBody();
+//                LOG.info("->Get response: " + response.getData());
+//            } catch (Exception e) {
+//                LOG.error(e.getMessage());
+//                throw new BpmnError("TR_EXCEPTION", ResponseMessageType.SERVICE_EXCEPTION.value());
+//            }
+//
+//            final OperationValue operation = new OperationValue(
+//                    transactionId,
+//                    2,
+//                    "get MS release from access",
+//                    "e-access",
+//                    "e-notice",
+//                    entity.getProcessType(),
+//                    jsonUtil.toJson(response.getData()));
+//
+//            operationService.saveOperation(operation);
+//        }
     }
 
     private JsonNode getJsonForRequest(final OperationEntity entity) {

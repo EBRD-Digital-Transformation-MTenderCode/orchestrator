@@ -12,7 +12,7 @@ package com.procurement.orchestrator.kafka;
 //
 //@Service
 public class MessageConsumer {
-
+//
 //    private static final Logger log = LoggerFactory.getLogger(MessageConsumer.class);
 //
 //    private final ProcessService processService;
