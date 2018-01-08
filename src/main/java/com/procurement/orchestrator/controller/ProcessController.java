@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.cassandra.service.RequestService;
+import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
 import org.springframework.http.HttpStatus;
@@ -33,48 +34,35 @@ public class ProcessController {
     }
 
     @RequestMapping(value = "{processType}", method = RequestMethod.POST)
-    public ResponseEntity<String> doCreate(@PathVariable("processType") String processType,
-                                           @RequestHeader("txId") String txId,
-                                           @RequestHeader("token") String token,
-                                           @RequestHeader("Authorization") String authorization,
-                                           @RequestParam("country") String country,
-                                           @RequestParam("pmd") String pmd,
-                                           @RequestBody JsonNode jsonData) {
-        String jsonDataString = jsonUtil.getResource("processes/json/cn.json");
-        JsonNode jsonDataFromFile = jsonUtil.toJsonNode(jsonDataString);
-        JsonNode jsonParams = getJsonParams(
-                txId,
-                null,
-                token,
-                processType,
-                authorization,
-                country,
-                pmd);
-        requestService.saveRequest(txId, jsonParams, jsonDataFromFile);
+    public ResponseEntity<String> doCreate(@PathVariable("processType") final String processType,
+                                           @RequestHeader("txId") final String txId,
+                                           @RequestHeader("token") final String token,
+                                           @RequestHeader("Authorization") final String authorization,
+                                           @RequestParam("country") final String country,
+                                           @RequestParam("pmd") final String pmd,
+                                           @RequestBody final JsonNode jsonData) {
+        final String jsonDataString = jsonUtil.getResource("processes/json/cn.json");
+        final JsonNode jsonDataFromFile = jsonUtil.toJsonNode(jsonDataString);
+        final Params params = new Params(txId, null, token, processType, authorization, country, pmd);
+        requestService.saveRequest(txId, params, jsonDataFromFile);
         operationService.checkOperationByTxId(txId);
         processService.startProcess(processType, txId);
         return new ResponseEntity<>("ok", HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "{processType}/{ocid}", method = RequestMethod.POST)
-    public ResponseEntity<String> doCreate(@PathVariable("processType") String processType,
-                                           @PathVariable("ocid") String ocid,
-                                           @RequestHeader("txId") String txId,
-                                           @RequestHeader("token") String token,
-                                           @RequestHeader("Authorization") String authorization,
-                                           @RequestParam("country") String country,
-                                           @RequestParam("pmd") String pmd,
-                                           @RequestBody JsonNode jsonData) {
-        String jsonDataString = jsonUtil.getResource("processes/json/cn.json");
-        JsonNode jsonDataFromFile = jsonUtil.toJsonNode(jsonDataString);
-        JsonNode jsonParams = getJsonParams(txId,
-                ocid,
-                token,
-                processType,
-                authorization,
-                country,
-                pmd);
-        requestService.saveRequest(txId, jsonParams, jsonDataFromFile);
+    public ResponseEntity<String> doCreate(@PathVariable("processType") final String processType,
+                                           @PathVariable("ocid") final String ocid,
+                                           @RequestHeader("txId") final String txId,
+                                           @RequestHeader("token")final  String token,
+                                           @RequestHeader("Authorization") final String authorization,
+                                           @RequestParam("country")final  String country,
+                                           @RequestParam("pmd") final String pmd,
+                                           @RequestBody final JsonNode jsonData) {
+        final String jsonDataString = jsonUtil.getResource("processes/json/cn.json");
+        final JsonNode jsonDataFromFile = jsonUtil.toJsonNode(jsonDataString);
+        final Params params = new Params(txId, ocid, token, processType, authorization, country, pmd);
+        requestService.saveRequest(txId, params, jsonDataFromFile);
         operationService.checkOperationByTxId(txId);
         processService.startProcess(processType, txId);
         return new ResponseEntity<>("ok", HttpStatus.CREATED);

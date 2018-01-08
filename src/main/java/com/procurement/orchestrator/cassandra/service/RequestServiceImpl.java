@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.cassandra.dao.CassandraDao;
 import com.procurement.orchestrator.cassandra.dao.CassandraDaoImpl;
 import com.procurement.orchestrator.cassandra.model.RequestEntity;
+import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
-    public void saveRequest(String txId, JsonNode jsonParams, JsonNode jsonData) {
+    public void saveRequest(String txId, Params jsonParams, JsonNode jsonData) {
         cassandraDao.saveRequest(getRequestEntity(txId, jsonParams, jsonData));
     }
 
@@ -37,7 +38,7 @@ public class RequestServiceImpl implements RequestService {
     }
 
     private RequestEntity getRequestEntity(final String txId,
-                                           final JsonNode jsonParams,
+                                           final Params jsonParams,
                                            final JsonNode jsonData) {
         RequestEntity entity = new RequestEntity();
         entity.setRequestDate(dateUtil.getNowUTC());

@@ -33,8 +33,12 @@ public class DateUtil {
                             .toEpochMilli();
     }
 
-    public LocalDateTime stringToLocalDateTime(String dateTime) {
+    public LocalDateTime stringToLocal(String dateTime) {
         return LocalDateTime.parse(dateTime, FORMATTER);
+    }
+
+    public String format(final LocalDateTime localDateTime) {
+        return localDateTime.format(FORMATTER);
     }
 
     public LocalDateTime dateToLocalDateTime(Date date) {
