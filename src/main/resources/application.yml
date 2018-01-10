@@ -44,14 +44,24 @@ e-submission:
   ribbon:
     eureka:
       enabled: false
-    listOfServers: http://localhost:8080
-e-access:
-  ribbon:
-    eureka:
-      enabled: false
     listOfServers: http://localhost:8081
-e-notice:
+e-clarification:
   ribbon:
     eureka:
       enabled: false
     listOfServers: http://localhost:8082
+e-access:
+  ribbon:
+    eureka:
+      enabled: false
+    listOfServers: http://localhost:8083
+e-storage:
+  ribbon:
+    eureka:
+      enabled: false
+    listOfServers: http://localhost:8600
+e-notice:
+  ribbon:
+    eureka:
+      enabled: false
+    listOfServers: http://localhost:8088

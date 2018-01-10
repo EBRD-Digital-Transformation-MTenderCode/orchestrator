@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient(name = "e-access")
 public interface AccessRestClient {
@@ -20,5 +21,9 @@ public interface AccessRestClient {
     ResponseEntity<ResponseDto> postCreateFs(@RequestBody JsonNode jsonData) throws Exception;
 
     @RequestMapping(path = "/cn/create", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> postCreateCn(@RequestBody JsonNode jsonData) throws Exception;
+    ResponseEntity<ResponseDto> postCreateCn(@RequestParam("country") final String country,
+                                             @RequestParam("pmd") final String pmd,
+                                             @RequestParam("stage") final String stage,
+                                             @RequestParam("owner") final String owner,
+                                             @RequestBody final JsonNode jsonData) throws Exception;
 }

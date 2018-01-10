@@ -35,7 +35,7 @@ public class ProcessController {
 
     @RequestMapping(value = "{processType}", method = RequestMethod.POST)
     public ResponseEntity<String> doCreate(@PathVariable("processType") final String processType,
-                                           @RequestHeader("txId") final String txId,
+                                           @RequestHeader("X-OPERATION-ID") final String txId,
                                            @RequestHeader("token") final String token,
                                            @RequestHeader("Authorization") final String authorization,
                                            @RequestParam("country") final String country,
@@ -43,7 +43,7 @@ public class ProcessController {
                                            @RequestBody final JsonNode jsonData) {
         final String jsonDataString = jsonUtil.getResource("processes/json/cn.json");
         final JsonNode jsonDataFromFile = jsonUtil.toJsonNode(jsonDataString);
-        final Params params = new Params(txId, null, token, processType, authorization, country, pmd);
+        final Params params = new Params(txId, null, token, processType, "dzo", country, pmd);
         requestService.saveRequest(txId, params, jsonDataFromFile);
         operationService.checkOperationByTxId(txId);
         processService.startProcess(processType, txId);

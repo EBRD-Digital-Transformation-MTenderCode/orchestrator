@@ -15,8 +15,8 @@ public class Params {
     private final String token;
     @JsonProperty(value = "processType")
     private final String processType;
-    @JsonProperty(value = "authorization")
-    private final String authorization;
+    @JsonProperty(value = "owner")
+    private final String owner;
     @JsonProperty(value = "country")
     private final String country;
     @JsonProperty(value = "pmd")
