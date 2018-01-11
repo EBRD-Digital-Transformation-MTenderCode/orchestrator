@@ -3,8 +3,10 @@ package com.procurement.orchestrator.domain;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 @AllArgsConstructor
 public class Params {
     @JsonProperty(value = "txId")
@@ -12,7 +14,7 @@ public class Params {
     @JsonProperty(value = "ocid")
     private final String ocid;
     @JsonProperty(value = "token")
-    private final String token;
+    private String token;
     @JsonProperty(value = "processType")
     private final String processType;
     @JsonProperty(value = "owner")
@@ -21,5 +23,4 @@ public class Params {
     private final String country;
     @JsonProperty(value = "pmd")
     private final String pmd;
-
 }

@@ -1,11 +1,13 @@
 package com.procurement.orchestrator.delegate.fs;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.cassandra.model.OperationEntity;
 import com.procurement.orchestrator.cassandra.service.OperationService;
+import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.domain.constant.ResponseMessageType;
-import com.procurement.orchestrator.domain.dto.RequestNoticeDto;
 import com.procurement.orchestrator.domain.dto.ResponseDto;
 import com.procurement.orchestrator.rest.NoticeRestClient;
+import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.Optional;
 import org.camunda.bpm.engine.delegate.BpmnError;
@@ -26,42 +28,48 @@ public class FsNoticePostFs implements JavaDelegate {
 
     private final JsonUtil jsonUtil;
 
+    private final DateUtil dateUtil;
+
     public FsNoticePostFs(final OperationService operationService,
                           final NoticeRestClient noticeRestClient,
-                          final JsonUtil jsonUtil) {
+                          final JsonUtil jsonUtil,
+                          final DateUtil dateUtil) {
         this.operationService = operationService;
         this.noticeRestClient = noticeRestClient;
         this.jsonUtil = jsonUtil;
+        this.dateUtil = dateUtil;
     }
 
     @Override
     public void execute(final DelegateExecution execution) {
         LOG.info("->Data preparation for E-Notice.");
-//        final String transactionId = execution.getProcessBusinessKey();
-//        final Optional<OperationEntity> entityOptional = operationService.getOperationByStep(transactionId, 2);
-//        if (entityOptional.isPresent()) {
-//            LOG.info("->Send data to E-Notice.");
-//            final OperationEntity entity = entityOptional.get();
-//            final ResponseDto response;
-//            try {
-//                final RequestNoticeDto requestDto = jsonUtil.toObject(RequestNoticeDto.class, entity.getJsonData());
-//                final ResponseEntity<ResponseDto> responseEntity = noticeRestClient.postRelease(requestDto);
-//                response = responseEntity.getBody();
-//                LOG.info("->Get response: " + response.getData());
-//            } catch (Exception e) {
-//                LOG.error(e.getMessage());
-//                throw new BpmnError("TR_EXCEPTION", ResponseMessageType.SERVICE_EXCEPTION.value());
-//            }
-//            final OperationValue operation = new OperationValue(
-//                transactionId,
-//                3,
-//                "get confirmation from e-notice",
-//                "e-notice",
-//                "yoda",
-//                entity.getProcessType(),
-//                jsonUtil.toJson(response.getData()));
-//
-//            operationService.saveOperation(operation);
-//        }
+        final String txId = execution.getProcessBusinessKey();
+        final Optional<OperationEntity> entityOptional = operationService.getLastOperation(txId);
+        if (entityOptional.isPresent()) {
+            LOG.info("->Send data to E-Notice.");
+            final OperationEntity entity = entityOptional.get();
+            final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
+            final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
+            final String cpId = jsonData.get("ocid").asText();
+            try {
+                final ResponseEntity<ResponseDto> responseEntity = noticeRestClient.createFs(
+                        cpId,
+                        "ps",
+                        "createFs",
+                        jsonData
+                );
+                JsonNode responseData = jsonUtil.toJsonNode(responseEntity.getBody().getData());
+                operationService.saveOperation(getEntity(entity, responseData));
+            } catch (Exception e) {
+                LOG.error(e.getMessage());
+                throw new BpmnError("TR_EXCEPTION", ResponseMessageType.SERVICE_EXCEPTION.value());
+            }
+        }
+    }
+
+    private OperationEntity getEntity(OperationEntity entity, JsonNode jsonData) {
+        entity.setJsonData(jsonUtil.toJson(jsonData));
+        entity.setDate(dateUtil.getNowUTC());
+        return entity;
     }
 }

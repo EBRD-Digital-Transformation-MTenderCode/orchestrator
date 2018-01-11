@@ -59,7 +59,7 @@ public class CnAccessPostCn implements JavaDelegate {
                         "ps",
                         params.getOwner(),
                         jsonUtil.toJsonNode(entity.getJsonData()));
-                 operationService.saveOperation(getEntity(entity, responseEntity.getBody().getData()));
+                 operationService.saveOperation(getEntity(params, entity, responseEntity.getBody().getData()));
             } catch (Exception e) {
                 LOG.error(e.getMessage());
                 throw new BpmnError("TR_EXCEPTION", ResponseMessageType.SERVICE_EXCEPTION.value());
@@ -67,8 +67,11 @@ public class CnAccessPostCn implements JavaDelegate {
         }
     }
 
-    private OperationEntity getEntity(final OperationEntity entity, Object response) {
-        entity.setJsonData(jsonUtil.toJson(response));
+    private OperationEntity getEntity(final Params params, final OperationEntity entity, Object response) {
+        final JsonNode jsonData = jsonUtil.toJsonNode(response);
+        params.setToken(jsonData.get("token").asText());
+        entity.setJsonParams(jsonUtil.toJson(params));
+        entity.setJsonData(jsonUtil.toJson(jsonData));
         entity.setDate(dateUtil.getNowUTC());
         return entity;
     }

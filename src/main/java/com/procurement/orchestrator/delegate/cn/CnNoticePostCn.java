@@ -19,9 +19,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CnNoticeCreateRelease implements JavaDelegate {
+public class CnNoticePostCn implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(CnNoticeCreateRelease.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CnNoticePostCn.class);
 
     private final NoticeRestClient noticeRestClient;
 
@@ -31,10 +31,10 @@ public class CnNoticeCreateRelease implements JavaDelegate {
 
     private final DateUtil dateUtil;
 
-    public CnNoticeCreateRelease(final NoticeRestClient noticeRestClient,
-                                 final OperationService operationService,
-                                 final JsonUtil jsonUtil,
-                                 final DateUtil dateUtil) {
+    public CnNoticePostCn(final NoticeRestClient noticeRestClient,
+                          final OperationService operationService,
+                          final JsonUtil jsonUtil,
+                          final DateUtil dateUtil) {
         this.noticeRestClient = noticeRestClient;
         this.operationService = operationService;
         this.jsonUtil = jsonUtil;
@@ -64,7 +64,6 @@ public class CnNoticeCreateRelease implements JavaDelegate {
                 );
                 JsonNode responseData = jsonUtil.toJsonNode(responseEntity.getBody().getData());
                 operationService.saveOperation(getEntity(entity, responseData));
-                LOG.info("->Get response: " + responseData);
             } catch (Exception e) {
                 LOG.error(e.getMessage());
                 throw new BpmnError("TR_EXCEPTION", ResponseMessageType.SERVICE_EXCEPTION.value());

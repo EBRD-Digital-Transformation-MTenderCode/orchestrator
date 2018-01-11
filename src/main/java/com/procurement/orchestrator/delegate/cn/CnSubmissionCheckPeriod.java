@@ -65,7 +65,6 @@ public class CnSubmissionCheckPeriod implements JavaDelegate {
                         dateUtil.format(startDate),
                         dateUtil.format(endDate));
                 Map<String, Boolean> data = (HashMap) responseEntity.getBody().getData();
-                LOG.info("->Get response: " + data);
                 if (!data.get("period")) {
                     throw new BpmnError("TR_EXCEPTION", ResponseMessageType.PERIOD_EXCEPTION.value());
                 }

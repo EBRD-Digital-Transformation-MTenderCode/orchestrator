@@ -58,8 +58,7 @@ public class CnStorageOpenDocs implements JavaDelegate {
             final List<String> fileIds = getFileIds(tenderNode, startDate);
             for (String fileId : fileIds) {
                 try {
-                    final ResponseEntity<String> responseEntity = storageRestClient.setPublishDate(fileId, startDate);
-                    LOG.info("->Get response: " + responseEntity.getBody());
+                    storageRestClient.setPublishDate(fileId, startDate);
                 } catch (Exception e) {
                     LOG.error(e.getMessage());
                     throw new BpmnError("TR_EXCEPTION", ResponseMessageType.SERVICE_EXCEPTION.value());

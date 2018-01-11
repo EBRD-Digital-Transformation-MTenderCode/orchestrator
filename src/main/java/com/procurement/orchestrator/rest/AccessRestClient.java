@@ -12,13 +12,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(name = "e-access")
 public interface AccessRestClient {
     @RequestMapping(path = "/ein/create", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> postCreateEin(@RequestBody JsonNode jsonData) throws Exception;
+    ResponseEntity<ResponseDto> postCreateEin(@RequestParam("country") final String country,
+                                              @RequestParam("pmd") final String pmd,
+                                              @RequestParam("stage") final String stage,
+                                              @RequestParam("owner") final String owner,
+                                              @RequestBody JsonNode jsonData) throws Exception;
 
-    @RequestMapping(path = "/ein/addRelatedProcess", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> postAddRelatedProcess(@RequestBody JsonNode jsonData) throws Exception;
+    @RequestMapping(path = "/ein/updateAmountByFs", method = RequestMethod.POST)
+    ResponseEntity<ResponseDto> updateAmountByFs(@RequestParam("cpid") final String cpid) throws Exception;
 
     @RequestMapping(path = "/fs/create", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> postCreateFs(@RequestBody JsonNode jsonData) throws Exception;
+    ResponseEntity<ResponseDto> postCreateFs(@RequestParam("country") final String country,
+                                             @RequestParam("pmd") final String pmd,
+                                             @RequestParam("stage") final String stage,
+                                             @RequestParam("owner") final String owner,
+                                             @RequestBody JsonNode jsonData) throws Exception;
 
     @RequestMapping(path = "/cn/create", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> postCreateCn(@RequestParam("country") final String country,

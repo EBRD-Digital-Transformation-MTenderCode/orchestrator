@@ -71,7 +71,6 @@ public class CnClarificationSavePeriod implements JavaDelegate {
                         endDate);
 
                 JsonNode responseData = jsonUtil.toJsonNode(responseEntity.getBody().getData());
-                LOG.info("->Get response: " + responseData);
                 JsonNode jsonWithEnquiryPeriod = addEnquiryPeriod(jsonData, responseData);
                 operationService.saveOperation(getEntity(entity, jsonWithEnquiryPeriod));
             } catch (Exception e) {

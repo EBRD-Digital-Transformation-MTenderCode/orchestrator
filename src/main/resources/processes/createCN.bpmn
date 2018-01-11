@@ -74,7 +74,7 @@
       <bpmn:incoming>SequenceFlow_03j9mp4</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1i07nkk</bpmn:outgoing>
     </bpmn:inclusiveGateway>
-    <bpmn:serviceTask id="Task_04g0s58" name="Notice create release" camunda:delegateExpression="${cnNoticeCreateRelease}">
+    <bpmn:serviceTask id="Task_04g0s58" name="Notice create release" camunda:delegateExpression="${cnNoticePostCn}">
       <bpmn:incoming>SequenceFlow_0hgxr57</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1mf37vi</bpmn:outgoing>
     </bpmn:serviceTask>

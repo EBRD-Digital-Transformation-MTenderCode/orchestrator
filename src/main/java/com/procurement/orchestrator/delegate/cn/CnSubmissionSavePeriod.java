@@ -61,7 +61,6 @@ public class CnSubmissionSavePeriod implements JavaDelegate {
                         "ps",
                         startDate,
                         endDate);
-                LOG.info("->Get response: " + responseEntity.getBody().getData());
                 operationService.saveOperation(getEntity(entity));
             } catch (Exception e) {
                 LOG.error(e.getMessage());
