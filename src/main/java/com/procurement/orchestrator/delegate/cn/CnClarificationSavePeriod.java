@@ -12,6 +12,8 @@ import com.procurement.orchestrator.rest.SubmissionRestClient;
 import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import org.camunda.bpm.engine.delegate.BpmnError;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
@@ -68,7 +70,9 @@ public class CnClarificationSavePeriod implements JavaDelegate {
                         startDate,
                         endDate);
 
-                JsonNode jsonWithEnquiryPeriod = addEnquiryPeriod(jsonData, responseEntity.getBody().getData());
+                JsonNode responseData = jsonUtil.toJsonNode(responseEntity.getBody().getData());
+                LOG.info("->Get response: " + responseData);
+                JsonNode jsonWithEnquiryPeriod = addEnquiryPeriod(jsonData, responseData);
                 operationService.saveOperation(getEntity(entity, jsonWithEnquiryPeriod));
             } catch (Exception e) {
                 LOG.error(e.getMessage());
@@ -82,10 +86,13 @@ public class CnClarificationSavePeriod implements JavaDelegate {
         return tenderNode.get("tenderPeriod");
     }
 
-    private JsonNode addEnquiryPeriod(JsonNode jsonData, Object responseData) {
-        LOG.info("->Get response: " + responseData);
+    private JsonNode addEnquiryPeriod(JsonNode jsonData, JsonNode responseData) {
         final JsonNode tenderNode = jsonData.get("tender");
-        ((ObjectNode) tenderNode).put("enquiryPeriod", jsonUtil.toJson(responseData));
+        ObjectNode enquiryPeriodNode = ((ObjectNode) tenderNode).putObject("enquiryPeriod");
+        enquiryPeriodNode
+                .put("startDate", responseData.get("startDate").asText())
+                .put("endDate", responseData.get("endDate").asText());
+
         return jsonData;
     }
 
