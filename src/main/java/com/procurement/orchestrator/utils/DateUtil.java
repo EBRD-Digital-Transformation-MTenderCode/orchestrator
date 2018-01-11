@@ -6,7 +6,6 @@ import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.util.Date;
-
 import org.springframework.stereotype.Component;
 
 @Component
@@ -30,7 +29,7 @@ public class DateUtil {
 
     public long getMilliUTC(final LocalDateTime localDateTime) {
         return localDateTime.toInstant(ZoneOffset.UTC)
-                            .toEpochMilli();
+                .toEpochMilli();
     }
 
     public LocalDateTime stringToLocal(String dateTime) {

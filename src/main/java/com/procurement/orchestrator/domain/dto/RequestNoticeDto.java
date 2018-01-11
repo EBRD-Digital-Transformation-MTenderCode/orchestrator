@@ -2,11 +2,10 @@ package com.procurement.orchestrator.domain.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
+import java.util.List;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
-
-import java.util.List;
 
 @Getter
 @Setter

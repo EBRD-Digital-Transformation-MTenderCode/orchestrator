@@ -9,8 +9,6 @@ import com.procurement.orchestrator.domain.dto.ResponseDto;
 import com.procurement.orchestrator.rest.AccessRestClient;
 import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 import org.camunda.bpm.engine.delegate.BpmnError;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
@@ -59,7 +57,7 @@ public class CnAccessPostCn implements JavaDelegate {
                         "ps",
                         params.getOwner(),
                         jsonUtil.toJsonNode(entity.getJsonData()));
-                 operationService.saveOperation(getEntity(params, entity, responseEntity.getBody().getData()));
+                operationService.saveOperation(getEntity(params, entity, responseEntity.getBody().getData()));
             } catch (Exception e) {
                 LOG.error(e.getMessage());
                 throw new BpmnError("TR_EXCEPTION", ResponseMessageType.SERVICE_EXCEPTION.value());

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.procurement.orchestrator.databinding.LocalDateTimeSerializer;
-
 import java.time.LocalDateTime;
 
 @JsonPropertyOrder({

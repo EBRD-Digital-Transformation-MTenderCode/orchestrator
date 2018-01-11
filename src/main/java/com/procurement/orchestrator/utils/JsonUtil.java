@@ -66,7 +66,7 @@ public class JsonUtil {
     }
 
     public ObjectNode createObjectNode() {
-       return mapper.createObjectNode();
+        return mapper.createObjectNode();
     }
 
 

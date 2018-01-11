@@ -2,8 +2,8 @@ package com.procurement.orchestrator.cassandra.service;
 
 import com.procurement.orchestrator.cassandra.model.OperationEntity;
 import com.procurement.orchestrator.cassandra.model.RequestEntity;
-import org.springframework.stereotype.Service;
 import java.util.Optional;
+import org.springframework.stereotype.Service;
 
 @Service
 public interface OperationService {

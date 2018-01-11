@@ -13,8 +13,6 @@ public class Params {
     private final String txId;
     @JsonProperty(value = "ocid")
     private final String ocid;
-    @JsonProperty(value = "token")
-    private String token;
     @JsonProperty(value = "processType")
     private final String processType;
     @JsonProperty(value = "owner")
@@ -23,4 +21,6 @@ public class Params {
     private final String country;
     @JsonProperty(value = "pmd")
     private final String pmd;
+    @JsonProperty(value = "token")
+    private String token;
 }

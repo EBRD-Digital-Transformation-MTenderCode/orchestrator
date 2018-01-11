@@ -54,9 +54,9 @@ public class ProcessController {
     public ResponseEntity<String> doCreate(@PathVariable("processType") final String processType,
                                            @PathVariable("ocid") final String ocid,
                                            @RequestHeader("txId") final String txId,
-                                           @RequestHeader("token")final  String token,
+                                           @RequestHeader("token") final String token,
                                            @RequestHeader("Authorization") final String authorization,
-                                           @RequestParam("country")final  String country,
+                                           @RequestParam("country") final String country,
                                            @RequestParam("pmd") final String pmd,
                                            @RequestBody final JsonNode jsonData) {
         final String jsonDataString = jsonUtil.getResource("processes/json/cn.json");

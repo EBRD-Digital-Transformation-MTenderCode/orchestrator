@@ -6,11 +6,9 @@ import com.datastax.driver.core.Statement;
 import com.datastax.driver.core.querybuilder.Insert;
 import com.procurement.orchestrator.cassandra.model.OperationEntity;
 import com.procurement.orchestrator.cassandra.model.RequestEntity;
-import com.procurement.orchestrator.exception.OperationException;
-import org.springframework.stereotype.Service;
-
 import java.util.Date;
 import java.util.Optional;
+import org.springframework.stereotype.Service;
 
 import static com.datastax.driver.core.querybuilder.QueryBuilder.*;
 
@@ -94,14 +92,14 @@ public class CassandraDaoImpl implements CassandraDao {
                     final String jsonData = row.getString("json_data");
                     final String jsonParams = row.getString("json_params");
                     final Date requestDate = row.getTimestamp("request_date");
-                       return new OperationEntity(
-                               id,
-                               operationDate,
-                               processId,
-                               taskId,
-                               jsonData,
-                               jsonParams,
-                               requestDate);
+                    return new OperationEntity(
+                            id,
+                            operationDate,
+                            processId,
+                            taskId,
+                            jsonData,
+                            jsonParams,
+                            requestDate);
                 });
     }
 }

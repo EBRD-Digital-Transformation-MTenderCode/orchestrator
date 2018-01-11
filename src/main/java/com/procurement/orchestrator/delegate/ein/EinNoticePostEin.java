@@ -9,7 +9,6 @@ import com.procurement.orchestrator.domain.dto.ResponseDto;
 import com.procurement.orchestrator.rest.NoticeRestClient;
 import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
-
 import java.util.Optional;
 import org.camunda.bpm.engine.delegate.BpmnError;
 import org.camunda.bpm.engine.delegate.DelegateExecution;

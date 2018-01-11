@@ -1,17 +1,25 @@
-{ "ocid": "",   // cpid from eAcces
-  "stage": "PS",   // присваивает BPE
+{
+  "ocid": "",
+  // cpid from eAcces
+  "stage": "PS",
+  // присваивает BPE
   "procurementMethodDetails": "",
   "processType": "create CN",
   "tenderPeriod": {
-    "startDate": "",    // получен из eSubmission
-    "endDate": ""    // получен из eSubmission
+    "startDate": "",
+    // получен из eSubmission
+    "endDate": ""
+    // получен из eSubmission
   },
   "enquiryPeriod": {
-    "startDate": "",    // получен из eClarification
-    "endDate": ""    // получен из eClarification
+    "startDate": "",
+    // получен из eClarification
+    "endDate": ""
+    // получен из eClarification
   },
   "tender": {
-    "id": "",     // равен cpid
+    "id": "",
+    // равен cpid
     "title": "",
     "description": "",
     "classification": {
@@ -177,7 +185,8 @@
     },
     "tenderPeriod": {
       "startDate": "",
-      "endDate": ""     // получен с фронт
+      "endDate": ""
+      // получен с фронт
     },
     "contractPeriod": {
       "startDate": "",
@@ -244,7 +253,8 @@
       },
       "budgetBreakdown": [
         {
-          "id": "",           // записываем ocid каждого использованого FS
+          "id": "",
+          // записываем ocid каждого использованого FS
           "description": "",
           "amount": {
             "amount": 0,
@@ -295,7 +305,8 @@
         "url": ""
       },
       "roles": [
-        ""                   // Помещаем организации с ролями Bayer, Procuring Entity
+        ""
+        // Помещаем организации с ролями Bayer, Procuring Entity
       ],
       "details": {
         "typeOfBuyer": "",
@@ -310,10 +321,12 @@
   "language": "",
   "relatedProcesses": [
     {
-      "identifier": "",             // EIN ocid с площадки
+      "identifier": ""
+      // EIN ocid с площадки
     },
     {
-      "identifier": ""              // FS ocid с площадки
+      "identifier": ""
+      // FS ocid с площадки
     }
   ]
 }

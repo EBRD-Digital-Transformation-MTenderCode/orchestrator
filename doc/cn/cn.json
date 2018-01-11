@@ -1,12 +1,15 @@
 {
-  "ocid": "null", // ocid CN, при создании - пусто
+  "ocid": "null",
+  // ocid CN, при создании - пусто
   "processType": "createCN",
-  "country": "",  // обязательно
+  "country": "",
+  // обязательно
   "procurementMethodDetails": "",
-  "transactionId": "", //id транзакции (уникальный ключ бизнес процесса)
+  "transactionId": "",
+  //id транзакции (уникальный ключ бизнес процесса)
 
   // СЕКЦИЯ ПЛАНА (на момент создания тендера если опубликован PLANNING NOTICE, то эта информация подтягивается площадкой и передается вместе со всем тендером), при этом проставляется ссылка в relatedProcess; eAccess потом валидирует совпадает ли информация которую передала площадка с той, ссылка на которую есть в relatedProcess (правила eAccess)
- "planning": {
+  "planning": {
     "rationale": "",
     "budget": {
       "description": "",
@@ -39,7 +42,6 @@
       ]
     }
   },
-
   // СЕКЦИЯ ТЕНДЕРА:
   "tender": {
     "title": "",
@@ -184,7 +186,8 @@
       "items": "electronicSubmission"
     },
     "submissionMethodRationale": "",
-    "submissionMethodDetails": "", // not mandatory
+    "submissionMethodDetails": "",
+    // not mandatory
 
     // секция ОРГАНИЗАЦИЙ обязательна
     "procuringEntity": {
@@ -239,7 +242,8 @@
       }
     ]
   },
-  "language": "", // mandatory
+  "language": "",
+  // mandatory
 
   // при СОЗДАНИИ тендера обязательно передается информация об организации-создателе тендера в этом блоке, (объект у которого "roles" = "procuringEntity" и "Buyer") и НЕОБЯЗАТЕЛЬНО могут быть организации с другими ролями
   "parties": [
@@ -326,7 +330,8 @@
     {
       "id": "",
       "title": "",
-      "relationship": "", // тип связи
+      "relationship": "",
+      // тип связи
       "identifier": "",
       "scheme": "",
       "uri": ""

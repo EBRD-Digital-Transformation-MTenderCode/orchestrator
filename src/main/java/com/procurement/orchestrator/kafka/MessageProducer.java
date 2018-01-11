@@ -24,9 +24,11 @@ public class MessageProducer {
 //
 //    public boolean send(Task task) {
 //        try {
-//            SendResult<String, String> sendResult = taskKafkaTemplate.sendDefault(task.getIdentifier(), jsonUtil.toJson(task)).get();
+//            SendResult<String, String> sendResult = taskKafkaTemplate.sendDefault(task.getIdentifier(), jsonUtil
+// .toJson(task)).get();
 //            RecordMetadata recordMetadata = sendResult.getRecordMetadata();
-//            LOGGER.info("topic = {}, partition = {}, offset = {}, task = {}", recordMetadata.topic(), recordMetadata.partition(), recordMetadata.offset(), task.toString());
+//            LOGGER.info("topic = {}, partition = {}, offset = {}, task = {}", recordMetadata.topic(),
+// recordMetadata.partition(), recordMetadata.offset(), task.toString());
 //            return true;
 //        } catch (Exception e) {
 //            throw new RuntimeException(e);

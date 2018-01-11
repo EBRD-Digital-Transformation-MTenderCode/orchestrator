@@ -46,7 +46,7 @@ public class OperationServiceImpl implements OperationService {
 
     @Override
     public void saveOperation(final OperationEntity entity) throws OperationException {
-       cassandraDao.saveOperation(entity);
+        cassandraDao.saveOperation(entity);
     }
 
     @Override
@@ -54,8 +54,8 @@ public class OperationServiceImpl implements OperationService {
         return cassandraDao.getLastOperation(txId);
     }
 
-    private void checkOperation(String txId){
-        if (getLastOperation(txId).isPresent()){
+    private void checkOperation(String txId) {
+        if (getLastOperation(txId).isPresent()) {
             throw new OperationException("Operation with current txId already exist.");
         }
     }

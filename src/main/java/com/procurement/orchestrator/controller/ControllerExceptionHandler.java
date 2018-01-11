@@ -18,8 +18,8 @@ public class ControllerExceptionHandler {
     @ExceptionHandler(OperationException.class)
     public ResponseDto handleValidationContractProcessPeriod(final OperationException e) {
         return new ResponseDto(false,
-                               Collections.singletonList(new ResponseDetailsDto(
-                                   HttpStatus.BAD_REQUEST.value(),
-                                   e.getMessage())), null);
+                Collections.singletonList(new ResponseDetailsDto(
+                        HttpStatus.BAD_REQUEST.value(),
+                        e.getMessage())), null);
     }
 }

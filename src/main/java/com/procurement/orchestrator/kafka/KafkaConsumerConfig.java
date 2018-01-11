@@ -27,7 +27,8 @@ public class KafkaConsumerConfig {
 //
 //    @Bean
 //    public ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerContainerFactory() {
-//        ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
+//        ConcurrentKafkaListenerContainerFactory<String, String> factory = new
+// ConcurrentKafkaListenerContainerFactory<>();
 //        factory.setConcurrency(1);
 //        factory.setConsumerFactory(consumerFactory());
 //        factory.getContainerProperties().setAckMode(AbstractMessageListenerContainer.AckMode.MANUAL);

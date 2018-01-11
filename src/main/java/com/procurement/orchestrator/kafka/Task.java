@@ -7,11 +7,10 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.procurement.orchestrator.databinding.LocalDateTimeDeserializer;
 import com.procurement.orchestrator.databinding.LocalDateTimeSerializer;
-import lombok.Data;
-
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import lombok.Data;
 
 @Data
 public class Task {
@@ -46,11 +45,11 @@ public class Task {
         this.metaData = metaData;
     }
 
-    public String getIdentifier(){
-        return this.ocid+this.phase;
+    public String getIdentifier() {
+        return this.ocid + this.phase;
     }
 
-   public enum ActionType {
+    public enum ActionType {
 
         SCHEDULE("schedule"),
         CANCEL("cancel"),
