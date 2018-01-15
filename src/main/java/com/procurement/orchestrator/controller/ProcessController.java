@@ -47,7 +47,7 @@ public class ProcessController {
         requestService.saveRequest(txId, params, jsonDataFromFile);
         operationService.checkOperationByTxId(txId);
         processService.startProcess(processType, txId);
-        return new ResponseEntity<>("ok", HttpStatus.CREATED);
+        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
     @RequestMapping(value = "{processType}/{ocid}", method = RequestMethod.POST)
@@ -65,7 +65,7 @@ public class ProcessController {
         requestService.saveRequest(txId, params, jsonDataFromFile);
         operationService.checkOperationByTxId(txId);
         processService.startProcess(processType, txId);
-        return new ResponseEntity<>("ok", HttpStatus.CREATED);
+        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
 //    @RequestMapping(value = "/testProcess/{cpid}", method = RequestMethod.POST)
