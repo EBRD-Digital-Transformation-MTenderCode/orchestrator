@@ -6,7 +6,9 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.procurement.orchestrator.cassandra.model.OperationEntity;
 import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.domain.constant.ResponseMessageType;
+import com.procurement.orchestrator.domain.dto.ResponseDto;
 import com.procurement.orchestrator.rest.StorageRestClient;
+import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.ArrayList;
@@ -17,6 +19,8 @@ import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -28,18 +32,18 @@ public class CnStorageOpenDocs implements JavaDelegate {
 
     private final OperationService operationService;
 
-    private final JsonUtil jsonUtil;
+    private final ProcessService processService;
 
-    private final DateUtil dateUtil;
+    private final JsonUtil jsonUtil;
 
     public CnStorageOpenDocs(final StorageRestClient storageRestClient,
                              final OperationService operationService,
-                             final JsonUtil jsonUtil,
-                             final DateUtil dateUtil) {
+                             final ProcessService processService,
+                             final JsonUtil jsonUtil) {
         this.storageRestClient = storageRestClient;
         this.operationService = operationService;
+        this.processService = processService;
         this.jsonUtil = jsonUtil;
-        this.dateUtil = dateUtil;
     }
 
     @Override
@@ -51,24 +55,32 @@ public class CnStorageOpenDocs implements JavaDelegate {
             LOG.info("->Send data to E-Storage.");
             final OperationEntity entity = entityOptional.get();
             final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
-            final JsonNode tenderNode = jsonData.get("tender");
-            final JsonNode tenderPeriodNode = tenderNode.get("tenderPeriod");
-            final String startDate = tenderPeriodNode.get("startDate").asText();
-            final List<String> fileIds = getFileIds(tenderNode, startDate);
-            for (String fileId : fileIds) {
-                try {
-                    storageRestClient.setPublishDate(fileId, startDate);
-                } catch (Exception e) {
-                    LOG.error(e.getMessage());
-                    throw new BpmnError("TR_EXCEPTION", ResponseMessageType.SERVICE_EXCEPTION.value());
+            final String startDate = getStartDate(jsonData);
+            final List<String> fileIds = getFileIds(jsonData);
+            HttpStatus httpStatus = null;
+            try {
+                for (String fileId : fileIds) {
+                    ResponseEntity<String> responseEntity = storageRestClient.setPublishDate(fileId, startDate);
+                    httpStatus = responseEntity.getStatusCode();
                 }
+                JsonNode jsonWithDatePublished = setDatePublished(jsonData, startDate);
+                operationService.processResponse(entity, jsonWithDatePublished);
+            } catch (Exception e) {
+                LOG.error(e.getMessage());
+                processService.processHttpException(httpStatus.is4xxClientError(), e.getMessage(),
+                        execution.getProcessInstanceId());
             }
-            JsonNode jsonWithDatePublished = setDatePublished(jsonData, startDate);
-            operationService.saveOperation(getEntity(entity, jsonWithDatePublished));
         }
     }
 
-    private List<String> getFileIds(JsonNode tenderNode, String startDate) {
+    private String getStartDate(JsonNode jsonData) {
+        final JsonNode tenderNode = jsonData.get("tender");
+        final JsonNode tenderPeriodNode = tenderNode.get("tenderPeriod");
+        return tenderPeriodNode.get("startDate").asText();
+    }
+
+    private List<String> getFileIds(JsonNode jsonData) {
+        final JsonNode tenderNode = jsonData.get("tender");
         final List<String> fileIds = new ArrayList();
         final ArrayNode documentsNode = (ArrayNode) tenderNode.get("documents");
         for (final JsonNode fileNode : documentsNode) {
@@ -84,11 +96,5 @@ public class CnStorageOpenDocs implements JavaDelegate {
             ((ObjectNode) fileNode).put("datePublished", startDate);
         }
         return jsonData;
-    }
-
-    private OperationEntity getEntity(OperationEntity entity, JsonNode jsonData) {
-        entity.setJsonData(jsonUtil.toJson(jsonData));
-        entity.setDate(dateUtil.getNowUTC());
-        return entity;
     }
 }

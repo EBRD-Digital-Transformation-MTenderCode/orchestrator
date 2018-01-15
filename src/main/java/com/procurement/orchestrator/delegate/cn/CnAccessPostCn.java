@@ -7,6 +7,7 @@ import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.domain.constant.ResponseMessageType;
 import com.procurement.orchestrator.domain.dto.ResponseDto;
 import com.procurement.orchestrator.rest.AccessRestClient;
+import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.Optional;
@@ -15,6 +16,7 @@ import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
@@ -27,18 +29,18 @@ public class CnAccessPostCn implements JavaDelegate {
 
     private final OperationService operationService;
 
-    private final JsonUtil jsonUtil;
+    private final ProcessService processService;
 
-    private final DateUtil dateUtil;
+    private final JsonUtil jsonUtil;
 
     public CnAccessPostCn(final AccessRestClient accessRestClient,
                           final OperationService operationService,
-                          final JsonUtil jsonUtil,
-                          final DateUtil dateUtil) {
+                          final ProcessService processService,
+                          final JsonUtil jsonUtil) {
         this.accessRestClient = accessRestClient;
         this.operationService = operationService;
+        this.processService = processService;
         this.jsonUtil = jsonUtil;
-        this.dateUtil = dateUtil;
     }
 
     @Override
@@ -50,6 +52,7 @@ public class CnAccessPostCn implements JavaDelegate {
             LOG.info("->Send data to E-Access.");
             final OperationEntity entity = entityOptional.get();
             final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
+            HttpStatus httpStatus = null;
             try {
                 final ResponseEntity<ResponseDto> responseEntity = accessRestClient.postCreateCn(
                         params.getCountry(),
@@ -57,20 +60,13 @@ public class CnAccessPostCn implements JavaDelegate {
                         "ps",
                         params.getOwner(),
                         jsonUtil.toJsonNode(entity.getJsonData()));
-                operationService.saveOperation(getEntity(params, entity, responseEntity.getBody().getData()));
+                httpStatus = responseEntity.getStatusCode();
+                operationService.processResponse(entity, params, responseEntity.getBody().getData());
             } catch (Exception e) {
                 LOG.error(e.getMessage());
-                throw new BpmnError("TR_EXCEPTION", ResponseMessageType.SERVICE_EXCEPTION.value());
+                processService.processHttpException(httpStatus.is4xxClientError(), e.getMessage(),
+                        execution.getProcessInstanceId());
             }
         }
-    }
-
-    private OperationEntity getEntity(final Params params, final OperationEntity entity, Object response) {
-        final JsonNode jsonData = jsonUtil.toJsonNode(response);
-        params.setToken(jsonData.get("token").asText());
-        entity.setJsonParams(jsonUtil.toJson(params));
-        entity.setJsonData(jsonUtil.toJson(jsonData));
-        entity.setDate(dateUtil.getNowUTC());
-        return entity;
     }
 }

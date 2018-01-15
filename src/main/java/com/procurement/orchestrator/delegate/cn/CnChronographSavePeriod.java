@@ -42,27 +42,6 @@ public class CnChronographSavePeriod implements JavaDelegate {
         final Optional<OperationEntity> entityOptional = operationService.getLastOperation(txId);
         if (entityOptional.isPresent()) {
             LOG.info("->Send data to Chronograph.");
-//            final OperationEntity entity = entityOptional.get();
-//            final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
-//            final LocalDateTime startDate = dateUtil.localDateTimeNowUTC();
-//            final LocalDateTime endDate = getPeriodEndDate(entity);
-//            try {
-//                final ResponseEntity<ResponseDto> responseEntity = submissionRestClient.postCheckPeriod(
-//                        params.getCountry(),
-//                        params.getPmd(),
-//                        "ps",
-//                        dateUtil.format(startDate),
-//                        dateUtil.format(endDate));
-//                Map<String, Boolean> data = (HashMap) responseEntity.getBody().getData();
-//                LOG.info("->Get response: " + data);
-//                if (!data.get("period")) {
-//                    throw new BpmnError("TR_EXCEPTION", ResponseMessageType.PERIOD_EXCEPTION.value());
-//                }
-//            } catch (Exception e) {
-//                LOG.error(e.getMessage());
-//                throw new BpmnError("TR_EXCEPTION", ResponseMessageType.SERVICE_EXCEPTION.value());
-//            }
-//            operationService.saveOperation(addPeriodStartDate(entity, dateUtil.format(startDate)));
         }
     }
 }

@@ -29,9 +29,9 @@ public class CnSaveFirstOperation implements JavaDelegate {
     public void execute(final DelegateExecution execution) {
         LOG.info("->Save first operation.");
         final String txId = execution.getProcessBusinessKey();
-        Optional<RequestEntity> requestOptional = requestService.getRequest(txId);
+        final Optional<RequestEntity> requestOptional = requestService.getRequest(txId);
         if (requestOptional.isPresent()) {
-            RequestEntity requestEntity = requestOptional.get();
+            final RequestEntity requestEntity = requestOptional.get();
             operationService.saveIfNotExist(requestEntity, execution.getProcessInstanceId());
         }
     }

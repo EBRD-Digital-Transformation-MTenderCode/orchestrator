@@ -1,13 +1,20 @@
 {
-  "ocid": "ocds-t1s2t3-UA-1513094593187",
-  "date": "2017-12-12T16:03:13.687Z",
-  "tag": [
-    "compiled"
-  ],
-  "language": "en",
-  "initiationType": "tender",
+  "planning": {
+    "budget": {
+      "id": "string",
+      "period": {
+        "startDate": "2018-01-05T16:04:25.107Z",
+        "endDate": "2018-01-15T16:04:25.107Z"
+      },
+      "amount": {
+        "amount": 0,
+        "currency": "AED"
+      }
+    },
+    "rationale": "string"
+  },
   "tender": {
-    "id": "ocds-t1s2t3-UA-1513094593187",
+    "id": "string",
     "title": "string",
     "description": "string",
     "classification": {
@@ -15,49 +22,23 @@
       "scheme": "CPV",
       "description": "string"
     },
-    "status": null,
-    "statusDetails": null
+    "status": "planning",
+    "statusDetails": "planning"
   },
-  "planning": {
-    "budget": {
-      "id": "string",
-      "period": {
-        "startDate": "2017-12-05T16:04:25.000000107Z",
-        "endDate": "2017-12-05T16:04:25.000000107Z"
-      },
-      "amount": {
-        "amount": 1.9,
-        "currency": "AED"
-      }
-    },
-    "rationale": "string"
-  },
-  "relatedProcesses": [
-    {
-      "id": "string",
-      "relationship": [
-        "framework"
-      ],
-      "title": "string",
-      "scheme": "ocid",
-      "identifier": "string",
-      "uri": "string"
-    }
-  ],
   "parties": [
     {
-      "id": "string",
       "name": "string",
+      "id": "string",
       "identifier": {
-        "id": "string",
         "scheme": "string",
+        "id": "string",
         "legalName": "string",
         "uri": "string"
       },
       "additionalIdentifiers": [
         {
-          "id": "string",
           "scheme": "string",
+          "id": "string",
           "legalName": "string",
           "uri": "string"
         }
@@ -91,11 +72,11 @@
     }
   ],
   "buyer": {
-    "id": "string",
     "name": "string",
+    "id": "string",
     "identifier": {
-      "id": "string",
       "scheme": "string",
+      "id": "string",
       "legalName": "string",
       "uri": "string"
     },
@@ -108,8 +89,8 @@
     },
     "additionalIdentifiers": [
       {
-        "id": "string",
         "scheme": "string",
+        "id": "string",
         "legalName": "string",
         "uri": "string"
       }

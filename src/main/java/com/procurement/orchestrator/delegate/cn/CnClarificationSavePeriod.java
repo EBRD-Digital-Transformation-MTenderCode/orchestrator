@@ -8,6 +8,7 @@ import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.domain.constant.ResponseMessageType;
 import com.procurement.orchestrator.domain.dto.ResponseDto;
 import com.procurement.orchestrator.rest.ClarificationRestClient;
+import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.Optional;
@@ -16,6 +17,7 @@ import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
@@ -28,18 +30,18 @@ public class CnClarificationSavePeriod implements JavaDelegate {
 
     private final OperationService operationService;
 
-    private final JsonUtil jsonUtil;
+    private final ProcessService processService;
 
-    private final DateUtil dateUtil;
+    private final JsonUtil jsonUtil;
 
     public CnClarificationSavePeriod(final ClarificationRestClient clarificationRestClient,
                                      final OperationService operationService,
-                                     final JsonUtil jsonUtil,
-                                     final DateUtil dateUtil) {
+                                     final ProcessService processService,
+                                     final JsonUtil jsonUtil) {
         this.clarificationRestClient = clarificationRestClient;
         this.operationService = operationService;
+        this.processService = processService;
         this.jsonUtil = jsonUtil;
-        this.dateUtil = dateUtil;
     }
 
     @Override
@@ -52,10 +54,10 @@ public class CnClarificationSavePeriod implements JavaDelegate {
             final OperationEntity entity = entityOptional.get();
             final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
             final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
-            final String cpId = jsonData.get("ocid").asText();
-            final JsonNode tenderPeriodNode = getTenderPeriod(jsonData);
-            final String startDate = tenderPeriodNode.get("startDate").asText();
-            final String endDate = tenderPeriodNode.get("endDate").asText();
+            final String cpId = getCpId(jsonData);
+            final String startDate = getStartDate(jsonData);
+            final String endDate = getEndDate(jsonData);
+            HttpStatus httpStatus = null;
             try {
                 final ResponseEntity<ResponseDto> responseEntity = clarificationRestClient.postSavePeriod(
                         cpId,
@@ -65,20 +67,31 @@ public class CnClarificationSavePeriod implements JavaDelegate {
                         params.getOwner(),
                         startDate,
                         endDate);
-
+                httpStatus = responseEntity.getStatusCode();
                 JsonNode responseData = jsonUtil.toJsonNode(responseEntity.getBody().getData());
-                JsonNode jsonWithEnquiryPeriod = addEnquiryPeriod(jsonData, responseData);
-                operationService.saveOperation(getEntity(entity, jsonWithEnquiryPeriod));
+                operationService.processResponse(entity, addEnquiryPeriod(jsonData, responseData));
             } catch (Exception e) {
                 LOG.error(e.getMessage());
-                throw new BpmnError("TR_EXCEPTION", ResponseMessageType.SERVICE_EXCEPTION.value());
+                processService.processHttpException(httpStatus.is4xxClientError(), e.getMessage(),
+                        execution.getProcessInstanceId());
             }
         }
     }
 
-    private JsonNode getTenderPeriod(JsonNode jsonData) {
+    private String getCpId(JsonNode jsonData) {
+        return jsonData.get("ocid").asText();
+    }
+
+    private String getStartDate(JsonNode jsonData) {
         final JsonNode tenderNode = jsonData.get("tender");
-        return tenderNode.get("tenderPeriod");
+        final JsonNode tenderPeriodNode = tenderNode.get("tenderPeriod");
+        return tenderPeriodNode.get("startDate").asText();
+    }
+
+    private String getEndDate(JsonNode jsonData) {
+        final JsonNode tenderNode = jsonData.get("tender");
+        final JsonNode tenderPeriodNode = tenderNode.get("tenderPeriod");
+        return tenderPeriodNode.get("endDate").asText();
     }
 
     private JsonNode addEnquiryPeriod(JsonNode jsonData, JsonNode responseData) {
@@ -87,14 +100,6 @@ public class CnClarificationSavePeriod implements JavaDelegate {
         enquiryPeriodNode
                 .put("startDate", responseData.get("startDate").asText())
                 .put("endDate", responseData.get("endDate").asText());
-
         return jsonData;
     }
-
-    private OperationEntity getEntity(OperationEntity entity, JsonNode jsonData) {
-        entity.setJsonData(jsonUtil.toJson(jsonData));
-        entity.setDate(dateUtil.getNowUTC());
-        return entity;
-    }
-
 }

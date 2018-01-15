@@ -8,6 +8,7 @@ import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.domain.constant.ResponseMessageType;
 import com.procurement.orchestrator.domain.dto.ResponseDto;
 import com.procurement.orchestrator.rest.SubmissionRestClient;
+import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.time.LocalDateTime;
@@ -19,6 +20,7 @@ import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
@@ -31,16 +33,20 @@ public class CnSubmissionCheckPeriod implements JavaDelegate {
 
     private final OperationService operationService;
 
+    private final ProcessService processService;
+
     private final JsonUtil jsonUtil;
 
     private final DateUtil dateUtil;
 
     public CnSubmissionCheckPeriod(final SubmissionRestClient submissionRestClient,
                                    final OperationService operationService,
+                                   final ProcessService processService,
                                    final JsonUtil jsonUtil,
                                    final DateUtil dateUtil) {
         this.submissionRestClient = submissionRestClient;
         this.operationService = operationService;
+        this.processService = processService;
         this.jsonUtil = jsonUtil;
         this.dateUtil = dateUtil;
     }
@@ -56,6 +62,7 @@ public class CnSubmissionCheckPeriod implements JavaDelegate {
             final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
             final LocalDateTime startDate = dateUtil.localDateTimeNowUTC();
             final LocalDateTime endDate = getPeriodEndDate(entity);
+            HttpStatus httpStatus = null;
             try {
                 final ResponseEntity<ResponseDto> responseEntity = submissionRestClient.postCheckPeriod(
                         params.getCountry(),
@@ -63,18 +70,19 @@ public class CnSubmissionCheckPeriod implements JavaDelegate {
                         "ps",
                         dateUtil.format(startDate),
                         dateUtil.format(endDate));
+                httpStatus = responseEntity.getStatusCode();
                 Map<String, Boolean> data = (HashMap) responseEntity.getBody().getData();
                 if (!data.get("period")) {
                     throw new BpmnError("TR_EXCEPTION", ResponseMessageType.PERIOD_EXCEPTION.value());
                 }
+                operationService.processResponse(entity, params, addPeriodStartDate(entity, dateUtil.format(startDate)));
             } catch (Exception e) {
                 LOG.error(e.getMessage());
-                throw new BpmnError("TR_EXCEPTION", ResponseMessageType.SERVICE_EXCEPTION.value());
+                processService.processHttpException(httpStatus.is4xxClientError(), e.getMessage(),
+                        execution.getProcessInstanceId());
             }
-            operationService.saveOperation(addPeriodStartDate(entity, dateUtil.format(startDate)));
         }
     }
-
 
     private LocalDateTime getPeriodEndDate(OperationEntity entity) {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
@@ -84,14 +92,12 @@ public class CnSubmissionCheckPeriod implements JavaDelegate {
         return dateUtil.stringToLocal(endDateNode.asText());
     }
 
-    private OperationEntity addPeriodStartDate(OperationEntity entity, String startDate) {
+    private JsonNode addPeriodStartDate(OperationEntity entity, String startDate) {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
         final JsonNode tenderNode = jsonData.get("tender");
         final JsonNode tenderPeriodNode = tenderNode.get("tenderPeriod");
         ((ObjectNode) tenderPeriodNode).put("startDate", startDate);
-        entity.setJsonData(jsonUtil.toJson(jsonData));
-        entity.setDate(dateUtil.getNowUTC());
-        return entity;
+        return jsonData;
     }
 
 }

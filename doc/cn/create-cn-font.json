@@ -1,26 +1,25 @@
 {
-  "ocid": "ocds-t1s2t3-UA-1515591664212",
-  "token": "e7343142-f60b-11e7-8a23-6b72ba1d3cf0",
   "planning": {
+    "rationale": "string",
     "budget": {
       "id": "string",
       "description": "string",
       "amount": {
-        "amount": 0.0,
+        "amount": 0,
         "currency": "AED"
       },
-      "isEuropeanUnionFunded": true,
       "europeanUnionFunding": {
         "projectIdentifier": "string",
         "projectName": "string",
         "uri": "string"
       },
+      "isEuropeanUnionFunded": true,
       "budgetBreakdown": [
         {
           "id": "string",
           "description": "string",
           "amount": {
-            "amount": 0.0,
+            "amount": 0,
             "currency": "AED"
           },
           "period": {
@@ -61,14 +60,12 @@
           }
         }
       ]
-    },
-    "rationale": "string"
+    }
   },
   "tender": {
-    "id": "ocds-t1s2t3-UA-1515591664212",
     "title": "string",
     "description": "string",
-    "status": "active",
+    "status": "planning",
     "classification": {
       "scheme": "CPV",
       "description": "string",
@@ -111,7 +108,6 @@
       "bg"
     ],
     "tenderPeriod": {
-      "startDate": "2018-01-10T13:41:02.554Z",
       "endDate": "2018-02-09T15:55:12.831Z",
       "durationInDays": 0
     },
@@ -121,7 +117,7 @@
       "durationInDays": 0
     },
     "value": {
-      "amount": 0.0,
+      "amount": 0,
       "currency": "AED"
     },
     "lotGroups": [
@@ -131,11 +127,11 @@
     ],
     "lots": [
       {
-        "id": "e7343141-f60b-11e7-8a23-6b72ba1d3cf0",
+        "id": "123",
         "title": "string",
         "description": "string",
         "value": {
-          "amount": 0.0,
+          "amount": 0,
           "currency": "AED"
         },
         "options": [
@@ -143,9 +139,9 @@
             "hasOptions": true
           }
         ],
-        "variants": [
+        "recurrentProcurement": [
           {
-            "hasVariants": true
+            "isRecurrent": true
           }
         ],
         "renewals": [
@@ -153,9 +149,9 @@
             "hasRenewals": true
           }
         ],
-        "recurrentProcurement": [
+        "variants": [
           {
-            "isRecurrent": true
+            "hasVariants": true
           }
         ],
         "contractPeriod": {
@@ -177,7 +173,7 @@
     ],
     "items": [
       {
-        "id": "e7343140-f60b-11e7-8a23-6b72ba1d3cf0",
+        "id": "string",
         "description": "string",
         "classification": {
           "scheme": "CPV",
@@ -191,12 +187,12 @@
             "id": "string"
           }
         ],
-        "quantity": 0.0,
+        "quantity": 0,
         "unit": {
-          "name": "string",
-          "id": "string"
+          "id": "string",
+          "name": "string"
         },
-        "relatedLot": "e7343141-f60b-11e7-8a23-6b72ba1d3cf0"
+        "relatedLot": "123"
       }
     ],
     "awardCriteria": "priceOnly",
@@ -244,15 +240,13 @@
       {
         "id": "5e5c3ed0-f179-11e7-983e-87b2b4e6cd3b",
         "documentType": "tenderNotice",
+        "dateModified": "2018-01-09T15:55:12.831Z",
         "title": "string",
         "description": "string",
-        "dateModified": "2018-01-09T15:55:12.831Z",
         "format": "string",
-        "language": "string",
-        "datePublished": "2018-01-10T13:41:02.554Z"
+        "language": "string"
       }
-    ],
-    "enquiryPeriod": "{\"startDate\":\"2018-01-10T13:41:02.554Z\",\"endDate\":\"2018-02-06T15:55:12.831Z\"}"
+    ]
   },
   "parties": [
     {
@@ -351,8 +345,8 @@
         "framework"
       ],
       "title": "string",
-      "identifier": "string",
       "scheme": "ocid",
+      "identifier": "string",
       "uri": "string"
     }
   ]

@@ -7,6 +7,7 @@ import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.domain.constant.ResponseMessageType;
 import com.procurement.orchestrator.domain.dto.ResponseDto;
 import com.procurement.orchestrator.rest.NoticeRestClient;
+import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.Optional;
@@ -15,6 +16,7 @@ import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
@@ -27,18 +29,18 @@ public class CnNoticePostCn implements JavaDelegate {
 
     private final OperationService operationService;
 
-    private final JsonUtil jsonUtil;
+    private final ProcessService processService;
 
-    private final DateUtil dateUtil;
+    private final JsonUtil jsonUtil;
 
     public CnNoticePostCn(final NoticeRestClient noticeRestClient,
                           final OperationService operationService,
-                          final JsonUtil jsonUtil,
-                          final DateUtil dateUtil) {
+                          final ProcessService processService,
+                          final JsonUtil jsonUtil) {
         this.noticeRestClient = noticeRestClient;
         this.operationService = operationService;
+        this.processService = processService;
         this.jsonUtil = jsonUtil;
-        this.dateUtil = dateUtil;
     }
 
     @Override
@@ -49,11 +51,10 @@ public class CnNoticePostCn implements JavaDelegate {
         if (entityOptional.isPresent()) {
             LOG.info("->Send data to E-Notice.");
             final OperationEntity entity = entityOptional.get();
-            final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
             final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
-            final String cpId = jsonData.get("ocid").asText();
-            final JsonNode tenderPeriodNode = getTenderPeriod(jsonData);
-            final String releaseDate = tenderPeriodNode.get("startDate").asText();
+            final String cpId = getCpId(jsonData);
+            final String releaseDate = getReleaseDate(jsonData);
+            HttpStatus httpStatus = null;
             try {
                 final ResponseEntity<ResponseDto> responseEntity = noticeRestClient.createCn(
                         cpId,
@@ -62,23 +63,24 @@ public class CnNoticePostCn implements JavaDelegate {
                         releaseDate,
                         jsonData
                 );
+                httpStatus = responseEntity.getStatusCode();
                 JsonNode responseData = jsonUtil.toJsonNode(responseEntity.getBody().getData());
-                operationService.saveOperation(getEntity(entity, responseData));
+                operationService.processResponse(entity, responseData);
             } catch (Exception e) {
                 LOG.error(e.getMessage());
-                throw new BpmnError("TR_EXCEPTION", ResponseMessageType.SERVICE_EXCEPTION.value());
+                processService.processHttpException(httpStatus.is4xxClientError(), e.getMessage(),
+                        execution.getProcessInstanceId());
             }
         }
     }
 
-    private JsonNode getTenderPeriod(JsonNode jsonData) {
-        final JsonNode tenderNode = jsonData.get("tender");
-        return tenderNode.get("tenderPeriod");
+    private String getCpId(JsonNode jsonData) {
+        return jsonData.get("ocid").asText();
     }
 
-    private OperationEntity getEntity(OperationEntity entity, JsonNode jsonData) {
-        entity.setJsonData(jsonUtil.toJson(jsonData));
-        entity.setDate(dateUtil.getNowUTC());
-        return entity;
+    private String getReleaseDate(JsonNode jsonData) {
+        final JsonNode tenderNode = jsonData.get("tender");
+        final JsonNode tenderPeriodNode = tenderNode.get("tenderPeriod");
+        return tenderPeriodNode.get("startDate").asText();
     }
 }

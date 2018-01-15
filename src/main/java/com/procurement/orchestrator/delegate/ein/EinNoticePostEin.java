@@ -3,10 +3,9 @@ package com.procurement.orchestrator.delegate.ein;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.cassandra.model.OperationEntity;
 import com.procurement.orchestrator.cassandra.service.OperationService;
-import com.procurement.orchestrator.domain.Params;
-import com.procurement.orchestrator.domain.constant.ResponseMessageType;
 import com.procurement.orchestrator.domain.dto.ResponseDto;
 import com.procurement.orchestrator.rest.NoticeRestClient;
+import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.Optional;
@@ -15,6 +14,7 @@ import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
@@ -24,20 +24,20 @@ public class EinNoticePostEin implements JavaDelegate {
 
     private final OperationService operationService;
 
+    private final ProcessService processService;
+
     private final NoticeRestClient noticeRestClient;
 
     private final JsonUtil jsonUtil;
 
-    private final DateUtil dateUtil;
-
     public EinNoticePostEin(final OperationService operationService,
+                            final ProcessService processService,
                             final NoticeRestClient noticeRestClient,
-                            final JsonUtil jsonUtil,
-                            final DateUtil dateUtil) {
+                            final JsonUtil jsonUtil) {
         this.operationService = operationService;
+        this.processService = processService;
         this.noticeRestClient = noticeRestClient;
         this.jsonUtil = jsonUtil;
-        this.dateUtil = dateUtil;
     }
 
     @Override
@@ -48,29 +48,23 @@ public class EinNoticePostEin implements JavaDelegate {
         if (entityOptional.isPresent()) {
             LOG.info("->Send data to E-Notice.");
             final OperationEntity entity = entityOptional.get();
-            final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
             final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
             final String cpId = jsonData.get("ocid").asText();
+            HttpStatus httpStatus = null;
             try {
                 final ResponseEntity<ResponseDto> responseEntity = noticeRestClient.createEin(
                         cpId,
-                        "ps",
+                        "ein",
                         "createEin",
                         jsonData
                 );
-                JsonNode responseData = jsonUtil.toJsonNode(responseEntity.getBody().getData());
-                operationService.saveOperation(getEntity(entity, responseData));
+                httpStatus = responseEntity.getStatusCode();
+                operationService.processResponse(entity, responseEntity.getBody().getData());
             } catch (Exception e) {
                 LOG.error(e.getMessage());
-                throw new BpmnError("TR_EXCEPTION", ResponseMessageType.SERVICE_EXCEPTION.value());
+                processService.processHttpException(httpStatus.is4xxClientError(), e.getMessage(),
+                        execution.getProcessInstanceId());
             }
         }
     }
-
-    private OperationEntity getEntity(OperationEntity entity, JsonNode jsonData) {
-        entity.setJsonData(jsonUtil.toJson(jsonData));
-        entity.setDate(dateUtil.getNowUTC());
-        return entity;
-    }
-
 }

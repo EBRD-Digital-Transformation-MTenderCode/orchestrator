@@ -4,17 +4,16 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.cassandra.model.OperationEntity;
 import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.domain.Params;
-import com.procurement.orchestrator.domain.constant.ResponseMessageType;
 import com.procurement.orchestrator.domain.dto.ResponseDto;
 import com.procurement.orchestrator.rest.AccessRestClient;
-import com.procurement.orchestrator.utils.DateUtil;
+import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.Optional;
-import org.camunda.bpm.engine.delegate.BpmnError;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
@@ -27,18 +26,19 @@ public class FsAccessPostFs implements JavaDelegate {
 
     private final OperationService operationService;
 
+    private final ProcessService processService;
+
     private final JsonUtil jsonUtil;
 
-    private final DateUtil dateUtil;
 
     public FsAccessPostFs(final AccessRestClient accessRestClient,
                           final OperationService operationService,
-                          final JsonUtil jsonUtil,
-                          final DateUtil dateUtil) {
+                          final ProcessService processService,
+                          final JsonUtil jsonUtil) {
         this.accessRestClient = accessRestClient;
         this.operationService = operationService;
+        this.processService = processService;
         this.jsonUtil = jsonUtil;
-        this.dateUtil = dateUtil;
     }
 
     @Override
@@ -51,6 +51,7 @@ public class FsAccessPostFs implements JavaDelegate {
             final OperationEntity entity = entityOptional.get();
             final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
             final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
+            HttpStatus httpStatus = null;
             try {
                 final ResponseEntity<ResponseDto> responseEntity = accessRestClient.postCreateFs(
                         params.getCountry(),
@@ -58,20 +59,13 @@ public class FsAccessPostFs implements JavaDelegate {
                         "fs",
                         params.getOwner(),
                         jsonData);
-                operationService.saveOperation(getEntity(params, entity, responseEntity.getBody().getData()));
+                httpStatus = responseEntity.getStatusCode();
+                operationService.processResponse(entity, params, responseEntity.getBody().getData());
             } catch (Exception e) {
                 LOG.error(e.getMessage());
-                throw new BpmnError("TR_EXCEPTION", ResponseMessageType.SERVICE_EXCEPTION.value());
+                processService.processHttpException(httpStatus.is4xxClientError(), e.getMessage(),
+                        execution.getProcessInstanceId());
             }
         }
-    }
-
-    private OperationEntity getEntity(final Params params, final OperationEntity entity, Object response) {
-        final JsonNode jsonData = jsonUtil.toJsonNode(response);
-        params.setToken(jsonData.get("token").asText());
-        entity.setJsonParams(jsonUtil.toJson(params));
-        entity.setJsonData(jsonUtil.toJson(jsonData));
-        entity.setDate(dateUtil.getNowUTC());
-        return entity;
     }
 }

@@ -1,6 +1,7 @@
 package com.procurement.orchestrator.service;
 
 import org.camunda.bpm.engine.RuntimeService;
+import org.camunda.bpm.engine.delegate.BpmnError;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.springframework.stereotype.Service;
 
@@ -16,5 +17,21 @@ public class ProcessServiceImpl implements ProcessService {
     @Override
     public ProcessInstance startProcess(final String processType, final String transactionId) {
         return runtimeService.startProcessInstanceByKey(processType, transactionId);
+    }
+
+    @Override
+    public void suspendProcess(final String processId) {
+        runtimeService.suspendProcessInstanceById(processId);
+    }
+
+    @Override
+    public void processHttpException(final Boolean is4xxClientError,
+                                     final String error,
+                                     final String processId) throws BpmnError {
+        if (is4xxClientError) {
+            throw new BpmnError("TR_EXCEPTION", error);
+        } else {
+            runtimeService.suspendProcessInstanceById(processId);
+        }
     }
 }

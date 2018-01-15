@@ -7,14 +7,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface CassandraDao {
-
-    void saveRequest(RequestEntity entity);
-
-    Optional<RequestEntity> getOneByTxId(String txId);
-
-    void saveOperation(OperationEntity entity);
-
-    Optional<OperationEntity> getLastOperation(String txId);
-
-
+	void saveRequest(RequestEntity entity);
+	
+	Optional<RequestEntity> getOneByTxId(String txId);
+	
+	void saveOperation(OperationEntity entity);
+	
+	Optional<OperationEntity> getLastOperation(String txId);
 }
+	

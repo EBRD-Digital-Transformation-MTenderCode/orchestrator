@@ -11,11 +11,6 @@ CREATE TABLE IF NOT EXISTS  ocds.orchestrator_operation (
     primary key(tx_id, operation_date)
 )WITH CLUSTERING ORDER BY (operation_date DESC);
 
-SELECT * FROM ocds.orchestrator_operation;
-
-TRUNCATE ocds.orchestrator_operation;
-
-
 CREATE TABLE IF NOT EXISTS  ocds.orchestrator_request (
     tx_id text,
     request_date timestamp,
@@ -24,6 +19,8 @@ CREATE TABLE IF NOT EXISTS  ocds.orchestrator_request (
     primary key(tx_id, request_date)
 )WITH CLUSTERING ORDER BY (request_date DESC);
 
+SELECT * FROM ocds.orchestrator_operation;
 SELECT * FROM ocds.orchestrator_request;
 
+TRUNCATE ocds.orchestrator_operation;
 TRUNCATE ocds.orchestrator_request;
