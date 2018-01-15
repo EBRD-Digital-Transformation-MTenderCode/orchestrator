@@ -9,8 +9,6 @@ import org.springframework.stereotype.Service;
 @Service
 public interface OperationService {
 
-    void saveOperation(OperationEntity entity);
-
     Optional<OperationEntity> getLastOperation(String txId);
 
     void checkOperationByTxId(String txId);

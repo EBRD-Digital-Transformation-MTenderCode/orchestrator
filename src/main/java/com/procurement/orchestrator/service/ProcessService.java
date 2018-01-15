@@ -9,8 +9,6 @@ public interface ProcessService {
 
     ProcessInstance startProcess(String processType, String transactionId);
 
-    void suspendProcess(String processId);
-
     void processHttpException(int status, String error, String processId) throws BpmnError;
 }
 

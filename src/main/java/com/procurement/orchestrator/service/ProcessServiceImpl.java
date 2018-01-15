@@ -20,18 +20,14 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
-    public void suspendProcess(final String processId) {
-        runtimeService.suspendProcessInstanceById(processId);
-    }
-
-    @Override
     public void processHttpException(final int status,
                                      final String error,
                                      final String processId) throws BpmnError {
-        if (status>=400&&status<500) {
+        if (status >= 400 && status < 500) {
             throw new BpmnError("TR_EXCEPTION", error);
         } else {
-            runtimeService.suspendProcessInstanceById(processId);
+//            runtimeService.suspendProcessInstanceById(processId);
+            runtimeService.deleteProcessInstance(processId, error);
         }
     }
 }

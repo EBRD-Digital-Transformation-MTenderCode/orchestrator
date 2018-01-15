@@ -49,11 +49,6 @@ public class OperationServiceImpl implements OperationService {
     }
 
     @Override
-    public void saveOperation(final OperationEntity entity) throws OperationException {
-        cassandraDao.saveOperation(entity);
-    }
-
-    @Override
     public Optional<OperationEntity> getLastOperation(final String txId) {
         return cassandraDao.getLastOperation(txId);
     }
