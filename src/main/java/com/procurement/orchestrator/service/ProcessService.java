@@ -11,6 +11,6 @@ public interface ProcessService {
 
     void suspendProcess(String processId);
 
-    void processHttpException(Boolean is4xxClientError, String error, String processId) throws BpmnError;
+    void processHttpException(int status, String error, String processId) throws BpmnError;
 }
 

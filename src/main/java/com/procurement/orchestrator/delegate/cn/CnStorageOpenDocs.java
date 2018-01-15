@@ -5,22 +5,17 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.procurement.orchestrator.cassandra.model.OperationEntity;
 import com.procurement.orchestrator.cassandra.service.OperationService;
-import com.procurement.orchestrator.domain.constant.ResponseMessageType;
-import com.procurement.orchestrator.domain.dto.ResponseDto;
 import com.procurement.orchestrator.rest.StorageRestClient;
 import com.procurement.orchestrator.service.ProcessService;
-import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
+import feign.FeignException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import org.camunda.bpm.engine.delegate.BpmnError;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -57,18 +52,17 @@ public class CnStorageOpenDocs implements JavaDelegate {
             final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
             final String startDate = getStartDate(jsonData);
             final List<String> fileIds = getFileIds(jsonData);
-            HttpStatus httpStatus = null;
             try {
                 for (String fileId : fileIds) {
-                    ResponseEntity<String> responseEntity = storageRestClient.setPublishDate(fileId, startDate);
-                    httpStatus = responseEntity.getStatusCode();
+                    storageRestClient.setPublishDate(fileId, startDate);
                 }
                 JsonNode jsonWithDatePublished = setDatePublished(jsonData, startDate);
                 operationService.processResponse(entity, jsonWithDatePublished);
+            } catch (FeignException e) {
+                LOG.error(e.getMessage());
+                processService.processHttpException(e.status(), e.getMessage(), execution.getProcessInstanceId());
             } catch (Exception e) {
                 LOG.error(e.getMessage());
-                processService.processHttpException(httpStatus.is4xxClientError(), e.getMessage(),
-                        execution.getProcessInstanceId());
             }
         }
     }

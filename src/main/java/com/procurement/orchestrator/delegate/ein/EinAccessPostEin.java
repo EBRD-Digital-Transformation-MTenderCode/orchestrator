@@ -8,13 +8,12 @@ import com.procurement.orchestrator.domain.dto.ResponseDto;
 import com.procurement.orchestrator.rest.AccessRestClient;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
+import feign.FeignException;
 import java.util.Optional;
-import org.camunda.bpm.engine.delegate.BpmnError;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
@@ -51,7 +50,6 @@ public class EinAccessPostEin implements JavaDelegate {
             final OperationEntity entity = entityOptional.get();
             final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
             final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
-            HttpStatus httpStatus = null;
             try {
                 final ResponseEntity<ResponseDto> responseEntity = accessRestClient.postCreateEin(
                         params.getCountry(),
@@ -59,12 +57,12 @@ public class EinAccessPostEin implements JavaDelegate {
                         "ein",
                         params.getOwner(),
                         jsonData);
-                httpStatus = responseEntity.getStatusCode();
                 operationService.processResponse(entity, params, responseEntity.getBody().getData());
+            } catch (FeignException e) {
+                LOG.error(e.getMessage());
+                processService.processHttpException(e.status(), e.getMessage(), execution.getProcessInstanceId());
             } catch (Exception e) {
                 LOG.error(e.getMessage());
-                processService.processHttpException(httpStatus.is4xxClientError(), e.getMessage(),
-                        execution.getProcessInstanceId());
             }
         }
     }

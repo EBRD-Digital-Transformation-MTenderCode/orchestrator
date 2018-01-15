@@ -25,10 +25,10 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
-    public void processHttpException(final Boolean is4xxClientError,
+    public void processHttpException(final int status,
                                      final String error,
                                      final String processId) throws BpmnError {
-        if (is4xxClientError) {
+        if (status>=400&&status<500) {
             throw new BpmnError("TR_EXCEPTION", error);
         } else {
             runtimeService.suspendProcessInstanceById(processId);

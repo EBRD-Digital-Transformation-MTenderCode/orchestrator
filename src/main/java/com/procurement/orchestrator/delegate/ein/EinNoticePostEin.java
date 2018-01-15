@@ -6,15 +6,13 @@ import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.domain.dto.ResponseDto;
 import com.procurement.orchestrator.rest.NoticeRestClient;
 import com.procurement.orchestrator.service.ProcessService;
-import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
+import feign.FeignException;
 import java.util.Optional;
-import org.camunda.bpm.engine.delegate.BpmnError;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
@@ -50,7 +48,6 @@ public class EinNoticePostEin implements JavaDelegate {
             final OperationEntity entity = entityOptional.get();
             final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
             final String cpId = jsonData.get("ocid").asText();
-            HttpStatus httpStatus = null;
             try {
                 final ResponseEntity<ResponseDto> responseEntity = noticeRestClient.createEin(
                         cpId,
@@ -58,12 +55,12 @@ public class EinNoticePostEin implements JavaDelegate {
                         "createEin",
                         jsonData
                 );
-                httpStatus = responseEntity.getStatusCode();
                 operationService.processResponse(entity, responseEntity.getBody().getData());
+            } catch (FeignException e) {
+                LOG.error(e.getMessage());
+                processService.processHttpException(e.status(), e.getMessage(), execution.getProcessInstanceId());
             } catch (Exception e) {
                 LOG.error(e.getMessage());
-                processService.processHttpException(httpStatus.is4xxClientError(), e.getMessage(),
-                        execution.getProcessInstanceId());
             }
         }
     }

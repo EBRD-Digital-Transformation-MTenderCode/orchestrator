@@ -11,6 +11,7 @@ import com.procurement.orchestrator.rest.SubmissionRestClient;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
+import feign.FeignException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +21,6 @@ import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
@@ -62,7 +62,6 @@ public class CnSubmissionCheckPeriod implements JavaDelegate {
             final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
             final LocalDateTime startDate = dateUtil.localDateTimeNowUTC();
             final LocalDateTime endDate = getPeriodEndDate(entity);
-            HttpStatus httpStatus = null;
             try {
                 final ResponseEntity<ResponseDto> responseEntity = submissionRestClient.postCheckPeriod(
                         params.getCountry(),
@@ -70,16 +69,16 @@ public class CnSubmissionCheckPeriod implements JavaDelegate {
                         "ps",
                         dateUtil.format(startDate),
                         dateUtil.format(endDate));
-                httpStatus = responseEntity.getStatusCode();
                 Map<String, Boolean> data = (HashMap) responseEntity.getBody().getData();
                 if (!data.get("period")) {
                     throw new BpmnError("TR_EXCEPTION", ResponseMessageType.PERIOD_EXCEPTION.value());
                 }
                 operationService.processResponse(entity, params, addPeriodStartDate(entity, dateUtil.format(startDate)));
+            } catch (FeignException e) {
+                LOG.error(e.getMessage());
+                processService.processHttpException(e.status(), e.getMessage(), execution.getProcessInstanceId());
             } catch (Exception e) {
                 LOG.error(e.getMessage());
-                processService.processHttpException(httpStatus.is4xxClientError(), e.getMessage(),
-                        execution.getProcessInstanceId());
             }
         }
     }
