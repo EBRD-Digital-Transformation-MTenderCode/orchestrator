@@ -42,7 +42,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_1lf2f4k" sourceRef="Task_2" targetRef="Task_3" />
     <bpmn:sequenceFlow id="SequenceFlow_1je78pv" sourceRef="Task_3" targetRef="EndEvent_1" />
     <bpmn:sequenceFlow id="SequenceFlow_0n4mwc6" sourceRef="Task_4" targetRef="EndEvent_2" />
-    <bpmn:serviceTask id="ServiceTask_07y3bqv" name="Save first operation" camunda:delegateExpression="${cnSaveFirstOperation}">
+    <bpmn:serviceTask id="ServiceTask_07y3bqv" name="Save first operation" camunda:delegateExpression="${einSaveFirstOperation}">
       <bpmn:incoming>SequenceFlow_1f631qs</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1cqe4cr</bpmn:outgoing>
     </bpmn:serviceTask>

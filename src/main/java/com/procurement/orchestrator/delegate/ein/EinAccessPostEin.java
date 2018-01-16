@@ -57,7 +57,8 @@ public class EinAccessPostEin implements JavaDelegate {
                         "ein",
                         params.getOwner(),
                         jsonData);
-                operationService.processResponse(entity, params, responseEntity.getBody().getData());
+                JsonNode responseData = jsonUtil.toJsonNode(responseEntity.getBody().getData());
+                operationService.processResponse(entity, addTokenToParams(params, responseData), responseData);
             } catch (FeignException e) {
                 LOG.error(e.getMessage());
                 processService.processHttpException(e.status(), e.getMessage(), execution.getProcessInstanceId());
@@ -65,5 +66,12 @@ public class EinAccessPostEin implements JavaDelegate {
                 LOG.error(e.getMessage());
             }
         }
+    }
+
+    private Params addTokenToParams(Params params, JsonNode responseData) {
+        if (responseData.get("token") != null) {
+            params.setToken(responseData.get("token").asText());
+        }
+        return params;
     }
 }

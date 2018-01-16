@@ -56,7 +56,6 @@ public class OperationServiceImpl implements OperationService {
     @Override
     public void processResponse(OperationEntity entity, Params params, Object response) {
         final JsonNode jsonData = jsonUtil.toJsonNode(response);
-        params.setToken(jsonData.get("token").asText());
         entity.setJsonParams(jsonUtil.toJson(params));
         entity.setJsonData(jsonUtil.toJson(jsonData));
         entity.setDate(dateUtil.getNowUTC());

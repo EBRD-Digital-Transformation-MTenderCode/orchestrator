@@ -47,23 +47,23 @@ public class CnStorageOpenDocs implements JavaDelegate {
         final String txId = execution.getProcessBusinessKey();
         final Optional<OperationEntity> entityOptional = operationService.getLastOperation(txId);
         if (entityOptional.isPresent()) {
-            LOG.info("->Send data to E-Storage.");
-            final OperationEntity entity = entityOptional.get();
-            final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
-            final String startDate = getStartDate(jsonData);
-            final List<String> fileIds = getFileIds(jsonData);
-            try {
-                for (String fileId : fileIds) {
-                    storageRestClient.setPublishDate(fileId, startDate);
-                }
-                JsonNode jsonWithDatePublished = setDatePublished(jsonData, startDate);
-                operationService.processResponse(entity, jsonWithDatePublished);
-            } catch (FeignException e) {
-                LOG.error(e.getMessage());
-                processService.processHttpException(e.status(), e.getMessage(), execution.getProcessInstanceId());
-            } catch (Exception e) {
-                LOG.error(e.getMessage());
-            }
+//            LOG.info("->Send data to E-Storage.");
+//            final OperationEntity entity = entityOptional.get();
+//            final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
+//            final String startDate = getStartDate(jsonData);
+//            final List<String> fileIds = getFileIds(jsonData);
+//            try {
+//                for (String fileId : fileIds) {
+//                    storageRestClient.setPublishDate(fileId, startDate);
+//                }
+//                JsonNode jsonWithDatePublished = setDatePublished(jsonData, startDate);
+//                operationService.processResponse(entity, jsonWithDatePublished);
+//            } catch (FeignException e) {
+//                LOG.error(e.getMessage());
+//                processService.processHttpException(e.status(), e.getMessage(), execution.getProcessInstanceId());
+//            } catch (Exception e) {
+//                LOG.error(e.getMessage());
+//            }
         }
     }
 
