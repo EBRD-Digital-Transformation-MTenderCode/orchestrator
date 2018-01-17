@@ -63,6 +63,7 @@ public class CnAccessPostCn implements JavaDelegate {
                 processService.processHttpException(e.status(), e.getMessage(), execution.getProcessInstanceId());
             } catch (Exception e) {
                 LOG.error(e.getMessage());
+                processService.processHttpException(0, e.getMessage(), execution.getProcessInstanceId());
             }
         }
     }
