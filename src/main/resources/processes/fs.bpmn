@@ -7,15 +7,15 @@
     <bpmn:endEvent id="EndEvent_1">
       <bpmn:incoming>SequenceFlow_079o9l0</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:serviceTask id="Task_1" name="Post FS data to access" camunda:delegateExpression="${fsAccessPostFs}">
+    <bpmn:serviceTask id="Task_1" name="Post FS data to access" camunda:asyncBefore="true" camunda:delegateExpression="${fsAccessPostFs}">
       <bpmn:incoming>SequenceFlow_1r86adq</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_09qe4fe</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="Task_2" name="Post FS data to notice" camunda:delegateExpression="${fsNoticePostFs}">
+    <bpmn:serviceTask id="Task_2" name="Post FS data to notice" camunda:asyncBefore="true" camunda:delegateExpression="${fsNoticePostFs}">
       <bpmn:incoming>SequenceFlow_09qe4fe</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_14043zt</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="Task_Send_M" name="Send pjsitive task to platform" camunda:delegateExpression="${sendMessageToPlatform}">
+    <bpmn:serviceTask id="Task_Send_M" name="Send pjsitive task to platform" camunda:asyncBefore="true" camunda:delegateExpression="${sendMessageToPlatform}">
       <bpmn:incoming>SequenceFlow_14043zt</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_079o9l0</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -33,7 +33,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_0a5e66i" sourceRef="Task_Send_E" targetRef="EndEvent_2" />
     <bpmn:sequenceFlow id="SequenceFlow_0l0s6is" sourceRef="BoundaryEvent_1cwwpke" targetRef="Task_Send_E" />
     <bpmn:sequenceFlow id="SequenceFlow_1a2f8k3" sourceRef="BoundaryEvent_1s0golu" targetRef="Task_Send_E" />
-    <bpmn:serviceTask id="Task_Send_E" name="Send error task" camunda:delegateExpression="${sendErrorMessageToPlatform}">
+    <bpmn:serviceTask id="Task_Send_E" name="Send error task" camunda:asyncBefore="true" camunda:delegateExpression="${sendErrorMessageToPlatform}">
       <bpmn:incoming>SequenceFlow_0l0s6is</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_1a2f8k3</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0a5e66i</bpmn:outgoing>
@@ -42,7 +42,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_11wvdt9" sourceRef="StartEvent_1" targetRef="ServiceTask_1cujv11" />
     <bpmn:sequenceFlow id="SequenceFlow_09qe4fe" sourceRef="Task_1" targetRef="Task_2" />
     <bpmn:sequenceFlow id="SequenceFlow_14043zt" sourceRef="Task_2" targetRef="Task_Send_M" />
-    <bpmn:serviceTask id="ServiceTask_1cujv11" name="Save first operation" camunda:delegateExpression="${fsSaveFirstOperation}">
+    <bpmn:serviceTask id="ServiceTask_1cujv11" name="Save first operation" camunda:asyncBefore="true" camunda:delegateExpression="${cnSaveFirstOperation}">
       <bpmn:incoming>SequenceFlow_11wvdt9</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1r86adq</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -52,7 +52,10 @@
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="fs">
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
-        <dc:Bounds x="173" y="102" width="36" height="36" />
+        <dc:Bounds x="212" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="185" y="138" width="90" height="20" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="EndEvent_0wpvj65_di" bpmnElement="EndEvent_1">
         <dc:Bounds x="1065" y="102" width="36" height="36" />
@@ -123,10 +126,10 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_11wvdt9_di" bpmnElement="SequenceFlow_11wvdt9">
-        <di:waypoint xsi:type="dc:Point" x="209" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="248" y="120" />
         <di:waypoint xsi:type="dc:Point" x="327" y="120" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="223" y="99" width="90" height="12" />
+          <dc:Bounds x="242.5" y="99" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_09qe4fe_di" bpmnElement="SequenceFlow_09qe4fe">

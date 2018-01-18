@@ -13,7 +13,6 @@ import org.springframework.context.annotation.Import;
         WebConfig.class,
         ServiceConfig.class,
         DaoConfiguration.class,
-        ConverterConfig.class,
         KafkaConsumerConfig.class,
         KafkaProducerConfig.class
 })

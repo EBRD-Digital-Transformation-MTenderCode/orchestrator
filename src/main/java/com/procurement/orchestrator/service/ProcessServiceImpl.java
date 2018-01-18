@@ -26,8 +26,7 @@ public class ProcessServiceImpl implements ProcessService {
         if (status >= 400 && status < 500) {
             throw new BpmnError("TR_EXCEPTION", error);
         } else {
-//            runtimeService.suspendProcessInstanceById(processId);
-            runtimeService.deleteProcessInstance(processId, error);
+            runtimeService.suspendProcessInstanceById(processId);
         }
     }
 }

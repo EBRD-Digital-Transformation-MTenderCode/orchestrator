@@ -6,6 +6,11 @@ import com.procurement.orchestrator.cassandra.service.RequestService;
 import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
+import java.util.HashMap;
+import java.util.Map;
+import org.camunda.bpm.engine.RepositoryService;
+import org.camunda.bpm.engine.RuntimeService;
+import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,15 +25,23 @@ public class ProcessController {
 
     private final OperationService operationService;
 
+    private final RuntimeService runtimeService;
+
+    private final RepositoryService repositoryService;
+
     private final JsonUtil jsonUtil;
 
     public ProcessController(final ProcessService processService,
                              final RequestService requestService,
                              final OperationService operationService,
+                             final RuntimeService runtimeService,
+                             final RepositoryService repositoryService,
                              final JsonUtil jsonUtil) {
         this.processService = processService;
         this.requestService = requestService;
         this.operationService = operationService;
+        this.runtimeService = runtimeService;
+        this.repositoryService = repositoryService;
         this.jsonUtil = jsonUtil;
     }
 
