@@ -1,9 +1,10 @@
 server:
-  port: 8900
+  port: 9090
+
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/orchestrator
+    url: jdbc:postgresql://10.0.10.112:5432/orchestrator
     username: postgres
     password: postgres
     hikari:
@@ -11,20 +12,19 @@ spring:
       pool-name: orchestrator-pool
 
 cassandra:
-  datasource:
-    contact-point: 127.0.0.1
-    keyspace: ocds
-    username: cassandra
-    password: cassandra
+  contact-points: ac-node1.eprocurement.systems,ac-node2.eprocurement.systems,ac-node3.eprocurement.systems
+  keyspace-name: ocds
+  username: caclient
+  password: brT4Kn27RQs
 
-#kafka:
-#  producer:
-#    bootstrap: localhost:9092
-#    topic: orchestrator
-#  consumer:
-#    bootstrap: localhost:9092
-#    group: orchestrator
-#    topic: chronograph
+kafka:
+  producer:
+    bootstrap: ak-node1.eprocurement.systems:9092,ak-node2.eprocurement.systems:9092,ak-node3.eprocurement.systems:9092
+    topic: orchestrator
+  consumer:
+    bootstrap: localhost:9092
+    group: orchestrator
+    topic: chronograph
 
 ocds.prefix: ocds-t1s2t3
 
@@ -33,25 +33,24 @@ camunda:
     auto-deployment-enabled: true
     history-level: none
 
-
 ribbon:
    eureka:
     enabled: false
-e-submission:
-  ribbon:
-    listOfServers: http://localhost:8081
-e-clarification:
-  ribbon:
-    listOfServers: http://localhost:8082
 e-access:
   ribbon:
-    listOfServers: http://localhost:8083
-e-storage:
-  ribbon:
-    listOfServers: http://localhost:8600
+    listOfServers: http://localhost:9031
 e-notice:
   ribbon:
-    listOfServers: http://localhost:8088
+    listOfServers: http://localhost:9041
+e-submission:
+  ribbon:
+    listOfServers: http://localhost:9051
+e-clarification:
+  ribbon:
+    listOfServers: http://localhost:9061
+e-storage:
+  ribbon:
+    listOfServers: http://localhost:9071
 
 logging:
   level: error

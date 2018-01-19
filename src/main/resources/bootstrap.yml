@@ -5,7 +5,7 @@ spring:
   application:
     name: orchestrator
 
-#  cloud:
-#    config:
-#      failFast: true
-#      name: orchestrator
+  cloud:
+    config:
+      failFast: true
+      name: orchestrator

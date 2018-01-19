@@ -1,8 +1,8 @@
 package com.procurement.orchestrator.config;
 
-import com.datastax.driver.core.*;
-import com.datastax.driver.core.policies.RoundRobinPolicy;
-import com.datastax.driver.core.policies.TokenAwarePolicy;
+import com.datastax.driver.core.Cluster;
+import com.datastax.driver.core.PlainTextAuthProvider;
+import com.datastax.driver.core.Session;
 import com.procurement.orchestrator.config.properties.CassandraProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -26,18 +26,12 @@ public class DaoConfiguration {
     public Session session() {
         final Cluster cluster = getCluster();
         cluster.init();
-        return cluster.connect(properties.getKeyspace());
+        return cluster.connect(properties.getKeyspaceName());
     }
 
     Cluster getCluster() {
-        final PoolingOptions poolingOptions = new PoolingOptions()
-                .setMaxConnectionsPerHost(HostDistance.LOCAL, 10);
-
         return Cluster.builder()
-                .addContactPoint(properties.getContactPoint())
-                .withProtocolVersion(ProtocolVersion.NEWEST_SUPPORTED)
-                .withPoolingOptions(poolingOptions)
-                .withLoadBalancingPolicy(new TokenAwarePolicy(new RoundRobinPolicy()))
+                .addContactPoints(properties.getContactPoints())
                 .withAuthProvider(new PlainTextAuthProvider(properties.getUsername(), properties.getPassword()))
                 .build();
     }
