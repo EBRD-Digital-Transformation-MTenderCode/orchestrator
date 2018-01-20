@@ -19,12 +19,13 @@ cassandra:
 
 kafka:
   producer:
-    bootstrap: ak-node1.eprocurement.systems:9092,ak-node2.eprocurement.systems:9092,ak-node3.eprocurement.systems:9092
-    topic: orchestrator
+    retries: 5
+    bootstrap: AK-node1.eprocurement.systems:9092,AK-node2.eprocurement.systems:9092,AK-node3.eprocurement.systems:9092
+    topic: chronograph-in
   consumer:
-    bootstrap: localhost:9092
+    bootstrap: AK-node1.eprocurement.systems:9092,AK-node2.eprocurement.systems:9092,AK-node3.eprocurement.systems:9092
     group: orchestrator
-    topic: chronograph
+    topic: chronograph-out
 
 ocds.prefix: ocds-t1s2t3
 

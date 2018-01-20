@@ -1,6 +1,7 @@
 package com.procurement.orchestrator.kafka;
 
 //import com.procurement.orchestrator.service.ProcessService;
+//import com.procurement.orchestrator.utils.JsonUtil;
 //import org.camunda.bpm.engine.RuntimeService;
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
@@ -13,34 +14,31 @@ package com.procurement.orchestrator.kafka;
 //@Service
 public class MessageConsumer {
 //
-//    private static final Logger log = LoggerFactory.getLogger(MessageConsumer.class);
+//    private static final Logger LOG = LoggerFactory.getLogger(MessageConsumer.class);
 //
 //    private final ProcessService processService;
 //    private final RuntimeService runtimeService;
+//    private final JsonUtil jsonUtil;
 //
 //    public MessageConsumer(final ProcessService processService,
-//                           final RuntimeService runtimeService) {
+//                           final RuntimeService runtimeService,
+//                           final JsonUtil jsonUtil) {
 //        this.processService = processService;
 //        this.runtimeService = runtimeService;
+//        this.jsonUtil = jsonUtil;
 //    }
 //
 //    @KafkaListener(topics = "orchestrator")
-//    public void onReceiving(String task,
+//    public void onReceiving(String message,
 //                            @Header(KafkaHeaders.OFFSET) Integer offset,
 //                            @Header(KafkaHeaders.RECEIVED_PARTITION_ID) int partition,
 //                            @Header(KafkaHeaders.RECEIVED_TOPIC) String topic,
 //                            @Header(KafkaHeaders.ACKNOWLEDGMENT) Acknowledgment acknowledgment) {
 //
-//        log.info("Processing topic = {}, partition = {}, offset = {}, task = {}", topic, partition, offset, task);
 //        acknowledgment.acknowledge();
 //        try {
-////            ProcessInstance pi = runtimeService.createProcessInstanceQuery()
-////                    .processInstanceBusinessKey(task.getId())
-////                    .singleResult();
-////            if (Objects.isNull(pi)) {
-//            String processType = "testChronographConsumer";
-//            processService.startProcess(processType,"");
-////            }
+//            Task task = jsonUtil.toObject(Task.class, message);
+//            LOG.info("Get task " + jsonUtil.toJson(task));
 //        } catch (Exception e) {
 //        }
 //    }

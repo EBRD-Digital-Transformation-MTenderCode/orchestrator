@@ -9,6 +9,7 @@ public class KafkaProducerProperties {
 
     private String bootstrap;
     private String topic;
+    private String retries;
 
     public String getBootstrap() {
         return bootstrap;
@@ -24,5 +25,13 @@ public class KafkaProducerProperties {
 
     public void setTopic(String topic) {
         this.topic = topic;
+    }
+
+    public String getRetries() {
+        return retries;
+    }
+
+    public void setRetries(String retries) {
+        this.retries = retries;
     }
 }

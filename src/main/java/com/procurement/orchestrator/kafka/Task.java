@@ -26,18 +26,18 @@ public class Task {
 
     @JsonProperty("launchTime")
     @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime launchTime;
 
     @JsonProperty("metaData")
-    private String metaData;
+    private TaskMetaData metaData;
 
     @JsonCreator
     public Task(@JsonProperty("action") final ActionType action,
                 @JsonProperty("ocid") final String ocid,
                 @JsonProperty("phase") final String phase,
-                @JsonProperty("launchTime")
-                @JsonDeserialize(using = LocalDateTimeDeserializer.class) final LocalDateTime launchTime,
-                @JsonProperty("metaData") final String metaData) {
+                @JsonProperty("launchTime") final LocalDateTime launchTime,
+                @JsonProperty("metaData") final TaskMetaData metaData) {
         this.action = action;
         this.ocid = ocid;
         this.phase = phase;
