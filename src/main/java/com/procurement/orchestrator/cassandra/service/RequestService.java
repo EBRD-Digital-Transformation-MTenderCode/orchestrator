@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 @Service
 public interface RequestService {
 
-    void saveRequest(String txId, Params jsonParams, JsonNode jsonData);
+    void saveRequest(String requestId, String operationId, Params jsonParams, JsonNode jsonData);
 
-    Optional<RequestEntity> getRequest(String txId);
+    Optional<RequestEntity> getRequestById(String requestId);
 
 }

@@ -9,8 +9,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class Params {
-    @JsonProperty(value = "txId")
-    private final String txId;
+    @JsonProperty(value = "operationId")
+    private final String operationId;
     @JsonProperty(value = "ocid")
     private final String ocid;
     @JsonProperty(value = "processType")

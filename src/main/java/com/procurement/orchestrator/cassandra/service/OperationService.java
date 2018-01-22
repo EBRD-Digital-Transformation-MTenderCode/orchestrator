@@ -1,6 +1,6 @@
 package com.procurement.orchestrator.cassandra.service;
 
-import com.procurement.orchestrator.cassandra.model.OperationEntity;
+import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
 import com.procurement.orchestrator.cassandra.model.RequestEntity;
 import com.procurement.orchestrator.domain.Params;
 import java.util.Optional;
@@ -9,15 +9,15 @@ import org.springframework.stereotype.Service;
 @Service
 public interface OperationService {
 
-    Optional<OperationEntity> getLastOperation(String txId);
+    void checkOperationById(String operationId);
 
-    void checkOperationByTxId(String txId);
+    Boolean saveIfNotExist(String operationId, String processId);
 
-    void saveIfNotExist(RequestEntity requestEntity, String processId);
+    Optional<OperationStepEntity> getOperationStep(String processId, String taskId);
 
-    void processResponse(OperationEntity entity, Params params, Object response);
+    void saveOperationStep(OperationStepEntity entity, Params params, Object response);
 
-    void processResponse(OperationEntity entity, Object response);
+    void saveOperationStep(OperationStepEntity entity, Object response);
 
-    void processResponse(OperationEntity entity);
+    void saveOperationStep(OperationStepEntity entity);
 }

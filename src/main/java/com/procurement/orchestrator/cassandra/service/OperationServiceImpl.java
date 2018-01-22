@@ -3,6 +3,7 @@ package com.procurement.orchestrator.cassandra.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.cassandra.dao.CassandraDao;
 import com.procurement.orchestrator.cassandra.model.OperationEntity;
+import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
 import com.procurement.orchestrator.cassandra.model.RequestEntity;
 import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.exception.OperationException;
@@ -29,51 +30,46 @@ public class OperationServiceImpl implements OperationService {
     }
 
     @Override
-    public void checkOperationByTxId(String txId) {
-        if (getLastOperation(txId).isPresent()) {
-            throw new OperationException("Operation with current txId already exist.");
+    public void checkOperationById(String operationId) {
+        if (cassandraDao.isOperationExist(operationId)) {
+            throw new OperationException("Operation with current id already exist.");
         }
     }
 
     @Override
-    public void saveIfNotExist(RequestEntity requestEntity, String processId) {
-        checkOperationByTxId(requestEntity.getTxId());
+    public Boolean saveIfNotExist(String operationId, String processId) {
         OperationEntity operationEntity = new OperationEntity();
-        operationEntity.setTxId(requestEntity.getTxId());
-        operationEntity.setDate(dateUtil.getNowUTC());
+        operationEntity.setOperationId(operationId);
         operationEntity.setProcessId(processId);
-        operationEntity.setJsonData(requestEntity.getJsonData());
-        operationEntity.setJsonParams(requestEntity.getJsonParams());
-        operationEntity.setRequestDate(requestEntity.getRequestDate());
-        cassandraDao.saveOperation(operationEntity);
+        return cassandraDao.saveOperationIfNotExist(operationEntity);
     }
 
     @Override
-    public Optional<OperationEntity> getLastOperation(final String txId) {
-        return cassandraDao.getLastOperation(txId);
+    public Optional<OperationStepEntity> getOperationStep(final String processId, final String taskId) {
+        return cassandraDao.getOperationStep(processId, taskId);
     }
 
     @Override
-    public void processResponse(OperationEntity entity, Params params, Object response) {
+    public void saveOperationStep(OperationStepEntity entity, Params params, Object response) {
         final JsonNode jsonData = jsonUtil.toJsonNode(response);
         entity.setJsonParams(jsonUtil.toJson(params));
         entity.setJsonData(jsonUtil.toJson(jsonData));
         entity.setDate(dateUtil.getNowUTC());
-        cassandraDao.saveOperation(entity);
+        cassandraDao.saveOperationStep(entity);
     }
 
     @Override
-    public void processResponse(OperationEntity entity, Object response) {
+    public void saveOperationStep(OperationStepEntity entity, Object response) {
         final JsonNode jsonData = jsonUtil.toJsonNode(response);
         entity.setJsonData(jsonUtil.toJson(jsonData));
         entity.setDate(dateUtil.getNowUTC());
-        cassandraDao.saveOperation(entity);
+        cassandraDao.saveOperationStep(entity);
     }
 
     @Override
-    public void processResponse(OperationEntity entity) {
+    public void saveOperationStep(OperationStepEntity entity) {
         entity.setDate(dateUtil.getNowUTC());
-        cassandraDao.saveOperation(entity);
+        cassandraDao.saveOperationStep(entity);
     }
 }
 

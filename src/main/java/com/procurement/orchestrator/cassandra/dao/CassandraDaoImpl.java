@@ -5,8 +5,8 @@ import com.datastax.driver.core.Session;
 import com.datastax.driver.core.Statement;
 import com.datastax.driver.core.querybuilder.Insert;
 import com.procurement.orchestrator.cassandra.model.OperationEntity;
+import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
 import com.procurement.orchestrator.cassandra.model.RequestEntity;
-import java.util.Date;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +14,10 @@ import static com.datastax.driver.core.querybuilder.QueryBuilder.*;
 
 @Service
 public class CassandraDaoImpl implements CassandraDao {
+
+    private static final String REQUEST_TABLE = "orchestrator_request";
+    private static final String OPERATION_TABLE = "orchestrator_operation";
+    private static final String OPERATION_STEP_TABLE = "orchestrator_operation_step";
 
     private final Session session;
 
@@ -24,10 +28,11 @@ public class CassandraDaoImpl implements CassandraDao {
     @Override
     public void saveRequest(final RequestEntity entity) {
 
-        final Insert insert = insertInto("orchestrator_request");
+        final Insert insert = insertInto(REQUEST_TABLE);
         insert
-                .value("tx_id", entity.getTxId())
+                .value("request_id", entity.getRequestId())
                 .value("request_date", entity.getRequestDate())
+                .value("operation_id", entity.getOperationId())
                 .value("json_data", entity.getJsonData())
                 .value("json_params", entity.getJsonParams());
         session.execute(insert);
@@ -35,71 +40,74 @@ public class CassandraDaoImpl implements CassandraDao {
     }
 
     @Override
-    public Optional<RequestEntity> getOneByTxId(String txId) {
+    public Optional<RequestEntity> getRequestById(String id) {
         final Statement query = select()
                 .all()
-                .from("orchestrator_request")
-                .where(eq("tx_id", txId))
+                .from(REQUEST_TABLE)
+                .where(eq("request_id", id))
                 .limit(1);
 
         final ResultSet rows = session.execute(query);
 
         return Optional.ofNullable(rows.one())
-                .map(row -> {
-                    final String id = row.getString("tx_id");
-                    final Date requestDate = row.getTimestamp("request_date");
-                    final String jsonData = row.getString("json_data");
-                    final String jsonParams = row.getString("json_params");
-                    return new RequestEntity(
-                            id,
-                            requestDate,
-                            jsonData,
-                            jsonParams);
-                });
+                .map(row -> new RequestEntity(
+                        row.getString("request_id"),
+                        row.getTimestamp("request_date"),
+                        row.getString("operation_id"),
+                        row.getString("json_data"),
+                        row.getString("json_params")));
     }
 
+    @Override
+    public Boolean saveOperationIfNotExist(OperationEntity entity) {
+        final Insert insert = insertInto(OPERATION_TABLE).ifNotExists();
+        insert
+                .value("operation_id", entity.getOperationId())
+                .value("process_id", entity.getProcessId());
+        final ResultSet resultSet = session.execute(insert);
+        if (!resultSet.wasApplied()) {
+            return resultSet.one().getString("process_id").equals(entity.getProcessId());
+        }
+        return true;
+    }
+
+    public Boolean isOperationExist(String operationId) {
+        final Statement query = select()
+                .from(OPERATION_TABLE)
+                .where(eq("operation_id", operationId));
+        final ResultSet rs = session.execute(query);
+        return (rs.all().size() > 0) ? true : false;
+    }
 
     @Override
-    public void saveOperation(final OperationEntity entity) {
-        final Insert insert = insertInto("orchestrator_operation");
+    public void saveOperationStep(final OperationStepEntity entity) {
+        final Insert insert = insertInto(OPERATION_STEP_TABLE);
         insert
-                .value("tx_id", entity.getTxId())
-                .value("operation_date", entity.getDate())
                 .value("process_id", entity.getProcessId())
                 .value("task_id", entity.getTaskId())
+                .value("step_date", entity.getDate())
                 .value("json_data", entity.getJsonData())
-                .value("json_params", entity.getJsonParams())
-                .value("request_date", entity.getRequestDate());
+                .value("json_params", entity.getJsonParams());
         session.execute(insert).wasApplied();
     }
 
     @Override
-    public Optional<OperationEntity> getLastOperation(final String txId) {
+    public Optional<OperationStepEntity> getOperationStep(final String processId, String taskId) {
         final Statement query = select()
                 .all()
-                .from("orchestrator_operation")
-                .where(eq("tx_id", txId))
+                .from(OPERATION_STEP_TABLE)
+                .where(eq("process_id", processId))
+                .and(eq("task_id", taskId))
                 .limit(1);
 
         final ResultSet rows = session.execute(query);
 
         return Optional.ofNullable(rows.one())
-                .map(row -> {
-                    final String id = row.getString("tx_id");
-                    final Date operationDate = row.getTimestamp("operation_date");
-                    final String processId = row.getString("process_id");
-                    final String taskId = row.getString("task_id");
-                    final String jsonData = row.getString("json_data");
-                    final String jsonParams = row.getString("json_params");
-                    final Date requestDate = row.getTimestamp("request_date");
-                    return new OperationEntity(
-                            id,
-                            operationDate,
-                            processId,
-                            taskId,
-                            jsonData,
-                            jsonParams,
-                            requestDate);
-                });
+                .map(row -> new OperationStepEntity(
+                        row.getString("process_id"),
+                        row.getString("task_id"),
+                        row.getTimestamp("step_date"),
+                        row.getString("json_data"),
+                        row.getString("json_params")));
     }
 }

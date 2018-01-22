@@ -27,21 +27,26 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
-    public void saveRequest(String txId, Params jsonParams, JsonNode jsonData) {
-        cassandraDao.saveRequest(getRequestEntity(txId, jsonParams, jsonData));
+    public void saveRequest(final String requestId,
+                            final String operationId,
+                            final Params jsonParams,
+                            final JsonNode jsonData) {
+        cassandraDao.saveRequest(getRequestEntity(requestId, operationId, jsonParams, jsonData));
     }
 
     @Override
-    public Optional<RequestEntity> getRequest(String txId) {
-        return cassandraDao.getOneByTxId(txId);
+    public Optional<RequestEntity> getRequestById(String requestId) {
+        return cassandraDao.getRequestById(requestId);
     }
 
-    private RequestEntity getRequestEntity(final String txId,
+    private RequestEntity getRequestEntity(final String requestId,
+                                           final String operationId,
                                            final Params jsonParams,
                                            final JsonNode jsonData) {
         RequestEntity entity = new RequestEntity();
+        entity.setRequestId(requestId);
         entity.setRequestDate(dateUtil.getNowUTC());
-        entity.setTxId(txId);
+        entity.setOperationId(operationId);
         entity.setJsonParams(jsonUtil.toJson(jsonParams));
         entity.setJsonData(jsonUtil.toJson(jsonData));
         return entity;

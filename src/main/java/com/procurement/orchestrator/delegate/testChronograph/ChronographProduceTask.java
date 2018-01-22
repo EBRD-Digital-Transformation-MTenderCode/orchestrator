@@ -1,6 +1,6 @@
 package com.procurement.orchestrator.delegate.testChronograph;
 
-import com.procurement.orchestrator.cassandra.model.OperationEntity;
+import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
 import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.kafka.MessageProducer;
@@ -41,12 +41,13 @@ public class ChronographProduceTask implements JavaDelegate {
     @Override
     public void execute(final DelegateExecution execution) {
         LOG.info("->Data preparation for Chronograph.");
-        final String txId = execution.getProcessBusinessKey();
-        final Optional<OperationEntity> entityOptional = operationService.getLastOperation(txId);
+        final String sourceTask = (String) execution.getVariableLocal("input_source");
+        final String processId = execution.getProcessInstanceId();
+        final Optional<OperationStepEntity> entityOptional = operationService.getOperationStep(processId, sourceTask);
         if (entityOptional.isPresent()) {
-            final OperationEntity entity = entityOptional.get();
+            final OperationStepEntity entity = entityOptional.get();
             final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
-            TaskMetaData taskMetaData = new TaskMetaData("consumeTask", txId);
+            TaskMetaData taskMetaData = new TaskMetaData("consumeTask", params.getOperationId());
             Task task = new Task(
                     Task.ActionType.SCHEDULE,
                     params.getToken(),

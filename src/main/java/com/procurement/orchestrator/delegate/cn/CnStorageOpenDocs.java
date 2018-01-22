@@ -3,12 +3,11 @@ package com.procurement.orchestrator.delegate.cn;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.procurement.orchestrator.cassandra.model.OperationEntity;
+import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
 import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.rest.StorageRestClient;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
-import feign.FeignException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -44,11 +43,11 @@ public class CnStorageOpenDocs implements JavaDelegate {
     @Override
     public void execute(final DelegateExecution execution) {
         LOG.info("->Data preparation for E-Storage.");
-        final String txId = execution.getProcessBusinessKey();
-        final Optional<OperationEntity> entityOptional = operationService.getLastOperation(txId);
-        if (entityOptional.isPresent()) {
+//        final String txId = execution.getProcessBusinessKey();
+//        final Optional<OperationStepEntity> entityOptional = operationService.getLastOperation(txId);
+//        if (entityOptional.isPresent()) {
 //            LOG.info("->Send data to E-Storage.");
-//            final OperationEntity entity = entityOptional.get();
+//            final OperationStepEntity entity = entityOptional.get();
 //            final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
 //            final String startDate = getStartDate(jsonData);
 //            final List<String> fileIds = getFileIds(jsonData);
@@ -64,7 +63,7 @@ public class CnStorageOpenDocs implements JavaDelegate {
 //            } catch (Exception e) {
 //                LOG.error(e.getMessage());
 //            }
-        }
+//        }
     }
 
     private String getStartDate(JsonNode jsonData) {

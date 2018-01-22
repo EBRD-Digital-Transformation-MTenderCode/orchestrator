@@ -10,14 +10,14 @@ public class TaskMetaData {
     @JsonProperty("processType")
     private String processType;
 
-    @JsonProperty("txId")
-    private String txId;
+    @JsonProperty("operationId")
+    private String operationId;
 
     @JsonCreator
     public TaskMetaData(@JsonProperty("processType") final String processType,
-                        @JsonProperty("txId") final String txId) {
+                        @JsonProperty("operationId") final String operationId) {
         this.processType = processType;
-        this.txId = txId;
+        this.operationId = operationId;
     }
 }
 

@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.service;
 
+import java.util.Map;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.delegate.BpmnError;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
@@ -15,8 +16,13 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
-    public ProcessInstance startProcess(final String processType, final String transactionId) {
-        return runtimeService.startProcessInstanceByKey(processType, transactionId);
+    public ProcessInstance startProcess(final String processType, final String operationId) {
+        return runtimeService.startProcessInstanceByKey(processType, operationId);
+    }
+
+    @Override
+    public ProcessInstance startProcess(String processType, String operationId, Map<String, Object> variables) {
+        return runtimeService.startProcessInstanceByKey(processType, operationId, variables);
     }
 
     @Override
@@ -28,5 +34,10 @@ public class ProcessServiceImpl implements ProcessService {
         } else {
             runtimeService.suspendProcessInstanceById(processId);
         }
+    }
+
+    @Override
+    public void terminateProcess(String processId) {
+        runtimeService.deleteProcessInstance(processId, "Removal of the backward process.");
     }
 }

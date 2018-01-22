@@ -1,6 +1,6 @@
 package com.procurement.orchestrator.delegate.cn;
 
-import com.procurement.orchestrator.cassandra.model.OperationEntity;
+import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
 import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.rest.SubmissionRestClient;
 import com.procurement.orchestrator.utils.DateUtil;
@@ -38,10 +38,10 @@ public class CnChronographSavePeriod implements JavaDelegate {
     @Override
     public void execute(final DelegateExecution execution) {
         LOG.info("->Data preparation for Chronograph.");
-        final String txId = execution.getProcessBusinessKey();
-        final Optional<OperationEntity> entityOptional = operationService.getLastOperation(txId);
-        if (entityOptional.isPresent()) {
-            LOG.info("->Send data to Chronograph.");
-        }
+//        final String txId = execution.getProcessBusinessKey();
+//        final Optional<OperationStepEntity> entityOptional = operationService.getLastOperation(txId);
+//        if (entityOptional.isPresent()) {
+//            LOG.info("->Send data to Chronograph.");
+//        }
     }
 }
