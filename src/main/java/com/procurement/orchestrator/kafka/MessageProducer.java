@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 public class MessageProducer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MessageProducer.class);
+    private static final String KAFKA_TOPIC = "chronograph-in";
     private final KafkaTemplate<String, String> taskKafkaTemplate;
     private final JsonUtil jsonUtil;
 
@@ -24,7 +25,7 @@ public class MessageProducer {
 
     public boolean send(Task task) {
         try {
-            SendResult<String, String> sendResult = taskKafkaTemplate.sendDefault(task.getIdentifier(), jsonUtil.toJson(task)).get();
+            SendResult<String, String> sendResult = taskKafkaTemplate.send(KAFKA_TOPIC, jsonUtil.toJson(task)).get();
             RecordMetadata recordMetadata = sendResult.getRecordMetadata();
             LOGGER.info("topic = {}, partition = {}, offset = {}, task = {}", recordMetadata.topic(),
                     recordMetadata.partition(), recordMetadata.offset(), task.toString());

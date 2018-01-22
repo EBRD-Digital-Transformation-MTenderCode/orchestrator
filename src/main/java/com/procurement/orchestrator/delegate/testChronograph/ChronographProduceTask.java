@@ -52,7 +52,7 @@ public class ChronographProduceTask implements JavaDelegate {
                     params.getToken(),
                     "testChronograph",
                     dateUtil.localDateTimeNowUTC().plusMinutes(1L),
-                    taskMetaData);
+                    jsonUtil.toJson(taskMetaData));
             messageProducer.send(task);
         }
     }

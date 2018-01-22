@@ -30,14 +30,14 @@ public class Task {
     private LocalDateTime launchTime;
 
     @JsonProperty("metaData")
-    private TaskMetaData metaData;
+    private String metaData;
 
     @JsonCreator
     public Task(@JsonProperty("action") final ActionType action,
                 @JsonProperty("ocid") final String ocid,
                 @JsonProperty("phase") final String phase,
                 @JsonProperty("launchTime") final LocalDateTime launchTime,
-                @JsonProperty("metaData") final TaskMetaData metaData) {
+                @JsonProperty("metaData") final String metaData) {
         this.action = action;
         this.ocid = ocid;
         this.phase = phase;

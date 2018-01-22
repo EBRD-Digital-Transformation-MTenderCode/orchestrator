@@ -11,21 +11,17 @@ spring:
       maximum-pool-size: 10
       pool-name: orchestrator-pool
 
+  kafka:
+    bootstrap-servers: AK-node1.eprocurement.systems:9092,AK-node2.eprocurement.systems:9092,AK-node3.eprocurement.systems:9092
+    consumer:
+      group-id: orchestrator
+
+
 cassandra:
   contact-points: ac-node1.eprocurement.systems,ac-node2.eprocurement.systems,ac-node3.eprocurement.systems
   keyspace-name: ocds
   username: caclient
   password: brT4Kn27RQs
-
-kafka:
-  producer:
-    retries: 5
-    bootstrap: AK-node1.eprocurement.systems:9092,AK-node2.eprocurement.systems:9092,AK-node3.eprocurement.systems:9092
-    topic: chronograph-in
-  consumer:
-    bootstrap: AK-node1.eprocurement.systems:9092,AK-node2.eprocurement.systems:9092,AK-node3.eprocurement.systems:9092
-    group: orchestrator
-    topic: chronograph-out
 
 ocds.prefix: ocds-t1s2t3
 
