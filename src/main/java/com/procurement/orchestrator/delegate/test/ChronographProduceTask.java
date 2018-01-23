@@ -1,11 +1,10 @@
-package com.procurement.orchestrator.delegate.testChronograph;
+package com.procurement.orchestrator.delegate.test;
 
 import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
 import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.kafka.MessageProducer;
-import com.procurement.orchestrator.kafka.Task;
-import com.procurement.orchestrator.kafka.TaskMetaData;
+import com.procurement.orchestrator.kafka.dto.ChronographTask;
 import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.Optional;
@@ -41,20 +40,18 @@ public class ChronographProduceTask implements JavaDelegate {
     @Override
     public void execute(final DelegateExecution execution) {
         LOG.info("->Data preparation for Chronograph.");
-        final String sourceTask = (String) execution.getVariableLocal("input_source");
-        final String processId = execution.getProcessInstanceId();
-        final Optional<OperationStepEntity> entityOptional = operationService.getOperationStep(processId, sourceTask);
+        final Optional<OperationStepEntity> entityOptional = operationService.getOperationStep(execution);
         if (entityOptional.isPresent()) {
             final OperationStepEntity entity = entityOptional.get();
             final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
-            TaskMetaData taskMetaData = new TaskMetaData("consumeTask", params.getOperationId());
-            Task task = new Task(
-                    Task.ActionType.SCHEDULE,
+            ChronographTask.TaskMetaData taskMetaData = new ChronographTask.TaskMetaData("consumeTask", params.getOperationId());
+            ChronographTask task = new ChronographTask(
+                    ChronographTask.ActionType.SCHEDULE,
                     params.getToken(),
-                    "testChronograph",
-                    dateUtil.localDateTimeNowUTC().plusMinutes(1L),
+                    "test",
+                    dateUtil.localDateTimeNowUTC().plusMinutes(5L),
                     jsonUtil.toJson(taskMetaData));
-            messageProducer.send(task);
+            messageProducer.sendToChronograph(task);
         }
     }
 }

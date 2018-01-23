@@ -54,34 +54,37 @@ public class CnSubmissionCheckPeriod implements JavaDelegate {
     @Override
     public void execute(final DelegateExecution execution) {
         LOG.info("->Data preparation for E-Submission.");
-//        final String txId = execution.getProcessBusinessKey();
-//        final Optional<OperationStepEntity> entityOptional = operationService.getLastOperation(txId);
-//        if (entityOptional.isPresent()) {
-//            LOG.info("->Send data to E-Submission.");
-//            final OperationStepEntity entity = entityOptional.get();
-//            final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
-//            final LocalDateTime startDate = dateUtil.localDateTimeNowUTC();
-//            final LocalDateTime endDate = getPeriodEndDate(entity);
-//            try {
-//                final ResponseEntity<ResponseDto> responseEntity = submissionRestClient.postCheckPeriod(
-//                        params.getCountry(),
-//                        params.getPmd(),
-//                        "ps",
-//                        dateUtil.format(startDate),
-//                        dateUtil.format(endDate));
-//                Map<String, Boolean> data = (HashMap) responseEntity.getBody().getData();
-//                if (!data.get("period")) {
-//                    throw new BpmnError("TR_EXCEPTION", ResponseMessageType.PERIOD_EXCEPTION.value());
-//                }
-//                operationService.processResponse(entity, params, addPeriodStartDate(entity, dateUtil.format(startDate)));
-//            } catch (FeignException e) {
-//                LOG.error(e.getMessage());
-//                processService.processHttpException(e.status(), e.getMessage(), execution.getProcessInstanceId());
-//            } catch (Exception e) {
-//                LOG.error(e.getMessage());
-//                processService.processHttpException(0, e.getMessage(), execution.getProcessInstanceId());
-//            }
-//        }
+        final Optional<OperationStepEntity> entityOptional = operationService.getOperationStep(execution);
+        if (entityOptional.isPresent()) {
+            LOG.info("->Send data to E-Submission.");
+            final OperationStepEntity entity = entityOptional.get();
+            final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
+            final LocalDateTime startDate = dateUtil.localDateTimeNowUTC();
+            final LocalDateTime endDate = getPeriodEndDate(entity);
+            try {
+                final ResponseEntity<ResponseDto> responseEntity = submissionRestClient.postCheckPeriod(
+                        params.getCountry(),
+                        params.getPmd(),
+                        "ps",
+                        dateUtil.format(startDate),
+                        dateUtil.format(endDate));
+                Map<String, Boolean> data = (HashMap) responseEntity.getBody().getData();
+                if (!data.get("period")) {
+                    throw new BpmnError("TR_EXCEPTION", ResponseMessageType.PERIOD_EXCEPTION.value());
+                }
+                operationService.saveOperationStep(
+                        execution,
+                        entity,
+                        params,
+                        addPeriodStartDate(entity, dateUtil.format(startDate)));
+            } catch (FeignException e) {
+                LOG.error(e.getMessage());
+                processService.processHttpException(e.status(), e.getMessage(), execution.getProcessInstanceId());
+            } catch (Exception e) {
+                LOG.error(e.getMessage());
+                processService.processHttpException(0, e.getMessage(), execution.getProcessInstanceId());
+            }
+        }
     }
 
     private LocalDateTime getPeriodEndDate(OperationStepEntity entity) {

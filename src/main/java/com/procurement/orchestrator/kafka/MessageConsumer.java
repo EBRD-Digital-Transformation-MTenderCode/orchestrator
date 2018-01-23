@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.kafka;
 
+import com.procurement.orchestrator.kafka.dto.ChronographTask;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
 import org.camunda.bpm.engine.RuntimeService;
@@ -37,7 +38,7 @@ public class MessageConsumer {
 
         acknowledgment.acknowledge();
         try {
-            Task task = jsonUtil.toObject(Task.class, message);
+            ChronographTask task = jsonUtil.toObject(ChronographTask.class, message);
             LOG.info("Get task " + jsonUtil.toJson(task));
         } catch (Exception e) {
         }

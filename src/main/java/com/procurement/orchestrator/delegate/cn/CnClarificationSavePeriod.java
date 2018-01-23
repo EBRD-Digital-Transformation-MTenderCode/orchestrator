@@ -44,35 +44,34 @@ public class CnClarificationSavePeriod implements JavaDelegate {
     @Override
     public void execute(final DelegateExecution execution) {
         LOG.info("->Data preparation for E-Clarification.");
-//        final String txId = execution.getProcessBusinessKey();
-//        final Optional<OperationStepEntity> entityOptional = operationService.getLastOperation(txId);
-//        if (entityOptional.isPresent()) {
-//            LOG.info("->Send data to E-Clarification.");
-//            final OperationStepEntity entity = entityOptional.get();
-//            final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
-//            final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
-//            final String cpId = getCpId(jsonData);
-//            final String startDate = getStartDate(jsonData);
-//            final String endDate = getEndDate(jsonData);
-//            try {
-//                final ResponseEntity<ResponseDto> responseEntity = clarificationRestClient.postSavePeriod(
-//                        cpId,
-//                        params.getCountry(),
-//                        params.getPmd(),
-//                        "ps",
-//                        params.getOwner(),
-//                        startDate,
-//                        endDate);
-//                JsonNode responseData = jsonUtil.toJsonNode(responseEntity.getBody().getData());
-//                operationService.processResponse(entity, addEnquiryPeriod(jsonData, responseData));
-//            } catch (FeignException e) {
-//                LOG.error(e.getMessage());
-//                processService.processHttpException(e.status(), e.getMessage(), execution.getProcessInstanceId());
-//            } catch (Exception e) {
-//                LOG.error(e.getMessage());
-//                processService.processHttpException(0, e.getMessage(), execution.getProcessInstanceId());
-//            }
-//        }
+        final Optional<OperationStepEntity> entityOptional = operationService.getOperationStep(execution);
+        if (entityOptional.isPresent()) {
+            LOG.info("->Send data to E-Clarification.");
+            final OperationStepEntity entity = entityOptional.get();
+            final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
+            final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
+            final String cpId = getCpId(jsonData);
+            final String startDate = getStartDate(jsonData);
+            final String endDate = getEndDate(jsonData);
+            try {
+                final ResponseEntity<ResponseDto> responseEntity = clarificationRestClient.postSavePeriod(
+                        cpId,
+                        params.getCountry(),
+                        params.getPmd(),
+                        "ps",
+                        params.getOwner(),
+                        startDate,
+                        endDate);
+                JsonNode responseData = jsonUtil.toJsonNode(responseEntity.getBody().getData());
+                operationService.saveOperationStep(execution, entity, addEnquiryPeriod(jsonData, responseData));
+            } catch (FeignException e) {
+                LOG.error(e.getMessage());
+                processService.processHttpException(e.status(), e.getMessage(), execution.getProcessInstanceId());
+            } catch (Exception e) {
+                LOG.error(e.getMessage());
+                processService.processHttpException(0, e.getMessage(), execution.getProcessInstanceId());
+            }
+        }
     }
 
     private String getCpId(JsonNode jsonData) {

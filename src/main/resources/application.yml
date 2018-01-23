@@ -11,10 +11,13 @@ spring:
       maximum-pool-size: 10
       pool-name: orchestrator-pool
 
-  kafka:
-    bootstrap-servers: AK-node1.eprocurement.systems:9092,AK-node2.eprocurement.systems:9092,AK-node3.eprocurement.systems:9092
-    consumer:
-      group-id: orchestrator
+kafka:
+  producer:
+    internal-bootstrap: AK-node1.eprocurement.systems:9092,AK-node2.eprocurement.systems:9092,AK-node3.eprocurement.systems:9092
+    external-bootstrap: feed.eprocurement.systems:9092
+  consumer:
+    internal-bootstrap: AK-node1.eprocurement.systems:9092,AK-node2.eprocurement.systems:9092,AK-node3.eprocurement.systems:9092
+    group: orchestrator
 
 
 cassandra:

@@ -46,7 +46,7 @@ public class SaveFirstOperation implements JavaDelegate {
                 processService.terminateProcess(execution.getProcessInstanceId());
             }
             final RequestEntity requestEntity = requestOptional.get();
-            operationService.saveOperationStep(new OperationStepEntity(
+            operationService.saveFirstOperationStep(new OperationStepEntity(
                     execution.getProcessInstanceId(),
                     execution.getCurrentActivityId(),
                     dateUtil.getNowUTC(),

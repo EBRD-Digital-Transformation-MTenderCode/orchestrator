@@ -1,11 +1,11 @@
 server:
   port: @project.service.port@
 
-spring:
-  application:
-    name: orchestrator
-
-  cloud:
-    config:
-      failFast: true
-      name: orchestrator
+#spring:
+#  application:
+#    name: orchestrator
+#
+#  cloud:
+#    config:
+#      failFast: true
+#      name: orchestrator

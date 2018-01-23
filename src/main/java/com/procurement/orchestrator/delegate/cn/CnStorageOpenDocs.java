@@ -11,6 +11,8 @@ import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import feign.FeignException;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
@@ -43,27 +45,26 @@ public class CnStorageOpenDocs implements JavaDelegate {
     @Override
     public void execute(final DelegateExecution execution) {
         LOG.info("->Data preparation for E-Storage.");
-//        final String txId = execution.getProcessBusinessKey();
-//        final Optional<OperationStepEntity> entityOptional = operationService.getLastOperation(txId);
-//        if (entityOptional.isPresent()) {
-//            LOG.info("->Send data to E-Storage.");
-//            final OperationStepEntity entity = entityOptional.get();
-//            final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
-//            final String startDate = getStartDate(jsonData);
-//            final List<String> fileIds = getFileIds(jsonData);
-//            try {
-//                for (String fileId : fileIds) {
-//                    storageRestClient.setPublishDate(fileId, startDate);
-//                }
-//                JsonNode jsonWithDatePublished = setDatePublished(jsonData, startDate);
-//                operationService.processResponse(entity, jsonWithDatePublished);
-//            } catch (FeignException e) {
-//                LOG.error(e.getMessage());
-//                processService.processHttpException(e.status(), e.getMessage(), execution.getProcessInstanceId());
-//            } catch (Exception e) {
-//                LOG.error(e.getMessage());
-//            }
-//        }
+        final Optional<OperationStepEntity> entityOptional = operationService.getOperationStep(execution);
+        if (entityOptional.isPresent()) {
+            LOG.info("->Send data to E-Storage.");
+            final OperationStepEntity entity = entityOptional.get();
+            final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
+            final String startDate = getStartDate(jsonData);
+            final List<String> fileIds = getFileIds(jsonData);
+            try {
+                for (String fileId : fileIds) {
+                    storageRestClient.setPublishDate(fileId, startDate);
+                }
+                JsonNode jsonWithDatePublished = setDatePublished(jsonData, startDate);
+                operationService.saveOperationStep(execution, entity, jsonWithDatePublished);
+            } catch (FeignException e) {
+                LOG.error(e.getMessage());
+                processService.processHttpException(e.status(), e.getMessage(), execution.getProcessInstanceId());
+            } catch (Exception e) {
+                LOG.error(e.getMessage());
+            }
+        }
     }
 
     private String getStartDate(JsonNode jsonData) {

@@ -5,7 +5,7 @@ import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SendErrorMessageToPlatform implements JavaDelegate {
+public class SendErrorMessage implements JavaDelegate {
 
     @Override
     public void execute(final DelegateExecution execution) {

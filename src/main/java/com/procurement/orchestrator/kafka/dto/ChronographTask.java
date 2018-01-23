@@ -1,4 +1,4 @@
-package com.procurement.orchestrator.kafka;
+package com.procurement.orchestrator.kafka.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -13,7 +13,7 @@ import java.util.Map;
 import lombok.Data;
 
 @Data
-public class Task {
+public class ChronographTask {
 
     @JsonProperty("action")
     private ActionType action;
@@ -33,11 +33,11 @@ public class Task {
     private String metaData;
 
     @JsonCreator
-    public Task(@JsonProperty("action") final ActionType action,
-                @JsonProperty("ocid") final String ocid,
-                @JsonProperty("phase") final String phase,
-                @JsonProperty("launchTime") final LocalDateTime launchTime,
-                @JsonProperty("metaData") final String metaData) {
+    public ChronographTask(@JsonProperty("action") final ActionType action,
+                           @JsonProperty("ocid") final String ocid,
+                           @JsonProperty("phase") final String phase,
+                           @JsonProperty("launchTime") final LocalDateTime launchTime,
+                           @JsonProperty("metaData") final String metaData) {
         this.action = action;
         this.ocid = ocid;
         this.phase = phase;
@@ -86,6 +86,23 @@ public class Task {
         @JsonValue
         public String value() {
             return this.value;
+        }
+    }
+
+    @Data
+    public static class TaskMetaData {
+
+        @JsonProperty("processType")
+        private String processType;
+
+        @JsonProperty("operationId")
+        private String operationId;
+
+        @JsonCreator
+        public TaskMetaData(@JsonProperty("processType") final String processType,
+                            @JsonProperty("operationId") final String operationId) {
+            this.processType = processType;
+            this.operationId = operationId;
         }
     }
 }

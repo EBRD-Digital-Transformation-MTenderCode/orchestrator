@@ -43,29 +43,32 @@ public class CnAccessPostCn implements JavaDelegate {
     @Override
     public void execute(final DelegateExecution execution) {
         LOG.info("->Data preparation for E-Access.");
-//        final String txId = execution.getProcessBusinessKey();
-//        final Optional<OperationStepEntity> entityOptional = operationService.getLastOperation(txId);
-//        if (entityOptional.isPresent()) {
-//            LOG.info("->Send data to E-Access.");
-//            final OperationStepEntity entity = entityOptional.get();
-//            final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
-//            try {
-//                final ResponseEntity<ResponseDto> responseEntity = accessRestClient.postCreateCn(
-//                        params.getCountry(),
-//                        params.getPmd(),
-//                        "ps",
-//                        params.getOwner(),
-//                        jsonUtil.toJsonNode(entity.getJsonData()));
-//                JsonNode responseData = jsonUtil.toJsonNode(responseEntity.getBody().getData());
-//                operationService.processResponse(entity, addTokenToParams(params, responseData), responseData);
-//            } catch (FeignException e) {
-//                LOG.error(e.getMessage());
-//                processService.processHttpException(e.status(), e.getMessage(), execution.getProcessInstanceId());
-//            } catch (Exception e) {
-//                LOG.error(e.getMessage());
-//                processService.processHttpException(0, e.getMessage(), execution.getProcessInstanceId());
-//            }
-//        }
+        final Optional<OperationStepEntity> entityOptional = operationService.getOperationStep(execution);
+        if (entityOptional.isPresent()) {
+            LOG.info("->Send data to E-Access.");
+            final OperationStepEntity entity = entityOptional.get();
+            final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
+            try {
+                final ResponseEntity<ResponseDto> responseEntity = accessRestClient.postCreateCn(
+                        params.getCountry(),
+                        params.getPmd(),
+                        "ps",
+                        params.getOwner(),
+                        jsonUtil.toJsonNode(entity.getJsonData()));
+                JsonNode responseData = jsonUtil.toJsonNode(responseEntity.getBody().getData());
+                operationService.saveOperationStep(
+                        execution,
+                        entity,
+                        addTokenToParams(params, responseData),
+                        responseData);
+            } catch (FeignException e) {
+                LOG.error(e.getMessage());
+                processService.processHttpException(e.status(), e.getMessage(), execution.getProcessInstanceId());
+            } catch (Exception e) {
+                LOG.error(e.getMessage());
+                processService.processHttpException(0, e.getMessage(), execution.getProcessInstanceId());
+            }
+        }
     }
 
     private Params addTokenToParams(Params params, JsonNode responseData) {

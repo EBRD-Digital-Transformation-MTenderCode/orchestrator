@@ -1,6 +1,8 @@
 package com.procurement.orchestrator.kafka;
 
 
+import com.procurement.orchestrator.kafka.dto.ChronographTask;
+import com.procurement.orchestrator.kafka.dto.PlatformMessage;
 import com.procurement.orchestrator.utils.JsonUtil;
 import org.apache.kafka.clients.producer.RecordMetadata;
 import org.slf4j.Logger;
@@ -13,22 +15,38 @@ import org.springframework.stereotype.Service;
 public class MessageProducer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MessageProducer.class);
-    private static final String KAFKA_TOPIC = "chronograph-in";
-    private final KafkaTemplate<String, String> taskKafkaTemplate;
+    private static final String CHRONOGRAPH_TOPIC = "chronograph-in";
+    private static final String PLATFORM_TOPIC = "platform";
+    private final KafkaTemplate<String, String> internalKafkaTemplate;
+    private final KafkaTemplate<String, String> externalKafkaTemplate;
     private final JsonUtil jsonUtil;
 
-    public MessageProducer(final KafkaTemplate<String, String> taskKafkaTemplate,
+    public MessageProducer(final KafkaTemplate<String, String> internalKafkaTemplate,
+                           final KafkaTemplate<String, String> externalKafkaTemplate,
                            final JsonUtil jsonUtil) {
-        this.taskKafkaTemplate = taskKafkaTemplate;
+        this.internalKafkaTemplate = internalKafkaTemplate;
+        this.externalKafkaTemplate = externalKafkaTemplate;
         this.jsonUtil = jsonUtil;
     }
 
-    public boolean send(Task task) {
+    public boolean sendToChronograph(ChronographTask task) {
         try {
-            SendResult<String, String> sendResult = taskKafkaTemplate.send(KAFKA_TOPIC, jsonUtil.toJson(task)).get();
-            RecordMetadata recordMetadata = sendResult.getRecordMetadata();
-            LOGGER.info("topic = {}, partition = {}, offset = {}, task = {}", recordMetadata.topic(),
-                    recordMetadata.partition(), recordMetadata.offset(), task.toString());
+            SendResult<String, String> sendResult = internalKafkaTemplate.send(
+                    CHRONOGRAPH_TOPIC,
+                    jsonUtil.toJson(task)).get();
+            LOGGER.info("Send to chronograph: ", sendResult.getRecordMetadata());
+            return true;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean sendToPlatform(PlatformMessage message) {
+        try {
+            SendResult<String, String> sendResult = externalKafkaTemplate.send(
+                    PLATFORM_TOPIC,
+                    jsonUtil.toJson(message)).get();
+            LOGGER.info("Send to platform: ", sendResult.getRecordMetadata());
             return true;
         } catch (Exception e) {
             throw new RuntimeException(e);

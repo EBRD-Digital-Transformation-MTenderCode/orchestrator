@@ -12,17 +12,27 @@
         </camunda:inputOutput>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1e5zxr0</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_0x8wghl</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_1up071g</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:endEvent id="EndEvent_07og36n">
-      <bpmn:incoming>SequenceFlow_0x8wghl</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_0gyzifb</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:sequenceFlow id="SequenceFlow_0x8wghl" sourceRef="ChronographProduceTask" targetRef="EndEvent_07og36n" />
     <bpmn:serviceTask id="SaveFirstOperationTask" name="Save first operation" camunda:delegateExpression="${saveFirstOperation}">
       <bpmn:incoming>SequenceFlow_08nj6px</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1e5zxr0</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1e5zxr0" sourceRef="SaveFirstOperationTask" targetRef="ChronographProduceTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1up071g" sourceRef="ChronographProduceTask" targetRef="SendMessageToPlatformTask" />
+    <bpmn:serviceTask id="SendMessageToPlatformTask" name="Chronograph Produce Task" camunda:delegateExpression="${sendMessageToPlatform}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="input_source">SaveFirstOperationTask</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1up071g</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0gyzifb</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_0gyzifb" sourceRef="SendMessageToPlatformTask" targetRef="EndEvent_07og36n" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="test">
@@ -37,29 +47,39 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ServiceTask_0d33rfv_di" bpmnElement="ChronographProduceTask">
-        <dc:Bounds x="439" y="80" width="100" height="80" />
+        <dc:Bounds x="474" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="EndEvent_07og36n_di" bpmnElement="EndEvent_07og36n">
-        <dc:Bounds x="627" y="102" width="36" height="36" />
+        <dc:Bounds x="833" y="102" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="645" y="142" width="0" height="12" />
+          <dc:Bounds x="806" y="142" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="SequenceFlow_0x8wghl_di" bpmnElement="SequenceFlow_0x8wghl">
-        <di:waypoint xsi:type="dc:Point" x="539" y="120" />
-        <di:waypoint xsi:type="dc:Point" x="627" y="120" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="583" y="99" width="0" height="12" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ServiceTask_0hasmnq_di" bpmnElement="SaveFirstOperationTask">
         <dc:Bounds x="280" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1e5zxr0_di" bpmnElement="SequenceFlow_1e5zxr0">
         <di:waypoint xsi:type="dc:Point" x="380" y="120" />
-        <di:waypoint xsi:type="dc:Point" x="439" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="474" y="120" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="409.5" y="99" width="0" height="12" />
+          <dc:Bounds x="382" y="99" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1up071g_di" bpmnElement="SequenceFlow_1up071g">
+        <di:waypoint xsi:type="dc:Point" x="574" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="648" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="611" y="99" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_1c2860l_di" bpmnElement="SendMessageToPlatformTask">
+        <dc:Bounds x="648" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0gyzifb_di" bpmnElement="SequenceFlow_0gyzifb">
+        <di:waypoint xsi:type="dc:Point" x="748" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="833" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="790.5" y="99" width="0" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
