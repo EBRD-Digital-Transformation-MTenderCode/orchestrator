@@ -16,7 +16,7 @@ public class MessageProducer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MessageProducer.class);
     private static final String CHRONOGRAPH_TOPIC = "chronograph-in";
-    private static final String PLATFORM_TOPIC = "platform";
+    private static final String PLATFORM_TOPIC = "2c974565-e527-4e7d-b369-bf5db76c4f5c";
     private final KafkaTemplate<String, String> internalKafkaTemplate;
     private final KafkaTemplate<String, String> externalKafkaTemplate;
     private final JsonUtil jsonUtil;
@@ -34,7 +34,9 @@ public class MessageProducer {
             SendResult<String, String> sendResult = internalKafkaTemplate.send(
                     CHRONOGRAPH_TOPIC,
                     jsonUtil.toJson(task)).get();
-            LOGGER.info("Send to chronograph: ", sendResult.getRecordMetadata());
+            RecordMetadata recordMetadata = sendResult.getRecordMetadata();
+            LOGGER.info("Send to chronograph: ", recordMetadata.topic(),
+                    recordMetadata.partition(), recordMetadata.offset(), task.toString());
             return true;
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -46,7 +48,9 @@ public class MessageProducer {
             SendResult<String, String> sendResult = externalKafkaTemplate.send(
                     PLATFORM_TOPIC,
                     jsonUtil.toJson(message)).get();
-            LOGGER.info("Send to platform: ", sendResult.getRecordMetadata());
+            RecordMetadata recordMetadata = sendResult.getRecordMetadata();
+            LOGGER.info("Send to platform: ", recordMetadata.topic(),
+                    recordMetadata.partition(), recordMetadata.offset(), message.toString());
             return true;
         } catch (Exception e) {
             throw new RuntimeException(e);
