@@ -11,15 +11,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient(name = "e-access")
 public interface AccessRestClient {
+
     @RequestMapping(path = "/ein/create", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> postCreateEin(@RequestParam("country") String country,
-                                              @RequestParam("pmd") String pmd,
-                                              @RequestParam("stage") String stage,
-                                              @RequestParam("owner") String owner,
+    ResponseEntity<ResponseDto> postCreateEin(@RequestParam("owner") String owner,
                                               @RequestBody JsonNode jsonData) throws Exception;
 
-    @RequestMapping(path = "/ein/updateAmountByFs", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> updateAmountByFs(@RequestParam("cpid") String cpid) throws Exception;
+    @RequestMapping(path = "/ein/update", method = RequestMethod.POST)
+    ResponseEntity<ResponseDto> postUpdateEin(@RequestParam("owner") final String owner,
+                                              @RequestParam("identifier") final String identifier,
+                                              @RequestParam("token") final String token,
+                                              @RequestBody JsonNode jsonData) throws Exception;
 
     @RequestMapping(path = "/fs/create", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> postCreateFs(@RequestParam("country") String country,

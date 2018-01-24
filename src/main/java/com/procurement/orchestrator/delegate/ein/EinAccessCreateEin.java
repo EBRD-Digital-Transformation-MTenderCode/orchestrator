@@ -18,9 +18,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 @Component
-public class EinAccessPostEin implements JavaDelegate {
+public class EinAccessCreateEin implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(EinAccessPostEin.class);
+    private static final Logger LOG = LoggerFactory.getLogger(EinAccessCreateEin.class);
 
     private final AccessRestClient accessRestClient;
 
@@ -30,10 +30,10 @@ public class EinAccessPostEin implements JavaDelegate {
 
     private final JsonUtil jsonUtil;
 
-    public EinAccessPostEin(final AccessRestClient accessRestClient,
-                            final OperationService operationService,
-                            final ProcessService processService,
-                            final JsonUtil jsonUtil) {
+    public EinAccessCreateEin(final AccessRestClient accessRestClient,
+                              final OperationService operationService,
+                              final ProcessService processService,
+                              final JsonUtil jsonUtil) {
         this.accessRestClient = accessRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -43,7 +43,9 @@ public class EinAccessPostEin implements JavaDelegate {
     @Override
     public void execute(final DelegateExecution execution) {
         LOG.info("->Data preparation for E-Access.");
-        final Optional<OperationStepEntity> entityOptional = operationService.getOperationStep(execution);
+        final String processId = execution.getProcessInstanceId();
+        final String previousTask = (String) execution.getVariableLocal("lastExecutedTask");
+        final Optional<OperationStepEntity> entityOptional = operationService.getOperationStep(processId, previousTask);
         if (entityOptional.isPresent()) {
             LOG.info("->Send data to E-Access.");
             final OperationStepEntity entity = entityOptional.get();
@@ -51,22 +53,21 @@ public class EinAccessPostEin implements JavaDelegate {
             final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
             try {
                 final ResponseEntity<ResponseDto> responseEntity = accessRestClient.postCreateEin(
-                        params.getCountry(),
-                        params.getPmd(),
-                        "ein",
                         params.getOwner(),
                         jsonData);
                 JsonNode responseData = jsonUtil.toJsonNode(responseEntity.getBody().getData());
+                final String currentActivityId = execution.getCurrentActivityId();
                 operationService.saveOperationStep(
-                        execution,
+                        currentActivityId,
                         entity,
                         addTokenToParams(params, responseData),
                         responseData);
+                execution.setVariable("lastExecutedTask", currentActivityId);
             } catch (FeignException e) {
-                LOG.error(e.getMessage());
+                LOG.error(e.getMessage(), e);
                 processService.processHttpException(e.status(), e.getMessage(), execution.getProcessInstanceId());
             } catch (Exception e) {
-                LOG.error(e.getMessage());
+                LOG.error(e.getMessage(), e);
                 processService.processHttpException(0, e.getMessage(), execution.getProcessInstanceId());
             }
         }

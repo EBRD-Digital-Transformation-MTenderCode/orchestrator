@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.Map;
 import org.camunda.bpm.engine.RepositoryService;
 import org.camunda.bpm.engine.RuntimeService;
-import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -56,11 +55,13 @@ public class ProcessController {
                                            @RequestParam("pmd") final String pmd,
                                            @RequestBody final JsonNode jsonData) {
         final Params params = new Params(operationId, null, processType, "dzo", country, pmd, token);
-        final String requestId =  UUIDs.timeBased().toString();
+        final String requestId = UUIDs.timeBased().toString();
         requestService.saveRequest(requestId, operationId, params, jsonData);
         operationService.checkOperationById(operationId);
         Map<String, Object> variables = new HashMap<>();
         variables.put("requestId", requestId);
+        variables.put("isTokenPresent", (token.isEmpty() ? 0 : 1));
+        variables.put("lastExecutedTask","");
         processService.startProcess(processType, operationId, variables);
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }

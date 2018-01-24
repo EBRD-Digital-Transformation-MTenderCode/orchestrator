@@ -15,11 +15,11 @@ public interface OperationService {
 
     void saveFirstOperationStep(OperationStepEntity entity);
 
-    Optional<OperationStepEntity> getOperationStep(DelegateExecution execution);
+    Optional<OperationStepEntity> getOperationStep(String processId, String taskId);
 
-    void saveOperationStep(DelegateExecution execution, OperationStepEntity entity, Params params, Object response);
+    void saveOperationStep(String taskId, OperationStepEntity entity, Params params, Object response);
 
-    void saveOperationStep(DelegateExecution execution, OperationStepEntity entity, Object response);
+    void saveOperationStep(String taskId, OperationStepEntity entity, Object response);
 
-    void saveOperationStep(DelegateExecution execution, OperationStepEntity entity);
+    void saveOperationStep(String taskId, OperationStepEntity entity);
 }

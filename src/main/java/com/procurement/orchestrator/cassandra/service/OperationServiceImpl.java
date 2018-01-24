@@ -50,19 +50,17 @@ public class OperationServiceImpl implements OperationService {
     }
 
     @Override
-    public Optional<OperationStepEntity> getOperationStep(final DelegateExecution execution) {
-        final String processId = execution.getProcessInstanceId();
-        final String taskId = (String) execution.getVariableLocal("sourceTask");
+    public Optional<OperationStepEntity> getOperationStep(final String processId, final String taskId) {
         return cassandraDao.getOperationStep(processId, taskId);
     }
 
     @Override
-    public void saveOperationStep(final DelegateExecution execution,
+    public void saveOperationStep(final String taskId,
                                   final OperationStepEntity entity,
                                   final Params params,
                                   final Object response
     ) {
-        entity.setTaskId(execution.getCurrentActivityId());
+        entity.setTaskId(taskId);
         entity.setJsonParams(jsonUtil.toJson(params));
         entity.setJsonData(jsonUtil.toJson(jsonUtil.toJsonNode(response)));
         entity.setDate(dateUtil.getNowUTC());
@@ -70,19 +68,19 @@ public class OperationServiceImpl implements OperationService {
     }
 
     @Override
-    public void saveOperationStep(final DelegateExecution execution,
+    public void saveOperationStep(final String taskId,
                                   final OperationStepEntity entity,
                                   final Object response) {
-        entity.setTaskId(execution.getCurrentActivityId());
+        entity.setTaskId(taskId);
         entity.setJsonData(jsonUtil.toJson(jsonUtil.toJsonNode(response)));
         entity.setDate(dateUtil.getNowUTC());
         cassandraDao.saveOperationStep(entity);
     }
 
     @Override
-    public void saveOperationStep(final DelegateExecution execution,
+    public void saveOperationStep(final String taskId,
                                   final OperationStepEntity entity) {
-        entity.setTaskId(execution.getCurrentActivityId());
+        entity.setTaskId(taskId);
         entity.setDate(dateUtil.getNowUTC());
         cassandraDao.saveOperationStep(entity);
     }

@@ -34,7 +34,7 @@ public class SaveFirstOperation implements JavaDelegate {
         this.operationService = operationService;
         this.processService = processService;
         this.dateUtil = dateUtil;
-     }
+    }
 
     @Override
     public void execute(final DelegateExecution execution) {
@@ -42,18 +42,20 @@ public class SaveFirstOperation implements JavaDelegate {
         final String requestId = (String) execution.getVariable("requestId");
         final Optional<RequestEntity> requestOptional = requestService.getRequestById(requestId);
         if (requestOptional.isPresent()) {
-            if (!operationService.saveIfNotExist(execution.getProcessBusinessKey(), execution.getProcessInstanceId())){
+            if (!operationService.saveIfNotExist(execution.getProcessBusinessKey(), execution.getProcessInstanceId())) {
                 processService.terminateProcess(execution.getProcessInstanceId());
             }
             final RequestEntity requestEntity = requestOptional.get();
+            final String currentActivityId = execution.getCurrentActivityId();
             operationService.saveFirstOperationStep(new OperationStepEntity(
                     execution.getProcessInstanceId(),
-                    execution.getCurrentActivityId(),
+                    currentActivityId,
                     dateUtil.getNowUTC(),
                     requestEntity.getJsonParams(),
                     requestEntity.getJsonData()
             ));
-        }else{
+            execution.setVariable("lastExecutedTask", currentActivityId);
+        } else {
             processService.terminateProcess(execution.getProcessInstanceId());
         }
     }
