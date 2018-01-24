@@ -52,7 +52,7 @@ public class OperationServiceImpl implements OperationService {
     @Override
     public Optional<OperationStepEntity> getOperationStep(final DelegateExecution execution) {
         final String processId = execution.getProcessInstanceId();
-        final String taskId = (String) execution.getVariableLocal("input_source");
+        final String taskId = (String) execution.getVariableLocal("sourceTask");
         return cassandraDao.getOperationStep(processId, taskId);
     }
 
