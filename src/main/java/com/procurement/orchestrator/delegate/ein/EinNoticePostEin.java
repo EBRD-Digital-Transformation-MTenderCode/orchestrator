@@ -40,12 +40,9 @@ public class EinNoticePostEin implements JavaDelegate {
 
     @Override
     public void execute(final DelegateExecution execution) {
-        LOG.info("->Data preparation for E-Notice.");
-        final String processId = execution.getProcessInstanceId();
-        final String previousTask = (String) execution.getVariableLocal("lastExecutedTask");
-        final Optional<OperationStepEntity> entityOptional = operationService.getOperationStep(processId, previousTask);
+        LOG.info(execution.getCurrentActivityName());
+        final Optional<OperationStepEntity> entityOptional = operationService.getPreviousOperationStep(execution);
         if (entityOptional.isPresent()) {
-            LOG.info("->Send data to E-Notice.");
             final OperationStepEntity entity = entityOptional.get();
             final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
             final String cpId = jsonData.get("ocid").asText();
@@ -56,17 +53,15 @@ public class EinNoticePostEin implements JavaDelegate {
                         "createEin",
                         jsonData
                 );
-                final String currentActivityId = execution.getCurrentActivityId();
                 operationService.saveOperationStep(
-                        currentActivityId,
+                        execution,
                         entity,
                         responseEntity.getBody().getData());
-                execution.setVariable("lastExecutedTask", currentActivityId);
             } catch (FeignException e) {
-                LOG.error(e.getMessage());
+                LOG.error(e.getMessage(), e);
                 processService.processHttpException(e.status(), e.getMessage(), execution.getProcessInstanceId());
             } catch (Exception e) {
-                LOG.error(e.getMessage());
+                LOG.error(e.getMessage(), e);
                 processService.processHttpException(0, e.getMessage(), execution.getProcessInstanceId());
             }
         }

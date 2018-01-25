@@ -3,6 +3,7 @@ package com.procurement.orchestrator.cassandra.service;
 import com.procurement.orchestrator.cassandra.dao.CassandraDao;
 import com.procurement.orchestrator.cassandra.model.OperationEntity;
 import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
+import com.procurement.orchestrator.cassandra.model.RequestEntity;
 import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.exception.OperationException;
 import com.procurement.orchestrator.utils.DateUtil;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class OperationServiceImpl implements OperationService {
+
+    private final static String LAST_TASK = "lastExecutedTask";
 
     private final CassandraDao cassandraDao;
 
@@ -45,8 +48,15 @@ public class OperationServiceImpl implements OperationService {
     }
 
     @Override
-    public void saveFirstOperationStep(final OperationStepEntity entity) {
-        cassandraDao.saveOperationStep(entity);
+    public void saveFirstOperationStep(final DelegateExecution execution, final RequestEntity requestEntity) {
+        execution.setVariable(LAST_TASK, execution.getCurrentActivityId());
+        final OperationStepEntity operationStepEntity = new OperationStepEntity();
+        operationStepEntity.setProcessId(execution.getProcessInstanceId());
+        operationStepEntity.setTaskId(execution.getCurrentActivityId());
+        operationStepEntity.setDate(dateUtil.getNowUTC());
+        operationStepEntity.setJsonData(requestEntity.getJsonData());
+        operationStepEntity.setJsonParams(requestEntity.getJsonParams());
+        cassandraDao.saveOperationStep(operationStepEntity);
     }
 
     @Override
@@ -55,12 +65,19 @@ public class OperationServiceImpl implements OperationService {
     }
 
     @Override
-    public void saveOperationStep(final String taskId,
+    public Optional<OperationStepEntity> getPreviousOperationStep(final DelegateExecution execution) {
+        return cassandraDao.getOperationStep(execution.getProcessInstanceId(),
+                (String) execution.getVariableLocal(LAST_TASK));
+    }
+
+    @Override
+    public void saveOperationStep(final DelegateExecution execution,
                                   final OperationStepEntity entity,
                                   final Params params,
                                   final Object response
     ) {
-        entity.setTaskId(taskId);
+        execution.setVariable(LAST_TASK, execution.getCurrentActivityId());
+        entity.setTaskId(execution.getCurrentActivityId());
         entity.setJsonParams(jsonUtil.toJson(params));
         entity.setJsonData(jsonUtil.toJson(jsonUtil.toJsonNode(response)));
         entity.setDate(dateUtil.getNowUTC());
@@ -68,19 +85,21 @@ public class OperationServiceImpl implements OperationService {
     }
 
     @Override
-    public void saveOperationStep(final String taskId,
+    public void saveOperationStep(final DelegateExecution execution,
                                   final OperationStepEntity entity,
                                   final Object response) {
-        entity.setTaskId(taskId);
+        execution.setVariable(LAST_TASK, execution.getCurrentActivityId());
+        entity.setTaskId(execution.getCurrentActivityId());
         entity.setJsonData(jsonUtil.toJson(jsonUtil.toJsonNode(response)));
         entity.setDate(dateUtil.getNowUTC());
         cassandraDao.saveOperationStep(entity);
     }
 
     @Override
-    public void saveOperationStep(final String taskId,
+    public void saveOperationStep(final DelegateExecution execution,
                                   final OperationStepEntity entity) {
-        entity.setTaskId(taskId);
+        execution.setVariable(LAST_TASK, execution.getCurrentActivityId());
+        entity.setTaskId(execution.getCurrentActivityId());
         entity.setDate(dateUtil.getNowUTC());
         cassandraDao.saveOperationStep(entity);
     }

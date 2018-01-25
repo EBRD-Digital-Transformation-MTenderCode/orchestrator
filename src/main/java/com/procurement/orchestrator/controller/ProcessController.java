@@ -46,7 +46,6 @@ public class ProcessController {
     }
 
     @RequestMapping(value = "{processType}", method = RequestMethod.POST)
-    @ResponseStatus(HttpStatus.ACCEPTED)
     public ResponseEntity<String> doCreate(@PathVariable("processType") final String processType,
                                            @RequestHeader("X-OPERATION-ID") final String operationId,
                                            @RequestHeader("token") final String token,
@@ -61,13 +60,12 @@ public class ProcessController {
         Map<String, Object> variables = new HashMap<>();
         variables.put("requestId", requestId);
         variables.put("isTokenPresent", (token.isEmpty() ? 0 : 1));
-        variables.put("lastExecutedTask","");
+//        variables.put("lastExecutedTask", "");
         processService.startProcess(processType, operationId, variables);
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
 //    @RequestMapping(value = "{processType}/{ocid}", method = RequestMethod.POST)
-//    @ResponseStatus(HttpStatus.ACCEPTED)
 //    public ResponseEntity<String> doCreate(@PathVariable("processType") final String processType,
 //                                           @PathVariable("ocid") final String ocid,
 //                                           @RequestHeader("X-OPERATION-ID") final String txId,

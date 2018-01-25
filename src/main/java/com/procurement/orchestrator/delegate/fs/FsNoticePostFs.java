@@ -45,10 +45,9 @@ public class FsNoticePostFs implements JavaDelegate {
 
     @Override
     public void execute(final DelegateExecution execution) {
-        LOG.info("->Data preparation for E-Notice.");
-        final Optional<OperationStepEntity> entityOptional = operationService.getOperationStep(execution);
+        LOG.info(execution.getCurrentActivityName());
+        final Optional<OperationStepEntity> entityOptional = operationService.getPreviousOperationStep(execution);
         if (entityOptional.isPresent()) {
-            LOG.info("->Send data to E-Notice.");
             final OperationStepEntity entity = entityOptional.get();
             final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
             final String cpId = jsonData.get("cpid").asText();
@@ -64,10 +63,10 @@ public class FsNoticePostFs implements JavaDelegate {
                         entity,
                         responseEntity.getBody().getData());
             } catch (FeignException e) {
-                LOG.error(e.getMessage());
+                LOG.error(e.getMessage(), e);
                 processService.processHttpException(e.status(), e.getMessage(), execution.getProcessInstanceId());
             } catch (Exception e) {
-                LOG.error(e.getMessage());
+                LOG.error(e.getMessage(), e);
                 processService.processHttpException(0, e.getMessage(), execution.getProcessInstanceId());
             }
         }

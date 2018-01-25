@@ -1,6 +1,7 @@
 package com.procurement.orchestrator.cassandra.service;
 
 import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
+import com.procurement.orchestrator.cassandra.model.RequestEntity;
 import com.procurement.orchestrator.domain.Params;
 import java.util.Optional;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
@@ -13,13 +14,15 @@ public interface OperationService {
 
     Boolean saveIfNotExist(String operationId, String processId);
 
-    void saveFirstOperationStep(OperationStepEntity entity);
+    void saveFirstOperationStep(DelegateExecution execution, RequestEntity entity);
 
     Optional<OperationStepEntity> getOperationStep(String processId, String taskId);
 
-    void saveOperationStep(String taskId, OperationStepEntity entity, Params params, Object response);
+    Optional<OperationStepEntity> getPreviousOperationStep(DelegateExecution execution);
 
-    void saveOperationStep(String taskId, OperationStepEntity entity, Object response);
+    void saveOperationStep(DelegateExecution execution, OperationStepEntity entity, Params params, Object response);
 
-    void saveOperationStep(String taskId, OperationStepEntity entity);
+    void saveOperationStep(DelegateExecution execution, OperationStepEntity entity, Object response);
+
+    void saveOperationStep(DelegateExecution execution, OperationStepEntity entity);
 }

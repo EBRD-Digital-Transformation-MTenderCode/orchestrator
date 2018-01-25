@@ -40,7 +40,7 @@ public class ChronographProduceTask implements JavaDelegate {
     @Override
     public void execute(final DelegateExecution execution) {
         LOG.info("->Data preparation for Chronograph.");
-        final Optional<OperationStepEntity> entityOptional = operationService.getOperationStep(execution);
+        final Optional<OperationStepEntity> entityOptional = operationService.getPreviousOperationStep(execution);
         if (entityOptional.isPresent()) {
             final OperationStepEntity entity = entityOptional.get();
             final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());

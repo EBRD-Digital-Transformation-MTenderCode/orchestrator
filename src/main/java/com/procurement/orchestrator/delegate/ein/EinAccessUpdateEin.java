@@ -42,12 +42,9 @@ public class EinAccessUpdateEin implements JavaDelegate {
 
     @Override
     public void execute(final DelegateExecution execution) {
-        LOG.info("->Data preparation for E-Access.");
-        final String processId = execution.getProcessInstanceId();
-        final String previousTask = (String) execution.getVariableLocal("lastExecutedTask");
-        final Optional<OperationStepEntity> entityOptional = operationService.getOperationStep(processId, previousTask);
+        LOG.info(execution.getCurrentActivityName());
+        final Optional<OperationStepEntity> entityOptional = operationService.getPreviousOperationStep(execution);
         if (entityOptional.isPresent()) {
-            LOG.info("->Send data to E-Access.");
             final OperationStepEntity entity = entityOptional.get();
             final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
             final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
@@ -58,18 +55,16 @@ public class EinAccessUpdateEin implements JavaDelegate {
                         params.getToken(),
                         jsonData);
                 JsonNode responseData = jsonUtil.toJsonNode(responseEntity.getBody().getData());
-                final String currentActivityId = execution.getCurrentActivityId();
                 operationService.saveOperationStep(
-                        currentActivityId,
+                        execution,
                         entity,
                         params,
                         responseData);
-                execution.setVariable("lastExecutedTask", currentActivityId);
             } catch (FeignException e) {
-                LOG.error(e.getMessage());
+                LOG.error(e.getMessage(), e);
                 processService.processHttpException(e.status(), e.getMessage(), execution.getProcessInstanceId());
             } catch (Exception e) {
-                LOG.error(e.getMessage());
+                LOG.error(e.getMessage(), e);
                 processService.processHttpException(0, e.getMessage(), execution.getProcessInstanceId());
             }
         }

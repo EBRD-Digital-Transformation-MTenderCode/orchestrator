@@ -38,23 +38,14 @@ public class SaveFirstOperation implements JavaDelegate {
 
     @Override
     public void execute(final DelegateExecution execution) {
-        LOG.info("->Save first operation.");
-        final String requestId = (String) execution.getVariable("requestId");
-        final Optional<RequestEntity> requestOptional = requestService.getRequestById(requestId);
+        LOG.info(execution.getCurrentActivityName());
+        final Optional<RequestEntity> requestOptional = requestService.getRequestById(
+                (String) execution.getVariable("requestId"));
         if (requestOptional.isPresent()) {
             if (!operationService.saveIfNotExist(execution.getProcessBusinessKey(), execution.getProcessInstanceId())) {
                 processService.terminateProcess(execution.getProcessInstanceId());
             }
-            final RequestEntity requestEntity = requestOptional.get();
-            final String currentActivityId = execution.getCurrentActivityId();
-            operationService.saveFirstOperationStep(new OperationStepEntity(
-                    execution.getProcessInstanceId(),
-                    currentActivityId,
-                    dateUtil.getNowUTC(),
-                    requestEntity.getJsonParams(),
-                    requestEntity.getJsonData()
-            ));
-            execution.setVariable("lastExecutedTask", currentActivityId);
+            operationService.saveFirstOperationStep(execution, requestOptional.get());
         } else {
             processService.terminateProcess(execution.getProcessInstanceId());
         }

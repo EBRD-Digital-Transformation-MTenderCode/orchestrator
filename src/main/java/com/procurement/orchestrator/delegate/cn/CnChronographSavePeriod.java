@@ -37,9 +37,8 @@ public class CnChronographSavePeriod implements JavaDelegate {
 
     @Override
     public void execute(final DelegateExecution execution) {
-        LOG.info("->Data preparation for Chronograph.");
-//        final String txId = execution.getProcessBusinessKey();
-//        final Optional<OperationStepEntity> entityOptional = operationService.getLastOperation(txId);
+        LOG.info(execution.getCurrentActivityName());
+//        final Optional<OperationStepEntity> entityOptional = operationService.getPreviousOperationStep(execution);
 //        if (entityOptional.isPresent()) {
 //            LOG.info("->Send data to Chronograph.");
 //        }
