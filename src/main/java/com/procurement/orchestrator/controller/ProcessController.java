@@ -60,7 +60,6 @@ public class ProcessController {
         Map<String, Object> variables = new HashMap<>();
         variables.put("requestId", requestId);
         variables.put("isTokenPresent", (token.isEmpty() ? 0 : 1));
-//        variables.put("lastExecutedTask", "");
         processService.startProcess(processType, operationId, variables);
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }

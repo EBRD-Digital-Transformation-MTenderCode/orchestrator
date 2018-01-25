@@ -66,8 +66,10 @@ public class OperationServiceImpl implements OperationService {
 
     @Override
     public Optional<OperationStepEntity> getPreviousOperationStep(final DelegateExecution execution) {
-        return cassandraDao.getOperationStep(execution.getProcessInstanceId(),
-                (String) execution.getVariableLocal(LAST_TASK));
+        return cassandraDao.getOperationStep(
+                execution.getProcessInstanceId(),
+                (String) execution.getVariable(LAST_TASK)
+        );
     }
 
     @Override

@@ -5,7 +5,6 @@ import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.delegate.test.ChronographProduceTask;
 import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.kafka.MessageProducer;
-import com.procurement.orchestrator.kafka.dto.ChronographTask;
 import com.procurement.orchestrator.kafka.dto.PlatformMessage;
 import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -29,9 +28,9 @@ public class SendMessageToPlatform implements JavaDelegate {
     private final DateUtil dateUtil;
 
     public SendMessageToPlatform(final MessageProducer messageProducer,
-                                  final OperationService operationService,
-                                  final JsonUtil jsonUtil,
-                                  final DateUtil dateUtil) {
+                                 final OperationService operationService,
+                                 final JsonUtil jsonUtil,
+                                 final DateUtil dateUtil) {
         this.messageProducer = messageProducer;
         this.operationService = operationService;
         this.jsonUtil = jsonUtil;
@@ -45,7 +44,7 @@ public class SendMessageToPlatform implements JavaDelegate {
         if (entityOptional.isPresent()) {
             final OperationStepEntity entity = entityOptional.get();
             final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
-            PlatformMessage message = new PlatformMessage(params.getOperationId(), params.getToken());
+            final PlatformMessage message = new PlatformMessage(params.getOperationId(), params.getToken());
             messageProducer.sendToPlatform(message);
         }
     }

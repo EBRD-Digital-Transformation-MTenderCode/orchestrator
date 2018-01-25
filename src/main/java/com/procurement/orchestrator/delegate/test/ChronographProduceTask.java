@@ -39,19 +39,19 @@ public class ChronographProduceTask implements JavaDelegate {
 
     @Override
     public void execute(final DelegateExecution execution) {
-        LOG.info("->Data preparation for Chronograph.");
+        LOG.info(execution.getCurrentActivityName());
         final Optional<OperationStepEntity> entityOptional = operationService.getPreviousOperationStep(execution);
         if (entityOptional.isPresent()) {
             final OperationStepEntity entity = entityOptional.get();
-            final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
-            ChronographTask.TaskMetaData taskMetaData = new ChronographTask.TaskMetaData("consumeTask", "123");
-            ChronographTask task = new ChronographTask(
-                    ChronographTask.ActionType.SCHEDULE,
-                    "123",
-                    "test",
-                    dateUtil.localDateTimeNowUTC().plusMinutes(5L),
-                    jsonUtil.toJson(taskMetaData));
-            messageProducer.sendToChronograph(task);
+//            final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
+//            ChronographTask.TaskMetaData taskMetaData = new ChronographTask.TaskMetaData("consumeTask", "123");
+//            ChronographTask task = new ChronographTask(
+//                    ChronographTask.ActionType.SCHEDULE,
+//                    "123",
+//                    "test",
+//                    dateUtil.localDateTimeNowUTC().plusMinutes(5L),
+//                    jsonUtil.toJson(taskMetaData));
+//            messageProducer.sendToChronograph(task);
         }
     }
 }
