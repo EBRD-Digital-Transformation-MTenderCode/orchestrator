@@ -55,7 +55,6 @@ public class FsNoticePostFs implements JavaDelegate {
                 final ResponseEntity<ResponseDto> responseEntity = noticeRestClient.createFs(
                         cpId,
                         "fs",
-                        "createFs",
                         jsonData
                 );
                 operationService.saveOperationStep(

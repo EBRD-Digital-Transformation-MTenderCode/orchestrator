@@ -15,19 +15,16 @@ public interface NoticeRestClient {
     @RequestMapping(path = "/release/ein", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> createEin(@RequestParam("cpid") final String cpid,
                                           @RequestParam("stage") final String stage,
-                                          @RequestParam("operation") final String operation,
                                           @RequestBody final JsonNode data) throws Exception;
 
     @RequestMapping(path = "/release/fs", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> createFs(@RequestParam("cpid") final String cpid,
                                          @RequestParam("stage") final String stage,
-                                         @RequestParam("operation") final String operation,
                                          @RequestBody final JsonNode data) throws Exception;
 
     @RequestMapping(path = "/release/cn", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> createCn(@RequestParam("cpid") final String cpid,
                                          @RequestParam("stage") final String stage,
-                                         @RequestParam("operation") final String operation,
                                          @RequestParam("startDate") final String releaseDate,
                                          @RequestBody final JsonNode data) throws Exception;
 

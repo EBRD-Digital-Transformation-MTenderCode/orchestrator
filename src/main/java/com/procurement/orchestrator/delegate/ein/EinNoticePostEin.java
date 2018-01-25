@@ -50,7 +50,6 @@ public class EinNoticePostEin implements JavaDelegate {
                 final ResponseEntity<ResponseDto> responseEntity = noticeRestClient.createEin(
                         cpId,
                         "ein",
-                        "createEin",
                         jsonData
                 );
                 operationService.saveOperationStep(
