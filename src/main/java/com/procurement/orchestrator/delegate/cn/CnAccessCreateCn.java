@@ -1,12 +1,11 @@
 package com.procurement.orchestrator.delegate.cn;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
 import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.domain.dto.ResponseDto;
-import com.procurement.orchestrator.rest.ClarificationRestClient;
+import com.procurement.orchestrator.rest.AccessRestClient;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
 import feign.FeignException;
@@ -19,11 +18,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CnClarificationSavePeriod implements JavaDelegate {
+public class CnAccessCreateCn implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(CnClarificationSavePeriod.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CnAccessCreateCn.class);
 
-    private final ClarificationRestClient clarificationRestClient;
+    private final AccessRestClient accessRestClient;
 
     private final OperationService operationService;
 
@@ -31,11 +30,11 @@ public class CnClarificationSavePeriod implements JavaDelegate {
 
     private final JsonUtil jsonUtil;
 
-    public CnClarificationSavePeriod(final ClarificationRestClient clarificationRestClient,
-                                     final OperationService operationService,
-                                     final ProcessService processService,
-                                     final JsonUtil jsonUtil) {
-        this.clarificationRestClient = clarificationRestClient;
+    public CnAccessCreateCn(final AccessRestClient accessRestClient,
+                            final OperationService operationService,
+                            final ProcessService processService,
+                            final JsonUtil jsonUtil) {
+        this.accessRestClient = accessRestClient;
         this.operationService = operationService;
         this.processService = processService;
         this.jsonUtil = jsonUtil;
@@ -48,21 +47,16 @@ public class CnClarificationSavePeriod implements JavaDelegate {
         if (entityOptional.isPresent()) {
             final OperationStepEntity entity = entityOptional.get();
             final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
-            final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
             try {
-                final ResponseEntity<ResponseDto> responseEntity = clarificationRestClient.postSavePeriod(
-                        params.getCpid(),
-                        params.getCountry(),
-                        params.getPmd(),
-                        "ps",
+                final ResponseEntity<ResponseDto> responseEntity = accessRestClient.createCn(
                         params.getOwner(),
-                        getStartDate(jsonData),
-                        getEndDate(jsonData));
+                        jsonUtil.toJsonNode(entity.getJsonData()));
                 JsonNode responseData = jsonUtil.toJsonNode(responseEntity.getBody().getData());
                 operationService.saveOperationStep(
                         execution,
                         entity,
-                        addEnquiryPeriod(jsonData, responseData));
+                        addTokenToParams(params, responseData),
+                        responseData);
             } catch (FeignException e) {
                 LOG.error(e.getMessage(), e);
                 processService.processHttpException(e.status(), e.getMessage(), execution.getProcessInstanceId());
@@ -73,24 +67,13 @@ public class CnClarificationSavePeriod implements JavaDelegate {
         }
     }
 
-    private String getStartDate(JsonNode jsonData) {
-        final JsonNode tenderNode = jsonData.get("tender");
-        final JsonNode tenderPeriodNode = tenderNode.get("tenderPeriod");
-        return tenderPeriodNode.get("startDate").asText();
-    }
-
-    private String getEndDate(JsonNode jsonData) {
-        final JsonNode tenderNode = jsonData.get("tender");
-        final JsonNode tenderPeriodNode = tenderNode.get("tenderPeriod");
-        return tenderPeriodNode.get("endDate").asText();
-    }
-
-    private JsonNode addEnquiryPeriod(JsonNode jsonData, JsonNode responseData) {
-        final JsonNode tenderNode = jsonData.get("tender");
-        ObjectNode enquiryPeriodNode = ((ObjectNode) tenderNode).putObject("enquiryPeriod");
-        enquiryPeriodNode
-                .put("startDate", responseData.get("startDate").asText())
-                .put("endDate", responseData.get("endDate").asText());
-        return jsonData;
+    private Params addTokenToParams(Params params, JsonNode responseData) {
+        if (responseData.get("token") != null) {
+            params.setToken(responseData.get("token").asText());
+        }
+        if (responseData.get("ocid") != null) {
+            params.setCpid(responseData.get("ocid").asText());
+        }
+        return params;
     }
 }

@@ -35,4 +35,10 @@ public interface AccessRestClient {
     @RequestMapping(path = "/cn", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> createCn(@RequestParam("owner") String owner,
                                          @RequestBody JsonNode jsonData) throws Exception;
+
+    @RequestMapping(path = "/cn", method = RequestMethod.PUT)
+    ResponseEntity<ResponseDto> updateCn(@RequestParam("owner") final String owner,
+                                         @RequestParam("identifier") final String identifier,
+                                         @RequestParam("token") final String token,
+                                         @RequestBody JsonNode jsonData) throws Exception;
 }

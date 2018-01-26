@@ -51,7 +51,7 @@ public class EinAccessUpdateEin implements JavaDelegate {
             try {
                 final ResponseEntity<ResponseDto> responseEntity = accessRestClient.updateEin(
                         params.getOwner(),
-                        params.getOcid(),
+                        params.getCpid(),
                         params.getToken(),
                         jsonData);
                 JsonNode responseData = jsonUtil.toJsonNode(responseEntity.getBody().getData());

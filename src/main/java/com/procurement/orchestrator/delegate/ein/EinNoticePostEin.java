@@ -49,7 +49,7 @@ public class EinNoticePostEin implements JavaDelegate {
             final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
             try {
                 final ResponseEntity<ResponseDto> responseEntity = noticeRestClient.createEin(
-                        params.getOcid(),
+                        params.getCpid(),
                         "ein",
                         jsonData
                 );

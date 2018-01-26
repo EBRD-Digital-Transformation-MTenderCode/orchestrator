@@ -10,15 +10,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(name = "e-submission")
 public interface SubmissionRestClient {
     @RequestMapping(path = "/period/check", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> postCheckPeriod(@RequestParam("country") String country,
-                                                @RequestParam("pmd") String pmd,
-                                                @RequestParam("stage") String stage,
-                                                @RequestParam("startDate") String startDate,
-                                                @RequestParam("endDate") String endDate) throws Exception;
+    ResponseEntity<ResponseDto> checkPeriod(@RequestParam("country") String country,
+                                            @RequestParam("pmd") String pmd,
+                                            @RequestParam("stage") String stage,
+                                            @RequestParam("startDate") String startDate,
+                                            @RequestParam("endDate") String endDate) throws Exception;
 
     @RequestMapping(path = "/period/save", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> postSavePeriod(@RequestParam("cpid") String cpid,
-                                               @RequestParam("stage") String stage,
-                                               @RequestParam("startDate") String startDate,
-                                               @RequestParam("endDate") String endDate) throws Exception;
+    ResponseEntity<ResponseDto> savePeriod(@RequestParam("cpid") String cpid,
+                                           @RequestParam("stage") String stage,
+                                           @RequestParam("startDate") String startDate,
+                                           @RequestParam("endDate") String endDate) throws Exception;
 }

@@ -73,7 +73,7 @@ public class EinAccessCreateEin implements JavaDelegate {
             params.setToken(responseData.get("token").asText());
         }
         if (responseData.get("ocid") != null) {
-            params.setOcid(responseData.get("ocid").asText());
+            params.setCpid(responseData.get("ocid").asText());
         }
         return params;
     }

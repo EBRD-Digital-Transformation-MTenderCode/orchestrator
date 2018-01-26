@@ -3,6 +3,7 @@ package com.procurement.orchestrator.delegate.cn;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
 import com.procurement.orchestrator.cassandra.service.OperationService;
+import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.rest.SubmissionRestClient;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.DateUtil;
@@ -49,15 +50,13 @@ public class CnSubmissionSavePeriod implements JavaDelegate {
         if (entityOptional.isPresent()) {
             final OperationStepEntity entity = entityOptional.get();
             final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
-            final String cpId = getCpId(jsonData);
-            final String startDate = getStartDate(jsonData);
-            final String endDate = getEndDate(jsonData);
+            final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
             try {
-                submissionRestClient.postSavePeriod(
-                        cpId,
+                submissionRestClient.savePeriod(
+                        params.getCpid(),
                         "ps",
-                        startDate,
-                        endDate);
+                        getStartDate(jsonData),
+                        getEndDate(jsonData));
                 operationService.saveOperationStep(execution, entity);
             } catch (FeignException e) {
                 LOG.error(e.getMessage(), e);
@@ -67,10 +66,6 @@ public class CnSubmissionSavePeriod implements JavaDelegate {
                 processService.processHttpException(0, e.getMessage(), execution.getProcessInstanceId());
             }
         }
-    }
-
-    private String getCpId(JsonNode jsonData) {
-        return jsonData.get("ocid").asText();
     }
 
     private String getStartDate(JsonNode jsonData) {

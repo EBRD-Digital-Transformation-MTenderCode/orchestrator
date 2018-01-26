@@ -12,7 +12,6 @@ import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
 import feign.FeignException;
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -58,24 +57,23 @@ public class CnSubmissionCheckPeriod implements JavaDelegate {
         if (entityOptional.isPresent()) {
             final OperationStepEntity entity = entityOptional.get();
             final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
-            final LocalDateTime startDate = dateUtil.localDateTimeNowUTC();
-            final LocalDateTime endDate = getPeriodEndDate(entity);
+            final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
+            final String startDate = dateUtil.format(dateUtil.localDateTimeNowUTC());
             try {
-                final ResponseEntity<ResponseDto> responseEntity = submissionRestClient.postCheckPeriod(
+                final ResponseEntity<ResponseDto> responseEntity = submissionRestClient.checkPeriod(
                         params.getCountry(),
                         params.getPmd(),
                         "ps",
-                        dateUtil.format(startDate),
-                        dateUtil.format(endDate));
+                        startDate,
+                        getEndDate(jsonData));
                 Map<String, Boolean> data = (HashMap) responseEntity.getBody().getData();
                 if (!data.get("period")) {
                     throw new BpmnError("TR_EXCEPTION", ResponseMessageType.PERIOD_EXCEPTION.value());
                 }
                 operationService.saveOperationStep(
                         execution,
-                        entity,
-                        params,
-                        addPeriodStartDate(entity, dateUtil.format(startDate)));
+                        addPeriodStartDate(entity, jsonData, startDate),
+                        params);
             } catch (FeignException e) {
                 LOG.error(e.getMessage(), e);
                 processService.processHttpException(e.status(), e.getMessage(), execution.getProcessInstanceId());
@@ -86,20 +84,20 @@ public class CnSubmissionCheckPeriod implements JavaDelegate {
         }
     }
 
-    private LocalDateTime getPeriodEndDate(OperationStepEntity entity) {
-        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
+    private String getEndDate(final JsonNode jsonData) {
         final JsonNode tenderNode = jsonData.get("tender");
         final JsonNode tenderPeriodNode = tenderNode.get("tenderPeriod");
-        final JsonNode endDateNode = tenderPeriodNode.get("endDate");
-        return dateUtil.stringToLocal(endDateNode.asText());
+        return tenderPeriodNode.get("endDate").asText();
     }
 
-    private JsonNode addPeriodStartDate(OperationStepEntity entity, String startDate) {
-        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
+    private OperationStepEntity addPeriodStartDate(final OperationStepEntity entity,
+                                                   final JsonNode jsonData,
+                                                   final String startDate) {
         final JsonNode tenderNode = jsonData.get("tender");
         final JsonNode tenderPeriodNode = tenderNode.get("tenderPeriod");
         ((ObjectNode) tenderPeriodNode).put("startDate", startDate);
-        return jsonData;
+        entity.setJsonData(jsonUtil.toJson(jsonData));
+        return entity;
     }
 
 }

@@ -18,9 +18,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CnAccessPostCn implements JavaDelegate {
+public class CnAccessUpdateCn implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(CnAccessPostCn.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CnAccessUpdateCn.class);
 
     private final AccessRestClient accessRestClient;
 
@@ -30,10 +30,10 @@ public class CnAccessPostCn implements JavaDelegate {
 
     private final JsonUtil jsonUtil;
 
-    public CnAccessPostCn(final AccessRestClient accessRestClient,
-                          final OperationService operationService,
-                          final ProcessService processService,
-                          final JsonUtil jsonUtil) {
+    public CnAccessUpdateCn(final AccessRestClient accessRestClient,
+                            final OperationService operationService,
+                            final ProcessService processService,
+                            final JsonUtil jsonUtil) {
         this.accessRestClient = accessRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -47,15 +47,18 @@ public class CnAccessPostCn implements JavaDelegate {
         if (entityOptional.isPresent()) {
             final OperationStepEntity entity = entityOptional.get();
             final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
+            final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
             try {
-                final ResponseEntity<ResponseDto> responseEntity = accessRestClient.createCn(
+                final ResponseEntity<ResponseDto> responseEntity = accessRestClient.updateCn(
                         params.getOwner(),
-                        jsonUtil.toJsonNode(entity.getJsonData()));
+                        params.getCpid(),
+                        params.getToken(),
+                        jsonData);
                 JsonNode responseData = jsonUtil.toJsonNode(responseEntity.getBody().getData());
                 operationService.saveOperationStep(
                         execution,
                         entity,
-                        addTokenToParams(params, responseData),
+                        params,
                         responseData);
             } catch (FeignException e) {
                 LOG.error(e.getMessage(), e);
@@ -65,12 +68,5 @@ public class CnAccessPostCn implements JavaDelegate {
                 processService.processHttpException(0, e.getMessage(), execution.getProcessInstanceId());
             }
         }
-    }
-
-    private Params addTokenToParams(Params params, JsonNode responseData) {
-        if (responseData.get("token") != null) {
-            params.setToken(responseData.get("token").asText());
-        }
-        return params;
     }
 }
