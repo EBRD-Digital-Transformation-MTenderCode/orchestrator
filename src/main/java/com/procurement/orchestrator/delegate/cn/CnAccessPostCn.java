@@ -48,10 +48,7 @@ public class CnAccessPostCn implements JavaDelegate {
             final OperationStepEntity entity = entityOptional.get();
             final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
             try {
-                final ResponseEntity<ResponseDto> responseEntity = accessRestClient.postCreateCn(
-                        params.getCountry(),
-                        params.getPmd(),
-                        "ps",
+                final ResponseEntity<ResponseDto> responseEntity = accessRestClient.createCn(
                         params.getOwner(),
                         jsonUtil.toJsonNode(entity.getJsonData()));
                 JsonNode responseData = jsonUtil.toJsonNode(responseEntity.getBody().getData());

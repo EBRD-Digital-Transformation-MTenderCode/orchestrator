@@ -18,9 +18,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 @Component
-public class FsAccessPostFs implements JavaDelegate {
+public class FsAccessCreateFs implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(FsAccessPostFs.class);
+    private static final Logger LOG = LoggerFactory.getLogger(FsAccessCreateFs.class);
 
     private final AccessRestClient accessRestClient;
 
@@ -31,10 +31,10 @@ public class FsAccessPostFs implements JavaDelegate {
     private final JsonUtil jsonUtil;
 
 
-    public FsAccessPostFs(final AccessRestClient accessRestClient,
-                          final OperationService operationService,
-                          final ProcessService processService,
-                          final JsonUtil jsonUtil) {
+    public FsAccessCreateFs(final AccessRestClient accessRestClient,
+                            final OperationService operationService,
+                            final ProcessService processService,
+                            final JsonUtil jsonUtil) {
         this.accessRestClient = accessRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -50,17 +50,14 @@ public class FsAccessPostFs implements JavaDelegate {
             final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
             final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
             try {
-                final ResponseEntity<ResponseDto> responseEntity = accessRestClient.postCreateFs(
-                        params.getCountry(),
-                        params.getPmd(),
-                        "fs",
+                final ResponseEntity<ResponseDto> responseEntity = accessRestClient.createFs(
                         params.getOwner(),
                         jsonData);
                 JsonNode responseData = jsonUtil.toJsonNode(responseEntity.getBody().getData());
                 operationService.saveOperationStep(
                         execution,
                         entity,
-                        addTokenToParams(params, responseData),
+                        addDataToParams(params, responseData),
                         responseData);
             } catch (FeignException e) {
                 LOG.error(e.getMessage(), e);
@@ -72,9 +69,12 @@ public class FsAccessPostFs implements JavaDelegate {
         }
     }
 
-    private Params addTokenToParams(Params params, JsonNode responseData) {
+    private Params addDataToParams(Params params, JsonNode responseData) {
         if (responseData.get("token") != null) {
             params.setToken(responseData.get("token").asText());
+        }
+        if (responseData.get("cpid") != null) {
+            params.setCpid(responseData.get("cpid").asText());
         }
         return params;
     }

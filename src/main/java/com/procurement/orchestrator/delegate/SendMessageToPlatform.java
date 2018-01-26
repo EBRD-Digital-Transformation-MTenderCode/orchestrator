@@ -6,8 +6,9 @@ import com.procurement.orchestrator.delegate.test.ChronographProduceTask;
 import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.kafka.MessageProducer;
 import com.procurement.orchestrator.kafka.dto.PlatformMessage;
-import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
@@ -25,16 +26,12 @@ public class SendMessageToPlatform implements JavaDelegate {
 
     private final JsonUtil jsonUtil;
 
-    private final DateUtil dateUtil;
-
     public SendMessageToPlatform(final MessageProducer messageProducer,
                                  final OperationService operationService,
-                                 final JsonUtil jsonUtil,
-                                 final DateUtil dateUtil) {
+                                 final JsonUtil jsonUtil) {
         this.messageProducer = messageProducer;
         this.operationService = operationService;
         this.jsonUtil = jsonUtil;
-        this.dateUtil = dateUtil;
     }
 
     @Override
@@ -44,7 +41,14 @@ public class SendMessageToPlatform implements JavaDelegate {
         if (entityOptional.isPresent()) {
             final OperationStepEntity entity = entityOptional.get();
             final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
-            final PlatformMessage message = new PlatformMessage(params.getOperationId(), params.getToken());
+            Map<String, String> data = new HashMap<>();
+            data.put("token", params.getToken());
+            data.put("cpid", params.getCpid());
+            data.put("ocid", params.getOcid());
+            final PlatformMessage message = new PlatformMessage(
+                    params.getOperationId(),
+                    jsonUtil.toJson(data)
+            );
             messageProducer.sendToPlatform(message);
         }
     }

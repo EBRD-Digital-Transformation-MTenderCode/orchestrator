@@ -10,17 +10,19 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Params {
     @JsonProperty(value = "operationId")
-    private final String operationId;
+    private String operationId;
+    @JsonProperty(value = "cpid")
+    private String cpid;
     @JsonProperty(value = "ocid")
-    private final String ocid;
+    private String ocid;
     @JsonProperty(value = "processType")
-    private final String processType;
+    private String processType;
     @JsonProperty(value = "owner")
-    private final String owner;
+    private String owner;
     @JsonProperty(value = "country")
-    private final String country;
+    private String country;
     @JsonProperty(value = "pmd")
-    private final String pmd;
+    private String pmd;
     @JsonProperty(value = "token")
     private String token;
 }

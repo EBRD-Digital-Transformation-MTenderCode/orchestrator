@@ -54,8 +54,8 @@ public class OperationServiceImpl implements OperationService {
         operationStepEntity.setProcessId(execution.getProcessInstanceId());
         operationStepEntity.setTaskId(execution.getCurrentActivityId());
         operationStepEntity.setDate(dateUtil.getNowUTC());
-        operationStepEntity.setJsonData(requestEntity.getJsonData());
         operationStepEntity.setJsonParams(requestEntity.getJsonParams());
+        operationStepEntity.setJsonData(requestEntity.getJsonData());
         cassandraDao.saveOperationStep(operationStepEntity);
     }
 

@@ -49,7 +49,7 @@ public class EinAccessUpdateEin implements JavaDelegate {
             final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
             final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
             try {
-                final ResponseEntity<ResponseDto> responseEntity = accessRestClient.postUpdateEin(
+                final ResponseEntity<ResponseDto> responseEntity = accessRestClient.updateEin(
                         params.getOwner(),
                         params.getOcid(),
                         params.getToken(),

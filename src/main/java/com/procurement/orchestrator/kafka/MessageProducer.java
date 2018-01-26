@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class MessageProducer {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MessageProducer.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MessageProducer.class);
     private static final String CHRONOGRAPH_TOPIC = "chronograph-in";
     private static final String PLATFORM_TOPIC = "2c974565-e527-4e7d-b369-bf5db76c4f5c";
     private final KafkaTemplate<String, String> internalKafkaTemplate;
@@ -35,7 +35,7 @@ public class MessageProducer {
                     CHRONOGRAPH_TOPIC,
                     jsonUtil.toJson(task)).get();
             RecordMetadata recordMetadata = sendResult.getRecordMetadata();
-            LOGGER.info("Send to chronograph: ", recordMetadata.topic(),
+            LOG.info("Send to chronograph: ", recordMetadata.topic(),
                     recordMetadata.partition(), recordMetadata.offset(), task.toString());
             return true;
         } catch (Exception e) {
@@ -49,7 +49,7 @@ public class MessageProducer {
                     PLATFORM_TOPIC,
                     jsonUtil.toJson(message)).get();
             RecordMetadata recordMetadata = sendResult.getRecordMetadata();
-            LOGGER.info("Send to platform: ", recordMetadata.topic(),
+            LOG.info("Send to platform: ", recordMetadata.topic(),
                     recordMetadata.partition(), recordMetadata.offset(), message.toString());
             return true;
         } catch (Exception e) {

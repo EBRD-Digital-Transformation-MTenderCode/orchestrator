@@ -3,6 +3,7 @@ package com.procurement.orchestrator.delegate.ein;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
 import com.procurement.orchestrator.cassandra.service.OperationService;
+import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.domain.dto.ResponseDto;
 import com.procurement.orchestrator.rest.NoticeRestClient;
 import com.procurement.orchestrator.service.ProcessService;
@@ -44,11 +45,11 @@ public class EinNoticePostEin implements JavaDelegate {
         final Optional<OperationStepEntity> entityOptional = operationService.getPreviousOperationStep(execution);
         if (entityOptional.isPresent()) {
             final OperationStepEntity entity = entityOptional.get();
+            final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
             final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
-            final String cpId = jsonData.get("ocid").asText();
             try {
                 final ResponseEntity<ResponseDto> responseEntity = noticeRestClient.createEin(
-                        cpId,
+                        params.getOcid(),
                         "ein",
                         jsonData
                 );

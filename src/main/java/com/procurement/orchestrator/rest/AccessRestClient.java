@@ -12,27 +12,27 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(name = "e-access")
 public interface AccessRestClient {
 
-    @RequestMapping(path = "/ein/create", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> postCreateEin(@RequestParam("owner") String owner,
-                                              @RequestBody JsonNode jsonData) throws Exception;
+    @RequestMapping(path = "/ein", method = RequestMethod.POST)
+    ResponseEntity<ResponseDto> createEin(@RequestParam("owner") String owner,
+                                          @RequestBody JsonNode jsonData) throws Exception;
 
-    @RequestMapping(path = "/ein/update", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> postUpdateEin(@RequestParam("owner") final String owner,
-                                              @RequestParam("identifier") final String identifier,
-                                              @RequestParam("token") final String token,
-                                              @RequestBody JsonNode jsonData) throws Exception;
+    @RequestMapping(path = "/ein", method = RequestMethod.PUT)
+    ResponseEntity<ResponseDto> updateEin(@RequestParam("owner") final String owner,
+                                          @RequestParam("identifier") final String identifier,
+                                          @RequestParam("token") final String token,
+                                          @RequestBody JsonNode jsonData) throws Exception;
 
-    @RequestMapping(path = "/fs/create", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> postCreateFs(@RequestParam("country") String country,
-                                             @RequestParam("pmd") String pmd,
-                                             @RequestParam("stage") String stage,
-                                             @RequestParam("owner") String owner,
-                                             @RequestBody JsonNode jsonData) throws Exception;
+    @RequestMapping(path = "/fs", method = RequestMethod.POST)
+    ResponseEntity<ResponseDto> createFs(@RequestParam("owner") String owner,
+                                         @RequestBody JsonNode jsonData) throws Exception;
 
-    @RequestMapping(path = "/cn/create", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> postCreateCn(@RequestParam("country") String country,
-                                             @RequestParam("pmd") String pmd,
-                                             @RequestParam("stage") String stage,
-                                             @RequestParam("owner") String owner,
-                                             @RequestBody JsonNode jsonData) throws Exception;
+    @RequestMapping(path = "/fs", method = RequestMethod.PUT)
+    ResponseEntity<ResponseDto> updateFs(@RequestParam("owner") final String owner,
+                                         @RequestParam("identifier") final String identifier,
+                                         @RequestParam("token") final String token,
+                                         @RequestBody JsonNode jsonData) throws Exception;
+
+    @RequestMapping(path = "/cn", method = RequestMethod.POST)
+    ResponseEntity<ResponseDto> createCn(@RequestParam("owner") String owner,
+                                         @RequestBody JsonNode jsonData) throws Exception;
 }

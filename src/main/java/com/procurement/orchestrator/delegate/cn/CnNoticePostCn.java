@@ -52,7 +52,6 @@ public class CnNoticePostCn implements JavaDelegate {
                 final ResponseEntity<ResponseDto> responseEntity = noticeRestClient.createCn(
                         cpId,
                         "ps",
-                        "createCn",
                         releaseDate,
                         jsonData
                 );

@@ -49,14 +49,14 @@ public class EinAccessCreateEin implements JavaDelegate {
             final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
             final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
             try {
-                final ResponseEntity<ResponseDto> responseEntity = accessRestClient.postCreateEin(
+                final ResponseEntity<ResponseDto> responseEntity = accessRestClient.createEin(
                         params.getOwner(),
                         jsonData);
                 JsonNode responseData = jsonUtil.toJsonNode(responseEntity.getBody().getData());
                 operationService.saveOperationStep(
                         execution,
                         entity,
-                        addTokenToParams(params, responseData),
+                        addDataToParams(params, responseData),
                         responseData);
             } catch (FeignException e) {
                 LOG.error(e.getMessage(), e);
@@ -68,9 +68,12 @@ public class EinAccessCreateEin implements JavaDelegate {
         }
     }
 
-    private Params addTokenToParams(Params params, JsonNode responseData) {
+    private Params addDataToParams(Params params, JsonNode responseData) {
         if (responseData.get("token") != null) {
             params.setToken(responseData.get("token").asText());
+        }
+        if (responseData.get("ocid") != null) {
+            params.setOcid(responseData.get("ocid").asText());
         }
         return params;
     }

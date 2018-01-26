@@ -107,7 +107,7 @@ public class CassandraDaoImpl implements CassandraDao {
                         row.getString("process_id"),
                         row.getString("task_id"),
                         row.getTimestamp("step_date"),
-                        row.getString("json_data"),
-                        row.getString("json_params")));
+                        row.getString("json_params"),
+                        row.getString("json_data")));
     }
 }

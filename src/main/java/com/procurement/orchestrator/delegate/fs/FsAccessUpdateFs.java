@@ -5,9 +5,8 @@ import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
 import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.domain.dto.ResponseDto;
-import com.procurement.orchestrator.rest.NoticeRestClient;
+import com.procurement.orchestrator.rest.AccessRestClient;
 import com.procurement.orchestrator.service.ProcessService;
-import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
 import feign.FeignException;
 import java.util.Optional;
@@ -19,29 +18,27 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 @Component
-public class FsNoticePostFs implements JavaDelegate {
-    private static final Logger LOG = LoggerFactory.getLogger(FsNoticePostFs.class);
+public class FsAccessUpdateFs implements JavaDelegate {
+
+    private static final Logger LOG = LoggerFactory.getLogger(FsAccessUpdateFs.class);
+
+    private final AccessRestClient accessRestClient;
 
     private final OperationService operationService;
 
     private final ProcessService processService;
 
-    private final NoticeRestClient noticeRestClient;
-
     private final JsonUtil jsonUtil;
 
-    private final DateUtil dateUtil;
 
-    public FsNoticePostFs(final OperationService operationService,
-                          final ProcessService processService,
-                          final NoticeRestClient noticeRestClient,
-                          final JsonUtil jsonUtil,
-                          final DateUtil dateUtil) {
+    public FsAccessUpdateFs(final AccessRestClient accessRestClient,
+                            final OperationService operationService,
+                            final ProcessService processService,
+                            final JsonUtil jsonUtil) {
+        this.accessRestClient = accessRestClient;
         this.operationService = operationService;
         this.processService = processService;
-        this.noticeRestClient = noticeRestClient;
         this.jsonUtil = jsonUtil;
-        this.dateUtil = dateUtil;
     }
 
     @Override
@@ -50,18 +47,20 @@ public class FsNoticePostFs implements JavaDelegate {
         final Optional<OperationStepEntity> entityOptional = operationService.getPreviousOperationStep(execution);
         if (entityOptional.isPresent()) {
             final OperationStepEntity entity = entityOptional.get();
-            final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
             final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
+            final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
             try {
-                final ResponseEntity<ResponseDto> responseEntity = noticeRestClient.createFs(
+                final ResponseEntity<ResponseDto> responseEntity = accessRestClient.updateFs(
+                        params.getOwner(),
                         params.getCpid(),
-                        "fs",
-                        jsonData
-                );
+                        params.getToken(),
+                        jsonData);
+                JsonNode responseData = jsonUtil.toJsonNode(responseEntity.getBody().getData());
                 operationService.saveOperationStep(
                         execution,
                         entity,
-                        responseEntity.getBody().getData());
+                        params,
+                        responseData);
             } catch (FeignException e) {
                 LOG.error(e.getMessage(), e);
                 processService.processHttpException(e.status(), e.getMessage(), execution.getProcessInstanceId());
