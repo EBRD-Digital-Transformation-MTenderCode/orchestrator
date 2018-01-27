@@ -3,7 +3,7 @@ package com.procurement.orchestrator.delegate.cn.bid;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
 import com.procurement.orchestrator.cassandra.service.OperationService;
-import com.procurement.orchestrator.delegate.cn.create.CnAccessCreateCn;
+import com.procurement.orchestrator.delegate.cn.create.CnAccessUpdateCn;
 import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.domain.dto.ResponseDto;
 import com.procurement.orchestrator.rest.SubmissionRestClient;
@@ -19,9 +19,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CnSubmissionCreateBid implements JavaDelegate {
+public class CnSubmissionUpdateBid implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(CnAccessCreateCn.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CnAccessUpdateCn.class);
 
     private final SubmissionRestClient submissionRestClient;
 
@@ -31,7 +31,7 @@ public class CnSubmissionCreateBid implements JavaDelegate {
 
     private final JsonUtil jsonUtil;
 
-    public CnSubmissionCreateBid(final SubmissionRestClient submissionRestClient,
+    public CnSubmissionUpdateBid(final SubmissionRestClient submissionRestClient,
                                  final OperationService operationService,
                                  final ProcessService processService,
                                  final JsonUtil jsonUtil) {
@@ -49,16 +49,18 @@ public class CnSubmissionCreateBid implements JavaDelegate {
             final OperationStepEntity entity = entityOptional.get();
             final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
             try {
-                final ResponseEntity<ResponseDto> responseEntity = submissionRestClient.createBid(
+                final ResponseEntity<ResponseDto> responseEntity = submissionRestClient.updateBid(
                         params.getOcid(),
                         "cn",
+                        params.getToken(),
                         params.getOwner(),
-                        jsonUtil.toJsonNode(entity.getJsonData()));
+                        jsonUtil.toJsonNode(entity.getJsonData())
+                );
                 JsonNode responseData = jsonUtil.toJsonNode(responseEntity.getBody().getData());
                 operationService.saveOperationStep(
                         execution,
                         entity,
-                        addTokenToParams(params, responseData),
+                        params,
                         responseData);
             } catch (FeignException e) {
                 LOG.error(e.getMessage(), e);
@@ -68,12 +70,5 @@ public class CnSubmissionCreateBid implements JavaDelegate {
                 processService.processHttpException(0, e.getMessage(), execution.getProcessInstanceId());
             }
         }
-    }
-
-    private Params addTokenToParams(Params params, JsonNode responseData) {
-        if (responseData.get("token") != null) {
-            params.setToken(responseData.get("token").asText());
-        }
-        return params;
     }
 }
