@@ -6,11 +6,8 @@ import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.cassandra.service.RequestService;
 import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.service.ProcessService;
-import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.HashMap;
 import java.util.Map;
-import org.camunda.bpm.engine.RepositoryService;
-import org.camunda.bpm.engine.RuntimeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,25 +22,15 @@ public class ProcessController {
 
     private final OperationService operationService;
 
-    private final RuntimeService runtimeService;
-
-    private final RepositoryService repositoryService;
-
-    private final JsonUtil jsonUtil;
 
     public ProcessController(final ProcessService processService,
                              final RequestService requestService,
-                             final OperationService operationService,
-                             final RuntimeService runtimeService,
-                             final RepositoryService repositoryService,
-                             final JsonUtil jsonUtil) {
+                             final OperationService operationService) {
         this.processService = processService;
         this.requestService = requestService;
         this.operationService = operationService;
-        this.runtimeService = runtimeService;
-        this.repositoryService = repositoryService;
-        this.jsonUtil = jsonUtil;
     }
+
 
     @RequestMapping(value = "{processType}", method = RequestMethod.POST)
     public ResponseEntity<String> doCreate(@PathVariable("processType") final String processType,
@@ -61,7 +48,7 @@ public class ProcessController {
         operationService.checkOperationById(operationId);
         Map<String, Object> variables = new HashMap<>();
         variables.put("requestId", requestId);
-        variables.put("isTokenPresent", ((token==null||"".equals(token.trim())) ? 0 : 1));
+        variables.put("isTokenPresent", ((token == null || "".equals(token.trim())) ? 0 : 1));
         processService.startProcess(processType, operationId, variables);
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
