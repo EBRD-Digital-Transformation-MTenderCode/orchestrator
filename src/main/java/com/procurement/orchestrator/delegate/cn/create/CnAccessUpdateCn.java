@@ -49,23 +49,22 @@ public class CnAccessUpdateCn implements JavaDelegate {
             final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
             final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
             try {
-                final ResponseEntity<ResponseDto> responseEntity = accessRestClient.updateCn(
-                        params.getOwner(),
-                        params.getCpid(),
-                        params.getToken(),
-                        jsonData);
-                JsonNode responseData = jsonUtil.toJsonNode(responseEntity.getBody().getData());
+                final JsonNode responseData = processService.processResponse(
+                        accessRestClient.updateCn(
+                                params.getOwner(),
+                                params.getCpid(),
+                                params.getToken(),
+                                jsonData),
+                        execution.getProcessInstanceId(),
+                        params.getOperationId());
                 operationService.saveOperationStep(
                         execution,
                         entity,
                         params,
                         responseData);
-            } catch (FeignException e) {
-                LOG.error(e.getMessage(), e);
-                processService.processHttpException(e.status(), e.getMessage(), execution.getProcessInstanceId());
             } catch (Exception e) {
                 LOG.error(e.getMessage(), e);
-                processService.processHttpException(0, e.getMessage(), execution.getProcessInstanceId());
+                processService.processException(e.getMessage(), execution.getProcessInstanceId());
             }
         }
     }

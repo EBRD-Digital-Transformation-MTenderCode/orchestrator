@@ -2,6 +2,8 @@ server:
   port: 8080
 
 spring:
+  application:
+    name: orchestrator
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/orchestrator
@@ -25,6 +27,13 @@ cassandra:
   username: caclient
   password: brT4Kn27RQs
 
+eureka:
+  client:
+    fetchRegistry: true
+    registerWithEureka: true
+    serviceUrl:
+      defaultZone: http://10.0.10.116:8801/eureka/,http://10.0.10.116:8802/eureka/
+
 ocds.prefix: ocds-t1s2t3
 
 camunda:
@@ -37,19 +46,19 @@ ribbon:
     enabled: false
 e-access:
   ribbon:
-    listOfServers: http://localhost:9031
+    listOfServers: http://10.0.10.116:9031
 e-notice:
   ribbon:
-    listOfServers: http://localhost:9041
+    listOfServers: http://10.0.10.116:9041
 e-submission:
   ribbon:
-    listOfServers: http://localhost:9051
+    listOfServers: http://10.0.10.116:9061
 e-clarification:
   ribbon:
-    listOfServers: http://localhost:9061
+    listOfServers: http://10.0.10.116:9071
 e-storage:
   ribbon:
-    listOfServers: http://localhost:9071
+    listOfServers: http://10.0.10.116:9051
 
 logging:
   level: error

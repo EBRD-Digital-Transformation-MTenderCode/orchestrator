@@ -8,7 +8,6 @@ import com.procurement.orchestrator.rest.SubmissionRestClient;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
-import feign.FeignException;
 import java.util.Optional;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
@@ -52,18 +51,18 @@ public class CnSubmissionSavePeriod implements JavaDelegate {
             final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
             final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
             try {
-                submissionRestClient.savePeriod(
-                        params.getCpid(),
-                        "ps",
-                        getStartDate(jsonData),
-                        getEndDate(jsonData));
+                processService.processResponse(
+                        submissionRestClient.savePeriod(
+                                params.getCpid(),
+                                "ps",
+                                getStartDate(jsonData),
+                                getEndDate(jsonData)),
+                        execution.getProcessInstanceId(),
+                        params.getOperationId());
                 operationService.saveOperationStep(execution, entity);
-            } catch (FeignException e) {
-                LOG.error(e.getMessage(), e);
-                processService.processHttpException(e.status(), e.getMessage(), execution.getProcessInstanceId());
             } catch (Exception e) {
                 LOG.error(e.getMessage(), e);
-                processService.processHttpException(0, e.getMessage(), execution.getProcessInstanceId());
+                processService.processException(e.getMessage(), execution.getProcessInstanceId());
             }
         }
     }

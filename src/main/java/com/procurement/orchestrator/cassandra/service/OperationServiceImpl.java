@@ -8,6 +8,7 @@ import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.exception.OperationException;
 import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
+import java.util.Objects;
 import java.util.Optional;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.springframework.stereotype.Service;
@@ -78,23 +79,27 @@ public class OperationServiceImpl implements OperationService {
                                   final Params params,
                                   final Object response
     ) {
-        execution.setVariable(LAST_TASK, execution.getCurrentActivityId());
-        entity.setTaskId(execution.getCurrentActivityId());
-        entity.setJsonParams(jsonUtil.toJson(params));
-        entity.setJsonData(jsonUtil.toJson(jsonUtil.toJsonNode(response)));
-        entity.setDate(dateUtil.getNowUTC());
-        cassandraDao.saveOperationStep(entity);
+        if (Objects.nonNull(response)) {
+            execution.setVariable(LAST_TASK, execution.getCurrentActivityId());
+            entity.setTaskId(execution.getCurrentActivityId());
+            entity.setJsonParams(jsonUtil.toJson(params));
+            entity.setJsonData(jsonUtil.toJson(jsonUtil.toJsonNode(response)));
+            entity.setDate(dateUtil.getNowUTC());
+            cassandraDao.saveOperationStep(entity);
+        }
     }
 
     @Override
     public void saveOperationStep(final DelegateExecution execution,
                                   final OperationStepEntity entity,
                                   final Object response) {
-        execution.setVariable(LAST_TASK, execution.getCurrentActivityId());
-        entity.setTaskId(execution.getCurrentActivityId());
-        entity.setJsonData(jsonUtil.toJson(jsonUtil.toJsonNode(response)));
-        entity.setDate(dateUtil.getNowUTC());
-        cassandraDao.saveOperationStep(entity);
+        if (Objects.nonNull(response)) {
+            execution.setVariable(LAST_TASK, execution.getCurrentActivityId());
+            entity.setTaskId(execution.getCurrentActivityId());
+            entity.setJsonData(jsonUtil.toJson(jsonUtil.toJsonNode(response)));
+            entity.setDate(dateUtil.getNowUTC());
+            cassandraDao.saveOperationStep(entity);
+        }
     }
 
     @Override

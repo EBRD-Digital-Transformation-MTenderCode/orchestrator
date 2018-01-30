@@ -57,11 +57,9 @@ public class CnStorageOpenDocs implements JavaDelegate {
                 }
                 JsonNode jsonWithDatePublished = setDatePublished(jsonData, startDate);
                 operationService.saveOperationStep(execution, entity, jsonWithDatePublished);
-            } catch (FeignException e) {
-                LOG.error(e.getMessage(), e);
-                processService.processHttpException(e.status(), e.getMessage(), execution.getProcessInstanceId());
             } catch (Exception e) {
                 LOG.error(e.getMessage(), e);
+                processService.processException(e.getMessage(), execution.getProcessInstanceId());
             }
         }
     }

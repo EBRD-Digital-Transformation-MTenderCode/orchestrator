@@ -44,31 +44,31 @@ public class CnSubmissionUpdateBid implements JavaDelegate {
     @Override
     public void execute(final DelegateExecution execution) {
         LOG.info(execution.getCurrentActivityName());
-        final Optional<OperationStepEntity> entityOptional = operationService.getPreviousOperationStep(execution);
-        if (entityOptional.isPresent()) {
-            final OperationStepEntity entity = entityOptional.get();
-            final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
-            try {
-                final ResponseEntity<ResponseDto> responseEntity = submissionRestClient.updateBid(
-                        params.getOcid(),
-                        "cn",
-                        params.getToken(),
-                        params.getOwner(),
-                        jsonUtil.toJsonNode(entity.getJsonData())
-                );
-                JsonNode responseData = jsonUtil.toJsonNode(responseEntity.getBody().getData());
-                operationService.saveOperationStep(
-                        execution,
-                        entity,
-                        params,
-                        responseData);
-            } catch (FeignException e) {
-                LOG.error(e.getMessage(), e);
-                processService.processHttpException(e.status(), e.getMessage(), execution.getProcessInstanceId());
-            } catch (Exception e) {
-                LOG.error(e.getMessage(), e);
-                processService.processHttpException(0, e.getMessage(), execution.getProcessInstanceId());
-            }
-        }
+//        final Optional<OperationStepEntity> entityOptional = operationService.getPreviousOperationStep(execution);
+//        if (entityOptional.isPresent()) {
+//            final OperationStepEntity entity = entityOptional.get();
+//            final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
+//            try {
+//                final ResponseEntity<ResponseDto> responseEntity = submissionRestClient.updateBid(
+//                        params.getOcid(),
+//                        "cn",
+//                        params.getToken(),
+//                        params.getOwner(),
+//                        jsonUtil.toJsonNode(entity.getJsonData())
+//                );
+//                JsonNode responseData = jsonUtil.toJsonNode(responseEntity.getBody().getData());
+//                operationService.saveOperationStep(
+//                        execution,
+//                        entity,
+//                        params,
+//                        responseData);
+//            } catch (FeignException e) {
+//                LOG.error(e.getMessage(), e);
+//                processService.processException(e.status(), e.getMessage(), execution.getProcessInstanceId());
+//            } catch (Exception e) {
+//                LOG.error(e.getMessage(), e);
+//                processService.processException(0, e.getMessage(), execution.getProcessInstanceId());
+//            }
+//        }
     }
 }

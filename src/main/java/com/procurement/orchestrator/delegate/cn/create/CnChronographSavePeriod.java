@@ -6,6 +6,7 @@ import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.kafka.MessageProducer;
 import com.procurement.orchestrator.kafka.dto.ChronographTask;
+import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.time.LocalDateTime;
@@ -25,16 +26,20 @@ public class CnChronographSavePeriod implements JavaDelegate {
 
     private final OperationService operationService;
 
+    private final ProcessService processService;
+
     private final JsonUtil jsonUtil;
 
     private final DateUtil dateUtil;
 
     public CnChronographSavePeriod(final MessageProducer messageProducer,
                                    final OperationService operationService,
+                                   final ProcessService processService,
                                    final JsonUtil jsonUtil,
                                    final DateUtil dateUtil) {
         this.messageProducer = messageProducer;
         this.operationService = operationService;
+        this.processService = processService;
         this.jsonUtil = jsonUtil;
         this.dateUtil = dateUtil;
     }
@@ -53,16 +58,27 @@ public class CnChronographSavePeriod implements JavaDelegate {
                     ChronographTask.ActionType.SCHEDULE,
                     params.getCpid(),
                     "cn",
-                    getPeriodEndDate(entity),
+                    getPeriodEndDate(
+                            entity,
+                            execution.getProcessInstanceId(),
+                            params.getOperationId()
+                    ),
                     jsonUtil.toJson(taskMetaData));
             messageProducer.sendToChronograph(task);
         }
     }
 
-    private LocalDateTime getPeriodEndDate(OperationStepEntity entity) {
-        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
-        final JsonNode tenderNode = jsonData.get("tender");
-        final JsonNode tenderPeriodNode = tenderNode.get("tenderPeriod");
-        return dateUtil.stringToLocal(tenderPeriodNode.get("endDate").asText());
+    private LocalDateTime getPeriodEndDate(final OperationStepEntity entity,
+                                           final String processId,
+                                           final String operationId) {
+        try {
+            final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
+            final JsonNode tenderNode = jsonData.get("tender");
+            final JsonNode tenderPeriodNode = tenderNode.get("tenderPeriod");
+            return dateUtil.stringToLocal(tenderPeriodNode.get("endDate").asText());
+        } catch (Exception e) {
+            processService.processError(e.getMessage(), processId, operationId);
+        }
+        return null;
     }
 }

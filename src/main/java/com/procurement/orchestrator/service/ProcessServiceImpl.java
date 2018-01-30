@@ -1,18 +1,37 @@
 package com.procurement.orchestrator.service;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.procurement.orchestrator.domain.dto.ResponseDetailsDto;
+import com.procurement.orchestrator.domain.dto.ResponseDto;
+import com.procurement.orchestrator.kafka.MessageProducer;
+import com.procurement.orchestrator.kafka.dto.PlatformMessage;
+import com.procurement.orchestrator.utils.JsonUtil;
+import java.util.List;
 import java.util.Map;
 import org.camunda.bpm.engine.RuntimeService;
-import org.camunda.bpm.engine.delegate.BpmnError;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ProcessServiceImpl implements ProcessService {
 
+    private static final Logger LOG = LoggerFactory.getLogger(ProcessServiceImpl.class);
+
     private final RuntimeService runtimeService;
 
-    public ProcessServiceImpl(final RuntimeService runtimeService) {
+    private final MessageProducer messageProducer;
+
+    private final JsonUtil jsonUtil;
+
+    public ProcessServiceImpl(final RuntimeService runtimeService,
+                              final MessageProducer messageProducer,
+                              final JsonUtil jsonUtil) {
         this.runtimeService = runtimeService;
+        this.messageProducer = messageProducer;
+        this.jsonUtil = jsonUtil;
     }
 
     @Override
@@ -26,13 +45,41 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
-    public void processHttpException(final int status,
-                                     final String error,
-                                     final String processId) throws BpmnError {
-        if (status >= 400 && status < 500) {
-            throw new BpmnError("TR_EXCEPTION", error);
+    public JsonNode processResponse(final ResponseEntity<ResponseDto> responseEntity,
+                                    final String processId,
+                                    final String operationId) {
+        if (responseEntity.getBody().getSuccess()) {
+            return jsonUtil.toJsonNode(responseEntity.getBody().getData());
+
         } else {
+            processError(responseEntity.getBody().getDetails(), processId, operationId);
+            return null;
+        }
+    }
+
+
+    @Override
+    public void processError(List<ResponseDetailsDto> details, String processId, String operationId) {
+        final String errorMessage = jsonUtil.toJson(details);
+        LOG.info("Error in process Id: " + processId + "; message: " + errorMessage);
+        messageProducer.sendToPlatform(new PlatformMessage(operationId, errorMessage));
+        terminateProcess(processId);
+    }
+
+    @Override
+    public void processError(String error, String processId, String operationId) {
+        LOG.info("Error in process Id: " + processId + "; message: " + error);
+        messageProducer.sendToPlatform(new PlatformMessage(operationId, error));
+        terminateProcess(processId);
+    }
+
+    @Override
+    public void processException(final String error,
+                                 final String processId) {
+        try {
+            LOG.info("Exception in process Id: " + processId + "; message: " + error);
             runtimeService.suspendProcessInstanceById(processId);
+        } catch (Exception ignored) {
         }
     }
 

@@ -4,17 +4,14 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
 import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.domain.Params;
-import com.procurement.orchestrator.domain.dto.ResponseDto;
 import com.procurement.orchestrator.rest.NoticeRestClient;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
-import feign.FeignException;
 import java.util.Optional;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -50,20 +47,18 @@ public class CnNoticePostCn implements JavaDelegate {
             final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
             final String releaseDate = getReleaseDate(jsonData);
             try {
-                final ResponseEntity<ResponseDto> responseEntity = noticeRestClient.createCn(
-                        params.getCpid(),
-                        "ps",
-                        releaseDate,
-                        jsonData
-                );
-                JsonNode responseData = jsonUtil.toJsonNode(responseEntity.getBody().getData());
+                final JsonNode responseData = processService.processResponse(
+                        noticeRestClient.createCn(
+                                params.getCpid(),
+                                "ps",
+                                releaseDate,
+                                jsonData),
+                        execution.getProcessInstanceId(),
+                        params.getOperationId());
                 operationService.saveOperationStep(execution, entity, responseData);
-            } catch (FeignException e) {
-                LOG.error(e.getMessage(), e);
-                processService.processHttpException(e.status(), e.getMessage(), execution.getProcessInstanceId());
             } catch (Exception e) {
                 LOG.error(e.getMessage(), e);
-                processService.processHttpException(0, e.getMessage(), execution.getProcessInstanceId());
+                processService.processException(e.getMessage(), execution.getProcessInstanceId());
             }
         }
     }

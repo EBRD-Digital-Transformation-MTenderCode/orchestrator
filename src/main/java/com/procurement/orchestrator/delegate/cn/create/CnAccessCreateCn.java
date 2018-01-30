@@ -4,17 +4,14 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
 import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.domain.Params;
-import com.procurement.orchestrator.domain.dto.ResponseDto;
 import com.procurement.orchestrator.rest.AccessRestClient;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
-import feign.FeignException;
 import java.util.Optional;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -48,32 +45,43 @@ public class CnAccessCreateCn implements JavaDelegate {
             final OperationStepEntity entity = entityOptional.get();
             final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
             try {
-                final ResponseEntity<ResponseDto> responseEntity = accessRestClient.createCn(
-                        params.getOwner(),
-                        jsonUtil.toJsonNode(entity.getJsonData()));
-                JsonNode responseData = jsonUtil.toJsonNode(responseEntity.getBody().getData());
+                final JsonNode responseData = processService.processResponse(
+                        accessRestClient.createCn(
+                                params.getOwner(),
+                                jsonUtil.toJsonNode(entity.getJsonData())),
+                        execution.getProcessInstanceId(),
+                        params.getOperationId());
                 operationService.saveOperationStep(
                         execution,
                         entity,
-                        addTokenToParams(params, responseData),
+                        addDataToParams(
+                                params,
+                                responseData,
+                                execution.getProcessInstanceId(),
+                                params.getOperationId()),
                         responseData);
-            } catch (FeignException e) {
-                LOG.error(e.getMessage(), e);
-                processService.processHttpException(e.status(), e.getMessage(), execution.getProcessInstanceId());
             } catch (Exception e) {
                 LOG.error(e.getMessage(), e);
-                processService.processHttpException(0, e.getMessage(), execution.getProcessInstanceId());
+                processService.processException(e.getMessage(), execution.getProcessInstanceId());
             }
         }
     }
 
-    private Params addTokenToParams(Params params, JsonNode responseData) {
-        if (responseData.get("token") != null) {
-            params.setToken(responseData.get("token").asText());
+    private Params addDataToParams(final Params params,
+                                   final JsonNode responseData,
+                                   final String processId,
+                                   final String operationId) {
+        try {
+            if (responseData.get("token") != null) {
+                params.setToken(responseData.get("token").asText());
+            }
+            if (responseData.get("ocid") != null) {
+                params.setCpid(responseData.get("ocid").asText());
+            }
+            return params;
+        } catch (Exception e) {
+            processService.processError(e.getMessage(), processId, operationId);
         }
-        if (responseData.get("ocid") != null) {
-            params.setCpid(responseData.get("ocid").asText());
-        }
-        return params;
+        return null;
     }
 }

@@ -40,9 +40,9 @@ public class ChronographProduceTask implements JavaDelegate {
     @Override
     public void execute(final DelegateExecution execution) {
         LOG.info(execution.getCurrentActivityName());
-        final Optional<OperationStepEntity> entityOptional = operationService.getPreviousOperationStep(execution);
-        if (entityOptional.isPresent()) {
-            final OperationStepEntity entity = entityOptional.get();
+//        final Optional<OperationStepEntity> entityOptional = operationService.getPreviousOperationStep(execution);
+//        if (entityOptional.isPresent()) {
+//            final OperationStepEntity entity = entityOptional.get();
 //            final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
 //            ChronographTask.TaskMetaData taskMetaData = new ChronographTask.TaskMetaData("consumeTask", "123");
 //            ChronographTask task = new ChronographTask(
@@ -52,7 +52,7 @@ public class ChronographProduceTask implements JavaDelegate {
 //                    dateUtil.localDateTimeNowUTC().plusMinutes(5L),
 //                    jsonUtil.toJson(taskMetaData));
 //            messageProducer.sendToChronograph(task);
-        }
+//        }
     }
 }
 
