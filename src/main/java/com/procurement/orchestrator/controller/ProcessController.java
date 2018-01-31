@@ -54,21 +54,5 @@ public class ProcessController {
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
-//    @RequestMapping(value = "{processType}/{ocid}", method = RequestMethod.POST)
-//    public ResponseEntity<String> doCreate(@PathVariable("processType") final String processType,
-//                                           @PathVariable("ocid") final String ocid,
-//                                           @RequestHeader("X-OPERATION-ID") final String txId,
-//                                           @RequestHeader("token") final String token,
-//                                           @RequestHeader("Authorization") final String authorization,
-//                                           @RequestParam("country") final String country,
-//                                           @RequestParam("pmd") final String pmd,
-//                                           @RequestBody final JsonNode jsonData) {
-//        final Params params = new Params(txId, ocid, processType, "dzo", country, pmd, token);
-//        requestService.saveRequest(txId, params, jsonData);
-//        operationService.checkOperationByTxId(txId);
-//        processService.startProcess(processType, txId);
-//        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
-//    }
-
 }
 
