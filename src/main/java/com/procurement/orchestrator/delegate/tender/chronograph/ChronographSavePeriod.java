@@ -1,4 +1,4 @@
-package com.procurement.orchestrator.delegate;
+package com.procurement.orchestrator.delegate.tender.chronograph;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.cassandra.model.OperationStepEntity;

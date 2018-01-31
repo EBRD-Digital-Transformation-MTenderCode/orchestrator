@@ -49,6 +49,7 @@ public class ProcessController {
         Map<String, Object> variables = new HashMap<>();
         variables.put("requestId", requestId);
         variables.put("isTokenPresent", ((token == null || "".equals(token.trim())) ? 0 : 1));
+        variables.put("checkEnquiries", 0);
         processService.startProcess(processType, operationId, variables);
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
