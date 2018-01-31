@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.cassandra.service;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
 import com.procurement.orchestrator.cassandra.model.RequestEntity;
 import com.procurement.orchestrator.domain.Params;
@@ -20,9 +21,9 @@ public interface OperationService {
 
     Optional<OperationStepEntity> getPreviousOperationStep(DelegateExecution execution);
 
-    void saveOperationStep(DelegateExecution execution, OperationStepEntity entity, Params params, Object response);
+    void saveOperationStep(DelegateExecution execution, OperationStepEntity entity, Params params, JsonNode response);
 
-    void saveOperationStep(DelegateExecution execution, OperationStepEntity entity, Object response);
+    void saveOperationStep(DelegateExecution execution, OperationStepEntity entity, JsonNode response);
 
     void saveOperationStep(DelegateExecution execution, OperationStepEntity entity);
 }

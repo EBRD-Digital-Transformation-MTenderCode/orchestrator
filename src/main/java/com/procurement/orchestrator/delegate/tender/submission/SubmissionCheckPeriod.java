@@ -56,7 +56,7 @@ public class SubmissionCheckPeriod implements JavaDelegate {
             final String processId = execution.getProcessInstanceId();
             final String operationId = params.getOperationId();
             try {
-                final JsonNode responseData =processService.processResponse(
+                final JsonNode responseData = processService.processResponse(
                         submissionRestClient.checkPeriod(
                                 params.getCountry(),
                                 params.getPmd(),
@@ -66,15 +66,14 @@ public class SubmissionCheckPeriod implements JavaDelegate {
                         processId,
                         operationId);
                 if (Objects.nonNull(responseData))
-                operationService.saveOperationStep(
-                        execution,
-                        addPeriodStartDate(
-                                entity,
-                                jsonData,
-                                startDate,
-                                processId,
-                                operationId),
-                        params);
+                    operationService.saveOperationStep(
+                            execution,
+                            addPeriodStartDate(
+                                    entity,
+                                    jsonData,
+                                    startDate,
+                                    processId,
+                                    operationId));
             } catch (Exception e) {
                 LOG.error(e.getMessage(), e);
                 processService.processException(e.getMessage(), processId);

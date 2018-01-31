@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.cassandra.service;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.cassandra.dao.CassandraDao;
 import com.procurement.orchestrator.cassandra.model.OperationEntity;
 import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
@@ -77,13 +78,13 @@ public class OperationServiceImpl implements OperationService {
     public void saveOperationStep(final DelegateExecution execution,
                                   final OperationStepEntity entity,
                                   final Params params,
-                                  final Object response
+                                  final JsonNode response
     ) {
         if (Objects.nonNull(response)) {
             execution.setVariable(LAST_TASK, execution.getCurrentActivityId());
             entity.setTaskId(execution.getCurrentActivityId());
             entity.setJsonParams(jsonUtil.toJson(params));
-            entity.setJsonData(jsonUtil.toJson(jsonUtil.toJsonNode(response)));
+            entity.setJsonData(jsonUtil.toJson(response));
             entity.setDate(dateUtil.getNowUTC());
             cassandraDao.saveOperationStep(entity);
         }
@@ -92,11 +93,11 @@ public class OperationServiceImpl implements OperationService {
     @Override
     public void saveOperationStep(final DelegateExecution execution,
                                   final OperationStepEntity entity,
-                                  final Object response) {
+                                  final JsonNode response) {
         if (Objects.nonNull(response)) {
             execution.setVariable(LAST_TASK, execution.getCurrentActivityId());
             entity.setTaskId(execution.getCurrentActivityId());
-            entity.setJsonData(jsonUtil.toJson(jsonUtil.toJsonNode(response)));
+            entity.setJsonData(jsonUtil.toJson(response));
             entity.setDate(dateUtil.getNowUTC());
             cassandraDao.saveOperationStep(entity);
         }

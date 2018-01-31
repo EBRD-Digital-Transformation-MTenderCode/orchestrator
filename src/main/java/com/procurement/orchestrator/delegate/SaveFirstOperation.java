@@ -4,7 +4,6 @@ import com.procurement.orchestrator.cassandra.model.RequestEntity;
 import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.cassandra.service.RequestService;
 import com.procurement.orchestrator.service.ProcessService;
-import com.procurement.orchestrator.utils.DateUtil;
 import java.util.Optional;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
@@ -23,16 +22,13 @@ public class SaveFirstOperation implements JavaDelegate {
 
     private final RequestService requestService;
 
-    private final DateUtil dateUtil;
 
     public SaveFirstOperation(final RequestService requestService,
                               final OperationService operationService,
-                              final ProcessService processService,
-                              final DateUtil dateUtil) {
+                              final ProcessService processService) {
         this.requestService = requestService;
         this.operationService = operationService;
         this.processService = processService;
-        this.dateUtil = dateUtil;
     }
 
     @Override
