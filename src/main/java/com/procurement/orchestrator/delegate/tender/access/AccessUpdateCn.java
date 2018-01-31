@@ -1,4 +1,4 @@
-package com.procurement.orchestrator.delegate.fs;
+package com.procurement.orchestrator.delegate.tender.access;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
@@ -15,9 +15,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class FsAccessUpdateFs implements JavaDelegate {
+public class AccessUpdateCn implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(FsAccessUpdateFs.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AccessUpdateCn.class);
 
     private final AccessRestClient accessRestClient;
 
@@ -27,11 +27,10 @@ public class FsAccessUpdateFs implements JavaDelegate {
 
     private final JsonUtil jsonUtil;
 
-
-    public FsAccessUpdateFs(final AccessRestClient accessRestClient,
-                            final OperationService operationService,
-                            final ProcessService processService,
-                            final JsonUtil jsonUtil) {
+    public AccessUpdateCn(final AccessRestClient accessRestClient,
+                          final OperationService operationService,
+                          final ProcessService processService,
+                          final JsonUtil jsonUtil) {
         this.accessRestClient = accessRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -46,23 +45,17 @@ public class FsAccessUpdateFs implements JavaDelegate {
             final OperationStepEntity entity = entityOptional.get();
             final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
             final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
+            final String processId = execution.getProcessInstanceId();
+            final String operationId = params.getOperationId();
             try {
                 final JsonNode responseData = processService.processResponse(
-                        accessRestClient.updateFs(
-                                params.getOwner(),
-                                params.getCpid(),
-                                params.getToken(),
-                                jsonData),
-                        execution.getProcessInstanceId(),
-                        params.getOperationId());
-                operationService.saveOperationStep(
-                        execution,
-                        entity,
-                        params,
-                        responseData);
+                        accessRestClient.updateCn(params.getOwner(), params.getCpid(), params.getToken(), jsonData),
+                        processId,
+                        operationId);
+                operationService.saveOperationStep(execution, entity, params, responseData);
             } catch (Exception e) {
                 LOG.error(e.getMessage(), e);
-                processService.processException(e.getMessage(), execution.getProcessInstanceId());
+                processService.processException(e.getMessage(), processId);
             }
         }
     }

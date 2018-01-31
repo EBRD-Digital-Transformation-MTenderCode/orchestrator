@@ -1,4 +1,4 @@
-package com.procurement.orchestrator.delegate.cn.create;
+package com.procurement.orchestrator.delegate.fs;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
@@ -15,9 +15,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CnAccessCreateCn implements JavaDelegate {
+public class AccessCreateFs implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(CnAccessCreateCn.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AccessCreateFs.class);
 
     private final AccessRestClient accessRestClient;
 
@@ -27,10 +27,11 @@ public class CnAccessCreateCn implements JavaDelegate {
 
     private final JsonUtil jsonUtil;
 
-    public CnAccessCreateCn(final AccessRestClient accessRestClient,
-                            final OperationService operationService,
-                            final ProcessService processService,
-                            final JsonUtil jsonUtil) {
+
+    public AccessCreateFs(final AccessRestClient accessRestClient,
+                          final OperationService operationService,
+                          final ProcessService processService,
+                          final JsonUtil jsonUtil) {
         this.accessRestClient = accessRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -44,25 +45,22 @@ public class CnAccessCreateCn implements JavaDelegate {
         if (entityOptional.isPresent()) {
             final OperationStepEntity entity = entityOptional.get();
             final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
+            final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
+            final String processId = execution.getProcessInstanceId();
+            final String operationId = params.getOperationId();
             try {
                 final JsonNode responseData = processService.processResponse(
-                        accessRestClient.createCn(
-                                params.getOwner(),
-                                jsonUtil.toJsonNode(entity.getJsonData())),
-                        execution.getProcessInstanceId(),
-                        params.getOperationId());
+                        accessRestClient.createFs(params.getOwner(), jsonData),
+                        processId,
+                        operationId);
                 operationService.saveOperationStep(
                         execution,
                         entity,
-                        addDataToParams(
-                                params,
-                                responseData,
-                                execution.getProcessInstanceId(),
-                                params.getOperationId()),
+                        addDataToParams(params, responseData, processId, operationId),
                         responseData);
             } catch (Exception e) {
                 LOG.error(e.getMessage(), e);
-                processService.processException(e.getMessage(), execution.getProcessInstanceId());
+                processService.processException(e.getMessage(), processId);
             }
         }
     }
@@ -72,12 +70,8 @@ public class CnAccessCreateCn implements JavaDelegate {
                                    final String processId,
                                    final String operationId) {
         try {
-            if (responseData.get("token") != null) {
-                params.setToken(responseData.get("token").asText());
-            }
-            if (responseData.get("ocid") != null) {
-                params.setCpid(responseData.get("ocid").asText());
-            }
+            params.setToken(responseData.get("token").asText());
+            params.setCpid(responseData.get("cpid").asText());
             return params;
         } catch (Exception e) {
             processService.processError(e.getMessage(), processId, operationId);

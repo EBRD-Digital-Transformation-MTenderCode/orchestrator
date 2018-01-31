@@ -1,4 +1,4 @@
-package com.procurement.orchestrator.delegate.cn.create;
+package com.procurement.orchestrator.delegate;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
@@ -18,9 +18,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CnChronographSavePeriod implements JavaDelegate {
+public class ChronographSavePeriod implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(CnChronographSavePeriod.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ChronographSavePeriod.class);
 
     private final MessageProducer messageProducer;
 
@@ -32,11 +32,11 @@ public class CnChronographSavePeriod implements JavaDelegate {
 
     private final DateUtil dateUtil;
 
-    public CnChronographSavePeriod(final MessageProducer messageProducer,
-                                   final OperationService operationService,
-                                   final ProcessService processService,
-                                   final JsonUtil jsonUtil,
-                                   final DateUtil dateUtil) {
+    public ChronographSavePeriod(final MessageProducer messageProducer,
+                                 final OperationService operationService,
+                                 final ProcessService processService,
+                                 final JsonUtil jsonUtil,
+                                 final DateUtil dateUtil) {
         this.messageProducer = messageProducer;
         this.operationService = operationService;
         this.processService = processService;
@@ -51,18 +51,16 @@ public class CnChronographSavePeriod implements JavaDelegate {
         if (entityOptional.isPresent()) {
             final OperationStepEntity entity = entityOptional.get();
             final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
+            final String processId = execution.getProcessInstanceId();
+            final String operationId = params.getOperationId();
             ChronographTask.TaskMetaData taskMetaData = new ChronographTask.TaskMetaData(
                     params.getProcessType(),
-                    params.getOperationId());
+                    operationId);
             ChronographTask task = new ChronographTask(
                     ChronographTask.ActionType.SCHEDULE,
                     params.getCpid(),
-                    "cn",
-                    getPeriodEndDate(
-                            entity,
-                            execution.getProcessInstanceId(),
-                            params.getOperationId()
-                    ),
+                    "tender",
+                    getPeriodEndDate(entity, processId, operationId),
                     jsonUtil.toJson(taskMetaData));
             messageProducer.sendToChronograph(task);
         }
@@ -78,7 +76,7 @@ public class CnChronographSavePeriod implements JavaDelegate {
             return dateUtil.stringToLocal(tenderPeriodNode.get("endDate").asText());
         } catch (Exception e) {
             processService.processError(e.getMessage(), processId, operationId);
+            return null;
         }
-        return null;
     }
 }

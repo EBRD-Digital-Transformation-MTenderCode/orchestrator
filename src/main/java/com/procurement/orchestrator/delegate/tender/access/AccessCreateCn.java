@@ -1,4 +1,4 @@
-package com.procurement.orchestrator.delegate.fs;
+package com.procurement.orchestrator.delegate.tender.access;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
@@ -15,9 +15,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class FsAccessCreateFs implements JavaDelegate {
+public class AccessCreateCn implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(FsAccessCreateFs.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AccessCreateCn.class);
 
     private final AccessRestClient accessRestClient;
 
@@ -27,11 +27,10 @@ public class FsAccessCreateFs implements JavaDelegate {
 
     private final JsonUtil jsonUtil;
 
-
-    public FsAccessCreateFs(final AccessRestClient accessRestClient,
-                            final OperationService operationService,
-                            final ProcessService processService,
-                            final JsonUtil jsonUtil) {
+    public AccessCreateCn(final AccessRestClient accessRestClient,
+                          final OperationService operationService,
+                          final ProcessService processService,
+                          final JsonUtil jsonUtil) {
         this.accessRestClient = accessRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -46,25 +45,21 @@ public class FsAccessCreateFs implements JavaDelegate {
             final OperationStepEntity entity = entityOptional.get();
             final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
             final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
+            final String processId = execution.getProcessInstanceId();
+            final String operationId = params.getOperationId();
             try {
                 final JsonNode responseData = processService.processResponse(
-                        accessRestClient.createFs(
-                                params.getOwner(),
-                                jsonData),
-                        execution.getProcessInstanceId(),
-                        params.getOperationId());
+                        accessRestClient.createCn(params.getOwner(), jsonData),
+                        processId,
+                        operationId);
                 operationService.saveOperationStep(
                         execution,
                         entity,
-                        addDataToParams(
-                                params,
-                                responseData,
-                                execution.getProcessInstanceId(),
-                                params.getOperationId()),
+                        addDataToParams(params, responseData, processId, operationId),
                         responseData);
             } catch (Exception e) {
                 LOG.error(e.getMessage(), e);
-                processService.processException(e.getMessage(), execution.getProcessInstanceId());
+                processService.processException(e.getMessage(), processId);
             }
         }
     }
@@ -74,16 +69,12 @@ public class FsAccessCreateFs implements JavaDelegate {
                                    final String processId,
                                    final String operationId) {
         try {
-            if (responseData.get("token") != null) {
-                params.setToken(responseData.get("token").asText());
-            }
-            if (responseData.get("cpid") != null) {
-                params.setCpid(responseData.get("cpid").asText());
-            }
+            params.setToken(responseData.get("token").asText());
+            params.setCpid(responseData.get("ocid").asText());
             return params;
         } catch (Exception e) {
             processService.processError(e.getMessage(), processId, operationId);
+            return null;
         }
-        return null;
     }
 }

@@ -1,12 +1,12 @@
-package com.procurement.orchestrator.delegate.fs;
+package com.procurement.orchestrator.delegate.tender.submission;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
 import com.procurement.orchestrator.cassandra.service.OperationService;
+import com.procurement.orchestrator.delegate.tender.access.AccessUpdateCn;
 import com.procurement.orchestrator.domain.Params;
-import com.procurement.orchestrator.rest.NoticeRestClient;
+import com.procurement.orchestrator.rest.SubmissionRestClient;
 import com.procurement.orchestrator.service.ProcessService;
-import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.Optional;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
@@ -16,29 +16,26 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class FsNoticePostFs implements JavaDelegate {
-    private static final Logger LOG = LoggerFactory.getLogger(FsNoticePostFs.class);
+public class SubmissionUpdateBid implements JavaDelegate {
+
+    private static final Logger LOG = LoggerFactory.getLogger(AccessUpdateCn.class);
+
+    private final SubmissionRestClient submissionRestClient;
 
     private final OperationService operationService;
 
     private final ProcessService processService;
 
-    private final NoticeRestClient noticeRestClient;
-
     private final JsonUtil jsonUtil;
 
-    private final DateUtil dateUtil;
-
-    public FsNoticePostFs(final OperationService operationService,
-                          final ProcessService processService,
-                          final NoticeRestClient noticeRestClient,
-                          final JsonUtil jsonUtil,
-                          final DateUtil dateUtil) {
+    public SubmissionUpdateBid(final SubmissionRestClient submissionRestClient,
+                               final OperationService operationService,
+                               final ProcessService processService,
+                               final JsonUtil jsonUtil) {
+        this.submissionRestClient = submissionRestClient;
         this.operationService = operationService;
         this.processService = processService;
-        this.noticeRestClient = noticeRestClient;
         this.jsonUtil = jsonUtil;
-        this.dateUtil = dateUtil;
     }
 
     @Override
@@ -47,20 +44,21 @@ public class FsNoticePostFs implements JavaDelegate {
         final Optional<OperationStepEntity> entityOptional = operationService.getPreviousOperationStep(execution);
         if (entityOptional.isPresent()) {
             final OperationStepEntity entity = entityOptional.get();
-            final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
             final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
+            final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
+            final String processId = execution.getProcessInstanceId();
+            final String operationId = params.getOperationId();
             try {
                 final JsonNode responseData = processService.processResponse(
-                        noticeRestClient.createFs(
-                                params.getCpid(),
-                                "fs",
+                        submissionRestClient.updateBid(
+                                params.getOcid(),
+                                "tender",
+                                params.getToken(),
+                                params.getOwner(),
                                 jsonData),
-                        execution.getProcessInstanceId(),
-                        params.getOperationId());
-                operationService.saveOperationStep(
-                        execution,
-                        entity,
-                        responseData);
+                        processId,
+                        operationId);
+                operationService.saveOperationStep(execution, entity, params, responseData);
             } catch (Exception e) {
                 LOG.error(e.getMessage(), e);
                 processService.processException(e.getMessage(), execution.getProcessInstanceId());

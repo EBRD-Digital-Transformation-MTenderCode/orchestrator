@@ -21,11 +21,11 @@
     <bpmn:sequenceFlow id="SequenceFlow_1tpqzi9" sourceRef="ExclusiveGateway" targetRef="SubmissionUpdateBidTask">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isTokenPresent==1}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:serviceTask id="SubmissionCreateBidTask" name="Submission Create Bid" camunda:asyncBefore="true" camunda:delegateExpression="${cnSubmissionCreateBid}">
+    <bpmn:serviceTask id="SubmissionCreateBidTask" name="Submission Create Bid" camunda:asyncBefore="true" camunda:delegateExpression="${submissionCreateBid}">
       <bpmn:incoming>SequenceFlow_1ea9fd0</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1et5xwd</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="SubmissionUpdateBidTask" name="Submission Update Bid" camunda:asyncBefore="true" camunda:delegateExpression="${cnSubmissionUpdateBid}">
+    <bpmn:serviceTask id="SubmissionUpdateBidTask" name="Submission Update Bid" camunda:asyncBefore="true" camunda:delegateExpression="${submissionUpdateBid}">
       <bpmn:incoming>SequenceFlow_1tpqzi9</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_045aoy9</bpmn:outgoing>
     </bpmn:serviceTask>

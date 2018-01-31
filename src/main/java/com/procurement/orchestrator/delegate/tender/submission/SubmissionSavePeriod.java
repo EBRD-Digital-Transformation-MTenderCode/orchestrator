@@ -1,4 +1,4 @@
-package com.procurement.orchestrator.delegate.cn.create;
+package com.procurement.orchestrator.delegate.tender.submission;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
@@ -16,9 +16,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CnSubmissionSavePeriod implements JavaDelegate {
+public class SubmissionSavePeriod implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(CnSubmissionSavePeriod.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SubmissionSavePeriod.class);
 
     private final SubmissionRestClient submissionRestClient;
 
@@ -30,11 +30,11 @@ public class CnSubmissionSavePeriod implements JavaDelegate {
 
     private final DateUtil dateUtil;
 
-    public CnSubmissionSavePeriod(final SubmissionRestClient submissionRestClient,
-                                  final OperationService operationService,
-                                  final ProcessService processService,
-                                  final JsonUtil jsonUtil,
-                                  final DateUtil dateUtil) {
+    public SubmissionSavePeriod(final SubmissionRestClient submissionRestClient,
+                                final OperationService operationService,
+                                final ProcessService processService,
+                                final JsonUtil jsonUtil,
+                                final DateUtil dateUtil) {
         this.submissionRestClient = submissionRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -50,32 +50,48 @@ public class CnSubmissionSavePeriod implements JavaDelegate {
             final OperationStepEntity entity = entityOptional.get();
             final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
             final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
+            final String processId = execution.getProcessInstanceId();
+            final String operationId = params.getOperationId();
             try {
                 processService.processResponse(
                         submissionRestClient.savePeriod(
                                 params.getCpid(),
                                 "ps",
-                                getStartDate(jsonData),
-                                getEndDate(jsonData)),
-                        execution.getProcessInstanceId(),
-                        params.getOperationId());
+                                getStartDate(jsonData, processId, operationId),
+                                getEndDate(jsonData, processId, operationId)),
+                        processId,
+                        operationId);
                 operationService.saveOperationStep(execution, entity);
             } catch (Exception e) {
                 LOG.error(e.getMessage(), e);
-                processService.processException(e.getMessage(), execution.getProcessInstanceId());
+                processService.processException(e.getMessage(), processId);
             }
         }
     }
 
-    private String getStartDate(JsonNode jsonData) {
-        final JsonNode tenderNode = jsonData.get("tender");
-        final JsonNode tenderPeriodNode = tenderNode.get("tenderPeriod");
-        return tenderPeriodNode.get("startDate").asText();
+    private String getStartDate(final JsonNode jsonData,
+                                final String processId,
+                                final String operationId) {
+        try {
+            final JsonNode tenderNode = jsonData.get("tender");
+            final JsonNode tenderPeriodNode = tenderNode.get("tenderPeriod");
+            return tenderPeriodNode.get("startDate").asText();
+        } catch (Exception e) {
+            processService.processError(e.getMessage(), processId, operationId);
+            return null;
+        }
     }
 
-    private String getEndDate(JsonNode jsonData) {
-        final JsonNode tenderNode = jsonData.get("tender");
-        final JsonNode tenderPeriodNode = tenderNode.get("tenderPeriod");
-        return tenderPeriodNode.get("endDate").asText();
+    private String getEndDate(final JsonNode jsonData,
+                              final String processId,
+                              final String operationId) {
+        try {
+            final JsonNode tenderNode = jsonData.get("tender");
+            final JsonNode tenderPeriodNode = tenderNode.get("tenderPeriod");
+            return tenderPeriodNode.get("endDate").asText();
+        } catch (Exception e) {
+            processService.processError(e.getMessage(), processId, operationId);
+            return null;
+        }
     }
 }

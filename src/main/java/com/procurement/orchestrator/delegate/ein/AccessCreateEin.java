@@ -15,9 +15,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class EinAccessUpdateEin implements JavaDelegate {
+public class AccessCreateEin implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(EinAccessUpdateEin.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AccessCreateEin.class);
 
     private final AccessRestClient accessRestClient;
 
@@ -27,10 +27,10 @@ public class EinAccessUpdateEin implements JavaDelegate {
 
     private final JsonUtil jsonUtil;
 
-    public EinAccessUpdateEin(final AccessRestClient accessRestClient,
-                              final OperationService operationService,
-                              final ProcessService processService,
-                              final JsonUtil jsonUtil) {
+    public AccessCreateEin(final AccessRestClient accessRestClient,
+                           final OperationService operationService,
+                           final ProcessService processService,
+                           final JsonUtil jsonUtil) {
         this.accessRestClient = accessRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -45,24 +45,38 @@ public class EinAccessUpdateEin implements JavaDelegate {
             final OperationStepEntity entity = entityOptional.get();
             final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
             final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
+            final String processId = execution.getProcessInstanceId();
+            final String operationId = params.getOperationId();
             try {
                 final JsonNode responseData = processService.processResponse(
-                        accessRestClient.updateEin(
-                                params.getOwner(),
-                                params.getCpid(),
-                                params.getToken(),
-                                jsonData),
-                        execution.getProcessInstanceId(),
-                        params.getOperationId());
+                        accessRestClient.createEin(params.getOwner(), jsonData),
+                        processId,
+                        operationId);
                 operationService.saveOperationStep(
                         execution,
                         entity,
-                        params,
+                        addDataToParams(params, responseData, processId, operationId),
                         responseData);
             } catch (Exception e) {
                 LOG.error(e.getMessage(), e);
-                processService.processException(e.getMessage(), execution.getProcessInstanceId());
+                processService.processException(e.getMessage(), processId);
             }
         }
     }
+
+    private Params addDataToParams(final Params params,
+                                   final JsonNode responseData,
+                                   final String processId,
+                                   final String operationId) {
+        try {
+            params.setToken(responseData.get("token").asText());
+            params.setCpid(responseData.get("ocid").asText());
+            return params;
+        } catch (Exception e) {
+            processService.processError(e.getMessage(), processId, operationId);
+        }
+        return null;
+    }
+
+
 }

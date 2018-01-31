@@ -1,4 +1,4 @@
-package com.procurement.orchestrator.delegate.cn.create;
+package com.procurement.orchestrator.delegate.tender.notice;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
@@ -15,9 +15,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CnNoticePostCn implements JavaDelegate {
+public class NoticePostCn implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(CnNoticePostCn.class);
+    private static final Logger LOG = LoggerFactory.getLogger(NoticePostCn.class);
 
     private final NoticeRestClient noticeRestClient;
 
@@ -27,10 +27,10 @@ public class CnNoticePostCn implements JavaDelegate {
 
     private final JsonUtil jsonUtil;
 
-    public CnNoticePostCn(final NoticeRestClient noticeRestClient,
-                          final OperationService operationService,
-                          final ProcessService processService,
-                          final JsonUtil jsonUtil) {
+    public NoticePostCn(final NoticeRestClient noticeRestClient,
+                        final OperationService operationService,
+                        final ProcessService processService,
+                        final JsonUtil jsonUtil) {
         this.noticeRestClient = noticeRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -45,27 +45,32 @@ public class CnNoticePostCn implements JavaDelegate {
             final OperationStepEntity entity = entityOptional.get();
             final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
             final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
-            final String releaseDate = getReleaseDate(jsonData);
+            final String processId = execution.getProcessInstanceId();
+            final String operationId = params.getOperationId();
+            final String releaseDate = getReleaseDate(jsonData, processId, operationId);
             try {
                 final JsonNode responseData = processService.processResponse(
-                        noticeRestClient.createCn(
-                                params.getCpid(),
-                                "ps",
-                                releaseDate,
-                                jsonData),
-                        execution.getProcessInstanceId(),
-                        params.getOperationId());
+                        noticeRestClient.createCn(params.getCpid(), "ps", releaseDate, jsonData),
+                        processId,
+                        operationId);
                 operationService.saveOperationStep(execution, entity, responseData);
             } catch (Exception e) {
                 LOG.error(e.getMessage(), e);
-                processService.processException(e.getMessage(), execution.getProcessInstanceId());
+                processService.processException(e.getMessage(), processId);
             }
         }
     }
 
-    private String getReleaseDate(JsonNode jsonData) {
-        final JsonNode tenderNode = jsonData.get("tender");
-        final JsonNode tenderPeriodNode = tenderNode.get("tenderPeriod");
-        return tenderPeriodNode.get("startDate").asText();
+    private String getReleaseDate(final JsonNode jsonData,
+                                  final String processId,
+                                  final String operationId) {
+        try {
+            final JsonNode tenderNode = jsonData.get("tender");
+            final JsonNode tenderPeriodNode = tenderNode.get("tenderPeriod");
+            return tenderPeriodNode.get("startDate").asText();
+        } catch (Exception e) {
+            processService.processError(e.getMessage(), processId, operationId);
+            return null;
+        }
     }
 }

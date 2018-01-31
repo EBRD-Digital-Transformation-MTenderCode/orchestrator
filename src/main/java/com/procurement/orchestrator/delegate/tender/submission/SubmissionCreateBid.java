@@ -1,10 +1,11 @@
-package com.procurement.orchestrator.delegate.ein;
+package com.procurement.orchestrator.delegate.tender.submission;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
 import com.procurement.orchestrator.cassandra.service.OperationService;
+import com.procurement.orchestrator.delegate.tender.access.AccessCreateCn;
 import com.procurement.orchestrator.domain.Params;
-import com.procurement.orchestrator.rest.AccessRestClient;
+import com.procurement.orchestrator.rest.SubmissionRestClient;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.Optional;
@@ -15,11 +16,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class EinAccessCreateEin implements JavaDelegate {
+public class SubmissionCreateBid implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(EinAccessCreateEin.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AccessCreateCn.class);
 
-    private final AccessRestClient accessRestClient;
+    private final SubmissionRestClient submissionRestClient;
 
     private final OperationService operationService;
 
@@ -27,11 +28,11 @@ public class EinAccessCreateEin implements JavaDelegate {
 
     private final JsonUtil jsonUtil;
 
-    public EinAccessCreateEin(final AccessRestClient accessRestClient,
-                              final OperationService operationService,
-                              final ProcessService processService,
-                              final JsonUtil jsonUtil) {
-        this.accessRestClient = accessRestClient;
+    public SubmissionCreateBid(final SubmissionRestClient submissionRestClient,
+                               final OperationService operationService,
+                               final ProcessService processService,
+                               final JsonUtil jsonUtil) {
+        this.submissionRestClient = submissionRestClient;
         this.operationService = operationService;
         this.processService = processService;
         this.jsonUtil = jsonUtil;
@@ -45,21 +46,17 @@ public class EinAccessCreateEin implements JavaDelegate {
             final OperationStepEntity entity = entityOptional.get();
             final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
             final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
+            final String processId = execution.getProcessInstanceId();
+            final String operationId = params.getOperationId();
             try {
                 final JsonNode responseData = processService.processResponse(
-                        accessRestClient.createEin(
-                                params.getOwner(),
-                                jsonData),
-                        execution.getProcessInstanceId(),
-                        params.getOperationId());
+                        submissionRestClient.createBid(params.getOcid(), "tender", params.getOwner(), jsonData),
+                        processId,
+                        operationId);
                 operationService.saveOperationStep(
                         execution,
                         entity,
-                        addDataToParams(
-                                params,
-                                responseData,
-                                execution.getProcessInstanceId(),
-                                params.getOperationId()),
+                        addTokenToParams(params, responseData, processId, operationId),
                         responseData);
             } catch (Exception e) {
                 LOG.error(e.getMessage(), e);
@@ -68,23 +65,18 @@ public class EinAccessCreateEin implements JavaDelegate {
         }
     }
 
-    private Params addDataToParams(final Params params,
-                                   final JsonNode responseData,
-                                   final String processId,
-                                   final String operationId) {
+    private Params addTokenToParams(final Params params,
+                                    final JsonNode responseData,
+                                    final String processId,
+                                    final String operationId) {
         try {
             if (responseData.get("token") != null) {
                 params.setToken(responseData.get("token").asText());
             }
-            if (responseData.get("ocid") != null) {
-                params.setCpid(responseData.get("ocid").asText());
-            }
             return params;
         } catch (Exception e) {
             processService.processError(e.getMessage(), processId, operationId);
+            return null;
         }
-        return null;
     }
-
-
 }
