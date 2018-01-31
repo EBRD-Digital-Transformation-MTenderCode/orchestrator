@@ -8,6 +8,7 @@ import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.rest.SubmissionRestClient;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
+import java.util.Objects;
 import java.util.Optional;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
@@ -58,6 +59,7 @@ public class SubmissionUpdateBid implements JavaDelegate {
                                 jsonData),
                         processId,
                         operationId);
+                if (Objects.nonNull(responseData))
                 operationService.saveOperationStep(execution, entity, params, responseData);
             } catch (Exception e) {
                 LOG.error(e.getMessage(), e);

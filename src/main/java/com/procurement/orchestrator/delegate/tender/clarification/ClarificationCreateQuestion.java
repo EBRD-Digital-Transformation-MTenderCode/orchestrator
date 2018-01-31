@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ClarificationCreateQuestion implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AccessCreateCn.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ClarificationCreateQuestion.class);
 
     private final SubmissionRestClient submissionRestClient;
 
@@ -49,6 +49,7 @@ public class ClarificationCreateQuestion implements JavaDelegate {
 //                        submissionRestClient.createBid(params.getOcid(), "tender", params.getOwner(), jsonData),
 //                        processId,
 //                        operationId);
+        //                if (Objects.nonNull(responseData))
 //                operationService.saveOperationStep(
 //                        execution,
 //                        entity,

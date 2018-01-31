@@ -48,6 +48,7 @@ public class QualificationCheckAwarded implements JavaDelegate {
 //                        accessRestClient.updateCn(params.getOwner(), params.getCpid(), params.getToken(), jsonData),
 //                        processId,
 //                        operationId);
+//        if (Objects.nonNull(responseData))
 //                operationService.saveOperationStep(execution, entity, params, responseData);
 //            } catch (Exception e) {
 //                LOG.error(e.getMessage(), e);

@@ -8,6 +8,7 @@ import com.procurement.orchestrator.rest.SubmissionRestClient;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
+import java.util.Objects;
 import java.util.Optional;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
@@ -53,7 +54,7 @@ public class SubmissionSavePeriod implements JavaDelegate {
             final String processId = execution.getProcessInstanceId();
             final String operationId = params.getOperationId();
             try {
-                processService.processResponse(
+                final JsonNode responseData = processService.processResponse(
                         submissionRestClient.savePeriod(
                                 params.getCpid(),
                                 "ps",
@@ -61,7 +62,8 @@ public class SubmissionSavePeriod implements JavaDelegate {
                                 getEndDate(jsonData, processId, operationId)),
                         processId,
                         operationId);
-                operationService.saveOperationStep(execution, entity);
+                if (Objects.nonNull(responseData))
+                    operationService.saveOperationStep(execution, entity);
             } catch (Exception e) {
                 LOG.error(e.getMessage(), e);
                 processService.processException(e.getMessage(), processId);

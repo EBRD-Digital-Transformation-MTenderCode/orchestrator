@@ -11,6 +11,7 @@ import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
@@ -53,17 +54,20 @@ public class StorageOpenDocs implements JavaDelegate {
             final String operationId = params.getOperationId();
             final String startDate = getStartDate(jsonData, processId, operationId);
             final List<String> fileIds = getFileIds(jsonData, processId, operationId);
+            JsonNode responseData = null;
             try {
                 for (String fileId : fileIds) {
-                    processService.processResponse(
+                    responseData = processService.processResponse(
                             storageRestClient.setPublishDate(fileId, startDate),
                             processId,
                             operationId);
+                    if (responseData == null) break;
                 }
-                operationService.saveOperationStep(
-                        execution,
-                        entity,
-                        setDatePublished(jsonData, startDate, processId, operationId));
+                if (Objects.nonNull(responseData))
+                    operationService.saveOperationStep(
+                            execution,
+                            entity,
+                            setDatePublished(jsonData, startDate, processId, operationId));
             } catch (Exception e) {
                 LOG.error(e.getMessage(), e);
                 processService.processException(e.getMessage(), processId);

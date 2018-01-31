@@ -9,6 +9,7 @@ import com.procurement.orchestrator.rest.SubmissionRestClient;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
+import java.util.Objects;
 import java.util.Optional;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
@@ -55,7 +56,7 @@ public class SubmissionCheckPeriod implements JavaDelegate {
             final String processId = execution.getProcessInstanceId();
             final String operationId = params.getOperationId();
             try {
-                processService.processResponse(
+                final JsonNode responseData =processService.processResponse(
                         submissionRestClient.checkPeriod(
                                 params.getCountry(),
                                 params.getPmd(),
@@ -64,6 +65,7 @@ public class SubmissionCheckPeriod implements JavaDelegate {
                                 getEndDate(jsonData, processId, operationId)),
                         processId,
                         operationId);
+                if (Objects.nonNull(responseData))
                 operationService.saveOperationStep(
                         execution,
                         addPeriodStartDate(

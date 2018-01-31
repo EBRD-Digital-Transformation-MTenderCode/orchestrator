@@ -60,5 +60,5 @@ e-storage:
   ribbon:
     listOfServers: http://10.0.10.116:9051
 
-logging:
-  level: error
+#logging:
+#  level: error

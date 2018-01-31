@@ -7,6 +7,7 @@ import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.rest.NoticeRestClient;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
+import java.util.Objects;
 import java.util.Optional;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
@@ -51,6 +52,7 @@ public class NoticePostEin implements JavaDelegate {
                         noticeRestClient.createEin(params.getCpid(), "ein", jsonData),
                         processId,
                         operationId);
+                if (Objects.nonNull(responseData))
                 operationService.saveOperationStep(execution, entity, responseData);
             } catch (Exception e) {
                 LOG.error(e.getMessage(), e);

@@ -8,6 +8,7 @@ import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.rest.SubmissionRestClient;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
+import java.util.Objects;
 import java.util.Optional;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
@@ -18,7 +19,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class SubmissionCreateBid implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AccessCreateCn.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SubmissionCreateBid.class);
 
     private final SubmissionRestClient submissionRestClient;
 
@@ -53,6 +54,7 @@ public class SubmissionCreateBid implements JavaDelegate {
                         submissionRestClient.createBid(params.getOcid(), "tender", params.getOwner(), jsonData),
                         processId,
                         operationId);
+                if (Objects.nonNull(responseData))
                 operationService.saveOperationStep(
                         execution,
                         entity,

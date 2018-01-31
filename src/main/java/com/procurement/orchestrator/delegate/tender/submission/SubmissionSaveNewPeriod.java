@@ -50,7 +50,7 @@ public class SubmissionSaveNewPeriod implements JavaDelegate {
 //            final String processId = execution.getProcessInstanceId();
 //            final String operationId = params.getOperationId();
 //            try {
-//                processService.processResponse(
+//               final JsonNode responseData = processService.processResponse(
 //                        submissionRestClient.savePeriod(
 //                                params.getCpid(),
 //                                "ps",
@@ -58,6 +58,7 @@ public class SubmissionSaveNewPeriod implements JavaDelegate {
 //                                getEndDate(jsonData, processId, operationId)),
 //                        processId,
 //                        operationId);
+        //        if (Objects.nonNull(responseData))
 //                operationService.saveOperationStep(execution, entity);
 //            } catch (Exception e) {
 //                LOG.error(e.getMessage(), e);

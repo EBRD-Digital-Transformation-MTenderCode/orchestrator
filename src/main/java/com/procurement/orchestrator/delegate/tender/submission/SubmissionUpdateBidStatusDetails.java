@@ -5,6 +5,7 @@ import com.procurement.orchestrator.delegate.tender.access.AccessUpdateCn;
 import com.procurement.orchestrator.rest.SubmissionRestClient;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
+import java.util.Objects;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
@@ -54,6 +55,7 @@ public class SubmissionUpdateBidStatusDetails implements JavaDelegate {
 //                                jsonData),
 //                        processId,
 //                        operationId);
+//        if (Objects.nonNull(responseData))
 //                operationService.saveOperationStep(execution, entity, params, responseData);
 //            } catch (Exception e) {
 //                LOG.error(e.getMessage(), e);

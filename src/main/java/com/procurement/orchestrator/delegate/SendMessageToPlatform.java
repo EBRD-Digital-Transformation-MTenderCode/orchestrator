@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SendMessageToPlatform implements JavaDelegate {
-    private static final Logger LOG = LoggerFactory.getLogger(ChronographProduceTask.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SendMessageToPlatform.class);
 
     private final MessageProducer messageProducer;
 

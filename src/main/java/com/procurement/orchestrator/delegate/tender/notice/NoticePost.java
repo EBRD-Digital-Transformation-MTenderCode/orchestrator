@@ -53,6 +53,7 @@ public class NoticePost implements JavaDelegate {
 //                        noticeRestClient.createCn(params.getCpid(), "ps", releaseDate, jsonData),
 //                        processId,
 //                        operationId);
+//        if (Objects.nonNull(responseData))
 //                operationService.saveOperationStep(execution, entity, responseData);
 //            } catch (Exception e) {
 //                LOG.error(e.getMessage(), e);

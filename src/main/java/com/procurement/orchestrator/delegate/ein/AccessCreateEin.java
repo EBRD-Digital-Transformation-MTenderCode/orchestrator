@@ -7,6 +7,7 @@ import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.rest.AccessRestClient;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
+import java.util.Objects;
 import java.util.Optional;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
@@ -52,6 +53,7 @@ public class AccessCreateEin implements JavaDelegate {
                         accessRestClient.createEin(params.getOwner(), jsonData),
                         processId,
                         operationId);
+                if (Objects.nonNull(responseData))
                 operationService.saveOperationStep(
                         execution,
                         entity,

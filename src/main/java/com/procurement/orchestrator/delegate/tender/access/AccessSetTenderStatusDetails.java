@@ -48,6 +48,7 @@ public class AccessSetTenderStatusDetails implements JavaDelegate {
 //                        accessRestClient.createCn(params.getOwner(), jsonData),
 //                        processId,
 //                        operationId);
+        //                if (Objects.nonNull(responseData))
 //                operationService.saveOperationStep(
 //                        execution,
 //                        entity,

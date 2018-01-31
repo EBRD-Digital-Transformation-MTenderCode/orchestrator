@@ -48,6 +48,7 @@ public class AccessUpdateLotStatus implements JavaDelegate {
 //                        accessRestClient.createCn(params.getOwner(), jsonData),
 //                        processId,
 //                        operationId);
+        //                if (Objects.nonNull(responseData))
 //                operationService.saveOperationStep(
 //                        execution,
 //                        entity,

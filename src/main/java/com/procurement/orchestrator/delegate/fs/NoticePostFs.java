@@ -8,6 +8,7 @@ import com.procurement.orchestrator.rest.NoticeRestClient;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
+import java.util.Objects;
 import java.util.Optional;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
@@ -56,6 +57,7 @@ public class NoticePostFs implements JavaDelegate {
                         noticeRestClient.createFs(params.getCpid(), "fs", jsonData),
                         processId,
                         operationId);
+                if (Objects.nonNull(responseData))
                 operationService.saveOperationStep(execution, entity, responseData);
             } catch (Exception e) {
                 LOG.error(e.getMessage(), e);
