@@ -1,56 +1,67 @@
 {
   "bid": {
+    "date": "2018-02-01T16:02:12.916Z",
+    "status": "invited",
+    "statusDetail": "disqualified",
     "tenderers": [
       {
-        "id": "",
-        "name": "",
+        "id": "string",
+        "name": "string",
         "identifier": {
-          "scheme": "",
-          "id": "",
-          "legalName": "",
-          "uri": ""
+          "scheme": "string",
+          "id": "string",
+          "legalName": "string",
+          "uri": "string"
+        },
+        "address": {
+          "streetAddress": "string",
+          "locality": "string",
+          "region": "string",
+          "postalCode": "string",
+          "countryName": "string"
         },
         "additionalIdentifiers": [
           {
-            "scheme": "",
-            "id": "",
-            "legalName": "",
-            "uri": ""
+            "scheme": "string",
+            "id": "string",
+            "legalName": "string",
+            "uri": "string"
           }
         ],
-        "address": {
-          "streetAddress": "",
-          "locality": "",
-          "region": "",
-          "postalCode": "",
-          "countryName": ""
-        },
         "contactPoint": {
-          "name": "",
-          "email": "",
-          "telephone": "",
-          "faxNumber": "",
-          "url": ""
+          "name": "string",
+          "email": "string",
+          "telephone": "string",
+          "faxNumber": "string",
+          "url": "string",
+          "languages": [
+            "string"
+          ]
         }
       }
     ],
     "value": {
-      "amount": "",
-      "currency": ""
+      "amount": 0,
+      "currency": "AED"
     },
     "documents": [
       {
-        "documentType": "",
-        "id": "",
-        "url": "",
-        "title": "",
-        "description": "",
-        "language": "",
-        "relatedLot": ""
+        "id": "string",
+        "documentType": "tenderNotice",
+        "title": "string",
+        "description": "string",
+        "url": "string",
+        "datePublished": "2018-02-01T16:02:12.917Z",
+        "dateModified": "2018-02-01T16:02:12.917Z",
+        "format": "string",
+        "language": "string",
+        "relatedLots": [
+          "string"
+        ]
       }
     ],
     "relatedLots": [
-      ""
+      "string"
     ]
   }
 }
