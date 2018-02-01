@@ -25,13 +25,13 @@ public interface SubmissionRestClient {
                                            @RequestParam("endDate") String endDate) throws Exception;
 
     @RequestMapping(path = "/submission/bid", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> createBid(@RequestParam("ocId") String ocId,
+    ResponseEntity<ResponseDto> createBid(@RequestParam("cpId") String cpId,
                                           @RequestParam("stage") String stage,
                                           @RequestParam("owner") String owner,
                                           @RequestBody JsonNode bidDto) throws Exception;
 
     @RequestMapping(path = "/submission/bid", method = RequestMethod.PUT)
-    ResponseEntity<ResponseDto> updateBid(@RequestParam("ocId") String ocId,
+    ResponseEntity<ResponseDto> updateBid(@RequestParam("cpId") String cpId,
                                           @RequestParam("stage") String stage,
                                           @RequestParam("token") String token,
                                           @RequestParam("owner") String owner,

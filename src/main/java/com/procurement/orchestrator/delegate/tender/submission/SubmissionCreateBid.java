@@ -51,7 +51,7 @@ public class SubmissionCreateBid implements JavaDelegate {
             final String operationId = params.getOperationId();
             try {
                 final JsonNode responseData = processService.processResponse(
-                        submissionRestClient.createBid(params.getOcid(), "tender", params.getOwner(), jsonData),
+                        submissionRestClient.createBid(params.getCpid(), "ps", params.getOwner(), jsonData),
                         processId,
                         operationId);
                 if (Objects.nonNull(responseData))

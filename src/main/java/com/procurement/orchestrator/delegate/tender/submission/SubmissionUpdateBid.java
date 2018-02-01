@@ -52,8 +52,8 @@ public class SubmissionUpdateBid implements JavaDelegate {
             try {
                 final JsonNode responseData = processService.processResponse(
                         submissionRestClient.updateBid(
-                                params.getOcid(),
-                                "tender",
+                                params.getCpid(),
+                                "ps",
                                 params.getToken(),
                                 params.getOwner(),
                                 jsonData),
