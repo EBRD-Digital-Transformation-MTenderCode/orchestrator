@@ -51,7 +51,7 @@ public class ClarificationSavePeriod implements JavaDelegate {
             final String operationId = params.getOperationId();
             try {
                 final JsonNode responseData = processService.processResponse(
-                        clarificationRestClient.postSavePeriod(
+                        clarificationRestClient.savePeriod(
                                 params.getCpid(),
                                 params.getCountry(),
                                 params.getPmd(),
