@@ -1,0 +1,69 @@
+{
+  "token": "b14e3d71-076b-11e8-810a-fbc211ab6ca6",
+  "bid": {
+    "id": "b14e3d70-076b-11e8-810a-fbc211ab6ca6",
+    "date": "2018-02-01T16:19:35.118Z",
+    "status": "pending",
+    "tenderers": [
+      {
+        "id": "string",
+        "name": "string",
+        "identifier": {
+          "scheme": "string",
+          "id": "string",
+          "legalName": "string",
+          "uri": "string"
+        },
+        "address": {
+          "streetAddress": "string",
+          "locality": "string",
+          "region": "string",
+          "postalCode": "string",
+          "countryName": "string"
+        },
+        "additionalIdentifiers": [
+          {
+            "scheme": "string",
+            "id": "string",
+            "legalName": "string",
+            "uri": "string"
+          }
+        ],
+        "contactPoint": {
+          "name": "string",
+          "email": "string",
+          "telephone": "string",
+          "faxNumber": "string",
+          "url": "string",
+          "languages": [
+            "string"
+          ]
+        }
+      }
+    ],
+    "value": {
+      "amount": 0,
+      "currency": "AED"
+    },
+    "documents": [
+      {
+        "id": "string",
+        "documentType": "tenderNotice",
+        "title": "string",
+        "description": "string",
+        "url": "string",
+        "datePublished": "2018-02-01T16:02:12.917Z",
+        "dateModified": "2018-02-01T16:02:12.917Z",
+        "format": "string",
+        "language": "string",
+        "relatedLots": [
+          "string"
+        ]
+      }
+    ],
+    "relatedLots": [
+      "string"
+    ],
+    "statusDetail": "disqualified"
+  }
+}
