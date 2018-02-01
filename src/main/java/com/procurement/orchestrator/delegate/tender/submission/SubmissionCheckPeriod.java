@@ -60,7 +60,7 @@ public class SubmissionCheckPeriod implements JavaDelegate {
                         submissionRestClient.checkPeriod(
                                 params.getCountry(),
                                 params.getPmd(),
-                                "ps",
+                                params.getStage(),
                                 startDate,
                                 getEndDate(jsonData, processId, operationId)),
                         processId,

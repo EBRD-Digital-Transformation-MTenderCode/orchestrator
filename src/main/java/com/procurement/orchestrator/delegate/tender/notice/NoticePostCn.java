@@ -51,7 +51,7 @@ public class NoticePostCn implements JavaDelegate {
             final String releaseDate = getReleaseDate(jsonData, processId, operationId);
             try {
                 final JsonNode responseData = processService.processResponse(
-                        noticeRestClient.createCn(params.getCpid(), "ps", releaseDate, jsonData),
+                        noticeRestClient.createCn(params.getCpid(), params.getStage(), releaseDate, jsonData),
                         processId,
                         operationId);
                 if (Objects.nonNull(responseData))

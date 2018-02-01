@@ -55,7 +55,7 @@ public class ClarificationSavePeriod implements JavaDelegate {
                                 params.getCpid(),
                                 params.getCountry(),
                                 params.getPmd(),
-                                "ps",
+                                params.getStage(),
                                 params.getOwner(),
                                 getStartDate(jsonData, processId, operationId),
                                 getEndDate(jsonData, processId, operationId)),

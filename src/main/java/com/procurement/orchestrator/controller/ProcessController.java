@@ -39,10 +39,11 @@ public class ProcessController {
                                            @RequestHeader(value = "token", required = false) final String token,
                                            @RequestParam(value = "cpid", required = false) final String cpid,
                                            @RequestParam(value = "ocid", required = false) final String ocid,
+                                           @RequestParam(value = "stage", required = false) final String stage,
                                            @RequestParam("country") final String country,
                                            @RequestParam("pmd") final String pmd,
                                            @RequestBody final JsonNode jsonData) {
-        final Params params = new Params(operationId, cpid, ocid, processType, "dzo", country, pmd, token);
+        final Params params = new Params(operationId, cpid, ocid, stage, processType, "dzo", country, pmd, token);
         final String requestId = UUIDs.timeBased().toString();
         requestService.saveRequest(requestId, operationId, params, jsonData);
         operationService.checkOperationById(operationId);

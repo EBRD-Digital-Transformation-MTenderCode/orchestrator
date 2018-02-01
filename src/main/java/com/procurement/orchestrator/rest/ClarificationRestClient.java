@@ -30,6 +30,7 @@ public interface ClarificationRestClient {
 
     @RequestMapping(path = "/enquiry", method = RequestMethod.PUT)
     ResponseEntity<ResponseDto> updateEnquiry(@RequestParam(value = "cpId") final String cpId,
+                                              @RequestParam(value = "stage") final String stage,
                                               @RequestParam(value = "token") final String token,
                                               @RequestParam(value = "date") final String date,
                                               @RequestParam(value = "owner") final String owner,

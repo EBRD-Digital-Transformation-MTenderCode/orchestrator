@@ -49,7 +49,7 @@ public class NoticePostEin implements JavaDelegate {
             final String operationId = params.getOperationId();
             try {
                 final JsonNode responseData = processService.processResponse(
-                        noticeRestClient.createEin(params.getCpid(), "ein", jsonData),
+                        noticeRestClient.createEin(params.getCpid(), params.getStage(), jsonData),
                         processId,
                         operationId);
                 if (Objects.nonNull(responseData))

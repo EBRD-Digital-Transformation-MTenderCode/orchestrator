@@ -15,6 +15,8 @@ public class Params {
     private String cpid;
     @JsonProperty(value = "ocid")
     private String ocid;
+    @JsonProperty(value = "stage")
+    private String stage;
     @JsonProperty(value = "processType")
     private String processType;
     @JsonProperty(value = "owner")

@@ -54,7 +54,7 @@ public class NoticePostFs implements JavaDelegate {
             final String operationId = params.getOperationId();
             try {
                 final JsonNode responseData = processService.processResponse(
-                        noticeRestClient.createFs(params.getCpid(), "fs", jsonData),
+                        noticeRestClient.createFs(params.getCpid(), params.getStage(), jsonData),
                         processId,
                         operationId);
                 if (Objects.nonNull(responseData))
