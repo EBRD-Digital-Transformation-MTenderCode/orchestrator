@@ -17,19 +17,20 @@ public interface AccessRestClient {
                                           @RequestBody JsonNode jsonData) throws Exception;
 
     @RequestMapping(path = "/ein", method = RequestMethod.PUT)
-    ResponseEntity<ResponseDto> updateEin(@RequestParam("owner") final String owner,
-                                          @RequestParam("identifier") final String identifier,
+    ResponseEntity<ResponseDto> updateEin(@RequestParam("cpId") final String cpId,
+                                          @RequestParam("owner") final String owner,
                                           @RequestParam("token") final String token,
                                           @RequestBody JsonNode jsonData) throws Exception;
 
     @RequestMapping(path = "/fs", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> createFs(@RequestParam("owner") String owner,
+    ResponseEntity<ResponseDto> createFs(@RequestParam("cpId") final String cpId,
+                                         @RequestParam("owner") String owner,
                                          @RequestBody JsonNode jsonData) throws Exception;
 
     @RequestMapping(path = "/fs", method = RequestMethod.PUT)
-    ResponseEntity<ResponseDto> updateFs(@RequestParam("owner") final String owner,
-                                         @RequestParam("identifier") final String identifier,
+    ResponseEntity<ResponseDto> updateFs(@RequestParam("cpId") final String cpId,
                                          @RequestParam("token") final String token,
+                                         @RequestParam("owner") final String owner,
                                          @RequestBody JsonNode jsonData) throws Exception;
 
     @RequestMapping(path = "/cn", method = RequestMethod.POST)
@@ -37,8 +38,8 @@ public interface AccessRestClient {
                                          @RequestBody JsonNode jsonData) throws Exception;
 
     @RequestMapping(path = "/cn", method = RequestMethod.PUT)
-    ResponseEntity<ResponseDto> updateCn(@RequestParam("owner") final String owner,
-                                         @RequestParam("identifier") final String identifier,
+    ResponseEntity<ResponseDto> updateCn(@RequestParam("cpId") final String cpId,
                                          @RequestParam("token") final String token,
+                                         @RequestParam("owner") final String owner,
                                          @RequestBody JsonNode jsonData) throws Exception;
 }

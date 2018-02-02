@@ -50,7 +50,7 @@ public class AccessUpdateCn implements JavaDelegate {
             final String operationId = params.getOperationId();
             try {
                 final JsonNode responseData = processService.processResponse(
-                        accessRestClient.updateCn(params.getOwner(), params.getCpid(), params.getToken(), jsonData),
+                        accessRestClient.updateCn(params.getCpid(), params.getToken(), params.getOwner(),jsonData),
                         processId,
                         operationId);
                 if (Objects.nonNull(responseData))

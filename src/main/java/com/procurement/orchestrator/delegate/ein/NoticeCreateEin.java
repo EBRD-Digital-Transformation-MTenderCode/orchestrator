@@ -1,12 +1,11 @@
-package com.procurement.orchestrator.delegate.tender.clarification;
+package com.procurement.orchestrator.delegate.ein;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
 import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.domain.Params;
-import com.procurement.orchestrator.rest.ClarificationRestClient;
+import com.procurement.orchestrator.rest.NoticeRestClient;
 import com.procurement.orchestrator.service.ProcessService;
-import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.Objects;
 import java.util.Optional;
@@ -17,30 +16,25 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ClarificationCreateAnswer implements JavaDelegate {
-
-    private static final Logger LOG = LoggerFactory.getLogger(ClarificationCreateAnswer.class);
-
-    private final ClarificationRestClient clarificationRestClient;
+public class NoticeCreateEin implements JavaDelegate {
+    private static final Logger LOG = LoggerFactory.getLogger(NoticeCreateEin.class);
 
     private final OperationService operationService;
 
     private final ProcessService processService;
 
+    private final NoticeRestClient noticeRestClient;
+
     private final JsonUtil jsonUtil;
 
-    private final DateUtil dateUtil;
-
-    public ClarificationCreateAnswer(final ClarificationRestClient clarificationRestClient,
-                                     final OperationService operationService,
-                                     final ProcessService processService,
-                                     final JsonUtil jsonUtil,
-                                     final DateUtil dateUtil) {
-        this.clarificationRestClient = clarificationRestClient;
+    public NoticeCreateEin(final OperationService operationService,
+                           final ProcessService processService,
+                           final NoticeRestClient noticeRestClient,
+                           final JsonUtil jsonUtil) {
         this.operationService = operationService;
         this.processService = processService;
+        this.noticeRestClient = noticeRestClient;
         this.jsonUtil = jsonUtil;
-        this.dateUtil = dateUtil;
     }
 
     @Override
@@ -55,17 +49,11 @@ public class ClarificationCreateAnswer implements JavaDelegate {
             final String operationId = params.getOperationId();
             try {
                 final JsonNode responseData = processService.processResponse(
-                        clarificationRestClient.updateEnquiry(
-                                params.getCpid(),
-                                params.getStage(),
-                                params.getToken(),
-                                params.getOwner(),
-                                dateUtil.format(dateUtil.localDateTimeNowUTC()),
-                                jsonData),
+                        noticeRestClient.createEin(params.getCpid(), params.getStage(), jsonData),
                         processId,
                         operationId);
                 if (Objects.nonNull(responseData))
-                    operationService.saveOperationStep(execution, entity, params, responseData);
+                operationService.saveOperationStep(execution, entity, responseData);
             } catch (Exception e) {
                 LOG.error(e.getMessage(), e);
                 processService.processException(e.getMessage(), processId);

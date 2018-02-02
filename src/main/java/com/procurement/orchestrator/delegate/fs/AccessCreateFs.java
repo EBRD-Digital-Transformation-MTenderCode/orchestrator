@@ -51,7 +51,7 @@ public class AccessCreateFs implements JavaDelegate {
             final String operationId = params.getOperationId();
             try {
                 final JsonNode responseData = processService.processResponse(
-                        accessRestClient.createFs(params.getOwner(), jsonData),
+                        accessRestClient.createFs(params.getCpid(), params.getOwner(), jsonData),
                         processId,
                         operationId);
                 if (Objects.nonNull(responseData))
@@ -73,7 +73,6 @@ public class AccessCreateFs implements JavaDelegate {
                                    final String operationId) {
         try {
             params.setToken(responseData.get("token").asText());
-            params.setCpid(responseData.get("cpid").asText());
             return params;
         } catch (Exception e) {
             processService.processError(e.getMessage(), processId, operationId);

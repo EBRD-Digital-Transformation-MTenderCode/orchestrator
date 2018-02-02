@@ -1,4 +1,4 @@
-package com.procurement.orchestrator.delegate.ein;
+package com.procurement.orchestrator.delegate.fs;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
@@ -6,6 +6,7 @@ import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.rest.NoticeRestClient;
 import com.procurement.orchestrator.service.ProcessService;
+import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.Objects;
 import java.util.Optional;
@@ -16,8 +17,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class NoticePostEin implements JavaDelegate {
-    private static final Logger LOG = LoggerFactory.getLogger(NoticePostEin.class);
+public class NoticeUpdateFs implements JavaDelegate {
+    private static final Logger LOG = LoggerFactory.getLogger(NoticeUpdateFs.class);
 
     private final OperationService operationService;
 
@@ -27,14 +28,18 @@ public class NoticePostEin implements JavaDelegate {
 
     private final JsonUtil jsonUtil;
 
-    public NoticePostEin(final OperationService operationService,
-                         final ProcessService processService,
-                         final NoticeRestClient noticeRestClient,
-                         final JsonUtil jsonUtil) {
+    private final DateUtil dateUtil;
+
+    public NoticeUpdateFs(final OperationService operationService,
+                          final ProcessService processService,
+                          final NoticeRestClient noticeRestClient,
+                          final JsonUtil jsonUtil,
+                          final DateUtil dateUtil) {
         this.operationService = operationService;
         this.processService = processService;
         this.noticeRestClient = noticeRestClient;
         this.jsonUtil = jsonUtil;
+        this.dateUtil = dateUtil;
     }
 
     @Override
@@ -43,13 +48,13 @@ public class NoticePostEin implements JavaDelegate {
         final Optional<OperationStepEntity> entityOptional = operationService.getPreviousOperationStep(execution);
         if (entityOptional.isPresent()) {
             final OperationStepEntity entity = entityOptional.get();
-            final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
             final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
+            final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
             final String processId = execution.getProcessInstanceId();
             final String operationId = params.getOperationId();
             try {
                 final JsonNode responseData = processService.processResponse(
-                        noticeRestClient.createEin(params.getCpid(), params.getStage(), jsonData),
+                        noticeRestClient.updateFs(params.getCpid(), params.getOcid(), params.getStage(), jsonData),
                         processId,
                         operationId);
                 if (Objects.nonNull(responseData))

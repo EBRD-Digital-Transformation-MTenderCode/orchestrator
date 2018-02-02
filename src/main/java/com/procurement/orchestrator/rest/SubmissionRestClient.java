@@ -19,7 +19,7 @@ public interface SubmissionRestClient {
                                             @RequestParam("endDate") String endDate) throws Exception;
 
     @RequestMapping(path = "/period/save", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> savePeriod(@RequestParam("cpId") String cpid,
+    ResponseEntity<ResponseDto> savePeriod(@RequestParam("cpId") String cpId,
                                            @RequestParam("stage") String stage,
                                            @RequestParam("startDate") String startDate,
                                            @RequestParam("endDate") String endDate) throws Exception;

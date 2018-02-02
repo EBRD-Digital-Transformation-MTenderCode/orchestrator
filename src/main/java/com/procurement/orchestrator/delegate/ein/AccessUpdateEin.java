@@ -51,8 +51,8 @@ public class AccessUpdateEin implements JavaDelegate {
             try {
                 final JsonNode responseData = processService.processResponse(
                         accessRestClient.updateEin(
-                                params.getOwner(),
                                 params.getCpid(),
+                                params.getOwner(),
                                 params.getToken(),
                                 jsonData),
                         processId,

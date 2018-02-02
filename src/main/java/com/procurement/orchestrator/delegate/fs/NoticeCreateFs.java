@@ -17,8 +17,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class NoticePostFs implements JavaDelegate {
-    private static final Logger LOG = LoggerFactory.getLogger(NoticePostFs.class);
+public class NoticeCreateFs implements JavaDelegate {
+    private static final Logger LOG = LoggerFactory.getLogger(NoticeCreateFs.class);
 
     private final OperationService operationService;
 
@@ -30,11 +30,11 @@ public class NoticePostFs implements JavaDelegate {
 
     private final DateUtil dateUtil;
 
-    public NoticePostFs(final OperationService operationService,
-                        final ProcessService processService,
-                        final NoticeRestClient noticeRestClient,
-                        final JsonUtil jsonUtil,
-                        final DateUtil dateUtil) {
+    public NoticeCreateFs(final OperationService operationService,
+                          final ProcessService processService,
+                          final NoticeRestClient noticeRestClient,
+                          final JsonUtil jsonUtil,
+                          final DateUtil dateUtil) {
         this.operationService = operationService;
         this.processService = processService;
         this.noticeRestClient = noticeRestClient;

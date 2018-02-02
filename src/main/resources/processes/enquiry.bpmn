@@ -54,14 +54,14 @@
       <bpmn:outgoing>SequenceFlow_08q61ym</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="SequenceFlow_0lquzzw" sourceRef="ExclusiveGateway_0hg3tz9" targetRef="ClarificationCreateAnswerTask">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isTokenPresent==0}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isTokenPresent==1}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:serviceTask id="ClarificationCreateQuestionTask" name="Clarification Create Question" camunda:asyncBefore="true" camunda:delegateExpression="${clarificationCreateQuestion}">
       <bpmn:incoming>SequenceFlow_08q61ym</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1dft457</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_08q61ym" sourceRef="ExclusiveGateway_0hg3tz9" targetRef="ClarificationCreateQuestionTask">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isTokenPresent==1}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isTokenPresent==0}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:exclusiveGateway id="ExclusiveGateway_07ftixw">
       <bpmn:incoming>SequenceFlow_0tb9vzy</bpmn:incoming>

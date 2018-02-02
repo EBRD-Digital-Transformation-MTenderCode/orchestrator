@@ -60,8 +60,8 @@ public class ClarificationCreateQuestion implements JavaDelegate {
                         clarificationRestClient.createEnquiry(
                                 params.getCpid(),
                                 params.getStage(),
-                                dateUtil.format(dateUtil.localDateTimeNowUTC()),
                                 params.getOwner(),
+                                dateUtil.format(dateUtil.localDateTimeNowUTC()),
                                 jsonData),
                         processId,
                         operationId);

@@ -70,17 +70,5 @@
       "buyerProfile": "string"
     }
   ],
-  "language": "string",
-  "relatedProcesses": [
-    {
-      "id": "",
-      "relationship": [
-        "parent"
-      ],
-      "title": "string",
-      "scheme": "ocid",
-      "identifier": "ocds-t1s2t3-UA-1516094398087",
-      "uri": "string"
-    }
-  ]
+  "language": "string"
 }

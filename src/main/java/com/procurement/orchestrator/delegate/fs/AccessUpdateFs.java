@@ -52,9 +52,9 @@ public class AccessUpdateFs implements JavaDelegate {
             try {
                 final JsonNode responseData = processService.processResponse(
                         accessRestClient.updateFs(
-                                params.getOwner(),
                                 params.getCpid(),
                                 params.getToken(),
+                                params.getOwner(),
                                 jsonData),
                         processId,
                         operationId);

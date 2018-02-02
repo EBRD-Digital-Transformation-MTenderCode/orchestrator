@@ -53,10 +53,10 @@ public class ClarificationSavePeriod implements JavaDelegate {
                 final JsonNode responseData = processService.processResponse(
                         clarificationRestClient.savePeriod(
                                 params.getCpid(),
-                                params.getCountry(),
-                                params.getPmd(),
                                 params.getStage(),
                                 params.getOwner(),
+                                params.getCountry(),
+                                params.getPmd(),
                                 getStartDate(jsonData, processId, operationId),
                                 getEndDate(jsonData, processId, operationId)),
                         processId,
