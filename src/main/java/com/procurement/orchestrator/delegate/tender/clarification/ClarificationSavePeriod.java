@@ -57,8 +57,8 @@ public class ClarificationSavePeriod implements JavaDelegate {
                                 params.getOwner(),
                                 params.getCountry(),
                                 params.getPmd(),
-                                getStartDate(jsonData, processId, operationId),
-                                getEndDate(jsonData, processId, operationId)),
+                                params.getStartDate(),
+                                params.getEndDate()),
                         processId,
                         operationId);
                 if (Objects.nonNull(responseData))
@@ -73,31 +73,6 @@ public class ClarificationSavePeriod implements JavaDelegate {
         }
     }
 
-    private String getStartDate(final JsonNode jsonData,
-                                final String processId,
-                                final String operationId) {
-        try {
-            final JsonNode tenderNode = jsonData.get("tender");
-            final JsonNode tenderPeriodNode = tenderNode.get("tenderPeriod");
-            return tenderPeriodNode.get("startDate").asText();
-        } catch (Exception e) {
-            processService.processError(e.getMessage(), processId, operationId);
-        }
-        return null;
-    }
-
-    private String getEndDate(final JsonNode jsonData,
-                              final String processId,
-                              final String operationId) {
-        try {
-            final JsonNode tenderNode = jsonData.get("tender");
-            final JsonNode tenderPeriodNode = tenderNode.get("tenderPeriod");
-            return tenderPeriodNode.get("endDate").asText();
-        } catch (Exception e) {
-            processService.processError(e.getMessage(), processId, operationId);
-            return null;
-        }
-    }
 
     private JsonNode addEnquiryPeriod(final JsonNode jsonData,
                                       final JsonNode responseData,

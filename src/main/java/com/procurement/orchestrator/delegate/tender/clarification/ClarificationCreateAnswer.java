@@ -64,12 +64,27 @@ public class ClarificationCreateAnswer implements JavaDelegate {
                                 jsonData),
                         processId,
                         operationId);
-                if (Objects.nonNull(responseData))
+                if (Objects.nonNull(responseData)) {
+                    if (isAllAnswered(responseData, processId, operationId)) {
+                        execution.setVariable("isAllAnswered", 1);
+                    }
                     operationService.saveOperationStep(execution, entity, params, responseData);
+                }
             } catch (Exception e) {
                 LOG.error(e.getMessage(), e);
                 processService.processException(e.getMessage(), processId);
             }
+        }
+    }
+
+    private Boolean isAllAnswered(final JsonNode responseData,
+                                  final String processId,
+                                  final String operationId) {
+        try {
+            return responseData.get("allAnswered").asBoolean();
+        } catch (Exception e) {
+            processService.processError(e.getMessage(), processId, operationId);
+            return null;
         }
     }
 }

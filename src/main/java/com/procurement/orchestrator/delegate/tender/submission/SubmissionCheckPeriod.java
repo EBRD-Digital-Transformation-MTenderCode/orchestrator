@@ -52,17 +52,18 @@ public class SubmissionCheckPeriod implements JavaDelegate {
             final OperationStepEntity entity = entityOptional.get();
             final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
             final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
-            final String startDate = dateUtil.format(dateUtil.localDateTimeNowUTC());
             final String processId = execution.getProcessInstanceId();
             final String operationId = params.getOperationId();
+            params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
+            params.setEndDate(getEndDate(jsonData, processId, operationId));
             try {
                 final JsonNode responseData = processService.processResponse(
                         submissionRestClient.checkPeriod(
                                 params.getCountry(),
                                 params.getPmd(),
                                 params.getStage(),
-                                startDate,
-                                getEndDate(jsonData, processId, operationId)),
+                                params.getStartDate(),
+                                params.getEndDate()),
                         processId,
                         operationId);
                 if (Objects.nonNull(responseData))
@@ -71,9 +72,10 @@ public class SubmissionCheckPeriod implements JavaDelegate {
                             addPeriodStartDate(
                                     entity,
                                     jsonData,
-                                    startDate,
+                                    params.getStartDate(),
                                     processId,
-                                    operationId));
+                                    operationId),
+                            params);
             } catch (Exception e) {
                 LOG.error(e.getMessage(), e);
                 processService.processException(e.getMessage(), processId);

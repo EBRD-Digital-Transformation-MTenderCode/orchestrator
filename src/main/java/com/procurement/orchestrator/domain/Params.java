@@ -27,4 +27,8 @@ public class Params {
     private String pmd;
     @JsonProperty(value = "token")
     private String token;
+    @JsonProperty(value = "startDate")
+    private String startDate;
+    @JsonProperty(value = "endDate")
+    private String endDate;
 }

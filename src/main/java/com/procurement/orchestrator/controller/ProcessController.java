@@ -43,7 +43,17 @@ public class ProcessController {
                                            @RequestParam("country") final String country,
                                            @RequestParam("pmd") final String pmd,
                                            @RequestBody final JsonNode jsonData) {
-        final Params params = new Params(operationId, cpid, ocid, stage, processType, "dzo", country, pmd, token);
+        final Params params = new Params(
+                operationId,
+                cpid,
+                ocid,
+                stage,
+                processType,
+                "dzo",
+                country,
+                pmd,
+                token,
+                "","");
         final String requestId = UUIDs.timeBased().toString();
         requestService.saveRequest(requestId, operationId, params, jsonData);
         operationService.checkOperationById(operationId);
@@ -51,6 +61,7 @@ public class ProcessController {
         variables.put("requestId", requestId);
         variables.put("isTokenPresent", ((token == null || "".equals(token.trim())) ? 0 : 1));
         variables.put("checkEnquiries", 0);
+        variables.put("isAllAnswered", 0);
         processService.startProcess(processType, operationId, variables);
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }

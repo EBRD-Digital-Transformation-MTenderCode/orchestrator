@@ -39,4 +39,10 @@ public interface NoticeRestClient {
                                          @RequestParam("startDate") final String releaseDate,
                                          @RequestBody final JsonNode data) throws Exception;
 
+
+    @RequestMapping(path = "/release/enquiry", method = RequestMethod.POST)
+    ResponseEntity<ResponseDto> createEnquiry(@RequestParam("cpId") final String cpId,
+                                              @RequestParam("cpId") final String ocId,
+                                              @RequestParam("cpId") final String stage,
+                                              @RequestBody final JsonNode data) throws Exception;
 }

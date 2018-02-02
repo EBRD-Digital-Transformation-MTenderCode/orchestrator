@@ -13,33 +13,53 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface AccessRestClient {
 
     @RequestMapping(path = "/ein", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> createEin(@RequestParam("owner") String owner,
-                                          @RequestBody JsonNode jsonData) throws Exception;
+    ResponseEntity<ResponseDto> createEin(@RequestParam("owner") final String owner,
+                                          @RequestBody final JsonNode jsonData) throws Exception;
 
     @RequestMapping(path = "/ein", method = RequestMethod.PUT)
     ResponseEntity<ResponseDto> updateEin(@RequestParam("cpId") final String cpId,
                                           @RequestParam("owner") final String owner,
                                           @RequestParam("token") final String token,
-                                          @RequestBody JsonNode jsonData) throws Exception;
+                                          @RequestBody final JsonNode jsonData) throws Exception;
 
     @RequestMapping(path = "/fs", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> createFs(@RequestParam("cpId") final String cpId,
-                                         @RequestParam("owner") String owner,
-                                         @RequestBody JsonNode jsonData) throws Exception;
+                                         @RequestParam("owner") final String owner,
+                                         @RequestBody final JsonNode jsonData) throws Exception;
 
     @RequestMapping(path = "/fs", method = RequestMethod.PUT)
     ResponseEntity<ResponseDto> updateFs(@RequestParam("cpId") final String cpId,
                                          @RequestParam("token") final String token,
                                          @RequestParam("owner") final String owner,
-                                         @RequestBody JsonNode jsonData) throws Exception;
+                                         @RequestBody final JsonNode jsonData) throws Exception;
 
     @RequestMapping(path = "/cn", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> createCn(@RequestParam("owner") String owner,
-                                         @RequestBody JsonNode jsonData) throws Exception;
+                                         @RequestBody final JsonNode jsonData) throws Exception;
 
     @RequestMapping(path = "/cn", method = RequestMethod.PUT)
     ResponseEntity<ResponseDto> updateCn(@RequestParam("cpId") final String cpId,
                                          @RequestParam("token") final String token,
                                          @RequestParam("owner") final String owner,
-                                         @RequestBody JsonNode jsonData) throws Exception;
+                                         @RequestBody final JsonNode jsonData) throws Exception;
+
+    @RequestMapping(path = "/tender/updateStatus", method = RequestMethod.PUT)
+    ResponseEntity<ResponseDto> updateTenderStatus(@RequestParam("cpId") final String cpId,
+                                                   @RequestParam("status") final String status) throws Exception;
+
+    @RequestMapping(path = "/tender/updateStatusDetails", method = RequestMethod.PUT)
+    ResponseEntity<ResponseDto> updateTenderStatusDetails(@RequestParam("cpId") final String cpId,
+                                                          @RequestParam("statusDetails") final String statusDetails)
+            throws Exception;
+
+    @RequestMapping(path = "/lots/updateStatus", method = RequestMethod.PUT)
+    ResponseEntity<ResponseDto> updateLotsStatus(@RequestParam("cpId") final String cpId,
+                                                 @RequestParam("status") final String status,
+                                                 @RequestBody final JsonNode lotsDto) throws Exception;
+
+    @RequestMapping(path = "/lots/updateStatusDetails", method = RequestMethod.PUT)
+    ResponseEntity<ResponseDto> updateLotsStatusDetails(@RequestParam("cpId") final String cpId,
+                                                        @RequestParam("statusDetails") final String statusDetails,
+                                                        @RequestBody final JsonNode lotsDto) throws Exception;
+
 }

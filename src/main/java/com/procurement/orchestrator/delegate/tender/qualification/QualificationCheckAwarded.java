@@ -1,9 +1,14 @@
 package com.procurement.orchestrator.delegate.tender.qualification;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
 import com.procurement.orchestrator.cassandra.service.OperationService;
-import com.procurement.orchestrator.rest.AccessRestClient;
+import com.procurement.orchestrator.domain.Params;
+import com.procurement.orchestrator.rest.QualificationRestClient;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
+import java.util.Objects;
+import java.util.Optional;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
@@ -15,7 +20,7 @@ public class QualificationCheckAwarded implements JavaDelegate {
 
     private static final Logger LOG = LoggerFactory.getLogger(QualificationCheckAwarded.class);
 
-    private final AccessRestClient accessRestClient;
+    private final QualificationRestClient qualificationRestClient;
 
     private final OperationService operationService;
 
@@ -23,11 +28,11 @@ public class QualificationCheckAwarded implements JavaDelegate {
 
     private final JsonUtil jsonUtil;
 
-    public QualificationCheckAwarded(final AccessRestClient accessRestClient,
+    public QualificationCheckAwarded(QualificationRestClient qualificationRestClient,
                                      final OperationService operationService,
                                      final ProcessService processService,
                                      final JsonUtil jsonUtil) {
-        this.accessRestClient = accessRestClient;
+        this.qualificationRestClient = qualificationRestClient;
         this.operationService = operationService;
         this.processService = processService;
         this.jsonUtil = jsonUtil;
@@ -45,11 +50,11 @@ public class QualificationCheckAwarded implements JavaDelegate {
 //            final String operationId = params.getOperationId();
 //            try {
 //                final JsonNode responseData = processService.processResponse(
-//                        accessRestClient.updateCn(params.getOwner(), params.getCpid(), params.getToken(), jsonData),
+//                        qualificationRestClient.(params.getOwner(), params.getCpid(), params.getToken(), jsonData),
 //                        processId,
 //                        operationId);
-//        if (Objects.nonNull(responseData))
-//                operationService.saveOperationStep(execution, entity, params, responseData);
+//                if (Objects.nonNull(responseData))
+//                    operationService.saveOperationStep(execution, entity, params, responseData);
 //            } catch (Exception e) {
 //                LOG.error(e.getMessage(), e);
 //                processService.processException(e.getMessage(), processId);
