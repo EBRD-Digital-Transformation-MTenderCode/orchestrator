@@ -2,10 +2,8 @@ package com.procurement.orchestrator.rest;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.dto.ResponseDto;
-import java.time.LocalDateTime;
 import javax.validation.Valid;
 import org.springframework.cloud.netflix.feign.FeignClient;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,9 +29,9 @@ public interface QualificationRestClient {
                                             @Valid @RequestBody final JsonNode dataDto) throws Exception;
 
     @RequestMapping(path = "/qualification/period", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> complete(@RequestParam(value = "cpId") final String cpId,
-                                         @RequestParam(value = "stage") final String stage,
-                                         @RequestParam(value = "endPeriod") final String endPeriod) throws Exception;
+    ResponseEntity<ResponseDto> checkAwarded(@RequestParam(value = "cpId") final String cpId,
+                                             @RequestParam(value = "stage") final String stage,
+                                             @RequestParam(value = "endPeriod") final String endPeriod) throws Exception;
 
     @RequestMapping(path = "/qualification", method = RequestMethod.GET)
     ResponseEntity<ResponseDto> getAwards(@RequestParam("ocId") final String ocId) throws Exception;

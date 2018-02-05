@@ -1,9 +1,13 @@
 package com.procurement.orchestrator.delegate.tender.qualification;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
 import com.procurement.orchestrator.cassandra.service.OperationService;
+import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.rest.QualificationRestClient;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
+import java.util.Objects;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
@@ -36,24 +40,35 @@ public class QualificationCheckAwarded implements JavaDelegate {
     @Override
     public void execute(final DelegateExecution execution) {
         LOG.info(execution.getCurrentActivityName());
-//        final Optional<OperationStepEntity> entityOptional = operationService.getPreviousOperationStep(execution);
-//        if (entityOptional.isPresent()) {
-//            final OperationStepEntity entity = entityOptional.get();
-//            final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
-//            final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
-//            final String processId = execution.getProcessInstanceId();
-//            final String operationId = params.getOperationId();
-//            try {
-//                final JsonNode responseData = processService.processResponse(
-//                        qualificationRestClient.(params.getOwner(), params.getCpid(), params.getToken(), jsonData),
-//                        processId,
-//                        operationId);
-//                if (Objects.nonNull(responseData))
-//                    operationService.saveOperationStep(execution, entity, params, responseData);
-//            } catch (Exception e) {
-//                LOG.error(e.getMessage(), e);
-//                processService.processException(e.getMessage(), processId);
-//            }
-//        }
+        final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
+        final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
+        final String processId = execution.getProcessInstanceId();
+        final String operationId = params.getOperationId();
+        try {
+            final JsonNode responseData = processService.processResponse(
+                    qualificationRestClient.checkAwarded(params.getCpid(), params.getStage(), params.getEndDate()),
+                    processId,
+                    operationId);
+            if (Objects.nonNull(responseData)) {
+                final Boolean allAwarded = getAllAwarded(responseData, processId, operationId);
+                execution.setVariable("checkEnquiries", (allAwarded ? 1 : 0));
+                operationService.saveOperationStep(execution, entity, responseData);
+            }
+        } catch (Exception e) {
+            LOG.error(e.getMessage(), e);
+            processService.processException(e.getMessage(), processId);
+        }
     }
+
+    private Boolean getAllAwarded(final JsonNode responseData,
+                                  final String processId,
+                                  final String operationId) {
+        try {
+            return responseData.get("allAwarded").asBoolean();
+        } catch (Exception e) {
+            processService.processError(e.getMessage(), processId, operationId);
+            return null;
+        }
+    }
+
 }

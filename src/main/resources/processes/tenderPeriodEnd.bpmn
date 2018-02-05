@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.10.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.11.2">
   <bpmn:process id="tenderPeriodEnd" name="tenderPeriodEnd" isExecutable="true">
     <bpmn:startEvent id="StartEvent_1">
       <bpmn:outgoing>SequenceFlow_1gx4xfj</bpmn:outgoing>
@@ -27,7 +27,7 @@
       <bpmn:incoming>SequenceFlow_0ggq87j</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1hezswa</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="QualificationGetAwardsTask" name="Qualification Get Awards" camunda:asyncBefore="true" camunda:delegateExpression="${qualificationGetAwards}">
+    <bpmn:serviceTask id="QualificationCreateAwardsTask" name="Qualification Create Awards" camunda:asyncBefore="true" camunda:delegateExpression="${qualificationCreateAwards}">
       <bpmn:incoming>SequenceFlow_1hezswa</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0yvod6v</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -40,15 +40,15 @@
       <bpmn:incoming>SequenceFlow_0djgl78</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0tb9vzy</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="NoticeCreateReleaseTask" name="Notice create release" camunda:asyncBefore="true" camunda:delegateExpression="${noticePostCn}">
+    <bpmn:serviceTask id="NoticePostAwardsTask" name="Notice Post Awards" camunda:asyncBefore="true" camunda:delegateExpression="${noticePostAwards}">
       <bpmn:incoming>SequenceFlow_1fzuyny</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1n5w707</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_0tb9vzy" sourceRef="AccessUpdateLotStatusTask" targetRef="StorageOpenDocsTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1n5w707" sourceRef="NoticeCreateReleaseTask" targetRef="SendMessageTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1n5w707" sourceRef="NoticePostAwardsTask" targetRef="SendMessageTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1gx4xfj" sourceRef="StartEvent_1" targetRef="ServiceTask_01s3e75" />
-    <bpmn:sequenceFlow id="SequenceFlow_1hezswa" sourceRef="AccessGetLotsTask" targetRef="QualificationGetAwardsTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0yvod6v" sourceRef="QualificationGetAwardsTask" targetRef="SubmissionUpdateBidStatusTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1hezswa" sourceRef="AccessGetLotsTask" targetRef="QualificationCreateAwardsTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0yvod6v" sourceRef="QualificationCreateAwardsTask" targetRef="SubmissionUpdateBidStatusTask" />
     <bpmn:exclusiveGateway id="ExclusiveGateway_0hg3tz9">
       <bpmn:incoming>SequenceFlow_165gqdr</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0lquzzw</bpmn:outgoing>
@@ -70,7 +70,7 @@
       <bpmn:incoming>SequenceFlow_1tom91u</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1fzuyny</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="SequenceFlow_1fzuyny" sourceRef="ExclusiveGateway_07ftixw" targetRef="NoticeCreateReleaseTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1fzuyny" sourceRef="ExclusiveGateway_07ftixw" targetRef="NoticePostAwardsTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1dft457" sourceRef="AccessSetTenderStatusDetailsTask" targetRef="ExclusiveGateway_07ftixw" />
     <bpmn:serviceTask id="StorageOpenDocsTask" name="Storage Open Docs" camunda:asyncBefore="true" camunda:delegateExpression="${storageOpenDocs}">
       <bpmn:incoming>SequenceFlow_0tb9vzy</bpmn:incoming>
@@ -139,7 +139,7 @@
       <bpmndi:BPMNShape id="ServiceTask_1wbucmz_di" bpmnElement="AccessGetLotsTask">
         <dc:Bounds x="605" y="145" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_1t6ahfx_di" bpmnElement="QualificationGetAwardsTask">
+      <bpmndi:BPMNShape id="ServiceTask_1t6ahfx_di" bpmnElement="QualificationCreateAwardsTask">
         <dc:Bounds x="753" y="145" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0djgl78_di" bpmnElement="SequenceFlow_0djgl78">
@@ -155,14 +155,14 @@
       <bpmndi:BPMNShape id="ServiceTask_0tz60l8_di" bpmnElement="AccessUpdateLotStatusTask">
         <dc:Bounds x="1047" y="145" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_1tvffuw_di" bpmnElement="NoticeCreateReleaseTask">
+      <bpmndi:BPMNShape id="ServiceTask_1tvffuw_di" bpmnElement="NoticePostAwardsTask">
         <dc:Bounds x="1449" y="145" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0tb9vzy_di" bpmnElement="SequenceFlow_0tb9vzy">
         <di:waypoint xsi:type="dc:Point" x="1147" y="185" />
-        <di:waypoint xsi:type="dc:Point" x="1196" y="185" />
+        <di:waypoint xsi:type="dc:Point" x="1191" y="186" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1126.5" y="164" width="90" height="12" />
+          <dc:Bounds x="1124" y="164.5" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1n5w707_di" bpmnElement="SequenceFlow_1n5w707">
@@ -241,13 +241,13 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ServiceTask_13to6ht_di" bpmnElement="StorageOpenDocsTask">
-        <dc:Bounds x="1196" y="145" width="100" height="80" />
+        <dc:Bounds x="1191" y="146" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1tom91u_di" bpmnElement="SequenceFlow_1tom91u">
-        <di:waypoint xsi:type="dc:Point" x="1296" y="185" />
+        <di:waypoint xsi:type="dc:Point" x="1291" y="186" />
         <di:waypoint xsi:type="dc:Point" x="1335" y="185" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1315.5" y="164" width="0" height="12" />
+          <dc:Bounds x="1268" y="164.5" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ServiceTask_1rs54aj_di" bpmnElement="chronographUpdatePeriodTask">

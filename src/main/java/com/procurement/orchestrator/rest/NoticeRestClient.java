@@ -42,7 +42,13 @@ public interface NoticeRestClient {
 
     @RequestMapping(path = "/release/enquiry", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> createEnquiry(@RequestParam("cpId") final String cpId,
-                                              @RequestParam("cpId") final String ocId,
-                                              @RequestParam("cpId") final String stage,
+                                              @RequestParam("ocId") final String ocId,
+                                              @RequestParam("stage") final String stage,
+                                              @RequestBody final JsonNode data) throws Exception;
+
+    @RequestMapping(path = "/release/awards", method = RequestMethod.POST)
+    ResponseEntity<ResponseDto> createAwards(@RequestParam("cpId") final String cpId,
+                                              @RequestParam("ocId") final String ocId,
+                                              @RequestParam("stage") final String stage,
                                               @RequestBody final JsonNode data) throws Exception;
 }
