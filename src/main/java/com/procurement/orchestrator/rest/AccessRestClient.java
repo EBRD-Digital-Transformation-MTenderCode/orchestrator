@@ -43,21 +43,24 @@ public interface AccessRestClient {
                                          @RequestParam("owner") final String owner,
                                          @RequestBody final JsonNode jsonData) throws Exception;
 
-    @RequestMapping(path = "/tender/updateStatus", method = RequestMethod.PUT)
+    @RequestMapping(path = "/tender/updateStatus", method = RequestMethod.PATCH)
     ResponseEntity<ResponseDto> updateTenderStatus(@RequestParam("cpId") final String cpId,
                                                    @RequestParam("status") final String status) throws Exception;
 
-    @RequestMapping(path = "/tender/updateStatusDetails", method = RequestMethod.PUT)
+    @RequestMapping(path = "/tender/updateStatusDetails", method = RequestMethod.PATCH)
     ResponseEntity<ResponseDto> updateTenderStatusDetails(@RequestParam("cpId") final String cpId,
                                                           @RequestParam("statusDetails") final String statusDetails)
             throws Exception;
 
-    @RequestMapping(path = "/lots/updateStatus", method = RequestMethod.PUT)
+    @RequestMapping(path = "/lots", method = RequestMethod.GET)
+    ResponseEntity<ResponseDto> getLots(final String cpId, final String status) throws Exception;
+
+    @RequestMapping(path = "/lots/updateStatus", method = RequestMethod.PATCH)
     ResponseEntity<ResponseDto> updateLotsStatus(@RequestParam("cpId") final String cpId,
                                                  @RequestParam("status") final String status,
                                                  @RequestBody final JsonNode lotsDto) throws Exception;
 
-    @RequestMapping(path = "/lots/updateStatusDetails", method = RequestMethod.PUT)
+    @RequestMapping(path = "/lots/updateStatusDetails", method = RequestMethod.PATCH)
     ResponseEntity<ResponseDto> updateLotsStatusDetails(@RequestParam("cpId") final String cpId,
                                                         @RequestParam("statusDetails") final String statusDetails,
                                                         @RequestBody final JsonNode lotsDto) throws Exception;

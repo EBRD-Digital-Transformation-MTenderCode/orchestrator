@@ -1,11 +1,12 @@
-package com.procurement.orchestrator.delegate.tender.access;
+package com.procurement.orchestrator.delegate.tender.clarification;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
 import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.domain.Params;
-import com.procurement.orchestrator.rest.AccessRestClient;
+import com.procurement.orchestrator.rest.ClarificationRestClient;
 import com.procurement.orchestrator.service.ProcessService;
+import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.Objects;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
@@ -15,11 +16,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AccessCreateCn implements JavaDelegate {
+public class ClarificationCreateEnquiry implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AccessCreateCn.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ClarificationCreateEnquiry.class);
 
-    private final AccessRestClient accessRestClient;
+    private final ClarificationRestClient clarificationRestClient;
 
     private final OperationService operationService;
 
@@ -27,14 +28,18 @@ public class AccessCreateCn implements JavaDelegate {
 
     private final JsonUtil jsonUtil;
 
-    public AccessCreateCn(final AccessRestClient accessRestClient,
-                          final OperationService operationService,
-                          final ProcessService processService,
-                          final JsonUtil jsonUtil) {
-        this.accessRestClient = accessRestClient;
+    private final DateUtil dateUtil;
+
+    public ClarificationCreateEnquiry(final ClarificationRestClient clarificationRestClient,
+                                      final OperationService operationService,
+                                      final ProcessService processService,
+                                      final JsonUtil jsonUtil,
+                                      final DateUtil dateUtil) {
+        this.clarificationRestClient = clarificationRestClient;
         this.operationService = operationService;
         this.processService = processService;
         this.jsonUtil = jsonUtil;
+        this.dateUtil = dateUtil;
     }
 
     @Override
@@ -47,7 +52,12 @@ public class AccessCreateCn implements JavaDelegate {
         final String operationId = params.getOperationId();
         try {
             final JsonNode responseData = processService.processResponse(
-                    accessRestClient.createCn(params.getOwner(), jsonData),
+                    clarificationRestClient.createEnquiry(
+                            params.getCpid(),
+                            params.getStage(),
+                            params.getOwner(),
+                            dateUtil.format(dateUtil.localDateTimeNowUTC()),
+                            jsonData),
                     processId,
                     operationId);
             if (Objects.nonNull(responseData))
@@ -67,8 +77,6 @@ public class AccessCreateCn implements JavaDelegate {
                                    final String processId,
                                    final String operationId) {
         params.setToken(processService.getValue("token", responseData, processId, operationId));
-        params.setCpid(processService.getValue("ocid", responseData, processId, operationId));
         return params;
     }
-
 }

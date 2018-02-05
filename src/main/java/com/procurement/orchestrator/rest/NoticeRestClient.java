@@ -12,22 +12,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(name = "e-notice")
 public interface NoticeRestClient {
 
-    @RequestMapping(path = "/release/ein", method = RequestMethod.POST)
+    @RequestMapping(path = "/budget/ein", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> createEin(@RequestParam("cpId") final String cpId,
                                           @RequestParam("stage") final String stage,
                                           @RequestBody final JsonNode data) throws Exception;
 
-    @RequestMapping(path = "/release/ein", method = RequestMethod.PUT)
+    @RequestMapping(path = "/budget/ein", method = RequestMethod.PUT)
     ResponseEntity<ResponseDto> updateEin(@RequestParam("cpId") final String cpId,
                                           @RequestParam("stage") final String stage,
                                           @RequestBody final JsonNode data) throws Exception;
 
-    @RequestMapping(path = "/release/fs", method = RequestMethod.POST)
+    @RequestMapping(path = "/budget/fs", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> createFs(@RequestParam("cpId") final String cpId,
                                          @RequestParam("stage") final String stage,
                                          @RequestBody final JsonNode data) throws Exception;
 
-    @RequestMapping(path = "/release/fs", method = RequestMethod.PUT)
+    @RequestMapping(path = "/budget/fs", method = RequestMethod.PUT)
     ResponseEntity<ResponseDto> updateFs(@RequestParam("cpId") final String cpId,
                                          @RequestParam("ocId") final String ocId,
                                          @RequestParam("stage") final String stage,

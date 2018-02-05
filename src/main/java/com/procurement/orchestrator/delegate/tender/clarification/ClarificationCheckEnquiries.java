@@ -8,7 +8,6 @@ import com.procurement.orchestrator.rest.ClarificationRestClient;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.Objects;
-import java.util.Optional;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
@@ -41,38 +40,57 @@ public class ClarificationCheckEnquiries implements JavaDelegate {
     @Override
     public void execute(final DelegateExecution execution) {
         LOG.info(execution.getCurrentActivityName());
-        final Optional<OperationStepEntity> entityOptional = operationService.getPreviousOperationStep(execution);
-        if (entityOptional.isPresent()) {
-            final OperationStepEntity entity = entityOptional.get();
-            final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
-            final String processId = execution.getProcessInstanceId();
-            final String operationId = params.getOperationId();
-            try {
-                final JsonNode responseData = processService.processResponse(
-                        clarificationRestClient.checkEnquiries(params.getCpid(), params.getStage(), params.getOwner()),
-                        processId,
-                        operationId);
-                if (Objects.nonNull(responseData)) {
-                    if (isAllAnswered(responseData, processId, operationId)) {
-                        execution.setVariable("isAllAnswered", 1);
+        final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
+        final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
+        final String processId = execution.getProcessInstanceId();
+        final String operationId = params.getOperationId();
+        try {
+            final JsonNode responseData = processService.processResponse(
+                    clarificationRestClient.checkEnquiries(params.getCpid(), params.getStage(), params.getOwner()),
+                    processId,
+                    operationId);
+            if (Objects.nonNull(responseData)) {
+                final Boolean allAnswered = getAllAnswered(responseData, processId, operationId);
+                if (allAnswered != null) {
+                    execution.setVariable("checkEnquiries", (allAnswered ? 1 : 2));
+                } else {
+                    final String endDate = getTenderPeriodEndDate(responseData, processId, operationId);
+                    execution.setVariable("checkEnquiries", 3);
+                    if (endDate != null) {
+                        params.setEndDate(endDate);
                     }
-                    operationService.saveOperationStep(
-                            execution,
-                            entity,
-                            responseData);
                 }
-            } catch (Exception e) {
-                LOG.error(e.getMessage(), e);
-                processService.processException(e.getMessage(), execution.getProcessInstanceId());
+                operationService.saveOperationStep(
+                        execution,
+                        entity,
+                        responseData);
             }
+        } catch (Exception e) {
+            LOG.error(e.getMessage(), e);
+            processService.processException(e.getMessage(), execution.getProcessInstanceId());
         }
     }
 
-    private Boolean isAllAnswered(final JsonNode responseData,
-                                  final String processId,
-                                  final String operationId) {
+    private Boolean getAllAnswered(final JsonNode responseData,
+                                   final String processId,
+                                   final String operationId) {
         try {
-            return responseData.get("allAnswers").asBoolean();
+            if (responseData.get("allAnswered") != null) {
+                return responseData.get("allAnswered").asBoolean();
+            } else return null;
+        } catch (Exception e) {
+            processService.processError(e.getMessage(), processId, operationId);
+            return null;
+        }
+    }
+
+    private String getTenderPeriodEndDate(final JsonNode responseData,
+                                          final String processId,
+                                          final String operationId) {
+        try {
+            if (responseData.get("tenderPeriodEndDate") != null) {
+                return responseData.get("tenderPeriodEndDate").asText();
+            } else return null;
         } catch (Exception e) {
             processService.processError(e.getMessage(), processId, operationId);
             return null;

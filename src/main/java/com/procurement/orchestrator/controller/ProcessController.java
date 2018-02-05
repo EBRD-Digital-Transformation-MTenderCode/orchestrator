@@ -53,7 +53,7 @@ public class ProcessController {
                 country,
                 pmd,
                 token,
-                "","");
+                "", "");
         final String requestId = UUIDs.timeBased().toString();
         requestService.saveRequest(requestId, operationId, params, jsonData);
         operationService.checkOperationById(operationId);
@@ -61,7 +61,7 @@ public class ProcessController {
         variables.put("requestId", requestId);
         variables.put("isTokenPresent", ((token == null || "".equals(token.trim())) ? 0 : 1));
         variables.put("checkEnquiries", 0);
-        variables.put("isAllAnswered", 0);
+        variables.put("allAnswered", 0);
         processService.startProcess(processType, operationId, variables);
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }

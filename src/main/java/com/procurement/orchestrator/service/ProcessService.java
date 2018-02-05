@@ -1,13 +1,10 @@
 package com.procurement.orchestrator.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.domain.dto.ResponseDetailsDto;
 import com.procurement.orchestrator.domain.dto.ResponseDto;
 import java.util.List;
 import java.util.Map;
-import org.camunda.bpm.engine.delegate.BpmnError;
-import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -32,6 +29,7 @@ public interface ProcessService {
 
     void terminateProcess(String processId);
 
+    String getValue(String fieldName, JsonNode responseData, String processId, String operationId);
 
 }
 

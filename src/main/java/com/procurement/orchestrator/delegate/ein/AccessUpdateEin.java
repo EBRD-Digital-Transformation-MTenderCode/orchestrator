@@ -8,7 +8,6 @@ import com.procurement.orchestrator.rest.AccessRestClient;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.Objects;
-import java.util.Optional;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
@@ -41,28 +40,25 @@ public class AccessUpdateEin implements JavaDelegate {
     @Override
     public void execute(final DelegateExecution execution) {
         LOG.info(execution.getCurrentActivityName());
-        final Optional<OperationStepEntity> entityOptional = operationService.getPreviousOperationStep(execution);
-        if (entityOptional.isPresent()) {
-            final OperationStepEntity entity = entityOptional.get();
-            final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
-            final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
-            final String processId = execution.getProcessInstanceId();
-            final String operationId = params.getOperationId();
-            try {
-                final JsonNode responseData = processService.processResponse(
-                        accessRestClient.updateEin(
-                                params.getCpid(),
-                                params.getOwner(),
-                                params.getToken(),
-                                jsonData),
-                        processId,
-                        operationId);
-                if (Objects.nonNull(responseData))
+        final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
+        final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
+        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
+        final String processId = execution.getProcessInstanceId();
+        final String operationId = params.getOperationId();
+        try {
+            final JsonNode responseData = processService.processResponse(
+                    accessRestClient.updateEin(
+                            params.getCpid(),
+                            params.getOwner(),
+                            params.getToken(),
+                            jsonData),
+                    processId,
+                    operationId);
+            if (Objects.nonNull(responseData))
                 operationService.saveOperationStep(execution, entity, params, responseData);
-            } catch (Exception e) {
-                LOG.error(e.getMessage(), e);
-                processService.processException(e.getMessage(), processId);
-            }
+        } catch (Exception e) {
+            LOG.error(e.getMessage(), e);
+            processService.processException(e.getMessage(), processId);
         }
     }
 }

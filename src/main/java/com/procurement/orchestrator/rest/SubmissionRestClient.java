@@ -27,10 +27,10 @@ public interface SubmissionRestClient {
 
     @RequestMapping(path = "/period/new", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> saveNewPeriod(@RequestParam("cpId") final String cpId,
-                                             @RequestParam("stage") final String stage,
-                                             @RequestParam("country") final String country,
-                                             @RequestParam("pmd") final String pmd,
-                                             @RequestParam("startDate") final String startDate) throws Exception;
+                                              @RequestParam("stage") final String stage,
+                                              @RequestParam("country") final String country,
+                                              @RequestParam("pmd") final String pmd,
+                                              @RequestParam("startDate") final String startDate) throws Exception;
 
     @RequestMapping(path = "/submission/bid", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> createBid(@RequestParam("cpId") String cpId,

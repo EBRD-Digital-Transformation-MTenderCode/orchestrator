@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.10.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.11.2">
   <bpmn:process id="enquiry" name="enquiry" isExecutable="true">
     <bpmn:startEvent id="StartEvent_1">
       <bpmn:outgoing>SequenceFlow_1gx4xfj</bpmn:outgoing>
@@ -56,11 +56,11 @@
     <bpmn:sequenceFlow id="SequenceFlow_0lquzzw" sourceRef="ExclusiveGateway_0hg3tz9" targetRef="ClarificationCreateAnswerTask">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isTokenPresent==1}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:serviceTask id="ClarificationCreateQuestionTask" name="Clarification Create Question" camunda:asyncBefore="true" camunda:delegateExpression="${clarificationCreateQuestion}">
+    <bpmn:serviceTask id="ClarificationCreateEnquiryTask" name="Clarification Create Enquiry" camunda:asyncBefore="true" camunda:delegateExpression="${clarificationCreateEnquiry}">
       <bpmn:incoming>SequenceFlow_08q61ym</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1dft457</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_08q61ym" sourceRef="ExclusiveGateway_0hg3tz9" targetRef="ClarificationCreateQuestionTask">
+    <bpmn:sequenceFlow id="SequenceFlow_08q61ym" sourceRef="ExclusiveGateway_0hg3tz9" targetRef="ClarificationCreateEnquiryTask">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isTokenPresent==0}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:exclusiveGateway id="ExclusiveGateway_07ftixw">
@@ -70,17 +70,17 @@
       <bpmn:outgoing>SequenceFlow_1fzuyny</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="SequenceFlow_1fzuyny" sourceRef="ExclusiveGateway_07ftixw" targetRef="NoticeCreateReleaseTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1dft457" sourceRef="ClarificationCreateQuestionTask" targetRef="ExclusiveGateway_07ftixw" />
+    <bpmn:sequenceFlow id="SequenceFlow_1dft457" sourceRef="ClarificationCreateEnquiryTask" targetRef="ExclusiveGateway_07ftixw" />
     <bpmn:exclusiveGateway id="ExclusiveGateway_0ai5ezj">
       <bpmn:incoming>SequenceFlow_0ggq87j</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0wbl6vo</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlow_07garu8</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="SequenceFlow_0wbl6vo" sourceRef="ExclusiveGateway_0ai5ezj" targetRef="AccessSetTenderStatusDetailsTask">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isAllAnswered==1}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${allAnswered==1}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_07garu8" sourceRef="ExclusiveGateway_0ai5ezj" targetRef="ExclusiveGateway_07ftixw">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isAllAnswered==0}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${allAnswered==0}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
   </bpmn:process>
   <bpmn:error id="tr_exception" name="TR_EXCEPTION" errorCode="TR_EXCEPTION" />
@@ -200,7 +200,7 @@
           <dc:Bounds x="368" y="253.5" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_0m7p1o9_di" bpmnElement="ClarificationCreateQuestionTask">
+      <bpmndi:BPMNShape id="ServiceTask_0m7p1o9_di" bpmnElement="ClarificationCreateEnquiryTask">
         <dc:Bounds x="720" y="26" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_08q61ym_di" bpmnElement="SequenceFlow_08q61ym">

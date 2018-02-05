@@ -8,7 +8,6 @@ import com.procurement.orchestrator.rest.NoticeRestClient;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.Objects;
-import java.util.Optional;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
@@ -41,38 +40,23 @@ public class NoticePostCn implements JavaDelegate {
     @Override
     public void execute(final DelegateExecution execution) {
         LOG.info(execution.getCurrentActivityName());
-        final Optional<OperationStepEntity> entityOptional = operationService.getPreviousOperationStep(execution);
-        if (entityOptional.isPresent()) {
-            final OperationStepEntity entity = entityOptional.get();
-            final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
-            final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
-            final String processId = execution.getProcessInstanceId();
-            final String operationId = params.getOperationId();
-            final String releaseDate = getReleaseDate(jsonData, processId, operationId);
-            try {
-                final JsonNode responseData = processService.processResponse(
-                        noticeRestClient.createCn(params.getCpid(), params.getStage(), releaseDate, jsonData),
-                        processId,
-                        operationId);
-                if (Objects.nonNull(responseData))
-                operationService.saveOperationStep(execution, entity, responseData);
-            } catch (Exception e) {
-                LOG.error(e.getMessage(), e);
-                processService.processException(e.getMessage(), processId);
-            }
-        }
-    }
-
-    private String getReleaseDate(final JsonNode jsonData,
-                                  final String processId,
-                                  final String operationId) {
+        final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
+        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
+        final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
+        final String processId = execution.getProcessInstanceId();
+        final String operationId = params.getOperationId();
+        final String releaseDate = params.getStartDate();
         try {
-            final JsonNode tenderNode = jsonData.get("tender");
-            final JsonNode tenderPeriodNode = tenderNode.get("tenderPeriod");
-            return tenderPeriodNode.get("startDate").asText();
+            final JsonNode responseData = processService.processResponse(
+                    noticeRestClient.createCn(params.getCpid(), params.getStage(), releaseDate, jsonData),
+                    processId,
+                    operationId);
+            if (Objects.nonNull(responseData))
+                operationService.saveOperationStep(execution, entity, responseData);
         } catch (Exception e) {
-            processService.processError(e.getMessage(), processId, operationId);
-            return null;
+            LOG.error(e.getMessage(), e);
+            processService.processException(e.getMessage(), processId);
         }
     }
 }
+

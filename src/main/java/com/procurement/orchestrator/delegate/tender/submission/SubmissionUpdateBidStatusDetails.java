@@ -1,7 +1,10 @@
 package com.procurement.orchestrator.delegate.tender.submission;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
 import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.delegate.tender.access.AccessUpdateCn;
+import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.rest.SubmissionRestClient;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -38,29 +41,25 @@ public class SubmissionUpdateBidStatusDetails implements JavaDelegate {
     @Override
     public void execute(final DelegateExecution execution) {
         LOG.info(execution.getCurrentActivityName());
-//        final Optional<OperationStepEntity> entityOptional = operationService.getPreviousOperationStep(execution);
-//        if (entityOptional.isPresent()) {
-//            final OperationStepEntity entity = entityOptional.get();
-//            final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
-//            final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
-//            final String processId = execution.getProcessInstanceId();
-//            final String operationId = params.getOperationId();
-//            try {
-//                final JsonNode responseData = processService.processResponse(
-//                        submissionRestClient.updateBid(
-//                                params.getOcid(),
-//                                "tender",
-//                                params.getToken(),
-//                                params.getOwner(),
-//                                jsonData),
-//                        processId,
-//                        operationId);
-//        if (Objects.nonNull(responseData))
-//                operationService.saveOperationStep(execution, entity, params, responseData);
-//            } catch (Exception e) {
-//                LOG.error(e.getMessage(), e);
-//                processService.processException(e.getMessage(), execution.getProcessInstanceId());
-//            }
-//        }
+        final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
+        final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
+        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
+        final String processId = execution.getProcessInstanceId();
+        final String operationId = params.getOperationId();
+        try {
+            final JsonNode responseData = processService.processResponse(
+                    submissionRestClient.updateStatusDetail(
+                            params.getOcid(),
+                            params.getStage(),
+                            "",
+                            ""),
+                    processId,
+                    operationId);
+            if (Objects.nonNull(responseData))
+                operationService.saveOperationStep(execution, entity, params, responseData);
+        } catch (Exception e) {
+            LOG.error(e.getMessage(), e);
+            processService.processException(e.getMessage(), execution.getProcessInstanceId());
+        }
     }
 }

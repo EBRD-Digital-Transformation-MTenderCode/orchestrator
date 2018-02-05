@@ -8,7 +8,6 @@ import com.procurement.orchestrator.kafka.dto.PlatformMessage;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
@@ -62,7 +61,7 @@ public class ProcessServiceImpl implements ProcessService {
 
     @Override
     public void processError(List<ResponseDetailsDto> details, String processId, String operationId) {
-        final String errorMessage = Optional.ofNullable(details).map(d->jsonUtil.toJson(details)).orElse("");
+        final String errorMessage = Optional.ofNullable(details).map(d -> jsonUtil.toJson(details)).orElse("");
         LOG.info("Error in process Id: " + processId + "; message: " + errorMessage);
         messageProducer.sendToPlatform(new PlatformMessage(operationId, errorMessage));
         terminateProcess(processId);
@@ -89,4 +88,17 @@ public class ProcessServiceImpl implements ProcessService {
     public void terminateProcess(String processId) {
         runtimeService.deleteProcessInstance(processId, "Removal of the backward process.");
     }
+
+
+    @Override
+    public String getValue(String fieldName, JsonNode responseData, String processId, String operationId) {
+        try {
+            return responseData.get(fieldName).asText();
+        } catch (Exception e) {
+            processError(e.getMessage(), processId, operationId);
+        }
+        return null;
+    }
+
+
 }

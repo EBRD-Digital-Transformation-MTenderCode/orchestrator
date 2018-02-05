@@ -40,10 +40,3 @@
     "answer": "string"
   }
 }
-
-{
-  "enquiry": {
-    "id": "string",
-    "answer": "string"
-  }
-}

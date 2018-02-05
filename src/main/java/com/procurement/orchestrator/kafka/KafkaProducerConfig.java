@@ -16,16 +16,14 @@ import org.springframework.kafka.core.KafkaTemplate;
 @EnableConfigurationProperties(KafkaProducerProperties.class)
 public class KafkaProducerConfig {
 
-    private final KafkaProducerProperties kafkaProperties;
-
-    public KafkaProducerConfig(final KafkaProducerProperties kafkaProperties) {
-        this.kafkaProperties = kafkaProperties;
-    }
-
     private static final String SASL_JAAS_TEMPLATE = "org.apache.kafka.common.security.plain.PlainLoginModule required username=\"%s\" password=\"%s\";";
     private static final String SASL_USERNAME = "YodaAdmin";
     private static final String SASL_PASSWORD = "XgsZrPA.UF/8[.Kvy;ej&v\\qZa_NdM]c";
     private static final String SASL_JAAS = String.format(SASL_JAAS_TEMPLATE, SASL_USERNAME, SASL_PASSWORD);
+    private final KafkaProducerProperties kafkaProperties;
+    public KafkaProducerConfig(final KafkaProducerProperties kafkaProperties) {
+        this.kafkaProperties = kafkaProperties;
+    }
 
     private Map<String, Object> internalProducerConfigs() {
         Map<String, Object> internalProps = new HashMap<>();

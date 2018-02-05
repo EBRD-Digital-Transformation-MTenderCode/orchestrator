@@ -17,9 +17,9 @@ public interface OperationService {
 
     void saveFirstOperationStep(DelegateExecution execution, RequestEntity entity);
 
-    Optional<OperationStepEntity> getOperationStep(String processId, String taskId);
+    OperationStepEntity getOperationStep(String processId, String taskId);
 
-    Optional<OperationStepEntity> getPreviousOperationStep(DelegateExecution execution);
+    OperationStepEntity getPreviousOperationStep(DelegateExecution execution);
 
     void saveOperationStep(DelegateExecution execution, OperationStepEntity entity, Params params, JsonNode response);
 

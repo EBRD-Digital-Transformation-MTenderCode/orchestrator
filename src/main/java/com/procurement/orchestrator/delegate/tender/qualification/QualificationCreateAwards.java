@@ -1,12 +1,12 @@
-package com.procurement.orchestrator.delegate.tender.clarification;
+package com.procurement.orchestrator.delegate.tender.qualification;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
 import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.domain.Params;
-import com.procurement.orchestrator.rest.ClarificationRestClient;
+import com.procurement.orchestrator.rest.QualificationRestClient;
 import com.procurement.orchestrator.service.ProcessService;
-import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.Objects;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
@@ -16,11 +16,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ClarificationCreateAnswer implements JavaDelegate {
+public class QualificationCreateAwards implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ClarificationCreateAnswer.class);
+    private static final Logger LOG = LoggerFactory.getLogger(QualificationCreateAwards.class);
 
-    private final ClarificationRestClient clarificationRestClient;
+    private final QualificationRestClient qualificationRestClient;
 
     private final OperationService operationService;
 
@@ -28,58 +28,61 @@ public class ClarificationCreateAnswer implements JavaDelegate {
 
     private final JsonUtil jsonUtil;
 
-    private final DateUtil dateUtil;
-
-    public ClarificationCreateAnswer(final ClarificationRestClient clarificationRestClient,
+    public QualificationCreateAwards(final QualificationRestClient qualificationRestClient,
                                      final OperationService operationService,
                                      final ProcessService processService,
-                                     final JsonUtil jsonUtil,
-                                     final DateUtil dateUtil) {
-        this.clarificationRestClient = clarificationRestClient;
+                                     final JsonUtil jsonUtil) {
+        this.qualificationRestClient = qualificationRestClient;
         this.operationService = operationService;
         this.processService = processService;
         this.jsonUtil = jsonUtil;
-        this.dateUtil = dateUtil;
     }
 
     @Override
     public void execute(final DelegateExecution execution) {
         LOG.info(execution.getCurrentActivityName());
-        final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
-        final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
-        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
         final String processId = execution.getProcessInstanceId();
+        final OperationStepEntity bids = operationService.getOperationStep(processId, "SubmissionGetBidsTask");
+        final OperationStepEntity lots = operationService.getOperationStep(processId, "AccessGetLotsTask");
+        final Params params = jsonUtil.toObject(Params.class, lots.getJsonParams());
         final String operationId = params.getOperationId();
+        final JsonNode jsonData = prepareData();
         try {
             final JsonNode responseData = processService.processResponse(
-                    clarificationRestClient.updateEnquiry(
+                    qualificationRestClient.createAwards(
                             params.getCpid(),
                             params.getStage(),
-                            params.getToken(),
                             params.getOwner(),
-                            dateUtil.format(dateUtil.localDateTimeNowUTC()),
+                            params.getCountry(),
+                            params.getPmd(),
+                            params.getStartDate(),
                             jsonData),
                     processId,
                     operationId);
-            if (Objects.nonNull(responseData)) {
-                final Boolean allAnswered = getAllAnswered(responseData, processId, operationId);
-                execution.setVariable("checkEnquiries", (allAnswered ? 1 : 0));
-                operationService.saveOperationStep(execution, entity, params, responseData);
-            }
+            if (Objects.nonNull(responseData))
+                operationService.saveOperationStep(execution, entity, responseData);
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
             processService.processException(e.getMessage(), processId);
         }
     }
 
-    private Boolean getAllAnswered(final JsonNode responseData,
-                                   final String processId,
-                                   final String operationId) {
+    private JsonNode prepareData(OperationStepEntity bids,
+                                 OperationStepEntity lots,
+                                 final String processId,
+                                 final String operationId) {
+
         try {
-            return responseData.get("allAnswered").asBoolean();
+            final JsonNode jsonData = jsonUtil.toJsonNode(bids.getJsonData());
+            final JsonNode lotsJsonData = jsonUtil.toJsonNode(lots.getJsonData());
+            ((ObjectNode) jsonData).put("lots", lotsJsonData.get("lots").asText());
+            return jsonData;
         } catch (Exception e) {
             processService.processError(e.getMessage(), processId, operationId);
             return null;
         }
     }
+
 }
+
+
