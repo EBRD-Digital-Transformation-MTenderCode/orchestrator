@@ -52,6 +52,10 @@ public interface AccessRestClient {
                                                           @RequestParam("statusDetails") final String statusDetails)
             throws Exception;
 
+    @RequestMapping(path = "/tender/setSuspended", method = RequestMethod.PATCH)
+    ResponseEntity<ResponseDto> setSuspended(@RequestParam("cpId") final String cpId,
+                                             @RequestParam("suspended") final Boolean suspended) throws Exception;
+
     @RequestMapping(path = "/lots", method = RequestMethod.GET)
     ResponseEntity<ResponseDto> getLots(final String cpId, final String status) throws Exception;
 

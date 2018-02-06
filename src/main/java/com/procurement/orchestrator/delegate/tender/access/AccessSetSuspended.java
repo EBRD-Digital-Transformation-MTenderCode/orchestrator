@@ -15,9 +15,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AccessGetLots implements JavaDelegate {
+public class AccessSetSuspended implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AccessGetLots.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AccessSetSuspended.class);
 
     private final AccessRestClient accessRestClient;
 
@@ -27,10 +27,10 @@ public class AccessGetLots implements JavaDelegate {
 
     private final JsonUtil jsonUtil;
 
-    public AccessGetLots(final AccessRestClient accessRestClient,
-                         final OperationService operationService,
-                         final ProcessService processService,
-                         final JsonUtil jsonUtil) {
+    public AccessSetSuspended(final AccessRestClient accessRestClient,
+                              final OperationService operationService,
+                              final ProcessService processService,
+                              final JsonUtil jsonUtil) {
         this.accessRestClient = accessRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -44,17 +44,20 @@ public class AccessGetLots implements JavaDelegate {
         final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
         final String processId = execution.getProcessInstanceId();
         final String operationId = params.getOperationId();
+        final Boolean suspended = (Boolean) execution.getVariableLocal("suspended");
         try {
             final JsonNode responseData = processService.processResponse(
-                    accessRestClient.getLots(params.getCpid(), "active"),
+                    accessRestClient.setSuspended(params.getCpid(), suspended),
                     processId,
                     operationId);
             if (Objects.nonNull(responseData))
-                operationService.saveOperationStep(execution, entity, params, responseData);
+                operationService.saveOperationStep(
+                        execution,
+                        entity,
+                        responseData);
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
             processService.processException(e.getMessage(), processId);
         }
     }
 }
-

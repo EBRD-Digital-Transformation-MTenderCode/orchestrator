@@ -76,7 +76,7 @@ public class SubmissionSaveNewPeriod implements JavaDelegate {
                                    final String processId,
                                    final String operationId) {
         params.setStartDate(processService.getValue("startDate", responseData, processId, operationId));
-        params.setEndDate(processService.getValue("startDate", responseData, processId, operationId));
+        params.setEndDate(processService.getValue("endDate", responseData, processId, operationId));
         return params;
     }
 }

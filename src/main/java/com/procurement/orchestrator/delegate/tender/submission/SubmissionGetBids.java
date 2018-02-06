@@ -51,7 +51,7 @@ public class SubmissionGetBids implements JavaDelegate {
                             params.getStage(),
                             params.getCountry(),
                             params.getPmd(),
-                            "status?"),
+                            "pending"),
                     processId,
                     operationId);
             if (Objects.nonNull(responseData))
