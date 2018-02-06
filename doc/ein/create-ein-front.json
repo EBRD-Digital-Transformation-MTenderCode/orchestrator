@@ -1,7 +1,6 @@
 {
   "planning": {
     "budget": {
-      "id": "string",
       "period": {
         "startDate": "2018-01-05T16:04:25.107Z",
         "endDate": "2018-01-15T16:04:25.107Z"
@@ -14,7 +13,6 @@
     "rationale": "string"
   },
   "tender": {
-    "id": "string",
     "title": "string",
     "description": "string",
     "classification": {

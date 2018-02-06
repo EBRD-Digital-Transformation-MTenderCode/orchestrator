@@ -57,7 +57,8 @@ public interface AccessRestClient {
                                              @RequestParam("suspended") final Boolean suspended) throws Exception;
 
     @RequestMapping(path = "/lots", method = RequestMethod.GET)
-    ResponseEntity<ResponseDto> getLots(final String cpId, final String status) throws Exception;
+    ResponseEntity<ResponseDto> getLots(@RequestParam("cpId") final String cpId,
+                                        @RequestParam("status")final String status) throws Exception;
 
     @RequestMapping(path = "/lots/updateStatus", method = RequestMethod.PATCH)
     ResponseEntity<ResponseDto> updateLotsStatus(@RequestParam("cpId") final String cpId,
