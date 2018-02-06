@@ -38,7 +38,6 @@ public interface ClarificationRestClient {
 
     @RequestMapping(path = "/enquiry", method = RequestMethod.GET)
     ResponseEntity<ResponseDto> checkEnquiries(@RequestParam(value = "cpId") final String cpId,
-                                               @RequestParam(value = "stage") final String stage,
-                                               @RequestParam(value = "owner") final String owner) throws Exception;
+                                               @RequestParam(value = "stage") final String stage) throws Exception;
 
 }

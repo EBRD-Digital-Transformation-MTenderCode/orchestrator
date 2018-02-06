@@ -12,7 +12,6 @@ import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
@@ -45,33 +44,30 @@ public class StorageOpenDocs implements JavaDelegate {
     @Override
     public void execute(final DelegateExecution execution) {
         LOG.info(execution.getCurrentActivityName());
-        final Optional<OperationStepEntity> entityOptional = operationService.getPreviousOperationStep(execution);
-        if (entityOptional.isPresent()) {
-            final OperationStepEntity entity = entityOptional.get();
-            final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
-            final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
-            final String processId = execution.getProcessInstanceId();
-            final String operationId = params.getOperationId();
-            final String startDate = getStartDate(jsonData, processId, operationId);
-            final List<String> fileIds = getFileIds(jsonData, processId, operationId);
-            JsonNode responseData = null;
-            try {
-                for (String fileId : fileIds) {
-                    responseData = processService.processResponse(
-                            storageRestClient.setPublishDate(fileId, startDate),
-                            processId,
-                            operationId);
-                    if (responseData == null) break;
-                }
-                if (Objects.nonNull(responseData))
-                    operationService.saveOperationStep(
-                            execution,
-                            entity,
-                            setDatePublished(jsonData, startDate, processId, operationId));
-            } catch (Exception e) {
-                LOG.error(e.getMessage(), e);
-                processService.processException(e.getMessage(), processId);
+        final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
+        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
+        final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
+        final String processId = execution.getProcessInstanceId();
+        final String operationId = params.getOperationId();
+        final String startDate = getStartDate(jsonData, processId, operationId);
+        final List<String> fileIds = getFileIds(jsonData, processId, operationId);
+        JsonNode responseData = null;
+        try {
+            for (String fileId : fileIds) {
+                responseData = processService.processResponse(
+                        storageRestClient.setPublishDate(fileId, startDate),
+                        processId,
+                        operationId);
+                if (responseData == null) break;
             }
+            if (Objects.nonNull(responseData))
+                operationService.saveOperationStep(
+                        execution,
+                        entity,
+                        setDatePublished(jsonData, startDate, processId, operationId));
+        } catch (Exception e) {
+            LOG.error(e.getMessage(), e);
+            processService.processException(e.getMessage(), processId);
         }
     }
 

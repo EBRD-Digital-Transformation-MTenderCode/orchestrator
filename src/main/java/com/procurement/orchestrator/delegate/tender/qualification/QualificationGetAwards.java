@@ -46,7 +46,7 @@ public class QualificationGetAwards implements JavaDelegate {
         final String operationId = params.getOperationId();
         try {
             final JsonNode responseData = processService.processResponse(
-                    qualificationRestClient.getAwards(params.getCpid()),
+                    qualificationRestClient.getAwards(params.getCpid(), params.getStage()),
                     processId,
                     operationId);
             if (Objects.nonNull(responseData))

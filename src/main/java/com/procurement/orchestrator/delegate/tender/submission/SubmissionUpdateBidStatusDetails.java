@@ -44,6 +44,8 @@ public class SubmissionUpdateBidStatusDetails implements JavaDelegate {
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
+        final String bidId = "relatedBid";//from json
+        final String awardStatus = "status";//from json
         final String processId = execution.getProcessInstanceId();
         final String operationId = params.getOperationId();
         try {
@@ -51,8 +53,8 @@ public class SubmissionUpdateBidStatusDetails implements JavaDelegate {
                     submissionRestClient.updateStatusDetail(
                             params.getOcid(),
                             params.getStage(),
-                            "",
-                            ""),
+                            bidId,
+                            awardStatus),
                     processId,
                     operationId);
             if (Objects.nonNull(responseData))

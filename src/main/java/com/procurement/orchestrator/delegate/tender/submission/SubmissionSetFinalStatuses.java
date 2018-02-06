@@ -1,10 +1,11 @@
-package com.procurement.orchestrator.delegate.tender.access;
+package com.procurement.orchestrator.delegate.tender.submission;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
 import com.procurement.orchestrator.cassandra.service.OperationService;
+import com.procurement.orchestrator.delegate.tender.access.AccessUpdateCn;
 import com.procurement.orchestrator.domain.Params;
-import com.procurement.orchestrator.rest.AccessRestClient;
+import com.procurement.orchestrator.rest.SubmissionRestClient;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.Objects;
@@ -15,11 +16,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AccessUpdateLotStatus implements JavaDelegate {
+public class SubmissionSetFinalStatuses implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AccessUpdateLotStatus.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AccessUpdateCn.class);
 
-    private final AccessRestClient accessRestClient;
+    private final SubmissionRestClient submissionRestClient;
 
     private final OperationService operationService;
 
@@ -27,11 +28,11 @@ public class AccessUpdateLotStatus implements JavaDelegate {
 
     private final JsonUtil jsonUtil;
 
-    public AccessUpdateLotStatus(final AccessRestClient accessRestClient,
-                                 final OperationService operationService,
-                                 final ProcessService processService,
-                                 final JsonUtil jsonUtil) {
-        this.accessRestClient = accessRestClient;
+    public SubmissionSetFinalStatuses(final SubmissionRestClient submissionRestClient,
+                                      final OperationService operationService,
+                                      final ProcessService processService,
+                                      final JsonUtil jsonUtil) {
+        this.submissionRestClient = submissionRestClient;
         this.operationService = operationService;
         this.processService = processService;
         this.jsonUtil = jsonUtil;
@@ -47,21 +48,16 @@ public class AccessUpdateLotStatus implements JavaDelegate {
         final String operationId = params.getOperationId();
         try {
             final JsonNode responseData = processService.processResponse(
-                    accessRestClient.updateLotsStatus(
+                    submissionRestClient.setFinalStatuses(
                             params.getCpid(),
-                            "unsuccessful",
-                            lots),
+                            params.getStage()),
                     processId,
                     operationId);
             if (Objects.nonNull(responseData))
-                operationService.saveOperationStep(
-                        execution,
-                        entity,
-                        responseData);
+                operationService.saveOperationStep(execution, entity, params, responseData);
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
-            processService.processException(e.getMessage(), processId);
+            processService.processException(e.getMessage(), execution.getProcessInstanceId());
         }
     }
 }
-

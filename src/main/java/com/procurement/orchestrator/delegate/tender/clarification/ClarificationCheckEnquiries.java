@@ -46,7 +46,7 @@ public class ClarificationCheckEnquiries implements JavaDelegate {
         final String operationId = params.getOperationId();
         try {
             final JsonNode responseData = processService.processResponse(
-                    clarificationRestClient.checkEnquiries(params.getCpid(), params.getStage(), params.getOwner()),
+                    clarificationRestClient.checkEnquiries(params.getCpid(), params.getStage()),
                     processId,
                     operationId);
             if (Objects.nonNull(responseData)) {

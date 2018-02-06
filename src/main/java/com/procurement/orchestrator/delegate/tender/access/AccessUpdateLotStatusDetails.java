@@ -47,7 +47,7 @@ public class AccessUpdateLotStatusDetails implements JavaDelegate {
         final String operationId = params.getOperationId();
         try {
             final JsonNode responseData = processService.processResponse(
-                    accessRestClient.updateLotsStatusDetails(params.getCpid(), "statusDetails", lots),
+                    accessRestClient.updateLotsStatusDetails(params.getCpid(), "unsuccessful", lots),
                     processId,
                     operationId);
             if (Objects.nonNull(responseData))

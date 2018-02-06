@@ -24,17 +24,19 @@ public interface QualificationRestClient {
 
     @RequestMapping(path = "/qualification", method = RequestMethod.PUT)
     ResponseEntity<ResponseDto> updateAward(@RequestParam(value = "cpId") final String cpId,
+                                            @RequestParam(value = "stage") final String stage,
                                             @RequestParam(value = "token") final String token,
                                             @RequestParam(value = "owner") final String owner,
                                             @Valid @RequestBody final JsonNode dataDto) throws Exception;
 
-    @RequestMapping(path = "/qualification/period", method = RequestMethod.POST)
+    @RequestMapping(path = "/qualification/period", method = RequestMethod.PUT)
     ResponseEntity<ResponseDto> checkAwarded(@RequestParam(value = "cpId") final String cpId,
                                              @RequestParam(value = "stage") final String stage,
                                              @RequestParam(value = "endPeriod") final String endPeriod) throws Exception;
 
     @RequestMapping(path = "/qualification", method = RequestMethod.GET)
-    ResponseEntity<ResponseDto> getAwards(@RequestParam("ocId") final String ocId) throws Exception;
+    ResponseEntity<ResponseDto> getAwards(@RequestParam("ocId") final String ocId,
+                                          @RequestParam("stage") final String stage) throws Exception;
 
 
 }

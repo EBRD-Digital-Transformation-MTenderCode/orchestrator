@@ -58,21 +58,21 @@ public interface SubmissionRestClient {
                                         @RequestParam("pmd") final String pmd,
                                         @RequestParam("status") final String status) throws Exception;
 
-    @RequestMapping(path = "/submission/updateStatus", method = RequestMethod.PUT)
+    @RequestMapping(path = "/submission/updateStatus", method = RequestMethod.PATCH)
     ResponseEntity<ResponseDto> updateStatus(@RequestParam("cpId") final String cpId,
                                              @RequestParam("stage") final String stage,
                                              @RequestParam("country") final String country,
                                              @RequestParam("pmd") final String pmd,
                                              @RequestBody final JsonNode lots) throws Exception;
 
-    @RequestMapping(path = "/submission/updateStatusDetail", method = RequestMethod.PUT)
+    @RequestMapping(path = "/submission/updateStatusDetail", method = RequestMethod.PATCH)
     ResponseEntity<ResponseDto> updateStatusDetail(@RequestParam("cpId") final String cpId,
                                                    @RequestParam("stage") final String stage,
                                                    @RequestParam("bidId") final String bidId,
                                                    @RequestParam("awardStatus") final String awardStatus)
             throws Exception;
 
-    @RequestMapping(path = "/submission/setFinalStatuses", method = RequestMethod.PUT)
+    @RequestMapping(path = "/submission/setFinalStatuses", method = RequestMethod.PATCH)
     ResponseEntity<ResponseDto> setFinalStatuses(@RequestParam("cpId") final String cpId,
                                                  @RequestParam("stage") final String stage) throws Exception;
 
