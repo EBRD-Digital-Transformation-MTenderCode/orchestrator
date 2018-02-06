@@ -34,7 +34,6 @@ public interface ClarificationRestClient {
                                               @RequestParam(value = "token") final String token,
                                               @RequestParam(value = "owner") final String owner,
                                               @RequestParam(value = "date") final String date,
-
                                               @RequestBody final JsonNode dataDto) throws Exception;
 
     @RequestMapping(path = "/enquiry", method = RequestMethod.GET)
