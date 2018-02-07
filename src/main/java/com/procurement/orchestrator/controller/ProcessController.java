@@ -6,8 +6,11 @@ import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.cassandra.service.RequestService;
 import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.service.ProcessService;
+import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.HashMap;
 import java.util.Map;
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.codec.binary.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,13 +25,17 @@ public class ProcessController {
 
     private final OperationService operationService;
 
+    private final JsonUtil jsonUtil;
+
 
     public ProcessController(final ProcessService processService,
                              final RequestService requestService,
-                             final OperationService operationService) {
+                             final OperationService operationService,
+                             final JsonUtil jsonUtil) {
         this.processService = processService;
         this.requestService = requestService;
         this.operationService = operationService;
+        this.jsonUtil = jsonUtil;
     }
 
     @RequestMapping(value = "/ein", method = RequestMethod.POST)
@@ -38,7 +45,8 @@ public class ProcessController {
                                            @RequestParam("pmd") final String pmd,
                                            @RequestBody final JsonNode jsonData) {
         final String processType = "ein";
-        final Params params = new Params(operationId, null, null, "ein", processType, "dzo", country, pmd, null, null, null);
+        final String owner = getOwner(authorization);
+        final Params params = new Params(operationId, null, null, "ein", processType, owner, country, pmd, null, null, null);
         final String requestId = UUIDs.timeBased().toString();
         requestService.saveRequest(requestId, operationId, params, jsonData);
         operationService.checkOperationById(operationId);
@@ -58,7 +66,9 @@ public class ProcessController {
                                            @RequestParam("pmd") final String pmd,
                                            @RequestBody final JsonNode jsonData) {
         final String processType = "ein";
-        final Params params = new Params(operationId, ocid, null, "ein", processType, "dzo", country, pmd, token, null, null);
+        final String owner = getOwner(authorization);
+        final Params params = new Params(operationId, ocid, null, "ein", processType, owner, country, pmd, token,
+                null, null);
         final String requestId = UUIDs.timeBased().toString();
         requestService.saveRequest(requestId, operationId, params, jsonData);
         operationService.checkOperationById(operationId);
@@ -69,6 +79,13 @@ public class ProcessController {
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
+    private String getOwner(String authorization) {
+        final String[] split = authorization.split("\\.");
+        final String payload = split[1];
+        final String encodedToken = StringUtils.newStringUtf8(Base64.decodeBase64(payload.getBytes()));
+        JsonNode jsonNode = jsonUtil.toJsonNode(encodedToken);
+        return  jsonNode.get("idPlatform").asText();
+    }
 
 //    @RequestMapping(value = "{processType}", method = RequestMethod.POST)
 //    public ResponseEntity<String> doCreate(@PathVariable("processType") final String processType,
