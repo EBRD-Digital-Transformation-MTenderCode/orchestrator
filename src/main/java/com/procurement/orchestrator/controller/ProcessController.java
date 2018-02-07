@@ -82,12 +82,13 @@ public class ProcessController {
     @RequestMapping(value = "/fs", method = RequestMethod.POST)
     public ResponseEntity<String> createFS(@RequestHeader("X-OPERATION-ID") final String operationId,
                                            @RequestHeader("Authorization") final String authorization,
+                                           @RequestParam(value = "cpid", required = false) final String cpid,
                                            @RequestParam("country") final String country,
                                            @RequestParam("pmd") final String pmd,
                                            @RequestBody final JsonNode jsonData) {
         final String processType = "fs";
         final String owner = getOwner(authorization);
-        final Params params = new Params(operationId, null, null, "fs", processType, owner, country, pmd, null, null, null);
+        final Params params = new Params(operationId, cpid, null, "fs", processType, owner, country, pmd, null, null, null);
         final String requestId = UUIDs.timeBased().toString();
         requestService.saveRequest(requestId, operationId, params, jsonData);
         operationService.checkOperationById(operationId);
@@ -102,13 +103,14 @@ public class ProcessController {
     public ResponseEntity<String> updateFS(@PathVariable("ocid") final String ocid,
                                            @RequestHeader("X-OPERATION-ID") final String operationId,
                                            @RequestHeader("Authorization") final String authorization,
+                                           @RequestParam("cpid") final String cpid,
                                            @RequestHeader("token") final String token,
                                            @RequestParam("country") final String country,
                                            @RequestParam("pmd") final String pmd,
                                            @RequestBody final JsonNode jsonData) {
         final String processType = "fs";
         final String owner = getOwner(authorization);
-        final Params params = new Params(operationId, ocid, null, "fs", processType, owner, country, pmd, token,
+        final Params params = new Params(operationId, cpid, ocid, "fs", processType, owner, country, pmd, token,
                 null, null);
         final String requestId = UUIDs.timeBased().toString();
         requestService.saveRequest(requestId, operationId, params, jsonData);
