@@ -39,7 +39,7 @@ public class ProcessController {
     }
 
     @RequestMapping(value = "/ein", method = RequestMethod.POST)
-    public ResponseEntity<String> doCreate(@RequestHeader("X-OPERATION-ID") final String operationId,
+    public ResponseEntity<String> createEIN(@RequestHeader("X-OPERATION-ID") final String operationId,
                                            @RequestHeader("Authorization") final String authorization,
                                            @RequestParam("country") final String country,
                                            @RequestParam("pmd") final String pmd,
@@ -58,7 +58,7 @@ public class ProcessController {
     }
 
     @RequestMapping(value = "/ein/{ocid}", method = RequestMethod.POST)
-    public ResponseEntity<String> doCreate(@PathVariable("ocid") final String ocid,
+    public ResponseEntity<String> updateEIN(@PathVariable("ocid") final String ocid,
                                            @RequestHeader("X-OPERATION-ID") final String operationId,
                                            @RequestHeader("Authorization") final String authorization,
                                            @RequestHeader("token") final String token,
@@ -79,13 +79,47 @@ public class ProcessController {
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
-    private String getOwner(String authorization) {
-        final String[] split = authorization.split("\\.");
-        final String payload = split[1];
-        final String encodedToken = StringUtils.newStringUtf8(Base64.decodeBase64(payload.getBytes()));
-        JsonNode jsonNode = jsonUtil.toJsonNode(encodedToken);
-        return  jsonNode.get("idPlatform").asText();
+    @RequestMapping(value = "/fs", method = RequestMethod.POST)
+    public ResponseEntity<String> createFS(@RequestHeader("X-OPERATION-ID") final String operationId,
+                                           @RequestHeader("Authorization") final String authorization,
+                                           @RequestParam("country") final String country,
+                                           @RequestParam("pmd") final String pmd,
+                                           @RequestBody final JsonNode jsonData) {
+        final String processType = "fs";
+        final String owner = getOwner(authorization);
+        final Params params = new Params(operationId, null, null, "fs", processType, owner, country, pmd, null, null, null);
+        final String requestId = UUIDs.timeBased().toString();
+        requestService.saveRequest(requestId, operationId, params, jsonData);
+        operationService.checkOperationById(operationId);
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("requestId", requestId);
+        variables.put("isTokenPresent", 0);
+        processService.startProcess(processType, operationId, variables);
+        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
+
+    @RequestMapping(value = "/fs/{ocid}", method = RequestMethod.POST)
+    public ResponseEntity<String> updateFS(@PathVariable("ocid") final String ocid,
+                                           @RequestHeader("X-OPERATION-ID") final String operationId,
+                                           @RequestHeader("Authorization") final String authorization,
+                                           @RequestHeader("token") final String token,
+                                           @RequestParam("country") final String country,
+                                           @RequestParam("pmd") final String pmd,
+                                           @RequestBody final JsonNode jsonData) {
+        final String processType = "fs";
+        final String owner = getOwner(authorization);
+        final Params params = new Params(operationId, ocid, null, "fs", processType, owner, country, pmd, token,
+                null, null);
+        final String requestId = UUIDs.timeBased().toString();
+        requestService.saveRequest(requestId, operationId, params, jsonData);
+        operationService.checkOperationById(operationId);
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("requestId", requestId);
+        variables.put("isTokenPresent", 1);
+        processService.startProcess(processType, operationId, variables);
+        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
+    }
+
 
 //    @RequestMapping(value = "{processType}", method = RequestMethod.POST)
 //    public ResponseEntity<String> doCreate(@PathVariable("processType") final String processType,
@@ -120,6 +154,15 @@ public class ProcessController {
 //        processService.startProcess(processType, operationId, variables);
 //        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
 //    }
+
+
+    private String getOwner(String authorization) {
+        final String[] split = authorization.split("\\.");
+        final String payload = split[1];
+        final String encodedToken = StringUtils.newStringUtf8(Base64.decodeBase64(payload.getBytes()));
+        JsonNode jsonNode = jsonUtil.toJsonNode(encodedToken);
+        return  jsonNode.get("idPlatform").asText();
+    }
 
 }
 
