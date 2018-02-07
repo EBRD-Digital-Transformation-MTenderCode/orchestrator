@@ -19,7 +19,8 @@ public interface ProcessService {
 
     JsonNode processResponse(ResponseEntity<ResponseDto> responseEntity,
                              String processId,
-                             String operationId);
+                             String operationId,
+                             String taskId);
 
     void processException(String error, String processId);
 

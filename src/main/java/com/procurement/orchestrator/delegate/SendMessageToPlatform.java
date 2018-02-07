@@ -38,6 +38,7 @@ public class SendMessageToPlatform implements JavaDelegate {
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
         Map<String, String> data = new HashMap<>();
+        data.put("operation", params.getOperationId());
         data.put("token", params.getToken());
         data.put("cpid", params.getCpid());
         data.put("ocid", params.getOcid());

@@ -43,33 +43,30 @@ public class ClarificationCreateEnquiry implements JavaDelegate {
     }
 
     @Override
-    public void execute(final DelegateExecution execution) {
+    public void execute(final DelegateExecution execution) throws Exception {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
         final String processId = execution.getProcessInstanceId();
         final String operationId = params.getOperationId();
-        try {
-            final JsonNode responseData = processService.processResponse(
-                    clarificationRestClient.createEnquiry(
-                            params.getCpid(),
-                            params.getStage(),
-                            params.getOwner(),
-                            dateUtil.format(dateUtil.localDateTimeNowUTC()),
-                            jsonData),
-                    processId,
-                    operationId);
-            if (Objects.nonNull(responseData))
-                operationService.saveOperationStep(
-                        execution,
-                        entity,
-                        addDataToParams(params, responseData, processId, operationId),
-                        responseData);
-        } catch (Exception e) {
-            LOG.error(e.getMessage(), e);
-            processService.processException(e.getMessage(), processId);
-        }
+        final String taskId = execution.getCurrentActivityId();
+        final JsonNode responseData = processService.processResponse(
+                clarificationRestClient.createEnquiry(
+                        params.getCpid(),
+                        params.getStage(),
+                        params.getOwner(),
+                        dateUtil.format(dateUtil.localDateTimeNowUTC()),
+                        jsonData),
+                processId,
+                operationId,
+                taskId);
+        if (Objects.nonNull(responseData))
+            operationService.saveOperationStep(
+                    execution,
+                    entity,
+                    addDataToParams(params, responseData, processId, operationId),
+                    responseData);
     }
 
     private Params addDataToParams(final Params params,

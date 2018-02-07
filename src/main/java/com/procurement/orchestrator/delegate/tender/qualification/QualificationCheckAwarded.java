@@ -38,25 +38,22 @@ public class QualificationCheckAwarded implements JavaDelegate {
     }
 
     @Override
-    public void execute(final DelegateExecution execution) {
+    public void execute(final DelegateExecution execution) throws Exception {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
         final String processId = execution.getProcessInstanceId();
         final String operationId = params.getOperationId();
-        try {
-            final JsonNode responseData = processService.processResponse(
-                    qualificationRestClient.checkAwarded(params.getCpid(), params.getStage(), params.getEndDate()),
-                    processId,
-                    operationId);
-            if (Objects.nonNull(responseData)) {
-                final Boolean allAwarded = getAllAwarded(responseData, processId, operationId);
-                execution.setVariable("checkEnquiries", (allAwarded ? 1 : 0));
-                operationService.saveOperationStep(execution, entity, responseData);
-            }
-        } catch (Exception e) {
-            LOG.error(e.getMessage(), e);
-            processService.processException(e.getMessage(), processId);
+        final String taskId = execution.getCurrentActivityId();
+        final JsonNode responseData = processService.processResponse(
+                qualificationRestClient.checkAwarded(params.getCpid(), params.getStage(), params.getEndDate()),
+                processId,
+                operationId,
+                taskId);
+        if (Objects.nonNull(responseData)) {
+            final Boolean allAwarded = getAllAwarded(responseData, processId, operationId);
+            execution.setVariable("checkEnquiries", (allAwarded ? 1 : 0));
+            operationService.saveOperationStep(execution, entity, responseData);
         }
     }
 

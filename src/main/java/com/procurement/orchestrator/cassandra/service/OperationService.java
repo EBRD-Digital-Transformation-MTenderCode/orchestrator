@@ -28,4 +28,6 @@ public interface OperationService {
     void saveOperationStep(DelegateExecution execution, OperationStepEntity entity, JsonNode response);
 
     void saveOperationStep(DelegateExecution execution, OperationStepEntity entity);
+
+    void saveOperationException(String processId, String taskId, JsonNode response);
 }

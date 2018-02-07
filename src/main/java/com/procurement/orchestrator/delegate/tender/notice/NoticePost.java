@@ -34,7 +34,7 @@ public class NoticePost implements JavaDelegate {
     }
 
     @Override
-    public void execute(final DelegateExecution execution) {
+    public void execute(final DelegateExecution execution) throws Exception{
         LOG.info(execution.getCurrentActivityName());
 //        final Optional<OperationStepEntity> entityOptional = operationService.getPreviousOperationStep(execution);
 //        if (entityOptional.isPresent()) {
@@ -44,17 +44,14 @@ public class NoticePost implements JavaDelegate {
 //            final String processId = execution.getProcessInstanceId();
 //            final String operationId = params.getOperationId();
 //            final String releaseDate = getReleaseDate(jsonData, processId, operationId);
-//            try {
+//            final String taskId = execution.getCurrentActivityId();
 //                final JsonNode responseData = processService.processResponse(
 //                        noticeRestClient.createCn(params.getCpid(), "ps", releaseDate, jsonData),
 //                        processId,
-//                        operationId);
+//                        operationId,
+//                        taskId);
 //        if (Objects.nonNull(responseData))
 //                operationService.saveOperationStep(execution, entity, responseData);
-//            } catch (Exception e) {
-//                LOG.error(e.getMessage(), e);
-//                processService.processException(e.getMessage(), processId);
-//            }
 //        }
     }
 

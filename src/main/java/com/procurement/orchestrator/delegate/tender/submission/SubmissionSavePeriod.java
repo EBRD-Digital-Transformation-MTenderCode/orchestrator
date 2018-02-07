@@ -43,26 +43,23 @@ public class SubmissionSavePeriod implements JavaDelegate {
     }
 
     @Override
-    public void execute(final DelegateExecution execution) {
+    public void execute(final DelegateExecution execution) throws Exception {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
         final String processId = execution.getProcessInstanceId();
         final String operationId = params.getOperationId();
-        try {
-            final JsonNode responseData = processService.processResponse(
-                    submissionRestClient.savePeriod(
-                            params.getCpid(),
-                            params.getStage(),
-                            params.getStartDate(),
-                            params.getEndDate()),
-                    processId,
-                    operationId);
-            if (Objects.nonNull(responseData))
-                operationService.saveOperationStep(execution, entity);
-        } catch (Exception e) {
-            LOG.error(e.getMessage(), e);
-            processService.processException(e.getMessage(), processId);
-        }
+        final String taskId = execution.getCurrentActivityId();
+        final JsonNode responseData = processService.processResponse(
+                submissionRestClient.savePeriod(
+                        params.getCpid(),
+                        params.getStage(),
+                        params.getStartDate(),
+                        params.getEndDate()),
+                processId,
+                operationId,
+                taskId);
+        if (Objects.nonNull(responseData))
+            operationService.saveOperationStep(execution, entity);
     }
 }

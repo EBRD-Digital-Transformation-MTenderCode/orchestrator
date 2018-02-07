@@ -39,7 +39,7 @@ public class QualificationCreateAwards implements JavaDelegate {
     }
 
     @Override
-    public void execute(final DelegateExecution execution) {
+    public void execute(final DelegateExecution execution) throws Exception {
         LOG.info(execution.getCurrentActivityName());
         final String processId = execution.getProcessInstanceId();
         final OperationStepEntity bids = operationService.getOperationStep(processId, "SubmissionGetBidsTask");
@@ -47,24 +47,21 @@ public class QualificationCreateAwards implements JavaDelegate {
         final Params params = jsonUtil.toObject(Params.class, lots.getJsonParams());
         final String operationId = params.getOperationId();
         final JsonNode jsonData = prepareData(bids, lots, processId, operationId);
-        try {
-            final JsonNode responseData = processService.processResponse(
-                    qualificationRestClient.createAwards(
-                            params.getCpid(),
-                            params.getStage(),
-                            params.getOwner(),
-                            params.getCountry(),
-                            params.getPmd(),
-                            params.getStartDate(),
-                            jsonData),
-                    processId,
-                    operationId);
-            if (Objects.nonNull(responseData))
-                operationService.saveOperationStep(execution, bids, responseData);
-        } catch (Exception e) {
-            LOG.error(e.getMessage(), e);
-            processService.processException(e.getMessage(), processId);
-        }
+        final String taskId = execution.getCurrentActivityId();
+        final JsonNode responseData = processService.processResponse(
+                qualificationRestClient.createAwards(
+                        params.getCpid(),
+                        params.getStage(),
+                        params.getOwner(),
+                        params.getCountry(),
+                        params.getPmd(),
+                        params.getStartDate(),
+                        jsonData),
+                processId,
+                operationId,
+                taskId);
+        if (Objects.nonNull(responseData))
+            operationService.saveOperationStep(execution, bids, responseData);
     }
 
     private JsonNode prepareData(OperationStepEntity bids,

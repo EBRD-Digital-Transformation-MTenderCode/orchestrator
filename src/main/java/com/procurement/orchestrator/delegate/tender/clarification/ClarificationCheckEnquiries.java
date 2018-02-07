@@ -38,36 +38,30 @@ public class ClarificationCheckEnquiries implements JavaDelegate {
     }
 
     @Override
-    public void execute(final DelegateExecution execution) {
+    public void execute(final DelegateExecution execution) throws Exception {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
         final String processId = execution.getProcessInstanceId();
         final String operationId = params.getOperationId();
-        try {
-            final JsonNode responseData = processService.processResponse(
-                    clarificationRestClient.checkEnquiries(params.getCpid(), params.getStage()),
-                    processId,
-                    operationId);
-            if (Objects.nonNull(responseData)) {
-                final Boolean allAnswered = getAllAnswered(responseData, processId, operationId);
-                if (allAnswered != null) {
-                    execution.setVariable("checkEnquiries", (allAnswered ? 1 : 2));
-                } else {
-                    final String endDate = getTenderPeriodEndDate(responseData, processId, operationId);
-                    execution.setVariable("checkEnquiries", 3);
-                    if (endDate != null) {
-                        params.setEndDate(endDate);
-                    }
+        final String taskId = execution.getCurrentActivityId();
+        final JsonNode responseData = processService.processResponse(
+                clarificationRestClient.checkEnquiries(params.getCpid(), params.getStage()),
+                processId,
+                operationId,
+                taskId);
+        if (Objects.nonNull(responseData)) {
+            final Boolean allAnswered = getAllAnswered(responseData, processId, operationId);
+            if (allAnswered != null) {
+                execution.setVariable("checkEnquiries", (allAnswered ? 1 : 2));
+            } else {
+                final String endDate = getTenderPeriodEndDate(responseData, processId, operationId);
+                execution.setVariable("checkEnquiries", 3);
+                if (endDate != null) {
+                    params.setEndDate(endDate);
                 }
-                operationService.saveOperationStep(
-                        execution,
-                        entity,
-                        responseData);
             }
-        } catch (Exception e) {
-            LOG.error(e.getMessage(), e);
-            processService.processException(e.getMessage(), execution.getProcessInstanceId());
+            operationService.saveOperationStep(execution, entity, responseData);
         }
     }
 

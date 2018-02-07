@@ -44,39 +44,36 @@ public class SubmissionCheckPeriod implements JavaDelegate {
     }
 
     @Override
-    public void execute(final DelegateExecution execution) {
+    public void execute(final DelegateExecution execution) throws Exception {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
         final String processId = execution.getProcessInstanceId();
         final String operationId = params.getOperationId();
+        final String taskId = execution.getCurrentActivityId();
         params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
         params.setEndDate(getEndDate(jsonData, processId, operationId));
-        try {
-            final JsonNode responseData = processService.processResponse(
-                    submissionRestClient.checkPeriod(
-                            params.getCountry(),
-                            params.getPmd(),
-                            params.getStage(),
+        final JsonNode responseData = processService.processResponse(
+                submissionRestClient.checkPeriod(
+                        params.getCountry(),
+                        params.getPmd(),
+                        params.getStage(),
+                        params.getStartDate(),
+                        params.getEndDate()),
+                processId,
+                operationId,
+                taskId);
+        if (Objects.nonNull(responseData))
+            operationService.saveOperationStep(
+                    execution,
+                    addPeriodStartDate(
+                            entity,
+                            jsonData,
                             params.getStartDate(),
-                            params.getEndDate()),
-                    processId,
-                    operationId);
-            if (Objects.nonNull(responseData))
-                operationService.saveOperationStep(
-                        execution,
-                        addPeriodStartDate(
-                                entity,
-                                jsonData,
-                                params.getStartDate(),
-                                processId,
-                                operationId),
-                        params);
-        } catch (Exception e) {
-            LOG.error(e.getMessage(), e);
-            processService.processException(e.getMessage(), processId);
-        }
+                            processId,
+                            operationId),
+                    params);
     }
 
     private String getEndDate(final JsonNode jsonData,

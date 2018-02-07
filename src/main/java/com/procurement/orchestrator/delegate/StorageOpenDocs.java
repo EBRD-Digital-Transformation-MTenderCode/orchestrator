@@ -51,13 +51,15 @@ public class StorageOpenDocs implements JavaDelegate {
         final String operationId = params.getOperationId();
         final String startDate = getStartDate(jsonData, processId, operationId);
         final List<String> fileIds = getFileIds(jsonData, processId, operationId);
+        final String taskId = execution.getCurrentActivityName();
         JsonNode responseData = null;
         try {
             for (String fileId : fileIds) {
                 responseData = processService.processResponse(
                         storageRestClient.setPublishDate(fileId, startDate),
                         processId,
-                        operationId);
+                        operationId,
+                        taskId);
                 if (responseData == null) break;
             }
             if (Objects.nonNull(responseData))

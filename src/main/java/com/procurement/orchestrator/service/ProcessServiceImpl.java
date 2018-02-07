@@ -1,6 +1,7 @@
 package com.procurement.orchestrator.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.domain.dto.ResponseDetailsDto;
 import com.procurement.orchestrator.domain.dto.ResponseDto;
 import com.procurement.orchestrator.kafka.MessageProducer;
@@ -25,11 +26,15 @@ public class ProcessServiceImpl implements ProcessService {
 
     private final MessageProducer messageProducer;
 
+    private final OperationService operationService;
+
     private final JsonUtil jsonUtil;
 
     public ProcessServiceImpl(final RuntimeService runtimeService,
                               final MessageProducer messageProducer,
+                              final OperationService operationService,
                               final JsonUtil jsonUtil) {
+        this.operationService = operationService;
         this.runtimeService = runtimeService;
         this.messageProducer = messageProducer;
         this.jsonUtil = jsonUtil;
@@ -48,11 +53,12 @@ public class ProcessServiceImpl implements ProcessService {
     @Override
     public JsonNode processResponse(final ResponseEntity<ResponseDto> responseEntity,
                                     final String processId,
-                                    final String operationId) {
+                                    final String operationId,
+                                    final String taskId) {
         if (responseEntity.getBody().getSuccess()) {
             return jsonUtil.toJsonNode(responseEntity.getBody().getData());
-
         } else {
+            operationService.saveOperationException(processId, taskId, jsonUtil.toJsonNode(responseEntity.getBody()));
             processError(responseEntity.getBody().getDetails(), processId, operationId);
             return null;
         }

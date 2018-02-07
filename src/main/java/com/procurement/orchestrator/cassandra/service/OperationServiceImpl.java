@@ -8,31 +8,37 @@ import com.procurement.orchestrator.cassandra.model.RequestEntity;
 import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.exception.OperationException;
 import com.procurement.orchestrator.service.ProcessService;
+import com.procurement.orchestrator.service.ProcessServiceImpl;
 import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.Optional;
+import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
 public class OperationServiceImpl implements OperationService {
 
+    private static final Logger LOG = LoggerFactory.getLogger(OperationServiceImpl.class);
+
     private final static String LAST_TASK = "lastExecutedTask";
 
     private final CassandraDao cassandraDao;
 
-    private final ProcessService processService;
+    private final RuntimeService runtimeService;
 
     private final JsonUtil jsonUtil;
 
     private final DateUtil dateUtil;
 
     public OperationServiceImpl(final CassandraDao cassandraDao,
-                                final ProcessService processService,
+                                final RuntimeService runtimeService,
                                 final JsonUtil jsonUtil,
                                 final DateUtil dateUtil) {
         this.cassandraDao = cassandraDao;
-        this.processService = processService;
+        this.runtimeService = runtimeService;
         this.jsonUtil = jsonUtil;
         this.dateUtil = dateUtil;
     }
@@ -71,7 +77,7 @@ public class OperationServiceImpl implements OperationService {
         if (entityOptional.isPresent()) {
             return entityOptional.get();
         } else {
-            processService.processException("No data found for taskId :" + taskId, processId);
+            processException("No data found for taskId :" + taskId, processId);
             return null;
         }
     }
@@ -124,6 +130,25 @@ public class OperationServiceImpl implements OperationService {
         entity.setTaskId(execution.getCurrentActivityId());
         entity.setDate(dateUtil.getNowUTC());
         cassandraDao.saveOperationStep(entity);
+    }
+
+    @Override
+    public void saveOperationException(final String processId, final String taskId, JsonNode response) {
+        final OperationStepEntity operationStepEntity = new OperationStepEntity();
+        operationStepEntity.setProcessId(processId);
+        operationStepEntity.setTaskId(taskId);
+        operationStepEntity.setDate(dateUtil.getNowUTC());
+        operationStepEntity.setJsonData(jsonUtil.toJson(response));
+        cassandraDao.saveOperationStep(operationStepEntity);
+    }
+
+    public void processException(final String error,
+                                 final String processId) {
+        try {
+            LOG.info("Exception in process Id: " + processId + "; message: " + error);
+            runtimeService.suspendProcessInstanceById(processId);
+        } catch (Exception ignored) {
+        }
     }
 }
 
