@@ -6,7 +6,7 @@ spring:
     name: orchestrator
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/orchestrator
+    url: jdbc:postgresql://10.0.10.112:5432/orchestrator
     username: postgres
     password: postgres
     hikari:
