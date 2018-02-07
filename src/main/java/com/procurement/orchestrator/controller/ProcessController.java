@@ -31,40 +31,78 @@ public class ProcessController {
         this.operationService = operationService;
     }
 
-
-    @RequestMapping(value = "{processType}", method = RequestMethod.POST)
-    public ResponseEntity<String> doCreate(@PathVariable("processType") final String processType,
-                                           @RequestHeader("X-OPERATION-ID") final String operationId,
+    @RequestMapping(value = "/ein", method = RequestMethod.POST)
+    public ResponseEntity<String> doCreate(@RequestHeader("X-OPERATION-ID") final String operationId,
                                            @RequestHeader("Authorization") final String authorization,
-                                           @RequestHeader(value = "token", required = false) final String token,
-                                           @RequestParam(value = "cpid", required = false) final String cpid,
-                                           @RequestParam(value = "ocid", required = false) final String ocid,
-                                           @RequestParam(value = "stage", required = false) final String stage,
                                            @RequestParam("country") final String country,
                                            @RequestParam("pmd") final String pmd,
                                            @RequestBody final JsonNode jsonData) {
-        final Params params = new Params(
-                operationId,
-                cpid,
-                ocid,
-                stage,
-                processType,
-                "dzo",
-                country,
-                pmd,
-                token,
-                "", "");
+        final String processType = "ein";
+        final Params params = new Params(operationId, null, null, "ein", processType, "dzo", country, pmd, null, null, null);
         final String requestId = UUIDs.timeBased().toString();
         requestService.saveRequest(requestId, operationId, params, jsonData);
         operationService.checkOperationById(operationId);
         Map<String, Object> variables = new HashMap<>();
         variables.put("requestId", requestId);
-        variables.put("isTokenPresent", ((token == null || "".equals(token.trim())) ? 0 : 1));
-        variables.put("checkEnquiries", 0);
-        variables.put("allAnswered", 0);
+        variables.put("isTokenPresent", 0);
         processService.startProcess(processType, operationId, variables);
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
+
+    @RequestMapping(value = "/ein/{ocid}", method = RequestMethod.POST)
+    public ResponseEntity<String> doCreate(@PathVariable("ocid") final String ocid,
+                                           @RequestHeader("X-OPERATION-ID") final String operationId,
+                                           @RequestHeader("Authorization") final String authorization,
+                                           @RequestHeader("token") final String token,
+                                           @RequestParam("country") final String country,
+                                           @RequestParam("pmd") final String pmd,
+                                           @RequestBody final JsonNode jsonData) {
+        final String processType = "ein";
+        final Params params = new Params(operationId, ocid, null, "ein", processType, "dzo", country, pmd, token, null, null);
+        final String requestId = UUIDs.timeBased().toString();
+        requestService.saveRequest(requestId, operationId, params, jsonData);
+        operationService.checkOperationById(operationId);
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("requestId", requestId);
+        variables.put("isTokenPresent", 1);
+        processService.startProcess(processType, operationId, variables);
+        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
+    }
+
+
+//    @RequestMapping(value = "{processType}", method = RequestMethod.POST)
+//    public ResponseEntity<String> doCreate(@PathVariable("processType") final String processType,
+//                                           @RequestHeader("X-OPERATION-ID") final String operationId,
+//                                           @RequestHeader("Authorization") final String authorization,
+//                                           @RequestHeader(value = "token", required = false) final String token,
+//                                           @RequestParam(value = "cpid", required = false) final String cpid,
+//                                           @RequestParam(value = "ocid", required = false) final String ocid,
+//                                           @RequestParam(value = "stage", required = false) final String stage,
+//                                           @RequestParam("country") final String country,
+//                                           @RequestParam("pmd") final String pmd,
+//                                           @RequestBody final JsonNode jsonData) {
+//        final Params params = new Params(
+//                operationId,
+//                cpid,
+//                ocid,
+//                stage,
+//                processType,
+//                "dzo",
+//                country,
+//                pmd,
+//                token,
+//                "", "");
+//        final String requestId = UUIDs.timeBased().toString();
+//        requestService.saveRequest(requestId, operationId, params, jsonData);
+//        operationService.checkOperationById(operationId);
+//        Map<String, Object> variables = new HashMap<>();
+//        variables.put("requestId", requestId);
+//        variables.put("isTokenPresent", ((token == null || "".equals(token.trim())) ? 0 : 1));
+//        variables.put("checkEnquiries", 0);
+//        variables.put("allAnswered", 0);
+//        processService.startProcess(processType, operationId, variables);
+//        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
+//    }
 
 }
 

@@ -35,14 +35,14 @@
       <bpmn:incoming>SequenceFlow_1et5xwd</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0mjlu9w</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="ServiceTask_07afguu" name="Send pjsitive task to platform" camunda:asyncBefore="true" camunda:delegateExpression="${sendMessageToPlatform}">
+    <bpmn:serviceTask id="SendMessageToPlatformTask" name="Send positive message to platform" camunda:asyncBefore="true" camunda:delegateExpression="${sendMessageToPlatform}">
       <bpmn:incoming>SequenceFlow_1oyuwlt</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_062dyz9</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:endEvent id="EndEvent_1g4psv1">
       <bpmn:incoming>SequenceFlow_062dyz9</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:sequenceFlow id="SequenceFlow_062dyz9" sourceRef="ServiceTask_07afguu" targetRef="EndEvent_1g4psv1" />
+    <bpmn:sequenceFlow id="SequenceFlow_062dyz9" sourceRef="SendMessageToPlatformTask" targetRef="EndEvent_1g4psv1" />
     <bpmn:exclusiveGateway id="ExclusiveGateway_0rteoo4">
       <bpmn:incoming>SequenceFlow_0mjlu9w</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_1fbnbpk</bpmn:incoming>
@@ -54,7 +54,7 @@
       <bpmn:outgoing>SequenceFlow_1fbnbpk</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1fbnbpk" sourceRef="NoticeUpdateEinTask" targetRef="ExclusiveGateway_0rteoo4" />
-    <bpmn:sequenceFlow id="SequenceFlow_1oyuwlt" sourceRef="ExclusiveGateway_0rteoo4" targetRef="ServiceTask_07afguu" />
+    <bpmn:sequenceFlow id="SequenceFlow_1oyuwlt" sourceRef="ExclusiveGateway_0rteoo4" targetRef="SendMessageToPlatformTask" />
   </bpmn:process>
   <bpmn:error id="Error_1espguw" name="TR_EXCEPTION" errorCode="TR_EXCEPTION" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -127,7 +127,7 @@
       <bpmndi:BPMNShape id="ServiceTask_1y1goux_di" bpmnElement="NoticeCreateEinTask">
         <dc:Bounds x="607" y="163" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_07afguu_di" bpmnElement="ServiceTask_07afguu">
+      <bpmndi:BPMNShape id="ServiceTask_07afguu_di" bpmnElement="SendMessageToPlatformTask">
         <dc:Bounds x="827" y="235" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="EndEvent_1g4psv1_di" bpmnElement="EndEvent_1g4psv1">
