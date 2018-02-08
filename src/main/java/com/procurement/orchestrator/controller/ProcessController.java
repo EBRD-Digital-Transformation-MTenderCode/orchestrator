@@ -39,8 +39,8 @@ public class ProcessController {
     }
 
     @RequestMapping(value = "/ei", method = RequestMethod.POST)
-    public ResponseEntity<String> createEIN(@RequestHeader("X-OPERATION-ID") final String operationId,
-                                            @RequestHeader("Authorization") final String authorization,
+    public ResponseEntity<String> createEIN(@RequestHeader("Authorization") final String authorization,
+                                            @RequestHeader("X-OPERATION-ID") final String operationId,
                                             @RequestBody final JsonNode jsonData) {
         final String processType = "ei";
         final String operationType = "createEI";
@@ -58,10 +58,10 @@ public class ProcessController {
     }
 
     @RequestMapping(value = "/ei/{ocid}", method = RequestMethod.POST)
-    public ResponseEntity<String> updateEIN(@PathVariable("ocid") final String ocid,
+    public ResponseEntity<String> updateEIN(@RequestHeader("Authorization") final String authorization,
                                             @RequestHeader("X-OPERATION-ID") final String operationId,
-                                            @RequestHeader("Authorization") final String authorization,
-                                            @RequestHeader("token") final String token,
+                                            @RequestHeader("X-TOKEN") final String token,
+                                            @PathVariable("ocid") final String ocid,
                                             @RequestBody final JsonNode jsonData) {
         final String processType = "ei";
         final String operationType = "updateEI";
@@ -79,9 +79,9 @@ public class ProcessController {
     }
 
     @RequestMapping(value = "/fs", method = RequestMethod.POST)
-    public ResponseEntity<String> createFS(@RequestHeader("X-OPERATION-ID") final String operationId,
-                                           @RequestHeader("Authorization") final String authorization,
-                                           @RequestParam(value = "cpid", required = false) final String cpid,
+    public ResponseEntity<String> createFS(@RequestHeader("Authorization") final String authorization,
+                                           @RequestHeader("X-OPERATION-ID") final String operationId,
+                                           @RequestParam(value = "cpid") final String cpid,
                                            @RequestBody final JsonNode jsonData) {
         final String processType = "fs";
         final String operationType = "createFS";
@@ -99,11 +99,11 @@ public class ProcessController {
     }
 
     @RequestMapping(value = "/fs/{ocid}", method = RequestMethod.POST)
-    public ResponseEntity<String> updateFS(@PathVariable("ocid") final String ocid,
+    public ResponseEntity<String> updateFS(@RequestHeader("Authorization") final String authorization,
                                            @RequestHeader("X-OPERATION-ID") final String operationId,
-                                           @RequestHeader("Authorization") final String authorization,
+                                           @RequestHeader("X-TOKEN") final String token,
+                                           @PathVariable("ocid") final String ocid,
                                            @RequestParam("cpid") final String cpid,
-                                           @RequestHeader("token") final String token,
                                            @RequestBody final JsonNode jsonData) {
         final String processType = "fs";
         final String operationType = "updateFS";

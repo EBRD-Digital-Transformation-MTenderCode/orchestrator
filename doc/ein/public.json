@@ -1,0 +1,115 @@
+{
+  "ocid": "ocds-t1s2t3-MD-1518109259018",
+  "id": "a2ae3e60-0cf1-11e8-9d87-eb63128aa353",
+  "date": "2018-02-08T17:00:59.019Z",
+  "tag": [
+    "compiled"
+  ],
+  "initiationType": "tender",
+  "language": "en",
+  "planning": {
+    "budget": {
+      "id": "a2ae3e61-0cf1-11e8-9d87-eb63128aa353",
+      "period": {
+        "startDate": "2018-01-05T16:04:25.107Z",
+        "endDate": "2018-01-15T16:04:25.107Z"
+      },
+      "amount": {
+        "amount": 0.0,
+        "currency": "AED"
+      }
+    },
+    "rationale": "string"
+  },
+  "tender": {
+    "id": "ocds-t1s2t3-MD-1518109259018",
+    "title": "string",
+    "description": "string",
+    "status": "planning",
+    "statusDetails": "planning",
+    "classification": {
+      "scheme": "CPV",
+      "id": "string",
+      "description": "string"
+    }
+  },
+  "parties": [
+    {
+      "name": "string",
+      "id": "string",
+      "identifier": {
+        "scheme": "string",
+        "id": "string",
+        "legalName": "string",
+        "uri": "string"
+      },
+      "additionalIdentifiers": [
+        {
+          "scheme": "string",
+          "id": "string",
+          "legalName": "string",
+          "uri": "string"
+        }
+      ],
+      "address": {
+        "streetAddress": "string",
+        "locality": "string",
+        "region": "string",
+        "postalCode": "string",
+        "countryName": "string"
+      },
+      "contactPoint": {
+        "name": "string",
+        "email": "string",
+        "telephone": "string",
+        "faxNumber": "string",
+        "url": "string"
+      },
+      "roles": [
+        "buyer"
+      ],
+      "details": {
+        "typeOfBuyer": "BODY_PUBLIC",
+        "mainGeneralActivity": "DEFENCE",
+        "mainSectoralActivity": "AIRPORT_RELATED_ACTIVITIES",
+        "isACentralPurchasingBody": true,
+        "NUTSCode": "string",
+        "scale": "micro"
+      },
+      "buyerProfile": "string"
+    }
+  ],
+  "buyer": {
+    "name": "string",
+    "id": "string",
+    "identifier": {
+      "scheme": "string",
+      "id": "string",
+      "legalName": "string",
+      "uri": "string"
+    },
+    "address": {
+      "streetAddress": "string",
+      "locality": "string",
+      "region": "string",
+      "postalCode": "string",
+      "countryName": "string"
+    },
+    "additionalIdentifiers": [
+      {
+        "scheme": "string",
+        "id": "string",
+        "legalName": "string",
+        "uri": "string"
+      }
+    ],
+    "contactPoint": {
+      "name": "string",
+      "email": "string",
+      "telephone": "string",
+      "faxNumber": "string",
+      "url": "string"
+    }
+  },
+  "relatedProcesses": []
+}
