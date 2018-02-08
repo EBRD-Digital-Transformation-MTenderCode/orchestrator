@@ -1,4 +1,4 @@
-package com.procurement.orchestrator.delegate.ein;
+package com.procurement.orchestrator.delegate.budget;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.cassandra.model.OperationStepEntity;

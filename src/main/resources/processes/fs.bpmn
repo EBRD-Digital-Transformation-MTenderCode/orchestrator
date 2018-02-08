@@ -31,7 +31,12 @@
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1et5xwd" sourceRef="AccessCreateFsTask" targetRef="NoticeCreateFsTask" />
     <bpmn:sequenceFlow id="SequenceFlow_045aoy9" sourceRef="AccessUpdateFsTask" targetRef="noticeUpdateFsTask" />
-    <bpmn:serviceTask id="NoticeCreateFsTask" name="Notice Create Fs" camunda:asyncBefore="true" camunda:delegateExpression="${noticeCreateFs}">
+    <bpmn:serviceTask id="NoticeCreateFsTask" name="Notice Create Fs" camunda:asyncBefore="true" camunda:delegateExpression="${noticeCreateRelease}">
+      <bpmn:extensionElements>
+        <camunda:properties>
+          <camunda:property name="operation" value="createFS" />
+        </camunda:properties>
+      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1et5xwd</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0h9753t</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -44,7 +49,12 @@
       <bpmn:outgoing>SequenceFlow_0gebxq8</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="SequenceFlow_0h9753t" sourceRef="NoticeCreateFsTask" targetRef="ExclusiveGateway_0rteoo4" />
-    <bpmn:serviceTask id="noticeUpdateFsTask" name="Notice Update Fs" camunda:asyncBefore="true" camunda:delegateExpression="${noticeUpdateFs}">
+    <bpmn:serviceTask id="noticeUpdateFsTask" name="Notice Update Fs" camunda:asyncBefore="true" camunda:delegateExpression="${noticeCreateRelease}">
+      <bpmn:extensionElements>
+        <camunda:properties>
+          <camunda:property name="operation" value="updateFS" />
+        </camunda:properties>
+      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_045aoy9</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1gfdsmd</bpmn:outgoing>
     </bpmn:serviceTask>

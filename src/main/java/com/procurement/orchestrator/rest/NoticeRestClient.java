@@ -12,43 +12,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(name = "e-notice")
 public interface NoticeRestClient {
 
-    @RequestMapping(path = "/budget/ein", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> createEin(@RequestParam("cpId") final String cpId,
-                                          @RequestParam("stage") final String stage,
-                                          @RequestBody final JsonNode data) throws Exception;
-
-    @RequestMapping(path = "/budget/ein", method = RequestMethod.PUT)
-    ResponseEntity<ResponseDto> updateEin(@RequestParam("cpId") final String cpId,
-                                          @RequestParam("stage") final String stage,
-                                          @RequestBody final JsonNode data) throws Exception;
-
-    @RequestMapping(path = "/budget/fs", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> createFs(@RequestParam("cpId") final String cpId,
-                                         @RequestParam("stage") final String stage,
-                                         @RequestBody final JsonNode data) throws Exception;
-
-    @RequestMapping(path = "/budget/fs", method = RequestMethod.PUT)
-    ResponseEntity<ResponseDto> updateFs(@RequestParam("cpId") final String cpId,
-                                         @RequestParam("ocId") final String ocId,
-                                         @RequestParam("stage") final String stage,
-                                         @RequestBody final JsonNode data) throws Exception;
-
-    @RequestMapping(path = "/release/cn", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> createCn(@RequestParam("cpId") final String cpId,
-                                         @RequestParam("stage") final String stage,
-                                         @RequestParam("startDate") final String releaseDate,
-                                         @RequestBody final JsonNode data) throws Exception;
-
-
-    @RequestMapping(path = "/release/enquiry", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> createEnquiry(@RequestParam("cpId") final String cpId,
+    @RequestMapping(path = "/release", method = RequestMethod.POST)
+    ResponseEntity<ResponseDto> createRelease(@RequestParam("cpId") final String cpId,
                                               @RequestParam("ocId") final String ocId,
                                               @RequestParam("stage") final String stage,
+                                              @RequestParam("operation") final String operation,
+                                              @RequestParam("phase") final String phase,
+                                              @RequestParam("releaseDate") final String releaseDate,
                                               @RequestBody final JsonNode data) throws Exception;
 
-    @RequestMapping(path = "/release/awards", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> createAwards(@RequestParam("cpId") final String cpId,
-                                              @RequestParam("ocId") final String ocId,
-                                              @RequestParam("stage") final String stage,
-                                              @RequestBody final JsonNode data) throws Exception;
+
 }

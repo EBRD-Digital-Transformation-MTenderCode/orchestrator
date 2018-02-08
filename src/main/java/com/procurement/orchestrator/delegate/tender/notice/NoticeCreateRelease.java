@@ -1,10 +1,10 @@
-package com.procurement.orchestrator.delegate.ein;
+package com.procurement.orchestrator.delegate.tender.notice;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
 import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.domain.Params;
-import com.procurement.orchestrator.rest.AccessRestClient;
+import com.procurement.orchestrator.rest.NoticeRestClient;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.Objects;
@@ -15,11 +15,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AccessUpdateEin implements JavaDelegate {
+public class NoticeCreateRelease implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AccessUpdateEin.class);
+    private static final Logger LOG = LoggerFactory.getLogger(NoticeCreateRelease.class);
 
-    private final AccessRestClient accessRestClient;
+    private final NoticeRestClient noticeRestClient;
 
     private final OperationService operationService;
 
@@ -27,11 +27,11 @@ public class AccessUpdateEin implements JavaDelegate {
 
     private final JsonUtil jsonUtil;
 
-    public AccessUpdateEin(final AccessRestClient accessRestClient,
-                           final OperationService operationService,
-                           final ProcessService processService,
-                           final JsonUtil jsonUtil) {
-        this.accessRestClient = accessRestClient;
+    public NoticeCreateRelease(final NoticeRestClient noticeRestClient,
+                               final OperationService operationService,
+                               final ProcessService processService,
+                               final JsonUtil jsonUtil) {
+        this.noticeRestClient = noticeRestClient;
         this.operationService = operationService;
         this.processService = processService;
         this.jsonUtil = jsonUtil;
@@ -46,16 +46,20 @@ public class AccessUpdateEin implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         final String operationId = params.getOperationId();
         final String taskId = execution.getCurrentActivityId();
+        final String operation = (String) execution.getVariableLocal("operation");
         final JsonNode responseData = processService.processResponse(
-                accessRestClient.updateEin(
+                noticeRestClient.createRelease(
                         params.getCpid(),
-                        params.getOwner(),
-                        params.getToken(),
+                        params.getOcid(),
+                        params.getStage(),
+                        operation,
+                        "",
+                        params.getStartDate(),
                         jsonData),
                 processId,
                 operationId,
                 taskId);
         if (Objects.nonNull(responseData))
-            operationService.saveOperationStep(execution, entity, params, responseData);
+            operationService.saveOperationStep(execution, entity, responseData);
     }
 }

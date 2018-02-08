@@ -1,10 +1,10 @@
-package com.procurement.orchestrator.delegate.ein;
+package com.procurement.orchestrator.delegate.budget;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
 import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.domain.Params;
-import com.procurement.orchestrator.rest.NoticeRestClient;
+import com.procurement.orchestrator.rest.AccessRestClient;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.Objects;
@@ -15,24 +15,26 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class NoticeCreateEin implements JavaDelegate {
-    private static final Logger LOG = LoggerFactory.getLogger(NoticeCreateEin.class);
+public class AccessCreateFs implements JavaDelegate {
+
+    private static final Logger LOG = LoggerFactory.getLogger(AccessCreateFs.class);
+
+    private final AccessRestClient accessRestClient;
 
     private final OperationService operationService;
 
     private final ProcessService processService;
 
-    private final NoticeRestClient noticeRestClient;
-
     private final JsonUtil jsonUtil;
 
-    public NoticeCreateEin(final OperationService operationService,
-                           final ProcessService processService,
-                           final NoticeRestClient noticeRestClient,
-                           final JsonUtil jsonUtil) {
+
+    public AccessCreateFs(final AccessRestClient accessRestClient,
+                          final OperationService operationService,
+                          final ProcessService processService,
+                          final JsonUtil jsonUtil) {
+        this.accessRestClient = accessRestClient;
         this.operationService = operationService;
         this.processService = processService;
-        this.noticeRestClient = noticeRestClient;
         this.jsonUtil = jsonUtil;
     }
 
@@ -46,12 +48,23 @@ public class NoticeCreateEin implements JavaDelegate {
         final String operationId = params.getOperationId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode responseData = processService.processResponse(
-                noticeRestClient.createEin(params.getCpid(), params.getStage(), jsonData),
+                accessRestClient.createFs(params.getCpid(), params.getOwner(), jsonData),
                 processId,
                 operationId,
                 taskId);
         if (Objects.nonNull(responseData))
-            operationService.saveOperationStep(execution, entity, responseData);
+            operationService.saveOperationStep(
+                    execution,
+                    entity,
+                    addDataToParams(params, responseData, processId, operationId),
+                    responseData);
+    }
+
+    private Params addDataToParams(final Params params,
+                                   final JsonNode responseData,
+                                   final String processId,
+                                   final String operationId) {
+        params.setToken(processService.getValue("token", responseData, processId, operationId));
+        return params;
     }
 }
-
