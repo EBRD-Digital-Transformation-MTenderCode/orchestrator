@@ -34,18 +34,18 @@ public class SendMessageToPlatform implements JavaDelegate {
 
     @Override
     public void execute(final DelegateExecution execution) {
-        LOG.info(execution.getCurrentActivityName());
-        final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
-        final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
-        Map<String, String> data = new HashMap<>();
-        data.put("operation", params.getOperationId());
-        data.put("token", params.getToken());
-        data.put("cpid", params.getCpid());
-        data.put("ocid", params.getOcid());
-        final PlatformMessage message = new PlatformMessage(
-                params.getOperationId(),
-                jsonUtil.toJson(data)
-        );
-        messageProducer.sendToPlatform(message);
+//        LOG.info(execution.getCurrentActivityName());
+//        final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
+//        final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
+//        Map<String, String> data = new HashMap<>();
+//        data.put("operation", params.getOperationId());
+//        data.put("token", params.getToken());
+//        data.put("cpid", params.getCpid());
+//        data.put("ocid", params.getOcid());
+//        final PlatformMessage message = new PlatformMessage(
+//                params.getOperationId(),
+//                jsonUtil.toJson(data)
+//        );
+//        messageProducer.sendToPlatform(message);
     }
 }
