@@ -38,14 +38,15 @@ public class ProcessController {
         this.jsonUtil = jsonUtil;
     }
 
-    @RequestMapping(value = "/ein", method = RequestMethod.POST)
+    @RequestMapping(value = "/ei", method = RequestMethod.POST)
     public ResponseEntity<String> createEIN(@RequestHeader("X-OPERATION-ID") final String operationId,
                                             @RequestHeader("Authorization") final String authorization,
                                             @RequestBody final JsonNode jsonData) {
-        final String processType = "ein";
+        final String processType = "ei";
+        final String operationType = "createEI";
         final String owner = getOwner(authorization);
-        final Params params = new Params(operationId, null, null, "ein", processType, owner,
-                null, null, null, null, null);
+        final Params params = new Params(operationId, null, null, "ei",
+                processType, operationType, owner, null, null, null, null, null);
         final String requestId = UUIDs.timeBased().toString();
         requestService.saveRequest(requestId, operationId, params, jsonData);
         operationService.checkOperationById(operationId);
@@ -56,15 +57,16 @@ public class ProcessController {
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
-    @RequestMapping(value = "/ein/{ocid}", method = RequestMethod.POST)
+    @RequestMapping(value = "/ei/{ocid}", method = RequestMethod.POST)
     public ResponseEntity<String> updateEIN(@PathVariable("ocid") final String ocid,
                                             @RequestHeader("X-OPERATION-ID") final String operationId,
                                             @RequestHeader("Authorization") final String authorization,
                                             @RequestHeader("token") final String token,
                                             @RequestBody final JsonNode jsonData) {
-        final String processType = "ein";
+        final String processType = "ei";
+        final String operationType = "updateEI";
         final String owner = getOwner(authorization);
-        final Params params = new Params(operationId, ocid, null, "ein", processType, owner,
+        final Params params = new Params(operationId, ocid, null, "ei", processType, operationType, owner,
                 null, null, token, null, null);
         final String requestId = UUIDs.timeBased().toString();
         requestService.saveRequest(requestId, operationId, params, jsonData);
@@ -82,8 +84,9 @@ public class ProcessController {
                                            @RequestParam(value = "cpid", required = false) final String cpid,
                                            @RequestBody final JsonNode jsonData) {
         final String processType = "fs";
+        final String operationType = "createFS";
         final String owner = getOwner(authorization);
-        final Params params = new Params(operationId, cpid, null, "fs", processType, owner,
+        final Params params = new Params(operationId, cpid, null, "fs", processType, operationType, owner,
                 null, null, null, null, null);
         final String requestId = UUIDs.timeBased().toString();
         requestService.saveRequest(requestId, operationId, params, jsonData);
@@ -103,8 +106,9 @@ public class ProcessController {
                                            @RequestHeader("token") final String token,
                                            @RequestBody final JsonNode jsonData) {
         final String processType = "fs";
+        final String operationType = "updateFS";
         final String owner = getOwner(authorization);
-        final Params params = new Params(operationId, cpid, ocid, "fs", processType, owner,
+        final Params params = new Params(operationId, cpid, ocid, "fs", processType, operationType, owner,
                 null, null, token, null, null);
         final String requestId = UUIDs.timeBased().toString();
         requestService.saveRequest(requestId, operationId, params, jsonData);

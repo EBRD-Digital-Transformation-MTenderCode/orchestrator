@@ -9,6 +9,7 @@ import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.Objects;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
+import org.camunda.bpm.engine.delegate.Expression;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +36,7 @@ public class NoticeCreateRelease implements JavaDelegate {
         this.operationService = operationService;
         this.processService = processService;
         this.jsonUtil = jsonUtil;
-    }
+     }
 
     @Override
     public void execute(final DelegateExecution execution) throws Exception {
@@ -46,13 +47,12 @@ public class NoticeCreateRelease implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         final String operationId = params.getOperationId();
         final String taskId = execution.getCurrentActivityId();
-        final String operation = (String) execution.getVariableLocal("operation");
         final JsonNode responseData = processService.processResponse(
                 noticeRestClient.createRelease(
                         params.getCpid(),
                         params.getOcid(),
                         params.getStage(),
-                        operation,
+                        params.getOperationType(),
                         "",
                         params.getStartDate(),
                         jsonData),

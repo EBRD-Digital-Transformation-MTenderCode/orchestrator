@@ -19,6 +19,8 @@ public class Params {
     private String stage;
     @JsonProperty(value = "processType")
     private String processType;
+    @JsonProperty(value = "operationType")
+    private String operationType;
     @JsonProperty(value = "owner")
     private String owner;
     @JsonProperty(value = "country")
