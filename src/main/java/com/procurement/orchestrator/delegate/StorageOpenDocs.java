@@ -70,15 +70,14 @@ public class StorageOpenDocs implements JavaDelegate {
                                   final String operationId) {
         try {
             final JsonNode tenderNode = jsonData.get("tender");
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
             final ArrayNode documentsNode = (ArrayNode) tenderNode.get("documents");
-             final ObjectNode mainNode = jsonUtil.createObjectNode();
             final ArrayNode documentsArray = mainNode.putArray("documents");
             for (final JsonNode docNode : documentsNode) {
                 ObjectNode idNode = jsonUtil.createObjectNode();
                 idNode.put("id", docNode.get("id").asText());
                 documentsArray.add(idNode);
             }
-//            objectNode.put("documents",tenderNode.get("documents"));
             return mainNode;
         } catch (Exception e) {
             processService.processError(e.getMessage(), processId, operationId);
