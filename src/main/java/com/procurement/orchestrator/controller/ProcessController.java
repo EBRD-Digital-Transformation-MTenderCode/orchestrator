@@ -121,6 +121,27 @@ public class ProcessController {
     }
 
 
+    @RequestMapping(value = "/cn", method = RequestMethod.POST)
+    public ResponseEntity<String> createCN(@RequestHeader("Authorization") final String authorization,
+                                           @RequestHeader("X-OPERATION-ID") final String operationId,
+                                           @RequestParam("country") final String country,
+                                           @RequestParam("pmd") final String pmd,
+                                           @RequestBody final JsonNode jsonData) {
+        final String processType = "createCN";
+        final String operationType = "createCN";
+        final String owner = getOwner(authorization);
+        final Params params = new Params(operationId, null, null, "ps", processType, operationType, owner,
+                country, pmd, null, null, null);
+        final String requestId = UUIDs.timeBased().toString();
+        requestService.saveRequest(requestId, operationId, params, jsonData);
+        operationService.checkOperationById(operationId);
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("requestId", requestId);
+        processService.startProcess(processType, operationId, variables);
+        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
+    }
+
+
 //    @RequestMapping(value = "{processType}", method = RequestMethod.POST)
 //    public ResponseEntity<String> doCreate(@PathVariable("processType") final String processType,
 //                                           @RequestHeader("X-OPERATION-ID") final String operationId,

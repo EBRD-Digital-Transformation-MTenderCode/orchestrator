@@ -34,7 +34,7 @@ public class SendMessageToPlatform implements JavaDelegate {
 
     @Override
     public void execute(final DelegateExecution execution) {
-//        LOG.info(execution.getCurrentActivityName());
+        LOG.info(execution.getCurrentActivityName());
 //        final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
 //        final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
 //        Map<String, String> data = new HashMap<>();

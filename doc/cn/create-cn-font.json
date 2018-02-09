@@ -24,7 +24,7 @@
           },
           "period": {
             "startDate": "2018-01-09T15:55:12.823Z",
-            "endDate": "2018-02-09T15:55:12.823Z"
+            "endDate": "2018-07-09T15:55:12.823Z"
           },
           "sourceParty": {
             "name": "string",
@@ -113,7 +113,7 @@
     },
     "contractPeriod": {
       "startDate": "2018-01-09T15:55:12.831Z",
-      "endDate": "2018-01-09T15:55:12.831Z",
+      "endDate": "2018-07-09T15:55:12.831Z",
       "durationInDays": 0
     },
     "value": {
@@ -238,9 +238,9 @@
     },
     "documents": [
       {
-        "id": "5e5c3ed0-f179-11e7-983e-87b2b4e6cd3b",
+        "id": "3f517c80-0d80-11e8-89fa-d30d316b62c0",
         "documentType": "tenderNotice",
-        "dateModified": "2018-01-09T15:55:12.831Z",
+        "dateModified": "2018-02-09T15:55:12.831Z",
         "title": "string",
         "description": "string",
         "format": "string",
@@ -351,3 +351,5 @@
     }
   ]
 }
+
+{"documents":[{"id":"3f517c80-0d80-11e8-89fa-d30d316b62c0"}]}

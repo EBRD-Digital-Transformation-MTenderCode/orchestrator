@@ -44,19 +44,19 @@ public class ChronographSavePeriod implements JavaDelegate {
     @Override
     public void execute(final DelegateExecution execution) {
         LOG.info(execution.getCurrentActivityName());
-        final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
-        final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
-        final String processId = execution.getProcessInstanceId();
-        final String operationId = params.getOperationId();
-        ChronographTask.TaskMetaData taskMetaData = new ChronographTask.TaskMetaData(
-                params.getProcessType(),
-                operationId);
-        ChronographTask task = new ChronographTask(
-                ChronographTask.ActionType.SCHEDULE,
-                params.getCpid(),
-                "tender",
-                dateUtil.stringToLocal(params.getEndDate()),
-                jsonUtil.toJson(taskMetaData));
-        messageProducer.sendToChronograph(task);
+//        final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
+//        final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
+//        final String processId = execution.getProcessInstanceId();
+//        final String operationId = params.getOperationId();
+//        ChronographTask.TaskMetaData taskMetaData = new ChronographTask.TaskMetaData(
+//                params.getProcessType(),
+//                operationId);
+//        ChronographTask task = new ChronographTask(
+//                ChronographTask.ActionType.SCHEDULE,
+//                params.getCpid(),
+//                "tender",
+//                dateUtil.stringToLocal(params.getEndDate()),
+//                jsonUtil.toJson(taskMetaData));
+//        messageProducer.sendToChronograph(task);
     }
 }

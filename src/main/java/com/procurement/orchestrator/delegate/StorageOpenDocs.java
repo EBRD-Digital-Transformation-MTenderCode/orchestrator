@@ -12,6 +12,7 @@ import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import org.apache.kafka.common.protocol.types.Field;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
@@ -42,61 +43,43 @@ public class StorageOpenDocs implements JavaDelegate {
     }
 
     @Override
-    public void execute(final DelegateExecution execution) {
+    public void execute(final DelegateExecution execution) throws Exception {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
         final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
         final String processId = execution.getProcessInstanceId();
         final String operationId = params.getOperationId();
-        final String startDate = getStartDate(jsonData, processId, operationId);
-        final List<String> fileIds = getFileIds(jsonData, processId, operationId);
+        final String startDate = params.getStartDate();
+        final JsonNode documents = getDocuments(jsonData, processId, operationId);
         final String taskId = execution.getCurrentActivityName();
-        JsonNode responseData = null;
-        try {
-            for (String fileId : fileIds) {
-                responseData = processService.processResponse(
-                        storageRestClient.setPublishDate(fileId, startDate),
-                        processId,
-                        operationId,
-                        taskId);
-                if (responseData == null) break;
-            }
-            if (Objects.nonNull(responseData))
-                operationService.saveOperationStep(
-                        execution,
-                        entity,
-                        setDatePublished(jsonData, startDate, processId, operationId));
-        } catch (Exception e) {
-            LOG.error(e.getMessage(), e);
-            processService.processException(e.getMessage(), processId);
-        }
+        JsonNode responseData = processService.processResponse(
+                storageRestClient.setPublishDateBatch(startDate, documents),
+                processId,
+                operationId,
+                taskId);
+        if (Objects.nonNull(responseData))
+            operationService.saveOperationStep(
+                    execution,
+                    entity,
+                    setDatePublished(jsonData, startDate, processId, operationId));
     }
 
-    private String getStartDate(final JsonNode jsonData,
-                                final String processId,
-                                final String operationId) {
+    private JsonNode getDocuments(final JsonNode jsonData,
+                                  final String processId,
+                                  final String operationId) {
         try {
             final JsonNode tenderNode = jsonData.get("tender");
-            final JsonNode tenderPeriodNode = tenderNode.get("tenderPeriod");
-            return tenderPeriodNode.get("startDate").asText();
-        } catch (Exception e) {
-            processService.processError(e.getMessage(), processId, operationId);
-            return null;
-        }
-    }
-
-    private List<String> getFileIds(final JsonNode jsonData,
-                                    final String processId,
-                                    final String operationId) {
-        try {
-            final JsonNode tenderNode = jsonData.get("tender");
-            final List<String> fileIds = new ArrayList();
             final ArrayNode documentsNode = (ArrayNode) tenderNode.get("documents");
-            for (final JsonNode fileNode : documentsNode) {
-                fileIds.add(fileNode.get("id").asText());
+             final ObjectNode mainNode = jsonUtil.createObjectNode();
+            final ArrayNode documentsArray = mainNode.putArray("documents");
+            for (final JsonNode docNode : documentsNode) {
+                ObjectNode idNode = jsonUtil.createObjectNode();
+                idNode.put("id", docNode.get("id").asText());
+                documentsArray.add(idNode);
             }
-            return fileIds;
+//            objectNode.put("documents",tenderNode.get("documents"));
+            return mainNode;
         } catch (Exception e) {
             processService.processError(e.getMessage(), processId, operationId);
             return null;
