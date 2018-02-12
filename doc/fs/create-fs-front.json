@@ -1,60 +1,34 @@
 {
-  "planning": {
-    "budget": {
-      "id": "string",
-      "description": "string",
-      "amount": {
-        "amount": 0,
-        "currency": "AED"
-      },
-      "project": "string",
-      "projectID": "string",
-      "uri": "",
-      "isEuropeanUnionFunded": true,
-      "sourceEntity": {
-        "name": "string",
-        "id": "string"
-      },
-      "period": {
-        "startDate": "2018-01-12T08:31:41.368Z",
-        "endDate": "2018-01-22T08:31:41.368Z"
-      },
-      "verified": true,
-      "verificationDetails": "string"
-    },
-    "rationale": "string"
-  },
   "parties": [
     {
-      "id": "string",
-      "name": "string",
+      "name": "Військово – медичний клінічний центр Західного регіону",
       "identifier": {
-        "scheme": "string",
-        "id": "string",
-        "legalName": "string",
-        "uri": ""
+        "scheme": "UA-EDR",
+        "id": "1",
+        "legalName": "ТОВ 'Військово – медичний клінічний центр Західного регіону'",
+        "uri": "https://www.google.com"
       },
       "additionalIdentifiers": [
         {
-          "scheme": "string",
-          "id": "string",
-          "legalName": "string",
-          "uri": ""
+          "scheme": "UA-EDR",
+          "id": "2",
+          "legalName": "Додатковий лігал нейм",
+          "uri": "https://www.google.com/search"
         }
       ],
       "address": {
-        "streetAddress": "string",
-        "locality": "string",
-        "region": "string",
-        "postalCode": "string",
-        "countryName": "string"
+        "streetAddress": "79010, м. Львів вул. Личаківська, 26, Хірургічний корпус, каб. 104",
+        "locality": "Львів",
+        "region": "Львівська обл.",
+        "postalCode": "07770",
+        "countryName": "Україна"
       },
       "contactPoint": {
-        "name": "string",
-        "email": "string",
-        "telephone": "string",
-        "faxNumber": "string",
-        "url": ""
+        "name": "Магаль Оксана Іванівна",
+        "email": "test@test.test",
+        "telephone": "+380222222222",
+        "faxNumber": "+380222222222",
+        "url": "http://test.ua"
       },
       "roles": [
         "buyer"
@@ -64,11 +38,28 @@
         "mainGeneralActivity": "DEFENCE",
         "mainSectoralActivity": "AIRPORT_RELATED_ACTIVITIES",
         "isACentralPurchasingBody": true,
-        "NUTSCode": "string",
-        "scale": "micro"
+        "scale": ""
       },
-      "buyerProfile": "string"
+      "buyerProfile": "http://linkToInfoAboutBuyer.ua"
     }
   ],
-  "language": "string"
+  "planning": {
+    "budget": {
+      "id": "4fb9fbf0-1010-11e8-86a7-8f03a08e579f",
+      "description": "Test description",
+      "period": {
+        "startDate": "2018-01-22T00:00:00Z",
+        "endDate": "2018-02-27T00:00:00Z"
+      },
+      "amount": {
+        "amount": 3000.55,
+        "currency": "USD"
+      },
+      "project": "Test Project",
+      "projectID": "GHT66765",
+      "uri": "http://test.ua",
+      "isEuropeanUnionFunded": false
+    },
+    "rationale": "Обгрунтування закупівель надано у вільному тексті. Більш детальна інформація може бути надана у доданому документі."
+  }
 }
