@@ -12,27 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(name = "e-access")
 public interface AccessRestClient {
 
-    @RequestMapping(path = "/ein", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> createEin(@RequestParam("owner") final String owner,
-                                          @RequestBody final JsonNode jsonData) throws Exception;
-
-    @RequestMapping(path = "/ein", method = RequestMethod.PUT)
-    ResponseEntity<ResponseDto> updateEin(@RequestParam("cpId") final String cpId,
-                                          @RequestParam("owner") final String owner,
-                                          @RequestParam("token") final String token,
-                                          @RequestBody final JsonNode jsonData) throws Exception;
-
-    @RequestMapping(path = "/fs", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> createFs(@RequestParam("cpId") final String cpId,
-                                         @RequestParam("owner") final String owner,
-                                         @RequestBody final JsonNode jsonData) throws Exception;
-
-    @RequestMapping(path = "/fs", method = RequestMethod.PUT)
-    ResponseEntity<ResponseDto> updateFs(@RequestParam("cpId") final String cpId,
-                                         @RequestParam("token") final String token,
-                                         @RequestParam("owner") final String owner,
-                                         @RequestBody final JsonNode jsonData) throws Exception;
-
     @RequestMapping(path = "/cn", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> createCn(@RequestParam("owner") String owner,
                                          @RequestBody final JsonNode jsonData) throws Exception;
