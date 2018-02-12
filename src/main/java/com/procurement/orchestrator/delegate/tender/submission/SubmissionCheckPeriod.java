@@ -71,8 +71,7 @@ public class SubmissionCheckPeriod implements JavaDelegate {
                             entity,
                             jsonData,
                             params.getStartDate(),
-                            processId,
-                            operationId),
+                            processId),
                     params);
     }
 
@@ -92,8 +91,7 @@ public class SubmissionCheckPeriod implements JavaDelegate {
     private OperationStepEntity addPeriodStartDate(final OperationStepEntity entity,
                                                    final JsonNode jsonData,
                                                    final String startDate,
-                                                   final String processId,
-                                                   final String operationId) {
+                                                   final String processId) {
         try {
             final JsonNode tenderNode = jsonData.get("tender");
             final JsonNode tenderPeriodNode = tenderNode.get("tenderPeriod");
@@ -101,7 +99,7 @@ public class SubmissionCheckPeriod implements JavaDelegate {
             entity.setJsonData(jsonUtil.toJson(jsonData));
             return entity;
         } catch (Exception e) {
-            processService.processError(e.getMessage(), processId, operationId);
+            processService.terminateProcess(processId, e.getMessage());
             return null;
         }
     }

@@ -51,21 +51,14 @@ public class QualificationCheckAwarded implements JavaDelegate {
                 operationId,
                 taskId);
         if (Objects.nonNull(responseData)) {
-            final Boolean allAwarded = getAllAwarded(responseData, processId, operationId);
+            final Boolean allAwarded = getAllAwarded(responseData, processId);
             execution.setVariable("checkEnquiries", (allAwarded ? 1 : 0));
             operationService.saveOperationStep(execution, entity, responseData);
         }
     }
 
-    private Boolean getAllAwarded(final JsonNode responseData,
-                                  final String processId,
-                                  final String operationId) {
-        try {
-            return responseData.get("allAwarded").asBoolean();
-        } catch (Exception e) {
-            processService.processError(e.getMessage(), processId, operationId);
-            return null;
-        }
+    private Boolean getAllAwarded(final JsonNode responseData, final String processId) {
+        return processService.getBoolean("allAwarded", responseData, processId);
     }
 
 }

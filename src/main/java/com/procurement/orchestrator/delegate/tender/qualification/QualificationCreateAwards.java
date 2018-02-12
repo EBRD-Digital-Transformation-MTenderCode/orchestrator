@@ -46,7 +46,7 @@ public class QualificationCreateAwards implements JavaDelegate {
         final OperationStepEntity lots = operationService.getOperationStep(processId, "AccessGetLotsTask");
         final Params params = jsonUtil.toObject(Params.class, lots.getJsonParams());
         final String operationId = params.getOperationId();
-        final JsonNode jsonData = prepareData(bids, lots, processId, operationId);
+        final JsonNode jsonData = prepareData(bids, lots, processId);
         final String taskId = execution.getCurrentActivityId();
         final JsonNode responseData = processService.processResponse(
                 qualificationRestClient.createAwards(
@@ -66,8 +66,7 @@ public class QualificationCreateAwards implements JavaDelegate {
 
     private JsonNode prepareData(OperationStepEntity bids,
                                  OperationStepEntity lots,
-                                 final String processId,
-                                 final String operationId) {
+                                 final String processId) {
 
         try {
             final JsonNode jsonData = jsonUtil.toJsonNode(bids.getJsonData());
@@ -75,7 +74,7 @@ public class QualificationCreateAwards implements JavaDelegate {
             ((ObjectNode) jsonData).put("lots", lotsJsonData.get("lots").asText());
             return jsonData;
         } catch (Exception e) {
-            processService.processError(e.getMessage(), processId, operationId);
+            processService.terminateProcess(processId, e.getMessage());
             return null;
         }
     }

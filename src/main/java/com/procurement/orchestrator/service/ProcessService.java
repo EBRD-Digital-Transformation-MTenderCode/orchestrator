@@ -28,9 +28,11 @@ public interface ProcessService {
 
     void processError(String error, String processId, String operationId);
 
-    void terminateProcess(String processId);
+    void terminateProcess(String processId, String message);
 
-    String getValue(String fieldName, JsonNode responseData, String processId, String operationId);
+    String getText(String fieldName, JsonNode responseData, String processId);
+
+    Boolean getBoolean(String fieldName, JsonNode responseData, String processId);
 
 }
 

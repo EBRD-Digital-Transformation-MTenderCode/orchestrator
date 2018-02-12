@@ -63,24 +63,17 @@ public class ClarificationSavePeriod implements JavaDelegate {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    addEnquiryPeriod(jsonData, responseData, processId, operationId));
+                    addEnquiryPeriod(jsonData, responseData));
     }
 
 
     private JsonNode addEnquiryPeriod(final JsonNode jsonData,
-                                      final JsonNode responseData,
-                                      final String processId,
-                                      final String operationId) {
-        try {
-            final JsonNode tenderNode = jsonData.get("tender");
-            ObjectNode enquiryPeriodNode = ((ObjectNode) tenderNode).putObject("enquiryPeriod");
-            enquiryPeriodNode
-                    .put("startDate", responseData.get("startDate").asText())
-                    .put("endDate", responseData.get("endDate").asText());
-            return jsonData;
-        } catch (Exception e) {
-            processService.processError(e.getMessage(), processId, operationId);
-            return null;
-        }
+                                      final JsonNode responseData) {
+        final JsonNode tenderNode = jsonData.get("tender");
+        ObjectNode enquiryPeriodNode = ((ObjectNode) tenderNode).putObject("enquiryPeriod");
+        enquiryPeriodNode
+                .put("startDate", responseData.get("startDate").asText())
+                .put("endDate", responseData.get("endDate").asText());
+        return jsonData;
     }
 }

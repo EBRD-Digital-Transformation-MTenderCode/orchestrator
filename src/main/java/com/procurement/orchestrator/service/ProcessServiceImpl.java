@@ -64,22 +64,6 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-
-    @Override
-    public void processError(List<ResponseDetailsDto> details, String processId, String operationId) {
-        final String errorMessage = Optional.ofNullable(details).map(d -> jsonUtil.toJson(details)).orElse("");
-        LOG.info("Error in process Id: " + processId + "; message: " + errorMessage);
-        messageProducer.sendToPlatform(new PlatformMessage(operationId, errorMessage));
-        terminateProcess(processId);
-    }
-
-    @Override
-    public void processError(String error, String processId, String operationId) {
-        LOG.info("Error in process Id: " + processId + "; message: " + error);
-        messageProducer.sendToPlatform(new PlatformMessage(operationId, error));
-        terminateProcess(processId);
-    }
-
     @Override
     public void processException(final String error,
                                  final String processId) {
@@ -91,20 +75,45 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
-    public void terminateProcess(String processId) {
-        runtimeService.deleteProcessInstance(processId, "Removal of the backward process.");
+    public void processError(List<ResponseDetailsDto> details, String processId, String operationId) {
+        final String errorMessage = Optional.ofNullable(details).map(d -> jsonUtil.toJson(details)).orElse("");
+        final String message = "Error in process Id: " + processId + "; message: " + errorMessage;
+        LOG.info(message);
+        messageProducer.sendToPlatform(new PlatformMessage(operationId, message));
+        terminateProcess(processId, message);
     }
 
+    @Override
+    public void processError(String error, String processId, String operationId) {
+        final String message = "Error in process Id: " + processId + "; message: " + error;
+        LOG.info(message);
+        messageProducer.sendToPlatform(new PlatformMessage(operationId, message));
+        terminateProcess(processId, message);
+    }
 
     @Override
-    public String getValue(String fieldName, JsonNode responseData, String processId, String operationId) {
+    public void terminateProcess(String processId, String message) {
+        LOG.error(message);
+        runtimeService.deleteProcessInstance(processId, message);
+    }
+
+    @Override
+    public String getText(String fieldName, JsonNode responseData, String processId) {
         try {
             return responseData.get(fieldName).asText();
         } catch (Exception e) {
-            processError(e.getMessage(), processId, operationId);
+            terminateProcess(processId, fieldName + " not found.");
         }
         return null;
     }
 
-
+    @Override
+    public Boolean getBoolean(String fieldName, JsonNode responseData, String processId) {
+        try {
+            return responseData.get(fieldName).asBoolean();
+        } catch (Exception e) {
+            terminateProcess(processId, fieldName + " not found.");
+        }
+        return null;
+    }
 }

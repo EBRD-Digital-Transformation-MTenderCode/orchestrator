@@ -20,11 +20,8 @@ public class ClarificationCheckEnquiries implements JavaDelegate {
     private static final Logger LOG = LoggerFactory.getLogger(ClarificationCheckEnquiries.class);
 
     private final ClarificationRestClient clarificationRestClient;
-
     private final OperationService operationService;
-
     private final ProcessService processService;
-
     private final JsonUtil jsonUtil;
 
     public ClarificationCheckEnquiries(final ClarificationRestClient clarificationRestClient,
@@ -51,11 +48,11 @@ public class ClarificationCheckEnquiries implements JavaDelegate {
                 operationId,
                 taskId);
         if (Objects.nonNull(responseData)) {
-            final Boolean allAnswered = getAllAnswered(responseData, processId, operationId);
+            final Boolean allAnswered = getAllAnswered(responseData, processId);
             if (allAnswered != null) {
                 execution.setVariable("checkEnquiries", (allAnswered ? 1 : 2));
             } else {
-                final String endDate = getTenderPeriodEndDate(responseData, processId, operationId);
+                final String endDate = getTenderPeriodEndDate(responseData, processId);
                 execution.setVariable("checkEnquiries", 3);
                 if (endDate != null) {
                     params.setEndDate(endDate);
@@ -65,29 +62,11 @@ public class ClarificationCheckEnquiries implements JavaDelegate {
         }
     }
 
-    private Boolean getAllAnswered(final JsonNode responseData,
-                                   final String processId,
-                                   final String operationId) {
-        try {
-            if (responseData.get("allAnswered") != null) {
-                return responseData.get("allAnswered").asBoolean();
-            } else return null;
-        } catch (Exception e) {
-            processService.processError(e.getMessage(), processId, operationId);
-            return null;
-        }
+    private Boolean getAllAnswered(final JsonNode responseData, final String processId) {
+        return processService.getBoolean("allAnswered", responseData, processId);
     }
 
-    private String getTenderPeriodEndDate(final JsonNode responseData,
-                                          final String processId,
-                                          final String operationId) {
-        try {
-            if (responseData.get("tenderPeriodEndDate") != null) {
-                return responseData.get("tenderPeriodEndDate").asText();
-            } else return null;
-        } catch (Exception e) {
-            processService.processError(e.getMessage(), processId, operationId);
-            return null;
-        }
+    private String getTenderPeriodEndDate(final JsonNode responseData, final String processId) {
+        return processService.getText("tenderPeriodEndDate", responseData, processId);
     }
 }

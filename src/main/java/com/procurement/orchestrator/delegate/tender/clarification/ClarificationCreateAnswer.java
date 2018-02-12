@@ -21,13 +21,9 @@ public class ClarificationCreateAnswer implements JavaDelegate {
     private static final Logger LOG = LoggerFactory.getLogger(ClarificationCreateAnswer.class);
 
     private final ClarificationRestClient clarificationRestClient;
-
     private final OperationService operationService;
-
     private final ProcessService processService;
-
     private final JsonUtil jsonUtil;
-
     private final DateUtil dateUtil;
 
     public ClarificationCreateAnswer(final ClarificationRestClient clarificationRestClient,
@@ -63,20 +59,13 @@ public class ClarificationCreateAnswer implements JavaDelegate {
                 operationId,
                 taskId);
         if (Objects.nonNull(responseData)) {
-            final Boolean allAnswered = getAllAnswered(responseData, processId, operationId);
+            final Boolean allAnswered = getAllAnswered(responseData, processId);
             execution.setVariable("checkEnquiries", (allAnswered ? 1 : 0));
-            operationService.saveOperationStep(execution, entity, params, responseData);
+            operationService.saveOperationStep(execution, entity, responseData);
         }
     }
 
-    private Boolean getAllAnswered(final JsonNode responseData,
-                                   final String processId,
-                                   final String operationId) {
-        try {
-            return responseData.get("allAnswered").asBoolean();
-        } catch (Exception e) {
-            processService.processError(e.getMessage(), processId, operationId);
-            return null;
-        }
+    private Boolean getAllAnswered(final JsonNode responseData, final String processId) {
+        return processService.getBoolean("allAnswered", responseData, processId);
     }
 }

@@ -55,15 +55,14 @@ public class SubmissionCreateBid implements JavaDelegate {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    addDataToParams(params, responseData, processId, operationId),
+                    addDataToParams(params, responseData, processId),
                     responseData);
     }
 
     private Params addDataToParams(final Params params,
                                    final JsonNode responseData,
-                                   final String processId,
-                                   final String operationId) {
-        params.setToken(processService.getValue("token", responseData, processId, operationId));
+                                   final String processId) {
+        params.setToken(processService.getText("token", responseData, processId));
         return params;
     }
 }

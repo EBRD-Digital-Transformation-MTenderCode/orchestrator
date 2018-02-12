@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
 import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.domain.Params;
-import com.procurement.orchestrator.rest.AccessRestClient;
 import com.procurement.orchestrator.rest.BudgetRestClient;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -21,11 +20,8 @@ public class BudgetCreateEi implements JavaDelegate {
     private static final Logger LOG = LoggerFactory.getLogger(BudgetCreateEi.class);
 
     private final BudgetRestClient budgetRestClient;
-
     private final OperationService operationService;
-
     private final ProcessService processService;
-
     private final JsonUtil jsonUtil;
 
     public BudgetCreateEi(final BudgetRestClient budgetRestClient,
@@ -56,16 +52,13 @@ public class BudgetCreateEi implements JavaDelegate {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    addDataToParams(params, responseData, processId, operationId),
+                    addDataToParams(params, responseData, processId),
                     responseData);
     }
 
-    private Params addDataToParams(final Params params,
-                                   final JsonNode responseData,
-                                   final String processId,
-                                   final String operationId) {
-        params.setToken(processService.getValue("token", responseData, processId, operationId));
-        params.setCpid(processService.getValue("ocid", responseData, processId, operationId));
+    private Params addDataToParams(final Params params, final JsonNode responseData, final String processId) {
+        params.setToken(processService.getText("token", responseData, processId));
+        params.setCpid(processService.getText("ocid", responseData, processId));
         return params;
     }
 

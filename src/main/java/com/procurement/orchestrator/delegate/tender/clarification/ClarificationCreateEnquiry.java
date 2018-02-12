@@ -21,13 +21,9 @@ public class ClarificationCreateEnquiry implements JavaDelegate {
     private static final Logger LOG = LoggerFactory.getLogger(ClarificationCreateEnquiry.class);
 
     private final ClarificationRestClient clarificationRestClient;
-
     private final OperationService operationService;
-
     private final ProcessService processService;
-
     private final JsonUtil jsonUtil;
-
     private final DateUtil dateUtil;
 
     public ClarificationCreateEnquiry(final ClarificationRestClient clarificationRestClient,
@@ -65,15 +61,14 @@ public class ClarificationCreateEnquiry implements JavaDelegate {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    addDataToParams(params, responseData, processId, operationId),
+                    addDataToParams(params, responseData, processId),
                     responseData);
     }
 
     private Params addDataToParams(final Params params,
                                    final JsonNode responseData,
-                                   final String processId,
-                                   final String operationId) {
-        params.setToken(processService.getValue("token", responseData, processId, operationId));
+                                   final String processId) {
+        params.setToken(processService.getText("token", responseData, processId));
         return params;
     }
 }

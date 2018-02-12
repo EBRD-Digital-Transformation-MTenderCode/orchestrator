@@ -34,15 +34,18 @@ public class SaveFirstOperation implements JavaDelegate {
     @Override
     public void execute(final DelegateExecution execution) {
         LOG.info(execution.getCurrentActivityName());
+        final String requestId = (String) execution.getVariable("requestId");
         final Optional<RequestEntity> requestOptional = requestService.getRequestById(
                 (String) execution.getVariable("requestId"));
         if (requestOptional.isPresent()) {
             if (!operationService.saveIfNotExist(execution.getProcessBusinessKey(), execution.getProcessInstanceId())) {
-                processService.terminateProcess(execution.getProcessInstanceId());
+                processService.terminateProcess(execution.getProcessInstanceId(),
+                        "operationId: " + execution.getProcessBusinessKey() + " already exist.");
             }
             operationService.saveFirstOperationStep(execution, requestOptional.get());
         } else {
-            processService.terminateProcess(execution.getProcessInstanceId());
+            processService.terminateProcess(execution.getProcessInstanceId(),
+                    "requestId: " + requestId + " not found.");
         }
     }
 }

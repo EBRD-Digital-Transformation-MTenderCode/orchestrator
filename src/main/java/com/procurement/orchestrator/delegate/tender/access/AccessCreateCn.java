@@ -20,11 +20,8 @@ public class AccessCreateCn implements JavaDelegate {
     private static final Logger LOG = LoggerFactory.getLogger(AccessCreateCn.class);
 
     private final AccessRestClient accessRestClient;
-
     private final OperationService operationService;
-
     private final ProcessService processService;
-
     private final JsonUtil jsonUtil;
 
     public AccessCreateCn(final AccessRestClient accessRestClient,
@@ -55,16 +52,13 @@ public class AccessCreateCn implements JavaDelegate {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    addDataToParams(params, responseData, processId, operationId),
+                    addDataToParams(params, responseData, processId),
                     responseData);
     }
 
-    private Params addDataToParams(final Params params,
-                                   final JsonNode responseData,
-                                   final String processId,
-                                   final String operationId) {
-        params.setToken(processService.getValue("token", responseData, processId, operationId));
-        params.setCpid(processService.getValue("ocid", responseData, processId, operationId));
+    private Params addDataToParams(final Params params, final JsonNode responseData, final String processId) {
+        params.setToken(processService.getText("token", responseData, processId));
+        params.setCpid(processService.getText("ocid", responseData, processId));
         return params;
     }
 

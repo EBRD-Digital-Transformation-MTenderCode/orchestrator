@@ -64,16 +64,15 @@ public class SubmissionSaveNewPeriod implements JavaDelegate {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    addDataToParams(params, responseData, processId, operationId),
+                    addDataToParams(params, responseData, processId),
                     responseData);
     }
 
     private Params addDataToParams(final Params params,
                                    final JsonNode responseData,
-                                   final String processId,
-                                   final String operationId) {
-        params.setStartDate(processService.getValue("startDate", responseData, processId, operationId));
-        params.setEndDate(processService.getValue("endDate", responseData, processId, operationId));
+                                   final String processId) {
+        params.setStartDate(processService.getText("startDate", responseData, processId));
+        params.setEndDate(processService.getText("endDate", responseData, processId));
         return params;
     }
 }
