@@ -12,7 +12,7 @@
       <bpmn:outgoing>SequenceFlow_0ggq87j</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="SendMessageTask" name="Send &#10;message to platform&#10;" camunda:asyncBefore="true" camunda:delegateExpression="${sendMessageToPlatform}">
-      <bpmn:incoming>SequenceFlow_1kf129w</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_1xl6unn</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1je78pv</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1je78pv" sourceRef="SendMessageTask" targetRef="EndEvent_1" />
@@ -25,19 +25,19 @@
       <bpmn:incoming>SequenceFlow_0ggq87j</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1hezswa</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="NoticeCreateReleaseTask" name="Notice create release" camunda:asyncBefore="true" camunda:delegateExpression="${noticePostCn}">
-      <bpmn:incoming>SequenceFlow_1hezswa</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1n5w707</bpmn:outgoing>
+    <bpmn:serviceTask id="NoticeCreateReleaseTask" name="Notice Create Release" camunda:asyncBefore="true" camunda:delegateExpression="${noticeCreateRelease}">
+      <bpmn:incoming>SequenceFlow_162jtpk</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1xl6unn</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="StorageOpenDocumentsTask" name="Storage open documents" camunda:asyncBefore="true" camunda:delegateExpression="${storageOpenDocs}">
-      <bpmn:incoming>SequenceFlow_1n5w707</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1kf129w</bpmn:outgoing>
+      <bpmn:incoming>SequenceFlow_1hezswa</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_162jtpk</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_1n5w707" sourceRef="NoticeCreateReleaseTask" targetRef="StorageOpenDocumentsTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1kf129w" sourceRef="StorageOpenDocumentsTask" targetRef="SendMessageTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1gx4xfj" sourceRef="StartEvent_1" targetRef="SaveFirstOperationTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1hezswa" sourceRef="SubmissionUpdateBidStatusDetailsTask" targetRef="NoticeCreateReleaseTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1hezswa" sourceRef="SubmissionUpdateBidStatusDetailsTask" targetRef="StorageOpenDocumentsTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0sbxc3m" sourceRef="SaveFirstOperationTask" targetRef="QualificationUpdateAwardTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_162jtpk" sourceRef="StorageOpenDocumentsTask" targetRef="NoticeCreateReleaseTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1xl6unn" sourceRef="NoticeCreateReleaseTask" targetRef="SendMessageTask" />
   </bpmn:process>
   <bpmn:error id="tr_exception" name="TR_EXCEPTION" errorCode="TR_EXCEPTION" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -81,25 +81,11 @@
         <dc:Bounds x="553" y="145" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_1tvffuw_di" bpmnElement="NoticeCreateReleaseTask">
-        <dc:Bounds x="719" y="145" width="100" height="80" />
+        <dc:Bounds x="874" y="145" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_0wz9wf2_di" bpmnElement="StorageOpenDocumentsTask">
-        <dc:Bounds x="891" y="145" width="100" height="80" />
+        <dc:Bounds x="698" y="145" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="SequenceFlow_1n5w707_di" bpmnElement="SequenceFlow_1n5w707">
-        <di:waypoint xsi:type="dc:Point" x="819" y="185" />
-        <di:waypoint xsi:type="dc:Point" x="891" y="185" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="810" y="164" width="90" height="12" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_1kf129w_di" bpmnElement="SequenceFlow_1kf129w">
-        <di:waypoint xsi:type="dc:Point" x="991" y="185" />
-        <di:waypoint xsi:type="dc:Point" x="1054" y="185" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="977.5" y="164" width="90" height="12" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1gx4xfj_di" bpmnElement="SequenceFlow_1gx4xfj">
         <di:waypoint xsi:type="dc:Point" x="175" y="185" />
         <di:waypoint xsi:type="dc:Point" x="229" y="185" />
@@ -109,9 +95,9 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1hezswa_di" bpmnElement="SequenceFlow_1hezswa">
         <di:waypoint xsi:type="dc:Point" x="653" y="185" />
-        <di:waypoint xsi:type="dc:Point" x="719" y="185" />
+        <di:waypoint xsi:type="dc:Point" x="698" y="185" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="641" y="164" width="90" height="12" />
+          <dc:Bounds x="630.5" y="164" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0sbxc3m_di" bpmnElement="SequenceFlow_0sbxc3m">
@@ -119,6 +105,20 @@
         <di:waypoint xsi:type="dc:Point" x="390" y="185" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="359.5" y="164" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_162jtpk_di" bpmnElement="SequenceFlow_162jtpk">
+        <di:waypoint xsi:type="dc:Point" x="798" y="185" />
+        <di:waypoint xsi:type="dc:Point" x="874" y="185" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="836" y="164" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1xl6unn_di" bpmnElement="SequenceFlow_1xl6unn">
+        <di:waypoint xsi:type="dc:Point" x="974" y="185" />
+        <di:waypoint xsi:type="dc:Point" x="1054" y="185" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1014" y="164" width="0" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>

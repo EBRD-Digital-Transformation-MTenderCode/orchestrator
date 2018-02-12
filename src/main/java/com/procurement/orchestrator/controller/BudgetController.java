@@ -7,9 +7,6 @@ import com.procurement.orchestrator.cassandra.service.RequestService;
 import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
-import java.util.HashMap;
-import java.util.Map;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,19 +24,14 @@ public class BudgetController extends BaseController {
     public ResponseEntity<String> createEIN(@RequestHeader("Authorization") final String authorization,
                                             @RequestHeader("X-OPERATION-ID") final String operationId,
                                             @RequestBody final JsonNode jsonData) {
-        final String processType = "ei";
-        final String operationType = "createEI";
-        final String owner = getOwner(authorization);
-        final Params params = new Params(operationId, null, null, "ei",
-                processType, operationType, owner, null, null, null, null, null);
-        final String requestId = UUIDs.timeBased().toString();
-        saveRequest(requestId, operationId, params, jsonData);
-        checkOperationById(operationId);
-        Map<String, Object> variables = new HashMap<>();
-        variables.put("requestId", requestId);
-        variables.put("isTokenPresent", 0);
-        startProcess(processType, operationId, variables);
-        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
+        final Params params = new Params();
+        params.setRequestId(UUIDs.timeBased().toString());
+        params.setOwner(getOwner(authorization));
+        params.setOperationId(operationId);
+        params.setStage("ei");
+        params.setProcessType("ei");
+        params.setOperationType("createEI");
+        return startProcessResult(params, jsonData);
     }
 
     @RequestMapping(value = "/ei/{ocid}", method = RequestMethod.POST)
@@ -48,19 +40,16 @@ public class BudgetController extends BaseController {
                                             @RequestHeader("X-TOKEN") final String token,
                                             @PathVariable("ocid") final String ocid,
                                             @RequestBody final JsonNode jsonData) {
-        final String processType = "ei";
-        final String operationType = "updateEI";
-        final String owner = getOwner(authorization);
-        final Params params = new Params(operationId, ocid, null, "ei", processType, operationType, owner,
-                null, null, token, null, null);
-        final String requestId = UUIDs.timeBased().toString();
-        saveRequest(requestId, operationId, params, jsonData);
-        checkOperationById(operationId);
-        Map<String, Object> variables = new HashMap<>();
-        variables.put("requestId", requestId);
-        variables.put("isTokenPresent", 1);
-        startProcess(processType, operationId, variables);
-        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
+        final Params params = new Params();
+        params.setRequestId(UUIDs.timeBased().toString());
+        params.setOperationId(operationId);
+        params.setCpid(ocid);
+        params.setStage("ei");
+        params.setProcessType("ei");
+        params.setOperationType("updateEI");
+        params.setOwner(getOwner(authorization));
+        params.setToken(token);
+        return startProcessResult(params, jsonData);
     }
 
     @RequestMapping(value = "/fs", method = RequestMethod.POST)
@@ -68,19 +57,15 @@ public class BudgetController extends BaseController {
                                            @RequestHeader("X-OPERATION-ID") final String operationId,
                                            @RequestParam(value = "cpid") final String cpid,
                                            @RequestBody final JsonNode jsonData) {
-        final String processType = "fs";
-        final String operationType = "createFS";
-        final String owner = getOwner(authorization);
-        final Params params = new Params(operationId, cpid, null, "fs", processType, operationType, owner,
-                null, null, null, null, null);
-        final String requestId = UUIDs.timeBased().toString();
-        saveRequest(requestId, operationId, params, jsonData);
-        checkOperationById(operationId);
-        Map<String, Object> variables = new HashMap<>();
-        variables.put("requestId", requestId);
-        variables.put("isTokenPresent", 0);
-        startProcess(processType, operationId, variables);
-        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
+        final Params params = new Params();
+        params.setRequestId(UUIDs.timeBased().toString());
+        params.setOperationId(operationId);
+        params.setCpid(cpid);
+        params.setStage("fs");
+        params.setProcessType("fs");
+        params.setOperationType("createFS");
+        params.setOwner(getOwner(authorization));
+        return startProcessResult(params, jsonData);
     }
 
     @RequestMapping(value = "/fs/{ocid}", method = RequestMethod.POST)
@@ -90,19 +75,17 @@ public class BudgetController extends BaseController {
                                            @PathVariable("ocid") final String ocid,
                                            @RequestParam("cpid") final String cpid,
                                            @RequestBody final JsonNode jsonData) {
-        final String processType = "fs";
-        final String operationType = "updateFS";
-        final String owner = getOwner(authorization);
-        final Params params = new Params(operationId, cpid, ocid, "fs", processType, operationType, owner,
-                null, null, token, null, null);
-        final String requestId = UUIDs.timeBased().toString();
-        saveRequest(requestId, operationId, params, jsonData);
-        checkOperationById(operationId);
-        Map<String, Object> variables = new HashMap<>();
-        variables.put("requestId", requestId);
-        variables.put("isTokenPresent", 1);
-        startProcess(processType, operationId, variables);
-        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
+        final Params params = new Params();
+        params.setRequestId(UUIDs.timeBased().toString());
+        params.setOperationId(operationId);
+        params.setCpid(cpid);
+        params.setOcid(ocid);
+        params.setStage("fs");
+        params.setProcessType("fs");
+        params.setOperationType("updateFS");
+        params.setOwner(getOwner(authorization));
+        params.setToken(token);
+        return startProcessResult(params, jsonData);
     }
 }
 

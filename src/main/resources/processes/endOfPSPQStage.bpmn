@@ -25,7 +25,7 @@
       <bpmn:incoming>SequenceFlow_1v5xr8a</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1hezswa</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="NoticeCreateReleaseTask" name="Notice create release" camunda:asyncBefore="true" camunda:delegateExpression="${noticePostCn}">
+    <bpmn:serviceTask id="NoticeCreateReleaseTask" name="Notice create release" camunda:asyncBefore="true" camunda:delegateExpression="${noticeCreateRelease}">
       <bpmn:incoming>SequenceFlow_01afhxg</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1n5w707</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -47,7 +47,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_1v5xr8a" sourceRef="ExclusiveGateway_1fofbsn" targetRef="AccessUpdateLotStatusDetailsTask">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${allAwarded==1}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:serviceTask id="SetStandstillPeriodTask" name="Set Standstil lPeriod" camunda:asyncBefore="true" camunda:delegateExpression="${setStandstillPeriod}">
+    <bpmn:serviceTask id="SetStandstillPeriodTask" name="Set Standstill Period" camunda:asyncBefore="true" camunda:delegateExpression="${setStandstillPeriod}">
       <bpmn:incoming>SequenceFlow_1hezswa</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_102pize</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -61,12 +61,12 @@
       <bpmn:incoming>SequenceFlow_074y50g</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_02bv6jg</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_02bv6jg" sourceRef="AccessUpdateLotStatusTask" targetRef="SubmissionUpdateBidStatusTask" />
-    <bpmn:serviceTask id="SubmissionUpdateBidStatusTask" name="Submission Update Bid Status" camunda:asyncBefore="true" camunda:delegateExpression="${submissionUpdateBidStatus}">
+    <bpmn:sequenceFlow id="SequenceFlow_02bv6jg" sourceRef="AccessUpdateLotStatusTask" targetRef="SubmissionSetFinalStatusesTask" />
+    <bpmn:serviceTask id="SubmissionSetFinalStatusesTask" name="Submission Set Final Statuses" camunda:asyncBefore="true" camunda:delegateExpression="${submissionSetFinalStatuses}">
       <bpmn:incoming>SequenceFlow_02bv6jg</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_01afhxg</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_01afhxg" sourceRef="SubmissionUpdateBidStatusTask" targetRef="NoticeCreateReleaseTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_01afhxg" sourceRef="SubmissionSetFinalStatusesTask" targetRef="NoticeCreateReleaseTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1gjhak9" sourceRef="ExclusiveGateway_1fofbsn" targetRef="ExclusiveGateway_01q6loj">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${allAwarded==0}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
@@ -206,7 +206,7 @@
           <dc:Bounds x="1219.5" y="74" width="0" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_0a7uxgf_di" bpmnElement="SubmissionUpdateBidStatusTask">
+      <bpmndi:BPMNShape id="ServiceTask_0a7uxgf_di" bpmnElement="SubmissionSetFinalStatusesTask">
         <dc:Bounds x="1241" y="55" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_01afhxg_di" bpmnElement="SequenceFlow_01afhxg">

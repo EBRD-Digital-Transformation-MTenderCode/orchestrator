@@ -3,14 +3,18 @@ package com.procurement.orchestrator.domain;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class Params {
     @JsonProperty(value = "operationId")
     private String operationId;
+    @JsonProperty(value = "requestId")
+    private String requestId;
     @JsonProperty(value = "cpid")
     private String cpid;
     @JsonProperty(value = "ocid")

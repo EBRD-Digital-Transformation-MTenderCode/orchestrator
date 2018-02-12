@@ -44,12 +44,12 @@
       <bpmn:incoming>SequenceFlow_0djgl78</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0tb9vzy</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="NoticePostEnquiryTask" name="Notice create Enquiry release" camunda:asyncBefore="true" camunda:delegateExpression="${noticePostEnquiry}">
+    <bpmn:serviceTask id="NoticeCreateReleaseTask" name="Notice Create Release" camunda:asyncBefore="true" camunda:delegateExpression="${noticeCreateRelease}">
       <bpmn:incoming>SequenceFlow_1fzuyny</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1n5w707</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_0tb9vzy" sourceRef="ClarificationSavePeriodTask" targetRef="ExclusiveGateway_07ftixw" />
-    <bpmn:sequenceFlow id="SequenceFlow_1n5w707" sourceRef="NoticePostEnquiryTask" targetRef="SendMessageTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1n5w707" sourceRef="NoticeCreateReleaseTask" targetRef="SendMessageTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1gx4xfj" sourceRef="StartEvent_1" targetRef="SaveFirstOperationTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1hezswa" sourceRef="AccessSetSuspendedTask" targetRef="SubmissionSaveNewPeriodTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0yvod6v" sourceRef="SubmissionSaveNewPeriodTask" targetRef="ChronographUpdatePeriodTask" />
@@ -74,7 +74,7 @@
       <bpmn:incoming>SequenceFlow_07garu8</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1fzuyny</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="SequenceFlow_1fzuyny" sourceRef="ExclusiveGateway_07ftixw" targetRef="NoticePostEnquiryTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1fzuyny" sourceRef="ExclusiveGateway_07ftixw" targetRef="NoticeCreateReleaseTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1dft457" sourceRef="ClarificationCreateEnquiryTask" targetRef="ExclusiveGateway_07ftixw" />
     <bpmn:exclusiveGateway id="ExclusiveGateway_0ai5ezj">
       <bpmn:incoming>SequenceFlow_0ggq87j</bpmn:incoming>
@@ -152,7 +152,7 @@
       <bpmndi:BPMNShape id="ServiceTask_0tz60l8_di" bpmnElement="ClarificationSavePeriodTask">
         <dc:Bounds x="1160" y="269" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_1tvffuw_di" bpmnElement="NoticePostEnquiryTask">
+      <bpmndi:BPMNShape id="ServiceTask_1tvffuw_di" bpmnElement="NoticeCreateReleaseTask">
         <dc:Bounds x="1368" y="145" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0tb9vzy_di" bpmnElement="SequenceFlow_0tb9vzy">
