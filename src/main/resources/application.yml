@@ -44,6 +44,9 @@ camunda:
 ribbon:
    eureka:
     enabled: false
+e-budget:
+  ribbon:
+    listOfServers: http://10.0.10.116:9051
 e-access:
   ribbon:
     listOfServers: http://10.0.10.116:9031
@@ -58,7 +61,7 @@ e-clarification:
     listOfServers: http://10.0.10.116:9071
 e-storage:
   ribbon:
-    listOfServers: http://10.0.10.116:9051
+    listOfServers: http://10.0.10.116:9131
 
 #logging:
 #  level:

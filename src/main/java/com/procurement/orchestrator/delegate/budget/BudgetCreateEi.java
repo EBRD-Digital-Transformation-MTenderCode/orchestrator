@@ -5,6 +5,7 @@ import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
 import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.rest.AccessRestClient;
+import com.procurement.orchestrator.rest.BudgetRestClient;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.Objects;
@@ -15,11 +16,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AccessCreateFs implements JavaDelegate {
+public class BudgetCreateEi implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AccessCreateFs.class);
+    private static final Logger LOG = LoggerFactory.getLogger(BudgetCreateEi.class);
 
-    private final AccessRestClient accessRestClient;
+    private final BudgetRestClient budgetRestClient;
 
     private final OperationService operationService;
 
@@ -27,12 +28,11 @@ public class AccessCreateFs implements JavaDelegate {
 
     private final JsonUtil jsonUtil;
 
-
-    public AccessCreateFs(final AccessRestClient accessRestClient,
+    public BudgetCreateEi(final BudgetRestClient budgetRestClient,
                           final OperationService operationService,
                           final ProcessService processService,
                           final JsonUtil jsonUtil) {
-        this.accessRestClient = accessRestClient;
+        this.budgetRestClient = budgetRestClient;
         this.operationService = operationService;
         this.processService = processService;
         this.jsonUtil = jsonUtil;
@@ -48,7 +48,7 @@ public class AccessCreateFs implements JavaDelegate {
         final String operationId = params.getOperationId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode responseData = processService.processResponse(
-                accessRestClient.createFs(params.getCpid(), params.getOwner(), jsonData),
+                budgetRestClient.createEi(params.getOwner(), jsonData),
                 processId,
                 operationId,
                 taskId);
@@ -65,6 +65,9 @@ public class AccessCreateFs implements JavaDelegate {
                                    final String processId,
                                    final String operationId) {
         params.setToken(processService.getValue("token", responseData, processId, operationId));
+        params.setCpid(processService.getValue("ocid", responseData, processId, operationId));
         return params;
     }
+
+
 }
