@@ -42,5 +42,27 @@ public class TenderController extends BaseController {
         startProcess(processType, operationId, variables);
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
+
+
+    @RequestMapping(value = "/bid", method = RequestMethod.POST)
+    public ResponseEntity<String> createBid(@RequestHeader("Authorization") final String authorization,
+                                            @RequestHeader("X-OPERATION-ID") final String operationId,
+                                            @RequestHeader(value = "X-TOKEN", required = false) final String token,
+                                            @RequestParam("cpid") final String cpid,
+                                            @RequestBody final JsonNode jsonData) {
+        final String processType = "submitTheBid";
+        final String operationType = "bid";
+        final String owner = getOwner(authorization);
+        final Params params = new Params(operationId, cpid, null, "ps", processType, operationType, owner,
+                null, null, token, null, null);
+        final String requestId = UUIDs.timeBased().toString();
+        saveRequest(requestId, operationId, params, jsonData);
+        checkOperationById(operationId);
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("requestId", requestId);
+        variables.put("isTokenPresent", ((token == null || "".equals(token.trim())) ? 0 : 1));
+        startProcess(processType, operationId, variables);
+        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
+    }
 }
 
