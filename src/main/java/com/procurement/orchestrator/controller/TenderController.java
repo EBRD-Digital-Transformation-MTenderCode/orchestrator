@@ -38,6 +38,25 @@ public class TenderController extends BaseController {
         return startProcessResult(params, jsonData);
     }
 
+    @RequestMapping(value = "/cn/{ocid}", method = RequestMethod.POST)
+    public ResponseEntity<String> updateCN(@RequestHeader("Authorization") final String authorization,
+                                           @RequestHeader("X-OPERATION-ID") final String operationId,
+                                           @PathVariable("ocid") final String ocid,
+                                           @RequestParam("country") final String country,
+                                           @RequestParam("pmd") final String pmd,
+                                           @RequestBody final JsonNode jsonData) {
+        final Params params = new Params();
+        params.setRequestId(UUIDs.timeBased().toString());
+        params.setOwner(getOwner(authorization));
+        params.setOperationId(operationId);
+        params.setStage("ps");
+        params.setProcessType("updateCN");
+        params.setOperationType("updateCN");
+        params.setCountry(country);
+        params.setPmd(pmd);
+        return startProcessResult(params, jsonData);
+    }
+
 
     @RequestMapping(value = "/bid", method = RequestMethod.POST)
     public ResponseEntity<String> createBid(@RequestHeader("Authorization") final String authorization,
@@ -58,7 +77,7 @@ public class TenderController extends BaseController {
     }
 
     @RequestMapping(value = "/enquiry", method = RequestMethod.POST)
-    public ResponseEntity<String> createBid(@RequestHeader("Authorization") final String authorization,
+    public ResponseEntity<String> enquiry(@RequestHeader("Authorization") final String authorization,
                                             @RequestHeader("X-OPERATION-ID") final String operationId,
                                             @RequestHeader(value = "X-TOKEN", required = false) final String token,
                                             @RequestParam("cpid") final String cpid,
@@ -117,6 +136,16 @@ public class TenderController extends BaseController {
         params.setOperationType("endOfPSPQStage");
         params.setToken(token);
         return startProcessResult(params, jsonData);
+    }
+
+    @RequestMapping(value = "/tenderPeriodEnd", method = RequestMethod.POST)
+    public ResponseEntity<String> endOfPSPQStage() {
+        final Params params = new Params();
+        params.setRequestId(UUIDs.timeBased().toString());
+        params.setStage("ps");
+        params.setProcessType("tenderPeriodEnd");
+        params.setOperationType("tenderPeriodEnd");
+        return startProcessResult(params, null);
     }
 }
 

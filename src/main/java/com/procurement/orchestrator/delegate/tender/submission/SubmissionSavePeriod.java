@@ -1,6 +1,7 @@
 package com.procurement.orchestrator.delegate.tender.submission;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
 import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.domain.Params;
@@ -47,6 +48,7 @@ public class SubmissionSavePeriod implements JavaDelegate {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
+        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
         final String processId = execution.getProcessInstanceId();
         final String operationId = params.getOperationId();
         final String taskId = execution.getCurrentActivityId();
@@ -60,6 +62,26 @@ public class SubmissionSavePeriod implements JavaDelegate {
                 operationId,
                 taskId);
         if (Objects.nonNull(responseData))
-            operationService.saveOperationStep(execution, entity);
+            operationService.saveOperationStep(execution, addPeriodStartDate(
+                    entity,
+                    jsonData,
+                    params.getStartDate(),
+                    processId), params);
+    }
+
+    private OperationStepEntity addPeriodStartDate(final OperationStepEntity entity,
+                                                   final JsonNode jsonData,
+                                                   final String startDate,
+                                                   final String processId) {
+        try {
+            final JsonNode tenderNode = jsonData.get("tender");
+            final JsonNode tenderPeriodNode = tenderNode.get("tenderPeriod");
+            ((ObjectNode) tenderPeriodNode).put("startDate", startDate);
+            entity.setJsonData(jsonUtil.toJson(jsonData));
+            return entity;
+        } catch (Exception e) {
+            processService.terminateProcess(processId, e.getMessage());
+            return null;
+        }
     }
 }

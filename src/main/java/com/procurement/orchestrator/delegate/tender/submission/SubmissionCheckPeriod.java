@@ -1,7 +1,6 @@
 package com.procurement.orchestrator.delegate.tender.submission;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
 import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.domain.Params;
@@ -65,14 +64,11 @@ public class SubmissionCheckPeriod implements JavaDelegate {
                 operationId,
                 taskId);
         if (Objects.nonNull(responseData))
-            operationService.saveOperationStep(
-                    execution,
-                    addPeriodStartDate(
-                            entity,
-                            jsonData,
-                            params.getStartDate(),
-                            processId),
-                    params);
+            processPeriod(responseData, processId, operationId);
+        operationService.saveOperationStep(
+                execution,
+                entity,
+                params);
     }
 
     private String getEndDate(final JsonNode jsonData,
@@ -88,19 +84,11 @@ public class SubmissionCheckPeriod implements JavaDelegate {
         }
     }
 
-    private OperationStepEntity addPeriodStartDate(final OperationStepEntity entity,
-                                                   final JsonNode jsonData,
-                                                   final String startDate,
-                                                   final String processId) {
-        try {
-            final JsonNode tenderNode = jsonData.get("tender");
-            final JsonNode tenderPeriodNode = tenderNode.get("tenderPeriod");
-            ((ObjectNode) tenderPeriodNode).put("startDate", startDate);
-            entity.setJsonData(jsonUtil.toJson(jsonData));
-            return entity;
-        } catch (Exception e) {
-            processService.terminateProcess(processId, e.getMessage());
-            return null;
+    private void processPeriod(final JsonNode responseData, final String processId, final String operationId) {
+        if (!processService.getBoolean("periodValid", responseData, processId)) {
+            processService.processError("Invalid period.", processId, operationId);
         }
     }
+
+
 }
