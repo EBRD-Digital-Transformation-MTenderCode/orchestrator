@@ -9,8 +9,8 @@ public class SendErrorMessage implements JavaDelegate {
 
     @Override
     public void execute(final DelegateExecution execution) {
-        System.out.println("");
-        System.out.println("->Send error to Platform.");
-        System.out.println("");
+//        System.out.println("");
+//        System.out.println("->Send error to Platform.");
+//        System.out.println("");
     }
 }
