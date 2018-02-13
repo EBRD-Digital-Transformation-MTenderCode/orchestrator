@@ -44,7 +44,7 @@ public class AccessSetSuspended implements JavaDelegate {
         final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
         final String processId = execution.getProcessInstanceId();
         final String operationId = params.getOperationId();
-        final Boolean suspended = (Boolean) execution.getVariableLocal("suspended");
+        final Boolean suspended = false;
         final String taskId = execution.getCurrentActivityId();
         final JsonNode responseData = processService.processResponse(
                 accessRestClient.setSuspended(params.getCpid(), suspended),

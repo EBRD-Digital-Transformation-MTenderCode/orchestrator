@@ -1,69 +1,59 @@
 {
-  "ocid": "ocds-t1s2t3-MD-1518109259018",
-  "id": "a2ae3e60-0cf1-11e8-9d87-eb63128aa353",
-  "date": "2018-02-08T17:00:59.019Z",
-  "tag": [
-    "compiled"
-  ],
-  "initiationType": "tender",
-  "language": "en",
+  "token": "1077ca02-10ae-11e8-86a7-8f03a08e579f",
+  "ocid": "ocds-t1s2t3-MD-1518520042144",
+  "id": "1077ca00-10ae-11e8-86a7-8f03a08e579f",
+  "date": "2018-02-13T11:07:22.144Z",
   "planning": {
     "budget": {
-      "id": "a2ae3e61-0cf1-11e8-9d87-eb63128aa353",
+      "id": "1077ca01-10ae-11e8-86a7-8f03a08e579f",
       "period": {
-        "startDate": "2018-01-05T16:04:25.107Z",
-        "endDate": "2018-01-15T16:04:25.107Z"
-      },
-      "amount": {
-        "amount": 0.0,
-        "currency": "AED"
+        "startDate": "2018-02-27T00:00:00Z",
+        "endDate": "2018-02-27T00:00:00Z"
       }
     },
-    "rationale": "string"
+    "rationale": "Обгрунтування закупівель надано у вільному тексті. Більш детальна інформація може бути надана у доданому документі."
   },
   "tender": {
-    "id": "ocds-t1s2t3-MD-1518109259018",
-    "title": "string",
-    "description": "string",
+    "id": "ocds-t1s2t3-MD-1518520042144",
+    "title": "Препарати наркотичної, психотропної групи: МНН - тримеперидин, морфін гідрохлорид, діазепам, фентаніл, кетамін, феназепам, натрію оксибутират",
+    "description": "Під кількістю 8 штук слід розуміти 8 найменувань",
     "status": "planning",
-    "statusDetails": "planning",
     "classification": {
       "scheme": "CPV",
-      "id": "string",
-      "description": "string"
+      "id": "33600000-6",
+      "description": "Фармацевтична продукція"
     }
   },
   "parties": [
     {
-      "name": "string",
-      "id": "string",
+      "name": "Військово – медичний клінічний центр Західного регіону",
       "identifier": {
-        "scheme": "string",
-        "id": "string",
-        "legalName": "string",
-        "uri": "string"
+        "scheme": "UA-EDR",
+        "id": "1",
+        "legalName": "ТОВ 'Військово – медичний клінічний центр Західного регіону'",
+        "uri": "https://www.google.com"
       },
       "additionalIdentifiers": [
         {
-          "scheme": "string",
-          "id": "string",
-          "legalName": "string",
-          "uri": "string"
+          "scheme": "UA-EDR",
+          "id": "2",
+          "legalName": "Додатковий лігал нейм",
+          "uri": "https://www.google.com/search"
         }
       ],
       "address": {
-        "streetAddress": "string",
-        "locality": "string",
-        "region": "string",
-        "postalCode": "string",
-        "countryName": "string"
+        "streetAddress": "79010, м. Львів вул. Личаківська, 26, Хірургічний корпус, каб. 104",
+        "locality": "Львів",
+        "region": "Львівська обл.",
+        "postalCode": "07770",
+        "countryName": "Україна"
       },
       "contactPoint": {
-        "name": "string",
-        "email": "string",
-        "telephone": "string",
-        "faxNumber": "string",
-        "url": "string"
+        "name": "Магаль Оксана Іванівна",
+        "email": "test@test.test",
+        "telephone": "+380222222222",
+        "faxNumber": "+380222222222",
+        "url": "http://test.ua"
       },
       "roles": [
         "buyer"
@@ -73,43 +63,41 @@
         "mainGeneralActivity": "DEFENCE",
         "mainSectoralActivity": "AIRPORT_RELATED_ACTIVITIES",
         "isACentralPurchasingBody": true,
-        "NUTSCode": "string",
         "scale": "micro"
       },
-      "buyerProfile": "string"
+      "buyerProfile": "http://linkToInfoAboutBuyer.ua"
     }
   ],
   "buyer": {
-    "name": "string",
-    "id": "string",
+    "name": "Новороздільська міська лікарня",
+    "id": "3",
     "identifier": {
-      "scheme": "string",
-      "id": "string",
-      "legalName": "string",
-      "uri": "string"
+      "scheme": "UA-EDR",
+      "id": "20764314",
+      "legalName": "Новороздільська міська лікарня",
+      "uri": "http://buyerTestLink.ua"
     },
     "address": {
-      "streetAddress": "string",
-      "locality": "string",
-      "region": "string",
-      "postalCode": "string",
-      "countryName": "string"
+      "streetAddress": "вул. Винниченка, 37",
+      "locality": "місто Новий Розділ",
+      "region": "Львівська область",
+      "postalCode": "7770777",
+      "countryName": "Україна"
     },
     "additionalIdentifiers": [
       {
-        "scheme": "string",
-        "id": "string",
-        "legalName": "string",
-        "uri": "string"
+        "scheme": "UA-EDR",
+        "id": "77764777",
+        "legalName": "Додатково Новороздільська міська лікарня",
+        "uri": "http://additionalBuyerTestLink.ua"
       }
     ],
     "contactPoint": {
-      "name": "string",
-      "email": "string",
-      "telephone": "string",
-      "faxNumber": "string",
-      "url": "string"
+      "name": "Осипових Сергій Олександрович",
+      "email": "test2@test.test",
+      "telephone": "+380222222222",
+      "faxNumber": "+380222222222",
+      "url": "test3@test.test"
     }
-  },
-  "relatedProcesses": []
+  }
 }

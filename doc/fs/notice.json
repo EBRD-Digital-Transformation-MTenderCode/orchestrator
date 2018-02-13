@@ -1,0 +1,69 @@
+{
+  "token": "80c988a2-10b0-11e8-86a7-8f03a08e579f",
+  "cpid": "ocds-t1s2t3-MD-1518520042144",
+  "id": "80c988a1-10b0-11e8-86a7-8f03a08e579f",
+  "date": "2018-02-13T11:24:49.578Z",
+  "planning": {
+    "budget": {
+      "id": "80c988a0-10b0-11e8-86a7-8f03a08e579f",
+      "description": "Test description",
+      "period": {
+        "startDate": "2018-01-22T00:00:00Z",
+        "endDate": "2018-02-27T00:00:00Z"
+      },
+      "amount": {
+        "amount": 3000.55,
+        "currency": "USD"
+      },
+      "project": "Test Project",
+      "projectID": "GHT66765",
+      "uri": "http://test.ua",
+      "isEuropeanUnionFunded": false
+    },
+    "rationale": "Обгрунтування закупівель надано у вільному тексті. Більш детальна інформація може бути надана у доданому документі."
+  },
+  "parties": [
+    {
+      "name": "Військово – медичний клінічний центр Західного регіону",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "1",
+        "legalName": "ТОВ 'Військово – медичний клінічний центр Західного регіону'",
+        "uri": "https://www.google.com"
+      },
+      "additionalIdentifiers": [
+        {
+          "scheme": "UA-EDR",
+          "id": "2",
+          "legalName": "Додатковий лігал нейм",
+          "uri": "https://www.google.com/search"
+        }
+      ],
+      "address": {
+        "streetAddress": "79010, м. Львів вул. Личаківська, 26, Хірургічний корпус, каб. 104",
+        "locality": "Львів",
+        "region": "Львівська обл.",
+        "postalCode": "07770",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Магаль Оксана Іванівна",
+        "email": "test@test.test",
+        "telephone": "+380222222222",
+        "faxNumber": "+380222222222",
+        "url": "http://test.ua"
+      },
+      "roles": [
+        "buyer"
+      ],
+      "details": {
+        "typeOfBuyer": "BODY_PUBLIC",
+        "mainGeneralActivity": "DEFENCE",
+        "mainSectoralActivity": "AIRPORT_RELATED_ACTIVITIES",
+        "isACentralPurchasingBody": true,
+        "scale": ""
+      },
+      "buyerProfile": "http://linkToInfoAboutBuyer.ua"
+    }
+  ]
+}

@@ -82,5 +82,41 @@ public class TenderController extends BaseController {
         params.setToken(token);
         return startProcessResult(params, jsonData);
     }
+
+    @RequestMapping(value = "/awardByBid", method = RequestMethod.POST)
+    public ResponseEntity<String> awardByBid(@RequestHeader("Authorization") final String authorization,
+                                            @RequestHeader("X-OPERATION-ID") final String operationId,
+                                            @RequestHeader(value = "X-TOKEN", required = false) final String token,
+                                            @RequestParam("cpid") final String cpid,
+                                            @RequestBody final JsonNode jsonData) {
+        final Params params = new Params();
+        params.setRequestId(UUIDs.timeBased().toString());
+        params.setOwner(getOwner(authorization));
+        params.setOperationId(operationId);
+        params.setCpid(cpid);
+        params.setStage("ps");
+        params.setProcessType("awardByBid");
+        params.setOperationType("awardByBid");
+        params.setToken(token);
+        return startProcessResult(params, jsonData);
+    }
+
+    @RequestMapping(value = "/endOfPSPQStage", method = RequestMethod.POST)
+    public ResponseEntity<String> endOfPSPQStage(@RequestHeader("Authorization") final String authorization,
+                                             @RequestHeader("X-OPERATION-ID") final String operationId,
+                                             @RequestHeader(value = "X-TOKEN", required = false) final String token,
+                                             @RequestParam("cpid") final String cpid,
+                                             @RequestBody final JsonNode jsonData) {
+        final Params params = new Params();
+        params.setRequestId(UUIDs.timeBased().toString());
+        params.setOwner(getOwner(authorization));
+        params.setOperationId(operationId);
+        params.setCpid(cpid);
+        params.setStage("ps");
+        params.setProcessType("endOfPSPQStage");
+        params.setOperationType("endOfPSPQStage");
+        params.setToken(token);
+        return startProcessResult(params, jsonData);
+    }
 }
 

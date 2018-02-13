@@ -23,11 +23,6 @@
       <bpmn:outgoing>SequenceFlow_165gqdr</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="AccessSetSuspendedTask" name="Access Set Status Details Suspended (false)" camunda:asyncBefore="true" camunda:delegateExpression="${accessSetSuspended}">
-      <bpmn:extensionElements>
-        <camunda:properties>
-          <camunda:property name="suspended" value="false" />
-        </camunda:properties>
-      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0wbl6vo</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1hezswa</bpmn:outgoing>
     </bpmn:serviceTask>
