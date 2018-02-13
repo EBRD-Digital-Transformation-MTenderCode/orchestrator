@@ -12,7 +12,7 @@
       <bpmn:outgoing>SequenceFlow_1je78pv</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1je78pv" sourceRef="SendMessageTask" targetRef="EndEvent_1" />
-    <bpmn:sequenceFlow id="SequenceFlow_165gqdr" sourceRef="SaveFirstOperationTask" targetRef="SubmissionCheckPeriodTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_165gqdr" sourceRef="SaveFirstOperationTask" targetRef="SubmissionValidatePeriodTask" />
     <bpmn:serviceTask id="SaveFirstOperationTask" name="Save first operation" camunda:asyncBefore="true" camunda:delegateExpression="${saveFirstOperation}">
       <bpmn:incoming>SequenceFlow_1gx4xfj</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_165gqdr</bpmn:outgoing>
@@ -45,11 +45,11 @@
     <bpmn:sequenceFlow id="SequenceFlow_1gx4xfj" sourceRef="StartEvent_1" targetRef="SaveFirstOperationTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1hezswa" sourceRef="AcessCreateCnTask" targetRef="SubmissionSavePeriodTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0yvod6v" sourceRef="SubmissionSavePeriodTask" targetRef="ChronographSavePeriodTask" />
-    <bpmn:serviceTask id="SubmissionCheckPeriodTask" name="Submission check period" camunda:asyncBefore="true" camunda:delegateExpression="${submissionCheckPeriod}">
+    <bpmn:serviceTask id="SubmissionValidatePeriodTask" name="Submission Validate Period" camunda:asyncBefore="true" camunda:delegateExpression="${submissionValidatePeriod}">
       <bpmn:incoming>SequenceFlow_165gqdr</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0k2najp</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_0k2najp" sourceRef="SubmissionCheckPeriodTask" targetRef="AcessCreateCnTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0k2najp" sourceRef="SubmissionValidatePeriodTask" targetRef="AcessCreateCnTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0iu2sun" sourceRef="ClarificationSavePeriodTask" targetRef="StorageOpenDocumentsTask" />
     <bpmn:sequenceFlow id="SequenceFlow_00b52kn" sourceRef="StorageOpenDocumentsTask" targetRef="NoticeCreateReleaseTask" />
     <bpmn:sequenceFlow id="SequenceFlow_099e1em" sourceRef="NoticeCreateReleaseTask" targetRef="SendMessageTask" />
@@ -135,7 +135,7 @@
           <dc:Bounds x="658.5" y="164" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_1aykhwa_di" bpmnElement="SubmissionCheckPeriodTask">
+      <bpmndi:BPMNShape id="ServiceTask_1aykhwa_di" bpmnElement="SubmissionValidatePeriodTask">
         <dc:Bounds x="296" y="145" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0k2najp_di" bpmnElement="SequenceFlow_0k2najp">

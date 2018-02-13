@@ -1,6 +1,7 @@
 package com.procurement.orchestrator.rest;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.procurement.orchestrator.config.FeignConfig;
 import com.procurement.orchestrator.domain.dto.ResponseDto;
 import javax.validation.Valid;
 import org.springframework.cloud.netflix.feign.FeignClient;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(name = "e-submission")
+@FeignClient(name = "e-submission", configuration = FeignConfig.class)
 public interface SubmissionRestClient {
 
     @RequestMapping(path = "/period/check", method = RequestMethod.POST)
@@ -25,7 +26,7 @@ public interface SubmissionRestClient {
     ResponseEntity<ResponseDto> periodValidation(@RequestParam("country") final String country,
                                                  @RequestParam("pmd") final String pmd,
                                                  @RequestParam("startDate") final String startDate,
-                                                 @RequestParam ("endDate")final String endDate) throws Exception;
+                                                 @RequestParam("endDate")final String endDate) throws Exception;
 
 
 

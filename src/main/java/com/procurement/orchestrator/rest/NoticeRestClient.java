@@ -1,6 +1,7 @@
 package com.procurement.orchestrator.rest;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.procurement.orchestrator.config.FeignConfig;
 import com.procurement.orchestrator.domain.dto.ResponseDto;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.http.ResponseEntity;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(name = "e-notice")
+@FeignClient(name = "e-notice", configuration = FeignConfig.class)
 public interface NoticeRestClient {
 
     @RequestMapping(path = "/release", method = RequestMethod.POST)

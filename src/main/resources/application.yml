@@ -41,6 +41,11 @@ camunda:
     auto-deployment-enabled: true
     history-level: none
 
+feign:
+
+  hystrix:
+    enabled: true
+
 ribbon:
    eureka:
     enabled: false
