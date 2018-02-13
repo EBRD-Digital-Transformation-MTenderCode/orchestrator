@@ -12,12 +12,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient(name = "e-submission")
 public interface SubmissionRestClient {
+
     @RequestMapping(path = "/period/check", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> checkPeriod(@RequestParam("country") String country,
+    ResponseEntity<ResponseDto> checkPeriod(@RequestParam("cpId") final String cpId,
+                                            @RequestParam("country") String country,
                                             @RequestParam("pmd") String pmd,
                                             @RequestParam("stage") String stage,
                                             @RequestParam("startDate") String startDate,
                                             @RequestParam("endDate") String endDate) throws Exception;
+
+    @RequestMapping(path = "/period/validation", method = RequestMethod.POST)
+    ResponseEntity<ResponseDto> periodValidation(@RequestParam("country") final String country,
+                                                 @RequestParam("pmd") final String pmd,
+                                                 @RequestParam("startDate") final String startDate,
+                                                 @RequestParam ("endDate")final String endDate) throws Exception;
+
+
 
     @RequestMapping(path = "/period/save", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> savePeriod(@RequestParam("cpId") String cpId,
@@ -75,5 +85,4 @@ public interface SubmissionRestClient {
     @RequestMapping(path = "/submission/setFinalStatuses", method = RequestMethod.PATCH)
     ResponseEntity<ResponseDto> setFinalStatuses(@RequestParam("cpId") final String cpId,
                                                  @RequestParam("stage") final String stage) throws Exception;
-
 }

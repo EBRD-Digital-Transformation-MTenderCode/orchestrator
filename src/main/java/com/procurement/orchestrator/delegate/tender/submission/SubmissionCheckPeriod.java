@@ -55,6 +55,7 @@ public class SubmissionCheckPeriod implements JavaDelegate {
         params.setEndDate(getEndDate(jsonData, processId, operationId));
         final JsonNode responseData = processService.processResponse(
                 submissionRestClient.checkPeriod(
+                        params.getCpid(),
                         params.getCountry(),
                         params.getPmd(),
                         params.getStage(),
