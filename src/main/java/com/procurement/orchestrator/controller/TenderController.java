@@ -80,6 +80,7 @@ public class TenderController extends BaseController {
                                             @RequestHeader("X-OPERATION-ID") final String operationId,
                                             @RequestHeader(value = "X-TOKEN", required = false) final String token,
                                             @RequestParam("cpid") final String cpid,
+                                            @RequestParam("ocid") final String ocid,
                                             @RequestParam("country") final String country,
                                             @RequestParam("pmd") final String pmd,
                                             @RequestBody final JsonNode jsonData) {
@@ -88,6 +89,7 @@ public class TenderController extends BaseController {
         params.setOwner(getOwner(authorization));
         params.setOperationId(operationId);
         params.setCpid(cpid);
+        params.setOcid(ocid);
         params.setStage("ps");
         params.setProcessType("enquiry");
         if (params.getToken() == null || "".equals(params.getToken().trim())){

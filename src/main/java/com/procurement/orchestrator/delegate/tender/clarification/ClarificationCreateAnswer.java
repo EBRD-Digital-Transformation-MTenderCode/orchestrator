@@ -60,7 +60,7 @@ public class ClarificationCreateAnswer implements JavaDelegate {
                 taskId);
         if (Objects.nonNull(responseData)) {
             final Boolean allAnswered = getAllAnswered(responseData, processId);
-            execution.setVariable("checkEnquiries", (allAnswered ? 1 : 0));
+            execution.setVariable("allAnswered", (allAnswered ? 1 : 0));
             operationService.saveOperationStep(execution, entity, responseData);
         }
     }

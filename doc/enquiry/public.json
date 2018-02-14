@@ -1,0 +1,461 @@
+{
+  "ocid": "ocds-t1s2t3-MD-1518608339611-ps-1518608347684",
+  "id": "a5dc06b0-117b-11e8-a81b-c355d4c2554b",
+  "date": "2018-02-14T11:38:59.611Z",
+  "tag": [
+    "compiled"
+  ],
+  "initiationType": "tender",
+  "parties": [
+    {
+      "name": "string",
+      "id": "string",
+      "identifier": {
+        "scheme": "string",
+        "id": "string",
+        "legalName": "string",
+        "uri": "string"
+      },
+      "additionalIdentifiers": [
+        {
+          "scheme": "string",
+          "id": "string",
+          "legalName": "string",
+          "uri": "string"
+        }
+      ],
+      "address": {
+        "streetAddress": "string",
+        "locality": "string",
+        "region": "string",
+        "postalCode": "string",
+        "countryName": "string"
+      },
+      "contactPoint": {
+        "name": "string",
+        "email": "string",
+        "telephone": "string",
+        "faxNumber": "string",
+        "url": "string"
+      },
+      "roles": [
+        "buyer"
+      ],
+      "details": {
+        "typeOfBuyer": "BODY_PUBLIC",
+        "mainGeneralActivity": "DEFENCE",
+        "mainSectoralActivity": "AIRPORT_RELATED_ACTIVITIES",
+        "isACentralPurchasingBody": true,
+        "NUTSCode": "string",
+        "scale": "micro"
+      },
+      "buyerProfile": "string"
+    }
+  ],
+  "planning": {
+    "budget": {
+      "id": "aaabde40-117b-11e8-9c21-c5ea7a8e6b60",
+      "description": "string",
+      "amount": {
+        "amount": 0.0,
+        "currency": "AED"
+      },
+      "europeanUnionFunding": {
+        "projectIdentifier": "string",
+        "projectName": "string",
+        "uri": "string"
+      },
+      "isEuropeanUnionFunded": true,
+      "budgetBreakdown": [
+        {
+          "id": "string",
+          "description": "string",
+          "amount": {
+            "amount": 0.0,
+            "currency": "AED"
+          },
+          "period": {
+            "startDate": "2018-01-09T15:55:12.823Z",
+            "endDate": "2018-07-09T15:55:12.823Z"
+          },
+          "sourceParty": {
+            "name": "string",
+            "id": "string"
+          }
+        }
+      ]
+    },
+    "rationale": "string"
+  },
+  "tender": {
+    "id": "ocds-t1s2t3-MD-1518608339611",
+    "title": "string",
+    "description": "string",
+    "status": "active",
+    "statusDetails": "preselection",
+    "items": [
+      {
+        "id": "a5dc06b1-117b-11e8-a81b-c355d4c2554b",
+        "description": "string",
+        "classification": {
+          "scheme": "CPV",
+          "id": "string",
+          "description": "string"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "CPV",
+            "id": "string",
+            "description": "string"
+          }
+        ],
+        "quantity": 0.0,
+        "unit": {
+          "name": "string",
+          "id": "string"
+        },
+        "relatedLot": "a5dc06b2-117b-11e8-a81b-c355d4c2554b"
+      }
+    ],
+    "value": {
+      "amount": 0.0,
+      "currency": "AED"
+    },
+    "procurementMethod": "open",
+    "procurementMethodDetails": "string",
+    "procurementMethodRationale": "string",
+    "mainProcurementCategory": "goods",
+    "additionalProcurementCategories": [
+      "goods"
+    ],
+    "awardCriteria": "priceOnly",
+    "submissionMethod": [
+      "electronicSubmission"
+    ],
+    "submissionMethodDetails": "string",
+    "tenderPeriod": {
+      "startDate": "2018-02-14T11:38:44.169Z",
+      "endDate": "2018-12-30T15:55:12.831Z"
+    },
+    "enquiryPeriod": {
+      "startDate": "2018-02-14T11:38:44.169Z",
+      "endDate": "2018-12-27T15:55:12.831Z"
+    },
+    "enquiries": [
+      {
+        "id": "65f4d1b0-1196-11e8-ae1e-a70ade0b7b34",
+        "date": "2018-02-14T14:50:28.213Z",
+        "author": {
+          "name": "string",
+          "id": "string",
+          "identifier": {
+            "scheme": "string",
+            "id": "string",
+            "legalName": "string",
+            "uri": "string"
+          },
+          "address": {
+            "streetAddress": "string",
+            "locality": "string",
+            "region": "string",
+            "postalCode": "string",
+            "countryName": "string"
+          },
+          "additionalIdentifiers": [
+            {
+              "scheme": "string",
+              "id": "string",
+              "legalName": "string",
+              "uri": "string"
+            }
+          ],
+          "contactPoint": {
+            "name": "string",
+            "email": "string",
+            "telephone": "string",
+            "faxNumber": "string",
+            "url": "string"
+          }
+        },
+        "title": "string",
+        "description": "string",
+        "answer": "",
+        "relatedItem": "string",
+        "relatedLot": "string"
+      },
+      {
+        "id": "2b4bbde0-119a-11e8-ae1e-a70ade0b7b34",
+        "date": "2018-02-14T15:17:28.25Z",
+        "author": {
+          "name": "string",
+          "id": "string",
+          "identifier": {
+            "scheme": "string",
+            "id": "string",
+            "legalName": "string",
+            "uri": "string"
+          },
+          "address": {
+            "streetAddress": "string",
+            "locality": "string",
+            "region": "string",
+            "postalCode": "string",
+            "countryName": "string"
+          },
+          "additionalIdentifiers": [
+            {
+              "scheme": "string",
+              "id": "string",
+              "legalName": "string",
+              "uri": "string"
+            }
+          ],
+          "contactPoint": {
+            "name": "string",
+            "email": "string",
+            "telephone": "string",
+            "faxNumber": "string",
+            "url": "string"
+          }
+        },
+        "title": "string",
+        "description": "string",
+        "answer": "",
+        "relatedItem": "string",
+        "relatedLot": "string"
+      },
+      {
+        "id": "8db86d70-119a-11e8-ae1e-a70ade0b7b34",
+        "date": "2018-02-14T15:20:12.893Z",
+        "author": {
+          "name": "string",
+          "id": "string",
+          "identifier": {
+            "scheme": "string",
+            "id": "string",
+            "legalName": "string",
+            "uri": "string"
+          },
+          "address": {
+            "streetAddress": "string",
+            "locality": "string",
+            "region": "string",
+            "postalCode": "string",
+            "countryName": "string"
+          },
+          "additionalIdentifiers": [
+            {
+              "scheme": "string",
+              "id": "string",
+              "legalName": "string",
+              "uri": "string"
+            }
+          ],
+          "contactPoint": {
+            "name": "string",
+            "email": "string",
+            "telephone": "string",
+            "faxNumber": "string",
+            "url": "string"
+          }
+        },
+        "title": "string",
+        "description": "string",
+        "answer": "hello",
+        "relatedItem": "string",
+        "relatedLot": "string"
+      }
+    ],
+    "eligibilityCriteria": "string",
+    "contractPeriod": {
+      "startDate": "2018-01-09T15:55:12.831Z",
+      "endDate": "2018-07-09T15:55:12.831Z",
+      "durationInDays": 0
+    },
+    "procuringEntity": {
+      "name": "string",
+      "id": "string",
+      "identifier": {
+        "scheme": "string",
+        "id": "string",
+        "legalName": "string",
+        "uri": "string"
+      },
+      "address": {
+        "streetAddress": "string",
+        "locality": "string",
+        "region": "string",
+        "postalCode": "string",
+        "countryName": "string"
+      },
+      "additionalIdentifiers": [
+        {
+          "scheme": "string",
+          "id": "string",
+          "legalName": "string",
+          "uri": "string"
+        }
+      ],
+      "contactPoint": {
+        "name": "string",
+        "email": "string",
+        "telephone": "string",
+        "faxNumber": "string",
+        "url": "string"
+      }
+    },
+    "documents": [
+      {
+        "id": "3f517c80-0d80-11e8-89fa-d30d316b62c0",
+        "documentType": "tenderNotice",
+        "title": "string",
+        "description": "string",
+        "dateModified": "2018-02-09T15:55:12.831Z",
+        "format": "string",
+        "language": "string"
+      }
+    ],
+    "lots": [
+      {
+        "id": "a5dc06b2-117b-11e8-a81b-c355d4c2554b",
+        "title": "string",
+        "description": "string",
+        "value": {
+          "amount": 0.0,
+          "currency": "AED"
+        },
+        "options": [
+          {
+            "hasOptions": true
+          }
+        ],
+        "recurrentProcurement": [
+          {
+            "isRecurrent": true
+          }
+        ],
+        "renewals": [
+          {
+            "hasRenewals": true
+          }
+        ],
+        "variants": [
+          {
+            "hasVariants": true
+          }
+        ],
+        "contractPeriod": {
+          "startDate": "2018-01-09T15:55:12.837Z",
+          "endDate": "2018-01-09T15:55:12.837Z"
+        },
+        "placeOfPerformance": {
+          "address": {
+            "streetAddress": "string",
+            "locality": "string",
+            "region": "string",
+            "postalCode": "string",
+            "countryName": "string"
+          },
+          "description": "string"
+        }
+      }
+    ],
+    "lotGroups": [
+      {
+        "optionToCombine": true
+      }
+    ],
+    "acceleratedProcedure": {
+      "isAcceleratedProcedure": true
+    },
+    "classification": {
+      "scheme": "CPV",
+      "id": "string",
+      "description": "string"
+    },
+    "designContest": {
+      "serviceContractAward": true
+    },
+    "electronicWorkflows": {
+      "useOrdering": true,
+      "usePayment": true,
+      "acceptInvoicing": true
+    },
+    "jointProcurement": {
+      "isJointProcurement": true
+    },
+    "legalBasis": "DIRECTIVE_2014_23_EU",
+    "procedureOutsourcing": {
+      "procedureOutsourced": true
+    },
+    "procurementMethodAdditionalInfo": "string",
+    "submissionLanguages": [
+      "bg"
+    ],
+    "submissionMethodRationale": [
+      "TOOLS_DEVICES_FILE_FORMATS_UNAVAILABLE"
+    ],
+    "dynamicPurchasingSystem": {
+      "hasDynamicPurchasingSystem": true
+    },
+    "framework": {
+      "isAFramework": true
+    },
+    "requiresElectronicCatalogue": true
+  },
+  "buyer": {
+    "name": "string",
+    "id": "string",
+    "identifier": {
+      "scheme": "string",
+      "id": "string",
+      "legalName": "string",
+      "uri": "string"
+    },
+    "address": {
+      "streetAddress": "string",
+      "locality": "string",
+      "region": "string",
+      "postalCode": "string",
+      "countryName": "string"
+    },
+    "additionalIdentifiers": [
+      {
+        "scheme": "string",
+        "id": "string",
+        "legalName": "string",
+        "uri": "string"
+      }
+    ],
+    "contactPoint": {
+      "name": "string",
+      "email": "string",
+      "telephone": "string",
+      "faxNumber": "string",
+      "url": "string"
+    }
+  },
+  "language": "en",
+  "relatedProcesses": [
+    {
+      "id": "string",
+      "relationship": [
+        "framework"
+      ],
+      "title": "string",
+      "scheme": "ocid",
+      "identifier": "string",
+      "uri": "string"
+    },
+    {
+      "id": "aaabde42-117b-11e8-9c21-c5ea7a8e6b60",
+      "relationship": [
+        "parent"
+      ],
+      "title": "",
+      "scheme": "ocid",
+      "identifier": "ocds-t1s2t3-MD-1518608339611",
+      "uri": ""
+    }
+  ]
+}

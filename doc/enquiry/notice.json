@@ -1,6 +1,8 @@
 {
+  "token": "06da8271-118b-11e8-ae1e-a70ade0b7b34",
   "enquiry": {
-    "date": "2018-02-02T10:39:46.277Z",
+    "id": "06da8270-118b-11e8-ae1e-a70ade0b7b34",
+    "date": "2018-02-14T13:29:04.572Z",
     "author": {
       "name": "string",
       "id": "string",
@@ -37,6 +39,6 @@
     "description": "string",
     "relatedItem": "string",
     "relatedLot": "string",
-    "answer": ""
+    "answer": "string"
   }
 }
