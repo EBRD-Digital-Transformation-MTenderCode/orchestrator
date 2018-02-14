@@ -24,7 +24,7 @@ docker push docker-registry.eprocurement.systems/orchestrator:17.12.1
 docker run -d --name=orchestrator-1 \
   --env __PROP_spring_cloud_config_uri=http://config-server-1:8700 \
   --env __PROP_spring_profiles_active=default \
-  --env __PROP_spring_cloud_config_label=7efad97 \
+  --env __PROP_spring_cloud_config_label=5b8a4e1 \
   --publish 9101:8080 \
   --network ocds-network \
   --dns 10.0.10.115 \
