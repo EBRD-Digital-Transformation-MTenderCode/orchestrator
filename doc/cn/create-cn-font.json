@@ -28,35 +28,7 @@
           },
           "sourceParty": {
             "name": "string",
-            "id": "string",
-            "identifier": {
-              "scheme": "string",
-              "id": "string",
-              "legalName": "string",
-              "uri": "string"
-            },
-            "address": {
-              "streetAddress": "string",
-              "locality": "string",
-              "region": "string",
-              "postalCode": "string",
-              "countryName": "string"
-            },
-            "additionalIdentifiers": [
-              {
-                "scheme": "string",
-                "id": "string",
-                "legalName": "string",
-                "uri": "string"
-              }
-            ],
-            "contactPoint": {
-              "name": "string",
-              "email": "string",
-              "telephone": "string",
-              "faxNumber": "string",
-              "url": "string"
-            }
+            "id": "string"
           }
         }
       ]
@@ -108,8 +80,7 @@
       "bg"
     ],
     "tenderPeriod": {
-      "endDate": "2018-12-30T15:55:12.831Z",
-      "durationInDays": 0
+      "endDate": "2018-12-30T15:55:12.831Z"
     },
     "contractPeriod": {
       "startDate": "2018-01-09T15:55:12.831Z",
@@ -156,8 +127,7 @@
         ],
         "contractPeriod": {
           "startDate": "2018-01-09T15:55:12.837Z",
-          "endDate": "2018-01-09T15:55:12.837Z",
-          "durationInDays": 0
+          "endDate": "2018-01-09T15:55:12.837Z"
         },
         "placeOfPerformance": {
           "address": {

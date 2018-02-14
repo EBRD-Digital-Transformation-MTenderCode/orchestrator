@@ -1,7 +1,6 @@
 package com.procurement.orchestrator.delegate.tender.clarification;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
 import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.domain.Params;
@@ -59,21 +58,11 @@ public class ClarificationSavePeriod implements JavaDelegate {
                 processId,
                 operationId,
                 taskId);
-        if (Objects.nonNull(responseData))
+        if (Objects.nonNull(responseData)) {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    addEnquiryPeriod(jsonData, responseData));
-    }
-
-
-    private JsonNode addEnquiryPeriod(final JsonNode jsonData,
-                                      final JsonNode responseData) {
-        final JsonNode tenderNode = jsonData.get("tender");
-        ObjectNode enquiryPeriodNode = ((ObjectNode) tenderNode).putObject("enquiryPeriod");
-        enquiryPeriodNode
-                .put("startDate", responseData.get("startDate").asText())
-                .put("endDate", responseData.get("endDate").asText());
-        return jsonData;
+                    processService.addEnquiryPeriod(jsonData, responseData));
+        }
     }
 }

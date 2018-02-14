@@ -15,8 +15,7 @@ import org.springframework.context.annotation.Import;
         ServiceConfig.class,
         DaoConfiguration.class,
         KafkaConsumerConfig.class,
-        KafkaProducerConfig.class,
-        FeignConfig.class
+        KafkaProducerConfig.class
 })
 public class ApplicationConfig {
     @Bean

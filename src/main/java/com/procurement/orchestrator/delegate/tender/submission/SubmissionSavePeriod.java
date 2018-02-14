@@ -1,7 +1,6 @@
 package com.procurement.orchestrator.delegate.tender.submission;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
 import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.domain.Params;
@@ -29,18 +28,15 @@ public class SubmissionSavePeriod implements JavaDelegate {
 
     private final JsonUtil jsonUtil;
 
-    private final DateUtil dateUtil;
 
     public SubmissionSavePeriod(final SubmissionRestClient submissionRestClient,
                                 final OperationService operationService,
                                 final ProcessService processService,
-                                final JsonUtil jsonUtil,
-                                final DateUtil dateUtil) {
+                                final JsonUtil jsonUtil) {
         this.submissionRestClient = submissionRestClient;
         this.operationService = operationService;
         this.processService = processService;
         this.jsonUtil = jsonUtil;
-        this.dateUtil = dateUtil;
     }
 
     @Override
@@ -61,27 +57,12 @@ public class SubmissionSavePeriod implements JavaDelegate {
                 processId,
                 operationId,
                 taskId);
-        if (Objects.nonNull(responseData))
-            operationService.saveOperationStep(execution, addPeriodStartDate(
+        if (Objects.nonNull(responseData)) {
+            operationService.saveOperationStep(
+                    execution,
                     entity,
-                    jsonData,
-                    params.getStartDate(),
-                    processId), params);
-    }
-
-    private OperationStepEntity addPeriodStartDate(final OperationStepEntity entity,
-                                                   final JsonNode jsonData,
-                                                   final String startDate,
-                                                   final String processId) {
-        try {
-            final JsonNode tenderNode = jsonData.get("tender");
-            final JsonNode tenderPeriodNode = tenderNode.get("tenderPeriod");
-            ((ObjectNode) tenderPeriodNode).put("startDate", startDate);
-            entity.setJsonData(jsonUtil.toJson(jsonData));
-            return entity;
-        } catch (Exception e) {
-            processService.terminateProcess(processId, e.getMessage());
-            return null;
+                    processService.addTenderPeriodStartDate(jsonData, params.getStartDate(), processId));
         }
     }
+
 }

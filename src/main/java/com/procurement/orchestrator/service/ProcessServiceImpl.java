@@ -1,6 +1,7 @@
 package com.procurement.orchestrator.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.domain.dto.ResponseDetailsDto;
 import com.procurement.orchestrator.domain.dto.ResponseDto;
@@ -115,5 +116,38 @@ public class ProcessServiceImpl implements ProcessService {
             terminateProcess(processId, fieldName + " not found.");
         }
         return null;
+    }
+
+    public String getTenderPeriodEndDate(final JsonNode jsonData, final String processId, final String operationId) {
+        try {
+            final JsonNode tenderNode = jsonData.get("tender");
+            final JsonNode tenderPeriodNode = tenderNode.get("tenderPeriod");
+            return tenderPeriodNode.get("endDate").asText();
+        } catch (Exception e) {
+            processError(e.getMessage(), processId, operationId);
+            return null;
+        }
+    }
+
+    @Override
+    public JsonNode addTenderPeriodStartDate(final JsonNode jsonData, final String startDate, final String processId) {
+        try {
+            final JsonNode tenderNode = jsonData.get("tender");
+            final JsonNode tenderPeriodNode = tenderNode.get("tenderPeriod");
+            ((ObjectNode) tenderPeriodNode).put("startDate", startDate);
+            return jsonData;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    public JsonNode addEnquiryPeriod(final JsonNode jsonData, final JsonNode periodData){
+        final JsonNode tenderNode = jsonData.get("tender");
+        ObjectNode enquiryPeriodNode = ((ObjectNode) tenderNode).putObject("enquiryPeriod");
+        enquiryPeriodNode
+                .put("startDate", periodData.get("startDate").asText())
+                .put("endDate", periodData.get("endDate").asText());
+        return jsonData;
     }
 }

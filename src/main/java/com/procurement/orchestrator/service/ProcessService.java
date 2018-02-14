@@ -1,6 +1,7 @@
 package com.procurement.orchestrator.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
 import com.procurement.orchestrator.domain.dto.ResponseDetailsDto;
 import com.procurement.orchestrator.domain.dto.ResponseDto;
 import java.util.List;
@@ -33,6 +34,12 @@ public interface ProcessService {
     String getText(String fieldName, JsonNode responseData, String processId);
 
     Boolean getBoolean(String fieldName, JsonNode responseData, String processId);
+
+    String getTenderPeriodEndDate(JsonNode jsonData, String processId, String operationId);
+
+    JsonNode addTenderPeriodStartDate(JsonNode jsonData, String startDate, String processId);
+
+    JsonNode addEnquiryPeriod(JsonNode jsonData, JsonNode periodData);
 
 }
 

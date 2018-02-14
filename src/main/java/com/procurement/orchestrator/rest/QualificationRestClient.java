@@ -1,9 +1,7 @@
 package com.procurement.orchestrator.rest;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.procurement.orchestrator.config.FeignConfig;
 import com.procurement.orchestrator.domain.dto.ResponseDto;
-import javax.validation.Valid;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(name = "e-qualification", configuration = FeignConfig.class)
+@FeignClient(name = "e-qualification")
 public interface QualificationRestClient {
 
     @RequestMapping(path = "/qualification", method = RequestMethod.POST)

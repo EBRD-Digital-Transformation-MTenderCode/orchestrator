@@ -30,7 +30,6 @@ public class TenderController extends BaseController {
         params.setRequestId(UUIDs.timeBased().toString());
         params.setOwner(getOwner(authorization));
         params.setOperationId(operationId);
-        params.setStage("ps");
         params.setProcessType("createCN");
         params.setOperationType("createCN");
         params.setCountry(country);
@@ -49,7 +48,7 @@ public class TenderController extends BaseController {
         params.setRequestId(UUIDs.timeBased().toString());
         params.setOwner(getOwner(authorization));
         params.setOperationId(operationId);
-        params.setStage("ps");
+        params.setCpid(ocid);
         params.setProcessType("updateCN");
         params.setOperationType("updateCN");
         params.setCountry(country);
