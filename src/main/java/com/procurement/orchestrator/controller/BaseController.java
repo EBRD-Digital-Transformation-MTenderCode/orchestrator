@@ -42,6 +42,7 @@ public class BaseController {
         variables.put("requestId", params.getRequestId());
         variables.put("isTokenPresent", ((params.getToken() == null || "".equals(params.getToken().trim())) ? 0 : 1));
         variables.put("allAnswered", 0);
+        variables.put("checkEnquiries", 0);
         startProcess(params.getProcessType(), params.getOperationId(), variables);
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }

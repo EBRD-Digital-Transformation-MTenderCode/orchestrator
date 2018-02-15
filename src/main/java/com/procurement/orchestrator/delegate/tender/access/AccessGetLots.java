@@ -42,6 +42,7 @@ public class AccessGetLots implements JavaDelegate {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
+        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
         final String processId = execution.getProcessInstanceId();
         final String operationId = params.getOperationId();
         final String taskId = execution.getCurrentActivityId();
@@ -51,7 +52,8 @@ public class AccessGetLots implements JavaDelegate {
                 operationId,
                 taskId);
         if (Objects.nonNull(responseData))
-            operationService.saveOperationStep(execution, entity, params, responseData);
+            operationService.saveOperationStep(execution, entity, params,
+                    processService.addLots(jsonData, responseData, processId));
     }
 }
 

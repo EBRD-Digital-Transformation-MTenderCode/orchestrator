@@ -45,5 +45,7 @@ public interface ProcessService {
 
     JsonNode addTenderStatus(JsonNode jsonData, JsonNode statusData, String processId);
 
+    JsonNode addLots(JsonNode jsonData, JsonNode statusData, String processId);
+
 }
 

@@ -157,6 +157,7 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
+    @Override
     public JsonNode addTenderEnquiryPeriod(final JsonNode jsonData, final JsonNode periodData, final String processId) {
         try {
             final JsonNode tenderNode = jsonData.get("tender");
@@ -171,12 +172,24 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
+    @Override
     public JsonNode addTenderStatus(final JsonNode jsonData, final JsonNode statusData, final String processId) {
         try {
             ObjectNode statusNode = ((ObjectNode) jsonData).putObject("tender");
             statusNode
                     .put("status", statusData.get("status").asText())
                     .put("statusDetails", statusData.get("statusDetails").asText());
+            return jsonData;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public JsonNode addLots(JsonNode jsonData, JsonNode lotsData, String processId) {
+        try {
+            ((ObjectNode) jsonData).put("lots", jsonUtil.toJson(lotsData.get("lots").asText()));
             return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
