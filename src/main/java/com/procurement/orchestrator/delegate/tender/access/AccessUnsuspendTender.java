@@ -15,9 +15,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AccessSetSuspended implements JavaDelegate {
+public class AccessUnsuspendTender implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AccessSetSuspended.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AccessUnsuspendTender.class);
 
     private final AccessRestClient accessRestClient;
 
@@ -27,10 +27,10 @@ public class AccessSetSuspended implements JavaDelegate {
 
     private final JsonUtil jsonUtil;
 
-    public AccessSetSuspended(final AccessRestClient accessRestClient,
-                              final OperationService operationService,
-                              final ProcessService processService,
-                              final JsonUtil jsonUtil) {
+    public AccessUnsuspendTender(final AccessRestClient accessRestClient,
+                                 final OperationService operationService,
+                                 final ProcessService processService,
+                                 final JsonUtil jsonUtil) {
         this.accessRestClient = accessRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -42,12 +42,13 @@ public class AccessSetSuspended implements JavaDelegate {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
+        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
         final String processId = execution.getProcessInstanceId();
         final String operationId = params.getOperationId();
-        final Boolean suspended = false;
+        params.setOperationType("enquiryUnsuspendTender");
         final String taskId = execution.getCurrentActivityId();
         final JsonNode responseData = processService.processResponse(
-                accessRestClient.setSuspended(params.getCpid(), suspended),
+                accessRestClient.setSuspended(params.getCpid(), false),
                 processId,
                 operationId,
                 taskId);
@@ -55,6 +56,6 @@ public class AccessSetSuspended implements JavaDelegate {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    responseData);
+                    processService.addTenderStatus(jsonData, responseData, processId));
     }
 }

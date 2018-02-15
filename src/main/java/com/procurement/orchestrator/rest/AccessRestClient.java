@@ -22,29 +22,29 @@ public interface AccessRestClient {
                                          @RequestParam("owner") final String owner,
                                          @RequestBody final JsonNode jsonData) throws Exception;
 
-    @RequestMapping(path = "/tender/updateStatus", method = RequestMethod.PATCH)
+    @RequestMapping(path = "/tender/updateStatus", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> updateTenderStatus(@RequestParam("cpId") final String cpId,
                                                    @RequestParam("status") final String status) throws Exception;
 
-    @RequestMapping(path = "/tender/updateStatusDetails", method = RequestMethod.PATCH)
+    @RequestMapping(path = "/tender/updateStatusDetails", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> updateTenderStatusDetails(@RequestParam("cpId") final String cpId,
                                                           @RequestParam("statusDetails") final String statusDetails)
             throws Exception;
 
-    @RequestMapping(path = "/tender/setSuspended", method = RequestMethod.PATCH)
+    @RequestMapping(path = "/tender/setSuspended", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> setSuspended(@RequestParam("cpId") final String cpId,
                                              @RequestParam("suspended") final Boolean suspended) throws Exception;
 
     @RequestMapping(path = "/lots", method = RequestMethod.GET)
     ResponseEntity<ResponseDto> getLots(@RequestParam("cpId") final String cpId,
-                                        @RequestParam("status")final String status) throws Exception;
+                                        @RequestParam("status") final String status) throws Exception;
 
-    @RequestMapping(path = "/lots/updateStatus", method = RequestMethod.PATCH)
+    @RequestMapping(path = "/lots/updateStatus", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> updateLotsStatus(@RequestParam("cpId") final String cpId,
                                                  @RequestParam("status") final String status,
                                                  @RequestBody final JsonNode lotsDto) throws Exception;
 
-    @RequestMapping(path = "/lots/updateStatusDetails", method = RequestMethod.PATCH)
+    @RequestMapping(path = "/lots/updateStatusDetails", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> updateLotsStatusDetails(@RequestParam("cpId") final String cpId,
                                                         @RequestParam("statusDetails") final String statusDetails,
                                                         @RequestBody final JsonNode lotsDto) throws Exception;

@@ -95,7 +95,7 @@ public class TenderController extends BaseController {
         if (params.getToken() == null || "".equals(params.getToken().trim())){
             params.setOperationType("createEnquiry");
         }else{
-            params.setOperationType("updateEnquiry");
+            params.setOperationType("addAnswer");
         }
         params.setCountry(country);
         params.setPmd(pmd);

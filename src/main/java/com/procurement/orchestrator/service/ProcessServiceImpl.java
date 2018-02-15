@@ -142,12 +142,45 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public JsonNode addEnquiryPeriod(final JsonNode jsonData, final JsonNode periodData){
-        final JsonNode tenderNode = jsonData.get("tender");
-        ObjectNode enquiryPeriodNode = ((ObjectNode) tenderNode).putObject("enquiryPeriod");
-        enquiryPeriodNode
-                .put("startDate", periodData.get("startDate").asText())
-                .put("endDate", periodData.get("endDate").asText());
-        return jsonData;
+    @Override
+    public JsonNode addTenderTenderPeriod(final JsonNode jsonData, final JsonNode periodData, final String processId) {
+        try {
+            final JsonNode tenderNode = jsonData.get("tender");
+            ObjectNode periodNode = ((ObjectNode) tenderNode).putObject("tenderPeriod");
+            periodNode
+                    .put("startDate", periodData.get("startDate").asText())
+                    .put("endDate", periodData.get("endDate").asText());
+            return jsonData;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    public JsonNode addTenderEnquiryPeriod(final JsonNode jsonData, final JsonNode periodData, final String processId) {
+        try {
+            final JsonNode tenderNode = jsonData.get("tender");
+            ObjectNode enquiryPeriodNode = ((ObjectNode) tenderNode).putObject("enquiryPeriod");
+            enquiryPeriodNode
+                    .put("startDate", periodData.get("startDate").asText())
+                    .put("endDate", periodData.get("endDate").asText());
+            return jsonData;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    public JsonNode addTenderStatus(final JsonNode jsonData, final JsonNode statusData, final String processId) {
+        try {
+            ObjectNode statusNode = ((ObjectNode) jsonData).putObject("tender");
+            statusNode
+                    .put("status", statusData.get("status").asText())
+                    .put("statusDetails", statusData.get("statusDetails").asText());
+            return jsonData;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
     }
 }

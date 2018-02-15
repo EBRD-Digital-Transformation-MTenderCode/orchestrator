@@ -62,7 +62,7 @@ public class ClarificationSavePeriod implements JavaDelegate {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    processService.addEnquiryPeriod(jsonData, responseData));
+                    processService.addTenderEnquiryPeriod(jsonData, responseData, processId));
         }
     }
 }
