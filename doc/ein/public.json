@@ -1,103 +1,237 @@
 {
-  "token": "1077ca02-10ae-11e8-86a7-8f03a08e579f",
-  "ocid": "ocds-t1s2t3-MD-1518520042144",
-  "id": "1077ca00-10ae-11e8-86a7-8f03a08e579f",
-  "date": "2018-02-13T11:07:22.144Z",
-  "planning": {
-    "budget": {
-      "id": "1077ca01-10ae-11e8-86a7-8f03a08e579f",
-      "period": {
-        "startDate": "2018-02-27T00:00:00Z",
-        "endDate": "2018-02-27T00:00:00Z"
-      }
-    },
-    "rationale": "Обгрунтування закупівель надано у вільному тексті. Більш детальна інформація може бути надана у доданому документі."
-  },
-  "tender": {
-    "id": "ocds-t1s2t3-MD-1518520042144",
-    "title": "Препарати наркотичної, психотропної групи: МНН - тримеперидин, морфін гідрохлорид, діазепам, фентаніл, кетамін, феназепам, натрію оксибутират",
-    "description": "Під кількістю 8 штук слід розуміти 8 найменувань",
-    "status": "planning",
-    "classification": {
-      "scheme": "CPV",
-      "id": "33600000-6",
-      "description": "Фармацевтична продукція"
-    }
-  },
-  "parties": [
-    {
-      "name": "Військово – медичний клінічний центр Західного регіону",
-      "identifier": {
-        "scheme": "UA-EDR",
-        "id": "1",
-        "legalName": "ТОВ 'Військово – медичний клінічний центр Західного регіону'",
-        "uri": "https://www.google.com"
-      },
-      "additionalIdentifiers": [
-        {
-          "scheme": "UA-EDR",
-          "id": "2",
-          "legalName": "Додатковий лігал нейм",
-          "uri": "https://www.google.com/search"
-        }
-      ],
-      "address": {
-        "streetAddress": "79010, м. Львів вул. Личаківська, 26, Хірургічний корпус, каб. 104",
-        "locality": "Львів",
-        "region": "Львівська обл.",
-        "postalCode": "07770",
-        "countryName": "Україна"
-      },
-      "contactPoint": {
-        "name": "Магаль Оксана Іванівна",
-        "email": "test@test.test",
-        "telephone": "+380222222222",
-        "faxNumber": "+380222222222",
-        "url": "http://test.ua"
-      },
-      "roles": [
-        "buyer"
-      ],
-      "details": {
-        "typeOfBuyer": "BODY_PUBLIC",
-        "mainGeneralActivity": "DEFENCE",
-        "mainSectoralActivity": "AIRPORT_RELATED_ACTIVITIES",
-        "isACentralPurchasingBody": true,
-        "scale": "micro"
-      },
-      "buyerProfile": "http://linkToInfoAboutBuyer.ua"
-    }
+  "uri": "https://point.eprocurement.systems/ocds-t1s2t3-MD-1518696190430",
+  "version": "1.1",
+  "extensions": [
+    "https://raw.githubusercontent.com/open-contracting/ocds_bid_extension/v1.1.1/extension.json",
+    "https://raw.githubusercontent.com/open-contracting/ocds_enquiry_extension$/v1.1.1/extension.json"
   ],
-  "buyer": {
-    "name": "Новороздільська міська лікарня",
-    "id": "3",
-    "identifier": {
-      "scheme": "UA-EDR",
-      "id": "20764314",
-      "legalName": "Новороздільська міська лікарня",
-      "uri": "http://buyerTestLink.ua"
-    },
-    "address": {
-      "streetAddress": "вул. Винниченка, 37",
-      "locality": "місто Новий Розділ",
-      "region": "Львівська область",
-      "postalCode": "7770777",
-      "countryName": "Україна"
-    },
-    "additionalIdentifiers": [
-      {
-        "scheme": "UA-EDR",
-        "id": "77764777",
-        "legalName": "Додатково Новороздільська міська лікарня",
-        "uri": "http://additionalBuyerTestLink.ua"
+  "publisher": {
+    "name": "publisher-name",
+    "scheme": "publisher-scheme",
+    "uid": "publisher-uid",
+    "uri": "publisher-uri"
+  },
+  "license": "http://opendefinition.org/licenses/",
+  "publicationPolicy": "http://opendefinition.org/licenses/",
+  "publishedDate": "2018-02-15T12:07:26.62Z",
+  "packages": [
+    "https://point.eprocurement.systems/ocds-t1s2t3-MD-1518696190430",
+    "https://point.eprocurement.systems/ocds-t1s2t3-MD-1518696190430-fs-1518696446484"
+  ],
+  "records": [
+    {
+      "ocid": "ocds-t1s2t3-MD-1518696190430",
+      "compiledRelease": {
+        "ocid": "ocds-t1s2t3-MD-1518696190430",
+        "id": "3113da10-1248-11e8-942b-9df97b97f918",
+        "date": "2018-02-15T12:03:10.513Z",
+        "tag": [
+          "compiled"
+        ],
+        "initiationType": "tender",
+        "language": "en",
+        "planning": {
+          "budget": {
+            "id": "31178390-1248-11e8-942b-9df97b97f918",
+            "period": {
+              "startDate": "2018-02-27T00:00:00Z",
+              "endDate": "2018-02-27T00:00:00Z"
+            },
+            "amount": {
+              "amount": 3000.55,
+              "currency": "UAH"
+            }
+          },
+          "rationale": "Обгрунтування закупівель надано у вільному тексті. Більш детальна інформація може бути надана у доданому документі."
+        },
+        "tender": {
+          "id": "ocds-t1s2t3-MD-1518696190430",
+          "title": "Препарати наркотичної, психотропної групи: МНН - тримеперидин, морфін гідрохлорид, діазепам, фентаніл, кетамін, феназепам, натрію оксибутират",
+          "description": "Під кількістю 8 штук слід розуміти 8 найменувань",
+          "status": "planning",
+          "classification": {
+            "scheme": "CPV",
+            "id": "33600000-6",
+            "description": "Фармацевтична продукція"
+          }
+        },
+        "parties": [
+          {
+            "name": "Військово – медичний клінічний центр Західного регіону",
+            "identifier": {
+              "scheme": "UA-EDR",
+              "id": "1",
+              "legalName": "ТОВ 'Військово – медичний клінічний центр Західного регіону'",
+              "uri": "https://www.google.com"
+            },
+            "additionalIdentifiers": [
+              {
+                "scheme": "UA-EDR",
+                "id": "2",
+                "legalName": "Додатковий лігал нейм",
+                "uri": "https://www.google.com/search"
+              }
+            ],
+            "address": {
+              "streetAddress": "79010, м. Львів вул. Личаківська, 26, Хірургічний корпус, каб. 104",
+              "locality": "Львів",
+              "region": "Львівська обл.",
+              "postalCode": "07770",
+              "countryName": "Україна"
+            },
+            "contactPoint": {
+              "name": "Магаль Оксана Іванівна",
+              "email": "test@test.test",
+              "telephone": "+380222222222",
+              "faxNumber": "+380222222222",
+              "url": "http://test.ua"
+            },
+            "roles": [
+              "buyer"
+            ],
+            "details": {
+              "typeOfBuyer": "BODY_PUBLIC",
+              "mainGeneralActivity": "DEFENCE",
+              "mainSectoralActivity": "AIRPORT_RELATED_ACTIVITIES",
+              "isACentralPurchasingBody": true,
+              "scale": "micro"
+            },
+            "buyerProfile": "http://linkToInfoAboutBuyer.ua"
+          }
+        ],
+        "buyer": {
+          "name": "Новороздільська міська лікарня",
+          "id": "3",
+          "identifier": {
+            "scheme": "UA-EDR",
+            "id": "20764314",
+            "legalName": "Новороздільська міська лікарня",
+            "uri": "http://buyerTestLink.ua"
+          },
+          "address": {
+            "streetAddress": "вул. Винниченка, 37",
+            "locality": "місто Новий Розділ",
+            "region": "Львівська область",
+            "postalCode": "7770777",
+            "countryName": "Україна"
+          },
+          "additionalIdentifiers": [
+            {
+              "scheme": "UA-EDR",
+              "id": "77764777",
+              "legalName": "Додатково Новороздільська міська лікарня",
+              "uri": "http://additionalBuyerTestLink.ua"
+            }
+          ],
+          "contactPoint": {
+            "name": "Осипових Сергій Олександрович",
+            "email": "test2@test.test",
+            "telephone": "+380222222222",
+            "faxNumber": "+380222222222",
+            "url": "test3@test.test"
+          }
+        },
+        "relatedProcesses": [
+          {
+            "id": "c9baadc0-1248-11e8-9a1e-b79fb705f23c",
+            "relationship": [
+              "x_financeSource"
+            ],
+            "title": "",
+            "scheme": "ocid",
+            "identifier": "ocds-t1s2t3-MD-1518696190430-fs-1518696446484",
+            "uri": ""
+          }
+        ]
       }
-    ],
-    "contactPoint": {
-      "name": "Осипових Сергій Олександрович",
-      "email": "test2@test.test",
-      "telephone": "+380222222222",
-      "faxNumber": "+380222222222",
-      "url": "test3@test.test"
+    },
+    {
+      "ocid": "ocds-t1s2t3-MD-1518696190430-fs-1518696446484",
+      "compiledRelease": {
+        "ocid": "ocds-t1s2t3-MD-1518696190430-fs-1518696446484",
+        "id": "c95f9570-1248-11e8-942b-9df97b97f918",
+        "date": "2018-02-15T12:07:26.023Z",
+        "tag": [
+          "compiled"
+        ],
+        "initiationType": "tender",
+        "language": "en",
+        "parties": [
+          {
+            "name": "Військово – медичний клінічний центр Західного регіону",
+            "identifier": {
+              "scheme": "UA-EDR",
+              "id": "1",
+              "legalName": "ТОВ 'Військово – медичний клінічний центр Західного регіону'",
+              "uri": "https://www.google.com"
+            },
+            "additionalIdentifiers": [
+              {
+                "scheme": "UA-EDR",
+                "id": "2",
+                "legalName": "Додатковий лігал нейм",
+                "uri": "https://www.google.com/search"
+              }
+            ],
+            "address": {
+              "streetAddress": "79010, м. Львів вул. Личаківська, 26, Хірургічний корпус, каб. 104",
+              "locality": "Львів",
+              "region": "Львівська обл.",
+              "postalCode": "07770",
+              "countryName": "Україна"
+            },
+            "contactPoint": {
+              "name": "Магаль Оксана Іванівна",
+              "email": "test@test.test",
+              "telephone": "+380222222222",
+              "faxNumber": "+380222222222",
+              "url": "http://test.ua"
+            },
+            "roles": [
+              "buyer"
+            ],
+            "details": {
+              "typeOfBuyer": "BODY_PUBLIC",
+              "mainGeneralActivity": "DEFENCE",
+              "mainSectoralActivity": "AIRPORT_RELATED_ACTIVITIES",
+              "isACentralPurchasingBody": true,
+              "scale": ""
+            },
+            "buyerProfile": "http://linkToInfoAboutBuyer.ua"
+          }
+        ],
+        "planning": {
+          "budget": {
+            "id": "c95eab10-1248-11e8-942b-9df97b97f918",
+            "description": "Test description",
+            "period": {
+              "startDate": "2018-01-22T00:00:00Z",
+              "endDate": "2018-02-27T00:00:00Z"
+            },
+            "amount": {
+              "amount": 3000.55,
+              "currency": "USD"
+            },
+            "project": "Test Project",
+            "projectID": "GHT66765",
+            "uri": "http://test.ua",
+            "isEuropeanUnionFunded": false
+          },
+          "rationale": "Обгрунтування закупівель надано у вільному тексті. Більш детальна інформація може бути надана у доданому документі."
+        },
+        "relatedProcesses": [
+          {
+            "id": "c9b41e10-1248-11e8-9a1e-b79fb705f23c",
+            "relationship": [
+              "parent"
+            ],
+            "title": "",
+            "scheme": "ocid",
+            "identifier": "ocds-t1s2t3-MD-1518696190430",
+            "uri": ""
+          }
+        ]
+      }
     }
-  }
+  ]
 }

@@ -49,6 +49,7 @@ public class BudgetUpdateEi implements JavaDelegate {
         final JsonNode responseData = processService.processResponse(
                 budgetRestClient.updateEi(
                         params.getCpid(),
+                        params.getOcid(),
                         params.getOwner(),
                         params.getToken(),
                         jsonData),
