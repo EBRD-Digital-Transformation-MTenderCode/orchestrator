@@ -15,7 +15,8 @@ import lombok.Setter;
         "operationId",
         "access",
         "ocid",
-        "cpid"
+        "cpid",
+        "message"
 })
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
 public class PlatformMessage {
@@ -51,7 +52,7 @@ public class PlatformMessage {
     @JsonCreator
     public PlatformMessage(@JsonProperty("success") final Boolean success,
                            @JsonProperty("operationId") final String operationId,
-                           @JsonProperty("cpid") final String message) {
+                           @JsonProperty("message") final String message) {
         this.success = success;
         this.operationId = operationId;
         this.message = message;
