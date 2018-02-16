@@ -39,7 +39,7 @@ public class PlatformMessage {
                            @JsonProperty("access") final String access,
                            @JsonProperty("ocid") final String ocid,
                            @JsonProperty("cpid") final String cpid,
-                           @JsonProperty("cpid") final String message) {
+                           @JsonProperty("message") final String message) {
         this.success = success;
         this.operationId = operationId;
         this.access = access;
