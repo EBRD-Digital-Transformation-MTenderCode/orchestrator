@@ -61,9 +61,10 @@ public class BudgetController extends BaseController {
         params.setRequestId(UUIDs.timeBased().toString());
         params.setOperationId(operationId);
         params.setCpid(cpid);
+        params.setStage("fs");
         params.setOperationType("createFS");
         params.setProcessType("fs");
-         params.setOwner(getOwner(authorization));
+        params.setOwner(getOwner(authorization));
         return startProcessResult(params, jsonData);
     }
 
