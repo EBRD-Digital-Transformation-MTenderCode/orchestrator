@@ -118,13 +118,13 @@ public class ProcessServiceImpl implements ProcessService {
         return null;
     }
 
-    public String getTenderPeriodEndDate(final JsonNode jsonData, final String processId, final String operationId) {
+    public String getTenderPeriodEndDate(final JsonNode jsonData, final String processId) {
         try {
             final JsonNode tenderNode = jsonData.get("tender");
             final JsonNode tenderPeriodNode = tenderNode.get("tenderPeriod");
             return tenderPeriodNode.get("endDate").asText();
         } catch (Exception e) {
-            processError(e.getMessage(), processId, operationId);
+            terminateProcess(processId, e.getMessage());
             return null;
         }
     }
@@ -191,6 +191,31 @@ public class ProcessServiceImpl implements ProcessService {
         try {
             ((ObjectNode) jsonData).put("lots", jsonUtil.toJson(lotsData.get("lots").asText()));
             return jsonData;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public JsonNode addAwardData(JsonNode jsonData, JsonNode awardData, String processId) {
+        try {
+            ObjectNode objectNode = (ObjectNode) jsonData;
+            objectNode.put("awardPeriod", jsonUtil.toJson(awardData.get("awardPeriod").asText()));
+            objectNode.put("awards", jsonUtil.toJson(awardData.get("awards").asText()));
+            objectNode.put("unsuccessfulLots", jsonUtil.toJson(awardData.get("unsuccessfulLots").asText()));
+            return jsonData;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    public String getUnsuccessfulLots(final JsonNode jsonData, final String processId) {
+        try {
+            final JsonNode tenderNode = jsonData.get("unsuccessfulLots");
+            final JsonNode tenderPeriodNode = tenderNode.get("tenderPeriod");
+            return tenderPeriodNode.get("endDate").asText();
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
             return null;

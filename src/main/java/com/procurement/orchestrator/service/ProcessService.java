@@ -35,7 +35,7 @@ public interface ProcessService {
 
     Boolean getBoolean(String fieldName, JsonNode responseData, String processId);
 
-    String getTenderPeriodEndDate(JsonNode jsonData, String processId, String operationId);
+    String getTenderPeriodEndDate(JsonNode jsonData, String processId);
 
     JsonNode addTenderPeriodStartDate(JsonNode jsonData, String startDate, String processId);
 
@@ -46,6 +46,8 @@ public interface ProcessService {
     JsonNode addTenderStatus(JsonNode jsonData, JsonNode statusData, String processId);
 
     JsonNode addLots(JsonNode jsonData, JsonNode statusData, String processId);
+
+    JsonNode addAwardData(JsonNode jsonData, JsonNode lotsData, String processId);
 
 }
 

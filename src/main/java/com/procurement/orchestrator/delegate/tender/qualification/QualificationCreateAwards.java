@@ -42,11 +42,10 @@ public class QualificationCreateAwards implements JavaDelegate {
     public void execute(final DelegateExecution execution) throws Exception {
         LOG.info(execution.getCurrentActivityName());
         final String processId = execution.getProcessInstanceId();
-        final OperationStepEntity bids = operationService.getOperationStep(processId, "SubmissionGetBidsTask");
-        final OperationStepEntity lots = operationService.getOperationStep(processId, "AccessGetLotsTask");
-        final Params params = jsonUtil.toObject(Params.class, lots.getJsonParams());
+        final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
+        final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
+        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
         final String operationId = params.getOperationId();
-        final JsonNode jsonData = prepareData(bids, lots, processId);
         final String taskId = execution.getCurrentActivityId();
         final JsonNode responseData = processService.processResponse(
                 qualificationRestClient.createAwards(
@@ -61,23 +60,24 @@ public class QualificationCreateAwards implements JavaDelegate {
                 operationId,
                 taskId);
         if (Objects.nonNull(responseData))
-            operationService.saveOperationStep(execution, bids, responseData);
+            operationService.saveOperationStep(execution, entity,
+                    processService.addAwardData(jsonData, responseData, processId));
     }
 
-    private JsonNode prepareData(OperationStepEntity bids,
-                                 OperationStepEntity lots,
-                                 final String processId) {
-
-        try {
-            final JsonNode jsonData = jsonUtil.toJsonNode(bids.getJsonData());
-            final JsonNode lotsJsonData = jsonUtil.toJsonNode(lots.getJsonData());
-            ((ObjectNode) jsonData).put("lots", lotsJsonData.get("lots").asText());
-            return jsonData;
-        } catch (Exception e) {
-            processService.terminateProcess(processId, e.getMessage());
-            return null;
-        }
-    }
+//    private JsonNode prepareData(OperationStepEntity bids,
+//                                 OperationStepEntity lots,
+//                                 final String processId) {
+//
+//        try {
+//            final JsonNode jsonData = jsonUtil.toJsonNode(bids.getJsonData());
+//            final JsonNode lotsJsonData = jsonUtil.toJsonNode(lots.getJsonData());
+//            ((ObjectNode) jsonData).put("lots", lotsJsonData.get("lots").asText());
+//            return jsonData;
+//        } catch (Exception e) {
+//            processService.terminateProcess(processId, e.getMessage());
+//            return null;
+//        }
+//    }
 
 }
 

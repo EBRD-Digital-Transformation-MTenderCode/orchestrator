@@ -44,9 +44,8 @@ public class SaveDateStage implements JavaDelegate {
         final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
         final String processId = execution.getProcessInstanceId();
-        final String operationId = params.getOperationId();
         params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
-        params.setEndDate(processService.getTenderPeriodEndDate(jsonData, processId, operationId));
+        params.setEndDate(processService.getTenderPeriodEndDate(jsonData, processId));
         params.setStage("ps");
         operationService.saveOperationStep(
                 execution,
