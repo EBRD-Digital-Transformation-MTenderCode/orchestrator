@@ -18,8 +18,7 @@ public interface BudgetRestClient {
 
     @RequestMapping(path = "/ei", method = RequestMethod.PUT)
     ResponseEntity<ResponseDto> updateEi(@RequestParam("cpId") final String cpId,
-                                         @RequestParam("ocId") final String ocId,
-                                          @RequestParam("owner") final String owner,
+                                         @RequestParam("owner") final String owner,
                                           @RequestParam("token") final String token,
                                           @RequestBody final JsonNode jsonData) throws Exception;
 
@@ -30,6 +29,7 @@ public interface BudgetRestClient {
 
     @RequestMapping(path = "/fs", method = RequestMethod.PUT)
     ResponseEntity<ResponseDto> updateFs(@RequestParam("cpId") final String cpId,
+                                         @RequestParam("ocId") final String ocId,
                                          @RequestParam("token") final String token,
                                          @RequestParam("owner") final String owner,
                                          @RequestBody final JsonNode jsonData) throws Exception;
