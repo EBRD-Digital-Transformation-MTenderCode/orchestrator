@@ -27,10 +27,10 @@ public class PlatformMessage {
     private String operationId;
     @JsonProperty("access")
     private String access;
-    @JsonProperty("ocid")
-    private String ocid;
     @JsonProperty("cpid")
     private String cpid;
+    @JsonProperty("ocid")
+    private String ocid;
     @JsonProperty("message")
     private String message;
 
@@ -38,14 +38,14 @@ public class PlatformMessage {
     public PlatformMessage(@JsonProperty("success") final Boolean success,
                            @JsonProperty("operationId") final String operationId,
                            @JsonProperty("access") final String access,
-                           @JsonProperty("ocid") final String ocid,
                            @JsonProperty("cpid") final String cpid,
+                           @JsonProperty("ocid") final String ocid,
                            @JsonProperty("message") final String message) {
         this.success = success;
         this.operationId = operationId;
         this.access = access;
-        this.ocid = ocid;
         this.cpid = cpid;
+        this.ocid = ocid;
         this.message = message;
     }
 
