@@ -67,36 +67,4 @@
       "buyerProfile": "http://linkToInfoAboutBuyer.ua"
     }
   ],
-  "buyer": {
-    "name": "Новороздільська міська лікарня",
-    "id": "3",
-    "identifier": {
-      "scheme": "UA-EDR",
-      "id": "20764314",
-      "legalName": "Новороздільська міська лікарня",
-      "uri": "http://buyerTestLink.ua"
-    },
-    "address": {
-      "streetAddress": "вул. Винниченка, 37",
-      "locality": "місто Новий Розділ",
-      "region": "Львівська область",
-      "postalCode": "7770777",
-      "countryName": "Україна"
-    },
-    "additionalIdentifiers": [
-      {
-        "scheme": "UA-EDR",
-        "id": "77764777",
-        "legalName": "Додатково Новороздільська міська лікарня",
-        "uri": "http://additionalBuyerTestLink.ua"
-      }
-    ],
-    "contactPoint": {
-      "name": "Осипових Сергій Олександрович",
-      "email": "test2@test.test",
-      "telephone": "+380222222222",
-      "faxNumber": "+380222222222",
-      "url": "test3@test.test"
-    }
-  }
 }

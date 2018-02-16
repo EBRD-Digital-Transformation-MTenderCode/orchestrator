@@ -34,16 +34,16 @@ public class BudgetController extends BaseController {
         return startProcessResult(params, jsonData);
     }
 
-    @RequestMapping(value = "/ei/{ocid}", method = RequestMethod.POST)
+    @RequestMapping(value = "/ei/{cpid}", method = RequestMethod.POST)
     public ResponseEntity<String> updateEIN(@RequestHeader("Authorization") final String authorization,
                                             @RequestHeader("X-OPERATION-ID") final String operationId,
                                             @RequestHeader("X-TOKEN") final String token,
-                                            @PathVariable("ocid") final String ocid,
+                                            @PathVariable("cpid") final String cpid,
                                             @RequestBody final JsonNode jsonData) {
         final Params params = new Params();
         params.setRequestId(UUIDs.timeBased().toString());
         params.setOperationId(operationId);
-        params.setCpid(ocid);
+        params.setCpid(cpid);
         params.setStage("ei");
         params.setProcessType("ei");
         params.setOperationType("updateEI");
@@ -52,28 +52,27 @@ public class BudgetController extends BaseController {
         return startProcessResult(params, jsonData);
     }
 
-    @RequestMapping(value = "/fs", method = RequestMethod.POST)
+    @RequestMapping(value = "/fs/{cpid}", method = RequestMethod.POST)
     public ResponseEntity<String> createFS(@RequestHeader("Authorization") final String authorization,
                                            @RequestHeader("X-OPERATION-ID") final String operationId,
-                                           @RequestParam(value = "cpid") final String cpid,
+                                           @PathVariable(value = "cpid") final String cpid,
                                            @RequestBody final JsonNode jsonData) {
         final Params params = new Params();
         params.setRequestId(UUIDs.timeBased().toString());
         params.setOperationId(operationId);
         params.setCpid(cpid);
-        params.setStage("fs");
-        params.setProcessType("fs");
         params.setOperationType("createFS");
-        params.setOwner(getOwner(authorization));
+        params.setProcessType("fs");
+         params.setOwner(getOwner(authorization));
         return startProcessResult(params, jsonData);
     }
 
-    @RequestMapping(value = "/fs/{ocid}", method = RequestMethod.POST)
+    @RequestMapping(value = "/fs/{cpid}/{ocid}", method = RequestMethod.POST)
     public ResponseEntity<String> updateFS(@RequestHeader("Authorization") final String authorization,
                                            @RequestHeader("X-OPERATION-ID") final String operationId,
                                            @RequestHeader("X-TOKEN") final String token,
+                                           @PathVariable("cpid") final String cpid,
                                            @PathVariable("ocid") final String ocid,
-                                           @RequestParam("cpid") final String cpid,
                                            @RequestBody final JsonNode jsonData) {
         final Params params = new Params();
         params.setRequestId(UUIDs.timeBased().toString());
