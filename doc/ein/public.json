@@ -1,5 +1,5 @@
 {
-  "uri": "https://point.eprocurement.systems/ocds-t1s2t3-MD-1518696190430",
+  "uri": "https://point.eprocurement.systems/ocds-t1s2t3-MD-1518810697901",
   "version": "1.1",
   "extensions": [
     "https://raw.githubusercontent.com/open-contracting/ocds_bid_extension/v1.1.1/extension.json",
@@ -13,18 +13,18 @@
   },
   "license": "http://opendefinition.org/licenses/",
   "publicationPolicy": "http://opendefinition.org/licenses/",
-  "publishedDate": "2018-02-15T12:07:26.62Z",
+  "publishedDate": "2018-02-16T19:52:22.27Z",
   "packages": [
-    "https://point.eprocurement.systems/ocds-t1s2t3-MD-1518696190430",
-    "https://point.eprocurement.systems/ocds-t1s2t3-MD-1518696190430-fs-1518696446484"
+    "https://point.eprocurement.systems/ocds-t1s2t3-MD-1518810697901",
+    "https://point.eprocurement.systems/ocds-t1s2t3-MD-1518810697901-fs-1518810742167"
   ],
   "records": [
     {
-      "ocid": "ocds-t1s2t3-MD-1518696190430",
+      "ocid": "ocds-t1s2t3-MD-1518810697901",
       "compiledRelease": {
-        "ocid": "ocds-t1s2t3-MD-1518696190430",
-        "id": "3113da10-1248-11e8-942b-9df97b97f918",
-        "date": "2018-02-15T12:03:10.513Z",
+        "ocid": "ocds-t1s2t3-MD-1518810697901",
+        "id": "ocds-t1s2t3-MD-1518810697901-1518810742270",
+        "date": "2018-02-16T19:52:22.27Z",
         "tag": [
           "compiled"
         ],
@@ -32,7 +32,7 @@
         "language": "en",
         "planning": {
           "budget": {
-            "id": "31178390-1248-11e8-942b-9df97b97f918",
+            "id": "33600000-6",
             "period": {
               "startDate": "2018-02-27T00:00:00Z",
               "endDate": "2018-02-27T00:00:00Z"
@@ -45,7 +45,7 @@
           "rationale": "Обгрунтування закупівель надано у вільному тексті. Більш детальна інформація може бути надана у доданому документі."
         },
         "tender": {
-          "id": "ocds-t1s2t3-MD-1518696190430",
+          "id": "ocds-t1s2t3-MD-1518810697901",
           "title": "Препарати наркотичної, психотропної групи: МНН - тримеперидин, морфін гідрохлорид, діазепам, фентаніл, кетамін, феназепам, натрію оксибутират",
           "description": "Під кількістю 8 штук слід розуміти 8 найменувань",
           "status": "planning",
@@ -58,6 +58,7 @@
         "parties": [
           {
             "name": "Військово – медичний клінічний центр Західного регіону",
+            "id": "UA-EDR-1",
             "identifier": {
               "scheme": "UA-EDR",
               "id": "1",
@@ -100,57 +101,57 @@
           }
         ],
         "buyer": {
-          "name": "Новороздільська міська лікарня",
-          "id": "3",
+          "name": "Військово – медичний клінічний центр Західного регіону",
+          "id": "UA-EDR-1",
           "identifier": {
             "scheme": "UA-EDR",
-            "id": "20764314",
-            "legalName": "Новороздільська міська лікарня",
-            "uri": "http://buyerTestLink.ua"
+            "id": "1",
+            "legalName": "ТОВ 'Військово – медичний клінічний центр Західного регіону'",
+            "uri": "https://www.google.com"
           },
           "address": {
-            "streetAddress": "вул. Винниченка, 37",
-            "locality": "місто Новий Розділ",
-            "region": "Львівська область",
-            "postalCode": "7770777",
+            "streetAddress": "79010, м. Львів вул. Личаківська, 26, Хірургічний корпус, каб. 104",
+            "locality": "Львів",
+            "region": "Львівська обл.",
+            "postalCode": "07770",
             "countryName": "Україна"
           },
           "additionalIdentifiers": [
             {
               "scheme": "UA-EDR",
-              "id": "77764777",
-              "legalName": "Додатково Новороздільська міська лікарня",
-              "uri": "http://additionalBuyerTestLink.ua"
+              "id": "2",
+              "legalName": "Додатковий лігал нейм",
+              "uri": "https://www.google.com/search"
             }
           ],
           "contactPoint": {
-            "name": "Осипових Сергій Олександрович",
-            "email": "test2@test.test",
+            "name": "Магаль Оксана Іванівна",
+            "email": "test@test.test",
             "telephone": "+380222222222",
             "faxNumber": "+380222222222",
-            "url": "test3@test.test"
+            "url": "http://test.ua"
           }
         },
         "relatedProcesses": [
           {
-            "id": "c9baadc0-1248-11e8-9a1e-b79fb705f23c",
+            "id": "e73ed1e0-1352-11e8-a507-33030be1f8f1",
             "relationship": [
               "x_financeSource"
             ],
             "title": "",
             "scheme": "ocid",
-            "identifier": "ocds-t1s2t3-MD-1518696190430-fs-1518696446484",
+            "identifier": "ocds-t1s2t3-MD-1518810697901-fs-1518810742167",
             "uri": ""
           }
         ]
       }
     },
     {
-      "ocid": "ocds-t1s2t3-MD-1518696190430-fs-1518696446484",
+      "ocid": "ocds-t1s2t3-MD-1518810697901-fs-1518810742167",
       "compiledRelease": {
-        "ocid": "ocds-t1s2t3-MD-1518696190430-fs-1518696446484",
-        "id": "c95f9570-1248-11e8-942b-9df97b97f918",
-        "date": "2018-02-15T12:07:26.023Z",
+        "ocid": "ocds-t1s2t3-MD-1518810697901-fs-1518810742167",
+        "id": "ocds-t1s2t3-MD-1518810697901-fs-1518810742167-1518810742219",
+        "date": "2018-02-16T19:52:22.167Z",
         "tag": [
           "compiled"
         ],
@@ -202,7 +203,7 @@
         ],
         "planning": {
           "budget": {
-            "id": "c95eab10-1248-11e8-942b-9df97b97f918",
+            "id": "4fb9fbf0-1010-11e8-86a7-8f03a08e579f",
             "description": "Test description",
             "period": {
               "startDate": "2018-01-22T00:00:00Z",
@@ -221,13 +222,13 @@
         },
         "relatedProcesses": [
           {
-            "id": "c9b41e10-1248-11e8-9a1e-b79fb705f23c",
+            "id": "e73b0150-1352-11e8-a507-33030be1f8f1",
             "relationship": [
               "parent"
             ],
             "title": "",
             "scheme": "ocid",
-            "identifier": "ocds-t1s2t3-MD-1518696190430",
+            "identifier": "ocds-t1s2t3-MD-1518810697901",
             "uri": ""
           }
         ]
