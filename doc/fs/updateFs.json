@@ -1,0 +1,92 @@
+{
+  "ocid": "ocds-t1s2t3-MD-1519055759761-fs-1519056638488",
+  "id": "ocds-t1s2t3-MD-1519055759761-fs-1519056638488-1519056638536",
+  "date": "2018-02-19T16:10:38.488Z",
+  "tag": [
+    "compiled"
+  ],
+  "initiationType": "tender",
+  "language": "en",
+  "tender": {
+    "id": "ocds-t1s2t3-MD-1519055759761",
+    "status": "planning"
+  },
+  "parties": [
+    {
+      "name": "Velychnyi Svynarnyk",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "123412341234",
+        "legalName": "Velychnyi Svynarnyk",
+        "uri": "http://vs.com"
+      },
+      "additionalIdentifiers": [
+        {
+          "scheme": "UA-EDR",
+          "id": "789789789",
+          "legalName": "JBL",
+          "uri": "http://jbl.com"
+        }
+      ],
+      "address": {
+        "streetAddress": "149-159 High Street",
+        "locality": "Birmingham",
+        "region": "Digbeth",
+        "postalCode": "B12 0JU",
+        "countryName": "United Kingdom"
+      },
+      "contactPoint": {
+        "name": "Victoria",
+        "email": "tesla@test.test",
+        "telephone": "+380222222222",
+        "faxNumber": "+380222222222",
+        "url": "https://www.tesla.com"
+      },
+      "roles": [
+        "funder"
+      ],
+      "details": {
+        "typeOfBuyer": "BODY_PUBLIC",
+        "mainGeneralActivity": "DEFENCE",
+        "mainSectoralActivity": "AIRPORT_RELATED_ACTIVITIES",
+        "isACentralPurchasingBody": true,
+        "scale": "micro"
+      },
+      "buyerProfile": "http://linkToInfoAboutBuyer.ua"
+    }
+  ],
+  "planning": {
+    "budget": {
+      "id": "IBAN-777",
+      "description": "A short free text description of the budget source. May be used to provide the title of the budget line, or the programme used to fund this project",
+      "period": {
+        "startDate": "2018-07-07T00:00:00Z",
+        "endDate": "2019-07-07T00:00:00Z"
+      },
+      "amount": {
+        "amount": 5.0,
+        "currency": "MDL"
+      },
+      "europeanUnionFunding": {
+        "projectIdentifier": "PROJ-ID-1234-5678-0987",
+        "projectName": "Name or other national identification of the project providing full or partial funding",
+        "uri": "https://test.funding.org"
+      },
+      "isEuropeanUnionFunded": true,
+      "verified": false
+    },
+    "rationale": "The rationale for the procurement provided in free text. More detail can be provided in an attached document"
+  },
+  "relatedProcesses": [
+    {
+      "id": "6cd75c80-158f-11e8-b5c4-ad12239e14c6",
+      "relationship": [
+        "parent"
+      ],
+      "title": "",
+      "scheme": "ocid",
+      "identifier": "ocds-t1s2t3-MD-1519055759761",
+      "uri": ""
+    }
+  ]
+}

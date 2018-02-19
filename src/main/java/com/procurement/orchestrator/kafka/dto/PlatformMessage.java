@@ -13,7 +13,7 @@ import lombok.Setter;
 @JsonPropertyOrder({
         "success",
         "operationId",
-        "access",
+        "token",
         "ocid",
         "cpid",
         "message"
@@ -25,8 +25,8 @@ public class PlatformMessage {
     private Boolean success;
     @JsonProperty("operationId")
     private String operationId;
-    @JsonProperty("access")
-    private String access;
+    @JsonProperty("token")
+    private String token;
     @JsonProperty("cpid")
     private String cpid;
     @JsonProperty("ocid")
@@ -37,13 +37,13 @@ public class PlatformMessage {
     @JsonCreator
     public PlatformMessage(@JsonProperty("success") final Boolean success,
                            @JsonProperty("operationId") final String operationId,
-                           @JsonProperty("access") final String access,
+                           @JsonProperty("token") final String token,
                            @JsonProperty("cpid") final String cpid,
                            @JsonProperty("ocid") final String ocid,
                            @JsonProperty("message") final String message) {
         this.success = success;
         this.operationId = operationId;
-        this.access = access;
+        this.token = token;
         this.cpid = cpid;
         this.ocid = ocid;
         this.message = message;

@@ -44,7 +44,7 @@ public class AccessCreateCn implements JavaDelegate {
         final String operationId = params.getOperationId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode responseData = processService.processResponse(
-                accessRestClient.createCn(params.getOwner(), jsonData),
+                accessRestClient.createCn(params.getOwner(), params.getStartDate(), jsonData),
                 processId,
                 operationId,
                 taskId);
