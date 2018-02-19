@@ -1,238 +1,113 @@
 {
-  "uri": "https://point.eprocurement.systems/ocds-t1s2t3-MD-1518810697901",
-  "version": "1.1",
-  "extensions": [
-    "https://raw.githubusercontent.com/open-contracting/ocds_bid_extension/v1.1.1/extension.json",
-    "https://raw.githubusercontent.com/open-contracting/ocds_enquiry_extension$/v1.1.1/extension.json"
+  "ocid": "ocds-t1s2t3-MD-1519051730403",
+  "id": "ocds-t1s2t3-MD-1519051730403-1519051731357",
+  "date": "2018-02-19T14:48:50.403Z",
+  "tag": [
+    "compiled"
   ],
-  "publisher": {
-    "name": "publisher-name",
-    "scheme": "publisher-scheme",
-    "uid": "publisher-uid",
-    "uri": "publisher-uri"
-  },
-  "license": "http://opendefinition.org/licenses/",
-  "publicationPolicy": "http://opendefinition.org/licenses/",
-  "publishedDate": "2018-02-16T19:52:22.27Z",
-  "packages": [
-    "https://point.eprocurement.systems/ocds-t1s2t3-MD-1518810697901",
-    "https://point.eprocurement.systems/ocds-t1s2t3-MD-1518810697901-fs-1518810742167"
-  ],
-  "records": [
-    {
-      "ocid": "ocds-t1s2t3-MD-1518810697901",
-      "compiledRelease": {
-        "ocid": "ocds-t1s2t3-MD-1518810697901",
-        "id": "ocds-t1s2t3-MD-1518810697901-1518810742270",
-        "date": "2018-02-16T19:52:22.27Z",
-        "tag": [
-          "compiled"
-        ],
-        "initiationType": "tender",
-        "language": "en",
-        "planning": {
-          "budget": {
-            "id": "33600000-6",
-            "period": {
-              "startDate": "2018-02-27T00:00:00Z",
-              "endDate": "2018-02-27T00:00:00Z"
-            },
-            "amount": {
-              "amount": 3000.55,
-              "currency": "UAH"
-            }
-          },
-          "rationale": "Обгрунтування закупівель надано у вільному тексті. Більш детальна інформація може бути надана у доданому документі."
-        },
-        "tender": {
-          "id": "ocds-t1s2t3-MD-1518810697901",
-          "title": "Препарати наркотичної, психотропної групи: МНН - тримеперидин, морфін гідрохлорид, діазепам, фентаніл, кетамін, феназепам, натрію оксибутират",
-          "description": "Під кількістю 8 штук слід розуміти 8 найменувань",
-          "status": "planning",
-          "classification": {
-            "scheme": "CPV",
-            "id": "33600000-6",
-            "description": "Фармацевтична продукція"
-          }
-        },
-        "parties": [
-          {
-            "name": "Військово – медичний клінічний центр Західного регіону",
-            "id": "UA-EDR-1",
-            "identifier": {
-              "scheme": "UA-EDR",
-              "id": "1",
-              "legalName": "ТОВ 'Військово – медичний клінічний центр Західного регіону'",
-              "uri": "https://www.google.com"
-            },
-            "additionalIdentifiers": [
-              {
-                "scheme": "UA-EDR",
-                "id": "2",
-                "legalName": "Додатковий лігал нейм",
-                "uri": "https://www.google.com/search"
-              }
-            ],
-            "address": {
-              "streetAddress": "79010, м. Львів вул. Личаківська, 26, Хірургічний корпус, каб. 104",
-              "locality": "Львів",
-              "region": "Львівська обл.",
-              "postalCode": "07770",
-              "countryName": "Україна"
-            },
-            "contactPoint": {
-              "name": "Магаль Оксана Іванівна",
-              "email": "test@test.test",
-              "telephone": "+380222222222",
-              "faxNumber": "+380222222222",
-              "url": "http://test.ua"
-            },
-            "roles": [
-              "buyer"
-            ],
-            "details": {
-              "typeOfBuyer": "BODY_PUBLIC",
-              "mainGeneralActivity": "DEFENCE",
-              "mainSectoralActivity": "AIRPORT_RELATED_ACTIVITIES",
-              "isACentralPurchasingBody": true,
-              "scale": "micro"
-            },
-            "buyerProfile": "http://linkToInfoAboutBuyer.ua"
-          }
-        ],
-        "buyer": {
-          "name": "Військово – медичний клінічний центр Західного регіону",
-          "id": "UA-EDR-1",
-          "identifier": {
-            "scheme": "UA-EDR",
-            "id": "1",
-            "legalName": "ТОВ 'Військово – медичний клінічний центр Західного регіону'",
-            "uri": "https://www.google.com"
-          },
-          "address": {
-            "streetAddress": "79010, м. Львів вул. Личаківська, 26, Хірургічний корпус, каб. 104",
-            "locality": "Львів",
-            "region": "Львівська обл.",
-            "postalCode": "07770",
-            "countryName": "Україна"
-          },
-          "additionalIdentifiers": [
-            {
-              "scheme": "UA-EDR",
-              "id": "2",
-              "legalName": "Додатковий лігал нейм",
-              "uri": "https://www.google.com/search"
-            }
-          ],
-          "contactPoint": {
-            "name": "Магаль Оксана Іванівна",
-            "email": "test@test.test",
-            "telephone": "+380222222222",
-            "faxNumber": "+380222222222",
-            "url": "http://test.ua"
-          }
-        },
-        "relatedProcesses": [
-          {
-            "id": "e73ed1e0-1352-11e8-a507-33030be1f8f1",
-            "relationship": [
-              "x_financeSource"
-            ],
-            "title": "",
-            "scheme": "ocid",
-            "identifier": "ocds-t1s2t3-MD-1518810697901-fs-1518810742167",
-            "uri": ""
-          }
-        ]
+  "initiationType": "tender",
+  "language": "en",
+  "planning": {
+    "budget": {
+      "id": "33600000-6",
+      "period": {
+        "startDate": "2018-02-27T00:00:00Z",
+        "endDate": "2018-02-27T00:00:00Z"
+      },
+      "amount": {
+        "amount": 0.0,
+        "currency": "UAH"
       }
     },
-    {
-      "ocid": "ocds-t1s2t3-MD-1518810697901-fs-1518810742167",
-      "compiledRelease": {
-        "ocid": "ocds-t1s2t3-MD-1518810697901-fs-1518810742167",
-        "id": "ocds-t1s2t3-MD-1518810697901-fs-1518810742167-1518810742219",
-        "date": "2018-02-16T19:52:22.167Z",
-        "tag": [
-          "compiled"
-        ],
-        "initiationType": "tender",
-        "language": "en",
-        "parties": [
-          {
-            "name": "Військово – медичний клінічний центр Західного регіону",
-            "identifier": {
-              "scheme": "UA-EDR",
-              "id": "1",
-              "legalName": "ТОВ 'Військово – медичний клінічний центр Західного регіону'",
-              "uri": "https://www.google.com"
-            },
-            "additionalIdentifiers": [
-              {
-                "scheme": "UA-EDR",
-                "id": "2",
-                "legalName": "Додатковий лігал нейм",
-                "uri": "https://www.google.com/search"
-              }
-            ],
-            "address": {
-              "streetAddress": "79010, м. Львів вул. Личаківська, 26, Хірургічний корпус, каб. 104",
-              "locality": "Львів",
-              "region": "Львівська обл.",
-              "postalCode": "07770",
-              "countryName": "Україна"
-            },
-            "contactPoint": {
-              "name": "Магаль Оксана Іванівна",
-              "email": "test@test.test",
-              "telephone": "+380222222222",
-              "faxNumber": "+380222222222",
-              "url": "http://test.ua"
-            },
-            "roles": [
-              "buyer"
-            ],
-            "details": {
-              "typeOfBuyer": "BODY_PUBLIC",
-              "mainGeneralActivity": "DEFENCE",
-              "mainSectoralActivity": "AIRPORT_RELATED_ACTIVITIES",
-              "isACentralPurchasingBody": true,
-              "scale": ""
-            },
-            "buyerProfile": "http://linkToInfoAboutBuyer.ua"
-          }
-        ],
-        "planning": {
-          "budget": {
-            "id": "4fb9fbf0-1010-11e8-86a7-8f03a08e579f",
-            "description": "Test description",
-            "period": {
-              "startDate": "2018-01-22T00:00:00Z",
-              "endDate": "2018-02-27T00:00:00Z"
-            },
-            "amount": {
-              "amount": 3000.55,
-              "currency": "USD"
-            },
-            "project": "Test Project",
-            "projectID": "GHT66765",
-            "uri": "http://test.ua",
-            "isEuropeanUnionFunded": false
-          },
-          "rationale": "Обгрунтування закупівель надано у вільному тексті. Більш детальна інформація може бути надана у доданому документі."
-        },
-        "relatedProcesses": [
-          {
-            "id": "e73b0150-1352-11e8-a507-33030be1f8f1",
-            "relationship": [
-              "parent"
-            ],
-            "title": "",
-            "scheme": "ocid",
-            "identifier": "ocds-t1s2t3-MD-1518810697901",
-            "uri": ""
-          }
-        ]
-      }
+    "rationale": "Обгрунтування закупівель надано у вільному тексті. Більш детальна інформація може бути надана у доданому документі."
+  },
+  "tender": {
+    "id": "ocds-t1s2t3-MD-1519051730403",
+    "title": "Препарати наркотичної, психотропної групи: МНН - тримеперидин, морфін гідрохлорид, діазепам, фентаніл, кетамін, феназепам, натрію оксибутират",
+    "description": "Під кількістю 8 штук слід розуміти 8 найменувань",
+    "status": "planning",
+    "classification": {
+      "scheme": "CPV",
+      "id": "33600000-6",
+      "description": "Фармацевтична продукція"
     }
-  ]
+  },
+  "parties": [
+    {
+      "name": "Військово – медичний клінічний центр Західного регіону",
+      "id": "UA-EDR-1",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "1",
+        "legalName": "ТОВ 'Військово – медичний клінічний центр Західного регіону'",
+        "uri": "https://www.google.com"
+      },
+      "additionalIdentifiers": [
+        {
+          "scheme": "UA-EDR",
+          "id": "2",
+          "legalName": "Додатковий лігал нейм",
+          "uri": "https://www.google.com/search"
+        }
+      ],
+      "address": {
+        "streetAddress": "79010, м. Львів вул. Личаківська, 26, Хірургічний корпус, каб. 104",
+        "locality": "Львів",
+        "region": "Львівська обл.",
+        "postalCode": "07770",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Магаль Оксана Іванівна",
+        "email": "test@test.test",
+        "telephone": "+380222222222",
+        "faxNumber": "+380222222222",
+        "url": "http://test.ua"
+      },
+      "roles": [
+        "buyer"
+      ],
+      "details": {
+        "typeOfBuyer": "BODY_PUBLIC",
+        "mainGeneralActivity": "DEFENCE",
+        "mainSectoralActivity": "AIRPORT_RELATED_ACTIVITIES",
+        "isACentralPurchasingBody": true,
+        "scale": "micro"
+      },
+      "buyerProfile": "http://linkToInfoAboutBuyer.ua"
+    }
+  ],
+  "buyer": {
+    "name": "Військово – медичний клінічний центр Західного регіону",
+    "id": "UA-EDR-1",
+    "identifier": {
+      "scheme": "UA-EDR",
+      "id": "1",
+      "legalName": "ТОВ 'Військово – медичний клінічний центр Західного регіону'",
+      "uri": "https://www.google.com"
+    },
+    "address": {
+      "streetAddress": "79010, м. Львів вул. Личаківська, 26, Хірургічний корпус, каб. 104",
+      "locality": "Львів",
+      "region": "Львівська обл.",
+      "postalCode": "07770",
+      "countryName": "Україна"
+    },
+    "additionalIdentifiers": [
+      {
+        "scheme": "UA-EDR",
+        "id": "2",
+        "legalName": "Додатковий лігал нейм",
+        "uri": "https://www.google.com/search"
+      }
+    ],
+    "contactPoint": {
+      "name": "Магаль Оксана Іванівна",
+      "email": "test@test.test",
+      "telephone": "+380222222222",
+      "faxNumber": "+380222222222",
+      "url": "http://test.ua"
+    }
+  },
+  "relatedProcesses": []
 }
