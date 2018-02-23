@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.procurement.orchestrator.cassandra.model.Params;
 import com.procurement.orchestrator.databinding.LocalDateTimeDeserializer;
 import com.procurement.orchestrator.databinding.LocalDateTimeSerializer;
 import java.time.LocalDateTime;
@@ -33,14 +34,14 @@ public class ChronographTask {
     private LocalDateTime launchTime;
 
     @JsonProperty("metaData")
-    private String metaData;
+    private Params metaData;
 
     @JsonCreator
     public ChronographTask(@JsonProperty("action") final ActionType action,
                            @JsonProperty("ocid") final String ocid,
                            @JsonProperty("phase") final String phase,
                            @JsonProperty("launchTime") final LocalDateTime launchTime,
-                           @JsonProperty("metaData") final String metaData) {
+                           @JsonProperty("metaData") final Params metaData) {
         this.action = action;
         this.ocid = ocid;
         this.phase = phase;
@@ -89,24 +90,6 @@ public class ChronographTask {
         @JsonValue
         public String value() {
             return this.value;
-        }
-    }
-
-    @Getter
-    @Setter
-    public static class TaskMetaData {
-
-        @JsonProperty("processType")
-        private String processType;
-
-        @JsonProperty("operationId")
-        private String operationId;
-
-        @JsonCreator
-        public TaskMetaData(@JsonProperty("processType") final String processType,
-                            @JsonProperty("operationId") final String operationId) {
-            this.processType = processType;
-            this.operationId = operationId;
         }
     }
 }

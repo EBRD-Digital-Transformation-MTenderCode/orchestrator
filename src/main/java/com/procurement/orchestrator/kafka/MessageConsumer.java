@@ -1,18 +1,20 @@
 package com.procurement.orchestrator.kafka;
 
+import com.datastax.driver.core.utils.UUIDs;
+import com.procurement.orchestrator.cassandra.model.Params;
+import com.procurement.orchestrator.cassandra.service.RequestService;
 import com.procurement.orchestrator.kafka.dto.ChronographTask;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.HashMap;
 import java.util.Map;
-import org.camunda.bpm.engine.RuntimeService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Service;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Service
 public class MessageConsumer {
@@ -20,14 +22,14 @@ public class MessageConsumer {
     private static final Logger LOG = LoggerFactory.getLogger(MessageConsumer.class);
 
     private final ProcessService processService;
-    private final RuntimeService runtimeService;
+    private final RequestService requestService;
     private final JsonUtil jsonUtil;
 
     public MessageConsumer(final ProcessService processService,
-                           final RuntimeService runtimeService,
+                           final RequestService requestService,
                            final JsonUtil jsonUtil) {
         this.processService = processService;
-        this.runtimeService = runtimeService;
+        this.requestService = requestService;
         this.jsonUtil = jsonUtil;
     }
 
@@ -36,12 +38,17 @@ public class MessageConsumer {
         acknowledgment.acknowledge();
         try {
             LOG.info("Get task: " + message);
-            ChronographTask task = jsonUtil.toObject(ChronographTask.class, message);
-            ChronographTask.TaskMetaData metaData = jsonUtil.toObject(ChronographTask.TaskMetaData.class,
-                    task.getMetaData());
+            final ChronographTask task = jsonUtil.toObject(ChronographTask.class, message);
+            final Params params = task.getMetaData();
+            final String operationId = task.getOcid() + task.getPhase();
+            requestService.saveRequest(
+                    UUIDs.timeBased().toString(),
+                    operationId,
+                    params,
+                    jsonUtil.toJsonNode(task));
             Map<String, Object> variables = new HashMap<>();
             variables.put("checkEnquiries", 0);
-            processService.startProcess("tenderPeriodEnd", metaData.getOperationId(), variables);
+            processService.startProcess("tenderPeriodEnd", operationId, variables);
         } catch (Exception e) {
         }
     }

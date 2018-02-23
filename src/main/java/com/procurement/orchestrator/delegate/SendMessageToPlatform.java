@@ -2,12 +2,10 @@ package com.procurement.orchestrator.delegate;
 
 import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
 import com.procurement.orchestrator.cassandra.service.OperationService;
-import com.procurement.orchestrator.domain.Params;
+import com.procurement.orchestrator.cassandra.model.Params;
 import com.procurement.orchestrator.kafka.MessageProducer;
 import com.procurement.orchestrator.kafka.dto.PlatformMessage;
 import com.procurement.orchestrator.utils.JsonUtil;
-import java.util.HashMap;
-import java.util.Map;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;

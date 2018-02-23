@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.cassandra.dao.CassandraDao;
 import com.procurement.orchestrator.cassandra.dao.CassandraDaoImpl;
 import com.procurement.orchestrator.cassandra.model.RequestEntity;
-import com.procurement.orchestrator.domain.Params;
+import com.procurement.orchestrator.cassandra.model.Params;
 import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.Optional;

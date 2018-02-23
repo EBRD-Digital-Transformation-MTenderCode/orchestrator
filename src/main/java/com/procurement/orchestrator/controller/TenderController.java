@@ -4,13 +4,11 @@ import com.datastax.driver.core.utils.UUIDs;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.cassandra.service.RequestService;
-import com.procurement.orchestrator.domain.Params;
+import com.procurement.orchestrator.cassandra.model.Params;
 import com.procurement.orchestrator.kafka.MessageProducer;
 import com.procurement.orchestrator.kafka.dto.PlatformMessage;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
-import java.util.HashMap;
-import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -159,6 +157,16 @@ public class TenderController extends BaseController {
                 null);
         messageProducer.sendToPlatform(message);
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
+    }
+
+    @RequestMapping(value = "/tenderPeriodEnd", method = RequestMethod.POST)
+    public ResponseEntity<String> endOfPSPQStage() {
+        final Params params = new Params();
+        params.setRequestId(UUIDs.timeBased().toString());
+        params.setStage("ps");
+        params.setProcessType("tenderPeriodEnd");
+        params.setOperationType("tenderPeriodEnd");
+        return startProcessResult(params, null);
     }
 }
 

@@ -1,4 +1,4 @@
-package com.procurement.orchestrator.domain;
+package com.procurement.orchestrator.cassandra.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

@@ -1,0 +1,15 @@
+{
+  "operationId": "62",
+  "requestId": "210d87a0-18a7-11e8-8d78-d9db5728288d",
+  "cpid": "ocds-t1s2t3-MD-1519396672866",
+  "ocid": null,
+  "stage": "ps",
+  "processType": "createCN",
+  "operationType": "createCN",
+  "owner": "445f6851-c908-407d-9b45-14b92f3e964b",
+  "country": "test",
+  "pmd": "test",
+  "token": "212889b2-18a7-11e8-8652-a5520d03f959",
+  "startDate": "2018-02-23T14:37:52.866Z",
+  "endDate": "2018-02-23T14:45:00Z"
+}

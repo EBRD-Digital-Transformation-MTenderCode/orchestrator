@@ -3,8 +3,7 @@ package com.procurement.orchestrator.cassandra.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
 import com.procurement.orchestrator.cassandra.model.RequestEntity;
-import com.procurement.orchestrator.domain.Params;
-import java.util.Optional;
+import com.procurement.orchestrator.cassandra.model.Params;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.springframework.stereotype.Service;
 
