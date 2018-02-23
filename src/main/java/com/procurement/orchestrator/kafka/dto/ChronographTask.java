@@ -54,9 +54,9 @@ public class ChronographTask {
 
     public enum ActionType {
 
-        SCHEDULE("schedule"),
-        CANCEL("cancel"),
-        REPLACE("replace");
+        SCHEDULE("SCHEDULE"),
+        CANCEL("CANCEL"),
+        REPLACE("REPLACE");
 
         private static final Map<String, ActionType> CONSTANTS = new HashMap<>();
 

@@ -1,325 +1,283 @@
 {
   "planning": {
-    "rationale": "string",
+    "rationale": "The rationale for the procurement provided in free text. More detail can be provided in an attached document.",
     "budget": {
-      "id": "string",
-      "description": "string",
+      "description": "A short free text description of the budget source. May be used to provide the title of the budget line, or the programme used to fund this project.",
       "amount": {
-        "amount": 0,
-        "currency": "AED"
-      },
-      "europeanUnionFunding": {
-        "projectIdentifier": "string",
-        "projectName": "string",
-        "uri": "string"
+        "amount": 1000,
+        "currency": "MDL"
       },
       "isEuropeanUnionFunded": true,
+      "europeanUnionFunding": {
+        "projectIdentifier": "proj-cn-12346",
+        "projectName": "test proj name",
+        "uri": "https://jwt.io"
+      },
       "budgetBreakdown": [
         {
-          "id": "string",
-          "description": "string",
+          "id": "ocds-t1s2t3-MD-1519384522491-fs-1519384549287",
+          "description": "A short free text description of this budget entry.",
           "amount": {
-            "amount": 0,
-            "currency": "AED"
+            "amount": 500,
+            "currency": "MDL"
           },
           "period": {
-            "startDate": "2018-01-09T15:55:12.823Z",
-            "endDate": "2018-07-09T15:55:12.823Z"
-          },
-          "sourceParty": {
-            "name": "string",
-            "id": "string"
+            "startDate": "2018-02-27T00:00:00Z",
+            "endDate": "2018-09-27T00:00:00Z"
           }
         }
       ]
     }
   },
   "tender": {
-    "title": "string",
-    "description": "string",
-    "status": "planning",
+    "title": "Tender title",
+    "description": "Tender description",
     "classification": {
       "scheme": "CPV",
-      "description": "string",
-      "id": "string"
+      "description": "33600000-6",
+      "id": "Фармацевтична продукція"
     },
     "acceleratedProcedure": {
-      "isAcceleratedProcedure": true
+      "isAcceleratedProcedure": false
     },
     "designContest": {
-      "serviceContractAward": true
+      "serviceContractAward": false
     },
     "electronicWorkflows": {
-      "useOrdering": true,
-      "usePayment": true,
-      "acceptInvoicing": true
+      "useOrdering": false,
+      "usePayment": false,
+      "acceptInvoicing": false
     },
     "jointProcurement": {
-      "isJointProcurement": true
+      "isJointProcurement": false
     },
     "procedureOutsourcing": {
-      "procedureOutsourced": true
+      "procedureOutsourced": false
     },
     "framework": {
-      "isAFramework": true
+      "isAFramework": false
     },
     "dynamicPurchasingSystem": {
-      "hasDynamicPurchasingSystem": true
+      "hasDynamicPurchasingSystem": false
     },
-    "legalBasis": "DIRECTIVE_2014_23_EU",
+    "legalBasis": "DIRECTIVE_2014_24_EU",
     "procurementMethod": "open",
-    "procurementMethodDetails": "string",
-    "procurementMethodRationale": "string",
-    "procurementMethodAdditionalInfo": "string",
+    "procurementMethodDetails": "Open Procurement",
+    "procurementMethodRationale": "Rationale of procurement method, especially in the case of Limited tendering.",
+    "procurementMethodAdditionalInfo": "Additional information about the procurement method.",
     "mainProcurementCategory": "goods",
     "additionalProcurementCategories": [
       "goods"
     ],
-    "eligibilityCriteria": "string",
+    "eligibilityCriteria": "A description of any eligibility criteria for potential suppliers.",
     "submissionLanguages": [
-      "bg"
+      "pl",
+      "ro"
     ],
     "tenderPeriod": {
-      "endDate": "2018-12-30T15:55:12.831Z"
+      "endDate": "2018-02-23T13:59:00Z"
     },
     "contractPeriod": {
-      "startDate": "2018-01-09T15:55:12.831Z",
-      "endDate": "2018-07-09T15:55:12.831Z",
-      "durationInDays": 0
+      "startDate": "2018-09-27T00:00:00Z",
+      "endDate": "2018-11-27T00:00:00Z"
     },
     "value": {
-      "amount": 0,
-      "currency": "AED"
+      "amount": 1000,
+      "currency": "MDL"
     },
     "lotGroups": [
       {
-        "optionToCombine": true
+        "optionToCombine": false
       }
     ],
     "lots": [
       {
-        "id": "123",
-        "title": "string",
-        "description": "string",
+        "id": "lot-id-123123",
+        "title": "A title for this lot.",
+        "description": "A description of this lot.",
         "value": {
-          "amount": 0,
-          "currency": "AED"
+          "amount": 1000,
+          "currency": "MDL"
         },
         "options": [
           {
-            "hasOptions": true
-          }
-        ],
-        "recurrentProcurement": [
-          {
-            "isRecurrent": true
-          }
-        ],
-        "renewals": [
-          {
-            "hasRenewals": true
+            "hasOptions": false
           }
         ],
         "variants": [
           {
-            "hasVariants": true
+            "hasVariants": false
+          }
+        ],
+        "renewals": [
+          {
+            "hasRenewals": false
+          }
+        ],
+        "recurrentProcurement": [
+          {
+            "isRecurrent": false
           }
         ],
         "contractPeriod": {
-          "startDate": "2018-01-09T15:55:12.837Z",
-          "endDate": "2018-01-09T15:55:12.837Z"
+          "startDate": "2018-09-27T00:00:00Z",
+          "endDate": "2018-11-27T00:00:00Z"
         },
         "placeOfPerformance": {
           "address": {
-            "streetAddress": "string",
-            "locality": "string",
-            "region": "string",
-            "postalCode": "string",
-            "countryName": "string"
+            "streetAddress": "149-159 High Street",
+            "locality": "Birmingham",
+            "region": "Digbeth",
+            "postalCode": "B12 0JU",
+            "countryName": "United Kingdom"
           },
-          "description": "string"
+          "description": "Further description of the place of performance of the contract. Required by EU."
         }
       }
     ],
     "items": [
       {
-        "id": "string",
-        "description": "string",
+        "id": "item-id-123123",
         "classification": {
           "scheme": "CPV",
-          "description": "string",
-          "id": "string"
+          "description": "Фармацевтична продукція",
+          "id": "33600000-6"
         },
         "additionalClassifications": [
           {
-            "scheme": "CPV",
-            "description": "string",
-            "id": "string"
+            "scheme": "CPVS",
+            "description": "A textual description or title for the code.",
+            "id": "CPVs-id-12341234"
           }
         ],
-        "quantity": 0,
+        "quantity": 10,
         "unit": {
-          "id": "string",
-          "name": "string"
+          "id": "0971",
+          "name": "kg"
         },
-        "relatedLot": "123"
+        "description": "A description of the goods, services to be provided.",
+        "relatedLot": "lot-id-123123"
       }
     ],
     "awardCriteria": "priceOnly",
-    "requiresElectronicCatalogue": true,
+    "requiresElectronicCatalogue": false,
     "submissionMethod": [
       "electronicSubmission"
     ],
     "submissionMethodRationale": [
-      "TOOLS_DEVICES_FILE_FORMATS_UNAVAILABLE"
+      "TOOLS_DEVICES_FILE_FORMATS_UNAVAILABLE",
+      "IPR_ISSUES"
     ],
-    "submissionMethodDetails": "string",
+    "submissionMethodDetails": "Any detailed or further information on the submission method. This may include the address, e-mail address or online service to which bids should be submitted, and any special requirements to be followed for submissions.",
     "procuringEntity": {
-      "name": "string",
-      "id": "string",
+      "name": "Новороздільська міська лікарня",
+      "id": "UA-EDR-20764777",
       "identifier": {
-        "scheme": "string",
-        "id": "string",
-        "legalName": "string",
-        "uri": "string"
-      },
-      "address": {
-        "streetAddress": "string",
-        "locality": "string",
-        "region": "string",
-        "postalCode": "string",
-        "countryName": "string"
+        "scheme": "UA-EDR",
+        "id": "20764777",
+        "legalName": "Новороздільська міська лікарня",
+        "uri": "http://buyerTestLink.ua"
       },
       "additionalIdentifiers": [
         {
-          "scheme": "string",
-          "id": "string",
-          "legalName": "string",
-          "uri": "string"
+          "scheme": "UA-EDR",
+          "id": "123123123",
+          "legalName": "Додатково Новороздільська міська лікарня",
+          "uri": "http://additionalBuyerTestLink.ua"
         }
       ],
+      "address": {
+        "streetAddress": "вул. Винниченка, 37",
+        "locality": "місто Новий Розділ",
+        "region": "Львівська область",
+        "postalCode": "7770777",
+        "countryName": "Україна"
+      },
       "contactPoint": {
-        "name": "string",
-        "email": "string",
-        "telephone": "string",
-        "faxNumber": "string",
-        "url": "string"
+        "name": "Осипових Сергій Олександрович",
+        "email": "test2@test.test",
+        "telephone": "+380222222222",
+        "faxNumber": "+380222222222",
+        "url": "http://test.ua"
       }
-    },
-    "documents": [
-      {
-        "id": "3f517c80-0d80-11e8-89fa-d30d316b62c0",
-        "documentType": "tenderNotice",
-        "dateModified": "2018-02-09T15:55:12.831Z",
-        "title": "string",
-        "description": "string",
-        "format": "string",
-        "language": "string"
-      }
-    ]
+    }
   },
   "parties": [
     {
-      "name": "string",
-      "id": "string",
+      "name": "Новороздільська міська лікарня",
+      "id": "UA-EDR-20764777",
       "identifier": {
-        "scheme": "string",
-        "id": "string",
-        "legalName": "string",
-        "uri": "string"
+        "scheme": "UA-EDR",
+        "id": "20764777",
+        "legalName": "Новороздільська міська лікарня",
+        "uri": "http://buyerTestLink.ua"
       },
       "additionalIdentifiers": [
         {
-          "scheme": "string",
-          "id": "string",
-          "legalName": "string",
-          "uri": "string"
+          "scheme": "UA-EDR",
+          "id": "123123123",
+          "legalName": "Додатково Новороздільська міська лікарня",
+          "uri": "http://additionalBuyerTestLink.ua"
         }
       ],
       "address": {
-        "streetAddress": "string",
-        "locality": "string",
-        "region": "string",
-        "postalCode": "string",
-        "countryName": "string"
+        "streetAddress": "вул. Винниченка, 37",
+        "locality": "місто Новий Розділ",
+        "region": "Львівська область",
+        "postalCode": "7770777",
+        "countryName": "Україна"
       },
       "contactPoint": {
-        "name": "string",
-        "email": "string",
-        "telephone": "string",
-        "faxNumber": "string",
-        "url": "string"
+        "name": "Осипових Сергій Олександрович",
+        "email": "test2@test.test",
+        "telephone": "+380222222222",
+        "faxNumber": "+380222222222",
+        "url": "http://test.ua"
       },
       "roles": [
-        "buyer"
+        "buyer",
+        "procuringEntity"
       ],
       "details": {
         "typeOfBuyer": "BODY_PUBLIC",
         "mainGeneralActivity": "DEFENCE",
         "mainSectoralActivity": "AIRPORT_RELATED_ACTIVITIES",
-        "isACentralPurchasingBody": true,
-        "NUTSCode": "string",
+        "isACentralPurchasingBody": false,
         "scale": "micro"
       },
-      "buyerProfile": "string"
+      "buyerProfile": "http://linkToInfoAboutBuyer.ua"
     }
   ],
   "buyer": {
-    "name": "string",
-    "id": "string",
+    "name": "Новороздільська міська лікарня",
+    "id": "UA-EDR-20764777",
     "identifier": {
-      "scheme": "string",
-      "id": "string",
-      "legalName": "string",
-      "uri": "string"
+      "scheme": "UA-EDR",
+      "id": "20764777",
+      "legalName": "Новороздільська міська лікарня",
+      "uri": "http://buyerTestLink.ua"
     },
     "additionalIdentifiers": [
       {
-        "scheme": "string",
-        "id": "string",
-        "legalName": "string",
-        "uri": "string"
+        "scheme": "UA-EDR",
+        "id": "123123123",
+        "legalName": "Додатково Новороздільська міська лікарня",
+        "uri": "http://additionalBuyerTestLink.ua"
       }
     ],
     "address": {
-      "streetAddress": "string",
-      "locality": "string",
-      "region": "string",
-      "postalCode": "string",
-      "countryName": "string"
+      "streetAddress": "вул. Винниченка, 37",
+      "locality": "місто Новий Розділ",
+      "region": "Львівська область",
+      "postalCode": "7770777",
+      "countryName": "Україна"
     },
     "contactPoint": {
-      "name": "string",
-      "email": "string",
-      "telephone": "string",
-      "faxNumber": "string",
-      "url": "string"
-    },
-    "roles": [
-      "buyer"
-    ],
-    "details": {
-      "typeOfBuyer": "BODY_PUBLIC",
-      "mainGeneralActivity": "DEFENCE",
-      "mainSectoralActivity": "AIRPORT_RELATED_ACTIVITIES",
-      "isACentralPurchasingBody": true,
-      "NUTSCode": "string",
-      "scale": "micro"
-    },
-    "buyerProfile": "string"
-  },
-  "relatedProcesses": [
-    {
-      "id": "string",
-      "relationship": [
-        "framework"
-      ],
-      "title": "string",
-      "scheme": "ocid",
-      "identifier": "string",
-      "uri": "string"
+      "name": "Осипових Сергій Олександрович",
+      "email": "test2@test.test",
+      "telephone": "+380222222222",
+      "faxNumber": "+380222222222",
+      "url": "test3@test.test"
     }
-  ]
+  }
 }
-
-{"documents":[{"id":"3f517c80-0d80-11e8-89fa-d30d316b62c0"}]}

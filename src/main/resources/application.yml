@@ -15,14 +15,17 @@ spring:
 
 kafka:
   producer:
-    internal-bootstrap: AK-node1.eprocurement.systems:9092,AK-node2.eprocurement.systems:9092,AK-node3.eprocurement.systems:9092
+#    internal-bootstrap: AK-node1.eprocurement.systems:9092,AK-node2.eprocurement.systems:9092,AK-node3.eprocurement.systems:9092
+    internal-bootstrap: 10.0.10.107:9092,10.0.10.108:9092,10.0.10.109:9092
     external-bootstrap: feed.eprocurement.systems:9092
   consumer:
-    internal-bootstrap: AK-node1.eprocurement.systems:9092,AK-node2.eprocurement.systems:9092,AK-node3.eprocurement.systems:9092
+#    internal-bootstrap: AK-node1.eprocurement.systems:9092,AK-node2.eprocurement.systems:9092,AK-node3.eprocurement.systems:9092
+    internal-bootstrap: 10.0.10.107:9092,10.0.10.108:9092,10.0.10.109:9092
     group: orchestrator
 
 cassandra:
-  contact-points: ac-node1.eprocurement.systems,ac-node2.eprocurement.systems,ac-node3.eprocurement.systems
+#  contact-points: ac-node1.eprocurement.systems,ac-node2.eprocurement.systems,ac-node3.eprocurement.systems
+  contact-points: 10.0.10.104,10.0.10.105,10.0.10.106
   keyspace-name: ocds
   username: caclient
   password: brT4Kn27RQs
