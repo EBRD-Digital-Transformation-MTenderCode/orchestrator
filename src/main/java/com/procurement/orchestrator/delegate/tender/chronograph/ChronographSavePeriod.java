@@ -48,7 +48,7 @@ public class ChronographSavePeriod implements JavaDelegate {
         final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
         final String operationId = params.getOperationId();
         ChronographTask.TaskMetaData taskMetaData = new ChronographTask.TaskMetaData(
-                "tenderPeriodEnd",
+                params.getProcessType(),
                 operationId);
         ChronographTask task = new ChronographTask(
                 ChronographTask.ActionType.SCHEDULE,
