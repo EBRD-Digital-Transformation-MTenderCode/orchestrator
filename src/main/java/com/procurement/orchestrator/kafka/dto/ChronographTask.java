@@ -11,8 +11,11 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class ChronographTask {
 
     @JsonProperty("action")
@@ -89,7 +92,8 @@ public class ChronographTask {
         }
     }
 
-    @Data
+    @Getter
+    @Setter
     public static class TaskMetaData {
 
         @JsonProperty("processType")

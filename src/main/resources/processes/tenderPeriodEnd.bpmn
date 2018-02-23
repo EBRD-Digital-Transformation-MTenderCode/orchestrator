@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.10.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.11.2">
   <bpmn:process id="tenderPeriodEnd" name="tenderPeriodEnd" isExecutable="true">
     <bpmn:startEvent id="StartEvent_1">
       <bpmn:outgoing>SequenceFlow_1gx4xfj</bpmn:outgoing>
@@ -20,7 +20,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_0ggq87j" sourceRef="SubmissionGetBidsTask" targetRef="AccessGetLotsTask" />
     <bpmn:sequenceFlow id="SequenceFlow_165gqdr" sourceRef="ClarificationCheckEnquiriesTask" targetRef="ExclusiveGateway_0hg3tz9" />
     <bpmn:serviceTask id="ClarificationCheckEnquiriesTask" name="Clarification Check Enquiries" camunda:asyncBefore="true" camunda:delegateExpression="${clarificationCheckEnquiries}">
-      <bpmn:incoming>SequenceFlow_0ol4tdl</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_1gx4xfj</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_165gqdr</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="AccessGetLotsTask" name="Access Get Lots" camunda:asyncBefore="true" camunda:delegateExpression="${accessGetLots}">
@@ -46,7 +46,7 @@
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_0tb9vzy" sourceRef="AccessUpdateLotStatusTask" targetRef="StorageOpenDocsTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1n5w707" sourceRef="NoticeCreateReleaseTask" targetRef="SendMessageTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1gx4xfj" sourceRef="StartEvent_1" targetRef="ServiceTask_01s3e75" />
+    <bpmn:sequenceFlow id="SequenceFlow_1gx4xfj" sourceRef="StartEvent_1" targetRef="ClarificationCheckEnquiriesTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1hezswa" sourceRef="AccessGetLotsTask" targetRef="QualificationCreateAwardsTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0yvod6v" sourceRef="QualificationCreateAwardsTask" targetRef="SubmissionUpdateBidStatusTask" />
     <bpmn:exclusiveGateway id="ExclusiveGateway_0hg3tz9">
@@ -80,11 +80,6 @@
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${checkEnquiries==3}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_0uhabjt" sourceRef="chronographUpdatePeriodTask" targetRef="EndEvent_1" />
-    <bpmn:serviceTask id="ServiceTask_01s3e75" name="Save first operation" camunda:asyncBefore="true" camunda:delegateExpression="${saveFirstOperation}">
-      <bpmn:incoming>SequenceFlow_1gx4xfj</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_0ol4tdl</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_0ol4tdl" sourceRef="ServiceTask_01s3e75" targetRef="ClarificationCheckEnquiriesTask" />
     <bpmn:serviceTask id="AccessSetSuspendedTask" name="Access Set Status Details Suspended (true)" camunda:asyncBefore="true" camunda:delegateExpression="${accessSetSuspended}">
       <bpmn:extensionElements>
         <camunda:properties>
@@ -100,9 +95,9 @@
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="tenderPeriodEnd">
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
-        <dc:Bounds x="-17" y="167" width="36" height="36" />
+        <dc:Bounds x="135" y="167" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="-44" y="203" width="90" height="20" />
+          <dc:Bounds x="108" y="203" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="EndEvent_0wpvj65_di" bpmnElement="EndEvent_1">
@@ -178,10 +173,10 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1gx4xfj_di" bpmnElement="SequenceFlow_1gx4xfj">
-        <di:waypoint xsi:type="dc:Point" x="19" y="185" />
-        <di:waypoint xsi:type="dc:Point" x="80" y="186" />
+        <di:waypoint xsi:type="dc:Point" x="171" y="185" />
+        <di:waypoint xsi:type="dc:Point" x="229" y="184" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="4.5" y="164.5" width="90" height="12" />
+          <dc:Bounds x="155" y="163.5" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1hezswa_di" bpmnElement="SequenceFlow_1hezswa">
@@ -261,16 +256,6 @@
         <di:waypoint xsi:type="dc:Point" x="1782" y="167" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1358.5" y="52" width="0" height="12" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_01s3e75_di" bpmnElement="ServiceTask_01s3e75">
-        <dc:Bounds x="80" y="146" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="SequenceFlow_0ol4tdl_di" bpmnElement="SequenceFlow_0ol4tdl">
-        <di:waypoint xsi:type="dc:Point" x="180" y="186" />
-        <di:waypoint xsi:type="dc:Point" x="229" y="185" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="204.5" y="164.5" width="0" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ServiceTask_0sahqyo_di" bpmnElement="AccessSetSuspendedTask">

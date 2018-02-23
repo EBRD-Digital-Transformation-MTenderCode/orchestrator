@@ -21,17 +21,18 @@ public class KafkaProducerConfig {
     private static final String SASL_PASSWORD = "XgsZrPA.UF/8[.Kvy;ej&v\\qZa_NdM]c";
     private static final String SASL_JAAS = String.format(SASL_JAAS_TEMPLATE, SASL_USERNAME, SASL_PASSWORD);
     private final KafkaProducerProperties kafkaProperties;
+
     public KafkaProducerConfig(final KafkaProducerProperties kafkaProperties) {
         this.kafkaProperties = kafkaProperties;
     }
 
-//    private Map<String, Object> internalProducerConfigs() {
-//        Map<String, Object> internalProps = new HashMap<>();
-//        internalProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getInternalBootstrap());
-//        internalProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-//        internalProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-//        return internalProps;
-//    }
+    private Map<String, Object> internalProducerConfigs() {
+        Map<String, Object> internalProps = new HashMap<>();
+        internalProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getInternalBootstrap());
+        internalProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        internalProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        return internalProps;
+    }
 
     private Map<String, Object> externalProducerConfigs() {
         Map<String, Object> externalProps = new HashMap<>();
@@ -44,10 +45,10 @@ public class KafkaProducerConfig {
         return externalProps;
     }
 
-//    @Bean(name = "internalKafkaTemplate")
-//    public KafkaTemplate<String, String> internalKafkaTemplate() {
-//        return new KafkaTemplate<>(new DefaultKafkaProducerFactory<>(internalProducerConfigs()));
-//    }
+    @Bean(name = "internalKafkaTemplate")
+    public KafkaTemplate<String, String> internalKafkaTemplate() {
+        return new KafkaTemplate<>(new DefaultKafkaProducerFactory<>(internalProducerConfigs()));
+    }
 
     @Bean(name = "externalKafkaTemplate")
     public KafkaTemplate<String, String> externalKafkaTemplate() {
