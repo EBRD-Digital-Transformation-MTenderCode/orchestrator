@@ -2,8 +2,8 @@ package com.procurement.orchestrator.delegate.tender.clarification;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
-import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.cassandra.model.Params;
+import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.rest.ClarificationRestClient;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -51,14 +51,16 @@ public class ClarificationCheckEnquiries implements JavaDelegate {
             final Boolean allAnswered = getAllAnswered(responseData, processId);
             if (allAnswered != null) {
                 execution.setVariable("checkEnquiries", (allAnswered ? 1 : 2));
+                params.setOperationType("tenderPeriodEnd");
             } else {
                 final String endDate = getTenderPeriodEndDate(responseData, processId);
                 execution.setVariable("checkEnquiries", 3);
                 if (endDate != null) {
                     params.setEndDate(endDate);
+                    params.setOperationType("updateTenderStatusDetails");
                 }
             }
-            operationService.saveOperationStep(execution, entity, responseData);
+            operationService.saveOperationStep(execution, entity, params, responseData);
         }
     }
 

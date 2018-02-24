@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.10.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.11.2">
   <bpmn:process id="createCN" name="createCN" isExecutable="true">
     <bpmn:startEvent id="StartEvent_1">
       <bpmn:outgoing>SequenceFlow_1gx4xfj</bpmn:outgoing>
@@ -25,8 +25,8 @@
       <bpmn:incoming>SequenceFlow_1hezswa</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0yvod6v</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_0djgl78" sourceRef="ChronographSavePeriodTask" targetRef="ClarificationSavePeriodTask" />
-    <bpmn:serviceTask id="ChronographSavePeriodTask" name="Chronograph save period" camunda:asyncBefore="true" camunda:delegateExpression="${chronographSavePeriod}">
+    <bpmn:sequenceFlow id="SequenceFlow_0djgl78" sourceRef="chronographEndTenderPeriodTask" targetRef="ClarificationSavePeriodTask" />
+    <bpmn:serviceTask id="chronographEndTenderPeriodTask" name="Chronograph&#10;schedule&#10;end tender period" camunda:asyncBefore="true" camunda:delegateExpression="${chronographEndTenderPeriod}">
       <bpmn:incoming>SequenceFlow_0yvod6v</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0djgl78</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -44,7 +44,7 @@
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1gx4xfj" sourceRef="StartEvent_1" targetRef="SaveFirstOperationTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1hezswa" sourceRef="AcessCreateCnTask" targetRef="SubmissionSavePeriodTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0yvod6v" sourceRef="SubmissionSavePeriodTask" targetRef="ChronographSavePeriodTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0yvod6v" sourceRef="SubmissionSavePeriodTask" targetRef="chronographEndTenderPeriodTask" />
     <bpmn:serviceTask id="SubmissionValidatePeriodTask" name="Submission Validate Period" camunda:asyncBefore="true" camunda:delegateExpression="${submissionValidatePeriod}">
       <bpmn:incoming>SequenceFlow_0nd4wmt</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0k2najp</bpmn:outgoing>
@@ -107,7 +107,7 @@
           <dc:Bounds x="945" y="164" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_072eguw_di" bpmnElement="ChronographSavePeriodTask">
+      <bpmndi:BPMNShape id="ServiceTask_072eguw_di" bpmnElement="chronographEndTenderPeriodTask">
         <dc:Bounds x="868" y="145" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_0tz60l8_di" bpmnElement="ClarificationSavePeriodTask">

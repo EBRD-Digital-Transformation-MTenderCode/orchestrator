@@ -65,8 +65,7 @@ public interface SubmissionRestClient {
     ResponseEntity<ResponseDto> getBids(@RequestParam("cpId") final String cpId,
                                         @RequestParam("stage") final String stage,
                                         @RequestParam("country") final String country,
-                                        @RequestParam("pmd") final String pmd,
-                                        @RequestParam("status") final String status) throws Exception;
+                                        @RequestParam("pmd") final String pmd) throws Exception;
 
     @RequestMapping(path = "/submission/updateStatus", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> updateStatus(@RequestParam("cpId") final String cpId,

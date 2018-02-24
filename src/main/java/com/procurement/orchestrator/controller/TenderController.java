@@ -161,12 +161,19 @@ public class TenderController extends BaseController {
 
     @RequestMapping(value = "/tenderPeriodEnd", method = RequestMethod.POST)
     public ResponseEntity<String> endOfPSPQStage() {
-        final Params params = new Params();
-        params.setRequestId(UUIDs.timeBased().toString());
-        params.setStage("ps");
-        params.setProcessType("tenderPeriodEnd");
-        params.setOperationType("tenderPeriodEnd");
-        return startProcessResult(params, null);
+        final Params paramsForEndTenderPeriod = new Params();
+        paramsForEndTenderPeriod.setProcessType("tenderPeriodEnd");
+        paramsForEndTenderPeriod.setCpid("ocds-t1s2t3-MD-1518626538126");
+        paramsForEndTenderPeriod.setStage("ps");
+        paramsForEndTenderPeriod.setOwner("445f6851-c908-407d-9b45-14b92f3e964b");
+        paramsForEndTenderPeriod.setCountry("test");
+        paramsForEndTenderPeriod.setPmd("test");
+        paramsForEndTenderPeriod.setStartDate("2018-02-27T00:00:00Z");
+        paramsForEndTenderPeriod.setEndDate("2018-03-27T00:00:00Z");
+
+        paramsForEndTenderPeriod.setRequestId(UUIDs.timeBased().toString());
+
+        return startProcessResult(paramsForEndTenderPeriod, null);
     }
 }
 

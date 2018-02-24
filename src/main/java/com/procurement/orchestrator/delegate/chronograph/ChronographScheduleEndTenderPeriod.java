@@ -16,9 +16,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ChronographSavePeriod implements JavaDelegate {
+public class ChronographScheduleEndTenderPeriod implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ChronographSavePeriod.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ChronographScheduleEndTenderPeriod.class);
 
     private final MessageProducer messageProducer;
 
@@ -30,11 +30,11 @@ public class ChronographSavePeriod implements JavaDelegate {
 
     private final DateUtil dateUtil;
 
-    public ChronographSavePeriod(final MessageProducer messageProducer,
-                                 final OperationService operationService,
-                                 final ProcessService processService,
-                                 final JsonUtil jsonUtil,
-                                 final DateUtil dateUtil) {
+    public ChronographScheduleEndTenderPeriod(final MessageProducer messageProducer,
+                                              final OperationService operationService,
+                                              final ProcessService processService,
+                                              final JsonUtil jsonUtil,
+                                              final DateUtil dateUtil) {
         this.messageProducer = messageProducer;
         this.operationService = operationService;
         this.processService = processService;
@@ -47,21 +47,22 @@ public class ChronographSavePeriod implements JavaDelegate {
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
         /**set params for next process*/
-        final Params ParamsForEndTenderPeriod = new Params();
-        ParamsForEndTenderPeriod.setCpid(params.getCpid());
-        ParamsForEndTenderPeriod.setStage(params.getStage());
-        ParamsForEndTenderPeriod.setOwner(params.getOwner());
-        ParamsForEndTenderPeriod.setCountry(params.getCountry());
-        ParamsForEndTenderPeriod.setPmd(params.getPmd());
-        ParamsForEndTenderPeriod.setStartDate(params.getStartDate());
-        ParamsForEndTenderPeriod.setEndDate(params.getEndDate());
+        final Params paramsForEndTenderPeriod = new Params();
+        paramsForEndTenderPeriod.setProcessType("tenderPeriodEnd");
+        paramsForEndTenderPeriod.setCpid(params.getCpid());
+        paramsForEndTenderPeriod.setStage(params.getStage());
+        paramsForEndTenderPeriod.setOwner(params.getOwner());
+        paramsForEndTenderPeriod.setCountry(params.getCountry());
+        paramsForEndTenderPeriod.setPmd(params.getPmd());
+        paramsForEndTenderPeriod.setStartDate(params.getStartDate());
+        paramsForEndTenderPeriod.setEndDate(params.getEndDate());
 
         ChronographTask task = new ChronographTask(
                 ChronographTask.ActionType.SCHEDULE,
                 params.getCpid(),
-                "tender",
+                "tenderPeriodEnd",
                 dateUtil.stringToLocal(params.getEndDate()),
-                params);
+                paramsForEndTenderPeriod);
         messageProducer.sendToChronograph(task);
     }
 }
