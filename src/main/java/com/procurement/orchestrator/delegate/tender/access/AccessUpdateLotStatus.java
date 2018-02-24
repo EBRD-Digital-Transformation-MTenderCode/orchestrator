@@ -2,8 +2,8 @@ package com.procurement.orchestrator.delegate.tender.access;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
-import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.cassandra.model.Params;
+import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.rest.AccessRestClient;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -42,15 +42,16 @@ public class AccessUpdateLotStatus implements JavaDelegate {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
-        final JsonNode lots = jsonUtil.toJsonNode(entity.getJsonData());
+        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
         final String processId = execution.getProcessInstanceId();
         final String operationId = params.getOperationId();
         final String taskId = execution.getCurrentActivityId();
+        final JsonNode unsuccessfulLots = processService.getUnsuccessfulLots(jsonData, processId);
         final JsonNode responseData = processService.processResponse(
                 accessRestClient.updateLotsStatus(
                         params.getCpid(),
                         "unsuccessful",
-                        lots),
+                        unsuccessfulLots),
                 processId,
                 operationId,
                 taskId);
@@ -58,7 +59,7 @@ public class AccessUpdateLotStatus implements JavaDelegate {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    responseData);
+                    processService.addUpdateLotsStatusData(jsonData, responseData, processId));
     }
 }
 

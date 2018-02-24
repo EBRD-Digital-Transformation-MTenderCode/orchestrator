@@ -1,7 +1,6 @@
 package com.procurement.orchestrator.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
 import com.procurement.orchestrator.domain.dto.ResponseDetailsDto;
 import com.procurement.orchestrator.domain.dto.ResponseDto;
 import java.util.List;
@@ -13,17 +12,12 @@ import org.springframework.stereotype.Service;
 @Service
 public interface ProcessService {
 
-
-    ProcessInstance startProcess(String processType, String operationId);
-
     ProcessInstance startProcess(String processType, String operationId, Map<String, Object> variables);
 
     JsonNode processResponse(ResponseEntity<ResponseDto> responseEntity,
                              String processId,
                              String operationId,
                              String taskId);
-
-    void processException(String error, String processId);
 
     void processError(List<ResponseDetailsDto> details, String processId, String operationId);
 
@@ -45,9 +39,14 @@ public interface ProcessService {
 
     JsonNode addTenderStatus(JsonNode jsonData, JsonNode statusData, String processId);
 
-    JsonNode addLots(JsonNode jsonData, JsonNode statusData, String processId);
+    JsonNode addLots(JsonNode jsonData, JsonNode lotsData, String processId);
 
-    JsonNode addAwardData(JsonNode jsonData, JsonNode lotsData, String processId);
+    JsonNode addAwardData(JsonNode jsonData, JsonNode awardData, String processId);
 
+    JsonNode getUnsuccessfulLots(JsonNode jsonData, String processId);
+
+    JsonNode addUpdateBidsStatusData(JsonNode jsonData, JsonNode bidsData, String processId);
+
+    JsonNode addUpdateLotsStatusData(JsonNode jsonData, JsonNode lotsData, String processId);
 }
 

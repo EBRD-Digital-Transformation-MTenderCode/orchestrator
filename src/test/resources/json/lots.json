@@ -1,0 +1,22 @@
+{
+  "lots": [
+    {
+      "id": "lot-id-123123",
+      "title": "A title for this lot.",
+      "description": "A description of this lot.",
+      "value": {
+        "amount": 1000,
+        "currency": "MDL"
+      }
+    },
+    {
+      "id": "lot-id-233123",
+      "title": "A title for this lot.",
+      "description": "A description of this lot.",
+      "value": {
+        "amount": 2000,
+        "currency": "MDL"
+      }
+    }
+  ]
+}

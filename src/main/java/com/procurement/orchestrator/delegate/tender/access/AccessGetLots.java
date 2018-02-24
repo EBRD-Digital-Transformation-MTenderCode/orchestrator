@@ -2,8 +2,8 @@ package com.procurement.orchestrator.delegate.tender.access;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
-import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.cassandra.model.Params;
+import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.rest.AccessRestClient;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -20,11 +20,8 @@ public class AccessGetLots implements JavaDelegate {
     private static final Logger LOG = LoggerFactory.getLogger(AccessGetLots.class);
 
     private final AccessRestClient accessRestClient;
-
     private final OperationService operationService;
-
     private final ProcessService processService;
-
     private final JsonUtil jsonUtil;
 
     public AccessGetLots(final AccessRestClient accessRestClient,
@@ -52,7 +49,9 @@ public class AccessGetLots implements JavaDelegate {
                 operationId,
                 taskId);
         if (Objects.nonNull(responseData))
-            operationService.saveOperationStep(execution, entity, params,
+            operationService.saveOperationStep(
+                    execution,
+                    entity,
                     processService.addLots(jsonData, responseData, processId));
     }
 }

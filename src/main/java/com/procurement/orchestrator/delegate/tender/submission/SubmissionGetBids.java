@@ -20,11 +20,8 @@ public class SubmissionGetBids implements JavaDelegate {
     private static final Logger LOG = LoggerFactory.getLogger(SubmissionGetBids.class);
 
     private final SubmissionRestClient submissionRestClient;
-
     private final OperationService operationService;
-
     private final ProcessService processService;
-
     private final JsonUtil jsonUtil;
 
     public SubmissionGetBids(final SubmissionRestClient submissionRestClient,

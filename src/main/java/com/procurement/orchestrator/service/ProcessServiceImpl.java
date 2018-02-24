@@ -41,17 +41,12 @@ public class ProcessServiceImpl implements ProcessService {
         this.jsonUtil = jsonUtil;
     }
 
-    @Override
-    public ProcessInstance startProcess(final String processType, final String operationId) {
-        return runtimeService.startProcessInstanceByKey(processType, operationId);
-    }
-
-    @Override
-    public ProcessInstance startProcess(String processType, String operationId, Map<String, Object> variables) {
+    public ProcessInstance startProcess(final String processType,
+                                        final String operationId,
+                                        final Map<String, Object> variables) {
         return runtimeService.startProcessInstanceByKey(processType, operationId, variables);
     }
 
-    @Override
     public JsonNode processResponse(final ResponseEntity<ResponseDto> responseEntity,
                                     final String processId,
                                     final String operationId,
@@ -65,18 +60,9 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    @Override
-    public void processException(final String error,
-                                 final String processId) {
-        try {
-            LOG.info("Exception in process Id: " + processId + "; message: " + error);
-            runtimeService.suspendProcessInstanceById(processId);
-        } catch (Exception ignored) {
-        }
-    }
-
-    @Override
-    public void processError(List<ResponseDetailsDto> details, String processId, String operationId) {
+    public void processError(final List<ResponseDetailsDto> details,
+                             final String processId,
+                             final String operationId) {
         final String errorMessage = Optional.ofNullable(details).map(d -> jsonUtil.toJson(details)).orElse("");
         final String message = "Error in process Id: " + processId + "; message: " + errorMessage;
         LOG.info(message);
@@ -84,22 +70,21 @@ public class ProcessServiceImpl implements ProcessService {
         terminateProcess(processId, message);
     }
 
-    @Override
-    public void processError(String error, String processId, String operationId) {
+    public void processError(final String error,
+                             final String processId,
+                             final String operationId) {
         final String message = "Error in process Id: " + processId + "; message: " + error;
         LOG.info(message);
         messageProducer.sendToPlatform(new PlatformMessage(false, operationId, message));
         terminateProcess(processId, message);
     }
 
-    @Override
-    public void terminateProcess(String processId, String message) {
+    public void terminateProcess(final String processId, final String message) {
         LOG.error(message);
         runtimeService.deleteProcessInstance(processId, message);
     }
 
-    @Override
-    public String getText(String fieldName, JsonNode responseData, String processId) {
+    public String getText(final String fieldName, final JsonNode responseData, final String processId) {
         try {
             return responseData.get(fieldName).asText();
         } catch (Exception e) {
@@ -108,8 +93,7 @@ public class ProcessServiceImpl implements ProcessService {
         return null;
     }
 
-    @Override
-    public Boolean getBoolean(String fieldName, JsonNode responseData, String processId) {
+    public Boolean getBoolean(final String fieldName, final JsonNode responseData, final String processId) {
         try {
             return responseData.get(fieldName).asBoolean();
         } catch (Exception e) {
@@ -120,65 +104,95 @@ public class ProcessServiceImpl implements ProcessService {
 
     public String getTenderPeriodEndDate(final JsonNode jsonData, final String processId) {
         try {
-            final JsonNode tenderNode = jsonData.get("tender");
-            final JsonNode tenderPeriodNode = tenderNode.get("tenderPeriod");
-            return tenderPeriodNode.get("endDate").asText();
+            return jsonData.get("tender").get("tenderPeriod").get("endDate").asText();
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
             return null;
         }
     }
 
-    @Override
     public JsonNode addTenderPeriodStartDate(final JsonNode jsonData, final String startDate, final String processId) {
         try {
-            final JsonNode tenderNode = jsonData.get("tender");
-            final JsonNode tenderPeriodNode = tenderNode.get("tenderPeriod");
-            ((ObjectNode) tenderPeriodNode).put("startDate", startDate);
-            return jsonData;
+            return ((ObjectNode) jsonData.get("tender").get("tenderPeriod")).put("startDate", startDate);
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
             return null;
         }
     }
 
-    @Override
     public JsonNode addTenderTenderPeriod(final JsonNode jsonData, final JsonNode periodData, final String processId) {
         try {
-            final JsonNode tenderNode = jsonData.get("tender");
-            ObjectNode periodNode = ((ObjectNode) tenderNode).putObject("tenderPeriod");
-            periodNode
+            return ((ObjectNode) jsonData.get("tender")).putObject("tenderPeriod")
                     .put("startDate", periodData.get("startDate").asText())
                     .put("endDate", periodData.get("endDate").asText());
-            return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
             return null;
         }
     }
 
-    @Override
     public JsonNode addTenderEnquiryPeriod(final JsonNode jsonData, final JsonNode periodData, final String processId) {
         try {
-            final JsonNode tenderNode = jsonData.get("tender");
-            ObjectNode enquiryPeriodNode = ((ObjectNode) tenderNode).putObject("enquiryPeriod");
-            enquiryPeriodNode
+            return ((ObjectNode) jsonData.get("tender")).putObject("enquiryPeriod")
                     .put("startDate", periodData.get("startDate").asText())
                     .put("endDate", periodData.get("endDate").asText());
-            return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
             return null;
         }
     }
 
-    @Override
     public JsonNode addTenderStatus(final JsonNode jsonData, final JsonNode statusData, final String processId) {
         try {
-            ObjectNode statusNode = ((ObjectNode) jsonData).putObject("tender");
-            statusNode
+            return ((ObjectNode) jsonData).putObject("tender")
                     .put("status", statusData.get("status").asText())
                     .put("statusDetails", statusData.get("statusDetails").asText());
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    public JsonNode addLots(final JsonNode jsonData, final JsonNode lotsData, final String processId) {
+        try {
+            return ((ObjectNode) jsonData).putObject("lots")
+                    .replace("lots", lotsData.get("lots"));
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    public JsonNode addAwardData(final JsonNode jsonData, final JsonNode awardData, final String processId) {
+        try {
+            final ObjectNode mainNode = (ObjectNode) jsonData;
+            mainNode.putObject("awardPeriod").replace("awardPeriod", awardData.get("awardPeriod"));
+            mainNode.putObject("awards").replace("awards", awardData.get("awards"));
+            mainNode.putObject("unsuccessfulLots").replace("unsuccessfulLots", awardData.get("unsuccessfulLots"));
+            return jsonData;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    public JsonNode getUnsuccessfulLots(final JsonNode jsonData, final String processId) {
+        try {
+            return jsonUtil.createObjectNode().putObject("unsuccessfulLots")
+                    .replace("unsuccessfulLots", jsonData.get("unsuccessfulLots"));
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+
+    public JsonNode addUpdateBidsStatusData(JsonNode jsonData, JsonNode bidsData, String processId) {
+        try {
+            final ObjectNode mainNode = (ObjectNode) jsonData;
+            mainNode.putObject("tenderPeriod").replace("tenderPeriod", bidsData.get("tenderPeriod"));
+            mainNode.putObject("tenderers").replace("tenderers", bidsData.get("tenderers"));
+            mainNode.putObject("updatedBids").replace("updatedBids", bidsData.get("bids"));
             return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
@@ -187,35 +201,10 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
-    public JsonNode addLots(JsonNode jsonData, JsonNode lotsData, String processId) {
+    public JsonNode addUpdateLotsStatusData(JsonNode jsonData, JsonNode lotsData, String processId) {
         try {
-            ((ObjectNode) jsonData).put("lots", jsonUtil.toJson(lotsData.get("lots").asText()));
-            return jsonData;
-        } catch (Exception e) {
-            terminateProcess(processId, e.getMessage());
-            return null;
-        }
-    }
-
-    @Override
-    public JsonNode addAwardData(JsonNode jsonData, JsonNode awardData, String processId) {
-        try {
-            ObjectNode objectNode = (ObjectNode) jsonData;
-            objectNode.put("awardPeriod", jsonUtil.toJson(awardData.get("awardPeriod").asText()));
-            objectNode.put("awards", jsonUtil.toJson(awardData.get("awards").asText()));
-            objectNode.put("unsuccessfulLots", jsonUtil.toJson(awardData.get("unsuccessfulLots").asText()));
-            return jsonData;
-        } catch (Exception e) {
-            terminateProcess(processId, e.getMessage());
-            return null;
-        }
-    }
-
-    public String getUnsuccessfulLots(final JsonNode jsonData, final String processId) {
-        try {
-            final JsonNode tenderNode = jsonData.get("unsuccessfulLots");
-            final JsonNode tenderPeriodNode = tenderNode.get("tenderPeriod");
-            return tenderPeriodNode.get("endDate").asText();
+            return ((ObjectNode) jsonData).putObject("updatedLots")
+                    .replace("updatedLots", lotsData.get("lots"));
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
             return null;

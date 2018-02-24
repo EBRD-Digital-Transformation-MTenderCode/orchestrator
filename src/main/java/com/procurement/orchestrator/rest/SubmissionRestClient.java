@@ -25,9 +25,7 @@ public interface SubmissionRestClient {
     ResponseEntity<ResponseDto> periodValidation(@RequestParam("country") final String country,
                                                  @RequestParam("pmd") final String pmd,
                                                  @RequestParam("startDate") final String startDate,
-                                                 @RequestParam("endDate")final String endDate) throws Exception;
-
-
+                                                 @RequestParam("endDate") final String endDate) throws Exception;
 
     @RequestMapping(path = "/period/save", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> savePeriod(@RequestParam("cpId") String cpId,

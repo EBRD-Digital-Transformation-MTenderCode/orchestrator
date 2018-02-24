@@ -2,8 +2,8 @@ package com.procurement.orchestrator.delegate.tender.qualification;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
-import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.cassandra.model.Params;
+import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.rest.QualificationRestClient;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -20,11 +20,8 @@ public class QualificationCreateAwards implements JavaDelegate {
     private static final Logger LOG = LoggerFactory.getLogger(QualificationCreateAwards.class);
 
     private final QualificationRestClient qualificationRestClient;
-
     private final OperationService operationService;
-
     private final ProcessService processService;
-
     private final JsonUtil jsonUtil;
 
     public QualificationCreateAwards(final QualificationRestClient qualificationRestClient,
@@ -58,26 +55,13 @@ public class QualificationCreateAwards implements JavaDelegate {
                 processId,
                 operationId,
                 taskId);
-        if (Objects.nonNull(responseData))
-            operationService.saveOperationStep(execution, entity,
+        if (Objects.nonNull(responseData)) {
+            operationService.saveOperationStep(
+                    execution,
+                    entity,
                     processService.addAwardData(jsonData, responseData, processId));
+        }
     }
-
-//    private JsonNode prepareData(OperationStepEntity bids,
-//                                 OperationStepEntity lots,
-//                                 final String processId) {
-//
-//        try {
-//            final JsonNode jsonData = jsonUtil.toJsonNode(bids.getJsonData());
-//            final JsonNode lotsJsonData = jsonUtil.toJsonNode(lots.getJsonData());
-//            ((ObjectNode) jsonData).put("lots", lotsJsonData.get("lots").asText());
-//            return jsonData;
-//        } catch (Exception e) {
-//            processService.terminateProcess(processId, e.getMessage());
-//            return null;
-//        }
-//    }
-
 }
 
 

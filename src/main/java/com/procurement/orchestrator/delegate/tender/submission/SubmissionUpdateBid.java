@@ -58,6 +58,6 @@ public class SubmissionUpdateBid implements JavaDelegate {
                 operationId,
                 taskId);
         if (Objects.nonNull(responseData))
-            operationService.saveOperationStep(execution, entity, params, responseData);
+            operationService.saveOperationStep(execution, entity, responseData);
     }
 }

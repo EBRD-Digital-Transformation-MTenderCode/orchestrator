@@ -4,6 +4,7 @@ root@AK-node1:~# bin/kafka-console-consumer.sh --bootstrap-server localhost:9092
 cd /home/kafka
 root@AK-node2:/home/kafka# bin/kafka-console-producer.sh --broker-list localhost:9092 --topic chronograph-in
 
+git ls-files | grep "\.java$" | xargs wc -l
 
 eyJhbGciOiJSUzI1NiIsInR5cFRva2VuIjoiQUNDRVNTIiwidHlwIjoiSldUIn0
 .eyJpZFBsYXRmb3JtIjoiNDQ1ZjY4NTEtYzkwOC00MDdkLTliNDUtMTRiOTJmM2U5NjRiIiwiZXhwIjoxNTE3OTk5MjE4fQ
