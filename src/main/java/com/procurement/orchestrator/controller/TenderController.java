@@ -162,16 +162,18 @@ public class TenderController extends BaseController {
     }
 
     @RequestMapping(value = "/tenderPeriodEnd", method = RequestMethod.POST)
-    public ResponseEntity<String> endOfPSPQStage() {
+    public ResponseEntity<String> endOfPSPQStage(@RequestHeader("Authorization") final String authorization,
+                                                 @RequestParam("cpid") final String cpid,
+                                                 @RequestParam("stage") final String stage,
+                                                 @RequestParam("country") final String country,
+                                                 @RequestParam("pmd") final String pmd) {
         final Params params = new Params();
         params.setProcessType("tenderPeriodEnd");
-        params.setCpid("ocds-t1s2t3-MD-1518626538126");
-        params.setStage("ps");
-        params.setOwner("dzo");
-        params.setCountry("test");
-        params.setPmd("test");
-        params.setStartDate("2018-02-27T00:00:00Z");
-        params.setEndDate("2018-03-27T00:00:00Z");
+        params.setCpid(cpid);
+        params.setStage(stage);
+        params.setOwner(getOwner(authorization));
+        params.setCountry(country);
+        params.setPmd(pmd);
         params.setRequestId(UUIDs.timeBased().toString());
         params.setOperationId(params.getRequestId());
         JsonUtil util = new JsonUtil(new ObjectMapper());
