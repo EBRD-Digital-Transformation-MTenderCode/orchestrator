@@ -101,11 +101,7 @@ public class TenderController extends BaseController {
         params.setOcid(ocid);
         params.setStage("ps");
         params.setProcessType("enquiry");
-        if (params.getToken() == null || "".equals(params.getToken().trim())) {
-            params.setOperationType("createEnquiry");
-        } else {
-            params.setOperationType("addAnswer");
-        }
+        params.setOperationType("createEnquiry");
         params.setCountry(country);
         params.setPmd(pmd);
         params.setToken(token);

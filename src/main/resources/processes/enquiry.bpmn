@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.10.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.11.2">
   <bpmn:process id="enquiry" name="enquiry" isExecutable="true">
     <bpmn:startEvent id="StartEvent_1">
       <bpmn:outgoing>SequenceFlow_1gx4xfj</bpmn:outgoing>
@@ -22,7 +22,7 @@
       <bpmn:incoming>SequenceFlow_1gx4xfj</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_165gqdr</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="AccessSetSuspendedTask" name="Access Set Status Details Suspended (false)" camunda:asyncBefore="true" camunda:delegateExpression="${accessSetSuspended}">
+    <bpmn:serviceTask id="AccessUnsuspendTenderTask" name="Access Unsuspend Tender" camunda:asyncBefore="true" camunda:delegateExpression="${accessUnsuspendTender}">
       <bpmn:incoming>SequenceFlow_0wbl6vo</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1hezswa</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -31,7 +31,7 @@
       <bpmn:outgoing>SequenceFlow_0yvod6v</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_0djgl78" sourceRef="ChronographUpdatePeriodTask" targetRef="ClarificationSavePeriodTask" />
-    <bpmn:serviceTask id="ChronographUpdatePeriodTask" name="Chronograph Update Period" camunda:asyncBefore="true" camunda:delegateExpression="${chronographUpdatePeriod}">
+    <bpmn:serviceTask id="ChronographUpdatePeriodTask" name="Chronograph Update Period" camunda:asyncBefore="true" camunda:delegateExpression="${ChronographRescheduleEndTenderPeriod}">
       <bpmn:incoming>SequenceFlow_0yvod6v</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0djgl78</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -46,7 +46,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_0tb9vzy" sourceRef="ClarificationSavePeriodTask" targetRef="ExclusiveGateway_07ftixw" />
     <bpmn:sequenceFlow id="SequenceFlow_1n5w707" sourceRef="NoticeCreateReleaseTask" targetRef="SendMessageTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1gx4xfj" sourceRef="StartEvent_1" targetRef="SaveFirstOperationTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1hezswa" sourceRef="AccessSetSuspendedTask" targetRef="SubmissionSaveNewPeriodTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1hezswa" sourceRef="AccessUnsuspendTenderTask" targetRef="SubmissionSaveNewPeriodTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0yvod6v" sourceRef="SubmissionSaveNewPeriodTask" targetRef="ChronographUpdatePeriodTask" />
     <bpmn:exclusiveGateway id="ExclusiveGateway_0hg3tz9">
       <bpmn:incoming>SequenceFlow_165gqdr</bpmn:incoming>
@@ -76,7 +76,7 @@
       <bpmn:outgoing>SequenceFlow_0wbl6vo</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlow_07garu8</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="SequenceFlow_0wbl6vo" sourceRef="ExclusiveGateway_0ai5ezj" targetRef="AccessSetSuspendedTask">
+    <bpmn:sequenceFlow id="SequenceFlow_0wbl6vo" sourceRef="ExclusiveGateway_0ai5ezj" targetRef="AccessUnsuspendTenderTask">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${allAnswered==1}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_07garu8" sourceRef="ExclusiveGateway_0ai5ezj" targetRef="ExclusiveGateway_07ftixw">
@@ -128,7 +128,7 @@
       <bpmndi:BPMNShape id="ServiceTask_0kegmvr_di" bpmnElement="SaveFirstOperationTask">
         <dc:Bounds x="229" y="145" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_1wbucmz_di" bpmnElement="AccessSetSuspendedTask">
+      <bpmndi:BPMNShape id="ServiceTask_1wbucmz_di" bpmnElement="AccessUnsuspendTenderTask">
         <dc:Bounds x="684" y="269" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_1t6ahfx_di" bpmnElement="SubmissionSaveNewPeriodTask">

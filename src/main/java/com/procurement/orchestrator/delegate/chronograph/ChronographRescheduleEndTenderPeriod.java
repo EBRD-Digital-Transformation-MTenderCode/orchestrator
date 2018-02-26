@@ -44,19 +44,25 @@ public class ChronographRescheduleEndTenderPeriod implements JavaDelegate {
     @Override
     public void execute(final DelegateExecution execution) {
         LOG.info(execution.getCurrentActivityName());
-//        final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
-//        final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
-//        final String processId = execution.getProcessInstanceId();
-//        final String operationId = params.getOperationId();
-//        ChronographTask.TaskMetaData taskMetaData = new ChronographTask.TaskMetaData(
-//                params.getProcessType(),
-//                operationId);
-//        ChronographTask task = new ChronographTask(
-//                ChronographTask.ActionType.REPLACE,
-//                params.getCpid(),
-//                "tender",
-//                dateUtil.stringToLocal(params.getEndDate()),
-//                jsonUtil.toJson(taskMetaData));
-//        messageProducer.sendToChronograph(task);
+        final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
+        final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
+        /**set params for next process*/
+        final Params paramsForEndTenderPeriod = new Params();
+        paramsForEndTenderPeriod.setProcessType("tenderPeriodEnd");
+        paramsForEndTenderPeriod.setCpid(params.getCpid());
+        paramsForEndTenderPeriod.setStage(params.getStage());
+        paramsForEndTenderPeriod.setOwner(params.getOwner());
+        paramsForEndTenderPeriod.setCountry(params.getCountry());
+        paramsForEndTenderPeriod.setPmd(params.getPmd());
+        paramsForEndTenderPeriod.setStartDate(params.getStartDate());
+        paramsForEndTenderPeriod.setEndDate(params.getEndDate());
+
+        ChronographTask task = new ChronographTask(
+                ChronographTask.ActionType.REPLACE,
+                params.getCpid(),
+                "tenderPeriodEnd",
+                dateUtil.stringToLocal(params.getEndDate()),
+                paramsForEndTenderPeriod);
+        messageProducer.sendToChronograph(task);
     }
 }
