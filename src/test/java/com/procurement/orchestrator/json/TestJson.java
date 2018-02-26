@@ -15,9 +15,10 @@ public class TestJson {
     @Test
     public void getJsonNodeTest() {
         final String resource = jsonUtil.getResource("json/lots.json");
-        final JsonNode jsonData = jsonUtil.toJsonNode(resource);
-        ObjectNode lotsJson = jsonUtil.createObjectNode().putObject("lots");
-        lotsJson.replace("lots", jsonData.get("lots"));
-        assertNotNull(lotsJson.get("lots"));
+        final JsonNode lotsData = jsonUtil.toJsonNode(resource);
+        JsonNode jsonData = jsonUtil.createObjectNode();
+        ((ObjectNode) jsonData).replace("lots", lotsData.get("lots"));
+        assertNotNull(jsonData.get("lots"));
     }
+
 }

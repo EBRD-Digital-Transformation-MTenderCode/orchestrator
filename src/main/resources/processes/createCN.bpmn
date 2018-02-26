@@ -26,7 +26,7 @@
       <bpmn:outgoing>SequenceFlow_0yvod6v</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_0djgl78" sourceRef="chronographEndTenderPeriodTask" targetRef="ClarificationSavePeriodTask" />
-    <bpmn:serviceTask id="chronographEndTenderPeriodTask" name="Chronograph&#10;schedule&#10;end tender period" camunda:asyncBefore="true" camunda:delegateExpression="${chronographEndTenderPeriod}">
+    <bpmn:serviceTask id="chronographEndTenderPeriodTask" name="Chronograph&#10;schedule&#10;end tender period" camunda:asyncBefore="true" camunda:delegateExpression="${chronographScheduleEndTenderPeriod}">
       <bpmn:incoming>SequenceFlow_0yvod6v</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0djgl78</bpmn:outgoing>
     </bpmn:serviceTask>

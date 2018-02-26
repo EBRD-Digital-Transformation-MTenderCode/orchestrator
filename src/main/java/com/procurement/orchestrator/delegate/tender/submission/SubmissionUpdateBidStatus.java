@@ -50,7 +50,7 @@ public class SubmissionUpdateBidStatus implements JavaDelegate {
         final JsonNode unsuccessfulLots = processService.getUnsuccessfulLots(jsonData, processId);
         final JsonNode responseData = processService.processResponse(
                 submissionRestClient.updateStatus(
-                        params.getOcid(),
+                        params.getCpid(),
                         params.getStage(),
                         params.getCountry(),
                         params.getPmd(),

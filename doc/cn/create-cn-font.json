@@ -75,7 +75,7 @@
       "ro"
     ],
     "tenderPeriod": {
-      "endDate": "2018-02-23T13:59:00Z"
+      "endDate": "2018-03-23T13:59:00Z"
     },
     "contractPeriod": {
       "startDate": "2018-09-27T00:00:00Z",
@@ -95,6 +95,7 @@
         "id": "lot-id-123123",
         "title": "A title for this lot.",
         "description": "A description of this lot.",
+        "status": "active",
         "value": {
           "amount": 1000,
           "currency": "MDL"

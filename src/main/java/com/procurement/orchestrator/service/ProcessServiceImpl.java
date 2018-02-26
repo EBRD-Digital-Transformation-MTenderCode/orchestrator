@@ -113,7 +113,8 @@ public class ProcessServiceImpl implements ProcessService {
 
     public JsonNode addTenderPeriodStartDate(final JsonNode jsonData, final String startDate, final String processId) {
         try {
-            return ((ObjectNode) jsonData.get("tender").get("tenderPeriod")).put("startDate", startDate);
+            ((ObjectNode) jsonData.get("tender").get("tenderPeriod")).put("startDate", startDate);
+            return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
             return null;
@@ -122,9 +123,10 @@ public class ProcessServiceImpl implements ProcessService {
 
     public JsonNode addTenderTenderPeriod(final JsonNode jsonData, final JsonNode periodData, final String processId) {
         try {
-            return ((ObjectNode) jsonData.get("tender")).putObject("tenderPeriod")
+            ((ObjectNode) jsonData.get("tender")).putObject("tenderPeriod")
                     .put("startDate", periodData.get("startDate").asText())
                     .put("endDate", periodData.get("endDate").asText());
+            return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
             return null;
@@ -133,9 +135,10 @@ public class ProcessServiceImpl implements ProcessService {
 
     public JsonNode addTenderEnquiryPeriod(final JsonNode jsonData, final JsonNode periodData, final String processId) {
         try {
-            return ((ObjectNode) jsonData.get("tender")).putObject("enquiryPeriod")
+            ((ObjectNode) jsonData.get("tender")).putObject("enquiryPeriod")
                     .put("startDate", periodData.get("startDate").asText())
                     .put("endDate", periodData.get("endDate").asText());
+            return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
             return null;
@@ -144,9 +147,10 @@ public class ProcessServiceImpl implements ProcessService {
 
     public JsonNode addTenderStatus(final JsonNode jsonData, final JsonNode statusData, final String processId) {
         try {
-            return ((ObjectNode) jsonData).putObject("tender")
+            ((ObjectNode) jsonData).putObject("tender")
                     .put("status", statusData.get("status").asText())
                     .put("statusDetails", statusData.get("statusDetails").asText());
+            return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
             return null;
@@ -155,8 +159,8 @@ public class ProcessServiceImpl implements ProcessService {
 
     public JsonNode addLots(final JsonNode jsonData, final JsonNode lotsData, final String processId) {
         try {
-            return ((ObjectNode) jsonData).putObject("lots")
-                    .replace("lots", lotsData.get("lots"));
+            ((ObjectNode) jsonData).replace("lots", lotsData.get("lots"));
+            return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
             return null;
@@ -166,9 +170,9 @@ public class ProcessServiceImpl implements ProcessService {
     public JsonNode addAwardData(final JsonNode jsonData, final JsonNode awardData, final String processId) {
         try {
             final ObjectNode mainNode = (ObjectNode) jsonData;
-            mainNode.putObject("awardPeriod").replace("awardPeriod", awardData.get("awardPeriod"));
-            mainNode.putObject("awards").replace("awards", awardData.get("awards"));
-            mainNode.putObject("unsuccessfulLots").replace("unsuccessfulLots", awardData.get("unsuccessfulLots"));
+            mainNode.replace("awardPeriod", awardData.get("awardPeriod"));
+            mainNode.replace("awards", awardData.get("awards"));
+            mainNode.replace("unsuccessfulLots", awardData.get("unsuccessfulLots"));
             return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
@@ -178,8 +182,9 @@ public class ProcessServiceImpl implements ProcessService {
 
     public JsonNode getUnsuccessfulLots(final JsonNode jsonData, final String processId) {
         try {
-            return jsonUtil.createObjectNode().putObject("unsuccessfulLots")
-                    .replace("unsuccessfulLots", jsonData.get("unsuccessfulLots"));
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            mainNode.replace("unsuccessfulLots", jsonData.get("unsuccessfulLots"));
+            return mainNode;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
             return null;
@@ -190,9 +195,9 @@ public class ProcessServiceImpl implements ProcessService {
     public JsonNode addUpdateBidsStatusData(JsonNode jsonData, JsonNode bidsData, String processId) {
         try {
             final ObjectNode mainNode = (ObjectNode) jsonData;
-            mainNode.putObject("tenderPeriod").replace("tenderPeriod", bidsData.get("tenderPeriod"));
-            mainNode.putObject("tenderers").replace("tenderers", bidsData.get("tenderers"));
-            mainNode.putObject("updatedBids").replace("updatedBids", bidsData.get("bids"));
+            mainNode.replace("tenderPeriod", bidsData.get("tenderPeriod"));
+            mainNode.replace("tenderers", bidsData.get("tenderers"));
+            mainNode.replace("updatedBids", bidsData.get("bids"));
             return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
@@ -203,8 +208,8 @@ public class ProcessServiceImpl implements ProcessService {
     @Override
     public JsonNode addUpdateLotsStatusData(JsonNode jsonData, JsonNode lotsData, String processId) {
         try {
-            return ((ObjectNode) jsonData).putObject("updatedLots")
-                    .replace("updatedLots", lotsData.get("lots"));
+            ((ObjectNode) jsonData).replace("updatedLots", lotsData.get("lots"));
+            return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
             return null;

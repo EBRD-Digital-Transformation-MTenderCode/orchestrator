@@ -72,6 +72,9 @@ e-clarification:
 e-storage:
   ribbon:
     listOfServers: http://10.0.10.116:9131
+e-qualification:
+  ribbon:
+    listOfServers: http://10.0.10.116:9091
 
 #logging:
 #  level:

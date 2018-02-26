@@ -2,6 +2,7 @@ package com.procurement.orchestrator.controller;
 
 import com.datastax.driver.core.utils.UUIDs;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.cassandra.service.RequestService;
 import com.procurement.orchestrator.cassandra.model.Params;
@@ -9,6 +10,7 @@ import com.procurement.orchestrator.kafka.MessageProducer;
 import com.procurement.orchestrator.kafka.dto.PlatformMessage;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
+import jdk.nashorn.internal.ir.ObjectNode;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -161,19 +163,19 @@ public class TenderController extends BaseController {
 
     @RequestMapping(value = "/tenderPeriodEnd", method = RequestMethod.POST)
     public ResponseEntity<String> endOfPSPQStage() {
-        final Params paramsForEndTenderPeriod = new Params();
-        paramsForEndTenderPeriod.setProcessType("tenderPeriodEnd");
-        paramsForEndTenderPeriod.setCpid("ocds-t1s2t3-MD-1518626538126");
-        paramsForEndTenderPeriod.setStage("ps");
-        paramsForEndTenderPeriod.setOwner("445f6851-c908-407d-9b45-14b92f3e964b");
-        paramsForEndTenderPeriod.setCountry("test");
-        paramsForEndTenderPeriod.setPmd("test");
-        paramsForEndTenderPeriod.setStartDate("2018-02-27T00:00:00Z");
-        paramsForEndTenderPeriod.setEndDate("2018-03-27T00:00:00Z");
-
-        paramsForEndTenderPeriod.setRequestId(UUIDs.timeBased().toString());
-
-        return startProcessResult(paramsForEndTenderPeriod, null);
+        final Params params = new Params();
+        params.setProcessType("tenderPeriodEnd");
+        params.setCpid("ocds-t1s2t3-MD-1518626538126");
+        params.setStage("ps");
+        params.setOwner("dzo");
+        params.setCountry("test");
+        params.setPmd("test");
+        params.setStartDate("2018-02-27T00:00:00Z");
+        params.setEndDate("2018-03-27T00:00:00Z");
+        params.setRequestId(UUIDs.timeBased().toString());
+        params.setOperationId(params.getRequestId());
+        JsonUtil util = new JsonUtil(new ObjectMapper());
+        return startProcessResult(params, util.createObjectNode());
     }
 }
 

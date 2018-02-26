@@ -1,0 +1,123 @@
+{
+  "bids": [
+    {
+      "id": "c3c07f60-17cc-11e8-8b5d-1b89f27b90be",
+      "relatedLots": [
+        "lot-id-123123"
+      ],
+      "date": "2018-02-22T12:34:45.848Z",
+      "createdDate": "2018-02-22T12:53:16Z",
+      "pendingDate": "2018-02-22T12:53:16Z",
+      "value": {
+        "amount": 0.0,
+        "currency": "AED"
+      },
+      "tenderers": [
+        {
+          "id": "UA-EDR-12354",
+          "name": "Test Name"
+        }
+      ]
+    },
+    {
+      "id": "ea1fe220-17ce-11e8-a14c-c9532c477378",
+      "relatedLots": [
+        "lot-id-123123"
+      ],
+      "date": "2018-02-22T12:34:45.848Z",
+      "createdDate": "2018-02-22T12:53:16Z",
+      "pendingDate": "2018-02-22T12:53:16Z",
+      "value": {
+        "amount": 0.0,
+        "currency": "AED"
+      },
+      "tenderers": [
+        {
+          "id": "UA-EDR-12354",
+          "name": "Test Name"
+        }
+      ]
+    },
+    {
+      "id": "59ebb9d0-17cf-11e8-a6e0-bfe8378f6b5d",
+      "relatedLots": [
+        "lot-id-123123"
+      ],
+      "date": "2018-02-22T12:34:45.848Z",
+      "createdDate": "2018-02-22T12:53:16Z",
+      "pendingDate": "2018-02-22T12:53:16Z",
+      "value": {
+        "amount": 0.0,
+        "currency": "AED"
+      },
+      "tenderers": [
+        {
+          "id": "UA-EDR-12354",
+          "name": "Test Name"
+        }
+      ]
+    }
+  ],
+  "lots": [
+    {
+      "id": "lot-id-123123"
+    }
+  ],
+  "awardPeriod": {
+    "startDate": "2018-02-27T00:00:00Z"
+  },
+  "awards": [
+    {
+      "id": "47f9eb90-1a7f-11e8-8ad0-47bcb745d903",
+      "token": "47f9eb91-1a7f-11e8-8ad0-47bcb745d903",
+      "date": "2018-02-25T22:57:40.552Z",
+      "description": "",
+      "status": "pending",
+      "relatedLots": [
+        "lot-id-123123"
+      ],
+      "relatedBid": "c3c07f60-17cc-11e8-8b5d-1b89f27b90be",
+      "suppliers": [
+        {
+          "id": "UA-EDR-12354",
+          "name": "Test Name"
+        }
+      ]
+    },
+    {
+      "id": "47fa39b0-1a7f-11e8-8ad0-47bcb745d903",
+      "token": "47fa39b1-1a7f-11e8-8ad0-47bcb745d903",
+      "date": "2018-02-25T22:57:40.552Z",
+      "description": "",
+      "status": "pending",
+      "relatedLots": [
+        "lot-id-123123"
+      ],
+      "relatedBid": "ea1fe220-17ce-11e8-a14c-c9532c477378",
+      "suppliers": [
+        {
+          "id": "UA-EDR-12354",
+          "name": "Test Name"
+        }
+      ]
+    },
+    {
+      "id": "47fa60c0-1a7f-11e8-8ad0-47bcb745d903",
+      "token": "47fa60c1-1a7f-11e8-8ad0-47bcb745d903",
+      "date": "2018-02-25T22:57:40.552Z",
+      "description": "",
+      "status": "pending",
+      "relatedLots": [
+        "lot-id-123123"
+      ],
+      "relatedBid": "59ebb9d0-17cf-11e8-a6e0-bfe8378f6b5d",
+      "suppliers": [
+        {
+          "id": "UA-EDR-12354",
+          "name": "Test Name"
+        }
+      ]
+    }
+  ],
+  "unsuccessfulLots": []
+}
