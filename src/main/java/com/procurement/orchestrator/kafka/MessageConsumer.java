@@ -3,7 +3,7 @@ package com.procurement.orchestrator.kafka;
 import com.datastax.driver.core.utils.UUIDs;
 import com.procurement.orchestrator.cassandra.model.Params;
 import com.procurement.orchestrator.cassandra.service.RequestService;
-import com.procurement.orchestrator.kafka.dto.ChronographTask;
+import com.procurement.orchestrator.kafka.dto.ChronographResponse;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.HashMap;
@@ -43,14 +43,15 @@ public class MessageConsumer {
         acknowledgment.acknowledge();
         try {
             LOG.info("Get task: " + message);
-            final ChronographTask task = jsonUtil.toObject(ChronographTask.class, message);
-            final Params params = jsonUtil.toObject(Params.class, task.getMetaData());
-            final String operationId = task.getOcid() + task.getPhase();
+            final ChronographResponse response = jsonUtil.toObject(ChronographResponse.class, message);
+            final ChronographResponse.ChronographResponseData data = response.getData();
+            final Params params = jsonUtil.toObject(Params.class, data.getMetaData());
+            final String operationId = data.getOcid() + data.getPhase();
             requestService.saveRequest(
                     UUIDs.timeBased().toString(),
                     operationId,
                     params,
-                    jsonUtil.toJsonNode(task));
+                    jsonUtil.toJsonNode(data));
             Map<String, Object> variables = new HashMap<>();
             variables.put("checkEnquiries", 0);
             processService.startProcess("tenderPeriodEnd", operationId, variables);

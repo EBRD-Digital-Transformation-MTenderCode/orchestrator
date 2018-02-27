@@ -2,8 +2,8 @@
 package com.procurement.orchestrator.delegate.chronograph;
 
 import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
-import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.cassandra.model.Params;
+import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.kafka.MessageProducer;
 import com.procurement.orchestrator.kafka.dto.ChronographTask;
 import com.procurement.orchestrator.service.ProcessService;
@@ -41,6 +41,7 @@ public class ChronographScheduleEndTenderPeriod implements JavaDelegate {
         this.jsonUtil = jsonUtil;
         this.dateUtil = dateUtil;
     }
+
     @Override
     public void execute(final DelegateExecution execution) {
         LOG.info(execution.getCurrentActivityName());
