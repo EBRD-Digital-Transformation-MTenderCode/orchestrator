@@ -1,8 +1,8 @@
 package com.procurement.orchestrator.delegate.chronograph;
 
 import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
-import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.cassandra.model.Params;
+import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.kafka.MessageProducer;
 import com.procurement.orchestrator.kafka.dto.ChronographTask;
 import com.procurement.orchestrator.service.ProcessService;
@@ -62,7 +62,7 @@ public class ChronographRescheduleEndTenderPeriod implements JavaDelegate {
                 params.getCpid(),
                 "tenderPeriodEnd",
                 dateUtil.stringToLocal(params.getEndDate()),
-                paramsForEndTenderPeriod);
+                jsonUtil.toJson(paramsForEndTenderPeriod));
         messageProducer.sendToChronograph(task);
     }
 }
