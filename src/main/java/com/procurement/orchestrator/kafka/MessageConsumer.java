@@ -54,6 +54,7 @@ public class MessageConsumer {
                     jsonUtil.toJsonNode(data));
             Map<String, Object> variables = new HashMap<>();
             variables.put("checkEnquiries", 0);
+            variables.put("requestId", params.getRequestId());
             processService.startProcess("tenderPeriodEnd", operationId, variables);
         } catch (Exception e) {
         }
