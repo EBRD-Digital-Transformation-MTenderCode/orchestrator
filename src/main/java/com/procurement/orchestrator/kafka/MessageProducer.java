@@ -41,6 +41,7 @@ public class MessageProducer {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+//        return true;
     }
 
     public boolean sendToPlatform(PlatformMessage message) {
@@ -55,5 +56,6 @@ public class MessageProducer {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+//        return true;
     }
 }

@@ -49,10 +49,6 @@ public class ChronographTask {
         this.metaData = metaData;
     }
 
-    public String getIdentifier() {
-        return this.ocid + this.phase;
-    }
-
     public enum ActionType {
 
         SCHEDULE("SCHEDULE"),

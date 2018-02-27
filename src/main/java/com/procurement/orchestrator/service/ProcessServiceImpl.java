@@ -65,7 +65,6 @@ public class ProcessServiceImpl implements ProcessService {
                              final String operationId) {
         final String errorMessage = Optional.ofNullable(details).map(d -> jsonUtil.toJson(details)).orElse("");
         final String message = "Error in process Id: " + processId + "; message: " + errorMessage;
-        LOG.info(message);
         messageProducer.sendToPlatform(new PlatformMessage(false, operationId, message));
         terminateProcess(processId, message);
     }
@@ -74,7 +73,6 @@ public class ProcessServiceImpl implements ProcessService {
                              final String processId,
                              final String operationId) {
         final String message = "Error in process Id: " + processId + "; message: " + error;
-        LOG.info(message);
         messageProducer.sendToPlatform(new PlatformMessage(false, operationId, message));
         terminateProcess(processId, message);
     }
