@@ -34,7 +34,12 @@ public class MessageConsumer {
     }
 
     @KafkaListener(topics = "chronograph-out")
-    public void onReceiving(String message, @Header(KafkaHeaders.ACKNOWLEDGMENT) Acknowledgment acknowledgment) {
+    public void onReceiving(String message,
+                            @Header(KafkaHeaders.OFFSET) Integer offset,
+                            @Header(KafkaHeaders.RECEIVED_PARTITION_ID) int partition,
+                            @Header(KafkaHeaders.RECEIVED_TOPIC) String topic,
+                            @Header(KafkaHeaders.ACKNOWLEDGMENT) Acknowledgment acknowledgment) {
+
         acknowledgment.acknowledge();
         try {
             LOG.info("Get task: " + message);
