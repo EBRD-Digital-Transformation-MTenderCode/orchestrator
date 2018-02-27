@@ -34,14 +34,14 @@ public class ChronographTask {
     private LocalDateTime launchTime;
 
     @JsonProperty("metaData")
-    private Params metaData;
+    private String metaData;
 
     @JsonCreator
     public ChronographTask(@JsonProperty("action") final ActionType action,
                            @JsonProperty("ocid") final String ocid,
                            @JsonProperty("phase") final String phase,
                            @JsonProperty("launchTime") final LocalDateTime launchTime,
-                           @JsonProperty("metaData") final Params metaData) {
+                           @JsonProperty("metaData") final String metaData) {
         this.action = action;
         this.ocid = ocid;
         this.phase = phase;

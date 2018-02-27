@@ -62,7 +62,7 @@ public class ChronographScheduleEndTenderPeriod implements JavaDelegate {
                 params.getCpid(),
                 "tenderPeriodEnd",
                 dateUtil.stringToLocal(params.getEndDate()),
-                paramsForEndTenderPeriod);
+                jsonUtil.toJson(paramsForEndTenderPeriod));
         messageProducer.sendToChronograph(task);
     }
 }

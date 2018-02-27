@@ -39,7 +39,7 @@ public class MessageConsumer {
         try {
             LOG.info("Get task: " + message);
             final ChronographTask task = jsonUtil.toObject(ChronographTask.class, message);
-            final Params params = task.getMetaData();
+            final Params params = jsonUtil.toObject(Params.class, task.getMetaData());
             final String operationId = task.getOcid() + task.getPhase();
             requestService.saveRequest(
                     UUIDs.timeBased().toString(),
