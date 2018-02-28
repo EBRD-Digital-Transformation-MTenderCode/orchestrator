@@ -57,7 +57,7 @@ public class ClarificationCheckEnquiries implements JavaDelegate {
                 execution.setVariable("checkEnquiries", 3);
                 if (endDate != null) {
                     params.setEndDate(endDate);
-                    params.setOperationType("updateTenderStatusDetails");
+                    params.setOperationType("suspendTender");
                 }
             }
             operationService.saveOperationStep(execution, entity, params, responseData);

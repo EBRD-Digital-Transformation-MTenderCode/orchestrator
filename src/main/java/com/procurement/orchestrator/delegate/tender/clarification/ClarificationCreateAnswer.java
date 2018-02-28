@@ -64,7 +64,7 @@ public class ClarificationCreateAnswer implements JavaDelegate {
             if (!allAnswered) {
                 params.setOperationType("addAnswer");
             } else {
-                params.setOperationType("enquiryUnsuspendTender");
+                params.setOperationType("unsuspendTender");
             }
             operationService.saveOperationStep(execution, entity, params, responseData);
         }
