@@ -58,6 +58,5 @@ public class QualificationUpdateAward implements JavaDelegate {
                 taskId);
         if (Objects.nonNull(responseData))
             operationService.saveOperationStep(execution, entity, responseData);
-
     }
 }
