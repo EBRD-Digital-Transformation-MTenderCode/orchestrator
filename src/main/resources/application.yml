@@ -13,15 +13,15 @@ spring:
       maximum-pool-size: 10
       pool-name: orchestrator-pool
 
-kafka:
-  producer:
-#    internal-bootstrap: AK-node1.eprocurement.systems:9092,AK-node2.eprocurement.systems:9092,AK-node3.eprocurement.systems:9092
-    internal-bootstrap: 10.0.10.107:9092,10.0.10.108:9092,10.0.10.109:9092
-    external-bootstrap: feed.eprocurement.systems:9092
-  consumer:
-#    internal-bootstrap: AK-node1.eprocurement.systems:9092,AK-node2.eprocurement.systems:9092,AK-node3.eprocurement.systems:9092
-    internal-bootstrap: 10.0.10.107:9092,10.0.10.108:9092,10.0.10.109:9092
-    group: orchestrator
+#kafka:
+#  producer:
+##    internal-bootstrap: AK-node1.eprocurement.systems:9092,AK-node2.eprocurement.systems:9092,AK-node3.eprocurement.systems:9092
+#    internal-bootstrap: 10.0.10.107:9092,10.0.10.108:9092,10.0.10.109:9092
+#    external-bootstrap: feed.eprocurement.systems:9092
+#  consumer:
+##    internal-bootstrap: AK-node1.eprocurement.systems:9092,AK-node2.eprocurement.systems:9092,AK-node3.eprocurement.systems:9092
+#    internal-bootstrap: 10.0.10.107:9092,10.0.10.108:9092,10.0.10.109:9092
+#    group: orchestrator
 
 cassandra:
 #  contact-points: ac-node1.eprocurement.systems,ac-node2.eprocurement.systems,ac-node3.eprocurement.systems
@@ -30,12 +30,12 @@ cassandra:
   username: caclient
   password: brT4Kn27RQs
 
-eureka:
-  client:
-    fetchRegistry: true
-    registerWithEureka: true
-    serviceUrl:
-      defaultZone: http://10.0.10.116:8801/eureka/,http://10.0.10.116:8802/eureka/
+#eureka:
+#  client:
+#    fetchRegistry: true
+#    registerWithEureka: true
+#    serviceUrl:
+#      defaultZone: http://10.0.10.116:8801/eureka/,http://10.0.10.116:8802/eureka/
 
 ocds.prefix: ocds-t1s2t3
 

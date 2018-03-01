@@ -72,11 +72,11 @@ public interface SubmissionRestClient {
                                              @RequestParam("pmd") final String pmd,
                                              @RequestBody final JsonNode lots) throws Exception;
 
-    @RequestMapping(path = "/submission/updateStatusDetail", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> updateStatusDetail(@RequestParam("cpId") final String cpId,
-                                                   @RequestParam("stage") final String stage,
-                                                   @RequestParam("bidId") final String bidId,
-                                                   @RequestParam("awardStatus") final String awardStatus)
+    @RequestMapping(path = "/submission/updateStatusDetails", method = RequestMethod.POST)
+    ResponseEntity<ResponseDto> updateStatusDetails(@RequestParam("cpId") final String cpId,
+                                                    @RequestParam("stage") final String stage,
+                                                    @RequestParam("bidId") final String bidId,
+                                                    @RequestParam("awardStatus") final String awardStatus)
             throws Exception;
 
     @RequestMapping(path = "/submission/setFinalStatuses", method = RequestMethod.POST)

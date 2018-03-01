@@ -9,14 +9,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@JsonPropertyOrder({
-        "success",
-        "operationId",
-        "token",
-        "ocid",
-        "cpid",
-        "message"
-})
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
 public class PlatformMessage {
 

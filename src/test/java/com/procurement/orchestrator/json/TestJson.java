@@ -35,14 +35,4 @@ public class TestJson {
         final Params params = jsonUtil.toObject(Params.class, response.getData().getMetaData());
         assertNotNull(params.getCpid());
     }
-
-
-    @Test
-    public void getInterval() {
-        final int interval = 5;
-        final LocalDateTime startDate = dateUtil.localDateTimeNowUTC();
-        final LocalDateTime endDate = dateUtil.stringToLocal("2018-02-27T17:25:33Z");
-        final long minutes = MINUTES.between(startDate, endDate);
-        assertFalse((minutes >= interval));
-    }
 }

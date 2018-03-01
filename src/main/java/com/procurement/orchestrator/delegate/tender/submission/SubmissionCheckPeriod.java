@@ -57,16 +57,7 @@ public class SubmissionCheckPeriod implements JavaDelegate {
                 operationId,
                 taskId);
         if (Objects.nonNull(responseData)) {
-            processPeriod(responseData, processId, operationId);
             operationService.saveOperationStep(execution, entity);
         }
     }
-
-    private void processPeriod(final JsonNode responseData, final String processId, final String operationId) {
-        if (!processService.getBoolean("isPeriodValid", responseData, processId)) {
-            processService.processError("Invalid period.", processId, operationId);
-        }
-    }
-
-
 }

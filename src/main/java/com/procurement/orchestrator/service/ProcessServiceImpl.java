@@ -1,6 +1,7 @@
 package com.procurement.orchestrator.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.domain.dto.ResponseDetailsDto;
@@ -10,7 +11,7 @@ import com.procurement.orchestrator.kafka.dto.PlatformMessage;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
+import java.util.Objects;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.slf4j.Logger;
@@ -47,6 +48,11 @@ public class ProcessServiceImpl implements ProcessService {
         return runtimeService.startProcessInstanceByKey(processType, operationId, variables);
     }
 
+    public void terminateProcess(final String processId, final String message) {
+        LOG.error(message);
+        runtimeService.deleteProcessInstance(processId, message);
+    }
+
     public JsonNode processResponse(final ResponseEntity<ResponseDto> responseEntity,
                                     final String processId,
                                     final String operationId,
@@ -55,45 +61,27 @@ public class ProcessServiceImpl implements ProcessService {
             return jsonUtil.toJsonNode(responseEntity.getBody().getData());
         } else {
             operationService.saveOperationException(processId, taskId, jsonUtil.toJsonNode(responseEntity.getBody()));
-            processError(responseEntity.getBody().getDetails(), processId, operationId);
+            final List<ResponseDetailsDto> details = responseEntity.getBody().getDetails();
+            final String message = Objects.nonNull(details) ?
+                    "Error in process Id: " + processId + "; message: " + jsonUtil.toJson(details) : "";
+            messageProducer.sendToPlatform(new PlatformMessage(false, operationId, message));
+            runtimeService.deleteProcessInstance(processId, message);
             return null;
         }
     }
 
-    public void processError(final List<ResponseDetailsDto> details,
-                             final String processId,
-                             final String operationId) {
-        final String errorMessage = Optional.ofNullable(details).map(d -> jsonUtil.toJson(details)).orElse("");
-        final String message = "Error in process Id: " + processId + "; message: " + errorMessage;
-        messageProducer.sendToPlatform(new PlatformMessage(false, operationId, message));
-        terminateProcess(processId, message);
-    }
-
-    public void processError(final String error,
-                             final String processId,
-                             final String operationId) {
-        final String message = "Error in process Id: " + processId + "; message: " + error;
-        messageProducer.sendToPlatform(new PlatformMessage(false, operationId, message));
-        terminateProcess(processId, message);
-    }
-
-    public void terminateProcess(final String processId, final String message) {
-        LOG.error(message);
-        runtimeService.deleteProcessInstance(processId, message);
-    }
-
-    public String getText(final String fieldName, final JsonNode responseData, final String processId) {
+    public String getText(final String fieldName, final JsonNode jsonData, final String processId) {
         try {
-            return responseData.get(fieldName).asText();
+            return jsonData.get(fieldName).asText();
         } catch (Exception e) {
             terminateProcess(processId, fieldName + " not found.");
         }
         return null;
     }
 
-    public Boolean getBoolean(final String fieldName, final JsonNode responseData, final String processId) {
+    public Boolean getBoolean(final String fieldName, final JsonNode jsonData, final String processId) {
         try {
-            return responseData.get(fieldName).asBoolean();
+            return jsonData.get(fieldName).asBoolean();
         } catch (Exception e) {
             terminateProcess(processId, fieldName + " not found.");
         }
@@ -203,10 +191,69 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    @Override
     public JsonNode addUpdateLotsStatusData(JsonNode jsonData, JsonNode lotsData, String processId) {
         try {
             ((ObjectNode) jsonData).replace("updatedLots", lotsData.get("lots"));
+            return jsonData;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    public String getAwardRelatedBid(final JsonNode jsonData, final String processId) {
+        try {
+            return jsonData.get("award").get("relatedBid").asText();
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    public String getAwardStatus(final JsonNode jsonData, final String processId) {
+        try {
+            return jsonData.get("award").get("status").asText();
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    public JsonNode addUpdatedBid(final JsonNode jsonData, final JsonNode bidData, final String processId) {
+        try {
+            ((ObjectNode) jsonData).replace("bid", bidData.get("bid"));
+            return jsonData;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    public JsonNode getDocuments(JsonNode jsonData, String processId, String operationId) {
+        try {
+            final JsonNode tenderNode = jsonData.get("tender");
+            final ArrayNode documentsNode = (ArrayNode) tenderNode.get("documents");
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            final ArrayNode documentsArray = mainNode.putArray("documents");
+            for (final JsonNode docNode : documentsNode) {
+                ObjectNode idNode = jsonUtil.createObjectNode();
+                idNode.put("id", docNode.get("id").asText());
+                documentsArray.add(idNode);
+            }
+            return mainNode;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    public JsonNode setDatePublished(JsonNode jsonData, String startDate, String processId, String operationId) {
+        try {
+            final JsonNode tenderNode = jsonData.get("tender");
+            final ArrayNode documentsNode = (ArrayNode) tenderNode.get("documents");
+            for (final JsonNode fileNode : documentsNode) {
+                ((ObjectNode) fileNode).put("datePublished", startDate);
+            }
             return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());

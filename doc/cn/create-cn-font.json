@@ -15,7 +15,7 @@
       },
       "budgetBreakdown": [
         {
-          "id": "ocds-t1s2t3-MD-1519384522491-fs-1519384549287",
+          "id": "ocds-t1s2t3-MD-1519817896316-fs-1519817945175",
           "description": "A short free text description of this budget entry.",
           "amount": {
             "amount": 500,
@@ -34,8 +34,8 @@
     "description": "Tender description",
     "classification": {
       "scheme": "CPV",
-      "description": "33600000-6",
-      "id": "Фармацевтична продукція"
+      "description": "Фармацевтична продукція",
+      "id": "33600000-6"
     },
     "acceleratedProcedure": {
       "isAcceleratedProcedure": false
@@ -75,7 +75,7 @@
       "ro"
     ],
     "tenderPeriod": {
-      "endDate": "2018-02-27T20:20:30Z"
+      "endDate": "2018-02-28T13:05:00Z"
     },
     "contractPeriod": {
       "startDate": "2018-09-27T00:00:00Z",
@@ -95,7 +95,6 @@
         "id": "lot-id-123123",
         "title": "A title for this lot.",
         "description": "A description of this lot.",
-        "status": "active",
         "value": {
           "amount": 1000,
           "currency": "MDL"

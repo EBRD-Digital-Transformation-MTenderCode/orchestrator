@@ -44,13 +44,13 @@ public class SubmissionUpdateBidStatusDetails implements JavaDelegate {
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
-        final String bidId = "relatedBid";//from json
-        final String awardStatus = "status";//from json
         final String processId = execution.getProcessInstanceId();
         final String operationId = params.getOperationId();
         final String taskId = execution.getCurrentActivityId();
+        final String bidId = processService.getAwardRelatedBid(jsonData, processId);
+        final String awardStatus = processService.getAwardStatus(jsonData, processId);
         final JsonNode responseData = processService.processResponse(
-                submissionRestClient.updateStatusDetail(
+                submissionRestClient.updateStatusDetails(
                         params.getCpid(),
                         params.getStage(),
                         bidId,
@@ -59,6 +59,7 @@ public class SubmissionUpdateBidStatusDetails implements JavaDelegate {
                 operationId,
                 taskId);
         if (Objects.nonNull(responseData))
-            operationService.saveOperationStep(execution, entity, responseData);
+            operationService.saveOperationStep(execution, entity,
+                    processService.addUpdatedBid(jsonData, responseData, processId));
     }
 }
