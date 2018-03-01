@@ -1,8 +1,9 @@
 package com.procurement.orchestrator.delegate.tender.access;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
-import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.cassandra.model.Params;
+import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -41,8 +42,19 @@ public class SetStandstillPeriod implements JavaDelegate {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
+        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
         params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
         params.setEndDate(dateUtil.format(dateUtil.localDateTimeNowUTC().plusSeconds(5)));
-        operationService.saveOperationStep(execution, entity, params);
+        params.setOperationType("endAwarding");
+        final String processId = execution.getProcessInstanceId();
+        operationService.saveOperationStep(
+                execution,
+                entity,
+                params,
+                processService.addStandstillPeriod(
+                        jsonData,
+                        params.getStartDate(),
+                        params.getEndDate(),
+                        processId));
     }
 }

@@ -183,7 +183,7 @@ public class ProcessServiceImpl implements ProcessService {
             final ObjectNode mainNode = (ObjectNode) jsonData;
             mainNode.replace("tenderPeriod", bidsData.get("tenderPeriod"));
             mainNode.replace("tenderers", bidsData.get("tenderers"));
-            mainNode.replace("updatedBids", bidsData.get("bids"));
+            mainNode.replace("bids", bidsData.get("bids"));
             return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
@@ -191,9 +191,9 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public JsonNode addUpdateLotsStatusData(JsonNode jsonData, JsonNode lotsData, String processId) {
+    public JsonNode addBids(JsonNode jsonData, JsonNode lotsData, String processId) {
         try {
-            ((ObjectNode) jsonData).replace("updatedLots", lotsData.get("lots"));
+            ((ObjectNode) jsonData).replace("bids", lotsData.get("bids"));
             return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
@@ -229,7 +229,7 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public JsonNode getDocuments(JsonNode jsonData, String processId, String operationId) {
+    public JsonNode getDocuments(final JsonNode jsonData, final String processId, final String operationId) {
         try {
             final JsonNode tenderNode = jsonData.get("tender");
             final ArrayNode documentsNode = (ArrayNode) tenderNode.get("documents");
@@ -247,13 +247,25 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public JsonNode setDatePublished(JsonNode jsonData, String startDate, String processId, String operationId) {
+    public JsonNode setDatePublished(final JsonNode jsonData, final String startDate, final String processId, final String operationId) {
         try {
             final JsonNode tenderNode = jsonData.get("tender");
             final ArrayNode documentsNode = (ArrayNode) tenderNode.get("documents");
             for (final JsonNode fileNode : documentsNode) {
                 ((ObjectNode) fileNode).put("datePublished", startDate);
             }
+            return jsonData;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    public JsonNode addStandstillPeriod(final JsonNode jsonData, final String startDate, final String endDate, final String processId) {
+        try {
+            ((ObjectNode) jsonData).putObject("standstillPeriod")
+                    .put("startDate", startDate)
+                    .put("endDate", endDate);
             return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());

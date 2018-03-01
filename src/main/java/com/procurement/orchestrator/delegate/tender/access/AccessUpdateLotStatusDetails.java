@@ -42,16 +42,21 @@ public class AccessUpdateLotStatusDetails implements JavaDelegate {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
-        final JsonNode lots = jsonUtil.toJsonNode(entity.getJsonData());
+        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
         final String processId = execution.getProcessInstanceId();
         final String operationId = params.getOperationId();
         final String taskId = execution.getCurrentActivityName();
+        final JsonNode unsuccessfulLots = processService.getUnsuccessfulLots(jsonData, processId);
         final JsonNode responseData = processService.processResponse(
-                accessRestClient.updateLotsStatusDetails(params.getCpid(), "unsuccessful", lots),
+                accessRestClient.updateLotsStatusDetails(
+                        params.getCpid(),
+                        "unsuccessful",
+                        unsuccessfulLots),
                 processId,
                 operationId,
                 taskId);
         if (Objects.nonNull(responseData))
-            operationService.saveOperationStep(execution, entity, responseData);
+            operationService.saveOperationStep(execution, entity,
+                    processService.addLots(jsonData, responseData, processId));
     }
 }

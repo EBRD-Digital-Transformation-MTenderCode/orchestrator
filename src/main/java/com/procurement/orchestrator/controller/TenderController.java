@@ -18,15 +18,11 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class TenderController extends BaseController {
 
-    private final MessageProducer messageProducer;
-
-    public TenderController(final MessageProducer messageProducer,
-                            final ProcessService processService,
+    public TenderController(final ProcessService processService,
                             final RequestService requestService,
                             final OperationService operationService,
                             final JsonUtil jsonUtil) {
         super(jsonUtil, requestService, operationService, processService);
-        this.messageProducer = messageProducer;
     }
 
     @RequestMapping(value = "/cn", method = RequestMethod.POST)
@@ -124,12 +120,10 @@ public class TenderController extends BaseController {
         return startProcessResult(params, jsonData);
     }
 
-    @RequestMapping(value = "/endOfPSPQStage/{cpid}", method = RequestMethod.POST)
+    @RequestMapping(value = "/endOfStage/{cpid}", method = RequestMethod.POST)
     public ResponseEntity<String> endOfPSPQStage(@RequestHeader("Authorization") final String authorization,
                                                  @RequestHeader("X-OPERATION-ID") final String operationId,
-                                                 @RequestHeader(value = "X-TOKEN", required = false) final String token,
-                                                 @PathVariable("cpid") final String cpid,
-                                                 @RequestBody final JsonNode jsonData) {
+                                                 @PathVariable("cpid") final String cpid) {
         final Params params = new Params();
         params.setRequestId(UUIDs.timeBased().toString());
         params.setOwner(getOwner(authorization));
@@ -137,9 +131,7 @@ public class TenderController extends BaseController {
         params.setCpid(cpid);
         params.setStage("ps");
         params.setProcessType("endOfPSPQStage");
-        params.setOperationType("endOfPSPQStage");
-        params.setToken(token);
-        return startProcessResult(params, jsonData);
+        return startProcessResult(params, null);
     }
 }
 
