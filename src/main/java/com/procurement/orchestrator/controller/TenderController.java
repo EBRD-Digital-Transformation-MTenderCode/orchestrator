@@ -106,7 +106,7 @@ public class TenderController extends BaseController {
         return startProcessResult(params, jsonData);
     }
 
-    @RequestMapping(value = "/awardByBid/{cpid}", method = RequestMethod.POST)
+    @RequestMapping(value = "/award/{cpid}", method = RequestMethod.POST)
     public ResponseEntity<String> awardByBid(@RequestHeader("Authorization") final String authorization,
                                              @RequestHeader("X-OPERATION-ID") final String operationId,
                                              @RequestHeader(value = "X-TOKEN", required = false) final String token,
