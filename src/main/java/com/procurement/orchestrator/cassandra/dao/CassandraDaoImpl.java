@@ -8,6 +8,7 @@ import com.datastax.driver.core.querybuilder.Insert;
 import com.procurement.orchestrator.cassandra.model.OperationEntity;
 import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
 import com.procurement.orchestrator.cassandra.model.RequestEntity;
+import com.procurement.orchestrator.cassandra.model.StageEntity;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 
@@ -16,17 +17,22 @@ import static com.datastax.driver.core.querybuilder.QueryBuilder.*;
 @Service
 public class CassandraDaoImpl implements CassandraDao {
 
-    private static final String REQUEST_TABLE = "orchestrator_request";
-    private static final String OPERATION_TABLE = "orchestrator_operation";
     private static final String OPERATION_STEP_TABLE = "orchestrator_operation_step";
-    private static final String REQUEST_ID = "request_id";
+    private static final String OPERATION_TABLE = "orchestrator_operation";
+    private static final String REQUEST_TABLE = "orchestrator_request";
+    private static final String STAGE_TABLE = "orchestrator_stage";
     private static final String REQUEST_DATE = "request_date";
     private static final String OPERATION_ID = "operation_id";
-    private static final String JSON_DATA = "json_data";
     private static final String JSON_PARAMS = "json_params";
+    private static final String REQUEST_ID = "request_id";
     private static final String PROCESS_ID = "process_id";
-    private static final String TASK_ID = "task_id";
+    private static final String JSON_DATA = "json_data";
     private static final String STEP_DATE = "step_date";
+    private static final String TASK_ID = "task_id";
+    private static final String COUNTRY = "country";
+    private static final String STAGE = "stage";
+    private static final String CPID = "cp_id";
+    private static final String PMD = "pmd";
 
     private final Session session;
 
@@ -47,7 +53,7 @@ public class CassandraDaoImpl implements CassandraDao {
     }
 
     @Override
-    public Optional<RequestEntity> getRequestById(String id) {
+    public Optional<RequestEntity> getRequestById(final String id) {
         final Statement query = select()
                 .all()
                 .from(REQUEST_TABLE)
@@ -66,7 +72,7 @@ public class CassandraDaoImpl implements CassandraDao {
     }
 
     @Override
-    public Boolean saveOperationIfNotExist(OperationEntity entity) {
+    public Boolean saveOperationIfNotExist(final OperationEntity entity) {
         final Insert insert = insertInto(OPERATION_TABLE).ifNotExists();
         insert
                 .value(OPERATION_ID, entity.getOperationId())
@@ -80,7 +86,7 @@ public class CassandraDaoImpl implements CassandraDao {
         return true;
     }
 
-    public Boolean isOperationExist(String operationId) {
+    public Boolean isOperationExist(final String operationId) {
         final Statement query = select()
                 .from(OPERATION_TABLE)
                 .where(eq(OPERATION_ID, operationId));
@@ -104,7 +110,7 @@ public class CassandraDaoImpl implements CassandraDao {
     }
 
     @Override
-    public Optional<OperationStepEntity> getOperationStep(final String processId, String taskId) {
+    public Optional<OperationStepEntity> getOperationStep(final String processId, final String taskId) {
         final Statement query = select()
                 .all()
                 .from(OPERATION_STEP_TABLE)
@@ -122,5 +128,35 @@ public class CassandraDaoImpl implements CassandraDao {
                         row.getString(JSON_PARAMS),
                         row.getString(JSON_DATA)));
 
+    }
+
+    @Override
+    public void saveStage(final StageEntity entity) {
+        final Insert insert = insertInto(STAGE_TABLE);
+        insert
+                .value(CPID, entity.getCpId())
+                .value(STAGE, entity.getStage())
+                .value(COUNTRY, entity.getCountry())
+                .value(PMD, entity.getPmd());
+
+        session.execute(insert).wasApplied();
+    }
+
+    @Override
+    public StageEntity getStageByCpId(final String cpId) {
+        final Statement query = select()
+                .all()
+                .from(STAGE_TABLE)
+                .where(eq(CPID, cpId))
+                .limit(1);
+
+        final Row row = session.execute(query).one();
+        if (row != null)
+            return new StageEntity(
+                    row.getString(CPID),
+                    row.getString(STAGE),
+                    row.getString(COUNTRY),
+                    row.getString(PMD));
+        return null;
     }
 }

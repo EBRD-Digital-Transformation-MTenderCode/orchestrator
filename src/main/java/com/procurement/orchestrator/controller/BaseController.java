@@ -8,6 +8,7 @@ import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.StringUtils;
 import org.springframework.http.HttpStatus;
@@ -35,7 +36,8 @@ public class BaseController {
     }
 
 
-    ResponseEntity<String> startProcessResult(final Params params, final JsonNode jsonData) {
+    ResponseEntity<String> startProcessResult(final Params params, JsonNode jsonData) {
+        if (Objects.isNull(jsonData)) jsonData = jsonUtil.createObjectNode();
         saveRequest(params.getRequestId(), params.getOperationId(), params, jsonData);
         checkOperationById(params.getOperationId());
         Map<String, Object> variables = new HashMap<>();

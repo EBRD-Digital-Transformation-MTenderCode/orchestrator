@@ -3,6 +3,7 @@ package com.procurement.orchestrator.cassandra.dao;
 import com.procurement.orchestrator.cassandra.model.OperationEntity;
 import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
 import com.procurement.orchestrator.cassandra.model.RequestEntity;
+import com.procurement.orchestrator.cassandra.model.StageEntity;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 
@@ -20,5 +21,9 @@ public interface CassandraDao {
     void saveOperationStep(OperationStepEntity entity);
 
     Optional<OperationStepEntity> getOperationStep(String processId, String taskId);
+
+    void saveStage(StageEntity entity);
+
+    StageEntity getStageByCpId(String cpId);
 }
 

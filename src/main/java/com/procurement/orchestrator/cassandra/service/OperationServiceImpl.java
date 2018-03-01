@@ -2,10 +2,7 @@ package com.procurement.orchestrator.cassandra.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.cassandra.dao.CassandraDao;
-import com.procurement.orchestrator.cassandra.model.OperationEntity;
-import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
-import com.procurement.orchestrator.cassandra.model.RequestEntity;
-import com.procurement.orchestrator.cassandra.model.Params;
+import com.procurement.orchestrator.cassandra.model.*;
 import com.procurement.orchestrator.exception.OperationException;
 import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -138,6 +135,16 @@ public class OperationServiceImpl implements OperationService {
         operationStepEntity.setDate(dateUtil.getNowUTC());
         operationStepEntity.setJsonData(jsonUtil.toJson(response));
         cassandraDao.saveOperationStep(operationStepEntity);
+    }
+
+    @Override
+    public void saveStage(Params params) {
+        final StageEntity stageEntity = new StageEntity();
+        stageEntity.setCpId(params.getCpid());
+        stageEntity.setStage(params.getStage());
+        stageEntity.setCountry(params.getCountry());
+        stageEntity.setPmd(params.getPmd());
+        cassandraDao.saveStage(stageEntity);
     }
 
     public void processException(final String error,
