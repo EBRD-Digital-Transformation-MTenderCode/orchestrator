@@ -46,10 +46,10 @@ public class TenderController extends BaseController {
         return startProcessResult(params, jsonData);
     }
 
-    @RequestMapping(value = "/cn/{ocid}", method = RequestMethod.POST)
+    @RequestMapping(value = "/cn/{cpid}", method = RequestMethod.POST)
     public ResponseEntity<String> updateCN(@RequestHeader("Authorization") final String authorization,
                                            @RequestHeader("X-OPERATION-ID") final String operationId,
-                                           @PathVariable("ocid") final String ocid,
+                                           @PathVariable("cpid") final String cpid,
                                            @RequestParam("country") final String country,
                                            @RequestParam("pmd") final String pmd,
                                            @RequestBody final JsonNode jsonData) {
@@ -57,7 +57,7 @@ public class TenderController extends BaseController {
         params.setRequestId(UUIDs.timeBased().toString());
         params.setOwner(getOwner(authorization));
         params.setOperationId(operationId);
-        params.setCpid(ocid);
+        params.setCpid(cpid);
         params.setProcessType("updateCN");
         params.setOperationType("updateCN");
         params.setCountry(country);
@@ -66,11 +66,11 @@ public class TenderController extends BaseController {
     }
 
 
-    @RequestMapping(value = "/bid", method = RequestMethod.POST)
+    @RequestMapping(value = "/bid/{cpid}", method = RequestMethod.POST)
     public ResponseEntity<String> createBid(@RequestHeader("Authorization") final String authorization,
                                             @RequestHeader("X-OPERATION-ID") final String operationId,
                                             @RequestHeader(value = "X-TOKEN", required = false) final String token,
-                                            @RequestParam("cpid") final String cpid,
+                                            @PathVariable("cpid") final String cpid,
                                             @RequestBody final JsonNode jsonData) {
         final Params params = new Params();
         params.setRequestId(UUIDs.timeBased().toString());
@@ -84,11 +84,11 @@ public class TenderController extends BaseController {
         return startProcessResult(params, jsonData);
     }
 
-    @RequestMapping(value = "/enquiry", method = RequestMethod.POST)
+    @RequestMapping(value = "/enquiry/{cpid}", method = RequestMethod.POST)
     public ResponseEntity<String> enquiry(@RequestHeader("Authorization") final String authorization,
                                           @RequestHeader("X-OPERATION-ID") final String operationId,
                                           @RequestHeader(value = "X-TOKEN", required = false) final String token,
-                                          @RequestParam("cpid") final String cpid,
+                                          @PathVariable("cpid") final String cpid,
                                           @RequestParam("country") final String country,
                                           @RequestParam("pmd") final String pmd,
                                           @RequestBody final JsonNode jsonData) {
@@ -106,11 +106,11 @@ public class TenderController extends BaseController {
         return startProcessResult(params, jsonData);
     }
 
-    @RequestMapping(value = "/awardByBid", method = RequestMethod.POST)
+    @RequestMapping(value = "/awardByBid/{cpid}", method = RequestMethod.POST)
     public ResponseEntity<String> awardByBid(@RequestHeader("Authorization") final String authorization,
                                              @RequestHeader("X-OPERATION-ID") final String operationId,
                                              @RequestHeader(value = "X-TOKEN", required = false) final String token,
-                                             @RequestParam("cpid") final String cpid,
+                                             @PathVariable("cpid") final String cpid,
                                              @RequestBody final JsonNode jsonData) {
         final Params params = new Params();
         params.setRequestId(UUIDs.timeBased().toString());
@@ -124,11 +124,11 @@ public class TenderController extends BaseController {
         return startProcessResult(params, jsonData);
     }
 
-    @RequestMapping(value = "/endOfPSPQStage", method = RequestMethod.POST)
+    @RequestMapping(value = "/endOfPSPQStage/{cpid}", method = RequestMethod.POST)
     public ResponseEntity<String> endOfPSPQStage(@RequestHeader("Authorization") final String authorization,
                                                  @RequestHeader("X-OPERATION-ID") final String operationId,
                                                  @RequestHeader(value = "X-TOKEN", required = false) final String token,
-                                                 @RequestParam("cpid") final String cpid,
+                                                 @PathVariable("cpid") final String cpid,
                                                  @RequestBody final JsonNode jsonData) {
         final Params params = new Params();
         params.setRequestId(UUIDs.timeBased().toString());
@@ -140,38 +140,6 @@ public class TenderController extends BaseController {
         params.setOperationType("endOfPSPQStage");
         params.setToken(token);
         return startProcessResult(params, jsonData);
-    }
-
-    @RequestMapping(value = "/sendMessage", method = RequestMethod.POST)
-    public ResponseEntity<String> sendMessage(@RequestHeader("X-OPERATION-ID") final String operationId) {
-        final PlatformMessage message = new PlatformMessage(
-                true,
-                operationId,
-                null,
-                null,
-                null,
-                null);
-        messageProducer.sendToPlatform(message);
-        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
-    }
-
-    @RequestMapping(value = "/tenderPeriodEnd", method = RequestMethod.POST)
-    public ResponseEntity<String> endOfPSPQStage(@RequestParam("Authorization") final String authorization,
-                                                 @RequestParam("cpid") final String cpid,
-                                                 @RequestParam("stage") final String stage,
-                                                 @RequestParam("country") final String country,
-                                                 @RequestParam("pmd") final String pmd) {
-        final Params params = new Params();
-        params.setProcessType("tenderPeriodEnd");
-        params.setCpid(cpid);
-        params.setStage(stage);
-        params.setOwner(getOwner(authorization));
-        params.setCountry(country);
-        params.setPmd(pmd);
-        params.setRequestId(UUIDs.timeBased().toString());
-        params.setOperationId(params.getRequestId());
-        JsonUtil util = new JsonUtil(new ObjectMapper());
-        return startProcessResult(params, util.createObjectNode());
     }
 }
 
