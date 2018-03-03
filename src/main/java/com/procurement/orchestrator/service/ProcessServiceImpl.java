@@ -210,9 +210,9 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public String getAwardStatus(final JsonNode jsonData, final String processId) {
+    public String getAwardStatusDetails(final JsonNode jsonData, final String processId) {
         try {
-            return jsonData.get("award").get("status").asText();
+            return jsonData.get("award").get("statusDetails").asText();
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
             return null;

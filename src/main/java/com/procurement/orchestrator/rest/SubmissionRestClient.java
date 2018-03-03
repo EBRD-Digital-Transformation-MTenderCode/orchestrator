@@ -76,7 +76,7 @@ public interface SubmissionRestClient {
     ResponseEntity<ResponseDto> updateStatusDetails(@RequestParam("cpId") final String cpId,
                                                     @RequestParam("stage") final String stage,
                                                     @RequestParam("bidId") final String bidId,
-                                                    @RequestParam("awardStatus") final String awardStatus)
+                                                    @RequestParam("awardStatusDetails") final String awardStatusDetails)
             throws Exception;
 
     @RequestMapping(path = "/submission/setFinalStatuses", method = RequestMethod.POST)

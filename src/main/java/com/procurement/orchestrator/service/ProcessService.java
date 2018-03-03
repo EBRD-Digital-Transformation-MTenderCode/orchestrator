@@ -45,7 +45,7 @@ public interface ProcessService {
 
     String getAwardRelatedBid(JsonNode jsonData, String processId);
 
-    String getAwardStatus(JsonNode jsonData, String processId);
+    String getAwardStatusDetails(JsonNode jsonData, String processId);
 
     JsonNode addUpdatedBid(JsonNode jsonData, JsonNode bidData, String processId);
 
