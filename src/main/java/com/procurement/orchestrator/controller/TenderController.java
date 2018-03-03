@@ -67,12 +67,13 @@ public class TenderController extends BaseController {
                                             @RequestHeader("X-OPERATION-ID") final String operationId,
                                             @RequestHeader(value = "X-TOKEN", required = false) final String token,
                                             @PathVariable("cpid") final String cpid,
+                                            @RequestBody final String stage,
                                             @RequestBody final JsonNode jsonData) {
         final Params params = new Params();
         params.setRequestId(UUIDs.timeBased().toString());
         params.setOperationId(operationId);
         params.setCpid(cpid);
-        params.setStage("ps");
+        params.setStage(stage);
         params.setProcessType("submitTheBid");
         params.setOperationType("bid");
         params.setOwner(getOwner(authorization));
@@ -87,13 +88,14 @@ public class TenderController extends BaseController {
                                           @PathVariable("cpid") final String cpid,
                                           @RequestParam("country") final String country,
                                           @RequestParam("pmd") final String pmd,
+                                          @RequestBody final String stage,
                                           @RequestBody final JsonNode jsonData) {
         final Params params = new Params();
         params.setRequestId(UUIDs.timeBased().toString());
         params.setOwner(getOwner(authorization));
         params.setOperationId(operationId);
         params.setCpid(cpid);
-        params.setStage("ps");
+        params.setStage(stage);
         params.setProcessType("enquiry");
         params.setOperationType("createEnquiry");
         params.setCountry(country);
@@ -107,13 +109,14 @@ public class TenderController extends BaseController {
                                              @RequestHeader("X-OPERATION-ID") final String operationId,
                                              @RequestHeader(value = "X-TOKEN", required = false) final String token,
                                              @PathVariable("cpid") final String cpid,
+                                             @RequestBody final String stage,
                                              @RequestBody final JsonNode jsonData) {
         final Params params = new Params();
         params.setRequestId(UUIDs.timeBased().toString());
         params.setOwner(getOwner(authorization));
         params.setOperationId(operationId);
         params.setCpid(cpid);
-        params.setStage("ps");
+        params.setStage(stage);
         params.setProcessType("awardByBid");
         params.setOperationType("awardByBid");
         params.setToken(token);
@@ -123,13 +126,14 @@ public class TenderController extends BaseController {
     @RequestMapping(value = "/endOfStage/{cpid}", method = RequestMethod.POST)
     public ResponseEntity<String> endOfPSPQStage(@RequestHeader("Authorization") final String authorization,
                                                  @RequestHeader("X-OPERATION-ID") final String operationId,
-                                                 @PathVariable("cpid") final String cpid) {
+                                                 @PathVariable("cpid") final String cpid,
+                                                 @RequestBody final String stage) {
         final Params params = new Params();
         params.setRequestId(UUIDs.timeBased().toString());
         params.setOwner(getOwner(authorization));
         params.setOperationId(operationId);
         params.setCpid(cpid);
-        params.setStage("ps");
+        params.setStage(stage);
         params.setProcessType("endOfPSPQStage");
         return startProcessResult(params, null);
     }
