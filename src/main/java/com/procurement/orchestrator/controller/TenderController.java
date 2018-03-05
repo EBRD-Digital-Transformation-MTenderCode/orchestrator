@@ -2,16 +2,11 @@ package com.procurement.orchestrator.controller;
 
 import com.datastax.driver.core.utils.UUIDs;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.procurement.orchestrator.cassandra.model.Params;
 import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.cassandra.service.RequestService;
-import com.procurement.orchestrator.cassandra.model.Params;
-import com.procurement.orchestrator.kafka.MessageProducer;
-import com.procurement.orchestrator.kafka.dto.PlatformMessage;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
-import jdk.nashorn.internal.ir.ObjectNode;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -67,7 +62,7 @@ public class TenderController extends BaseController {
                                             @RequestHeader("X-OPERATION-ID") final String operationId,
                                             @RequestHeader(value = "X-TOKEN", required = false) final String token,
                                             @PathVariable("cpid") final String cpid,
-                                            @RequestBody final String stage,
+                                            @RequestParam("stage") final String stage,
                                             @RequestBody final JsonNode jsonData) {
         final Params params = new Params();
         params.setRequestId(UUIDs.timeBased().toString());
@@ -88,7 +83,7 @@ public class TenderController extends BaseController {
                                           @PathVariable("cpid") final String cpid,
                                           @RequestParam("country") final String country,
                                           @RequestParam("pmd") final String pmd,
-                                          @RequestBody final String stage,
+                                          @RequestParam("stage") final String stage,
                                           @RequestBody final JsonNode jsonData) {
         final Params params = new Params();
         params.setRequestId(UUIDs.timeBased().toString());
@@ -109,7 +104,7 @@ public class TenderController extends BaseController {
                                              @RequestHeader("X-OPERATION-ID") final String operationId,
                                              @RequestHeader(value = "X-TOKEN", required = false) final String token,
                                              @PathVariable("cpid") final String cpid,
-                                             @RequestBody final String stage,
+                                             @RequestParam("stage") final String stage,
                                              @RequestBody final JsonNode jsonData) {
         final Params params = new Params();
         params.setRequestId(UUIDs.timeBased().toString());
@@ -127,7 +122,7 @@ public class TenderController extends BaseController {
     public ResponseEntity<String> endOfPSPQStage(@RequestHeader("Authorization") final String authorization,
                                                  @RequestHeader("X-OPERATION-ID") final String operationId,
                                                  @PathVariable("cpid") final String cpid,
-                                                 @RequestBody final String stage) {
+                                                 @RequestParam("stage") final String stage) {
         final Params params = new Params();
         params.setRequestId(UUIDs.timeBased().toString());
         params.setOwner(getOwner(authorization));
