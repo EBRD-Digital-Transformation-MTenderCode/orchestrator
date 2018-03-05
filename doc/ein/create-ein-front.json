@@ -1,41 +1,40 @@
 {
+  "tender": {
+    "title": "Препарати наркотичної, психотропної групи: МНН - тримеперидин, морфін гідрохлорид, діазепам, фентаніл, кетамін, феназепам, натрію оксибутират",
+    "description": "Під кількістю 8 штук слід розуміти 8 найменувань",
+    "classification": {
+      "id": "33600000-6",
+      "scheme": "CPV",
+      "description": "Фармацевтична продукція"
+    }
+  },
   "planning": {
     "budget": {
-      "id": "9aef5f21-1010-11e8-86a7-8f03a08e579f",
+      "id": "7777",
       "period": {
         "startDate": "2018-02-27T00:00:00Z",
         "endDate": "2018-02-27T00:00:00Z"
       },
       "amount": {
-        "amount": 0.0,
+        "amount": 7777777,
         "currency": "UAH"
       }
     },
     "rationale": "Обгрунтування закупівель надано у вільному тексті. Більш детальна інформація може бути надана у доданому документі."
   },
-  "tender": {
-    "title": "Препарати наркотичної, психотропної групи: МНН - тримеперидин, морфін гідрохлорид, діазепам, фентаніл, кетамін, феназепам, натрію оксибутират",
-    "description": "Під кількістю 8 штук слід розуміти 8 найменувань",
-    "status": "planning",
-    "classification": {
-      "scheme": "CPV",
-      "id": "33600000-6",
-      "description": "Фармацевтична продукція"
-    }
-  },
   "parties": [
     {
       "name": "Військово – медичний клінічний центр Західного регіону",
       "identifier": {
-        "scheme": "UA-EDR",
         "id": "1",
+        "scheme": "UA-EDR",
         "legalName": "ТОВ 'Військово – медичний клінічний центр Західного регіону'",
         "uri": "https://www.google.com"
       },
       "additionalIdentifiers": [
         {
-          "scheme": "UA-EDR",
           "id": "2",
+          "scheme": "UA-EDR",
           "legalName": "Додатковий лігал нейм",
           "uri": "https://www.google.com/search"
         }
@@ -66,5 +65,37 @@
       },
       "buyerProfile": "http://linkToInfoAboutBuyer.ua"
     }
-  ]
+  ],
+  "buyer": {
+    "id": "3",
+    "name": "Новороздільська міська лікарня",
+    "identifier": {
+      "id": "20764314",
+      "scheme": "UA-EDR",
+      "legalName": "Новороздільська міська лікарня",
+      "uri": "http://buyerTestLink.ua"
+    },
+    "additionalIdentifiers": [
+      {
+        "id": "77764777",
+        "scheme": "UA-EDR",
+        "legalName": "Додатково Новороздільська міська лікарня",
+        "uri": "http://additionalBuyerTestLink.ua"
+      }
+    ],
+    "address": {
+      "streetAddress": "вул. Винниченка, 37",
+      "locality": "місто Новий Розділ",
+      "region": "Львівська область",
+      "postalCode": "7770777",
+      "countryName": "Україна"
+    },
+    "contactPoint": {
+      "name": "Осипових Сергій Олександрович",
+      "email": "test2@test.test",
+      "telephone": "+380222222222",
+      "faxNumber": "+380222222222",
+      "url": "test3@test.test"
+    }
+  }
 }
