@@ -16,3 +16,11 @@
     ]
   }
 }
+
+{
+  "award": {
+    "id": "a807ee10-1ec6-11e8-8cf1-8504c6219dd6",
+    "statusDetails": "active",
+    "description": "Award description"
+  }
+}
