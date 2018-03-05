@@ -2,6 +2,7 @@ package com.procurement.orchestrator.controller;
 
 import com.datastax.driver.core.utils.UUIDs;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.procurement.orchestrator.cassandra.model.Stage;
 import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.cassandra.service.RequestService;
 import com.procurement.orchestrator.cassandra.model.Params;
@@ -28,7 +29,7 @@ public class BudgetController extends BaseController {
         params.setRequestId(UUIDs.timeBased().toString());
         params.setOwner(getOwner(authorization));
         params.setOperationId(operationId);
-        params.setStage("ei");
+        params.setStage(Stage.EI.value());
         params.setProcessType("ei");
         params.setOperationType("createEI");
         return startProcessResult(params, jsonData);
@@ -44,7 +45,7 @@ public class BudgetController extends BaseController {
         params.setRequestId(UUIDs.timeBased().toString());
         params.setOperationId(operationId);
         params.setCpid(cpid);
-        params.setStage("ei");
+        params.setStage(Stage.EI.value());
         params.setProcessType("ei");
         params.setOperationType("updateEI");
         params.setOwner(getOwner(authorization));
@@ -61,7 +62,7 @@ public class BudgetController extends BaseController {
         params.setRequestId(UUIDs.timeBased().toString());
         params.setOperationId(operationId);
         params.setCpid(cpid);
-        params.setStage("fs");
+        params.setStage(Stage.FS.value());
         params.setOperationType("createFS");
         params.setProcessType("fs");
         params.setOwner(getOwner(authorization));
@@ -80,7 +81,7 @@ public class BudgetController extends BaseController {
         params.setOperationId(operationId);
         params.setCpid(cpid);
         params.setOcid(ocid);
-        params.setStage("fs");
+        params.setStage(Stage.FS.value());
         params.setProcessType("fs");
         params.setOperationType("updateFS");
         params.setOwner(getOwner(authorization));
