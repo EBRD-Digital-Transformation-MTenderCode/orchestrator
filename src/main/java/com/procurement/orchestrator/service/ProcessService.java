@@ -1,6 +1,7 @@
 package com.procurement.orchestrator.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.procurement.orchestrator.cassandra.model.Params;
 import com.procurement.orchestrator.domain.dto.ResponseDto;
 import java.util.Map;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
@@ -24,6 +25,10 @@ public interface ProcessService {
     Boolean getBoolean(String fieldName, JsonNode jsonData, String processId);
 
     String getTenderPeriodEndDate(JsonNode jsonData, String processId);
+
+    Params addTokenToParams(final Params params,  final JsonNode responseData, final String processId);
+
+    Params addAwardTokensToParams(final Params params,  final JsonNode responseData, final String processId);
 
     JsonNode addTenderPeriodStartDate(JsonNode jsonData, String startDate, String processId);
 

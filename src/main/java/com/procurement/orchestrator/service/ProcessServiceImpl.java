@@ -3,6 +3,7 @@ package com.procurement.orchestrator.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.procurement.orchestrator.cassandra.model.Params;
 import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.domain.dto.ResponseDetailsDto;
 import com.procurement.orchestrator.domain.dto.ResponseDto;
@@ -86,6 +87,24 @@ public class ProcessServiceImpl implements ProcessService {
             terminateProcess(processId, fieldName + " not found.");
         }
         return null;
+    }
+
+    public Params addTokenToParams(Params params, JsonNode jsonData, String processId) {
+        params.setToken(getText("token", jsonData, processId));
+        return params;
+    }
+
+    public Params addAwardTokensToParams(Params params, JsonNode jsonData, String processId) {
+//        final ArrayNode awardsNode = jsonData.get("awards");
+//        final ObjectNode mainNode = jsonUtil.createObjectNode();
+//        final ArrayNode documentsArray = mainNode.putArray("documents");
+//        for (final JsonNode docNode : awardsNode) {
+//            ObjectNode idNode = jsonUtil.createObjectNode();
+//            idNode.put("id", docNode.get("id").asText());
+//            documentsArray.add(idNode);
+//        }
+//        return mainNode;
+//        return params;
     }
 
     public String getTenderPeriodEndDate(final JsonNode jsonData, final String processId) {

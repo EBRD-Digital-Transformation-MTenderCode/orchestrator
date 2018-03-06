@@ -14,9 +14,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SaveDateStage implements JavaDelegate {
+public class SetDateForStage implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SaveDateStage.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SetDateForStage.class);
 
     private final OperationService operationService;
 
@@ -26,10 +26,10 @@ public class SaveDateStage implements JavaDelegate {
 
     private final DateUtil dateUtil;
 
-    public SaveDateStage(final OperationService operationService,
-                         final ProcessService processService,
-                         final JsonUtil jsonUtil,
-                         final DateUtil dateUtil) {
+    public SetDateForStage(final OperationService operationService,
+                           final ProcessService processService,
+                           final JsonUtil jsonUtil,
+                           final DateUtil dateUtil) {
         this.operationService = operationService;
         this.processService = processService;
         this.jsonUtil = jsonUtil;
