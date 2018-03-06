@@ -48,14 +48,18 @@ public class QualificationCheckAwarded implements JavaDelegate {
         final String taskId = execution.getCurrentActivityId();
         final String endDate = dateUtil.format(dateUtil.localDateTimeNowUTC());
         final JsonNode responseData = processService.processResponse(
-                qualificationRestClient.checkAwarded(params.getCpid(), params.getStage(), endDate),
+                qualificationRestClient.checkAwarded(
+                        params.getCpid(),
+                        params.getStage(),
+                        params.getCountry(),
+                        params.getPmd(),
+                        endDate),
                 processId,
                 operationId,
                 taskId);
         if (Objects.nonNull(responseData)) {
             final Boolean allAwarded = processService.getBoolean("allAwarded", responseData, processId);
-//            execution.setVariable("allAwarded", (allAwarded ? 1 : 0));
-            execution.setVariable("allAwarded", 1);
+            execution.setVariable("allAwarded", (allAwarded ? 1 : 0));
             operationService.saveOperationStep(execution, entity, responseData);
         }
     }

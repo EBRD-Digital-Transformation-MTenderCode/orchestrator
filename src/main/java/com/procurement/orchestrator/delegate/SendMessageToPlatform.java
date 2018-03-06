@@ -35,6 +35,8 @@ public class SendMessageToPlatform implements JavaDelegate {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
+
+
         final PlatformMessage message = new PlatformMessage(
                 true,
                 params.getOperationId(),

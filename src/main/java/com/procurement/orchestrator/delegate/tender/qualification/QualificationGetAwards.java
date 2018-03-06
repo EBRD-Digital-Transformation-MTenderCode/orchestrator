@@ -47,7 +47,11 @@ public class QualificationGetAwards implements JavaDelegate {
         final String taskId = execution.getCurrentActivityId();
         params.setOperationType("standstillPeriodEnd");
         final JsonNode responseData = processService.processResponse(
-                qualificationRestClient.getAwards(params.getCpid(), params.getStage()),
+                qualificationRestClient.getAwards(
+                        params.getCpid(),
+                        params.getStage(),
+                        params.getCountry(),
+                        params.getPmd()),
                 processId,
                 operationId,
                 taskId);

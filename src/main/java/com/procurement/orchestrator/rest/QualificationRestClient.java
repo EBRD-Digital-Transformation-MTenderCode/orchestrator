@@ -31,11 +31,15 @@ public interface QualificationRestClient {
     @RequestMapping(path = "/qualification/period", method = RequestMethod.PUT)
     ResponseEntity<ResponseDto> checkAwarded(@RequestParam(value = "cpId") final String cpId,
                                              @RequestParam(value = "stage") final String stage,
+                                             @RequestParam(value = "country") final String country,
+                                             @RequestParam(value = "pmd") final String pmd,
                                              @RequestParam(value = "endPeriod") final String endPeriod) throws Exception;
 
     @RequestMapping(path = "/qualification", method = RequestMethod.GET)
     ResponseEntity<ResponseDto> getAwards(@RequestParam("ocId") final String ocId,
-                                          @RequestParam("stage") final String stage) throws Exception;
+                                          @RequestParam("stage") final String stage,
+                                          @RequestParam(value = "country") final String country,
+                                          @RequestParam(value = "pmd") final String pmd) throws Exception;
 
 
 }

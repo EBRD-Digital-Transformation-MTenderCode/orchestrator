@@ -124,13 +124,17 @@ public class TenderController extends BaseController {
     public ResponseEntity<String> endOfPSPQStage(@RequestHeader("Authorization") final String authorization,
                                                  @RequestHeader("X-OPERATION-ID") final String operationId,
                                                  @PathVariable("cpid") final String cpid,
-                                                 @RequestParam("stage") final String stage) {
+                                                 @RequestParam("stage") final String stage,
+                                                 @RequestParam("country") final String country,
+                                                 @RequestParam("pmd") final String pmd) {
         final Params params = new Params();
         params.setRequestId(UUIDs.timeBased().toString());
         params.setOwner(getOwner(authorization));
         params.setOperationId(operationId);
         params.setCpid(cpid);
         params.setStage(Stage.fromValue(stage).value());
+        params.setCountry(country);
+        params.setPmd(pmd);
         params.setProcessType("endOfPSPQStage");
         return startProcessResult(params, null);
     }
