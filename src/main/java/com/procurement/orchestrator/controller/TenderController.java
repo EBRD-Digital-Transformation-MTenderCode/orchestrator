@@ -120,7 +120,7 @@ public class TenderController extends BaseController {
         return startProcessResult(params, jsonData);
     }
 
-    @RequestMapping(value = "/endOfPeriod/{cpid}", method = RequestMethod.POST)
+    @RequestMapping(value = "/endAwardPeriod/{cpid}", method = RequestMethod.POST)
     public ResponseEntity<String> endOfPSPQStage(@RequestHeader("Authorization") final String authorization,
                                                  @RequestHeader("X-OPERATION-ID") final String operationId,
                                                  @PathVariable("cpid") final String cpid,
