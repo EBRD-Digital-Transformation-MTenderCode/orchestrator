@@ -50,6 +50,7 @@ public class ChronographScheduleEndTenderPeriod implements JavaDelegate {
         /**set params for next process*/
         final Params paramsForEndTenderPeriod = new Params();
         paramsForEndTenderPeriod.setProcessType("tenderPeriodEnd");
+        paramsForEndTenderPeriod.setOperationType("tenderPeriodEnd");
         paramsForEndTenderPeriod.setCpid(params.getCpid());
         paramsForEndTenderPeriod.setStage(params.getStage());
         paramsForEndTenderPeriod.setOwner(params.getOwner());
