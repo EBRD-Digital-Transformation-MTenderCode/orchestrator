@@ -136,6 +136,7 @@ public class TenderController extends BaseController {
         params.setCountry(country);
         params.setPmd(pmd);
         params.setProcessType("awardPeriodEnd");
+        params.setOperationType("awardPeriodEnd");
         return startProcessResult(params, null);
     }
 }
