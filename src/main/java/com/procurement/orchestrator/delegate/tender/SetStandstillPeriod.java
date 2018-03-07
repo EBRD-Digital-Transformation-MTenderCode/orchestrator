@@ -1,4 +1,4 @@
-package com.procurement.orchestrator.delegate.tender.access;
+package com.procurement.orchestrator.delegate.tender;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.cassandra.model.OperationStepEntity;

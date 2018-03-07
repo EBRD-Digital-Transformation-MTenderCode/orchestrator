@@ -1,0 +1,366 @@
+{
+  "uri": "https://point.eprocurement.systems/ocds-t1s2t3-MD-1520432542249",
+  "version": "1.1",
+  "extensions": [
+    "https://raw.githubusercontent.com/open-contracting/ocds_bid_extension/v1.1.1/extension.json",
+    "https://raw.githubusercontent.com/open-contracting/ocds_enquiry_extension$/v1.1.1/extension.json"
+  ],
+  "publisher": {
+    "name": "publisher-name",
+    "scheme": "publisher-scheme",
+    "uid": "publisher-uid",
+    "uri": "publisher-uri"
+  },
+  "license": "http://opendefinition.org/licenses/",
+  "publicationPolicy": "http://opendefinition.org/licenses/",
+  "publishedDate": "2018-03-07T14:22:22Z",
+  "packages": [
+    "https://point.eprocurement.systems/ocds-t1s2t3-MD-1520432542249",
+    "https://point.eprocurement.systems/ocds-t1s2t3-MD-1520432542249-PS-1520432542463"
+  ],
+  "records": [
+    {
+      "ocid": "ocds-t1s2t3-MD-1520432542249",
+      "compiledRelease": {
+        "ocid": "ocds-t1s2t3-MD-1520432542249",
+        "id": "ocds-t1s2t3-MD-1520432542249-1520432542461",
+        "date": "2018-03-07T14:22:22Z",
+        "tag": [
+          "compiled"
+        ],
+        "initiationType": "tender",
+        "language": "en",
+        "planning": {
+          "rationale": "The rationale for the procurement provided in free text. More detail can be provided in an attached document.",
+          "budget": {
+            "description": "A short free text description of the budget source. May be used to provide the title of the budget line, or the programme used to fund this project.",
+            "amount": {
+              "amount": 1000,
+              "currency": "MDL"
+            },
+            "isEuropeanUnionFunded": true,
+            "europeanUnionFunding": {
+              "projectIdentifier": "proj-cn-12346",
+              "projectName": "test proj name",
+              "uri": "https://jwt.io"
+            },
+            "budgetBreakdown": [
+              {
+                "id": "ocds-t1s2t3-MD-1519384522491-fs-1519384549287",
+                "description": "A short free text description of this budget entry.",
+                "amount": {
+                  "amount": 500,
+                  "currency": "MDL"
+                },
+                "period": {
+                  "startDate": "2018-02-27T00:00:00Z",
+                  "endDate": "2018-09-27T00:00:00Z"
+                },
+                "sourceParty": null
+              }
+            ]
+          }
+        },
+        "tender": {
+          "id": "ocds-t1s2t3-MD-1520432542249",
+          "title": "Tender title",
+          "description": "Tender description",
+          "classification": {
+            "scheme": "CPV",
+            "id": "33600000-6",
+            "description": "Фармацевтична продукція"
+          },
+          "status": "active",
+          "statusDetails": "preselection",
+          "value": {
+            "amount": 1000,
+            "currency": "MDL"
+          },
+          "procurementMethod": "open",
+          "procurementMethodDetails": "Open Procurement",
+          "procurementMethodRationale": "Rationale of procurement method, especially in the case of Limited tendering.",
+          "procurementMethodAdditionalInfo": "Additional information about the procurement method.",
+          "mainProcurementCategory": "goods",
+          "additionalProcurementCategories": [
+            "goods"
+          ],
+          "hasEnquiries": false,
+          "eligibilityCriteria": "A description of any eligibility criteria for potential suppliers.",
+          "submissionLanguages": [
+            "pl",
+            "ro"
+          ],
+          "contractPeriod": {
+            "startDate": "2018-09-27T00:00:00Z",
+            "endDate": "2018-11-27T00:00:00Z"
+          },
+          "acceleratedProcedure": {
+            "isAcceleratedProcedure": false
+          },
+          "designContest": {
+            "serviceContractAward": false
+          },
+          "electronicWorkflows": {
+            "useOrdering": false,
+            "usePayment": false,
+            "acceptInvoicing": false
+          },
+          "jointProcurement": {
+            "isJointProcurement": false
+          },
+          "procedureOutsourcing": {
+            "procedureOutsourced": false
+          },
+          "framework": {
+            "isAFramework": false
+          },
+          "dynamicPurchasingSystem": {
+            "hasDynamicPurchasingSystem": false
+          },
+          "legalBasis": "DIRECTIVE_2014_24_EU",
+          "procuringEntity": {
+            "id": "UA-EDR-20764777",
+            "name": "Новороздільська міська лікарня"
+          }
+        },
+        "parties": [
+          {
+            "name": "Новороздільська міська лікарня",
+            "id": "UA-EDR-20764777",
+            "identifier": {
+              "scheme": "UA-EDR",
+              "id": "20764777",
+              "legalName": "Новороздільська міська лікарня",
+              "uri": "http://buyerTestLink.ua"
+            },
+            "additionalIdentifiers": [
+              {
+                "scheme": "UA-EDR",
+                "id": "123123123",
+                "legalName": "Додатково Новороздільська міська лікарня",
+                "uri": "http://additionalBuyerTestLink.ua"
+              }
+            ],
+            "address": {
+              "streetAddress": "вул. Винниченка, 37",
+              "locality": "місто Новий Розділ",
+              "region": "Львівська область",
+              "postalCode": "7770777",
+              "countryName": "Україна"
+            },
+            "contactPoint": {
+              "name": "Осипових Сергій Олександрович",
+              "email": "test2@test.test",
+              "telephone": "+380222222222",
+              "faxNumber": "+380222222222",
+              "url": "http://test.ua"
+            },
+            "roles": [
+              "buyer",
+              "procuringEntity"
+            ],
+            "details": {
+              "typeOfBuyer": "BODY_PUBLIC",
+              "mainGeneralActivity": "DEFENCE",
+              "mainSectoralActivity": "AIRPORT_RELATED_ACTIVITIES",
+              "isACentralPurchasingBody": false,
+              "scale": "micro"
+            },
+            "buyerProfile": "http://linkToInfoAboutBuyer.ua"
+          }
+        ],
+        "buyer": {
+          "id": "UA-EDR-20764777",
+          "name": "Новороздільська міська лікарня"
+        },
+        "relatedProcesses": [
+          {
+            "id": "f37d48f0-2212-11e8-90aa-dd1944dfed68",
+            "relationship": [
+              "x_preselection"
+            ],
+            "scheme": "ocid",
+            "identifier": "ocds-t1s2t3-MD-1520432542249-PS-1520432542463",
+            "uri": ""
+          }
+        ]
+      }
+    },
+    {
+      "ocid": "ocds-t1s2t3-MD-1520432542249-PS-1520432542463",
+      "compiledRelease": {
+        "ocid": "ocds-t1s2t3-MD-1520432542249-PS-1520432542463",
+        "id": "ocds-t1s2t3-MD-1520432542249-PS-1520432542463-1520432542463",
+        "date": "2018-03-07T14:22:22Z",
+        "tag": [
+          "compiled"
+        ],
+        "initiationType": "tender",
+        "language": "en",
+        "hasPreviousNotice": false,
+        "purposeOfNotice": {
+          "isACallForCompetition": false
+        },
+        "tender": {
+          "id": "ocds-t1s2t3-MD-1520432542249",
+          "title": "Tender title",
+          "description": "Tender description",
+          "status": "active",
+          "statusDetails": "preselection",
+          "enquiryPeriod": {
+            "startDate": "2018-03-07T14:22:22Z",
+            "endDate": "2018-03-07T14:25:22Z"
+          },
+          "hasEnquiries": false,
+          "lotGroups": [
+            {
+              "optionToCombine": false
+            }
+          ],
+          "lots": [
+            {
+              "id": "f35ca191-2212-11e8-805f-ef697f779506",
+              "title": "A title for this lot.",
+              "description": "A description of this lot.",
+              "status": "active",
+              "statusDetails": "empty",
+              "value": {
+                "amount": 1000,
+                "currency": "MDL"
+              },
+              "options": [
+                {
+                  "hasOptions": false
+                }
+              ],
+              "recurrentProcurement": [
+                {
+                  "isRecurrent": false
+                }
+              ],
+              "renewals": [
+                {
+                  "hasRenewals": false
+                }
+              ],
+              "variants": [
+                {
+                  "hasVariants": false
+                }
+              ],
+              "contractPeriod": {
+                "startDate": "2018-09-27T00:00:00Z",
+                "endDate": "2018-11-27T00:00:00Z"
+              },
+              "placeOfPerformance": {
+                "address": {
+                  "streetAddress": "149-159 High Street",
+                  "locality": "Birmingham",
+                  "region": "Digbeth",
+                  "postalCode": "B12 0JU",
+                  "countryName": "United Kingdom"
+                },
+                "description": "Further description of the place of performance of the contract. Required by EU."
+              }
+            }
+          ],
+          "items": [
+            {
+              "id": "f35ca190-2212-11e8-805f-ef697f779506",
+              "description": "A description of the goods, services to be provided.",
+              "classification": {
+                "scheme": "CPV",
+                "id": "33600000-6",
+                "description": "Фармацевтична продукція"
+              },
+              "additionalClassifications": [
+                {
+                  "scheme": "CPVS",
+                  "id": "CPVs-id-12341234",
+                  "description": "A textual description or title for the code."
+                }
+              ],
+              "quantity": 10,
+              "unit": {
+                "name": "kg",
+                "id": "0971"
+              },
+              "relatedLot": "f35ca191-2212-11e8-805f-ef697f779506"
+            }
+          ],
+          "awardCriteria": "priceOnly",
+          "requiresElectronicCatalogue": false,
+          "submissionMethod": [
+            "electronicSubmission"
+          ],
+          "submissionMethodDetails": "Any detailed or further information on the submission method. This may include the address, e-mail address or online service to which bids should be submitted, and any special requirements to be followed for submissions.",
+          "submissionMethodRationale": [
+            "TOOLS_DEVICES_FILE_FORMATS_UNAVAILABLE",
+            "IPR_ISSUES"
+          ],
+          "tenderPeriod": {
+            "startDate": "2018-03-07T14:22:22Z",
+            "endDate": "2018-03-07T14:26:22Z"
+          }
+        },
+        "parties": [
+          {
+            "name": "Новороздільська міська лікарня",
+            "id": "UA-EDR-20764777",
+            "identifier": {
+              "scheme": "UA-EDR",
+              "id": "20764777",
+              "legalName": "Новороздільська міська лікарня",
+              "uri": "http://buyerTestLink.ua"
+            },
+            "additionalIdentifiers": [
+              {
+                "scheme": "UA-EDR",
+                "id": "123123123",
+                "legalName": "Додатково Новороздільська міська лікарня",
+                "uri": "http://additionalBuyerTestLink.ua"
+              }
+            ],
+            "address": {
+              "streetAddress": "вул. Винниченка, 37",
+              "locality": "місто Новий Розділ",
+              "region": "Львівська область",
+              "postalCode": "7770777",
+              "countryName": "Україна"
+            },
+            "contactPoint": {
+              "name": "Осипових Сергій Олександрович",
+              "email": "test2@test.test",
+              "telephone": "+380222222222",
+              "faxNumber": "+380222222222",
+              "url": "http://test.ua"
+            },
+            "roles": [
+              "buyer",
+              "procuringEntity"
+            ],
+            "details": {
+              "typeOfBuyer": "BODY_PUBLIC",
+              "mainGeneralActivity": "DEFENCE",
+              "mainSectoralActivity": "AIRPORT_RELATED_ACTIVITIES",
+              "isACentralPurchasingBody": false,
+              "scale": "micro"
+            },
+            "buyerProfile": "http://linkToInfoAboutBuyer.ua"
+          }
+        ],
+        "relatedProcesses": [
+          {
+            "id": "f37d48f1-2212-11e8-90aa-dd1944dfed68",
+            "relationship": [
+              "parent"
+            ],
+            "scheme": "ocid",
+            "identifier": "ocds-t1s2t3-MD-1520432542249",
+            "uri": ""
+          }
+        ]
+      }
+    }
+  ]
+}
