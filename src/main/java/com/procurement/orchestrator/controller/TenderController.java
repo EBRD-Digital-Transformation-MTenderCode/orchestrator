@@ -135,7 +135,7 @@ public class TenderController extends BaseController {
         params.setStage(Stage.fromValue(stage).value());
         params.setCountry(country);
         params.setPmd(pmd);
-        params.setProcessType("endOfPSPQStage");
+        params.setProcessType("awardPeriodEnd");
         return startProcessResult(params, null);
     }
 }
