@@ -11,6 +11,8 @@ public enum Stage {
     FS("FS"),
     PS("PS"),
     PQ("PQ"),
+    EV("EV"),
+    CT("CT"),
     PIN("PIN"),
     PN("PN");
 
