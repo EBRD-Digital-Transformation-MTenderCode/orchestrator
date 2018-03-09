@@ -1,4 +1,4 @@
-package com.procurement.orchestrator.domain.dto;
+package com.procurement.orchestrator.domain.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;

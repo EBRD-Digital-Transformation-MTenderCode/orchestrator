@@ -1,9 +1,9 @@
 package com.procurement.orchestrator.kafka;
 
 import com.datastax.driver.core.utils.UUIDs;
-import com.procurement.orchestrator.cassandra.model.Params;
+import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.cassandra.service.RequestService;
-import com.procurement.orchestrator.kafka.dto.ChronographResponse;
+import com.procurement.orchestrator.domain.chronograph.ChronographResponse;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.HashMap;

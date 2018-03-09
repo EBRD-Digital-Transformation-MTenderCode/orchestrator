@@ -2,10 +2,10 @@ package com.procurement.orchestrator.controller;
 
 import com.datastax.driver.core.utils.UUIDs;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.procurement.orchestrator.cassandra.model.Stage;
+import com.procurement.orchestrator.domain.Stage;
 import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.cassandra.service.RequestService;
-import com.procurement.orchestrator.cassandra.model.Params;
+import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
 import org.springframework.http.ResponseEntity;

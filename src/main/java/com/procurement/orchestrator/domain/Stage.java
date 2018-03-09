@@ -1,4 +1,4 @@
-package com.procurement.orchestrator.cassandra.model;
+package com.procurement.orchestrator.domain;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;

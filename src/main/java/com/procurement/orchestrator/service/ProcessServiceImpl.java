@@ -3,16 +3,15 @@ package com.procurement.orchestrator.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.procurement.orchestrator.cassandra.model.Params;
 import com.procurement.orchestrator.cassandra.service.OperationService;
-import com.procurement.orchestrator.domain.dto.ResponseDetailsDto;
-import com.procurement.orchestrator.domain.dto.ResponseDto;
+import com.procurement.orchestrator.domain.EntityAccess;
+import com.procurement.orchestrator.domain.Params;
+import com.procurement.orchestrator.domain.PlatformMessage;
+import com.procurement.orchestrator.domain.response.ResponseDetailsDto;
+import com.procurement.orchestrator.domain.response.ResponseDto;
 import com.procurement.orchestrator.kafka.MessageProducer;
-import com.procurement.orchestrator.kafka.dto.PlatformMessage;
 import com.procurement.orchestrator.utils.JsonUtil;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.slf4j.Logger;
@@ -89,25 +88,6 @@ public class ProcessServiceImpl implements ProcessService {
         return null;
     }
 
-    public Params addTokenToParams(Params params, JsonNode jsonData, String processId) {
-        params.setToken(getText("token", jsonData, processId));
-        return params;
-    }
-
-    public Params addAwardTokensToParams(Params params, JsonNode jsonData, String processId) {
-//        final ArrayNode awardsNode = jsonData.get("awards");
-//        final ObjectNode mainNode = jsonUtil.createObjectNode();
-//        final ArrayNode documentsArray = mainNode.putArray("documents");
-//        for (final JsonNode docNode : awardsNode) {
-//            ObjectNode idNode = jsonUtil.createObjectNode();
-//            idNode.put("id", docNode.get("id").asText());
-//            documentsArray.add(idNode);
-//        }
-//        return mainNode;
-//        return params;
-        return null;
-    }
-
     public String getTenderPeriodEndDate(final JsonNode jsonData, final String processId) {
         try {
             return jsonData.get("tender").get("tenderPeriod").get("endDate").asText();
@@ -115,6 +95,30 @@ public class ProcessServiceImpl implements ProcessService {
             terminateProcess(processId, e.getMessage());
             return null;
         }
+    }
+
+    public Params addAccessToParams(final Params params,
+                                    final String entityType,
+                                    final String entityId,
+                                    final JsonNode jsonData,
+                                    final String processId) {
+        final String tokenEntity = getText("token", jsonData, processId);
+        params.setAccess(Arrays.asList(new EntityAccess(entityType, entityId, tokenEntity)));
+        return params;
+    }
+
+    public Params addAwardAccessToParams(Params params, JsonNode jsonData, String processId) {
+        final ArrayNode awardsNode = (ArrayNode) jsonData.get("awards");
+        final List<EntityAccess> accesses = new ArrayList<>();
+        for (final JsonNode awardNode : awardsNode) {
+            accesses.add(new EntityAccess(
+                    "award",
+                    awardNode.get("id").asText(),
+                    awardNode.get("token").asText())
+            );
+        }
+        params.setAccess(accesses);
+        return params;
     }
 
     public JsonNode addTenderPeriodStartDate(final JsonNode jsonData, final String startDate, final String processId) {

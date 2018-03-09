@@ -3,15 +3,12 @@ package com.procurement.orchestrator.json;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.procurement.orchestrator.cassandra.model.Params;
-import com.procurement.orchestrator.kafka.dto.ChronographResponse;
+import com.procurement.orchestrator.domain.Params;
+import com.procurement.orchestrator.domain.chronograph.ChronographResponse;
 import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
-import java.time.LocalDateTime;
 import org.junit.jupiter.api.Test;
 
-import static java.time.temporal.ChronoUnit.DAYS;
-import static java.time.temporal.ChronoUnit.MINUTES;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestJson {

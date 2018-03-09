@@ -1,8 +1,8 @@
 package com.procurement.orchestrator.delegate.tender.submission;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
-import com.procurement.orchestrator.cassandra.model.Params;
+import com.procurement.orchestrator.domain.entity.OperationStepEntity;
+import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.rest.SubmissionRestClient;
 import com.procurement.orchestrator.service.ProcessService;

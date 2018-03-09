@@ -1,4 +1,4 @@
-package com.procurement.orchestrator.kafka.dto;
+package com.procurement.orchestrator.domain.chronograph;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

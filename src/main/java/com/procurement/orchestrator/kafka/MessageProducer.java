@@ -1,7 +1,7 @@
 package com.procurement.orchestrator.kafka;
 
-import com.procurement.orchestrator.kafka.dto.ChronographTask;
-import com.procurement.orchestrator.kafka.dto.PlatformMessage;
+import com.procurement.orchestrator.domain.chronograph.ChronographTask;
+import com.procurement.orchestrator.domain.PlatformMessage;
 import com.procurement.orchestrator.utils.JsonUtil;
 import org.apache.kafka.clients.producer.RecordMetadata;
 import org.slf4j.Logger;

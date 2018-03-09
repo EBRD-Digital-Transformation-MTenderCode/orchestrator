@@ -1,6 +1,6 @@
 package com.procurement.orchestrator.delegate;
 
-import com.procurement.orchestrator.cassandra.model.RequestEntity;
+import com.procurement.orchestrator.domain.entity.RequestEntity;
 import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.cassandra.service.RequestService;
 import com.procurement.orchestrator.service.ProcessService;

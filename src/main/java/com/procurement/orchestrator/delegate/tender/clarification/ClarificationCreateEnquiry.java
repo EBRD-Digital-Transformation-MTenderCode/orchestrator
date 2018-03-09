@@ -1,9 +1,9 @@
 package com.procurement.orchestrator.delegate.tender.clarification;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
+import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.cassandra.service.OperationService;
-import com.procurement.orchestrator.cassandra.model.Params;
+import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.rest.ClarificationRestClient;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.DateUtil;
@@ -68,7 +68,7 @@ public class ClarificationCreateEnquiry implements JavaDelegate {
     private Params addDataToParams(final Params params,
                                    final JsonNode responseData,
                                    final String processId) {
-        params.setToken(processService.getText("token", responseData, processId));
+        processService.addAccessToParams(params, "enquiry", null, responseData, processId);
         return params;
     }
 }

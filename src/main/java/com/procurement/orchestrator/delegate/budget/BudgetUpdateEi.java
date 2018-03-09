@@ -1,9 +1,9 @@
 package com.procurement.orchestrator.delegate.budget;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
+import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.cassandra.service.OperationService;
-import com.procurement.orchestrator.cassandra.model.Params;
+import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.rest.BudgetRestClient;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -49,7 +49,7 @@ public class BudgetUpdateEi implements JavaDelegate {
         final JsonNode responseData = processService.processResponse(
                 budgetRestClient.updateEi(
                         params.getCpid(),
-                         params.getOwner(),
+                        params.getOwner(),
                         params.getToken(),
                         jsonData),
                 processId,

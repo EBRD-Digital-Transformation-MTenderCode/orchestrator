@@ -1,6 +1,7 @@
-package com.procurement.orchestrator.cassandra.model;
+package com.procurement.orchestrator.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,6 +34,8 @@ public class Params {
     private String pmd;
     @JsonProperty(value = "token")
     private String token;
+    @JsonProperty("access")
+    private List<EntityAccess> access;
     @JsonProperty(value = "startDate")
     private String startDate;
     @JsonProperty(value = "endDate")

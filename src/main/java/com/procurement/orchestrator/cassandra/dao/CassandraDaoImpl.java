@@ -5,10 +5,10 @@ import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
 import com.datastax.driver.core.Statement;
 import com.datastax.driver.core.querybuilder.Insert;
-import com.procurement.orchestrator.cassandra.model.OperationEntity;
-import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
-import com.procurement.orchestrator.cassandra.model.RequestEntity;
-import com.procurement.orchestrator.cassandra.model.StageEntity;
+import com.procurement.orchestrator.domain.entity.OperationEntity;
+import com.procurement.orchestrator.domain.entity.OperationStepEntity;
+import com.procurement.orchestrator.domain.entity.RequestEntity;
+import com.procurement.orchestrator.domain.entity.StageEntity;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 

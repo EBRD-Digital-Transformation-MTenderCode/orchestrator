@@ -2,7 +2,11 @@ package com.procurement.orchestrator.cassandra.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.cassandra.dao.CassandraDao;
-import com.procurement.orchestrator.cassandra.model.*;
+import com.procurement.orchestrator.domain.Params;
+import com.procurement.orchestrator.domain.entity.OperationEntity;
+import com.procurement.orchestrator.domain.entity.OperationStepEntity;
+import com.procurement.orchestrator.domain.entity.RequestEntity;
+import com.procurement.orchestrator.domain.entity.StageEntity;
 import com.procurement.orchestrator.exception.OperationException;
 import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;

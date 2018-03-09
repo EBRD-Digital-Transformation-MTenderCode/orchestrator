@@ -1,4 +1,4 @@
-package com.procurement.orchestrator.cassandra.model;
+package com.procurement.orchestrator.domain.entity;
 
 import java.util.Date;
 import lombok.AllArgsConstructor;
@@ -10,15 +10,16 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class OperationStepEntity {
+public class RequestEntity {
 
-    private String processId;
+    private String requestId;
 
-    private String taskId;
+    private Date requestDate;
 
-    private Date date;
+    private String operationId;
+
+    private String jsonData;
 
     private String jsonParams;
 
-    private String jsonData;
 }

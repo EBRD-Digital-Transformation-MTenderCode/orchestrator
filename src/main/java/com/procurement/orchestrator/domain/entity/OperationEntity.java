@@ -1,4 +1,4 @@
-package com.procurement.orchestrator.cassandra.model;
+package com.procurement.orchestrator.domain.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

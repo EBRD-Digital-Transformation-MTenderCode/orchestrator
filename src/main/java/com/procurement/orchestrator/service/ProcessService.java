@@ -1,8 +1,8 @@
 package com.procurement.orchestrator.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.procurement.orchestrator.cassandra.model.Params;
-import com.procurement.orchestrator.domain.dto.ResponseDto;
+import com.procurement.orchestrator.domain.Params;
+import com.procurement.orchestrator.domain.response.ResponseDto;
 import java.util.Map;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.springframework.http.ResponseEntity;
@@ -26,9 +26,10 @@ public interface ProcessService {
 
     String getTenderPeriodEndDate(JsonNode jsonData, String processId);
 
-    Params addTokenToParams(final Params params,  final JsonNode responseData, final String processId);
+    Params addAccessToParams(Params params, String entityType, String entityId, JsonNode responseData, String
+            processId);
 
-    Params addAwardTokensToParams(final Params params,  final JsonNode responseData, final String processId);
+    Params addAwardAccessToParams(Params params, JsonNode responseData, String processId);
 
     JsonNode addTenderPeriodStartDate(JsonNode jsonData, String startDate, String processId);
 

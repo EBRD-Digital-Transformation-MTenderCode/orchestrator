@@ -1,10 +1,10 @@
 package com.procurement.orchestrator.delegate;
 
-import com.procurement.orchestrator.cassandra.model.OperationStepEntity;
+import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.cassandra.service.OperationService;
-import com.procurement.orchestrator.cassandra.model.Params;
+import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.kafka.MessageProducer;
-import com.procurement.orchestrator.kafka.dto.PlatformMessage;
+import com.procurement.orchestrator.domain.PlatformMessage;
 import com.procurement.orchestrator.utils.JsonUtil;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
@@ -36,13 +36,12 @@ public class SendMessageToPlatform implements JavaDelegate {
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
 
-
         final PlatformMessage message = new PlatformMessage(
                 true,
                 params.getOperationId(),
-                params.getToken(),
+                params.getAccess(),
                 params.getCpid(),
-                params.getOcid(),
+                params.getStage(),
                 null);
         messageProducer.sendToPlatform(message);
     }

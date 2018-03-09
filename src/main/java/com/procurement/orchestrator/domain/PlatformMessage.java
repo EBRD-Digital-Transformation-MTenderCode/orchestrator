@@ -1,9 +1,9 @@
-package com.procurement.orchestrator.kafka.dto;
+package com.procurement.orchestrator.domain;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,27 +16,27 @@ public class PlatformMessage {
     private Boolean success;
     @JsonProperty("operationId")
     private String operationId;
-    @JsonProperty("token")
-    private String token;
+    @JsonProperty("access")
+    private List<EntityAccess> access;
     @JsonProperty("cpid")
     private String cpid;
-    @JsonProperty("ocid")
-    private String ocid;
+    @JsonProperty("stage")
+    private String stage;
     @JsonProperty("message")
     private String message;
 
     @JsonCreator
     public PlatformMessage(@JsonProperty("success") final Boolean success,
                            @JsonProperty("operationId") final String operationId,
-                           @JsonProperty("token") final String token,
+                           @JsonProperty("access") final List<EntityAccess> access,
                            @JsonProperty("cpid") final String cpid,
-                           @JsonProperty("ocid") final String ocid,
+                           @JsonProperty("stage") final String stage,
                            @JsonProperty("message") final String message) {
         this.success = success;
         this.operationId = operationId;
-        this.token = token;
+        this.access = access;
         this.cpid = cpid;
-        this.ocid = ocid;
+        this.stage = stage;
         this.message = message;
     }
 
@@ -48,5 +48,4 @@ public class PlatformMessage {
         this.operationId = operationId;
         this.message = message;
     }
-
 }
