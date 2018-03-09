@@ -20,13 +20,13 @@ public interface OperationService {
 
     OperationStepEntity getPreviousOperationStep(DelegateExecution execution);
 
-    void saveOperationStep(DelegateExecution execution, OperationStepEntity entity, Params params, JsonNode response);
+    void saveOperationStep(DelegateExecution execution, OperationStepEntity entity);
 
     void saveOperationStep(DelegateExecution execution, OperationStepEntity entity, Params params);
 
-    void saveOperationStep(DelegateExecution execution, OperationStepEntity entity, JsonNode jsonData);
+    void saveOperationStep(DelegateExecution execution, OperationStepEntity entity, JsonNode response);
 
-    void saveOperationStep(DelegateExecution execution, OperationStepEntity entity);
+    void saveOperationStep(DelegateExecution execution, OperationStepEntity entity, Params params, JsonNode response);
 
     void saveOperationException(String processId, String taskId, JsonNode response);
 

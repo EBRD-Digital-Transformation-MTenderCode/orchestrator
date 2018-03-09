@@ -86,14 +86,9 @@ public class OperationServiceImpl implements OperationService {
 
     @Override
     public void saveOperationStep(final DelegateExecution execution,
-                                  final OperationStepEntity entity,
-                                  final Params params,
-                                  final JsonNode response
-    ) {
+                                  final OperationStepEntity entity) {
         execution.setVariable(LAST_TASK, execution.getCurrentActivityId());
         entity.setTaskId(execution.getCurrentActivityId());
-        entity.setJsonParams(jsonUtil.toJson(params));
-        entity.setJsonData(jsonUtil.toJson(response));
         entity.setDate(dateUtil.getNowUTC());
         cassandraDao.saveOperationStep(entity);
     }
@@ -120,9 +115,14 @@ public class OperationServiceImpl implements OperationService {
 
     @Override
     public void saveOperationStep(final DelegateExecution execution,
-                                  final OperationStepEntity entity) {
+                                  final OperationStepEntity entity,
+                                  final Params params,
+                                  final JsonNode response
+    ) {
         execution.setVariable(LAST_TASK, execution.getCurrentActivityId());
         entity.setTaskId(execution.getCurrentActivityId());
+        entity.setJsonParams(jsonUtil.toJson(params));
+        entity.setJsonData(jsonUtil.toJson(response));
         entity.setDate(dateUtil.getNowUTC());
         cassandraDao.saveOperationStep(entity);
     }
