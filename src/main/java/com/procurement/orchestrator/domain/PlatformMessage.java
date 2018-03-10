@@ -16,6 +16,8 @@ public class PlatformMessage {
     private Boolean success;
     @JsonProperty("operationId")
     private String operationId;
+    @JsonProperty("operationType")
+    private String operationType;
     @JsonProperty("access")
     private List<EntityAccess> access;
     @JsonProperty("cpid")
@@ -28,12 +30,14 @@ public class PlatformMessage {
     @JsonCreator
     public PlatformMessage(@JsonProperty("success") final Boolean success,
                            @JsonProperty("operationId") final String operationId,
+                           @JsonProperty("operationType") final String operationType,
                            @JsonProperty("access") final List<EntityAccess> access,
                            @JsonProperty("cpid") final String cpid,
                            @JsonProperty("stage") final String stage,
                            @JsonProperty("message") final String message) {
         this.success = success;
         this.operationId = operationId;
+        this.operationType = operationType;
         this.access = access;
         this.cpid = cpid;
         this.stage = stage;

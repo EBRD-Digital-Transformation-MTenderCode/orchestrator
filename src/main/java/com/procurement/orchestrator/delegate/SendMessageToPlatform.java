@@ -39,6 +39,7 @@ public class SendMessageToPlatform implements JavaDelegate {
         final PlatformMessage message = new PlatformMessage(
                 true,
                 params.getOperationId(),
+                params.getOperationType(),
                 params.getAccess(),
                 params.getCpid(),
                 params.getStage(),

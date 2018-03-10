@@ -16,6 +16,7 @@ public interface NoticeRestClient {
     ResponseEntity<ResponseDto> createRelease(@RequestParam("cpId") final String cpId,
                                               @RequestParam("ocId") final String ocId,
                                               @RequestParam("stage") final String stage,
+                                              @RequestParam("previousStage") final String previousStage,
                                               @RequestParam("operation") final String operation,
                                               @RequestParam("phase") final String phase,
                                               @RequestParam("releaseDate") final String releaseDate,

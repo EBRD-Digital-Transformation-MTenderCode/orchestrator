@@ -51,6 +51,7 @@ public class NoticeCreateRelease implements JavaDelegate {
                         params.getCpid(),
                         params.getOcid(),
                         params.getStage(),
+                        params.getPreviousStage(),
                         params.getOperationType(),
                         "",
                         params.getStartDate(),
