@@ -55,14 +55,7 @@ public class SubmissionCreateBid implements JavaDelegate {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    addDataToParams(params, responseData, processId),
+                    processService.addBidAccessToParams(params, responseData, processId),
                     responseData);
-    }
-
-    private Params addDataToParams(final Params params,
-                                   final JsonNode responseData,
-                                   final String processId) {
-        processService.addBidAccessToParams(params, responseData, processId);
-        return params;
     }
 }

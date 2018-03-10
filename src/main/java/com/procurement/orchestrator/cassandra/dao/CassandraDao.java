@@ -24,6 +24,6 @@ public interface CassandraDao {
 
     void saveStage(StageEntity entity);
 
-    StageEntity getStageByCpId(String cpId);
+    Optional<StageEntity> getStageByCpId(String cpId);
 }
 

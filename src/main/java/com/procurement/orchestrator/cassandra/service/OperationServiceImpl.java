@@ -151,6 +151,17 @@ public class OperationServiceImpl implements OperationService {
         cassandraDao.saveStage(stageEntity);
     }
 
+    @Override
+    public StageEntity getStageParams(String cpId, String processId) {
+        Optional<StageEntity> entityOptional = cassandraDao.getStageByCpId(cpId);
+        if (entityOptional.isPresent()) {
+            return entityOptional.get();
+        } else {
+            processException("No stage params found!" , processId);
+            return null;
+        }
+    }
+
     public void processException(final String error,
                                  final String processId) {
         try {

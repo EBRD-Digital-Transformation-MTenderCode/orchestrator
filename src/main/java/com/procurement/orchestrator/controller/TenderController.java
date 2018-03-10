@@ -2,23 +2,30 @@ package com.procurement.orchestrator.controller;
 
 import com.datastax.driver.core.utils.UUIDs;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.procurement.orchestrator.domain.Params;
-import com.procurement.orchestrator.domain.Stage;
 import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.cassandra.service.RequestService;
+import com.procurement.orchestrator.domain.Params;
+import com.procurement.orchestrator.domain.Stage;
 import com.procurement.orchestrator.service.ProcessService;
+import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
+import java.time.LocalDateTime;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class TenderController extends BaseController {
 
+    private final DateUtil dateUtil;
+
     public TenderController(final ProcessService processService,
                             final RequestService requestService,
                             final OperationService operationService,
-                            final JsonUtil jsonUtil) {
+                            final JsonUtil jsonUtil,
+                            final DateUtil dateUtil) {
         super(jsonUtil, requestService, operationService, processService);
+        this.dateUtil = dateUtil;
     }
 
     @RequestMapping(value = "/cn", method = RequestMethod.POST)
@@ -137,6 +144,26 @@ public class TenderController extends BaseController {
         params.setPmd(pmd);
         params.setProcessType("awardPeriodEnd");
         params.setOperationType("awardPeriodEnd");
+        return startProcessResult(params, null);
+    }
+
+    @RequestMapping(value = "/newStage/{cpid}", method = RequestMethod.POST)
+    public ResponseEntity<String> newStage(@RequestHeader("Authorization") final String authorization,
+                                           @RequestHeader("X-OPERATION-ID") final String operationId,
+                                           @PathVariable("cpid") final String cpid,
+                                           @RequestParam("stage") final String stage,
+                                           @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+                                           @RequestParam("endDate") final LocalDateTime endDate) {
+        final Params params = new Params();
+        params.setRequestId(UUIDs.timeBased().toString());
+        params.setOwner(getOwner(authorization));
+        params.setOperationId(operationId);
+        params.setCpid(cpid);
+        params.setStage(Stage.fromValue(stage).value());
+        params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
+        params.setEndDate(dateUtil.format(endDate));
+        params.setProcessType("startNewStage");
+        params.setOperationType("startNewStage");
         return startProcessResult(params, null);
     }
 }

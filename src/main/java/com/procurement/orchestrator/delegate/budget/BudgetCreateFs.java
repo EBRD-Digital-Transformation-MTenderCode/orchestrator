@@ -59,7 +59,6 @@ public class BudgetCreateFs implements JavaDelegate {
 
     private Params addDataToParams(final Params params, final JsonNode responseData, final String processId) {
         params.setOcid(processService.getText("ocid", responseData, processId));
-        processService.addAccessToParams(params, "fs", params.getOcid(), responseData, processId);
-        return params;
+        return processService.addAccessToParams(params, "fs", params.getOcid(), responseData, processId);
     }
 }

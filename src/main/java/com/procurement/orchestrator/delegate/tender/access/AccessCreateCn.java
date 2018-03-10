@@ -1,9 +1,9 @@
 package com.procurement.orchestrator.delegate.tender.access;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.domain.Params;
+import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.AccessRestClient;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -58,8 +58,7 @@ public class AccessCreateCn implements JavaDelegate {
 
     private Params addDataToParams(final Params params, final JsonNode responseData, final String processId) {
         params.setCpid(processService.getText("ocid", responseData, processId));
-        processService.addAccessToParams(params, "cn", params.getCpid(), responseData, processId);
-        return params;
+        return processService.addAccessToParams(params, "cn", params.getCpid(), responseData, processId);
     }
 
 }

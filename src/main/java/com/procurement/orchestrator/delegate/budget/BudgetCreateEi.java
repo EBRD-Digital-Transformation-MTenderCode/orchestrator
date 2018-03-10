@@ -58,8 +58,7 @@ public class BudgetCreateEi implements JavaDelegate {
 
     private Params addDataToParams(final Params params, final JsonNode responseData, final String processId) {
         params.setCpid(processService.getText("ocid", responseData, processId));
-        processService.addAccessToParams(params, "ei", params.getCpid(), responseData, processId);
-        return params;
+        return processService.addAccessToParams(params, "ei", params.getCpid(), responseData, processId);
     }
 
 

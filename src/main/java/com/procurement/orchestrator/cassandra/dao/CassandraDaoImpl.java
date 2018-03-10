@@ -1,7 +1,6 @@
 package com.procurement.orchestrator.cassandra.dao;
 
 import com.datastax.driver.core.ResultSet;
-import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
 import com.datastax.driver.core.Statement;
 import com.datastax.driver.core.querybuilder.Insert;
@@ -143,20 +142,19 @@ public class CassandraDaoImpl implements CassandraDao {
     }
 
     @Override
-    public StageEntity getStageByCpId(final String cpId) {
+    public Optional<StageEntity> getStageByCpId(final String cpId) {
         final Statement query = select()
                 .all()
                 .from(STAGE_TABLE)
                 .where(eq(CPID, cpId))
                 .limit(1);
 
-        final Row row = session.execute(query).one();
-        if (row != null)
-            return new StageEntity(
-                    row.getString(CPID),
-                    row.getString(STAGE),
-                    row.getString(COUNTRY),
-                    row.getString(PMD));
-        return null;
+        final ResultSet rows = session.execute(query);
+        return Optional.ofNullable(rows.one())
+                .map(row -> new StageEntity(
+                        row.getString(CPID),
+                        row.getString(STAGE),
+                        row.getString(COUNTRY),
+                        row.getString(PMD)));
     }
 }

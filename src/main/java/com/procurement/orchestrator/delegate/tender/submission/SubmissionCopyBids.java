@@ -1,9 +1,10 @@
 package com.procurement.orchestrator.delegate.tender.submission;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.cassandra.service.OperationService;
+import com.procurement.orchestrator.delegate.tender.access.AccessUpdateCn;
 import com.procurement.orchestrator.domain.Params;
+import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.SubmissionRestClient;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -15,9 +16,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SubmissionSavePeriod implements JavaDelegate {
+public class SubmissionCopyBids implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SubmissionSavePeriod.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AccessUpdateCn.class);
 
     private final SubmissionRestClient submissionRestClient;
 
@@ -27,11 +28,10 @@ public class SubmissionSavePeriod implements JavaDelegate {
 
     private final JsonUtil jsonUtil;
 
-
-    public SubmissionSavePeriod(final SubmissionRestClient submissionRestClient,
-                                final OperationService operationService,
-                                final ProcessService processService,
-                                final JsonUtil jsonUtil) {
+    public SubmissionCopyBids(final SubmissionRestClient submissionRestClient,
+                              final OperationService operationService,
+                              final ProcessService processService,
+                              final JsonUtil jsonUtil) {
         this.submissionRestClient = submissionRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -48,11 +48,11 @@ public class SubmissionSavePeriod implements JavaDelegate {
         final String operationId = params.getOperationId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode responseData = processService.processResponse(
-                submissionRestClient.savePeriod(
+                submissionRestClient.copyBids(
                         params.getCpid(),
                         params.getStage(),
-                        params.getStartDate(),
-                        params.getEndDate()),
+                        params.getPreviousStage(),
+                        jsonData),
                 processId,
                 operationId,
                 taskId);
@@ -60,8 +60,7 @@ public class SubmissionSavePeriod implements JavaDelegate {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    processService.addTenderTenderPeriod(jsonData, responseData, processId));
+                    processService.addBids(jsonData, responseData, processId));
         }
     }
-
 }

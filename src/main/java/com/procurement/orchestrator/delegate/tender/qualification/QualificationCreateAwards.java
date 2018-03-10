@@ -63,14 +63,9 @@ public class QualificationCreateAwards implements JavaDelegate {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    addDataToParams(params, responseData, processId),
+                    processService.addAwardAccessToParams(params, responseData, processId),
                     processService.addAwardData(jsonData, responseData, processId));
         }
-    }
-
-    private Params addDataToParams(final Params params, final JsonNode responseData, final String processId) {
-        processService.addAwardAccessToParams(params, responseData, processId);
-        return params;
     }
 }
 

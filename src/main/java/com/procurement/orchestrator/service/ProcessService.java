@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 @Service
 public interface ProcessService {
 
-    ProcessInstance startProcess(String processType, String operationId, Map<String, Object> variables);
+    void startProcess(String processType, String operationId, Map<String, Object> variables);
 
     void terminateProcess(String processId, String message);
 
@@ -32,8 +32,6 @@ public interface ProcessService {
     Params addBidAccessToParams(Params params, JsonNode responseData, String processId);
 
     Params addAwardAccessToParams(Params params, JsonNode responseData, String processId);
-
-    JsonNode addTenderPeriodStartDate(JsonNode jsonData, String startDate, String processId);
 
     JsonNode addTenderTenderPeriod(JsonNode jsonData, JsonNode periodData, String processId);
 
