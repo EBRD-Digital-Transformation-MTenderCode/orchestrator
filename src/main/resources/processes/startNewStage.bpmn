@@ -40,7 +40,7 @@
       <bpmn:incoming>SequenceFlow_0qcfr5s</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0k2najp</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_0k2najp" sourceRef="SubmissionValidatePeriodTask" targetRef="ServiceTask_1iv38e3" />
+    <bpmn:sequenceFlow id="SequenceFlow_0k2najp" sourceRef="SubmissionValidatePeriodTask" targetRef="AccessGetLotsTask" />
     <bpmn:sequenceFlow id="SequenceFlow_099e1em" sourceRef="NoticeCreateReleaseTask" targetRef="SaveStageParamsTask" />
     <bpmn:serviceTask id="SaveStageParamsTask" name="Save Stage Params" camunda:asyncBefore="true" camunda:delegateExpression="${saveStageParams}">
       <bpmn:incoming>SequenceFlow_099e1em</bpmn:incoming>
@@ -48,13 +48,12 @@
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1gczw0v" sourceRef="ClarificationSavePeriodTask" targetRef="NoticeCreateReleaseTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0g4l6hq" sourceRef="SaveStageParamsTask" targetRef="SendMessageTask" />
-    <bpmn:serviceTask id="ServiceTask_1iv38e3" name="Access Get Lots" camunda:asyncBefore="true" camunda:delegateExpression="${accessGetLots}">
+    <bpmn:serviceTask id="AccessGetLotsTask" name="Access Get Lots" camunda:asyncBefore="true" camunda:delegateExpression="${accessGetLots}">
       <bpmn:incoming>SequenceFlow_0k2najp</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_0bpoa35</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_14i5ne9</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_0bpoa35" sourceRef="ServiceTask_1iv38e3" targetRef="SubmissionCopyBidsTask" />
     <bpmn:serviceTask id="SubmissionCopyBidsTask" name="Submission Copy Bids" camunda:asyncBefore="true" camunda:delegateExpression="${submissionCopyBids}">
-      <bpmn:incoming>SequenceFlow_0bpoa35</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_14i5ne9</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0lvre2q</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_0lvre2q" sourceRef="SubmissionCopyBidsTask" targetRef="SubmissionSavePeriodTask" />
@@ -63,6 +62,7 @@
       <bpmn:outgoing>SequenceFlow_0qcfr5s</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_0qcfr5s" sourceRef="GetStageParamsTask" targetRef="SubmissionValidatePeriodTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_14i5ne9" sourceRef="AccessGetLotsTask" targetRef="SubmissionCopyBidsTask" />
   </bpmn:process>
   <bpmn:error id="tr_exception" name="TR_EXCEPTION" errorCode="TR_EXCEPTION" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -166,16 +166,9 @@
           <dc:Bounds x="1369.5" y="164" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_1iv38e3_di" bpmnElement="ServiceTask_1iv38e3">
+      <bpmndi:BPMNShape id="ServiceTask_1iv38e3_di" bpmnElement="AccessGetLotsTask">
         <dc:Bounds x="526" y="145" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="SequenceFlow_0bpoa35_di" bpmnElement="SequenceFlow_0bpoa35">
-        <di:waypoint xsi:type="dc:Point" x="626" y="185" />
-        <di:waypoint xsi:type="dc:Point" x="655" y="185" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="640.5" y="164" width="0" height="12" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ServiceTask_0fpm2fj_di" bpmnElement="SubmissionCopyBidsTask">
         <dc:Bounds x="655" y="145" width="100" height="80" />
       </bpmndi:BPMNShape>
@@ -194,6 +187,13 @@
         <di:waypoint xsi:type="dc:Point" x="397" y="185" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="382.5" y="164" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_14i5ne9_di" bpmnElement="SequenceFlow_14i5ne9">
+        <di:waypoint xsi:type="dc:Point" x="626" y="185" />
+        <di:waypoint xsi:type="dc:Point" x="655" y="185" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="640.5" y="164" width="0" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
