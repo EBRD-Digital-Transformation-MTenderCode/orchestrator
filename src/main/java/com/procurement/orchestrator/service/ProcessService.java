@@ -15,6 +15,8 @@ public interface ProcessService {
 
     void terminateProcess(String processId, String message);
 
+    void terminateProcessWithMessage(String operationId, String processId, String message);
+
     JsonNode processResponse(ResponseEntity<ResponseDto> responseEntity,
                              String processId,
                              String operationId,

@@ -53,6 +53,13 @@ public class ProcessServiceImpl implements ProcessService {
         runtimeService.deleteProcessInstance(processId, message);
     }
 
+    @Override
+    public void terminateProcessWithMessage(final String operationId, final String processId, final String message) {
+        LOG.error(message);
+        messageProducer.sendToPlatform(new PlatformMessage(false, operationId, message));
+        runtimeService.deleteProcessInstance(processId, message);
+    }
+
     public JsonNode processResponse(final ResponseEntity<ResponseDto> responseEntity,
                                     final String processId,
                                     final String operationId,
