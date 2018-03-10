@@ -1,9 +1,9 @@
 package com.procurement.orchestrator.delegate.tender.submission;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.domain.Params;
+import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.SubmissionRestClient;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -62,7 +62,7 @@ public class SubmissionCreateBid implements JavaDelegate {
     private Params addDataToParams(final Params params,
                                    final JsonNode responseData,
                                    final String processId) {
-        processService.addAccessToParams(params, "bid", null, responseData, processId);
+        processService.addBidAccessToParams(params, responseData, processId);
         return params;
     }
 }

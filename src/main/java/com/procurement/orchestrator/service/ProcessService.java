@@ -29,6 +29,8 @@ public interface ProcessService {
     Params addAccessToParams(Params params, String entityType, String entityId, JsonNode responseData, String
             processId);
 
+    Params addBidAccessToParams(Params params, JsonNode responseData, String processId);
+
     Params addAwardAccessToParams(Params params, JsonNode responseData, String processId);
 
     JsonNode addTenderPeriodStartDate(JsonNode jsonData, String startDate, String processId);

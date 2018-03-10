@@ -100,15 +100,23 @@ public class ProcessServiceImpl implements ProcessService {
     public Params addAccessToParams(final Params params,
                                     final String entityType,
                                     final String entityId,
-                                    final JsonNode jsonData,
+                                    final JsonNode responseData,
                                     final String processId) {
-        final String tokenEntity = getText("token", jsonData, processId);
-        params.setAccess(Arrays.asList(new EntityAccess(entityType, entityId, tokenEntity)));
+        final String entityToken = getText("token", responseData, processId);
+        params.setAccess(Arrays.asList(new EntityAccess(entityType, entityId, entityToken)));
         return params;
     }
 
-    public Params addAwardAccessToParams(Params params, JsonNode jsonData, String processId) {
-        final ArrayNode awardsNode = (ArrayNode) jsonData.get("awards");
+    @Override
+    public Params addBidAccessToParams(Params params, JsonNode responseData, String processId) {
+        final String entityToken = getText("token", responseData, processId);
+        final String entityId = getText("bidId", responseData, processId);
+        params.setAccess(Arrays.asList(new EntityAccess("bid", entityId, entityToken)));
+        return params;
+    }
+
+    public Params addAwardAccessToParams(Params params, JsonNode responseData, String processId) {
+        final ArrayNode awardsNode = (ArrayNode) responseData.get("awards");
         final List<EntityAccess> accesses = new ArrayList<>();
         for (final JsonNode awardNode : awardsNode) {
             accesses.add(new EntityAccess(
