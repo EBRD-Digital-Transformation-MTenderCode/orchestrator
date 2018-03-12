@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(name = "e-storage")
 public interface StorageRestClient {
 
-    @RequestMapping(path = "/publish", method = RequestMethod.POST)
+    @RequestMapping(path = "/storage/publish", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> setPublishDate(@RequestParam(value = "fileId") final String fileId,
                                                @RequestParam(value = "datePublished") final String datePublished
     ) throws Exception;
 
-    @RequestMapping(method = RequestMethod.POST, value = "/publishBatch")
+    @RequestMapping(method = RequestMethod.POST, value = "/storage/publishBatch")
     ResponseEntity<ResponseDto> setPublishDateBatch(@RequestParam(value = "datePublished") final String datePublished,
                                                     @RequestBody final JsonNode dataDto) throws Exception;
 }
