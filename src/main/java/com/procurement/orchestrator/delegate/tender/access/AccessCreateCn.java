@@ -58,7 +58,7 @@ public class AccessCreateCn implements JavaDelegate {
 
     private Params addDataToParams(final Params params, final JsonNode responseData, final String processId) {
         params.setCpid(processService.getText("ocid", responseData, processId));
-        return processService.addAccessToParams(params, "cn", params.getCpid(), responseData, processId);
+        return processService.addAccessToParams(params, "tender", params.getCpid(), responseData, processId);
     }
 
 }
