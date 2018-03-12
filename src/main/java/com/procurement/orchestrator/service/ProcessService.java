@@ -15,11 +15,11 @@ public interface ProcessService {
 
     void terminateProcess(String processId, String message);
 
-    void terminateProcessWithMessage(String operationId, String processId, String message);
+    void terminateProcessWithMessage(Params params, String processId, String message);
 
     JsonNode processResponse(ResponseEntity<ResponseDto> responseEntity,
+                             Params params,
                              String processId,
-                             String operationId,
                              String taskId);
 
     String getText(String fieldName, JsonNode jsonData, String processId);

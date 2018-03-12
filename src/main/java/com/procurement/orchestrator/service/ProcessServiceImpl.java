@@ -13,7 +13,6 @@ import com.procurement.orchestrator.kafka.MessageProducer;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.*;
 import org.camunda.bpm.engine.RuntimeService;
-import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -43,8 +42,8 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     public void startProcess(final String processType,
-                                        final String operationId,
-                                        final Map<String, Object> variables) {
+                             final String operationId,
+                             final Map<String, Object> variables) {
         runtimeService.startProcessInstanceByKey(processType, operationId, variables);
     }
 
@@ -54,15 +53,22 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
-    public void terminateProcessWithMessage(final String operationId, final String processId, final String message) {
+    public void terminateProcessWithMessage(final Params params, final String processId, final String message) {
         LOG.error(message);
-        messageProducer.sendToPlatform(new PlatformMessage(false, operationId, message));
+        messageProducer.sendToPlatform(new PlatformMessage(
+                false,
+                params.getOperationId(),
+                params.getOperationType(),
+                params.getCpid(),
+                params.getStage(),
+                message)
+        );
         runtimeService.deleteProcessInstance(processId, message);
     }
 
     public JsonNode processResponse(final ResponseEntity<ResponseDto> responseEntity,
+                                    final Params params,
                                     final String processId,
-                                    final String operationId,
                                     final String taskId) {
         if (responseEntity.getBody().getSuccess()) {
             return jsonUtil.toJsonNode(responseEntity.getBody().getData());
@@ -71,7 +77,15 @@ public class ProcessServiceImpl implements ProcessService {
             final List<ResponseDetailsDto> details = responseEntity.getBody().getDetails();
             final String message = Objects.nonNull(details) ?
                     "Error in process Id: " + processId + "; message: " + jsonUtil.toJson(details) : "";
-            messageProducer.sendToPlatform(new PlatformMessage(false, operationId, message));
+            messageProducer.sendToPlatform(new PlatformMessage(
+                            false,
+                            params.getOperationId(),
+                            params.getOperationType(),
+                            params.getCpid(),
+                            params.getStage(),
+                            message
+                    )
+            );
             runtimeService.deleteProcessInstance(processId, message);
             return null;
         }
