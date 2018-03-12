@@ -35,13 +35,8 @@ public class GetStageParams implements JavaDelegate {
         final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
         final String processId = execution.getProcessInstanceId();
         StageEntity stageEntity = operationService.getStageParams(params.getCpid(), processId);
-//        if (params.getStage().equals(stageEntity.getStage())){
-//            processService.terminateProcessWithMessage(
-//                    params.getOperationId(),
-//                    processId,
-//                    "Stage already started!");
-//        }
-        params.setPreviousStage(stageEntity.getStage());
+        if (!params.getStage().equals(stageEntity.getStage()))
+            params.setPreviousStage(stageEntity.getStage());
         params.setCountry(stageEntity.getCountry());
         params.setPmd(stageEntity.getPmd());
         operationService.saveOperationStep(

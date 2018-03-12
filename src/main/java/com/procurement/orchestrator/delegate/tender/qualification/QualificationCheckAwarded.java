@@ -44,7 +44,6 @@ public class QualificationCheckAwarded implements JavaDelegate {
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
         final String processId = execution.getProcessInstanceId();
-        final String operationId = params.getOperationId();
         final String taskId = execution.getCurrentActivityId();
         final String endDate = dateUtil.format(dateUtil.localDateTimeNowUTC());
         final JsonNode responseData = processService.processResponse(
@@ -54,8 +53,8 @@ public class QualificationCheckAwarded implements JavaDelegate {
                         params.getCountry(),
                         params.getPmd(),
                         endDate),
+                params,
                 processId,
-                operationId,
                 taskId);
         if (Objects.nonNull(responseData)) {
             final Boolean allAwarded = processService.getBoolean("allAwarded", responseData, processId);

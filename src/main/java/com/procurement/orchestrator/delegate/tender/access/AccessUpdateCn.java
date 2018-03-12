@@ -44,12 +44,11 @@ public class AccessUpdateCn implements JavaDelegate {
         final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
         final String processId = execution.getProcessInstanceId();
-        final String operationId = params.getOperationId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode responseData = processService.processResponse(
                 accessRestClient.updateCn(params.getCpid(), params.getToken(), params.getOwner(), jsonData),
+                params,
                 processId,
-                operationId,
                 taskId);
         if (Objects.nonNull(responseData))
             operationService.saveOperationStep(execution, entity, responseData);

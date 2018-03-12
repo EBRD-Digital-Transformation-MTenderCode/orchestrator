@@ -45,7 +45,6 @@ public class ClarificationCreateAnswer implements JavaDelegate {
         final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
         final String processId = execution.getProcessInstanceId();
-        final String operationId = params.getOperationId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode responseData = processService.processResponse(
                 clarificationRestClient.updateEnquiry(
@@ -55,8 +54,8 @@ public class ClarificationCreateAnswer implements JavaDelegate {
                         params.getOwner(),
                         dateUtil.format(dateUtil.localDateTimeNowUTC()),
                         jsonData),
+                params,
                 processId,
-                operationId,
                 taskId);
         if (Objects.nonNull(responseData)) {
             final Boolean allAnswered = processService.getBoolean("allAnswered", responseData, processId);

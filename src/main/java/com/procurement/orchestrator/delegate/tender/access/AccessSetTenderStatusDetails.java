@@ -43,12 +43,11 @@ public class AccessSetTenderStatusDetails implements JavaDelegate {
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
         final String processId = execution.getProcessInstanceId();
-        final String operationId = params.getOperationId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode responseData = processService.processResponse(
                 accessRestClient.updateTenderStatusDetails(params.getCpid(), ""),
+                params,
                 processId,
-                operationId,
                 taskId);
         if (Objects.nonNull(responseData))
             operationService.saveOperationStep(execution, entity, responseData);

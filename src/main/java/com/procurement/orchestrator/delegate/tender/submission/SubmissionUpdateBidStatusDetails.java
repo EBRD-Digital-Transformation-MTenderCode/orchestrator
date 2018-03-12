@@ -45,7 +45,6 @@ public class SubmissionUpdateBidStatusDetails implements JavaDelegate {
         final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
         final String processId = execution.getProcessInstanceId();
-        final String operationId = params.getOperationId();
         final String taskId = execution.getCurrentActivityId();
         final String bidId = processService.getAwardRelatedBid(jsonData, processId);
         final String awardStatusDetails = processService.getAwardStatusDetails(jsonData, processId);
@@ -55,8 +54,8 @@ public class SubmissionUpdateBidStatusDetails implements JavaDelegate {
                         params.getStage(),
                         bidId,
                         awardStatusDetails),
+                params,
                 processId,
-                operationId,
                 taskId);
         if (Objects.nonNull(responseData))
             operationService.saveOperationStep(execution, entity,

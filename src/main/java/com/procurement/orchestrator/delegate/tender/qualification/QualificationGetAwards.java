@@ -43,7 +43,6 @@ public class QualificationGetAwards implements JavaDelegate {
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
         final String processId = execution.getProcessInstanceId();
-        final String operationId = params.getOperationId();
         final String taskId = execution.getCurrentActivityId();
         params.setOperationType("awardPeriodEnd");
         final JsonNode responseData = processService.processResponse(
@@ -52,8 +51,8 @@ public class QualificationGetAwards implements JavaDelegate {
                         params.getStage(),
                         params.getCountry(),
                         params.getPmd()),
+                params,
                 processId,
-                operationId,
                 taskId);
         if (Objects.nonNull(responseData))
             operationService.saveOperationStep(execution, entity, params, responseData);
