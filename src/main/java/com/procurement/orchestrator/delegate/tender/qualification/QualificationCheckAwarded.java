@@ -57,8 +57,6 @@ public class QualificationCheckAwarded implements JavaDelegate {
                 processId,
                 taskId);
         if (Objects.nonNull(responseData)) {
-            final Boolean allAwarded = processService.getBoolean("allAwarded", responseData, processId);
-            execution.setVariable("allAwarded", (allAwarded ? 1 : 0));
             operationService.saveOperationStep(execution, entity, responseData);
         }
     }
