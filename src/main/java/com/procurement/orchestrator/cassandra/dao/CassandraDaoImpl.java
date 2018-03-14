@@ -105,7 +105,7 @@ public class CassandraDaoImpl implements CassandraDao {
                 .value(JSON_DATA, entity.getJsonData())
                 .value(JSON_PARAMS, entity.getJsonParams());
 
-        session.execute(insert).wasApplied();
+        session.execute(insert);
     }
 
     @Override
@@ -138,7 +138,7 @@ public class CassandraDaoImpl implements CassandraDao {
                 .value(COUNTRY, entity.getCountry())
                 .value(PMD, entity.getPmd());
 
-        session.execute(insert).wasApplied();
+        session.execute(insert);
     }
 
     @Override
