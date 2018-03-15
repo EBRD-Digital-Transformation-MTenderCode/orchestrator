@@ -303,8 +303,7 @@ public class ProcessServiceImpl implements ProcessService {
             final JsonNode tenderNode = jsonData.get("tender");
             final ArrayNode documentsNode = (ArrayNode) tenderNode.get("documents");
             for (final JsonNode node : documentsNode) {
-                if (Objects.isNull(node.get("datePublished").asText()) || node.get("datePublished").asText().isEmpty())
-                    ((ObjectNode) node).put("datePublished", startDate);
+                ((ObjectNode) node).put("datePublished", startDate);
             }
             return jsonData;
         } catch (Exception e) {
