@@ -283,6 +283,7 @@ public class ProcessServiceImpl implements ProcessService {
     public JsonNode getDocuments(final JsonNode jsonData, final String processId) {
         try {
             final ArrayNode documentsNode = (ArrayNode) jsonData.findPath("documents");
+            if (Objects.isNull(documentsNode)) return null;
             final ObjectNode mainNode = jsonUtil.createObjectNode();
             mainNode.replace("documents", documentsNode);
             return mainNode;
