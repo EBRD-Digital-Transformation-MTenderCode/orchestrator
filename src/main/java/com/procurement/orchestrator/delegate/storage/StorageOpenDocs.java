@@ -1,4 +1,4 @@
-package com.procurement.orchestrator.delegate;
+package com.procurement.orchestrator.delegate.storage;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.cassandra.service.OperationService;
@@ -44,9 +44,8 @@ public class StorageOpenDocs implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
         final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
         final String processId = execution.getProcessInstanceId();
-        final String operationId = params.getOperationId();
         final String startDate = params.getStartDate();
-        final JsonNode documents = processService.getDocuments(jsonData, processId, operationId);
+        final JsonNode documents = processService.getDocuments(jsonData, processId);
         final String taskId = execution.getCurrentActivityName();
         JsonNode responseData = processService.processResponse(
                 storageRestClient.setPublishDateBatch(startDate, documents),
@@ -57,6 +56,6 @@ public class StorageOpenDocs implements JavaDelegate {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    processService.setDatePublished(jsonData, startDate, processId, operationId));
+                    processService.setDocumentsDatePublished(jsonData, startDate, processId));
     }
 }

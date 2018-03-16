@@ -57,9 +57,13 @@ public interface ProcessService {
 
     JsonNode addUpdatedBid(JsonNode jsonData, JsonNode bidData, String processId);
 
-    JsonNode getDocuments(JsonNode jsonData, String processId, String operationId);
+    JsonNode getDocuments(JsonNode jsonData, String processId);
 
-    JsonNode setDatePublished(JsonNode jsonData, String startDate, String processId, String operationId);
+    JsonNode setDocumentsDatePublished(JsonNode jsonData, String startDate, String processId);
+
+    JsonNode getDocumentsOfBids(JsonNode jsonData, String processId);
+
+    JsonNode setDocumentsDatePublishedOfBids(JsonNode jsonData, String startDate, String processId);
 
     JsonNode addStandstillPeriod(JsonNode jsonData, String startDate, String endDate, String processId);
 

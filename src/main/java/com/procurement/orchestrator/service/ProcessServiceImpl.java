@@ -280,28 +280,19 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public JsonNode getDocuments(final JsonNode jsonData, final String processId, final String operationId) {
+    public JsonNode getDocuments(final JsonNode jsonData, final String processId) {
         try {
-            final JsonNode tenderNode = jsonData.get("tender");
-            final ArrayNode documentsNode = (ArrayNode) tenderNode.get("documents");
-            final ObjectNode mainNode = jsonUtil.createObjectNode();
-            final ArrayNode documentsArray = mainNode.putArray("documents");
-            for (final JsonNode docNode : documentsNode) {
-                ObjectNode idNode = jsonUtil.createObjectNode();
-                idNode.put("id", docNode.get("id").asText());
-                documentsArray.add(idNode);
-            }
-            return mainNode;
+            final ArrayNode documentsNode = (ArrayNode) jsonData.findPath("documents");
+            return documentsNode;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
             return null;
         }
     }
 
-    public JsonNode setDatePublished(final JsonNode jsonData, final String startDate, final String processId, final String operationId) {
+    public JsonNode setDocumentsDatePublished(final JsonNode jsonData, final String startDate, final String processId) {
         try {
-            final JsonNode tenderNode = jsonData.get("tender");
-            final ArrayNode documentsNode = (ArrayNode) tenderNode.get("documents");
+            final ArrayNode documentsNode = (ArrayNode) jsonData.findPath("documents");
             for (final JsonNode node : documentsNode) {
                 ((ObjectNode) node).put("datePublished", startDate);
             }
@@ -317,6 +308,45 @@ public class ProcessServiceImpl implements ProcessService {
             ((ObjectNode) jsonData).putObject("standstillPeriod")
                     .put("startDate", startDate)
                     .put("endDate", endDate);
+            return jsonData;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    public JsonNode getDocumentsOfBids(final JsonNode jsonData, final String processId) {
+        try {
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            final ArrayNode documentsArray = mainNode.putArray("documents");
+            final ArrayNode bidsNode = (ArrayNode) jsonData.get("bids");
+            for (final JsonNode bidNode : bidsNode) {
+                final ArrayNode documentsNode = (ArrayNode) bidNode.get("documents");
+                for (final JsonNode docNode : documentsNode) {
+                    ObjectNode idNode = jsonUtil.createObjectNode();
+                    idNode.put("id", docNode.get("id").asText());
+                    documentsArray.add(idNode);
+                }
+            }
+            return mainNode;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+
+    public JsonNode setDocumentsDatePublishedOfBids(final JsonNode jsonData, final String startDate, final String
+            processId) {
+
+        try {
+            final ArrayNode bidsNode = (ArrayNode) jsonData.get("bids");
+            for (final JsonNode bidNode : bidsNode) {
+                final ArrayNode documentsNode = (ArrayNode) bidNode.get("documents");
+                for (final JsonNode node : documentsNode) {
+                    ((ObjectNode) node).put("datePublished", startDate);
+                }
+            }
             return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
