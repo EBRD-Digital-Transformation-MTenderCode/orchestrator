@@ -283,7 +283,9 @@ public class ProcessServiceImpl implements ProcessService {
     public JsonNode getDocuments(final JsonNode jsonData, final String processId) {
         try {
             final ArrayNode documentsNode = (ArrayNode) jsonData.findPath("documents");
-            return documentsNode;
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            mainNode.replace("documents", documentsNode);
+            return mainNode;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
             return null;
@@ -296,18 +298,6 @@ public class ProcessServiceImpl implements ProcessService {
             for (final JsonNode node : documentsNode) {
                 ((ObjectNode) node).put("datePublished", startDate);
             }
-            return jsonData;
-        } catch (Exception e) {
-            terminateProcess(processId, e.getMessage());
-            return null;
-        }
-    }
-
-    public JsonNode addStandstillPeriod(final JsonNode jsonData, final String startDate, final String endDate, final String processId) {
-        try {
-            ((ObjectNode) jsonData).putObject("standstillPeriod")
-                    .put("startDate", startDate)
-                    .put("endDate", endDate);
             return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
@@ -335,7 +325,6 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-
     public JsonNode setDocumentsDatePublishedOfBids(final JsonNode jsonData, final String startDate, final String
             processId) {
 
@@ -347,6 +336,18 @@ public class ProcessServiceImpl implements ProcessService {
                     ((ObjectNode) node).put("datePublished", startDate);
                 }
             }
+            return jsonData;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    public JsonNode addStandstillPeriod(final JsonNode jsonData, final String startDate, final String endDate, final String processId) {
+        try {
+            ((ObjectNode) jsonData).putObject("standstillPeriod")
+                    .put("startDate", startDate)
+                    .put("endDate", endDate);
             return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());

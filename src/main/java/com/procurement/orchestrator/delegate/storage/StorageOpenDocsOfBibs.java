@@ -56,6 +56,6 @@ public class StorageOpenDocsOfBibs implements JavaDelegate {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    processService.setDocumentsDatePublished(jsonData, startDate, processId));
+                    processService.setDocumentsDatePublishedOfBids(jsonData, startDate, processId));
     }
 }
