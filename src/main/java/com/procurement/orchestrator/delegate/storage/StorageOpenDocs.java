@@ -48,7 +48,7 @@ public class StorageOpenDocs implements JavaDelegate {
         final JsonNode documents = processService.getDocuments(jsonData, processId);
         final String taskId = execution.getCurrentActivityName();
         JsonNode responseData = processService.processResponse(
-                storageRestClient.setPublishDateBatch(startDate, documents),
+                storageRestClient.setPublishDate(startDate, documents),
                 params,
                 processId,
                 taskId);
@@ -56,6 +56,6 @@ public class StorageOpenDocs implements JavaDelegate {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    processService.setDocumentsDatePublished(jsonData, startDate, processId));
+                    processService.setDocuments(jsonData, responseData, processId));
     }
 }

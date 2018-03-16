@@ -292,12 +292,9 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public JsonNode setDocumentsDatePublished(final JsonNode jsonData, final String startDate, final String processId) {
+    public JsonNode setDocuments(final JsonNode jsonData, final JsonNode documentsData, final String processId) {
         try {
-            final ArrayNode documentsNode = (ArrayNode) jsonData.findPath("documents");
-            for (final JsonNode node : documentsNode) {
-                ((ObjectNode) node).put("datePublished", startDate);
-            }
+            ((ObjectNode) jsonData).replace("documents", documentsData.get("documents"));
             return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
@@ -313,9 +310,7 @@ public class ProcessServiceImpl implements ProcessService {
             for (final JsonNode bidNode : bidsNode) {
                 final ArrayNode documentsNode = (ArrayNode) bidNode.get("documents");
                 for (final JsonNode docNode : documentsNode) {
-                    ObjectNode idNode = jsonUtil.createObjectNode();
-                    idNode.put("id", docNode.get("id").asText());
-                    documentsArray.add(idNode);
+                    documentsArray.add(docNode);
                 }
             }
             return mainNode;
@@ -325,9 +320,8 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public JsonNode setDocumentsDatePublishedOfBids(final JsonNode jsonData, final String startDate, final String
+    public JsonNode setDocumentsStartDateOfBids(final JsonNode jsonData, final String startDate, final String
             processId) {
-
         try {
             final ArrayNode bidsNode = (ArrayNode) jsonData.get("bids");
             for (final JsonNode bidNode : bidsNode) {

@@ -48,7 +48,7 @@ public class StorageOpenDocsOfBibs implements JavaDelegate {
         final JsonNode documents = processService.getDocumentsOfBids(jsonData, processId);
         final String taskId = execution.getCurrentActivityName();
         JsonNode responseData = processService.processResponse(
-                storageRestClient.setPublishDateBatch(startDate, documents),
+                storageRestClient.setPublishDate(startDate, documents),
                 params,
                 processId,
                 taskId);
@@ -56,6 +56,6 @@ public class StorageOpenDocsOfBibs implements JavaDelegate {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    processService.setDocumentsDatePublishedOfBids(jsonData, startDate, processId));
+                    processService.setDocumentsStartDateOfBids(jsonData, startDate, processId));
     }
 }
