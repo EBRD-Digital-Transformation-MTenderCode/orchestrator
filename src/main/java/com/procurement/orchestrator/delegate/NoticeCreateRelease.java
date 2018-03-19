@@ -52,7 +52,7 @@ public class NoticeCreateRelease implements JavaDelegate {
                         params.getStage(),
                         params.getPreviousStage(),
                         params.getOperationType(),
-                        "",
+                        params.getPhase(),
                         params.getStartDate(),
                         jsonData),
                 params,

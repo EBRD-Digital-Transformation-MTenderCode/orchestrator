@@ -43,7 +43,7 @@ public class BudgetCreateEi implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode responseData = processService.processResponse(
-                budgetRestClient.createEi(params.getOwner(), jsonData),
+                budgetRestClient.createEi(params.getStartDate(), params.getCountry(), params.getOwner(), jsonData),
                 params,
                 processId,
                 taskId);

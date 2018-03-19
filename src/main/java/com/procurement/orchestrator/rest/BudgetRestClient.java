@@ -14,13 +14,15 @@ public interface BudgetRestClient {
 
     @RequestMapping(path = "/ei", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> createEi(@RequestParam("owner") final String owner,
-                                          @RequestBody final JsonNode jsonData) throws Exception;
+                                         @RequestParam("country") final String country,
+                                         @RequestParam("startDate") final String startDate,
+                                         @RequestBody final JsonNode jsonData) throws Exception;
 
     @RequestMapping(path = "/ei", method = RequestMethod.PUT)
     ResponseEntity<ResponseDto> updateEi(@RequestParam("cpId") final String cpId,
                                          @RequestParam("owner") final String owner,
-                                          @RequestParam("token") final String token,
-                                          @RequestBody final JsonNode jsonData) throws Exception;
+                                         @RequestParam("token") final String token,
+                                         @RequestBody final JsonNode jsonData) throws Exception;
 
     @RequestMapping(path = "/fs", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> createFs(@RequestParam("cpId") final String cpId,

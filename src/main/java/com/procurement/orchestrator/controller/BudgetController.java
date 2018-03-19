@@ -24,12 +24,14 @@ public class BudgetController extends BaseController {
     @RequestMapping(value = "/ei", method = RequestMethod.POST)
     public ResponseEntity<String> createEIN(@RequestHeader("Authorization") final String authorization,
                                             @RequestHeader("X-OPERATION-ID") final String operationId,
+                                            @RequestParam("country") final String country,
                                             @RequestBody final JsonNode jsonData) {
         final Params params = new Params();
         params.setRequestId(UUIDs.timeBased().toString());
         params.setOwner(getOwner(authorization));
         params.setOperationId(operationId);
         params.setStage(Stage.EI.value());
+        params.setCountry(country.toUpperCase());
         params.setProcessType("ei");
         params.setOperationType("createEI");
         return startProcessResult(params, jsonData);
