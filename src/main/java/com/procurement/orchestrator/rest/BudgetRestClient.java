@@ -27,6 +27,7 @@ public interface BudgetRestClient {
     @RequestMapping(path = "/fs", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> createFs(@RequestParam("cpId") final String cpId,
                                          @RequestParam("owner") final String owner,
+                                         @RequestParam("startDate") final String startDate,
                                          @RequestBody final JsonNode jsonData) throws Exception;
 
     @RequestMapping(path = "/fs", method = RequestMethod.PUT)
