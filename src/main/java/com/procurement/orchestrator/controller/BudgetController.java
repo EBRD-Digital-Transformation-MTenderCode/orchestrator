@@ -2,6 +2,7 @@ package com.procurement.orchestrator.controller;
 
 import com.datastax.driver.core.utils.UUIDs;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.procurement.orchestrator.domain.Country;
 import com.procurement.orchestrator.domain.Stage;
 import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.cassandra.service.RequestService;
@@ -31,7 +32,7 @@ public class BudgetController extends BaseController {
         params.setOwner(getOwner(authorization));
         params.setOperationId(operationId);
         params.setStage(Stage.EI.value());
-        params.setCountry(country.toUpperCase());
+        params.setCountry(Country.fromValue(country.toUpperCase()).value());
         params.setProcessType("ei");
         params.setOperationType("createEI");
         return startProcessResult(params, jsonData);
