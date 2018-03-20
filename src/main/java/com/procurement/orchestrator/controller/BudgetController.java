@@ -8,6 +8,7 @@ import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.cassandra.service.RequestService;
 import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.service.ProcessService;
+import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,11 +16,15 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class BudgetController extends BaseController {
 
+    private final DateUtil dateUtil;
+
     public BudgetController(final ProcessService processService,
                             final RequestService requestService,
                             final OperationService operationService,
-                            final JsonUtil jsonUtil) {
+                            final JsonUtil jsonUtil,
+                            final DateUtil dateUtil) {
         super(jsonUtil, requestService, operationService, processService);
+        this.dateUtil = dateUtil;
     }
 
     @RequestMapping(value = "/ei", method = RequestMethod.POST)
@@ -31,6 +36,7 @@ public class BudgetController extends BaseController {
         params.setRequestId(UUIDs.timeBased().toString());
         params.setOwner(getOwner(authorization));
         params.setOperationId(operationId);
+        params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
         params.setStage(Stage.EI.value());
         params.setCountry(Country.fromValue(country.toUpperCase()).value());
         params.setProcessType("ei");
@@ -64,6 +70,7 @@ public class BudgetController extends BaseController {
         final Params params = new Params();
         params.setRequestId(UUIDs.timeBased().toString());
         params.setOperationId(operationId);
+        params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
         params.setCpid(cpid);
         params.setStage(Stage.FS.value());
         params.setOperationType("createFS");
