@@ -24,7 +24,6 @@ public class BudgetCreateFs implements JavaDelegate {
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-
     public BudgetCreateFs(final BudgetRestClient budgetRestClient,
                           final OperationService operationService,
                           final ProcessService processService,
