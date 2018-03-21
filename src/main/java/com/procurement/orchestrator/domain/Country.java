@@ -8,7 +8,8 @@ import java.util.Map;
 
 public enum Country {
     UA("UA"),
-    MD("MD");
+    MD("MD"),
+    TEST("test");
 
     private static final Map<String, Country> CONSTANTS = new HashMap<>();
 
