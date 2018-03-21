@@ -1,10 +1,11 @@
-package com.procurement.orchestrator.delegate.budget;
+package com.procurement.orchestrator.delegate.submission;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.procurement.orchestrator.cassandra.service.OperationService;
-import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
-import com.procurement.orchestrator.rest.BudgetRestClient;
+import com.procurement.orchestrator.cassandra.service.OperationService;
+import com.procurement.orchestrator.delegate.access.AccessUpdateCn;
+import com.procurement.orchestrator.domain.Params;
+import com.procurement.orchestrator.rest.SubmissionRestClient;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.Objects;
@@ -15,21 +16,23 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class BudgetCheckFs implements JavaDelegate {
+public class SubmissionSetFinalStatuses implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(BudgetCheckFs.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AccessUpdateCn.class);
 
-    private final BudgetRestClient budgetRestClient;
+    private final SubmissionRestClient submissionRestClient;
+
     private final OperationService operationService;
+
     private final ProcessService processService;
+
     private final JsonUtil jsonUtil;
 
-
-    public BudgetCheckFs(final BudgetRestClient budgetRestClient,
-                         final OperationService operationService,
-                         final ProcessService processService,
-                         final JsonUtil jsonUtil) {
-        this.budgetRestClient = budgetRestClient;
+    public SubmissionSetFinalStatuses(final SubmissionRestClient submissionRestClient,
+                                      final OperationService operationService,
+                                      final ProcessService processService,
+                                      final JsonUtil jsonUtil) {
+        this.submissionRestClient = submissionRestClient;
         this.operationService = operationService;
         this.processService = processService;
         this.jsonUtil = jsonUtil;
@@ -43,11 +46,10 @@ public class BudgetCheckFs implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-
-        final JsonNode checkFsDto = processService.getCheckFs(jsonData, processId);
-
         final JsonNode responseData = processService.processResponse(
-                budgetRestClient.checkFs(jsonData),
+                submissionRestClient.setFinalStatuses(
+                        params.getCpid(),
+                        params.getStage()),
                 params,
                 processId,
                 taskId);
@@ -55,6 +57,6 @@ public class BudgetCheckFs implements JavaDelegate {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    processService.setCheckFs(jsonData, responseData, processId));
+                    processService.addBids(jsonData, responseData, processId));
     }
 }

@@ -37,4 +37,7 @@ public interface BudgetRestClient {
                                          @RequestParam("owner") final String owner,
                                          @RequestBody final JsonNode jsonData) throws Exception;
 
+    @RequestMapping(path = "/fs/check", method = RequestMethod.POST)
+    ResponseEntity<ResponseDto> checkFs(@RequestBody final JsonNode jsonData) throws Exception;
+
 }

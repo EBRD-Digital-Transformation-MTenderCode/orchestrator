@@ -67,5 +67,8 @@ public interface ProcessService {
 
     JsonNode addStandstillPeriod(JsonNode jsonData, String startDate, String endDate, String processId);
 
+    JsonNode getCheckFs(JsonNode jsonData, String processId);
+
+    JsonNode setCheckFs(JsonNode jsonData, JsonNode responseData, String processId);
 }
 
