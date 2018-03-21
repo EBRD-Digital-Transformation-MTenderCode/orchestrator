@@ -15,7 +15,7 @@ public interface BudgetRestClient {
     @RequestMapping(path = "/ei", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> createEi(@RequestParam("owner") final String owner,
                                          @RequestParam("country") final String country,
-                                         @RequestParam("startDate") final String startDate,
+                                         @RequestParam("date") final String date,
                                          @RequestBody final JsonNode jsonData) throws Exception;
 
     @RequestMapping(path = "/ei", method = RequestMethod.PUT)
@@ -27,7 +27,7 @@ public interface BudgetRestClient {
     @RequestMapping(path = "/fs", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> createFs(@RequestParam("cpId") final String cpId,
                                          @RequestParam("owner") final String owner,
-                                         @RequestParam("startDate") final String startDate,
+                                         @RequestParam("date") final String date,
                                          @RequestBody final JsonNode jsonData) throws Exception;
 
     @RequestMapping(path = "/fs", method = RequestMethod.PUT)
