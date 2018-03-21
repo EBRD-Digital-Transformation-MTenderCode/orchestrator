@@ -1,101 +1,61 @@
 {
   "tender": {
-    "title": "Препарати наркотичної, психотропної групи: МНН - тримеперидин, морфін гідрохлорид, діазепам, фентаніл, кетамін, феназепам, натрію оксибутират",
-    "description": "Під кількістю 8 штук слід розуміти 8 найменувань",
+    "title": "Short off throughout somebody eye onto statement.",
+    "description": "Company member idea college third health century watch perhaps place live air option eight opportunity song dark cell test save pass so probably allow budget second every fund difficult language general east city.",
     "classification": {
-      "id": "33600000-6",
+      "id": "43325100-8",
       "scheme": "CPV",
-      "description": "Фармацевтична продукція"
+      "description": "Grounds-maintenance equipment"
     }
   },
   "planning": {
     "budget": {
-      "id": "7777",
       "period": {
-        "startDate": "2018-02-27T00:00:00Z",
-        "endDate": "2018-02-27T00:00:00Z"
+        "startDate": "2018-09-14T20:00:17Z",
+        "endDate": "2018-09-15T13:14:39Z"
       },
       "amount": {
-        "amount": 7777777,
-        "currency": "UAH"
+        "currency": "LSL"
       }
     },
-    "rationale": "Обгрунтування закупівель надано у вільному тексті. Більш детальна інформація може бути надана у доданому документі."
+    "rationale": "Probably agent surface future stand individual among."
   },
-  "parties": [
-    {
-      "name": "Військово – медичний клінічний центр Західного регіону",
-      "identifier": {
-        "id": "1",
-        "scheme": "UA-EDR",
-        "legalName": "ТОВ 'Військово – медичний клінічний центр Західного регіону'",
-        "uri": "https://www.google.com"
-      },
-      "additionalIdentifiers": [
-        {
-          "id": "2",
-          "scheme": "UA-EDR",
-          "legalName": "Додатковий лігал нейм",
-          "uri": "https://www.google.com/search"
-        }
-      ],
-      "address": {
-        "streetAddress": "79010, м. Львів вул. Личаківська, 26, Хірургічний корпус, каб. 104",
-        "locality": "Львів",
-        "region": "Львівська обл.",
-        "postalCode": "07770",
-        "countryName": "Україна"
-      },
-      "contactPoint": {
-        "name": "Магаль Оксана Іванівна",
-        "email": "test@test.test",
-        "telephone": "+380222222222",
-        "faxNumber": "+380222222222",
-        "url": "http://test.ua"
-      },
-      "roles": [
-        "buyer"
-      ],
-      "details": {
-        "typeOfBuyer": "BODY_PUBLIC",
-        "mainGeneralActivity": "DEFENCE",
-        "mainSectoralActivity": "AIRPORT_RELATED_ACTIVITIES",
-        "isACentralPurchasingBody": true,
-        "scale": "micro"
-      },
-      "buyerProfile": "http://linkToInfoAboutBuyer.ua"
-    }
-  ],
   "buyer": {
-    "id": "3",
-    "name": "Новороздільська міська лікарня",
+    "name": "Quinn-Duncan",
     "identifier": {
-      "id": "20764314",
       "scheme": "UA-EDR",
-      "legalName": "Новороздільська міська лікарня",
-      "uri": "http://buyerTestLink.ua"
+      "id": "402-11-9835",
+      "legalName": "Quinn-Duncan PLC",
+      "uri": "http://soto-diaz.info/posts/app/post/"
     },
     "additionalIdentifiers": [
       {
-        "id": "77764777",
         "scheme": "UA-EDR",
-        "legalName": "Додатково Новороздільська міська лікарня",
-        "uri": "http://additionalBuyerTestLink.ua"
+        "id": "038-48-8288",
+        "legalName": "Quinn-Duncan Inc",
+        "uri": "https://www.morgan.info/tags/main.html"
       }
     ],
     "address": {
-      "streetAddress": "вул. Винниченка, 37",
-      "locality": "місто Новий Розділ",
-      "region": "Львівська область",
-      "postalCode": "7770777",
-      "countryName": "Україна"
+      "streetAddress": "86590 Megan Rapids",
+      "locality": "Melissaton",
+      "region": "North Dakota",
+      "postalCode": "14129-5092",
+      "countryName": "Isle of Man"
     },
     "contactPoint": {
-      "name": "Осипових Сергій Олександрович",
-      "email": "test2@test.test",
-      "telephone": "+380222222222",
-      "faxNumber": "+380222222222",
-      "url": "test3@test.test"
+      "name": "Kathryn Barton",
+      "email": "combsjustin@yahoo.com",
+      "telephone": "1-223-731-8001x5119",
+      "faxNumber": "576-644-7378x65401",
+      "url": "https://davila.org/home/"
+    },
+    "details": {
+      "typeOfBuyer": "NATIONAL_AGENCY",
+      "mainGeneralActivity": "SOCIAL_PROTECTION",
+      "mainSectoralActivity": "WATER",
+      "isACentralPurchasingBody": true,
+      "scale": "micro"
     }
   }
 }
