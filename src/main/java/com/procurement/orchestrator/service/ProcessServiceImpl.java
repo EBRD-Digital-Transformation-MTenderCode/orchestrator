@@ -372,6 +372,7 @@ public class ProcessServiceImpl implements ProcessService {
         try {
             final ObjectNode mainNode = ((ObjectNode) jsonData);
             mainNode.replace("budgetBreakdown", responseData.get("budgetBreakdown"));
+            mainNode.replace("ei", responseData.get("ei"));
             mainNode.replace("buyer", responseData.get("buyer"));
             mainNode.replace("funder", responseData.get("funder"));
             mainNode.replace("payer", responseData.get("payer"));

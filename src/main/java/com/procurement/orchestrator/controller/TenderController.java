@@ -4,6 +4,7 @@ import com.datastax.driver.core.utils.UUIDs;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.cassandra.service.RequestService;
+import com.procurement.orchestrator.domain.Country;
 import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.domain.Stage;
 import com.procurement.orchestrator.service.ProcessService;
@@ -42,7 +43,7 @@ public class TenderController extends BaseController {
         params.setStage(Stage.PS.value());
         params.setProcessType("createCN");
         params.setOperationType("createCN");
-        params.setCountry(country);
+        params.setCountry(Country.fromValue(country).value());
         params.setPmd(pmd);
         return startProcessResult(params, jsonData);
     }
