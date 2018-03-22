@@ -47,7 +47,7 @@ public class BudgetCheckFs implements JavaDelegate {
         final JsonNode checkFsDto = processService.getCheckFs(jsonData, processId);
 
         final JsonNode responseData = processService.processResponse(
-                budgetRestClient.checkFs(jsonData),
+                budgetRestClient.checkFs(checkFsDto),
                 params,
                 processId,
                 taskId);

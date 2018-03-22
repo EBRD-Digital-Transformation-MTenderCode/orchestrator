@@ -182,6 +182,22 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
+    @Override
+    public JsonNode addTenderPeriodStartDate(JsonNode jsonData, String startDate, String processId) {
+        try {
+            if (Objects.isNull(jsonData.get("tender")))
+                ((ObjectNode) jsonData).putObject("tender");
+            if (Objects.isNull(jsonData.get("tender").get("tenderPeriod")))
+                ((ObjectNode) jsonData.get("tender")).putObject("tenderPeriod");
+            final ObjectNode tenderPeriodNode = (ObjectNode) jsonData.get("tender").get("tenderPeriod");
+            tenderPeriodNode.put("startDate", startDate);
+            return jsonData;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
     public JsonNode addTenderStatus(final JsonNode jsonData, final JsonNode statusData, final String processId) {
         try {
             ((ObjectNode) jsonData).putObject("tender")
