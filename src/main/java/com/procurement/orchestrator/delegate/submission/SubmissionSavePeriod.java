@@ -1,9 +1,9 @@
 package com.procurement.orchestrator.delegate.submission;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.domain.Params;
+import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.SubmissionRestClient;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -56,10 +56,7 @@ public class SubmissionSavePeriod implements JavaDelegate {
                 processId,
                 taskId);
         if (Objects.nonNull(responseData)) {
-            operationService.saveOperationStep(
-                    execution,
-                    entity,
-                    processService.addTenderTenderPeriod(jsonData, responseData, processId));
+            operationService.saveOperationStep(execution, entity);
         }
     }
 
