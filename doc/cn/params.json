@@ -1,15 +1,149 @@
 {
-  "operationId": "62",
-  "requestId": "210d87a0-18a7-11e8-8d78-d9db5728288d",
-  "cpid": "ocds-t1s2t3-MD-1519396672866",
-  "ocid": null,
-  "stage": "ps",
-  "processType": "createCN",
-  "operationType": "createCN",
-  "owner": "445f6851-c908-407d-9b45-14b92f3e964b",
-  "country": "test",
-  "pmd": "test",
-  "token": "212889b2-18a7-11e8-8652-a5520d03f959",
-  "startDate": "2018-02-23T14:37:52.866Z",
-  "endDate": "2018-02-23T14:45:00Z"
+  "planning": {
+    "budget": {
+      "description": "A short free text description of the budget source. May be used to provide the title of the budget line, or the programme used to fund this project.",
+      "amount": {
+        "amount": 2.85,
+        "currency": "LAJ"
+      },
+      "europeanUnionFunding": {
+        "projectIdentifier": "proj-cn-12346",
+        "projectName": "test proj name",
+        "uri": "https://jwt.io"
+      },
+      "isEuropeanUnionFunded": true,
+      "budgetBreakdown": [
+        {
+          "id": "ocds-t1s2t3-UA-1521797966040-FS-1521797969595",
+          "description": "A short free text description of this budget entry.",
+          "amount": {
+            "amount": 2.85,
+            "currency": "LAJ"
+          },
+          "period": {
+            "startDate": "2018-03-23T09:39:25Z",
+            "endDate": "2018-05-06T02:23:40Z"
+          },
+          "sourceParty": {
+            "name": "Taylor, Dennis and Munoz",
+            "id": "UA-EDR-753-18-5525"
+          }
+        }
+      ]
+    },
+    "rationale": "The rationale for the procurement provided in free text. More detail can be provided in an attached document."
+  },
+  "tender": null,
+  "ei": [
+    "ocds-t1s2t3-UA-1521797966040"
+  ],
+  "buyer": [
+    {
+      "name": "Taylor, Dennis and Munoz",
+      "id": "UA-EDR-753-18-5525",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "753-18-5525",
+        "legalName": "Taylor, Dennis and Munoz Inc",
+        "uri": "http://zuniga-smith.com/"
+      },
+      "address": {
+        "streetAddress": "2485 Cook Ridge",
+        "locality": "East Janetbury",
+        "region": "California",
+        "postalCode": "88909",
+        "countryName": "Liberia"
+      },
+      "additionalIdentifiers": [
+        {
+          "scheme": "UA-EDR",
+          "id": "886-69-4916",
+          "legalName": "Taylor, Dennis and Munoz Group",
+          "uri": "https://spencer.com/list/main.htm"
+        }
+      ],
+      "contactPoint": {
+        "name": "David Mcintosh",
+        "email": "alisonmaxwell@hotmail.com",
+        "telephone": "1-869-514-4337",
+        "faxNumber": "04796869785",
+        "url": "https://johnson-cox.net/app/app/list/search/"
+      },
+      "details": {
+        "typeOfBuyer": "NATIONAL_AGENCY",
+        "mainGeneralActivity": "HOUSING_AND_COMMUNITY_AMENITIES",
+        "mainSectoralActivity": "WATER",
+        "isACentralPurchasingBody": true,
+        "scale": "large"
+      }
+    }
+  ],
+  "funder": [
+    {
+      "name": "Taylor, Dennis and Munoz",
+      "id": "UA-EDR-753-18-5525",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "753-18-5525",
+        "legalName": "Taylor, Dennis and Munoz Inc",
+        "uri": "http://zuniga-smith.com/"
+      },
+      "address": {
+        "streetAddress": "2485 Cook Ridge",
+        "locality": "East Janetbury",
+        "region": "California",
+        "postalCode": "88909",
+        "countryName": "Liberia"
+      },
+      "additionalIdentifiers": [
+        {
+          "scheme": "UA-EDR",
+          "id": "886-69-4916",
+          "legalName": "Taylor, Dennis and Munoz Group",
+          "uri": "https://spencer.com/list/main.htm"
+        }
+      ],
+      "contactPoint": {
+        "name": "David Mcintosh",
+        "email": "alisonmaxwell@hotmail.com",
+        "telephone": "1-869-514-4337",
+        "faxNumber": "04796869785",
+        "url": "https://johnson-cox.net/app/app/list/search/"
+      }
+    }
+  ],
+  "payer": [
+    {
+      "name": "Taylor, Dennis and Munoz",
+      "id": "UA-EDR-753-18-5525",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "753-18-5525",
+        "legalName": "Taylor, Dennis and Munoz Inc",
+        "uri": "http://zuniga-smith.com/"
+      },
+      "address": {
+        "streetAddress": "2485 Cook Ridge",
+        "locality": "East Janetbury",
+        "region": "California",
+        "postalCode": "88909",
+        "countryName": "Liberia"
+      },
+      "additionalIdentifiers": [
+        {
+          "scheme": "UA-EDR",
+          "id": "886-69-4916",
+          "legalName": "Taylor, Dennis and Munoz Group",
+          "uri": "https://spencer.com/list/main.htm"
+        }
+      ],
+      "contactPoint": {
+        "name": "David Mcintosh",
+        "email": "alisonmaxwell@hotmail.com",
+        "telephone": "1-869-514-4337",
+        "faxNumber": "04796869785",
+        "url": "https://johnson-cox.net/app/app/list/search/"
+      }
+    }
+  ]
 }

@@ -1,73 +1,89 @@
 {
-  "planning":
-  {
-    "budget":
-    {
-      "id": "IBAN-777",
-      "description": "A short free text description of the budget source. May be used to provide the title of the budget line, or the programme used to fund this project",
-      "period":
-      {
-        "startDate": "2018-07-07T00:00:00Z",
-        "endDate": "2019-07-07T00:00:00Z"
+  "tender": {
+    "procuringEntity": {
+      "name": "Jones, Payne and Miller",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "449-33-1022",
+        "legalName": "Jones, Payne and Miller Ltd",
+        "uri": "https://www.chavez-cohen.com/posts/wp-content/terms/"
       },
-      "amount":
-      {
-        "amount": 5,
-        "currency": "MDL"
+      "additionalIdentifiers": [
+        {
+          "scheme": "UA-EDR",
+          "id": "758-71-3727",
+          "legalName": "Jones, Payne and Miller and Sons",
+          "uri": "http://www.stone.biz/about/"
+        }
+      ],
+      "address": {
+        "streetAddress": "07713 James Flats",
+        "locality": "Crawfordshire",
+        "region": "Rhode Island",
+        "postalCode": "63288-9461",
+        "countryName": "Burkina Faso"
       },
-      "isEuropeanUnionFunded": true,
-      "europeanUnionFunding":
-      {
-        "projectName": "Name or other national identification of the project providing full or partial funding",
-        "projectIdentifier": "PROJ-ID-1234-5678-0987",
-        "uri": "https://test.funding.org"
-      },
-      "verified": false
-    },
-    "rationale": "The rationale for the procurement provided in free text. More detail can be provided in an attached document"
+      "contactPoint": {
+        "name": "Pamela Sandoval",
+        "email": "sancheztony@gmail.com",
+        "telephone": "251.064.2294x0991",
+        "faxNumber": "1-121-662-0058x86727",
+        "url": "https://vega.com/"
+      }
+    }
   },
-  "parties":
-  [{
-    "name": "Velychnyi Svynarnyk",
-    "identifier":
-    {
-      "id": "123412341234",
+  "planning": {
+    "budget": {
+      "id": "GB47TJEZ3166246010086",
+      "description": "Role game image development partner of sort. Stage dark board door mention bar. Subject range my.",
+      "period": {
+        "startDate": "2018-03-23T13:37:39Z",
+        "endDate": "2018-03-29T23:31:31Z"
+      },
+      "amount": {
+        "amount": 0.38,
+        "currency": "LAK"
+      },
+      "isEuropeanUnionFunded": false
+    },
+    "rationale": "Them deep lawyer manage either charge matter."
+  },
+  "buyer": {
+    "name": "Conway, Robinson and Mills",
+    "identifier": {
       "scheme": "UA-EDR",
-      "legalName": "Velychnyi Svynarnyk",
-      "uri": "http://vs.com"
+      "id": "843-93-3305",
+      "legalName": "Conway, Robinson and Mills and Sons",
+      "uri": "http://navarro.com/app/homepage/"
     },
-    "additionalIdentifiers":
-    [{
-      "id": "789789789",
-      "scheme": "UA-EDR",
-      "legalName": "JBL",
-      "uri": "http://jbl.com"
-    }],
-    "address":
-    {
-      "streetAddress": "149-159 High Street",
-      "locality": "Birmingham",
-      "region": "Digbeth",
-      "postalCode": "B12 0JU",
-      "countryName": "United Kingdom"
+    "additionalIdentifiers": [
+      {
+        "scheme": "UA-EDR",
+        "id": "054-18-9725",
+        "legalName": "Conway, Robinson and Mills PLC",
+        "uri": "http://johnson.com/faq/"
+      }
+    ],
+    "address": {
+      "streetAddress": "4102 Evans Port Suite 808",
+      "locality": "Millerchester",
+      "region": "Minnesota",
+      "postalCode": "86409",
+      "countryName": "Saint Kitts and Nevis"
     },
-    "contactPoint":
-    {
-      "name": "Victoria",
-      "email": "tesla@test.test",
-      "telephone": "+380222222222",
-      "faxNumber": "+380222222222",
-      "url": "https://www.tesla.com"
+    "contactPoint": {
+      "name": "Melissa Giles",
+      "email": "jennifer92@hotmail.com",
+      "telephone": "332-970-6301",
+      "faxNumber": "+85(6)0981178522",
+      "url": "http://rodgers.org/categories/explore/main.htm"
     },
-    "roles": ["funder"],
-    "details":
-    {
+    "details": {
       "typeOfBuyer": "BODY_PUBLIC",
-      "mainGeneralActivity": "DEFENCE",
-      "mainSectoralActivity": "AIRPORT_RELATED_ACTIVITIES",
-      "isACentralPurchasingBody": true,
-      "scale": "micro"
-    },
-    "buyerProfile": "http://linkToInfoAboutBuyer.ua"
-  }]
+      "mainGeneralActivity": "PUBLIC_ORDER_AND_SAFETY",
+      "mainSectoralActivity": "PRODUCTION_TRANSPORT_DISTRIBUTION_GAS_HEAT",
+      "isACentralPurchasingBody": false,
+      "scale": "sme"
+    }
+  }
 }

@@ -408,7 +408,7 @@ public class ProcessServiceImpl implements ProcessService {
         try {
             final ObjectNode mainNode = ((ObjectNode) jsonData);
             mainNode.replace("planning", responseData.get("planning"));
-            mainNode.replace("tender", responseData.get("buyer"));
+            mainNode.replace("tender", responseData.get("tender"));
             return mainNode;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
