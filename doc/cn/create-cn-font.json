@@ -15,15 +15,15 @@
       },
       "budgetBreakdown": [
         {
-          "id": "ocds-t1s2t3-MD-1521194732593-fs-1521194776273",
+          "id": "ocds-t1s2t3-UA-1521723315282-FS-1521723320221",
           "description": "A short free text description of this budget entry.",
           "amount": {
             "amount": 500,
             "currency": "MDL"
           },
           "period": {
-            "startDate": "2018-02-27T00:00:00Z",
-            "endDate": "2018-09-27T00:00:00Z"
+            "startDate": "2018-09-07T07:40:04Z",
+            "endDate": "2018-09-08T04:32:04Z"
           }
         }
       ]
@@ -75,7 +75,8 @@
       "ro"
     ],
     "tenderPeriod": {
-      "endDate": "2018-03-18T10:24:00Z"
+      "endDate": "2018-09-07T07:40:04Z",
+      "startDate": "2018-03-22T14:22:26Z"
     },
     "contractPeriod": {
       "startDate": "2018-09-27T00:00:00Z",
@@ -204,12 +205,14 @@
     "documents": [
       {
         "documentType": "tenderNotice",
-        "id": "f7133800-2904-11e8-b1c7-dff3c5406c1d",
+        "id": "385104e0-2901-11e8-b1c7-dff3c5406c1d",
         "url": "http://bpe.eprocurement.systems/api/v1/storage/get/385104e0-2901-11e8-b1c7-dff3c5406c1d",
         "title": "Title Test CN document to tender",
         "description": "Description Test CN document to tender",
         "language": "ro",
-        "relatedLot": "lot-id-123123"
+        "relatedLots": [
+          "lot-id-123123"
+        ]
       }
     ]
   },

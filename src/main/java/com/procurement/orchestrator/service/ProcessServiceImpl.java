@@ -182,6 +182,22 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
+    @Override
+    public JsonNode addTenderPeriodStartDate(JsonNode jsonData, String startDate, String processId) {
+        try {
+            if (Objects.isNull(jsonData.get("tender")))
+                ((ObjectNode) jsonData).putObject("tender");
+            if (Objects.isNull(jsonData.get("tender").get("tenderPeriod")))
+                ((ObjectNode) jsonData.get("tender")).putObject("tenderPeriod");
+            final ObjectNode tenderPeriodNode = (ObjectNode) jsonData.get("tender").get("tenderPeriod");
+            tenderPeriodNode.put("startDate", startDate);
+            return jsonData;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
     public JsonNode addTenderStatus(final JsonNode jsonData, final JsonNode statusData, final String processId) {
         try {
             ((ObjectNode) jsonData).putObject("tender")
@@ -344,6 +360,39 @@ public class ProcessServiceImpl implements ProcessService {
                     .put("startDate", startDate)
                     .put("endDate", endDate);
             return jsonData;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public JsonNode getCheckFs(JsonNode jsonData, String processId) {
+        try {
+            final ArrayNode budgetBreakdownNode = (ArrayNode) jsonData.findPath("budgetBreakdown");
+            if (Objects.isNull(budgetBreakdownNode)) return null;
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            mainNode.replace("budgetBreakdown", budgetBreakdownNode);
+            final JsonNode tenderPeriodNode = jsonData.findPath("tenderPeriod");
+            if (Objects.isNull(tenderPeriodNode)) return null;
+            mainNode.replace("tenderPeriod", tenderPeriodNode);
+            return mainNode;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public JsonNode setCheckFs(JsonNode jsonData, JsonNode responseData, String processId) {
+        try {
+            final ObjectNode mainNode = ((ObjectNode) jsonData);
+            mainNode.replace("budgetBreakdown", responseData.get("budgetBreakdown"));
+            mainNode.replace("ei", responseData.get("ei"));
+            mainNode.replace("buyer", responseData.get("buyer"));
+            mainNode.replace("funder", responseData.get("funder"));
+            mainNode.replace("payer", responseData.get("payer"));
+            return mainNode;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
             return null;

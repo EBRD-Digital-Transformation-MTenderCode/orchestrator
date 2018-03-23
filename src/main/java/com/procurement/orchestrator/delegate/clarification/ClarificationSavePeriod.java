@@ -1,10 +1,10 @@
-package com.procurement.orchestrator.delegate.budget;
+package com.procurement.orchestrator.delegate.clarification;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.domain.Params;
-import com.procurement.orchestrator.domain.entity.OperationStepEntity;
-import com.procurement.orchestrator.rest.BudgetRestClient;
+import com.procurement.orchestrator.rest.ClarificationRestClient;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.Objects;
@@ -15,21 +15,23 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class BudgetCheckFs implements JavaDelegate {
+public class ClarificationSavePeriod implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(BudgetCheckFs.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ClarificationSavePeriod.class);
 
-    private final BudgetRestClient budgetRestClient;
+    private final ClarificationRestClient clarificationRestClient;
+
     private final OperationService operationService;
+
     private final ProcessService processService;
+
     private final JsonUtil jsonUtil;
 
-
-    public BudgetCheckFs(final BudgetRestClient budgetRestClient,
-                         final OperationService operationService,
-                         final ProcessService processService,
-                         final JsonUtil jsonUtil) {
-        this.budgetRestClient = budgetRestClient;
+    public ClarificationSavePeriod(final ClarificationRestClient clarificationRestClient,
+                                   final OperationService operationService,
+                                   final ProcessService processService,
+                                   final JsonUtil jsonUtil) {
+        this.clarificationRestClient = clarificationRestClient;
         this.operationService = operationService;
         this.processService = processService;
         this.jsonUtil = jsonUtil;
@@ -43,18 +45,23 @@ public class BudgetCheckFs implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-
-        final JsonNode checkFsDto = processService.getCheckFs(jsonData, processId);
-
         final JsonNode responseData = processService.processResponse(
-                budgetRestClient.checkFs(checkFsDto),
+                clarificationRestClient.savePeriod(
+                        params.getCpid(),
+                        params.getStage(),
+                        params.getOwner(),
+                        params.getCountry(),
+                        params.getPmd(),
+                        params.getStartDate(),
+                        params.getEndDate()),
                 params,
                 processId,
                 taskId);
-        if (Objects.nonNull(responseData))
+        if (Objects.nonNull(responseData)) {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    processService.setCheckFs(jsonData, responseData, processId));
+                    processService.addTenderEnquiryPeriod(jsonData, responseData, processId));
+        }
     }
 }
