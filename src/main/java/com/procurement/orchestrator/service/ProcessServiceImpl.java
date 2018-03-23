@@ -376,6 +376,9 @@ public class ProcessServiceImpl implements ProcessService {
             final JsonNode tenderPeriodNode = jsonData.findPath("tenderPeriod");
             if (Objects.isNull(tenderPeriodNode)) return null;
             mainNode.replace("tenderPeriod", tenderPeriodNode);
+            final JsonNode classificationNode = jsonData.findPath("classification");
+            if (Objects.isNull(classificationNode)) return null;
+            mainNode.replace("classification", classificationNode);
             return mainNode;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
@@ -387,7 +390,8 @@ public class ProcessServiceImpl implements ProcessService {
     public JsonNode setCheckFs(JsonNode jsonData, JsonNode responseData, String processId) {
         try {
             final ObjectNode mainNode = ((ObjectNode) jsonData);
-            mainNode.replace("budgetBreakdown", responseData.get("budgetBreakdown"));
+            final ObjectNode budgetNode = (ObjectNode) mainNode.get("planning").get("budget");
+            budgetNode.replace("budgetBreakdown", responseData.get("budgetBreakdown"));
             mainNode.replace("ei", responseData.get("ei"));
             mainNode.replace("buyer", responseData.get("buyer"));
             mainNode.replace("funder", responseData.get("funder"));
