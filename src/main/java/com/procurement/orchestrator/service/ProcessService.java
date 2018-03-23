@@ -72,5 +72,7 @@ public interface ProcessService {
     JsonNode getCheckFs(JsonNode jsonData, String processId);
 
     JsonNode setCheckFs(JsonNode jsonData, JsonNode responseData, String processId);
+
+    JsonNode setCn(JsonNode jsonData, JsonNode responseData, String processId);
 }
 

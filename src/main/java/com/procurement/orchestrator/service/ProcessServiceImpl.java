@@ -402,4 +402,17 @@ public class ProcessServiceImpl implements ProcessService {
             return null;
         }
     }
+
+    @Override
+    public JsonNode setCn(JsonNode jsonData, JsonNode responseData, String processId) {
+        try {
+            final ObjectNode mainNode = ((ObjectNode) jsonData);
+            mainNode.replace("planning", responseData.get("planning"));
+            mainNode.replace("tender", responseData.get("buyer"));
+            return mainNode;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
 }

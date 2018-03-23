@@ -52,7 +52,7 @@ public class AccessCreateCn implements JavaDelegate {
                     execution,
                     entity,
                     addDataToParams(params, responseData, processId),
-                    responseData);
+                    processService.setCn(jsonData, responseData, processId));
     }
 
     private Params addDataToParams(final Params params, final JsonNode responseData, final String processId) {
