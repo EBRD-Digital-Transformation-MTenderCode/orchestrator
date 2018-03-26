@@ -7,7 +7,6 @@ import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
 
-@Service
 public interface MessageProducer {
 
     boolean sendToChronograph(ChronographTask task);

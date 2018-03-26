@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.kafka;
 
+import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.kafka.clients.CommonClientConfigs;
@@ -13,7 +14,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 
-@Profile("deploy")
+@Profile("default")
 @Configuration
 @EnableConfigurationProperties(KafkaProducerProperties.class)
 public class KafkaProducerConfig {
@@ -47,13 +48,24 @@ public class KafkaProducerConfig {
         return externalProps;
     }
 
-    @Bean(name = "internalKafkaTemplate")
+    @Bean
     public KafkaTemplate<String, String> internalKafkaTemplate() {
         return new KafkaTemplate<>(new DefaultKafkaProducerFactory<>(internalProducerConfigs()));
     }
 
-    @Bean(name = "externalKafkaTemplate")
+    @Bean
     public KafkaTemplate<String, String> externalKafkaTemplate() {
         return new KafkaTemplate<>(new DefaultKafkaProducerFactory<>(externalProducerConfigs()));
+    }
+
+    @Bean
+    public MessageProducer messageProducer(final JsonUtil jsonUtil) {
+        return new MessageProducerImpl(internalKafkaTemplate(), externalKafkaTemplate(), jsonUtil);
+    }
+
+    @Bean
+    @Profile("local")
+    public MessageProducer messageProducer() {
+        return new MessageProducerMockImpl();
     }
 }
