@@ -24,20 +24,16 @@ public class ChronographScheduleEndTenderPeriod implements JavaDelegate {
 
     private final OperationService operationService;
 
-    private final ProcessService processService;
-
     private final JsonUtil jsonUtil;
 
     private final DateUtil dateUtil;
 
     public ChronographScheduleEndTenderPeriod(final MessageProducer messageProducer,
                                               final OperationService operationService,
-                                              final ProcessService processService,
                                               final JsonUtil jsonUtil,
                                               final DateUtil dateUtil) {
         this.messageProducer = messageProducer;
         this.operationService = operationService;
-        this.processService = processService;
         this.jsonUtil = jsonUtil;
         this.dateUtil = dateUtil;
     }
@@ -52,7 +48,7 @@ public class ChronographScheduleEndTenderPeriod implements JavaDelegate {
         paramsForEndTenderPeriod.setProcessType("tenderPeriodEnd");
         paramsForEndTenderPeriod.setOperationType("tenderPeriodEnd");
         paramsForEndTenderPeriod.setCpid(params.getCpid());
-        paramsForEndTenderPeriod.setStage(params.getStage());
+        paramsForEndTenderPeriod.setNewStage(params.getNewStage());
         paramsForEndTenderPeriod.setOwner(params.getOwner());
         paramsForEndTenderPeriod.setCountry(params.getCountry());
         paramsForEndTenderPeriod.setPmd(params.getPmd());

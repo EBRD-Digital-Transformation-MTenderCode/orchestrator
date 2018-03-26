@@ -46,7 +46,7 @@ public class ChronographRescheduleEndTenderPeriod implements JavaDelegate {
         paramsForEndTenderPeriod.setProcessType("tenderPeriodEnd");
         paramsForEndTenderPeriod.setOperationType("tenderPeriodEnd");
         paramsForEndTenderPeriod.setCpid(params.getCpid());
-        paramsForEndTenderPeriod.setStage(params.getStage());
+        paramsForEndTenderPeriod.setNewStage(params.getNewStage());
         paramsForEndTenderPeriod.setOwner(params.getOwner());
         paramsForEndTenderPeriod.setCountry(params.getCountry());
         paramsForEndTenderPeriod.setPmd(params.getPmd());

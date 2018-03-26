@@ -148,7 +148,7 @@ public class OperationServiceImpl implements OperationService {
     public void saveStageParams(Params params) {
         final StageEntity stageEntity = new StageEntity();
         stageEntity.setCpId(params.getCpid());
-        stageEntity.setStage(params.getStage());
+        stageEntity.setStage(params.getNewStage());
         stageEntity.setCountry(params.getCountry());
         stageEntity.setPmd(params.getPmd());
         stageEntity.setPhase(params.getPhase());

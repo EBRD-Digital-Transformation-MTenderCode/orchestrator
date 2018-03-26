@@ -49,7 +49,7 @@ public class QualificationCheckAwarded implements JavaDelegate {
         final JsonNode responseData = processService.processResponse(
                 qualificationRestClient.checkAwarded(
                         params.getCpid(),
-                        params.getStage(),
+                        params.getNewStage(),
                         params.getCountry(),
                         params.getPmd(),
                         endDate),

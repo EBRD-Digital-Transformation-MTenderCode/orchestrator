@@ -48,7 +48,7 @@ public class QualificationGetAwards implements JavaDelegate {
         final JsonNode responseData = processService.processResponse(
                 qualificationRestClient.getAwards(
                         params.getCpid(),
-                        params.getStage(),
+                        params.getNewStage(),
                         params.getCountry(),
                         params.getPmd()),
                 params,

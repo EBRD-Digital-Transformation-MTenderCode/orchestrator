@@ -49,7 +49,7 @@ public class SubmissionUpdateBid implements JavaDelegate {
         final JsonNode responseData = processService.processResponse(
                 submissionRestClient.updateBid(
                         params.getCpid(),
-                        params.getStage(),
+                        params.getNewStage(),
                         params.getToken(),
                         params.getOwner(),
                         jsonData),

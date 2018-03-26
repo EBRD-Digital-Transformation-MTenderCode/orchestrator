@@ -49,7 +49,7 @@ public class ClarificationCreateEnquiry implements JavaDelegate {
         final JsonNode responseData = processService.processResponse(
                 clarificationRestClient.createEnquiry(
                         params.getCpid(),
-                        params.getStage(),
+                        params.getNewStage(),
                         params.getOwner(),
                         dateUtil.format(dateUtil.localDateTimeNowUTC()),
                         jsonData),

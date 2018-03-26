@@ -42,7 +42,7 @@ public class SendMessageToPlatform implements JavaDelegate {
                 params.getOperationType(),
                 params.getAccess(),
                 params.getCpid(),
-                params.getStage(),
+                params.getNewStage(),
                 null);
         messageProducer.sendToPlatform(message);
     }

@@ -49,7 +49,7 @@ public class ClarificationCreateAnswer implements JavaDelegate {
         final JsonNode responseData = processService.processResponse(
                 clarificationRestClient.updateEnquiry(
                         params.getCpid(),
-                        params.getStage(),
+                        params.getNewStage(),
                         params.getToken(),
                         params.getOwner(),
                         dateUtil.format(dateUtil.localDateTimeNowUTC()),

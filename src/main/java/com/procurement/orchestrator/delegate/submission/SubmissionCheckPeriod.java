@@ -49,7 +49,7 @@ public class SubmissionCheckPeriod implements JavaDelegate {
                         params.getCpid(),
                         params.getCountry(),
                         params.getPmd(),
-                        params.getStage(),
+                        params.getNewStage(),
                         params.getStartDate(),
                         params.getEndDate()),
                 params,

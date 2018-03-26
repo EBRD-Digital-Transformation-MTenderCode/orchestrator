@@ -49,7 +49,7 @@ public class SubmissionSavePeriod implements JavaDelegate {
         final JsonNode responseData = processService.processResponse(
                 submissionRestClient.savePeriod(
                         params.getCpid(),
-                        params.getStage(),
+                        params.getNewStage(),
                         params.getStartDate(),
                         params.getEndDate()),
                 params,

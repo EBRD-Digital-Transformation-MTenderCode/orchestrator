@@ -42,7 +42,7 @@ public class SendErrorToPlatform implements JavaDelegate {
                 params.getOperationId(),
                 params.getOperationType(),
                 params.getCpid(),
-                params.getStage(),
+                params.getNewStage(),
                 message));
     }
 }

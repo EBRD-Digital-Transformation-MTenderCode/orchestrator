@@ -44,7 +44,7 @@ public class SubmissionGetBids implements JavaDelegate {
         final JsonNode responseData = processService.processResponse(
                 submissionRestClient.getBids(
                         params.getCpid(),
-                        params.getStage(),
+                        params.getNewStage(),
                         params.getCountry(),
                         params.getPmd()),
                 params,

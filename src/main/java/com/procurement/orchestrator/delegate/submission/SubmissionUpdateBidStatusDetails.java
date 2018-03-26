@@ -51,7 +51,7 @@ public class SubmissionUpdateBidStatusDetails implements JavaDelegate {
         final JsonNode responseData = processService.processResponse(
                 submissionRestClient.updateStatusDetails(
                         params.getCpid(),
-                        params.getStage(),
+                        params.getNewStage(),
                         bidId,
                         awardStatusDetails),
                 params,
