@@ -42,7 +42,7 @@ public class BudgetController extends BaseController {
         params.setOwner(getOwner(authorization));
         params.setOperationId(operationId);
         params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
-        params.setStage(Stage.EI.value());
+        params.setNewStage(Stage.EI.value());
         params.setCountry(Country.fromValue(country).value());
         params.setProcessType("ei");
         params.setOperationType("createEI");
@@ -63,7 +63,7 @@ public class BudgetController extends BaseController {
         params.setRequestId(UUIDs.timeBased().toString());
         params.setOperationId(operationId);
         params.setCpid(cpid);
-        params.setStage(Stage.EI.value());
+        params.setNewStage(Stage.EI.value());
         params.setProcessType("ei");
         params.setOperationType("updateEI");
         params.setOwner(getOwner(authorization));
@@ -85,7 +85,7 @@ public class BudgetController extends BaseController {
         params.setOperationId(operationId);
         params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
         params.setCpid(cpid);
-        params.setStage(Stage.FS.value());
+        params.setNewStage(Stage.FS.value());
         params.setOperationType("createFS");
         params.setProcessType("fs");
         params.setOwner(getOwner(authorization));
@@ -108,7 +108,7 @@ public class BudgetController extends BaseController {
         params.setOperationId(operationId);
         params.setCpid(cpid);
         params.setOcid(ocid);
-        params.setStage(Stage.FS.value());
+        params.setNewStage(Stage.FS.value());
         params.setProcessType("fs");
         params.setOperationType("updateFS");
         params.setOwner(getOwner(authorization));
