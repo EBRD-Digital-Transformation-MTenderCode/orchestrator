@@ -4,6 +4,7 @@ import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.kafka.MessageProducer;
+import com.procurement.orchestrator.kafka.MessageProducerImpl;
 import com.procurement.orchestrator.domain.chronograph.ChronographTask;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.DateUtil;
@@ -23,20 +24,16 @@ public class ChronographRescheduleEndTenderPeriod implements JavaDelegate {
 
     private final OperationService operationService;
 
-    private final ProcessService processService;
-
     private final JsonUtil jsonUtil;
 
     private final DateUtil dateUtil;
 
     public ChronographRescheduleEndTenderPeriod(final MessageProducer messageProducer,
                                                 final OperationService operationService,
-                                                final ProcessService processService,
                                                 final JsonUtil jsonUtil,
                                                 final DateUtil dateUtil) {
         this.messageProducer = messageProducer;
         this.operationService = operationService;
-        this.processService = processService;
         this.jsonUtil = jsonUtil;
         this.dateUtil = dateUtil;
     }

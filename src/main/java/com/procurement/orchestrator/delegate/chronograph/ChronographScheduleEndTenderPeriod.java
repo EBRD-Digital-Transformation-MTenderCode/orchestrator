@@ -5,6 +5,7 @@ import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.cassandra.service.OperationService;
 import com.procurement.orchestrator.kafka.MessageProducer;
+import com.procurement.orchestrator.kafka.MessageProducerImpl;
 import com.procurement.orchestrator.domain.chronograph.ChronographTask;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.DateUtil;
