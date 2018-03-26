@@ -1,15 +1,18 @@
-package com.procurement.orchestrator.cassandra.service;
+package com.procurement.orchestrator.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.domain.entity.RequestEntity;
 import com.procurement.orchestrator.domain.Params;
+import com.procurement.orchestrator.domain.Rules;
 import com.procurement.orchestrator.domain.entity.StageEntity;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.springframework.stereotype.Service;
 
 @Service
 public interface OperationService {
+
+    Boolean isRulesExist(final Rules rules);
 
     void checkOperationById(String operationId);
 
@@ -31,7 +34,7 @@ public interface OperationService {
 
     void saveOperationException(String processId, String taskId, JsonNode response);
 
-    void saveStage(Params params);
+    void saveStageParams(Params params);
 
     StageEntity getStageParams(String cpId, String processId);
 }

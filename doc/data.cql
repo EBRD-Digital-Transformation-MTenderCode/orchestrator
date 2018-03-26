@@ -28,7 +28,17 @@ CREATE TABLE IF NOT EXISTS  ocds.orchestrator_stage (
     stage text,
     country text,
     pmd text,
+    phase text,
     primary key(cp_id));
+
+CREATE TABLE IF NOT EXISTS  ocds.orchestrator_rules (
+    new_stage text,
+    stage text,
+    country text,
+    pmd text,
+    phase text,
+    operation_type text,
+    primary key(new_stage, stage, country, pmd, phase, operation_type));
 
 
 SELECT * FROM ocds.orchestrator_operation_step;

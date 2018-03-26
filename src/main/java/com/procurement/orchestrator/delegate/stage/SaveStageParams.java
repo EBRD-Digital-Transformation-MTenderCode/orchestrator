@@ -2,7 +2,7 @@ package com.procurement.orchestrator.delegate.stage;
 
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.domain.Params;
-import com.procurement.orchestrator.cassandra.service.OperationService;
+import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.utils.JsonUtil;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
@@ -28,6 +28,6 @@ public class SaveStageParams implements JavaDelegate {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
-        operationService.saveStage(params);
+        operationService.saveStageParams(params);
     }
 }

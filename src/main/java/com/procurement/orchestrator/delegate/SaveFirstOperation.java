@@ -1,10 +1,9 @@
 package com.procurement.orchestrator.delegate;
 
 import com.procurement.orchestrator.domain.entity.RequestEntity;
-import com.procurement.orchestrator.cassandra.service.OperationService;
-import com.procurement.orchestrator.cassandra.service.RequestService;
+import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
-import java.util.Optional;
+import com.procurement.orchestrator.service.RequestService;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
@@ -35,17 +34,12 @@ public class SaveFirstOperation implements JavaDelegate {
     public void execute(final DelegateExecution execution) {
         LOG.info(execution.getCurrentActivityName());
         final String requestId = (String) execution.getVariable("requestId");
-        final Optional<RequestEntity> requestOptional = requestService.getRequestById(
-                (String) execution.getVariable("requestId"));
-        if (requestOptional.isPresent()) {
-            if (!operationService.saveIfNotExist(execution.getProcessBusinessKey(), execution.getProcessInstanceId())) {
-                processService.terminateProcess(execution.getProcessInstanceId(),
-                        "operationId: " + execution.getProcessBusinessKey() + " already exist.");
-            }
-            operationService.saveFirstOperationStep(execution, requestOptional.get());
-        } else {
-            processService.terminateProcess(execution.getProcessInstanceId(),
-                    "requestId: " + requestId + " not found.");
+        final String operationId = execution.getProcessBusinessKey();
+        final String processId = execution.getProcessInstanceId();
+        final RequestEntity request = requestService.getRequestById(requestId, processId);
+        if (!operationService.saveIfNotExist(operationId, processId)) {
+            processService.terminateProcess(processId, "operationId: " + operationId + " already exist.");
         }
+        operationService.saveFirstOperationStep(execution, request);
     }
 }

@@ -1,8 +1,8 @@
-package com.procurement.orchestrator.cassandra.service;
+package com.procurement.orchestrator.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.procurement.orchestrator.cassandra.dao.CassandraDao;
-import com.procurement.orchestrator.cassandra.dao.CassandraDaoImpl;
+import com.procurement.orchestrator.dao.CassandraDao;
+import com.procurement.orchestrator.dao.CassandraDaoImpl;
 import com.procurement.orchestrator.domain.entity.RequestEntity;
 import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.utils.DateUtil;
@@ -16,14 +16,17 @@ public class RequestServiceImpl implements RequestService {
     private final JsonUtil jsonUtil;
     private final DateUtil dateUtil;
     private final CassandraDao cassandraDao;
+    private final ProcessService processService;
 
 
     public RequestServiceImpl(final JsonUtil jsonUtil,
                               final DateUtil dateUtil,
-                              final CassandraDaoImpl cassandraDao) {
+                              final CassandraDaoImpl cassandraDao,
+                              final ProcessService processService) {
         this.jsonUtil = jsonUtil;
         this.dateUtil = dateUtil;
         this.cassandraDao = cassandraDao;
+        this.processService = processService;
     }
 
     @Override
@@ -35,8 +38,14 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
-    public Optional<RequestEntity> getRequestById(String requestId) {
-        return cassandraDao.getRequestById(requestId);
+    public RequestEntity getRequestById(String requestId, String processId) {
+        final Optional<RequestEntity> requestOptional = cassandraDao.getRequestById(requestId);
+        if (requestOptional.isPresent()) {
+            return requestOptional.get();
+        } else {
+            processService.terminateProcess(processId, "requestId: " + requestId + " not found.");
+            return null;
+        }
     }
 
     private RequestEntity getRequestEntity(final String requestId,

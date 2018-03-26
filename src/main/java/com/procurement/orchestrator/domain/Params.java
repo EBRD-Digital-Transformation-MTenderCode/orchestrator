@@ -24,11 +24,11 @@ public class Params {
     @JsonProperty(value = "ocid")
     private String ocid;
 
+    @JsonProperty(value = "newStage")
+    private String newStage;
+
     @JsonProperty(value = "stage")
     private String stage;
-
-    @JsonProperty(value = "previousStage")
-    private String previousStage;
 
     @JsonProperty(value = "processType")
     private String processType;

@@ -2,8 +2,8 @@ package com.procurement.orchestrator.controller;
 
 import com.datastax.driver.core.utils.UUIDs;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.procurement.orchestrator.cassandra.service.OperationService;
-import com.procurement.orchestrator.cassandra.service.RequestService;
+import com.procurement.orchestrator.service.OperationService;
+import com.procurement.orchestrator.service.RequestService;
 import com.procurement.orchestrator.domain.Country;
 import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.domain.Stage;
@@ -11,7 +11,10 @@ import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,14 +22,16 @@ import org.springframework.web.bind.annotation.*;
 public class TenderController extends BaseController {
 
     private final DateUtil dateUtil;
+    private final ProcessService processService;
 
     public TenderController(final ProcessService processService,
                             final RequestService requestService,
                             final OperationService operationService,
                             final JsonUtil jsonUtil,
                             final DateUtil dateUtil) {
-        super(jsonUtil, requestService, operationService, processService);
+        super(jsonUtil, requestService, operationService);
         this.dateUtil = dateUtil;
+        this.processService = processService;
     }
 
     @RequestMapping(value = "/cn", method = RequestMethod.POST)
@@ -40,12 +45,14 @@ public class TenderController extends BaseController {
         params.setOwner(getOwner(authorization));
         params.setOperationId(operationId);
         params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
-        params.setStage(Stage.PS.value());
+        params.setNewStage(Stage.PS.value());
         params.setProcessType("createCN");
         params.setOperationType("createCN");
         params.setCountry(Country.fromValue(country).value());
         params.setPmd(pmd);
-        return startProcessResult(params, jsonData);
+        saveRequestAndCheckOperation(params, jsonData);
+        processService.startProcess(params, new HashMap<>());
+        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
     @RequestMapping(value = "/cn/{cpid}", method = RequestMethod.POST)
@@ -64,7 +71,11 @@ public class TenderController extends BaseController {
         params.setOperationType("updateCN");
         params.setCountry(country);
         params.setPmd(pmd);
-        return startProcessResult(params, jsonData);
+        saveRequestAndCheckOperation(params, jsonData);
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("isTokenPresent", ((params.getToken() == null || "".equals(params.getToken().trim())) ? 0 : 1));
+        processService.startProcess(params, variables);
+        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
 
@@ -84,7 +95,11 @@ public class TenderController extends BaseController {
         params.setOperationType("bid");
         params.setOwner(getOwner(authorization));
         params.setToken(token);
-        return startProcessResult(params, jsonData);
+        saveRequestAndCheckOperation(params, jsonData);
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("isTokenPresent", ((params.getToken() == null || "".equals(params.getToken().trim())) ? 0 : 1));
+        processService.startProcess(params, variables);
+        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
     @RequestMapping(value = "/enquiry/{cpid}", method = RequestMethod.POST)
@@ -107,7 +122,12 @@ public class TenderController extends BaseController {
         params.setCountry(country);
         params.setPmd(pmd);
         params.setToken(token);
-        return startProcessResult(params, jsonData);
+        saveRequestAndCheckOperation(params, jsonData);
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("isTokenPresent", ((params.getToken() == null || "".equals(params.getToken().trim())) ? 0 : 1));
+        variables.put("allAnswered", 0);
+        processService.startProcess(params, variables);
+        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
     @RequestMapping(value = "/award/{cpid}", method = RequestMethod.POST)
@@ -126,7 +146,9 @@ public class TenderController extends BaseController {
         params.setProcessType("awardByBid");
         params.setOperationType("awardByBid");
         params.setToken(token);
-        return startProcessResult(params, jsonData);
+        saveRequestAndCheckOperation(params, jsonData);
+        processService.startProcess(params, new HashMap<>());
+        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
     @RequestMapping(value = "/endAwardPeriod/{cpid}", method = RequestMethod.POST)
@@ -146,7 +168,9 @@ public class TenderController extends BaseController {
         params.setPmd(pmd);
         params.setProcessType("awardPeriodEnd");
         params.setOperationType("awardPeriodEnd");
-        return startProcessResult(params, null);
+        saveRequestAndCheckOperation(params, null);
+        processService.startProcess(params, new HashMap<>());
+        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
     @RequestMapping(value = "/newStage/{cpid}", method = RequestMethod.POST)
@@ -166,7 +190,9 @@ public class TenderController extends BaseController {
         params.setEndDate(dateUtil.format(endDate));
         params.setProcessType("startNewStage");
         params.setOperationType("startNewStage");
-        return startProcessResult(params, null);
+        saveRequestAndCheckOperation(params, null);
+        processService.startProcessCheckRules(params);
+        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 }
 

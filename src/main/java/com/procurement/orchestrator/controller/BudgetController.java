@@ -4,12 +4,15 @@ import com.datastax.driver.core.utils.UUIDs;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Country;
 import com.procurement.orchestrator.domain.Stage;
-import com.procurement.orchestrator.cassandra.service.OperationService;
-import com.procurement.orchestrator.cassandra.service.RequestService;
+import com.procurement.orchestrator.service.OperationService;
+import com.procurement.orchestrator.service.RequestService;
 import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
+import java.util.HashMap;
+import java.util.Map;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,14 +20,16 @@ import org.springframework.web.bind.annotation.*;
 public class BudgetController extends BaseController {
 
     private final DateUtil dateUtil;
+    private final ProcessService processService;
 
     public BudgetController(final ProcessService processService,
                             final RequestService requestService,
                             final OperationService operationService,
                             final JsonUtil jsonUtil,
                             final DateUtil dateUtil) {
-        super(jsonUtil, requestService, operationService, processService);
+        super(jsonUtil, requestService, operationService);
         this.dateUtil = dateUtil;
+        this.processService = processService;
     }
 
     @RequestMapping(value = "/ei", method = RequestMethod.POST)
@@ -41,7 +46,11 @@ public class BudgetController extends BaseController {
         params.setCountry(Country.fromValue(country).value());
         params.setProcessType("ei");
         params.setOperationType("createEI");
-        return startProcessResult(params, jsonData);
+        saveRequestAndCheckOperation(params, jsonData);
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("isTokenPresent", 0);
+        processService.startProcess(params, variables);
+        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
     @RequestMapping(value = "/ei/{cpid}", method = RequestMethod.POST)
@@ -59,7 +68,11 @@ public class BudgetController extends BaseController {
         params.setOperationType("updateEI");
         params.setOwner(getOwner(authorization));
         params.setToken(token);
-        return startProcessResult(params, jsonData);
+        saveRequestAndCheckOperation(params, jsonData);
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("isTokenPresent", ((params.getToken() == null || "".equals(params.getToken().trim())) ? 0 : 1));
+        processService.startProcess(params, variables);
+        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
     @RequestMapping(value = "/fs/{cpid}", method = RequestMethod.POST)
@@ -76,7 +89,11 @@ public class BudgetController extends BaseController {
         params.setOperationType("createFS");
         params.setProcessType("fs");
         params.setOwner(getOwner(authorization));
-        return startProcessResult(params, jsonData);
+        saveRequestAndCheckOperation(params, jsonData);
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("isTokenPresent", 0);
+        processService.startProcess(params, variables);
+        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
     @RequestMapping(value = "/fs/{cpid}/{ocid}", method = RequestMethod.POST)
@@ -96,7 +113,11 @@ public class BudgetController extends BaseController {
         params.setOperationType("updateFS");
         params.setOwner(getOwner(authorization));
         params.setToken(token);
-        return startProcessResult(params, jsonData);
+        saveRequestAndCheckOperation(params, jsonData);
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("isTokenPresent", ((params.getToken() == null || "".equals(params.getToken().trim())) ? 0 : 1));
+        processService.startProcess(params, variables);
+        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 }
 

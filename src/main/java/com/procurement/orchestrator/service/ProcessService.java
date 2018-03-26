@@ -2,6 +2,7 @@ package com.procurement.orchestrator.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Params;
+import com.procurement.orchestrator.domain.Rules;
 import com.procurement.orchestrator.domain.response.ResponseDto;
 import java.util.Map;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
@@ -11,7 +12,11 @@ import org.springframework.stereotype.Service;
 @Service
 public interface ProcessService {
 
-    void startProcess(String processType, String operationId, Map<String, Object> variables);
+    void startProcess(Params params, Map<String, Object> variables);
+
+    void startProcessCheckRules(Params params);
+
+    void startProcessError(Params params, String message);
 
     void terminateProcess(String processId, String message);
 

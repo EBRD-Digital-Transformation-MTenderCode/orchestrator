@@ -1,7 +1,7 @@
-package com.procurement.orchestrator.kafka;
+package com.procurement.orchestrator.config.kafka;
 
 import com.datastax.driver.core.utils.UUIDs;
-import com.procurement.orchestrator.cassandra.service.RequestService;
+import com.procurement.orchestrator.service.RequestService;
 import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.domain.chronograph.ChronographResponse;
 import com.procurement.orchestrator.service.ProcessService;
@@ -14,7 +14,6 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
-import org.springframework.stereotype.Service;
 
 public class MessageConsumer {
 

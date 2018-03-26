@@ -1,13 +1,11 @@
-package com.procurement.orchestrator.cassandra.dao;
+package com.procurement.orchestrator.dao;
 
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Session;
 import com.datastax.driver.core.Statement;
 import com.datastax.driver.core.querybuilder.Insert;
-import com.procurement.orchestrator.domain.entity.OperationEntity;
-import com.procurement.orchestrator.domain.entity.OperationStepEntity;
-import com.procurement.orchestrator.domain.entity.RequestEntity;
-import com.procurement.orchestrator.domain.entity.StageEntity;
+import com.procurement.orchestrator.domain.Rules;
+import com.procurement.orchestrator.domain.entity.*;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 
@@ -28,9 +26,13 @@ public class CassandraDaoImpl implements CassandraDao {
     private static final String JSON_DATA = "json_data";
     private static final String STEP_DATE = "step_date";
     private static final String TASK_ID = "task_id";
+    private static final String CPID = "cp_id";
+
+    private static final String OPERATION_TYPE = "operation_type";
+    private static final String NEW_STAGE = "new_stage";
     private static final String COUNTRY = "country";
     private static final String STAGE = "stage";
-    private static final String CPID = "cp_id";
+    private static final String PHASE = "phase";
     private static final String PMD = "pmd";
 
     private final Session session;
@@ -91,8 +93,7 @@ public class CassandraDaoImpl implements CassandraDao {
                 .where(eq(OPERATION_ID, operationId));
 
         final ResultSet rs = session.execute(query);
-
-        return (rs.all().size() > 0) ? true : false;
+        return rs.all().size() > 0;
     }
 
     @Override
@@ -126,7 +127,6 @@ public class CassandraDaoImpl implements CassandraDao {
                         row.getTimestamp(STEP_DATE),
                         row.getString(JSON_PARAMS),
                         row.getString(JSON_DATA)));
-
     }
 
     @Override
@@ -136,7 +136,8 @@ public class CassandraDaoImpl implements CassandraDao {
                 .value(CPID, entity.getCpId())
                 .value(STAGE, entity.getStage())
                 .value(COUNTRY, entity.getCountry())
-                .value(PMD, entity.getPmd());
+                .value(PMD, entity.getPmd())
+                .value(PHASE, entity.getPhase());
 
         session.execute(insert);
     }
@@ -155,6 +156,23 @@ public class CassandraDaoImpl implements CassandraDao {
                         row.getString(CPID),
                         row.getString(STAGE),
                         row.getString(COUNTRY),
-                        row.getString(PMD)));
+                        row.getString(PMD),
+                        row.getString(PHASE)));
+    }
+
+    @Override
+    public Boolean isRulesExist(final Rules rules) {
+        final Statement query = select()
+                .all()
+                .from(STAGE_TABLE)
+                .where(eq(NEW_STAGE, rules.getNewStage()))
+                .and(eq(STAGE, rules.getStage()))
+                .and(eq(COUNTRY, rules.getCountry()))
+                .and(eq(PMD, rules.getPmd()))
+                .and(eq(PHASE, rules.getPhase()))
+                .and(eq(OPERATION_TYPE, rules.getOperationType()))
+                .limit(1);
+        final ResultSet rs = session.execute(query);
+        return rs.all().size() > 0;
     }
 }

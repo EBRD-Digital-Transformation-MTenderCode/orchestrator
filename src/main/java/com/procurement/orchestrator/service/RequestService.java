@@ -1,4 +1,4 @@
-package com.procurement.orchestrator.cassandra.service;
+package com.procurement.orchestrator.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.entity.RequestEntity;
@@ -11,6 +11,6 @@ public interface RequestService {
 
     void saveRequest(String requestId, String operationId, Params jsonParams, JsonNode jsonData);
 
-    Optional<RequestEntity> getRequestById(String requestId);
+    RequestEntity getRequestById(String requestId, String processId);
 
 }

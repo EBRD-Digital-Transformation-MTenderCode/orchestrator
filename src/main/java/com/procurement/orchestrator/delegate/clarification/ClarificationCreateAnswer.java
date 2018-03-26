@@ -3,7 +3,7 @@ package com.procurement.orchestrator.delegate.clarification;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.domain.Params;
-import com.procurement.orchestrator.cassandra.service.OperationService;
+import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.rest.ClarificationRestClient;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.DateUtil;

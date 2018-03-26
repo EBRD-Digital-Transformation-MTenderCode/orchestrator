@@ -3,20 +3,19 @@ package com.procurement.orchestrator.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.procurement.orchestrator.cassandra.service.OperationService;
+import com.procurement.orchestrator.config.kafka.MessageProducer;
 import com.procurement.orchestrator.domain.EntityAccess;
 import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.domain.PlatformMessage;
+import com.procurement.orchestrator.domain.Rules;
 import com.procurement.orchestrator.domain.response.ResponseDetailsDto;
 import com.procurement.orchestrator.domain.response.ResponseDto;
-import com.procurement.orchestrator.kafka.MessageProducer;
-import com.procurement.orchestrator.kafka.MessageProducerImpl;
+import com.procurement.orchestrator.exception.OperationException;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.*;
 import org.camunda.bpm.engine.RuntimeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -43,10 +42,24 @@ public class ProcessServiceImpl implements ProcessService {
         this.jsonUtil = jsonUtil;
     }
 
-    public void startProcess(final String processType,
-                             final String operationId,
-                             final Map<String, Object> variables) {
-        runtimeService.startProcessInstanceByKey(processType, operationId, variables);
+    public void startProcess(final Params params, final Map<String, Object> variables) {
+        variables.put("requestId", params.getRequestId());
+        runtimeService.startProcessInstanceByKey(params.getProcessType(),  params.getOperationId(), variables);
+    }
+
+    public void startProcessCheckRules(final Params params) {
+        final Map<String, Object> variables = new HashMap<>();
+        variables.put("requestId", params.getRequestId());
+        variables.put("checkRules", 1);
+        variables.put("message", "");
+        runtimeService.startProcessInstanceByKey("checkRules", variables);
+    }
+
+    public void startProcessError(final Params params, final String message) {
+        final Map<String, Object> variables = new HashMap<>();
+        variables.put("requestId", params.getRequestId());
+        variables.put("message", message);
+        runtimeService.startProcessInstanceByKey("error", variables);
     }
 
     public void terminateProcess(final String processId, final String message) {
@@ -57,15 +70,8 @@ public class ProcessServiceImpl implements ProcessService {
     @Override
     public void terminateProcessWithMessage(final Params params, final String processId, final String message) {
         LOG.error(message);
-        messageProducer.sendToPlatform(new PlatformMessage(
-                false,
-                params.getOperationId(),
-                params.getOperationType(),
-                params.getCpid(),
-                params.getStage(),
-                message)
-        );
         runtimeService.deleteProcessInstance(processId, message);
+        startProcessError(params, message);
     }
 
     public JsonNode processResponse(final ResponseEntity<ResponseDto> responseEntity,
@@ -79,16 +85,8 @@ public class ProcessServiceImpl implements ProcessService {
             final List<ResponseDetailsDto> details = responseEntity.getBody().getDetails();
             final String message = Objects.nonNull(details) ?
                     "Error in process Id: " + processId + "; message: " + jsonUtil.toJson(details) : "";
-            messageProducer.sendToPlatform(new PlatformMessage(
-                            false,
-                            params.getOperationId(),
-                            params.getOperationType(),
-                            params.getCpid(),
-                            params.getStage(),
-                            message
-                    )
-            );
             runtimeService.deleteProcessInstance(processId, message);
+            startProcessError(params, message);
             return null;
         }
     }

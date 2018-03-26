@@ -1,4 +1,4 @@
-package com.procurement.orchestrator.domain.entity;
+package com.procurement.orchestrator.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,9 +9,9 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class StageEntity {
+public class Rules {
 
-    private String cpId;
+    private String newStage;
 
     private String stage;
 
@@ -20,5 +20,7 @@ public class StageEntity {
     private String pmd;
 
     private String phase;
+
+    private String operationType;
 
 }

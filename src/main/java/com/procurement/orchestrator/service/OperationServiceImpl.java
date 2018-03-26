@@ -1,12 +1,10 @@
-package com.procurement.orchestrator.cassandra.service;
+package com.procurement.orchestrator.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.procurement.orchestrator.cassandra.dao.CassandraDao;
+import com.procurement.orchestrator.dao.CassandraDao;
 import com.procurement.orchestrator.domain.Params;
-import com.procurement.orchestrator.domain.entity.OperationEntity;
-import com.procurement.orchestrator.domain.entity.OperationStepEntity;
-import com.procurement.orchestrator.domain.entity.RequestEntity;
-import com.procurement.orchestrator.domain.entity.StageEntity;
+import com.procurement.orchestrator.domain.Rules;
+import com.procurement.orchestrator.domain.entity.*;
 import com.procurement.orchestrator.exception.OperationException;
 import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -40,6 +38,11 @@ public class OperationServiceImpl implements OperationService {
         this.runtimeService = runtimeService;
         this.jsonUtil = jsonUtil;
         this.dateUtil = dateUtil;
+    }
+
+    @Override
+    public Boolean isRulesExist(final Rules rules) {
+        return cassandraDao.isRulesExist(rules);
     }
 
     @Override
@@ -142,12 +145,13 @@ public class OperationServiceImpl implements OperationService {
     }
 
     @Override
-    public void saveStage(Params params) {
+    public void saveStageParams(Params params) {
         final StageEntity stageEntity = new StageEntity();
         stageEntity.setCpId(params.getCpid());
         stageEntity.setStage(params.getStage());
         stageEntity.setCountry(params.getCountry());
         stageEntity.setPmd(params.getPmd());
+        stageEntity.setPhase(params.getPhase());
         cassandraDao.saveStage(stageEntity);
     }
 
