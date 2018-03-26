@@ -22,7 +22,6 @@ CREATE TABLE IF NOT EXISTS  ocds.orchestrator_operation (
     process_id text,
     primary key(operation_id));
 
-
 CREATE TABLE IF NOT EXISTS  ocds.orchestrator_stage (
     cp_id text,
     stage text,
