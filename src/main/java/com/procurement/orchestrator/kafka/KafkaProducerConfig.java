@@ -62,10 +62,4 @@ public class KafkaProducerConfig {
     public MessageProducer messageProducer(final JsonUtil jsonUtil) {
         return new MessageProducerImpl(internalKafkaTemplate(), externalKafkaTemplate(), jsonUtil);
     }
-
-    @Bean
-    @Profile("local")
-    public MessageProducer messageProducer() {
-        return new MessageProducerMockImpl();
-    }
 }
