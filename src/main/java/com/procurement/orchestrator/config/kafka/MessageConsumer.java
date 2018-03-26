@@ -46,6 +46,7 @@ public class MessageConsumer {
             final Params params = jsonUtil.toObject(Params.class, data.getMetaData());
             params.setRequestId(UUIDs.timeBased().toString());
             params.setOperationId(params.getRequestId());
+            params.setProcessType("tenderPeriodEnd");
             requestService.saveRequest(
                     params.getRequestId(),
                     params.getOperationId(),
@@ -53,8 +54,7 @@ public class MessageConsumer {
                     jsonUtil.toJsonNode(data));
             Map<String, Object> variables = new HashMap<>();
             variables.put("checkEnquiries", 0);
-            variables.put("requestId", params.getRequestId());
-            processService.startProcess("tenderPeriodEnd", params.getOperationId(), variables);
+            processService.startProcess(params, variables);
         } catch (Exception e) {
         }
     }

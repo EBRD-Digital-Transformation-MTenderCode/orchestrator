@@ -49,8 +49,8 @@ public class SubmissionCopyBids implements JavaDelegate {
         final JsonNode responseData = processService.processResponse(
                 submissionRestClient.copyBids(
                         params.getCpid(),
+                        params.getNewStage(),
                         params.getStage(),
-                        params.getPreviousStage(),
                         jsonData),
                 params,
                 processId,
