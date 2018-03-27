@@ -67,7 +67,6 @@ public class ProcessServiceImpl implements ProcessService {
         runtimeService.deleteProcessInstance(processId, message);
     }
 
-    @Override
     public void terminateProcessWithMessage(final Params params, final String processId, final String message) {
         LOG.error(message);
         runtimeService.deleteProcessInstance(processId, message);
