@@ -1,89 +1,204 @@
 {
+  "planning": {
+    "rationale": "The rationale for the procurement provided in free text. More detail can be provided in an attached document.",
+    "budget": {
+      "description": "A short free text description of the budget source. May be used to provide the title of the budget line, or the programme used to fund this project.",
+      "amount": {
+        "amount": 9176946.61,
+        "currency": "LYD"
+      },
+      "isEuropeanUnionFunded": true,
+      "europeanUnionFunding": {
+        "projectIdentifier": "proj-cn-12346",
+        "projectName": "test proj name",
+        "uri": "https://jwt.io"
+      },
+      "budgetBreakdown": [
+        {
+          "id": "ocds-t1s2t3-UA-1522152628233-FS-1522152631810",
+          "description": "A short free text description of this budget entry.",
+          "amount": {
+            "amount": 9176946.61,
+            "currency": "LYD"
+          },
+          "period": {
+            "startDate": "2018-03-27T12:10:15Z",
+            "endDate": "2018-06-15T12:17:29Z"
+          }
+        }
+      ]
+    }
+  },
   "tender": {
+    "title": "Tender title",
+    "description": "Tender description",
+    "classification": {
+      "scheme": "CPV",
+      "description": "Transboundary water pollution management or control services",
+      "id": "90733600-0"
+    },
+    "acceleratedProcedure": {
+      "isAcceleratedProcedure": false
+    },
+    "designContest": {
+      "serviceContractAward": false
+    },
+    "electronicWorkflows": {
+      "useOrdering": false,
+      "usePayment": false,
+      "acceptInvoicing": false
+    },
+    "jointProcurement": {
+      "isJointProcurement": false
+    },
+    "procedureOutsourcing": {
+      "procedureOutsourced": false
+    },
+    "framework": {
+      "isAFramework": false
+    },
+    "dynamicPurchasingSystem": {
+      "hasDynamicPurchasingSystem": false
+    },
+    "legalBasis": "DIRECTIVE_2014_24_EU",
+    "procurementMethod": "open",
+    "procurementMethodDetails": "Open Procurement",
+    "procurementMethodRationale": "Rationale of procurement method, especially in the case of Limited tendering.",
+    "procurementMethodAdditionalInfo": "Additional information about the procurement method.",
+    "mainProcurementCategory": "goods",
+    "additionalProcurementCategories": [
+      "goods"
+    ],
+    "eligibilityCriteria": "A description of any eligibility criteria for potential suppliers.",
+    "submissionLanguages": [
+      "pl",
+      "ro"
+    ],
+    "tenderPeriod": {
+      "endDate": "2018-06-15T12:17:29Z"
+    },
+    "contractPeriod": {
+      "startDate": "2018-09-27T00:00:00Z",
+      "endDate": "2018-11-27T00:00:00Z"
+    },
+    "value": {
+      "amount": 9176946.61,
+      "currency": "LYD"
+    },
+    "lotGroups": [
+      {
+        "optionToCombine": false
+      }
+    ],
+    "lots": [
+      {
+        "id": "lot-id-123123",
+        "title": "A title for this lot.",
+        "description": "A description of this lot.",
+        "value": {
+          "amount": 9176946.61,
+          "currency": "LYD"
+        },
+        "options": [
+          {
+            "hasOptions": false
+          }
+        ],
+        "variants": [
+          {
+            "hasVariants": false
+          }
+        ],
+        "renewals": [
+          {
+            "hasRenewals": false
+          }
+        ],
+        "recurrentProcurement": [
+          {
+            "isRecurrent": false
+          }
+        ],
+        "contractPeriod": {
+          "startDate": "2018-09-27T00:00:00Z",
+          "endDate": "2018-11-27T00:00:00Z"
+        },
+        "placeOfPerformance": {
+          "address": {
+            "streetAddress": "149-159 High Street",
+            "locality": "Birmingham",
+            "region": "Digbeth",
+            "postalCode": "B12 0JU",
+            "countryName": "United Kingdom"
+          },
+          "description": "Further description of the place of performance of the contract. Required by EU."
+        }
+      }
+    ],
+    "items": [
+      {
+        "id": "item-id-123123",
+        "classification": {
+          "scheme": "CPV",
+          "description": "Transboundary water pollution management or control services",
+          "id": "90733600-0"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "CPVS",
+            "description": "A textual description or title for the code.",
+            "id": "CPVs-id-12341234"
+          }
+        ],
+        "quantity": 10,
+        "unit": {
+          "id": "0971",
+          "name": "kg"
+        },
+        "description": "A description of the goods, services to be provided.",
+        "relatedLot": "lot-id-123123"
+      }
+    ],
+    "awardCriteria": "priceOnly",
+    "requiresElectronicCatalogue": false,
+    "submissionMethod": [
+      "electronicSubmission"
+    ],
+    "submissionMethodRationale": [
+      "TOOLS_DEVICES_FILE_FORMATS_UNAVAILABLE",
+      "IPR_ISSUES"
+    ],
+    "submissionMethodDetails": "Any detailed or further information on the submission method. This may include the address, e-mail address or online service to which bids should be submitted, and any special requirements to be followed for submissions.",
     "procuringEntity": {
-      "name": "Jones, Payne and Miller",
+      "name": "Новороздільська міська лікарня",
       "identifier": {
         "scheme": "UA-EDR",
-        "id": "449-33-1022",
-        "legalName": "Jones, Payne and Miller Ltd",
-        "uri": "https://www.chavez-cohen.com/posts/wp-content/terms/"
+        "id": "20764777",
+        "legalName": "Новороздільська міська лікарня",
+        "uri": "http://buyerTestLink.ua"
       },
       "additionalIdentifiers": [
         {
           "scheme": "UA-EDR",
-          "id": "758-71-3727",
-          "legalName": "Jones, Payne and Miller and Sons",
-          "uri": "http://www.stone.biz/about/"
+          "id": "123123123",
+          "legalName": "Додатково Новороздільська міська лікарня",
+          "uri": "http://additionalBuyerTestLink.ua"
         }
       ],
       "address": {
-        "streetAddress": "07713 James Flats",
-        "locality": "Crawfordshire",
-        "region": "Rhode Island",
-        "postalCode": "63288-9461",
-        "countryName": "Burkina Faso"
+        "streetAddress": "вул. Винниченка, 37",
+        "locality": "місто Новий Розділ",
+        "region": "Львівська область",
+        "postalCode": "7770777",
+        "countryName": "Україна"
       },
       "contactPoint": {
-        "name": "Pamela Sandoval",
-        "email": "sancheztony@gmail.com",
-        "telephone": "251.064.2294x0991",
-        "faxNumber": "1-121-662-0058x86727",
-        "url": "https://vega.com/"
+        "name": "Осипових Сергій Олександрович",
+        "email": "test2@test.test",
+        "telephone": "+380222222222",
+        "faxNumber": "+380222222222",
+        "url": "http://test.ua"
       }
-    }
-  },
-  "planning": {
-    "budget": {
-      "id": "GB47TJEZ3166246010086",
-      "description": "Role game image development partner of sort. Stage dark board door mention bar. Subject range my.",
-      "period": {
-        "startDate": "2018-03-23T13:37:39Z",
-        "endDate": "2018-03-29T23:31:31Z"
-      },
-      "amount": {
-        "amount": 0.38,
-        "currency": "LAK"
-      },
-      "isEuropeanUnionFunded": false
-    },
-    "rationale": "Them deep lawyer manage either charge matter."
-  },
-  "buyer": {
-    "name": "Conway, Robinson and Mills",
-    "identifier": {
-      "scheme": "UA-EDR",
-      "id": "843-93-3305",
-      "legalName": "Conway, Robinson and Mills and Sons",
-      "uri": "http://navarro.com/app/homepage/"
-    },
-    "additionalIdentifiers": [
-      {
-        "scheme": "UA-EDR",
-        "id": "054-18-9725",
-        "legalName": "Conway, Robinson and Mills PLC",
-        "uri": "http://johnson.com/faq/"
-      }
-    ],
-    "address": {
-      "streetAddress": "4102 Evans Port Suite 808",
-      "locality": "Millerchester",
-      "region": "Minnesota",
-      "postalCode": "86409",
-      "countryName": "Saint Kitts and Nevis"
-    },
-    "contactPoint": {
-      "name": "Melissa Giles",
-      "email": "jennifer92@hotmail.com",
-      "telephone": "332-970-6301",
-      "faxNumber": "+85(6)0981178522",
-      "url": "http://rodgers.org/categories/explore/main.htm"
-    },
-    "details": {
-      "typeOfBuyer": "BODY_PUBLIC",
-      "mainGeneralActivity": "PUBLIC_ORDER_AND_SAFETY",
-      "mainSectoralActivity": "PRODUCTION_TRANSPORT_DISTRIBUTION_GAS_HEAT",
-      "isACentralPurchasingBody": false,
-      "scale": "sme"
     }
   }
 }

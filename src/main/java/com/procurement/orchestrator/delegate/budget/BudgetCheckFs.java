@@ -1,10 +1,10 @@
 package com.procurement.orchestrator.delegate.budget;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.BudgetRestClient;
+import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.Objects;
@@ -43,7 +43,6 @@ public class BudgetCheckFs implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-
         final JsonNode checkFsDto = processService.getCheckFs(jsonData, processId);
 
         final JsonNode responseData = processService.processResponse(
@@ -51,6 +50,7 @@ public class BudgetCheckFs implements JavaDelegate {
                 params,
                 processId,
                 taskId);
+
         if (Objects.nonNull(responseData))
             operationService.saveOperationStep(
                     execution,

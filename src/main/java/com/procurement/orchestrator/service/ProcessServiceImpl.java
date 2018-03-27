@@ -6,11 +6,8 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.procurement.orchestrator.config.kafka.MessageProducer;
 import com.procurement.orchestrator.domain.EntityAccess;
 import com.procurement.orchestrator.domain.Params;
-import com.procurement.orchestrator.domain.PlatformMessage;
-import com.procurement.orchestrator.domain.Rules;
 import com.procurement.orchestrator.domain.response.ResponseDetailsDto;
 import com.procurement.orchestrator.domain.response.ResponseDto;
-import com.procurement.orchestrator.exception.OperationException;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.*;
 import org.camunda.bpm.engine.RuntimeService;
@@ -44,7 +41,7 @@ public class ProcessServiceImpl implements ProcessService {
 
     public void startProcess(final Params params, final Map<String, Object> variables) {
         variables.put("requestId", params.getRequestId());
-        runtimeService.startProcessInstanceByKey(params.getProcessType(),  params.getOperationId(), variables);
+        runtimeService.startProcessInstanceByKey(params.getProcessType(), params.getOperationId(), variables);
     }
 
     public void startProcessCheckRules(final Params params) {
@@ -65,12 +62,6 @@ public class ProcessServiceImpl implements ProcessService {
     public void terminateProcess(final String processId, final String message) {
         LOG.error(message);
         runtimeService.deleteProcessInstance(processId, message);
-    }
-
-    public void terminateProcessWithMessage(final Params params, final String processId, final String message) {
-        LOG.error(message);
-        runtimeService.deleteProcessInstance(processId, message);
-        startProcessError(params, message);
     }
 
     public JsonNode processResponse(final ResponseEntity<ResponseDto> responseEntity,
@@ -243,7 +234,6 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-
     public JsonNode addUpdateBidsStatusData(JsonNode jsonData, JsonNode bidsData, String processId) {
         try {
             final ObjectNode mainNode = (ObjectNode) jsonData;
@@ -297,8 +287,8 @@ public class ProcessServiceImpl implements ProcessService {
 
     public JsonNode getDocuments(final JsonNode jsonData, final String processId) {
         try {
-            final ArrayNode documentsNode = (ArrayNode) jsonData.findPath("documents");
-            if (Objects.isNull(documentsNode)) return null;
+            JsonNode documentsNode = jsonData.findPath("documents");
+            if (documentsNode.isMissingNode()) return null;
             final ObjectNode mainNode = jsonUtil.createObjectNode();
             mainNode.replace("documents", documentsNode);
             return mainNode;
@@ -368,16 +358,19 @@ public class ProcessServiceImpl implements ProcessService {
     @Override
     public JsonNode getCheckFs(JsonNode jsonData, String processId) {
         try {
-            final ArrayNode budgetBreakdownNode = (ArrayNode) jsonData.findPath("budgetBreakdown");
-            if (Objects.isNull(budgetBreakdownNode)) return null;
             final ObjectNode mainNode = jsonUtil.createObjectNode();
-            mainNode.replace("budgetBreakdown", budgetBreakdownNode);
+            final JsonNode budgetBreakdownNode = jsonData.findPath("budgetBreakdown");
+            if (!budgetBreakdownNode.isMissingNode()) {
+                mainNode.replace("budgetBreakdown", budgetBreakdownNode);
+            }
             final JsonNode tenderPeriodNode = jsonData.findPath("tenderPeriod");
-            if (Objects.isNull(tenderPeriodNode)) return null;
-            mainNode.replace("tenderPeriod", tenderPeriodNode);
+            if (!tenderPeriodNode.isMissingNode()) {
+                mainNode.replace("tenderPeriod", tenderPeriodNode);
+            }
             final JsonNode classificationNode = jsonData.findPath("classification");
-            if (Objects.isNull(classificationNode)) return null;
-            mainNode.replace("classification", classificationNode);
+            if (!classificationNode.isMissingNode()) {
+                mainNode.replace("classification", classificationNode);
+            }
             return mainNode;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
@@ -413,5 +406,11 @@ public class ProcessServiceImpl implements ProcessService {
             terminateProcess(processId, e.getMessage());
             return null;
         }
+    }
+
+    public void terminateProcessWithMessage(final Params params, final String processId, final String message) {
+        LOG.error(message);
+        runtimeService.deleteProcessInstance(processId, message);
+        startProcessError(params, message);
     }
 }

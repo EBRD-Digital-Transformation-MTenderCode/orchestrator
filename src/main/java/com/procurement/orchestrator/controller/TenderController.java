@@ -48,8 +48,8 @@ public class TenderController extends BaseController {
         params.setNewStage(Stage.PS.value());
         params.setProcessType("createCN");
         params.setOperationType("createCN");
-        params.setCountry(Country.fromValue(country).value());
-        params.setPmd(pmd);
+        params.setCountry(Country.fromValue(country.toUpperCase()).value());
+        params.setPmd(pmd.toUpperCase());
         saveRequestAndCheckOperation(params, jsonData);
         processService.startProcess(params, new HashMap<>());
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
@@ -69,8 +69,8 @@ public class TenderController extends BaseController {
         params.setCpid(cpid);
         params.setProcessType("updateCN");
         params.setOperationType("updateCN");
-        params.setCountry(country);
-        params.setPmd(pmd);
+        params.setCountry(Country.fromValue(country.toUpperCase()).value());
+        params.setPmd(pmd.toUpperCase());
         saveRequestAndCheckOperation(params, jsonData);
         Map<String, Object> variables = new HashMap<>();
         variables.put("isTokenPresent", ((params.getToken() == null || "".equals(params.getToken().trim())) ? 0 : 1));
@@ -119,8 +119,8 @@ public class TenderController extends BaseController {
         params.setStage(Stage.fromValue(stage).value());
         params.setProcessType("enquiry");
         params.setOperationType("createEnquiry");
-        params.setCountry(country);
-        params.setPmd(pmd);
+        params.setCountry(Country.fromValue(country.toUpperCase()).value());
+        params.setPmd(pmd.toUpperCase());
         params.setToken(token);
         saveRequestAndCheckOperation(params, jsonData);
         Map<String, Object> variables = new HashMap<>();
@@ -164,8 +164,8 @@ public class TenderController extends BaseController {
         params.setOperationId(operationId);
         params.setCpid(cpid);
         params.setStage(Stage.fromValue(stage).value());
-        params.setCountry(country);
-        params.setPmd(pmd);
+        params.setCountry(Country.fromValue(country.toUpperCase()).value());
+        params.setPmd(pmd.toUpperCase());
         params.setProcessType("awardPeriodEnd");
         params.setOperationType("awardPeriodEnd");
         saveRequestAndCheckOperation(params, null);
