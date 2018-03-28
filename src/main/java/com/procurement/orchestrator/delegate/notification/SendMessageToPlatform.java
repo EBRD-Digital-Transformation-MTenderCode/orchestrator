@@ -1,4 +1,4 @@
-package com.procurement.orchestrator.delegate;
+package com.procurement.orchestrator.delegate.notification;
 
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.service.OperationService;
@@ -35,7 +35,6 @@ public class SendMessageToPlatform implements JavaDelegate {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
-
         final PlatformMessage message = new PlatformMessage(
                 true,
                 params.getOperationId(),

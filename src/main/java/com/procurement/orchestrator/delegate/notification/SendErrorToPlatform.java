@@ -1,10 +1,8 @@
-package com.procurement.orchestrator.delegate;
+package com.procurement.orchestrator.delegate.notification;
 
 import com.procurement.orchestrator.domain.entity.RequestEntity;
-import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.domain.PlatformMessage;
-import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.config.kafka.MessageProducer;
 import com.procurement.orchestrator.service.RequestService;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -37,12 +35,13 @@ public class SendErrorToPlatform implements JavaDelegate {
         final String message = (String) execution.getVariable("message");
         final RequestEntity requestEntity = requestService.getRequestById(requestId, execution.getProcessInstanceId());
         final Params params = jsonUtil.toObject(Params.class, requestEntity.getJsonParams());
-        messageProducer.sendToPlatform(new PlatformMessage(
+        PlatformMessage platformMessage = new PlatformMessage(
                 false,
                 params.getOperationId(),
                 params.getOperationType(),
                 params.getCpid(),
                 params.getNewStage(),
-                message));
+                message);
+        messageProducer.sendToPlatform(platformMessage);
     }
 }
