@@ -359,18 +359,9 @@ public class ProcessServiceImpl implements ProcessService {
     public JsonNode getCheckFs(JsonNode jsonData, String processId) {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
-            final JsonNode budgetBreakdownNode = jsonData.findPath("budgetBreakdown");
-            if (!budgetBreakdownNode.isMissingNode()) {
-                mainNode.replace("budgetBreakdown", budgetBreakdownNode);
-            }
-            final JsonNode tenderPeriodNode = jsonData.findPath("tenderPeriod");
-            if (!tenderPeriodNode.isMissingNode()) {
-                mainNode.replace("tenderPeriod", tenderPeriodNode);
-            }
-            final JsonNode classificationNode = jsonData.findPath("classification");
-            if (!classificationNode.isMissingNode()) {
-                mainNode.replace("classification", classificationNode);
-            }
+            mainNode.replace("budgetBreakdown", jsonData.findPath("budgetBreakdown"));
+            mainNode.replace("tenderPeriod", jsonData.findPath("tenderPeriod"));
+            mainNode.replace("classification", jsonData.findPath("classification"));
             return mainNode;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
