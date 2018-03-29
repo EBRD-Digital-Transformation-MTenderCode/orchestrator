@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface SubmissionRestClient {
 
     @RequestMapping(path = "/period/check", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> checkPeriod(@RequestParam("cpId") final String cpId,
+    ResponseEntity<ResponseDto> checkPeriod(@RequestParam("cpId") String cpId,
                                             @RequestParam("country") String country,
                                             @RequestParam("pmd") String pmd,
                                             @RequestParam("stage") String stage,
@@ -22,10 +22,10 @@ public interface SubmissionRestClient {
                                             @RequestParam("endDate") String endDate) throws Exception;
 
     @RequestMapping(path = "/period/validation", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> periodValidation(@RequestParam("country") final String country,
-                                                 @RequestParam("pmd") final String pmd,
-                                                 @RequestParam("startDate") final String startDate,
-                                                 @RequestParam("endDate") final String endDate) throws Exception;
+    ResponseEntity<ResponseDto> periodValidation(@RequestParam("country") String country,
+                                                 @RequestParam("pmd") String pmd,
+                                                 @RequestParam("startDate") String startDate,
+                                                 @RequestParam("endDate") String endDate) throws Exception;
 
     @RequestMapping(path = "/period/save", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> savePeriod(@RequestParam("cpId") String cpId,
@@ -34,11 +34,11 @@ public interface SubmissionRestClient {
                                            @RequestParam("endDate") String endDate) throws Exception;
 
     @RequestMapping(path = "/period/new", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> saveNewPeriod(@RequestParam("cpId") final String cpId,
-                                              @RequestParam("stage") final String stage,
-                                              @RequestParam("country") final String country,
-                                              @RequestParam("pmd") final String pmd,
-                                              @RequestParam("startDate") final String startDate) throws Exception;
+    ResponseEntity<ResponseDto> saveNewPeriod(@RequestParam("cpId") String cpId,
+                                              @RequestParam("stage") String stage,
+                                              @RequestParam("country") String country,
+                                              @RequestParam("pmd") String pmd,
+                                              @RequestParam("startDate") String startDate) throws Exception;
 
     @RequestMapping(path = "/submission/bid", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> createBid(@RequestParam("cpId") String cpId,
@@ -54,32 +54,32 @@ public interface SubmissionRestClient {
                                           @RequestBody JsonNode bidDto) throws Exception;
 
     @RequestMapping(path = "/submission/copyBids", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> copyBids(@RequestParam("cpId") final String cpId,
-                                         @RequestParam("stage") final String stage,
-                                         @RequestParam("previousStage") final String previousStage,
-                                         @Valid @RequestBody final JsonNode lots) throws Exception;
+    ResponseEntity<ResponseDto> copyBids(@RequestParam("cpId") String cpId,
+                                         @RequestParam("stage") String stage,
+                                         @RequestParam("previousStage") String previousStage,
+                                         @Valid @RequestBody JsonNode lots) throws Exception;
 
     @RequestMapping(path = "/submission/bids", method = RequestMethod.GET)
-    ResponseEntity<ResponseDto> getBids(@RequestParam("cpId") final String cpId,
-                                        @RequestParam("stage") final String stage,
-                                        @RequestParam("country") final String country,
-                                        @RequestParam("pmd") final String pmd) throws Exception;
+    ResponseEntity<ResponseDto> getBids(@RequestParam("cpId") String cpId,
+                                        @RequestParam("stage") String stage,
+                                        @RequestParam("country") String country,
+                                        @RequestParam("pmd") String pmd) throws Exception;
 
     @RequestMapping(path = "/submission/updateStatus", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> updateStatus(@RequestParam("cpId") final String cpId,
-                                             @RequestParam("stage") final String stage,
-                                             @RequestParam("country") final String country,
-                                             @RequestParam("pmd") final String pmd,
-                                             @RequestBody final JsonNode lots) throws Exception;
+    ResponseEntity<ResponseDto> updateStatus(@RequestParam("cpId") String cpId,
+                                             @RequestParam("stage") String stage,
+                                             @RequestParam("country") String country,
+                                             @RequestParam("pmd") String pmd,
+                                             @RequestBody JsonNode lots) throws Exception;
 
     @RequestMapping(path = "/submission/updateStatusDetails", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> updateStatusDetails(@RequestParam("cpId") final String cpId,
-                                                    @RequestParam("stage") final String stage,
-                                                    @RequestParam("bidId") final String bidId,
-                                                    @RequestParam("awardStatusDetails") final String awardStatusDetails)
+    ResponseEntity<ResponseDto> updateStatusDetails(@RequestParam("cpId") String cpId,
+                                                    @RequestParam("stage") String stage,
+                                                    @RequestParam("bidId") String bidId,
+                                                    @RequestParam("awardStatusDetails") String awardStatusDetails)
             throws Exception;
 
     @RequestMapping(path = "/submission/setFinalStatuses", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> setFinalStatuses(@RequestParam("cpId") final String cpId,
-                                                 @RequestParam("stage") final String stage) throws Exception;
+    ResponseEntity<ResponseDto> setFinalStatuses(@RequestParam("cpId") String cpId,
+                                                 @RequestParam("stage") String stage) throws Exception;
 }

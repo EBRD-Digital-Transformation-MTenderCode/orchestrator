@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface NoticeRestClient {
 
     @RequestMapping(path = "/release", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> createRelease(@RequestParam("cpId") final String cpId,
-                                              @RequestParam("ocId") final String ocId,
-                                              @RequestParam("stage") final String stage,
-                                              @RequestParam("previousStage") final String previousStage,
-                                              @RequestParam("operation") final String operation,
-                                              @RequestParam("phase") final String phase,
-                                              @RequestParam("releaseDate") final String releaseDate,
-                                              @RequestBody final JsonNode data) throws Exception;
+    ResponseEntity<ResponseDto> createRelease(@RequestParam("cpId") String cpId,
+                                              @RequestParam("ocId") String ocId,
+                                              @RequestParam("stage") String stage,
+                                              @RequestParam("previousStage") String previousStage,
+                                              @RequestParam("operation") String operation,
+                                              @RequestParam("phase") String phase,
+                                              @RequestParam("releaseDate") String releaseDate,
+                                              @RequestBody JsonNode data) throws Exception;
 
 
 }

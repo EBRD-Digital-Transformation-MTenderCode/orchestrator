@@ -96,18 +96,16 @@ public class BudgetController extends BaseController {
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
-    @RequestMapping(value = "/fs/{cpid}/{ocid}", method = RequestMethod.POST)
+    @RequestMapping(value = "/fs/{cpid}", method = RequestMethod.POST)
     public ResponseEntity<String> updateFS(@RequestHeader("Authorization") final String authorization,
                                            @RequestHeader("X-OPERATION-ID") final String operationId,
                                            @RequestHeader("X-TOKEN") final String token,
                                            @PathVariable("cpid") final String cpid,
-                                           @PathVariable("ocid") final String ocid,
                                            @RequestBody final JsonNode jsonData) {
         final Params params = new Params();
         params.setRequestId(UUIDs.timeBased().toString());
         params.setOperationId(operationId);
         params.setCpid(cpid);
-        params.setOcid(ocid);
         params.setNewStage(Stage.FS.value());
         params.setProcessType("fs");
         params.setOperationType("updateFS");

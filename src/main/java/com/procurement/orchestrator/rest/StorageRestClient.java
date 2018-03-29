@@ -13,6 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface StorageRestClient {
 
     @RequestMapping(method = RequestMethod.POST, value = "/storage/publish")
-    ResponseEntity<ResponseDto> setPublishDate(@RequestParam(value = "datePublished") final String datePublished,
-                                               @RequestBody final JsonNode dataDto) throws Exception;
+    ResponseEntity<ResponseDto> setPublishDate(@RequestParam(value = "datePublished") String datePublished,
+                                               @RequestBody JsonNode dataDto) throws Exception;
 }

@@ -13,31 +13,31 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface ClarificationRestClient {
 
     @RequestMapping(path = "/period/save", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> savePeriod(@RequestParam("cpId") final String cpId,
-                                           @RequestParam("stage") final String stage,
-                                           @RequestParam("owner") final String owner,
-                                           @RequestParam("country") final String country,
-                                           @RequestParam("pmd") final String pmd,
-                                           @RequestParam("startDate") final String startDate,
-                                           @RequestParam("endDate") final String endDate) throws Exception;
+    ResponseEntity<ResponseDto> savePeriod(@RequestParam("cpId") String cpId,
+                                           @RequestParam("stage") String stage,
+                                           @RequestParam("owner") String owner,
+                                           @RequestParam("country") String country,
+                                           @RequestParam("pmd") String pmd,
+                                           @RequestParam("startDate") String startDate,
+                                           @RequestParam("endDate") String endDate) throws Exception;
 
     @RequestMapping(path = "/enquiry", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> createEnquiry(@RequestParam(value = "cpId") final String cpId,
-                                              @RequestParam(value = "stage") final String stage,
-                                              @RequestParam(value = "owner") final String owner,
-                                              @RequestParam(value = "date") final String date,
-                                              @RequestBody final JsonNode dataDto) throws Exception;
+    ResponseEntity<ResponseDto> createEnquiry(@RequestParam(value = "cpId") String cpId,
+                                              @RequestParam(value = "stage") String stage,
+                                              @RequestParam(value = "owner") String owner,
+                                              @RequestParam(value = "date") String date,
+                                              @RequestBody JsonNode dataDto) throws Exception;
 
     @RequestMapping(path = "/enquiry", method = RequestMethod.PUT)
-    ResponseEntity<ResponseDto> updateEnquiry(@RequestParam(value = "cpId") final String cpId,
-                                              @RequestParam(value = "stage") final String stage,
-                                              @RequestParam(value = "token") final String token,
-                                              @RequestParam(value = "owner") final String owner,
-                                              @RequestParam(value = "date") final String date,
-                                              @RequestBody final JsonNode dataDto) throws Exception;
+    ResponseEntity<ResponseDto> updateEnquiry(@RequestParam(value = "cpId") String cpId,
+                                              @RequestParam(value = "stage") String stage,
+                                              @RequestParam(value = "token") String token,
+                                              @RequestParam(value = "owner") String owner,
+                                              @RequestParam(value = "date") String date,
+                                              @RequestBody JsonNode dataDto) throws Exception;
 
     @RequestMapping(path = "/enquiry", method = RequestMethod.GET)
-    ResponseEntity<ResponseDto> checkEnquiries(@RequestParam(value = "cpId") final String cpId,
-                                               @RequestParam(value = "stage") final String stage) throws Exception;
+    ResponseEntity<ResponseDto> checkEnquiries(@RequestParam(value = "cpId") String cpId,
+                                               @RequestParam(value = "stage") String stage) throws Exception;
 
 }

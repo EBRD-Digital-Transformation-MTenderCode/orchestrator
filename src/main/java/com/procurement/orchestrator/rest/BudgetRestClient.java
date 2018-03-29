@@ -13,31 +13,30 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface BudgetRestClient {
 
     @RequestMapping(path = "/ei", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> createEi(@RequestParam("owner") final String owner,
-                                         @RequestParam("country") final String country,
-                                         @RequestParam("date") final String dateTime,
-                                         @RequestBody final JsonNode jsonData) throws Exception;
+    ResponseEntity<ResponseDto> createEi(@RequestParam("owner") String owner,
+                                         @RequestParam("country") String country,
+                                         @RequestParam("date") String dateTime,
+                                         @RequestBody JsonNode jsonData) throws Exception;
 
     @RequestMapping(path = "/ei", method = RequestMethod.PUT)
-    ResponseEntity<ResponseDto> updateEi(@RequestParam("cpId") final String cpId,
-                                         @RequestParam("owner") final String owner,
-                                         @RequestParam("token") final String token,
-                                         @RequestBody final JsonNode jsonData) throws Exception;
+    ResponseEntity<ResponseDto> updateEi(@RequestParam("identifier") String cpId,
+                                         @RequestParam("owner") String owner,
+                                         @RequestParam("token") String token,
+                                         @RequestBody JsonNode jsonData) throws Exception;
 
     @RequestMapping(path = "/fs", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> createFs(@RequestParam("cpId") final String cpId,
-                                         @RequestParam("owner") final String owner,
-                                         @RequestParam("date") final String dateTime,
-                                         @RequestBody final JsonNode jsonData) throws Exception;
+    ResponseEntity<ResponseDto> createFs(@RequestParam("identifier") String cpId,
+                                         @RequestParam("owner") String owner,
+                                         @RequestParam("date") String dateTime,
+                                         @RequestBody JsonNode jsonData) throws Exception;
 
     @RequestMapping(path = "/fs", method = RequestMethod.PUT)
-    ResponseEntity<ResponseDto> updateFs(@RequestParam("cpId") final String cpId,
-                                         @RequestParam("ocId") final String ocId,
-                                         @RequestParam("token") final String token,
-                                         @RequestParam("owner") final String owner,
-                                         @RequestBody final JsonNode jsonData) throws Exception;
+    ResponseEntity<ResponseDto> updateFs(@RequestParam("identifier") String cpId,
+                                         @RequestParam("token") String token,
+                                         @RequestParam("owner") String owner,
+                                         @RequestBody JsonNode jsonData) throws Exception;
 
     @RequestMapping(path = "/fs/check", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> checkFs(@RequestBody final JsonNode jsonData) throws Exception;
+    ResponseEntity<ResponseDto> checkFs(@RequestBody JsonNode jsonData) throws Exception;
 
 }
