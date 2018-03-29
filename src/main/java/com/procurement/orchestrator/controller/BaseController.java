@@ -34,11 +34,11 @@ public class BaseController {
         operationService.checkOperationById(params.getOperationId());
     }
 
-    String getOwner(String authorization) {
+    String getOwner(final String authorization) {
         final String[] split = authorization.split("\\.");
         final String payload = split[1];
         final String encodedToken = StringUtils.newStringUtf8(Base64.decodeBase64(payload.getBytes()));
-        JsonNode jsonNode = jsonUtil.toJsonNode(encodedToken);
+        final JsonNode jsonNode = jsonUtil.toJsonNode(encodedToken);
         return jsonNode.get("idPlatform").asText();
     }
 }
