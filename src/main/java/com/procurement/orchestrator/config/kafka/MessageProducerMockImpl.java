@@ -5,11 +5,11 @@ import com.procurement.orchestrator.domain.chronograph.ChronographTask;
 
 public class MessageProducerMockImpl implements MessageProducer {
 
-    public boolean sendToChronograph(ChronographTask task) {
+    public boolean sendToChronograph(final ChronographTask task) {
         return true;
     }
 
-    public boolean sendToPlatform(PlatformMessage message) {
+    public boolean sendToPlatform(final PlatformMessage message) {
         return true;
     }
 }

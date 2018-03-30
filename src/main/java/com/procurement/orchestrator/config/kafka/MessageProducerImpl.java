@@ -27,12 +27,12 @@ public class MessageProducerImpl implements MessageProducer {
         this.jsonUtil = jsonUtil;
     }
 
-    public boolean sendToChronograph(ChronographTask task) {
+    public boolean sendToChronograph(final ChronographTask task) {
         try {
-            SendResult<String, String> sendResult = internalKafkaTemplate.send(
+            final SendResult<String, String> sendResult = internalKafkaTemplate.send(
                     CHRONOGRAPH_TOPIC,
                     jsonUtil.toJson(task)).get();
-            RecordMetadata recordMetadata = sendResult.getRecordMetadata();
+            final RecordMetadata recordMetadata = sendResult.getRecordMetadata();
             LOG.info("Send to chronograph: ", recordMetadata.topic(),
                     recordMetadata.partition(), recordMetadata.offset(), task.toString());
             return true;
@@ -41,12 +41,12 @@ public class MessageProducerImpl implements MessageProducer {
         }
     }
 
-    public boolean sendToPlatform(PlatformMessage message) {
+    public boolean sendToPlatform(final PlatformMessage message) {
         try {
-            SendResult<String, String> sendResult = externalKafkaTemplate.send(
+            final SendResult<String, String> sendResult = externalKafkaTemplate.send(
                     PLATFORM_TOPIC,
                     jsonUtil.toJson(message)).get();
-            RecordMetadata recordMetadata = sendResult.getRecordMetadata();
+            final RecordMetadata recordMetadata = sendResult.getRecordMetadata();
             LOG.info("Send to platform: ", recordMetadata.topic(),
                     recordMetadata.partition(), recordMetadata.offset(), message.toString());
             return true;

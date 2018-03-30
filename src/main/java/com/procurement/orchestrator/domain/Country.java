@@ -2,11 +2,13 @@ package com.procurement.orchestrator.domain;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.procurement.orchestrator.exception.EnumException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 public enum Country {
+
     UA("UA"),
     MD("MD"),
     TEST("test");
@@ -29,8 +31,7 @@ public enum Country {
     public static Country fromValue(final String value) {
         final Country constant = CONSTANTS.get(value);
         if (constant == null) {
-            throw new IllegalArgumentException(
-                    "Unknown enum type " + value + ", Allowed values are " + Arrays.toString(values()));
+            throw new EnumException(Country.class.getName(), value, Arrays.toString(values()));
         }
         return constant;
     }

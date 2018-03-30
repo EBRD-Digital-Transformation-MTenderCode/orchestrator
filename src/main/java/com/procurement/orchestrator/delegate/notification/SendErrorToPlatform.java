@@ -35,7 +35,7 @@ public class SendErrorToPlatform implements JavaDelegate {
         final String message = (String) execution.getVariable("message");
         final RequestEntity requestEntity = requestService.getRequestById(requestId, execution.getProcessInstanceId());
         final Params params = jsonUtil.toObject(Params.class, requestEntity.getJsonParams());
-        PlatformMessage platformMessage = new PlatformMessage(
+        final PlatformMessage platformMessage = new PlatformMessage(
                 false,
                 params.getOperationId(),
                 params.getOperationType(),

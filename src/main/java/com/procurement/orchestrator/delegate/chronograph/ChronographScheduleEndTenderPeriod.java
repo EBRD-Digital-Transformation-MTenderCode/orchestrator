@@ -55,7 +55,7 @@ public class ChronographScheduleEndTenderPeriod implements JavaDelegate {
         paramsForEndTenderPeriod.setStartDate(params.getStartDate());
         paramsForEndTenderPeriod.setEndDate(params.getEndDate());
 
-        ChronographTask task = new ChronographTask(
+        final ChronographTask task = new ChronographTask(
                 ChronographTask.ActionType.SCHEDULE,
                 params.getCpid(),
                 "tenderPeriodEnd",

@@ -30,7 +30,7 @@ public class KafkaProducerConfig {
     }
 
     private Map<String, Object> internalProducerConfigs() {
-        Map<String, Object> internalProps = new HashMap<>();
+        final Map<String, Object> internalProps = new HashMap<>();
         internalProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getInternalBootstrap());
         internalProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         internalProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
@@ -38,7 +38,7 @@ public class KafkaProducerConfig {
     }
 
     private Map<String, Object> externalProducerConfigs() {
-        Map<String, Object> externalProps = new HashMap<>();
+        final Map<String, Object> externalProps = new HashMap<>();
         externalProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getExternalBootstrap());
         externalProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         externalProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);

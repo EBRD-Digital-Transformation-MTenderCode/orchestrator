@@ -23,19 +23,15 @@ public class ProcessServiceImpl implements ProcessService {
 
     private final RuntimeService runtimeService;
 
-    private final MessageProducer messageProducer;
-
     private final OperationService operationService;
 
     private final JsonUtil jsonUtil;
 
     public ProcessServiceImpl(final RuntimeService runtimeService,
-                              final MessageProducer messageProducer,
                               final OperationService operationService,
                               final JsonUtil jsonUtil) {
         this.operationService = operationService;
         this.runtimeService = runtimeService;
-        this.messageProducer = messageProducer;
         this.jsonUtil = jsonUtil;
     }
 
@@ -119,14 +115,14 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
-    public Params addBidAccessToParams(Params params, JsonNode responseData, String processId) {
+    public Params addBidAccessToParams(final Params params, final JsonNode responseData, final String processId) {
         final String entityToken = getText("token", responseData, processId);
         final String entityId = getText("bidId", responseData, processId);
         params.setAccess(Arrays.asList(new EntityAccess("bid", entityId, entityToken)));
         return params;
     }
 
-    public Params addAwardAccessToParams(Params params, JsonNode responseData, String processId) {
+    public Params addAwardAccessToParams(final Params params, final JsonNode responseData, final String processId) {
         final ArrayNode awardsNode = (ArrayNode) responseData.get("awards");
         final List<EntityAccess> accesses = new ArrayList<>();
         for (final JsonNode awardNode : awardsNode) {
@@ -173,7 +169,7 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
-    public JsonNode addTenderPeriodStartDate(JsonNode jsonData, String startDate, String processId) {
+    public JsonNode addTenderPeriodStartDate(final JsonNode jsonData, final String startDate, final String processId) {
         try {
             if (Objects.isNull(jsonData.get("tender")))
                 ((ObjectNode) jsonData).putObject("tender");
@@ -234,7 +230,7 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public JsonNode addUpdateBidsStatusData(JsonNode jsonData, JsonNode bidsData, String processId) {
+    public JsonNode addUpdateBidsStatusData(final JsonNode jsonData, final JsonNode bidsData, final String processId) {
         try {
             final ObjectNode mainNode = (ObjectNode) jsonData;
             mainNode.replace("tenderPeriod", bidsData.get("tenderPeriod"));
@@ -247,7 +243,7 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public JsonNode addBids(JsonNode jsonData, JsonNode lotsData, String processId) {
+    public JsonNode addBids(final JsonNode jsonData, final JsonNode lotsData, final String processId) {
         try {
             ((ObjectNode) jsonData).replace("bids", lotsData.get("bids"));
             return jsonData;
@@ -356,7 +352,7 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
-    public JsonNode getCheckFs(JsonNode jsonData, String processId) {
+    public JsonNode getCheckFs(final JsonNode jsonData, final String processId) {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
             mainNode.replace("budgetBreakdown", jsonData.findPath("budgetBreakdown"));
@@ -370,9 +366,9 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
-    public JsonNode setCheckFs(JsonNode jsonData, JsonNode responseData, String processId) {
+    public JsonNode setCheckFs(final JsonNode jsonData, final JsonNode responseData, final String processId) {
         try {
-            final ObjectNode mainNode = ((ObjectNode) jsonData);
+            final ObjectNode mainNode = (ObjectNode) jsonData;
             final ObjectNode budgetNode = (ObjectNode) mainNode.get("planning").get("budget");
             budgetNode.replace("budgetBreakdown", responseData.get("budgetBreakdown"));
             mainNode.replace("ei", responseData.get("ei"));
@@ -387,9 +383,9 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
-    public JsonNode setCn(JsonNode jsonData, JsonNode responseData, String processId) {
+    public JsonNode setCn(final JsonNode jsonData, final JsonNode responseData, final String processId) {
         try {
-            final ObjectNode mainNode = ((ObjectNode) jsonData);
+            final ObjectNode mainNode = (ObjectNode) jsonData;
             mainNode.replace("planning", responseData.get("planning"));
             mainNode.replace("tender", responseData.get("tender"));
             return mainNode;

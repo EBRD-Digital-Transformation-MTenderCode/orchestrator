@@ -31,7 +31,7 @@ public class KafkaConsumerConfig {
 
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, String> factory = new
+        final ConcurrentKafkaListenerContainerFactory<String, String> factory = new
                 ConcurrentKafkaListenerContainerFactory<>();
         factory.setConcurrency(1);
         factory.setConsumerFactory(consumerFactory());
@@ -46,7 +46,7 @@ public class KafkaConsumerConfig {
 
     @Bean
     public Map<String, Object> consumerProps() {
-        Map<String, Object> props = new HashMap<>();
+        final Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getInternalBootstrap());
         props.put(ConsumerConfig.GROUP_ID_CONFIG, kafkaProperties.getGroup());
         props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);

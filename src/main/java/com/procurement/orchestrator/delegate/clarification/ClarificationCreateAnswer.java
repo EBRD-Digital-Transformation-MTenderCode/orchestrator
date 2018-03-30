@@ -1,10 +1,10 @@
 package com.procurement.orchestrator.delegate.clarification;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.domain.Params;
-import com.procurement.orchestrator.service.OperationService;
+import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.ClarificationRestClient;
+import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -59,7 +59,7 @@ public class ClarificationCreateAnswer implements JavaDelegate {
                 taskId);
         if (Objects.nonNull(responseData)) {
             final Boolean allAnswered = processService.getBoolean("allAnswered", responseData, processId);
-            execution.setVariable("allAnswered", (allAnswered ? 1 : 0));
+            execution.setVariable("allAnswered", allAnswered ? 1 : 0);
             if (!allAnswered) {
                 params.setOperationType("addAnswer");
             } else {

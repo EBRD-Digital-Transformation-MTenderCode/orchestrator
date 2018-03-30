@@ -2,6 +2,7 @@ package com.procurement.orchestrator.domain;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.procurement.orchestrator.exception.EnumException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,8 +35,7 @@ public enum Stage {
     public static Stage fromValue(final String value) {
         final Stage constant = CONSTANTS.get(value);
         if (constant == null) {
-            throw new IllegalArgumentException(
-                    "Unknown enum type " + value + ", Allowed values are " + Arrays.toString(values()));
+            throw new EnumException(Country.class.getName(), value, Arrays.toString(values()));
         }
         return constant;
     }

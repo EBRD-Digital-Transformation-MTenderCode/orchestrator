@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @EnableConfigurationProperties({CassandraProperties.class})
-@ComponentScan(basePackages = "com.procurement.orchestrator.cassandra")
+@ComponentScan(basePackages = "com.procurement.orchestrator.dao")
 public class DaoConfiguration {
 
     private final CassandraProperties properties;

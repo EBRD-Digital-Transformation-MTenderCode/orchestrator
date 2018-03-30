@@ -20,7 +20,7 @@ public class OperationServiceImpl implements OperationService {
 
     private static final Logger LOG = LoggerFactory.getLogger(OperationServiceImpl.class);
 
-    private final static String LAST_TASK = "lastExecutedTask";
+    private static final String LAST_TASK = "lastExecutedTask";
 
     private final CassandraDao cassandraDao;
 
@@ -55,7 +55,7 @@ public class OperationServiceImpl implements OperationService {
     @Override
     public Boolean saveIfNotExist(final String operationId,
                                   final String processId) {
-        OperationEntity operationEntity = new OperationEntity();
+        final OperationEntity operationEntity = new OperationEntity();
         operationEntity.setOperationId(operationId);
         operationEntity.setProcessId(processId);
         return cassandraDao.saveOperationIfNotExist(operationEntity);
@@ -67,7 +67,7 @@ public class OperationServiceImpl implements OperationService {
         final OperationStepEntity operationStepEntity = new OperationStepEntity();
         operationStepEntity.setProcessId(execution.getProcessInstanceId());
         operationStepEntity.setTaskId(execution.getCurrentActivityId());
-        operationStepEntity.setDate(dateUtil.getNowUTC());
+        operationStepEntity.setDate(dateUtil.dateNowUTC());
         operationStepEntity.setJsonParams(requestEntity.getJsonParams());
         operationStepEntity.setJsonData(requestEntity.getJsonData());
         cassandraDao.saveOperationStep(operationStepEntity);
@@ -75,7 +75,7 @@ public class OperationServiceImpl implements OperationService {
 
     @Override
     public OperationStepEntity getOperationStep(final String processId, final String taskId) {
-        Optional<OperationStepEntity> entityOptional = cassandraDao.getOperationStep(processId, taskId);
+        final Optional<OperationStepEntity> entityOptional = cassandraDao.getOperationStep(processId, taskId);
         if (entityOptional.isPresent()) {
             return entityOptional.get();
         } else {
@@ -96,16 +96,18 @@ public class OperationServiceImpl implements OperationService {
                                   final OperationStepEntity entity) {
         execution.setVariable(LAST_TASK, execution.getCurrentActivityId());
         entity.setTaskId(execution.getCurrentActivityId());
-        entity.setDate(dateUtil.getNowUTC());
+        entity.setDate(dateUtil.dateNowUTC());
         cassandraDao.saveOperationStep(entity);
     }
 
     @Override
-    public void saveOperationStep(DelegateExecution execution, OperationStepEntity entity, Params params) {
+    public void saveOperationStep(final DelegateExecution execution,
+                                  final OperationStepEntity entity,
+                                  final Params params) {
         execution.setVariable(LAST_TASK, execution.getCurrentActivityId());
         entity.setTaskId(execution.getCurrentActivityId());
         entity.setJsonParams(jsonUtil.toJson(params));
-        entity.setDate(dateUtil.getNowUTC());
+        entity.setDate(dateUtil.dateNowUTC());
         cassandraDao.saveOperationStep(entity);
     }
 
@@ -116,7 +118,7 @@ public class OperationServiceImpl implements OperationService {
         execution.setVariable(LAST_TASK, execution.getCurrentActivityId());
         entity.setTaskId(execution.getCurrentActivityId());
         entity.setJsonData(jsonUtil.toJson(jsonData));
-        entity.setDate(dateUtil.getNowUTC());
+        entity.setDate(dateUtil.dateNowUTC());
         cassandraDao.saveOperationStep(entity);
     }
 
@@ -130,22 +132,22 @@ public class OperationServiceImpl implements OperationService {
         entity.setTaskId(execution.getCurrentActivityId());
         entity.setJsonParams(jsonUtil.toJson(params));
         entity.setJsonData(jsonUtil.toJson(response));
-        entity.setDate(dateUtil.getNowUTC());
+        entity.setDate(dateUtil.dateNowUTC());
         cassandraDao.saveOperationStep(entity);
     }
 
     @Override
-    public void saveOperationException(final String processId, final String taskId, JsonNode response) {
+    public void saveOperationException(final String processId, final String taskId, final JsonNode response) {
         final OperationStepEntity operationStepEntity = new OperationStepEntity();
         operationStepEntity.setProcessId(processId);
         operationStepEntity.setTaskId(taskId);
-        operationStepEntity.setDate(dateUtil.getNowUTC());
+        operationStepEntity.setDate(dateUtil.dateNowUTC());
         operationStepEntity.setJsonData(jsonUtil.toJson(response));
         cassandraDao.saveOperationStep(operationStepEntity);
     }
 
     @Override
-    public void saveStageParams(Params params) {
+    public void saveStageParams(final Params params) {
         final StageEntity stageEntity = new StageEntity();
         stageEntity.setCpId(params.getCpid());
         stageEntity.setStage(params.getNewStage());
@@ -156,8 +158,8 @@ public class OperationServiceImpl implements OperationService {
     }
 
     @Override
-    public StageEntity getStageParams(String cpId, String processId) {
-        Optional<StageEntity> entityOptional = cassandraDao.getStageByCpId(cpId);
+    public StageEntity getStageParams(final String cpId, final String processId) {
+        final Optional<StageEntity> entityOptional = cassandraDao.getStageByCpId(cpId);
         if (entityOptional.isPresent()) {
             return entityOptional.get();
         } else {

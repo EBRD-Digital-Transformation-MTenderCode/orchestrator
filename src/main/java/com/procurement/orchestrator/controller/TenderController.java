@@ -72,7 +72,7 @@ public class TenderController extends BaseController {
         params.setCountry(Country.fromValue(country.toUpperCase()).value());
         params.setPmd(pmd.toUpperCase());
         saveRequestAndCheckOperation(params, jsonData);
-        Map<String, Object> variables = new HashMap<>();
+        final Map<String, Object> variables = new HashMap<>();
         variables.put("isTokenPresent", ((params.getToken() == null || "".equals(params.getToken().trim())) ? 0 : 1));
         processService.startProcess(params, variables);
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
@@ -96,7 +96,7 @@ public class TenderController extends BaseController {
         params.setOwner(getOwner(authorization));
         params.setToken(token);
         saveRequestAndCheckOperation(params, jsonData);
-        Map<String, Object> variables = new HashMap<>();
+        final Map<String, Object> variables = new HashMap<>();
         variables.put("isTokenPresent", ((params.getToken() == null || "".equals(params.getToken().trim())) ? 0 : 1));
         processService.startProcess(params, variables);
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
@@ -123,7 +123,7 @@ public class TenderController extends BaseController {
         params.setPmd(pmd.toUpperCase());
         params.setToken(token);
         saveRequestAndCheckOperation(params, jsonData);
-        Map<String, Object> variables = new HashMap<>();
+        final Map<String, Object> variables = new HashMap<>();
         variables.put("isTokenPresent", ((params.getToken() == null || "".equals(params.getToken().trim())) ? 0 : 1));
         variables.put("allAnswered", 0);
         processService.startProcess(params, variables);

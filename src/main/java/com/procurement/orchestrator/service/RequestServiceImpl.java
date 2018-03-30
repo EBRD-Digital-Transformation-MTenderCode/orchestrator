@@ -38,7 +38,7 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
-    public RequestEntity getRequestById(String requestId, String processId) {
+    public RequestEntity getRequestById(final String requestId, final String processId) {
         final Optional<RequestEntity> requestOptional = cassandraDao.getRequestById(requestId);
         if (requestOptional.isPresent()) {
             return requestOptional.get();
@@ -52,9 +52,9 @@ public class RequestServiceImpl implements RequestService {
                                            final String operationId,
                                            final Params jsonParams,
                                            final JsonNode jsonData) {
-        RequestEntity entity = new RequestEntity();
+        final RequestEntity entity = new RequestEntity();
         entity.setRequestId(requestId);
-        entity.setRequestDate(dateUtil.getNowUTC());
+        entity.setRequestDate(dateUtil.dateNowUTC());
         entity.setOperationId(operationId);
         entity.setJsonParams(jsonUtil.toJson(jsonParams));
         entity.setJsonData(jsonUtil.toJson(jsonData));

@@ -52,7 +52,7 @@ public class MessageConsumer {
                     params.getOperationId(),
                     params,
                     jsonUtil.toJsonNode(data));
-            Map<String, Object> variables = new HashMap<>();
+            final Map<String, Object> variables = new HashMap<>();
             variables.put("checkEnquiries", 0);
             processService.startProcess(params, variables);
         } catch (Exception e) {

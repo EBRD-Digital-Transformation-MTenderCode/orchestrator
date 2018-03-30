@@ -53,7 +53,7 @@ public class ChronographRescheduleEndTenderPeriod implements JavaDelegate {
         paramsForEndTenderPeriod.setStartDate(params.getStartDate());
         paramsForEndTenderPeriod.setEndDate(params.getEndDate());
 
-        ChronographTask task = new ChronographTask(
+        final ChronographTask task = new ChronographTask(
                 ChronographTask.ActionType.REPLACE,
                 params.getCpid(),
                 "tenderPeriodEnd",

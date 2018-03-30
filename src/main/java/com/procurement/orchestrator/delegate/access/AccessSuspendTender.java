@@ -15,9 +15,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AccessSusupendTender implements JavaDelegate {
+public class AccessSuspendTender implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AccessSusupendTender.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AccessSuspendTender.class);
 
     private final AccessRestClient accessRestClient;
 
@@ -27,10 +27,10 @@ public class AccessSusupendTender implements JavaDelegate {
 
     private final JsonUtil jsonUtil;
 
-    public AccessSusupendTender(final AccessRestClient accessRestClient,
-                                final OperationService operationService,
-                                final ProcessService processService,
-                                final JsonUtil jsonUtil) {
+    public AccessSuspendTender(final AccessRestClient accessRestClient,
+                               final OperationService operationService,
+                               final ProcessService processService,
+                               final JsonUtil jsonUtil) {
         this.accessRestClient = accessRestClient;
         this.operationService = operationService;
         this.processService = processService;

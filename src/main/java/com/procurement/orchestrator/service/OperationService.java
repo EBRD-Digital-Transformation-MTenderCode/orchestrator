@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 @Service
 public interface OperationService {
 
-    Boolean isRulesExist(final Rules rules);
+    Boolean isRulesExist(Rules rules);
 
     void checkOperationById(String operationId);
 

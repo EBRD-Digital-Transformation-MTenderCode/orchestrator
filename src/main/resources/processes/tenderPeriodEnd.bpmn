@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.10.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.11.3">
   <bpmn:process id="tenderPeriodEnd" name="tenderPeriodEnd" isExecutable="true">
     <bpmn:startEvent id="StartEvent_1">
       <bpmn:outgoing>SequenceFlow_1gx4xfj</bpmn:outgoing>
@@ -54,7 +54,7 @@
       <bpmn:outgoing>SequenceFlow_1vmk2lo</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlow_01bmiwq</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="SequenceFlow_08q61ym" sourceRef="ExclusiveGateway_0hg3tz9" targetRef="AccessSusupendTenderTask">
+    <bpmn:sequenceFlow id="SequenceFlow_08q61ym" sourceRef="ExclusiveGateway_0hg3tz9" targetRef="AccessSuspendTenderTask">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${checkEnquiries==2}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:exclusiveGateway id="ExclusiveGateway_07ftixw">
@@ -75,7 +75,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_1vmk2lo" sourceRef="ExclusiveGateway_0hg3tz9" targetRef="chronographUpdatePeriodTask">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${checkEnquiries==3}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:serviceTask id="AccessSusupendTenderTask" name="Access Susupend Tender" camunda:asyncBefore="true" camunda:delegateExpression="${accessSusupendTender}">
+    <bpmn:serviceTask id="AccessSuspendTenderTask" name="Access Suspend Tender" camunda:asyncBefore="true" camunda:delegateExpression="${accessSuspendTender}">
       <bpmn:extensionElements>
         <camunda:properties>
           <camunda:property name="suspended" value="true" />
@@ -84,7 +84,7 @@
       <bpmn:incoming>SequenceFlow_08q61ym</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_13l5wgc</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_13l5wgc" sourceRef="AccessSusupendTenderTask" targetRef="ExclusiveGateway_07ftixw" />
+    <bpmn:sequenceFlow id="SequenceFlow_13l5wgc" sourceRef="AccessSuspendTenderTask" targetRef="ExclusiveGateway_07ftixw" />
     <bpmn:serviceTask id="SaveFirstOperationTask" name="Save first operation" camunda:asyncBefore="true" camunda:delegateExpression="${saveFirstOperation}">
       <bpmn:incoming>SequenceFlow_1gx4xfj</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1g36nvo</bpmn:outgoing>
@@ -239,7 +239,7 @@
           <dc:Bounds x="822" y="78" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_0sahqyo_di" bpmnElement="AccessSusupendTenderTask">
+      <bpmndi:BPMNShape id="ServiceTask_0sahqyo_di" bpmnElement="AccessSuspendTenderTask">
         <dc:Bounds x="1397" y="279" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_13l5wgc_di" bpmnElement="SequenceFlow_13l5wgc">

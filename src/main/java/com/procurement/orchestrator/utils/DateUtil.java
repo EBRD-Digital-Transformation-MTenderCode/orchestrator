@@ -16,7 +16,7 @@ import static java.time.temporal.ChronoField.SECOND_OF_MINUTE;
 @Component
 public class DateUtil {
 
-    private final DateTimeFormatter FORMATTER = new DateTimeFormatterBuilder()
+    private static final DateTimeFormatter FORMATTER = new DateTimeFormatterBuilder()
             .parseCaseInsensitive()
             .append(ISO_LOCAL_DATE)
             .appendLiteral('T')
@@ -29,7 +29,7 @@ public class DateUtil {
             .appendLiteral('Z')
             .toFormatter();
 
-    public Date getNowUTC() {
+    public Date dateNowUTC() {
         return localDateTimeToDate(LocalDateTime.ofInstant(Instant.now(), ZoneOffset.UTC));
     }
 
@@ -37,12 +37,7 @@ public class DateUtil {
         return LocalDateTime.ofInstant(Instant.now(), ZoneOffset.UTC);
     }
 
-    public long getMilliUTC(final LocalDateTime localDateTime) {
-        return localDateTime.toInstant(ZoneOffset.UTC)
-                .toEpochMilli();
-    }
-
-    public LocalDateTime stringToLocal(String dateTime) {
+    public LocalDateTime stringToLocal(final String dateTime) {
         return LocalDateTime.parse(dateTime, FORMATTER);
     }
 
@@ -50,11 +45,7 @@ public class DateUtil {
         return localDateTime.format(FORMATTER);
     }
 
-    public LocalDateTime dateToLocalDateTime(Date date) {
-        return LocalDateTime.ofInstant(date.toInstant(), ZoneOffset.UTC);
-    }
-
-    public Date localDateTimeToDate(LocalDateTime startDate) {
+    public Date localDateTimeToDate(final LocalDateTime startDate) {
         return Date.from(startDate.toInstant(ZoneOffset.UTC));
     }
 

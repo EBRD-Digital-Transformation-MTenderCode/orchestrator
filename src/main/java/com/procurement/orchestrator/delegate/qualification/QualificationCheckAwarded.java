@@ -26,7 +26,7 @@ public class QualificationCheckAwarded implements JavaDelegate {
     private final JsonUtil jsonUtil;
     private final DateUtil dateUtil;
 
-    public QualificationCheckAwarded(QualificationRestClient qualificationRestClient,
+    public QualificationCheckAwarded(final QualificationRestClient qualificationRestClient,
                                      final OperationService operationService,
                                      final ProcessService processService,
                                      final JsonUtil jsonUtil,
