@@ -13,33 +13,33 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface QualificationRestClient {
 
     @RequestMapping(path = "/qualification", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> createAwards(@RequestParam(value = "cpId") String cpId,
-                                             @RequestParam(value = "stage") String stage,
-                                             @RequestParam(value = "owner") String owner,
-                                             @RequestParam(value = "country") String country,
-                                             @RequestParam(value = "pmd") String pmd,
-                                             @RequestParam(value = "startDate") String startDate,
+    ResponseEntity<ResponseDto> createAwards(@RequestParam("identifier") String cpId,
+                                             @RequestParam("stage") String stage,
+                                             @RequestParam("owner") String owner,
+                                             @RequestParam("country") String country,
+                                             @RequestParam("pmd") String pmd,
+                                             @RequestParam("startDate") String startDate,
                                              @RequestBody JsonNode dataDto) throws Exception;
 
     @RequestMapping(path = "/qualification", method = RequestMethod.PUT)
-    ResponseEntity<ResponseDto> updateAward(@RequestParam(value = "cpId") String cpId,
-                                            @RequestParam(value = "stage") String stage,
-                                            @RequestParam(value = "token") String token,
-                                            @RequestParam(value = "owner") String owner,
+    ResponseEntity<ResponseDto> updateAward(@RequestParam("identifier") String cpId,
+                                            @RequestParam("stage") String stage,
+                                            @RequestParam("token") String token,
+                                            @RequestParam("owner") String owner,
                                             @RequestBody JsonNode dataDto) throws Exception;
 
     @RequestMapping(path = "/qualification/period", method = RequestMethod.PUT)
-    ResponseEntity<ResponseDto> checkAwarded(@RequestParam(value = "cpId") String cpId,
-                                             @RequestParam(value = "stage") String stage,
-                                             @RequestParam(value = "country") String country,
-                                             @RequestParam(value = "pmd") String pmd,
-                                             @RequestParam(value = "endPeriod") String endPeriod) throws Exception;
+    ResponseEntity<ResponseDto> checkAwarded(@RequestParam("identifier") String cpId,
+                                             @RequestParam("stage") String stage,
+                                             @RequestParam("country") String country,
+                                             @RequestParam("pmd") String pmd,
+                                             @RequestParam("endPeriod") String endPeriod) throws Exception;
 
     @RequestMapping(path = "/qualification", method = RequestMethod.GET)
-    ResponseEntity<ResponseDto> getAwards(@RequestParam("ocId") String ocId,
+    ResponseEntity<ResponseDto> getAwards(@RequestParam("identifier") String cpId,
                                           @RequestParam("stage") String stage,
-                                          @RequestParam(value = "country") String country,
-                                          @RequestParam(value = "pmd") String pmd) throws Exception;
+                                          @RequestParam("country") String country,
+                                          @RequestParam("pmd") String pmd) throws Exception;
 
 
 }

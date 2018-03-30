@@ -13,23 +13,23 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface ClarificationRestClient {
 
     @RequestMapping(path = "/enquiry", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> createEnquiry(@RequestParam(value = "identifier") String cpId,
-                                              @RequestParam(value = "stage") String stage,
-                                              @RequestParam(value = "owner") String owner,
-                                              @RequestParam(value = "date") String date,
+    ResponseEntity<ResponseDto> createEnquiry(@RequestParam("identifier") String cpId,
+                                              @RequestParam("stage") String stage,
+                                              @RequestParam("owner") String owner,
+                                              @RequestParam("date") String date,
                                               @RequestBody JsonNode dataDto) throws Exception;
 
     @RequestMapping(path = "/enquiry", method = RequestMethod.PUT)
-    ResponseEntity<ResponseDto> updateEnquiry(@RequestParam(value = "identifier") String cpId,
-                                              @RequestParam(value = "stage") String stage,
-                                              @RequestParam(value = "token") String token,
-                                              @RequestParam(value = "owner") String owner,
-                                              @RequestParam(value = "date") String date,
+    ResponseEntity<ResponseDto> updateEnquiry(@RequestParam("identifier") String cpId,
+                                              @RequestParam("stage") String stage,
+                                              @RequestParam("token") String token,
+                                              @RequestParam("owner") String owner,
+                                              @RequestParam("date") String date,
                                               @RequestBody JsonNode dataDto) throws Exception;
 
     @RequestMapping(path = "/enquiry", method = RequestMethod.GET)
-    ResponseEntity<ResponseDto> checkEnquiries(@RequestParam(value = "identifier") String cpId,
-                                               @RequestParam(value = "stage") String stage) throws Exception;
+    ResponseEntity<ResponseDto> checkEnquiries(@RequestParam("identifier") String cpId,
+                                               @RequestParam("stage") String stage) throws Exception;
 
 
     @RequestMapping(path = "/period/save", method = RequestMethod.POST)
