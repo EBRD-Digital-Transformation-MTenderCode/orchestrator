@@ -1,10 +1,10 @@
 package com.procurement.orchestrator.delegate.submission;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.domain.Params;
-import com.procurement.orchestrator.service.OperationService;
+import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.SubmissionRestClient;
+import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.Objects;
@@ -47,9 +47,9 @@ public class SubmissionCheckPeriod implements JavaDelegate {
         final JsonNode responseData = processService.processResponse(
                 submissionRestClient.checkPeriod(
                         params.getCpid(),
+                        params.getNewStage(),
                         params.getCountry(),
                         params.getPmd(),
-                        params.getNewStage(),
                         params.getStartDate(),
                         params.getEndDate()),
                 params,
