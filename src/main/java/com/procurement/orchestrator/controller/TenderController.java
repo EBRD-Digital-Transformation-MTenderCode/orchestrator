@@ -191,7 +191,7 @@ public class TenderController extends BaseController {
         params.setProcessType("startNewStage");
         params.setOperationType("startNewStage");
         saveRequestAndCheckOperation(params, null);
-        processService.startProcessCheckRules(params);
+        processService.startProcess(params, new HashMap<>());
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 }

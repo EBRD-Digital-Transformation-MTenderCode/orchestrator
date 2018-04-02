@@ -60,6 +60,13 @@ public class ProcessServiceImpl implements ProcessService {
         runtimeService.deleteProcessInstance(processId, message);
     }
 
+
+    public void terminateProcessWithMessage(final Params params, final String processId, final String message) {
+        LOG.error(message);
+        runtimeService.deleteProcessInstance(processId, message);
+        startProcessError(params, message);
+    }
+
     public JsonNode processResponse(final ResponseEntity<ResponseDto> responseEntity,
                                     final Params params,
                                     final String processId,
@@ -395,9 +402,4 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public void terminateProcessWithMessage(final Params params, final String processId, final String message) {
-        LOG.error(message);
-        runtimeService.deleteProcessInstance(processId, message);
-        startProcessError(params, message);
-    }
 }
