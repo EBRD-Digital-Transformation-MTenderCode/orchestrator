@@ -35,7 +35,7 @@ public enum Stage {
     public static Stage fromValue(final String value) {
         final Stage constant = CONSTANTS.get(value);
         if (constant == null) {
-            throw new EnumException(Country.class.getName(), value, Arrays.toString(values()));
+            throw new EnumException(Stage.class.getName(), value, Arrays.toString(values()));
         }
         return constant;
     }
