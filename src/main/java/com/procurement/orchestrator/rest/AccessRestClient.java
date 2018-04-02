@@ -52,4 +52,12 @@ public interface AccessRestClient {
                                                         @RequestParam("statusDetails") String statusDetails,
                                                         @RequestBody JsonNode lotsDto) throws Exception;
 
+    @RequestMapping(path = "/newStage", method = RequestMethod.POST)
+    ResponseEntity<ResponseDto> startNewStage(@RequestParam("identifier") String cpId,
+                                              @RequestParam("token") String token,
+                                              @RequestParam("previousStage") String previousStage,
+                                              @RequestParam("stage") String newStage,
+                                              @RequestParam("owner") String owner) throws Exception;
+
+
 }

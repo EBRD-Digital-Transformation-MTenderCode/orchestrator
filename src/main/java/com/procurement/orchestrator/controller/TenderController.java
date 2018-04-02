@@ -177,6 +177,7 @@ public class TenderController extends BaseController {
     @RequestMapping(value = "/newStage/{cpid}", method = RequestMethod.POST)
     public ResponseEntity<String> newStage(@RequestHeader("Authorization") final String authorization,
                                            @RequestHeader("X-OPERATION-ID") final String operationId,
+                                           @RequestHeader("X-TOKEN") final String token,
                                            @PathVariable("cpid") final String cpid,
                                            @RequestParam("stage") final String stage,
                                            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
@@ -186,6 +187,7 @@ public class TenderController extends BaseController {
         params.setOwner(getOwner(authorization));
         params.setOperationId(operationId);
         params.setCpid(cpid);
+        params.setToken(token);
         params.setStage(Stage.fromValue(stage).value());
         params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
         params.setEndDate(dateUtil.format(endDate));

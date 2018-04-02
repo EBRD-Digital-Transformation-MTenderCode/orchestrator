@@ -52,9 +52,11 @@ public interface ProcessService {
 
     JsonNode getUnsuccessfulLots(JsonNode jsonData, String processId);
 
+    JsonNode getTenderLots(JsonNode jsonData, String processId);
+
     JsonNode addUpdateBidsStatusData(JsonNode jsonData, JsonNode bidsData, String processId);
 
-    JsonNode addBids(JsonNode jsonData, JsonNode lotsData, String processId);
+    JsonNode addBidsAndTenderPeriod(JsonNode jsonData, JsonNode responseData, String processId);
 
     String getAwardRelatedBid(JsonNode jsonData, String processId);
 
@@ -77,5 +79,7 @@ public interface ProcessService {
     JsonNode setCheckFs(JsonNode jsonData, JsonNode responseData, String processId);
 
     JsonNode setCn(JsonNode jsonData, JsonNode responseData, String processId);
+
+    JsonNode setTender(JsonNode jsonData, JsonNode responseData, String processId);
 }
 

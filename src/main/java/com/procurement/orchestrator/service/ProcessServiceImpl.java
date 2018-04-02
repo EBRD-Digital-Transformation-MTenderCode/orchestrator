@@ -220,6 +220,18 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
+    @Override
+    public JsonNode getTenderLots(final JsonNode jsonData, final String processId) {
+        try {
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            mainNode.replace("lots", jsonData.get("tender").get("lots"));
+            return mainNode;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
     public JsonNode addUpdateBidsStatusData(final JsonNode jsonData, final JsonNode bidsData, final String processId) {
         try {
             final ObjectNode mainNode = (ObjectNode) jsonData;
@@ -233,9 +245,10 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public JsonNode addBids(final JsonNode jsonData, final JsonNode lotsData, final String processId) {
+    public JsonNode addBidsAndTenderPeriod(final JsonNode jsonData, final JsonNode responseData, final String processId) {
         try {
-            ((ObjectNode) jsonData).replace("bids", lotsData.get("bids"));
+            ((ObjectNode) jsonData).replace("bids", responseData.get("bids"));
+            addTenderTenderPeriod(jsonData, responseData.get("tenderPeriod"), processId);
             return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
@@ -385,4 +398,15 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
+    @Override
+    public JsonNode setTender(final JsonNode jsonData, final JsonNode responseData, final String processId) {
+        try {
+            final ObjectNode mainNode = (ObjectNode) jsonData;
+            mainNode.replace("tender", responseData.get("tender"));
+            return mainNode;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
 }

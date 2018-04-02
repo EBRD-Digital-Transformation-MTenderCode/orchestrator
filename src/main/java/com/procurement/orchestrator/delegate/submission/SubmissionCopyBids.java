@@ -46,12 +46,15 @@ public class SubmissionCopyBids implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
+        final JsonNode tenderLots = processService.getTenderLots(jsonData, processId);
         final JsonNode responseData = processService.processResponse(
                 submissionRestClient.copyBids(
                         params.getCpid(),
                         params.getNewStage(),
                         params.getStage(),
-                        jsonData),
+                        params.getStartDate(),
+                        params.getEndDate(),
+                        tenderLots),
                 params,
                 processId,
                 taskId);
@@ -59,7 +62,7 @@ public class SubmissionCopyBids implements JavaDelegate {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    processService.addBids(jsonData, responseData, processId));
+                    processService.addBidsAndTenderPeriod(jsonData, responseData, processId));
         }
     }
 }

@@ -55,8 +55,10 @@ public interface SubmissionRestClient {
 
     @RequestMapping(path = "/submission/copyBids", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> copyBids(@RequestParam("identifier") String cpId,
-                                         @RequestParam("stage") String stage,
+                                         @RequestParam("stage") String newStage,
                                          @RequestParam("previousStage") String previousStage,
+                                         @RequestParam("startDate") String startDate,
+                                         @RequestParam("endDate") String endDate,
                                          @Valid @RequestBody JsonNode lots) throws Exception;
 
     @RequestMapping(path = "/submission/bids", method = RequestMethod.GET)

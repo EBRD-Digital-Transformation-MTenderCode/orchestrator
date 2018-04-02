@@ -56,7 +56,7 @@ public class SubmissionValidatePeriod implements JavaDelegate {
                 processId,
                 taskId);
         if (Objects.nonNull(responseData)) {
-            operationService.saveOperationStep(execution, entity, params, jsonData);
+            operationService.saveOperationStep(execution, entity);
         }
     }
 }
