@@ -56,8 +56,10 @@ public class SubmissionSavePeriod implements JavaDelegate {
                 processId,
                 taskId);
         if (Objects.nonNull(responseData)) {
-            operationService.saveOperationStep(execution, entity);
+            operationService.saveOperationStep(
+                    execution,
+                    entity,
+                    processService.addTenderTenderPeriod(jsonData, responseData, processId));
         }
     }
-
 }

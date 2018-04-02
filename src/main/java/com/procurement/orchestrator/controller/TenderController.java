@@ -45,6 +45,7 @@ public class TenderController extends BaseController {
         params.setOwner(getOwner(authorization));
         params.setOperationId(operationId);
         params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
+        params.setEndDate(processService.getTenderPeriodEndDate(jsonData, null));
         params.setNewStage(Stage.PS.value());
         params.setProcessType("createCN");
         params.setOperationType("createCN");

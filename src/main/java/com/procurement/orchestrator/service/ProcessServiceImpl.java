@@ -3,7 +3,6 @@ package com.procurement.orchestrator.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.procurement.orchestrator.config.kafka.MessageProducer;
 import com.procurement.orchestrator.domain.EntityAccess;
 import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.domain.response.ResponseDetailsDto;
@@ -106,7 +105,7 @@ public class ProcessServiceImpl implements ProcessService {
         try {
             return jsonData.get("tender").get("tenderPeriod").get("endDate").asText();
         } catch (Exception e) {
-            terminateProcess(processId, e.getMessage());
+            if (Objects.nonNull(processId)) terminateProcess(processId, e.getMessage());
             return null;
         }
     }
@@ -168,22 +167,6 @@ public class ProcessServiceImpl implements ProcessService {
             final ObjectNode enquiryPeriodNode = (ObjectNode) jsonData.get("tender").get("enquiryPeriod");
             enquiryPeriodNode.replace("startDate", periodData.get("startDate"));
             enquiryPeriodNode.replace("endDate", periodData.get("endDate"));
-            return jsonData;
-        } catch (Exception e) {
-            terminateProcess(processId, e.getMessage());
-            return null;
-        }
-    }
-
-    @Override
-    public JsonNode addTenderPeriodStartDate(final JsonNode jsonData, final String startDate, final String processId) {
-        try {
-            if (Objects.isNull(jsonData.get("tender")))
-                ((ObjectNode) jsonData).putObject("tender");
-            if (Objects.isNull(jsonData.get("tender").get("tenderPeriod")))
-                ((ObjectNode) jsonData.get("tender")).putObject("tenderPeriod");
-            final ObjectNode tenderPeriodNode = (ObjectNode) jsonData.get("tender").get("tenderPeriod");
-            tenderPeriodNode.put("startDate", startDate);
             return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());

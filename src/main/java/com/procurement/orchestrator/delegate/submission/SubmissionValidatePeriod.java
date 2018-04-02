@@ -46,8 +46,6 @@ public class SubmissionValidatePeriod implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        processService.addTenderPeriodStartDate(jsonData, params.getStartDate(), processId);
-        params.setEndDate(processService.getTenderPeriodEndDate(jsonData, processId));
         final JsonNode responseData = processService.processResponse(
                 submissionRestClient.periodValidation(
                         params.getCountry(),
