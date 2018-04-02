@@ -27,7 +27,6 @@ public class SubmissionSavePeriod implements JavaDelegate {
 
     private final JsonUtil jsonUtil;
 
-
     public SubmissionSavePeriod(final SubmissionRestClient submissionRestClient,
                                 final OperationService operationService,
                                 final ProcessService processService,
