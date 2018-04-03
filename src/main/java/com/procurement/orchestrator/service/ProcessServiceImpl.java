@@ -355,11 +355,13 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
-    public JsonNode getCheckFs(final JsonNode jsonData, final String processId) {
+    public JsonNode getCheckFs(final JsonNode jsonData, final String startDate, final String processId) {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
             mainNode.replace("budgetBreakdown", jsonData.findPath("budgetBreakdown"));
             mainNode.replace("tenderPeriod", jsonData.findPath("tenderPeriod"));
+            final ObjectNode tenderPeriodNode = (ObjectNode) mainNode.get("tenderPeriod");
+            tenderPeriodNode.put("startDate", startDate);
             mainNode.replace("classification", jsonData.findPath("classification"));
             return mainNode;
         } catch (Exception e) {
