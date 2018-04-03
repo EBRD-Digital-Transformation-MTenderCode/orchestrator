@@ -40,19 +40,25 @@ public class CheckRulesForStage implements JavaDelegate {
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
         final StageEntity stageEntity = operationService.getStageParams(params.getCpid(), processId);
+        params.setCountry(stageEntity.getCountry());
+        params.setPmd(stageEntity.getPmd());
+        params.setPrevStage(stageEntity.getStage());
+        params.setPhase("ENDSTAGE");
         final Rules rules = new Rules(
                 params.getNewStage(),
-                stageEntity.getStage(),
-                stageEntity.getCountry(),
-                stageEntity.getPmd(),
-                "ENDSTAGE",
+                params.getPrevStage(),
+                params.getCountry(),
+                params.getPmd(),
+                params.getPhase(),
                 params.getOperationType());
         if (operationService.isRulesExist(rules)) {
             operationService.saveOperationStep(
                     execution,
-                    entity);
+                    entity,
+                    params);
         } else {
-            processService.terminateProcessWithMessage(params, processId, "Operation for current stage is impossible.");
+            processService.terminateProcessWithMessage(params, processId, "Operation for current stage is impossible" +
+                    ".");
         }
     }
 }

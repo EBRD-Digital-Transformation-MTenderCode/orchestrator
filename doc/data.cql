@@ -32,14 +32,14 @@ CREATE TABLE IF NOT EXISTS  ocds.orchestrator_stage (
 
 CREATE TABLE IF NOT EXISTS  ocds.orchestrator_rules (
     new_stage text,
-    stage text,
+    prev_stage text,
     country text,
     pmd text,
     phase text,
     operation_type text,
-    primary key(new_stage, stage, country, pmd, phase, operation_type));
+    primary key(new_stage, prev_stage, country, pmd, phase, operation_type));
 
-INSERT INTO ocds.orchestrator_rules (new_stage, stage, country, pmd, phase, operation_type)  VALUES ('PQ', 'PS', 'MD', 'RT', 'ENDSTAGE', 'startNewStage');
+INSERT INTO ocds.orchestrator_rules (new_stage, prev_stage, country, pmd, phase, operation_type)  VALUES ('PQ', 'PS', 'MD', 'RT', 'ENDSTAGE', 'startNewStage');
 
 
 SELECT * FROM ocds.orchestrator_operation_step;

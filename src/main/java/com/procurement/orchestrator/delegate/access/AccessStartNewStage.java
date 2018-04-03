@@ -46,7 +46,7 @@ public class AccessStartNewStage implements JavaDelegate {
                 accessRestClient.startNewStage(
                         params.getCpid(),
                         params.getToken(),
-                        params.getStage(),
+                        params.getPrevStage(),
                         params.getNewStage(),
                         params.getOwner()),
                 params,

@@ -163,7 +163,7 @@ public class OperationServiceImpl implements OperationService {
         if (entityOptional.isPresent()) {
             return entityOptional.get();
         } else {
-            processException("No stage params found!" , processId);
+            processException("No stage params found!", processId);
             return null;
         }
     }

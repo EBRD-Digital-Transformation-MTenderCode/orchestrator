@@ -18,6 +18,7 @@ public class CassandraDaoImpl implements CassandraDao {
     private static final String OPERATION_TABLE = "orchestrator_operation";
     private static final String REQUEST_TABLE = "orchestrator_request";
     private static final String STAGE_TABLE = "orchestrator_stage";
+    private static final String RULES_TABLE = "orchestrator_rules";
     private static final String REQUEST_DATE = "request_date";
     private static final String OPERATION_ID = "operation_id";
     private static final String JSON_PARAMS = "json_params";
@@ -29,9 +30,10 @@ public class CassandraDaoImpl implements CassandraDao {
     private static final String CPID = "cp_id";
 
     private static final String OPERATION_TYPE = "operation_type";
+    private static final String PREV_STAGE = "prev_stage";
     private static final String NEW_STAGE = "new_stage";
-    private static final String COUNTRY = "country";
     private static final String STAGE = "stage";
+    private static final String COUNTRY = "country";
     private static final String PHASE = "phase";
     private static final String PMD = "pmd";
 
@@ -164,9 +166,9 @@ public class CassandraDaoImpl implements CassandraDao {
     public Boolean isRulesExist(final Rules rules) {
         final Statement query = select()
                 .all()
-                .from(STAGE_TABLE)
+                .from(RULES_TABLE)
                 .where(eq(NEW_STAGE, rules.getNewStage()))
-                .and(eq(STAGE, rules.getStage()))
+                .and(eq(PREV_STAGE, rules.getStage()))
                 .and(eq(COUNTRY, rules.getCountry()))
                 .and(eq(PMD, rules.getPmd()))
                 .and(eq(PHASE, rules.getPhase()))

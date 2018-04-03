@@ -91,7 +91,7 @@ public class TenderController extends BaseController {
         params.setRequestId(UUIDs.timeBased().toString());
         params.setOperationId(operationId);
         params.setCpid(cpid);
-        params.setStage(Stage.fromValue(stage).value());
+        params.setNewStage(Stage.fromValue(stage).value());
         params.setProcessType("submitTheBid");
         params.setOperationType("bid");
         params.setOwner(getOwner(authorization));
@@ -117,7 +117,7 @@ public class TenderController extends BaseController {
         params.setOwner(getOwner(authorization));
         params.setOperationId(operationId);
         params.setCpid(cpid);
-        params.setStage(Stage.fromValue(stage).value());
+        params.setNewStage(Stage.fromValue(stage).value());
         params.setProcessType("enquiry");
         params.setOperationType("createEnquiry");
         params.setCountry(Country.fromValue(country.toUpperCase()).value());
@@ -143,7 +143,7 @@ public class TenderController extends BaseController {
         params.setOwner(getOwner(authorization));
         params.setOperationId(operationId);
         params.setCpid(cpid);
-        params.setStage(Stage.fromValue(stage).value());
+        params.setNewStage(Stage.fromValue(stage).value());
         params.setProcessType("awardByBid");
         params.setOperationType("awardByBid");
         params.setToken(token);
@@ -164,7 +164,7 @@ public class TenderController extends BaseController {
         params.setOwner(getOwner(authorization));
         params.setOperationId(operationId);
         params.setCpid(cpid);
-        params.setStage(Stage.fromValue(stage).value());
+        params.setNewStage(Stage.fromValue(stage).value());
         params.setCountry(Country.fromValue(country.toUpperCase()).value());
         params.setPmd(pmd.toUpperCase());
         params.setProcessType("awardPeriodEnd");
@@ -188,7 +188,7 @@ public class TenderController extends BaseController {
         params.setOperationId(operationId);
         params.setCpid(cpid);
         params.setToken(token);
-        params.setStage(Stage.fromValue(stage).value());
+        params.setNewStage(Stage.fromValue(stage).value());
         params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
         params.setEndDate(dateUtil.format(endDate));
         params.setProcessType("startNewStage");

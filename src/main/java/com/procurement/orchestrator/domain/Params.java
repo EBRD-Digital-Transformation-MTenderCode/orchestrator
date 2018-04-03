@@ -27,8 +27,8 @@ public class Params {
     @JsonProperty(value = "newStage")
     private String newStage;
 
-    @JsonProperty(value = "stage")
-    private String stage;
+    @JsonProperty(value = "prevStage")
+    private String prevStage;
 
     @JsonProperty(value = "processType")
     private String processType;

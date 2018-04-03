@@ -51,7 +51,7 @@ public class SubmissionCopyBids implements JavaDelegate {
                 submissionRestClient.copyBids(
                         params.getCpid(),
                         params.getNewStage(),
-                        params.getStage(),
+                        params.getPrevStage(),
                         params.getStartDate(),
                         params.getEndDate(),
                         tenderLots),
