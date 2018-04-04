@@ -11,7 +11,7 @@ public enum Country {
 
     UA("UA"),
     MD("MD"),
-    TEST("test");
+    TEST("TEST");
 
     private static final Map<String, Country> CONSTANTS = new HashMap<>();
 
