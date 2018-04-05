@@ -34,7 +34,7 @@
     "rationale": "The rationale for the procurement provided in free text. More detail can be provided in an attached document."
   },
   "tender": {
-    "id": "ocds-t1s2t3-MD-1522930513008",
+    "id": "ocds-t1s2t3-MD-1522932404862",
     "title": "Tender title",
     "description": "Tender description",
     "status": "active",
@@ -124,7 +124,7 @@
     ],
     "lots": [
       {
-        "id": "fdf59701-38ca-11e8-bbe5-f516c066baa5",
+        "id": "659799e1-38cf-11e8-bbe5-f516c066baa5",
         "title": "A title for this lot.",
         "description": "A description of this lot.",
         "status": "active",
@@ -171,7 +171,7 @@
     ],
     "items": [
       {
-        "id": "fdf59700-38ca-11e8-bbe5-f516c066baa5",
+        "id": "659799e0-38cf-11e8-bbe5-f516c066baa5",
         "description": "A description of the goods, services to be provided.",
         "classification": {
           "scheme": "CPV",
@@ -190,7 +190,7 @@
           "id": "0971",
           "name": "kg"
         },
-        "relatedLot": "fdf59701-38ca-11e8-bbe5-f516c066baa5"
+        "relatedLot": "659799e1-38cf-11e8-bbe5-f516c066baa5"
       }
     ],
     "awardCriteria": "priceOnly",
@@ -205,18 +205,20 @@
     "submissionMethodDetails": "Any detailed or further information on the submission method. This may include the address, e-mail address or online service to which bids should be submitted, and any special requirements to be followed for submissions.",
     "documents": [
       {
-        "id": "e81f4e60-3813-11e8-ac76-4940f127948b",
+        "id": "b7c9c730-2e91-11e8-ac76-4940f127948b",
         "documentType": "tenderNotice",
         "title": "Title Test CN document to tender",
         "description": "Description Test CN document to tender",
+        "url": "http://bpe.eprocurement.systems/api/v1/storage/get/b7c9c730-2e91-11e8-ac76-4940f127948b",
+        "datePublished": "2018-04-05T10:55:56Z",
         "language": "ro",
         "relatedLots": [
-          "fdf59701-38ca-11e8-bbe5-f516c066baa5"
+          "659799e1-38cf-11e8-bbe5-f516c066baa5"
         ]
       }
     ],
     "tenderPeriod": {
-      "startDate": "2018-04-05T12:15:12Z",
+      "startDate": "2018-04-05T12:46:42Z",
       "endDate": "2018-05-26T15:58:30Z"
     },
     "submissionLanguages": [
@@ -224,7 +226,7 @@
       "ro"
     ],
     "enquiryPeriod": {
-      "startDate": "2018-04-05T12:15:12Z",
+      "startDate": "2018-04-05T12:46:42Z",
       "endDate": "2018-05-20T15:58:30Z"
     }
   },
@@ -339,20 +341,6 @@
         "faxNumber": "+38022000000",
         "url": "http://contactFS.PE.com"
       }
-    }
-  ],
-  "documents": [
-    {
-      "id": "e81f4e60-3813-11e8-ac76-4940f127948b",
-      "documentType": "tenderNotice",
-      "title": "Title Test CN document to tender",
-      "description": "Description Test CN document to tender",
-      "url": "http://bpe.eprocurement.systems/api/v1/storage/get/e81f4e60-3813-11e8-ac76-4940f127948b",
-      "datePublished": "2018-04-04T17:33:36Z",
-      "language": "ro",
-      "relatedLots": [
-        "fdf59701-38ca-11e8-bbe5-f516c066baa5"
-      ]
     }
   ]
 }
