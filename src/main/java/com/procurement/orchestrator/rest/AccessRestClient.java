@@ -20,6 +20,14 @@ public interface AccessRestClient {
                                          @RequestParam("date") String dateTime,
                                          @RequestBody JsonNode jsonData) throws Exception;
 
+    @RequestMapping(path = "/pin", method = RequestMethod.POST)
+    ResponseEntity<ResponseDto> createPin(@RequestParam("stage") String stage,
+                                         @RequestParam("country") String country,
+                                         @RequestParam("pmd") String pmd,
+                                         @RequestParam("owner") String owner,
+                                         @RequestParam("date") String dateTime,
+                                         @RequestBody JsonNode jsonData) throws Exception;
+
     @RequestMapping(path = "/cn", method = RequestMethod.PUT)
     ResponseEntity<ResponseDto> updateCn(@RequestParam("identifier") String cpId,
                                          @RequestParam("token") String token,

@@ -56,6 +56,28 @@ public class TenderController extends BaseController {
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
+    @RequestMapping(value = "/pin", method = RequestMethod.POST)
+    public ResponseEntity<String> createPIN(@RequestHeader("Authorization") final String authorization,
+                                           @RequestHeader("X-OPERATION-ID") final String operationId,
+                                           @RequestParam("country") final String country,
+                                           @RequestParam("pmd") final String pmd,
+                                           @RequestBody final JsonNode jsonData) {
+        final Params params = new Params();
+        params.setRequestId(UUIDs.timeBased().toString());
+        params.setOwner(getOwner(authorization));
+        params.setOperationId(operationId);
+        params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
+        params.setEndDate(processService.getTenderPeriodEndDate(jsonData, null));
+        params.setNewStage(Stage.PIN.value());
+        params.setProcessType("createPIN");
+        params.setOperationType("createPIN");
+        params.setCountry(Country.fromValue(country.toUpperCase()).value());
+        params.setPmd(pmd.toUpperCase());
+        saveRequestAndCheckOperation(params, jsonData);
+        processService.startProcess(params, new HashMap<>());
+        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
+    }
+
     @RequestMapping(value = "/cn/{cpid}", method = RequestMethod.POST)
     public ResponseEntity<String> updateCN(@RequestHeader("Authorization") final String authorization,
                                            @RequestHeader("X-OPERATION-ID") final String operationId,
