@@ -90,7 +90,7 @@ public class TenderController extends BaseController {
         params.setOperationId(operationId);
         params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
         params.setEndDate(processService.getTenderPeriodEndDate(jsonData, null));
-        params.setNewStage(Stage.PIN.value());
+        params.setNewStage(Stage.PN.value());
         params.setProcessType("createPN");
         params.setOperationType("createPN");
         params.setCountry(Country.fromValue(country.toUpperCase()).value());
