@@ -299,7 +299,8 @@ public class ProcessServiceImpl implements ProcessService {
 
     public JsonNode setDocuments(final JsonNode jsonData, final JsonNode documentsData, final String processId) {
         try {
-            ((ObjectNode) jsonData).replace("documents", documentsData.get("documents"));
+            final ObjectNode tenderNode = (ObjectNode) jsonData.get("tender");
+            tenderNode.replace("documents", documentsData.get("documents"));
             return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
