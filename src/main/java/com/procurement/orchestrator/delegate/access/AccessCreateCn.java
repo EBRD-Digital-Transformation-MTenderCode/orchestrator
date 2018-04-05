@@ -46,6 +46,7 @@ public class AccessCreateCn implements JavaDelegate {
                 accessRestClient.createCn(
                         params.getNewStage(),
                         params.getCountry(),
+                        params.getPmd(),
                         params.getOwner(),
                         params.getStartDate(),
                         jsonData),

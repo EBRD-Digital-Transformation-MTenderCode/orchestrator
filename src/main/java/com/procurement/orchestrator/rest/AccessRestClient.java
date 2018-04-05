@@ -15,6 +15,7 @@ public interface AccessRestClient {
     @RequestMapping(path = "/cn", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> createCn(@RequestParam("stage") String stage,
                                          @RequestParam("country") String country,
+                                         @RequestParam("pmd") String pmd,
                                          @RequestParam("owner") String owner,
                                          @RequestParam("date") String dateTime,
                                          @RequestBody JsonNode jsonData) throws Exception;
