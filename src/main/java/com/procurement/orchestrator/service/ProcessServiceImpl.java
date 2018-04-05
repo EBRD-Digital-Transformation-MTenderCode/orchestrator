@@ -286,7 +286,7 @@ public class ProcessServiceImpl implements ProcessService {
 
     public JsonNode getDocuments(final JsonNode jsonData, final String processId) {
         try {
-            JsonNode documentsNode = jsonData.findPath("documents");
+            final JsonNode documentsNode = jsonData.findPath("documents");
             if (documentsNode.isMissingNode()) return null;
             final ObjectNode mainNode = jsonUtil.createObjectNode();
             mainNode.replace("documents", documentsNode);

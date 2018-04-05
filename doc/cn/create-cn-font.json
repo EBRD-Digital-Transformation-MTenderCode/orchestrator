@@ -1,37 +1,48 @@
 {
   "planning": {
-    "rationale": "The rationale for the procurement provided in free text. More detail can be provided in an attached document.",
     "budget": {
       "description": "A short free text description of the budget source. May be used to provide the title of the budget line, or the programme used to fund this project.",
       "amount": {
         "amount": 2.07872268165E9,
         "currency": "KHR"
       },
-      "isEuropeanUnionFunded": true,
       "europeanUnionFunding": {
         "projectIdentifier": "proj-cn-12346",
         "projectName": "test proj name",
         "uri": "https://jwt.io"
       },
+      "isEuropeanUnionFunded": true,
       "budgetBreakdown": [
         {
-          "id": "ocds-t1s2t3-UA-1522665013444-FS-1522665016840",
-          "description": "A short free text description of this budget entry.",
+          "id": "ocds-t1s2t3-MD-1522846786438-FS-1522846845222",
+          "description": "1 A short free text description of this budget entry.",
           "amount": {
-            "amount": 2.07872268165E9,
+            "amount": 5.0,
             "currency": "KHR"
+          },
+          "period": {
+            "startDate": "2018-03-28T13:30:27Z",
+            "endDate": "2018-05-02T17:48:10Z"
+          },
+          "sourceParty": {
+            "name": "FS Buyer Биківнянська міська лікарня",
+            "id": "UA-EDR-987654321"
           }
         }
       ]
-    }
+    },
+    "rationale": "The rationale for the procurement provided in free text. More detail can be provided in an attached document."
   },
   "tender": {
+    "id": "ocds-t1s2t3-MD-1522925762196",
     "title": "Tender title",
     "description": "Tender description",
+    "status": "active",
+    "statusDetails": "empty",
     "classification": {
       "scheme": "CPV",
-      "description": "Fire-prevention installation works",
-      "id": "45343000-3"
+      "id": "45343000-2",
+      "description": "Fire-prevention installation works"
     },
     "acceleratedProcedure": {
       "isAcceleratedProcedure": false
@@ -66,16 +77,41 @@
       "goods"
     ],
     "eligibilityCriteria": "A description of any eligibility criteria for potential suppliers.",
-    "submissionLanguages": [
-      "pl",
-      "ro"
-    ],
-    "tenderPeriod": {
-      "endDate": "2018-05-06T02:23:40Z"
-    },
     "contractPeriod": {
       "startDate": "2018-09-27T00:00:00Z",
       "endDate": "2018-08-13T11:32:10Z"
+    },
+    "procuringEntity": {
+      "name": "Новороздільська міська лікарня",
+      "id": "UA-EDR-20764777",
+      "identifier": {
+        "id": "20764777",
+        "scheme": "UA-EDR",
+        "legalName": "Новороздільська міська лікарня",
+        "uri": "http://buyerTestLink.ua"
+      },
+      "address": {
+        "streetAddress": "вул. Винниченка, 37",
+        "locality": "місто Новий Розділ",
+        "region": "Львівська область",
+        "postalCode": "7770777",
+        "countryName": "Україна"
+      },
+      "additionalIdentifiers": [
+        {
+          "id": "123123123",
+          "scheme": "UA-EDR",
+          "legalName": "Додатково Новороздільська міська лікарня",
+          "uri": "http://additionalBuyerTestLink.ua"
+        }
+      ],
+      "contactPoint": {
+        "name": "Осипових Сергій Олександрович",
+        "email": "test2@test.test",
+        "telephone": "+380222222222",
+        "faxNumber": "+380222222222",
+        "url": "http://test.ua"
+      }
     },
     "value": {
       "amount": 2.07872268165E9,
@@ -88,9 +124,11 @@
     ],
     "lots": [
       {
-        "id": "lot-id-123123",
+        "id": "ee413541-38bf-11e8-bbe5-f516c066baa5",
         "title": "A title for this lot.",
         "description": "A description of this lot.",
+        "status": "active",
+        "statusDetails": "empty",
         "value": {
           "amount": 2.07872268165E9,
           "currency": "KHR"
@@ -100,9 +138,9 @@
             "hasOptions": false
           }
         ],
-        "variants": [
+        "recurrentProcurement": [
           {
-            "hasVariants": false
+            "isRecurrent": false
           }
         ],
         "renewals": [
@@ -110,9 +148,9 @@
             "hasRenewals": false
           }
         ],
-        "recurrentProcurement": [
+        "variants": [
           {
-            "isRecurrent": false
+            "hasVariants": false
           }
         ],
         "contractPeriod": {
@@ -133,26 +171,26 @@
     ],
     "items": [
       {
-        "id": "item-id-123123",
+        "id": "ee413540-38bf-11e8-bbe5-f516c066baa5",
+        "description": "A description of the goods, services to be provided.",
         "classification": {
           "scheme": "CPV",
-          "description": "Fire-prevention installation works",
-          "id": "45343000-3"
+          "id": "45343000-2",
+          "description": "Fire-prevention installation works"
         },
         "additionalClassifications": [
           {
             "scheme": "CPVS",
-            "description": "A textual description or title for the code.",
-            "id": "CPVs-id-12341234"
+            "id": "CPVs-id-12341234",
+            "description": "A textual description or title for the code."
           }
         ],
-        "quantity": 10,
+        "quantity": 10.0,
         "unit": {
           "id": "0971",
           "name": "kg"
         },
-        "description": "A description of the goods, services to be provided.",
-        "relatedLot": "lot-id-123123"
+        "relatedLot": "ee413541-38bf-11e8-bbe5-f516c066baa5"
       }
     ],
     "awardCriteria": "priceOnly",
@@ -165,22 +203,44 @@
       "IPR_ISSUES"
     ],
     "submissionMethodDetails": "Any detailed or further information on the submission method. This may include the address, e-mail address or online service to which bids should be submitted, and any special requirements to be followed for submissions.",
-    "procuringEntity": {
-      "name": "Новороздільська міська лікарня",
+    "documents": [
+      {
+        "id": "b7c9c730-2e91-11e8-ac76-4940f127948b",
+        "documentType": "tenderNotice",
+        "title": "Title Test CN document to tender",
+        "description": "Description Test CN document to tender",
+        "language": "ro",
+        "relatedLots": [
+          "ee413541-38bf-11e8-bbe5-f516c066baa5"
+        ]
+      }
+    ],
+    "tenderPeriod": {
+      "startDate": "2018-04-05T10:55:56Z",
+      "endDate": "2018-05-26T15:58:30Z"
+    },
+    "submissionLanguages": [
+      "pl",
+      "ro"
+    ],
+    "enquiryPeriod": {
+      "startDate": "2018-04-05T10:55:56Z",
+      "endDate": "2018-05-20T15:58:30Z"
+    }
+  },
+  "ei": [
+    "ocds-t1s2t3-MD-1522846786438"
+  ],
+  "buyer": [
+    {
+      "name": "EI Byuer Новороздільська міська лікарня",
+      "id": "UA-EDR-20764314",
       "identifier": {
+        "id": "20764314",
         "scheme": "UA-EDR",
-        "id": "20764777",
-        "legalName": "Новороздільська міська лікарня",
+        "legalName": "EI Byuer Новороздільська міська лікарня",
         "uri": "http://buyerTestLink.ua"
       },
-      "additionalIdentifiers": [
-        {
-          "scheme": "UA-EDR",
-          "id": "123123123",
-          "legalName": "Додатково Новороздільська міська лікарня",
-          "uri": "http://additionalBuyerTestLink.ua"
-        }
-      ],
       "address": {
         "streetAddress": "вул. Винниченка, 37",
         "locality": "місто Новий Розділ",
@@ -188,13 +248,111 @@
         "postalCode": "7770777",
         "countryName": "Україна"
       },
+      "additionalIdentifiers": [
+        {
+          "id": "77764777",
+          "scheme": "UA-EDR",
+          "legalName": "Додатково Новороздільська міська лікарня",
+          "uri": "http://additionalBuyerTestLink.ua"
+        }
+      ],
       "contactPoint": {
         "name": "Осипових Сергій Олександрович",
         "email": "test2@test.test",
         "telephone": "+380222222222",
         "faxNumber": "+380222222222",
-        "url": "http://test.ua"
+        "url": "test3@test.test"
+      },
+      "details": {
+        "typeOfBuyer": "BODY_PUBLIC",
+        "mainGeneralActivity": "DEFENCE",
+        "mainSectoralActivity": "AIRPORT_RELATED_ACTIVITIES",
+        "isACentralPurchasingBody": true,
+        "scale": "micro"
+      },
+      "buyerProfile": "https://jsonlint.com/"
+    }
+  ],
+  "funder": [
+    {
+      "id": "UA-EDR-987654321",
+      "name": "FS Buyer Биківнянська міська лікарня",
+      "identifier": {
+        "id": "987654321",
+        "scheme": "UA-EDR",
+        "legalName": "FS Buyer Биківнянська міська лікарня",
+        "uri": "http://FSbuyerTestLink.ua"
+      },
+      "address": {
+        "streetAddress": "вул. Ефесівська, 37",
+        "locality": "місто Новий Ефес",
+        "region": "Одеська область",
+        "postalCode": "12345",
+        "countryName": "Україна"
+      },
+      "additionalIdentifiers": [
+        {
+          "id": "99999999",
+          "scheme": "UA-EDR",
+          "legalName": "Додатково Биківнянська міська лікарня",
+          "uri": "http://FSadditionalBuyerTestLink.ua"
+        }
+      ],
+      "contactPoint": {
+        "name": "Ефесенко Ефес Ефесович",
+        "email": "test3@test.test",
+        "telephone": "+380333333333",
+        "faxNumber": "+38033333333",
+        "url": "test3@test.test"
       }
     }
-  }
+  ],
+  "payer": [
+    {
+      "id": "UA-EDR-987654321",
+      "name": "FS Procuring Entity Name",
+      "identifier": {
+        "id": "987654321",
+        "scheme": "UA-EDR",
+        "legalName": "Legal FS Procuring Entity Name",
+        "uri": "http://FS.PE.com"
+      },
+      "address": {
+        "streetAddress": "FS PE Address",
+        "locality": "FS PE locality",
+        "region": "FS PE region",
+        "postalCode": "11111",
+        "countryName": "FS PE country"
+      },
+      "additionalIdentifiers": [
+        {
+          "id": "987123654",
+          "scheme": "UA-EDR",
+          "legalName": "Additional Legal FS Procuring Entity Name",
+          "uri": "http://additional.FS.PE.com"
+        }
+      ],
+      "contactPoint": {
+        "name": "FS PE name",
+        "email": "fs.pe@test.test",
+        "telephone": "+38022000000",
+        "faxNumber": "+38022000000",
+        "url": "http://contactFS.PE.com"
+      }
+    }
+  ],
+  "documents": [
+    {
+      "id": "b7c9c730-2e91-11e8-ac76-4940f127948b",
+      "documentType": "tenderNotice",
+      "title": "Title Test CN document to tender",
+      "description": "Description Test CN document to tender",
+      "url": "http://bpe.eprocurement.systems/api/v1/storage/get/b7c9c730-2e91-11e8-ac76-4940f127948b",
+      "datePublished": "2018-04-05T10:55:56Z",
+      "language": "ro",
+      "relatedLots": [
+        "ee413541-38bf-11e8-bbe5-f516c066baa5"
+      ]
+    }
+  ]
 }
