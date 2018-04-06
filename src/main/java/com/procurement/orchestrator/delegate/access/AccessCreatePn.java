@@ -42,23 +42,24 @@ public class AccessCreatePn implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
+        final JsonNode requestData = processService.getAccessData(jsonData, processId);
         final JsonNode responseData = processService.processResponse(
-            accessRestClient.createPn(
-                params.getNewStage(),
-                params.getCountry(),
-                params.getPmd(),
-                params.getOwner(),
-                params.getStartDate(),
-                jsonData),
-            params,
-            processId,
-            taskId);
+                accessRestClient.createPn(
+                        params.getNewStage(),
+                        params.getCountry(),
+                        params.getPmd(),
+                        params.getOwner(),
+                        params.getStartDate(),
+                        requestData),
+                params,
+                processId,
+                taskId);
         if (Objects.nonNull(responseData))
             operationService.saveOperationStep(
-                execution,
-                entity,
-                addDataToParams(params, responseData, processId),
-                processService.setCn(jsonData, responseData, processId));
+                    execution,
+                    entity,
+                    addDataToParams(params, responseData, processId),
+                    processService.setAccessData(jsonData, responseData, processId));
     }
 
     private Params addDataToParams(final Params params, final JsonNode responseData, final String processId) {

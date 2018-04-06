@@ -67,7 +67,6 @@ public class TenderController extends BaseController {
         params.setOwner(getOwner(authorization));
         params.setOperationId(operationId);
         params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
-        params.setEndDate(processService.getTenderPeriodEndDate(jsonData, null));
         params.setNewStage(Stage.PIN.value());
         params.setProcessType("createPIN");
         params.setOperationType("createPIN");
@@ -89,7 +88,6 @@ public class TenderController extends BaseController {
         params.setOwner(getOwner(authorization));
         params.setOperationId(operationId);
         params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
-        params.setEndDate(processService.getTenderPeriodEndDate(jsonData, null));
         params.setNewStage(Stage.PN.value());
         params.setProcessType("createPN");
         params.setOperationType("createPN");

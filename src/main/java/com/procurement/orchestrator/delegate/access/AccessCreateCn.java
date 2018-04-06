@@ -42,6 +42,7 @@ public class AccessCreateCn implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
+        final JsonNode requestData = processService.getAccessData(jsonData, processId);
         final JsonNode responseData = processService.processResponse(
                 accessRestClient.createCn(
                         params.getNewStage(),
@@ -49,7 +50,7 @@ public class AccessCreateCn implements JavaDelegate {
                         params.getPmd(),
                         params.getOwner(),
                         params.getStartDate(),
-                        jsonData),
+                        requestData),
                 params,
                 processId,
                 taskId);
@@ -58,7 +59,7 @@ public class AccessCreateCn implements JavaDelegate {
                     execution,
                     entity,
                     addDataToParams(params, responseData, processId),
-                    processService.setCn(jsonData, responseData, processId));
+                    processService.setAccessData(jsonData, responseData, processId));
     }
 
     private Params addDataToParams(final Params params, final JsonNode responseData, final String processId) {
