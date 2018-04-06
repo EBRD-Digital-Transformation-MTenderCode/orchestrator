@@ -12,20 +12,19 @@ public enum Stage {
     FS("FS"),
     PS("PS"),
     PQ("PQ"),
-    EV("EV"),
-    CT("CT"),
     PIN("PIN"),
-    PN("PN");
+    PN("PN"),
+    EV("EV"),
+    CT("CT");
 
     private static final Map<String, Stage> CONSTANTS = new HashMap<>();
+    private final String value;
 
     static {
         for (final Stage c : values()) {
             CONSTANTS.put(c.value, c);
         }
     }
-
-    private final String value;
 
     Stage(final String value) {
         this.value = value;

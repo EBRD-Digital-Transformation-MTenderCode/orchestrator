@@ -167,7 +167,7 @@ public class TenderController extends BaseController {
         params.setToken(token);
         saveRequestAndCheckOperation(params, jsonData);
         final Map<String, Object> variables = new HashMap<>();
-        variables.put("isTokenPresent", ((params.getToken() == null || "".equals(params.getToken().trim())) ? 0 : 1));
+        variables.put("isTokenPresent", (params.getToken() == null || "".equals(params.getToken().trim())) ? 0 : 1);
         variables.put("allAnswered", 0);
         processService.startProcess(params, variables);
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
