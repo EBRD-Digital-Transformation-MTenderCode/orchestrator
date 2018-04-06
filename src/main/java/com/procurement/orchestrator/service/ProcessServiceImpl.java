@@ -405,7 +405,7 @@ public class ProcessServiceImpl implements ProcessService {
     @Override
     public JsonNode getAccessData(final JsonNode jsonData, final String processId) {
         try {
-            final ObjectNode mainNode = (ObjectNode) jsonData;
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
             mainNode.replace("planning", jsonData.get("planning"));
             mainNode.replace("tender", jsonData.get("tender"));
             return mainNode;
