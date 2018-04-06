@@ -14,14 +14,6 @@
           "amount": {
             "amount": 18562.31,
             "currency": "AED"
-          },
-          "period": {
-            "startDate": "2018-04-06T12:08:33Z",
-            "endDate": "2018-04-24T12:09:38Z"
-          },
-          "sourceParty": {
-            "id": "UA-EDR-300-03-5707",
-            "name": "Anderson PLC"
           }
         }
       ]
@@ -73,8 +65,7 @@
       "sl"
     ],
     "tenderPeriod": {
-      "endDate": "2018-06-11T09:51:48Z",
-      "startDate": "2018-04-06T12:13:47Z"
+      "endDate": "2018-06-11T09:51:48Z"
     },
     "contractPeriod": {
       "startDate": "2018-04-06T11:26:13Z",
@@ -198,118 +189,5 @@
         "url": "https://mullen.com/main/blog/homepage.jsp"
       }
     }
-  },
-  "ei": [
-    "ocds-t1s2t3-UA-1523016513864"
-  ],
-  "buyer": [
-    {
-      "name": "Anderson PLC",
-      "id": "UA-EDR-300-03-5707",
-      "identifier": {
-        "id": "300-03-5707",
-        "scheme": "UA-EDR",
-        "legalName": "Anderson PLC Ltd",
-        "uri": "https://www.miller.com/posts/main/author.htm"
-      },
-      "address": {
-        "streetAddress": "914 Douglas Field",
-        "locality": "New Shawnstad",
-        "region": "Texas",
-        "postalCode": "10997",
-        "countryName": "Luxembourg"
-      },
-      "additionalIdentifiers": [
-        {
-          "id": "229-72-8583",
-          "scheme": "UA-EDR",
-          "legalName": "Anderson PLC Group",
-          "uri": "http://thomas-smith.com/wp-content/tag/register/"
-        }
-      ],
-      "contactPoint": {
-        "name": "Michael Mooney",
-        "email": "andrew15@gmail.com",
-        "telephone": "913-341-7646",
-        "faxNumber": "944.174.3428x022",
-        "url": "http://reynolds.com/"
-      },
-      "details": {
-        "typeOfBuyer": "MINISTRY",
-        "mainGeneralActivity": "ECONOMIC_AND_FINANCIAL_AFFAIRS",
-        "mainSectoralActivity": "PRODUCTION_TRANSPORT_DISTRIBUTION_GAS_HEAT",
-        "isACentralPurchasingBody": true,
-        "scale": "sme"
-      },
-      "buyerProfile": "https://www.guzman.com/about/"
-    }
-  ],
-  "funder": [
-    {
-      "id": "UA-EDR-300-03-5707",
-      "name": "Anderson PLC",
-      "identifier": {
-        "id": "300-03-5707",
-        "scheme": "UA-EDR",
-        "legalName": "Anderson PLC Ltd",
-        "uri": "https://www.miller.com/posts/main/author.htm"
-      },
-      "address": {
-        "streetAddress": "914 Douglas Field",
-        "locality": "New Shawnstad",
-        "region": "Texas",
-        "postalCode": "10997",
-        "countryName": "Luxembourg"
-      },
-      "additionalIdentifiers": [
-        {
-          "id": "229-72-8583",
-          "scheme": "UA-EDR",
-          "legalName": "Anderson PLC Group",
-          "uri": "http://thomas-smith.com/wp-content/tag/register/"
-        }
-      ],
-      "contactPoint": {
-        "name": "Michael Mooney",
-        "email": "andrew15@gmail.com",
-        "telephone": "913-341-7646",
-        "faxNumber": "944.174.3428x022",
-        "url": "http://reynolds.com/"
-      }
-    }
-  ],
-  "payer": [
-    {
-      "id": "UA-EDR-316-30-6262",
-      "name": "Obrien, Lynn and Flores",
-      "identifier": {
-        "id": "316-30-6262",
-        "scheme": "UA-EDR",
-        "legalName": "Obrien, Lynn and Flores PLC",
-        "uri": "https://www.rodriguez-sanchez.com/app/main/home/"
-      },
-      "address": {
-        "streetAddress": "291 Dawn Ramp",
-        "locality": "Jenniferport",
-        "region": "Maryland",
-        "postalCode": "19151",
-        "countryName": "Guyana"
-      },
-      "additionalIdentifiers": [
-        {
-          "id": "352-76-1580",
-          "scheme": "UA-EDR",
-          "legalName": "Obrien, Lynn and Flores and Sons",
-          "uri": "https://hughes.com/"
-        }
-      ],
-      "contactPoint": {
-        "name": "Karen Baird",
-        "email": "jennifer10@yahoo.com",
-        "telephone": "588.500.3243",
-        "faxNumber": "(018)658-5033x587",
-        "url": "http://chavez.biz/blog/search/wp-content/register.html"
-      }
-    }
-  ]
+  }
 }
