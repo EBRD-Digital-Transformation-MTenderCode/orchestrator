@@ -65,3 +65,44 @@
     ]
   }
 }
+
+{
+  "bid": {
+    "tenderers": [
+      {
+        "name": "Williams, Riggs and Tanner",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "569-65-1951",
+          "legalName": "Williams, Riggs and Tanner Inc",
+          "uri": "http://robinson-santos.net/"
+        },
+        "additionalIdentifiers": [
+          {
+            "scheme": "UA-EDR",
+            "id": "641-70-2936",
+            "legalName": "Williams, Riggs and Tanner Inc",
+            "uri": "https://www.evans-ford.net/search/"
+          }
+        ],
+        "address": {
+          "streetAddress": "41687 Gonzalez Villages",
+          "locality": "New Sethville",
+          "region": "North Carolina",
+          "postalCode": "32502-9740",
+          "countryName": "Belize"
+        },
+        "contactPoint": {
+          "name": "Terry Brown",
+          "email": "bjones@gmail.com",
+          "telephone": "283.976.4605x49698",
+          "faxNumber": "03642612777",
+          "url": "https://www.richards.com/"
+        }
+      }
+    ],
+    "relatedLots": [
+      "c5cdc931-3a76-11e8-a841-f319a68622c6"
+    ]
+  }
+}

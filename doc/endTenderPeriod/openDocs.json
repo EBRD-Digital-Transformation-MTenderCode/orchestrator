@@ -1,0 +1,342 @@
+{
+  "bids": [
+    {
+      "id": "4ec99560-3bea-11e8-8694-8df0a5285949",
+      "date": "2018-04-09T11:36:56Z",
+      "status": "pending",
+      "statusDetails": "empty",
+      "tenderers": [
+        {
+          "id": "UA-EDR-455-06-3869",
+          "name": "Smith, Gutierrez and Holmes",
+          "identifier": {
+            "id": "455-06-3869",
+            "scheme": "UA-EDR",
+            "legalName": "Smith, Gutierrez and Holmes LLC",
+            "uri": "https://www.evans.info/"
+          },
+          "address": {
+            "streetAddress": "51348 Stone Pass Suite 420",
+            "locality": "Brownmouth",
+            "region": "Wisconsin",
+            "postalCode": "47604",
+            "countryName": "Guinea-Bissau"
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "504-90-1097",
+              "scheme": "UA-EDR",
+              "legalName": "Smith, Gutierrez and Holmes and Sons",
+              "uri": "http://johnson-morris.biz/category/index/"
+            }
+          ],
+          "contactPoint": {
+            "name": "Daniel Green",
+            "email": "rebeccalopez@hotmail.com",
+            "telephone": "1-320-293-0534",
+            "faxNumber": "+22(9)3216606203",
+            "url": "https://turner.net/"
+          }
+        }
+      ],
+      "relatedLots": [
+        "4db9fa21-3bea-11e8-a841-f319a68622c6"
+      ]
+    },
+    {
+      "id": "4eca31a0-3bea-11e8-8694-8df0a5285949",
+      "date": "2018-04-09T11:36:56Z",
+      "status": "pending",
+      "statusDetails": "empty",
+      "tenderers": [
+        {
+          "id": "UA-EDR-816-13-6424",
+          "name": "Mcpherson-Baldwin",
+          "identifier": {
+            "id": "816-13-6424",
+            "scheme": "UA-EDR",
+            "legalName": "Mcpherson-Baldwin and Sons",
+            "uri": "http://griffin-carroll.net/register/"
+          },
+          "address": {
+            "streetAddress": "4649 Kelly Tunnel",
+            "locality": "South Morgan",
+            "region": "Washington",
+            "postalCode": "77623-7654",
+            "countryName": "Chad"
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "167-01-9541",
+              "scheme": "UA-EDR",
+              "legalName": "Mcpherson-Baldwin LLC",
+              "uri": "https://yang.org/search/search/index/"
+            }
+          ],
+          "contactPoint": {
+            "name": "Amy Wilkinson",
+            "email": "ariasmatthew@yahoo.com",
+            "telephone": "068.791.5257x8194",
+            "faxNumber": "03708854645",
+            "url": "http://www.deleon-harmon.org/privacy/"
+          }
+        }
+      ],
+      "relatedLots": [
+        "4db9fa21-3bea-11e8-a841-f319a68622c6"
+      ]
+    },
+    {
+      "id": "4ef05740-3bea-11e8-8694-8df0a5285949",
+      "date": "2018-04-09T11:36:56Z",
+      "status": "pending",
+      "statusDetails": "empty",
+      "tenderers": [
+        {
+          "id": "UA-EDR-726-08-2407",
+          "name": "Smith-Giles",
+          "identifier": {
+            "id": "726-08-2407",
+            "scheme": "UA-EDR",
+            "legalName": "Smith-Giles Group",
+            "uri": "http://www.martinez.net/"
+          },
+          "address": {
+            "streetAddress": "00332 Billy Lake",
+            "locality": "North Alisonshire",
+            "region": "North Dakota",
+            "postalCode": "81328-5267",
+            "countryName": "Mozambique"
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "198-43-8336",
+              "scheme": "UA-EDR",
+              "legalName": "Smith-Giles PLC",
+              "uri": "https://wilkins.com/author/"
+            }
+          ],
+          "contactPoint": {
+            "name": "Dennis Young",
+            "email": "heathvicki@yahoo.com",
+            "telephone": "698-450-6424x8369",
+            "faxNumber": "(202)307-9009",
+            "url": "http://www.ryan.biz/tag/homepage/"
+          }
+        }
+      ],
+      "relatedLots": [
+        "4db9fa21-3bea-11e8-a841-f319a68622c6"
+      ]
+    }
+  ],
+  "lots": [
+    {
+      "id": "4db9fa21-3bea-11e8-a841-f319a68622c6",
+      "title": "Attorney mention nor sea.",
+      "description": "Give member chair concern particular. Employee year strategy either dark because age next. Week property who idea.",
+      "status": "active",
+      "statusDetails": "empty",
+      "value": {
+        "amount": 3342.9,
+        "currency": "HUF"
+      },
+      "options": [
+        {
+          "hasOptions": false
+        }
+      ],
+      "recurrentProcurement": [
+        {
+          "isRecurrent": false
+        }
+      ],
+      "renewals": [
+        {
+          "hasRenewals": false
+        }
+      ],
+      "variants": [
+        {
+          "hasVariants": false
+        }
+      ],
+      "contractPeriod": {
+        "startDate": "2018-04-09T11:36:54Z",
+        "endDate": "2018-08-26T10:29:26Z"
+      },
+      "placeOfPerformance": {
+        "address": {
+          "streetAddress": "112 Beck Pike",
+          "locality": "North Katherinetown",
+          "region": "Nebraska",
+          "postalCode": "76448",
+          "countryName": "Sierra Leone"
+        },
+        "description": "Threat mother line woman international. Dog official party interview power less. Force six painting executive team."
+      }
+    }
+  ],
+  "awardPeriod": {
+    "startDate": "2018-04-09T11:39:55Z"
+  },
+  "awards": [
+    {
+      "id": "b93d2ba0-3bea-11e8-a7a2-4bc93b1ec7b9",
+      "token": "f74413bd-bfc6-404d-8173-59888ea17e42",
+      "date": "2018-04-09T11:39:55Z",
+      "description": "",
+      "status": "pending",
+      "statusDetails": "empty",
+      "relatedLots": [
+        "4db9fa21-3bea-11e8-a841-f319a68622c6"
+      ],
+      "relatedBid": "4ec99560-3bea-11e8-8694-8df0a5285949",
+      "suppliers": [
+        {
+          "id": "UA-EDR-455-06-3869",
+          "name": "Smith, Gutierrez and Holmes"
+        }
+      ]
+    },
+    {
+      "id": "b93d2ba1-3bea-11e8-a7a2-4bc93b1ec7b9",
+      "token": "3ba4b57d-80fc-415e-a491-ccaebf6fa886",
+      "date": "2018-04-09T11:39:55Z",
+      "description": "",
+      "status": "pending",
+      "statusDetails": "empty",
+      "relatedLots": [
+        "4db9fa21-3bea-11e8-a841-f319a68622c6"
+      ],
+      "relatedBid": "4eca31a0-3bea-11e8-8694-8df0a5285949",
+      "suppliers": [
+        {
+          "id": "UA-EDR-816-13-6424",
+          "name": "Mcpherson-Baldwin"
+        }
+      ]
+    },
+    {
+      "id": "b93d2ba2-3bea-11e8-a7a2-4bc93b1ec7b9",
+      "token": "b6655ac8-1719-4926-9cbc-97ef226011ea",
+      "date": "2018-04-09T11:39:55Z",
+      "description": "",
+      "status": "pending",
+      "statusDetails": "empty",
+      "relatedLots": [
+        "4db9fa21-3bea-11e8-a841-f319a68622c6"
+      ],
+      "relatedBid": "4ef05740-3bea-11e8-8694-8df0a5285949",
+      "suppliers": [
+        {
+          "id": "UA-EDR-726-08-2407",
+          "name": "Smith-Giles"
+        }
+      ]
+    }
+  ],
+  "unsuccessfulLots": [],
+  "tenderPeriod": {
+    "startDate": "2018-04-09T11:36:54Z",
+    "endDate": "2018-04-09T11:39:54Z"
+  },
+  "tenderers": [
+    {
+      "id": "UA-EDR-455-06-3869",
+      "name": "Smith, Gutierrez and Holmes",
+      "identifier": {
+        "id": "455-06-3869",
+        "scheme": "UA-EDR",
+        "legalName": "Smith, Gutierrez and Holmes LLC",
+        "uri": "https://www.evans.info/"
+      },
+      "address": {
+        "streetAddress": "51348 Stone Pass Suite 420",
+        "locality": "Brownmouth",
+        "region": "Wisconsin",
+        "postalCode": "47604",
+        "countryName": "Guinea-Bissau"
+      },
+      "additionalIdentifiers": [
+        {
+          "id": "504-90-1097",
+          "scheme": "UA-EDR",
+          "legalName": "Smith, Gutierrez and Holmes and Sons",
+          "uri": "http://johnson-morris.biz/category/index/"
+        }
+      ],
+      "contactPoint": {
+        "name": "Daniel Green",
+        "email": "rebeccalopez@hotmail.com",
+        "telephone": "1-320-293-0534",
+        "faxNumber": "+22(9)3216606203",
+        "url": "https://turner.net/"
+      }
+    },
+    {
+      "id": "UA-EDR-816-13-6424",
+      "name": "Mcpherson-Baldwin",
+      "identifier": {
+        "id": "816-13-6424",
+        "scheme": "UA-EDR",
+        "legalName": "Mcpherson-Baldwin and Sons",
+        "uri": "http://griffin-carroll.net/register/"
+      },
+      "address": {
+        "streetAddress": "4649 Kelly Tunnel",
+        "locality": "South Morgan",
+        "region": "Washington",
+        "postalCode": "77623-7654",
+        "countryName": "Chad"
+      },
+      "additionalIdentifiers": [
+        {
+          "id": "167-01-9541",
+          "scheme": "UA-EDR",
+          "legalName": "Mcpherson-Baldwin LLC",
+          "uri": "https://yang.org/search/search/index/"
+        }
+      ],
+      "contactPoint": {
+        "name": "Amy Wilkinson",
+        "email": "ariasmatthew@yahoo.com",
+        "telephone": "068.791.5257x8194",
+        "faxNumber": "03708854645",
+        "url": "http://www.deleon-harmon.org/privacy/"
+      }
+    },
+    {
+      "id": "UA-EDR-726-08-2407",
+      "name": "Smith-Giles",
+      "identifier": {
+        "id": "726-08-2407",
+        "scheme": "UA-EDR",
+        "legalName": "Smith-Giles Group",
+        "uri": "http://www.martinez.net/"
+      },
+      "address": {
+        "streetAddress": "00332 Billy Lake",
+        "locality": "North Alisonshire",
+        "region": "North Dakota",
+        "postalCode": "81328-5267",
+        "countryName": "Mozambique"
+      },
+      "additionalIdentifiers": [
+        {
+          "id": "198-43-8336",
+          "scheme": "UA-EDR",
+          "legalName": "Smith-Giles PLC",
+          "uri": "https://wilkins.com/author/"
+        }
+      ],
+      "contactPoint": {
+        "name": "Dennis Young",
+        "email": "heathvicki@yahoo.com",
+        "telephone": "698-450-6424x8369",
+        "faxNumber": "(202)307-9009",
+        "url": "http://www.ryan.biz/tag/homepage/"
+      }
+    }
+  ]
+}

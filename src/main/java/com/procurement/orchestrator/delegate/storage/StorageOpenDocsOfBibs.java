@@ -48,7 +48,7 @@ public class StorageOpenDocsOfBibs implements JavaDelegate {
         final JsonNode documents = processService.getDocumentsOfBids(jsonData, processId);
         final String taskId = execution.getCurrentActivityName();
         JsonNode responseData = null;
-        if (Objects.isNull(documents))
+        if (Objects.nonNull(documents))
             responseData = processService.processResponse(
                     storageRestClient.setPublishDate(startDate, documents),
                     params,

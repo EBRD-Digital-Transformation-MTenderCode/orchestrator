@@ -1,10 +1,11 @@
 package com.procurement.orchestrator.config.kafka;
 
 import com.datastax.driver.core.utils.UUIDs;
-import com.procurement.orchestrator.service.RequestService;
 import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.domain.chronograph.ChronographResponse;
 import com.procurement.orchestrator.service.ProcessService;
+import com.procurement.orchestrator.service.RequestService;
+import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,21 +23,24 @@ public class MessageConsumer {
     private final ProcessService processService;
     private final RequestService requestService;
     private final JsonUtil jsonUtil;
+    private final DateUtil dateUtil;
 
     public MessageConsumer(final ProcessService processService,
                            final RequestService requestService,
-                           final JsonUtil jsonUtil) {
+                           final JsonUtil jsonUtil,
+                           final DateUtil dateUtil) {
         this.processService = processService;
         this.requestService = requestService;
         this.jsonUtil = jsonUtil;
+        this.dateUtil = dateUtil;
     }
 
     @KafkaListener(topics = "chronograph-out")
-    public void onReceiving(String message,
-                            @Header(KafkaHeaders.OFFSET) Integer offset,
-                            @Header(KafkaHeaders.RECEIVED_PARTITION_ID) int partition,
-                            @Header(KafkaHeaders.RECEIVED_TOPIC) String topic,
-                            @Header(KafkaHeaders.ACKNOWLEDGMENT) Acknowledgment acknowledgment) {
+    public void onReceiving(final String message,
+                            @Header(KafkaHeaders.OFFSET) final Integer offset,
+                            @Header(KafkaHeaders.RECEIVED_PARTITION_ID) final int partition,
+                            @Header(KafkaHeaders.RECEIVED_TOPIC) final String topic,
+                            @Header(KafkaHeaders.ACKNOWLEDGMENT) final Acknowledgment acknowledgment) {
 
         acknowledgment.acknowledge();
         try {
@@ -46,6 +50,7 @@ public class MessageConsumer {
             final Params params = jsonUtil.toObject(Params.class, data.getMetaData());
             params.setRequestId(UUIDs.timeBased().toString());
             params.setOperationId(params.getRequestId());
+            params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
             params.setProcessType("tenderPeriodEnd");
             requestService.saveRequest(
                     params.getRequestId(),

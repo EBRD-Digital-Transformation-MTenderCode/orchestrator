@@ -1,10 +1,10 @@
 package com.procurement.orchestrator.delegate.qualification;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.QualificationRestClient;
+import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -53,7 +53,7 @@ public class QualificationCreateAwards implements JavaDelegate {
                         params.getOwner(),
                         params.getCountry(),
                         params.getPmd(),
-                        dateUtil.format(dateUtil.localDateTimeNowUTC()),
+                        params.getStartDate(),
                         jsonData),
                 params,
                 processId,
