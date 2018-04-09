@@ -2,6 +2,7 @@ package com.procurement.orchestrator.config.kafka;
 
 import com.procurement.orchestrator.service.RequestService;
 import com.procurement.orchestrator.service.ProcessService;
+import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.HashMap;
 import java.util.Map;
@@ -59,8 +60,9 @@ public class KafkaConsumerConfig {
     @Bean
     public MessageConsumer messageConsumer(final ProcessService processService,
                                            final RequestService requestService,
-                                           final JsonUtil jsonUtil) {
-        return new MessageConsumer(processService, requestService, jsonUtil);
+                                           final JsonUtil jsonUtil,
+                                           final DateUtil dateUtil) {
+        return new MessageConsumer(processService, requestService, jsonUtil, dateUtil);
     }
 
 }
