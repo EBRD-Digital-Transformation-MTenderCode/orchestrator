@@ -45,14 +45,13 @@ public class QualificationCheckAwarded implements JavaDelegate {
         final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final String endDate = dateUtil.format(dateUtil.localDateTimeNowUTC());
         final JsonNode responseData = processService.processResponse(
                 qualificationRestClient.checkAwarded(
                         params.getCpid(),
                         params.getNewStage(),
                         params.getCountry(),
                         params.getPmd(),
-                        endDate),
+                        params.getStartDate()),
                 params,
                 processId,
                 taskId);
