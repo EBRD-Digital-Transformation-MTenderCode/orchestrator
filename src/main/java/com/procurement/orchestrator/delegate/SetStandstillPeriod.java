@@ -43,7 +43,6 @@ public class SetStandstillPeriod implements JavaDelegate {
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
-        params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
         params.setEndDate(dateUtil.format(dateUtil.localDateTimeNowUTC().plusSeconds(5)));
         params.setOperationType("standstillPeriodEnd");
         final String processId = execution.getProcessInstanceId();

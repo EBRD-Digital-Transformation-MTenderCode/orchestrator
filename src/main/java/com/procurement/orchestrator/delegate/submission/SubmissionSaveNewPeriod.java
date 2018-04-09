@@ -56,7 +56,7 @@ public class SubmissionSaveNewPeriod implements JavaDelegate {
                         params.getNewStage(),
                         params.getCountry(),
                         params.getPmd(),
-                        dateUtil.format(dateUtil.localDateTimeNowUTC())),
+                        params.getStartDate()),
                 params,
                 processId,
                 taskId);

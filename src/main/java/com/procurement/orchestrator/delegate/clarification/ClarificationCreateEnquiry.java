@@ -51,7 +51,7 @@ public class ClarificationCreateEnquiry implements JavaDelegate {
                         params.getCpid(),
                         params.getNewStage(),
                         params.getOwner(),
-                        dateUtil.format(dateUtil.localDateTimeNowUTC()),
+                        params.getStartDate(),
                         jsonData),
                 params,
                 processId,

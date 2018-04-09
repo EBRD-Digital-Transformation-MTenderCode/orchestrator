@@ -110,6 +110,7 @@ public class TenderController extends BaseController {
         params.setOwner(getOwner(authorization));
         params.setOperationId(operationId);
         params.setCpid(cpid);
+        params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
         params.setProcessType("updateCN");
         params.setOperationType("updateCN");
         params.setCountry(Country.fromValue(country.toUpperCase()).value());
@@ -133,6 +134,7 @@ public class TenderController extends BaseController {
         params.setRequestId(UUIDs.timeBased().toString());
         params.setOperationId(operationId);
         params.setCpid(cpid);
+        params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
         params.setNewStage(Stage.fromValue(stage).value());
         params.setProcessType("submitTheBid");
         params.setOperationType("bid");
@@ -159,6 +161,7 @@ public class TenderController extends BaseController {
         params.setOwner(getOwner(authorization));
         params.setOperationId(operationId);
         params.setCpid(cpid);
+        params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
         params.setNewStage(Stage.fromValue(stage).value());
         params.setProcessType("enquiry");
         params.setOperationType("createEnquiry");
@@ -185,6 +188,7 @@ public class TenderController extends BaseController {
         params.setOwner(getOwner(authorization));
         params.setOperationId(operationId);
         params.setCpid(cpid);
+        params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
         params.setNewStage(Stage.fromValue(stage).value());
         params.setProcessType("awardByBid");
         params.setOperationType("awardByBid");
@@ -206,6 +210,7 @@ public class TenderController extends BaseController {
         params.setOwner(getOwner(authorization));
         params.setOperationId(operationId);
         params.setCpid(cpid);
+        params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
         params.setNewStage(Stage.fromValue(stage).value());
         params.setCountry(Country.fromValue(country.toUpperCase()).value());
         params.setPmd(pmd.toUpperCase());
@@ -230,9 +235,9 @@ public class TenderController extends BaseController {
         params.setOperationId(operationId);
         params.setCpid(cpid);
         params.setToken(token);
-        params.setNewStage(Stage.fromValue(stage).value());
         params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
         params.setEndDate(dateUtil.format(endDate));
+        params.setNewStage(Stage.fromValue(stage).value());
         params.setProcessType("startNewStage");
         params.setOperationType("startNewStage");
         saveRequestAndCheckOperation(params, null);

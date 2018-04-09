@@ -52,7 +52,7 @@ public class ClarificationCreateAnswer implements JavaDelegate {
                         params.getNewStage(),
                         params.getToken(),
                         params.getOwner(),
-                        dateUtil.format(dateUtil.localDateTimeNowUTC()),
+                        params.getStartDate(),
                         jsonData),
                 params,
                 processId,

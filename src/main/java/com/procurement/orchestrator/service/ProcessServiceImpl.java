@@ -315,9 +315,11 @@ public class ProcessServiceImpl implements ProcessService {
             final ArrayNode documentsArray = mainNode.putArray("documents");
             final ArrayNode bidsNode = (ArrayNode) jsonData.get("bids");
             for (final JsonNode bidNode : bidsNode) {
-                final ArrayNode documentsNode = (ArrayNode) bidNode.get("documents");
-                for (final JsonNode docNode : documentsNode) {
-                    documentsArray.add(docNode);
+                final JsonNode documentsNode = bidNode.findPath("documents");
+                if (!documentsNode.isMissingNode()) {
+                    for (final JsonNode docNode : documentsNode) {
+                        documentsArray.add(docNode);
+                    }
                 }
             }
             return mainNode;
@@ -332,9 +334,11 @@ public class ProcessServiceImpl implements ProcessService {
         try {
             final ArrayNode bidsNode = (ArrayNode) jsonData.get("bids");
             for (final JsonNode bidNode : bidsNode) {
-                final ArrayNode documentsNode = (ArrayNode) bidNode.get("documents");
-                for (final JsonNode node : documentsNode) {
-                    ((ObjectNode) node).put("datePublished", startDate);
+                final JsonNode documentsNode = bidNode.findPath("documents");
+                if (!documentsNode.isMissingNode()) {
+                    for (final JsonNode node : documentsNode) {
+                        ((ObjectNode) node).put("datePublished", startDate);
+                    }
                 }
             }
             return jsonData;
