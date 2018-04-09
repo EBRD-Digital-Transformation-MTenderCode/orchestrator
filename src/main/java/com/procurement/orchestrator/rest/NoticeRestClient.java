@@ -15,7 +15,7 @@ public interface NoticeRestClient {
     @RequestMapping(path = "/release", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> createRelease(@RequestParam("cpId") String cpId,
                                               @RequestParam("ocId") String ocId,
-                                              @RequestParam("stage") String stage,
+                                              @RequestParam("stage") String newStage,
                                               @RequestParam("previousStage") String previousStage,
                                               @RequestParam("operation") String operation,
                                               @RequestParam("phase") String phase,
