@@ -367,7 +367,6 @@ public class ProcessServiceImpl implements ProcessService {
             mainNode.replace("budgetBreakdown", jsonData.findPath("budgetBreakdown"));
             mainNode.replace("tenderPeriod", jsonData.findPath("tenderPeriod"));
             final ObjectNode tenderPeriodNode = (ObjectNode) mainNode.get("tenderPeriod");
-            tenderPeriodNode.put("startDate", startDate);
             mainNode.replace("classification", jsonData.findPath("classification"));
             return mainNode;
         } catch (Exception e) {

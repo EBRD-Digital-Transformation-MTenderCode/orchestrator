@@ -1,0 +1,210 @@
+{
+  "planning": {
+    "rationale": "Rationale",
+    "budget": {
+      "description": "Budget Description",
+      "amount": {
+        "amount": 123,
+        "currency": "AMD"
+      },
+      "isEuropeanUnionFunded": false,
+      "europeanUnionFunding": {
+        "projectIdentifier": "Project Identifier",
+        "projectName": "Project Name",
+        "uri": "Project uri"
+      },
+      "budgetBreakdown": [
+        {
+          "id": "ocds-t1s2t3-MD-1523620906836-FS-1523621819296",
+          "description": "Budget Description",
+          "amount": {
+            "amount": 123,
+            "currency": "AMD"
+          }
+        }
+      ]
+    }
+  },
+  "tender": {
+    "title": "",
+    "description": "",
+    "classification": {
+      "scheme": "CPV",
+      "description": "Virus protection software packag",
+      "id": "48760000-3"
+    },
+    "acceleratedProcedure": {
+      "isAcceleratedProcedure": false
+    },
+    "designContest": {
+      "serviceContractAward": false
+    },
+    "electronicWorkflows": {
+      "useOrdering": false,
+      "usePayment": false,
+      "acceptInvoicing": false
+    },
+    "jointProcurement": {
+      "isJointProcurement": false
+    },
+    "procedureOutsourcing": {
+      "procedureOutsourced": false
+    },
+    "framework": {
+      "isAFramework": false
+    },
+    "dynamicPurchasingSystem": {
+      "hasDynamicPurchasingSystem": false
+    },
+    "legalBasis": "",
+    "procurementMethod": "",
+    "procurementMethodDetails": "",
+    "procurementMethodRationale": "",
+    "procurementMethodAdditionalInfo": "",
+    "mainProcurementCategory": "",
+    "additionalProcurementCategories": [
+      ""
+    ],
+    "eligibilityCriteria": "",
+    "submissionLanguages": [
+      ""
+    ],
+    "tenderPeriod": {
+      "startDate": "2018-05-30T21:00:00Z"
+    },
+    "contractPeriod": {
+      "startDate": "2018-05-25T21:00:00Z",
+      "endDate": "2018-06-26T21:00:00Z"
+    },
+    "procuringEntity": {
+      "name": "111",
+      "identifier": {
+        "scheme": "2Additional identifier scheme*",
+        "id": "2Additional identifier ID*",
+        "legalName": "2Additional identifier legal name*",
+        "uri": "2Additional identifier URI*"
+      },
+      "additionalIdentifiers": [
+        {
+          "scheme": "",
+          "id": "",
+          "legalName": "",
+          "uri": ""
+        }
+      ],
+      "address": {
+        "streetAddress": "",
+        "locality": "",
+        "region": "",
+        "postalCode": "",
+        "countryName": ""
+      },
+      "contactPoint": {
+        "name": "",
+        "email": "",
+        "telephone": "",
+        "faxNumber": "",
+        "url": ""
+      }
+    },
+    "value": {
+      "amount": 123,
+      "currency": "AMD"
+    },
+    "lotGroups": [
+      {
+        "optionToCombine": false
+      }
+    ],
+    "lots": [
+      {
+        "id": "",
+        "title": "",
+        "description": "",
+        "value": {
+          "amount": 123,
+          "currency": "AMD"
+        },
+        "options": [
+          {
+            "hasOptions": false
+          }
+        ],
+        "variants": [
+          {
+            "hasVariants": false
+          }
+        ],
+        "renewals": [
+          {
+            "hasRenewals": false
+          }
+        ],
+        "recurrentProcurement": [
+          {
+            "isRecurrent": false
+          }
+        ],
+        "contractPeriod": {
+          "startDate": "2018-05-24T21:00:00Z",
+          "endDate": "2018-06-29T21:00:00Z"
+        },
+        "placeOfPerformance": {
+          "address": {
+            "streetAddress": "",
+            "locality": "",
+            "region": "",
+            "postalCode": "",
+            "countryName": ""
+          },
+          "description": ""
+        }
+      }
+    ],
+    "items": [
+      {
+        "id": "",
+        "classification": {
+          "scheme": "CPV",
+          "description": "Virus protection software package",
+          "id": "48760000-3"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "CPV",
+            "description": "Virus protection software package",
+            "id": "48760000-3"
+          }
+        ],
+        "quantity": 0,
+        "unit": {
+          "id": "",
+          "name": ""
+        },
+        "description": "",
+        "relatedLot": ""
+      }
+    ],
+    "awardCriteria": "priceOnly",
+    "requiresElectronicCatalogue": false,
+    "submissionMethod": [
+      ""
+    ],
+    "submissionMethodRationale": [
+      ""
+    ],
+    "submissionMethodDetails": "",
+    "documents": [
+      {
+        "documentType": "",
+        "id": "",
+        "title": "",
+        "description": "",
+        "language": "",
+        "relatedLots": [
+          ""
+        ]
+      }
+    ]
+  }
+}
