@@ -43,6 +43,7 @@ public class SubmissionValidatePeriod implements JavaDelegate {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
+        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode responseData = processService.processResponse(
@@ -55,7 +56,10 @@ public class SubmissionValidatePeriod implements JavaDelegate {
                 processId,
                 taskId);
         if (Objects.nonNull(responseData)) {
-            operationService.saveOperationStep(execution, entity);
+            operationService.saveOperationStep(
+                    execution,
+                    entity,
+                    processService.addTenderTenderPeriodStartDate(jsonData, params.getStartDate(), processId));
         }
     }
 }

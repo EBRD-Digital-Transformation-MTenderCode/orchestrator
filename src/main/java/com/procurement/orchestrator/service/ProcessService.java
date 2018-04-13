@@ -42,6 +42,8 @@ public interface ProcessService {
 
     JsonNode addTenderTenderPeriod(JsonNode jsonData, JsonNode periodData, String processId);
 
+    JsonNode addTenderTenderPeriodStartDate(JsonNode jsonData, String startDate, String processId);
+
     JsonNode addTenderEnquiryPeriod(JsonNode jsonData, JsonNode periodData, String processId);
 
     JsonNode addTenderStatus(JsonNode jsonData, JsonNode statusData, String processId);
