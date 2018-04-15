@@ -57,8 +57,10 @@ public class CheckRulesForStage implements JavaDelegate {
                     entity,
                     params);
         } else {
-            processService.terminateProcessWithMessage(params, processId, "Operation for current stage is impossible" +
-                    ".");
+            processService.terminateProcessWithMessage(
+                    params,
+                    processId,
+                    "Operation for current stage is impossible.");
         }
     }
 }

@@ -22,19 +22,30 @@ public interface AccessRestClient {
 
     @RequestMapping(path = "/pin", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> createPin(@RequestParam("stage") String stage,
-                                         @RequestParam("country") String country,
-                                         @RequestParam("pmd") String pmd,
-                                         @RequestParam("owner") String owner,
-                                         @RequestParam("date") String dateTime,
-                                         @RequestBody JsonNode jsonData) throws Exception;
-
-    @RequestMapping(path = "/pn", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> createPn(@RequestParam("stage") String stage,
                                           @RequestParam("country") String country,
                                           @RequestParam("pmd") String pmd,
                                           @RequestParam("owner") String owner,
                                           @RequestParam("date") String dateTime,
                                           @RequestBody JsonNode jsonData) throws Exception;
+
+    @RequestMapping(path = "/pinOnPn", method = RequestMethod.POST)
+    ResponseEntity<ResponseDto> createPinOnPn(@RequestParam("identifier") String cpId,
+                                              @RequestParam("token") String token,
+                                              @RequestParam("country") String country,
+                                              @RequestParam("pmd") String pmd,
+                                              @RequestParam("owner") String owner,
+                                              @RequestParam("stage") String stage,
+                                              @RequestParam("previousStage") String previousStage,
+                                              @RequestParam("date") String dateTime,
+                                              @RequestBody JsonNode jsonData) throws Exception;
+
+    @RequestMapping(path = "/pn", method = RequestMethod.POST)
+    ResponseEntity<ResponseDto> createPn(@RequestParam("stage") String stage,
+                                         @RequestParam("country") String country,
+                                         @RequestParam("pmd") String pmd,
+                                         @RequestParam("owner") String owner,
+                                         @RequestParam("date") String dateTime,
+                                         @RequestBody JsonNode jsonData) throws Exception;
 
     @RequestMapping(path = "/cn", method = RequestMethod.PUT)
     ResponseEntity<ResponseDto> updateCn(@RequestParam("identifier") String cpId,

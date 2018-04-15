@@ -53,16 +53,16 @@ public class BudgetController extends BaseController {
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
-    @RequestMapping(value = "/ei/{cpid}", method = RequestMethod.POST)
+    @RequestMapping(value = "/ei/{identifier}", method = RequestMethod.POST)
     public ResponseEntity<String> updateEIN(@RequestHeader("Authorization") final String authorization,
                                             @RequestHeader("X-OPERATION-ID") final String operationId,
                                             @RequestHeader("X-TOKEN") final String token,
-                                            @PathVariable("cpid") final String cpid,
+                                            @PathVariable("identifier") final String identifier,
                                             @RequestBody final JsonNode jsonData) {
         final Params params = new Params();
         params.setRequestId(UUIDs.timeBased().toString());
         params.setOperationId(operationId);
-        params.setCpid(cpid);
+        params.setCpid(identifier);
         params.setNewStage(Stage.EI.value());
         params.setProcessType("ei");
         params.setOperationType("updateEI");
@@ -75,16 +75,16 @@ public class BudgetController extends BaseController {
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
-    @RequestMapping(value = "/fs/{cpid}", method = RequestMethod.POST)
+    @RequestMapping(value = "/fs/{identifier}", method = RequestMethod.POST)
     public ResponseEntity<String> createFS(@RequestHeader("Authorization") final String authorization,
                                            @RequestHeader("X-OPERATION-ID") final String operationId,
-                                           @PathVariable(value = "cpid") final String cpid,
+                                           @PathVariable(value = "identifier") final String identifier,
                                            @RequestBody final JsonNode jsonData) {
         final Params params = new Params();
         params.setRequestId(UUIDs.timeBased().toString());
         params.setOperationId(operationId);
         params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
-        params.setCpid(cpid);
+        params.setCpid(identifier);
         params.setNewStage(Stage.FS.value());
         params.setOperationType("createFS");
         params.setProcessType("fs");
