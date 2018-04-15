@@ -25,7 +25,8 @@ public interface ProcessService {
     JsonNode processResponse(ResponseEntity<ResponseDto> responseEntity,
                              Params params,
                              String processId,
-                             String taskId);
+                             String taskId,
+                             JsonNode request);
 
     String getText(String fieldName, JsonNode jsonData, String processId);
 

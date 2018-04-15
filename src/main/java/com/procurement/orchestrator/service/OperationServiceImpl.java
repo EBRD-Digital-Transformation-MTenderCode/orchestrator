@@ -4,7 +4,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.dao.CassandraDao;
 import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.domain.Rules;
-import com.procurement.orchestrator.domain.entity.*;
+import com.procurement.orchestrator.domain.entity.OperationEntity;
+import com.procurement.orchestrator.domain.entity.OperationStepEntity;
+import com.procurement.orchestrator.domain.entity.RequestEntity;
+import com.procurement.orchestrator.domain.entity.StageEntity;
 import com.procurement.orchestrator.exception.OperationException;
 import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -67,9 +70,11 @@ public class OperationServiceImpl implements OperationService {
         final OperationStepEntity operationStepEntity = new OperationStepEntity();
         operationStepEntity.setProcessId(execution.getProcessInstanceId());
         operationStepEntity.setTaskId(execution.getCurrentActivityId());
+        operationStepEntity.setOperationId(requestEntity.getOperationId());
         operationStepEntity.setDate(dateUtil.dateNowUTC());
         operationStepEntity.setJsonParams(requestEntity.getJsonParams());
-        operationStepEntity.setJsonData(requestEntity.getJsonData());
+        operationStepEntity.setRequestData(requestEntity.getJsonData());
+        operationStepEntity.setResponseData(requestEntity.getJsonData());
         cassandraDao.saveOperationStep(operationStepEntity);
     }
 
@@ -92,57 +97,58 @@ public class OperationServiceImpl implements OperationService {
     }
 
     @Override
-    public void saveOperationStep(final DelegateExecution execution,
-                                  final OperationStepEntity entity) {
+    public void saveOperationStep(final DelegateExecution execution, final OperationStepEntity entity, final JsonNode request) {
         execution.setVariable(LAST_TASK, execution.getCurrentActivityId());
         entity.setTaskId(execution.getCurrentActivityId());
+        entity.setOperationId(entity.getOperationId());
+        entity.setRequestData(jsonUtil.toJson(request));
         entity.setDate(dateUtil.dateNowUTC());
         cassandraDao.saveOperationStep(entity);
     }
 
     @Override
-    public void saveOperationStep(final DelegateExecution execution,
-                                  final OperationStepEntity entity,
-                                  final Params params) {
+    public void saveOperationStep(final DelegateExecution execution, final OperationStepEntity entity, final Params params, final JsonNode request) {
         execution.setVariable(LAST_TASK, execution.getCurrentActivityId());
         entity.setTaskId(execution.getCurrentActivityId());
+        entity.setOperationId(entity.getOperationId());
         entity.setJsonParams(jsonUtil.toJson(params));
+        entity.setRequestData(jsonUtil.toJson(request));
         entity.setDate(dateUtil.dateNowUTC());
         cassandraDao.saveOperationStep(entity);
     }
 
     @Override
-    public void saveOperationStep(final DelegateExecution execution,
-                                  final OperationStepEntity entity,
-                                  final JsonNode jsonData) {
+    public void saveOperationStep(final DelegateExecution execution, final OperationStepEntity entity, final JsonNode request, final JsonNode response) {
         execution.setVariable(LAST_TASK, execution.getCurrentActivityId());
         entity.setTaskId(execution.getCurrentActivityId());
-        entity.setJsonData(jsonUtil.toJson(jsonData));
+        entity.setOperationId(entity.getOperationId());
+        entity.setRequestData(jsonUtil.toJson(request));
+        entity.setResponseData(jsonUtil.toJson(response));
         entity.setDate(dateUtil.dateNowUTC());
         cassandraDao.saveOperationStep(entity);
     }
 
     @Override
-    public void saveOperationStep(final DelegateExecution execution,
-                                  final OperationStepEntity entity,
-                                  final Params params,
-                                  final JsonNode response
-    ) {
+    public void saveOperationStep(final DelegateExecution execution, final OperationStepEntity entity, final Params params, final JsonNode request, final JsonNode response) {
         execution.setVariable(LAST_TASK, execution.getCurrentActivityId());
         entity.setTaskId(execution.getCurrentActivityId());
+        entity.setOperationId(entity.getOperationId());
         entity.setJsonParams(jsonUtil.toJson(params));
-        entity.setJsonData(jsonUtil.toJson(response));
+        entity.setRequestData(jsonUtil.toJson(request));
+        entity.setResponseData(jsonUtil.toJson(response));
         entity.setDate(dateUtil.dateNowUTC());
         cassandraDao.saveOperationStep(entity);
     }
 
     @Override
-    public void saveOperationException(final String processId, final String taskId, final JsonNode response) {
+    public void saveOperationException(final String processId, final String taskId, final String operationId, final JsonNode request, final JsonNode response) {
         final OperationStepEntity operationStepEntity = new OperationStepEntity();
         operationStepEntity.setProcessId(processId);
         operationStepEntity.setTaskId(taskId);
+        operationStepEntity.setOperationId(operationId);
         operationStepEntity.setDate(dateUtil.dateNowUTC());
-        operationStepEntity.setJsonData(jsonUtil.toJson(response));
+        operationStepEntity.setRequestData(jsonUtil.toJson(request));
+        operationStepEntity.setResponseData(jsonUtil.toJson(response));
         cassandraDao.saveOperationStep(operationStepEntity);
     }
 

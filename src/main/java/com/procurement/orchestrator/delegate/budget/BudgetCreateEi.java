@@ -1,10 +1,10 @@
 package com.procurement.orchestrator.delegate.budget;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.procurement.orchestrator.domain.entity.OperationStepEntity;
-import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.domain.Params;
+import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.BudgetRestClient;
+import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.Objects;
@@ -39,19 +39,21 @@ public class BudgetCreateEi implements JavaDelegate {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
-        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
+        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode responseData = processService.processResponse(
                 budgetRestClient.createEi(params.getOwner(), params.getCountry(), params.getStartDate(), jsonData),
                 params,
                 processId,
-                taskId);
+                taskId,
+                jsonData);
         if (Objects.nonNull(responseData))
             operationService.saveOperationStep(
                     execution,
                     entity,
                     addDataToParams(params, responseData, processId),
+                    jsonData,
                     responseData);
     }
 
@@ -59,6 +61,4 @@ public class BudgetCreateEi implements JavaDelegate {
         params.setCpid(processService.getText("ocid", responseData, processId));
         return processService.addAccessToParams(params, "ei", params.getCpid(), responseData, processId);
     }
-
-
 }

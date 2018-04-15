@@ -43,7 +43,7 @@ public class ClarificationCreateAnswer implements JavaDelegate {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
-        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
+        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode responseData = processService.processResponse(
@@ -56,7 +56,8 @@ public class ClarificationCreateAnswer implements JavaDelegate {
                         jsonData),
                 params,
                 processId,
-                taskId);
+                taskId,
+                jsonData);
         if (Objects.nonNull(responseData)) {
             final Boolean allAnswered = processService.getBoolean("allAnswered", responseData, processId);
             execution.setVariable("allAnswered", allAnswered ? 1 : 0);
@@ -65,7 +66,7 @@ public class ClarificationCreateAnswer implements JavaDelegate {
             } else {
                 params.setOperationType("unsuspendTender");
             }
-            operationService.saveOperationStep(execution, entity, params, responseData);
+            operationService.saveOperationStep(execution, entity, params, jsonData, responseData);
         }
     }
 }

@@ -1,10 +1,10 @@
 package com.procurement.orchestrator.delegate.qualification;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.domain.Params;
-import com.procurement.orchestrator.service.OperationService;
+import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.QualificationRestClient;
+import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -43,6 +43,7 @@ public class QualificationCheckAwarded implements JavaDelegate {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
+        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode responseData = processService.processResponse(
@@ -54,9 +55,10 @@ public class QualificationCheckAwarded implements JavaDelegate {
                         params.getStartDate()),
                 params,
                 processId,
-                taskId);
+                taskId,
+                jsonData);
         if (Objects.nonNull(responseData)) {
-            operationService.saveOperationStep(execution, entity, responseData);
+            operationService.saveOperationStep(execution, entity, jsonData, responseData);
         }
     }
 }

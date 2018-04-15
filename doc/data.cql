@@ -3,8 +3,10 @@ CREATE KEYSPACE IF NOT EXISTS ocds WITH replication = {'class':'SimpleStrategy',
 CREATE TABLE IF NOT EXISTS  ocds.orchestrator_operation_step (
     process_id text,
     task_id text,
+    operation_id text,
     step_date timestamp,
-    json_data text,
+    request_data text,
+    response_data text,
     json_params text,
     primary key(process_id, task_id));
 

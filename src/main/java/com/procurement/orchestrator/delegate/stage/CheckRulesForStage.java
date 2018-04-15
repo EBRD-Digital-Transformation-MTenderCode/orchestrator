@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.delegate.stage;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.domain.Rules;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
@@ -39,6 +40,7 @@ public class CheckRulesForStage implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
+        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final StageEntity stageEntity = operationService.getStageParams(params.getCpid(), processId);
         params.setCountry(stageEntity.getCountry());
         params.setPmd(stageEntity.getPmd());
@@ -55,7 +57,8 @@ public class CheckRulesForStage implements JavaDelegate {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    params);
+                    params,
+                    jsonData);
         } else {
             processService.terminateProcessWithMessage(
                     params,

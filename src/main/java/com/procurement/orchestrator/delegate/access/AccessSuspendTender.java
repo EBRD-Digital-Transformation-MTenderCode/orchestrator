@@ -42,18 +42,20 @@ public class AccessSuspendTender implements JavaDelegate {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
-        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
+        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode responseData = processService.processResponse(
                 accessRestClient.setSuspended(params.getCpid(), true),
                 params,
                 processId,
-                taskId);
+                taskId,
+                jsonData);
         if (Objects.nonNull(responseData))
             operationService.saveOperationStep(
                     execution,
                     entity,
+                    jsonData,
                     processService.addTenderStatus(jsonData, responseData, processId));
     }
 }

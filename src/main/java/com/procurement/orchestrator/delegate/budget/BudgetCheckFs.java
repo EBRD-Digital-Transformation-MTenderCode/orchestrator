@@ -24,7 +24,6 @@ public class BudgetCheckFs implements JavaDelegate {
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-
     public BudgetCheckFs(final BudgetRestClient budgetRestClient,
                          final OperationService operationService,
                          final ProcessService processService,
@@ -40,7 +39,7 @@ public class BudgetCheckFs implements JavaDelegate {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
-        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
+        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode checkFsDto = processService.getCheckFs(jsonData, params.getStartDate(), processId);
@@ -48,12 +47,14 @@ public class BudgetCheckFs implements JavaDelegate {
                 budgetRestClient.checkFs(checkFsDto),
                 params,
                 processId,
-                taskId);
+                taskId,
+                checkFsDto);
 
         if (Objects.nonNull(responseData))
             operationService.saveOperationStep(
                     execution,
                     entity,
+                    checkFsDto,
                     processService.setCheckFs(jsonData, responseData, processId));
     }
 }

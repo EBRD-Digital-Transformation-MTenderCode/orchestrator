@@ -25,6 +25,8 @@ public class CassandraDaoImpl implements CassandraDao {
     private static final String REQUEST_ID = "request_id";
     private static final String PROCESS_ID = "process_id";
     private static final String JSON_DATA = "json_data";
+    private static final String REQUEST_DATA = "request_data";
+    private static final String RESPONSE_DATA = "response_data";
     private static final String STEP_DATE = "step_date";
     private static final String TASK_ID = "task_id";
     private static final String CPID = "cp_id";
@@ -104,8 +106,10 @@ public class CassandraDaoImpl implements CassandraDao {
         insert
                 .value(PROCESS_ID, entity.getProcessId())
                 .value(TASK_ID, entity.getTaskId())
+                .value(OPERATION_ID, entity.getOperationId())
                 .value(STEP_DATE, entity.getDate())
-                .value(JSON_DATA, entity.getJsonData())
+                .value(REQUEST_DATA, entity.getRequestData())
+                .value(RESPONSE_DATA, entity.getResponseData())
                 .value(JSON_PARAMS, entity.getJsonParams());
 
         session.execute(insert);
@@ -126,9 +130,12 @@ public class CassandraDaoImpl implements CassandraDao {
                 .map(row -> new OperationStepEntity(
                         row.getString(PROCESS_ID),
                         row.getString(TASK_ID),
+                        row.getString(OPERATION_ID),
                         row.getTimestamp(STEP_DATE),
                         row.getString(JSON_PARAMS),
-                        row.getString(JSON_DATA)));
+                        row.getString(REQUEST_DATA),
+                        row.getString(RESPONSE_DATA)
+                        ));
     }
 
     @Override

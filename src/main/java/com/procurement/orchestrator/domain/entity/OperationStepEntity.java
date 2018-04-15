@@ -16,9 +16,14 @@ public class OperationStepEntity {
 
     private String taskId;
 
+    private String operationId;
+
     private Date date;
 
     private String jsonParams;
 
-    private String jsonData;
+    private String requestData;
+
+    private String responseData;
+
 }

@@ -39,7 +39,7 @@ public class AccessCreateCn implements JavaDelegate {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
-        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
+        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode requestData = processService.getAccessData(jsonData, processId);
@@ -53,12 +53,14 @@ public class AccessCreateCn implements JavaDelegate {
                         requestData),
                 params,
                 processId,
-                taskId);
+                taskId,
+                requestData);
         if (Objects.nonNull(responseData))
             operationService.saveOperationStep(
                     execution,
                     entity,
                     addDataToParams(params, responseData, processId),
+                    requestData,
                     processService.setAccessData(jsonData, responseData, processId));
     }
 

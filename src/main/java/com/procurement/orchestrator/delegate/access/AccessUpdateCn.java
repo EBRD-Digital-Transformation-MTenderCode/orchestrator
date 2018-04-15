@@ -42,15 +42,16 @@ public class AccessUpdateCn implements JavaDelegate {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
-        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
+        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode responseData = processService.processResponse(
                 accessRestClient.updateCn(params.getCpid(), params.getToken(), params.getOwner(), jsonData),
                 params,
                 processId,
-                taskId);
+                taskId,
+                jsonData);
         if (Objects.nonNull(responseData))
-            operationService.saveOperationStep(execution, entity, responseData);
+            operationService.saveOperationStep(execution, entity, jsonData, responseData);
     }
 }
