@@ -60,13 +60,13 @@ public class SubmissionSaveNewPeriod implements JavaDelegate {
                 params,
                 processId,
                 taskId,
-                jsonData);
+                jsonUtil.empty());
         if (Objects.nonNull(responseData))
             operationService.saveOperationStep(
                     execution,
                     entity,
                     addDataToParams(params, responseData, processId),
-                    jsonData,
+                    jsonUtil.empty(),
                     processService.addTenderTenderPeriod(jsonData, responseData, processId));
     }
 

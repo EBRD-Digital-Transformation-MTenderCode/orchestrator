@@ -70,6 +70,10 @@ public class JsonUtil {
     }
 
 
+    public ObjectNode empty() {
+        return mapper.createObjectNode();
+    }
+
     public ArrayNode createArrayNode() {
         return mapper.createArrayNode();
     }

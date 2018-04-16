@@ -58,12 +58,12 @@ public class SubmissionCopyBids implements JavaDelegate {
                 params,
                 processId,
                 taskId,
-                jsonData);
+                tenderLots);
         if (Objects.nonNull(responseData)) {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    jsonData,
+                    tenderLots,
                     processService.addBidsAndTenderPeriod(jsonData, responseData, processId));
         }
     }

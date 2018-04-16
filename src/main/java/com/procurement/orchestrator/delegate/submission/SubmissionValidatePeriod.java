@@ -55,12 +55,12 @@ public class SubmissionValidatePeriod implements JavaDelegate {
                 params,
                 processId,
                 taskId,
-                jsonData);
+                jsonUtil.empty());
         if (Objects.nonNull(responseData)) {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    jsonData,
+                    jsonUtil.empty(),
                     processService.addTenderTenderPeriodStartDate(jsonData, params.getStartDate(), processId));
         }
     }

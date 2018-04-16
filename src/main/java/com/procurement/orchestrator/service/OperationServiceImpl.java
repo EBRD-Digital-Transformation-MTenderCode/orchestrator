@@ -100,7 +100,6 @@ public class OperationServiceImpl implements OperationService {
     public void saveOperationStep(final DelegateExecution execution, final OperationStepEntity entity, final JsonNode request) {
         execution.setVariable(LAST_TASK, execution.getCurrentActivityId());
         entity.setTaskId(execution.getCurrentActivityId());
-        entity.setOperationId(entity.getOperationId());
         entity.setRequestData(jsonUtil.toJson(request));
         entity.setDate(dateUtil.dateNowUTC());
         cassandraDao.saveOperationStep(entity);
@@ -110,7 +109,6 @@ public class OperationServiceImpl implements OperationService {
     public void saveOperationStep(final DelegateExecution execution, final OperationStepEntity entity, final Params params, final JsonNode request) {
         execution.setVariable(LAST_TASK, execution.getCurrentActivityId());
         entity.setTaskId(execution.getCurrentActivityId());
-        entity.setOperationId(entity.getOperationId());
         entity.setJsonParams(jsonUtil.toJson(params));
         entity.setRequestData(jsonUtil.toJson(request));
         entity.setDate(dateUtil.dateNowUTC());
@@ -121,7 +119,6 @@ public class OperationServiceImpl implements OperationService {
     public void saveOperationStep(final DelegateExecution execution, final OperationStepEntity entity, final JsonNode request, final JsonNode response) {
         execution.setVariable(LAST_TASK, execution.getCurrentActivityId());
         entity.setTaskId(execution.getCurrentActivityId());
-        entity.setOperationId(entity.getOperationId());
         entity.setRequestData(jsonUtil.toJson(request));
         entity.setResponseData(jsonUtil.toJson(response));
         entity.setDate(dateUtil.dateNowUTC());
@@ -132,7 +129,6 @@ public class OperationServiceImpl implements OperationService {
     public void saveOperationStep(final DelegateExecution execution, final OperationStepEntity entity, final Params params, final JsonNode request, final JsonNode response) {
         execution.setVariable(LAST_TASK, execution.getCurrentActivityId());
         entity.setTaskId(execution.getCurrentActivityId());
-        entity.setOperationId(entity.getOperationId());
         entity.setJsonParams(jsonUtil.toJson(params));
         entity.setRequestData(jsonUtil.toJson(request));
         entity.setResponseData(jsonUtil.toJson(response));

@@ -57,12 +57,12 @@ public class SubmissionUpdateBidStatus implements JavaDelegate {
                 params,
                 processId,
                 taskId,
-                jsonData);
+                unsuccessfulLots);
         if (Objects.nonNull(responseData)) {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    jsonData,
+                    unsuccessfulLots,
                     processService.addUpdateBidsStatusData(jsonData, responseData, processId));
         }
     }

@@ -42,8 +42,15 @@ public class GetStageForPin implements JavaDelegate {
             params.setCountry(stageEntity.getCountry());
             params.setPmd(stageEntity.getPmd());
             params.setPrevStage(stageEntity.getStage());
-            if (params.getPrevStage().equals(Stage.PN.value())) execution.setVariable("operationType", "createPINonPN");
-            operationService.saveOperationStep(execution, entity, params, jsonData);
+            if (params.getPrevStage().equals(Stage.PN.value())) {
+                execution.setVariable("operationType", "createPINonPN");
+                operationService.saveOperationStep(execution, entity, params, jsonData);
+            } else {
+                processService.terminateProcessWithMessage(
+                        params,
+                        processId,
+                        "Operation for current stage is impossible.");
+            }
         } else {
             processService.terminateProcessWithMessage(
                     params,

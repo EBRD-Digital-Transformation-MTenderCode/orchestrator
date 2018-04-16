@@ -1,10 +1,10 @@
 package com.procurement.orchestrator.delegate.access;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.procurement.orchestrator.domain.entity.OperationStepEntity;
-import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.domain.Params;
+import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.AccessRestClient;
+import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.Objects;
@@ -42,16 +42,16 @@ public class AccessUpdateCn implements JavaDelegate {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
-        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
+        final JsonNode requestData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode responseData = processService.processResponse(
-                accessRestClient.updateCn(params.getCpid(), params.getToken(), params.getOwner(), jsonData),
+                accessRestClient.updateCn(params.getCpid(), params.getToken(), params.getOwner(), requestData),
                 params,
                 processId,
                 taskId,
-                jsonData);
+                requestData);
         if (Objects.nonNull(responseData))
-            operationService.saveOperationStep(execution, entity, jsonData, responseData);
+            operationService.saveOperationStep(execution, entity, requestData, responseData);
     }
 }

@@ -39,7 +39,7 @@ public class ClarificationCheckEnquiries implements JavaDelegate {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
-        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
+        final JsonNode requestData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode responseData = processService.processResponse(
@@ -47,29 +47,25 @@ public class ClarificationCheckEnquiries implements JavaDelegate {
                 params,
                 processId,
                 taskId,
-                jsonData);
+                requestData);
         if (Objects.nonNull(responseData)) {
-            final Boolean allAnswered = getAllAnswered(responseData, processId);
-            if (allAnswered != null) {
-                execution.setVariable("checkEnquiries", allAnswered ? 1 : 2);
-                params.setOperationType("tenderPeriodEnd");
-            } else {
-                final String endDate = getTenderPeriodEndDate(responseData, processId);
-                execution.setVariable("checkEnquiries", 3);
-                if (endDate != null) {
-                    params.setEndDate(endDate);
-                    params.setOperationType("suspendTender");
-                }
-            }
-            operationService.saveOperationStep(execution, entity, params, jsonData, responseData);
+            processParams(execution, params, responseData, processId);
+            operationService.saveOperationStep(execution, entity, params, requestData, responseData);
         }
     }
 
-    private Boolean getAllAnswered(final JsonNode responseData, final String processId) {
-        return processService.getBoolean("allAnswered", responseData, processId);
-    }
-
-    private String getTenderPeriodEndDate(final JsonNode responseData, final String processId) {
-        return processService.getText("tenderPeriodEndDate", responseData, processId);
+    private void processParams(final DelegateExecution execution, final Params params, final JsonNode responseData, final String processId) {
+        final Boolean allAnswered = processService.getBoolean("allAnswered", responseData, processId);
+        if (allAnswered != null) {
+            execution.setVariable("checkEnquiries", allAnswered ? 1 : 2);
+            params.setOperationType("tenderPeriodEnd");
+        } else {
+            final String endDate = processService.getText("tenderPeriodEndDate", responseData, processId);
+            execution.setVariable("checkEnquiries", 3);
+            if (endDate != null) {
+                params.setEndDate(endDate);
+                params.setOperationType("suspendTender");
+            }
+        }
     }
 }
