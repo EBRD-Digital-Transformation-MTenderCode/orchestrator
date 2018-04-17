@@ -21,9 +21,9 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1udr5fy_di" bpmnElement="SequenceFlow_1udr5fy">
         <di:waypoint xsi:type="dc:Point" x="209" y="120" />
-        <di:waypoint xsi:type="dc:Point" x="276" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="270" y="120" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="242.5" y="99" width="0" height="12" />
+          <dc:Bounds x="239.5" y="99" width="0" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="EndEvent_1mhgrci_di" bpmnElement="EndEvent_1mhgrci">
@@ -33,14 +33,14 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1d92xl5_di" bpmnElement="SequenceFlow_1d92xl5">
-        <di:waypoint xsi:type="dc:Point" x="376" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="370" y="120" />
         <di:waypoint xsi:type="dc:Point" x="431" y="120" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="403.5" y="99" width="0" height="12" />
+          <dc:Bounds x="400.5" y="99" width="0" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ServiceTask_0bog1i3_di" bpmnElement="SendErrorToPlatformTask">
-        <dc:Bounds x="276" y="80" width="100" height="80" />
+        <dc:Bounds x="270" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

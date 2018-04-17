@@ -51,6 +51,7 @@ public class TenderController extends BaseController {
         params.setOperationType("createCN");
         params.setCountry(Country.fromValue(country.toUpperCase()).value());
         params.setPmd(pmd.toUpperCase());
+        params.setPhase("TENDERPERIOD");
         saveRequestAndCheckOperation(params, jsonData);
         processService.startProcess(params, new HashMap<>());
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
@@ -59,9 +60,8 @@ public class TenderController extends BaseController {
     @RequestMapping(value = "/cn/{identifier}", method = RequestMethod.POST)
     public ResponseEntity<String> updateCN(@RequestHeader("Authorization") final String authorization,
                                            @RequestHeader("X-OPERATION-ID") final String operationId,
+                                           @RequestHeader("X-TOKEN") final String token,
                                            @PathVariable("identifier") final String identifier,
-                                           @RequestParam("country") final String country,
-                                           @RequestParam("pmd") final String pmd,
                                            @RequestBody final JsonNode jsonData) {
         final Params params = new Params();
         params.setRequestId(UUIDs.timeBased().toString());
@@ -69,13 +69,13 @@ public class TenderController extends BaseController {
         params.setOperationId(operationId);
         params.setCpid(identifier);
         params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
+        params.setNewStage(Stage.PS.value());
         params.setProcessType("updateCN");
-        params.setOperationType("updateCN");
-        params.setCountry(Country.fromValue(country.toUpperCase()).value());
-        params.setPmd(pmd.toUpperCase());
+        params.setToken(token);
+        params.setPhase("TENDERPERIOD");
         saveRequestAndCheckOperation(params, jsonData);
         final Map<String, Object> variables = new HashMap<>();
-        variables.put("isTokenPresent", ((params.getToken() == null || "".equals(params.getToken().trim())) ? 0 : 1));
+        variables.put("operationType", "");
         processService.startProcess(params, variables);
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
@@ -96,6 +96,7 @@ public class TenderController extends BaseController {
         params.setOperationType("createPIN");
         params.setCountry(Country.fromValue(country.toUpperCase()).value());
         params.setPmd(pmd.toUpperCase());
+        params.setPhase("PLANNED");
         saveRequestAndCheckOperation(params, jsonData);
         processService.startProcess(params, new HashMap<>());
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
@@ -116,10 +117,10 @@ public class TenderController extends BaseController {
         params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
         params.setNewStage(Stage.PIN.value());
         params.setProcessType("updatePIN");
-        params.setOperationType("updatePIN");
+        params.setPhase("PLANNED");
         saveRequestAndCheckOperation(params, jsonData);
         final Map<String, Object> variables = new HashMap<>();
-        variables.put("operationType", "updatePIN");
+        variables.put("operationType", "");
         processService.startProcess(params, variables);
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
@@ -140,6 +141,7 @@ public class TenderController extends BaseController {
         params.setOperationType("createPN");
         params.setCountry(Country.fromValue(country.toUpperCase()).value());
         params.setPmd(pmd.toUpperCase());
+        params.setPhase("PLANNING");
         saveRequestAndCheckOperation(params, jsonData);
         processService.startProcess(params, new HashMap<>());
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
@@ -174,8 +176,6 @@ public class TenderController extends BaseController {
                                           @RequestHeader("X-OPERATION-ID") final String operationId,
                                           @RequestHeader(value = "X-TOKEN", required = false) final String token,
                                           @PathVariable("identifier") final String identifier,
-                                          @RequestParam("country") final String country,
-                                          @RequestParam("pmd") final String pmd,
                                           @RequestParam("stage") final String stage,
                                           @RequestBody final JsonNode jsonData) {
         final Params params = new Params();
@@ -187,8 +187,6 @@ public class TenderController extends BaseController {
         params.setNewStage(Stage.fromValue(stage).value());
         params.setProcessType("enquiry");
         params.setOperationType("createEnquiry");
-        params.setCountry(Country.fromValue(country.toUpperCase()).value());
-        params.setPmd(pmd.toUpperCase());
         params.setToken(token);
         saveRequestAndCheckOperation(params, jsonData);
         final Map<String, Object> variables = new HashMap<>();
@@ -224,9 +222,7 @@ public class TenderController extends BaseController {
     public ResponseEntity<String> endAwardPeriod(@RequestHeader("Authorization") final String authorization,
                                                  @RequestHeader("X-OPERATION-ID") final String operationId,
                                                  @PathVariable("identifier") final String identifier,
-                                                 @RequestParam("stage") final String stage,
-                                                 @RequestParam("country") final String country,
-                                                 @RequestParam("pmd") final String pmd) {
+                                                 @RequestParam("stage") final String stage) {
         final Params params = new Params();
         params.setRequestId(UUIDs.timeBased().toString());
         params.setOwner(getOwner(authorization));
@@ -234,10 +230,9 @@ public class TenderController extends BaseController {
         params.setCpid(identifier);
         params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
         params.setNewStage(Stage.fromValue(stage).value());
-        params.setCountry(Country.fromValue(country.toUpperCase()).value());
-        params.setPmd(pmd.toUpperCase());
         params.setProcessType("awardPeriodEnd");
         params.setOperationType("awardPeriodEnd");
+        params.setPhase("ENDSTAGE");
         saveRequestAndCheckOperation(params, null);
         processService.startProcess(params, new HashMap<>());
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
@@ -262,6 +257,7 @@ public class TenderController extends BaseController {
         params.setNewStage(Stage.fromValue(stage).value());
         params.setProcessType("startNewStage");
         params.setOperationType("startNewStage");
+        params.setPhase("TENDERPERIOD");
         saveRequestAndCheckOperation(params, null);
         processService.startProcess(params, new HashMap<>());
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
