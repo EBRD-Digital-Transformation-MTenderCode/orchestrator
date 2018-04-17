@@ -61,6 +61,8 @@ public interface ProcessService {
 
     JsonNode addBidsAndTenderPeriod(JsonNode jsonData, JsonNode responseData, String processId);
 
+    JsonNode addBids(JsonNode jsonData, JsonNode responseData, String processId);
+
     String getAwardRelatedBid(JsonNode jsonData, String processId);
 
     String getAwardStatusDetails(JsonNode jsonData, String processId);

@@ -1,108 +1,238 @@
 {
-  "bid": {
-    "date": "2018-02-01T16:02:12.916Z",
-    "status": "invited",
-    "statusDetail": "disqualified",
-    "tenderers": [
-      {
-        "id": "string",
-        "name": "string",
-        "identifier": {
-          "scheme": "string",
-          "id": "string",
-          "legalName": "string",
-          "uri": "string"
-        },
-        "address": {
-          "streetAddress": "string",
-          "locality": "string",
-          "region": "string",
-          "postalCode": "string",
-          "countryName": "string"
-        },
-        "additionalIdentifiers": [
-          {
-            "scheme": "string",
-            "id": "string",
-            "legalName": "string",
-            "uri": "string"
-          }
-        ],
-        "contactPoint": {
-          "name": "string",
-          "email": "string",
-          "telephone": "string",
-          "faxNumber": "string",
-          "url": "string",
-          "languages": [
-            "string"
-          ]
+  "awardPeriod": {
+    "startDate": "2018-04-17T12:54:03Z",
+    "endDate": "2018-04-17T13:27:21Z"
+  },
+  "awards": [
+    {
+      "id": "67fd4fe0-423e-11e8-a7a2-4bc93b1ec7b9",
+      "date": "2018-04-17T13:27:33Z",
+      "description": "Award description",
+      "status": "active",
+      "statusDetails": "empty",
+      "relatedLots": [
+        "fcde1051-423d-11e8-8fab-13cf59033386"
+      ],
+      "relatedBid": "fd18cf60-423d-11e8-b40f-c95a41914876",
+      "suppliers": [
+        {
+          "id": "UA-EDR-439-36-1354",
+          "name": "Brown, Hayes and Cole"
         }
-      }
-    ],
-    "value": {
-      "amount": 0,
-      "currency": "AED"
+      ]
     },
-    "documents": [
-      {
-        "id": "string",
-        "documentType": "tenderNotice",
-        "title": "string",
-        "description": "string",
-        "url": "string",
-        "datePublished": "2018-02-01T16:02:12.917Z",
-        "dateModified": "2018-02-01T16:02:12.917Z",
-        "format": "string",
-        "language": "string",
-        "relatedLots": [
-          "string"
-        ]
-      }
-    ],
-    "relatedLots": [
-      "string"
-    ]
-  }
-}
-
-{
-  "bid": {
-    "tenderers": [
-      {
-        "name": "Williams, Riggs and Tanner",
-        "identifier": {
-          "scheme": "UA-EDR",
-          "id": "569-65-1951",
-          "legalName": "Williams, Riggs and Tanner Inc",
-          "uri": "http://robinson-santos.net/"
-        },
-        "additionalIdentifiers": [
-          {
-            "scheme": "UA-EDR",
-            "id": "641-70-2936",
-            "legalName": "Williams, Riggs and Tanner Inc",
-            "uri": "https://www.evans-ford.net/search/"
-          }
-        ],
-        "address": {
-          "streetAddress": "41687 Gonzalez Villages",
-          "locality": "New Sethville",
-          "region": "North Carolina",
-          "postalCode": "32502-9740",
-          "countryName": "Belize"
-        },
-        "contactPoint": {
-          "name": "Terry Brown",
-          "email": "bjones@gmail.com",
-          "telephone": "283.976.4605x49698",
-          "faxNumber": "03642612777",
-          "url": "https://www.richards.com/"
+    {
+      "id": "67fd4fe1-423e-11e8-a7a2-4bc93b1ec7b9",
+      "date": "2018-04-17T13:27:33Z",
+      "description": "Award description",
+      "status": "active",
+      "statusDetails": "empty",
+      "relatedLots": [
+        "fcde1051-423d-11e8-8fab-13cf59033386"
+      ],
+      "relatedBid": "fd2b45f0-423d-11e8-b40f-c95a41914876",
+      "suppliers": [
+        {
+          "id": "UA-EDR-552-90-1817",
+          "name": "Johnson Ltd"
         }
+      ]
+    },
+    {
+      "id": "67fd4fe2-423e-11e8-a7a2-4bc93b1ec7b9",
+      "date": "2018-04-17T13:27:33Z",
+      "description": "Award description",
+      "status": "active",
+      "statusDetails": "empty",
+      "relatedLots": [
+        "fcde1051-423d-11e8-8fab-13cf59033386"
+      ],
+      "relatedBid": "fd422950-423d-11e8-b40f-c95a41914876",
+      "suppliers": [
+        {
+          "id": "UA-EDR-490-06-9231",
+          "name": "Moody Ltd"
+        }
+      ]
+    }
+  ],
+  "unsuccessfulLots": [],
+  "lots": [
+    {
+      "id": "fcde1051-423d-11e8-8fab-13cf59033386",
+      "title": "Air including say.",
+      "description": "Very base able range suggest. Society field police conference current. You whole raise suddenly.",
+      "status": "active",
+      "statusDetails": "empty",
+      "value": {
+        "amount": 5.49,
+        "currency": "XEU"
+      },
+      "options": [
+        {
+          "hasOptions": false
+        }
+      ],
+      "recurrentProcurement": [
+        {
+          "isRecurrent": false
+        }
+      ],
+      "renewals": [
+        {
+          "hasRenewals": false
+        }
+      ],
+      "variants": [
+        {
+          "hasVariants": false
+        }
+      ],
+      "contractPeriod": {
+        "startDate": "2018-04-17T12:51:03Z",
+        "endDate": "2018-05-24T13:55:21Z"
+      },
+      "placeOfPerformance": {
+        "address": {
+          "streetAddress": "2894 Powers Parkway Apt. 135",
+          "locality": "Knightchester",
+          "region": "Kansas",
+          "postalCode": "14645-6448",
+          "countryName": "Northern Mariana Islands"
+        },
+        "description": "Peace as organization history role else science tonight. Whatever water tree break."
       }
-    ],
-    "relatedLots": [
-      "c5cdc931-3a76-11e8-a841-f319a68622c6"
-    ]
-  }
+    }
+  ],
+  "bids": [
+    {
+      "id": "fd18cf60-423d-11e8-b40f-c95a41914876",
+      "date": "2018-04-17T13:14:52Z",
+      "status": "valid",
+      "statusDetails": "empty",
+      "tenderers": [
+        {
+          "id": "UA-EDR-439-36-1354",
+          "name": "Brown, Hayes and Cole",
+          "identifier": {
+            "id": "439-36-1354",
+            "scheme": "UA-EDR",
+            "legalName": "Brown, Hayes and Cole Ltd",
+            "uri": "http://russell-mcdaniel.com/wp-content/app/list/login.html"
+          },
+          "address": {
+            "streetAddress": "659 Reynolds Drive",
+            "locality": "Travismouth",
+            "region": "Utah",
+            "postalCode": "18793",
+            "countryName": "Iceland"
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "230-42-7345",
+              "scheme": "UA-EDR",
+              "legalName": "Brown, Hayes and Cole Ltd",
+              "uri": "http://morgan-figueroa.org/list/search.html"
+            }
+          ],
+          "contactPoint": {
+            "name": "Richard White",
+            "email": "wrichards@yahoo.com",
+            "telephone": "796.295.5126x515",
+            "faxNumber": "+86(0)3688368676",
+            "url": "https://www.hayes.com/wp-content/explore/tag/post.htm"
+          }
+        }
+      ],
+      "relatedLots": [
+        "fcde1051-423d-11e8-8fab-13cf59033386"
+      ]
+    },
+    {
+      "id": "fd2b45f0-423d-11e8-b40f-c95a41914876",
+      "date": "2018-04-17T13:14:52Z",
+      "status": "valid",
+      "statusDetails": "empty",
+      "tenderers": [
+        {
+          "id": "UA-EDR-552-90-1817",
+          "name": "Johnson Ltd",
+          "identifier": {
+            "id": "552-90-1817",
+            "scheme": "UA-EDR",
+            "legalName": "Johnson Ltd and Sons",
+            "uri": "http://brown-king.com/"
+          },
+          "address": {
+            "streetAddress": "223 Nicholson Rapid Apt. 388",
+            "locality": "Port Taylorland",
+            "region": "Louisiana",
+            "postalCode": "54322-0345",
+            "countryName": "Macao"
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "779-74-0437",
+              "scheme": "UA-EDR",
+              "legalName": "Johnson Ltd Group",
+              "uri": "https://smith.info/blog/home/"
+            }
+          ],
+          "contactPoint": {
+            "name": "Angela Banks",
+            "email": "jeffreygibson@hotmail.com",
+            "telephone": "585.167.8467x00039",
+            "faxNumber": "1-632-499-5232x75658",
+            "url": "http://hawkins-martinez.info/post.php"
+          }
+        }
+      ],
+      "relatedLots": [
+        "fcde1051-423d-11e8-8fab-13cf59033386"
+      ]
+    },
+    {
+      "id": "fd422950-423d-11e8-b40f-c95a41914876",
+      "date": "2018-04-17T13:14:52Z",
+      "status": "valid",
+      "statusDetails": "empty",
+      "tenderers": [
+        {
+          "id": "UA-EDR-490-06-9231",
+          "name": "Moody Ltd",
+          "identifier": {
+            "id": "490-06-9231",
+            "scheme": "UA-EDR",
+            "legalName": "Moody Ltd Inc",
+            "uri": "http://hampton.org/tags/wp-content/tag/login/"
+          },
+          "address": {
+            "streetAddress": "620 Wilson Manors",
+            "locality": "Lindseyburgh",
+            "region": "Florida",
+            "postalCode": "66123",
+            "countryName": "Antigua and Barbuda"
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "167-82-5435",
+              "scheme": "UA-EDR",
+              "legalName": "Moody Ltd Inc",
+              "uri": "https://www.foster.com/blog/tags/wp-content/search.html"
+            }
+          ],
+          "contactPoint": {
+            "name": "Leslie Singleton",
+            "email": "weststefanie@hotmail.com",
+            "telephone": "+67(6)9142268024",
+            "faxNumber": "(408)377-5978x14062",
+            "url": "https://vance-harris.biz/homepage/"
+          }
+        }
+      ],
+      "relatedLots": [
+        "fcde1051-423d-11e8-8fab-13cf59033386"
+      ]
+    }
+  ]
 }

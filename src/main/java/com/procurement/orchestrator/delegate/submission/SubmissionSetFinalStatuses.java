@@ -59,6 +59,6 @@ public class SubmissionSetFinalStatuses implements JavaDelegate {
                     execution,
                     entity,
                     jsonUtil.empty(),
-                    processService.addBidsAndTenderPeriod(jsonData, responseData, processId));
+                    processService.addBids(jsonData, responseData, processId));
     }
 }
