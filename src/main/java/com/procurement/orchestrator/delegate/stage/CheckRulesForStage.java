@@ -7,7 +7,6 @@ import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.domain.entity.StageEntity;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
-import com.procurement.orchestrator.service.RequestService;
 import com.procurement.orchestrator.utils.JsonUtil;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
@@ -50,11 +49,7 @@ public class CheckRulesForStage implements JavaDelegate {
                 stageEntity.getPhase(),
                 params.getOperationType());
         if (operationService.isRulesExist(rules)) {
-            operationService.saveOperationStep(
-                    execution,
-                    entity,
-                    params,
-                    jsonData);
+            operationService.saveOperationStep(execution, entity, params, jsonData);
         } else {
             processService.terminateProcessWithMessage(
                     params,
