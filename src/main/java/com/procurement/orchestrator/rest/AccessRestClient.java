@@ -39,6 +39,17 @@ public interface AccessRestClient {
                                               @RequestParam("date") String dateTime,
                                               @RequestBody JsonNode jsonData) throws Exception;
 
+    @RequestMapping(path = "/cnOnPn", method = RequestMethod.POST)
+    ResponseEntity<ResponseDto> createCnOnPn(@RequestParam("identifier") String cpId,
+                                             @RequestParam("previousStage") String previousStage,
+                                             @RequestParam("stage") String stage,
+                                             @RequestParam("country") String country,
+                                             @RequestParam("pmd") String pmd,
+                                             @RequestParam("owner") String owner,
+                                             @RequestParam("token") String token,
+                                             @RequestParam("date") String dateTime,
+                                             @RequestBody JsonNode jsonData) throws Exception;
+
     @RequestMapping(path = "/pn", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> createPn(@RequestParam("stage") String stage,
                                          @RequestParam("country") String country,
@@ -60,7 +71,7 @@ public interface AccessRestClient {
     @RequestMapping(path = "/tender/updateStatusDetails", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> updateTenderStatusDetails(@RequestParam("identifier") String cpId,
                                                           @RequestParam("statusDetails") String statusDetails)
-            throws Exception;
+        throws Exception;
 
     @RequestMapping(path = "/tender/setSuspended", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> setSuspended(@RequestParam("identifier") String cpId,
@@ -86,6 +97,4 @@ public interface AccessRestClient {
                                               @RequestParam("previousStage") String previousStage,
                                               @RequestParam("stage") String newStage,
                                               @RequestParam("owner") String owner) throws Exception;
-
-
 }
