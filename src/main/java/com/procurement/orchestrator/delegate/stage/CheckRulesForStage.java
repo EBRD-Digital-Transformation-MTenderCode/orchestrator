@@ -44,6 +44,7 @@ public class CheckRulesForStage implements JavaDelegate {
         final StageEntity stageEntity = operationService.getStageParams(params.getCpid(), processId);
         params.setCountry(stageEntity.getCountry());
         params.setPmd(stageEntity.getPmd());
+        params.setPrevStage(stageEntity.getStage());
         final Rules rules = new Rules(
                 params.getNewStage(),
                 params.getPrevStage(),
