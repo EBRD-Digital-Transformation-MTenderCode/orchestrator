@@ -38,7 +38,7 @@ public class CheckStage implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final StageEntity stageEntity = operationService.getStageParams(params.getCpid(), processId);
         if (stageEntity != null) {
-            if (!params.getNewStage().equals(stageEntity.getStage())){
+            if (!params.getNewStage().equals(stageEntity.getStage())) {
                 processService.terminateProcessWithMessage(
                         params,
                         processId,

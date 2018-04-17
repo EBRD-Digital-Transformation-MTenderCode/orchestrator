@@ -1,10 +1,10 @@
 package com.procurement.orchestrator.delegate.notification;
 
+import com.procurement.orchestrator.config.kafka.MessageProducer;
+import com.procurement.orchestrator.domain.Params;
+import com.procurement.orchestrator.domain.PlatformMessage;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.service.OperationService;
-import com.procurement.orchestrator.domain.Params;
-import com.procurement.orchestrator.config.kafka.MessageProducer;
-import com.procurement.orchestrator.domain.PlatformMessage;
 import com.procurement.orchestrator.utils.JsonUtil;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;

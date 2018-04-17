@@ -1,10 +1,10 @@
 package com.procurement.orchestrator.delegate.access;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.procurement.orchestrator.domain.entity.OperationStepEntity;
-import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.domain.Params;
+import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.AccessRestClient;
+import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.Objects;
@@ -46,7 +46,10 @@ public class AccessUnsuspendTender implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode responseData = processService.processResponse(
-                accessRestClient.setSuspended(params.getCpid(), false),
+                accessRestClient.setSuspended(
+                        params.getCpid(),
+                        params.getNewStage(),
+                        false),
                 params,
                 processId,
                 taskId,

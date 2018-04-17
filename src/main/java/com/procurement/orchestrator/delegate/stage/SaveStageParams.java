@@ -1,7 +1,7 @@
 package com.procurement.orchestrator.delegate.stage;
 
-import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.domain.Params;
+import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.utils.JsonUtil;
 import org.camunda.bpm.engine.delegate.DelegateExecution;

@@ -1,16 +1,5 @@
 package com.procurement.orchestrator.json;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.procurement.orchestrator.domain.Params;
-import com.procurement.orchestrator.domain.chronograph.ChronographResponse;
-import com.procurement.orchestrator.utils.DateUtil;
-import com.procurement.orchestrator.utils.JsonUtil;
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 public class TestJson {
 
 //    private final JsonUtil jsonUtil = new JsonUtil(new ObjectMapper());

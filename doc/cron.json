@@ -32,9 +32,9 @@
 
 Get task:
 {"status": "NOTIFICATION",
- "data": {"ocid":"ocds-t1s2t3-MD-1519748258194",
-          "phase": "tenderPeriodEnd",
-          "launchTime": "2018-02-27T16:25:00",
-          "metaData": "{\"operationId\":null,\"requestId\":null,\"cpid\":\"ocds-t1s2t3-MD-1519748258194\",\"ocid\":null,\"stage\":\"ps\",\"processType\":\"tenderPeriodEnd\",\"operationType\":null,\"owner\":\"445f6851-c908-407d-9b45-14b92f3e964b\",\"country\":\"test\",\"pmd\":\"test\",\"token\":null,\"startDate\":\"2018-02-27T16:17:38.194Z\",\"endDate\":\"2018-02-27T16:25:00Z\"}"
+"data": {"ocid":"ocds-t1s2t3-MD-1519748258194",
+"phase": "tenderPeriodEnd",
+"launchTime": "2018-02-27T16:25:00",
+"metaData": "{\"operationId\":null,\"requestId\":null,\"cpid\":\"ocds-t1s2t3-MD-1519748258194\",\"ocid\":null,\"stage\":\"ps\",\"processType\":\"tenderPeriodEnd\",\"operationType\":null,\"owner\":\"445f6851-c908-407d-9b45-14b92f3e964b\",\"country\":\"test\",\"pmd\":\"test\",\"token\":null,\"startDate\":\"2018-02-27T16:17:38.194Z\",\"endDate\":\"2018-02-27T16:25:00Z\"}"
 }
 

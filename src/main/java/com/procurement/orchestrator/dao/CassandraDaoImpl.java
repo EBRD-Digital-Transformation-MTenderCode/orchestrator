@@ -5,7 +5,10 @@ import com.datastax.driver.core.Session;
 import com.datastax.driver.core.Statement;
 import com.datastax.driver.core.querybuilder.Insert;
 import com.procurement.orchestrator.domain.Rules;
-import com.procurement.orchestrator.domain.entity.*;
+import com.procurement.orchestrator.domain.entity.OperationEntity;
+import com.procurement.orchestrator.domain.entity.OperationStepEntity;
+import com.procurement.orchestrator.domain.entity.RequestEntity;
+import com.procurement.orchestrator.domain.entity.StageEntity;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 
@@ -135,7 +138,7 @@ public class CassandraDaoImpl implements CassandraDao {
                         row.getString(JSON_PARAMS),
                         row.getString(REQUEST_DATA),
                         row.getString(RESPONSE_DATA)
-                        ));
+                ));
     }
 
     @Override

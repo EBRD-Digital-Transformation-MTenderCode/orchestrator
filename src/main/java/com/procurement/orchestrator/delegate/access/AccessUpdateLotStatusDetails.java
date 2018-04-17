@@ -1,10 +1,10 @@
 package com.procurement.orchestrator.delegate.access;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.domain.Params;
-import com.procurement.orchestrator.service.OperationService;
+import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.AccessRestClient;
+import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.Objects;
@@ -49,6 +49,7 @@ public class AccessUpdateLotStatusDetails implements JavaDelegate {
         final JsonNode responseData = processService.processResponse(
                 accessRestClient.updateLotsStatusDetails(
                         params.getCpid(),
+                        params.getNewStage(),
                         "unsuccessful",
                         unsuccessfulLots),
                 params,

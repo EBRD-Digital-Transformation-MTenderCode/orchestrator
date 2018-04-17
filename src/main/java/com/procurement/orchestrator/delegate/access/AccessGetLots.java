@@ -43,7 +43,10 @@ public class AccessGetLots implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode responseData = processService.processResponse(
-                accessRestClient.getLots(params.getCpid(), "active"),
+                accessRestClient.getLots(
+                        params.getCpid(),
+                        params.getNewStage(),
+                        "active"),
                 params,
                 processId,
                 taskId,
