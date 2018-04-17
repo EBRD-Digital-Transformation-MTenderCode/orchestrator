@@ -20,16 +20,13 @@ public class CheckRulesForStage implements JavaDelegate {
 
     private static final Logger LOG = LoggerFactory.getLogger(CheckRulesForStage.class);
     private final OperationService operationService;
-    private final RequestService requestService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
     public CheckRulesForStage(final OperationService operationService,
-                              final RequestService requestService,
                               final ProcessService processService,
                               final JsonUtil jsonUtil) {
         this.operationService = operationService;
-        this.requestService = requestService;
         this.processService = processService;
         this.jsonUtil = jsonUtil;
     }
