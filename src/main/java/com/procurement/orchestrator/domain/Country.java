@@ -9,7 +9,6 @@ import java.util.Map;
 
 public enum Country {
 
-    UA("UA"),
     MD("MD"),
     TEST("TEST");
 

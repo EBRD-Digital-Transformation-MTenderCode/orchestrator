@@ -38,11 +38,11 @@
       <bpmn:outgoing>SequenceFlow_102pize</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_102pize" sourceRef="SetStandstillPeriodTask" targetRef="NoticePostTask" />
-    <bpmn:serviceTask id="QualificationGetAwardsTask" name="Qualification Get Awards" camunda:asyncBefore="true" camunda:delegateExpression="${qualificationGetAwards}">
+    <bpmn:serviceTask id="QualificationEndAwardPeriodTask" name="Qualification end of Award period" camunda:asyncBefore="true" camunda:delegateExpression="${qualificationEndAwardPeriod}">
       <bpmn:incoming>SequenceFlow_1ycpybw</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_074y50g</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_074y50g" sourceRef="QualificationGetAwardsTask" targetRef="AccessUpdateLotStatusTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_074y50g" sourceRef="QualificationEndAwardPeriodTask" targetRef="AccessUpdateLotStatusTask" />
     <bpmn:serviceTask id="AccessUpdateLotStatusTask" name="Access Update Lot Status" camunda:asyncBefore="true" camunda:delegateExpression="${accessUpdateLotStatus}">
       <bpmn:incoming>SequenceFlow_074y50g</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_02bv6jg</bpmn:outgoing>
@@ -57,7 +57,7 @@
       <bpmn:incoming>SequenceFlow_102pize</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1ycpybw</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_1ycpybw" sourceRef="NoticePostTask" targetRef="QualificationGetAwardsTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1ycpybw" sourceRef="NoticePostTask" targetRef="QualificationEndAwardPeriodTask" />
     <bpmn:serviceTask id="ServiceTask_0ql6wk4" name="Save Stage Params" camunda:asyncBefore="true" camunda:delegateExpression="${saveStageParams}">
       <bpmn:incoming>SequenceFlow_1n5w707</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0smtj68</bpmn:outgoing>
@@ -151,7 +151,7 @@
           <dc:Bounds x="758.5" y="143" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_0644rp3_di" bpmnElement="QualificationGetAwardsTask">
+      <bpmndi:BPMNShape id="ServiceTask_0644rp3_di" bpmnElement="QualificationEndAwardPeriodTask">
         <dc:Bounds x="953" y="124" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_074y50g_di" bpmnElement="SequenceFlow_074y50g">

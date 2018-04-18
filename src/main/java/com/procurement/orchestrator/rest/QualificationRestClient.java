@@ -28,18 +28,18 @@ public interface QualificationRestClient {
                                             @RequestParam("owner") String owner,
                                             @RequestBody JsonNode dataDto) throws Exception;
 
-    @RequestMapping(path = "/qualification/period", method = RequestMethod.PUT)
+    @RequestMapping(path = "/qualification/checkAwarded", method = RequestMethod.GET)
     ResponseEntity<ResponseDto> checkAwarded(@RequestParam("identifier") String cpId,
                                              @RequestParam("stage") String stage,
                                              @RequestParam("country") String country,
-                                             @RequestParam("pmd") String pmd,
-                                             @RequestParam("endPeriod") String endPeriod) throws Exception;
+                                             @RequestParam("pmd") String pmd) throws Exception;
 
-    @RequestMapping(path = "/qualification", method = RequestMethod.GET)
-    ResponseEntity<ResponseDto> getAwards(@RequestParam("identifier") String cpId,
-                                          @RequestParam("stage") String stage,
-                                          @RequestParam("country") String country,
-                                          @RequestParam("pmd") String pmd) throws Exception;
+    @RequestMapping(path = "/qualification/endAwardPeriod", method = RequestMethod.POST)
+    ResponseEntity<ResponseDto> endAwardPeriod(@RequestParam("identifier") String cpId,
+                                               @RequestParam("stage") String stage,
+                                               @RequestParam("country") String country,
+                                               @RequestParam("pmd") String pmd,
+                                               @RequestParam("endPeriod") String endPeriod) throws Exception;
 
 
 }
