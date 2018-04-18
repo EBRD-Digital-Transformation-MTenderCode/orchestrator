@@ -120,7 +120,7 @@ public class TenderController extends BaseController {
         params.setPhase("PLANNED");
         saveRequestAndCheckOperation(params, jsonData);
         final Map<String, Object> variables = new HashMap<>();
-        variables.put("operationType", "");
+        variables.put("operationType", "updatePIN");
         processService.startProcess(params, variables);
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }

@@ -8,7 +8,7 @@
       <bpmn:incoming>SequenceFlow_1je78pv</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:serviceTask id="QualificationUpdateAwardTask" name="Qualification Update Award" camunda:asyncBefore="true" camunda:delegateExpression="${qualificationUpdateAward}">
-      <bpmn:incoming>SequenceFlow_10iarpu</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_0tdkz87</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0ggq87j</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="SendMessageTask" name="Send &#10;message to platform&#10;" camunda:asyncBefore="true" camunda:delegateExpression="${sendMessageToPlatform}">
@@ -35,14 +35,14 @@
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1gx4xfj" sourceRef="StartEvent_1" targetRef="SaveFirstOperationTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1hezswa" sourceRef="SubmissionUpdateBidStatusDetailsTask" targetRef="StorageOpenDocumentsTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0sbxc3m" sourceRef="SaveFirstOperationTask" targetRef="CheckStageTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0sbxc3m" sourceRef="SaveFirstOperationTask" targetRef="CheckRulesForStageTask" />
     <bpmn:sequenceFlow id="SequenceFlow_162jtpk" sourceRef="StorageOpenDocumentsTask" targetRef="NoticeCreateReleaseTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1xl6unn" sourceRef="NoticeCreateReleaseTask" targetRef="SendMessageTask" />
-    <bpmn:serviceTask id="CheckStageTask" name="Check Stage" camunda:asyncBefore="true" camunda:delegateExpression="${checkStage}">
+    <bpmn:serviceTask id="CheckRulesForStageTask" name="Check Rules For Stage" camunda:asyncBefore="true" camunda:delegateExpression="${checkRulesForStage}">
       <bpmn:incoming>SequenceFlow_0sbxc3m</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_10iarpu</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_0tdkz87</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_10iarpu" sourceRef="CheckStageTask" targetRef="QualificationUpdateAwardTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0tdkz87" sourceRef="CheckRulesForStageTask" targetRef="QualificationUpdateAwardTask" />
   </bpmn:process>
   <bpmn:error id="tr_exception" name="TR_EXCEPTION" errorCode="TR_EXCEPTION" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -126,10 +126,10 @@
           <dc:Bounds x="1043.5" y="164" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_0blkxbb_di" bpmnElement="CheckStageTask">
+      <bpmndi:BPMNShape id="ServiceTask_1h4ethj_di" bpmnElement="CheckRulesForStageTask">
         <dc:Bounds x="368" y="145" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="SequenceFlow_10iarpu_di" bpmnElement="SequenceFlow_10iarpu">
+      <bpmndi:BPMNEdge id="SequenceFlow_0tdkz87_di" bpmnElement="SequenceFlow_0tdkz87">
         <di:waypoint xsi:type="dc:Point" x="468" y="185" />
         <di:waypoint xsi:type="dc:Point" x="517" y="185" />
         <bpmndi:BPMNLabel>
