@@ -71,11 +71,12 @@ public class TenderController extends BaseController {
         params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
         params.setNewStage(Stage.PS.value());
         params.setProcessType("updateCN");
+        params.setProcessType("updateCN");
         params.setToken(token);
         params.setPhase("TENDERPERIOD");
         saveRequestAndCheckOperation(params, jsonData);
         final Map<String, Object> variables = new HashMap<>();
-        variables.put("operationType", "");
+        variables.put("operationType", "updateCN");
         processService.startProcess(params, variables);
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
@@ -117,6 +118,7 @@ public class TenderController extends BaseController {
         params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
         params.setNewStage(Stage.PIN.value());
         params.setProcessType("updatePIN");
+        params.setOperationType("updatePIN");
         params.setPhase("PLANNED");
         saveRequestAndCheckOperation(params, jsonData);
         final Map<String, Object> variables = new HashMap<>();

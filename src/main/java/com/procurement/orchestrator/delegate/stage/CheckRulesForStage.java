@@ -48,7 +48,7 @@ public class CheckRulesForStage implements JavaDelegate {
                 params.getPmd(),
                 stageEntity.getPhase(),
                 params.getOperationType());
-        if (operationService.isRulesExist(rules)) {
+         if (operationService.isRulesExist(rules)) {
             operationService.saveOperationStep(execution, entity, params, jsonData);
         } else {
             processService.terminateProcessWithMessage(
