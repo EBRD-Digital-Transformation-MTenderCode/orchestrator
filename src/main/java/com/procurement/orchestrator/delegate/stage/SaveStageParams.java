@@ -29,6 +29,6 @@ public class SaveStageParams implements JavaDelegate {
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
         operationService.saveStageParams(params);
-        operationService.saveOperationStep(execution, entity, params, jsonUtil.empty());
+        operationService.saveOperationStep(execution, entity, params, jsonUtil.empty(), jsonUtil.empty());
     }
 }
