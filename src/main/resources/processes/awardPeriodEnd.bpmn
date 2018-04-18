@@ -29,7 +29,7 @@
       <bpmn:incoming>SequenceFlow_01afhxg</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1n5w707</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_1n5w707" sourceRef="NoticeCreateReleaseTask" targetRef="ServiceTask_0ql6wk4" />
+    <bpmn:sequenceFlow id="SequenceFlow_1n5w707" sourceRef="NoticeCreateReleaseTask" targetRef="SaveStageParamsTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1gx4xfj" sourceRef="StartEvent_1" targetRef="SaveFirstOperationTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1hezswa" sourceRef="AccessUpdateLotStatusDetailsTask" targetRef="SetStandstillPeriodTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0sbxc3m" sourceRef="SaveFirstOperationTask" targetRef="CheckRulesForStageTask" />
@@ -58,11 +58,11 @@
       <bpmn:outgoing>SequenceFlow_1ycpybw</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1ycpybw" sourceRef="NoticePostTask" targetRef="QualificationEndAwardPeriodTask" />
-    <bpmn:serviceTask id="ServiceTask_0ql6wk4" name="Save Stage Params" camunda:asyncBefore="true" camunda:delegateExpression="${saveStageParams}">
+    <bpmn:serviceTask id="SaveStageParamsTask" name="Save Stage Params" camunda:asyncBefore="true" camunda:delegateExpression="${saveStageParams}">
       <bpmn:incoming>SequenceFlow_1n5w707</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0smtj68</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_0smtj68" sourceRef="ServiceTask_0ql6wk4" targetRef="SendMessageTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0smtj68" sourceRef="SaveStageParamsTask" targetRef="SendMessageTask" />
     <bpmn:serviceTask id="CheckRulesForStageTask" name="Check Rules For Stage" camunda:asyncBefore="true" camunda:delegateExpression="${checkRulesForStage}">
       <bpmn:incoming>SequenceFlow_0sbxc3m</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0goe43u</bpmn:outgoing>
@@ -191,7 +191,7 @@
           <dc:Bounds x="891.5" y="143" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_0ql6wk4_di" bpmnElement="ServiceTask_0ql6wk4">
+      <bpmndi:BPMNShape id="ServiceTask_0ql6wk4_di" bpmnElement="SaveStageParamsTask">
         <dc:Bounds x="1485" y="124" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0smtj68_di" bpmnElement="SequenceFlow_0smtj68">
