@@ -58,12 +58,12 @@
       <bpmn:outgoing>SequenceFlow_1ycpybw</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1ycpybw" sourceRef="NoticePostTask" targetRef="QualificationEndAwardPeriodTask" />
-    <bpmn:serviceTask id="SaveStageParamsTask" name="Save Stage Params" camunda:asyncBefore="true" camunda:delegateExpression="${saveStageParams}">
+    <bpmn:serviceTask id="SaveStageParamsTask" name="Save Stage Params" camunda:delegateExpression="${saveStageParams}">
       <bpmn:incoming>SequenceFlow_1n5w707</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0smtj68</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_0smtj68" sourceRef="SaveStageParamsTask" targetRef="SendMessageTask" />
-    <bpmn:serviceTask id="CheckRulesForStageTask" name="Check Rules For Stage" camunda:asyncBefore="true" camunda:delegateExpression="${checkRulesForStage}">
+    <bpmn:serviceTask id="CheckRulesForStageTask" name="Check Rules For Stage" camunda:delegateExpression="${checkRulesForStage}">
       <bpmn:incoming>SequenceFlow_0sbxc3m</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0goe43u</bpmn:outgoing>
     </bpmn:serviceTask>

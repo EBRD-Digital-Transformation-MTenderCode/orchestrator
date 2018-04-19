@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 public class CheckRulesForStageSync implements JavaDelegate {
 
     private static final Logger LOG = LoggerFactory.getLogger(CheckRulesForStageSync.class);
+    private static final String OPERATION_ERROR = "Operation for current stage is impossible.";
     private final OperationService operationService;
     private final RequestService requestService;
     private final ProcessService processService;
@@ -51,7 +52,7 @@ public class CheckRulesForStageSync implements JavaDelegate {
                 params.getOperationType());
         if (!operationService.isRulesExist(rules)) {
             execution.setVariable("checkRules", 0);
-            execution.setVariable("message", "Operation for current stage is impossible.");
+            execution.setVariable("message", OPERATION_ERROR);
         } else {
             processService.startProcess(params, new HashMap<>());
         }

@@ -17,6 +17,8 @@ import org.springframework.stereotype.Component;
 public class CheckStage implements JavaDelegate {
 
     private static final Logger LOG = LoggerFactory.getLogger(CheckStage.class);
+    private static final String OPERATION_ERROR = "Operation for current stage is impossible.";
+    private static final String STAGE_ERROR = "Previous stage not found.";
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
@@ -39,20 +41,15 @@ public class CheckStage implements JavaDelegate {
         final StageEntity stageEntity = operationService.getStageParams(params.getCpid(), processId);
         if (stageEntity != null) {
             if (!params.getNewStage().equals(stageEntity.getStage())) {
-                processService.terminateProcessWithMessage(
-                        params,
-                        processId,
-                        "Operation for current stage is impossible.");
+                processService.terminateProcessWithMessage(params, processId, OPERATION_ERROR);
+            } else {
+                params.setCountry(stageEntity.getCountry());
+                params.setPmd(stageEntity.getPmd());
+                params.setPrevStage(stageEntity.getStage());
+                operationService.saveOperationStep(execution, entity, params, jsonData);
             }
-            params.setCountry(stageEntity.getCountry());
-            params.setPmd(stageEntity.getPmd());
-            params.setPrevStage(stageEntity.getStage());
-            operationService.saveOperationStep(execution, entity, params, jsonData);
         } else {
-            processService.terminateProcessWithMessage(
-                    params,
-                    processId,
-                    "Previous stage not found.");
+            processService.terminateProcessWithMessage(params, processId, STAGE_ERROR);
         }
     }
 }

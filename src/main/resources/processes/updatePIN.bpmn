@@ -37,7 +37,7 @@
       <bpmn:incoming>SequenceFlow_0uygfym</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0y27z9y</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="SaveStageParamsTask" name="Save Stage Params" camunda:asyncBefore="true" camunda:delegateExpression="${saveStageParams}">
+    <bpmn:serviceTask id="SaveStageParamsTask" name="Save Stage Params" camunda:delegateExpression="${saveStageParams}">
       <bpmn:incoming>SequenceFlow_099e1em</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0g4l6hq</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -65,12 +65,12 @@
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="SequenceFlow_1cbh1qz" sourceRef="ExclusiveGateway_0cxcb4v" targetRef="StorageOpenDocumentsTask" />
     <bpmn:sequenceFlow id="SequenceFlow_09cpdff" sourceRef="AccessPinOnPnTask" targetRef="ExclusiveGateway_0cxcb4v" />
-    <bpmn:serviceTask id="CheckRulesForStageTask" name="Check Rules For Stage" camunda:asyncBefore="true" camunda:delegateExpression="${checkRulesForStage}">
+    <bpmn:serviceTask id="CheckRulesForStageTask" name="Check Rules For Stage" camunda:delegateExpression="${checkRulesForStage}">
       <bpmn:incoming>SequenceFlow_165gqdr</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0g5thuy</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_0g5thuy" sourceRef="CheckRulesForStageTask" targetRef="SetOperationTypeForPinTask" />
-    <bpmn:serviceTask id="SetOperationTypeForPinTask" name="Set Operation Type For Pin" camunda:asyncBefore="true" camunda:delegateExpression="${setOperationTypeForPin}">
+    <bpmn:serviceTask id="SetOperationTypeForPinTask" name="Set Operation Type For Pin" camunda:delegateExpression="${setOperationTypeForPin}">
       <bpmn:incoming>SequenceFlow_0g5thuy</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_07dmk1v</bpmn:outgoing>
     </bpmn:serviceTask>

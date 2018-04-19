@@ -82,7 +82,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_07garu8" sourceRef="ExclusiveGateway_0ai5ezj" targetRef="ExclusiveGateway_07ftixw">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${allAnswered==0}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:serviceTask id="CheckStageTask" name="Check Stage" camunda:asyncBefore="true" camunda:delegateExpression="${checkStage}">
+    <bpmn:serviceTask id="CheckStageTask" name="Check Stage" camunda:delegateExpression="${checkStage}">
       <bpmn:incoming>SequenceFlow_165gqdr</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_129z6f7</bpmn:outgoing>
     </bpmn:serviceTask>

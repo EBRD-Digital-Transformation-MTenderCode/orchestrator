@@ -38,7 +38,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_0sbxc3m" sourceRef="SaveFirstOperationTask" targetRef="CheckRulesForStageTask" />
     <bpmn:sequenceFlow id="SequenceFlow_162jtpk" sourceRef="StorageOpenDocumentsTask" targetRef="NoticeCreateReleaseTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1xl6unn" sourceRef="NoticeCreateReleaseTask" targetRef="SendMessageTask" />
-    <bpmn:serviceTask id="CheckRulesForStageTask" name="Check Rules For Stage" camunda:asyncBefore="true" camunda:delegateExpression="${checkRulesForStage}">
+    <bpmn:serviceTask id="CheckRulesForStageTask" name="Check Rules For Stage" camunda:delegateExpression="${checkRulesForStage}">
       <bpmn:incoming>SequenceFlow_0sbxc3m</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0tdkz87</bpmn:outgoing>
     </bpmn:serviceTask>
