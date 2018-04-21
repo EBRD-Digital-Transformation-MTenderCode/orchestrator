@@ -312,9 +312,10 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public JsonNode getDocuments(final JsonNode jsonData, final String processId) {
+    public JsonNode getDocumentsOfTender(final JsonNode jsonData, final String processId) {
         try {
-            final JsonNode documentsNode = jsonData.findPath("documents");
+            final JsonNode tenderNode = jsonData.get("tender");
+            final JsonNode documentsNode = tenderNode.findPath("documents");
             if (documentsNode.isMissingNode()) return null;
             final ObjectNode mainNode = jsonUtil.createObjectNode();
             mainNode.replace("documents", documentsNode);
@@ -325,10 +326,35 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public JsonNode setDocuments(final JsonNode jsonData, final JsonNode documentsData, final String processId) {
+    public JsonNode setDocumentsOfTender(final JsonNode jsonData, final JsonNode documentsData, final String processId) {
         try {
             final ObjectNode tenderNode = (ObjectNode) jsonData.get("tender");
             tenderNode.replace("documents", documentsData.get("documents"));
+            return jsonData;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    public JsonNode getDocumentsOfAward(final JsonNode jsonData, final String processId) {
+        try {
+            final JsonNode awardNode = jsonData.get("award");
+            final JsonNode documentsNode = awardNode.findPath("documents");
+            if (documentsNode.isMissingNode()) return null;
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            mainNode.replace("documents", documentsNode);
+            return mainNode;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    public JsonNode setDocumentsOfAward(final JsonNode jsonData, final JsonNode documentsData, final String processId) {
+        try {
+            final ObjectNode awardNode = (ObjectNode) jsonData.get("award");
+            awardNode.replace("documents", documentsData.get("documents"));
             return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
@@ -356,18 +382,9 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public JsonNode setDocumentsStartDateOfBids(final JsonNode jsonData, final String startDate, final String
-            processId) {
+    public JsonNode setDocumentsOfBids(final JsonNode jsonData, final JsonNode documentsData, final String processId) {
         try {
-            final ArrayNode bidsNode = (ArrayNode) jsonData.get("bids");
-            for (final JsonNode bidNode : bidsNode) {
-                final JsonNode documentsNode = bidNode.findPath("documents");
-                if (!documentsNode.isMissingNode()) {
-                    for (final JsonNode node : documentsNode) {
-                        ((ObjectNode) node).put("datePublished", startDate);
-                    }
-                }
-            }
+            ((ObjectNode) jsonData).replace("documents", documentsData.get("documents"));
             return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());

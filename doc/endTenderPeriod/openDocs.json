@@ -1,145 +1,240 @@
 {
   "bids": [
     {
-      "id": "28645350-3bf5-11e8-8694-8df0a5285949",
-      "date": "2018-04-09T12:54:36Z",
-      "status": "pending",
+      "id": "08daae00-43b9-11e8-b742-2d522df22a44",
+      "date": "2018-04-19T10:07:06Z",
+      "status": "withdrawn",
       "statusDetails": "empty",
       "tenderers": [
         {
-          "id": "UA-EDR-839-74-9553",
-          "name": "Horne, Evans and Long",
+          "id": "UA-EDR-987654321",
+          "name": "TEST Provider 7",
           "identifier": {
-            "id": "839-74-9553",
+            "id": "987654321",
             "scheme": "UA-EDR",
-            "legalName": "Horne, Evans and Long and Sons",
-            "uri": "http://moss.com/explore/home/"
+            "legalName": "TEST Provider 7 LEGAL",
+            "uri": "https://test1.ua"
           },
           "address": {
-            "streetAddress": "73289 Audrey Glen",
-            "locality": "East Gilbertport",
-            "region": "Missouri",
-            "postalCode": "22008-7188",
-            "countryName": "Niue"
+            "streetAddress": "Street 45",
+            "locality": "Locality",
+            "region": "Region",
+            "postalCode": "123456",
+            "countryName": "Country"
           },
           "additionalIdentifiers": [
             {
-              "id": "443-37-9038",
+              "id": "987654377",
               "scheme": "UA-EDR",
-              "legalName": "Horne, Evans and Long Group",
-              "uri": "https://www.patterson-rodriguez.org/faq.htm"
+              "legalName": "ADDITIONAL TEST Provider 7 LEGAL",
+              "uri": "https://add.test1.ua"
             }
           ],
           "contactPoint": {
-            "name": "Judith Payne",
-            "email": "cyu@gmail.com",
-            "telephone": "383-320-3743x02776",
-            "faxNumber": "1-082-159-0812",
-            "url": "https://love.com/about/"
+            "name": "WHO ARE YOU",
+            "email": "test1@test.test",
+            "telephone": "+38022222222",
+            "faxNumber": "+38022222222",
+            "url": "https://cp.test1.ua"
           }
         }
       ],
+      "documents": [
+        {
+          "id": "385104e0-2901-11e8-b1c7-dff3c5406c1d",
+          "documentType": "tenderNotice",
+          "title": "Title Test CN document to tender",
+          "description": "Description Test CN document to tender",
+          "language": "ro",
+          "relatedLots": [
+            "0452d161-43b8-11e8-befd-373bd8d530b4"
+          ],
+          "datePublished": "2018-04-19T10:07:05Z"
+        }
+      ],
       "relatedLots": [
-        "27cca731-3bf5-11e8-a841-f319a68622c6"
+        "0452d161-43b8-11e8-befd-373bd8d530b4"
       ]
     },
     {
-      "id": "286f9df0-3bf5-11e8-8694-8df0a5285949",
-      "date": "2018-04-09T12:54:36Z",
+      "id": "1141b610-43b9-11e8-b742-2d522df22a44",
+      "date": "2018-04-19T10:04:37Z",
       "status": "pending",
       "statusDetails": "empty",
       "tenderers": [
         {
-          "id": "UA-EDR-613-07-4269",
-          "name": "Smith, Pittman and Jones",
+          "id": "UA-EDR-987654321",
+          "name": "TEST Provider 7",
           "identifier": {
-            "id": "613-07-4269",
+            "id": "987654321",
             "scheme": "UA-EDR",
-            "legalName": "Smith, Pittman and Jones LLC",
-            "uri": "http://www.dean.com/explore/tag/homepage.html"
+            "legalName": "TEST Provider 7 LEGAL",
+            "uri": "https://test1.ua"
           },
           "address": {
-            "streetAddress": "1981 Debra Forges",
-            "locality": "Williamsland",
-            "region": "Tennessee",
-            "postalCode": "88193-2093",
-            "countryName": "Ukraine"
+            "streetAddress": "Street 45",
+            "locality": "Locality",
+            "region": "Region",
+            "postalCode": "123456",
+            "countryName": "Country"
           },
           "additionalIdentifiers": [
             {
-              "id": "381-58-8490",
+              "id": "987654377",
               "scheme": "UA-EDR",
-              "legalName": "Smith, Pittman and Jones PLC",
-              "uri": "https://lawrence.biz/main/"
+              "legalName": "ADDITIONAL TEST Provider 7 LEGAL",
+              "uri": "https://add.test1.ua"
             }
           ],
           "contactPoint": {
-            "name": "April Watson",
-            "email": "daniel54@gmail.com",
-            "telephone": "(021)897-1118x56992",
-            "faxNumber": "586-027-5393",
-            "url": "https://www.allen-browning.com/login/"
+            "name": "WHO ARE YOU",
+            "email": "test1@test.test",
+            "telephone": "+38022222222",
+            "faxNumber": "+38022222222",
+            "url": "https://cp.test1.ua"
           }
         }
       ],
+      "documents": [
+        {
+          "id": "385104e0-2901-11e8-b1c7-dff3c5406c1d",
+          "documentType": "tenderNotice",
+          "title": "Title Test CN document to tender",
+          "description": "Description Test CN document to tender",
+          "language": "ro",
+          "relatedLots": [
+            "0452d161-43b8-11e8-befd-373bd8d530b4"
+          ],
+          "datePublished": "2018-04-19T10:07:05Z"
+        }
+      ],
       "relatedLots": [
-        "27cca731-3bf5-11e8-a841-f319a68622c6"
+        "0452d161-43b8-11e8-befd-373bd8d5304"
       ]
     },
     {
-      "id": "28821480-3bf5-11e8-8694-8df0a5285949",
-      "date": "2018-04-09T12:54:36Z",
+      "id": "488708a0-43b9-11e8-b742-2d522df22a44",
+      "date": "2018-04-19T10:06:09Z",
       "status": "pending",
       "statusDetails": "empty",
       "tenderers": [
         {
-          "id": "UA-EDR-070-46-7620",
-          "name": "Wright-Gonzalez",
+          "id": "UA-EDR-987654321",
+          "name": "TEST Provider 7",
           "identifier": {
-            "id": "070-46-7620",
+            "id": "987654321",
             "scheme": "UA-EDR",
-            "legalName": "Wright-Gonzalez LLC",
-            "uri": "https://www.dyer.com/about.htm"
+            "legalName": "TEST Provider 7 LEGAL",
+            "uri": "https://test1.ua"
           },
           "address": {
-            "streetAddress": "6089 Laura Prairie",
-            "locality": "West Aaronfurt",
-            "region": "Oklahoma",
-            "postalCode": "55025",
-            "countryName": "Armenia"
+            "streetAddress": "Street 45",
+            "locality": "Locality",
+            "region": "Region",
+            "postalCode": "123456",
+            "countryName": "Country"
           },
           "additionalIdentifiers": [
             {
-              "id": "383-47-5007",
+              "id": "987654377",
               "scheme": "UA-EDR",
-              "legalName": "Wright-Gonzalez Group",
-              "uri": "http://www.harvey-fisher.com/search/terms/"
+              "legalName": "ADDITIONAL TEST Provider 7 LEGAL",
+              "uri": "https://add.test1.ua"
             }
           ],
           "contactPoint": {
-            "name": "Brandon James",
-            "email": "ballsophia@gmail.com",
-            "telephone": "510-071-2507x301",
-            "faxNumber": "00709519975",
-            "url": "http://www.smith.com/about.htm"
+            "name": "WHO ARE YOU",
+            "email": "test1@test.test",
+            "telephone": "+38022222222",
+            "faxNumber": "+38022222222",
+            "url": "https://cp.test1.ua"
           }
         }
       ],
+      "documents": [
+        {
+          "id": "385104e0-2901-11e8-b1c7-dff3c5406c1d",
+          "documentType": "tenderNotice",
+          "title": "Title Test CN document to tender",
+          "description": "Description Test CN document to tender",
+          "language": "ro",
+          "relatedLots": [
+            "0452d161-43b8-11e8-befd-373bd8d530b4"
+          ],
+          "datePublished": "2018-04-19T10:07:05Z"
+        }
+      ],
       "relatedLots": [
-        "27cca731-3bf5-11e8-a841-f319a68622c6"
+        "0452d161-43b8-11e8-befd-373bd8d5304"
+      ]
+    },
+    {
+      "id": "67aef490-43b9-11e8-b742-2d522df22a44",
+      "date": "2018-04-19T10:07:02Z",
+      "status": "pending",
+      "statusDetails": "empty",
+      "tenderers": [
+        {
+          "id": "UA-EDR-987654321",
+          "name": "TEST Provider 7",
+          "identifier": {
+            "id": "987654321",
+            "scheme": "UA-EDR",
+            "legalName": "TEST Provider 7 LEGAL",
+            "uri": "https://test1.ua"
+          },
+          "address": {
+            "streetAddress": "Street 45",
+            "locality": "Locality",
+            "region": "Region",
+            "postalCode": "123456",
+            "countryName": "Country"
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "987654377",
+              "scheme": "UA-EDR",
+              "legalName": "ADDITIONAL TEST Provider 7 LEGAL",
+              "uri": "https://add.test1.ua"
+            }
+          ],
+          "contactPoint": {
+            "name": "WHO ARE YOU",
+            "email": "test1@test.test",
+            "telephone": "+38022222222",
+            "faxNumber": "+38022222222",
+            "url": "https://cp.test1.ua"
+          }
+        }
+      ],
+      "documents": [
+        {
+          "id": "385104e0-2901-11e8-b1c7-dff3c5406c1d",
+          "documentType": "tenderNotice",
+          "title": "Title Test CN document to tender",
+          "description": "Description Test CN document to tender",
+          "language": "ro",
+          "relatedLots": [
+            "0452d161-43b8-11e8-befd-373bd8d530b4"
+          ],
+          "datePublished": "2018-04-19T10:07:05Z"
+        }
+      ],
+      "relatedLots": [
+        "0452d161-43b8-11e8-befd-373bd8d5304"
       ]
     }
   ],
   "lots": [
     {
-      "id": "27cca731-3bf5-11e8-a841-f319a68622c6",
-      "title": "Collection question often fear offer.",
-      "description": "Rock something assume born. Song language war everybody research trouble contain.",
-      "status": "active",
+      "id": "0452d161-43b8-11e8-befd-373bd8d530b4",
+      "title": "Traditional partner without ago six yard loss community.",
+      "description": "I realize item debate job above. Over ok scene. Perform though audience.",
+      "status": "unsuccessful",
       "statusDetails": "empty",
       "value": {
-        "amount": 11.29,
-        "currency": "COU"
+        "amount": 3041338.25,
+        "currency": "MOP"
       },
       "options": [
         {
@@ -162,181 +257,98 @@
         }
       ],
       "contractPeriod": {
-        "startDate": "2018-04-09T12:54:34Z",
-        "endDate": "2018-09-22T01:27:04Z"
+        "startDate": "2018-04-19T09:57:05Z",
+        "endDate": "2018-09-05T20:06:46Z"
       },
       "placeOfPerformance": {
         "address": {
-          "streetAddress": "85478 Kristin Terrace Suite 584",
-          "locality": "Boyerberg",
-          "region": "Rhode Island",
-          "postalCode": "21834",
-          "countryName": "Tunisia"
+          "streetAddress": "235 Jennifer Forks",
+          "locality": "Lake Xavier",
+          "region": "Maryland",
+          "postalCode": "94958",
+          "countryName": "Morocco"
         },
-        "description": "Wide Mr bar federal. Over party Republican director. Him manage condition third rise."
+        "description": "Discover special free. Occur purpose while receive accept may carry."
       }
     }
   ],
   "awardPeriod": {
-    "startDate": "2018-04-09T12:57:34Z"
+    "startDate": "2018-04-19T10:07:05Z"
   },
   "awards": [
     {
-      "id": "92e508f0-3bf5-11e8-a7a2-4bc93b1ec7b9",
-      "token": "aa047793-92d3-4b05-b287-77aa97be0110",
-      "date": "2018-04-09T12:57:35Z",
+      "id": "6a145bd0-43b9-11e8-bd9f-93da4697d57e",
+      "token": "04e682f1-15aa-4d5d-896f-89850045d36b",
+      "date": "2018-04-19T10:07:06Z",
       "description": "",
       "status": "pending",
       "statusDetails": "empty",
       "relatedLots": [
-        "27cca731-3bf5-11e8-a841-f319a68622c6"
+        "0452d161-43b8-11e8-befd-373bd8d5304"
       ],
-      "relatedBid": "28645350-3bf5-11e8-8694-8df0a5285949",
+      "relatedBid": "1141b610-43b9-11e8-b742-2d522df22a44",
       "suppliers": [
         {
-          "id": "UA-EDR-839-74-9553",
-          "name": "Horne, Evans and Long"
+          "id": "UA-EDR-987654321",
+          "name": "TEST Provider 7"
         }
       ]
     },
     {
-      "id": "92e508f1-3bf5-11e8-a7a2-4bc93b1ec7b9",
-      "token": "43ae5823-5ce2-413a-abc8-dcb2e732b78c",
-      "date": "2018-04-09T12:57:35Z",
+      "id": "6a145bd1-43b9-11e8-bd9f-93da4697d57e",
+      "token": "74fc5839-8048-425e-85ea-f46829e12f6b",
+      "date": "2018-04-19T10:07:06Z",
       "description": "",
       "status": "pending",
       "statusDetails": "empty",
       "relatedLots": [
-        "27cca731-3bf5-11e8-a841-f319a68622c6"
+        "0452d161-43b8-11e8-befd-373bd8d5304"
       ],
-      "relatedBid": "286f9df0-3bf5-11e8-8694-8df0a5285949",
+      "relatedBid": "488708a0-43b9-11e8-b742-2d522df22a44",
       "suppliers": [
         {
-          "id": "UA-EDR-613-07-4269",
-          "name": "Smith, Pittman and Jones"
+          "id": "UA-EDR-987654321",
+          "name": "TEST Provider 7"
         }
       ]
     },
     {
-      "id": "92e508f2-3bf5-11e8-a7a2-4bc93b1ec7b9",
-      "token": "4b938e5a-6202-4416-a2cf-b425a910f76e",
-      "date": "2018-04-09T12:57:35Z",
+      "id": "6a145bd2-43b9-11e8-bd9f-93da4697d57e",
+      "token": "2099dc68-b663-4402-87d5-bbd9539d5640",
+      "date": "2018-04-19T10:07:06Z",
       "description": "",
       "status": "pending",
       "statusDetails": "empty",
       "relatedLots": [
-        "27cca731-3bf5-11e8-a841-f319a68622c6"
+        "0452d161-43b8-11e8-befd-373bd8d5304"
       ],
-      "relatedBid": "28821480-3bf5-11e8-8694-8df0a5285949",
+      "relatedBid": "67aef490-43b9-11e8-b742-2d522df22a44",
       "suppliers": [
         {
-          "id": "UA-EDR-070-46-7620",
-          "name": "Wright-Gonzalez"
+          "id": "UA-EDR-987654321",
+          "name": "TEST Provider 7"
         }
+      ]
+    },
+    {
+      "id": "6a145bd3-43b9-11e8-bd9f-93da4697d57e",
+      "token": "2af1a6eb-8414-43a3-9dc2-c16bd1789cfa",
+      "date": "2018-04-19T10:07:06Z",
+      "description": "",
+      "status": "unsuccessful",
+      "statusDetails": "empty",
+      "relatedLots": [
+        "0452d161-43b8-11e8-befd-373bd8d530b4"
       ]
     }
   ],
-  "unsuccessfulLots": [],
-  "tenderPeriod": {
-    "startDate": "2018-04-09T12:54:34Z",
-    "endDate": "2018-04-09T12:57:34Z"
-  },
-  "tenderers": [
+  "unsuccessfulLots": [
     {
-      "id": "UA-EDR-839-74-9553",
-      "name": "Horne, Evans and Long",
-      "identifier": {
-        "id": "839-74-9553",
-        "scheme": "UA-EDR",
-        "legalName": "Horne, Evans and Long and Sons",
-        "uri": "http://moss.com/explore/home/"
-      },
-      "address": {
-        "streetAddress": "73289 Audrey Glen",
-        "locality": "East Gilbertport",
-        "region": "Missouri",
-        "postalCode": "22008-7188",
-        "countryName": "Niue"
-      },
-      "additionalIdentifiers": [
-        {
-          "id": "443-37-9038",
-          "scheme": "UA-EDR",
-          "legalName": "Horne, Evans and Long Group",
-          "uri": "https://www.patterson-rodriguez.org/faq.htm"
-        }
-      ],
-      "contactPoint": {
-        "name": "Judith Payne",
-        "email": "cyu@gmail.com",
-        "telephone": "383-320-3743x02776",
-        "faxNumber": "1-082-159-0812",
-        "url": "https://love.com/about/"
-      }
-    },
-    {
-      "id": "UA-EDR-613-07-4269",
-      "name": "Smith, Pittman and Jones",
-      "identifier": {
-        "id": "613-07-4269",
-        "scheme": "UA-EDR",
-        "legalName": "Smith, Pittman and Jones LLC",
-        "uri": "http://www.dean.com/explore/tag/homepage.html"
-      },
-      "address": {
-        "streetAddress": "1981 Debra Forges",
-        "locality": "Williamsland",
-        "region": "Tennessee",
-        "postalCode": "88193-2093",
-        "countryName": "Ukraine"
-      },
-      "additionalIdentifiers": [
-        {
-          "id": "381-58-8490",
-          "scheme": "UA-EDR",
-          "legalName": "Smith, Pittman and Jones PLC",
-          "uri": "https://lawrence.biz/main/"
-        }
-      ],
-      "contactPoint": {
-        "name": "April Watson",
-        "email": "daniel54@gmail.com",
-        "telephone": "(021)897-1118x56992",
-        "faxNumber": "586-027-5393",
-        "url": "https://www.allen-browning.com/login/"
-      }
-    },
-    {
-      "id": "UA-EDR-070-46-7620",
-      "name": "Wright-Gonzalez",
-      "identifier": {
-        "id": "070-46-7620",
-        "scheme": "UA-EDR",
-        "legalName": "Wright-Gonzalez LLC",
-        "uri": "https://www.dyer.com/about.htm"
-      },
-      "address": {
-        "streetAddress": "6089 Laura Prairie",
-        "locality": "West Aaronfurt",
-        "region": "Oklahoma",
-        "postalCode": "55025",
-        "countryName": "Armenia"
-      },
-      "additionalIdentifiers": [
-        {
-          "id": "383-47-5007",
-          "scheme": "UA-EDR",
-          "legalName": "Wright-Gonzalez Group",
-          "uri": "http://www.harvey-fisher.com/search/terms/"
-        }
-      ],
-      "contactPoint": {
-        "name": "Brandon James",
-        "email": "ballsophia@gmail.com",
-        "telephone": "510-071-2507x301",
-        "faxNumber": "00709519975",
-        "url": "http://www.smith.com/about.htm"
-      }
+      "id": "0452d161-43b8-11e8-befd-373bd8d530b4"
     }
-  ]
+  ],
+  "tenderPeriod": {
+    "startDate": "2018-04-19T09:57:05Z",
+    "endDate": "2018-04-19T10:07:05Z"
+  }
 }

@@ -15,9 +15,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class StorageOpenDocs implements JavaDelegate {
+public class StorageOpenDocsOfAward implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(StorageOpenDocs.class);
+    private static final Logger LOG = LoggerFactory.getLogger(StorageOpenDocsOfAward.class);
 
     private final StorageRestClient storageRestClient;
 
@@ -27,10 +27,10 @@ public class StorageOpenDocs implements JavaDelegate {
 
     private final JsonUtil jsonUtil;
 
-    public StorageOpenDocs(final StorageRestClient storageRestClient,
-                           final OperationService operationService,
-                           final ProcessService processService,
-                           final JsonUtil jsonUtil) {
+    public StorageOpenDocsOfAward(final StorageRestClient storageRestClient,
+                                  final OperationService operationService,
+                                  final ProcessService processService,
+                                  final JsonUtil jsonUtil) {
         this.storageRestClient = storageRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -45,7 +45,7 @@ public class StorageOpenDocs implements JavaDelegate {
         final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
         final String processId = execution.getProcessInstanceId();
         final String startDate = params.getStartDate();
-        final JsonNode documents = processService.getDocuments(jsonData, processId);
+        final JsonNode documents = processService.getDocumentsOfAward(jsonData, processId);
         final String taskId = execution.getCurrentActivityName();
         JsonNode responseData = null;
         if (Objects.nonNull(documents))
@@ -60,6 +60,6 @@ public class StorageOpenDocs implements JavaDelegate {
                     execution,
                     entity,
                     documents,
-                    processService.setDocuments(jsonData, responseData, processId));
+                    processService.setDocumentsOfAward(jsonData, responseData, processId));
     }
 }
