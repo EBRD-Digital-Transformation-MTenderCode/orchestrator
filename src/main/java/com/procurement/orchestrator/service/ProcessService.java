@@ -73,7 +73,7 @@ public interface ProcessService {
 
     JsonNode getDocumentsOfAward(JsonNode jsonData, String processId);
 
-    JsonNode setDocumentsOfAward(JsonNode jsonData, JsonNode documentsData, String processId)
+    JsonNode setDocumentsOfAward(JsonNode jsonData, JsonNode documentsData, String processId);
 
     JsonNode getDocumentsOfBids(JsonNode jsonData, String processId);
 
