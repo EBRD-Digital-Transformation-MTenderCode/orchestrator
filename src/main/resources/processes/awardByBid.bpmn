@@ -8,7 +8,7 @@
       <bpmn:incoming>SequenceFlow_1je78pv</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:serviceTask id="QualificationUpdateAwardTask" name="Qualification Update Award" camunda:asyncBefore="true" camunda:delegateExpression="${qualificationUpdateAward}">
-      <bpmn:incoming>SequenceFlow_10iarpu</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_0tdkz87</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0ggq87j</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="SendMessageTask" name="Send &#10;message to platform&#10;" camunda:asyncBefore="true" camunda:delegateExpression="${sendMessageToPlatform}">
@@ -29,14 +29,14 @@
       <bpmn:incoming>SequenceFlow_162jtpk</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1xl6unn</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="StorageOpenDocsOfAwardTask" name="Storage open documents of Award" camunda:asyncBefore="true" camunda:delegateExpression="${storageOpenDocsOfAward}">
+    <bpmn:serviceTask id="storageOpenDocsOfAwardTask" name="Storage open documents Of Award" camunda:asyncBefore="true" camunda:delegateExpression="${storageOpenDocsOfAward}">
       <bpmn:incoming>SequenceFlow_1hezswa</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_162jtpk</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1gx4xfj" sourceRef="StartEvent_1" targetRef="SaveFirstOperationTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1hezswa" sourceRef="SubmissionUpdateBidStatusDetailsTask" targetRef="StorageOpenDocumentsTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1hezswa" sourceRef="SubmissionUpdateBidStatusDetailsTask" targetRef="storageOpenDocsOfAwardTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0sbxc3m" sourceRef="SaveFirstOperationTask" targetRef="CheckRulesForStageTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_162jtpk" sourceRef="StorageOpenDocumentsTask" targetRef="NoticeCreateReleaseTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_162jtpk" sourceRef="storageOpenDocsOfAwardTask" targetRef="NoticeCreateReleaseTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1xl6unn" sourceRef="NoticeCreateReleaseTask" targetRef="SendMessageTask" />
     <bpmn:serviceTask id="CheckRulesForStageTask" name="Check Rules For Stage" camunda:delegateExpression="${checkRulesForStage}">
       <bpmn:incoming>SequenceFlow_0sbxc3m</bpmn:incoming>
@@ -88,7 +88,7 @@
       <bpmndi:BPMNShape id="ServiceTask_1tvffuw_di" bpmnElement="NoticeCreateReleaseTask">
         <dc:Bounds x="964" y="145" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_0wz9wf2_di" bpmnElement="StorageOpenDocumentsTask">
+      <bpmndi:BPMNShape id="ServiceTask_0wz9wf2_di" bpmnElement="storageOpenDocsOfAwardTask">
         <dc:Bounds x="815" y="145" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1gx4xfj_di" bpmnElement="SequenceFlow_1gx4xfj">
@@ -126,10 +126,10 @@
           <dc:Bounds x="1043.5" y="164" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_0blkxbb_di" bpmnElement="CheckStageTask">
+      <bpmndi:BPMNShape id="ServiceTask_1h4ethj_di" bpmnElement="CheckRulesForStageTask">
         <dc:Bounds x="368" y="145" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="SequenceFlow_10iarpu_di" bpmnElement="SequenceFlow_10iarpu">
+      <bpmndi:BPMNEdge id="SequenceFlow_0tdkz87_di" bpmnElement="SequenceFlow_0tdkz87">
         <di:waypoint xsi:type="dc:Point" x="468" y="185" />
         <di:waypoint xsi:type="dc:Point" x="517" y="185" />
         <bpmndi:BPMNLabel>
