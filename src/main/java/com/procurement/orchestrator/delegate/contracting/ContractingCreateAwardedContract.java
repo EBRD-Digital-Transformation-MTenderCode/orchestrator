@@ -3,7 +3,7 @@ package com.procurement.orchestrator.delegate.contracting;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
-import com.procurement.orchestrator.rest.AccessRestClient;
+import com.procurement.orchestrator.rest.ContractingRestClient;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -19,16 +19,16 @@ public class ContractingCreateAwardedContract implements JavaDelegate {
 
     private static final Logger LOG = LoggerFactory.getLogger(ContractingCreateAwardedContract.class);
 
-    private final AccessRestClient accessRestClient;
+    private final ContractingRestClient contractingRestClient;
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public ContractingCreateAwardedContract(final AccessRestClient accessRestClient,
+    public ContractingCreateAwardedContract(final ContractingRestClient contractingRestClient,
                                             final OperationService operationService,
                                             final ProcessService processService,
                                             final JsonUtil jsonUtil) {
-        this.accessRestClient = accessRestClient;
+        this.contractingRestClient = contractingRestClient;
         this.operationService = operationService;
         this.processService = processService;
         this.jsonUtil = jsonUtil;
@@ -44,7 +44,7 @@ public class ContractingCreateAwardedContract implements JavaDelegate {
         final String taskId = execution.getCurrentActivityId();
         final JsonNode requestData = processService.getAccessData(jsonData, processId);
         final JsonNode responseData = processService.processResponse(
-                accessRestClient.createCn(
+                contractingRestClient.createAwardedContract(
                         params.getNewStage(),
                         params.getCountry(),
                         params.getPmd(),
