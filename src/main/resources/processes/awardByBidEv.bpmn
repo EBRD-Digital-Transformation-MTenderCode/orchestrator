@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.11.3">
-  <bpmn:process id="awardByBid" name="awardByBid" isExecutable="true">
+  <bpmn:process id="awardByBidEv" name="awardByBidEv" isExecutable="true">
     <bpmn:startEvent id="StartEvent_1">
       <bpmn:outgoing>SequenceFlow_1gx4xfj</bpmn:outgoing>
     </bpmn:startEvent>
@@ -46,9 +46,13 @@
       <bpmn:outgoing>SequenceFlow_0ve2ekz</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlow_0rrwwq5</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="SequenceFlow_0ve2ekz" sourceRef="ExclusiveGateway_145o2c9" targetRef="ServiceTask_1sn5nzc" />
+    <bpmn:sequenceFlow id="SequenceFlow_0ve2ekz" sourceRef="ExclusiveGateway_145o2c9" targetRef="ServiceTask_1sn5nzc">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${value==1}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_0mz93u6" sourceRef="ServiceTask_1sn5nzc" targetRef="SubmissionUpdateBidStatusDetailsTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0rrwwq5" sourceRef="ExclusiveGateway_145o2c9" targetRef="SubmissionUpdateBidStatusDetailsTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0rrwwq5" sourceRef="ExclusiveGateway_145o2c9" targetRef="SubmissionUpdateBidStatusDetailsTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${value==2}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
     <bpmn:serviceTask id="checkRulesForStageTask" name="Check Rules For Stage" camunda:delegateExpression="${checkRulesForStage}">
       <bpmn:incoming>SequenceFlow_0sbxc3m</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0xahtl8</bpmn:outgoing>
@@ -59,7 +63,7 @@
   </bpmn:process>
   <bpmn:error id="tr_exception" name="TR_EXCEPTION" errorCode="TR_EXCEPTION" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
-    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="awardByBid">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="awardByBidEv">
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
         <dc:Bounds x="126" y="167" width="36" height="36" />
         <bpmndi:BPMNLabel>

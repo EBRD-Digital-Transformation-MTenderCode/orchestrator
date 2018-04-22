@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.11.3">
-  <bpmn:process id="awardPeriodEnd" name="awardPeriodEnd" isExecutable="true">
+  <bpmn:process id="awardPeriodEndEv" name="awardPeriodEndEv" isExecutable="true">
     <bpmn:startEvent id="StartEvent_1">
       <bpmn:outgoing>SequenceFlow_1gx4xfj</bpmn:outgoing>
     </bpmn:startEvent>
@@ -64,7 +64,9 @@
       <bpmn:outgoing>SequenceFlow_1094kaa</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlow_10ynws7</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="SequenceFlow_1094kaa" sourceRef="ExclusiveGateway_1g2uct9" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="SequenceFlow_1094kaa" sourceRef="ExclusiveGateway_1g2uct9" targetRef="EndEvent_1">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${value==1}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
     <bpmn:serviceTask id="EvaluationEndAwardPeriodTask" name="Evaluation End of Award Period" camunda:asyncBefore="true" camunda:delegateExpression="${evaluationEndAwardPeriod}">
       <bpmn:incoming>SequenceFlow_0fb2kuu</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0b2l4w7</bpmn:outgoing>
@@ -75,7 +77,9 @@
       <bpmn:outgoing>SequenceFlow_1beb1tx</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1beb1tx" sourceRef="ContractingCreateAwardedContractTask" targetRef="NoticeCreateReleaseTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_10ynws7" sourceRef="ExclusiveGateway_1g2uct9" targetRef="SetStandstillPeriodTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_10ynws7" sourceRef="ExclusiveGateway_1g2uct9" targetRef="SetStandstillPeriodTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${value==2}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_1frl87c" sourceRef="SetStandstillPeriodTask" targetRef="EvaluationCheckAwardedTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1n3pk4j" sourceRef="EvaluationCheckAwardedTask" targetRef="ContractingCreateCanTask" />
     <bpmn:serviceTask id="checkRulesForStageTask" name="Check Rules For Stage" camunda:delegateExpression="${checkRulesForStage}">
@@ -89,7 +93,7 @@
   </bpmn:process>
   <bpmn:error id="tr_exception" name="TR_EXCEPTION" errorCode="TR_EXCEPTION" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
-    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="awardPeriodEnd">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="awardPeriodEndEv">
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
         <dc:Bounds x="91" y="146" width="36" height="36" />
         <bpmndi:BPMNLabel>
