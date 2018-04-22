@@ -45,6 +45,7 @@ public class AccessUnsuspendTender implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
+        params.setOperationType("unsuspendTender");
         final JsonNode responseData = processService.processResponse(
                 accessRestClient.setSuspended(
                         params.getCpid(),
@@ -58,6 +59,7 @@ public class AccessUnsuspendTender implements JavaDelegate {
             operationService.saveOperationStep(
                     execution,
                     entity,
+                    params,
                     jsonUtil.empty(),
                     processService.addTenderStatus(jsonData, responseData, processId));
     }

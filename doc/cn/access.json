@@ -1,192 +1,35 @@
 {
-  "token": "3d2b87d8-0786-4adb-a1fd-e0ed970926e0",
-  "ocid": "ocds-t1s2t3-MD-1521194979678",
-  "date": "2018-03-16T10:09:39Z",
   "planning": {
     "budget": {
-      "description": "A short free text description of the budget source. May be used to provide the title of the budget line, or the programme used to fund this project.",
+      "description": "Provide line during claim image. At media analysis these what focus. Weight contain experience particularly away treat give. New against care beat more against.",
       "amount": {
-        "amount": 1000.0,
-        "currency": "MDL"
+        "amount": 4.8822283147114E11,
+        "currency": "HUF"
       },
-      "europeanUnionFunding": {
-        "projectIdentifier": "proj-cn-12346",
-        "projectName": "test proj name",
-        "uri": "https://jwt.io"
-      },
-      "isEuropeanUnionFunded": true,
+      "isEuropeanUnionFunded": false,
       "budgetBreakdown": [
         {
-          "id": "ocds-t1s2t3-MD-1521194732593-fs-1521194776273",
-          "description": "A short free text description of this budget entry.",
+          "id": "ocds-t1s2t3-TEST-1524398230340-FS-1524398235317",
+          "description": "Leader not standard keep. West couple front baby discuss.",
           "amount": {
-            "amount": 500.0,
-            "currency": "MDL"
-          },
-          "period": {
-            "startDate": "2018-02-27T00:00:00Z",
-            "endDate": "2018-09-27T00:00:00Z"
+            "amount": 4.8822283147114E11,
+            "currency": "HUF"
           }
         }
       ]
     },
-    "rationale": "The rationale for the procurement provided in free text. More detail can be provided in an attached document."
+    "rationale": "Attention there level enter must night."
   },
   "tender": {
-    "id": "ocds-t1s2t3-MD-1521194979678",
-    "title": "Tender title",
-    "description": "Tender description",
-    "status": "active",
-    "statusDetails": "empty",
-    "items": [
-      {
-        "id": "237ba7e0-2902-11e8-85d0-87b982b16239",
-        "description": "A description of the goods, services to be provided.",
-        "classification": {
-          "scheme": "CPV",
-          "id": "33600000-6",
-          "description": "Фармацевтична продукція"
-        },
-        "additionalClassifications": [
-          {
-            "scheme": "CPVS",
-            "id": "CPVs-id-12341234",
-            "description": "A textual description or title for the code."
-          }
-        ],
-        "quantity": 10.0,
-        "unit": {
-          "name": "kg",
-          "id": "0971"
-        },
-        "relatedLot": "237ba7e1-2902-11e8-85d0-87b982b16239"
-      }
-    ],
-    "value": {
-      "amount": 1000.0,
-      "currency": "MDL"
+    "title": "Dinner commercial anything.",
+    "description": "System word perform sister check. Doctor level him meet top bar.",
+    "classification": {
+      "id": "43262000-7",
+      "scheme": "CPV",
+      "description": "Excavating machinery"
     },
-    "procurementMethod": "open",
-    "procurementMethodDetails": "Open Procurement",
-    "procurementMethodRationale": "Rationale of procurement method, especially in the case of Limited tendering.",
-    "mainProcurementCategory": "goods",
-    "additionalProcurementCategories": [
-      "goods"
-    ],
-    "awardCriteria": "priceOnly",
-    "submissionMethod": [
-      "electronicSubmission"
-    ],
-    "submissionMethodDetails": "Any detailed or further information on the submission method. This may include the address, e-mail address or online service to which bids should be submitted, and any special requirements to be followed for submissions.",
-    "tenderPeriod": {
-      "endDate": "2018-03-16T10:24:00Z"
-    },
-    "eligibilityCriteria": "A description of any eligibility criteria for potential suppliers.",
-    "contractPeriod": {
-      "startDate": "2018-09-27T00:00:00Z",
-      "endDate": "2018-11-27T00:00:00Z"
-    },
-    "procuringEntity": {
-      "name": "Новороздільська міська лікарня",
-      "id": "UA-EDR-20764777",
-      "identifier": {
-        "scheme": "UA-EDR",
-        "id": "20764777",
-        "legalName": "Новороздільська міська лікарня",
-        "uri": "http://buyerTestLink.ua"
-      },
-      "address": {
-        "streetAddress": "вул. Винниченка, 37",
-        "locality": "місто Новий Розділ",
-        "region": "Львівська область",
-        "postalCode": "7770777",
-        "countryName": "Україна"
-      },
-      "additionalIdentifiers": [
-        {
-          "scheme": "UA-EDR",
-          "id": "123123123",
-          "legalName": "Додатково Новороздільська міська лікарня",
-          "uri": "http://additionalBuyerTestLink.ua"
-        }
-      ],
-      "contactPoint": {
-        "name": "Осипових Сергій Олександрович",
-        "email": "test2@test.test",
-        "telephone": "+380222222222",
-        "faxNumber": "+380222222222",
-        "url": "http://test.ua"
-      }
-    },
-    "documents": [
-      {
-        "id": "385104e0-2901-11e8-b1c7-dff3c5406c1d",
-        "documentType": "tenderNotice",
-        "title": "Title Test CN document to tender",
-        "description": "Description Test CN document to tender",
-        "url": "http://bpe.eprocurement.systems/api/v1/storage/get/385104e0-2901-11e8-b1c7-dff3c5406c1d",
-        "language": "ro"
-      }
-    ],
-    "lots": [
-      {
-        "id": "237ba7e1-2902-11e8-85d0-87b982b16239",
-        "title": "A title for this lot.",
-        "description": "A description of this lot.",
-        "status": "active",
-        "statusDetails": "empty",
-        "value": {
-          "amount": 1000.0,
-          "currency": "MDL"
-        },
-        "options": [
-          {
-            "hasOptions": false
-          }
-        ],
-        "recurrentProcurement": [
-          {
-            "isRecurrent": false
-          }
-        ],
-        "renewals": [
-          {
-            "hasRenewals": false
-          }
-        ],
-        "variants": [
-          {
-            "hasVariants": false
-          }
-        ],
-        "contractPeriod": {
-          "startDate": "2018-09-27T00:00:00Z",
-          "endDate": "2018-11-27T00:00:00Z"
-        },
-        "placeOfPerformance": {
-          "address": {
-            "streetAddress": "149-159 High Street",
-            "locality": "Birmingham",
-            "region": "Digbeth",
-            "postalCode": "B12 0JU",
-            "countryName": "United Kingdom"
-          },
-          "description": "Further description of the place of performance of the contract. Required by EU."
-        }
-      }
-    ],
-    "lotGroups": [
-      {
-        "optionToCombine": false
-      }
-    ],
     "acceleratedProcedure": {
       "isAcceleratedProcedure": false
-    },
-    "classification": {
-      "scheme": "CPV",
-      "id": "Фармацевтична продукція",
-      "description": "33600000-6"
     },
     "designContest": {
       "serviceContractAward": false
@@ -199,103 +42,152 @@
     "jointProcurement": {
       "isJointProcurement": false
     },
-    "legalBasis": "DIRECTIVE_2014_24_EU",
     "procedureOutsourcing": {
       "procedureOutsourced": false
-    },
-    "procurementMethodAdditionalInfo": "Additional information about the procurement method.",
-    "submissionLanguages": [
-      "pl",
-      "ro"
-    ],
-    "submissionMethodRationale": [
-      "TOOLS_DEVICES_FILE_FORMATS_UNAVAILABLE",
-      "IPR_ISSUES"
-    ],
-    "dynamicPurchasingSystem": {
-      "hasDynamicPurchasingSystem": false
     },
     "framework": {
       "isAFramework": false
     },
-    "requiresElectronicCatalogue": false
-  },
-  "parties": [
-    {
-      "name": "Новороздільська міська лікарня",
-      "id": "UA-EDR-20764777",
+    "dynamicPurchasingSystem": {
+      "hasDynamicPurchasingSystem": false
+    },
+    "legalBasis": "NULL",
+    "procurementMethod": "selective",
+    "procurementMethodDetails": "Report think painting keep.",
+    "procurementMethodRationale": "Interest rather machine property left name prevent. Industry paper trade his personal while. Assume house author management friend.",
+    "procurementMethodAdditionalInfo": "Choose ten deal. Include prepare perhaps through site.",
+    "mainProcurementCategory": "works",
+    "additionalProcurementCategories": [
+      "services"
+    ],
+    "eligibilityCriteria": "Tax arm miss country fine finish determine. Plant scientist receive peace machine.",
+    "submissionLanguages": [
+      "et"
+    ],
+    "tenderPeriod": {
+      "endDate": "2018-06-22T12:07:15Z"
+    },
+    "contractPeriod": {
+      "startDate": "2018-04-22T11:57:15Z",
+      "endDate": "2018-08-28T14:56:33Z"
+    },
+    "value": {
+      "amount": 2.242941708764E10,
+      "currency": "HUF"
+    },
+    "lotGroups": [
+      {
+        "optionToCombine": false
+      }
+    ],
+    "lots": [
+      {
+        "id": "1",
+        "title": "Politics use throughout half pay short light at.",
+        "description": "Difference will religious accept. Art fast reduce anything so staff.",
+        "value": {
+          "amount": 7.441164434601E11,
+          "currency": "HUF"
+        },
+        "options": [
+          {
+            "hasOptions": false
+          }
+        ],
+        "variants": [
+          {
+            "hasVariants": false
+          }
+        ],
+        "renewals": [
+          {
+            "hasRenewals": false
+          }
+        ],
+        "recurrentProcurement": [
+          {
+            "isRecurrent": false
+          }
+        ],
+        "contractPeriod": {
+          "startDate": "2018-04-22T11:57:15Z",
+          "endDate": "2018-10-02T03:36:03Z"
+        },
+        "placeOfPerformance": {
+          "address": {
+            "streetAddress": "08300 Hurley Dam Suite 253",
+            "locality": "Warrenburgh",
+            "region": "Wyoming",
+            "postalCode": "45050-6538",
+            "countryName": "Lesotho"
+          },
+          "description": "Would police ahead performance."
+        }
+      }
+    ],
+    "items": [
+      {
+        "id": "1",
+        "classification": {
+          "id": "43262000-7",
+          "scheme": "CPV",
+          "description": "Excavating machinery"
+        },
+        "additionalClassifications": [
+          {
+            "id": "80320000-3",
+            "scheme": "CPV",
+            "description": "Medical education services"
+          }
+        ],
+        "quantity": 748.95,
+        "unit": {
+          "id": "E49",
+          "name": "working day"
+        },
+        "description": "Discover former base people happy. Be idea risk kitchen discuss.",
+        "relatedLot": "1"
+      }
+    ],
+    "awardCriteria": "bestProposal",
+    "requiresElectronicCatalogue": false,
+    "submissionMethod": [
+      "electronicSubmission"
+    ],
+    "submissionMethodRationale": [
+      "IPR_ISSUES"
+    ],
+    "submissionMethodDetails": "Medical thus current truth concern. Sea usually another.",
+    "procuringEntity": {
+      "name": "Bailey LLC",
       "identifier": {
         "scheme": "UA-EDR",
-        "id": "20764777",
-        "legalName": "Новороздільська міська лікарня",
-        "uri": "http://buyerTestLink.ua"
+        "id": "385-21-7829",
+        "legalName": "Bailey LLC PLC",
+        "uri": "http://www.hernandez-taylor.net/register.jsp"
       },
       "additionalIdentifiers": [
         {
           "scheme": "UA-EDR",
-          "id": "123123123",
-          "legalName": "Додатково Новороздільська міська лікарня",
-          "uri": "http://additionalBuyerTestLink.ua"
+          "id": "761-15-1939",
+          "legalName": "Bailey LLC Ltd",
+          "uri": "https://www.mendoza.biz/register/"
         }
       ],
       "address": {
-        "streetAddress": "вул. Винниченка, 37",
-        "locality": "місто Новий Розділ",
-        "region": "Львівська область",
-        "postalCode": "7770777",
-        "countryName": "Україна"
+        "streetAddress": "24661 Jacobs Inlet Suite 449",
+        "locality": "East Michaelview",
+        "region": "South Carolina",
+        "postalCode": "15938",
+        "countryName": "Comoros"
       },
       "contactPoint": {
-        "name": "Осипових Сергій Олександрович",
-        "email": "test2@test.test",
-        "telephone": "+380222222222",
-        "faxNumber": "+380222222222",
-        "url": "http://test.ua"
-      },
-      "roles": [
-        "buyer",
-        "procuringEntity"
-      ],
-      "details": {
-        "typeOfBuyer": "BODY_PUBLIC",
-        "mainGeneralActivity": "DEFENCE",
-        "mainSectoralActivity": "AIRPORT_RELATED_ACTIVITIES",
-        "isACentralPurchasingBody": false,
-        "scale": "micro"
-      },
-      "buyerProfile": "http://linkToInfoAboutBuyer.ua"
-    }
-  ],
-  "buyer": {
-    "name": "Новороздільська міська лікарня",
-    "id": "UA-EDR-20764777",
-    "identifier": {
-      "scheme": "UA-EDR",
-      "id": "20764777",
-      "legalName": "Новороздільська міська лікарня",
-      "uri": "http://buyerTestLink.ua"
-    },
-    "address": {
-      "streetAddress": "вул. Винниченка, 37",
-      "locality": "місто Новий Розділ",
-      "region": "Львівська область",
-      "postalCode": "7770777",
-      "countryName": "Україна"
-    },
-    "additionalIdentifiers": [
-      {
-        "scheme": "UA-EDR",
-        "id": "123123123",
-        "legalName": "Додатково Новороздільська міська лікарня",
-        "uri": "http://additionalBuyerTestLink.ua"
+        "name": "Linda Schultz",
+        "email": "heather35@hotmail.com",
+        "telephone": "993.605.8437x0963",
+        "faxNumber": "297.743.5269x6282",
+        "url": "https://www.lopez-payne.com/blog/posts/explore/main.html"
       }
-    ],
-    "contactPoint": {
-      "name": "Осипових Сергій Олександрович",
-      "email": "test2@test.test",
-      "telephone": "+380222222222",
-      "faxNumber": "+380222222222",
-      "url": "test3@test.test"
     }
   }
 }

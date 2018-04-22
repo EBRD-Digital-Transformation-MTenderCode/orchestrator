@@ -70,7 +70,7 @@
       <bpmn:outgoing>SequenceFlow_07dmk1v</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_07dmk1v" sourceRef="SetOperationTypeForPinTask" targetRef="ExclusiveGateway_1e4hcud" />
-    <bpmn:serviceTask id="StorageOpenDocsOfTenderTask" name="Storage open Documents of Tender" camunda:asyncBefore="true" camunda:delegateExpression="${StorageOpenDocsOfTender}">
+    <bpmn:serviceTask id="StorageOpenDocsOfTenderTask" name="Storage open Documents of Tender" camunda:asyncBefore="true" camunda:delegateExpression="${storageOpenDocsOfTender}">
       <bpmn:incoming>SequenceFlow_1cbh1qz</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_05xwucg</bpmn:outgoing>
     </bpmn:serviceTask>
