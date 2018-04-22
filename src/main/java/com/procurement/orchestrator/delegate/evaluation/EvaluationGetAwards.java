@@ -6,7 +6,6 @@ import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.EvaluationRestClient;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
-import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.Objects;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
@@ -16,19 +15,19 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class EvaluationCheckAwarded implements JavaDelegate {
+public class EvaluationGetAwards implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(EvaluationCheckAwarded.class);
+    private static final Logger LOG = LoggerFactory.getLogger(EvaluationGetAwards.class);
 
     private final EvaluationRestClient evaluationRestClient;
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public EvaluationCheckAwarded(final EvaluationRestClient evaluationRestClient,
-                                  final OperationService operationService,
-                                  final ProcessService processService,
-                                  final JsonUtil jsonUtil) {
+    public EvaluationGetAwards(final EvaluationRestClient evaluationRestClient,
+                               final OperationService operationService,
+                               final ProcessService processService,
+                               final JsonUtil jsonUtil) {
         this.evaluationRestClient = evaluationRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -43,7 +42,7 @@ public class EvaluationCheckAwarded implements JavaDelegate {
         final String taskId = execution.getCurrentActivityId();
         final String processId = execution.getProcessInstanceId();
         final JsonNode responseData = processService.processResponse(
-                evaluationRestClient.checkAwarded(
+                evaluationRestClient.getAwards(
                         params.getCpid(),
                         params.getNewStage(),
                         params.getCountry(),

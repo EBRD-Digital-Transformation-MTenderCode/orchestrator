@@ -28,11 +28,11 @@ public interface EvaluationRestClient {
                                             @RequestParam("owner") String owner,
                                             @RequestBody JsonNode dataDto) throws Exception;
 
-    @RequestMapping(path = "/evaluation/checkAwarded", method = RequestMethod.GET)
-    ResponseEntity<ResponseDto> checkAwarded(@RequestParam("identifier") String cpId,
-                                             @RequestParam("stage") String stage,
-                                             @RequestParam("country") String country,
-                                             @RequestParam("pmd") String pmd) throws Exception;
+    @RequestMapping(path = "/evaluation", method = RequestMethod.GET)
+    ResponseEntity<ResponseDto> getAwards(@RequestParam("identifier") String cpId,
+                                          @RequestParam("stage") String stage,
+                                          @RequestParam("country") String country,
+                                          @RequestParam("pmd") String pmd) throws Exception;
 
     @RequestMapping(path = "/evaluation/endAwardPeriod", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> endAwardPeriod(@RequestParam("identifier") String cpId,
