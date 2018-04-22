@@ -31,7 +31,7 @@
       <bpmn:outgoing>SequenceFlow_0yvod6v</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_0djgl78" sourceRef="ChronographUpdatePeriodTask" targetRef="ClarificationSavePeriodTask" />
-    <bpmn:serviceTask id="ChronographUpdatePeriodTask" name="Chronograph Update Period" camunda:asyncBefore="true" camunda:delegateExpression="${ChronographRescheduleEndTenderPeriod}">
+    <bpmn:serviceTask id="ChronographUpdatePeriodTask" name="Chronograph Update Period" camunda:asyncBefore="true" camunda:delegateExpression="${chronographRescheduleEndTenderPeriod}">
       <bpmn:incoming>SequenceFlow_0yvod6v</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0djgl78</bpmn:outgoing>
     </bpmn:serviceTask>
