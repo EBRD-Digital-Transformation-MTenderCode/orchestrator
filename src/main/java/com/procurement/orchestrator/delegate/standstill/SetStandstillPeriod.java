@@ -1,4 +1,4 @@
-package com.procurement.orchestrator.delegate;
+package com.procurement.orchestrator.delegate.standstill;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Params;
@@ -44,7 +44,7 @@ public class SetStandstillPeriod implements JavaDelegate {
         final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         params.setEndDate(dateUtil.format(dateUtil.localDateTimeNowUTC().plusSeconds(5)));
-        params.setOperationType("standstillPeriodEnd");
+        params.setOperationType("standstillPeriod");
         final String processId = execution.getProcessInstanceId();
         operationService.saveOperationStep(
                 execution,

@@ -40,11 +40,11 @@
       <bpmn:incoming>SequenceFlow_0vfomec</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0o5uq76</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="CheckRulesForStageTask" name="Check Rules For Stage" camunda:asyncBefore="true" camunda:delegateExpression="${checkRulesForStage}">
+    <bpmn:serviceTask id="CheckRulesForStageTask" name="Check Rules For Stage" camunda:delegateExpression="${checkRulesForStage}">
       <bpmn:incoming>SequenceFlow_1l47ura</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1fj2xka</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="SetOperationTypeForCnTask" name="Set Operation Type For Cn" camunda:asyncBefore="true" camunda:delegateExpression="${setOperationTypeForCn}">
+    <bpmn:serviceTask id="SetOperationTypeForCnTask" name="Set Operation Type For Cn" camunda:delegateExpression="${setOperationTypeForCn}">
       <bpmn:incoming>SequenceFlow_1fj2xka</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1p1p2yp</bpmn:outgoing>
     </bpmn:serviceTask>

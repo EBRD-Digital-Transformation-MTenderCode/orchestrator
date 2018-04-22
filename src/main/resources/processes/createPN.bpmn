@@ -32,7 +32,7 @@
       <bpmn:incoming>SequenceFlow_165gqdr</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0y27z9y</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="SaveStageParamsTask" name="Save Stage Params" camunda:asyncBefore="true" camunda:delegateExpression="${saveStageParams}">
+    <bpmn:serviceTask id="SaveStageParamsTask" name="Save Stage Params" camunda:delegateExpression="${saveStageParams}">
       <bpmn:incoming>SequenceFlow_099e1em</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0g4l6hq</bpmn:outgoing>
     </bpmn:serviceTask>

@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 public class CheckRulesForStage implements JavaDelegate {
 
     private static final Logger LOG = LoggerFactory.getLogger(CheckRulesForStage.class);
+    private static final String OPERATION_ERROR = "Operation for current stage is impossible.";
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
@@ -51,10 +52,7 @@ public class CheckRulesForStage implements JavaDelegate {
         if (operationService.isRulesExist(rules)) {
             operationService.saveOperationStep(execution, entity, params, jsonData);
         } else {
-            processService.terminateProcessWithMessage(
-                    params,
-                    processId,
-                    "Operation for current stage is impossible.");
+            processService.terminateProcessWithMessage(params, processId, OPERATION_ERROR);
         }
     }
 }

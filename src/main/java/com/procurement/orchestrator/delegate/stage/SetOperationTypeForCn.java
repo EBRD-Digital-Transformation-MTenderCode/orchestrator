@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 public class SetOperationTypeForCn implements JavaDelegate {
 
     private static final Logger LOG = LoggerFactory.getLogger(SetOperationTypeForCn.class);
+    private static final String OPERATION_ERROR = "Operation for current stage is impossible.";
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
@@ -48,10 +49,7 @@ public class SetOperationTypeForCn implements JavaDelegate {
                 operationService.saveOperationStep(execution, entity, params, jsonData);
                 break;
             default:
-                processService.terminateProcessWithMessage(
-                        params,
-                        processId,
-                        "Operation for current stage is impossible.");
+                processService.terminateProcessWithMessage(params, processId, OPERATION_ERROR);
         }
     }
 }

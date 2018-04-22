@@ -37,7 +37,7 @@
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_0k2najp" sourceRef="SubmissionValidatePeriodTask" targetRef="AccessStartNewStageTask" />
     <bpmn:sequenceFlow id="SequenceFlow_099e1em" sourceRef="NoticeCreateReleaseTask" targetRef="SaveStageParamsTask" />
-    <bpmn:serviceTask id="SaveStageParamsTask" name="Save Stage Params" camunda:asyncBefore="true" camunda:delegateExpression="${saveStageParams}">
+    <bpmn:serviceTask id="SaveStageParamsTask" name="Save Stage Params" camunda:delegateExpression="${saveStageParams}">
       <bpmn:incoming>SequenceFlow_099e1em</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0g4l6hq</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -48,7 +48,7 @@
       <bpmn:outgoing>SequenceFlow_0lvre2q</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_0lvre2q" sourceRef="SubmissionCopyBidsTask" targetRef="chronographEndTenderPeriodTask" />
-    <bpmn:serviceTask id="CheckRulesForStageTask" name="Check Rules For Stage" camunda:asyncBefore="true" camunda:delegateExpression="${checkRulesForStage}">
+    <bpmn:serviceTask id="CheckRulesForStageTask" name="Check Rules For Stage" camunda:delegateExpression="${checkRulesForStage}">
       <bpmn:incoming>SequenceFlow_165gqdr</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1d1qlpz</bpmn:outgoing>
     </bpmn:serviceTask>

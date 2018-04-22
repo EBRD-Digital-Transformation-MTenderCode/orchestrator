@@ -15,9 +15,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class QualificationGetAwards implements JavaDelegate {
+public class QualificationEndAwardPeriod implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(QualificationGetAwards.class);
+    private static final Logger LOG = LoggerFactory.getLogger(QualificationEndAwardPeriod.class);
 
     private final QualificationRestClient qualificationRestClient;
 
@@ -27,10 +27,10 @@ public class QualificationGetAwards implements JavaDelegate {
 
     private final JsonUtil jsonUtil;
 
-    public QualificationGetAwards(final QualificationRestClient qualificationRestClient,
-                                  final OperationService operationService,
-                                  final ProcessService processService,
-                                  final JsonUtil jsonUtil) {
+    public QualificationEndAwardPeriod(final QualificationRestClient qualificationRestClient,
+                                       final OperationService operationService,
+                                       final ProcessService processService,
+                                       final JsonUtil jsonUtil) {
         this.qualificationRestClient = qualificationRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -46,11 +46,12 @@ public class QualificationGetAwards implements JavaDelegate {
         final String taskId = execution.getCurrentActivityId();
         params.setOperationType("awardPeriodEnd");
         final JsonNode responseData = processService.processResponse(
-                qualificationRestClient.getAwards(
+                qualificationRestClient.endAwardPeriod(
                         params.getCpid(),
                         params.getNewStage(),
                         params.getCountry(),
-                        params.getPmd()),
+                        params.getPmd(),
+                        params.getEndDate()),
                 params,
                 processId,
                 taskId,
