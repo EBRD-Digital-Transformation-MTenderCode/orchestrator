@@ -78,7 +78,7 @@
       "bg"
     ],
     "tenderPeriod": {
-      "startDate": "2018-06-23T21:00:00Z"
+      "endDate": "2018-06-23T21:00:00Z"
     },
     "contractPeriod": {
       "startDate": "2018-06-24T21:00:00Z",
