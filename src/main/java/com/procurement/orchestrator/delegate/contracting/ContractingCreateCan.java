@@ -39,17 +39,13 @@ public class ContractingCreateCan implements JavaDelegate {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
-        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
+        final JsonNode requestData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode requestData = processService.getAccessData(jsonData, processId);
         final JsonNode responseData = processService.processResponse(
                 contractingRestClient.createCan(
-                        params.getNewStage(),
-                        params.getCountry(),
-                        params.getPmd(),
+                        params.getCpid(),
                         params.getOwner(),
-                        params.getStartDate(),
                         requestData),
                 params,
                 processId,
@@ -59,14 +55,7 @@ public class ContractingCreateCan implements JavaDelegate {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    addDataToParams(params, responseData, processId),
                     requestData,
-                    processService.setAccessData(jsonData, responseData, processId));
+                    responseData);
     }
-
-    private Params addDataToParams(final Params params, final JsonNode responseData, final String processId) {
-        params.setCpid(processService.getText("ocid", responseData, processId));
-        return processService.addAccessToParams(params, "tender", params.getCpid(), responseData, processId);
-    }
-
 }

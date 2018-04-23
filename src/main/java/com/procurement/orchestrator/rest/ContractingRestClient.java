@@ -12,21 +12,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(name = "e-contracting")
 public interface ContractingRestClient {
 
-    @RequestMapping(path = "/can", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> createCan(@RequestParam("stage") String stage,
-                                         @RequestParam("country") String country,
-                                         @RequestParam("pmd") String pmd,
-                                         @RequestParam("owner") String owner,
-                                         @RequestParam("date") String dateTime,
+    @RequestMapping(path = "/createCAN", method = RequestMethod.POST)
+    ResponseEntity<ResponseDto> createCan(@RequestParam(value = "identifier") String cpid,
+                                          @RequestParam(value = "owner") String owner,
+                                          @RequestBody JsonNode jsonData) throws Exception;
+
+    @RequestMapping(path = "/createAC", method = RequestMethod.POST)
+    ResponseEntity<ResponseDto> createAC(@RequestParam(value = "identifier") String cpid,
+                                         @RequestParam(value = "token") String token,
                                          @RequestBody JsonNode jsonData) throws Exception;
-
-    @RequestMapping(path = "/awardedContract", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> createAwardedContract(@RequestParam("stage") String stage,
-                                                      @RequestParam("country") String country,
-                                                      @RequestParam("pmd") String pmd,
-                                                      @RequestParam("owner") String owner,
-                                                      @RequestParam("date") String dateTime,
-                                                      @RequestBody JsonNode jsonData) throws Exception;
-
 
 }

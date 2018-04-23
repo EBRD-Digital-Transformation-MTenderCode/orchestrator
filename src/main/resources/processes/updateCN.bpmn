@@ -12,7 +12,7 @@
       <bpmn:incoming>SequenceFlow_0o4wzlj</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1l47ura</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="SubmissionSaveNewPeriodTask" name="eSubmission: Save New Period" camunda:asyncBefore="true" camunda:delegateExpression="${submissionSaveNewPeriod}">
+    <bpmn:serviceTask id="SubmissionSavePeriodTask" name="eSubmission: Save Period" camunda:asyncBefore="true" camunda:delegateExpression="${submissionSavePeriod}">
       <bpmn:incoming>SequenceFlow_0tfesjx</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_00y3le5</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -75,8 +75,8 @@
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_0u3658k" sourceRef="AccessCreateCnOnPnTask" targetRef="ExclusiveGateway_0y9zj8v" />
     <bpmn:sequenceFlow id="SequenceFlow_1v0ebm1" sourceRef="AccessCreateCnOnPinTask" targetRef="ExclusiveGateway_0y9zj8v" />
-    <bpmn:sequenceFlow id="SequenceFlow_0tfesjx" sourceRef="ExclusiveGateway_0y9zj8v" targetRef="SubmissionSaveNewPeriodTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_00y3le5" sourceRef="SubmissionSaveNewPeriodTask" targetRef="ChronographScheduleEndTenderPeriodTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0tfesjx" sourceRef="ExclusiveGateway_0y9zj8v" targetRef="SubmissionSavePeriodTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_00y3le5" sourceRef="SubmissionSavePeriodTask" targetRef="ChronographScheduleEndTenderPeriodTask" />
     <bpmn:sequenceFlow id="SequenceFlow_07kwzsu" sourceRef="ChronographScheduleEndTenderPeriodTask" targetRef="ClarificationSavePeriodTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0kmf9lc" sourceRef="ClarificationSavePeriodTask" targetRef="StorageOpenDocsOfTenderTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0o5uq76" sourceRef="NoticeCreateReleaseTask" targetRef="SaveStageParamsTask" />
@@ -106,7 +106,7 @@
       <bpmndi:BPMNShape id="ServiceTask_0kegmvr_di" bpmnElement="SaveFirstOperationTask">
         <dc:Bounds x="303" y="196" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_1tvffuw_di" bpmnElement="SubmissionSaveNewPeriodTask">
+      <bpmndi:BPMNShape id="ServiceTask_1tvffuw_di" bpmnElement="SubmissionSavePeriodTask">
         <dc:Bounds x="1022" y="196" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_07x4zvz_di" bpmnElement="AccessCreateCnOnPnTask">
