@@ -45,8 +45,8 @@ INSERT INTO ocds.orchestrator_rules (new_stage, prev_stage, country, pmd, phase,
 INSERT INTO ocds.orchestrator_rules (new_stage, prev_stage, country, pmd, phase, operation_type)  VALUES ('PQ', 'PQ', 'MD', 'RT', 'AWARDPERIOD', 'awardByBid');
 INSERT INTO ocds.orchestrator_rules (new_stage, prev_stage, country, pmd, phase, operation_type)  VALUES ('PQ', 'PS', 'MD', 'RT', 'ENDSTAGE', 'startNewStage');
 INSERT INTO ocds.orchestrator_rules (new_stage, prev_stage, country, pmd, phase, operation_type)  VALUES ('PIN', 'PN', 'MD', 'RT', 'PLANNING', 'updatePIN');
-INSERT INTO ocds.orchestrator_rules (new_stage, prev_stage, country, pmd, phase, operation_type)  VALUES ('CN', 'PN', 'MD', 'RT', 'PLANNING', 'updateCN');
-INSERT INTO ocds.orchestrator_rules (new_stage, prev_stage, country, pmd, phase, operation_type)  VALUES ('CN', 'PIN', 'MD', 'RT', 'PLANNED', 'updateCN');
+INSERT INTO ocds.orchestrator_rules (new_stage, prev_stage, country, pmd, phase, operation_type)  VALUES ('PS', 'PN', 'MD', 'RT', 'PLANNING', 'updateCN');
+INSERT INTO ocds.orchestrator_rules (new_stage, prev_stage, country, pmd, phase, operation_type)  VALUES ('PS', 'PIN', 'MD', 'RT', 'PLANNED', 'updateCN');
 INSERT INTO ocds.orchestrator_rules (new_stage, prev_stage, country, pmd, phase, operation_type)  VALUES ('PS', 'PS', 'MD', 'RT', 'AWARDPERIOD', 'awardPeriodEnd');
 INSERT INTO ocds.orchestrator_rules (new_stage, prev_stage, country, pmd, phase, operation_type)  VALUES ('PQ', 'PQ', 'MD', 'RT', 'AWARDPERIOD', 'awardPeriodEnd');
 
@@ -54,8 +54,8 @@ INSERT INTO ocds.orchestrator_rules (new_stage, prev_stage, country, pmd, phase,
 INSERT INTO ocds.orchestrator_rules (new_stage, prev_stage, country, pmd, phase, operation_type)  VALUES ('PQ', 'PQ', 'TEST', 'TEST', 'AWARDPERIOD', 'awardByBid');
 INSERT INTO ocds.orchestrator_rules (new_stage, prev_stage, country, pmd, phase, operation_type)  VALUES ('PQ', 'PS', 'TEST', 'TEST', 'ENDSTAGE', 'startNewStage');
 INSERT INTO ocds.orchestrator_rules (new_stage, prev_stage, country, pmd, phase, operation_type)  VALUES ('PIN', 'PN', 'TEST', 'TEST', 'PLANNING', 'updatePIN');
-INSERT INTO ocds.orchestrator_rules (new_stage, prev_stage, country, pmd, phase, operation_type)  VALUES ('CN', 'PN', 'TEST', 'TEST', 'PLANNING', 'updateCN');
-INSERT INTO ocds.orchestrator_rules (new_stage, prev_stage, country, pmd, phase, operation_type)  VALUES ('CN', 'PIN', 'TEST', 'TEST', 'PLANNED', 'updateCN');
+INSERT INTO ocds.orchestrator_rules (new_stage, prev_stage, country, pmd, phase, operation_type)  VALUES ('PS', 'PN', 'TEST', 'TEST', 'PLANNING', 'updateCN');
+INSERT INTO ocds.orchestrator_rules (new_stage, prev_stage, country, pmd, phase, operation_type)  VALUES ('PS', 'PIN', 'TEST', 'TEST', 'PLANNED', 'updateCN');
 INSERT INTO ocds.orchestrator_rules (new_stage, prev_stage, country, pmd, phase, operation_type)  VALUES ('PS', 'PS', 'TEST', 'TEST', 'AWARDPERIOD', 'awardPeriodEnd');
 INSERT INTO ocds.orchestrator_rules (new_stage, prev_stage, country, pmd, phase, operation_type)  VALUES ('PQ', 'PQ', 'TEST', 'TEST', 'AWARDPERIOD', 'awardPeriodEnd');
 

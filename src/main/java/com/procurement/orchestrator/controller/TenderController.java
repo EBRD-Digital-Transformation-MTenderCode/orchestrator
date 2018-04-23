@@ -69,9 +69,10 @@ public class TenderController extends BaseController {
         params.setOperationId(operationId);
         params.setCpid(identifier);
         params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
+        params.setEndDate(processService.getTenderPeriodEndDate(jsonData, null));
         params.setNewStage(Stage.PS.value());
         params.setProcessType("updateCN");
-        params.setProcessType("updateCN");
+        params.setOperationType("updateCN");
         params.setToken(token);
         params.setPhase("TENDERPERIOD");
         saveRequestAndCheckOperation(params, jsonData);
@@ -116,6 +117,7 @@ public class TenderController extends BaseController {
         params.setCpid(identifier);
         params.setToken(token);
         params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
+        params.setEndDate(processService.getTenderPeriodEndDate(jsonData, null));
         params.setNewStage(Stage.PIN.value());
         params.setProcessType("updatePIN");
         params.setOperationType("updatePIN");
@@ -161,6 +163,7 @@ public class TenderController extends BaseController {
         params.setOperationId(operationId);
         params.setCpid(identifier);
         params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
+        params.setEndDate(processService.getTenderPeriodEndDate(jsonData, null));
         params.setNewStage(Stage.fromValue(stage).value());
         params.setProcessType("submitTheBid");
         params.setOperationType("bid");

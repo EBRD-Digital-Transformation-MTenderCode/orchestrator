@@ -1,32 +1,31 @@
 {
   "planning": {
     "budget": {
-      "description": "Almost usually list up study. Director character other century on. Whole why necessary. Ground firm left say word.",
+      "description": "Budget Description",
       "amount": {
-        "amount": 3.853877325289906E14,
-        "currency": "AED"
+        "amount": 12345.76,
+        "currency": "AMD"
       },
       "isEuropeanUnionFunded": false,
       "budgetBreakdown": [
         {
-          "id": "ocds-t1s2t3-UA-1523016513864-FS-1523016518194",
-          "description": "Full true including plant opportunity significant. Travel month century action suggest father. Specific until especially mind short small. Strong campaign ahead.",
+          "id": "ocds-t1s2t3-MD-1524476436287-FS-1524476463761",
           "amount": {
-            "amount": 18562.31,
-            "currency": "AED"
+            "amount": 12355.4,
+            "currency": "AMD"
           }
         }
       ]
-    },
-    "rationale": "Economic major plan indeed."
+    }
   },
   "tender": {
-    "title": "Special rise strong candidate impact important.",
-    "description": "Notice wall thus wide effort wind significant story. Hotel catch develop ever.",
+    "id": "ocds-t1s2t3-MD-1524477554611",
+    "title": "tender",
+    "description": "",
     "classification": {
-      "id": "33124200-7",
       "scheme": "CPV",
-      "description": "Cordage"
+      "description": "Virus protection software packag",
+      "id": "48760000-3"
     },
     "acceleratedProcedure": {
       "isAcceleratedProcedure": false
@@ -51,29 +50,74 @@
     "dynamicPurchasingSystem": {
       "hasDynamicPurchasingSystem": false
     },
-    "legalBasis": "NATIONAL_PROCUREMENT_LAW",
+    "legalBasis": "DIRECTIVE_2014_23_EU",
     "procurementMethod": "open",
-    "procurementMethodDetails": "Woman kid describe.",
-    "procurementMethodRationale": "Nearly order class. Arm name crime boy these.",
-    "procurementMethodAdditionalInfo": "Let give than staff institution road write. Reflect bill strong everything.",
-    "mainProcurementCategory": "works",
+    "procurementMethodDetails": "",
+    "procurementMethodRationale": "",
+    "procurementMethodAdditionalInfo": "",
+    "mainProcurementCategory": "goods",
     "additionalProcurementCategories": [
-      "consultingServices"
+      "works",
+      "goods",
+      "works",
+      "works",
+      "goods"
     ],
-    "eligibilityCriteria": "So product behind sure cause push every none. Region network fire power miss look situation.",
+    "eligibilityCriteria": "",
     "submissionLanguages": [
-      "sl"
+      "de",
+      "en",
+      "fr",
+      "da",
+      "lt",
+      "pt",
+      "ro",
+      "hr",
+      "sk",
+      "el",
+      "bg"
     ],
     "tenderPeriod": {
-      "endDate": "2018-06-11T09:51:48Z"
+      "startDate": "2018-06-23T21:00:00Z"
     },
     "contractPeriod": {
-      "startDate": "2018-04-06T11:26:13Z",
-      "endDate": "2018-05-29T05:28:17Z"
+      "startDate": "2018-06-24T21:00:00Z",
+      "endDate": "2018-06-25T21:00:00Z"
+    },
+    "procuringEntity": {
+      "name": "111",
+      "identifier": {
+        "scheme": "2Additional identifier scheme*",
+        "id": "2Additional identifier ID*",
+        "legalName": "2Additional identifier legal name*",
+        "uri": "2Additional identifier URI*"
+      },
+      "additionalIdentifiers": [
+        {
+          "scheme": "",
+          "id": "",
+          "legalName": "",
+          "uri": ""
+        }
+      ],
+      "address": {
+        "streetAddress": "",
+        "locality": "",
+        "region": "",
+        "postalCode": "",
+        "countryName": ""
+      },
+      "contactPoint": {
+        "name": "",
+        "email": "",
+        "telephone": "",
+        "faxNumber": "",
+        "url": ""
+      }
     },
     "value": {
-      "amount": 240.29,
-      "currency": "AED"
+      "amount": 123,
+      "currency": "AMD"
     },
     "lotGroups": [
       {
@@ -82,12 +126,12 @@
     ],
     "lots": [
       {
-        "id": "1",
-        "title": "Never space month set.",
-        "description": "Example already section staff note four. Peace series measure organization close east.",
+        "id": "fa9c8032-46dc-11e8-80f3-753824ed692c",
+        "title": "lot1",
+        "description": "",
         "value": {
-          "amount": 5.048618902186E11,
-          "currency": "AED"
+          "amount": 123,
+          "currency": "AMD"
         },
         "options": [
           {
@@ -104,90 +148,120 @@
             "hasRenewals": false
           }
         ],
+        "contractPeriod": {
+          "startDate": "2018-06-24T21:00:00Z",
+          "endDate": "2018-06-28T21:00:00Z"
+        },
+        "placeOfPerformance": {
+          "address": {
+            "streetAddress": "",
+            "locality": "",
+            "region": "",
+            "postalCode": "",
+            "countryName": ""
+          },
+          "description": ""
+        }
+      },
+      {
+        "id": "fa9ca740-46dc-11e8-80f3-753824ed692c",
+        "title": "lot2",
+        "description": "",
+        "value": {
+          "amount": 123,
+          "currency": "AMD"
+        },
+        "options": [
+          {
+            "hasOptions": false
+          }
+        ],
+        "variants": [
+          {
+            "hasVariants": false
+          }
+        ],
+        "renewals": [
+          {
+            "hasRenewals": false
+          },
+          {
+            "hasRenewals": false
+          }
+        ],
         "recurrentProcurement": [
           {
             "isRecurrent": false
           }
         ],
         "contractPeriod": {
-          "startDate": "2018-04-06T11:26:13Z",
-          "endDate": "2018-04-22T05:35:51Z"
-        },
-        "placeOfPerformance": {
-          "address": {
-            "streetAddress": "57389 Rachel Plaza Suite 159",
-            "locality": "Jonathanview",
-            "region": "Indiana",
-            "postalCode": "43057-1964",
-            "countryName": "Bosnia and Herzegovina"
-          },
-          "description": "Local middle book we. All room season see car conference. Little different so data wish few energy."
+          "startDate": "2018-06-24T21:00:00Z",
+          "endDate": "2018-06-29T21:00:00Z"
         }
       }
     ],
     "items": [
       {
-        "id": "1",
+        "id": "fa9c8030-46dc-11e8-80f3-753824ed692c",
         "classification": {
-          "id": "33124200-7",
           "scheme": "CPV",
-          "description": "Recycling equipment"
+          "description": "Virus protection software package",
+          "id": "48760000-3"
         },
         "additionalClassifications": [
           {
-            "id": "33124200-7",
             "scheme": "CPV",
-            "description": "Oil or gas platforms insurance services"
+            "description": "Virus protection software package",
+            "id": "48760000-3"
           }
         ],
-        "quantity": 7.34,
+        "quantity": 1,
         "unit": {
-          "id": "MTQ",
-          "name": "cubic metre"
+          "id": "1",
+          "name": ""
         },
-        "description": "Live ground loss threat southern tough style. Example here side the stand. With benefit move heavy senior identify opportunity.",
-        "relatedLot": "1"
+        "description": "item1",
+        "relatedLot": "fa9c8032-46dc-11e8-80f3-753824ed692c"
+      },
+      {
+        "id": "fa9c8031-46dc-11e8-80f3-753824ed692c",
+        "classification": {
+          "scheme": "CPV",
+          "description": "Virus protection software package",
+          "id": "48760000-3"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "CPV",
+            "description": "Virus protection software package",
+            "id": "48760000-3"
+          }
+        ],
+        "quantity": 2,
+        "unit": {
+          "id": "1",
+          "name": ""
+        },
+        "description": "item2",
+        "relatedLot": "fa9ca740-46dc-11e8-80f3-753824ed692c"
       }
     ],
-    "awardCriteria": "lowestCost",
+    "awardCriteria": "priceOnly",
     "requiresElectronicCatalogue": false,
     "submissionMethod": [
-      "written"
+      "electronicSubmission"
     ],
-    "submissionMethodRationale": [
-      "SENSITIVE_INFORMATION"
-    ],
-    "submissionMethodDetails": "Deal age population difference region thousand five. Oil three use model leg billion today.",
-    "procuringEntity": {
-      "name": "Collins, Williams and Stevenson",
-      "identifier": {
-        "scheme": "UA-EDR",
-        "id": "515-56-4177",
-        "legalName": "Collins, Williams and Stevenson Ltd",
-        "uri": "https://www.preston.com/"
-      },
-      "additionalIdentifiers": [
-        {
-          "scheme": "UA-EDR",
-          "id": "122-53-6623",
-          "legalName": "Collins, Williams and Stevenson Inc",
-          "uri": "http://white.com/terms.php"
-        }
-      ],
-      "address": {
-        "streetAddress": "7097 Barbara Lake",
-        "locality": "Port Brendan",
-        "region": "Utah",
-        "postalCode": "73421",
-        "countryName": "Denmark"
-      },
-      "contactPoint": {
-        "name": "David Rogers",
-        "email": "pgalvan@yahoo.com",
-        "telephone": "279.294.4752",
-        "faxNumber": "(576)185-6583x879",
-        "url": "https://mullen.com/main/blog/homepage.jsp"
+    "documents": [
+      {
+        "documentType": "projectPlan",
+        "id": "6a214360-43d5-11e8-bd88-c70eb3dcb0fe",
+        "title": "test file",
+        "description": "File for test",
+        "language": "en",
+        "relatedLots": [
+          "fa9c8032-46dc-11e8-80f3-753824ed692c"
+        ]
       }
-    }
+    ]
   }
 }
