@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS  ocds.orchestrator_operation_step (
     request_data text,
     response_data text,
     json_params text,
+    cp_id text,
     primary key(process_id, task_id));
 
 CREATE TABLE IF NOT EXISTS  ocds.orchestrator_request (

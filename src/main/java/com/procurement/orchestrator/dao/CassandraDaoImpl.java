@@ -113,7 +113,8 @@ public class CassandraDaoImpl implements CassandraDao {
                 .value(STEP_DATE, entity.getDate())
                 .value(REQUEST_DATA, entity.getRequestData())
                 .value(RESPONSE_DATA, entity.getResponseData())
-                .value(JSON_PARAMS, entity.getJsonParams());
+                .value(JSON_PARAMS, entity.getJsonParams())
+                .value(CPID, entity.getCpId());
 
         session.execute(insert);
     }
@@ -137,7 +138,8 @@ public class CassandraDaoImpl implements CassandraDao {
                         row.getTimestamp(STEP_DATE),
                         row.getString(JSON_PARAMS),
                         row.getString(REQUEST_DATA),
-                        row.getString(RESPONSE_DATA)
+                        row.getString(RESPONSE_DATA),
+                        row.getString(CPID)
                 ));
     }
 

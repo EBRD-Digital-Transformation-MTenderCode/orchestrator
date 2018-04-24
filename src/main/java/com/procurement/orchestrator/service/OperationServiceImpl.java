@@ -11,6 +11,7 @@ import com.procurement.orchestrator.domain.entity.StageEntity;
 import com.procurement.orchestrator.exception.OperationException;
 import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
+import java.util.Objects;
 import java.util.Optional;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
@@ -112,6 +113,8 @@ public class OperationServiceImpl implements OperationService {
         entity.setJsonParams(jsonUtil.toJson(params));
         entity.setRequestData(jsonUtil.toJson(request));
         entity.setDate(dateUtil.dateNowUTC());
+        if (Objects.nonNull(params.getCpid()))
+            entity.setCpId(params.getCpid());
         cassandraDao.saveOperationStep(entity);
     }
 
@@ -133,6 +136,8 @@ public class OperationServiceImpl implements OperationService {
         entity.setRequestData(jsonUtil.toJson(request));
         entity.setResponseData(jsonUtil.toJson(response));
         entity.setDate(dateUtil.dateNowUTC());
+        if (Objects.nonNull(params.getCpid()))
+            entity.setCpId(params.getCpid());
         cassandraDao.saveOperationStep(entity);
     }
 
