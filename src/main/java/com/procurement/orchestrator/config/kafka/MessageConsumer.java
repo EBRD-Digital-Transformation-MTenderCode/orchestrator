@@ -51,8 +51,6 @@ public class MessageConsumer {
             params.setRequestId(UUIDs.timeBased().toString());
             params.setOperationId(params.getRequestId());
             params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
-            params.setProcessType("tenderPeriodEnd");
-            params.setPhase("AWARDPERIOD");
             requestService.saveRequest(
                     params.getRequestId(),
                     params.getOperationId(),

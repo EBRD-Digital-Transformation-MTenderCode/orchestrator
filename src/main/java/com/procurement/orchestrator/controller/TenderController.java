@@ -215,8 +215,13 @@ public class TenderController extends BaseController {
         params.setCpid(identifier);
         params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
         params.setNewStage(Stage.fromValue(stage).value());
-        params.setProcessType("awardByBid");
-        params.setOperationType("awardByBid");
+        if (params.getNewStage().equals(Stage.EV.value())) {
+            params.setProcessType("awardByBidEv");
+            params.setOperationType("awardByBidEv");
+        } else {
+            params.setProcessType("awardByBid");
+            params.setOperationType("awardByBid");
+        }
         params.setToken(token);
         saveRequestAndCheckOperation(params, jsonData);
         processService.startProcess(params, new HashMap<>());
@@ -235,8 +240,13 @@ public class TenderController extends BaseController {
         params.setCpid(identifier);
         params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
         params.setNewStage(Stage.fromValue(stage).value());
-        params.setProcessType("awardPeriodEnd");
-        params.setOperationType("awardPeriodEnd");
+        if (params.getNewStage().equals(Stage.EV.value())) {
+            params.setProcessType("awardPeriodEndEv");
+            params.setOperationType("awardPeriodEndEv");
+        } else {
+            params.setProcessType("awardPeriodEnd");
+            params.setOperationType("awardPeriodEnd");
+        }
         params.setPhase("ENDSTAGE");
         saveRequestAndCheckOperation(params, null);
         processService.startProcess(params, new HashMap<>());

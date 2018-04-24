@@ -2,6 +2,7 @@ package com.procurement.orchestrator.delegate.chronograph;
 
 import com.procurement.orchestrator.config.kafka.MessageProducer;
 import com.procurement.orchestrator.domain.Params;
+import com.procurement.orchestrator.domain.Stage;
 import com.procurement.orchestrator.domain.chronograph.ChronographTask;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.service.OperationService;
@@ -43,8 +44,14 @@ public class ChronographRescheduleEndTenderPeriod implements JavaDelegate {
         final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
         /**set params for next process*/
         final Params paramsForEndTenderPeriod = new Params();
-        paramsForEndTenderPeriod.setProcessType("tenderPeriodEnd");
-        paramsForEndTenderPeriod.setOperationType("tenderPeriodEnd");
+        if (params.getNewStage().equals(Stage.EV.value())) {
+            paramsForEndTenderPeriod.setProcessType("tenderPeriodEndEv");
+            params.setOperationType("tenderPeriodEndEv");
+        } else {
+            paramsForEndTenderPeriod.setProcessType("tenderPeriodEnd");
+            params.setOperationType("tenderPeriodEnd");
+        }
+        paramsForEndTenderPeriod.setPhase("AWARDPERIOD");
         paramsForEndTenderPeriod.setCpid(params.getCpid());
         paramsForEndTenderPeriod.setNewStage(params.getNewStage());
         paramsForEndTenderPeriod.setOwner(params.getOwner());
@@ -56,7 +63,7 @@ public class ChronographRescheduleEndTenderPeriod implements JavaDelegate {
         final ChronographTask task = new ChronographTask(
                 ChronographTask.ActionType.REPLACE,
                 params.getCpid(),
-                "tenderPeriodEnd",
+                params.getPhase(),
                 dateUtil.stringToLocal(params.getEndDate()),
                 jsonUtil.toJson(paramsForEndTenderPeriod));
         messageProducer.sendToChronograph(task);

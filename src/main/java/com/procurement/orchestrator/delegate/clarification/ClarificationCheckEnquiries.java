@@ -2,6 +2,7 @@ package com.procurement.orchestrator.delegate.clarification;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Params;
+import com.procurement.orchestrator.domain.Stage;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.ClarificationRestClient;
 import com.procurement.orchestrator.service.OperationService;
@@ -58,7 +59,6 @@ public class ClarificationCheckEnquiries implements JavaDelegate {
         final Boolean allAnswered = processService.getBoolean("allAnswered", responseData, processId);
         if (allAnswered != null) {
             execution.setVariable("checkEnquiries", allAnswered ? 1 : 2);
-            params.setOperationType("tenderPeriodEnd");
         } else {
             final String endDate = processService.getText("tenderPeriodEndDate", responseData, processId);
             execution.setVariable("checkEnquiries", 3);

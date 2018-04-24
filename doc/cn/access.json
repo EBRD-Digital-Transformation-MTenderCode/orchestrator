@@ -1,32 +1,31 @@
 {
   "planning": {
     "budget": {
-      "description": "Provide line during claim image. At media analysis these what focus. Weight contain experience particularly away treat give. New against care beat more against.",
+      "description": "Budget Description",
       "amount": {
-        "amount": 4.8822283147114E11,
-        "currency": "HUF"
+        "amount": 12345.76,
+        "currency": "AMD"
       },
       "isEuropeanUnionFunded": false,
       "budgetBreakdown": [
         {
-          "id": "ocds-t1s2t3-TEST-1524398230340-FS-1524398235317",
-          "description": "Leader not standard keep. West couple front baby discuss.",
+          "id": "ocds-t1s2t3-MD-1524124918543-FS-1524126471232",
           "amount": {
-            "amount": 4.8822283147114E11,
-            "currency": "HUF"
+            "amount": 12355.4,
+            "currency": "AMD"
           }
         }
       ]
-    },
-    "rationale": "Attention there level enter must night."
+    }
   },
   "tender": {
-    "title": "Dinner commercial anything.",
-    "description": "System word perform sister check. Doctor level him meet top bar.",
+    "id": "ocds-t1s2t3-MD-1524556902467",
+    "title": "tender",
+    "description": "",
     "classification": {
-      "id": "43262000-7",
       "scheme": "CPV",
-      "description": "Excavating machinery"
+      "description": "Virus protection software packag",
+      "id": "48760000-3"
     },
     "acceleratedProcedure": {
       "isAcceleratedProcedure": false
@@ -51,29 +50,45 @@
     "dynamicPurchasingSystem": {
       "hasDynamicPurchasingSystem": false
     },
-    "legalBasis": "NULL",
-    "procurementMethod": "selective",
-    "procurementMethodDetails": "Report think painting keep.",
-    "procurementMethodRationale": "Interest rather machine property left name prevent. Industry paper trade his personal while. Assume house author management friend.",
-    "procurementMethodAdditionalInfo": "Choose ten deal. Include prepare perhaps through site.",
-    "mainProcurementCategory": "works",
+    "legalBasis": "DIRECTIVE_2014_23_EU",
+    "procurementMethod": "open",
+    "procurementMethodDetails": "",
+    "procurementMethodRationale": "",
+    "procurementMethodAdditionalInfo": "",
+    "mainProcurementCategory": "goods",
     "additionalProcurementCategories": [
-      "services"
+      "works",
+      "goods"
     ],
-    "eligibilityCriteria": "Tax arm miss country fine finish determine. Plant scientist receive peace machine.",
+    "eligibilityCriteria": "",
     "submissionLanguages": [
-      "et"
+      "de",
+      "en",
+      "fr",
+      "da",
+      "lt",
+      "pt",
+      "ro",
+      "hr",
+      "sk",
+      "el",
+      "bg"
     ],
     "tenderPeriod": {
-      "endDate": "2018-06-22T12:07:15Z"
+      "endDate": "2018-07-24T21:00:00Z",
+      "startDate": "2018-04-24T08:18:25Z"
     },
     "contractPeriod": {
-      "startDate": "2018-04-22T11:57:15Z",
-      "endDate": "2018-08-28T14:56:33Z"
+      "startDate": "2018-06-24T21:00:00Z",
+      "endDate": "2018-06-25T21:00:00Z"
+    },
+    "procuringEntity": {
+      "name": "111",
+      "id": "2Additional identifier scheme*-2Additional identifier ID*"
     },
     "value": {
-      "amount": 2.242941708764E10,
-      "currency": "HUF"
+      "amount": 123,
+      "currency": "AMD"
     },
     "lotGroups": [
       {
@@ -82,12 +97,12 @@
     ],
     "lots": [
       {
-        "id": "1",
-        "title": "Politics use throughout half pay short light at.",
-        "description": "Difference will religious accept. Art fast reduce anything so staff.",
+        "id": "b99e7932-4795-11e8-a4fb-c709ad66a068",
+        "title": "lot1",
+        "description": "",
         "value": {
-          "amount": 7.441164434601E11,
-          "currency": "HUF"
+          "amount": 123,
+          "currency": "AMD"
         },
         "options": [
           {
@@ -110,84 +125,128 @@
           }
         ],
         "contractPeriod": {
-          "startDate": "2018-04-22T11:57:15Z",
-          "endDate": "2018-10-02T03:36:03Z"
+          "startDate": "2018-06-24T21:00:00Z",
+          "endDate": "2018-06-28T21:00:00Z"
         },
         "placeOfPerformance": {
           "address": {
-            "streetAddress": "08300 Hurley Dam Suite 253",
-            "locality": "Warrenburgh",
-            "region": "Wyoming",
-            "postalCode": "45050-6538",
-            "countryName": "Lesotho"
+            "streetAddress": "",
+            "locality": "",
+            "region": "",
+            "postalCode": "",
+            "countryName": ""
           },
-          "description": "Would police ahead performance."
+          "description": ""
+        }
+      },
+      {
+        "id": "b99f8aa0-4795-11e8-a4fb-c709ad66a068",
+        "title": "lot2",
+        "description": "",
+        "value": {
+          "amount": 123,
+          "currency": "AMD"
+        },
+        "options": [
+          {
+            "hasOptions": false
+          }
+        ],
+        "variants": [
+          {
+            "hasVariants": false
+          }
+        ],
+        "renewals": [
+          {
+            "hasRenewals": false
+          },
+          {
+            "hasRenewals": false
+          }
+        ],
+        "recurrentProcurement": [
+          {
+            "isRecurrent": false
+          }
+        ],
+        "contractPeriod": {
+          "startDate": "2018-06-24T21:00:00Z",
+          "endDate": "2018-06-29T21:00:00Z"
+        },
+        "placeOfPerformance": {
+          "address": {
+            "streetAddress": "",
+            "locality": "",
+            "region": "",
+            "postalCode": "",
+            "countryName": ""
+          }
         }
       }
     ],
     "items": [
       {
-        "id": "1",
+        "id": "b99e7931-4795-11e8-a4fb-c709ad66a068",
         "classification": {
-          "id": "43262000-7",
           "scheme": "CPV",
-          "description": "Excavating machinery"
+          "description": "Virus protection software package",
+          "id": "48760000-3"
         },
         "additionalClassifications": [
           {
-            "id": "80320000-3",
             "scheme": "CPV",
-            "description": "Medical education services"
+            "description": "Virus protection software package",
+            "id": "48760000-3"
           }
         ],
-        "quantity": 748.95,
+        "quantity": 1,
         "unit": {
-          "id": "E49",
-          "name": "working day"
+          "id": "1",
+          "name": ""
         },
-        "description": "Discover former base people happy. Be idea risk kitchen discuss.",
-        "relatedLot": "1"
+        "description": "item1",
+        "relatedLot": "b99e7932-4795-11e8-a4fb-c709ad66a068"
+      },
+      {
+        "id": "b99e7930-4795-11e8-a4fb-c709ad66a068",
+        "classification": {
+          "scheme": "CPV",
+          "description": "Virus protection software package",
+          "id": "48760000-3"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "CPV",
+            "description": "Virus protection software package",
+            "id": "48760000-3"
+          }
+        ],
+        "quantity": 2,
+        "unit": {
+          "id": "1",
+          "name": ""
+        },
+        "description": "item2",
+        "relatedLot": "b99f8aa0-4795-11e8-a4fb-c709ad66a068"
       }
     ],
-    "awardCriteria": "bestProposal",
+    "awardCriteria": "priceOnly",
     "requiresElectronicCatalogue": false,
     "submissionMethod": [
       "electronicSubmission"
     ],
-    "submissionMethodRationale": [
-      "IPR_ISSUES"
-    ],
-    "submissionMethodDetails": "Medical thus current truth concern. Sea usually another.",
-    "procuringEntity": {
-      "name": "Bailey LLC",
-      "identifier": {
-        "scheme": "UA-EDR",
-        "id": "385-21-7829",
-        "legalName": "Bailey LLC PLC",
-        "uri": "http://www.hernandez-taylor.net/register.jsp"
-      },
-      "additionalIdentifiers": [
-        {
-          "scheme": "UA-EDR",
-          "id": "761-15-1939",
-          "legalName": "Bailey LLC Ltd",
-          "uri": "https://www.mendoza.biz/register/"
-        }
-      ],
-      "address": {
-        "streetAddress": "24661 Jacobs Inlet Suite 449",
-        "locality": "East Michaelview",
-        "region": "South Carolina",
-        "postalCode": "15938",
-        "countryName": "Comoros"
-      },
-      "contactPoint": {
-        "name": "Linda Schultz",
-        "email": "heather35@hotmail.com",
-        "telephone": "993.605.8437x0963",
-        "faxNumber": "297.743.5269x6282",
-        "url": "https://www.lopez-payne.com/blog/posts/explore/main.html"
+    "documents": [
+      {
+        "documentType": "projectPlan",
+        "id": "6a214360-43d5-11e8-bd88-c70eb3dcb0fe",
+        "title": "test file",
+        "description": "File for test",
+        "language": "en",
+        "relatedLots": [
+          "b99e7932-4795-11e8-a4fb-c709ad66a068"
+        ]
       }
-    }
+    ]
   }
 }
