@@ -19,6 +19,7 @@ public class CheckRulesForStage implements JavaDelegate {
 
     private static final Logger LOG = LoggerFactory.getLogger(CheckRulesForStage.class);
     private static final String OPERATION_ERROR = "Operation for current stage is impossible.";
+    private static final String STAGE_ERROR = "Previous stage not found.";
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
@@ -39,20 +40,24 @@ public class CheckRulesForStage implements JavaDelegate {
         final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final StageEntity stageEntity = operationService.getStageParams(params.getCpid(), processId);
-        params.setCountry(stageEntity.getCountry());
-        params.setPmd(stageEntity.getPmd());
-        params.setPrevStage(stageEntity.getStage());
-        final Rules rules = new Rules(
-                params.getNewStage(),
-                params.getPrevStage(),
-                params.getCountry(),
-                params.getPmd(),
-                stageEntity.getPhase(),
-                params.getOperationType());
-        if (operationService.isRulesExist(rules)) {
-            operationService.saveOperationStep(execution, entity, params, jsonData);
+        if (stageEntity != null) {
+            params.setCountry(stageEntity.getCountry());
+            params.setPmd(stageEntity.getPmd());
+            params.setPrevStage(stageEntity.getStage());
+            final Rules rules = new Rules(
+                    params.getNewStage(),
+                    params.getPrevStage(),
+                    params.getCountry(),
+                    params.getPmd(),
+                    stageEntity.getPhase(),
+                    params.getOperationType());
+            if (operationService.isRulesExist(rules)) {
+                operationService.saveOperationStep(execution, entity, params, jsonData);
+            } else {
+                processService.terminateProcessWithMessage(params, processId, OPERATION_ERROR);
+            }
         } else {
-            processService.terminateProcessWithMessage(params, processId, OPERATION_ERROR);
+            processService.terminateProcessWithMessage(params, processId, STAGE_ERROR);
         }
     }
 }
