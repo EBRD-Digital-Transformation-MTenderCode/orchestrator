@@ -44,11 +44,11 @@ public class SendMessageToPlatform implements JavaDelegate {
                 params.getNewStage(),
                 null);
         messageProducer.sendToPlatform(message);
-        operationService.saveOperationException(
-                entity.getProcessId(),
-                execution.getCurrentActivityId(),
-                params.getOperationId(),
-                null,
+        operationService.saveOperationStep(
+                execution,
+                entity,
+                params,
                 jsonUtil.toJsonNode(message));
+
     }
 }
