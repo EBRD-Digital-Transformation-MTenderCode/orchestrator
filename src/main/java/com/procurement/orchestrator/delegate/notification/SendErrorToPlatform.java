@@ -4,6 +4,7 @@ import com.procurement.orchestrator.config.kafka.MessageProducer;
 import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.domain.PlatformMessage;
 import com.procurement.orchestrator.domain.entity.RequestEntity;
+import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.RequestService;
 import com.procurement.orchestrator.utils.JsonUtil;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
@@ -19,12 +20,15 @@ public class SendErrorToPlatform implements JavaDelegate {
     private final MessageProducer messageProducer;
     private final RequestService requestService;
     private final JsonUtil jsonUtil;
+    private final OperationService operationService;
 
     public SendErrorToPlatform(final MessageProducer messageProducer,
                                final RequestService requestService,
+                               final OperationService operationService,
                                final JsonUtil jsonUtil) {
         this.messageProducer = messageProducer;
         this.requestService = requestService;
+        this.operationService = operationService;
         this.jsonUtil = jsonUtil;
     }
 
@@ -43,5 +47,11 @@ public class SendErrorToPlatform implements JavaDelegate {
                 params.getNewStage(),
                 message);
         messageProducer.sendToPlatform(platformMessage);
+        operationService.saveOperationException(
+                execution.getProcessInstanceId(),
+                execution.getCurrentActivityId(),
+                params.getOperationId(),
+                null,
+                jsonUtil.toJsonNode(message));
     }
 }

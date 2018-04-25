@@ -28,7 +28,7 @@ eureka:
 ocds.prefix: ocds-t1s2t3
 
 camunda:
-  bpm:
+   bpm:
     auto-deployment-enabled: true
     history-level: none
 
