@@ -30,7 +30,7 @@
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1n5w707" sourceRef="NoticeCreateReleaseTask" targetRef="ServiceTask_0ql6wk4" />
     <bpmn:sequenceFlow id="SequenceFlow_1gx4xfj" sourceRef="StartEvent_1" targetRef="SaveFirstOperationTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0sbxc3m" sourceRef="SaveFirstOperationTask" targetRef="checkRulesForStageTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0sbxc3m" sourceRef="SaveFirstOperationTask" targetRef="CheckRulesForStageTask" />
     <bpmn:serviceTask id="AccessUpdateLotStatusTask" name="Access Update Lot Status" camunda:asyncBefore="true" camunda:delegateExpression="${accessUpdateLotStatus}">
       <bpmn:incoming>SequenceFlow_0b2l4w7</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_02bv6jg</bpmn:outgoing>
@@ -55,7 +55,7 @@
       <bpmn:outgoing>SequenceFlow_1frl87c</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="AccessCheckLotStatusDetailsTask" name="Access Check Lot Status Details" camunda:asyncBefore="true" camunda:delegateExpression="${accessCheckLotStatusDetails}">
-      <bpmn:incoming>SequenceFlow_1e49rst</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_1deq3fn</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_00ixu69</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_00ixu69" sourceRef="AccessCheckLotStatusDetailsTask" targetRef="ExclusiveGateway_1g2uct9" />
@@ -65,7 +65,7 @@
       <bpmn:outgoing>SequenceFlow_10ynws7</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="SequenceFlow_1094kaa" sourceRef="ExclusiveGateway_1g2uct9" targetRef="EndEvent_1">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${value==1}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${value==2}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:serviceTask id="EvaluationEndAwardPeriodTask" name="Evaluation End of Award Period" camunda:asyncBefore="true" camunda:delegateExpression="${evaluationEndAwardPeriod}">
       <bpmn:incoming>SequenceFlow_0fb2kuu</bpmn:incoming>
@@ -78,18 +78,18 @@
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1beb1tx" sourceRef="ContractingCreateAwardedContractTask" targetRef="NoticeCreateReleaseTask" />
     <bpmn:sequenceFlow id="SequenceFlow_10ynws7" sourceRef="ExclusiveGateway_1g2uct9" targetRef="SetStandstillPeriodTask">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${value==2}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${value==1}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_1frl87c" sourceRef="SetStandstillPeriodTask" targetRef="EvaluationGetAwardsTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1n3pk4j" sourceRef="EvaluationGetAwardsTask" targetRef="ContractingCreateCanTask" />
-    <bpmn:serviceTask id="checkRulesForStageTask" name="Check Rules For Stage" camunda:delegateExpression="${checkRulesForStage}">
-      <bpmn:incoming>SequenceFlow_0sbxc3m</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1e49rst</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_1e49rst" sourceRef="checkRulesForStageTask" targetRef="AccessCheckLotStatusDetailsTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0gup68w" sourceRef="ContractingCreateCanTask" targetRef="NoticePostTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0fb2kuu" sourceRef="NoticePostTask" targetRef="EvaluationEndAwardPeriodTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1r0y2dp" sourceRef="SendMessageTask" targetRef="EndEvent_1" />
+    <bpmn:serviceTask id="CheckRulesForStageTask" name="Check Rules For Stage" camunda:delegateExpression="${checkRulesForStage}">
+      <bpmn:incoming>SequenceFlow_0sbxc3m</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1deq3fn</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1deq3fn" sourceRef="CheckRulesForStageTask" targetRef="AccessCheckLotStatusDetailsTask" />
   </bpmn:process>
   <bpmn:error id="tr_exception" name="TR_EXCEPTION" errorCode="TR_EXCEPTION" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -243,16 +243,6 @@
           <dc:Bounds x="867" y="143" width="0" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_0og1l0d_di" bpmnElement="checkRulesForStageTask">
-        <dc:Bounds x="282" y="124" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="SequenceFlow_1e49rst_di" bpmnElement="SequenceFlow_1e49rst">
-        <di:waypoint xsi:type="dc:Point" x="382" y="164" />
-        <di:waypoint xsi:type="dc:Point" x="412" y="164" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="397" y="143" width="0" height="12" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0gup68w_di" bpmnElement="SequenceFlow_0gup68w">
         <di:waypoint xsi:type="dc:Point" x="982" y="164" />
         <di:waypoint xsi:type="dc:Point" x="1012" y="164" />
@@ -273,6 +263,16 @@
         <di:waypoint xsi:type="dc:Point" x="2053" y="298" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1987" y="245" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_0izjmr4_di" bpmnElement="CheckRulesForStageTask">
+        <dc:Bounds x="282" y="124" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1deq3fn_di" bpmnElement="SequenceFlow_1deq3fn">
+        <di:waypoint xsi:type="dc:Point" x="382" y="164" />
+        <di:waypoint xsi:type="dc:Point" x="412" y="164" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="397" y="143" width="0" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
