@@ -56,7 +56,6 @@ public class EvaluationUpdateAward implements JavaDelegate {
                 requestData);
         if (Objects.nonNull(responseData)) {
             operationService.saveOperationStep(execution, entity, requestData, responseData);
-            execution.setVariable("value", 1);
         }
     }
 }
