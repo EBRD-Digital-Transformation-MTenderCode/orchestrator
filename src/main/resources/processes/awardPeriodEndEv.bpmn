@@ -8,10 +8,6 @@
       <bpmn:incoming>SequenceFlow_1094kaa</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_1r0y2dp</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:serviceTask id="EvaluationGetAwardsTask" name="Evaluation Get Awards" camunda:asyncBefore="true" camunda:delegateExpression="${evaluationGetAwards}">
-      <bpmn:incoming>SequenceFlow_1frl87c</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1n3pk4j</bpmn:outgoing>
-    </bpmn:serviceTask>
     <bpmn:serviceTask id="SendMessageTask" name="Send &#10;message to platform&#10;" camunda:asyncBefore="true" camunda:delegateExpression="${sendMessageToPlatform}">
       <bpmn:incoming>SequenceFlow_0smtj68</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1r0y2dp</bpmn:outgoing>
@@ -21,6 +17,9 @@
       <bpmn:outgoing>SequenceFlow_0sbxc3m</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="ContractingCreateCanTask" name="Contracting Create CAN" camunda:asyncBefore="true" camunda:delegateExpression="${contractingCreateCan}">
+      <bpmn:extensionElements>
+        <camunda:failedJobRetryTimeCycle>R0/PT1S</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1n3pk4j</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0gup68w</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -73,6 +72,9 @@
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_0b2l4w7" sourceRef="EvaluationEndAwardPeriodTask" targetRef="AccessUpdateLotStatusTask" />
     <bpmn:serviceTask id="ContractingCreateAwardedContractTask" name="Contracting Create Awarded Contract" camunda:asyncBefore="true" camunda:delegateExpression="${contractingCreateAwardedContract}">
+      <bpmn:extensionElements>
+        <camunda:failedJobRetryTimeCycle>R0/PT1S</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_01afhxg</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1beb1tx</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -81,7 +83,6 @@
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${value==1}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_1frl87c" sourceRef="SetStandstillPeriodTask" targetRef="EvaluationGetAwardsTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1n3pk4j" sourceRef="EvaluationGetAwardsTask" targetRef="ContractingCreateCanTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0gup68w" sourceRef="ContractingCreateCanTask" targetRef="NoticePostTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0fb2kuu" sourceRef="NoticePostTask" targetRef="EvaluationEndAwardPeriodTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1r0y2dp" sourceRef="SendMessageTask" targetRef="EndEvent_1" />
@@ -90,6 +91,11 @@
       <bpmn:outgoing>SequenceFlow_1deq3fn</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1deq3fn" sourceRef="CheckRulesForStageTask" targetRef="AccessCheckLotStatusDetailsTask" />
+    <bpmn:serviceTask id="EvaluationGetAwardsTask" name="Evaluation Get Awards" camunda:asyncBefore="true" camunda:delegateExpression="${evaluationGetAwards}">
+      <bpmn:incoming>SequenceFlow_1frl87c</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1n3pk4j</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1n3pk4j" sourceRef="EvaluationGetAwardsTask" targetRef="ContractingCreateCanTask" />
   </bpmn:process>
   <bpmn:error id="tr_exception" name="TR_EXCEPTION" errorCode="TR_EXCEPTION" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -105,9 +111,6 @@
         <bpmndi:BPMNLabel>
           <dc:Bounds x="2026" y="320" width="90" height="12" />
         </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_1xpunoq_di" bpmnElement="EvaluationGetAwardsTask">
-        <dc:Bounds x="752" y="124" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_02g673z_di" bpmnElement="SendMessageTask">
         <dc:Bounds x="1922" y="124" width="100" height="80" />
@@ -233,14 +236,7 @@
         <di:waypoint xsi:type="dc:Point" x="722" y="164" />
         <di:waypoint xsi:type="dc:Point" x="752" y="164" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="737" y="143" width="0" height="12" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_1n3pk4j_di" bpmnElement="SequenceFlow_1n3pk4j">
-        <di:waypoint xsi:type="dc:Point" x="852" y="164" />
-        <di:waypoint xsi:type="dc:Point" x="882" y="164" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="867" y="143" width="0" height="12" />
+          <dc:Bounds x="692" y="143" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0gup68w_di" bpmnElement="SequenceFlow_0gup68w">
@@ -273,6 +269,16 @@
         <di:waypoint xsi:type="dc:Point" x="412" y="164" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="397" y="143" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_1xpunoq_di" bpmnElement="EvaluationGetAwardsTask">
+        <dc:Bounds x="752" y="124" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1n3pk4j_di" bpmnElement="SequenceFlow_1n3pk4j">
+        <di:waypoint xsi:type="dc:Point" x="852" y="164" />
+        <di:waypoint xsi:type="dc:Point" x="882" y="164" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="822" y="143" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>

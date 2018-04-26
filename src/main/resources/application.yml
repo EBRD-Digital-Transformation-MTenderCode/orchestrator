@@ -63,3 +63,9 @@ e-storage:
 e-qualification:
   ribbon:
     listOfServers: http://10.0.10.116:9091
+e-evaluation:
+  ribbon:
+    listOfServers: http://10.0.10.116:9081
+e-contracting:
+  ribbon:
+    listOfServers: http://10.0.10.116:9151

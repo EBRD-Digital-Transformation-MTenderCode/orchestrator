@@ -44,6 +44,9 @@
     <bpmn:sequenceFlow id="SequenceFlow_1gczw0v" sourceRef="ClarificationSavePeriodTask" targetRef="NoticeCreateReleaseTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0g4l6hq" sourceRef="SaveStageParamsTask" targetRef="SendMessageTask" />
     <bpmn:serviceTask id="SubmissionCopyBidsTask" name="Submission Copy Bids" camunda:asyncBefore="true" camunda:delegateExpression="${submissionCopyBids}">
+      <bpmn:extensionElements>
+        <camunda:failedJobRetryTimeCycle>R0/PT1S</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_14i5ne9</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0lvre2q</bpmn:outgoing>
     </bpmn:serviceTask>

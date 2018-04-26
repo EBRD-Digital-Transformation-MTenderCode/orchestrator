@@ -57,6 +57,9 @@
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isTokenPresent==1}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:serviceTask id="ClarificationCreateEnquiryTask" name="Clarification Create Enquiry" camunda:asyncBefore="true" camunda:delegateExpression="${clarificationCreateEnquiry}">
+      <bpmn:extensionElements>
+        <camunda:failedJobRetryTimeCycle>R0/PT1S</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_08q61ym</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1dft457</bpmn:outgoing>
     </bpmn:serviceTask>

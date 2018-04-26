@@ -301,8 +301,10 @@ public class TenderController extends BaseController {
         params.setProcessType("tenderPeriodEndEv");
         params.setOperationType("tenderPeriodEndEv");
         params.setPhase("AWARDPERIOD");
+        final Map<String, Object> variables = new HashMap<>();
+        variables.put("checkEnquiries", 0);
         saveRequestAndCheckOperation(params, null);
-        processService.startProcess(params, new HashMap<>());
+        processService.startProcess(params,variables);
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 }

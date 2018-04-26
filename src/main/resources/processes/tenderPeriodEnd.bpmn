@@ -28,6 +28,9 @@
       <bpmn:outgoing>SequenceFlow_1t7unhz</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="QualificationCreateAwardsTask" name="Qualification Create Awards" camunda:asyncBefore="true" camunda:delegateExpression="${qualificationCreateAwards}">
+      <bpmn:extensionElements>
+        <camunda:failedJobRetryTimeCycle>R0/PT1S</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1t7unhz</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0yvod6v</bpmn:outgoing>
     </bpmn:serviceTask>

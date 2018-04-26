@@ -1,66 +1,306 @@
 {
   "bids": [
     {
-      "id": "c3c07f60-17cc-11e8-8b5d-1b89f27b90be",
-      "relatedLots": [
-        "lot-id-123123"
-      ],
-      "date": "2018-02-22T12:34:45.848Z",
-      "createdDate": "2018-02-22T12:34:45Z",
-      "pendingDate": "2018-02-22T12:34:45Z",
-      "value": {
-        "amount": 0.0,
-        "currency": "AED"
-      },
+      "id": "a9a99b00-4956-11e8-90c7-6b4da7d6f3d2",
+      "date": "2018-04-26T13:51:59Z",
+      "status": "pending",
+      "statusDetails": "empty",
       "tenderers": [
         {
-          "id": "UA-EDR-12354",
-          "name": "Test Name"
+          "id": "UA-EDR-240-94-3030",
+          "name": "Parker-Jacobson",
+          "identifier": {
+            "id": "240-94-3030",
+            "scheme": "UA-EDR",
+            "legalName": "Parker-Jacobson LLC",
+            "uri": "https://www.nolan.info/"
+          },
+          "address": {
+            "streetAddress": "337 Anthony Springs Suite 581",
+            "locality": "North Timothy",
+            "region": "Kansas",
+            "postalCode": "38579-5989",
+            "countryName": "Jamaica"
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "648-28-7270",
+              "scheme": "UA-EDR",
+              "legalName": "Parker-Jacobson LLC",
+              "uri": "http://aguilar.net/wp-content/index/"
+            }
+          ],
+          "contactPoint": {
+            "name": "Michael Robinson",
+            "email": "anthony62@hotmail.com",
+            "telephone": "1-152-794-4107x555",
+            "faxNumber": "(731)102-4228x884",
+            "url": "http://www.valdez-lane.com/"
+          }
         }
+      ],
+      "value": {
+        "amount": 0.123,
+        "currency": "UAH"
+      },
+      "relatedLots": [
+        "3dfce881-4956-11e8-8e46-3774229333d2"
       ]
     },
     {
-      "id": "ea1fe220-17ce-11e8-a14c-c9532c477378",
-      "relatedLots": [
-        "lot-id-123123"
-      ],
-      "date": "2018-02-22T12:34:45.848Z",
-      "createdDate": "2018-02-22T12:50:09Z",
-      "pendingDate": "2018-02-22T12:50:09Z",
-      "value": {
-        "amount": 0.0,
-        "currency": "AED"
-      },
+      "id": "aa6f34f0-4956-11e8-90c7-6b4da7d6f3d2",
+      "date": "2018-04-26T13:51:59Z",
+      "status": "pending",
+      "statusDetails": "empty",
       "tenderers": [
         {
-          "id": "UA-EDR-12354",
-          "name": "Test Name"
+          "id": "UA-EDR-660-39-2583",
+          "name": "White-Sanchez",
+          "identifier": {
+            "id": "660-39-2583",
+            "scheme": "UA-EDR",
+            "legalName": "White-Sanchez Group",
+            "uri": "http://www.smith-mcdonald.com/"
+          },
+          "address": {
+            "streetAddress": "7759 West Forks Apt. 723",
+            "locality": "Clarkville",
+            "region": "Rhode Island",
+            "postalCode": "99606",
+            "countryName": "Saint Lucia"
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "397-66-0936",
+              "scheme": "UA-EDR",
+              "legalName": "White-Sanchez Inc",
+              "uri": "http://hubbard.biz/faq/"
+            }
+          ],
+          "contactPoint": {
+            "name": "Michael Russell",
+            "email": "christopherhuffman@gmail.com",
+            "telephone": "790.867.8376x897",
+            "faxNumber": "00155722876",
+            "url": "http://www.cross-burton.com/author.php"
+          }
         }
+      ],
+      "value": {
+        "amount": 0.123,
+        "currency": "UAH"
+      },
+      "relatedLots": [
+        "3dfce881-4956-11e8-8e46-3774229333d2"
       ]
     },
     {
-      "id": "59ebb9d0-17cf-11e8-a6e0-bfe8378f6b5d",
-      "relatedLots": [
-        "lot-id-123123"
-      ],
-      "date": "2018-02-22T12:34:45.848Z",
-      "createdDate": "2018-02-22T12:53:16Z",
-      "pendingDate": "2018-02-22T12:53:16Z",
-      "value": {
-        "amount": 0.0,
-        "currency": "AED"
-      },
+      "id": "aad1c750-4956-11e8-90c7-6b4da7d6f3d2",
+      "date": "2018-04-26T13:51:59Z",
+      "status": "pending",
+      "statusDetails": "empty",
       "tenderers": [
         {
-          "id": "UA-EDR-12354",
-          "name": "Test Name"
+          "id": "UA-EDR-896-75-3289",
+          "name": "Freeman LLC",
+          "identifier": {
+            "id": "896-75-3289",
+            "scheme": "UA-EDR",
+            "legalName": "Freeman LLC LLC",
+            "uri": "http://www.mcneil.com/blog/list/categories/category/"
+          },
+          "address": {
+            "streetAddress": "2843 Jessica Run",
+            "locality": "Parkerport",
+            "region": "Alabama",
+            "postalCode": "76726",
+            "countryName": "Portugal"
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "523-92-9119",
+              "scheme": "UA-EDR",
+              "legalName": "Freeman LLC and Sons",
+              "uri": "http://www.miller.biz/app/blog/tag/privacy/"
+            }
+          ],
+          "contactPoint": {
+            "name": "Judy Smith",
+            "email": "awilson@gmail.com",
+            "telephone": "587-251-4822x48206",
+            "faxNumber": "322.295.4191x1321",
+            "url": "https://www.gillespie.org/author/"
+          }
         }
+      ],
+      "value": {
+        "amount": 456.123,
+        "currency": "UAH"
+      },
+      "relatedLots": [
+        "3dfce881-4956-11e8-8e46-3774229333d2"
       ]
     }
   ],
   "lots": [
     {
-      "id": "lot-id-123123"
+      "id": "3dfce881-4956-11e8-8e46-3774229333d2"
     }
-  ]
+  ],
+  "awardPeriod": {
+    "startDate": "2018-04-26T14:18:55Z"
+  },
+  "awards": [
+    {
+      "id": "d68ffe63-495c-11e8-9c55-fd51a12c4627",
+      "token": "cb9d628b-2c1d-455b-ab82-a9c8bcf656f6",
+      "date": "2018-04-26T14:19:32Z",
+      "description": "",
+      "status": "pending",
+      "statusDetails": "consideration",
+      "value": {
+        "amount": 0.123,
+        "currency": "UAH"
+      },
+      "relatedLots": [
+        "3dfce881-4956-11e8-8e46-3774229333d2"
+      ],
+      "relatedBid": "a9a99b00-4956-11e8-90c7-6b4da7d6f3d2",
+      "suppliers": [
+        {
+          "id": "UA-EDR-240-94-3030",
+          "name": "Parker-Jacobson",
+          "identifier": {
+            "id": "240-94-3030",
+            "scheme": "UA-EDR",
+            "legalName": "Parker-Jacobson LLC",
+            "uri": "https://www.nolan.info/"
+          },
+          "address": {
+            "streetAddress": "337 Anthony Springs Suite 581",
+            "locality": "North Timothy",
+            "region": "Kansas",
+            "postalCode": "38579-5989",
+            "countryName": "Jamaica"
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "648-28-7270",
+              "scheme": "UA-EDR",
+              "legalName": "Parker-Jacobson LLC",
+              "uri": "http://aguilar.net/wp-content/index/"
+            }
+          ],
+          "contactPoint": {
+            "name": "Michael Robinson",
+            "email": "anthony62@hotmail.com",
+            "telephone": "1-152-794-4107x555",
+            "faxNumber": "(731)102-4228x884",
+            "url": "http://www.valdez-lane.com/"
+          }
+        }
+      ]
+    },
+    {
+      "id": "d68ffe64-495c-11e8-9c55-fd51a12c4627",
+      "token": "93ef0207-891c-4d30-9eb4-c4cb9ce4c814",
+      "date": "2018-04-26T14:19:32Z",
+      "description": "",
+      "status": "pending",
+      "statusDetails": "empty",
+      "value": {
+        "amount": 0.123,
+        "currency": "UAH"
+      },
+      "relatedLots": [
+        "3dfce881-4956-11e8-8e46-3774229333d2"
+      ],
+      "relatedBid": "aa6f34f0-4956-11e8-90c7-6b4da7d6f3d2",
+      "suppliers": [
+        {
+          "id": "UA-EDR-660-39-2583",
+          "name": "White-Sanchez",
+          "identifier": {
+            "id": "660-39-2583",
+            "scheme": "UA-EDR",
+            "legalName": "White-Sanchez Group",
+            "uri": "http://www.smith-mcdonald.com/"
+          },
+          "address": {
+            "streetAddress": "7759 West Forks Apt. 723",
+            "locality": "Clarkville",
+            "region": "Rhode Island",
+            "postalCode": "99606",
+            "countryName": "Saint Lucia"
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "397-66-0936",
+              "scheme": "UA-EDR",
+              "legalName": "White-Sanchez Inc",
+              "uri": "http://hubbard.biz/faq/"
+            }
+          ],
+          "contactPoint": {
+            "name": "Michael Russell",
+            "email": "christopherhuffman@gmail.com",
+            "telephone": "790.867.8376x897",
+            "faxNumber": "00155722876",
+            "url": "http://www.cross-burton.com/author.php"
+          }
+        }
+      ]
+    },
+    {
+      "id": "d68ffe65-495c-11e8-9c55-fd51a12c4627",
+      "token": "924e2df5-20fd-4e71-a946-6c7eca87330f",
+      "date": "2018-04-26T14:19:32Z",
+      "description": "",
+      "status": "pending",
+      "statusDetails": "empty",
+      "value": {
+        "amount": 456.123,
+        "currency": "UAH"
+      },
+      "relatedLots": [
+        "3dfce881-4956-11e8-8e46-3774229333d2"
+      ],
+      "relatedBid": "aad1c750-4956-11e8-90c7-6b4da7d6f3d2",
+      "suppliers": [
+        {
+          "id": "UA-EDR-896-75-3289",
+          "name": "Freeman LLC",
+          "identifier": {
+            "id": "896-75-3289",
+            "scheme": "UA-EDR",
+            "legalName": "Freeman LLC LLC",
+            "uri": "http://www.mcneil.com/blog/list/categories/category/"
+          },
+          "address": {
+            "streetAddress": "2843 Jessica Run",
+            "locality": "Parkerport",
+            "region": "Alabama",
+            "postalCode": "76726",
+            "countryName": "Portugal"
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "523-92-9119",
+              "scheme": "UA-EDR",
+              "legalName": "Freeman LLC and Sons",
+              "uri": "http://www.miller.biz/app/blog/tag/privacy/"
+            }
+          ],
+          "contactPoint": {
+            "name": "Judy Smith",
+            "email": "awilson@gmail.com",
+            "telephone": "587-251-4822x48206",
+            "faxNumber": "322.295.4191x1321",
+            "url": "https://www.gillespie.org/author/"
+          }
+        }
+      ]
+    }
+  ],
+  "unsuccessfulLots": []
 }
