@@ -48,6 +48,7 @@ public class EvaluationUpdateAward implements JavaDelegate {
                         params.getNewStage(),
                         params.getToken(),
                         params.getOwner(),
+                        params.getStartDate(),
                         requestData),
                 params,
                 processId,

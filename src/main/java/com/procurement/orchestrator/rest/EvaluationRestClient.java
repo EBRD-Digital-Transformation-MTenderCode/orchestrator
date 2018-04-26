@@ -18,7 +18,8 @@ public interface EvaluationRestClient {
                                              @RequestParam("owner") String owner,
                                              @RequestParam("country") String country,
                                              @RequestParam("pmd") String pmd,
-                                             @RequestParam("startDate") String startDate,
+                                             @RequestParam("awardCriteria") String awardCriteria,
+                                             @RequestParam("date") String dateTime,
                                              @RequestBody JsonNode dataDto) throws Exception;
 
     @RequestMapping(path = "/evaluation", method = RequestMethod.PUT)
@@ -26,6 +27,7 @@ public interface EvaluationRestClient {
                                             @RequestParam("stage") String stage,
                                             @RequestParam("token") String token,
                                             @RequestParam("owner") String owner,
+                                            @RequestParam(value = "date") String dateTime,
                                             @RequestBody JsonNode dataDto) throws Exception;
 
     @RequestMapping(path = "/evaluation", method = RequestMethod.GET)

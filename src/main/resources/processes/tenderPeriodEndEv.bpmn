@@ -25,10 +25,10 @@
     </bpmn:serviceTask>
     <bpmn:serviceTask id="AccessGetLotsTask" name="Access Get Lots" camunda:asyncBefore="true" camunda:delegateExpression="${accessGetLots}">
       <bpmn:incoming>SequenceFlow_0ggq87j</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1t7unhz</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_0tf8jmn</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="EvaluationCreateAwardsTask" name="Evaluation Create Awards" camunda:asyncBefore="true" camunda:delegateExpression="${evaluationCreateAwards}">
-      <bpmn:incoming>SequenceFlow_1t7unhz</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_0tf8jmn</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0yvod6v</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_0djgl78" sourceRef="SubmissionUpdateBidStatusTask" targetRef="AccessUpdateLotStatusTask" />
@@ -86,7 +86,6 @@
     <bpmn:sequenceFlow id="SequenceFlow_01bmiwq" sourceRef="ExclusiveGateway_0hg3tz9" targetRef="SubmissionGetBidsTask">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${checkEnquiries==1}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_1t7unhz" sourceRef="AccessGetLotsTask" targetRef="EvaluationCreateAwardsTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1ismtjk" sourceRef="StorageOpenDocsOfBibsTask" targetRef="NoticeCreateReleaseTask" />
     <bpmn:sequenceFlow id="SequenceFlow_115fths" sourceRef="AccessSuspendTenderTask" targetRef="NoticeCreateReleaseTask" />
     <bpmn:serviceTask id="SaveStageParamsTask" name="Save Stage Params" camunda:delegateExpression="${saveStageParams}">
@@ -95,6 +94,7 @@
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1r7tdno" sourceRef="SaveStageParamsTask" targetRef="SendMessageTask" />
     <bpmn:sequenceFlow id="SequenceFlow_019t9u2" sourceRef="chronographUpdatePeriodTask" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="SequenceFlow_0tf8jmn" sourceRef="AccessGetLotsTask" targetRef="EvaluationCreateAwardsTask" />
   </bpmn:process>
   <bpmn:error id="tr_exception" name="TR_EXCEPTION" errorCode="TR_EXCEPTION" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -239,13 +239,6 @@
           <dc:Bounds x="758" y="156" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_1t7unhz_di" bpmnElement="SequenceFlow_1t7unhz">
-        <di:waypoint xsi:type="dc:Point" x="1042" y="177" />
-        <di:waypoint xsi:type="dc:Point" x="1068" y="177" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1010" y="156" width="90" height="12" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1ismtjk_di" bpmnElement="SequenceFlow_1ismtjk">
         <di:waypoint xsi:type="dc:Point" x="1546" y="177" />
         <di:waypoint xsi:type="dc:Point" x="1610" y="177" />
@@ -279,6 +272,13 @@
         <di:waypoint xsi:type="dc:Point" x="2040" y="177" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="2012" y="90.5" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0tf8jmn_di" bpmnElement="SequenceFlow_0tf8jmn">
+        <di:waypoint xsi:type="dc:Point" x="1042" y="177" />
+        <di:waypoint xsi:type="dc:Point" x="1068" y="177" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1055" y="156" width="0" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
