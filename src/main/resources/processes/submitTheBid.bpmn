@@ -37,20 +37,20 @@
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1et5xwd" sourceRef="SubmissionCreateBidTask" targetRef="ExclusiveGateway_0rteoo4" />
     <bpmn:sequenceFlow id="SequenceFlow_045aoy9" sourceRef="SubmissionUpdateBidTask" targetRef="ExclusiveGateway_0rteoo4" />
-    <bpmn:serviceTask id="ServiceTask_07afguu" name="Send pjsitive task to platform" camunda:asyncBefore="true" camunda:delegateExpression="${sendMessageToPlatform}">
+    <bpmn:serviceTask id="SendMessageTask" name="Send &#10;message to platform" camunda:asyncBefore="true" camunda:delegateExpression="${sendMessageToPlatform}">
       <bpmn:incoming>SequenceFlow_02w4twd</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_062dyz9</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:endEvent id="EndEvent_1g4psv1">
       <bpmn:incoming>SequenceFlow_062dyz9</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:sequenceFlow id="SequenceFlow_062dyz9" sourceRef="ServiceTask_07afguu" targetRef="EndEvent_1g4psv1" />
+    <bpmn:sequenceFlow id="SequenceFlow_062dyz9" sourceRef="SendMessageTask" targetRef="EndEvent_1g4psv1" />
     <bpmn:exclusiveGateway id="ExclusiveGateway_0rteoo4">
       <bpmn:incoming>SequenceFlow_1et5xwd</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_045aoy9</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_02w4twd</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="SequenceFlow_02w4twd" sourceRef="ExclusiveGateway_0rteoo4" targetRef="ServiceTask_07afguu" />
+    <bpmn:sequenceFlow id="SequenceFlow_02w4twd" sourceRef="ExclusiveGateway_0rteoo4" targetRef="SendMessageTask" />
     <bpmn:serviceTask id="CheckStageTask" name="Check Stage" camunda:delegateExpression="${checkStage}">
       <bpmn:incoming>SequenceFlow_196ohf0</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_11mjyl2</bpmn:outgoing>
@@ -127,7 +127,7 @@
           <dc:Bounds x="650" y="334" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_07afguu_di" bpmnElement="ServiceTask_07afguu">
+      <bpmndi:BPMNShape id="ServiceTask_07afguu_di" bpmnElement="SendMessageTask">
         <dc:Bounds x="831" y="235" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="EndEvent_1g4psv1_di" bpmnElement="EndEvent_1g4psv1">

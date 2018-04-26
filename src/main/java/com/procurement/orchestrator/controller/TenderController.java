@@ -277,5 +277,30 @@ public class TenderController extends BaseController {
         processService.startProcess(params, new HashMap<>());
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
+
+    @RequestMapping(value = "/tenderPeriodEndEv", method = RequestMethod.POST)
+    public ResponseEntity<String> newStage(@RequestHeader("Authorization") final String authorization,
+                                           @RequestHeader("X-OPERATION-ID") final String operationId,
+                                           @RequestHeader("identifier") final String identifier,
+                                           @RequestParam("stage") final String stage,
+                                           @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+                                           @RequestParam("endDate") final LocalDateTime endDate) {
+        final Params params = new Params();
+        params.setRequestId(UUIDs.timeBased().toString());
+        params.setOwner(getOwner(authorization));
+        params.setOperationId(operationId);
+        params.setCpid(identifier);
+        params.setCountry("TEST");
+        params.setPmd("TEST");
+        params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
+        params.setEndDate(dateUtil.format(endDate));
+        params.setNewStage(Stage.fromValue(stage).value());
+        params.setProcessType("tenderPeriodEndEv");
+        params.setOperationType("tenderPeriodEndEv");
+        params.setPhase("AWARDPERIOD");
+        saveRequestAndCheckOperation(params, null);
+        processService.startProcess(params, new HashMap<>());
+        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
+    }
 }
 
