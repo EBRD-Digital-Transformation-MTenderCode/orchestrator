@@ -1,96 +1,68 @@
 {
-  "award": {
-    "id": "d35da5e5-4aeb-11e8-8a9d-9bcea6e4a7b3",
-    "date": "2018-04-28T13:56:48Z",
-    "description": "Award description",
-    "status": "pending",
-    "statusDetails": "active",
-    "value": {
-      "amount": 8500.12,
-      "currency": "SZL"
-    },
-    "relatedLots": [
-      "518eeff0-4add-11e8-9693-d33f0eb35339"
-    ],
-    "relatedBid": "58cfc780-4add-11e8-be72-957885a61a7f",
-    "suppliers": [
-      {
-        "id": "UA-EDR-108-08-1981",
-        "name": "Fowler Ltd",
-        "identifier": {
-          "id": "108-08-1981",
-          "scheme": "UA-EDR",
-          "legalName": "Fowler Ltd Inc",
-          "uri": "https://barton-miller.com/author.html"
-        },
-        "address": {
-          "streetAddress": "105 Smith Square Suite 106",
-          "locality": "North Rebecca",
-          "region": "Nevada",
-          "postalCode": "79194-5658",
-          "countryName": "Macao"
-        },
-        "additionalIdentifiers": [
-          {
-            "id": "051-32-9351",
-            "scheme": "UA-EDR",
-            "legalName": "Fowler Ltd and Sons",
-            "uri": "https://johns.com/categories/app/about/"
-          }
-        ],
-        "contactPoint": {
-          "name": "Teresa Greene",
-          "email": "lewischristopher@yahoo.com",
-          "telephone": "242.674.8071",
-          "faxNumber": "384-358-2781x5779",
-          "url": "https://joyce.biz/tag/app/homepage.html"
-        }
-      }
-    ]
+  "standstillPeriod": {
+    "startDate": "2018-04-28T18:01:39Z",
+    "endDate": "2018-04-28T18:01:51Z"
   },
-  "lot": {
-    "id": "518eeff0-4add-11e8-9693-d33f0eb35339",
-    "title": "Positive industry work exactly truth which.",
-    "description": "Reveal forget while value other itself. National position car process particular. Child magazine bill her.",
-    "status": "active",
-    "statusDetails": "awarded",
-    "value": {
-      "amount": 446122.6,
-      "currency": "SZL"
-    },
-    "options": [
-      {
-        "hasOptions": false
-      }
-    ],
-    "recurrentProcurement": [
-      {
-        "isRecurrent": false
-      }
-    ],
-    "renewals": [
-      {
-        "hasRenewals": false
-      }
-    ],
-    "variants": [
-      {
-        "hasVariants": false
-      }
-    ],
-    "contractPeriod": {
-      "startDate": "2018-04-28T12:11:34Z",
-      "endDate": "2018-08-13T06:43:45Z"
-    },
-    "placeOfPerformance": {
-      "address": {
-        "streetAddress": "7817 Jones Port",
-        "locality": "Lake Josephview",
-        "region": "New York",
-        "postalCode": "40935",
-        "countryName": "Tanzania"
+  "awards": [
+    {
+      "id": "fcccb143-4afb-11e8-a419-4111baa213cd",
+      "date": "2018-04-28T15:55:03Z",
+      "description": "Award description",
+      "status": "pending",
+      "statusDetails": "active",
+      "value": {
+        "amount": 8.699256453E7,
+        "currency": "SDD"
       },
-      "description": "Police military out act director begin nor whether. Focus animal investment."
+      "relatedLots": [
+        "b2743601-4afa-11e8-a948-dba4a94d27bc"
+      ],
+      "relatedBid": "b2cf7560-4afa-11e8-be72-957885a61a7f",
+      "suppliers": [
+        {
+          "id": "UA-EDR-849-85-1868",
+          "name": "Hill-Fernandez",
+          "identifier": {
+            "id": "849-85-1868",
+            "scheme": "UA-EDR",
+            "legalName": "Hill-Fernandez LLC",
+            "uri": "http://www.pratt.biz/list/tag/main/index/"
+          },
+          "address": {
+            "streetAddress": "0337 Reese Locks",
+            "locality": "Rasmussenchester",
+            "region": "Oklahoma",
+            "postalCode": "68786-5309",
+            "countryName": "Belize"
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "607-54-3077",
+              "scheme": "UA-EDR",
+              "legalName": "Hill-Fernandez and Sons",
+              "uri": "https://www.johnson.com/"
+            }
+          ],
+          "contactPoint": {
+            "name": "Laura Summers",
+            "email": "nsmith@yahoo.com",
+            "telephone": "(645)994-0756x480",
+            "faxNumber": "(925)173-1707x257",
+            "url": "https://www.shaw-kirby.biz/category/"
+          }
+        }
+      ]
     }
-  }
+  ],
+  "cans": [
+    {
+      "token": "3e874d40-4b0e-11e8-91da-a9c51d30fab2",
+      "contract": {
+        "id": "3e874d40-4b0e-11e8-91da-a9c51d30fab2",
+        "awardID": "fcccb143-4afb-11e8-a419-4111baa213cd",
+        "status": "pending",
+        "statusDetails": "contractProject"
+      }
+    }
+  ]
 }

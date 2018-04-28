@@ -51,6 +51,10 @@ public interface ProcessService {
 
     JsonNode addAwardData(JsonNode jsonData, JsonNode awardData, String processId);
 
+    JsonNode addAwards(JsonNode jsonData, JsonNode awardsData, String processId);
+
+    JsonNode addCans(JsonNode jsonData, JsonNode cansData, String processId);
+
     JsonNode getUnsuccessfulLots(JsonNode jsonData, String processId);
 
     JsonNode getTenderLots(JsonNode jsonData, String processId);

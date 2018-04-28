@@ -39,6 +39,7 @@ public class EvaluationGetAwards implements JavaDelegate {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
+        final JsonNode requestData = jsonUtil.toJsonNode(entity.getResponseData());
         final String taskId = execution.getCurrentActivityId();
         final String processId = execution.getProcessInstanceId();
         final JsonNode responseData = processService.processResponse(
@@ -50,9 +51,13 @@ public class EvaluationGetAwards implements JavaDelegate {
                 params,
                 processId,
                 taskId,
-                jsonUtil.empty());
+                requestData);
         if (Objects.nonNull(responseData)) {
-            operationService.saveOperationStep(execution, entity, jsonUtil.empty(), responseData);
+            operationService.saveOperationStep(
+                    execution,
+                    entity,
+                    requestData,
+                    processService.addAwards(requestData, responseData, processId));
         }
     }
 }

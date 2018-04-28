@@ -56,6 +56,6 @@ public class ContractingCreateCan implements JavaDelegate {
                     execution,
                     entity,
                     requestData,
-                    responseData);
+                    processService.addCans(requestData, responseData, processId));
     }
 }

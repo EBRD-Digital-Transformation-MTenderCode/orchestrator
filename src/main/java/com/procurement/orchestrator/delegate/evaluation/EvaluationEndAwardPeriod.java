@@ -41,7 +41,7 @@ public class EvaluationEndAwardPeriod implements JavaDelegate {
         final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
         final String taskId = execution.getCurrentActivityId();
         final String processId = execution.getProcessInstanceId();
-        params.setOperationType("awardPeriodEnd");
+        params.setOperationType("awardPeriodEndEv");
         final JsonNode responseData = processService.processResponse(
                 evaluationRestClient.endAwardPeriod(
                         params.getCpid(),
