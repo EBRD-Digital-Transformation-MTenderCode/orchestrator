@@ -1,7 +1,96 @@
 {
   "award": {
-    "id": "7757d5d4-4970-11e8-a63a-9dc6b7f90895",
+    "id": "d35da5e5-4aeb-11e8-8a9d-9bcea6e4a7b3",
+    "date": "2018-04-28T13:56:48Z",
+    "description": "Award description",
+    "status": "pending",
     "statusDetails": "active",
-    "description": "Award description"
+    "value": {
+      "amount": 8500.12,
+      "currency": "SZL"
+    },
+    "relatedLots": [
+      "518eeff0-4add-11e8-9693-d33f0eb35339"
+    ],
+    "relatedBid": "58cfc780-4add-11e8-be72-957885a61a7f",
+    "suppliers": [
+      {
+        "id": "UA-EDR-108-08-1981",
+        "name": "Fowler Ltd",
+        "identifier": {
+          "id": "108-08-1981",
+          "scheme": "UA-EDR",
+          "legalName": "Fowler Ltd Inc",
+          "uri": "https://barton-miller.com/author.html"
+        },
+        "address": {
+          "streetAddress": "105 Smith Square Suite 106",
+          "locality": "North Rebecca",
+          "region": "Nevada",
+          "postalCode": "79194-5658",
+          "countryName": "Macao"
+        },
+        "additionalIdentifiers": [
+          {
+            "id": "051-32-9351",
+            "scheme": "UA-EDR",
+            "legalName": "Fowler Ltd and Sons",
+            "uri": "https://johns.com/categories/app/about/"
+          }
+        ],
+        "contactPoint": {
+          "name": "Teresa Greene",
+          "email": "lewischristopher@yahoo.com",
+          "telephone": "242.674.8071",
+          "faxNumber": "384-358-2781x5779",
+          "url": "https://joyce.biz/tag/app/homepage.html"
+        }
+      }
+    ]
+  },
+  "lot": {
+    "id": "518eeff0-4add-11e8-9693-d33f0eb35339",
+    "title": "Positive industry work exactly truth which.",
+    "description": "Reveal forget while value other itself. National position car process particular. Child magazine bill her.",
+    "status": "active",
+    "statusDetails": "awarded",
+    "value": {
+      "amount": 446122.6,
+      "currency": "SZL"
+    },
+    "options": [
+      {
+        "hasOptions": false
+      }
+    ],
+    "recurrentProcurement": [
+      {
+        "isRecurrent": false
+      }
+    ],
+    "renewals": [
+      {
+        "hasRenewals": false
+      }
+    ],
+    "variants": [
+      {
+        "hasVariants": false
+      }
+    ],
+    "contractPeriod": {
+      "startDate": "2018-04-28T12:11:34Z",
+      "endDate": "2018-08-13T06:43:45Z"
+    },
+    "placeOfPerformance": {
+      "address": {
+        "streetAddress": "7817 Jones Port",
+        "locality": "Lake Josephview",
+        "region": "New York",
+        "postalCode": "40935",
+        "countryName": "Tanzania"
+      },
+      "description": "Police military out act director begin nor whether. Focus animal investment."
+    }
   }
 }
