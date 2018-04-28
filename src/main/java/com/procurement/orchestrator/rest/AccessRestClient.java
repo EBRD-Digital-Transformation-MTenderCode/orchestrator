@@ -99,7 +99,7 @@ public interface AccessRestClient {
                                                         @RequestParam("statusDetails") String statusDetails,
                                                         @RequestBody JsonNode lotsDto) throws Exception;
 
-    @PostMapping("/lots/updateStatusDetailsById")
+    @RequestMapping(path = "/lots/updateStatusDetailsById", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> updateStatusDetailsById(@RequestParam("identifier") String cpId,
                                                         @RequestParam("stage") String stage,
                                                         @RequestParam("statusDetails") String statusDetails,
