@@ -52,7 +52,7 @@ INSERT INTO ocds.orchestrator_rules (new_stage, prev_stage, country, pmd, phase,
 INSERT INTO ocds.orchestrator_rules (new_stage, prev_stage, country, pmd, phase, operation_type)  VALUES ('PS', 'PIN', 'MD', 'RT', 'PLANNED', 'updateCN');
 INSERT INTO ocds.orchestrator_rules (new_stage, prev_stage, country, pmd, phase, operation_type)  VALUES ('PS', 'PS', 'MD', 'RT', 'AWARDPERIOD', 'awardPeriodEnd');
 INSERT INTO ocds.orchestrator_rules (new_stage, prev_stage, country, pmd, phase, operation_type)  VALUES ('PQ', 'PQ', 'MD', 'RT', 'AWARDPERIOD', 'awardPeriodEnd');
-INSERT INTO ocds.orchestrator_rules (new_stage, prev_stage, country, pmd, phase, operation_type)  VALUES ('EV', 'EV', 'MD', 'RT', 'AWARDPERIOD', 'awardPeriodEndEV');
+INSERT INTO ocds.orchestrator_rules (new_stage, prev_stage, country, pmd, phase, operation_type)  VALUES ('EV', 'EV', 'MD', 'RT', 'AWARDPERIOD', 'awardPeriodEndEv');
 
 INSERT INTO ocds.orchestrator_rules (new_stage, prev_stage, country, pmd, phase, operation_type)  VALUES ('PS', 'PS', 'TEST', 'TEST', 'AWARDPERIOD', 'awardByBid');
 INSERT INTO ocds.orchestrator_rules (new_stage, prev_stage, country, pmd, phase, operation_type)  VALUES ('PQ', 'PQ', 'TEST', 'TEST', 'AWARDPERIOD', 'awardByBid');
@@ -64,7 +64,7 @@ INSERT INTO ocds.orchestrator_rules (new_stage, prev_stage, country, pmd, phase,
 INSERT INTO ocds.orchestrator_rules (new_stage, prev_stage, country, pmd, phase, operation_type)  VALUES ('PS', 'PIN', 'TEST', 'TEST', 'PLANNED', 'updateCN');
 INSERT INTO ocds.orchestrator_rules (new_stage, prev_stage, country, pmd, phase, operation_type)  VALUES ('PS', 'PS', 'TEST', 'TEST', 'AWARDPERIOD', 'awardPeriodEnd');
 INSERT INTO ocds.orchestrator_rules (new_stage, prev_stage, country, pmd, phase, operation_type)  VALUES ('PQ', 'PQ', 'TEST', 'TEST', 'AWARDPERIOD', 'awardPeriodEnd');
-INSERT INTO ocds.orchestrator_rules (new_stage, prev_stage, country, pmd, phase, operation_type)  VALUES ('EV', 'EV', 'TEST', 'TEST', 'AWARDPERIOD', 'awardPeriodEndEV');
+INSERT INTO ocds.orchestrator_rules (new_stage, prev_stage, country, pmd, phase, operation_type)  VALUES ('EV', 'EV', 'TEST', 'TEST', 'AWARDPERIOD', 'awardPeriodEndEv');
 
 SELECT * FROM ocds.orchestrator_operation_step;
 SELECT * FROM ocds.orchestrator_operation;

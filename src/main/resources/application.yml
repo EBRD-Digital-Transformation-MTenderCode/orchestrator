@@ -33,6 +33,8 @@ camunda:
     history-level: none
 
 feign:
+  hystrix:
+    enabled: false
   client:
     config:
       default:

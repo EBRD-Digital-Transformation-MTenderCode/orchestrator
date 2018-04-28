@@ -39,6 +39,7 @@ public class TenderController extends BaseController {
                                            @RequestHeader("X-OPERATION-ID") final String operationId,
                                            @RequestParam("country") final String country,
                                            @RequestParam("pmd") final String pmd,
+                                           @RequestParam("stage") final String stage,
                                            @RequestBody final JsonNode jsonData) {
         final Params params = new Params();
         params.setRequestId(UUIDs.timeBased().toString());
@@ -46,7 +47,7 @@ public class TenderController extends BaseController {
         params.setOperationId(operationId);
         params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
         params.setEndDate(processService.getTenderPeriodEndDate(jsonData, null));
-        params.setNewStage(Stage.PS.value());
+        params.setNewStage(Stage.fromValue(stage).value());
         params.setProcessType("createCN");
         params.setOperationType("createCN");
         params.setCountry(Country.fromValue(country.toUpperCase()).value());
@@ -62,6 +63,7 @@ public class TenderController extends BaseController {
                                            @RequestHeader("X-OPERATION-ID") final String operationId,
                                            @RequestHeader("X-TOKEN") final String token,
                                            @PathVariable("identifier") final String identifier,
+                                           @RequestParam("stage") final String stage,
                                            @RequestBody final JsonNode jsonData) {
         final Params params = new Params();
         params.setRequestId(UUIDs.timeBased().toString());
@@ -70,7 +72,7 @@ public class TenderController extends BaseController {
         params.setCpid(identifier);
         params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
         params.setEndDate(processService.getTenderPeriodEndDate(jsonData, null));
-        params.setNewStage(Stage.PS.value());
+        params.setNewStage(Stage.fromValue(stage).value());
         params.setProcessType("updateCN");
         params.setOperationType("updateCN");
         params.setToken(token);
@@ -87,13 +89,14 @@ public class TenderController extends BaseController {
                                             @RequestHeader("X-OPERATION-ID") final String operationId,
                                             @RequestParam("country") final String country,
                                             @RequestParam("pmd") final String pmd,
+                                            @RequestParam("stage") final String stage,
                                             @RequestBody final JsonNode jsonData) {
         final Params params = new Params();
         params.setRequestId(UUIDs.timeBased().toString());
         params.setOwner(getOwner(authorization));
         params.setOperationId(operationId);
         params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
-        params.setNewStage(Stage.PIN.value());
+        params.setNewStage(Stage.fromValue(stage).value());
         params.setProcessType("createPIN");
         params.setOperationType("createPIN");
         params.setCountry(Country.fromValue(country.toUpperCase()).value());
@@ -109,6 +112,7 @@ public class TenderController extends BaseController {
                                             @RequestHeader("X-OPERATION-ID") final String operationId,
                                             @RequestHeader("X-TOKEN") final String token,
                                             @PathVariable("identifier") final String identifier,
+                                            @RequestParam("stage") final String stage,
                                             @RequestBody final JsonNode jsonData) {
         final Params params = new Params();
         params.setRequestId(UUIDs.timeBased().toString());
@@ -118,7 +122,7 @@ public class TenderController extends BaseController {
         params.setToken(token);
         params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
         params.setEndDate(processService.getTenderPeriodEndDate(jsonData, null));
-        params.setNewStage(Stage.PIN.value());
+        params.setNewStage(Stage.fromValue(stage).value());
         params.setProcessType("updatePIN");
         params.setOperationType("updatePIN");
         params.setPhase("PLANNED");
@@ -134,13 +138,14 @@ public class TenderController extends BaseController {
                                            @RequestHeader("X-OPERATION-ID") final String operationId,
                                            @RequestParam("country") final String country,
                                            @RequestParam("pmd") final String pmd,
+                                           @RequestParam("stage") final String stage,
                                            @RequestBody final JsonNode jsonData) {
         final Params params = new Params();
         params.setRequestId(UUIDs.timeBased().toString());
         params.setOwner(getOwner(authorization));
         params.setOperationId(operationId);
         params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
-        params.setNewStage(Stage.PN.value());
+        params.setNewStage(Stage.fromValue(stage).value());
         params.setProcessType("createPN");
         params.setOperationType("createPN");
         params.setCountry(Country.fromValue(country.toUpperCase()).value());
@@ -244,7 +249,6 @@ public class TenderController extends BaseController {
         params.setNewStage(Stage.fromValue(stage).value());
         final Map<String, Object> variables = new HashMap<>();
         if (params.getNewStage().equals(Stage.EV.value())) {
-            variables.put("value", 1);
             params.setProcessType("awardPeriodEndEv");
             params.setOperationType("awardPeriodEndEv");
         } else {
