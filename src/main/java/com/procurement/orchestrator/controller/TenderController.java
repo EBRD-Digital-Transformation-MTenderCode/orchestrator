@@ -154,7 +154,7 @@ public class TenderController extends BaseController {
     @RequestMapping(value = "/bid/{identifier}", method = RequestMethod.POST)
     public ResponseEntity<String> createBid(@RequestHeader("Authorization") final String authorization,
                                             @RequestHeader("X-OPERATION-ID") final String operationId,
-                                            @RequestHeader("X-TOKEN", required = false) final String token,
+                                            @RequestHeader(value = "X-TOKEN", required = false) final String token,
                                             @PathVariable("identifier") final String identifier,
                                             @RequestParam("stage") final String stage,
                                             @RequestBody final JsonNode jsonData) {
@@ -179,7 +179,7 @@ public class TenderController extends BaseController {
     @RequestMapping(value = "/enquiry/{identifier}", method = RequestMethod.POST)
     public ResponseEntity<String> enquiry(@RequestHeader("Authorization") final String authorization,
                                           @RequestHeader("X-OPERATION-ID") final String operationId,
-                                          @RequestHeader("X-TOKEN", required = false) final String token,
+                                          @RequestHeader(value = "X-TOKEN", required = false) final String token,
                                           @PathVariable("identifier") final String identifier,
                                           @RequestParam("stage") final String stage,
                                           @RequestBody final JsonNode jsonData) {
