@@ -63,9 +63,13 @@ public interface ProcessService {
 
     String getAwardRelatedBid(JsonNode jsonData, String processId);
 
+    String getLotId(JsonNode jsonData, String processId);
+
     String getAwardStatusDetails(JsonNode jsonData, String processId);
 
     JsonNode addUpdatedBid(JsonNode jsonData, JsonNode bidData, String processId);
+
+    JsonNode addUpdatedLot(JsonNode jsonData, JsonNode lotData, String processId);
 
     JsonNode getDocumentsOfTender(JsonNode jsonData, String processId);
 

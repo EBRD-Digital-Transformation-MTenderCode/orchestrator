@@ -217,7 +217,7 @@ public class TenderController extends BaseController {
         params.setNewStage(Stage.fromValue(stage).value());
         final Map<String, Object> variables = new HashMap<>();
         if (params.getNewStage().equals(Stage.EV.value())) {
-            variables.put("value", 1);
+            variables.put("awardStatusDetails", "");
             params.setProcessType("awardByBidEv");
             params.setOperationType("awardByBidEv");
         } else {

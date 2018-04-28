@@ -293,6 +293,17 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
+
+    public String getLotId(final JsonNode jsonData, final String processId) {
+        try {
+            final ArrayNode lotsNode = (ArrayNode) jsonData.get("award").get("relatedLots");
+            return lotsNode.get(0).asText();
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
     public String getAwardStatusDetails(final JsonNode jsonData, final String processId) {
         try {
             return jsonData.get("award").get("statusDetails").asText();
@@ -305,6 +316,17 @@ public class ProcessServiceImpl implements ProcessService {
     public JsonNode addUpdatedBid(final JsonNode jsonData, final JsonNode bidData, final String processId) {
         try {
             ((ObjectNode) jsonData).replace("bid", bidData.get("bid"));
+            return jsonData;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public JsonNode addUpdatedLot(final JsonNode jsonData, final JsonNode lotData, final String processId) {
+        try {
+            ((ObjectNode) jsonData).replace("lot", lotData.get("lot"));
             return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());

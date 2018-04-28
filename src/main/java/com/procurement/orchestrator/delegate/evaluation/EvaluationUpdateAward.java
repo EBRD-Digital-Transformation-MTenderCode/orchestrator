@@ -55,7 +55,17 @@ public class EvaluationUpdateAward implements JavaDelegate {
                 taskId,
                 requestData);
         if (Objects.nonNull(responseData)) {
+            processParams(execution, responseData, processId);
             operationService.saveOperationStep(execution, entity, requestData, responseData);
+        }
+    }
+
+    private void processParams(final DelegateExecution execution, final JsonNode responseData, final String processId) {
+        final String awardStatusDetails = processService.getAwardStatusDetails(responseData, processId);
+        if (awardStatusDetails.equals("active")) {
+            execution.setVariable("awardStatusDetails", "active");
+        } else {
+            execution.setVariable("awardStatusDetails", "unsuccessful");
         }
     }
 }
