@@ -1,0 +1,156 @@
+{
+  "awards": [
+    {
+      "id": "fcccb143-4afb-11e8-a419-4111baa213cd",
+      "date": "2018-04-29T12:16:40Z",
+      "description": "Award description",
+      "status": "active",
+      "statusDetails": "empty",
+      "value": {
+        "amount": 8.699256453E7,
+        "currency": "SDD"
+      },
+      "relatedLots": [
+        "b2743601-4afa-11e8-a948-dba4a94d27bc"
+      ],
+      "relatedBid": "b2cf7560-4afa-11e8-be72-957885a61a7f",
+      "suppliers": [
+        {
+          "id": "UA-EDR-849-85-1868",
+          "name": "Hill-Fernandez",
+          "identifier": {
+            "id": "849-85-1868",
+            "scheme": "UA-EDR",
+            "legalName": "Hill-Fernandez LLC",
+            "uri": "http://www.pratt.biz/list/tag/main/index/"
+          },
+          "address": {
+            "streetAddress": "0337 Reese Locks",
+            "locality": "Rasmussenchester",
+            "region": "Oklahoma",
+            "postalCode": "68786-5309",
+            "countryName": "Belize"
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "607-54-3077",
+              "scheme": "UA-EDR",
+              "legalName": "Hill-Fernandez and Sons",
+              "uri": "https://www.johnson.com/"
+            }
+          ],
+          "contactPoint": {
+            "name": "Laura Summers",
+            "email": "nsmith@yahoo.com",
+            "telephone": "(645)994-0756x480",
+            "faxNumber": "(925)173-1707x257",
+            "url": "https://www.shaw-kirby.biz/category/"
+          }
+        }
+      ]
+    },
+    {
+      "id": "fcccb145-4afb-11e8-a419-4111baa213cd",
+      "date": "2018-04-28T15:51:17Z",
+      "description": "",
+      "status": "pending",
+      "statusDetails": "empty",
+      "value": {
+        "amount": 7.12619444699972E12,
+        "currency": "SDD"
+      },
+      "relatedLots": [
+        "b2743601-4afa-11e8-a948-dba4a94d27bc"
+      ],
+      "relatedBid": "b32e1020-4afa-11e8-be72-957885a61a7f",
+      "suppliers": [
+        {
+          "id": "UA-EDR-376-33-6898",
+          "name": "Obrien-Peterson",
+          "identifier": {
+            "id": "376-33-6898",
+            "scheme": "UA-EDR",
+            "legalName": "Obrien-Peterson and Sons",
+            "uri": "http://garcia.com/wp-content/posts/homepage/"
+          },
+          "address": {
+            "streetAddress": "380 Steven Field Suite 583",
+            "locality": "Port Mark",
+            "region": "Delaware",
+            "postalCode": "75019-9094",
+            "countryName": "Netherlands"
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "325-88-9411",
+              "scheme": "UA-EDR",
+              "legalName": "Obrien-Peterson and Sons",
+              "uri": "https://reynolds-cruz.info/"
+            }
+          ],
+          "contactPoint": {
+            "name": "Arthur Lindsey",
+            "email": "sblack@yahoo.com",
+            "telephone": "(524)675-3852x0341",
+            "faxNumber": "243.917.8460",
+            "url": "https://lewis-hubbard.org/"
+          }
+        }
+      ]
+    },
+    {
+      "id": "fcccb144-4afb-11e8-a419-4111baa213cd",
+      "date": "2018-04-28T15:51:17Z",
+      "description": "",
+      "status": "pending",
+      "statusDetails": "empty",
+      "value": {
+        "amount": 7.686662830774E10,
+        "currency": "SDD"
+      },
+      "relatedLots": [
+        "b2743601-4afa-11e8-a948-dba4a94d27bc"
+      ],
+      "relatedBid": "b2ffad20-4afa-11e8-be72-957885a61a7f",
+      "suppliers": [
+        {
+          "id": "UA-EDR-682-87-1553",
+          "name": "Brown LLC",
+          "identifier": {
+            "id": "682-87-1553",
+            "scheme": "UA-EDR",
+            "legalName": "Brown LLC Inc",
+            "uri": "https://bradley.net/faq/"
+          },
+          "address": {
+            "streetAddress": "7117 Casey Pine",
+            "locality": "Lake Christineburgh",
+            "region": "Massachusetts",
+            "postalCode": "85580",
+            "countryName": "Saint Vincent and the Grenadines"
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "656-84-6392",
+              "scheme": "UA-EDR",
+              "legalName": "Brown LLC Ltd",
+              "uri": "http://bishop.info/list/category/wp-content/login/"
+            }
+          ],
+          "contactPoint": {
+            "name": "Dana Williams",
+            "email": "johnrobinson@hotmail.com",
+            "telephone": "1-258-140-2351x604",
+            "faxNumber": "(046)721-3200",
+            "url": "http://www.smith.com/faq/"
+          }
+        }
+      ]
+    }
+  ],
+  "awardPeriod": {
+    "startDate": "2018-04-28T15:51:12Z",
+    "endDate": "2018-04-29T12:16:40Z"
+  },
+  "unsuccessfulLots": []
+}

@@ -1,68 +1,148 @@
 {
-  "standstillPeriod": {
-    "startDate": "2018-04-28T18:01:39Z",
-    "endDate": "2018-04-28T18:01:51Z"
+  "awardPeriod": {
+    "endDate": ""
   },
   "awards": [
     {
-      "id": "fcccb143-4afb-11e8-a419-4111baa213cd",
-      "date": "2018-04-28T15:55:03Z",
-      "description": "Award description",
-      "status": "pending",
-      "statusDetails": "active",
+      "id": "",
+      "date": "",
+      "status": "",
+      "statusDetails": ""
+    }
+  ],
+  "awardsActive": [
+    {
+      "id": "",
+      "date": "",
+      --
+      "description": "",
+      "status": "",
+      --
+      "statusDetails": "",
       "value": {
-        "amount": 8.699256453E7,
-        "currency": "SDD"
+        "amount": "",
+        "currency": ""
       },
       "relatedLots": [
-        "b2743601-4afa-11e8-a948-dba4a94d27bc"
+        ""
       ],
-      "relatedBid": "b2cf7560-4afa-11e8-be72-957885a61a7f",
+      "relatedBid": "",
       "suppliers": [
         {
-          "id": "UA-EDR-849-85-1868",
-          "name": "Hill-Fernandez",
-          "identifier": {
-            "id": "849-85-1868",
-            "scheme": "UA-EDR",
-            "legalName": "Hill-Fernandez LLC",
-            "uri": "http://www.pratt.biz/list/tag/main/index/"
-          },
-          "address": {
-            "streetAddress": "0337 Reese Locks",
-            "locality": "Rasmussenchester",
-            "region": "Oklahoma",
-            "postalCode": "68786-5309",
-            "countryName": "Belize"
-          },
-          "additionalIdentifiers": [
-            {
-              "id": "607-54-3077",
-              "scheme": "UA-EDR",
-              "legalName": "Hill-Fernandez and Sons",
-              "uri": "https://www.johnson.com/"
-            }
-          ],
-          "contactPoint": {
-            "name": "Laura Summers",
-            "email": "nsmith@yahoo.com",
-            "telephone": "(645)994-0756x480",
-            "faxNumber": "(925)173-1707x257",
-            "url": "https://www.shaw-kirby.biz/category/"
-          }
+          "id": "",
+          "name": ""
+        }
+      ],
+      "documents": [
+        {
+          "documentType": "",
+          "id": "",
+          "title": "",
+          "description": "",
+          "language": "",
+          "relatedLots": [
+            ""
+          ]
         }
       ]
     }
   ],
-  "cans": [
+  "lots": [
     {
-      "token": "3e874d40-4b0e-11e8-91da-a9c51d30fab2",
-      "contract": {
-        "id": "3e874d40-4b0e-11e8-91da-a9c51d30fab2",
-        "awardID": "fcccb143-4afb-11e8-a419-4111baa213cd",
-        "status": "pending",
-        "statusDetails": "contractProject"
-      }
+      "id": ""
     }
   ]
+}
+
+{
+  "bids":
+  {
+    "details":
+    [{
+      "id":"",
+      "date":"",
+      "status":"",
+      "statusDetails":""
+    }]
+  }
+}
+
+{
+  "lots": [{
+    "id": "",
+    "title": "",
+    "description": "",
+    "status":"",
+    "statusDetails":"",
+    "value":
+    {
+      "amount": 0,
+      "currency": ""
+    },
+    "options": [
+      {
+        "hasOptions": false
+      }
+    ],
+    "variants": [
+      {
+        "hasVariants": false
+      }
+    ],
+    "renewals": [
+      {
+        "hasRenewals": false
+      }
+    ],
+    "recurrentProcurement": [
+      {
+        "isRecurrent": false
+      }
+    ],
+    "contractPeriod":
+    {
+      "startDate": "",
+      "endDate": ""
+    },
+    "placeOfPerformance":
+    {
+      "address":
+      {
+        "streetAddress": "",
+        "locality": "",
+        "region": "",
+        --"postalCode": "",
+        "countryName": ""
+      },
+      --"description": ""
+    }
+  }],
+  "lotsComplete": [{
+    "id": "",
+    "title": "",
+    "description": ""
+  }],
+  "items": [{
+    "id":"",
+    "classification":
+    {
+      "scheme": "CPV",
+      "description": "",
+      "id": ""
+    },
+    --"additionalClassifications":
+    [{
+      "scheme": "",
+      "description": "",
+      "id": ""
+    }],
+    "quantity": 0,
+    "unit":
+    {
+      "id":"",
+      "name": ""
+    },
+    --"description": "",
+    "relatedLot": ""
+  }]
 }
