@@ -29,11 +29,11 @@
     <bpmn:sequenceFlow id="SequenceFlow_1n5w707" sourceRef="NoticeCreateReleaseTask" targetRef="ServiceTask_0ql6wk4" />
     <bpmn:sequenceFlow id="SequenceFlow_1gx4xfj" sourceRef="StartEvent_1" targetRef="SaveFirstOperationTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0sbxc3m" sourceRef="SaveFirstOperationTask" targetRef="CheckRulesForStageTask" />
-    <bpmn:serviceTask id="AccessUpdateLotStatusTask" name="Access Update Lot Status" camunda:asyncBefore="true" camunda:delegateExpression="${accessUpdateLotStatus}">
+    <bpmn:serviceTask id="AccessUpdateLotsTask" name="Access Update Lots" camunda:asyncBefore="true" camunda:delegateExpression="${accessUpdateLots}">
       <bpmn:incoming>SequenceFlow_0b2l4w7</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_02bv6jg</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_02bv6jg" sourceRef="AccessUpdateLotStatusTask" targetRef="SubmissionSetFinalStatusesTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_02bv6jg" sourceRef="AccessUpdateLotsTask" targetRef="SubmissionSetFinalStatusesTask" />
     <bpmn:serviceTask id="SubmissionSetFinalStatusesTask" name="Submission Set Final Statuses" camunda:asyncBefore="true" camunda:delegateExpression="${submissionSetFinalStatuses}">
       <bpmn:incoming>SequenceFlow_02bv6jg</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_01afhxg</bpmn:outgoing>
@@ -60,7 +60,7 @@
       <bpmn:incoming>SequenceFlow_0fb2kuu</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0b2l4w7</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_0b2l4w7" sourceRef="EvaluationEndAwardPeriodTask" targetRef="AccessUpdateLotStatusTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0b2l4w7" sourceRef="EvaluationEndAwardPeriodTask" targetRef="AccessUpdateLotsTask" />
     <bpmn:serviceTask id="ContractingCreateAwardedContractTask" name="Contracting Create Awarded Contract" camunda:asyncBefore="true" camunda:delegateExpression="${contractingCreateAwardedContract}">
       <bpmn:extensionElements>
         <camunda:failedJobRetryTimeCycle>R0/PT1S</camunda:failedJobRetryTimeCycle>
@@ -133,7 +133,7 @@
           <dc:Bounds x="220.5" y="143" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_1hkspto_di" bpmnElement="AccessUpdateLotStatusTask">
+      <bpmndi:BPMNShape id="ServiceTask_1hkspto_di" bpmnElement="AccessUpdateLotsTask">
         <dc:Bounds x="1183" y="124" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_02bv6jg_di" bpmnElement="SequenceFlow_02bv6jg">
