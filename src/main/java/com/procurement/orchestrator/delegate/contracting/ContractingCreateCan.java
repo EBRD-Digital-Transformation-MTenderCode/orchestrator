@@ -45,6 +45,7 @@ public class ContractingCreateCan implements JavaDelegate {
         final JsonNode responseData = processService.processResponse(
                 contractingRestClient.createCan(
                         params.getCpid(),
+                        params.getNewStage(),
                         params.getOwner(),
                         requestData),
                 params,

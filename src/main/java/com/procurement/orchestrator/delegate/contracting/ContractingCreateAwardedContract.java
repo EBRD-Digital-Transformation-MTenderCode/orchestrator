@@ -45,7 +45,7 @@ public class ContractingCreateAwardedContract implements JavaDelegate {
         final JsonNode responseData = processService.processResponse(
                 contractingRestClient.createAC(
                         params.getCpid(),
-                        params.getToken(),
+                        params.getNewStage(),
                         requestData),
                 params,
                 processId,
