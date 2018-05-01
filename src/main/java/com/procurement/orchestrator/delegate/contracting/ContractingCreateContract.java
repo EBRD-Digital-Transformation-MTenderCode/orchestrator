@@ -56,7 +56,7 @@ public class ContractingCreateContract implements JavaDelegate {
                     execution,
                     entity,
                     requestData,
-                    responseData);
+                    processService.addContracts(requestData, responseData, processId));
     }
 
 }

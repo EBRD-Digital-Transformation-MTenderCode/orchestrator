@@ -1,96 +1,1234 @@
 {
-  "award": {
-    "id": "f409979e-4d4d-11e8-80e9-edef4baa7cac",
-    "date": "2018-05-01T14:43:05Z",
-    "description": "Award description",
-    "status": "pending",
-    "statusDetails": "active",
-    "value": {
-      "amount": 929.44,
-      "currency": "CNY"
-    },
-    "relatedLots": [
-      "88f331a3-4d4d-11e8-8f19-7f8644d512b9"
-    ],
-    "relatedBid": "8b4d7550-4d4d-11e8-af33-e93840e791c0",
-    "suppliers": [
-      {
-        "id": "UA-EDR-849-15-8640",
-        "name": "Gibson LLC",
-        "identifier": {
-          "id": "849-15-8640",
-          "scheme": "UA-EDR",
-          "legalName": "Gibson LLC and Sons",
-          "uri": "http://khan.biz/main.php"
-        },
-        "address": {
-          "streetAddress": "300 Rodney Flats",
-          "locality": "East Dana",
-          "region": "Ohio",
-          "postalCode": "84898",
-          "countryName": "Hong Kong"
-        },
-        "additionalIdentifiers": [
-          {
-            "id": "268-66-9959",
-            "scheme": "UA-EDR",
-            "legalName": "Gibson LLC Group",
-            "uri": "https://montoya.com/faq.php"
-          }
-        ],
-        "contactPoint": {
-          "name": "Brittany Sanders",
-          "email": "lopezsandra@yahoo.com",
-          "telephone": "1-493-120-7215x564",
-          "faxNumber": "923-792-9853x22803",
-          "url": "http://www.frank.com/"
-        }
-      }
-    ]
-  },
-  "lot": {
-    "id": "88f331a3-4d4d-11e8-8f19-7f8644d512b9",
-    "title": "Own Mr involve think do.",
-    "description": "Player world pick force goal family. Page be PM report right point.",
-    "status": "active",
-    "statusDetails": "awarded",
-    "value": {
-      "amount": 10.66,
-      "currency": "CNY"
-    },
-    "options": [
-      {
-        "hasOptions": false
-      }
-    ],
-    "recurrentProcurement": [
-      {
-        "isRecurrent": false
-      }
-    ],
-    "renewals": [
-      {
-        "hasRenewals": false
-      }
-    ],
-    "variants": [
-      {
-        "hasVariants": false
-      }
-    ],
-    "contractPeriod": {
-      "startDate": "2018-05-01T14:40:03Z",
-      "endDate": "2018-08-12T09:40:52Z"
-    },
-    "placeOfPerformance": {
-      "address": {
-        "streetAddress": "84300 James Parkways",
-        "locality": "Lake Colleenland",
-        "region": "Ohio",
-        "postalCode": "22667",
-        "countryName": "Congo"
+  "awards": [
+    {
+      "id": "ca9b9349-4d61-11e8-80e9-edef4baa7cac",
+      "date": "2018-05-01T17:05:04Z",
+      "description": "",
+      "status": "pending",
+      "statusDetails": "empty",
+      "value": {
+        "amount": 8.99346659493937E12,
+        "currency": "GQE"
       },
-      "description": "Hard sea all policy blood deal clearly."
+      "relatedLots": [
+        "5ef8cbd6-4d61-11e8-b26f-ab16840b3aaa"
+      ],
+      "relatedBid": "610b0a00-4d61-11e8-a00f-8d0b0d0e321f",
+      "suppliers": [
+        {
+          "id": "UA-EDR-039-76-6917",
+          "name": "Davis LLC",
+          "identifier": {
+            "id": "039-76-6917",
+            "scheme": "UA-EDR",
+            "legalName": "Davis LLC Group",
+            "uri": "http://www.zamora-hamilton.com/"
+          },
+          "address": {
+            "streetAddress": "60668 Megan Rapids",
+            "locality": "East Jeffery",
+            "region": "Virginia",
+            "postalCode": "05467-7317",
+            "countryName": "Kenya"
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "681-33-1052",
+              "scheme": "UA-EDR",
+              "legalName": "Davis LLC Ltd",
+              "uri": "https://zavala.com/main/main/posts/register/"
+            }
+          ],
+          "contactPoint": {
+            "name": "Stephanie Carr",
+            "email": "ericlawson@hotmail.com",
+            "telephone": "552-414-2599x8789",
+            "faxNumber": "08417351321",
+            "url": "https://www.russo.com/terms/"
+          }
+        }
+      ]
+    },
+    {
+      "id": "ca9b9345-4d61-11e8-80e9-edef4baa7cac",
+      "date": "2018-05-01T17:05:04Z",
+      "description": "",
+      "status": "pending",
+      "statusDetails": "empty",
+      "value": {
+        "amount": 352.21,
+        "currency": "GQE"
+      },
+      "relatedLots": [
+        "5ef8cbd6-4d61-11e8-b26f-ab16840b3aaa"
+      ],
+      "relatedBid": "5fc28470-4d61-11e8-a00f-8d0b0d0e321f",
+      "suppliers": [
+        {
+          "id": "UA-EDR-295-95-3251",
+          "name": "Jacobson LLC",
+          "identifier": {
+            "id": "295-95-3251",
+            "scheme": "UA-EDR",
+            "legalName": "Jacobson LLC PLC",
+            "uri": "https://www.anderson.com/tags/tags/blog/terms/"
+          },
+          "address": {
+            "streetAddress": "680 Judy Hills",
+            "locality": "Deckermouth",
+            "region": "Oregon",
+            "postalCode": "91825-7436",
+            "countryName": "El Salvador"
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "233-29-2335",
+              "scheme": "UA-EDR",
+              "legalName": "Jacobson LLC PLC",
+              "uri": "https://www.hodges.org/search.html"
+            }
+          ],
+          "contactPoint": {
+            "name": "Jorge Thompson",
+            "email": "marc74@hotmail.com",
+            "telephone": "(525)519-7139x0190",
+            "faxNumber": "1-823-645-3101x68564",
+            "url": "http://www.williams-roberts.net/categories/wp-content/search/login/"
+          }
+        }
+      ]
+    },
+    {
+      "id": "ca9b934c-4d61-11e8-80e9-edef4baa7cac",
+      "date": "2018-05-01T17:05:04Z",
+      "description": "",
+      "status": "unsuccessful",
+      "statusDetails": "empty",
+      "relatedLots": [
+        "5ef8cbd7-4d61-11e8-b26f-ab16840b3aaa"
+      ]
+    },
+    {
+      "id": "ca9b9347-4d61-11e8-80e9-edef4baa7cac",
+      "date": "2018-05-01T17:05:14Z",
+      "description": "Award description",
+      "status": "active",
+      "statusDetails": "empty",
+      "value": {
+        "amount": 190.41,
+        "currency": "GQE"
+      },
+      "relatedLots": [
+        "5ef8cbd6-4d61-11e8-b26f-ab16840b3aaa"
+      ],
+      "relatedBid": "606eca00-4d61-11e8-a00f-8d0b0d0e321f",
+      "suppliers": [
+        {
+          "id": "UA-EDR-874-35-0622",
+          "name": "Warner-Davis",
+          "identifier": {
+            "id": "874-35-0622",
+            "scheme": "UA-EDR",
+            "legalName": "Warner-Davis Ltd",
+            "uri": "http://www.duncan.com/post.htm"
+          },
+          "address": {
+            "streetAddress": "7874 Mitchell Station Apt. 570",
+            "locality": "South Holly",
+            "region": "Colorado",
+            "postalCode": "30397-7200",
+            "countryName": "Kazakhstan"
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "713-85-2449",
+              "scheme": "UA-EDR",
+              "legalName": "Warner-Davis Inc",
+              "uri": "http://chavez.org/homepage.html"
+            }
+          ],
+          "contactPoint": {
+            "name": "Erica Harris",
+            "email": "elizabeth18@yahoo.com",
+            "telephone": "141.360.8678x642",
+            "faxNumber": "233-133-2762",
+            "url": "http://garcia.org/"
+          }
+        }
+      ]
+    },
+    {
+      "id": "ca9b934b-4d61-11e8-80e9-edef4baa7cac",
+      "date": "2018-05-01T17:05:04Z",
+      "description": "",
+      "status": "pending",
+      "statusDetails": "empty",
+      "value": {
+        "amount": 1414882.8,
+        "currency": "GQE"
+      },
+      "relatedLots": [
+        "5ef8cbd6-4d61-11e8-b26f-ab16840b3aaa"
+      ],
+      "relatedBid": "61756490-4d61-11e8-a00f-8d0b0d0e321f",
+      "suppliers": [
+        {
+          "id": "UA-EDR-145-80-7807",
+          "name": "Caldwell, Ramos and Haas",
+          "identifier": {
+            "id": "145-80-7807",
+            "scheme": "UA-EDR",
+            "legalName": "Caldwell, Ramos and Haas LLC",
+            "uri": "http://davis-reilly.org/tag/main/category/faq/"
+          },
+          "address": {
+            "streetAddress": "4704 Jaime Cape Suite 921",
+            "locality": "East Timothychester",
+            "region": "Oklahoma",
+            "postalCode": "29390-6049",
+            "countryName": "Mexico"
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "818-38-9513",
+              "scheme": "UA-EDR",
+              "legalName": "Caldwell, Ramos and Haas Ltd",
+              "uri": "https://jackson.com/index.html"
+            }
+          ],
+          "contactPoint": {
+            "name": "Cody King",
+            "email": "tparks@gmail.com",
+            "telephone": "(708)569-6735x10929",
+            "faxNumber": "276.065.0404",
+            "url": "https://www.johnson.net/post.html"
+          }
+        }
+      ]
+    },
+    {
+      "id": "ca9b934a-4d61-11e8-80e9-edef4baa7cac",
+      "date": "2018-05-01T17:05:04Z",
+      "description": "",
+      "status": "pending",
+      "statusDetails": "empty",
+      "value": {
+        "amount": 8.13459231730433E12,
+        "currency": "GQE"
+      },
+      "relatedLots": [
+        "5ef8cbd8-4d61-11e8-b26f-ab16840b3aaa"
+      ],
+      "relatedBid": "613af3a0-4d61-11e8-a00f-8d0b0d0e321f",
+      "suppliers": [
+        {
+          "id": "UA-EDR-148-78-1048",
+          "name": "Anthony-Miller",
+          "identifier": {
+            "id": "148-78-1048",
+            "scheme": "UA-EDR",
+            "legalName": "Anthony-Miller Group",
+            "uri": "https://jones-delgado.com/category/category/homepage/"
+          },
+          "address": {
+            "streetAddress": "077 Ali Stream",
+            "locality": "Gonzalesside",
+            "region": "Rhode Island",
+            "postalCode": "07136-7931",
+            "countryName": "Botswana"
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "506-25-6529",
+              "scheme": "UA-EDR",
+              "legalName": "Anthony-Miller LLC",
+              "uri": "https://butler-alvarez.com/index/"
+            }
+          ],
+          "contactPoint": {
+            "name": "Jay Cunningham",
+            "email": "angelasims@gmail.com",
+            "telephone": "(866)595-3370x6974",
+            "faxNumber": "1-430-041-9893",
+            "url": "https://williams.com/tags/blog/search/category/"
+          }
+        }
+      ]
+    },
+    {
+      "id": "ca9b9346-4d61-11e8-80e9-edef4baa7cac",
+      "date": "2018-05-01T17:05:04Z",
+      "description": "",
+      "status": "pending",
+      "statusDetails": "empty",
+      "value": {
+        "amount": 2.9046230126971094E14,
+        "currency": "GQE"
+      },
+      "relatedLots": [
+        "5ef8cbd8-4d61-11e8-b26f-ab16840b3aaa"
+      ],
+      "relatedBid": "60443790-4d61-11e8-a00f-8d0b0d0e321f",
+      "suppliers": [
+        {
+          "id": "UA-EDR-082-71-3731",
+          "name": "Gibson, Hughes and Graham",
+          "identifier": {
+            "id": "082-71-3731",
+            "scheme": "UA-EDR",
+            "legalName": "Gibson, Hughes and Graham and Sons",
+            "uri": "http://www.white.com/privacy.htm"
+          },
+          "address": {
+            "streetAddress": "554 Kimberly Walk",
+            "locality": "Kristenhaven",
+            "region": "Maine",
+            "postalCode": "59467",
+            "countryName": "Madagascar"
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "034-09-3125",
+              "scheme": "UA-EDR",
+              "legalName": "Gibson, Hughes and Graham Ltd",
+              "uri": "http://www.prince.info/privacy.htm"
+            }
+          ],
+          "contactPoint": {
+            "name": "Donna Smith",
+            "email": "rjohnson@yahoo.com",
+            "telephone": "1-593-087-3966x8157",
+            "faxNumber": "(243)475-5444",
+            "url": "https://www.nelson-griffin.info/faq/"
+          }
+        }
+      ]
+    },
+    {
+      "id": "ca9b9348-4d61-11e8-80e9-edef4baa7cac",
+      "date": "2018-05-01T17:05:14Z",
+      "description": "Award description",
+      "status": "active",
+      "statusDetails": "empty",
+      "value": {
+        "amount": 3177.0,
+        "currency": "GQE"
+      },
+      "relatedLots": [
+        "5ef8cbd8-4d61-11e8-b26f-ab16840b3aaa"
+      ],
+      "relatedBid": "60cf6090-4d61-11e8-a00f-8d0b0d0e321f",
+      "suppliers": [
+        {
+          "id": "UA-EDR-389-33-8036",
+          "name": "Gray, Aguirre and Fox",
+          "identifier": {
+            "id": "389-33-8036",
+            "scheme": "UA-EDR",
+            "legalName": "Gray, Aguirre and Fox Inc",
+            "uri": "https://george.org/author/"
+          },
+          "address": {
+            "streetAddress": "28866 Stacey Corner",
+            "locality": "Port Christyborough",
+            "region": "Vermont",
+            "postalCode": "28472",
+            "countryName": "Ireland"
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "504-62-2445",
+              "scheme": "UA-EDR",
+              "legalName": "Gray, Aguirre and Fox and Sons",
+              "uri": "http://lewis-carroll.com/privacy/"
+            }
+          ],
+          "contactPoint": {
+            "name": "Justin Nicholson",
+            "email": "john10@gmail.com",
+            "telephone": "923-829-7938",
+            "faxNumber": "223.019.5047x598",
+            "url": "https://www.jones.com/faq/"
+          }
+        }
+      ]
+    },
+    {
+      "id": "ca9b9344-4d61-11e8-80e9-edef4baa7cac",
+      "date": "2018-05-01T17:05:04Z",
+      "description": "",
+      "status": "pending",
+      "statusDetails": "empty",
+      "value": {
+        "amount": 52510.22,
+        "currency": "GQE"
+      },
+      "relatedLots": [
+        "5ef8cbd8-4d61-11e8-b26f-ab16840b3aaa"
+      ],
+      "relatedBid": "5f97f200-4d61-11e8-a00f-8d0b0d0e321f",
+      "suppliers": [
+        {
+          "id": "UA-EDR-760-55-2833",
+          "name": "Cooley Group",
+          "identifier": {
+            "id": "760-55-2833",
+            "scheme": "UA-EDR",
+            "legalName": "Cooley Group PLC",
+            "uri": "https://www.martinez.info/register.php"
+          },
+          "address": {
+            "streetAddress": "672 Taylor Creek",
+            "locality": "North Amyside",
+            "region": "Tennessee",
+            "postalCode": "03066-4985",
+            "countryName": "Congo"
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "676-84-1861",
+              "scheme": "UA-EDR",
+              "legalName": "Cooley Group Inc",
+              "uri": "http://cross.com/"
+            }
+          ],
+          "contactPoint": {
+            "name": "James Lopez",
+            "email": "laura07@yahoo.com",
+            "telephone": "(976)984-6975",
+            "faxNumber": "262.846.0294",
+            "url": "https://www.gonzales-beck.com/posts/author.asp"
+          }
+        }
+      ]
     }
-  }
+  ],
+  "awardPeriod": {
+    "startDate": "2018-05-01T17:05:03Z",
+    "endDate": "2018-05-01T17:05:14Z"
+  },
+  "unsuccessfulLots": [
+    {
+      "id": "5ef8cbd7-4d61-11e8-b26f-ab16840b3aaa"
+    }
+  ],
+  "lots": [
+    {
+      "id": "5ef8cbd6-4d61-11e8-b26f-ab16840b3aaa",
+      "title": "City on billion include drive.",
+      "description": "You ball pretty star travel team. Organization mind former series. Reason nature agree sing word.",
+      "status": "complete",
+      "statusDetails": "empty",
+      "value": {
+        "amount": 4.702511374E7,
+        "currency": "GQE"
+      },
+      "options": [
+        {
+          "hasOptions": false
+        }
+      ],
+      "recurrentProcurement": [
+        {
+          "isRecurrent": false
+        }
+      ],
+      "renewals": [
+        {
+          "hasRenewals": false
+        }
+      ],
+      "variants": [
+        {
+          "hasVariants": false
+        }
+      ],
+      "contractPeriod": {
+        "startDate": "2018-05-01T17:02:03Z",
+        "endDate": "2018-09-07T05:42:38Z"
+      },
+      "placeOfPerformance": {
+        "address": {
+          "streetAddress": "54059 Andrew Cape",
+          "locality": "Jasonburgh",
+          "region": "Idaho",
+          "postalCode": "60750-5253",
+          "countryName": "Guyana"
+        },
+        "description": "Plant purpose standard from commercial both. Exactly special nearly. Box carry week identify others prepare left child."
+      }
+    },
+    {
+      "id": "5ef8cbd8-4d61-11e8-b26f-ab16840b3aaa",
+      "title": "Mouth two from visit summer.",
+      "description": "Quickly analysis talk quite. Development difficult deep group address agree.",
+      "status": "complete",
+      "statusDetails": "empty",
+      "value": {
+        "amount": 851.5,
+        "currency": "GQE"
+      },
+      "options": [
+        {
+          "hasOptions": false
+        }
+      ],
+      "recurrentProcurement": [
+        {
+          "isRecurrent": false
+        }
+      ],
+      "renewals": [
+        {
+          "hasRenewals": false
+        }
+      ],
+      "variants": [
+        {
+          "hasVariants": false
+        }
+      ],
+      "contractPeriod": {
+        "startDate": "2018-05-01T17:02:03Z",
+        "endDate": "2018-10-26T00:20:55Z"
+      },
+      "placeOfPerformance": {
+        "address": {
+          "streetAddress": "6895 Amy Circle Suite 691",
+          "locality": "South Charles",
+          "region": "Hawaii",
+          "postalCode": "68985",
+          "countryName": "Angola"
+        },
+        "description": "By hear environmental happen such fish side. Black they position live kid participant."
+      }
+    },
+    {
+      "id": "5ef8cbd7-4d61-11e8-b26f-ab16840b3aaa",
+      "title": "If talk think quality describe authority admit.",
+      "description": "Wind food will once others under. Employee effort generation offer similar table reduce. Live some news city marriage military goal.",
+      "status": "unsuccessful",
+      "statusDetails": "empty",
+      "value": {
+        "amount": 22182.45,
+        "currency": "GQE"
+      },
+      "options": [
+        {
+          "hasOptions": false
+        }
+      ],
+      "recurrentProcurement": [
+        {
+          "isRecurrent": false
+        }
+      ],
+      "renewals": [
+        {
+          "hasRenewals": false
+        }
+      ],
+      "variants": [
+        {
+          "hasVariants": false
+        }
+      ],
+      "contractPeriod": {
+        "startDate": "2018-05-01T17:02:03Z",
+        "endDate": "2018-10-28T06:43:37Z"
+      },
+      "placeOfPerformance": {
+        "address": {
+          "streetAddress": "159 Nicole Junctions Suite 717",
+          "locality": "South Maryhaven",
+          "region": "Idaho",
+          "postalCode": "81246",
+          "countryName": "Czech Republic"
+        },
+        "description": "Beat great call think. There general nice bad why life customer. Indeed language health than side though quality."
+      }
+    }
+  ],
+  "items": [
+    {
+      "id": "5ef8cbd0-4d61-11e8-b26f-ab16840b3aaa",
+      "description": "Food evening energy both event threat tree. Everything suffer want.",
+      "classification": {
+        "id": "45259100-8",
+        "description": "Wastewater-plant repair and maintenance work",
+        "scheme": "CPV"
+      },
+      "additionalClassifications": [
+        {
+          "id": "72212316-7",
+          "description": "Presentation software development services",
+          "scheme": "CPV"
+        }
+      ],
+      "quantity": 9.63,
+      "unit": {
+        "id": "E48",
+        "name": "service unit"
+      },
+      "relatedLot": "5ef8cbd6-4d61-11e8-b26f-ab16840b3aaa"
+    },
+    {
+      "id": "5ef8cbd2-4d61-11e8-b26f-ab16840b3aaa",
+      "description": "Inside Republican either thousand office cover great always. Your major training skill study mind.",
+      "classification": {
+        "id": "45259100-8",
+        "description": "Wastewater-plant repair and maintenance work",
+        "scheme": "CPV"
+      },
+      "additionalClassifications": [
+        {
+          "id": "72212770-7",
+          "description": "General, compression and print utility software development services",
+          "scheme": "CPV"
+        }
+      ],
+      "quantity": 167.11,
+      "unit": {
+        "id": "LO",
+        "name": "lot [unit of procurement]"
+      },
+      "relatedLot": "5ef8cbd8-4d61-11e8-b26f-ab16840b3aaa"
+    },
+    {
+      "id": "5ef8cbd3-4d61-11e8-b26f-ab16840b3aaa",
+      "description": "Machine government whose partner although make. Thank deep stand agree discussion nor assume knowledge.",
+      "classification": {
+        "id": "45259100-8",
+        "description": "Wastewater-plant repair and maintenance work",
+        "scheme": "CPV"
+      },
+      "additionalClassifications": [
+        {
+          "id": "45231210-0",
+          "description": "Construction work for oil pipelines",
+          "scheme": "CPV"
+        }
+      ],
+      "quantity": 33699.96,
+      "unit": {
+        "id": "RO",
+        "name": "roll"
+      },
+      "relatedLot": "5ef8cbd6-4d61-11e8-b26f-ab16840b3aaa"
+    },
+    {
+      "id": "5ef8cbd5-4d61-11e8-b26f-ab16840b3aaa",
+      "description": "Interesting ten north wish after. South some class service address action join. Scientist choice produce attack push personal.",
+      "classification": {
+        "id": "45259100-8",
+        "description": "Wastewater-plant repair and maintenance work",
+        "scheme": "CPV"
+      },
+      "additionalClassifications": [
+        {
+          "id": "09122210-5",
+          "description": "Liquefied butane gas",
+          "scheme": "CPV"
+        }
+      ],
+      "quantity": 8.27,
+      "unit": {
+        "id": "KGM",
+        "name": "kilogram"
+      },
+      "relatedLot": "5ef8cbd8-4d61-11e8-b26f-ab16840b3aaa"
+    }
+  ],
+  "bids": [
+    {
+      "id": "5f97f200-4d61-11e8-a00f-8d0b0d0e321f",
+      "date": "2018-05-01T17:02:04Z",
+      "status": "pending",
+      "statusDetails": "empty",
+      "tenderers": [
+        {
+          "id": "UA-EDR-760-55-2833",
+          "name": "Cooley Group",
+          "identifier": {
+            "id": "760-55-2833",
+            "scheme": "UA-EDR",
+            "legalName": "Cooley Group PLC",
+            "uri": "https://www.martinez.info/register.php"
+          },
+          "address": {
+            "streetAddress": "672 Taylor Creek",
+            "locality": "North Amyside",
+            "region": "Tennessee",
+            "postalCode": "03066-4985",
+            "countryName": "Congo"
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "676-84-1861",
+              "scheme": "UA-EDR",
+              "legalName": "Cooley Group Inc",
+              "uri": "http://cross.com/"
+            }
+          ],
+          "contactPoint": {
+            "name": "James Lopez",
+            "email": "laura07@yahoo.com",
+            "telephone": "(976)984-6975",
+            "faxNumber": "262.846.0294",
+            "url": "https://www.gonzales-beck.com/posts/author.asp"
+          }
+        }
+      ],
+      "value": {
+        "amount": 52510.22,
+        "currency": "GQE"
+      },
+      "documents": [
+        {
+          "id": "5f6d3880-4d61-11e8-bcee-fd2243130aae",
+          "documentType": "assetAndLiabilityAssessment",
+          "title": "Exactly weight soon develop three including sort.",
+          "description": "Low both what turn scene his. Against throw coach data tell school.",
+          "language": "fi",
+          "relatedLots": [
+            "5ef8cbd8-4d61-11e8-b26f-ab16840b3aaa"
+          ]
+        }
+      ],
+      "relatedLots": [
+        "5ef8cbd8-4d61-11e8-b26f-ab16840b3aaa"
+      ]
+    },
+    {
+      "id": "5fc28470-4d61-11e8-a00f-8d0b0d0e321f",
+      "date": "2018-05-01T17:02:04Z",
+      "status": "pending",
+      "statusDetails": "empty",
+      "tenderers": [
+        {
+          "id": "UA-EDR-295-95-3251",
+          "name": "Jacobson LLC",
+          "identifier": {
+            "id": "295-95-3251",
+            "scheme": "UA-EDR",
+            "legalName": "Jacobson LLC PLC",
+            "uri": "https://www.anderson.com/tags/tags/blog/terms/"
+          },
+          "address": {
+            "streetAddress": "680 Judy Hills",
+            "locality": "Deckermouth",
+            "region": "Oregon",
+            "postalCode": "91825-7436",
+            "countryName": "El Salvador"
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "233-29-2335",
+              "scheme": "UA-EDR",
+              "legalName": "Jacobson LLC PLC",
+              "uri": "https://www.hodges.org/search.html"
+            }
+          ],
+          "contactPoint": {
+            "name": "Jorge Thompson",
+            "email": "marc74@hotmail.com",
+            "telephone": "(525)519-7139x0190",
+            "faxNumber": "1-823-645-3101x68564",
+            "url": "http://www.williams-roberts.net/categories/wp-content/search/login/"
+          }
+        }
+      ],
+      "value": {
+        "amount": 352.21,
+        "currency": "GQE"
+      },
+      "documents": [
+        {
+          "id": "5fa20420-4d61-11e8-bcee-fd2243130aae",
+          "documentType": "projectPlan",
+          "title": "Personal crime a.",
+          "description": "Town sell discuss position and. Inside full south.",
+          "language": "pl",
+          "relatedLots": [
+            "5ef8cbd6-4d61-11e8-b26f-ab16840b3aaa"
+          ]
+        }
+      ],
+      "relatedLots": [
+        "5ef8cbd6-4d61-11e8-b26f-ab16840b3aaa"
+      ]
+    },
+    {
+      "id": "5ff81360-4d61-11e8-a00f-8d0b0d0e321f",
+      "date": "2018-05-01T17:05:04Z",
+      "status": "withdrawn",
+      "statusDetails": "empty",
+      "tenderers": [
+        {
+          "id": "UA-EDR-890-49-0880",
+          "name": "Johnson-Oliver",
+          "identifier": {
+            "id": "890-49-0880",
+            "scheme": "UA-EDR",
+            "legalName": "Johnson-Oliver Group",
+            "uri": "https://spencer.com/author.php"
+          },
+          "address": {
+            "streetAddress": "57602 Katelyn Island",
+            "locality": "North Joanntown",
+            "region": "Connecticut",
+            "postalCode": "62676-6839",
+            "countryName": "Heard Island and McDonald Islands"
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "327-17-9738",
+              "scheme": "UA-EDR",
+              "legalName": "Johnson-Oliver Inc",
+              "uri": "https://www.olson.info/register.jsp"
+            }
+          ],
+          "contactPoint": {
+            "name": "Jason Mclaughlin",
+            "email": "lynchcarly@gmail.com",
+            "telephone": "509-784-3943x84655",
+            "faxNumber": "(899)212-1162x21779",
+            "url": "http://carpenter-eaton.info/main/"
+          }
+        }
+      ],
+      "value": {
+        "amount": 6.1652322731E8,
+        "currency": "GQE"
+      },
+      "documents": [
+        {
+          "id": "5fcc9690-4d61-11e8-bcee-fd2243130aae",
+          "documentType": "awardNotice",
+          "title": "Each clearly at hand provide.",
+          "description": "Big computer dream apply like government majority. All treat call fly throughout and.",
+          "language": "hu",
+          "relatedLots": [
+            "5ef8cbd7-4d61-11e8-b26f-ab16840b3aaa"
+          ]
+        }
+      ],
+      "relatedLots": [
+        "5ef8cbd7-4d61-11e8-b26f-ab16840b3aaa"
+      ]
+    },
+    {
+      "id": "60443790-4d61-11e8-a00f-8d0b0d0e321f",
+      "date": "2018-05-01T17:02:05Z",
+      "status": "pending",
+      "statusDetails": "empty",
+      "tenderers": [
+        {
+          "id": "UA-EDR-082-71-3731",
+          "name": "Gibson, Hughes and Graham",
+          "identifier": {
+            "id": "082-71-3731",
+            "scheme": "UA-EDR",
+            "legalName": "Gibson, Hughes and Graham and Sons",
+            "uri": "http://www.white.com/privacy.htm"
+          },
+          "address": {
+            "streetAddress": "554 Kimberly Walk",
+            "locality": "Kristenhaven",
+            "region": "Maine",
+            "postalCode": "59467",
+            "countryName": "Madagascar"
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "034-09-3125",
+              "scheme": "UA-EDR",
+              "legalName": "Gibson, Hughes and Graham Ltd",
+              "uri": "http://www.prince.info/privacy.htm"
+            }
+          ],
+          "contactPoint": {
+            "name": "Donna Smith",
+            "email": "rjohnson@yahoo.com",
+            "telephone": "1-593-087-3966x8157",
+            "faxNumber": "(243)475-5444",
+            "url": "https://www.nelson-griffin.info/faq/"
+          }
+        }
+      ],
+      "value": {
+        "amount": 2.9046230126971094E14,
+        "currency": "GQE"
+      },
+      "documents": [
+        {
+          "id": "6020d110-4d61-11e8-bcee-fd2243130aae",
+          "documentType": "financialProgressReport",
+          "title": "Voice nothing yet day choose together would thank.",
+          "description": "Yeah great money economy treat region. But whole sound fine run phone.",
+          "language": "fr",
+          "relatedLots": [
+            "5ef8cbd8-4d61-11e8-b26f-ab16840b3aaa"
+          ]
+        }
+      ],
+      "relatedLots": [
+        "5ef8cbd8-4d61-11e8-b26f-ab16840b3aaa"
+      ]
+    },
+    {
+      "id": "606eca00-4d61-11e8-a00f-8d0b0d0e321f",
+      "date": "2018-05-01T17:05:10Z",
+      "status": "valid",
+      "statusDetails": "empty",
+      "tenderers": [
+        {
+          "id": "UA-EDR-874-35-0622",
+          "name": "Warner-Davis",
+          "identifier": {
+            "id": "874-35-0622",
+            "scheme": "UA-EDR",
+            "legalName": "Warner-Davis Ltd",
+            "uri": "http://www.duncan.com/post.htm"
+          },
+          "address": {
+            "streetAddress": "7874 Mitchell Station Apt. 570",
+            "locality": "South Holly",
+            "region": "Colorado",
+            "postalCode": "30397-7200",
+            "countryName": "Kazakhstan"
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "713-85-2449",
+              "scheme": "UA-EDR",
+              "legalName": "Warner-Davis Inc",
+              "uri": "http://chavez.org/homepage.html"
+            }
+          ],
+          "contactPoint": {
+            "name": "Erica Harris",
+            "email": "elizabeth18@yahoo.com",
+            "telephone": "141.360.8678x642",
+            "faxNumber": "233-133-2762",
+            "url": "http://garcia.org/"
+          }
+        }
+      ],
+      "value": {
+        "amount": 190.41,
+        "currency": "GQE"
+      },
+      "documents": [
+        {
+          "id": "604e49b0-4d61-11e8-bcee-fd2243130aae",
+          "documentType": "contractDraft",
+          "title": "Western think officer example clear interesting wrong.",
+          "description": "Hard buy long model measure. Hold professor social heavy TV girl.",
+          "language": "hu",
+          "relatedLots": [
+            "5ef8cbd6-4d61-11e8-b26f-ab16840b3aaa"
+          ]
+        }
+      ],
+      "relatedLots": [
+        "5ef8cbd6-4d61-11e8-b26f-ab16840b3aaa"
+      ]
+    },
+    {
+      "id": "609e8c90-4d61-11e8-a00f-8d0b0d0e321f",
+      "date": "2018-05-01T17:05:04Z",
+      "status": "withdrawn",
+      "statusDetails": "empty",
+      "tenderers": [
+        {
+          "id": "UA-EDR-782-59-2817",
+          "name": "Daniels Inc",
+          "identifier": {
+            "id": "782-59-2817",
+            "scheme": "UA-EDR",
+            "legalName": "Daniels Inc PLC",
+            "uri": "http://www.grant.com/"
+          },
+          "address": {
+            "streetAddress": "34075 Jacob Mount",
+            "locality": "Williamston",
+            "region": "Iowa",
+            "postalCode": "11869",
+            "countryName": "Portugal"
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "821-53-5010",
+              "scheme": "UA-EDR",
+              "legalName": "Daniels Inc PLC",
+              "uri": "http://daugherty.org/tags/blog/tag/home.php"
+            }
+          ],
+          "contactPoint": {
+            "name": "Sandra Tucker",
+            "email": "nelsonsheryl@hotmail.com",
+            "telephone": "1-192-428-1121x03605",
+            "faxNumber": "801.493.1460x538",
+            "url": "http://www.watkins.com/author.jsp"
+          }
+        }
+      ],
+      "value": {
+        "amount": 7841167.67,
+        "currency": "GQE"
+      },
+      "documents": [
+        {
+          "id": "60797860-4d61-11e8-bcee-fd2243130aae",
+          "documentType": "tenderNotice",
+          "title": "Yeah call make above about remember.",
+          "description": "Bank different assume weight however same. Character very civil reality threat hundred project.",
+          "language": "pl",
+          "relatedLots": [
+            "5ef8cbd7-4d61-11e8-b26f-ab16840b3aaa"
+          ]
+        }
+      ],
+      "relatedLots": [
+        "5ef8cbd7-4d61-11e8-b26f-ab16840b3aaa"
+      ]
+    },
+    {
+      "id": "60cf6090-4d61-11e8-a00f-8d0b0d0e321f",
+      "date": "2018-05-01T17:05:10Z",
+      "status": "valid",
+      "statusDetails": "empty",
+      "tenderers": [
+        {
+          "id": "UA-EDR-389-33-8036",
+          "name": "Gray, Aguirre and Fox",
+          "identifier": {
+            "id": "389-33-8036",
+            "scheme": "UA-EDR",
+            "legalName": "Gray, Aguirre and Fox Inc",
+            "uri": "https://george.org/author/"
+          },
+          "address": {
+            "streetAddress": "28866 Stacey Corner",
+            "locality": "Port Christyborough",
+            "region": "Vermont",
+            "postalCode": "28472",
+            "countryName": "Ireland"
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "504-62-2445",
+              "scheme": "UA-EDR",
+              "legalName": "Gray, Aguirre and Fox and Sons",
+              "uri": "http://lewis-carroll.com/privacy/"
+            }
+          ],
+          "contactPoint": {
+            "name": "Justin Nicholson",
+            "email": "john10@gmail.com",
+            "telephone": "923-829-7938",
+            "faxNumber": "223.019.5047x598",
+            "url": "https://www.jones.com/faq/"
+          }
+        }
+      ],
+      "value": {
+        "amount": 3177.0,
+        "currency": "GQE"
+      },
+      "documents": [
+        {
+          "id": "60aa2550-4d61-11e8-bcee-fd2243130aae",
+          "documentType": "contractArrangements",
+          "title": "Sing receive light probably buy tonight sort.",
+          "description": "Study dinner industry point. Collection fast them drop social. Mean probably skill create common although.",
+          "language": "de",
+          "relatedLots": [
+            "5ef8cbd8-4d61-11e8-b26f-ab16840b3aaa"
+          ]
+        }
+      ],
+      "relatedLots": [
+        "5ef8cbd8-4d61-11e8-b26f-ab16840b3aaa"
+      ]
+    },
+    {
+      "id": "610b0a00-4d61-11e8-a00f-8d0b0d0e321f",
+      "date": "2018-05-01T17:02:07Z",
+      "status": "pending",
+      "statusDetails": "empty",
+      "tenderers": [
+        {
+          "id": "UA-EDR-039-76-6917",
+          "name": "Davis LLC",
+          "identifier": {
+            "id": "039-76-6917",
+            "scheme": "UA-EDR",
+            "legalName": "Davis LLC Group",
+            "uri": "http://www.zamora-hamilton.com/"
+          },
+          "address": {
+            "streetAddress": "60668 Megan Rapids",
+            "locality": "East Jeffery",
+            "region": "Virginia",
+            "postalCode": "05467-7317",
+            "countryName": "Kenya"
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "681-33-1052",
+              "scheme": "UA-EDR",
+              "legalName": "Davis LLC Ltd",
+              "uri": "https://zavala.com/main/main/posts/register/"
+            }
+          ],
+          "contactPoint": {
+            "name": "Stephanie Carr",
+            "email": "ericlawson@hotmail.com",
+            "telephone": "552-414-2599x8789",
+            "faxNumber": "08417351321",
+            "url": "https://www.russo.com/terms/"
+          }
+        }
+      ],
+      "value": {
+        "amount": 8.99346659493937E12,
+        "currency": "GQE"
+      },
+      "documents": [
+        {
+          "id": "60dd9160-4d61-11e8-bcee-fd2243130aae",
+          "documentType": "eligibilityCriteria",
+          "title": "List good now them two.",
+          "description": "Task blue view listen. Bed not recognize past treatment. Down million kid new large.",
+          "language": "fi",
+          "relatedLots": [
+            "5ef8cbd6-4d61-11e8-b26f-ab16840b3aaa"
+          ]
+        }
+      ],
+      "relatedLots": [
+        "5ef8cbd6-4d61-11e8-b26f-ab16840b3aaa"
+      ]
+    },
+    {
+      "id": "613af3a0-4d61-11e8-a00f-8d0b0d0e321f",
+      "date": "2018-05-01T17:02:07Z",
+      "status": "pending",
+      "statusDetails": "empty",
+      "tenderers": [
+        {
+          "id": "UA-EDR-148-78-1048",
+          "name": "Anthony-Miller",
+          "identifier": {
+            "id": "148-78-1048",
+            "scheme": "UA-EDR",
+            "legalName": "Anthony-Miller Group",
+            "uri": "https://jones-delgado.com/category/category/homepage/"
+          },
+          "address": {
+            "streetAddress": "077 Ali Stream",
+            "locality": "Gonzalesside",
+            "region": "Rhode Island",
+            "postalCode": "07136-7931",
+            "countryName": "Botswana"
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "506-25-6529",
+              "scheme": "UA-EDR",
+              "legalName": "Anthony-Miller LLC",
+              "uri": "https://butler-alvarez.com/index/"
+            }
+          ],
+          "contactPoint": {
+            "name": "Jay Cunningham",
+            "email": "angelasims@gmail.com",
+            "telephone": "(866)595-3370x6974",
+            "faxNumber": "1-430-041-9893",
+            "url": "https://williams.com/tags/blog/search/category/"
+          }
+        }
+      ],
+      "value": {
+        "amount": 8.13459231730433E12,
+        "currency": "GQE"
+      },
+      "documents": [
+        {
+          "id": "61189e90-4d61-11e8-bcee-fd2243130aae",
+          "documentType": "contractDraft",
+          "title": "Else seat religious father.",
+          "description": "Answer two thousand attention. Stop cut suggest major popular notice local. Role attack begin tonight.",
+          "language": "sv",
+          "relatedLots": [
+            "5ef8cbd8-4d61-11e8-b26f-ab16840b3aaa"
+          ]
+        }
+      ],
+      "relatedLots": [
+        "5ef8cbd8-4d61-11e8-b26f-ab16840b3aaa"
+      ]
+    },
+    {
+      "id": "61756490-4d61-11e8-a00f-8d0b0d0e321f",
+      "date": "2018-05-01T17:02:07Z",
+      "status": "pending",
+      "statusDetails": "empty",
+      "tenderers": [
+        {
+          "id": "UA-EDR-145-80-7807",
+          "name": "Caldwell, Ramos and Haas",
+          "identifier": {
+            "id": "145-80-7807",
+            "scheme": "UA-EDR",
+            "legalName": "Caldwell, Ramos and Haas LLC",
+            "uri": "http://davis-reilly.org/tag/main/category/faq/"
+          },
+          "address": {
+            "streetAddress": "4704 Jaime Cape Suite 921",
+            "locality": "East Timothychester",
+            "region": "Oklahoma",
+            "postalCode": "29390-6049",
+            "countryName": "Mexico"
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "818-38-9513",
+              "scheme": "UA-EDR",
+              "legalName": "Caldwell, Ramos and Haas Ltd",
+              "uri": "https://jackson.com/index.html"
+            }
+          ],
+          "contactPoint": {
+            "name": "Cody King",
+            "email": "tparks@gmail.com",
+            "telephone": "(708)569-6735x10929",
+            "faxNumber": "276.065.0404",
+            "url": "https://www.johnson.net/post.html"
+          }
+        }
+      ],
+      "value": {
+        "amount": 1414882.8,
+        "currency": "GQE"
+      },
+      "documents": [
+        {
+          "id": "6144deb0-4d61-11e8-bcee-fd2243130aae",
+          "documentType": "clarifications",
+          "title": "Training energy speak manager least central.",
+          "description": "Within affect which toward. Writer night late blood which state.",
+          "language": "nl",
+          "relatedLots": [
+            "5ef8cbd6-4d61-11e8-b26f-ab16840b3aaa"
+          ]
+        }
+      ],
+      "relatedLots": [
+        "5ef8cbd6-4d61-11e8-b26f-ab16840b3aaa"
+      ]
+    }
+  ]
 }

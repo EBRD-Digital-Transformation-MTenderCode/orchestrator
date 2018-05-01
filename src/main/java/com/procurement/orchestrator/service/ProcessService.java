@@ -57,6 +57,8 @@ public interface ProcessService {
 
     JsonNode addCans(JsonNode jsonData, JsonNode cansData, String processId);
 
+    JsonNode addContracts(JsonNode jsonData, JsonNode data, String processId);
+
     JsonNode getUnsuccessfulLots(JsonNode jsonData, String processId);
 
     JsonNode getTenderLots(JsonNode jsonData, String processId);
