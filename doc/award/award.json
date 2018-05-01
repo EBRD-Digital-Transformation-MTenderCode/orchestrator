@@ -1,97 +1,66 @@
 {
-  "awardPeriod": {
-    "endDate": ""
+  "award": {
+    "id": "f409979e-4d4d-11e8-80e9-edef4baa7cac",
+    "date": "2018-05-01T14:43:05Z",
+    "description": "Award description",
+    "status": "pending",
+    "statusDetails": "active",
+    "value": {
+      "amount": 929.44,
+      "currency": "CNY"
+    },
+    "relatedLots": [
+      "88f331a3-4d4d-11e8-8f19-7f8644d512b9"
+    ],
+    "relatedBid": "8b4d7550-4d4d-11e8-af33-e93840e791c0",
+    "suppliers": [
+      {
+        "id": "UA-EDR-849-15-8640",
+        "name": "Gibson LLC",
+        "identifier": {
+          "id": "849-15-8640",
+          "scheme": "UA-EDR",
+          "legalName": "Gibson LLC and Sons",
+          "uri": "http://khan.biz/main.php"
+        },
+        "address": {
+          "streetAddress": "300 Rodney Flats",
+          "locality": "East Dana",
+          "region": "Ohio",
+          "postalCode": "84898",
+          "countryName": "Hong Kong"
+        },
+        "additionalIdentifiers": [
+          {
+            "id": "268-66-9959",
+            "scheme": "UA-EDR",
+            "legalName": "Gibson LLC Group",
+            "uri": "https://montoya.com/faq.php"
+          }
+        ],
+        "contactPoint": {
+          "name": "Brittany Sanders",
+          "email": "lopezsandra@yahoo.com",
+          "telephone": "1-493-120-7215x564",
+          "faxNumber": "923-792-9853x22803",
+          "url": "http://www.frank.com/"
+        }
+      }
+    ]
   },
-  "awards": [
-    {
-      "id": "",
-      "date": "",
-      "status": "",
-      "statusDetails": ""
-    }
-  ],
-  "awardsActive": [
-    {
-      "id": "",
-      "date": "",
-      --
-      "description": "",
-      "status": "",
-      --
-      "statusDetails": "",
-      "value": {
-        "amount": "",
-        "currency": ""
-      },
-      "relatedLots": [
-        ""
-      ],
-      "relatedBid": "",
-      "suppliers": [
-        {
-          "id": "",
-          "name": ""
-        }
-      ],
-      "documents": [
-        {
-          "documentType": "",
-          "id": "",
-          "title": "",
-          "description": "",
-          "language": "",
-          "relatedLots": [
-            ""
-          ]
-        }
-      ]
-    }
-  ],
-  "lots": [
-    {
-      "id": ""
-    }
-  ]
-}
-
-{
-  "bids":
-  {
-    "details":
-    [{
-      "id":"",
-      "date":"",
-      "status":"",
-      "statusDetails":""
-    }]
-  }
-}
-
-{
-  "lots": [{
-    "id": "",
-    "title": "",
-    "description": "",
-    "status":"",
-    "statusDetails":"",
-    "value":
-    {
-      "amount": 0,
-      "currency": ""
+  "lot": {
+    "id": "88f331a3-4d4d-11e8-8f19-7f8644d512b9",
+    "title": "Own Mr involve think do.",
+    "description": "Player world pick force goal family. Page be PM report right point.",
+    "status": "active",
+    "statusDetails": "awarded",
+    "value": {
+      "amount": 10.66,
+      "currency": "CNY"
     },
     "options": [
       {
         "hasOptions": false
-      }
-    ],
-    "variants": [
-      {
-        "hasVariants": false
-      }
-    ],
-    "renewals": [
-      {
-        "hasRenewals": false
       }
     ],
     "recurrentProcurement": [
@@ -99,50 +68,29 @@
         "isRecurrent": false
       }
     ],
-    "contractPeriod":
-    {
-      "startDate": "",
-      "endDate": ""
-    },
-    "placeOfPerformance":
-    {
-      "address":
+    "renewals": [
       {
-        "streetAddress": "",
-        "locality": "",
-        "region": "",
-        --"postalCode": "",
-        "countryName": ""
+        "hasRenewals": false
+      }
+    ],
+    "variants": [
+      {
+        "hasVariants": false
+      }
+    ],
+    "contractPeriod": {
+      "startDate": "2018-05-01T14:40:03Z",
+      "endDate": "2018-08-12T09:40:52Z"
+    },
+    "placeOfPerformance": {
+      "address": {
+        "streetAddress": "84300 James Parkways",
+        "locality": "Lake Colleenland",
+        "region": "Ohio",
+        "postalCode": "22667",
+        "countryName": "Congo"
       },
-      --"description": ""
+      "description": "Hard sea all policy blood deal clearly."
     }
-  }],
-  "lotsComplete": [{
-    "id": "",
-    "title": "",
-    "description": ""
-  }],
-  "items": [{
-    "id":"",
-    "classification":
-    {
-      "scheme": "CPV",
-      "description": "",
-      "id": ""
-    },
-    --"additionalClassifications":
-    [{
-      "scheme": "",
-      "description": "",
-      "id": ""
-    }],
-    "quantity": 0,
-    "unit":
-    {
-      "id":"",
-      "name": ""
-    },
-    --"description": "",
-    "relatedLot": ""
-  }]
+  }
 }

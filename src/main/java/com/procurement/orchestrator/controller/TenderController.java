@@ -51,8 +51,8 @@ public class TenderController extends BaseController {
         params.setCountry(Country.fromValue(country.toUpperCase()).value());
         params.setPmd(pmd.toUpperCase());
         params.setPhase("TENDERPERIOD");
-        saveRequestAndCheckOperation(params, jsonData);
         setStageForOperation(params);
+        saveRequestAndCheckOperation(params, jsonData);
         processService.startProcess(params, new HashMap<>());
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
@@ -99,8 +99,8 @@ public class TenderController extends BaseController {
         params.setCountry(Country.fromValue(country.toUpperCase()).value());
         params.setPmd(pmd.toUpperCase());
         params.setPhase("PLANNED");
-        saveRequestAndCheckOperation(params, jsonData);
         setStageForOperation(params);
+        saveRequestAndCheckOperation(params, jsonData);
         processService.startProcess(params, new HashMap<>());
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
@@ -147,8 +147,8 @@ public class TenderController extends BaseController {
         params.setCountry(Country.fromValue(country.toUpperCase()).value());
         params.setPmd(pmd.toUpperCase());
         params.setPhase("PLANNING");
-        saveRequestAndCheckOperation(params, jsonData);
         setStageForOperation(params);
+        saveRequestAndCheckOperation(params, jsonData);
         processService.startProcess(params, new HashMap<>());
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
