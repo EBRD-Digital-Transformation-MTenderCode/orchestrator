@@ -26,7 +26,7 @@
       <bpmn:incoming>SequenceFlow_1beb1tx</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1n5w707</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_1n5w707" sourceRef="NoticeCreateReleaseTask" targetRef="ServiceTask_0ql6wk4" />
+    <bpmn:sequenceFlow id="SequenceFlow_1n5w707" sourceRef="NoticeCreateReleaseTask" targetRef="SaveStageParamsTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1gx4xfj" sourceRef="StartEvent_1" targetRef="SaveFirstOperationTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0sbxc3m" sourceRef="SaveFirstOperationTask" targetRef="CheckRulesForStageTask" />
     <bpmn:serviceTask id="AccessUpdateLotsTask" name="Access Update Lots" camunda:asyncBefore="true" camunda:delegateExpression="${accessUpdateLots}">
@@ -43,11 +43,6 @@
       <bpmn:incoming>SequenceFlow_0gup68w</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0fb2kuu</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="ServiceTask_0ql6wk4" name="Save Stage Params" camunda:asyncBefore="true" camunda:delegateExpression="${saveStageParams}">
-      <bpmn:incoming>SequenceFlow_1n5w707</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_0smtj68</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_0smtj68" sourceRef="ServiceTask_0ql6wk4" targetRef="SendMessageTask" />
     <bpmn:serviceTask id="SetStandstillPeriodTask" name="Set Standstill Period" camunda:asyncBefore="true" camunda:delegateExpression="${setStandstillPeriod}">
       <bpmn:incoming>SequenceFlow_1yp05t1</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1frl87c</bpmn:outgoing>
@@ -84,6 +79,11 @@
     <bpmn:sequenceFlow id="SequenceFlow_1n3pk4j" sourceRef="EvaluationGetAwardsTask" targetRef="ContractingCreateCanTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1yp05t1" sourceRef="AccessCheckLotStatusDetailsTask" targetRef="SetStandstillPeriodTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0umdhy6" sourceRef="SendMessageTask" targetRef="EndEvent_1" />
+    <bpmn:serviceTask id="SaveStageParamsTask" name="Save Stage Params" camunda:asyncBefore="true" camunda:delegateExpression="${saveStageParams}">
+      <bpmn:incoming>SequenceFlow_1n5w707</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0smtj68</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_0smtj68" sourceRef="SaveStageParamsTask" targetRef="SendMessageTask" />
   </bpmn:process>
   <bpmn:error id="tr_exception" name="TR_EXCEPTION" errorCode="TR_EXCEPTION" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -156,16 +156,6 @@
       <bpmndi:BPMNShape id="ServiceTask_190dx6u_di" bpmnElement="NoticePostTask">
         <dc:Bounds x="925" y="124" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_0ql6wk4_di" bpmnElement="ServiceTask_0ql6wk4">
-        <dc:Bounds x="1699" y="124" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="SequenceFlow_0smtj68_di" bpmnElement="SequenceFlow_0smtj68">
-        <di:waypoint xsi:type="dc:Point" x="1799" y="164" />
-        <di:waypoint xsi:type="dc:Point" x="1828" y="164" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1768.5" y="143" width="90" height="12" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ServiceTask_1eda4w6_di" bpmnElement="SetStandstillPeriodTask">
         <dc:Bounds x="538" y="124" width="100" height="80" />
       </bpmndi:BPMNShape>
@@ -245,6 +235,16 @@
         <di:waypoint xsi:type="dc:Point" x="1958" y="164" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1943" y="143" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_0ql6wk4_di" bpmnElement="SaveStageParamsTask">
+        <dc:Bounds x="1699" y="124" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0smtj68_di" bpmnElement="SequenceFlow_0smtj68">
+        <di:waypoint xsi:type="dc:Point" x="1799" y="164" />
+        <di:waypoint xsi:type="dc:Point" x="1828" y="164" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1768.5" y="143" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
