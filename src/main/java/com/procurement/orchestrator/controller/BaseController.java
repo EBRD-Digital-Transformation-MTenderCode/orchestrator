@@ -2,6 +2,7 @@ package com.procurement.orchestrator.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Params;
+import com.procurement.orchestrator.domain.Stage;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.RequestService;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -33,6 +34,15 @@ public class BaseController {
         requestService.saveRequest(params.getRequestId(), params.getOperationId(), params, jsonData);
         operationService.checkOperationById(params.getOperationId());
     }
+
+    void setStageForOperation(final Params params) {
+        final Stage stage = operationService.getStageFromRules(
+                params.getCountry(),
+                params.getPmd(),
+                params.getOperationType());
+        params.setNewStage(stage.value());
+    }
+
 
     String getOwner(final String authorization) {
         final String[] split = authorization.split("\\.");

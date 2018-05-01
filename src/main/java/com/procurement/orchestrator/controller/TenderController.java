@@ -39,7 +39,6 @@ public class TenderController extends BaseController {
                                            @RequestHeader("X-OPERATION-ID") final String operationId,
                                            @RequestParam("country") final String country,
                                            @RequestParam("pmd") final String pmd,
-                                           @RequestParam("stage") final String stage,
                                            @RequestBody final JsonNode jsonData) {
         final Params params = new Params();
         params.setRequestId(UUIDs.timeBased().toString());
@@ -47,13 +46,13 @@ public class TenderController extends BaseController {
         params.setOperationId(operationId);
         params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
         params.setEndDate(processService.getTenderPeriodEndDate(jsonData, null));
-        params.setNewStage(Stage.fromValue(stage).value());
         params.setProcessType("createCN");
         params.setOperationType("createCN");
         params.setCountry(Country.fromValue(country.toUpperCase()).value());
         params.setPmd(pmd.toUpperCase());
         params.setPhase("TENDERPERIOD");
         saveRequestAndCheckOperation(params, jsonData);
+        setStageForOperation(params);
         processService.startProcess(params, new HashMap<>());
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
@@ -89,20 +88,19 @@ public class TenderController extends BaseController {
                                             @RequestHeader("X-OPERATION-ID") final String operationId,
                                             @RequestParam("country") final String country,
                                             @RequestParam("pmd") final String pmd,
-                                            @RequestParam("stage") final String stage,
                                             @RequestBody final JsonNode jsonData) {
         final Params params = new Params();
         params.setRequestId(UUIDs.timeBased().toString());
         params.setOwner(getOwner(authorization));
         params.setOperationId(operationId);
         params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
-        params.setNewStage(Stage.fromValue(stage).value());
         params.setProcessType("createPIN");
         params.setOperationType("createPIN");
         params.setCountry(Country.fromValue(country.toUpperCase()).value());
         params.setPmd(pmd.toUpperCase());
         params.setPhase("PLANNED");
         saveRequestAndCheckOperation(params, jsonData);
+        setStageForOperation(params);
         processService.startProcess(params, new HashMap<>());
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
@@ -138,20 +136,19 @@ public class TenderController extends BaseController {
                                            @RequestHeader("X-OPERATION-ID") final String operationId,
                                            @RequestParam("country") final String country,
                                            @RequestParam("pmd") final String pmd,
-                                           @RequestParam("stage") final String stage,
                                            @RequestBody final JsonNode jsonData) {
         final Params params = new Params();
         params.setRequestId(UUIDs.timeBased().toString());
         params.setOwner(getOwner(authorization));
         params.setOperationId(operationId);
         params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
-        params.setNewStage(Stage.fromValue(stage).value());
         params.setProcessType("createPN");
         params.setOperationType("createPN");
         params.setCountry(Country.fromValue(country.toUpperCase()).value());
         params.setPmd(pmd.toUpperCase());
         params.setPhase("PLANNING");
         saveRequestAndCheckOperation(params, jsonData);
+        setStageForOperation(params);
         processService.startProcess(params, new HashMap<>());
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }

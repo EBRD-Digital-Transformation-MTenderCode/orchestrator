@@ -4,10 +4,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.dao.CassandraDao;
 import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.domain.Rules;
-import com.procurement.orchestrator.domain.entity.OperationEntity;
-import com.procurement.orchestrator.domain.entity.OperationStepEntity;
-import com.procurement.orchestrator.domain.entity.RequestEntity;
-import com.procurement.orchestrator.domain.entity.StageEntity;
+import com.procurement.orchestrator.domain.Stage;
+import com.procurement.orchestrator.domain.entity.*;
 import com.procurement.orchestrator.exception.OperationException;
 import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -174,6 +172,17 @@ public class OperationServiceImpl implements OperationService {
             return null;
         }
     }
+
+    @Override
+    public Stage getStageFromRules(final String country, final String pmd, final String operationType) {
+        final Optional<StageRulesEntity> entityOptional = cassandraDao.getStageFromRules(country, pmd, operationType);
+        if (entityOptional.isPresent()) {
+            return Stage.fromValue(entityOptional.get().getStage());
+        } else {
+            throw new OperationException("No stage found!");
+        }
+    }
+
 
     public void processException(final String error,
                                  final String processId) {

@@ -5,10 +5,7 @@ import com.datastax.driver.core.Session;
 import com.datastax.driver.core.Statement;
 import com.datastax.driver.core.querybuilder.Insert;
 import com.procurement.orchestrator.domain.Rules;
-import com.procurement.orchestrator.domain.entity.OperationEntity;
-import com.procurement.orchestrator.domain.entity.OperationStepEntity;
-import com.procurement.orchestrator.domain.entity.RequestEntity;
-import com.procurement.orchestrator.domain.entity.StageEntity;
+import com.procurement.orchestrator.domain.entity.*;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +18,7 @@ public class CassandraDaoImpl implements CassandraDao {
     private static final String OPERATION_TABLE = "orchestrator_operation";
     private static final String REQUEST_TABLE = "orchestrator_request";
     private static final String STAGE_TABLE = "orchestrator_stage";
+    private static final String STAGE_RULES_TABLE = "orchestrator_stage_rules";
     private static final String RULES_TABLE = "orchestrator_rules";
     private static final String REQUEST_DATE = "request_date";
     private static final String OPERATION_ID = "operation_id";
@@ -188,5 +186,26 @@ public class CassandraDaoImpl implements CassandraDao {
                 .limit(1);
         final ResultSet rs = session.execute(query);
         return rs.all().size() > 0;
+    }
+
+    @Override
+    public Optional<StageRulesEntity> getStageFromRules(final String country,
+                                                        final String pmd,
+                                                        final String operationType) {
+        final Statement query = select()
+                .all()
+                .from(STAGE_RULES_TABLE)
+                .where(eq(COUNTRY, country))
+                .and(eq(PMD, pmd))
+                .and(eq(OPERATION_TYPE, operationType))
+                .limit(1);
+
+        final ResultSet rows = session.execute(query);
+        return Optional.ofNullable(rows.one())
+                .map(row -> new StageRulesEntity(
+                        row.getString(COUNTRY),
+                        row.getString(PMD),
+                        row.getString(OPERATION_TYPE),
+                        row.getString(STAGE)));
     }
 }

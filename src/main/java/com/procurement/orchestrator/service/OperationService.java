@@ -3,6 +3,7 @@ package com.procurement.orchestrator.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.domain.Rules;
+import com.procurement.orchestrator.domain.Stage;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.domain.entity.RequestEntity;
 import com.procurement.orchestrator.domain.entity.StageEntity;
@@ -37,6 +38,8 @@ public interface OperationService {
     void saveStageParams(Params params);
 
     StageEntity getStageParams(String cpId, String processId);
+
+    Stage getStageFromRules(String country, String pmd, String operationType);
 }
 
 
