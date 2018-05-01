@@ -15,19 +15,19 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ContractingCreateAwardedContract implements JavaDelegate {
+public class ContractingCreateContract implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ContractingCreateAwardedContract.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ContractingCreateContract.class);
 
     private final ContractingRestClient contractingRestClient;
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public ContractingCreateAwardedContract(final ContractingRestClient contractingRestClient,
-                                            final OperationService operationService,
-                                            final ProcessService processService,
-                                            final JsonUtil jsonUtil) {
+    public ContractingCreateContract(final ContractingRestClient contractingRestClient,
+                                     final OperationService operationService,
+                                     final ProcessService processService,
+                                     final JsonUtil jsonUtil) {
         this.contractingRestClient = contractingRestClient;
         this.operationService = operationService;
         this.processService = processService;

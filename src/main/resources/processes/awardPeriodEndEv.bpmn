@@ -38,7 +38,7 @@
       <bpmn:incoming>SequenceFlow_02bv6jg</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_01afhxg</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_01afhxg" sourceRef="SubmissionSetFinalStatusesTask" targetRef="ContractingCreateAwardedContractTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_01afhxg" sourceRef="SubmissionSetFinalStatusesTask" targetRef="ContractingCreateContractTask" />
     <bpmn:serviceTask id="NoticePostTask" name="Notice create release" camunda:asyncBefore="true" camunda:delegateExpression="${noticeCreateRelease}">
       <bpmn:incoming>SequenceFlow_0gup68w</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0fb2kuu</bpmn:outgoing>
@@ -61,14 +61,14 @@
       <bpmn:outgoing>SequenceFlow_0b2l4w7</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_0b2l4w7" sourceRef="EvaluationEndAwardPeriodTask" targetRef="AccessUpdateLotsTask" />
-    <bpmn:serviceTask id="ContractingCreateAwardedContractTask" name="Contracting Create Awarded Contract" camunda:asyncBefore="true" camunda:delegateExpression="${contractingCreateAwardedContract}">
+    <bpmn:serviceTask id="ContractingCreateContractTask" name="Contracting Create Contract" camunda:asyncBefore="true" camunda:delegateExpression="${contractingCreateContract}">
       <bpmn:extensionElements>
         <camunda:failedJobRetryTimeCycle>R0/PT1S</camunda:failedJobRetryTimeCycle>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_01afhxg</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1beb1tx</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_1beb1tx" sourceRef="ContractingCreateAwardedContractTask" targetRef="NoticeCreateReleaseTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1beb1tx" sourceRef="ContractingCreateContractTask" targetRef="NoticeCreateReleaseTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1frl87c" sourceRef="SetStandstillPeriodTask" targetRef="EvaluationGetAwardsTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0gup68w" sourceRef="ContractingCreateCanTask" targetRef="NoticePostTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0fb2kuu" sourceRef="NoticePostTask" targetRef="EvaluationEndAwardPeriodTask" />
@@ -182,7 +182,7 @@
           <dc:Bounds x="1123.5" y="143" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_038427p_di" bpmnElement="ContractingCreateAwardedContractTask">
+      <bpmndi:BPMNShape id="ServiceTask_038427p_di" bpmnElement="ContractingCreateContractTask">
         <dc:Bounds x="1441" y="124" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1beb1tx_di" bpmnElement="SequenceFlow_1beb1tx">
