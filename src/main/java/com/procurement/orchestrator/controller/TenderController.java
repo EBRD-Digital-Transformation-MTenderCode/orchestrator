@@ -4,6 +4,7 @@ import com.datastax.driver.core.utils.UUIDs;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Country;
 import com.procurement.orchestrator.domain.Params;
+import com.procurement.orchestrator.domain.Pmd;
 import com.procurement.orchestrator.domain.Stage;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
@@ -49,7 +50,7 @@ public class TenderController extends BaseController {
         params.setProcessType("createCN");
         params.setOperationType("createCN");
         params.setCountry(Country.fromValue(country.toUpperCase()).value());
-        params.setPmd(pmd.toUpperCase());
+        params.setPmd(Pmd.fromValue(pmd.toUpperCase()).value());
         params.setPhase("TENDERPERIOD");
         setStageForOperation(params);
         saveRequestAndCheckOperation(params, jsonData);
@@ -97,7 +98,7 @@ public class TenderController extends BaseController {
         params.setProcessType("createPIN");
         params.setOperationType("createPIN");
         params.setCountry(Country.fromValue(country.toUpperCase()).value());
-        params.setPmd(pmd.toUpperCase());
+        params.setPmd(Pmd.fromValue(pmd.toUpperCase()).value());
         params.setPhase("PLANNED");
         setStageForOperation(params);
         saveRequestAndCheckOperation(params, jsonData);
@@ -145,7 +146,7 @@ public class TenderController extends BaseController {
         params.setProcessType("createPN");
         params.setOperationType("createPN");
         params.setCountry(Country.fromValue(country.toUpperCase()).value());
-        params.setPmd(pmd.toUpperCase());
+        params.setPmd(Pmd.fromValue(pmd.toUpperCase()).value());
         params.setPhase("PLANNING");
         setStageForOperation(params);
         saveRequestAndCheckOperation(params, jsonData);
