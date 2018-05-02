@@ -32,12 +32,13 @@ public interface ProcessService {
 
     String getTenderPeriodEndDate(JsonNode jsonData, String processId);
 
-    Params addAccessToParams(Params params, String entityType, String entityId, JsonNode responseData, String
-            processId);
+    Params addAccessToParams(Params params, String entityType, String entityId, JsonNode responseData, String processId);
 
     Params addBidAccessToParams(Params params, JsonNode responseData, String processId);
 
     Params addAwardAccessToParams(Params params, JsonNode responseData, String processId);
+
+    Params addContractAccessToParams(Params params, JsonNode responseData, String processId);
 
     JsonNode addTenderTenderPeriod(JsonNode jsonData, JsonNode periodData, String processId);
 

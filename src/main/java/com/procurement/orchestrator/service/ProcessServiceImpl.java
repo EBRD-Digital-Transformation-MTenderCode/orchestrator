@@ -144,6 +144,20 @@ public class ProcessServiceImpl implements ProcessService {
         return params;
     }
 
+    public Params addContractAccessToParams(final Params params, final JsonNode responseData, final String processId) {
+        final ArrayNode contractsNode = (ArrayNode) responseData.get("contracts");
+        final List<EntityAccess> accesses = new ArrayList<>();
+        for (final JsonNode awardNode : contractsNode) {
+            accesses.add(new EntityAccess(
+                    "contract",
+                    awardNode.get("id").asText(),
+                    awardNode.get("token").asText())
+            );
+        }
+        params.setAccess(accesses);
+        return params;
+    }
+
     public JsonNode addTenderTenderPeriod(final JsonNode jsonData, final JsonNode periodData, final String processId) {
         try {
             if (Objects.isNull(jsonData.get("tender")))

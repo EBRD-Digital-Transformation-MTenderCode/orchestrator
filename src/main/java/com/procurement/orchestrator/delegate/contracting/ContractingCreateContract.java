@@ -55,6 +55,7 @@ public class ContractingCreateContract implements JavaDelegate {
             operationService.saveOperationStep(
                     execution,
                     entity,
+                    processService.addContractAccessToParams(params, responseData, processId),
                     requestData,
                     processService.addContracts(requestData, responseData, processId));
     }
