@@ -134,11 +134,13 @@ public class ProcessServiceImpl implements ProcessService {
         final ArrayNode awardsNode = (ArrayNode) responseData.get("awards");
         final List<EntityAccess> accesses = new ArrayList<>();
         for (final JsonNode awardNode : awardsNode) {
-            accesses.add(new EntityAccess(
-                    "award",
-                    awardNode.get("id").asText(),
-                    awardNode.get("token").asText())
-            );
+            if (awardNode.get("token") != null) {
+                accesses.add(new EntityAccess(
+                        "award",
+                        awardNode.get("id").asText(),
+                        awardNode.get("token").asText())
+                );
+            }
         }
         params.setAccess(accesses);
         return params;
