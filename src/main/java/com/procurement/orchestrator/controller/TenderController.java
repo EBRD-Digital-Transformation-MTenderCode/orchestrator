@@ -315,5 +315,26 @@ public class TenderController extends BaseController {
         processService.startProcess(params, variables);
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
+
+    @RequestMapping(value = "/chronoTest", method = RequestMethod.POST)
+    public ResponseEntity<String> enquiry(@RequestHeader("Authorization") final String authorization,
+                                          @RequestHeader("X-OPERATION-ID") final String operationId,
+                                          @RequestParam("identifier") final String identifier,
+                                          @RequestParam("stage") final String stage) {
+        final Params params = new Params();
+        params.setRequestId(UUIDs.timeBased().toString());
+        params.setOwner(getOwner(authorization));
+        params.setOperationId(operationId);
+        params.setCpid(identifier);
+        params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
+        params.setEndDate(dateUtil.format(dateUtil.localDateTimeNowUTC().plusMinutes(2)));
+        params.setNewStage(Stage.fromValue(stage).value());
+        params.setProcessType("chronoTest");
+        params.setOperationType("chronoTest");
+        saveRequestAndCheckOperation(params, null);
+        final Map<String, Object> variables = new HashMap<>();
+        processService.startProcess(params, variables);
+        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
+    }
 }
 

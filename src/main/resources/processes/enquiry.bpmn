@@ -74,6 +74,11 @@
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="SequenceFlow_1fzuyny" sourceRef="ExclusiveGateway_07ftixw" targetRef="NoticeCreateReleaseTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1dft457" sourceRef="ClarificationCreateEnquiryTask" targetRef="ExclusiveGateway_07ftixw" />
+    <bpmn:serviceTask id="CheckStageTask" name="Check Stage" camunda:delegateExpression="${checkStage}">
+      <bpmn:incoming>SequenceFlow_165gqdr</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_129z6f7</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_129z6f7" sourceRef="CheckStageTask" targetRef="ExclusiveGateway_0hg3tz9" />
     <bpmn:exclusiveGateway id="ExclusiveGateway_0ai5ezj">
       <bpmn:incoming>SequenceFlow_0ggq87j</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0wbl6vo</bpmn:outgoing>
@@ -85,11 +90,6 @@
     <bpmn:sequenceFlow id="SequenceFlow_07garu8" sourceRef="ExclusiveGateway_0ai5ezj" targetRef="ExclusiveGateway_07ftixw">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${allAnswered==0}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:serviceTask id="CheckStageTask" name="Check Stage" camunda:delegateExpression="${checkStage}">
-      <bpmn:incoming>SequenceFlow_165gqdr</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_129z6f7</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_129z6f7" sourceRef="CheckStageTask" targetRef="ExclusiveGateway_0hg3tz9" />
   </bpmn:process>
   <bpmn:error id="tr_exception" name="TR_EXCEPTION" errorCode="TR_EXCEPTION" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -123,7 +123,7 @@
         <di:waypoint xsi:type="dc:Point" x="680" y="309" />
         <di:waypoint xsi:type="dc:Point" x="745" y="309" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="667.5" y="288" width="90" height="12" />
+          <dc:Bounds x="668" y="288" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_165gqdr_di" bpmnElement="SequenceFlow_165gqdr">
@@ -240,6 +240,16 @@
           <dc:Bounds x="1087.5" y="45" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_0awn39p_di" bpmnElement="CheckStageTask">
+        <dc:Bounds x="350" y="145" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_129z6f7_di" bpmnElement="SequenceFlow_129z6f7">
+        <di:waypoint xsi:type="dc:Point" x="450" y="185" />
+        <di:waypoint xsi:type="dc:Point" x="490" y="185" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="470" y="164" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ExclusiveGateway_0ai5ezj_di" bpmnElement="ExclusiveGateway_0ai5ezj" isMarkerVisible="true">
         <dc:Bounds x="745" y="284" width="50" height="50" />
         <bpmndi:BPMNLabel>
@@ -250,7 +260,7 @@
         <di:waypoint xsi:type="dc:Point" x="795" y="309" />
         <di:waypoint xsi:type="dc:Point" x="860" y="309" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="782.5" y="288" width="90" height="12" />
+          <dc:Bounds x="783" y="288" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_07garu8_di" bpmnElement="SequenceFlow_07garu8">
@@ -258,17 +268,7 @@
         <di:waypoint xsi:type="dc:Point" x="770" y="185" />
         <di:waypoint xsi:type="dc:Point" x="1420" y="185" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="740" y="228.5" width="90" height="12" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_0awn39p_di" bpmnElement="CheckStageTask">
-        <dc:Bounds x="350" y="145" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="SequenceFlow_129z6f7_di" bpmnElement="SequenceFlow_129z6f7">
-        <di:waypoint xsi:type="dc:Point" x="450" y="185" />
-        <di:waypoint xsi:type="dc:Point" x="490" y="185" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="470" y="164" width="0" height="12" />
+          <dc:Bounds x="740" y="229" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>

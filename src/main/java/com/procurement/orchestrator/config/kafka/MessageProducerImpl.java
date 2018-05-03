@@ -1,7 +1,7 @@
 package com.procurement.orchestrator.config.kafka;
 
 import com.procurement.orchestrator.domain.PlatformMessage;
-import com.procurement.orchestrator.domain.chronograph.ChronographTask;
+import com.procurement.orchestrator.domain.chronograph.ScheduleTask;
 import com.procurement.orchestrator.utils.JsonUtil;
 import org.apache.kafka.clients.producer.RecordMetadata;
 import org.slf4j.Logger;
@@ -27,7 +27,7 @@ public class MessageProducerImpl implements MessageProducer {
         this.jsonUtil = jsonUtil;
     }
 
-    public boolean sendToChronograph(final ChronographTask task) {
+    public boolean sendToChronograph(final ScheduleTask task) {
         try {
             final SendResult<String, String> sendResult = internalKafkaTemplate.send(
                     CHRONOGRAPH_TOPIC,

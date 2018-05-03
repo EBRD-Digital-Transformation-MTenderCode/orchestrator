@@ -3,7 +3,8 @@ package com.procurement.orchestrator.delegate.chronograph;
 import com.procurement.orchestrator.config.kafka.MessageProducer;
 import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.domain.Stage;
-import com.procurement.orchestrator.domain.chronograph.ChronographTask;
+import com.procurement.orchestrator.domain.chronograph.ActionType;
+import com.procurement.orchestrator.domain.chronograph.ScheduleTask;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.utils.DateUtil;
@@ -60,12 +61,14 @@ public class ChronographRescheduleEndTenderPeriod implements JavaDelegate {
         paramsForEndTenderPeriod.setStartDate(params.getStartDate());
         paramsForEndTenderPeriod.setEndDate(params.getEndDate());
 
-        final ChronographTask task = new ChronographTask(
-                ChronographTask.ActionType.REPLACE,
+        final ScheduleTask task = new ScheduleTask(
+                ActionType.REPLACE,
                 params.getCpid(),
                 "TENDERPERIOD",
+                null,
                 dateUtil.stringToLocal(params.getEndDate()),
                 jsonUtil.toJson(paramsForEndTenderPeriod));
+
         messageProducer.sendToChronograph(task);
         operationService.saveOperationStep(execution, entity);
     }
