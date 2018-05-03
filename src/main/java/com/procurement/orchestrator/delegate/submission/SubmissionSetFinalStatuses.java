@@ -49,7 +49,8 @@ public class SubmissionSetFinalStatuses implements JavaDelegate {
         final JsonNode responseData = processService.processResponse(
                 submissionRestClient.setFinalStatuses(
                         params.getCpid(),
-                        params.getNewStage()),
+                        params.getNewStage(),
+                        params.getStartDate()),
                 params,
                 processId,
                 taskId,

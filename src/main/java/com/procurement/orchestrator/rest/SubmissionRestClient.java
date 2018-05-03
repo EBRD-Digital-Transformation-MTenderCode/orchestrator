@@ -83,5 +83,6 @@ public interface SubmissionRestClient {
 
     @RequestMapping(path = "/submission/setFinalStatuses", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> setFinalStatuses(@RequestParam("identifier") String cpId,
-                                                 @RequestParam("stage") String stage) throws Exception;
+                                                 @RequestParam("stage") String stage,
+                                                 @RequestParam("date") String startDate) throws Exception;
 }
