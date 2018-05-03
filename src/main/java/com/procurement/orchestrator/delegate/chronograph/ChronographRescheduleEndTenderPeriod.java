@@ -63,9 +63,10 @@ public class ChronographRescheduleEndTenderPeriod implements JavaDelegate {
         final ChronographTask task = new ChronographTask(
                 ChronographTask.ActionType.REPLACE,
                 params.getCpid(),
-                params.getPhase(),
+                "TENDERPERIOD",
                 dateUtil.stringToLocal(params.getEndDate()),
                 jsonUtil.toJson(paramsForEndTenderPeriod));
         messageProducer.sendToChronograph(task);
+        operationService.saveOperationStep(execution, entity);
     }
 }

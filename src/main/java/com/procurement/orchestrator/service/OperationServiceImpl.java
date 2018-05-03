@@ -96,6 +96,14 @@ public class OperationServiceImpl implements OperationService {
     }
 
     @Override
+    public void saveOperationStep(final DelegateExecution execution, final OperationStepEntity entity) {
+        execution.setVariable(LAST_TASK, execution.getCurrentActivityId());
+        entity.setTaskId(execution.getCurrentActivityId());
+        entity.setDate(dateUtil.dateNowUTC());
+        cassandraDao.saveOperationStep(entity);
+    }
+
+    @Override
     public void saveOperationStep(final DelegateExecution execution, final OperationStepEntity entity, final JsonNode request) {
         execution.setVariable(LAST_TASK, execution.getCurrentActivityId());
         entity.setTaskId(execution.getCurrentActivityId());

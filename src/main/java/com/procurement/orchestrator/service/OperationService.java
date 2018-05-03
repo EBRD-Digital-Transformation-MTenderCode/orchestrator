@@ -25,6 +25,8 @@ public interface OperationService {
 
     OperationStepEntity getPreviousOperationStep(DelegateExecution execution);
 
+    void saveOperationStep(DelegateExecution execution, OperationStepEntity entity);
+
     void saveOperationStep(DelegateExecution execution, OperationStepEntity entity, JsonNode request);
 
     void saveOperationStep(DelegateExecution execution, OperationStepEntity entity, Params params, JsonNode request);
