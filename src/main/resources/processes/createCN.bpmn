@@ -28,8 +28,8 @@
       <bpmn:incoming>SequenceFlow_1hezswa</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0yvod6v</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_0djgl78" sourceRef="chronographEndTenderPeriodTask" targetRef="ClarificationSavePeriodTask" />
-    <bpmn:serviceTask id="chronographEndTenderPeriodTask" name="Chronograph&#10;schedule&#10;end tender period" camunda:asyncBefore="true" camunda:delegateExpression="${chronographScheduleEndTenderPeriod}">
+    <bpmn:sequenceFlow id="SequenceFlow_0djgl78" sourceRef="ChronographEndTenderPeriodTask" targetRef="ClarificationSavePeriodTask" />
+    <bpmn:serviceTask id="ChronographEndTenderPeriodTask" name="Chronograph&#10;schedule&#10;end tender period" camunda:asyncBefore="true" camunda:delegateExpression="${chronographScheduleEndTenderPeriod}">
       <bpmn:incoming>SequenceFlow_0yvod6v</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0djgl78</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -47,7 +47,7 @@
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1gx4xfj" sourceRef="StartEvent_1" targetRef="SaveFirstOperationTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1hezswa" sourceRef="AcessCreateCnTask" targetRef="SubmissionSavePeriodTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0yvod6v" sourceRef="SubmissionSavePeriodTask" targetRef="chronographEndTenderPeriodTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0yvod6v" sourceRef="SubmissionSavePeriodTask" targetRef="ChronographEndTenderPeriodTask" />
     <bpmn:serviceTask id="SubmissionValidatePeriodTask" name="Submission Validate Period" camunda:asyncBefore="true" camunda:delegateExpression="${submissionValidatePeriod}">
       <bpmn:incoming>SequenceFlow_165gqdr</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0k2najp</bpmn:outgoing>
@@ -115,7 +115,7 @@
           <dc:Bounds x="876.5" y="164" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_072eguw_di" bpmnElement="chronographEndTenderPeriodTask">
+      <bpmndi:BPMNShape id="ServiceTask_072eguw_di" bpmnElement="ChronographEndTenderPeriodTask">
         <dc:Bounds x="807" y="145" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_0tz60l8_di" bpmnElement="ClarificationSavePeriodTask">

@@ -61,11 +61,11 @@ public class EvaluationUpdateAward implements JavaDelegate {
     }
 
     private void processParams(final DelegateExecution execution, final JsonNode responseData, final String processId) {
-        final String awardStatusDetails = processService.getAwardStatusDetails(responseData, processId);
-        if (awardStatusDetails.equals("active")) {
-            execution.setVariable("awardStatusDetails", "active");
+        final JsonNode nextAwardNode = processService.getNextAward(responseData, processId);
+        if (nextAwardNode != null) {
+            execution.setVariable("updateLot", 0);
         } else {
-            execution.setVariable("awardStatusDetails", "unsuccessful");
+            execution.setVariable("updateLot", 1);
         }
     }
 }

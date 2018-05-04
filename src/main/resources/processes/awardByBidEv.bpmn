@@ -47,11 +47,11 @@
       <bpmn:outgoing>SequenceFlow_0rrwwq5</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="SequenceFlow_0ve2ekz" sourceRef="ExclusiveGateway_145o2c9" targetRef="AccessUpdateStatusDetailsByIdTask">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[${awardStatusDetails=='active'}]]></bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${updateLot==1}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_0mz93u6" sourceRef="AccessUpdateStatusDetailsByIdTask" targetRef="SubmissionUpdateBidStatusDetailsTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0rrwwq5" sourceRef="ExclusiveGateway_145o2c9" targetRef="SubmissionUpdateBidStatusDetailsTask">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[${awardStatusDetails=='unsuccessful'}]]></bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${updateLot==0}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:serviceTask id="CheckRulesForStageTask" name="Check Rules For Stage" camunda:delegateExpression="${checkRulesForStage}">
       <bpmn:incoming>SequenceFlow_0sbxc3m</bpmn:incoming>

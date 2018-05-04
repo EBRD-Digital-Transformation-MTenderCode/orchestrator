@@ -377,6 +377,15 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
+    public JsonNode getNextAward(final JsonNode jsonData, final String processId) {
+        try {
+            return jsonData.get("nextAward");
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
     public JsonNode addUpdatedBid(final JsonNode jsonData, final JsonNode bidData, final String processId) {
         try {
             ((ObjectNode) jsonData).replace("bid", bidData.get("bid"));
