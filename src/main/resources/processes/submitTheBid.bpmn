@@ -5,7 +5,7 @@
       <bpmn:outgoing>SequenceFlow_1bfbs0n</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:sequenceFlow id="SequenceFlow_1bfbs0n" sourceRef="StartEvent_1" targetRef="SaveFirstOperationTask" />
-    <bpmn:serviceTask id="SaveFirstOperationTask" name="Save First Operation Task" camunda:asyncBefore="true" camunda:delegateExpression="${saveFirstOperation}">
+    <bpmn:serviceTask id="SaveFirstOperationTask" name="Save First Operation Task" camunda:delegateExpression="${saveFirstOperation}">
       <bpmn:incoming>SequenceFlow_1bfbs0n</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_196ohf0</bpmn:outgoing>
     </bpmn:serviceTask>

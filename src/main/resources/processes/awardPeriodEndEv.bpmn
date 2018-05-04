@@ -11,7 +11,7 @@
       <bpmn:incoming>SequenceFlow_0smtj68</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0umdhy6</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="SaveFirstOperationTask" name="Save first operation" camunda:asyncBefore="true" camunda:delegateExpression="${saveFirstOperation}">
+    <bpmn:serviceTask id="SaveFirstOperationTask" name="Save first operation" camunda:delegateExpression="${saveFirstOperation}">
       <bpmn:incoming>SequenceFlow_1gx4xfj</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0sbxc3m</bpmn:outgoing>
     </bpmn:serviceTask>
