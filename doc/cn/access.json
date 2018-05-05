@@ -1,252 +1,319 @@
 {
-  "planning": {
-    "budget": {
-      "description": "Budget Description",
-      "amount": {
-        "amount": 12345.76,
-        "currency": "AMD"
-      },
-      "isEuropeanUnionFunded": false,
-      "budgetBreakdown": [
+  "bids": [
+    {
+      "id": "bcd82580-520b-11e8-82d1-aba607341064",
+      "date": "2018-05-07T15:31:40Z",
+      "status": "pending",
+      "statusDetails": "empty",
+      "tenderers": [
         {
-          "id": "ocds-t1s2t3-MD-1524124918543-FS-1524126471232",
-          "amount": {
-            "amount": 12355.4,
-            "currency": "AMD"
+          "id": "UA-EDR-712-22-5614",
+          "name": "Rose and Sons",
+          "identifier": {
+            "id": "712-22-5614",
+            "scheme": "UA-EDR",
+            "legalName": "Rose and Sons Ltd",
+            "uri": "http://www.ramirez-brown.com/search/"
+          },
+          "address": {
+            "streetAddress": "29403 Amanda Knoll Apt. 514",
+            "locality": "New Kirk",
+            "region": "Pennsylvania",
+            "postalCode": "22060",
+            "countryName": "Czech Republic"
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "043-25-2440",
+              "scheme": "UA-EDR",
+              "legalName": "Rose and Sons and Sons",
+              "uri": "https://stanley-johnson.net/post/"
+            }
+          ],
+          "contactPoint": {
+            "name": "Todd Johnson",
+            "email": "hblackwell@gmail.com",
+            "telephone": "082-720-8804x475",
+            "faxNumber": "1-629-090-3943x959",
+            "url": "https://www.jones.org/login/"
+          }
+        }
+      ],
+      "value": {
+        "amount": 1E+3,
+        "currency": "UAH"
+      },
+      "documents": [
+        {
+          "id": "Error file register!",
+          "documentType": "evaluationReports",
+          "title": "test",
+          "description": "test",
+          "language": "sdfgsdgsdg",
+          "relatedLots": [
+            "425a9271-520b-11e8-8a8e-ffc34e6b7704"
+          ]
+        }
+      ],
+      "relatedLots": [
+        "425a9271-520b-11e8-8a8e-ffc34e6b7704"
+      ]
+    },
+    {
+      "id": "c7a04f10-520b-11e8-82d1-aba607341064",
+      "date": "2018-05-07T15:31:58Z",
+      "status": "pending",
+      "statusDetails": "empty",
+      "tenderers": [
+        {
+          "id": "UA-EDR-765-49-2043",
+          "name": "Wagner, Gray and Kim",
+          "identifier": {
+            "id": "765-49-2043",
+            "scheme": "UA-EDR",
+            "legalName": "Wagner, Gray and Kim Group",
+            "uri": "https://www.morales-johnson.net/post/"
+          },
+          "address": {
+            "streetAddress": "9613 Rodriguez Parkway",
+            "locality": "West Eric",
+            "region": "Mississippi",
+            "postalCode": "69011",
+            "countryName": "Croatia"
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "146-26-2290",
+              "scheme": "UA-EDR",
+              "legalName": "Wagner, Gray and Kim LLC",
+              "uri": "https://johnson.com/wp-content/blog/list/register.asp"
+            }
+          ],
+          "contactPoint": {
+            "name": "Michelle Stafford",
+            "email": "donnathompson@yahoo.com",
+            "telephone": "+73(7)0804263625",
+            "faxNumber": "+36(7)1256452467",
+            "url": "http://www.reynolds-thompson.info/privacy.php"
+          }
+        }
+      ],
+      "value": {
+        "amount": 12345,
+        "currency": "UAH"
+      },
+      "relatedLots": [
+        "425a9271-520b-11e8-8a8e-ffc34e6b7704"
+      ]
+    },
+    {
+      "id": "d702e850-520b-11e8-82d1-aba607341064",
+      "date": "2018-05-07T15:32:24Z",
+      "status": "pending",
+      "statusDetails": "empty",
+      "tenderers": [
+        {
+          "id": "UA-EDR-047-30-5658",
+          "name": "Carr-Larsen",
+          "identifier": {
+            "id": "047-30-5658",
+            "scheme": "UA-EDR",
+            "legalName": "Carr-Larsen PLC",
+            "uri": "https://horton-hurley.com/app/home/"
+          },
+          "address": {
+            "streetAddress": "24165 Myers Station Suite 244",
+            "locality": "Johnhaven",
+            "region": "Texas",
+            "postalCode": "24580-3263",
+            "countryName": "Namibia"
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "039-86-9630",
+              "scheme": "UA-EDR",
+              "legalName": "Carr-Larsen Inc",
+              "uri": "https://www.guzman.com/"
+            }
+          ],
+          "contactPoint": {
+            "name": "Stephanie Parsons",
+            "email": "whitemichelle@yahoo.com",
+            "telephone": "329.345.0555",
+            "faxNumber": "173.319.7399x02227",
+            "url": "http://stone.com/index.jsp"
+          }
+        }
+      ],
+      "value": {
+        "amount": 654321,
+        "currency": "UAH"
+      },
+      "relatedLots": [
+        "425a9271-520b-11e8-8a8e-ffc34e6b7704"
+      ]
+    }
+  ],
+  "lots": [
+    {
+      "id": "425a9271-520b-11e8-8a8e-ffc34e6b7704"
+    }
+  ],
+  "awardPeriod": {
+    "startDate": "2018-05-07T15:35:00Z"
+  },
+  "awards": [
+    {
+      "id": "341867e3-520c-11e8-99a2-8b0b0437e4e6",
+      "token": "4b3cbcf1-789f-4561-9d60-59e8d4fc7276",
+      "date": "2018-05-07T15:35:00Z",
+      "status": "pending",
+      "statusDetails": "consideration",
+      "value": {
+        "amount": 1E+3,
+        "currency": "UAH"
+      },
+      "relatedLots": [
+        "425a9271-520b-11e8-8a8e-ffc34e6b7704"
+      ],
+      "relatedBid": "bcd82580-520b-11e8-82d1-aba607341064",
+      "suppliers": [
+        {
+          "id": "UA-EDR-712-22-5614",
+          "name": "Rose and Sons",
+          "identifier": {
+            "id": "712-22-5614",
+            "scheme": "UA-EDR",
+            "legalName": "Rose and Sons Ltd",
+            "uri": "http://www.ramirez-brown.com/search/"
+          },
+          "address": {
+            "streetAddress": "29403 Amanda Knoll Apt. 514",
+            "locality": "New Kirk",
+            "region": "Pennsylvania",
+            "postalCode": "22060",
+            "countryName": "Czech Republic"
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "043-25-2440",
+              "scheme": "UA-EDR",
+              "legalName": "Rose and Sons and Sons",
+              "uri": "https://stanley-johnson.net/post/"
+            }
+          ],
+          "contactPoint": {
+            "name": "Todd Johnson",
+            "email": "hblackwell@gmail.com",
+            "telephone": "082-720-8804x475",
+            "faxNumber": "1-629-090-3943x959",
+            "url": "https://www.jones.org/login/"
+          }
+        }
+      ]
+    },
+    {
+      "id": "341867e4-520c-11e8-99a2-8b0b0437e4e6",
+      "token": "c7fb0716-488f-4528-bed7-0ab9deac0b41",
+      "date": "2018-05-07T15:35:00Z",
+      "status": "pending",
+      "statusDetails": "empty",
+      "value": {
+        "amount": 12345,
+        "currency": "UAH"
+      },
+      "relatedLots": [
+        "425a9271-520b-11e8-8a8e-ffc34e6b7704"
+      ],
+      "relatedBid": "c7a04f10-520b-11e8-82d1-aba607341064",
+      "suppliers": [
+        {
+          "id": "UA-EDR-765-49-2043",
+          "name": "Wagner, Gray and Kim",
+          "identifier": {
+            "id": "765-49-2043",
+            "scheme": "UA-EDR",
+            "legalName": "Wagner, Gray and Kim Group",
+            "uri": "https://www.morales-johnson.net/post/"
+          },
+          "address": {
+            "streetAddress": "9613 Rodriguez Parkway",
+            "locality": "West Eric",
+            "region": "Mississippi",
+            "postalCode": "69011",
+            "countryName": "Croatia"
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "146-26-2290",
+              "scheme": "UA-EDR",
+              "legalName": "Wagner, Gray and Kim LLC",
+              "uri": "https://johnson.com/wp-content/blog/list/register.asp"
+            }
+          ],
+          "contactPoint": {
+            "name": "Michelle Stafford",
+            "email": "donnathompson@yahoo.com",
+            "telephone": "+73(7)0804263625",
+            "faxNumber": "+36(7)1256452467",
+            "url": "http://www.reynolds-thompson.info/privacy.php"
+          }
+        }
+      ]
+    },
+    {
+      "id": "341867e5-520c-11e8-99a2-8b0b0437e4e6",
+      "token": "900529b2-2516-4038-ad7c-5bf072b9e6c9",
+      "date": "2018-05-07T15:35:00Z",
+      "status": "pending",
+      "statusDetails": "empty",
+      "value": {
+        "amount": 654321,
+        "currency": "UAH"
+      },
+      "relatedLots": [
+        "425a9271-520b-11e8-8a8e-ffc34e6b7704"
+      ],
+      "relatedBid": "d702e850-520b-11e8-82d1-aba607341064",
+      "suppliers": [
+        {
+          "id": "UA-EDR-047-30-5658",
+          "name": "Carr-Larsen",
+          "identifier": {
+            "id": "047-30-5658",
+            "scheme": "UA-EDR",
+            "legalName": "Carr-Larsen PLC",
+            "uri": "https://horton-hurley.com/app/home/"
+          },
+          "address": {
+            "streetAddress": "24165 Myers Station Suite 244",
+            "locality": "Johnhaven",
+            "region": "Texas",
+            "postalCode": "24580-3263",
+            "countryName": "Namibia"
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "039-86-9630",
+              "scheme": "UA-EDR",
+              "legalName": "Carr-Larsen Inc",
+              "uri": "https://www.guzman.com/"
+            }
+          ],
+          "contactPoint": {
+            "name": "Stephanie Parsons",
+            "email": "whitemichelle@yahoo.com",
+            "telephone": "329.345.0555",
+            "faxNumber": "173.319.7399x02227",
+            "url": "http://stone.com/index.jsp"
           }
         }
       ]
     }
-  },
-  "tender": {
-    "id": "ocds-t1s2t3-MD-1524556902467",
-    "title": "tender",
-    "description": "",
-    "classification": {
-      "scheme": "CPV",
-      "description": "Virus protection software packag",
-      "id": "48760000-3"
-    },
-    "acceleratedProcedure": {
-      "isAcceleratedProcedure": false
-    },
-    "designContest": {
-      "serviceContractAward": false
-    },
-    "electronicWorkflows": {
-      "useOrdering": false,
-      "usePayment": false,
-      "acceptInvoicing": false
-    },
-    "jointProcurement": {
-      "isJointProcurement": false
-    },
-    "procedureOutsourcing": {
-      "procedureOutsourced": false
-    },
-    "framework": {
-      "isAFramework": false
-    },
-    "dynamicPurchasingSystem": {
-      "hasDynamicPurchasingSystem": false
-    },
-    "legalBasis": "DIRECTIVE_2014_23_EU",
-    "procurementMethod": "open",
-    "procurementMethodDetails": "",
-    "procurementMethodRationale": "",
-    "procurementMethodAdditionalInfo": "",
-    "mainProcurementCategory": "goods",
-    "additionalProcurementCategories": [
-      "works",
-      "goods"
-    ],
-    "eligibilityCriteria": "",
-    "submissionLanguages": [
-      "de",
-      "en",
-      "fr",
-      "da",
-      "lt",
-      "pt",
-      "ro",
-      "hr",
-      "sk",
-      "el",
-      "bg"
-    ],
-    "tenderPeriod": {
-      "endDate": "2018-07-24T21:00:00Z",
-      "startDate": "2018-04-24T08:18:25Z"
-    },
-    "contractPeriod": {
-      "startDate": "2018-06-24T21:00:00Z",
-      "endDate": "2018-06-25T21:00:00Z"
-    },
-    "procuringEntity": {
-      "name": "111",
-      "id": "2Additional identifier scheme*-2Additional identifier ID*"
-    },
-    "value": {
-      "amount": 123,
-      "currency": "AMD"
-    },
-    "lotGroups": [
-      {
-        "optionToCombine": false
-      }
-    ],
-    "lots": [
-      {
-        "id": "b99e7932-4795-11e8-a4fb-c709ad66a068",
-        "title": "lot1",
-        "description": "",
-        "value": {
-          "amount": 123,
-          "currency": "AMD"
-        },
-        "options": [
-          {
-            "hasOptions": false
-          }
-        ],
-        "variants": [
-          {
-            "hasVariants": false
-          }
-        ],
-        "renewals": [
-          {
-            "hasRenewals": false
-          }
-        ],
-        "recurrentProcurement": [
-          {
-            "isRecurrent": false
-          }
-        ],
-        "contractPeriod": {
-          "startDate": "2018-06-24T21:00:00Z",
-          "endDate": "2018-06-28T21:00:00Z"
-        },
-        "placeOfPerformance": {
-          "address": {
-            "streetAddress": "",
-            "locality": "",
-            "region": "",
-            "postalCode": "",
-            "countryName": ""
-          },
-          "description": ""
-        }
-      },
-      {
-        "id": "b99f8aa0-4795-11e8-a4fb-c709ad66a068",
-        "title": "lot2",
-        "description": "",
-        "value": {
-          "amount": 123,
-          "currency": "AMD"
-        },
-        "options": [
-          {
-            "hasOptions": false
-          }
-        ],
-        "variants": [
-          {
-            "hasVariants": false
-          }
-        ],
-        "renewals": [
-          {
-            "hasRenewals": false
-          },
-          {
-            "hasRenewals": false
-          }
-        ],
-        "recurrentProcurement": [
-          {
-            "isRecurrent": false
-          }
-        ],
-        "contractPeriod": {
-          "startDate": "2018-06-24T21:00:00Z",
-          "endDate": "2018-06-29T21:00:00Z"
-        },
-        "placeOfPerformance": {
-          "address": {
-            "streetAddress": "",
-            "locality": "",
-            "region": "",
-            "postalCode": "",
-            "countryName": ""
-          }
-        }
-      }
-    ],
-    "items": [
-      {
-        "id": "b99e7931-4795-11e8-a4fb-c709ad66a068",
-        "classification": {
-          "scheme": "CPV",
-          "description": "Virus protection software package",
-          "id": "48760000-3"
-        },
-        "additionalClassifications": [
-          {
-            "scheme": "CPV",
-            "description": "Virus protection software package",
-            "id": "48760000-3"
-          }
-        ],
-        "quantity": 1,
-        "unit": {
-          "id": "1",
-          "name": ""
-        },
-        "description": "item1",
-        "relatedLot": "b99e7932-4795-11e8-a4fb-c709ad66a068"
-      },
-      {
-        "id": "b99e7930-4795-11e8-a4fb-c709ad66a068",
-        "classification": {
-          "scheme": "CPV",
-          "description": "Virus protection software package",
-          "id": "48760000-3"
-        },
-        "additionalClassifications": [
-          {
-            "scheme": "CPV",
-            "description": "Virus protection software package",
-            "id": "48760000-3"
-          }
-        ],
-        "quantity": 2,
-        "unit": {
-          "id": "1",
-          "name": ""
-        },
-        "description": "item2",
-        "relatedLot": "b99f8aa0-4795-11e8-a4fb-c709ad66a068"
-      }
-    ],
-    "awardCriteria": "priceOnly",
-    "requiresElectronicCatalogue": false,
-    "submissionMethod": [
-      "electronicSubmission"
-    ],
-    "documents": [
-      {
-        "documentType": "projectPlan",
-        "id": "6a214360-43d5-11e8-bd88-c70eb3dcb0fe",
-        "title": "test file",
-        "description": "File for test",
-        "language": "en",
-        "relatedLots": [
-          "b99e7932-4795-11e8-a4fb-c709ad66a068"
-        ]
-      }
-    ]
+  ],
+  "unsuccessfulLots": [],
+  "tenderPeriod": {
+    "startDate": "2018-05-07T15:28:14Z",
+    "endDate": "2018-05-07T15:35:00Z"
   }
 }

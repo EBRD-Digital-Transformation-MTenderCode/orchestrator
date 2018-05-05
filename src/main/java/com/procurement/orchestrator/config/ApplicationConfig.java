@@ -1,6 +1,7 @@
 package com.procurement.orchestrator.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import com.procurement.orchestrator.config.kafka.KafkaConsumerConfig;
 import com.procurement.orchestrator.config.kafka.KafkaProducerConfig;
 import com.procurement.orchestrator.config.kafka.KafkaProducerMockConfig;
