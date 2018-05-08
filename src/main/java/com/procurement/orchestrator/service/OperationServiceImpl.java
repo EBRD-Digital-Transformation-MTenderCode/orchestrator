@@ -148,11 +148,12 @@ public class OperationServiceImpl implements OperationService {
     }
 
     @Override
-    public void saveOperationException(final String processId, final String taskId, final String operationId, final JsonNode request, final JsonNode response) {
+    public void saveOperationException(final String processId, final String taskId, final Params params, final JsonNode request, final JsonNode response) {
         final OperationStepEntity operationStepEntity = new OperationStepEntity();
         operationStepEntity.setProcessId(processId);
         operationStepEntity.setTaskId(taskId);
-        operationStepEntity.setOperationId(operationId);
+        operationStepEntity.setOperationId(params.getOperationId());
+        operationStepEntity.setCpId(params.getCpid());
         operationStepEntity.setDate(dateUtil.dateNowUTC());
         operationStepEntity.setRequestData(jsonUtil.toJson(request));
         operationStepEntity.setResponseData(jsonUtil.toJson(response));

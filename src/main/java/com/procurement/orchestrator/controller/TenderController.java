@@ -284,37 +284,37 @@ public class TenderController extends BaseController {
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
-//    @RequestMapping(value = "/tenderPeriodEnd", method = RequestMethod.POST)
-//    public ResponseEntity<String> newStage(@RequestHeader("Authorization") final String authorization,
-//                                           @RequestHeader("X-OPERATION-ID") final String operationId,
-//                                           @RequestHeader("identifier") final String identifier,
-//                                           @RequestParam("stage") final String stage,
-//                                           @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-//                                           @RequestParam("endDate") final LocalDateTime endDate) {
-//        final Params params = new Params();
-//        params.setRequestId(UUIDs.timeBased().toString());
-//        params.setOwner(getOwner(authorization));
-//        params.setOperationId(operationId);
-//        params.setCpid(identifier);
-//        params.setNewStage(Stage.fromValue(stage).value());
-//        if (params.getNewStage().equals(Stage.EV.value())) {
-//            params.setProcessType("tenderPeriodEndEv");
-//            params.setOperationType("tenderPeriodEndEv");
-//        } else {
-//            params.setProcessType("tenderPeriodEnd");
-//            params.setOperationType("tenderPeriodEnd");
-//        }
-//        params.setCountry("TEST");
-//        params.setPmd("TEST_RT");
-//        params.setPhase("AWARDPERIOD");
-//        params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
-//        params.setEndDate(dateUtil.format(endDate));
-//        final Map<String, Object> variables = new HashMap<>();
-//        variables.put("checkEnquiries", 0);
-//        saveRequestAndCheckOperation(params, null);
-//        processService.startProcess(params, variables);
-//        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
-//    }
+    @RequestMapping(value = "/tenderPeriodEnd", method = RequestMethod.POST)
+    public ResponseEntity<String> newStage(@RequestHeader("Authorization") final String authorization,
+                                           @RequestHeader("X-OPERATION-ID") final String operationId,
+                                           @RequestHeader("identifier") final String identifier,
+                                           @RequestParam("stage") final String stage,
+                                           @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+                                           @RequestParam("endDate") final LocalDateTime endDate) {
+        final Params params = new Params();
+        params.setRequestId(UUIDs.timeBased().toString());
+        params.setOwner(getOwner(authorization));
+        params.setOperationId(operationId);
+        params.setCpid(identifier);
+        params.setNewStage(Stage.fromValue(stage).value());
+        if (params.getNewStage().equals(Stage.EV.value())) {
+            params.setProcessType("tenderPeriodEndEv");
+            params.setOperationType("tenderPeriodEndEv");
+        } else {
+            params.setProcessType("tenderPeriodEnd");
+            params.setOperationType("tenderPeriodEnd");
+        }
+        params.setCountry("TEST");
+        params.setPmd("TEST_RT");
+        params.setPhase("AWARDPERIOD");
+        params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
+        params.setEndDate(dateUtil.format(endDate));
+        final Map<String, Object> variables = new HashMap<>();
+        variables.put("checkEnquiries", 0);
+        saveRequestAndCheckOperation(params, null);
+        processService.startProcess(params, variables);
+        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
+    }
 //
 //    @RequestMapping(value = "/chronoTest", method = RequestMethod.POST)
 //    public ResponseEntity<String> enquiry(@RequestHeader("Authorization") final String authorization,

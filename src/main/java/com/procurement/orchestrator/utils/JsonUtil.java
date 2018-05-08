@@ -26,12 +26,7 @@ public class JsonUtil {
 
     public JsonUtil(final ObjectMapper objectMapper) {
         objectMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
-        objectMapper.configure(DeserializationFeature.USE_BIG_INTEGER_FOR_INTS, true);
         objectMapper.configure(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS, true);
-        objectMapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
-//        final ObjectWriter objectWriter = objectMapper.writer().withDefaultPrettyPrinter();
-//        objectWriter.with(JsonGenerator.Feature.WRITE_BIGDECIMAL_AS_PLAIN);
-//        this.writer = objectWriter;
         this.mapper = objectMapper;
     }
 

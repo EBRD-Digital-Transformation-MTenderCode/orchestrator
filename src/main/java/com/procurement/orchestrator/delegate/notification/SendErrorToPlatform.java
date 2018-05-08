@@ -50,7 +50,7 @@ public class SendErrorToPlatform implements JavaDelegate {
         operationService.saveOperationException(
                 execution.getProcessInstanceId(),
                 execution.getCurrentActivityId(),
-                params.getOperationId(),
+                params,
                 jsonUtil.toJsonNode(params),
                 jsonUtil.toJsonNode(jsonUtil.toJson(message)));
     }

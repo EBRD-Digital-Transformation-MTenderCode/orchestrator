@@ -74,7 +74,7 @@ public class ProcessServiceImpl implements ProcessService {
         if (responseEntity.getBody().getSuccess()) {
             return jsonUtil.toJsonNode(responseEntity.getBody().getData());
         } else {
-            operationService.saveOperationException(processId, taskId, params.getOperationId(), request, jsonUtil.toJsonNode(responseEntity.getBody()));
+            operationService.saveOperationException(processId, taskId, params, request, jsonUtil.toJsonNode(responseEntity.getBody()));
             final List<ResponseDetailsDto> details = responseEntity.getBody().getDetails();
             final String message = Objects.nonNull(details) ?
                     "Error in process Id: " + processId + "; message: " + jsonUtil.toJson(details) : "";

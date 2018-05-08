@@ -35,7 +35,7 @@ public interface OperationService {
 
     void saveOperationStep(DelegateExecution execution, OperationStepEntity entity, Params params, JsonNode request, JsonNode response);
 
-    void saveOperationException(String processId, String taskId, String operationId, JsonNode request, JsonNode response);
+    void saveOperationException(String processId, String taskId, Params params, JsonNode request, JsonNode response);
 
     void saveStageParams(Params params);
 

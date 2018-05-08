@@ -1,114 +1,118 @@
 {
   "bids": [
     {
-      "id": "bcd82580-520b-11e8-82d1-aba607341064",
-      "date": "2018-05-07T15:31:40Z",
+      "id": "c4ad79d0-5298-11e8-82d1-aba607341064",
+      "date": "2018-05-08T08:21:12Z",
       "status": "pending",
       "statusDetails": "empty",
       "tenderers": [
         {
-          "id": "UA-EDR-712-22-5614",
-          "name": "Rose and Sons",
+          "id": "UA-EDR-608-44-0261",
+          "name": "Andrews-Morris",
           "identifier": {
-            "id": "712-22-5614",
+            "id": "608-44-0261",
             "scheme": "UA-EDR",
-            "legalName": "Rose and Sons Ltd",
-            "uri": "http://www.ramirez-brown.com/search/"
+            "legalName": "Andrews-Morris Group",
+            "uri": "http://www.jones-woods.com/post/"
           },
           "address": {
-            "streetAddress": "29403 Amanda Knoll Apt. 514",
-            "locality": "New Kirk",
-            "region": "Pennsylvania",
-            "postalCode": "22060",
-            "countryName": "Czech Republic"
+            "streetAddress": "1193 Jason Rest",
+            "locality": "North Richardmouth",
+            "region": "Alabama",
+            "postalCode": "03210-7565",
+            "countryName": "Madagascar"
           },
           "additionalIdentifiers": [
             {
-              "id": "043-25-2440",
+              "id": "698-34-3005",
               "scheme": "UA-EDR",
-              "legalName": "Rose and Sons and Sons",
-              "uri": "https://stanley-johnson.net/post/"
+              "legalName": "Andrews-Morris and Sons",
+              "uri": "http://simmons.com/index.asp"
             }
           ],
           "contactPoint": {
-            "name": "Todd Johnson",
-            "email": "hblackwell@gmail.com",
-            "telephone": "082-720-8804x475",
-            "faxNumber": "1-629-090-3943x959",
-            "url": "https://www.jones.org/login/"
+            "name": "Amber Barry",
+            "email": "matthewdavis@gmail.com",
+            "telephone": "(207)460-7877",
+            "faxNumber": "675-104-2217x807",
+            "url": "https://www.williams.biz/posts/categories/category/"
           }
         }
       ],
-      "value": {
-        "amount": 1E+3,
-        "currency": "UAH"
-      },
       "documents": [
         {
-          "id": "Error file register!",
-          "documentType": "evaluationReports",
-          "title": "test",
-          "description": "test",
-          "language": "sdfgsdgsdg",
+          "id": "afaff0d0-5298-11e8-b006-c1b4deb3fe6e",
+          "documentType": "physicalProgressReport",
+          "title": "test The document title",
+          "description": "test A short description of the document",
+          "language": "test en",
           "relatedLots": [
-            "425a9271-520b-11e8-8a8e-ffc34e6b7704"
+            "a611c851-5298-11e8-8a8e-ffc34e6b7704"
           ]
         }
       ],
       "relatedLots": [
-        "425a9271-520b-11e8-8a8e-ffc34e6b7704"
+        "a611c851-5298-11e8-8a8e-ffc34e6b7704"
       ]
     },
     {
-      "id": "c7a04f10-520b-11e8-82d1-aba607341064",
-      "date": "2018-05-07T15:31:58Z",
+      "id": "e37fcbb0-5298-11e8-82d1-aba607341064",
+      "date": "2018-05-08T08:22:04Z",
       "status": "pending",
       "statusDetails": "empty",
       "tenderers": [
         {
-          "id": "UA-EDR-765-49-2043",
-          "name": "Wagner, Gray and Kim",
+          "id": "UA-EDR-882-17-4288",
+          "name": "Jordan-Mitchell",
           "identifier": {
-            "id": "765-49-2043",
+            "id": "882-17-4288",
             "scheme": "UA-EDR",
-            "legalName": "Wagner, Gray and Kim Group",
-            "uri": "https://www.morales-johnson.net/post/"
+            "legalName": "Jordan-Mitchell Ltd",
+            "uri": "https://smith-brown.com/main/"
           },
           "address": {
-            "streetAddress": "9613 Rodriguez Parkway",
-            "locality": "West Eric",
-            "region": "Mississippi",
-            "postalCode": "69011",
-            "countryName": "Croatia"
+            "streetAddress": "0788 Jeffrey Point",
+            "locality": "West Cindyview",
+            "region": "South Carolina",
+            "postalCode": "70800-5867",
+            "countryName": "Ethiopia"
           },
           "additionalIdentifiers": [
             {
-              "id": "146-26-2290",
+              "id": "700-44-1927",
               "scheme": "UA-EDR",
-              "legalName": "Wagner, Gray and Kim LLC",
-              "uri": "https://johnson.com/wp-content/blog/list/register.asp"
+              "legalName": "Jordan-Mitchell Ltd",
+              "uri": "http://www.strickland-rojas.com/tags/blog/search/"
             }
           ],
           "contactPoint": {
-            "name": "Michelle Stafford",
-            "email": "donnathompson@yahoo.com",
-            "telephone": "+73(7)0804263625",
-            "faxNumber": "+36(7)1256452467",
-            "url": "http://www.reynolds-thompson.info/privacy.php"
+            "name": "Susan Welch",
+            "email": "sarah06@yahoo.com",
+            "telephone": "941.874.1336x943",
+            "faxNumber": "937.357.0174x6736",
+            "url": "http://www.chavez.com/main/tags/login/"
           }
         }
       ],
-      "value": {
-        "amount": 12345,
-        "currency": "UAH"
-      },
+      "documents": [
+        {
+          "id": "Error file register!",
+          "documentType": "tenderNotice",
+          "title": "test The document title",
+          "description": "test A short description of the document",
+          "language": "test en",
+          "relatedLots": [
+            "a611c851-5298-11e8-8a8e-ffc34e6b7704"
+          ]
+        }
+      ],
       "relatedLots": [
-        "425a9271-520b-11e8-8a8e-ffc34e6b7704"
+        "a611c851-5298-11e8-8a8e-ffc34e6b7704"
       ]
     },
     {
-      "id": "d702e850-520b-11e8-82d1-aba607341064",
-      "date": "2018-05-07T15:32:24Z",
+      "id": "ebc34630-5298-11e8-82d1-aba607341064",
+      "date": "2018-05-08T08:22:17Z",
       "status": "pending",
       "statusDetails": "empty",
       "tenderers": [
@@ -145,136 +149,208 @@
           }
         }
       ],
-      "value": {
-        "amount": 654321,
-        "currency": "UAH"
-      },
       "relatedLots": [
-        "425a9271-520b-11e8-8a8e-ffc34e6b7704"
+        "a611c851-5298-11e8-8a8e-ffc34e6b7704"
+      ]
+    },
+    {
+      "id": "f63b05d0-5298-11e8-82d1-aba607341064",
+      "date": "2018-05-08T08:22:35Z",
+      "status": "pending",
+      "statusDetails": "empty",
+      "tenderers": [
+        {
+          "id": "UA-EDR-381-22-5525",
+          "name": "Russell Inc",
+          "identifier": {
+            "id": "381-22-5525",
+            "scheme": "UA-EDR",
+            "legalName": "Russell Inc LLC",
+            "uri": "https://lutz.com/tag/explore/search/"
+          },
+          "address": {
+            "streetAddress": "118 Sean Stravenue",
+            "locality": "Port Lynnmouth",
+            "region": "Maryland",
+            "postalCode": "37582-0479",
+            "countryName": "Iceland"
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "009-92-3937",
+              "scheme": "UA-EDR",
+              "legalName": "Russell Inc and Sons",
+              "uri": "https://www.drake.com/category/tag/blog/search/"
+            }
+          ],
+          "contactPoint": {
+            "name": "Sheri Nelson",
+            "email": "christopher50@gmail.com",
+            "telephone": "+53(3)7110631353",
+            "faxNumber": "308.586.6226x980",
+            "url": "https://www.ruiz-sharp.com/tags/home.php"
+          }
+        }
+      ],
+      "relatedLots": [
+        "a611c851-5298-11e8-8a8e-ffc34e6b7704"
       ]
     }
   ],
   "lots": [
     {
-      "id": "425a9271-520b-11e8-8a8e-ffc34e6b7704"
+      "id": "a611c851-5298-11e8-8a8e-ffc34e6b7704",
+      "title": "test ",
+      "description": "tset saf asf ",
+      "status": "active",
+      "statusDetails": "empty",
+      "value": {
+        "amount": 234523,
+        "currency": "UAH"
+      },
+      "options": [
+        {
+          "hasOptions": false
+        }
+      ],
+      "recurrentProcurement": [
+        {
+          "isRecurrent": false
+        }
+      ],
+      "renewals": [
+        {
+          "hasRenewals": false
+        }
+      ],
+      "variants": [
+        {
+          "hasVariants": false
+        }
+      ],
+      "contractPeriod": {
+        "startDate": "2018-05-30T21:00:00Z",
+        "endDate": "2018-05-31T21:00:00Z"
+      },
+      "placeOfPerformance": {
+        "address": {
+          "streetAddress": "asdf asdf ",
+          "locality": "asdf sadf ",
+          "region": "sadf asdf ",
+          "postalCode": "2345234",
+          "countryName": "sdfas f "
+        },
+        "description": "fg sdfg sdg"
+      }
     }
   ],
   "awardPeriod": {
-    "startDate": "2018-05-07T15:35:00Z"
+    "startDate": "2018-05-08T19:12:52Z"
   },
   "awards": [
     {
-      "id": "341867e3-520c-11e8-99a2-8b0b0437e4e6",
-      "token": "4b3cbcf1-789f-4561-9d60-59e8d4fc7276",
-      "date": "2018-05-07T15:35:00Z",
+      "id": "f776f8e0-52f3-11e8-a38e-133f2156561e",
+      "token": "681234e1-2c5e-4962-ada8-cd36fcc5b625",
+      "date": "2018-05-08T19:14:01Z",
+      "description": "",
       "status": "pending",
-      "statusDetails": "consideration",
-      "value": {
-        "amount": 1E+3,
-        "currency": "UAH"
-      },
+      "statusDetails": "empty",
       "relatedLots": [
-        "425a9271-520b-11e8-8a8e-ffc34e6b7704"
+        "a611c851-5298-11e8-8a8e-ffc34e6b7704"
       ],
-      "relatedBid": "bcd82580-520b-11e8-82d1-aba607341064",
+      "relatedBid": "c4ad79d0-5298-11e8-82d1-aba607341064",
       "suppliers": [
         {
-          "id": "UA-EDR-712-22-5614",
-          "name": "Rose and Sons",
+          "id": "UA-EDR-608-44-0261",
+          "name": "Andrews-Morris",
           "identifier": {
-            "id": "712-22-5614",
+            "id": "608-44-0261",
             "scheme": "UA-EDR",
-            "legalName": "Rose and Sons Ltd",
-            "uri": "http://www.ramirez-brown.com/search/"
+            "legalName": "Andrews-Morris Group",
+            "uri": "http://www.jones-woods.com/post/"
           },
           "address": {
-            "streetAddress": "29403 Amanda Knoll Apt. 514",
-            "locality": "New Kirk",
-            "region": "Pennsylvania",
-            "postalCode": "22060",
-            "countryName": "Czech Republic"
+            "streetAddress": "1193 Jason Rest",
+            "locality": "North Richardmouth",
+            "region": "Alabama",
+            "postalCode": "03210-7565",
+            "countryName": "Madagascar"
           },
           "additionalIdentifiers": [
             {
-              "id": "043-25-2440",
+              "id": "698-34-3005",
               "scheme": "UA-EDR",
-              "legalName": "Rose and Sons and Sons",
-              "uri": "https://stanley-johnson.net/post/"
+              "legalName": "Andrews-Morris and Sons",
+              "uri": "http://simmons.com/index.asp"
             }
           ],
           "contactPoint": {
-            "name": "Todd Johnson",
-            "email": "hblackwell@gmail.com",
-            "telephone": "082-720-8804x475",
-            "faxNumber": "1-629-090-3943x959",
-            "url": "https://www.jones.org/login/"
+            "name": "Amber Barry",
+            "email": "matthewdavis@gmail.com",
+            "telephone": "(207)460-7877",
+            "faxNumber": "675-104-2217x807",
+            "url": "https://www.williams.biz/posts/categories/category/"
           }
         }
       ]
     },
     {
-      "id": "341867e4-520c-11e8-99a2-8b0b0437e4e6",
-      "token": "c7fb0716-488f-4528-bed7-0ab9deac0b41",
-      "date": "2018-05-07T15:35:00Z",
+      "id": "f776f8e1-52f3-11e8-a38e-133f2156561e",
+      "token": "618f3a2e-5785-4bf5-92c9-6e29188de688",
+      "date": "2018-05-08T19:14:01Z",
+      "description": "",
       "status": "pending",
       "statusDetails": "empty",
-      "value": {
-        "amount": 12345,
-        "currency": "UAH"
-      },
       "relatedLots": [
-        "425a9271-520b-11e8-8a8e-ffc34e6b7704"
+        "a611c851-5298-11e8-8a8e-ffc34e6b7704"
       ],
-      "relatedBid": "c7a04f10-520b-11e8-82d1-aba607341064",
+      "relatedBid": "e37fcbb0-5298-11e8-82d1-aba607341064",
       "suppliers": [
         {
-          "id": "UA-EDR-765-49-2043",
-          "name": "Wagner, Gray and Kim",
+          "id": "UA-EDR-882-17-4288",
+          "name": "Jordan-Mitchell",
           "identifier": {
-            "id": "765-49-2043",
+            "id": "882-17-4288",
             "scheme": "UA-EDR",
-            "legalName": "Wagner, Gray and Kim Group",
-            "uri": "https://www.morales-johnson.net/post/"
+            "legalName": "Jordan-Mitchell Ltd",
+            "uri": "https://smith-brown.com/main/"
           },
           "address": {
-            "streetAddress": "9613 Rodriguez Parkway",
-            "locality": "West Eric",
-            "region": "Mississippi",
-            "postalCode": "69011",
-            "countryName": "Croatia"
+            "streetAddress": "0788 Jeffrey Point",
+            "locality": "West Cindyview",
+            "region": "South Carolina",
+            "postalCode": "70800-5867",
+            "countryName": "Ethiopia"
           },
           "additionalIdentifiers": [
             {
-              "id": "146-26-2290",
+              "id": "700-44-1927",
               "scheme": "UA-EDR",
-              "legalName": "Wagner, Gray and Kim LLC",
-              "uri": "https://johnson.com/wp-content/blog/list/register.asp"
+              "legalName": "Jordan-Mitchell Ltd",
+              "uri": "http://www.strickland-rojas.com/tags/blog/search/"
             }
           ],
           "contactPoint": {
-            "name": "Michelle Stafford",
-            "email": "donnathompson@yahoo.com",
-            "telephone": "+73(7)0804263625",
-            "faxNumber": "+36(7)1256452467",
-            "url": "http://www.reynolds-thompson.info/privacy.php"
+            "name": "Susan Welch",
+            "email": "sarah06@yahoo.com",
+            "telephone": "941.874.1336x943",
+            "faxNumber": "937.357.0174x6736",
+            "url": "http://www.chavez.com/main/tags/login/"
           }
         }
       ]
     },
     {
-      "id": "341867e5-520c-11e8-99a2-8b0b0437e4e6",
-      "token": "900529b2-2516-4038-ad7c-5bf072b9e6c9",
-      "date": "2018-05-07T15:35:00Z",
+      "id": "f776f8e2-52f3-11e8-a38e-133f2156561e",
+      "token": "a9213744-0462-4151-8b4d-65f80c6127d1",
+      "date": "2018-05-08T19:14:01Z",
+      "description": "",
       "status": "pending",
       "statusDetails": "empty",
-      "value": {
-        "amount": 654321,
-        "currency": "UAH"
-      },
       "relatedLots": [
-        "425a9271-520b-11e8-8a8e-ffc34e6b7704"
+        "a611c851-5298-11e8-8a8e-ffc34e6b7704"
       ],
-      "relatedBid": "d702e850-520b-11e8-82d1-aba607341064",
+      "relatedBid": "ebc34630-5298-11e8-82d1-aba607341064",
       "suppliers": [
         {
           "id": "UA-EDR-047-30-5658",
@@ -306,6 +382,52 @@
             "telephone": "329.345.0555",
             "faxNumber": "173.319.7399x02227",
             "url": "http://stone.com/index.jsp"
+          }
+        }
+      ]
+    },
+    {
+      "id": "f776f8e3-52f3-11e8-a38e-133f2156561e",
+      "token": "5ac3de5e-f971-4765-b4a3-74e35a26529a",
+      "date": "2018-05-08T19:14:01Z",
+      "description": "",
+      "status": "pending",
+      "statusDetails": "empty",
+      "relatedLots": [
+        "a611c851-5298-11e8-8a8e-ffc34e6b7704"
+      ],
+      "relatedBid": "f63b05d0-5298-11e8-82d1-aba607341064",
+      "suppliers": [
+        {
+          "id": "UA-EDR-381-22-5525",
+          "name": "Russell Inc",
+          "identifier": {
+            "id": "381-22-5525",
+            "scheme": "UA-EDR",
+            "legalName": "Russell Inc LLC",
+            "uri": "https://lutz.com/tag/explore/search/"
+          },
+          "address": {
+            "streetAddress": "118 Sean Stravenue",
+            "locality": "Port Lynnmouth",
+            "region": "Maryland",
+            "postalCode": "37582-0479",
+            "countryName": "Iceland"
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "009-92-3937",
+              "scheme": "UA-EDR",
+              "legalName": "Russell Inc and Sons",
+              "uri": "https://www.drake.com/category/tag/blog/search/"
+            }
+          ],
+          "contactPoint": {
+            "name": "Sheri Nelson",
+            "email": "christopher50@gmail.com",
+            "telephone": "+53(3)7110631353",
+            "faxNumber": "308.586.6226x980",
+            "url": "https://www.ruiz-sharp.com/tags/home.php"
           }
         }
       ]
@@ -313,7 +435,7 @@
   ],
   "unsuccessfulLots": [],
   "tenderPeriod": {
-    "startDate": "2018-05-07T15:28:14Z",
-    "endDate": "2018-05-07T15:35:00Z"
+    "startDate": "2018-05-08T08:20:20Z",
+    "endDate": "2018-05-08T08:25:00Z"
   }
 }
