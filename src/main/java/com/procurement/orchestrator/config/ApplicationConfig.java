@@ -10,6 +10,7 @@ import com.procurement.orchestrator.utils.JsonUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
 @Configuration
@@ -25,19 +26,19 @@ public class ApplicationConfig {
 
     @Bean
     public JsonUtil jsonUtil(final ObjectMapper objectMapper) {
-//        objectMapper.enable(DeserializationFeature.USE_BIG_INTEGER_FOR_INTS);
-//        objectMapper.enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS);
-//        objectMapper.enable(JsonGenerator.Feature.WRITE_BIGDECIMAL_AS_PLAIN);
+        objectMapper.enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS);
         return new JsonUtil(objectMapper);
     }
 
-    @Bean
-    public Jackson2ObjectMapperBuilder jacksonBuilder() {
-        final Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder();
-        builder.featuresToEnable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS);
-        builder.featuresToEnable(JsonGenerator.Feature.WRITE_BIGDECIMAL_AS_PLAIN);
-        return builder;
-    }
+//    @Bean
+//    @Primary
+//    public Jackson2ObjectMapperBuilder jacksonBuilder() {
+//        final Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder();
+////        builder.featuresToEnable(DeserializationFeature.USE_BIG_INTEGER_FOR_INTS);
+//        builder.featuresToEnable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS);
+//        builder.featuresToEnable(JsonGenerator.Feature.WRITE_BIGDECIMAL_AS_PLAIN);
+//        return builder;
+//    }
 
 //    @Bean
 //    public JsonUtil jsonUtil() {
