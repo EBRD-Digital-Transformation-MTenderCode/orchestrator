@@ -25,9 +25,6 @@ public class JsonUtil {
     private final ObjectMapper mapper;
 
     public JsonUtil(final ObjectMapper objectMapper) {
-//        objectMapper.enable(DeserializationFeature.USE_BIG_INTEGER_FOR_INTS);
-//        objectMapper.enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS);
-//        objectMapper.enable(JsonGenerator.Feature.WRITE_BIGDECIMAL_AS_PLAIN);
         this.mapper = objectMapper;
     }
 
@@ -60,7 +57,7 @@ public class JsonUtil {
 
     public <T> JsonNode toJsonNode(final T object) {
         Objects.requireNonNull(object);
-        return mapper.valueToTree(object); // and here
+        return mapper.valueToTree(object);
     }
 
     public ObjectNode createObjectNode() {
