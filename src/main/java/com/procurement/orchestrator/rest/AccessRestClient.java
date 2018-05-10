@@ -86,6 +86,10 @@ public interface AccessRestClient {
                                              @RequestParam("stage") String stage,
                                              @RequestParam("suspended") Boolean suspended) throws Exception;
 
+    @RequestMapping(path = "/tender/setUnsuccessful", method = RequestMethod.POST)
+    ResponseEntity<ResponseDto> setUnsuccessful(@RequestParam("identifier") String cpId,
+                                                @RequestParam("stage") String stage) throws Exception;
+
     @RequestMapping(path = "/lots", method = RequestMethod.GET)
     ResponseEntity<ResponseDto> getLots(@RequestParam("identifier") String cpId,
                                         @RequestParam("stage") String stage,
@@ -124,10 +128,5 @@ public interface AccessRestClient {
                                               @RequestParam("previousStage") String previousStage,
                                               @RequestParam("stage") String newStage,
                                               @RequestParam("owner") String owner) throws Exception;
-
-
-    @RequestMapping(path = "/setUnsuccessful", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> setUnsuccessful(@RequestParam("identifier") String cpId,
-                                                @RequestParam("stage") String stage) throws Exception;
 
 }
