@@ -340,8 +340,7 @@ public class TenderController extends BaseController {
 //        processService.startProcess(params, variables);
 //        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
 //    }
-
-
+//
 //    @RequestMapping(value = "/test", method = RequestMethod.POST)
 //    public ResponseEntity<String> test(@RequestBody final JsonNode jsonData) throws Exception{
 //        final Params params = new Params();
