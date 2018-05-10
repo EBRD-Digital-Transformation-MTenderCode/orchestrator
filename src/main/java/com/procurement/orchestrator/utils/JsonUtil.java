@@ -56,12 +56,7 @@ public class JsonUtil {
 
     public <T> JsonNode toJsonNode(final T object) {
         Objects.requireNonNull(object);
-//        try {
-            return mapper.valueToTree(object); // and here
-//            return mapper.readTree(mapper.writeValueAsString(object));
-//        } catch (IOException e) {
-//            throw new IllegalArgumentException(e);
-//        }
+        return mapper.valueToTree(object); // and here
     }
 
     public ObjectNode createObjectNode() {

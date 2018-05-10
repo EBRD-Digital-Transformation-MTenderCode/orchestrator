@@ -347,6 +347,7 @@ public class TenderController extends BaseController {
         final Params params = new Params();
         params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
         final JsonNode checkFsDto = processService.getCheckFs(jsonData, params.getStartDate(), "");
+
         final JsonNode responseData = processService.processResponse(
                 budgetRestClient.checkFs(checkFsDto),
                 params,
