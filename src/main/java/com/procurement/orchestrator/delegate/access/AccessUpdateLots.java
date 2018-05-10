@@ -60,6 +60,7 @@ public class AccessUpdateLots implements JavaDelegate {
             operationService.saveOperationStep(
                     execution,
                     entity,
+                    params,
                     unsuccessfulLots,
                     processService.addLotsAndItems(jsonData, responseData, processId));
         }
