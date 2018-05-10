@@ -55,12 +55,24 @@ public class AccessUpdateLots implements JavaDelegate {
                 processId,
                 taskId,
                 unsuccessfulLots);
-        if (Objects.nonNull(responseData))
+        if (Objects.nonNull(responseData)) {
+            processParams(execution, params, responseData, processId);
             operationService.saveOperationStep(
                     execution,
                     entity,
                     unsuccessfulLots,
                     processService.addLotsAndItems(jsonData, responseData, processId));
+        }
+    }
+
+    private void processParams(final DelegateExecution execution, final Params params, final JsonNode responseData, final String processId) {
+        final String tenderStatus = processService.getText("tenderStatus", responseData, processId);
+        if ("unsuccessful".equals(tenderStatus)) {
+            execution.setVariable("tenderUnsuccessful", 1);
+            params.setOperationType("tenderUnsuccessful");
+        } else {
+            execution.setVariable("tenderUnsuccessful", 0);
+        }
     }
 }
 
