@@ -1,5 +1,7 @@
 package com.procurement.orchestrator.config;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.procurement.orchestrator.config.kafka.KafkaConsumerConfig;
 import com.procurement.orchestrator.config.kafka.KafkaProducerConfig;
@@ -8,6 +10,7 @@ import com.procurement.orchestrator.utils.JsonUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Primary;
 
 @Configuration
 @Import({
@@ -21,8 +24,8 @@ import org.springframework.context.annotation.Import;
 public class ApplicationConfig {
 
     @Bean
-    public JsonUtil jsonUtil(final ObjectMapper mapper) {
-        return new JsonUtil(mapper);
+    public JsonUtil jsonUtil() {
+        return new JsonUtil(objectMapper());
     }
 
 //    @Bean
@@ -36,13 +39,14 @@ public class ApplicationConfig {
 //        return new MappingJackson2HttpMessageConverter(objectMapper());
 //    }
 //
-//    @Bean
-//    @Primary
-//    public ObjectMapper objectMapper() {
-//        final ObjectMapper mapper = new ObjectMapper();
-//        mapper.configure(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS, true);
-//        mapper.configure(SerializationFeature.WRITE_BIGDECIMAL_AS_PLAIN, true);
-//        return mapper;
-//    }
+    @Bean
+    @Primary
+    public ObjectMapper objectMapper() {
+        final ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
+        mapper.configure(DeserializationFeature.USE_BIG_INTEGER_FOR_INTS, true);
+        mapper.configure(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS, true);
+        return mapper;
+    }
 
 }

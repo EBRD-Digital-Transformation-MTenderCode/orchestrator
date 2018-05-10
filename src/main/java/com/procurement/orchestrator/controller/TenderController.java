@@ -353,23 +353,6 @@ public class TenderController extends BaseController {
                 "",
                 "",
                 checkFsDto);
-
-//        params.setRequestId(UUIDs.timeBased().toString());
-//        params.setOwner(getOwner(authorization));
-//        params.setOperationId(operationId);
-//        params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
-//        params.setEndDate(processService.getTenderPeriodEndDate(jsonData, null));
-//        params.setProcessType("createCN");
-//        params.setOperationType("createCN");
-//        params.setCountry(Country.fromValue(country.toUpperCase()).value());
-//        params.setPmd(Pmd.fromValue(pmd.toUpperCase()).value());
-//        params.setPhase("TENDERPERIOD");
-//        setStageForOperation(params);
-//        saveRequestAndCheckOperation(params, jsonData);
-//        processService.startProcess(params, new HashMap<>());
-
-
-
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
