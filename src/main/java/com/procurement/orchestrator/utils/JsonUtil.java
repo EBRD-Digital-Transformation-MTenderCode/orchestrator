@@ -22,10 +22,10 @@ import java.util.Optional;
 public class JsonUtil {
     private static final String FILE = "File: '";
     private final ObjectMapper mapper;
-//    private final ObjectWriter writer;
 
     public JsonUtil(final ObjectMapper objectMapper) {
         objectMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
+        objectMapper.configure(DeserializationFeature.USE_BIG_INTEGER_FOR_INTS, true);
         objectMapper.configure(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS, true);
         this.mapper = objectMapper;
     }
@@ -59,11 +59,12 @@ public class JsonUtil {
 
     public <T> JsonNode toJsonNode(final T object) {
         Objects.requireNonNull(object);
-        try {
-            return mapper.readTree(mapper.writeValueAsString(object));
-        } catch (IOException e) {
-            throw new IllegalArgumentException(e);
-        }
+//        try {
+            return mapper.valueToTree(object); // and here
+//            return mapper.readTree(mapper.writeValueAsString(object));
+//        } catch (IOException e) {
+//            throw new IllegalArgumentException(e);
+//        }
     }
 
     public ObjectNode createObjectNode() {

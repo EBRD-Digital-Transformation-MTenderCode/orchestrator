@@ -57,12 +57,23 @@ public class EvaluationCreateAwards implements JavaDelegate {
                 taskId,
                 requestData);
         if (Objects.nonNull(responseData)) {
+            processParams(execution, params, responseData, processId);
             operationService.saveOperationStep(
                     execution,
                     entity,
                     processService.addAwardAccessToParams(params, responseData, processId),
                     requestData,
                     processService.addAwardData(requestData, responseData, processId));
+        }
+    }
+
+    private void processParams(final DelegateExecution execution, final Params params, final JsonNode responseData, final String processId) {
+        final Boolean isAwardsEmpty = processService.isAwardsEmpty(responseData, processId);
+        if (isAwardsEmpty) {
+            execution.setVariable("tenderUnsuccessful", 1);
+            params.setOperationType("tenderUnsuccessful");
+        } else {
+            execution.setVariable("tenderUnsuccessful", 0);
         }
     }
 }

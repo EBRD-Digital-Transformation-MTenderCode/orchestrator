@@ -6,6 +6,7 @@ import com.procurement.orchestrator.domain.Country;
 import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.domain.Pmd;
 import com.procurement.orchestrator.domain.Stage;
+import com.procurement.orchestrator.rest.BudgetRestClient;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.service.RequestService;
@@ -24,15 +25,18 @@ public class TenderController extends BaseController {
 
     private final DateUtil dateUtil;
     private final ProcessService processService;
+    private final BudgetRestClient budgetRestClient;
 
     public TenderController(final ProcessService processService,
                             final RequestService requestService,
                             final OperationService operationService,
                             final JsonUtil jsonUtil,
-                            final DateUtil dateUtil) {
+                            final DateUtil dateUtil,
+                            final BudgetRestClient budgetRestClient) {
         super(jsonUtil, requestService, operationService);
         this.dateUtil = dateUtil;
         this.processService = processService;
+        this.budgetRestClient = budgetRestClient;
     }
 
     @RequestMapping(value = "/cn", method = RequestMethod.POST)
@@ -336,5 +340,38 @@ public class TenderController extends BaseController {
 //        processService.startProcess(params, variables);
 //        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
 //    }
+
+
+    @RequestMapping(value = "/test", method = RequestMethod.POST)
+    public ResponseEntity<String> test(@RequestBody final JsonNode jsonData) throws Exception{
+        final Params params = new Params();
+        params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
+        final JsonNode checkFsDto = processService.getCheckFs(jsonData, params.getStartDate(), "");
+        final JsonNode responseData = processService.processResponse(
+                budgetRestClient.checkFs(checkFsDto),
+                params,
+                "",
+                "",
+                checkFsDto);
+
+//        params.setRequestId(UUIDs.timeBased().toString());
+//        params.setOwner(getOwner(authorization));
+//        params.setOperationId(operationId);
+//        params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
+//        params.setEndDate(processService.getTenderPeriodEndDate(jsonData, null));
+//        params.setProcessType("createCN");
+//        params.setOperationType("createCN");
+//        params.setCountry(Country.fromValue(country.toUpperCase()).value());
+//        params.setPmd(Pmd.fromValue(pmd.toUpperCase()).value());
+//        params.setPhase("TENDERPERIOD");
+//        setStageForOperation(params);
+//        saveRequestAndCheckOperation(params, jsonData);
+//        processService.startProcess(params, new HashMap<>());
+
+
+
+        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
+    }
+
 }
 

@@ -348,6 +348,29 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
+    @Override
+    public Boolean isBidsEmpty(final JsonNode responseData, final String processId) {
+        try {
+            final ArrayNode bidsNode = (ArrayNode) responseData.get("bids");
+            return bidsNode.size() == 0;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public Boolean isAwardsEmpty(final JsonNode responseData, final String processId) {
+        try {
+            final ArrayNode awardsNode = (ArrayNode) responseData.get("awards");
+            return awardsNode.size() == 0;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+
     public String getAwardRelatedBid(final JsonNode jsonData, final String processId) {
         try {
             return jsonData.get("award").get("relatedBid").asText();

@@ -70,6 +70,10 @@ public interface ProcessService {
 
     JsonNode addBids(JsonNode jsonData, JsonNode responseData, String processId);
 
+    Boolean isBidsEmpty(JsonNode responseData, String processId);
+
+    Boolean isAwardsEmpty(JsonNode responseData, String processId);
+
     String getAwardRelatedBid(JsonNode jsonData, String processId);
 
     String getLotId(JsonNode jsonData, String processId);

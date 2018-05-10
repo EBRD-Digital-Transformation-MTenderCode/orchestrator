@@ -5,7 +5,10 @@ import com.procurement.orchestrator.domain.response.ResponseDto;
 import javax.validation.Valid;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient(name = "e-access")
 public interface AccessRestClient {
@@ -112,8 +115,8 @@ public interface AccessRestClient {
 
     @RequestMapping(path = "/lots/updateLots", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> updateLots(@RequestParam("identifier") String cpId,
-                                                  @RequestParam("stage") String stage,
-                                                  @Valid @RequestBody JsonNode lotsDto) throws Exception;
+                                           @RequestParam("stage") String stage,
+                                           @Valid @RequestBody JsonNode lotsDto) throws Exception;
 
     @RequestMapping(path = "/newStage", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> startNewStage(@RequestParam("identifier") String cpId,
@@ -122,5 +125,9 @@ public interface AccessRestClient {
                                               @RequestParam("stage") String newStage,
                                               @RequestParam("owner") String owner) throws Exception;
 
+
+    @RequestMapping(path = "/setUnsuccessful", method = RequestMethod.POST)
+    ResponseEntity<ResponseDto> setUnsuccessful(@RequestParam("identifier") String cpId,
+                                                @RequestParam("stage") String stage) throws Exception;
 
 }
