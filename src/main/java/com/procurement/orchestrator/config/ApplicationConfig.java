@@ -24,6 +24,7 @@ public class ApplicationConfig {
 
     @Bean
     public JsonUtil jsonUtil(final ObjectMapper objectMapper) {
+        objectMapper.configure(DeserializationFeature.USE_BIG_INTEGER_FOR_INTS, true);
         objectMapper.enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS);
         objectMapper.setNodeFactory(JsonNodeFactory.withExactBigDecimals(true));
         return new JsonUtil(objectMapper);
