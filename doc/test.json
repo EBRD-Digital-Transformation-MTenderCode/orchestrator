@@ -1,10 +1,14 @@
 {
+  "standstillPeriod": {
+    "startDate": "2018-05-12T10:07:41Z",
+    "endDate": "2018-05-12T10:07:51Z"
+  },
   "awards": [
     {
       "id": "6728d76c-554e-11e8-b45b-d75f1e76ec71",
-      "date": "2018-05-11T19:09:35Z",
-      "status": "unsuccessful",
-      "statusDetails": "empty",
+      "date": "2018-05-11T19:07:03Z",
+      "status": "pending",
+      "statusDetails": "unsuccessful",
       "value": {
         "amount": 9953871.30,
         "currency": "NZD"
@@ -50,9 +54,9 @@
     },
     {
       "id": "6728d76d-554e-11e8-b45b-d75f1e76ec71",
-      "date": "2018-05-11T19:09:35Z",
-      "status": "unsuccessful",
-      "statusDetails": "empty",
+      "date": "2018-05-11T19:06:43Z",
+      "status": "pending",
+      "statusDetails": "unsuccessful",
       "value": {
         "amount": 342.19,
         "currency": "NZD"
@@ -98,9 +102,9 @@
     },
     {
       "id": "6728d76b-554e-11e8-b45b-d75f1e76ec71",
-      "date": "2018-05-11T19:09:35Z",
-      "status": "unsuccessful",
-      "statusDetails": "empty",
+      "date": "2018-05-11T19:06:56Z",
+      "status": "pending",
+      "statusDetails": "unsuccessful",
       "value": {
         "amount": 3395645915581.89,
         "currency": "NZD"
@@ -146,9 +150,9 @@
     },
     {
       "id": "6728d76a-554e-11e8-b45b-d75f1e76ec71",
-      "date": "2018-05-11T19:09:35Z",
-      "status": "unsuccessful",
-      "statusDetails": "empty",
+      "date": "2018-05-11T19:07:45Z",
+      "status": "pending",
+      "statusDetails": "unsuccessful",
       "value": {
         "amount": 530327275241740.60,
         "currency": "NZD"
@@ -194,9 +198,9 @@
     },
     {
       "id": "6728d769-554e-11e8-b45b-d75f1e76ec71",
-      "date": "2018-05-11T19:09:35Z",
-      "status": "unsuccessful",
-      "statusDetails": "empty",
+      "date": "2018-05-11T19:06:48Z",
+      "status": "pending",
+      "statusDetails": "unsuccessful",
       "value": {
         "amount": 28121.87,
         "currency": "NZD"
@@ -242,9 +246,9 @@
     },
     {
       "id": "6728d768-554e-11e8-b45b-d75f1e76ec71",
-      "date": "2018-05-11T19:09:35Z",
-      "status": "unsuccessful",
-      "statusDetails": "empty",
+      "date": "2018-05-11T19:07:08Z",
+      "status": "pending",
+      "statusDetails": "unsuccessful",
       "value": {
         "amount": 3192402506.00,
         "currency": "NZD"
@@ -290,9 +294,9 @@
     },
     {
       "id": "6728d76f-554e-11e8-b45b-d75f1e76ec71",
-      "date": "2018-05-11T19:09:35Z",
-      "status": "unsuccessful",
-      "statusDetails": "empty",
+      "date": "2018-05-11T19:06:53Z",
+      "status": "pending",
+      "statusDetails": "unsuccessful",
       "value": {
         "amount": 808052319306.84,
         "currency": "NZD"
@@ -337,19 +341,10 @@
       ]
     },
     {
-      "id": "67292580-554e-11e8-b45b-d75f1e76ec71",
-      "date": "2018-05-11T19:06:26Z",
-      "status": "unsuccessful",
-      "statusDetails": "empty",
-      "relatedLots": [
-        "b409e438-554d-11e8-b4e2-a77e260a38b7"
-      ]
-    },
-    {
       "id": "6728d767-554e-11e8-b45b-d75f1e76ec71",
-      "date": "2018-05-11T19:09:35Z",
-      "status": "unsuccessful",
-      "statusDetails": "empty",
+      "date": "2018-05-11T19:06:50Z",
+      "status": "pending",
+      "statusDetails": "unsuccessful",
       "value": {
         "amount": 63014719851.57,
         "currency": "NZD"
@@ -395,9 +390,9 @@
     },
     {
       "id": "6728d76e-554e-11e8-b45b-d75f1e76ec71",
-      "date": "2018-05-11T19:09:35Z",
-      "status": "unsuccessful",
-      "statusDetails": "empty",
+      "date": "2018-05-11T19:07:05Z",
+      "status": "pending",
+      "statusDetails": "unsuccessful",
       "value": {
         "amount": 622383860.40,
         "currency": "NZD"
@@ -443,9 +438,9 @@
     },
     {
       "id": "6728d766-554e-11e8-b45b-d75f1e76ec71",
-      "date": "2018-05-11T19:09:35Z",
-      "status": "unsuccessful",
-      "statusDetails": "empty",
+      "date": "2018-05-11T19:07:01Z",
+      "status": "pending",
+      "statusDetails": "unsuccessful",
       "value": {
         "amount": 421.60,
         "currency": "NZD"
@@ -490,157 +485,5 @@
       ]
     }
   ],
-  "awardPeriod": {
-    "startDate": "2018-05-11T19:06:25Z",
-    "endDate": "2018-05-11T19:09:35Z"
-  },
-  "unsuccessfulLots": [
-    {
-      "id": "b409e436-554d-11e8-b4e2-a77e260a38b7"
-    },
-    {
-      "id": "b409e437-554d-11e8-b4e2-a77e260a38b7"
-    },
-    {
-      "id": "b409e438-554d-11e8-b4e2-a77e260a38b7"
-    }
-  ],
-  "lots": [
-    {
-      "id": "b409e436-554d-11e8-b4e2-a77e260a38b7",
-      "title": "Loss throw whole.",
-      "description": "Statement simple final political pay effort rock. Talk with teacher real claim local. Ability add television tell.",
-      "status": "unsuccessful",
-      "statusDetails": "empty",
-      "value": {
-        "amount": 2214165957.95,
-        "currency": "NZD"
-      },
-      "options": [
-        {
-          "hasOptions": false
-        }
-      ],
-      "recurrentProcurement": [
-        {
-          "isRecurrent": false
-        }
-      ],
-      "renewals": [
-        {
-          "hasRenewals": false
-        }
-      ],
-      "variants": [
-        {
-          "hasVariants": false
-        }
-      ],
-      "contractPeriod": {
-        "startDate": "2018-05-11T19:01:25Z",
-        "endDate": "2018-07-17T13:12:26Z"
-      },
-      "placeOfPerformance": {
-        "address": {
-          "streetAddress": "079 Casey Bridge",
-          "locality": "Dianeport",
-          "region": "Arizona",
-          "postalCode": "71761",
-          "countryName": "Marshall Islands"
-        },
-        "description": "Want subject history. Thought human seat small. Democratic why weight. Perhaps program power enough speech."
-      }
-    },
-    {
-      "id": "b409e437-554d-11e8-b4e2-a77e260a38b7",
-      "title": "Gun adult would tough stay.",
-      "description": "Too will organization painting expert able kitchen. Building tonight have industry allow. Now in claim of.",
-      "status": "unsuccessful",
-      "statusDetails": "empty",
-      "value": {
-        "amount": 6725529057942.20,
-        "currency": "NZD"
-      },
-      "options": [
-        {
-          "hasOptions": false
-        }
-      ],
-      "recurrentProcurement": [
-        {
-          "isRecurrent": false
-        }
-      ],
-      "renewals": [
-        {
-          "hasRenewals": false
-        }
-      ],
-      "variants": [
-        {
-          "hasVariants": false
-        }
-      ],
-      "contractPeriod": {
-        "startDate": "2018-05-11T19:01:25Z",
-        "endDate": "2018-08-05T08:56:32Z"
-      },
-      "placeOfPerformance": {
-        "address": {
-          "streetAddress": "962 Mcbride Club Apt. 683",
-          "locality": "East Heatherfort",
-          "region": "Michigan",
-          "postalCode": "48427",
-          "countryName": "Norway"
-        },
-        "description": "Look at manage necessary reduce blood. Responsibility discussion huge evening us through."
-      }
-    },
-    {
-      "id": "b409e438-554d-11e8-b4e2-a77e260a38b7",
-      "title": "State give right lead.",
-      "description": "Employee remain door business. Process them media strong morning without.",
-      "status": "unsuccessful",
-      "statusDetails": "empty",
-      "value": {
-        "amount": 5433.48,
-        "currency": "NZD"
-      },
-      "options": [
-        {
-          "hasOptions": false
-        }
-      ],
-      "recurrentProcurement": [
-        {
-          "isRecurrent": false
-        }
-      ],
-      "renewals": [
-        {
-          "hasRenewals": false
-        }
-      ],
-      "variants": [
-        {
-          "hasVariants": false
-        }
-      ],
-      "contractPeriod": {
-        "startDate": "2018-05-11T19:01:25Z",
-        "endDate": "2018-09-21T04:45:13Z"
-      },
-      "placeOfPerformance": {
-        "address": {
-          "streetAddress": "197 Gutierrez Mews",
-          "locality": "Lindsaybury",
-          "region": "Colorado",
-          "postalCode": "55759-7670",
-          "countryName": "United Kingdom"
-        },
-        "description": "Either rise buy none. Science attack technology. Test another of low feeling for sign."
-      }
-    }
-  ],
-  "items": null
+  "cans": []
 }
