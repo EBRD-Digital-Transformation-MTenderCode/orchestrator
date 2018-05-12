@@ -8,19 +8,21 @@ docker network create \
   --gateway 192.168.100.1 \
   ocds-network
 
+#login
+docker login https://docker-registry.eprocurement.systems
+Username: docker
+Password: 3FFcKYtMxzmwFMa
 
 #****************************************#
 # Run E-ORCHESTRATOR                     #
 # Need assign uri, username and password #
 #****************************************#
 
+#push
 mvn clean package docker:build
-docker login https://docker-registry.eprocurement.systems
-Username: docker
-Password: 3FFcKYtMxzmwFMa
 docker push docker-registry.eprocurement.systems/orchestrator:17.12.1
 
-
+#run
 docker run -d --name=orchestrator-1 \
   --env __PROP_spring_cloud_config_uri=http://config-server-1:8700 \
   --env __PROP_spring_profiles_active=default \
