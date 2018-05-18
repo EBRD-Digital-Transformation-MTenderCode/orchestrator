@@ -1,0 +1,489 @@
+{
+  "standstillPeriod": {
+    "startDate": "2018-05-12T10:07:41Z",
+    "endDate": "2018-05-12T10:07:51Z"
+  },
+  "awards": [
+    {
+      "id": "6728d76c-554e-11e8-b45b-d75f1e76ec71",
+      "date": "2018-05-11T19:07:03Z",
+      "status": "pending",
+      "statusDetails": "unsuccessful",
+      "value": {
+        "amount": 9953871.30,
+        "currency": "NZD"
+      },
+      "relatedLots": [
+        "b409e436-554d-11e8-b4e2-a77e260a38b7"
+      ],
+      "relatedBid": "b62c9d20-554d-11e8-82d1-aba607341064",
+      "suppliers": [
+        {
+          "id": "UA-EDR-381-22-5525",
+          "name": "Russell Inc",
+          "identifier": {
+            "id": "381-22-5525",
+            "scheme": "UA-EDR",
+            "legalName": "Russell Inc LLC",
+            "uri": "https://lutz.com/tag/explore/search/"
+          },
+          "address": {
+            "streetAddress": "118 Sean Stravenue",
+            "locality": "Port Lynnmouth",
+            "region": "Maryland",
+            "postalCode": "37582-0479",
+            "countryName": "Iceland"
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "009-92-3937",
+              "scheme": "UA-EDR",
+              "legalName": "Russell Inc and Sons",
+              "uri": "https://www.drake.com/category/tag/blog/search/"
+            }
+          ],
+          "contactPoint": {
+            "name": "Sheri Nelson",
+            "email": "christopher50@gmail.com",
+            "telephone": "+53(3)7110631353",
+            "faxNumber": "308.586.6226x980",
+            "url": "https://www.ruiz-sharp.com/tags/home.php"
+          }
+        }
+      ]
+    },
+    {
+      "id": "6728d76d-554e-11e8-b45b-d75f1e76ec71",
+      "date": "2018-05-11T19:06:43Z",
+      "status": "pending",
+      "statusDetails": "unsuccessful",
+      "value": {
+        "amount": 342.19,
+        "currency": "NZD"
+      },
+      "relatedLots": [
+        "b409e437-554d-11e8-b4e2-a77e260a38b7"
+      ],
+      "relatedBid": "b65de650-554d-11e8-82d1-aba607341064",
+      "suppliers": [
+        {
+          "id": "UA-EDR-381-22-5525",
+          "name": "Russell Inc",
+          "identifier": {
+            "id": "381-22-5525",
+            "scheme": "UA-EDR",
+            "legalName": "Russell Inc LLC",
+            "uri": "https://lutz.com/tag/explore/search/"
+          },
+          "address": {
+            "streetAddress": "118 Sean Stravenue",
+            "locality": "Port Lynnmouth",
+            "region": "Maryland",
+            "postalCode": "37582-0479",
+            "countryName": "Iceland"
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "009-92-3937",
+              "scheme": "UA-EDR",
+              "legalName": "Russell Inc and Sons",
+              "uri": "https://www.drake.com/category/tag/blog/search/"
+            }
+          ],
+          "contactPoint": {
+            "name": "Sheri Nelson",
+            "email": "christopher50@gmail.com",
+            "telephone": "+53(3)7110631353",
+            "faxNumber": "308.586.6226x980",
+            "url": "https://www.ruiz-sharp.com/tags/home.php"
+          }
+        }
+      ]
+    },
+    {
+      "id": "6728d76b-554e-11e8-b45b-d75f1e76ec71",
+      "date": "2018-05-11T19:06:56Z",
+      "status": "pending",
+      "statusDetails": "unsuccessful",
+      "value": {
+        "amount": 3395645915581.89,
+        "currency": "NZD"
+      },
+      "relatedLots": [
+        "b409e437-554d-11e8-b4e2-a77e260a38b7"
+      ],
+      "relatedBid": "b5ce2970-554d-11e8-82d1-aba607341064",
+      "suppliers": [
+        {
+          "id": "UA-EDR-882-17-4288",
+          "name": "Jordan-Mitchell",
+          "identifier": {
+            "id": "882-17-4288",
+            "scheme": "UA-EDR",
+            "legalName": "Jordan-Mitchell Ltd",
+            "uri": "https://smith-brown.com/main/"
+          },
+          "address": {
+            "streetAddress": "0788 Jeffrey Point",
+            "locality": "West Cindyview",
+            "region": "South Carolina",
+            "postalCode": "70800-5867",
+            "countryName": "Ethiopia"
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "700-44-1927",
+              "scheme": "UA-EDR",
+              "legalName": "Jordan-Mitchell Ltd",
+              "uri": "http://www.strickland-rojas.com/tags/blog/search/"
+            }
+          ],
+          "contactPoint": {
+            "name": "Susan Welch",
+            "email": "sarah06@yahoo.com",
+            "telephone": "941.874.1336x943",
+            "faxNumber": "937.357.0174x6736",
+            "url": "http://www.chavez.com/main/tags/login/"
+          }
+        }
+      ]
+    },
+    {
+      "id": "6728d76a-554e-11e8-b45b-d75f1e76ec71",
+      "date": "2018-05-11T19:07:45Z",
+      "status": "pending",
+      "statusDetails": "unsuccessful",
+      "value": {
+        "amount": 530327275241740.60,
+        "currency": "NZD"
+      },
+      "relatedLots": [
+        "b409e436-554d-11e8-b4e2-a77e260a38b7"
+      ],
+      "relatedBid": "b5a6cb50-554d-11e8-82d1-aba607341064",
+      "suppliers": [
+        {
+          "id": "UA-EDR-184-31-6332",
+          "name": "Wong-Olsen",
+          "identifier": {
+            "id": "184-31-6332",
+            "scheme": "UA-EDR",
+            "legalName": "Wong-Olsen Ltd",
+            "uri": "https://www.hurley.org/register/"
+          },
+          "address": {
+            "streetAddress": "537 Ward Course Apt. 199",
+            "locality": "North Amy",
+            "region": "Washington",
+            "postalCode": "29804",
+            "countryName": "Romania"
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "380-78-6935",
+              "scheme": "UA-EDR",
+              "legalName": "Wong-Olsen LLC",
+              "uri": "http://www.smith.com/about.htm"
+            }
+          ],
+          "contactPoint": {
+            "name": "Angela Webb",
+            "email": "stokesjeffrey@yahoo.com",
+            "telephone": "(033)336-7460",
+            "faxNumber": "(684)068-9451x09772",
+            "url": "https://www.mccormick.info/"
+          }
+        }
+      ]
+    },
+    {
+      "id": "6728d769-554e-11e8-b45b-d75f1e76ec71",
+      "date": "2018-05-11T19:06:48Z",
+      "status": "pending",
+      "statusDetails": "unsuccessful",
+      "value": {
+        "amount": 28121.87,
+        "currency": "NZD"
+      },
+      "relatedLots": [
+        "b409e437-554d-11e8-b4e2-a77e260a38b7"
+      ],
+      "relatedBid": "b4f97450-554d-11e8-82d1-aba607341064",
+      "suppliers": [
+        {
+          "id": "UA-EDR-608-44-0261",
+          "name": "Andrews-Morris",
+          "identifier": {
+            "id": "608-44-0261",
+            "scheme": "UA-EDR",
+            "legalName": "Andrews-Morris Group",
+            "uri": "http://www.jones-woods.com/post/"
+          },
+          "address": {
+            "streetAddress": "1193 Jason Rest",
+            "locality": "North Richardmouth",
+            "region": "Alabama",
+            "postalCode": "03210-7565",
+            "countryName": "Madagascar"
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "698-34-3005",
+              "scheme": "UA-EDR",
+              "legalName": "Andrews-Morris and Sons",
+              "uri": "http://simmons.com/index.asp"
+            }
+          ],
+          "contactPoint": {
+            "name": "Amber Barry",
+            "email": "matthewdavis@gmail.com",
+            "telephone": "(207)460-7877",
+            "faxNumber": "675-104-2217x807",
+            "url": "https://www.williams.biz/posts/categories/category/"
+          }
+        }
+      ]
+    },
+    {
+      "id": "6728d768-554e-11e8-b45b-d75f1e76ec71",
+      "date": "2018-05-11T19:07:08Z",
+      "status": "pending",
+      "statusDetails": "unsuccessful",
+      "value": {
+        "amount": 3192402506.00,
+        "currency": "NZD"
+      },
+      "relatedLots": [
+        "b409e436-554d-11e8-b4e2-a77e260a38b7"
+      ],
+      "relatedBid": "b4cac330-554d-11e8-82d1-aba607341064",
+      "suppliers": [
+        {
+          "id": "UA-EDR-337-04-2290",
+          "name": "Morrison PLC",
+          "identifier": {
+            "id": "337-04-2290",
+            "scheme": "UA-EDR",
+            "legalName": "Morrison PLC LLC",
+            "uri": "http://www.johnson.net/"
+          },
+          "address": {
+            "streetAddress": "954 Mckay Loaf",
+            "locality": "West Angelahaven",
+            "region": "Connecticut",
+            "postalCode": "00542",
+            "countryName": "Cyprus"
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "131-95-7790",
+              "scheme": "UA-EDR",
+              "legalName": "Morrison PLC and Sons",
+              "uri": "http://www.mendoza.com/"
+            }
+          ],
+          "contactPoint": {
+            "name": "Stephanie Cohen",
+            "email": "vargasjeffrey@gmail.com",
+            "telephone": "320-333-5153",
+            "faxNumber": "1-908-241-4226",
+            "url": "http://morris-clark.net/"
+          }
+        }
+      ]
+    },
+    {
+      "id": "6728d76f-554e-11e8-b45b-d75f1e76ec71",
+      "date": "2018-05-11T19:06:53Z",
+      "status": "pending",
+      "statusDetails": "unsuccessful",
+      "value": {
+        "amount": 808052319306.84,
+        "currency": "NZD"
+      },
+      "relatedLots": [
+        "b409e437-554d-11e8-b4e2-a77e260a38b7"
+      ],
+      "relatedBid": "b6af3aa0-554d-11e8-82d1-aba607341064",
+      "suppliers": [
+        {
+          "id": "UA-EDR-765-49-2043",
+          "name": "Wagner, Gray and Kim",
+          "identifier": {
+            "id": "765-49-2043",
+            "scheme": "UA-EDR",
+            "legalName": "Wagner, Gray and Kim Group",
+            "uri": "https://www.morales-johnson.net/post/"
+          },
+          "address": {
+            "streetAddress": "9613 Rodriguez Parkway",
+            "locality": "West Eric",
+            "region": "Mississippi",
+            "postalCode": "69011",
+            "countryName": "Croatia"
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "146-26-2290",
+              "scheme": "UA-EDR",
+              "legalName": "Wagner, Gray and Kim LLC",
+              "uri": "https://johnson.com/wp-content/blog/list/register.asp"
+            }
+          ],
+          "contactPoint": {
+            "name": "Michelle Stafford",
+            "email": "donnathompson@yahoo.com",
+            "telephone": "+73(7)0804263625",
+            "faxNumber": "+36(7)1256452467",
+            "url": "http://www.reynolds-thompson.info/privacy.php"
+          }
+        }
+      ]
+    },
+    {
+      "id": "6728d767-554e-11e8-b45b-d75f1e76ec71",
+      "date": "2018-05-11T19:06:50Z",
+      "status": "pending",
+      "statusDetails": "unsuccessful",
+      "value": {
+        "amount": 63014719851.57,
+        "currency": "NZD"
+      },
+      "relatedLots": [
+        "b409e437-554d-11e8-b4e2-a77e260a38b7"
+      ],
+      "relatedBid": "b476d6d0-554d-11e8-82d1-aba607341064",
+      "suppliers": [
+        {
+          "id": "UA-EDR-712-22-5614",
+          "name": "Rose and Sons",
+          "identifier": {
+            "id": "712-22-5614",
+            "scheme": "UA-EDR",
+            "legalName": "Rose and Sons Ltd",
+            "uri": "http://www.ramirez-brown.com/search/"
+          },
+          "address": {
+            "streetAddress": "29403 Amanda Knoll Apt. 514",
+            "locality": "New Kirk",
+            "region": "Pennsylvania",
+            "postalCode": "22060",
+            "countryName": "Czech Republic"
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "043-25-2440",
+              "scheme": "UA-EDR",
+              "legalName": "Rose and Sons and Sons",
+              "uri": "https://stanley-johnson.net/post/"
+            }
+          ],
+          "contactPoint": {
+            "name": "Todd Johnson",
+            "email": "hblackwell@gmail.com",
+            "telephone": "082-720-8804x475",
+            "faxNumber": "1-629-090-3943x959",
+            "url": "https://www.jones.org/login/"
+          }
+        }
+      ]
+    },
+    {
+      "id": "6728d76e-554e-11e8-b45b-d75f1e76ec71",
+      "date": "2018-05-11T19:07:05Z",
+      "status": "pending",
+      "statusDetails": "unsuccessful",
+      "value": {
+        "amount": 622383860.40,
+        "currency": "NZD"
+      },
+      "relatedLots": [
+        "b409e436-554d-11e8-b4e2-a77e260a38b7"
+      ],
+      "relatedBid": "b687b570-554d-11e8-82d1-aba607341064",
+      "suppliers": [
+        {
+          "id": "UA-EDR-047-30-5658",
+          "name": "Carr-Larsen",
+          "identifier": {
+            "id": "047-30-5658",
+            "scheme": "UA-EDR",
+            "legalName": "Carr-Larsen PLC",
+            "uri": "https://horton-hurley.com/app/home/"
+          },
+          "address": {
+            "streetAddress": "24165 Myers Station Suite 244",
+            "locality": "Johnhaven",
+            "region": "Texas",
+            "postalCode": "24580-3263",
+            "countryName": "Namibia"
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "039-86-9630",
+              "scheme": "UA-EDR",
+              "legalName": "Carr-Larsen Inc",
+              "uri": "https://www.guzman.com/"
+            }
+          ],
+          "contactPoint": {
+            "name": "Stephanie Parsons",
+            "email": "whitemichelle@yahoo.com",
+            "telephone": "329.345.0555",
+            "faxNumber": "173.319.7399x02227",
+            "url": "http://stone.com/index.jsp"
+          }
+        }
+      ]
+    },
+    {
+      "id": "6728d766-554e-11e8-b45b-d75f1e76ec71",
+      "date": "2018-05-11T19:07:01Z",
+      "status": "pending",
+      "statusDetails": "unsuccessful",
+      "value": {
+        "amount": 421.60,
+        "currency": "NZD"
+      },
+      "relatedLots": [
+        "b409e436-554d-11e8-b4e2-a77e260a38b7"
+      ],
+      "relatedBid": "b450b130-554d-11e8-82d1-aba607341064",
+      "suppliers": [
+        {
+          "id": "UA-EDR-882-17-4288",
+          "name": "Jordan-Mitchell",
+          "identifier": {
+            "id": "882-17-4288",
+            "scheme": "UA-EDR",
+            "legalName": "Jordan-Mitchell Ltd",
+            "uri": "https://smith-brown.com/main/"
+          },
+          "address": {
+            "streetAddress": "0788 Jeffrey Point",
+            "locality": "West Cindyview",
+            "region": "South Carolina",
+            "postalCode": "70800-5867",
+            "countryName": "Ethiopia"
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "700-44-1927",
+              "scheme": "UA-EDR",
+              "legalName": "Jordan-Mitchell Ltd",
+              "uri": "http://www.strickland-rojas.com/tags/blog/search/"
+            }
+          ],
+          "contactPoint": {
+            "name": "Susan Welch",
+            "email": "sarah06@yahoo.com",
+            "telephone": "941.874.1336x943",
+            "faxNumber": "937.357.0174x6736",
+            "url": "http://www.chavez.com/main/tags/login/"
+          }
+        }
+      ]
+    }
+  ],
+  "cans": []
+}
