@@ -2,6 +2,7 @@ package com.procurement.orchestrator.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -59,4 +60,12 @@ public class Params {
 
     @JsonProperty(value = "endDate")
     private String endDate;
+
+    public void setOperationId(final String operationId) {
+        this.operationId = UUID.fromString(operationId).toString();
+    }
+
+    public void setOwner(final String owner) {
+        this.owner = UUID.fromString(owner).toString();
+    }
 }
