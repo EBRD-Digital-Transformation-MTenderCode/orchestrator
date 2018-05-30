@@ -1,12 +1,14 @@
 package com.procurement.orchestrator.delegate.notification;
 
 import com.procurement.orchestrator.config.kafka.MessageProducer;
+import com.procurement.orchestrator.domain.Notification;
 import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.domain.PlatformMessage;
 import com.procurement.orchestrator.domain.entity.RequestEntity;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.RequestService;
 import com.procurement.orchestrator.utils.JsonUtil;
+import java.util.UUID;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
@@ -46,12 +48,17 @@ public class SendErrorToPlatform implements JavaDelegate {
                 params.getCpid(),
                 params.getNewStage(),
                 message);
-        messageProducer.sendToPlatform(platformMessage);
+        final Notification notification = new Notification(
+                UUID.fromString(params.getOwner()),
+                UUID.fromString(params.getOperationId()),
+                jsonUtil.toJson(platformMessage)
+        );
+        messageProducer.sendToPlatform(notification);
         operationService.saveOperationException(
                 execution.getProcessInstanceId(),
                 execution.getCurrentActivityId(),
                 params,
                 jsonUtil.toJsonNode(params),
-                jsonUtil.toJsonNode(jsonUtil.toJson(message)));
+                jsonUtil.toJsonNode(jsonUtil.toJson(notification)));
     }
 }

@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.config.kafka;
 
+import com.procurement.orchestrator.domain.Notification;
 import com.procurement.orchestrator.domain.PlatformMessage;
 import com.procurement.orchestrator.domain.chronograph.ScheduleTask;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -13,7 +14,7 @@ public class MessageProducerImpl implements MessageProducer {
 
     private static final Logger LOG = LoggerFactory.getLogger(MessageProducerImpl.class);
     private static final String CHRONOGRAPH_TOPIC = "chronograph-in";
-    private static final String PLATFORM_TOPIC = "2c974565-e527-4e7d-b369-bf5db76c4f5c";
+    private static final String PLATFORM_TOPIC = "notification-kafka-channel";
     private final KafkaTemplate<String, String> internalKafkaTemplate;
     private final KafkaTemplate<String, String> externalKafkaTemplate;
     private final JsonUtil jsonUtil;
@@ -41,14 +42,13 @@ public class MessageProducerImpl implements MessageProducer {
         }
     }
 
-    public boolean sendToPlatform(final PlatformMessage message) {
+    public boolean sendToPlatform(final Notification notification) {
         try {
-            final SendResult<String, String> sendResult = externalKafkaTemplate.send(
+            final SendResult<String, String> sendResult = internalKafkaTemplate.send(
                     PLATFORM_TOPIC,
-                    jsonUtil.toJson(message)).get();
+                    jsonUtil.toJson(notification)).get();
             final RecordMetadata recordMetadata = sendResult.getRecordMetadata();
-            LOG.info("Send to platform: ", recordMetadata.topic(),
-                    recordMetadata.partition(), recordMetadata.offset(), message.toString());
+            LOG.info("Send to platform: ", recordMetadata.topic(), recordMetadata.partition(), recordMetadata.offset(), notification.toString());
             return true;
         } catch (Exception e) {
             throw new RuntimeException(e);
