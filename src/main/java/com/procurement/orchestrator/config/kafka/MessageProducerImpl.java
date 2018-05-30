@@ -16,15 +16,12 @@ public class MessageProducerImpl implements MessageProducer {
     private static final String CHRONOGRAPH_TOPIC = "chronograph-in";
     private static final String PLATFORM_TOPIC = "notification-kafka-channel";
     private final KafkaTemplate<String, String> internalKafkaTemplate;
-    private final KafkaTemplate<String, String> externalKafkaTemplate;
     private final JsonUtil jsonUtil;
 
     public MessageProducerImpl(
             final KafkaTemplate<String, String> internalKafkaTemplate,
-            final KafkaTemplate<String, String> externalKafkaTemplate,
             final JsonUtil jsonUtil) {
         this.internalKafkaTemplate = internalKafkaTemplate;
-        this.externalKafkaTemplate = externalKafkaTemplate;
         this.jsonUtil = jsonUtil;
     }
 
