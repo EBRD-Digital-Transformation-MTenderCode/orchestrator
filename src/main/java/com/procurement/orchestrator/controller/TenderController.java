@@ -237,7 +237,7 @@ public class TenderController extends BaseController {
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
-    @RequestMapping(value = "/endAwardPeriod/{identifier}", method = RequestMethod.POST)
+    @RequestMapping(value = "/end-award-period/{identifier}", method = RequestMethod.POST)
     public ResponseEntity<String> endAwardPeriod(@RequestHeader("Authorization") final String authorization,
                                                  @RequestHeader("X-OPERATION-ID") final String operationId,
                                                  @PathVariable("identifier") final String identifier,
@@ -263,7 +263,7 @@ public class TenderController extends BaseController {
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
-    @RequestMapping(value = "/newStage/{identifier}", method = RequestMethod.POST)
+    @RequestMapping(value = "/new-stage/{identifier}", method = RequestMethod.POST)
     public ResponseEntity<String> newStage(@RequestHeader("Authorization") final String authorization,
                                            @RequestHeader("X-OPERATION-ID") final String operationId,
                                            @RequestHeader("X-TOKEN") final String token,
