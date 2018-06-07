@@ -20,7 +20,7 @@ Password: 3FFcKYtMxzmwFMa
 
 #push
 mvn clean package docker:build
-docker push docker-registry.eprocurement.systems/orchestrator:17.12.1
+docker push dev.docker-registry.eprocurement.systems/orchestrator:17.12.1
 
 #run
 docker run -d --name=orchestrator-1 \
@@ -30,7 +30,7 @@ docker run -d --name=orchestrator-1 \
   --publish 9101:8080 \
   --network ocds-network \
   --dns 10.0.10.115 \
-  docker-registry.eprocurement.systems/orchestrator:17.12.1
+  dev.docker-registry.eprocurement.systems/orchestrator:17.12.1
 
 docker logs orchestrator-1
 
