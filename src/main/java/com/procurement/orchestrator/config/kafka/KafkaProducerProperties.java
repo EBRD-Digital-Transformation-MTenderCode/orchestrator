@@ -9,5 +9,4 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "kafka.producer")
 public class KafkaProducerProperties {
     private String internalBootstrap;
-    private String externalBootstrap;
 }

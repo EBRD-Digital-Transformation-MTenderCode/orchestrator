@@ -51,7 +51,7 @@ INSERT INTO ocds.orchestrator_rules (new_stage, prev_stage, country, pmd, phase,
 INSERT INTO ocds.orchestrator_rules (new_stage, prev_stage, country, pmd, phase, operation_type)  VALUES ('PS', 'PN', 'MD', 'RT', 'PLANNING', 'updateCN');
 INSERT INTO ocds.orchestrator_rules (new_stage, prev_stage, country, pmd, phase, operation_type)  VALUES ('PS', 'PIN', 'MD', 'RT', 'PLANNED', 'updateCN');
 INSERT INTO ocds.orchestrator_rules (new_stage, prev_stage, country, pmd, phase, operation_type)  VALUES ('EV', 'PN', 'MD', 'OT', 'PLANNING', 'updateCN');
-INSERT INTO ocds.orchestrator_rules (new_stage, prev_stage, country, pmd, phase, operation_type)  VALUES ('EV', 'PIN', 'MD', 'OT', 'PLANNED', 'updateCN')
+INSERT INTO ocds.orchestrator_rules (new_stage, prev_stage, country, pmd, phase, operation_type)  VALUES ('EV', 'PIN', 'MD', 'OT', 'PLANNED', 'updateCN');
 INSERT INTO ocds.orchestrator_rules (new_stage, prev_stage, country, pmd, phase, operation_type)  VALUES ('PS', 'PS', 'MD', 'RT', 'AWARDPERIOD', 'awardPeriodEnd');
 INSERT INTO ocds.orchestrator_rules (new_stage, prev_stage, country, pmd, phase, operation_type)  VALUES ('PQ', 'PQ', 'MD', 'RT', 'AWARDPERIOD', 'awardPeriodEnd');
 INSERT INTO ocds.orchestrator_rules (new_stage, prev_stage, country, pmd, phase, operation_type)  VALUES ('EV', 'EV', 'MD', 'RT', 'AWARDPERIOD', 'awardPeriodEndEv');
@@ -95,3 +95,14 @@ INSERT INTO ocds.orchestrator_stage_rules (country, pmd, operation_type, stage) 
 INSERT INTO ocds.orchestrator_stage_rules (country, pmd, operation_type, stage)  VALUES ('MD', 'OT', 'createPN', 'PN');
 INSERT INTO ocds.orchestrator_stage_rules (country, pmd, operation_type, stage)  VALUES ('TEST', 'TEST_RT', 'createPN', 'PN');
 INSERT INTO ocds.orchestrator_stage_rules (country, pmd, operation_type, stage)  VALUES ('TEST', 'TEST_OT', 'createPN', 'PN');
+
+
+
+SELECT * FROM ocds.orchestrator_operation_step;
+SELECT * FROM ocds.orchestrator_operation_step where operation_id = '0e7e8f29-717b-486d-ba95-81abbcc70a42' allow filtering;
+SELECT * FROM ocds.orchestrator_operation_step where cp_id = 'ocds-t1s2t3-TEST-1525704819499' allow filtering;
+SELECT * FROM ocds.orchestrator_operation_step where cp_id = 'ocds-t1s2t3-TEST-1525365442353' and task_id = 'SubmissionCreateBidTask'  allow filtering;
+SELECT * FROM ocds.orchestrator_operation_step where task_id = 'AccessCreatePnTask' allow filtering;
+
+SELECT * FROM ocds.orchestrator_request where operation_id = 'b7eb0d2d-7bbb-4f71-9e06-3731f249a7e8' allow filtering;
+SELECT * FROM ocds.orchestrator_stage where cp_id = 'ocds-t1s2t3-TEST-1524663516399';
