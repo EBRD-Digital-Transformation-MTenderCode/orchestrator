@@ -25,7 +25,7 @@ eureka:
   client:
     enabled: false
 
-ocds.prefix: ocds-t1s2t3
+ocds.prefix: ocds-t1s2t2
 
 camunda:
    bpm:
