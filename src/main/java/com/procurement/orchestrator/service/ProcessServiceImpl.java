@@ -370,6 +370,25 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
+    @Override
+    public String getFsId(final JsonNode jsonData, final String processId) {
+        try {
+            return jsonData.get("fs").get("ocid").asText();
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public String getFsToken(final JsonNode jsonData, final String processId) {
+        try {
+            return jsonData.get("fs").get("token").asText();
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
 
     public String getAwardRelatedBid(final JsonNode jsonData, final String processId) {
         try {
