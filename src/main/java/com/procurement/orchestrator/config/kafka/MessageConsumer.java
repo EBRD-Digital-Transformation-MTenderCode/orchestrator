@@ -1,6 +1,5 @@
 package com.procurement.orchestrator.config.kafka;
 
-import com.datastax.driver.core.utils.UUIDs;
 import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.domain.chronograph.ChronographResponse;
 import com.procurement.orchestrator.service.ProcessService;
