@@ -75,6 +75,6 @@ public class ChronographScheduleEndTenderPeriod implements JavaDelegate {
                 null,
                 jsonUtil.toJson(paramsForChronograph));
         messageProducer.sendToChronograph(task);
-        operationService.saveOperationStep(execution, entity);
+        operationService.saveOperationStep(execution, entity, jsonUtil.toJsonNode(task));
     }
 }
