@@ -44,27 +44,27 @@ public class AccessCreateCnOnPin implements JavaDelegate {
         final String taskId = execution.getCurrentActivityId();
         final JsonNode requestData = processService.getAccessData(jsonData, processId);
         final JsonNode responseData = processService.processResponse(
-            accessRestClient.createCnOnPin(
-                params.getCpid(),
-                params.getPrevStage(),
-                params.getNewStage(),
-                params.getCountry(),
-                params.getPmd(),
-                params.getOwner(),
-                params.getToken(),
-                params.getStartDate(),
-                requestData),
-            params,
-            processId,
-            taskId,
-            requestData);
+                accessRestClient.createCnOnPin(
+                        params.getCpid(),
+                        params.getPrevStage(),
+                        params.getNewStage(),
+                        params.getCountry(),
+                        params.getPmd(),
+                        params.getOwner(),
+                        params.getToken(),
+                        params.getStartDate(),
+                        requestData),
+                params,
+                processId,
+                taskId,
+                requestData);
         if (Objects.nonNull(responseData))
             operationService.saveOperationStep(
-                execution,
-                entity,
-                addDataToParams(params, responseData, processId),
-                requestData,
-                processService.setAccessData(jsonData, responseData, processId));
+                    execution,
+                    entity,
+                    addDataToParams(params, responseData, processId),
+                    requestData,
+                    processService.setAccessData(jsonData, responseData, processId));
     }
 
     private Params addDataToParams(final Params params, final JsonNode responseData, final String processId) {

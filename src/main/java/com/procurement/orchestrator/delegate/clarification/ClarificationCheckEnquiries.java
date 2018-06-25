@@ -2,7 +2,6 @@ package com.procurement.orchestrator.delegate.clarification;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Params;
-import com.procurement.orchestrator.domain.Stage;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.ClarificationRestClient;
 import com.procurement.orchestrator.service.OperationService;

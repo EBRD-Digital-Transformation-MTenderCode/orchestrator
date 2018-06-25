@@ -35,7 +35,6 @@ public class ChronographRescheduleEndTenderPeriod implements JavaDelegate {
     private final DateUtil dateUtil;
 
 
-
     public ChronographRescheduleEndTenderPeriod(final MessageProducer messageProducer,
                                                 final OperationService operationService,
                                                 final JsonUtil jsonUtil,
