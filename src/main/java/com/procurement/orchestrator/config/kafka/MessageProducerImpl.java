@@ -1,7 +1,6 @@
 package com.procurement.orchestrator.config.kafka;
 
 import com.procurement.orchestrator.domain.Notification;
-import com.procurement.orchestrator.domain.PlatformMessage;
 import com.procurement.orchestrator.domain.chronograph.ScheduleTask;
 import com.procurement.orchestrator.utils.JsonUtil;
 import org.apache.kafka.clients.producer.RecordMetadata;

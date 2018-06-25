@@ -20,7 +20,7 @@ public interface NoticeRestClient {
                                               @RequestParam("operation") String operation,
                                               @RequestParam("phase") String phase,
                                               @RequestParam("releaseDate") String releaseDate,
-                                              @RequestBody JsonNode data) throws Exception;
+                                              @RequestBody JsonNode jsonData) throws Exception;
 
 
 }

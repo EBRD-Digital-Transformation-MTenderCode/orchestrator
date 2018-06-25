@@ -74,6 +74,10 @@ public interface ProcessService {
 
     Boolean isAwardsEmpty(JsonNode responseData, String processId);
 
+    String getFsId(JsonNode jsonData, String processId);
+
+    String getFsToken(JsonNode jsonData, String processId);
+
     String getAwardRelatedBid(JsonNode jsonData, String processId);
 
     String getLotId(JsonNode jsonData, String processId);

@@ -19,14 +19,14 @@ public interface QualificationRestClient {
                                              @RequestParam("country") String country,
                                              @RequestParam("pmd") String pmd,
                                              @RequestParam("startDate") String startDate,
-                                             @RequestBody JsonNode dataDto) throws Exception;
+                                             @RequestBody JsonNode jsonData) throws Exception;
 
     @RequestMapping(path = "/qualification", method = RequestMethod.PUT)
     ResponseEntity<ResponseDto> updateAward(@RequestParam("identifier") String cpId,
                                             @RequestParam("stage") String stage,
                                             @RequestParam("token") String token,
                                             @RequestParam("owner") String owner,
-                                            @RequestBody JsonNode dataDto) throws Exception;
+                                            @RequestBody JsonNode jsonData) throws Exception;
 
     @RequestMapping(path = "/qualification/checkAwarded", method = RequestMethod.GET)
     ResponseEntity<ResponseDto> checkAwarded(@RequestParam("identifier") String cpId,

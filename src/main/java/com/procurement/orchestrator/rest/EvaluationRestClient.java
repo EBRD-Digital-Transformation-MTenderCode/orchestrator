@@ -20,7 +20,7 @@ public interface EvaluationRestClient {
                                              @RequestParam("pmd") String pmd,
                                              @RequestParam("awardCriteria") String awardCriteria,
                                              @RequestParam("date") String dateTime,
-                                             @RequestBody JsonNode dataDto) throws Exception;
+                                             @RequestBody JsonNode jsonData) throws Exception;
 
     @RequestMapping(path = "/evaluation", method = RequestMethod.PUT)
     ResponseEntity<ResponseDto> updateAward(@RequestParam("identifier") String cpId,
@@ -28,7 +28,7 @@ public interface EvaluationRestClient {
                                             @RequestParam("token") String token,
                                             @RequestParam("owner") String owner,
                                             @RequestParam(value = "date") String dateTime,
-                                            @RequestBody JsonNode dataDto) throws Exception;
+                                            @RequestBody JsonNode jsonData) throws Exception;
 
     @RequestMapping(path = "/evaluation", method = RequestMethod.GET)
     ResponseEntity<ResponseDto> getAwards(@RequestParam("identifier") String cpId,
