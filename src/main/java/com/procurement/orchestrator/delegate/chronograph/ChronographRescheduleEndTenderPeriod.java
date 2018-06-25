@@ -25,7 +25,6 @@ public class ChronographRescheduleEndTenderPeriod implements JavaDelegate {
     private static final String NEXT_PHASE = "AWARDPERIOD";
     private static final String CURRENT_PHASE = "TENDERPERIOD";
 
-
     private final MessageProducer messageProducer;
 
     private final OperationService operationService;
