@@ -14,5 +14,5 @@ public interface StorageRestClient {
 
     @RequestMapping(method = RequestMethod.POST, value = "/storage/publish")
     ResponseEntity<ResponseDto> setPublishDate(@RequestParam("datePublished") String datePublished,
-                                               @RequestBody JsonNode dataDto) throws Exception;
+                                               @RequestBody JsonNode jsonData) throws Exception;
 }

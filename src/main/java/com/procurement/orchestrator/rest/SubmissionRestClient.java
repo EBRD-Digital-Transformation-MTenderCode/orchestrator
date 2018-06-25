@@ -2,7 +2,6 @@ package com.procurement.orchestrator.rest;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.response.ResponseDto;
-import javax.validation.Valid;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -44,14 +43,14 @@ public interface SubmissionRestClient {
     ResponseEntity<ResponseDto> createBid(@RequestParam("identifier") String cpId,
                                           @RequestParam("stage") String stage,
                                           @RequestParam("owner") String owner,
-                                          @RequestBody JsonNode bidDto) throws Exception;
+                                          @RequestBody JsonNode jsonData) throws Exception;
 
     @RequestMapping(path = "/submission/bid", method = RequestMethod.PUT)
     ResponseEntity<ResponseDto> updateBid(@RequestParam("identifier") String cpId,
                                           @RequestParam("stage") String stage,
                                           @RequestParam("token") String token,
                                           @RequestParam("owner") String owner,
-                                          @RequestBody JsonNode bidDto) throws Exception;
+                                          @RequestBody JsonNode jsonData) throws Exception;
 
     @RequestMapping(path = "/submission/copyBids", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> copyBids(@RequestParam("identifier") String cpId,
@@ -59,7 +58,7 @@ public interface SubmissionRestClient {
                                          @RequestParam("previousStage") String previousStage,
                                          @RequestParam("startDate") String startDate,
                                          @RequestParam("endDate") String endDate,
-                                         @Valid @RequestBody JsonNode lots) throws Exception;
+                                         @RequestBody JsonNode jsonData) throws Exception;
 
     @RequestMapping(path = "/submission/bids", method = RequestMethod.GET)
     ResponseEntity<ResponseDto> getBids(@RequestParam("identifier") String cpId,
@@ -72,7 +71,7 @@ public interface SubmissionRestClient {
                                              @RequestParam("stage") String stage,
                                              @RequestParam("country") String country,
                                              @RequestParam("pmd") String pmd,
-                                             @RequestBody JsonNode lots) throws Exception;
+                                             @RequestBody JsonNode jsonData) throws Exception;
 
     @RequestMapping(path = "/submission/updateStatusDetails", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> updateStatusDetails(@RequestParam("identifier") String cpId,
