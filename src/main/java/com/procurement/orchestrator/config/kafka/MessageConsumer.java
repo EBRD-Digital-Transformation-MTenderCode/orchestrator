@@ -47,18 +47,18 @@ public class MessageConsumer {
             LOG.info("Get task: " + message);
             final ChronographResponse response = jsonUtil.toObject(ChronographResponse.class, message);
             final ChronographResponse.ChronographResponseData data = response.getData();
-            final Params params = jsonUtil.toObject(Params.class, data.getMetaData());
-            params.setRequestId(UUIDs.timeBased().toString());
-            params.setOperationId(params.getRequestId());
-            params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
+            final Params paramsFromChronograph = jsonUtil.toObject(Params.class, data.getMetaData());
+            paramsFromChronograph.setRequestId(paramsFromChronograph.getOperationId());
+            paramsFromChronograph.setOperationId(paramsFromChronograph.getOperationId());
+            paramsFromChronograph.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
             requestService.saveRequest(
-                    params.getRequestId(),
-                    params.getOperationId(),
-                    params,
+                    paramsFromChronograph.getRequestId(),
+                    paramsFromChronograph.getOperationId(),
+                    paramsFromChronograph,
                     jsonUtil.toJsonNode(data));
             final Map<String, Object> variables = new HashMap<>();
             variables.put("checkEnquiries", 0);
-            processService.startProcess(params, variables);
+            processService.startProcess(paramsFromChronograph, variables);
         } catch (Exception e) {
         }
     }
