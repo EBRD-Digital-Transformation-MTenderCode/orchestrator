@@ -57,6 +57,5 @@ public class SendMessageToPlatform implements JavaDelegate {
                 entity,
                 params,
                 jsonUtil.toJsonNode(notification));
-
     }
 }

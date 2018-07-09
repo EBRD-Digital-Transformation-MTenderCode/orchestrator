@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.delegate.chronograph;
 
+import com.datastax.driver.core.utils.UUIDs;
 import com.procurement.orchestrator.config.kafka.MessageProducer;
 import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.domain.Stage;
@@ -19,6 +20,10 @@ import org.springframework.stereotype.Component;
 public class ChronographScheduleEndTenderPeriod implements JavaDelegate {
 
     private static final Logger LOG = LoggerFactory.getLogger(ChronographScheduleEndTenderPeriod.class);
+    private static final String TENDER_PERIOD_END = "tenderPeriodEnd";
+    private static final String TENDER_PERIOD_END_EV = "tenderPeriodEndEv";
+    private static final String NEXT_PHASE = "AWARDPERIOD";
+    private static final String CURRENT_PHASE = "TENDERPERIOD";
 
     private final MessageProducer messageProducer;
 
@@ -44,31 +49,32 @@ public class ChronographScheduleEndTenderPeriod implements JavaDelegate {
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
         /**set params for next process*/
-        final Params paramsForEndTenderPeriod = new Params();
+        final Params paramsForChronograph = new Params();
+        paramsForChronograph.setOperationId(UUIDs.timeBased().toString());
         if (params.getNewStage().equals(Stage.EV.value())) {
-            paramsForEndTenderPeriod.setProcessType("tenderPeriodEndEv");
-            paramsForEndTenderPeriod.setOperationType("tenderPeriodEndEv");
+            paramsForChronograph.setProcessType(TENDER_PERIOD_END_EV);
+            paramsForChronograph.setOperationType(TENDER_PERIOD_END_EV);
         } else {
-            paramsForEndTenderPeriod.setProcessType("tenderPeriodEnd");
-            paramsForEndTenderPeriod.setOperationType("tenderPeriodEnd");
+            paramsForChronograph.setProcessType(TENDER_PERIOD_END);
+            paramsForChronograph.setOperationType(TENDER_PERIOD_END);
         }
-        paramsForEndTenderPeriod.setPhase("AWARDPERIOD");
-        paramsForEndTenderPeriod.setCpid(params.getCpid());
-        paramsForEndTenderPeriod.setNewStage(params.getNewStage());
-        paramsForEndTenderPeriod.setOwner(params.getOwner());
-        paramsForEndTenderPeriod.setCountry(params.getCountry());
-        paramsForEndTenderPeriod.setPmd(params.getPmd());
-        paramsForEndTenderPeriod.setStartDate(params.getStartDate());
-        paramsForEndTenderPeriod.setEndDate(params.getEndDate());
+        paramsForChronograph.setPhase(NEXT_PHASE);
+        paramsForChronograph.setCpid(params.getCpid());
+        paramsForChronograph.setNewStage(params.getNewStage());
+        paramsForChronograph.setOwner(params.getOwner());
+        paramsForChronograph.setCountry(params.getCountry());
+        paramsForChronograph.setPmd(params.getPmd());
+        paramsForChronograph.setStartDate(params.getStartDate());
+        paramsForChronograph.setEndDate(params.getEndDate());
 
         final ScheduleTask task = new ScheduleTask(
                 ActionType.SCHEDULE,
                 params.getCpid(),
-                "TENDERPERIOD",
+                CURRENT_PHASE,
                 dateUtil.stringToLocal(params.getEndDate()),
                 null,
-                jsonUtil.toJson(paramsForEndTenderPeriod));
+                jsonUtil.toJson(paramsForChronograph));
         messageProducer.sendToChronograph(task);
-        operationService.saveOperationStep(execution, entity);
+        operationService.saveOperationStep(execution, entity, jsonUtil.toJsonNode(task));
     }
 }

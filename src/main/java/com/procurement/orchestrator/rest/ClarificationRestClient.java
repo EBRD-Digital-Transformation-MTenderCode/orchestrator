@@ -17,7 +17,7 @@ public interface ClarificationRestClient {
                                               @RequestParam("stage") String stage,
                                               @RequestParam("owner") String owner,
                                               @RequestParam("date") String date,
-                                              @RequestBody JsonNode dataDto) throws Exception;
+                                              @RequestBody JsonNode jsonData) throws Exception;
 
     @RequestMapping(path = "/enquiry", method = RequestMethod.PUT)
     ResponseEntity<ResponseDto> updateEnquiry(@RequestParam("identifier") String cpId,
@@ -25,7 +25,7 @@ public interface ClarificationRestClient {
                                               @RequestParam("token") String token,
                                               @RequestParam("owner") String owner,
                                               @RequestParam("date") String date,
-                                              @RequestBody JsonNode dataDto) throws Exception;
+                                              @RequestBody JsonNode jsonData) throws Exception;
 
     @RequestMapping(path = "/enquiry", method = RequestMethod.GET)
     ResponseEntity<ResponseDto> checkEnquiries(@RequestParam("identifier") String cpId,

@@ -2,7 +2,6 @@ package com.procurement.orchestrator.rest;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.response.ResponseDto;
-import javax.validation.Valid;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -99,13 +98,13 @@ public interface AccessRestClient {
     ResponseEntity<ResponseDto> updateLotsStatus(@RequestParam("identifier") String cpId,
                                                  @RequestParam("stage") String stage,
                                                  @RequestParam("status") String status,
-                                                 @RequestBody JsonNode lotsDto) throws Exception;
+                                                 @RequestBody JsonNode jsonData) throws Exception;
 
     @RequestMapping(path = "/lots/updateStatusDetails", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> updateLotsStatusDetails(@RequestParam("identifier") String cpId,
                                                         @RequestParam("stage") String stage,
                                                         @RequestParam("statusDetails") String statusDetails,
-                                                        @RequestBody JsonNode lotsDto) throws Exception;
+                                                        @RequestBody JsonNode jsonData) throws Exception;
 
     @RequestMapping(path = "/lots/updateStatusDetailsById", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> updateStatusDetailsById(@RequestParam("identifier") String cpId,
@@ -120,7 +119,7 @@ public interface AccessRestClient {
     @RequestMapping(path = "/lots/updateLots", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> updateLots(@RequestParam("identifier") String cpId,
                                            @RequestParam("stage") String stage,
-                                           @Valid @RequestBody JsonNode lotsDto) throws Exception;
+                                           @RequestBody JsonNode lotsDto) throws Exception;
 
     @RequestMapping(path = "/newStage", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> startNewStage(@RequestParam("identifier") String cpId,

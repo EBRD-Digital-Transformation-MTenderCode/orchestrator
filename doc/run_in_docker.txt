@@ -13,6 +13,15 @@ docker login https://docker-registry.eprocurement.systems
 Username: docker
 Password: 3FFcKYtMxzmwFMa
 
+#login
+docker login https://docker-registry.eprocurement.systems
+Username: docker
+Password: 3FFcKYtMxzmwFMa
+
+docker login https://dev.docker-registry.eprocurement.systems
+Username: docker
+Password: EGrH4rOVQrcwXCtM
+
 #****************************************#
 # Run E-ORCHESTRATOR                     #
 # Need assign uri, username and password #
