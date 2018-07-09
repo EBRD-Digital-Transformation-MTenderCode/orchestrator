@@ -5,15 +5,15 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.procurement.orchestrator.domain.EntityAccess;
 import com.procurement.orchestrator.domain.Params;
-import com.procurement.orchestrator.domain.response.ResponseDetailsDto;
-import com.procurement.orchestrator.domain.response.ResponseDto;
+import com.procurement.orchestrator.domain.dto.*;
 import com.procurement.orchestrator.utils.JsonUtil;
-import java.util.*;
 import org.camunda.bpm.engine.RuntimeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.*;
 
 @Service
 public class ProcessServiceImpl implements ProcessService {
@@ -66,21 +66,33 @@ public class ProcessServiceImpl implements ProcessService {
         startProcessError(params, message);
     }
 
+    public CommandMessage getCommandMessage(CommandType commandType, Params context, JsonNode data) {
+        return new CommandMessage(context.getOperationId(), commandType, context, data, ApiVersion.V_0_1);
+    }
+
     public JsonNode processResponse(final ResponseEntity<ResponseDto> responseEntity,
                                     final Params params,
                                     final String processId,
                                     final String taskId,
                                     final JsonNode request) {
-        if (responseEntity.getBody().getSuccess()) {
-            return jsonUtil.toJsonNode(responseEntity.getBody().getData());
-        } else {
+        if (responseEntity.getBody().getDetails() != null) {
             operationService.saveOperationException(processId, taskId, params, request, jsonUtil.toJsonNode(responseEntity.getBody()));
             final List<ResponseDetailsDto> details = responseEntity.getBody().getDetails();
             final String message = Objects.nonNull(details) ?
-                    "Error in process Id: " + processId + "; message: " + jsonUtil.toJson(details) : "";
+                    "Error in operation: " + params.getOperationId() + "; message: " + jsonUtil.toJson(details) : "";
             runtimeService.deleteProcessInstance(processId, message);
             startProcessError(params, message);
             return null;
+        } else if (responseEntity.getBody().getErrors() != null) {
+            operationService.saveOperationException(processId, taskId, params, request, jsonUtil.toJsonNode(responseEntity.getBody()));
+            final List<ResponseErrorDto> errors = responseEntity.getBody().getErrors();
+            final String message = Objects.nonNull(errors) ?
+                    "Error in operation: " + params.getOperationId() + "; message: " + jsonUtil.toJson(errors) : "";
+            runtimeService.deleteProcessInstance(processId, message);
+            startProcessError(params, message);
+            return null;
+        } else {
+            return jsonUtil.toJsonNode(responseEntity.getBody().getData());
         }
     }
 
@@ -146,7 +158,8 @@ public class ProcessServiceImpl implements ProcessService {
         return params;
     }
 
-    public Params addContractAccessToParams(final Params params, final JsonNode responseData, final String processId) {
+    public Params addContractAccessToParams(final Params params, final JsonNode responseData,
+                                            final String processId) {
         final ArrayNode contractsNode = (ArrayNode) responseData.get("contracts");
         final List<EntityAccess> accesses = new ArrayList<>();
         for (final JsonNode awardNode : contractsNode) {
@@ -160,7 +173,8 @@ public class ProcessServiceImpl implements ProcessService {
         return params;
     }
 
-    public JsonNode addTenderTenderPeriod(final JsonNode jsonData, final JsonNode periodData, final String processId) {
+    public JsonNode addTenderTenderPeriod(final JsonNode jsonData, final JsonNode periodData,
+                                          final String processId) {
         try {
             if (Objects.isNull(jsonData.get("tender")))
                 ((ObjectNode) jsonData).putObject("tender");
@@ -193,7 +207,8 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public JsonNode addTenderEnquiryPeriod(final JsonNode jsonData, final JsonNode periodData, final String processId) {
+    public JsonNode addTenderEnquiryPeriod(final JsonNode jsonData, final JsonNode periodData,
+                                           final String processId) {
         try {
             if (Objects.isNull(jsonData.get("tender")))
                 ((ObjectNode) jsonData).putObject("tender");
@@ -315,7 +330,8 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public JsonNode addUpdateBidsStatusData(final JsonNode jsonData, final JsonNode bidsData, final String processId) {
+    public JsonNode addUpdateBidsStatusData(final JsonNode jsonData, final JsonNode bidsData,
+                                            final String processId) {
         try {
             final ObjectNode mainNode = (ObjectNode) jsonData;
             mainNode.replace("tenderPeriod", bidsData.get("tenderPeriod"));
@@ -327,7 +343,8 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public JsonNode addBidsAndTenderPeriod(final JsonNode jsonData, final JsonNode responseData, final String processId) {
+    public JsonNode addBidsAndTenderPeriod(final JsonNode jsonData, final JsonNode responseData,
+                                           final String processId) {
         try {
             ((ObjectNode) jsonData).replace("bids", responseData.get("bids"));
             addTenderTenderPeriod(jsonData, responseData.get("tenderPeriod"), processId);
@@ -463,7 +480,8 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public JsonNode setDocumentsOfTender(final JsonNode jsonData, final JsonNode documentsData, final String processId) {
+    public JsonNode setDocumentsOfTender(final JsonNode jsonData, final JsonNode documentsData,
+                                         final String processId) {
         try {
             final ObjectNode tenderNode = (ObjectNode) jsonData.get("tender");
             tenderNode.replace("documents", documentsData.get("documents"));
@@ -488,7 +506,8 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public JsonNode setDocumentsOfAward(final JsonNode jsonData, final JsonNode documentsData, final String processId) {
+    public JsonNode setDocumentsOfAward(final JsonNode jsonData, final JsonNode documentsData,
+                                        final String processId) {
         try {
             final ObjectNode awardNode = (ObjectNode) jsonData.get("award");
             awardNode.replace("documents", documentsData.get("documents"));
@@ -519,7 +538,8 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public JsonNode setDocumentsOfBids(final JsonNode jsonData, final JsonNode documentsData, final String processId) {
+    public JsonNode setDocumentsOfBids(final JsonNode jsonData, final JsonNode documentsData,
+                                       final String processId) {
         try {
             ((ObjectNode) jsonData).replace("documents", documentsData.get("documents"));
             return jsonData;
@@ -529,7 +549,8 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public JsonNode addStandstillPeriod(final JsonNode jsonData, final String startDate, final String endDate, final String processId) {
+    public JsonNode addStandstillPeriod(final JsonNode jsonData, final String startDate, final String endDate,
+                                        final String processId) {
         try {
             ((ObjectNode) jsonData).putObject("standstillPeriod")
                     .put("startDate", startDate)
@@ -604,6 +625,34 @@ public class ProcessServiceImpl implements ProcessService {
             final ObjectNode mainNode = (ObjectNode) jsonData;
             mainNode.replace("tender", responseData.get("tender"));
             return mainNode;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public JsonNode getClassificationOfTender(JsonNode jsonData, String processId) {
+        try {
+            final JsonNode tenderNode = jsonData.get("tender");
+            final JsonNode classificationNode = tenderNode.findPath("classification");
+            if (classificationNode.isMissingNode()) return null;
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            mainNode.replace("classification", classificationNode);
+            return mainNode;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public JsonNode setClassificationOfTender(JsonNode jsonData, JsonNode responseData, String processId) {
+        try {
+            final ObjectNode tenderNode = (ObjectNode) jsonData.get("tender");
+            tenderNode.replace("classification", responseData.get("classification"));
+            tenderNode.replace("mainProcurementCategory", responseData.get("mainProcurementCategory"));
+            return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
             return null;

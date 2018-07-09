@@ -1,4 +1,4 @@
-package com.procurement.orchestrator.domain.response;
+package com.procurement.orchestrator.domain.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
