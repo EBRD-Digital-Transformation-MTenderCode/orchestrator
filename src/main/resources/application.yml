@@ -71,3 +71,6 @@ e-evaluation:
 e-contracting:
   ribbon:
     listOfServers: http://10.0.20.116:9151
+e-mdm:
+  ribbon:
+    listOfServers: http://10.0.20.116:9161

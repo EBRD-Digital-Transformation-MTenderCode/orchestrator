@@ -2,7 +2,10 @@ package com.procurement.orchestrator.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Params;
-import com.procurement.orchestrator.domain.response.ResponseDto;
+import com.procurement.orchestrator.domain.dto.ApiVersion;
+import com.procurement.orchestrator.domain.dto.CommandMessage;
+import com.procurement.orchestrator.domain.dto.CommandType;
+import com.procurement.orchestrator.domain.dto.ResponseDto;
 import java.util.Map;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -19,6 +22,8 @@ public interface ProcessService {
     void terminateProcess(String processId, String message);
 
     void terminateProcessWithMessage(Params params, String processId, String message);
+
+    CommandMessage getCommandMessage(CommandType commandType, Params context, JsonNode data);
 
     JsonNode processResponse(ResponseEntity<ResponseDto> responseEntity,
                              Params params,
@@ -113,5 +118,9 @@ public interface ProcessService {
     JsonNode getAccessData(JsonNode jsonData, String processId);
 
     JsonNode setTender(JsonNode jsonData, JsonNode responseData, String processId);
+
+    JsonNode getClassificationOfTender(JsonNode jsonData, String processId);
+
+    JsonNode setClassificationOfTender(JsonNode jsonData, JsonNode responseData, String processId);
 }
 
