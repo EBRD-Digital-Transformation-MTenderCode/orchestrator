@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum ApiVersion {
-    V_0_1("0.1");
+    V_0_0_1("0.0.1");
 
     private static final Map<String, ApiVersion> CONSTANTS = new HashMap<>();
     private final String value;

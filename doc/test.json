@@ -1,61 +1,198 @@
 {
-  "tender": {
-    "title": "Them home performance share teach east.",
-    "description": "Hope quality technology local military exist wide break bring region still give ready agree TV modern author personal growth use remember soon country which fund record space than detail ground hold bed way important.",
-    "classification": {
-      "id": "09211630-6",
-      "scheme": "CPV",
-      "description": "Anti-corrosion oils"
+  "planning": {
+    "rationale": "Rationale",
+    "budget": {
+      "description": "Budget Description",
+      "amount": {
+        "amount": 100,
+        "currency": "MDL"
+      },
+      "isEuropeanUnionFunded": false,
+      "europeanUnionFunding": {
+        "projectIdentifier": "123-456",
+        "projectName": "Name of project",
+        "uri": "URI"
+      },
+      "budgetBreakdown": [
+        {
+          "id": "ocds-t1s2t3-TEST-1531125589189-FS-1531125812804",
+          "description": "Budget Description",
+          "amount": {
+            "amount": 100,
+            "currency": "MDL"
+          }
+        }
+      ]
     }
   },
-  "planning": {
-    "budget": {
-      "period": {
-        "startDate": "2018-05-30T16:26:07Z",
-        "endDate": "2018-10-30T22:09:21Z"
+  "tender": {
+    "title": "Tender Title",
+    "description": "Tender Description",
+    "classification": {
+      "scheme": "GSIN",
+      "description": "Description",
+      "id": "48760000-3"
+    },
+    "acceleratedProcedure": {
+      "isAcceleratedProcedure": false
+    },
+    "designContest": {
+      "serviceContractAward": false
+    },
+    "electronicWorkflows": {
+      "useOrdering": false,
+      "usePayment": false,
+      "acceptInvoicing": false
+    },
+    "jointProcurement": {
+      "isJointProcurement": false
+    },
+    "procedureOutsourcing": {
+      "procedureOutsourced": false
+    },
+    "framework": {
+      "isAFramework": false
+    },
+    "dynamicPurchasingSystem": {
+      "hasDynamicPurchasingSystem": false
+    },
+    "legalBasis": "DIRECTIVE_2009_81_EC",
+    "procurementMethod": "selective",
+    "procurementMethodDetails": "Method details",
+    "procurementMethodRationale": "Method Rationale",
+    "procurementMethodAdditionalInfo": "Method info",
+    "mainProcurementCategory": "goods",
+    "additionalProcurementCategories": [
+      "goods"
+    ],
+    "eligibilityCriteria": "Criteria",
+    "submissionLanguages": [
+      "en"
+    ],
+    "tenderPeriod": {
+      "endDate": "2018-07-15T15:02:00Z"
+    },
+    "contractPeriod": {
+      "startDate": "2018-04-16T21:00:00Z",
+      "endDate": "2018-08-22T21:00:00Z"
+    },
+    "procuringEntity": {
+      "name": "Bebelo Name*",
+      "identifier": {
+        "scheme": "CXEMA Scheme*",
+        "id": "444777*",
+        "legalName": "Legal IMR Name*",
+        "uri": "URI*"
       },
-      "amount": {
-        "currency": "NOK"
+      "additionalIdentifiers": [
+        {
+          "scheme": "машина scheme*",
+          "id": "1 ID*",
+          "legalName": "1 legal name*",
+          "uri": "URI"
+        }
+      ],
+      "address": {
+        "streetAddress": "Street Address",
+        "locality": "Locality",
+        "region": "1",
+        "postalCode": "Postal Code",
+        "countryName": "Republic of Moldova"
+      },
+      "contactPoint": {
+        "name": "Name*",
+        "email": "E-mail*",
+        "telephone": "Telephone*",
+        "faxNumber": "Fax*",
+        "url": "URL*"
       }
     },
-    "rationale": "Cut may here instead issue."
-  },
-  "buyer": {
-    "name": "Hernandez, Jackson and Davis",
-    "identifier": {
-      "id": "846-46-1772",
-      "legalName": "Hernandez, Jackson and Davis and Sons",
-      "uri": "https://davies.com/homepage.php"
+    "value": {
+      "amount": 10,
+      "currency": "MDL"
     },
-    "additionalIdentifiers": [
+    "lotGroups": [
       {
-        "scheme": "UA-EDR",
-        "id": "438-49-0486",
-        "legalName": "Hernandez, Jackson and Davis Inc",
-        "uri": "https://vaughn-johns.info/search/category/register.html"
+        "optionToCombine": false
       }
     ],
-    "address": {
-      "streetAddress": "3877 Young Route Suite 316",
-      "locality": "Seanburgh",
-      "region": "Ohio",
-      "postalCode": "24171-7166",
-      "countryName": "Turkmenistan"
-    },
-    "contactPoint": {
-      "name": "Julie Wilkins",
-      "email": "gwalsh@yahoo.com",
-      "telephone": "1-752-419-2226",
-      "faxNumber": "090-603-9352x7975",
-      "url": "https://www.davis.com/login/"
-    },
-    "details": {
-      "typeOfBuyer": "REGIONAL_AGENCY",
-      "mainGeneralActivity": "RECREATION_CULTURE_AND_RELIGION",
-      "mainSectoralActivity": "WATER",
-      "isACentralPurchasingBody": true,
-      "scale": "large"
-    },
-    "buyerProfile": "http://rowe-haney.com/main/"
+    "lots": [
+      {
+        "id": "448e9351-46f0-11e8-acf2-2b946a3f67cb",
+        "title": "Title",
+        "description": "description",
+        "value": {
+          "amount": 10,
+          "currency": "MDL"
+        },
+        "options": [
+          {
+            "hasOptions": false
+          }
+        ],
+        "variants": [
+          {
+            "hasVariants": false
+          }
+        ],
+        "renewals": [
+          {
+            "hasRenewals": false
+          }
+        ],
+        "recurrentProcurement": [
+          {
+            "isRecurrent": false
+          }
+        ],
+        "contractPeriod": {
+          "startDate": "2017-04-16T21:00:00Z",
+          "endDate": "2017-08-22T21:00:00Z"
+        },
+        "placeOfPerformance": {
+          "address": {
+            "streetAddress": "Street",
+            "locality": "Locality",
+            "region": "Region",
+            "postalCode": "20001",
+            "countryName": "Republic of Moldova"
+          },
+          "description": "Description"
+        }
+      }
+    ],
+    "items": [
+      {
+        "id": "448e9350-46f0-11e8-acf2-2b946a3f67cb",
+        "classification": {
+          "scheme": "CPV",
+          "description": "Books and albums",
+          "id": "48760000-3"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "CPV",
+            "description": "Literature books and paint albums",
+            "id": "48760000-3"
+          }
+        ],
+        "quantity": 12,
+        "unit": {
+          "id": "ID",
+          "name": "Name"
+        },
+        "description": "description",
+        "relatedLot": "448e9351-46f0-11e8-acf2-2b946a3f67cb"
+      }
+    ],
+    "awardCriteria": "priceOnly",
+    "requiresElectronicCatalogue": false,
+    "submissionMethod": [
+      "electronicSubmission"
+    ],
+    "submissionMethodRationale": [
+      "REQUIRES_SPECIALISED_EQUIPMENT"
+    ],
+    "submissionMethodDetails": "123"
   }
 }
