@@ -46,6 +46,9 @@ public class Params {
     @JsonProperty(value = "country")
     private String country;
 
+    @JsonProperty(value = "language")
+    private String language;
+
     @JsonProperty(value = "pmd")
     private String pmd;
 

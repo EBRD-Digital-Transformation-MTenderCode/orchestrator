@@ -44,6 +44,7 @@ public class BudgetController extends BaseController {
         params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
         params.setNewStage(Stage.EI.value());
         params.setCountry(Country.fromValue(country.toUpperCase()).value());
+        params.setLanguage("en");
         params.setProcessType("ei");
         params.setOperationType("createEI");
         saveRequestAndCheckOperation(params, jsonData);
