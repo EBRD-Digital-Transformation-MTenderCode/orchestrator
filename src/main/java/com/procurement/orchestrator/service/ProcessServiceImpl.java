@@ -66,8 +66,8 @@ public class ProcessServiceImpl implements ProcessService {
         startProcessError(params, message);
     }
 
-    public CommandMessage getCommandMessage(CommandType commandType, Params context, JsonNode data) {
-        return new CommandMessage(context.getOperationId(), commandType, context, data, ApiVersion.V_0_1);
+    public CommandMessage getCommandMessage(final CommandType commandType, final Params context, final JsonNode data) {
+        return new CommandMessage(context.getOperationId(), commandType, context, data, ApiVersion.V_0_0_1);
     }
 
     public JsonNode processResponse(final ResponseEntity<ResponseDto> responseEntity,
@@ -632,7 +632,7 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
-    public JsonNode getClassificationOfTender(JsonNode jsonData, String processId) {
+    public JsonNode getClassificationOfTender(final JsonNode jsonData, final String processId) {
         try {
             final JsonNode tenderNode = jsonData.get("tender");
             final JsonNode classificationNode = tenderNode.findPath("classification");
@@ -647,7 +647,7 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
-    public JsonNode setClassificationOfTender(JsonNode jsonData, JsonNode responseData, String processId) {
+    public JsonNode setClassificationOfTender(final JsonNode jsonData, final JsonNode responseData, final String processId) {
         try {
             final ObjectNode tenderNode = (ObjectNode) jsonData.get("tender");
             tenderNode.replace("classification", responseData.get("classification"));
