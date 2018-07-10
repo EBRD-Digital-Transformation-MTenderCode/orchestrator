@@ -39,20 +39,20 @@ public class EvaluationCreateAwards implements JavaDelegate {
         LOG.info(execution.getCurrentActivityName());
         final String processId = execution.getProcessInstanceId();
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
-        final Context params = jsonUtil.toObject(Context.class, entity.getJsonParams());
+        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final String taskId = execution.getCurrentActivityId();
         final JsonNode requestData = jsonUtil.toJsonNode(entity.getResponseData());
         final JsonNode responseData = processService.processResponse(
                 evaluationRestClient.createAwards(
-                        params.getCpid(),
-                        params.getNewStage(),
-                        params.getOwner(),
-                        params.getCountry(),
-                        params.getPmd(),
+                        context.getCpid(),
+                        context.getStage(),
+                        context.getOwner(),
+                        context.getCountry(),
+                        context.getPmd(),
                         "priceOnly",
-                        params.getStartDate(),
+                        context.getStartDate(),
                         requestData),
-                params,
+                context,
                 processId,
                 taskId,
                 requestData);
@@ -60,7 +60,7 @@ public class EvaluationCreateAwards implements JavaDelegate {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    processService.addAwardAccessToParams(params, responseData, processId),
+                    processService.addAwardAccessTocontext(context, responseData, processId),
                     requestData,
                     processService.addAwardData(requestData, responseData, processId));
         }

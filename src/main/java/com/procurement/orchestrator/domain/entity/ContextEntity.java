@@ -9,16 +9,9 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class StageEntity {
+public class ContextEntity {
 
     private String cpId;
 
-    private String stage;
-
-    private String country;
-
-    private String pmd;
-
-    private String phase;
-
+    private String context;
 }

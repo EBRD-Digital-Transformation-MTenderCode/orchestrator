@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.Rules;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
-import com.procurement.orchestrator.domain.entity.StageEntity;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -37,27 +36,28 @@ public class CheckRulesForStage implements JavaDelegate {
         LOG.info(execution.getCurrentActivityName());
         final String processId = execution.getProcessInstanceId();
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
-        final Context params = jsonUtil.toObject(Context.class, entity.getJsonParams());
+        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
-        final StageEntity stageEntity = operationService.getStageParams(params.getCpid(), processId);
-        if (stageEntity != null) {
-            params.setCountry(stageEntity.getCountry());
-            params.setPmd(stageEntity.getPmd());
-            params.setPrevStage(stageEntity.getStage());
+        final Context prevContext = operationService.getContext(context.getCpid(), processId);
+
+        if (prevContext != null) {
+            context.setCountry(prevContext.getCountry());
+            context.setPmd(prevContext.getPmd());
+            context.setPrevStage(prevContext.getStage());
             final Rules rules = new Rules(
-                    params.getNewStage(),
-                    params.getPrevStage(),
-                    params.getCountry(),
-                    params.getPmd(),
-                    stageEntity.getPhase(),
-                    params.getOperationType());
+                    context.getStage(),
+                    context.getPrevStage(),
+                    context.getCountry(),
+                    context.getPmd(),
+                    prevContext.getPhase(),
+                    context.getOperationType());
             if (operationService.isRulesExist(rules)) {
-                operationService.saveOperationStep(execution, entity, params, jsonData);
+                operationService.saveOperationStep(execution, entity, context, jsonData);
             } else {
-                processService.terminateProcessWithMessage(params, processId, OPERATION_ERROR);
+                processService.terminateProcessWithMessage(context, processId, OPERATION_ERROR);
             }
         } else {
-            processService.terminateProcessWithMessage(params, processId, STAGE_ERROR);
+            processService.terminateProcessWithMessage(context, processId, STAGE_ERROR);
         }
     }
 }

@@ -32,9 +32,9 @@ public class RequestServiceImpl implements RequestService {
     @Override
     public void saveRequest(final String requestId,
                             final String operationId,
-                            final Context jsonParams,
+                            final Context context,
                             final JsonNode jsonData) {
-        cassandraDao.saveRequest(getRequestEntity(requestId, operationId, jsonParams, jsonData));
+        cassandraDao.saveRequest(getRequestEntity(requestId, operationId, context, jsonData));
     }
 
     @Override
@@ -50,13 +50,13 @@ public class RequestServiceImpl implements RequestService {
 
     private RequestEntity getRequestEntity(final String requestId,
                                            final String operationId,
-                                           final Context jsonParams,
+                                           final Context context,
                                            final JsonNode jsonData) {
         final RequestEntity entity = new RequestEntity();
         entity.setRequestId(requestId);
         entity.setRequestDate(dateUtil.dateNowUTC());
         entity.setOperationId(operationId);
-        entity.setJsonParams(jsonUtil.toJson(jsonParams));
+        entity.setContext(jsonUtil.toJson(context));
         entity.setJsonData(jsonUtil.toJson(jsonData));
         return entity;
     }

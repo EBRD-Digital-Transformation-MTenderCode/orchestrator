@@ -20,9 +20,9 @@ public interface CassandraDao {
 
     Optional<OperationStepEntity> getOperationStep(String processId, String taskId);
 
-    void saveStage(StageEntity entity);
+    void saveContext(ContextEntity entity);
 
-    Optional<StageEntity> getStageByCpId(String cpId);
+    Optional<ContextEntity> getContextByCpId(String cpId);
 
     Boolean isRulesExist(Rules rules);
 

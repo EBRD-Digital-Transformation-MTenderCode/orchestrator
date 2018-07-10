@@ -38,29 +38,29 @@ public class EvaluationUpdateAward implements JavaDelegate {
     public void execute(final DelegateExecution execution) throws Exception {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
-        final Context params = jsonUtil.toObject(Context.class, entity.getJsonParams());
+        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final JsonNode requestData = jsonUtil.toJsonNode(entity.getResponseData());
         final String taskId = execution.getCurrentActivityId();
         final String processId = execution.getProcessInstanceId();
         final JsonNode responseData = processService.processResponse(
                 evaluationRestClient.updateAward(
-                        params.getCpid(),
-                        params.getNewStage(),
-                        params.getToken(),
-                        params.getOwner(),
-                        params.getStartDate(),
+                        context.getCpid(),
+                        context.getStage(),
+                        context.getToken(),
+                        context.getOwner(),
+                        context.getStartDate(),
                         requestData),
-                params,
+                context,
                 processId,
                 taskId,
                 requestData);
         if (Objects.nonNull(responseData)) {
-            processParams(execution, responseData, processId);
+            processcontext(execution, responseData, processId);
             operationService.saveOperationStep(execution, entity, requestData, responseData);
         }
     }
 
-    private void processParams(final DelegateExecution execution, final JsonNode responseData, final String processId) {
+    private void processcontext(final DelegateExecution execution, final JsonNode responseData, final String processId) {
         final JsonNode nextAwardNode = processService.getNextAward(responseData, processId);
         if (nextAwardNode != null) {
             execution.setVariable("updateLot", 0);

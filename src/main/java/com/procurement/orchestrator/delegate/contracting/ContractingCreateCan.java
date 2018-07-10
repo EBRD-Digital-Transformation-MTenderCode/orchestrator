@@ -38,17 +38,17 @@ public class ContractingCreateCan implements JavaDelegate {
     public void execute(final DelegateExecution execution) throws Exception {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
-        final Context params = jsonUtil.toObject(Context.class, entity.getJsonParams());
+        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final JsonNode requestData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode responseData = processService.processResponse(
                 contractingRestClient.createCan(
-                        params.getCpid(),
-                        params.getNewStage(),
-                        params.getOwner(),
+                        context.getCpid(),
+                        context.getStage(),
+                        context.getOwner(),
                         requestData),
-                params,
+                context,
                 processId,
                 taskId,
                 requestData);

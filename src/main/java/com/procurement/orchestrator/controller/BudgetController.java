@@ -37,20 +37,20 @@ public class BudgetController extends BaseController {
                                             @RequestHeader("X-OPERATION-ID") final String operationId,
                                             @RequestParam("country") final String country,
                                             @RequestBody final JsonNode jsonData) {
-        final Context params = new Context();
-        params.setRequestId(UUIDs.timeBased().toString());
-        params.setOwner(getOwner(authorization));
-        params.setOperationId(operationId);
-        params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
-        params.setNewStage(Stage.EI.value());
-        params.setCountry(Country.fromValue(country.toUpperCase()).value());
-        params.setLanguage("en");
-        params.setProcessType("ei");
-        params.setOperationType("createEI");
-        saveRequestAndCheckOperation(params, jsonData);
+        final Context context = new Context();
+        context.setRequestId(UUIDs.timeBased().toString());
+        context.setOwner(getOwner(authorization));
+        context.setOperationId(operationId);
+        context.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
+        context.setStage(Stage.EI.value());
+        context.setCountry(Country.fromValue(country.toUpperCase()).value());
+        context.setLanguage("en");
+        context.setProcessType("ei");
+        context.setOperationType("createEI");
+        saveRequestAndCheckOperation(context, jsonData);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("isTokenPresent", 0);
-        processService.startProcess(params, variables);
+        processService.startProcess(context, variables);
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
@@ -60,19 +60,19 @@ public class BudgetController extends BaseController {
                                             @RequestHeader("X-TOKEN") final String token,
                                             @PathVariable("identifier") final String identifier,
                                             @RequestBody final JsonNode jsonData) {
-        final Context params = new Context();
-        params.setRequestId(UUIDs.timeBased().toString());
-        params.setOperationId(operationId);
-        params.setCpid(identifier);
-        params.setNewStage(Stage.EI.value());
-        params.setProcessType("ei");
-        params.setOperationType("updateEI");
-        params.setOwner(getOwner(authorization));
-        params.setToken(token);
-        saveRequestAndCheckOperation(params, jsonData);
+        final Context context = new Context();
+        context.setRequestId(UUIDs.timeBased().toString());
+        context.setOperationId(operationId);
+        context.setCpid(identifier);
+        context.setStage(Stage.EI.value());
+        context.setProcessType("ei");
+        context.setOperationType("updateEI");
+        context.setOwner(getOwner(authorization));
+        context.setToken(token);
+        saveRequestAndCheckOperation(context, jsonData);
         final Map<String, Object> variables = new HashMap<>();
-        variables.put("isTokenPresent", (params.getToken() == null || "".equals(params.getToken().trim())) ? 0 : 1);
-        processService.startProcess(params, variables);
+        variables.put("isTokenPresent", (context.getToken() == null || "".equals(context.getToken().trim())) ? 0 : 1);
+        processService.startProcess(context, variables);
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
@@ -81,19 +81,19 @@ public class BudgetController extends BaseController {
                                            @RequestHeader("X-OPERATION-ID") final String operationId,
                                            @PathVariable(value = "identifier") final String identifier,
                                            @RequestBody final JsonNode jsonData) {
-        final Context params = new Context();
-        params.setRequestId(UUIDs.timeBased().toString());
-        params.setOperationId(operationId);
-        params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
-        params.setCpid(identifier);
-        params.setNewStage(Stage.FS.value());
-        params.setOperationType("createFS");
-        params.setProcessType("fs");
-        params.setOwner(getOwner(authorization));
-        saveRequestAndCheckOperation(params, jsonData);
+        final Context context = new Context();
+        context.setRequestId(UUIDs.timeBased().toString());
+        context.setOperationId(operationId);
+        context.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
+        context.setCpid(identifier);
+        context.setStage(Stage.FS.value());
+        context.setOperationType("createFS");
+        context.setProcessType("fs");
+        context.setOwner(getOwner(authorization));
+        saveRequestAndCheckOperation(context, jsonData);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("isTokenPresent", 0);
-        processService.startProcess(params, variables);
+        processService.startProcess(context, variables);
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
@@ -104,20 +104,20 @@ public class BudgetController extends BaseController {
                                            @PathVariable("cpid") final String cpid,
                                            @PathVariable("ocid") final String ocid,
                                            @RequestBody final JsonNode jsonData) {
-        final Context params = new Context();
-        params.setRequestId(UUIDs.timeBased().toString());
-        params.setOperationId(operationId);
-        params.setCpid(cpid);
-        params.setOcid(ocid);
-        params.setNewStage(Stage.FS.value());
-        params.setProcessType("fs");
-        params.setOperationType("updateFS");
-        params.setOwner(getOwner(authorization));
-        params.setToken(token);
-        saveRequestAndCheckOperation(params, jsonData);
+        final Context context = new Context();
+        context.setRequestId(UUIDs.timeBased().toString());
+        context.setOperationId(operationId);
+        context.setCpid(cpid);
+        context.setOcid(ocid);
+        context.setStage(Stage.FS.value());
+        context.setProcessType("fs");
+        context.setOperationType("updateFS");
+        context.setOwner(getOwner(authorization));
+        context.setToken(token);
+        saveRequestAndCheckOperation(context, jsonData);
         final Map<String, Object> variables = new HashMap<>();
-        variables.put("isTokenPresent", (params.getToken() == null || "".equals(params.getToken().trim())) ? 0 : 1);
-        processService.startProcess(params, variables);
+        variables.put("isTokenPresent", (context.getToken() == null || "".equals(context.getToken().trim())) ? 0 : 1);
+        processService.startProcess(context, variables);
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 }

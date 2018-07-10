@@ -14,13 +14,13 @@ public class OperationStepEntity {
 
     private String processId;
 
-    private String taskId;
-
     private String operationId;
+
+    private String taskId;
 
     private Date date;
 
-    private String jsonParams;
+    private String context;
 
     private String requestData;
 

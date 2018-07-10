@@ -45,20 +45,20 @@ public class TenderController extends BaseController {
                                            @RequestParam("country") final String country,
                                            @RequestParam("pmd") final String pmd,
                                            @RequestBody final JsonNode jsonData) {
-        final Context params = new Context();
-        params.setRequestId(UUIDs.timeBased().toString());
-        params.setOwner(getOwner(authorization));
-        params.setOperationId(operationId);
-        params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
-        params.setEndDate(processService.getTenderPeriodEndDate(jsonData, null));
-        params.setProcessType("createCN");
-        params.setOperationType("createCN");
-        params.setCountry(Country.fromValue(country.toUpperCase()).value());
-        params.setPmd(Pmd.fromValue(pmd.toUpperCase()).value());
-        params.setPhase("TENDERPERIOD");
-        setStageForOperation(params);
-        saveRequestAndCheckOperation(params, jsonData);
-        processService.startProcess(params, new HashMap<>());
+        final Context context = new Context();
+        context.setRequestId(UUIDs.timeBased().toString());
+        context.setOwner(getOwner(authorization));
+        context.setOperationId(operationId);
+        context.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
+        context.setEndDate(processService.getTenderPeriodEndDate(jsonData, null));
+        context.setProcessType("createCN");
+        context.setOperationType("createCN");
+        context.setCountry(Country.fromValue(country.toUpperCase()).value());
+        context.setPmd(Pmd.fromValue(pmd.toUpperCase()).value());
+        context.setPhase("TENDERPERIOD");
+        setStageForOperation(context);
+        saveRequestAndCheckOperation(context, jsonData);
+        processService.startProcess(context, new HashMap<>());
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
@@ -69,22 +69,22 @@ public class TenderController extends BaseController {
                                            @PathVariable("identifier") final String identifier,
                                            @RequestParam("stage") final String stage,
                                            @RequestBody final JsonNode jsonData) {
-        final Context params = new Context();
-        params.setRequestId(UUIDs.timeBased().toString());
-        params.setOwner(getOwner(authorization));
-        params.setOperationId(operationId);
-        params.setCpid(identifier);
-        params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
-        params.setEndDate(processService.getTenderPeriodEndDate(jsonData, null));
-        params.setNewStage(Stage.fromValue(stage).value());
-        params.setProcessType("updateCN");
-        params.setOperationType("updateCN");
-        params.setToken(token);
-        params.setPhase("TENDERPERIOD");
-        saveRequestAndCheckOperation(params, jsonData);
+        final Context context = new Context();
+        context.setRequestId(UUIDs.timeBased().toString());
+        context.setOwner(getOwner(authorization));
+        context.setOperationId(operationId);
+        context.setCpid(identifier);
+        context.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
+        context.setEndDate(processService.getTenderPeriodEndDate(jsonData, null));
+        context.setStage(Stage.fromValue(stage).value());
+        context.setProcessType("updateCN");
+        context.setOperationType("updateCN");
+        context.setToken(token);
+        context.setPhase("TENDERPERIOD");
+        saveRequestAndCheckOperation(context, jsonData);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("operationType", "updateCN");
-        processService.startProcess(params, variables);
+        processService.startProcess(context, variables);
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
@@ -94,19 +94,19 @@ public class TenderController extends BaseController {
                                             @RequestParam("country") final String country,
                                             @RequestParam("pmd") final String pmd,
                                             @RequestBody final JsonNode jsonData) {
-        final Context params = new Context();
-        params.setRequestId(UUIDs.timeBased().toString());
-        params.setOwner(getOwner(authorization));
-        params.setOperationId(operationId);
-        params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
-        params.setProcessType("createPIN");
-        params.setOperationType("createPIN");
-        params.setCountry(Country.fromValue(country.toUpperCase()).value());
-        params.setPmd(Pmd.fromValue(pmd.toUpperCase()).value());
-        params.setPhase("PLANNED");
-        setStageForOperation(params);
-        saveRequestAndCheckOperation(params, jsonData);
-        processService.startProcess(params, new HashMap<>());
+        final Context context = new Context();
+        context.setRequestId(UUIDs.timeBased().toString());
+        context.setOwner(getOwner(authorization));
+        context.setOperationId(operationId);
+        context.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
+        context.setProcessType("createPIN");
+        context.setOperationType("createPIN");
+        context.setCountry(Country.fromValue(country.toUpperCase()).value());
+        context.setPmd(Pmd.fromValue(pmd.toUpperCase()).value());
+        context.setPhase("PLANNED");
+        setStageForOperation(context);
+        saveRequestAndCheckOperation(context, jsonData);
+        processService.startProcess(context, new HashMap<>());
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
@@ -117,22 +117,22 @@ public class TenderController extends BaseController {
                                             @PathVariable("identifier") final String identifier,
                                             @RequestParam("stage") final String stage,
                                             @RequestBody final JsonNode jsonData) {
-        final Context params = new Context();
-        params.setRequestId(UUIDs.timeBased().toString());
-        params.setOwner(getOwner(authorization));
-        params.setOperationId(operationId);
-        params.setCpid(identifier);
-        params.setToken(token);
-        params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
-        params.setEndDate(processService.getTenderPeriodEndDate(jsonData, null));
-        params.setNewStage(Stage.fromValue(stage).value());
-        params.setProcessType("updatePIN");
-        params.setOperationType("updatePIN");
-        params.setPhase("PLANNED");
-        saveRequestAndCheckOperation(params, jsonData);
+        final Context context = new Context();
+        context.setRequestId(UUIDs.timeBased().toString());
+        context.setOwner(getOwner(authorization));
+        context.setOperationId(operationId);
+        context.setCpid(identifier);
+        context.setToken(token);
+        context.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
+        context.setEndDate(processService.getTenderPeriodEndDate(jsonData, null));
+        context.setStage(Stage.fromValue(stage).value());
+        context.setProcessType("updatePIN");
+        context.setOperationType("updatePIN");
+        context.setPhase("PLANNED");
+        saveRequestAndCheckOperation(context, jsonData);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("operationType", "updatePIN");
-        processService.startProcess(params, variables);
+        processService.startProcess(context, variables);
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
@@ -142,19 +142,19 @@ public class TenderController extends BaseController {
                                            @RequestParam("country") final String country,
                                            @RequestParam("pmd") final String pmd,
                                            @RequestBody final JsonNode jsonData) {
-        final Context params = new Context();
-        params.setRequestId(UUIDs.timeBased().toString());
-        params.setOwner(getOwner(authorization));
-        params.setOperationId(operationId);
-        params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
-        params.setProcessType("createPN");
-        params.setOperationType("createPN");
-        params.setCountry(Country.fromValue(country.toUpperCase()).value());
-        params.setPmd(Pmd.fromValue(pmd.toUpperCase()).value());
-        params.setPhase("PLANNING");
-        setStageForOperation(params);
-        saveRequestAndCheckOperation(params, jsonData);
-        processService.startProcess(params, new HashMap<>());
+        final Context context = new Context();
+        context.setRequestId(UUIDs.timeBased().toString());
+        context.setOwner(getOwner(authorization));
+        context.setOperationId(operationId);
+        context.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
+        context.setProcessType("createPN");
+        context.setOperationType("createPN");
+        context.setCountry(Country.fromValue(country.toUpperCase()).value());
+        context.setPmd(Pmd.fromValue(pmd.toUpperCase()).value());
+        context.setPhase("PLANNING");
+        setStageForOperation(context);
+        saveRequestAndCheckOperation(context, jsonData);
+        processService.startProcess(context, new HashMap<>());
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
@@ -165,21 +165,21 @@ public class TenderController extends BaseController {
                                             @PathVariable("identifier") final String identifier,
                                             @RequestParam("stage") final String stage,
                                             @RequestBody final JsonNode jsonData) {
-        final Context params = new Context();
-        params.setRequestId(UUIDs.timeBased().toString());
-        params.setOperationId(operationId);
-        params.setCpid(identifier);
-        params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
-        params.setEndDate(processService.getTenderPeriodEndDate(jsonData, null));
-        params.setNewStage(Stage.fromValue(stage).value());
-        params.setProcessType("submitTheBid");
-        params.setOperationType("bid");
-        params.setOwner(getOwner(authorization));
-        params.setToken(token);
-        saveRequestAndCheckOperation(params, jsonData);
+        final Context context = new Context();
+        context.setRequestId(UUIDs.timeBased().toString());
+        context.setOperationId(operationId);
+        context.setCpid(identifier);
+        context.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
+        context.setEndDate(processService.getTenderPeriodEndDate(jsonData, null));
+        context.setStage(Stage.fromValue(stage).value());
+        context.setProcessType("submitTheBid");
+        context.setOperationType("bid");
+        context.setOwner(getOwner(authorization));
+        context.setToken(token);
+        saveRequestAndCheckOperation(context, jsonData);
         final Map<String, Object> variables = new HashMap<>();
-        variables.put("isTokenPresent", ((params.getToken() == null || "".equals(params.getToken().trim())) ? 0 : 1));
-        processService.startProcess(params, variables);
+        variables.put("isTokenPresent", ((context.getToken() == null || "".equals(context.getToken().trim())) ? 0 : 1));
+        processService.startProcess(context, variables);
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
@@ -190,21 +190,21 @@ public class TenderController extends BaseController {
                                           @PathVariable("identifier") final String identifier,
                                           @RequestParam("stage") final String stage,
                                           @RequestBody final JsonNode jsonData) {
-        final Context params = new Context();
-        params.setRequestId(UUIDs.timeBased().toString());
-        params.setOwner(getOwner(authorization));
-        params.setOperationId(operationId);
-        params.setCpid(identifier);
-        params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
-        params.setNewStage(Stage.fromValue(stage).value());
-        params.setProcessType("enquiry");
-        params.setOperationType("createEnquiry");
-        params.setToken(token);
-        saveRequestAndCheckOperation(params, jsonData);
+        final Context context = new Context();
+        context.setRequestId(UUIDs.timeBased().toString());
+        context.setOwner(getOwner(authorization));
+        context.setOperationId(operationId);
+        context.setCpid(identifier);
+        context.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
+        context.setStage(Stage.fromValue(stage).value());
+        context.setProcessType("enquiry");
+        context.setOperationType("createEnquiry");
+        context.setToken(token);
+        saveRequestAndCheckOperation(context, jsonData);
         final Map<String, Object> variables = new HashMap<>();
-        variables.put("isTokenPresent", (params.getToken() == null || "".equals(params.getToken().trim())) ? 0 : 1);
+        variables.put("isTokenPresent", (context.getToken() == null || "".equals(context.getToken().trim())) ? 0 : 1);
         variables.put("allAnswered", 0);
-        processService.startProcess(params, variables);
+        processService.startProcess(context, variables);
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
@@ -215,25 +215,25 @@ public class TenderController extends BaseController {
                                              @PathVariable("identifier") final String identifier,
                                              @RequestParam("stage") final String stage,
                                              @RequestBody final JsonNode jsonData) {
-        final Context params = new Context();
-        params.setRequestId(UUIDs.timeBased().toString());
-        params.setOwner(getOwner(authorization));
-        params.setOperationId(operationId);
-        params.setCpid(identifier);
-        params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
-        params.setNewStage(Stage.fromValue(stage).value());
+        final Context context = new Context();
+        context.setRequestId(UUIDs.timeBased().toString());
+        context.setOwner(getOwner(authorization));
+        context.setOperationId(operationId);
+        context.setCpid(identifier);
+        context.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
+        context.setStage(Stage.fromValue(stage).value());
         final Map<String, Object> variables = new HashMap<>();
-        if (params.getNewStage().equals(Stage.EV.value())) {
+        if (context.getStage().equals(Stage.EV.value())) {
             variables.put("awardStatusDetails", "");
-            params.setProcessType("awardByBidEv");
-            params.setOperationType("awardByBidEv");
+            context.setProcessType("awardByBidEv");
+            context.setOperationType("awardByBidEv");
         } else {
-            params.setProcessType("awardByBid");
-            params.setOperationType("awardByBid");
+            context.setProcessType("awardByBid");
+            context.setOperationType("awardByBid");
         }
-        params.setToken(token);
-        saveRequestAndCheckOperation(params, jsonData);
-        processService.startProcess(params, variables);
+        context.setToken(token);
+        saveRequestAndCheckOperation(context, jsonData);
+        processService.startProcess(context, variables);
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
@@ -242,24 +242,24 @@ public class TenderController extends BaseController {
                                                  @RequestHeader("X-OPERATION-ID") final String operationId,
                                                  @PathVariable("identifier") final String identifier,
                                                  @RequestParam("stage") final String stage) {
-        final Context params = new Context();
-        params.setRequestId(UUIDs.timeBased().toString());
-        params.setOwner(getOwner(authorization));
-        params.setOperationId(operationId);
-        params.setCpid(identifier);
-        params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
-        params.setNewStage(Stage.fromValue(stage).value());
+        final Context context = new Context();
+        context.setRequestId(UUIDs.timeBased().toString());
+        context.setOwner(getOwner(authorization));
+        context.setOperationId(operationId);
+        context.setCpid(identifier);
+        context.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
+        context.setStage(Stage.fromValue(stage).value());
         final Map<String, Object> variables = new HashMap<>();
-        if (params.getNewStage().equals(Stage.EV.value())) {
-            params.setProcessType("awardPeriodEndEv");
-            params.setOperationType("awardPeriodEndEv");
+        if (context.getStage().equals(Stage.EV.value())) {
+            context.setProcessType("awardPeriodEndEv");
+            context.setOperationType("awardPeriodEndEv");
         } else {
-            params.setProcessType("awardPeriodEnd");
-            params.setOperationType("awardPeriodEnd");
+            context.setProcessType("awardPeriodEnd");
+            context.setOperationType("awardPeriodEnd");
         }
-        params.setPhase("ENDSTAGE");
-        saveRequestAndCheckOperation(params, null);
-        processService.startProcess(params, variables);
+        context.setPhase("ENDSTAGE");
+        saveRequestAndCheckOperation(context, null);
+        processService.startProcess(context, variables);
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
@@ -271,20 +271,20 @@ public class TenderController extends BaseController {
                                            @RequestParam("stage") final String stage,
                                            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
                                            @RequestParam("endDate") final LocalDateTime endDate) {
-        final Context params = new Context();
-        params.setRequestId(UUIDs.timeBased().toString());
-        params.setOwner(getOwner(authorization));
-        params.setOperationId(operationId);
-        params.setCpid(identifier);
-        params.setToken(token);
-        params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
-        params.setEndDate(dateUtil.format(endDate));
-        params.setNewStage(Stage.fromValue(stage).value());
-        params.setProcessType("startNewStage");
-        params.setOperationType("startNewStage");
-        params.setPhase("TENDERPERIOD");
-        saveRequestAndCheckOperation(params, null);
-        processService.startProcess(params, new HashMap<>());
+        final Context context = new Context();
+        context.setRequestId(UUIDs.timeBased().toString());
+        context.setOwner(getOwner(authorization));
+        context.setOperationId(operationId);
+        context.setCpid(identifier);
+        context.setToken(token);
+        context.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
+        context.setEndDate(dateUtil.format(endDate));
+        context.setStage(Stage.fromValue(stage).value());
+        context.setProcessType("startNewStage");
+        context.setOperationType("startNewStage");
+        context.setPhase("TENDERPERIOD");
+        saveRequestAndCheckOperation(context, null);
+        processService.startProcess(context, new HashMap<>());
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
@@ -295,28 +295,28 @@ public class TenderController extends BaseController {
                                            @RequestParam("stage") final String stage,
                                            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
                                            @RequestParam("endDate") final LocalDateTime endDate) {
-        final Context params = new Context();
-        params.setRequestId(UUIDs.timeBased().toString());
-        params.setOwner(getOwner(authorization));
-        params.setOperationId(operationId);
-        params.setCpid(identifier);
-        params.setNewStage(Stage.fromValue(stage).value());
-        if (params.getNewStage().equals(Stage.EV.value())) {
-            params.setProcessType("tenderPeriodEndEv");
-            params.setOperationType("tenderPeriodEndEv");
+        final Context context = new Context();
+        context.setRequestId(UUIDs.timeBased().toString());
+        context.setOwner(getOwner(authorization));
+        context.setOperationId(operationId);
+        context.setCpid(identifier);
+        context.setStage(Stage.fromValue(stage).value());
+        if (context.getStage().equals(Stage.EV.value())) {
+            context.setProcessType("tenderPeriodEndEv");
+            context.setOperationType("tenderPeriodEndEv");
         } else {
-            params.setProcessType("tenderPeriodEnd");
-            params.setOperationType("tenderPeriodEnd");
+            context.setProcessType("tenderPeriodEnd");
+            context.setOperationType("tenderPeriodEnd");
         }
-        params.setCountry("TEST");
-        params.setPmd("TEST_RT");
-        params.setPhase("AWARDPERIOD");
-        params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
-        params.setEndDate(dateUtil.format(endDate));
+        context.setCountry("TEST");
+        context.setPmd("TEST_RT");
+        context.setPhase("AWARDPERIOD");
+        context.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
+        context.setEndDate(dateUtil.format(endDate));
         final Map<String, Object> variables = new HashMap<>();
         variables.put("checkEnquiries", 0);
-        saveRequestAndCheckOperation(params, null);
-        processService.startProcess(params, variables);
+        saveRequestAndCheckOperation(context, null);
+        processService.startProcess(context, variables);
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
@@ -325,30 +325,30 @@ public class TenderController extends BaseController {
 //                                          @RequestHeader("X-OPERATION-ID") final String operationId,
 //                                          @RequestParam("identifier") final String identifier,
 //                                          @RequestParam("stage") final String stage) {
-//        final Context params = new Context();
-//        params.setRequestId(UUIDs.timeBased().toString());
-//        params.setOwner(getOwner(authorization));
-//        params.setOperationId(operationId);
-//        params.setCpid(identifier);
-//        params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
-//        params.setEndDate(dateUtil.format(dateUtil.localDateTimeNowUTC().plusMinutes(2)));
-//        params.setNewStage(Stage.fromValue(stage).value());
-//        params.setProcessType("chronoTest");
-//        params.setOperationType("chronoTest");
-//        saveRequestAndCheckOperation(params, null);
+//        final Context context = new Context();
+//        context.setRequestId(UUIDs.timeBased().toString());
+//        context.setOwner(getOwner(authorization));
+//        context.setOperationId(operationId);
+//        context.setCpid(identifier);
+//        context.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
+//        context.setEndDate(dateUtil.format(dateUtil.localDateTimeNowUTC().plusMinutes(2)));
+//        context.setStage(Stage.fromValue(stage).value());
+//        context.setProcessType("chronoTest");
+//        context.setOperationType("chronoTest");
+//        saveRequestAndCheckOperation(context, null);
 //        final Map<String, Object> variables = new HashMap<>();
-//        processService.startProcess(params, variables);
+//        processService.startProcess(context, variables);
 //        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
 //    }
 //
 //    @RequestMapping(value = "/test", method = RequestMethod.POST)
 //    public ResponseEntity<String> test(@RequestBody final JsonNode jsonData) throws Exception{
-//        final Context params = new Context();
-//        params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
-//        final JsonNode checkFsDto = processService.getCheckFs(jsonData, params.getStartDate(), "");
+//        final Context context = new Context();
+//        context.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
+//        final JsonNode checkFsDto = processService.getCheckFs(jsonData, context.getStartDate(), "");
 //        final JsonNode responseData = processService.processResponse(
 //                budgetRestClient.checkFs(checkFsDto),
-//                params,
+//                context,
 //                "",
 //                "",
 //                checkFsDto);

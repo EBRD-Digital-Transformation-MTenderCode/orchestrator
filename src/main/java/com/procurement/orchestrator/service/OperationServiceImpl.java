@@ -71,7 +71,7 @@ public class OperationServiceImpl implements OperationService {
         operationStepEntity.setTaskId(execution.getCurrentActivityId());
         operationStepEntity.setOperationId(requestEntity.getOperationId());
         operationStepEntity.setDate(dateUtil.dateNowUTC());
-        operationStepEntity.setJsonParams(requestEntity.getJsonParams());
+        operationStepEntity.setContext(requestEntity.getContext());
         operationStepEntity.setRequestData(requestEntity.getJsonData());
         operationStepEntity.setResponseData(requestEntity.getJsonData());
         cassandraDao.saveOperationStep(operationStepEntity);
@@ -113,14 +113,14 @@ public class OperationServiceImpl implements OperationService {
     }
 
     @Override
-    public void saveOperationStep(final DelegateExecution execution, final OperationStepEntity entity, final Context params, final JsonNode request) {
+    public void saveOperationStep(final DelegateExecution execution, final OperationStepEntity entity, final Context context, final JsonNode request) {
         execution.setVariable(LAST_TASK, execution.getCurrentActivityId());
         entity.setTaskId(execution.getCurrentActivityId());
-        entity.setJsonParams(jsonUtil.toJson(params));
+        entity.setContext(jsonUtil.toJson(context));
         entity.setRequestData(jsonUtil.toJson(request));
         entity.setDate(dateUtil.dateNowUTC());
-        if (Objects.nonNull(params.getCpid()))
-            entity.setCpId(params.getCpid());
+        if (Objects.nonNull(context.getCpid()))
+            entity.setCpId(context.getCpid());
         cassandraDao.saveOperationStep(entity);
     }
 
@@ -135,25 +135,25 @@ public class OperationServiceImpl implements OperationService {
     }
 
     @Override
-    public void saveOperationStep(final DelegateExecution execution, final OperationStepEntity entity, final Context params, final JsonNode request, final JsonNode response) {
+    public void saveOperationStep(final DelegateExecution execution, final OperationStepEntity entity, final Context context, final JsonNode request, final JsonNode response) {
         execution.setVariable(LAST_TASK, execution.getCurrentActivityId());
         entity.setTaskId(execution.getCurrentActivityId());
-        entity.setJsonParams(jsonUtil.toJson(params));
+        entity.setContext(jsonUtil.toJson(context));
         entity.setRequestData(jsonUtil.toJson(request));
         entity.setResponseData(jsonUtil.toJson(response));
         entity.setDate(dateUtil.dateNowUTC());
-        if (Objects.nonNull(params.getCpid()))
-            entity.setCpId(params.getCpid());
+        if (Objects.nonNull(context.getCpid()))
+            entity.setCpId(context.getCpid());
         cassandraDao.saveOperationStep(entity);
     }
 
     @Override
-    public void saveOperationException(final String processId, final String taskId, final Context params, final JsonNode request, final JsonNode response) {
+    public void saveOperationException(final String processId, final String taskId, final Context context, final JsonNode request, final JsonNode response) {
         final OperationStepEntity operationStepEntity = new OperationStepEntity();
         operationStepEntity.setProcessId(processId);
         operationStepEntity.setTaskId(taskId);
-        operationStepEntity.setOperationId(params.getOperationId());
-        operationStepEntity.setCpId(params.getCpid());
+        operationStepEntity.setOperationId(context.getOperationId());
+        operationStepEntity.setCpId(context.getCpid());
         operationStepEntity.setDate(dateUtil.dateNowUTC());
         operationStepEntity.setRequestData(jsonUtil.toJson(request));
         operationStepEntity.setResponseData(jsonUtil.toJson(response));
@@ -161,23 +161,20 @@ public class OperationServiceImpl implements OperationService {
     }
 
     @Override
-    public void saveStageParams(final Context params) {
-        final StageEntity stageEntity = new StageEntity();
-        stageEntity.setCpId(params.getCpid());
-        stageEntity.setStage(params.getNewStage());
-        stageEntity.setCountry(params.getCountry());
-        stageEntity.setPmd(params.getPmd());
-        stageEntity.setPhase(params.getPhase());
-        cassandraDao.saveStage(stageEntity);
+    public void saveContext(final Context context) {
+        final ContextEntity contextEntity = new ContextEntity();
+        contextEntity.setCpId(context.getCpid());
+        contextEntity.setContext(jsonUtil.toJson(context));
+        cassandraDao.saveContext(contextEntity);
     }
 
     @Override
-    public StageEntity getStageParams(final String cpId, final String processId) {
-        final Optional<StageEntity> entityOptional = cassandraDao.getStageByCpId(cpId);
+    public Context getContext(final String cpId, final String processId) {
+        final Optional<ContextEntity> entityOptional = cassandraDao.getContextByCpId(cpId);
         if (entityOptional.isPresent()) {
-            return entityOptional.get();
+            return jsonUtil.toObject(Context.class, entityOptional.get().getContext());
         } else {
-            processException("No stage params found!", processId);
+            processException("No context found!", processId);
             return null;
         }
     }

@@ -41,21 +41,21 @@ public class NoticeCreateRelease implements JavaDelegate {
     public void execute(final DelegateExecution execution) throws Exception {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
-        final Context params = jsonUtil.toObject(Context.class, entity.getJsonParams());
+        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final JsonNode requestData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode responseData = processService.processResponse(
                 noticeRestClient.createRelease(
-                        params.getCpid(),
-                        params.getOcid(),
-                        params.getNewStage(),
-                        params.getPrevStage(),
-                        params.getOperationType(),
-                        params.getPhase(),
-                        params.getStartDate(),
+                        context.getCpid(),
+                        context.getOcid(),
+                        context.getStage(),
+                        context.getPrevStage(),
+                        context.getOperationType(),
+                        context.getPhase(),
+                        context.getStartDate(),
                         requestData),
-                params,
+                context,
                 processId,
                 taskId,
                 requestData);

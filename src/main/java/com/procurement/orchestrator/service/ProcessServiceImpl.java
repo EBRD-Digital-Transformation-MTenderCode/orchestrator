@@ -34,22 +34,22 @@ public class ProcessServiceImpl implements ProcessService {
         this.jsonUtil = jsonUtil;
     }
 
-    public void startProcess(final Context params, final Map<String, Object> variables) {
-        variables.put("requestId", params.getRequestId());
-        runtimeService.startProcessInstanceByKey(params.getProcessType(), params.getOperationId(), variables);
+    public void startProcess(final Context context, final Map<String, Object> variables) {
+        variables.put("requestId", context.getRequestId());
+        runtimeService.startProcessInstanceByKey(context.getProcessType(), context.getOperationId(), variables);
     }
 
-    public void startProcessCheckRules(final Context params) {
+    public void startProcessCheckRules(final Context context) {
         final Map<String, Object> variables = new HashMap<>();
-        variables.put("requestId", params.getRequestId());
+        variables.put("requestId", context.getRequestId());
         variables.put("checkRules", 1);
         variables.put("message", "");
         runtimeService.startProcessInstanceByKey("checkRules", variables);
     }
 
-    public void startProcessError(final Context params, final String message) {
+    public void startProcessError(final Context context, final String message) {
         final Map<String, Object> variables = new HashMap<>();
-        variables.put("requestId", params.getRequestId());
+        variables.put("requestId", context.getRequestId());
         variables.put("message", message);
         runtimeService.startProcessInstanceByKey("error", variables);
     }
@@ -60,10 +60,10 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
 
-    public void terminateProcessWithMessage(final Context params, final String processId, final String message) {
+    public void terminateProcessWithMessage(final Context context, final String processId, final String message) {
         LOG.error(message);
         runtimeService.deleteProcessInstance(processId, message);
-        startProcessError(params, message);
+        startProcessError(context, message);
     }
 
     public CommandMessage getCommandMessage(final CommandType commandType, final Context context, final JsonNode data) {
@@ -71,25 +71,25 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     public JsonNode processResponse(final ResponseEntity<ResponseDto> responseEntity,
-                                    final Context params,
+                                    final Context context,
                                     final String processId,
                                     final String taskId,
                                     final JsonNode request) {
         if (responseEntity.getBody().getDetails() != null) {
-            operationService.saveOperationException(processId, taskId, params, request, jsonUtil.toJsonNode(responseEntity.getBody()));
+            operationService.saveOperationException(processId, taskId, context, request, jsonUtil.toJsonNode(responseEntity.getBody()));
             final List<ResponseDetailsDto> details = responseEntity.getBody().getDetails();
             final String message = Objects.nonNull(details) ?
-                    "Error in operation: " + params.getOperationId() + "; message: " + jsonUtil.toJson(details) : "";
+                    "Error in operation: " + context.getOperationId() + "; message: " + jsonUtil.toJson(details) : "";
             runtimeService.deleteProcessInstance(processId, message);
-            startProcessError(params, message);
+            startProcessError(context, message);
             return null;
         } else if (responseEntity.getBody().getErrors() != null) {
-            operationService.saveOperationException(processId, taskId, params, request, jsonUtil.toJsonNode(responseEntity.getBody()));
+            operationService.saveOperationException(processId, taskId, context, request, jsonUtil.toJsonNode(responseEntity.getBody()));
             final List<ResponseErrorDto> errors = responseEntity.getBody().getErrors();
             final String message = Objects.nonNull(errors) ?
-                    "Error in operation: " + params.getOperationId() + "; message: " + jsonUtil.toJson(errors) : "";
+                    "Error in operation: " + context.getOperationId() + "; message: " + jsonUtil.toJson(errors) : "";
             runtimeService.deleteProcessInstance(processId, message);
-            startProcessError(params, message);
+            startProcessError(context, message);
             return null;
         } else {
             return jsonUtil.toJsonNode(responseEntity.getBody().getData());
@@ -124,25 +124,25 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
 
-    public Context addAccessToParams(final Context params,
+    public Context addAccessTocontext(final Context context,
                                      final String entityType,
                                      final String entityId,
                                      final JsonNode responseData,
                                      final String processId) {
         final String entityToken = getText("token", responseData, processId);
-        params.setAccess(Arrays.asList(new EntityAccess(entityType, entityId, entityToken)));
-        return params;
+        context.setAccess(Arrays.asList(new EntityAccess(entityType, entityId, entityToken)));
+        return context;
     }
 
     @Override
-    public Context addBidAccessToParams(final Context params, final JsonNode responseData, final String processId) {
+    public Context addBidAccessTocontext(final Context context, final JsonNode responseData, final String processId) {
         final String entityToken = getText("token", responseData, processId);
         final String entityId = getText("bidId", responseData, processId);
-        params.setAccess(Arrays.asList(new EntityAccess("bid", entityId, entityToken)));
-        return params;
+        context.setAccess(Arrays.asList(new EntityAccess("bid", entityId, entityToken)));
+        return context;
     }
 
-    public Context addAwardAccessToParams(final Context params, final JsonNode responseData, final String processId) {
+    public Context addAwardAccessTocontext(final Context context, final JsonNode responseData, final String processId) {
         final ArrayNode awardsNode = (ArrayNode) responseData.get("awards");
         final List<EntityAccess> accesses = new ArrayList<>();
         for (final JsonNode awardNode : awardsNode) {
@@ -154,11 +154,11 @@ public class ProcessServiceImpl implements ProcessService {
                 );
             }
         }
-        params.setAccess(accesses);
-        return params;
+        context.setAccess(accesses);
+        return context;
     }
 
-    public Context addContractAccessToParams(final Context params, final JsonNode responseData,
+    public Context addContractAccessTocontext(final Context context, final JsonNode responseData,
                                              final String processId) {
         final ArrayNode contractsNode = (ArrayNode) responseData.get("contracts");
         final List<EntityAccess> accesses = new ArrayList<>();
@@ -169,8 +169,8 @@ public class ProcessServiceImpl implements ProcessService {
                     awardNode.get("token").asText())
             );
         }
-        params.setAccess(accesses);
-        return params;
+        context.setAccess(accesses);
+        return context;
     }
 
     public JsonNode addTenderTenderPeriod(final JsonNode jsonData, final JsonNode periodData,

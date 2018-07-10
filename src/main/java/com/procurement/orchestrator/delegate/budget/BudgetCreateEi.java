@@ -38,13 +38,13 @@ public class BudgetCreateEi implements JavaDelegate {
     public void execute(final DelegateExecution execution) throws Exception {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
-        final Context params = jsonUtil.toObject(Context.class, entity.getJsonParams());
+        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final JsonNode requestData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode responseData = processService.processResponse(
-                budgetRestClient.createEi(params.getOwner(), params.getCountry(), params.getStartDate(), requestData),
-                params,
+                budgetRestClient.createEi(context.getOwner(), context.getCountry(), context.getStartDate(), requestData),
+                context,
                 processId,
                 taskId,
                 requestData);
@@ -52,13 +52,13 @@ public class BudgetCreateEi implements JavaDelegate {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    addDataToParams(params, responseData, processId),
+                    addDataToContext(context, responseData, processId),
                     requestData,
                     responseData);
     }
 
-    private Context addDataToParams(final Context params, final JsonNode responseData, final String processId) {
-        params.setCpid(processService.getText("ocid", responseData, processId));
-        return processService.addAccessToParams(params, "ei", params.getCpid(), responseData, processId);
+    private Context addDataToContext(final Context context, final JsonNode responseData, final String processId) {
+        context.setCpid(processService.getText("ocid", responseData, processId));
+        return processService.addAccessTocontext(context, "ei", context.getCpid(), responseData, processId);
     }
 }

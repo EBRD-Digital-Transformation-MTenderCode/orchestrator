@@ -38,17 +38,17 @@ public class EvaluationGetAwards implements JavaDelegate {
     public void execute(final DelegateExecution execution) throws Exception {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
-        final Context params = jsonUtil.toObject(Context.class, entity.getJsonParams());
+        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final JsonNode requestData = jsonUtil.toJsonNode(entity.getResponseData());
         final String taskId = execution.getCurrentActivityId();
         final String processId = execution.getProcessInstanceId();
         final JsonNode responseData = processService.processResponse(
                 evaluationRestClient.getAwards(
-                        params.getCpid(),
-                        params.getNewStage(),
-                        params.getCountry(),
-                        params.getPmd()),
-                params,
+                        context.getCpid(),
+                        context.getStage(),
+                        context.getCountry(),
+                        context.getPmd()),
+                context,
                 processId,
                 taskId,
                 requestData);

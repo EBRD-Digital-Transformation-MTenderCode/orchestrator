@@ -38,14 +38,14 @@ public class BudgetCheckFs implements JavaDelegate {
     public void execute(final DelegateExecution execution) throws Exception {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
-        final Context params = jsonUtil.toObject(Context.class, entity.getJsonParams());
+        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode checkFsDto = processService.getCheckFs(jsonData, params.getStartDate(), processId);
+        final JsonNode checkFsDto = processService.getCheckFs(jsonData, context.getStartDate(), processId);
         final JsonNode responseData = processService.processResponse(
                 budgetRestClient.checkFs(checkFsDto),
-                params,
+                context,
                 processId,
                 taskId,
                 checkFsDto);

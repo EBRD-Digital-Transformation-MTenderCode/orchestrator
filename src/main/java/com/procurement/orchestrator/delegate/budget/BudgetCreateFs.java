@@ -40,13 +40,13 @@ public class BudgetCreateFs implements JavaDelegate {
     public void execute(final DelegateExecution execution) throws Exception {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
-        final Context params = jsonUtil.toObject(Context.class, entity.getJsonParams());
+        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final JsonNode requestData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode responseData = processService.processResponse(
-                budgetRestClient.createFs(params.getCpid(), params.getOwner(), params.getStartDate(), requestData),
-                params,
+                budgetRestClient.createFs(context.getCpid(), context.getOwner(), context.getStartDate(), requestData),
+                context,
                 processId,
                 taskId,
                 requestData);
@@ -54,15 +54,15 @@ public class BudgetCreateFs implements JavaDelegate {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    addDataToParams(params, responseData, processId),
+                    addDataTocontext(context, responseData, processId),
                     requestData,
                     responseData);
     }
 
-    private Context addDataToParams(final Context params, final JsonNode responseData, final String processId) {
-        params.setOcid(processService.getFsId(responseData, processId));
-        params.setToken(processService.getFsToken(responseData, processId));
-        params.setAccess(Arrays.asList(new EntityAccess("fs", params.getOcid(), params.getToken())));
-        return params;
+    private Context addDataTocontext(final Context context, final JsonNode responseData, final String processId) {
+        context.setOcid(processService.getFsId(responseData, processId));
+        context.setToken(processService.getFsToken(responseData, processId));
+        context.setAccess(Arrays.asList(new EntityAccess("fs", context.getOcid(), context.getToken())));
+        return context;
     }
 }

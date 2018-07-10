@@ -3,7 +3,6 @@ package com.procurement.orchestrator.delegate.stage;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
-import com.procurement.orchestrator.domain.entity.StageEntity;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -36,20 +35,20 @@ public class CheckStage implements JavaDelegate {
         LOG.info(execution.getCurrentActivityName());
         final String processId = execution.getProcessInstanceId();
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
-        final Context params = jsonUtil.toObject(Context.class, entity.getJsonParams());
+        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
-        final StageEntity stageEntity = operationService.getStageParams(params.getCpid(), processId);
-        if (stageEntity != null) {
-            if (!params.getNewStage().equals(stageEntity.getStage())) {
-                processService.terminateProcessWithMessage(params, processId, OPERATION_ERROR);
+        final Context prevContext = operationService.getContext(context.getCpid(), processId);
+        if (prevContext != null) {
+            if (!context.getStage().equals(prevContext.getStage())) {
+                processService.terminateProcessWithMessage(context, processId, OPERATION_ERROR);
             } else {
-                params.setCountry(stageEntity.getCountry());
-                params.setPmd(stageEntity.getPmd());
-                params.setPrevStage(stageEntity.getStage());
-                operationService.saveOperationStep(execution, entity, params, jsonData);
+                context.setCountry(prevContext.getCountry());
+                context.setPmd(prevContext.getPmd());
+                context.setPrevStage(prevContext.getStage());
+                operationService.saveOperationStep(execution, entity, context, jsonData);
             }
         } else {
-            processService.terminateProcessWithMessage(params, processId, STAGE_ERROR);
+            processService.terminateProcessWithMessage(context, processId, STAGE_ERROR);
         }
     }
 }

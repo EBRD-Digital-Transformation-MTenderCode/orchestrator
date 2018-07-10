@@ -11,14 +11,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SaveStageParams implements JavaDelegate {
+public class SaveContext implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SaveStageParams.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SaveContext.class);
     private final OperationService operationService;
     private final JsonUtil jsonUtil;
 
-    public SaveStageParams(final OperationService operationService,
-                           final JsonUtil jsonUtil) {
+    public SaveContext(final OperationService operationService,
+                       final JsonUtil jsonUtil) {
         this.operationService = operationService;
         this.jsonUtil = jsonUtil;
     }
@@ -27,8 +27,8 @@ public class SaveStageParams implements JavaDelegate {
     public void execute(final DelegateExecution execution) {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
-        final Context params = jsonUtil.toObject(Context.class, entity.getJsonParams());
-        operationService.saveStageParams(params);
-        operationService.saveOperationStep(execution, entity, params, jsonUtil.empty(), jsonUtil.empty());
+        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
+        operationService.saveContext(context);
+        operationService.saveOperationStep(execution, entity, context, jsonUtil.empty(), jsonUtil.empty());
     }
 }

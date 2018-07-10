@@ -38,23 +38,23 @@ public class ClarificationCheckEnquiries implements JavaDelegate {
     public void execute(final DelegateExecution execution) throws Exception {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
-        final Context params = jsonUtil.toObject(Context.class, entity.getJsonParams());
+        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final JsonNode requestData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode responseData = processService.processResponse(
-                clarificationRestClient.checkEnquiries(params.getCpid(), params.getNewStage()),
-                params,
+                clarificationRestClient.checkEnquiries(context.getCpid(), context.getStage()),
+                context,
                 processId,
                 taskId,
                 requestData);
         if (Objects.nonNull(responseData)) {
-            processParams(execution, params, responseData, processId);
-            operationService.saveOperationStep(execution, entity, params, requestData, responseData);
+            processcontext(execution, context, responseData, processId);
+            operationService.saveOperationStep(execution, entity, context, requestData, responseData);
         }
     }
 
-    private void processParams(final DelegateExecution execution, final Context params, final JsonNode responseData, final String processId) {
+    private void processcontext(final DelegateExecution execution, final Context context, final JsonNode responseData, final String processId) {
         final Boolean allAnswered = processService.getBoolean("allAnswered", responseData, processId);
         if (allAnswered != null) {
             execution.setVariable("checkEnquiries", allAnswered ? 1 : 2);
@@ -62,8 +62,8 @@ public class ClarificationCheckEnquiries implements JavaDelegate {
             final String endDate = processService.getText("tenderPeriodEndDate", responseData, processId);
             execution.setVariable("checkEnquiries", 3);
             if (endDate != null) {
-                params.setEndDate(endDate);
-                params.setOperationType("suspendTender");
+                context.setEndDate(endDate);
+                context.setOperationType("suspendTender");
             }
         }
     }

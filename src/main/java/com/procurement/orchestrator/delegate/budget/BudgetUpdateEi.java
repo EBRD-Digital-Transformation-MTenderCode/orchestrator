@@ -41,21 +41,21 @@ public class BudgetUpdateEi implements JavaDelegate {
     public void execute(final DelegateExecution execution) throws Exception {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
-        final Context params = jsonUtil.toObject(Context.class, entity.getJsonParams());
+        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final JsonNode requestData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode responseData = processService.processResponse(
                 budgetRestClient.updateEi(
-                        params.getCpid(),
-                        params.getOwner(),
-                        params.getToken(),
+                        context.getCpid(),
+                        context.getOwner(),
+                        context.getToken(),
                         requestData),
-                params,
+                context,
                 processId,
                 taskId,
                 requestData);
         if (Objects.nonNull(responseData))
-            operationService.saveOperationStep(execution, entity, params, requestData, responseData);
+            operationService.saveOperationStep(execution, entity, context, requestData, responseData);
     }
 }

@@ -41,22 +41,22 @@ public class QualificationEndAwardPeriod implements JavaDelegate {
     public void execute(final DelegateExecution execution) throws Exception {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
-        final Context params = jsonUtil.toObject(Context.class, entity.getJsonParams());
+        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        params.setOperationType("awardPeriodEnd");
+        context.setOperationType("awardPeriodEnd");
         final JsonNode responseData = processService.processResponse(
                 qualificationRestClient.endAwardPeriod(
-                        params.getCpid(),
-                        params.getNewStage(),
-                        params.getCountry(),
-                        params.getPmd(),
-                        params.getEndDate()),
-                params,
+                        context.getCpid(),
+                        context.getStage(),
+                        context.getCountry(),
+                        context.getPmd(),
+                        context.getEndDate()),
+                context,
                 processId,
                 taskId,
                 jsonUtil.empty());
         if (Objects.nonNull(responseData))
-            operationService.saveOperationStep(execution, entity, params, jsonUtil.empty(), responseData);
+            operationService.saveOperationStep(execution, entity, context, jsonUtil.empty(), responseData);
     }
 }

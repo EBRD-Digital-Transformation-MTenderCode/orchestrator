@@ -12,20 +12,20 @@ import org.springframework.stereotype.Service;
 @Service
 public interface ProcessService {
 
-    void startProcess(Context params, Map<String, Object> variables);
+    void startProcess(Context context, Map<String, Object> variables);
 
-    void startProcessCheckRules(Context params);
+    void startProcessCheckRules(Context context);
 
-    void startProcessError(Context params, String message);
+    void startProcessError(Context context, String message);
 
     void terminateProcess(String processId, String message);
 
-    void terminateProcessWithMessage(Context params, String processId, String message);
+    void terminateProcessWithMessage(Context context, String processId, String message);
 
     CommandMessage getCommandMessage(CommandType commandType, Context context, JsonNode data);
 
     JsonNode processResponse(ResponseEntity<ResponseDto> responseEntity,
-                             Context params,
+                             Context context,
                              String processId,
                              String taskId,
                              JsonNode request);
@@ -36,13 +36,13 @@ public interface ProcessService {
 
     String getTenderPeriodEndDate(JsonNode jsonData, String processId);
 
-    Context addAccessToParams(Context params, String entityType, String entityId, JsonNode responseData, String processId);
+    Context addAccessTocontext(Context context, String entityType, String entityId, JsonNode responseData, String processId);
 
-    Context addBidAccessToParams(Context params, JsonNode responseData, String processId);
+    Context addBidAccessTocontext(Context context, JsonNode responseData, String processId);
 
-    Context addAwardAccessToParams(Context params, JsonNode responseData, String processId);
+    Context addAwardAccessTocontext(Context context, JsonNode responseData, String processId);
 
-    Context addContractAccessToParams(Context params, JsonNode responseData, String processId);
+    Context addContractAccessTocontext(Context context, JsonNode responseData, String processId);
 
     JsonNode addTenderTenderPeriod(JsonNode jsonData, JsonNode periodData, String processId);
 

@@ -35,21 +35,21 @@ public class SetOperationTypeForPin implements JavaDelegate {
         LOG.info(execution.getCurrentActivityName());
         final String processId = execution.getProcessInstanceId();
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
-        final Context params = jsonUtil.toObject(Context.class, entity.getJsonParams());
+        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
-        switch (Stage.fromValue(params.getPrevStage())) {
+        switch (Stage.fromValue(context.getPrevStage())) {
             case PN:
-                params.setOperationType("createPINonPN");
+                context.setOperationType("createPINonPN");
                 execution.setVariable("operationType", "createPINonPN");
-                operationService.saveOperationStep(execution, entity, params, jsonData);
+                operationService.saveOperationStep(execution, entity, context, jsonData);
                 break;
             case PIN:
-                params.setOperationType("updatePIN");
+                context.setOperationType("updatePIN");
                 execution.setVariable("operationType", "updatePIN");
-                operationService.saveOperationStep(execution, entity, params, jsonData);
+                operationService.saveOperationStep(execution, entity, context, jsonData);
                 break;
             default:
-                processService.terminateProcessWithMessage(params, processId, OPERATION_ERROR);
+                processService.terminateProcessWithMessage(context, processId, OPERATION_ERROR);
         }
     }
 }

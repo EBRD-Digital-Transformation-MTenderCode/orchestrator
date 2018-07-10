@@ -42,18 +42,18 @@ public class ClarificationCreateEnquiry implements JavaDelegate {
     public void execute(final DelegateExecution execution) throws Exception {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
-        final Context params = jsonUtil.toObject(Context.class, entity.getJsonParams());
+        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final JsonNode requestData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode responseData = processService.processResponse(
                 clarificationRestClient.createEnquiry(
-                        params.getCpid(),
-                        params.getNewStage(),
-                        params.getOwner(),
-                        params.getStartDate(),
+                        context.getCpid(),
+                        context.getStage(),
+                        context.getOwner(),
+                        context.getStartDate(),
                         requestData),
-                params,
+                context,
                 processId,
                 taskId,
                 requestData);
@@ -61,12 +61,12 @@ public class ClarificationCreateEnquiry implements JavaDelegate {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    addDataToParams(params, responseData, processId),
+                    addDataTocontext(context, responseData, processId),
                     requestData,
                     responseData);
     }
 
-    private Context addDataToParams(final Context params, final JsonNode responseData, final String processId) {
-        return processService.addAccessToParams(params, "enquiry", null, responseData, processId);
+    private Context addDataTocontext(final Context context, final JsonNode responseData, final String processId) {
+        return processService.addAccessTocontext(context, "enquiry", null, responseData, processId);
     }
 }

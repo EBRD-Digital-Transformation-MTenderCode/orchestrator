@@ -41,17 +41,17 @@ public class AccessSuspendTender implements JavaDelegate {
     public void execute(final DelegateExecution execution) throws Exception {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
-        final Context params = jsonUtil.toObject(Context.class, entity.getJsonParams());
+        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        params.setOperationType("suspendTender");
+        context.setOperationType("suspendTender");
         final JsonNode responseData = processService.processResponse(
                 accessRestClient.setSuspended(
-                        params.getCpid(),
-                        params.getNewStage(),
+                        context.getCpid(),
+                        context.getStage(),
                         true),
-                params,
+                context,
                 processId,
                 taskId,
                 jsonUtil.empty());
@@ -59,7 +59,7 @@ public class AccessSuspendTender implements JavaDelegate {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    params,
+                    context,
                     jsonUtil.empty(),
                     processService.addTenderStatus(jsonData, responseData, processId));
     }

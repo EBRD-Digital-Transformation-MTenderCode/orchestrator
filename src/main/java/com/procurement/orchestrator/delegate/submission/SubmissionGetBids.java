@@ -38,30 +38,30 @@ public class SubmissionGetBids implements JavaDelegate {
     public void execute(final DelegateExecution execution) throws Exception {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
-        final Context params = jsonUtil.toObject(Context.class, entity.getJsonParams());
+        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode responseData = processService.processResponse(
                 submissionRestClient.getBids(
-                        params.getCpid(),
-                        params.getNewStage(),
-                        params.getCountry(),
-                        params.getPmd()),
-                params,
+                        context.getCpid(),
+                        context.getStage(),
+                        context.getCountry(),
+                        context.getPmd()),
+                context,
                 processId,
                 taskId,
                 jsonUtil.empty());
         if (Objects.nonNull(responseData)) {
-            processParams(execution, params, responseData, processId);
-            operationService.saveOperationStep(execution, entity, params, jsonUtil.empty(), responseData);
+            processcontext(execution, context, responseData, processId);
+            operationService.saveOperationStep(execution, entity, context, jsonUtil.empty(), responseData);
         }
     }
 
-    private void processParams(final DelegateExecution execution, final Context params, final JsonNode responseData, final String processId) {
+    private void processcontext(final DelegateExecution execution, final Context context, final JsonNode responseData, final String processId) {
         final Boolean isBidsEmpty = processService.isBidsEmpty(responseData, processId);
         if (isBidsEmpty) {
             execution.setVariable("tenderUnsuccessful", 1);
-            params.setOperationType("tenderUnsuccessful");
+            context.setOperationType("tenderUnsuccessful");
         } else {
             execution.setVariable("tenderUnsuccessful", 0);
         }

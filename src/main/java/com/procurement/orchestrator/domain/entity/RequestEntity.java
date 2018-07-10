@@ -20,6 +20,6 @@ public class RequestEntity {
 
     private String jsonData;
 
-    private String jsonParams;
+    private String context;
 
 }

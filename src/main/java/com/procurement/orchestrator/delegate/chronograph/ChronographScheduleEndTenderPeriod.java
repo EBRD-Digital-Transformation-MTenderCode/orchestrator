@@ -47,33 +47,33 @@ public class ChronographScheduleEndTenderPeriod implements JavaDelegate {
     public void execute(final DelegateExecution execution) {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
-        final Context params = jsonUtil.toObject(Context.class, entity.getJsonParams());
-        /**set params for next process*/
-        final Context paramsForChronograph = new Context();
-        paramsForChronograph.setOperationId(UUIDs.timeBased().toString());
-        if (params.getNewStage().equals(Stage.EV.value())) {
-            paramsForChronograph.setProcessType(TENDER_PERIOD_END_EV);
-            paramsForChronograph.setOperationType(TENDER_PERIOD_END_EV);
+        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
+        /**set context for next process*/
+        final Context contextForChronograph = new Context();
+        contextForChronograph.setOperationId(UUIDs.timeBased().toString());
+        if (context.getStage().equals(Stage.EV.value())) {
+            contextForChronograph.setProcessType(TENDER_PERIOD_END_EV);
+            contextForChronograph.setOperationType(TENDER_PERIOD_END_EV);
         } else {
-            paramsForChronograph.setProcessType(TENDER_PERIOD_END);
-            paramsForChronograph.setOperationType(TENDER_PERIOD_END);
+            contextForChronograph.setProcessType(TENDER_PERIOD_END);
+            contextForChronograph.setOperationType(TENDER_PERIOD_END);
         }
-        paramsForChronograph.setPhase(NEXT_PHASE);
-        paramsForChronograph.setCpid(params.getCpid());
-        paramsForChronograph.setNewStage(params.getNewStage());
-        paramsForChronograph.setOwner(params.getOwner());
-        paramsForChronograph.setCountry(params.getCountry());
-        paramsForChronograph.setPmd(params.getPmd());
-        paramsForChronograph.setStartDate(params.getStartDate());
-        paramsForChronograph.setEndDate(params.getEndDate());
+        contextForChronograph.setPhase(NEXT_PHASE);
+        contextForChronograph.setCpid(context.getCpid());
+        contextForChronograph.setStage(context.getStage());
+        contextForChronograph.setOwner(context.getOwner());
+        contextForChronograph.setCountry(context.getCountry());
+        contextForChronograph.setPmd(context.getPmd());
+        contextForChronograph.setStartDate(context.getStartDate());
+        contextForChronograph.setEndDate(context.getEndDate());
 
         final ScheduleTask task = new ScheduleTask(
                 ActionType.SCHEDULE,
-                params.getCpid(),
+                context.getCpid(),
                 CURRENT_PHASE,
-                dateUtil.stringToLocal(params.getEndDate()),
+                dateUtil.stringToLocal(context.getEndDate()),
                 null,
-                jsonUtil.toJson(paramsForChronograph));
+                jsonUtil.toJson(contextForChronograph));
         messageProducer.sendToChronograph(task);
         operationService.saveOperationStep(execution, entity, jsonUtil.toJsonNode(task));
     }

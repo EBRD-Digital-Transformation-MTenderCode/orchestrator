@@ -41,37 +41,37 @@ public class AccessUpdateLotStatus implements JavaDelegate {
     public void execute(final DelegateExecution execution) throws Exception {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
-        final Context params = jsonUtil.toObject(Context.class, entity.getJsonParams());
+        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode unsuccessfulLots = processService.getUnsuccessfulLots(jsonData, processId);
         final JsonNode responseData = processService.processResponse(
                 accessRestClient.updateLotsStatus(
-                        params.getCpid(),
-                        params.getNewStage(),
+                        context.getCpid(),
+                        context.getStage(),
                         "unsuccessful",
                         unsuccessfulLots),
-                params,
+                context,
                 processId,
                 taskId,
                 unsuccessfulLots);
         if (Objects.nonNull(responseData)) {
-            processParams(execution, params, responseData, processId);
+            processcontext(execution, context, responseData, processId);
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    params,
+                    context,
                     unsuccessfulLots,
                     processService.addLots(jsonData, responseData, processId));
         }
     }
 
-    private void processParams(final DelegateExecution execution, final Context params, final JsonNode responseData, final String processId) {
+    private void processcontext(final DelegateExecution execution, final Context context, final JsonNode responseData, final String processId) {
         final String tenderStatus = processService.getText("tenderStatus", responseData, processId);
         if ("unsuccessful".equals(tenderStatus)) {
             execution.setVariable("tenderUnsuccessful", 1);
-            params.setOperationType("tenderUnsuccessful");
+            context.setOperationType("tenderUnsuccessful");
         } else {
             execution.setVariable("tenderUnsuccessful", 0);
         }

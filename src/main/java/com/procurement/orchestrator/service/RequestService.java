@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @Service
 public interface RequestService {
 
-    void saveRequest(String requestId, String operationId, Context jsonParams, JsonNode jsonData);
+    void saveRequest(String requestId, String operationId, Context context, JsonNode jsonData);
 
     RequestEntity getRequestById(String requestId, String processId);
 

@@ -36,26 +36,26 @@ public class SendMessageToPlatform implements JavaDelegate {
     public void execute(final DelegateExecution execution) {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
-        final Context params = jsonUtil.toObject(Context.class, entity.getJsonParams());
+        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final PlatformMessage message = new PlatformMessage(
                 true,
-                params.getOperationId(),
-                params.getOperationType(),
-                params.getAccess(),
-                params.getCpid(),
-                params.getNewStage(),
+                context.getOperationId(),
+                context.getOperationType(),
+                context.getAccess(),
+                context.getCpid(),
+                context.getStage(),
                 null);
 
         final Notification notification = new Notification(
-                UUID.fromString(params.getOwner()),
-                UUID.fromString(params.getOperationId()),
+                UUID.fromString(context.getOwner()),
+                UUID.fromString(context.getOperationId()),
                 jsonUtil.toJson(message)
         );
         messageProducer.sendToPlatform(notification);
         operationService.saveOperationStep(
                 execution,
                 entity,
-                params,
+                context,
                 jsonUtil.toJsonNode(notification));
     }
 }

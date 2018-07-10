@@ -41,20 +41,20 @@ public class ClarificationSavePeriod implements JavaDelegate {
     public void execute(final DelegateExecution execution) throws Exception {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
-        final Context params = jsonUtil.toObject(Context.class, entity.getJsonParams());
+        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode responseData = processService.processResponse(
                 clarificationRestClient.savePeriod(
-                        params.getCpid(),
-                        params.getNewStage(),
-                        params.getOwner(),
-                        params.getCountry(),
-                        params.getPmd(),
-                        params.getStartDate(),
-                        params.getEndDate()),
-                params,
+                        context.getCpid(),
+                        context.getStage(),
+                        context.getOwner(),
+                        context.getCountry(),
+                        context.getPmd(),
+                        context.getStartDate(),
+                        context.getEndDate()),
+                context,
                 processId,
                 taskId,
                 jsonUtil.empty());

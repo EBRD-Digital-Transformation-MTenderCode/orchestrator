@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS  ocds.orchestrator_context (
     context text,
     primary key(cp_id));
 
-CREATE TABLE IF NOT EXISTS  ocds.orchestrator_stage_rules (
+CREATE TABLE IF NOT EXISTS  ocds.orchestrator_stage (
     country text,
     pmd text,
     operation_type text,
@@ -78,20 +78,20 @@ INSERT INTO ocds.orchestrator_rules (new_stage, prev_stage, country, pmd, phase,
 INSERT INTO ocds.orchestrator_rules (new_stage, prev_stage, country, pmd, phase, operation_type)  VALUES ('EV', 'EV', 'TEST', 'TEST_OT', 'AWARDPERIOD', 'awardByBidEv');
 INSERT INTO ocds.orchestrator_rules (new_stage, prev_stage, country, pmd, phase, operation_type)  VALUES ('EV', 'EV', 'TEST', 'TEST_OT', 'AWARDPERIOD', 'awardPeriodEndEv');
 
-INSERT INTO ocds.orchestrator_stage_rules (country, pmd, operation_type, stage)  VALUES ('MD', 'RT', 'createCN', 'PS');
-INSERT INTO ocds.orchestrator_stage_rules (country, pmd, operation_type, stage)  VALUES ('MD', 'OT', 'createCN', 'EV');
-INSERT INTO ocds.orchestrator_stage_rules (country, pmd, operation_type, stage)  VALUES ('TEST', 'TEST_RT', 'createCN', 'PS');
-INSERT INTO ocds.orchestrator_stage_rules (country, pmd, operation_type, stage)  VALUES ('TEST', 'TEST_OT', 'createCN', 'EV');
+INSERT INTO ocds.orchestrator_stage (country, pmd, operation_type, stage)  VALUES ('MD', 'RT', 'createCN', 'PS');
+INSERT INTO ocds.orchestrator_stage (country, pmd, operation_type, stage)  VALUES ('MD', 'OT', 'createCN', 'EV');
+INSERT INTO ocds.orchestrator_stage (country, pmd, operation_type, stage)  VALUES ('TEST', 'TEST_RT', 'createCN', 'PS');
+INSERT INTO ocds.orchestrator_stage (country, pmd, operation_type, stage)  VALUES ('TEST', 'TEST_OT', 'createCN', 'EV');
 
-INSERT INTO ocds.orchestrator_stage_rules (country, pmd, operation_type, stage)  VALUES ('MD', 'RT', 'createPIN', 'PIN');
-INSERT INTO ocds.orchestrator_stage_rules (country, pmd, operation_type, stage)  VALUES ('MD', 'OT', 'createPIN', 'PIN');
-INSERT INTO ocds.orchestrator_stage_rules (country, pmd, operation_type, stage)  VALUES ('TEST', 'TEST_RT', 'createPIN', 'PIN');
-INSERT INTO ocds.orchestrator_stage_rules (country, pmd, operation_type, stage)  VALUES ('TEST', 'TEST_OT', 'createPIN', 'PIN');
+INSERT INTO ocds.orchestrator_stage (country, pmd, operation_type, stage)  VALUES ('MD', 'RT', 'createPIN', 'PIN');
+INSERT INTO ocds.orchestrator_stage (country, pmd, operation_type, stage)  VALUES ('MD', 'OT', 'createPIN', 'PIN');
+INSERT INTO ocds.orchestrator_stage (country, pmd, operation_type, stage)  VALUES ('TEST', 'TEST_RT', 'createPIN', 'PIN');
+INSERT INTO ocds.orchestrator_stage (country, pmd, operation_type, stage)  VALUES ('TEST', 'TEST_OT', 'createPIN', 'PIN');
 
-INSERT INTO ocds.orchestrator_stage_rules (country, pmd, operation_type, stage)  VALUES ('MD', 'RT', 'createPN', 'PN');
-INSERT INTO ocds.orchestrator_stage_rules (country, pmd, operation_type, stage)  VALUES ('MD', 'OT', 'createPN', 'PN');
-INSERT INTO ocds.orchestrator_stage_rules (country, pmd, operation_type, stage)  VALUES ('TEST', 'TEST_RT', 'createPN', 'PN');
-INSERT INTO ocds.orchestrator_stage_rules (country, pmd, operation_type, stage)  VALUES ('TEST', 'TEST_OT', 'createPN', 'PN');
+INSERT INTO ocds.orchestrator_stage (country, pmd, operation_type, stage)  VALUES ('MD', 'RT', 'createPN', 'PN');
+INSERT INTO ocds.orchestrator_stage (country, pmd, operation_type, stage)  VALUES ('MD', 'OT', 'createPN', 'PN');
+INSERT INTO ocds.orchestrator_stage (country, pmd, operation_type, stage)  VALUES ('TEST', 'TEST_RT', 'createPN', 'PN');
+INSERT INTO ocds.orchestrator_stage (country, pmd, operation_type, stage)  VALUES ('TEST', 'TEST_OT', 'createPN', 'PN');
 
 SELECT * FROM ocds.orchestrator_operation_step;
 SELECT * FROM ocds.orchestrator_operation_step where operation_id = '0e7e8f29-717b-486d-ba95-81abbcc70a42' allow filtering;

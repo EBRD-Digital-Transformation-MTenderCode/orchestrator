@@ -46,18 +46,18 @@ public class SubmissionSaveNewPeriod implements JavaDelegate {
     public void execute(final DelegateExecution execution) throws Exception {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
-        final Context params = jsonUtil.toObject(Context.class, entity.getJsonParams());
+        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode responseData = processService.processResponse(
                 submissionRestClient.saveNewPeriod(
-                        params.getCpid(),
-                        params.getNewStage(),
-                        params.getCountry(),
-                        params.getPmd(),
-                        params.getStartDate()),
-                params,
+                        context.getCpid(),
+                        context.getStage(),
+                        context.getCountry(),
+                        context.getPmd(),
+                        context.getStartDate()),
+                context,
                 processId,
                 taskId,
                 jsonUtil.empty());
@@ -65,16 +65,16 @@ public class SubmissionSaveNewPeriod implements JavaDelegate {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    addDataToParams(params, responseData, processId),
+                    addDataTocontext(context, responseData, processId),
                     jsonUtil.empty(),
                     processService.addTenderTenderPeriod(jsonData, responseData, processId));
     }
 
-    private Context addDataToParams(final Context params,
+    private Context addDataTocontext(final Context context,
                                     final JsonNode responseData,
                                     final String processId) {
-        params.setStartDate(processService.getText("startDate", responseData, processId));
-        params.setEndDate(processService.getText("endDate", responseData, processId));
-        return params;
+        context.setStartDate(processService.getText("startDate", responseData, processId));
+        context.setEndDate(processService.getText("endDate", responseData, processId));
+        return context;
     }
 }

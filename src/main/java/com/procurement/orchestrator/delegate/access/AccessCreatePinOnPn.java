@@ -38,23 +38,23 @@ public class AccessCreatePinOnPn implements JavaDelegate {
     public void execute(final DelegateExecution execution) throws Exception {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
-        final Context params = jsonUtil.toObject(Context.class, entity.getJsonParams());
+        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode requestData = processService.getAccessData(jsonData, processId);
         final JsonNode responseData = processService.processResponse(
                 accessRestClient.createPinOnPn(
-                        params.getCpid(),
-                        params.getToken(),
-                        params.getCountry(),
-                        params.getPmd(),
-                        params.getOwner(),
-                        params.getNewStage(),
-                        params.getPrevStage(),
-                        params.getStartDate(),
+                        context.getCpid(),
+                        context.getToken(),
+                        context.getCountry(),
+                        context.getPmd(),
+                        context.getOwner(),
+                        context.getStage(),
+                        context.getPrevStage(),
+                        context.getStartDate(),
                         requestData),
-                params,
+                context,
                 processId,
                 taskId,
                 requestData);
@@ -62,13 +62,13 @@ public class AccessCreatePinOnPn implements JavaDelegate {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    addDataToParams(params, responseData, processId),
+                    addDataTocontext(context, responseData, processId),
                     requestData,
                     processService.setAccessData(jsonData, responseData, processId));
     }
 
-    private Context addDataToParams(final Context params, final JsonNode responseData, final String processId) {
-        return processService.addAccessToParams(params, "tender", params.getCpid(), responseData, processId);
+    private Context addDataTocontext(final Context context, final JsonNode responseData, final String processId) {
+        return processService.addAccessTocontext(context, "tender", context.getCpid(), responseData, processId);
     }
 
 }

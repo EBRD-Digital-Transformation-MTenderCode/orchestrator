@@ -29,18 +29,18 @@ public class BaseController {
     }
 
 
-    void saveRequestAndCheckOperation(final Context params, JsonNode jsonData) {
+    void saveRequestAndCheckOperation(final Context context, JsonNode jsonData) {
         if (Objects.isNull(jsonData)) jsonData = jsonUtil.createObjectNode();
-        requestService.saveRequest(params.getRequestId(), params.getOperationId(), params, jsonData);
-        operationService.checkOperationById(params.getOperationId());
+        requestService.saveRequest(context.getRequestId(), context.getOperationId(), context, jsonData);
+        operationService.checkOperationById(context.getOperationId());
     }
 
-    void setStageForOperation(final Context params) {
+    void setStageForOperation(final Context context) {
         final Stage stage = operationService.getStageFromRules(
-                params.getCountry(),
-                params.getPmd(),
-                params.getOperationType());
-        params.setNewStage(stage.value());
+                context.getCountry(),
+                context.getPmd(),
+                context.getOperationType());
+        context.setStage(stage.value());
     }
 
 

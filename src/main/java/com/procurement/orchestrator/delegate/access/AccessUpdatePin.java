@@ -37,13 +37,13 @@ public class AccessUpdatePin implements JavaDelegate {
     public void execute(final DelegateExecution execution) throws Exception {
         LOG.info(execution.getCurrentActivityName());
 //        final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
-//        final Context params = jsonUtil.toObject(Context.class, entity.getJsonParams());
+//        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
 //        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getJsonData());
 //        final String processId = execution.getProcessInstanceId();
 //        final String taskId = execution.getCurrentActivityId();
 //        final JsonNode responseData = processService.processResponse(
-//                accessRestClient.updateCn(params.getCpid(), params.getToken(), params.getOwner(), jsonData),
-//                params,
+//                accessRestClient.updateCn(context.getCpid(), context.getToken(), context.getOwner(), jsonData),
+//                context,
 //                processId,
 //                taskId);
 //        if (Objects.nonNull(responseData))

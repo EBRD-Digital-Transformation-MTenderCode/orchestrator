@@ -17,7 +17,7 @@ public class CassandraDaoImpl implements CassandraDao {
     private static final String OPERATION_STEP_TABLE = "orchestrator_operation_step";
     private static final String OPERATION_TABLE = "orchestrator_operation";
     private static final String REQUEST_TABLE = "orchestrator_request";
-    private static final String STAGE_TABLE = "orchestrator_stage";
+    private static final String CONTEXT_TABLE = "orchestrator_context";
     private static final String STAGE_RULES_TABLE = "orchestrator_stage_rules";
     private static final String RULES_TABLE = "orchestrator_rules";
     private static final String REQUEST_DATE = "request_date";
@@ -54,7 +54,7 @@ public class CassandraDaoImpl implements CassandraDao {
                 .value(REQUEST_DATE, entity.getRequestDate())
                 .value(OPERATION_ID, entity.getOperationId())
                 .value(JSON_DATA, entity.getJsonData())
-                .value(CONTEXT, entity.getJsonParams());
+                .value(CONTEXT, entity.getContext());
         session.execute(insert);
     }
 
@@ -111,7 +111,7 @@ public class CassandraDaoImpl implements CassandraDao {
                 .value(STEP_DATE, entity.getDate())
                 .value(REQUEST_DATA, entity.getRequestData())
                 .value(RESPONSE_DATA, entity.getResponseData())
-                .value(CONTEXT, entity.getJsonParams())
+                .value(CONTEXT, entity.getContext())
                 .value(CPID, entity.getCpId());
 
         session.execute(insert);
@@ -142,34 +142,27 @@ public class CassandraDaoImpl implements CassandraDao {
     }
 
     @Override
-    public void saveStage(final StageEntity entity) {
-        final Insert insert = insertInto(STAGE_TABLE);
+    public void saveContext(final ContextEntity entity) {
+        final Insert insert = insertInto(CONTEXT_TABLE);
         insert
                 .value(CPID, entity.getCpId())
-                .value(STAGE, entity.getStage())
-                .value(COUNTRY, entity.getCountry())
-                .value(PMD, entity.getPmd())
-                .value(PHASE, entity.getPhase());
-
+                .value(CONTEXT, entity.getContext());
         session.execute(insert);
     }
 
     @Override
-    public Optional<StageEntity> getStageByCpId(final String cpId) {
+    public Optional<ContextEntity> getContextByCpId(final String cpId) {
         final Statement query = select()
                 .all()
-                .from(STAGE_TABLE)
+                .from(CONTEXT_TABLE)
                 .where(eq(CPID, cpId))
                 .limit(1);
 
         final ResultSet rows = session.execute(query);
         return Optional.ofNullable(rows.one())
-                .map(row -> new StageEntity(
+                .map(row -> new ContextEntity(
                         row.getString(CPID),
-                        row.getString(STAGE),
-                        row.getString(COUNTRY),
-                        row.getString(PMD),
-                        row.getString(PHASE)));
+                        row.getString(CONTEXT)));
     }
 
     @Override

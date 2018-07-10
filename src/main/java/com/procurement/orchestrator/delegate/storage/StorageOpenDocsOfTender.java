@@ -42,16 +42,16 @@ public class StorageOpenDocsOfTender implements JavaDelegate {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
-        final Context params = jsonUtil.toObject(Context.class, entity.getJsonParams());
+        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final String processId = execution.getProcessInstanceId();
-        final String startDate = params.getStartDate();
+        final String startDate = context.getStartDate();
         final JsonNode documents = processService.getDocumentsOfTender(jsonData, processId);
         final String taskId = execution.getCurrentActivityName();
         JsonNode responseData = null;
         if (Objects.nonNull(documents))
             responseData = processService.processResponse(
                     storageRestClient.setPublishDate(startDate, documents),
-                    params,
+                    context,
                     processId,
                     taskId,
                     documents);

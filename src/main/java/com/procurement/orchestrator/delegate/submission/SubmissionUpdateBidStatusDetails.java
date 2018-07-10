@@ -42,7 +42,7 @@ public class SubmissionUpdateBidStatusDetails implements JavaDelegate {
     public void execute(final DelegateExecution execution) throws Exception {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
-        final Context params = jsonUtil.toObject(Context.class, entity.getJsonParams());
+        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
@@ -50,11 +50,11 @@ public class SubmissionUpdateBidStatusDetails implements JavaDelegate {
         final String awardStatusDetails = processService.getAwardStatusDetails(jsonData, processId);
         final JsonNode responseData = processService.processResponse(
                 submissionRestClient.updateStatusDetails(
-                        params.getCpid(),
-                        params.getNewStage(),
+                        context.getCpid(),
+                        context.getStage(),
                         bidId,
                         awardStatusDetails),
-                params,
+                context,
                 processId,
                 taskId,
                 jsonData);
