@@ -3,7 +3,7 @@ package com.procurement.orchestrator.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.dao.CassandraDao;
 import com.procurement.orchestrator.dao.CassandraDaoImpl;
-import com.procurement.orchestrator.domain.Params;
+import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.entity.RequestEntity;
 import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -32,7 +32,7 @@ public class RequestServiceImpl implements RequestService {
     @Override
     public void saveRequest(final String requestId,
                             final String operationId,
-                            final Params jsonParams,
+                            final Context jsonParams,
                             final JsonNode jsonData) {
         cassandraDao.saveRequest(getRequestEntity(requestId, operationId, jsonParams, jsonData));
     }
@@ -50,7 +50,7 @@ public class RequestServiceImpl implements RequestService {
 
     private RequestEntity getRequestEntity(final String requestId,
                                            final String operationId,
-                                           final Params jsonParams,
+                                           final Context jsonParams,
                                            final JsonNode jsonData) {
         final RequestEntity entity = new RequestEntity();
         entity.setRequestId(requestId);

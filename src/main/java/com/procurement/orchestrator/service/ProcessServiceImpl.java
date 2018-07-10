@@ -3,8 +3,8 @@ package com.procurement.orchestrator.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.EntityAccess;
-import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.domain.dto.*;
 import com.procurement.orchestrator.utils.JsonUtil;
 import org.camunda.bpm.engine.RuntimeService;
@@ -34,12 +34,12 @@ public class ProcessServiceImpl implements ProcessService {
         this.jsonUtil = jsonUtil;
     }
 
-    public void startProcess(final Params params, final Map<String, Object> variables) {
+    public void startProcess(final Context params, final Map<String, Object> variables) {
         variables.put("requestId", params.getRequestId());
         runtimeService.startProcessInstanceByKey(params.getProcessType(), params.getOperationId(), variables);
     }
 
-    public void startProcessCheckRules(final Params params) {
+    public void startProcessCheckRules(final Context params) {
         final Map<String, Object> variables = new HashMap<>();
         variables.put("requestId", params.getRequestId());
         variables.put("checkRules", 1);
@@ -47,7 +47,7 @@ public class ProcessServiceImpl implements ProcessService {
         runtimeService.startProcessInstanceByKey("checkRules", variables);
     }
 
-    public void startProcessError(final Params params, final String message) {
+    public void startProcessError(final Context params, final String message) {
         final Map<String, Object> variables = new HashMap<>();
         variables.put("requestId", params.getRequestId());
         variables.put("message", message);
@@ -60,18 +60,18 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
 
-    public void terminateProcessWithMessage(final Params params, final String processId, final String message) {
+    public void terminateProcessWithMessage(final Context params, final String processId, final String message) {
         LOG.error(message);
         runtimeService.deleteProcessInstance(processId, message);
         startProcessError(params, message);
     }
 
-    public CommandMessage getCommandMessage(final CommandType commandType, final Params context, final JsonNode data) {
+    public CommandMessage getCommandMessage(final CommandType commandType, final Context context, final JsonNode data) {
         return new CommandMessage(context.getOperationId(), commandType, context, data, ApiVersion.V_0_0_1);
     }
 
     public JsonNode processResponse(final ResponseEntity<ResponseDto> responseEntity,
-                                    final Params params,
+                                    final Context params,
                                     final String processId,
                                     final String taskId,
                                     final JsonNode request) {
@@ -124,25 +124,25 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
 
-    public Params addAccessToParams(final Params params,
-                                    final String entityType,
-                                    final String entityId,
-                                    final JsonNode responseData,
-                                    final String processId) {
+    public Context addAccessToParams(final Context params,
+                                     final String entityType,
+                                     final String entityId,
+                                     final JsonNode responseData,
+                                     final String processId) {
         final String entityToken = getText("token", responseData, processId);
         params.setAccess(Arrays.asList(new EntityAccess(entityType, entityId, entityToken)));
         return params;
     }
 
     @Override
-    public Params addBidAccessToParams(final Params params, final JsonNode responseData, final String processId) {
+    public Context addBidAccessToParams(final Context params, final JsonNode responseData, final String processId) {
         final String entityToken = getText("token", responseData, processId);
         final String entityId = getText("bidId", responseData, processId);
         params.setAccess(Arrays.asList(new EntityAccess("bid", entityId, entityToken)));
         return params;
     }
 
-    public Params addAwardAccessToParams(final Params params, final JsonNode responseData, final String processId) {
+    public Context addAwardAccessToParams(final Context params, final JsonNode responseData, final String processId) {
         final ArrayNode awardsNode = (ArrayNode) responseData.get("awards");
         final List<EntityAccess> accesses = new ArrayList<>();
         for (final JsonNode awardNode : awardsNode) {
@@ -158,8 +158,8 @@ public class ProcessServiceImpl implements ProcessService {
         return params;
     }
 
-    public Params addContractAccessToParams(final Params params, final JsonNode responseData,
-                                            final String processId) {
+    public Context addContractAccessToParams(final Context params, final JsonNode responseData,
+                                             final String processId) {
         final ArrayNode contractsNode = (ArrayNode) responseData.get("contracts");
         final List<EntityAccess> accesses = new ArrayList<>();
         for (final JsonNode awardNode : contractsNode) {

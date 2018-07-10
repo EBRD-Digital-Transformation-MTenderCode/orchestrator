@@ -37,7 +37,7 @@ public class AccessUpdateCn implements JavaDelegate {
     public void execute(final DelegateExecution execution) throws Exception {
         LOG.info(execution.getCurrentActivityName());
 //        final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
-//        final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
+//        final Context params = jsonUtil.toObject(Context.class, entity.getJsonParams());
 //        final JsonNode requestData = jsonUtil.toJsonNode(entity.getResponseData());
 //        final String processId = execution.getProcessInstanceId();
 //        final String taskId = execution.getCurrentActivityId();

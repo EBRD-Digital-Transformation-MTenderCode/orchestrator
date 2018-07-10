@@ -1,7 +1,7 @@
 package com.procurement.orchestrator.delegate.storage;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.procurement.orchestrator.domain.Params;
+import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.StorageRestClient;
 import com.procurement.orchestrator.service.OperationService;
@@ -42,7 +42,7 @@ public class StorageOpenDocsOfTender implements JavaDelegate {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
-        final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
+        final Context params = jsonUtil.toObject(Context.class, entity.getJsonParams());
         final String processId = execution.getProcessInstanceId();
         final String startDate = params.getStartDate();
         final JsonNode documents = processService.getDocumentsOfTender(jsonData, processId);

@@ -18,7 +18,7 @@ public class TestJson {
 //    public void getChronographResponseTest() {
 //        final String resource = jsonUtil.getResource("json/test.json");
 //        final ChronographResponse response = jsonUtil.toObject(ChronographResponse.class, resource);
-//        final Params params = jsonUtil.toObject(Params.class, response.getData().getMetaData());
+//        final Context params = jsonUtil.toObject(Context.class, response.getData().getMetaData());
 //        assertNotNull(params.getCpid());
 //    }
 }

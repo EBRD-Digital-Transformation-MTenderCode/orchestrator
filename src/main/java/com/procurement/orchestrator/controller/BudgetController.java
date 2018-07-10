@@ -2,8 +2,8 @@ package com.procurement.orchestrator.controller;
 
 import com.datastax.driver.core.utils.UUIDs;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.Country;
-import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.domain.Stage;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
@@ -37,7 +37,7 @@ public class BudgetController extends BaseController {
                                             @RequestHeader("X-OPERATION-ID") final String operationId,
                                             @RequestParam("country") final String country,
                                             @RequestBody final JsonNode jsonData) {
-        final Params params = new Params();
+        final Context params = new Context();
         params.setRequestId(UUIDs.timeBased().toString());
         params.setOwner(getOwner(authorization));
         params.setOperationId(operationId);
@@ -60,7 +60,7 @@ public class BudgetController extends BaseController {
                                             @RequestHeader("X-TOKEN") final String token,
                                             @PathVariable("identifier") final String identifier,
                                             @RequestBody final JsonNode jsonData) {
-        final Params params = new Params();
+        final Context params = new Context();
         params.setRequestId(UUIDs.timeBased().toString());
         params.setOperationId(operationId);
         params.setCpid(identifier);
@@ -81,7 +81,7 @@ public class BudgetController extends BaseController {
                                            @RequestHeader("X-OPERATION-ID") final String operationId,
                                            @PathVariable(value = "identifier") final String identifier,
                                            @RequestBody final JsonNode jsonData) {
-        final Params params = new Params();
+        final Context params = new Context();
         params.setRequestId(UUIDs.timeBased().toString());
         params.setOperationId(operationId);
         params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
@@ -104,7 +104,7 @@ public class BudgetController extends BaseController {
                                            @PathVariable("cpid") final String cpid,
                                            @PathVariable("ocid") final String ocid,
                                            @RequestBody final JsonNode jsonData) {
-        final Params params = new Params();
+        final Context params = new Context();
         params.setRequestId(UUIDs.timeBased().toString());
         params.setOperationId(operationId);
         params.setCpid(cpid);

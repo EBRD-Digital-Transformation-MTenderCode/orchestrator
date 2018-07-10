@@ -1,8 +1,7 @@
 package com.procurement.orchestrator.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.procurement.orchestrator.domain.Params;
-import com.procurement.orchestrator.domain.dto.ApiVersion;
+import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.dto.CommandMessage;
 import com.procurement.orchestrator.domain.dto.CommandType;
 import com.procurement.orchestrator.domain.dto.ResponseDto;
@@ -13,20 +12,20 @@ import org.springframework.stereotype.Service;
 @Service
 public interface ProcessService {
 
-    void startProcess(Params params, Map<String, Object> variables);
+    void startProcess(Context params, Map<String, Object> variables);
 
-    void startProcessCheckRules(Params params);
+    void startProcessCheckRules(Context params);
 
-    void startProcessError(Params params, String message);
+    void startProcessError(Context params, String message);
 
     void terminateProcess(String processId, String message);
 
-    void terminateProcessWithMessage(Params params, String processId, String message);
+    void terminateProcessWithMessage(Context params, String processId, String message);
 
-    CommandMessage getCommandMessage(CommandType commandType, Params context, JsonNode data);
+    CommandMessage getCommandMessage(CommandType commandType, Context context, JsonNode data);
 
     JsonNode processResponse(ResponseEntity<ResponseDto> responseEntity,
-                             Params params,
+                             Context params,
                              String processId,
                              String taskId,
                              JsonNode request);
@@ -37,13 +36,13 @@ public interface ProcessService {
 
     String getTenderPeriodEndDate(JsonNode jsonData, String processId);
 
-    Params addAccessToParams(Params params, String entityType, String entityId, JsonNode responseData, String processId);
+    Context addAccessToParams(Context params, String entityType, String entityId, JsonNode responseData, String processId);
 
-    Params addBidAccessToParams(Params params, JsonNode responseData, String processId);
+    Context addBidAccessToParams(Context params, JsonNode responseData, String processId);
 
-    Params addAwardAccessToParams(Params params, JsonNode responseData, String processId);
+    Context addAwardAccessToParams(Context params, JsonNode responseData, String processId);
 
-    Params addContractAccessToParams(Params params, JsonNode responseData, String processId);
+    Context addContractAccessToParams(Context params, JsonNode responseData, String processId);
 
     JsonNode addTenderTenderPeriod(JsonNode jsonData, JsonNode periodData, String processId);
 

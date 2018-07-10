@@ -1,7 +1,7 @@
 package com.procurement.orchestrator.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.procurement.orchestrator.domain.Params;
+import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.Rules;
 import com.procurement.orchestrator.domain.Stage;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
@@ -29,15 +29,15 @@ public interface OperationService {
 
     void saveOperationStep(DelegateExecution execution, OperationStepEntity entity, JsonNode request);
 
-    void saveOperationStep(DelegateExecution execution, OperationStepEntity entity, Params params, JsonNode request);
+    void saveOperationStep(DelegateExecution execution, OperationStepEntity entity, Context params, JsonNode request);
 
     void saveOperationStep(DelegateExecution execution, OperationStepEntity entity, JsonNode request, JsonNode response);
 
-    void saveOperationStep(DelegateExecution execution, OperationStepEntity entity, Params params, JsonNode request, JsonNode response);
+    void saveOperationStep(DelegateExecution execution, OperationStepEntity entity, Context params, JsonNode request, JsonNode response);
 
-    void saveOperationException(String processId, String taskId, Params params, JsonNode request, JsonNode response);
+    void saveOperationException(String processId, String taskId, Context params, JsonNode request, JsonNode response);
 
-    void saveStageParams(Params params);
+    void saveStageParams(Context params);
 
     StageEntity getStageParams(String cpId, String processId);
 

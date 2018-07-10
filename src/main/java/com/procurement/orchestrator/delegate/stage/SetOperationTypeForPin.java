@@ -1,7 +1,7 @@
 package com.procurement.orchestrator.delegate.stage;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.procurement.orchestrator.domain.Params;
+import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.Stage;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.service.OperationService;
@@ -35,7 +35,7 @@ public class SetOperationTypeForPin implements JavaDelegate {
         LOG.info(execution.getCurrentActivityName());
         final String processId = execution.getProcessInstanceId();
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
-        final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
+        final Context params = jsonUtil.toObject(Context.class, entity.getJsonParams());
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         switch (Stage.fromValue(params.getPrevStage())) {
             case PN:

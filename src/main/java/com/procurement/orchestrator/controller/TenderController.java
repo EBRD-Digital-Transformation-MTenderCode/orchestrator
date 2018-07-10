@@ -2,8 +2,8 @@ package com.procurement.orchestrator.controller;
 
 import com.datastax.driver.core.utils.UUIDs;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.Country;
-import com.procurement.orchestrator.domain.Params;
 import com.procurement.orchestrator.domain.Pmd;
 import com.procurement.orchestrator.domain.Stage;
 import com.procurement.orchestrator.rest.BudgetRestClient;
@@ -45,7 +45,7 @@ public class TenderController extends BaseController {
                                            @RequestParam("country") final String country,
                                            @RequestParam("pmd") final String pmd,
                                            @RequestBody final JsonNode jsonData) {
-        final Params params = new Params();
+        final Context params = new Context();
         params.setRequestId(UUIDs.timeBased().toString());
         params.setOwner(getOwner(authorization));
         params.setOperationId(operationId);
@@ -69,7 +69,7 @@ public class TenderController extends BaseController {
                                            @PathVariable("identifier") final String identifier,
                                            @RequestParam("stage") final String stage,
                                            @RequestBody final JsonNode jsonData) {
-        final Params params = new Params();
+        final Context params = new Context();
         params.setRequestId(UUIDs.timeBased().toString());
         params.setOwner(getOwner(authorization));
         params.setOperationId(operationId);
@@ -94,7 +94,7 @@ public class TenderController extends BaseController {
                                             @RequestParam("country") final String country,
                                             @RequestParam("pmd") final String pmd,
                                             @RequestBody final JsonNode jsonData) {
-        final Params params = new Params();
+        final Context params = new Context();
         params.setRequestId(UUIDs.timeBased().toString());
         params.setOwner(getOwner(authorization));
         params.setOperationId(operationId);
@@ -117,7 +117,7 @@ public class TenderController extends BaseController {
                                             @PathVariable("identifier") final String identifier,
                                             @RequestParam("stage") final String stage,
                                             @RequestBody final JsonNode jsonData) {
-        final Params params = new Params();
+        final Context params = new Context();
         params.setRequestId(UUIDs.timeBased().toString());
         params.setOwner(getOwner(authorization));
         params.setOperationId(operationId);
@@ -142,7 +142,7 @@ public class TenderController extends BaseController {
                                            @RequestParam("country") final String country,
                                            @RequestParam("pmd") final String pmd,
                                            @RequestBody final JsonNode jsonData) {
-        final Params params = new Params();
+        final Context params = new Context();
         params.setRequestId(UUIDs.timeBased().toString());
         params.setOwner(getOwner(authorization));
         params.setOperationId(operationId);
@@ -165,7 +165,7 @@ public class TenderController extends BaseController {
                                             @PathVariable("identifier") final String identifier,
                                             @RequestParam("stage") final String stage,
                                             @RequestBody final JsonNode jsonData) {
-        final Params params = new Params();
+        final Context params = new Context();
         params.setRequestId(UUIDs.timeBased().toString());
         params.setOperationId(operationId);
         params.setCpid(identifier);
@@ -190,7 +190,7 @@ public class TenderController extends BaseController {
                                           @PathVariable("identifier") final String identifier,
                                           @RequestParam("stage") final String stage,
                                           @RequestBody final JsonNode jsonData) {
-        final Params params = new Params();
+        final Context params = new Context();
         params.setRequestId(UUIDs.timeBased().toString());
         params.setOwner(getOwner(authorization));
         params.setOperationId(operationId);
@@ -215,7 +215,7 @@ public class TenderController extends BaseController {
                                              @PathVariable("identifier") final String identifier,
                                              @RequestParam("stage") final String stage,
                                              @RequestBody final JsonNode jsonData) {
-        final Params params = new Params();
+        final Context params = new Context();
         params.setRequestId(UUIDs.timeBased().toString());
         params.setOwner(getOwner(authorization));
         params.setOperationId(operationId);
@@ -242,7 +242,7 @@ public class TenderController extends BaseController {
                                                  @RequestHeader("X-OPERATION-ID") final String operationId,
                                                  @PathVariable("identifier") final String identifier,
                                                  @RequestParam("stage") final String stage) {
-        final Params params = new Params();
+        final Context params = new Context();
         params.setRequestId(UUIDs.timeBased().toString());
         params.setOwner(getOwner(authorization));
         params.setOperationId(operationId);
@@ -271,7 +271,7 @@ public class TenderController extends BaseController {
                                            @RequestParam("stage") final String stage,
                                            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
                                            @RequestParam("endDate") final LocalDateTime endDate) {
-        final Params params = new Params();
+        final Context params = new Context();
         params.setRequestId(UUIDs.timeBased().toString());
         params.setOwner(getOwner(authorization));
         params.setOperationId(operationId);
@@ -295,7 +295,7 @@ public class TenderController extends BaseController {
                                            @RequestParam("stage") final String stage,
                                            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
                                            @RequestParam("endDate") final LocalDateTime endDate) {
-        final Params params = new Params();
+        final Context params = new Context();
         params.setRequestId(UUIDs.timeBased().toString());
         params.setOwner(getOwner(authorization));
         params.setOperationId(operationId);
@@ -325,7 +325,7 @@ public class TenderController extends BaseController {
 //                                          @RequestHeader("X-OPERATION-ID") final String operationId,
 //                                          @RequestParam("identifier") final String identifier,
 //                                          @RequestParam("stage") final String stage) {
-//        final Params params = new Params();
+//        final Context params = new Context();
 //        params.setRequestId(UUIDs.timeBased().toString());
 //        params.setOwner(getOwner(authorization));
 //        params.setOperationId(operationId);
@@ -343,7 +343,7 @@ public class TenderController extends BaseController {
 //
 //    @RequestMapping(value = "/test", method = RequestMethod.POST)
 //    public ResponseEntity<String> test(@RequestBody final JsonNode jsonData) throws Exception{
-//        final Params params = new Params();
+//        final Context params = new Context();
 //        params.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
 //        final JsonNode checkFsDto = processService.getCheckFs(jsonData, params.getStartDate(), "");
 //        final JsonNode responseData = processService.processResponse(

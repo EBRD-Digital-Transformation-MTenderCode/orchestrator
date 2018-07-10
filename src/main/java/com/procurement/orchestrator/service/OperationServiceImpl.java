@@ -2,7 +2,7 @@ package com.procurement.orchestrator.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.dao.CassandraDao;
-import com.procurement.orchestrator.domain.Params;
+import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.Rules;
 import com.procurement.orchestrator.domain.Stage;
 import com.procurement.orchestrator.domain.entity.*;
@@ -113,7 +113,7 @@ public class OperationServiceImpl implements OperationService {
     }
 
     @Override
-    public void saveOperationStep(final DelegateExecution execution, final OperationStepEntity entity, final Params params, final JsonNode request) {
+    public void saveOperationStep(final DelegateExecution execution, final OperationStepEntity entity, final Context params, final JsonNode request) {
         execution.setVariable(LAST_TASK, execution.getCurrentActivityId());
         entity.setTaskId(execution.getCurrentActivityId());
         entity.setJsonParams(jsonUtil.toJson(params));
@@ -135,7 +135,7 @@ public class OperationServiceImpl implements OperationService {
     }
 
     @Override
-    public void saveOperationStep(final DelegateExecution execution, final OperationStepEntity entity, final Params params, final JsonNode request, final JsonNode response) {
+    public void saveOperationStep(final DelegateExecution execution, final OperationStepEntity entity, final Context params, final JsonNode request, final JsonNode response) {
         execution.setVariable(LAST_TASK, execution.getCurrentActivityId());
         entity.setTaskId(execution.getCurrentActivityId());
         entity.setJsonParams(jsonUtil.toJson(params));
@@ -148,7 +148,7 @@ public class OperationServiceImpl implements OperationService {
     }
 
     @Override
-    public void saveOperationException(final String processId, final String taskId, final Params params, final JsonNode request, final JsonNode response) {
+    public void saveOperationException(final String processId, final String taskId, final Context params, final JsonNode request, final JsonNode response) {
         final OperationStepEntity operationStepEntity = new OperationStepEntity();
         operationStepEntity.setProcessId(processId);
         operationStepEntity.setTaskId(taskId);
@@ -161,7 +161,7 @@ public class OperationServiceImpl implements OperationService {
     }
 
     @Override
-    public void saveStageParams(final Params params) {
+    public void saveStageParams(final Context params) {
         final StageEntity stageEntity = new StageEntity();
         stageEntity.setCpId(params.getCpid());
         stageEntity.setStage(params.getNewStage());

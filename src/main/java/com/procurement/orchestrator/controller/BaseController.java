@@ -1,7 +1,7 @@
 package com.procurement.orchestrator.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.procurement.orchestrator.domain.Params;
+import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.Stage;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.RequestService;
@@ -29,13 +29,13 @@ public class BaseController {
     }
 
 
-    void saveRequestAndCheckOperation(final Params params, JsonNode jsonData) {
+    void saveRequestAndCheckOperation(final Context params, JsonNode jsonData) {
         if (Objects.isNull(jsonData)) jsonData = jsonUtil.createObjectNode();
         requestService.saveRequest(params.getRequestId(), params.getOperationId(), params, jsonData);
         operationService.checkOperationById(params.getOperationId());
     }
 
-    void setStageForOperation(final Params params) {
+    void setStageForOperation(final Context params) {
         final Stage stage = operationService.getStageFromRules(
                 params.getCountry(),
                 params.getPmd(),

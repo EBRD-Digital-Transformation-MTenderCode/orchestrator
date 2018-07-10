@@ -1,7 +1,7 @@
 package com.procurement.orchestrator.delegate.clarification;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.procurement.orchestrator.domain.Params;
+import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.ClarificationRestClient;
 import com.procurement.orchestrator.service.OperationService;
@@ -42,7 +42,7 @@ public class ClarificationCreateAnswer implements JavaDelegate {
     public void execute(final DelegateExecution execution) throws Exception {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
-        final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
+        final Context params = jsonUtil.toObject(Context.class, entity.getJsonParams());
         final JsonNode requestData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
@@ -64,7 +64,7 @@ public class ClarificationCreateAnswer implements JavaDelegate {
         }
     }
 
-    private void processParams(final DelegateExecution execution, final Params params, final JsonNode responseData, final String processId) {
+    private void processParams(final DelegateExecution execution, final Context params, final JsonNode responseData, final String processId) {
         final Boolean allAnswered = processService.getBoolean("allAnswered", responseData, processId);
         execution.setVariable("allAnswered", allAnswered ? 1 : 0);
         if (!allAnswered) {

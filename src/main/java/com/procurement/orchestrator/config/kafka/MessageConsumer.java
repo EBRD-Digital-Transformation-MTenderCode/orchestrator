@@ -1,7 +1,7 @@
 package com.procurement.orchestrator.config.kafka;
 
 import com.datastax.driver.core.utils.UUIDs;
-import com.procurement.orchestrator.domain.Params;
+import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.chronograph.ChronographResponse;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.service.RequestService;
@@ -47,7 +47,7 @@ public class MessageConsumer {
             LOG.info("Get task: " + message);
             final ChronographResponse response = jsonUtil.toObject(ChronographResponse.class, message);
             final ChronographResponse.ChronographResponseData data = response.getData();
-            final Params paramsFromChronograph = jsonUtil.toObject(Params.class, data.getMetaData());
+            final Context paramsFromChronograph = jsonUtil.toObject(Context.class, data.getMetaData());
             paramsFromChronograph.setRequestId(UUIDs.timeBased().toString());
             paramsFromChronograph.setOperationId(paramsFromChronograph.getOperationId());
             paramsFromChronograph.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));

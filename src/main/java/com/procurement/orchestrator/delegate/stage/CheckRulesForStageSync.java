@@ -1,6 +1,6 @@
 package com.procurement.orchestrator.delegate.stage;
 
-import com.procurement.orchestrator.domain.Params;
+import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.Rules;
 import com.procurement.orchestrator.domain.entity.RequestEntity;
 import com.procurement.orchestrator.domain.entity.StageEntity;
@@ -41,7 +41,7 @@ public class CheckRulesForStageSync implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         final String requestId = (String) execution.getVariable("requestId");
         final RequestEntity requestEntity = requestService.getRequestById(requestId, processId);
-        final Params params = jsonUtil.toObject(Params.class, requestEntity.getJsonParams());
+        final Context params = jsonUtil.toObject(Context.class, requestEntity.getJsonParams());
         final StageEntity stageEntity = operationService.getStageParams(params.getCpid(), processId);
         final Rules rules = new Rules(
                 params.getNewStage(),

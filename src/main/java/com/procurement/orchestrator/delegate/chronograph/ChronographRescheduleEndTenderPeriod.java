@@ -2,7 +2,7 @@ package com.procurement.orchestrator.delegate.chronograph;
 
 import com.datastax.driver.core.utils.UUIDs;
 import com.procurement.orchestrator.config.kafka.MessageProducer;
-import com.procurement.orchestrator.domain.Params;
+import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.Stage;
 import com.procurement.orchestrator.domain.chronograph.ActionType;
 import com.procurement.orchestrator.domain.chronograph.ScheduleTask;
@@ -48,9 +48,9 @@ public class ChronographRescheduleEndTenderPeriod implements JavaDelegate {
     public void execute(final DelegateExecution execution) {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
-        final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
+        final Context params = jsonUtil.toObject(Context.class, entity.getJsonParams());
         /**set params for next process*/
-        final Params paramsForChronograph = new Params();
+        final Context paramsForChronograph = new Context();
         paramsForChronograph.setOperationId(UUIDs.timeBased().toString());
         if (params.getNewStage().equals(Stage.EV.value())) {
             paramsForChronograph.setProcessType(TENDER_PERIOD_END_EV);

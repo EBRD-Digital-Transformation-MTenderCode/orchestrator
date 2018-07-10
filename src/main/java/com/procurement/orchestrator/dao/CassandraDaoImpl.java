@@ -22,7 +22,7 @@ public class CassandraDaoImpl implements CassandraDao {
     private static final String RULES_TABLE = "orchestrator_rules";
     private static final String REQUEST_DATE = "request_date";
     private static final String OPERATION_ID = "operation_id";
-    private static final String JSON_PARAMS = "json_params";
+    private static final String CONTEXT = "context";
     private static final String REQUEST_ID = "request_id";
     private static final String PROCESS_ID = "process_id";
     private static final String JSON_DATA = "json_data";
@@ -54,7 +54,7 @@ public class CassandraDaoImpl implements CassandraDao {
                 .value(REQUEST_DATE, entity.getRequestDate())
                 .value(OPERATION_ID, entity.getOperationId())
                 .value(JSON_DATA, entity.getJsonData())
-                .value(JSON_PARAMS, entity.getJsonParams());
+                .value(CONTEXT, entity.getJsonParams());
         session.execute(insert);
     }
 
@@ -74,7 +74,7 @@ public class CassandraDaoImpl implements CassandraDao {
                         row.getTimestamp(REQUEST_DATE),
                         row.getString(OPERATION_ID),
                         row.getString(JSON_DATA),
-                        row.getString(JSON_PARAMS)));
+                        row.getString(CONTEXT)));
     }
 
     @Override
@@ -111,7 +111,7 @@ public class CassandraDaoImpl implements CassandraDao {
                 .value(STEP_DATE, entity.getDate())
                 .value(REQUEST_DATA, entity.getRequestData())
                 .value(RESPONSE_DATA, entity.getResponseData())
-                .value(JSON_PARAMS, entity.getJsonParams())
+                .value(CONTEXT, entity.getJsonParams())
                 .value(CPID, entity.getCpId());
 
         session.execute(insert);
@@ -134,7 +134,7 @@ public class CassandraDaoImpl implements CassandraDao {
                         row.getString(TASK_ID),
                         row.getString(OPERATION_ID),
                         row.getTimestamp(STEP_DATE),
-                        row.getString(JSON_PARAMS),
+                        row.getString(CONTEXT),
                         row.getString(REQUEST_DATA),
                         row.getString(RESPONSE_DATA),
                         row.getString(CPID)

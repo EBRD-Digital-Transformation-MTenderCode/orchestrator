@@ -1,7 +1,7 @@
 package com.procurement.orchestrator.delegate.submission;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.procurement.orchestrator.domain.Params;
+import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.SubmissionRestClient;
 import com.procurement.orchestrator.service.OperationService;
@@ -38,7 +38,7 @@ public class SubmissionGetBids implements JavaDelegate {
     public void execute(final DelegateExecution execution) throws Exception {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
-        final Params params = jsonUtil.toObject(Params.class, entity.getJsonParams());
+        final Context params = jsonUtil.toObject(Context.class, entity.getJsonParams());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode responseData = processService.processResponse(
@@ -57,7 +57,7 @@ public class SubmissionGetBids implements JavaDelegate {
         }
     }
 
-    private void processParams(final DelegateExecution execution, final Params params, final JsonNode responseData, final String processId) {
+    private void processParams(final DelegateExecution execution, final Context params, final JsonNode responseData, final String processId) {
         final Boolean isBidsEmpty = processService.isBidsEmpty(responseData, processId);
         if (isBidsEmpty) {
             execution.setVariable("tenderUnsuccessful", 1);

@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Params {
+public class Context {
     @JsonProperty(value = "operationId")
     private String operationId;
 
