@@ -121,5 +121,7 @@ public interface ProcessService {
     JsonNode getClassificationOfTender(JsonNode jsonData, String processId);
 
     JsonNode setClassificationOfTender(JsonNode jsonData, JsonNode responseData, String processId);
+
+    JsonNode getCurrencyOfBudget(JsonNode jsonData, String processId);
 }
 

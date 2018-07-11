@@ -658,4 +658,18 @@ public class ProcessServiceImpl implements ProcessService {
             return null;
         }
     }
+
+    @Override
+    public JsonNode getCurrencyOfBudget(final JsonNode jsonData, final String processId) {
+        try {
+            final JsonNode currencyNode = jsonData.get("planning").get("budget").get("amount").get("currency");
+            if (currencyNode == null) return null;
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            mainNode.replace("currency", currencyNode);
+            return mainNode;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
 }

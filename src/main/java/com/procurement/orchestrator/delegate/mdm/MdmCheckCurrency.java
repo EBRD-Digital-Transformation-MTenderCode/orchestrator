@@ -47,8 +47,8 @@ public class MdmCheckCurrency implements JavaDelegate {
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityName();
-        final JsonNode rqData = processService.getClassificationOfTender(prevData, processId);
-        final CommandMessage commandMessage = processService.getCommandMessage(CommandType.TENDER_CPV, context, rqData);
+        final JsonNode rqData = processService.getCurrencyOfBudget(prevData, processId);
+        final CommandMessage commandMessage = processService.getCommandMessage(CommandType.CHECK_CURRENCY, context, rqData);
         JsonNode responseData = null;
         if (Objects.nonNull(rqData))
             responseData = processService.processResponse(
@@ -60,8 +60,6 @@ public class MdmCheckCurrency implements JavaDelegate {
         if (Objects.nonNull(responseData))
             operationService.saveOperationStep(
                     execution,
-                    entity,
-                    jsonUtil.toJsonNode(commandMessage),
-                    processService.setClassificationOfTender(prevData, responseData, processId));
+                    entity);
     }
 }
