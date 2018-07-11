@@ -65,6 +65,7 @@ public class BudgetController extends BaseController {
         context.setRequestId(UUIDs.timeBased().toString());
         context.setOperationId(operationId);
         context.setCpid(cpid);
+        context.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
         context.setStage(Stage.EI.value());
         context.setProcessType("ei");
         context.setOperationType("updateEI");
@@ -111,6 +112,7 @@ public class BudgetController extends BaseController {
         context.setOperationId(operationId);
         context.setCpid(cpid);
         context.setOcid(ocid);
+        context.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
         context.setStage(Stage.FS.value());
         context.setProcessType("fs");
         context.setOperationType("updateFS");
