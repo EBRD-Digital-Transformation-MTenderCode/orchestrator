@@ -27,7 +27,7 @@
       <bpmn:incoming>SequenceFlow_1beb1tx</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1n5w707</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_1n5w707" sourceRef="NoticeCreateReleaseTask" targetRef="SaveStageParamsTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1n5w707" sourceRef="NoticeCreateReleaseTask" targetRef="SaveContextTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1gx4xfj" sourceRef="StartEvent_1" targetRef="SaveFirstOperationTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0sbxc3m" sourceRef="SaveFirstOperationTask" targetRef="CheckRulesForStageTask" />
     <bpmn:serviceTask id="AccessUpdateLotsTask" name="Access Update Lots" camunda:asyncBefore="true" camunda:delegateExpression="${accessUpdateLots}">
@@ -80,11 +80,11 @@
     <bpmn:sequenceFlow id="SequenceFlow_1n3pk4j" sourceRef="EvaluationGetAwardsTask" targetRef="ContractingCreateCanTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1yp05t1" sourceRef="AccessCheckLotStatusDetailsTask" targetRef="SetStandstillPeriodTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0umdhy6" sourceRef="SendMessageTask" targetRef="EndEvent_1" />
-    <bpmn:serviceTask id="SaveStageParamsTask" name="Save Stage Params" camunda:asyncBefore="true" camunda:delegateExpression="${saveStageParams}">
+    <bpmn:serviceTask id="SaveContextTask" name="Save Context" camunda:asyncBefore="true" camunda:delegateExpression="${saveContext}">
       <bpmn:incoming>SequenceFlow_1n5w707</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0smtj68</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_0smtj68" sourceRef="SaveStageParamsTask" targetRef="SendMessageTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0smtj68" sourceRef="SaveContextTask" targetRef="SendMessageTask" />
     <bpmn:serviceTask id="NoticeUnsuccessfulTenderTask" name="Notice create release" camunda:asyncBefore="true" camunda:delegateExpression="${noticeCreateRelease}">
       <bpmn:incoming>SequenceFlow_03bzu1o</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1yi3j5k</bpmn:outgoing>
@@ -254,7 +254,7 @@
           <dc:Bounds x="1963" y="143" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_0ql6wk4_di" bpmnElement="SaveStageParamsTask">
+      <bpmndi:BPMNShape id="ServiceTask_0ql6wk4_di" bpmnElement="SaveContextTask">
         <dc:Bounds x="1764" y="124" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0smtj68_di" bpmnElement="SequenceFlow_0smtj68">

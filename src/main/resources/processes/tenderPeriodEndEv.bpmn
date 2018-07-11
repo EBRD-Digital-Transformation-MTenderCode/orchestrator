@@ -79,7 +79,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_01bmiwq" sourceRef="ExclusiveGateway_0hg3tz9" targetRef="SubmissionGetBidsTask">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${checkEnquiries==1}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:serviceTask id="SaveStageParamsTask" name="Save Stage Params" camunda:delegateExpression="${saveStageParams}">
+    <bpmn:serviceTask id="SaveContextTask" name="Save Context" camunda:delegateExpression="${saveContext}">
       <bpmn:incoming>SequenceFlow_1e9igvo</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1yn6cy0</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -103,8 +103,8 @@
     <bpmn:sequenceFlow id="SequenceFlow_1fcw0yw" sourceRef="ExclusiveGateway_1m2p9g9" targetRef="AccessSetTenderUnsuccessfulTask">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${tenderUnsuccessful==1}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_1e9igvo" sourceRef="NoticeCreateReleaseTask" targetRef="SaveStageParamsTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1yn6cy0" sourceRef="SaveStageParamsTask" targetRef="SendMessageTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1e9igvo" sourceRef="NoticeCreateReleaseTask" targetRef="SaveContextTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1yn6cy0" sourceRef="SaveContextTask" targetRef="SendMessageTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0t016ua" sourceRef="SendMessageTask" targetRef="EndEvent_1" />
     <bpmn:sequenceFlow id="SequenceFlow_0po54ti" sourceRef="StorageOpenDocsOfBibsTask" targetRef="NoticeCreateReleaseTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1u9sdtt" sourceRef="chronographUpdatePeriodTask" targetRef="EndEvent_1" />
@@ -214,7 +214,7 @@
           <dc:Bounds x="780" y="260" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_00nzjcn_di" bpmnElement="SaveStageParamsTask">
+      <bpmndi:BPMNShape id="ServiceTask_00nzjcn_di" bpmnElement="SaveContextTask">
         <dc:Bounds x="2084" y="137" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0tf8jmn_di" bpmnElement="SequenceFlow_0tf8jmn">

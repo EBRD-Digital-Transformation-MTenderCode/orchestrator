@@ -30,16 +30,16 @@
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1gx4xfj" sourceRef="StartEvent_1" targetRef="SaveFirstOperationTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1hezswa" sourceRef="AcessCreatePnTask" targetRef="StorageOpenDocsOfTenderTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_099e1em" sourceRef="NoticeCreateReleaseTask" targetRef="SaveStageParamsTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_099e1em" sourceRef="NoticeCreateReleaseTask" targetRef="SaveContextTask" />
     <bpmn:serviceTask id="BudgetCheckFsTask" name="Budget Check Fs" camunda:asyncBefore="true" camunda:delegateExpression="${budgetCheckFs}">
       <bpmn:incoming>SequenceFlow_165gqdr</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0y27z9y</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="SaveStageParamsTask" name="Save Stage Params" camunda:delegateExpression="${saveStageParams}">
+    <bpmn:serviceTask id="SaveContextTask" name="Save Context" camunda:delegateExpression="${saveContext}">
       <bpmn:incoming>SequenceFlow_099e1em</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0g4l6hq</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_0g4l6hq" sourceRef="SaveStageParamsTask" targetRef="SendMessageTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0g4l6hq" sourceRef="SaveContextTask" targetRef="SendMessageTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0y27z9y" sourceRef="BudgetCheckFsTask" targetRef="AcessCreatePnTask" />
     <bpmn:serviceTask id="StorageOpenDocsOfTenderTask" name="Storage open Documents of Tender" camunda:asyncBefore="true" camunda:delegateExpression="${storageOpenDocsOfTender}">
       <bpmn:incoming>SequenceFlow_1hezswa</bpmn:incoming>
@@ -112,7 +112,7 @@
       <bpmndi:BPMNShape id="ServiceTask_07x4zvz_di" bpmnElement="BudgetCheckFsTask">
         <dc:Bounds x="301" y="145" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_184si2x_di" bpmnElement="SaveStageParamsTask">
+      <bpmndi:BPMNShape id="ServiceTask_184si2x_di" bpmnElement="SaveContextTask">
         <dc:Bounds x="837" y="145" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0g4l6hq_di" bpmnElement="SequenceFlow_0g4l6hq">
