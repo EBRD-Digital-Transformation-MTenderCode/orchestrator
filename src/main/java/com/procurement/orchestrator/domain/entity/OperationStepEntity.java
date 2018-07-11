@@ -14,9 +14,9 @@ public class OperationStepEntity {
 
     private String processId;
 
-    private String operationId;
-
     private String taskId;
+
+    private String operationId;
 
     private Date date;
 
