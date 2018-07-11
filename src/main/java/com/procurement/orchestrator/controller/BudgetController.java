@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.Country;
 import com.procurement.orchestrator.domain.Stage;
+import com.procurement.orchestrator.exception.OperationException;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.service.RequestService;
@@ -104,6 +105,7 @@ public class BudgetController extends BaseController {
                                            @PathVariable("cpid") final String cpid,
                                            @PathVariable("ocid") final String ocid,
                                            @RequestBody final JsonNode jsonData) {
+        validateOcId(cpid, ocid);
         final Context context = new Context();
         context.setRequestId(UUIDs.timeBased().toString());
         context.setOperationId(operationId);
@@ -120,5 +122,13 @@ public class BudgetController extends BaseController {
         processService.startProcess(context, variables);
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
+
+    private void validateOcId(final String cpid, final String ocid) {
+        final String cpidFromOcid = ocid.substring(0, ocid.indexOf("-FS-"));
+        if (!cpid.equals(cpidFromOcid)) {
+            throw new OperationException("Invalid ocid.");
+        }
+    }
+
 }
 
