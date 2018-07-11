@@ -71,8 +71,8 @@ public class SubmissionSaveNewPeriod implements JavaDelegate {
     }
 
     private Context addDataTocontext(final Context context,
-                                    final JsonNode responseData,
-                                    final String processId) {
+                                     final JsonNode responseData,
+                                     final String processId) {
         context.setStartDate(processService.getText("startDate", responseData, processId));
         context.setEndDate(processService.getText("endDate", responseData, processId));
         return context;

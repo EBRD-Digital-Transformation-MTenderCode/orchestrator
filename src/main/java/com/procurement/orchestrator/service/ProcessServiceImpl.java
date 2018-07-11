@@ -7,13 +7,12 @@ import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.EntityAccess;
 import com.procurement.orchestrator.domain.dto.*;
 import com.procurement.orchestrator.utils.JsonUtil;
+import java.util.*;
 import org.camunda.bpm.engine.RuntimeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import java.util.*;
 
 @Service
 public class ProcessServiceImpl implements ProcessService {
@@ -125,10 +124,10 @@ public class ProcessServiceImpl implements ProcessService {
 
 
     public Context addAccessTocontext(final Context context,
-                                     final String entityType,
-                                     final String entityId,
-                                     final JsonNode responseData,
-                                     final String processId) {
+                                      final String entityType,
+                                      final String entityId,
+                                      final JsonNode responseData,
+                                      final String processId) {
         final String entityToken = getText("token", responseData, processId);
         context.setAccess(Arrays.asList(new EntityAccess(entityType, entityId, entityToken)));
         return context;
@@ -159,7 +158,7 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     public Context addContractAccessTocontext(final Context context, final JsonNode responseData,
-                                             final String processId) {
+                                              final String processId) {
         final ArrayNode contractsNode = (ArrayNode) responseData.get("contracts");
         final List<EntityAccess> accesses = new ArrayList<>();
         for (final JsonNode awardNode : contractsNode) {
