@@ -10,7 +10,7 @@ import java.util.Map;
 
 public enum CommandType {
     TENDER_CPV("tenderCPV"),
-    GET_TENDER_DATA("getTenderData");
+    CHECK_CURRENCY("checkCurrency");
 
     private static final Map<String, CommandType> CONSTANTS = new HashMap<>();
     private final String value;
