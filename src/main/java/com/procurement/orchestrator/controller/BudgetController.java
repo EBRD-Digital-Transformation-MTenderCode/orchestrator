@@ -54,16 +54,16 @@ public class BudgetController extends BaseController {
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
-    @RequestMapping(value = "/ei/{identifier}", method = RequestMethod.POST)
+    @RequestMapping(value = "/ei/{cpid}", method = RequestMethod.POST)
     public ResponseEntity<String> updateEIN(@RequestHeader("Authorization") final String authorization,
                                             @RequestHeader("X-OPERATION-ID") final String operationId,
                                             @RequestHeader("X-TOKEN") final String token,
-                                            @PathVariable("identifier") final String identifier,
+                                            @PathVariable("cpid") final String cpid,
                                             @RequestBody final JsonNode jsonData) {
         final Context context = new Context();
         context.setRequestId(UUIDs.timeBased().toString());
         context.setOperationId(operationId);
-        context.setCpid(identifier);
+        context.setCpid(cpid);
         context.setStage(Stage.EI.value());
         context.setProcessType("ei");
         context.setOperationType("updateEI");
@@ -76,16 +76,16 @@ public class BudgetController extends BaseController {
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
-    @RequestMapping(value = "/fs/{identifier}", method = RequestMethod.POST)
+    @RequestMapping(value = "/fs/{cpid}", method = RequestMethod.POST)
     public ResponseEntity<String> createFS(@RequestHeader("Authorization") final String authorization,
                                            @RequestHeader("X-OPERATION-ID") final String operationId,
-                                           @PathVariable(value = "identifier") final String identifier,
+                                           @PathVariable("cpid") final String cpid,
                                            @RequestBody final JsonNode jsonData) {
         final Context context = new Context();
         context.setRequestId(UUIDs.timeBased().toString());
         context.setOperationId(operationId);
         context.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
-        context.setCpid(identifier);
+        context.setCpid(cpid);
         context.setStage(Stage.FS.value());
         context.setOperationType("createFS");
         context.setProcessType("fs");
