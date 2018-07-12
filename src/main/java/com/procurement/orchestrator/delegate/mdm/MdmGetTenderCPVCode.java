@@ -46,7 +46,7 @@ public class MdmGetTenderCPVCode implements JavaDelegate {
         final JsonNode prevData = jsonUtil.toJsonNode(entity.getResponseData());
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final String processId = execution.getProcessInstanceId();
-        final String taskId = execution.getCurrentActivityName();
+        final String taskId = execution.getCurrentActivityId();
         final JsonNode rqData = processService.getClassificationOfTender(prevData, processId);
         final CommandMessage commandMessage = processService.getCommandMessage(CommandType.TENDER_CPV, context, rqData);
         JsonNode responseData = null;

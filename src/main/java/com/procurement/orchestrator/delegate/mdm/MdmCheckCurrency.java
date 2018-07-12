@@ -46,7 +46,7 @@ public class MdmCheckCurrency implements JavaDelegate {
         final JsonNode prevData = jsonUtil.toJsonNode(entity.getResponseData());
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final String processId = execution.getProcessInstanceId();
-        final String taskId = execution.getCurrentActivityName();
+        final String taskId = execution.getCurrentActivityId();
         final JsonNode rqData = processService.getCurrencyOfBudget(prevData, processId);
         final CommandMessage commandMessage = processService.getCommandMessage(CommandType.CHECK_CURRENCY, context, rqData);
         JsonNode responseData = null;
