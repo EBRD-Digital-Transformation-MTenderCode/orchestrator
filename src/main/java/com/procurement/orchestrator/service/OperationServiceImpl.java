@@ -189,6 +189,12 @@ public class OperationServiceImpl implements OperationService {
     }
 
     @Override
+    public Context getContext(final String cpId) {
+        final Optional<ContextEntity> entityOptional = cassandraDao.getContextByCpId(cpId);
+        return jsonUtil.toObject(Context.class, entityOptional.get().getContext());
+    }
+
+    @Override
     public Stage getStageFromRules(final String country, final String pmd, final String operationType) {
         final Optional<StageRulesEntity> entityOptional = cassandraDao.getStageFromRules(country, pmd, operationType);
         if (entityOptional.isPresent()) {

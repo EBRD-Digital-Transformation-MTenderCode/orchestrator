@@ -42,6 +42,8 @@ public interface OperationService {
 
     Context getContext(String cpId, String processId);
 
+    Context getContext(String cpId);
+
     Stage getStageFromRules(String country, String pmd, String operationType);
 }
 

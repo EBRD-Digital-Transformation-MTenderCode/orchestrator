@@ -25,18 +25,17 @@ public class TenderController extends BaseController {
 
     private final DateUtil dateUtil;
     private final ProcessService processService;
-    private final BudgetRestClient budgetRestClient;
+    private final OperationService operationService;
 
     public TenderController(final ProcessService processService,
                             final RequestService requestService,
                             final OperationService operationService,
                             final JsonUtil jsonUtil,
-                            final DateUtil dateUtil,
-                            final BudgetRestClient budgetRestClient) {
+                            final DateUtil dateUtil) {
         super(jsonUtil, requestService, operationService);
         this.dateUtil = dateUtil;
         this.processService = processService;
-        this.budgetRestClient = budgetRestClient;
+        this.operationService = operationService;
     }
 
     @RequestMapping(value = "/cn", method = RequestMethod.POST)
@@ -56,31 +55,32 @@ public class TenderController extends BaseController {
         context.setCountry(Country.fromValue(country.toUpperCase()).value());
         context.setPmd(Pmd.fromValue(pmd.toUpperCase()).value());
         context.setPhase("TENDERPERIOD");
-        setStageForOperation(context);
+        context.setStage(getStageForOperation(context));
         saveRequestAndCheckOperation(context, jsonData);
         processService.startProcess(context, new HashMap<>());
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
-    @RequestMapping(value = "/cn/{identifier}", method = RequestMethod.POST)
+    @RequestMapping(value = "/cn/{cpid}/{ocid}", method = RequestMethod.POST)
     public ResponseEntity<String> updateCN(@RequestHeader("Authorization") final String authorization,
                                            @RequestHeader("X-OPERATION-ID") final String operationId,
                                            @RequestHeader("X-TOKEN") final String token,
-                                           @PathVariable("identifier") final String identifier,
-                                           @RequestParam("stage") final String stage,
+                                           @PathVariable("cpid") final String cpid,
+                                           @PathVariable("ocid") final String ocid,
                                            @RequestBody final JsonNode jsonData) {
         final Context context = new Context();
         context.setRequestId(UUIDs.timeBased().toString());
         context.setOwner(getOwner(authorization));
         context.setOperationId(operationId);
-        context.setCpid(identifier);
+        context.setCpid(cpid);
+        context.setOcid(ocid);
         context.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
         context.setEndDate(processService.getTenderPeriodEndDate(jsonData, null));
-        context.setStage(Stage.fromValue(stage).value());
         context.setProcessType("updateCN");
         context.setOperationType("updateCN");
         context.setToken(token);
         context.setPhase("TENDERPERIOD");
+        context.setStage(getStageForOperation(operationService.getContext(cpid)));
         saveRequestAndCheckOperation(context, jsonData);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("operationType", "updateCN");
@@ -104,31 +104,32 @@ public class TenderController extends BaseController {
         context.setCountry(Country.fromValue(country.toUpperCase()).value());
         context.setPmd(Pmd.fromValue(pmd.toUpperCase()).value());
         context.setPhase("PLANNED");
-        setStageForOperation(context);
+        context.setStage(getStageForOperation(context));
         saveRequestAndCheckOperation(context, jsonData);
         processService.startProcess(context, new HashMap<>());
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
-    @RequestMapping(value = "/pin/{identifier}", method = RequestMethod.POST)
+    @RequestMapping(value = "/pin/{cpid}/{ocid}", method = RequestMethod.POST)
     public ResponseEntity<String> updatePIN(@RequestHeader("Authorization") final String authorization,
                                             @RequestHeader("X-OPERATION-ID") final String operationId,
                                             @RequestHeader("X-TOKEN") final String token,
-                                            @PathVariable("identifier") final String identifier,
-                                            @RequestParam("stage") final String stage,
+                                            @PathVariable("cpid") final String cpid,
+                                            @PathVariable("ocid") final String ocid,
                                             @RequestBody final JsonNode jsonData) {
         final Context context = new Context();
         context.setRequestId(UUIDs.timeBased().toString());
         context.setOwner(getOwner(authorization));
         context.setOperationId(operationId);
-        context.setCpid(identifier);
+        context.setCpid(cpid);
+        context.setOcid(ocid);
         context.setToken(token);
         context.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
         context.setEndDate(processService.getTenderPeriodEndDate(jsonData, null));
-        context.setStage(Stage.fromValue(stage).value());
         context.setProcessType("updatePIN");
         context.setOperationType("updatePIN");
         context.setPhase("PLANNED");
+        context.setStage(getStageForOperation(operationService.getContext(cpid)));
         saveRequestAndCheckOperation(context, jsonData);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("operationType", "updatePIN");

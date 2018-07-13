@@ -43,6 +43,13 @@ public class BaseController {
         context.setStage(stage.value());
     }
 
+    String getStageForOperation(final Context context) {
+        final Stage stage = operationService.getStageFromRules(
+                context.getCountry(),
+                context.getPmd(),
+                context.getOperationType());
+        return stage.value();
+    }
 
     String getOwner(final String authorization) {
         final String[] split = authorization.split("\\.");
