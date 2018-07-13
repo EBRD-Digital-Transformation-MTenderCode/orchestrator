@@ -123,7 +123,7 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
 
-    public Context addAccessTocontext(final Context context,
+    public Context addAccessToContext(final Context context,
                                       final String entityType,
                                       final String entityId,
                                       final JsonNode responseData,
@@ -134,14 +134,14 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
-    public Context addBidAccessTocontext(final Context context, final JsonNode responseData, final String processId) {
+    public Context addBidAccessToContext(final Context context, final JsonNode responseData, final String processId) {
         final String entityToken = getText("token", responseData, processId);
         final String entityId = getText("bidId", responseData, processId);
         context.setAccess(Arrays.asList(new EntityAccess("bid", entityId, entityToken)));
         return context;
     }
 
-    public Context addAwardAccessTocontext(final Context context, final JsonNode responseData, final String processId) {
+    public Context addAwardAccessToContext(final Context context, final JsonNode responseData, final String processId) {
         final ArrayNode awardsNode = (ArrayNode) responseData.get("awards");
         final List<EntityAccess> accesses = new ArrayList<>();
         for (final JsonNode awardNode : awardsNode) {
@@ -157,7 +157,7 @@ public class ProcessServiceImpl implements ProcessService {
         return context;
     }
 
-    public Context addContractAccessTocontext(final Context context, final JsonNode responseData,
+    public Context addContractAccessToContext(final Context context, final JsonNode responseData,
                                               final String processId) {
         final ArrayNode contractsNode = (ArrayNode) responseData.get("contracts");
         final List<EntityAccess> accesses = new ArrayList<>();
@@ -665,6 +665,19 @@ public class ProcessServiceImpl implements ProcessService {
             if (currencyNode == null) return null;
             final ObjectNode mainNode = jsonUtil.createObjectNode();
             mainNode.replace("currency", currencyNode);
+            return mainNode;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public JsonNode getTenderItems(final JsonNode jsonData, final String processId) {
+        try {
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            final JsonNode itemsNode = jsonData.get("tender").get("items");
+            if (itemsNode != null) mainNode.replace("items", itemsNode);
             return mainNode;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());

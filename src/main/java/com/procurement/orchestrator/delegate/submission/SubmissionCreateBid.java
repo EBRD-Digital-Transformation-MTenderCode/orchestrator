@@ -55,7 +55,7 @@ public class SubmissionCreateBid implements JavaDelegate {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    processService.addBidAccessTocontext(context, responseData, processId),
+                    processService.addBidAccessToContext(context, responseData, processId),
                     requestData,
                     responseData);
     }

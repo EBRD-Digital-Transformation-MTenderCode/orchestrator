@@ -1,9 +1,11 @@
-package com.procurement.orchestrator.delegate.contracting;
+package com.procurement.orchestrator.delegate.mdm;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
+import com.procurement.orchestrator.domain.dto.CommandMessage;
+import com.procurement.orchestrator.domain.dto.CommandType;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
-import com.procurement.orchestrator.rest.ContractingRestClient;
+import com.procurement.orchestrator.rest.MdmRestClient;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -15,20 +17,23 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ContractingCreateContract implements JavaDelegate {
+public class MdmTenderInfo implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ContractingCreateContract.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MdmTenderInfo.class);
 
-    private final ContractingRestClient contractingRestClient;
+    private final MdmRestClient mdmRestClient;
+
     private final OperationService operationService;
+
     private final ProcessService processService;
+
     private final JsonUtil jsonUtil;
 
-    public ContractingCreateContract(final ContractingRestClient contractingRestClient,
-                                     final OperationService operationService,
-                                     final ProcessService processService,
-                                     final JsonUtil jsonUtil) {
-        this.contractingRestClient = contractingRestClient;
+    public MdmTenderInfo(final MdmRestClient mdmRestClient,
+                         final OperationService operationService,
+                         final ProcessService processService,
+                         final JsonUtil jsonUtil) {
+        this.mdmRestClient = mdmRestClient;
         this.operationService = operationService;
         this.processService = processService;
         this.jsonUtil = jsonUtil;
@@ -38,26 +43,23 @@ public class ContractingCreateContract implements JavaDelegate {
     public void execute(final DelegateExecution execution) throws Exception {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
+        final JsonNode prevData = jsonUtil.toJsonNode(entity.getResponseData());
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
-        final JsonNode requestData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode responseData = processService.processResponse(
-                contractingRestClient.createAC(
-                        context.getCpid(),
-                        context.getStage(),
-                        requestData),
-                context,
-                processId,
-                taskId,
-                requestData);
+        final JsonNode rqData = processService.getTenderItems(prevData, processId);
+        final CommandMessage commandMessage = processService.getCommandMessage(CommandType.TENDER_INFO, context, rqData);
+        JsonNode responseData = null;
+        if (Objects.nonNull(rqData))
+            responseData = processService.processResponse(
+                    mdmRestClient.execute(commandMessage),
+                    context,
+                    processId,
+                    taskId,
+                    jsonUtil.toJsonNode(commandMessage));
         if (Objects.nonNull(responseData))
             operationService.saveOperationStep(
                     execution,
-                    entity,
-                    processService.addContractAccessToContext(context, responseData, processId),
-                    requestData,
-                    processService.addContracts(requestData, responseData, processId));
+                    entity);
     }
-
 }

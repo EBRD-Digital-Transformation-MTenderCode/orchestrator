@@ -59,6 +59,6 @@ public class BudgetCreateEi implements JavaDelegate {
 
     private Context addDataToContext(final Context context, final JsonNode responseData, final String processId) {
         context.setCpid(processService.getText("ocid", responseData, processId));
-        return processService.addAccessTocontext(context, "ei", context.getCpid(), responseData, processId);
+        return processService.addAccessToContext(context, "ei", context.getCpid(), responseData, processId);
     }
 }

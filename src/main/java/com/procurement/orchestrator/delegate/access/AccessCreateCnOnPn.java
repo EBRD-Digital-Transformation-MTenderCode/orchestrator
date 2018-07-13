@@ -62,12 +62,12 @@ public class AccessCreateCnOnPn implements JavaDelegate {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    addDataTocontext(context, responseData, processId),
+                    addDataToContext(context, responseData, processId),
                     requestData,
                     processService.setAccessData(jsonData, responseData, processId));
     }
 
-    private Context addDataTocontext(final Context context, final JsonNode responseData, final String processId) {
-        return processService.addAccessTocontext(context, "tender", context.getCpid(), responseData, processId);
+    private Context addDataToContext(final Context context, final JsonNode responseData, final String processId) {
+        return processService.addAccessToContext(context, "tender", context.getCpid(), responseData, processId);
     }
 }

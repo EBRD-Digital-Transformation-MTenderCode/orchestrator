@@ -9,6 +9,7 @@ import java.util.Map;
 
 public enum CommandType {
     TENDER_CPV("tenderCPV"),
+    TENDER_INFO("tenderInfo"),
     CHECK_CURRENCY("checkCurrency");
 
     private static final Map<String, CommandType> CONSTANTS = new HashMap<>();

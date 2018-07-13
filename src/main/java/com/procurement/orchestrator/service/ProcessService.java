@@ -36,13 +36,13 @@ public interface ProcessService {
 
     String getTenderPeriodEndDate(JsonNode jsonData, String processId);
 
-    Context addAccessTocontext(Context context, String entityType, String entityId, JsonNode responseData, String processId);
+    Context addAccessToContext(Context context, String entityType, String entityId, JsonNode responseData, String processId);
 
-    Context addBidAccessTocontext(Context context, JsonNode responseData, String processId);
+    Context addBidAccessToContext(Context context, JsonNode responseData, String processId);
 
-    Context addAwardAccessTocontext(Context context, JsonNode responseData, String processId);
+    Context addAwardAccessToContext(Context context, JsonNode responseData, String processId);
 
-    Context addContractAccessTocontext(Context context, JsonNode responseData, String processId);
+    Context addContractAccessToContext(Context context, JsonNode responseData, String processId);
 
     JsonNode addTenderTenderPeriod(JsonNode jsonData, JsonNode periodData, String processId);
 
@@ -123,5 +123,7 @@ public interface ProcessService {
     JsonNode setClassificationOfTender(JsonNode jsonData, JsonNode responseData, String processId);
 
     JsonNode getCurrencyOfBudget(JsonNode jsonData, String processId);
+
+    JsonNode getTenderItems(JsonNode jsonData, String processId);
 }
 

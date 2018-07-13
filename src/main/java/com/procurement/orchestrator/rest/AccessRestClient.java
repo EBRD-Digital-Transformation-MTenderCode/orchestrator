@@ -128,4 +128,11 @@ public interface AccessRestClient {
                                               @RequestParam("stage") String newStage,
                                               @RequestParam("owner") String owner) throws Exception;
 
+
+    @RequestMapping(path = "/checkItems", method = RequestMethod.POST)
+    ResponseEntity<ResponseDto> checkItems(@RequestParam("country") String country,
+                                           @RequestParam("pmd") String pmd,
+                                           @RequestBody JsonNode jsonData) throws Exception;
+
+
 }
