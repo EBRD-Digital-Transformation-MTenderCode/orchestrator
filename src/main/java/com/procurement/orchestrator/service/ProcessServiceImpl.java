@@ -562,37 +562,6 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
-    public JsonNode getCheckFs(final JsonNode jsonData, final String startDate, final String processId) {
-        try {
-            final ObjectNode mainNode = jsonUtil.createObjectNode();
-            mainNode.replace("planning", jsonData.get("planning"));
-            final ObjectNode tenderNode = mainNode.putObject("tender");
-            tenderNode.replace("mainProcurementCategory", jsonData.get("tender").get("mainProcurementCategory"));
-            tenderNode.replace("classification", jsonData.get("tender").get("classification"));
-            return mainNode;
-        } catch (Exception e) {
-            terminateProcess(processId, e.getMessage());
-            return null;
-        }
-    }
-
-    @Override
-    public JsonNode setCheckFs(final JsonNode jsonData, final JsonNode responseData, final String processId) {
-        try {
-            final ObjectNode mainNode = (ObjectNode) jsonData;
-            mainNode.replace("planning", responseData.get("planning"));
-            mainNode.replace("ei", responseData.get("ei"));
-            mainNode.replace("buyer", responseData.get("buyer"));
-            mainNode.replace("funder", responseData.get("funder"));
-            mainNode.replace("payer", responseData.get("payer"));
-            return mainNode;
-        } catch (Exception e) {
-            terminateProcess(processId, e.getMessage());
-            return null;
-        }
-    }
-
-    @Override
     public JsonNode setAccessData(final JsonNode jsonData, final JsonNode responseData, final String processId) {
         try {
             final ObjectNode mainNode = (ObjectNode) jsonData;
@@ -694,7 +663,6 @@ public class ProcessServiceImpl implements ProcessService {
             final ObjectNode tenderNode = (ObjectNode) jsonData.get("tender");
             tenderNode.replace("items", responseData.get("items"));
             tenderNode.replace("classification", responseData.get("classification"));
-            tenderNode.replace("mainProcurementCategory", responseData.get("mainProcurementCategory"));
             tenderNode.replace("submissionMethodRationale", responseData.get("submissionMethodRationale"));
             tenderNode.replace("submissionMethodDetails", responseData.get("submissionMethodDetails"));
             tenderNode.replace("procurementMethodDetails", responseData.get("procurementMethodDetails"));
@@ -705,5 +673,33 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
+    @Override
+    public JsonNode getCheckFs(final JsonNode jsonData, final String startDate, final String processId) {
+        try {
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            mainNode.replace("planning", jsonData.get("planning"));
+            final ObjectNode tenderNode = mainNode.putObject("tender");
+            tenderNode.replace("classification", jsonData.get("tender").get("classification"));
+            return mainNode;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
 
+    @Override
+    public JsonNode setCheckFs(final JsonNode jsonData, final JsonNode responseData, final String processId) {
+        try {
+            final ObjectNode mainNode = (ObjectNode) jsonData;
+            mainNode.replace("planning", responseData.get("planning"));
+            mainNode.replace("ei", responseData.get("ei"));
+            mainNode.replace("buyer", responseData.get("buyer"));
+            mainNode.replace("funder", responseData.get("funder"));
+            mainNode.replace("payer", responseData.get("payer"));
+            return mainNode;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
 }

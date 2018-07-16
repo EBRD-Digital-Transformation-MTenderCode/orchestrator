@@ -108,10 +108,6 @@ public interface ProcessService {
 
     JsonNode addStandstillPeriod(JsonNode jsonData, String startDate, String endDate, String processId);
 
-    JsonNode getCheckFs(JsonNode jsonData, String startDate, String processId);
-
-    JsonNode setCheckFs(JsonNode jsonData, JsonNode responseData, String processId);
-
     JsonNode setAccessData(JsonNode jsonData, JsonNode responseData, String processId);
 
     JsonNode getAccessData(JsonNode jsonData, String processId);
@@ -127,5 +123,9 @@ public interface ProcessService {
     JsonNode getTenderInfo(JsonNode jsonData, String processId);
 
     JsonNode setTenderInfo(JsonNode jsonData, JsonNode responseData, String processId);
+
+    JsonNode getCheckFs(JsonNode jsonData, String startDate, String processId);
+
+    JsonNode setCheckFs(JsonNode jsonData, JsonNode responseData, String processId);
 }
 
