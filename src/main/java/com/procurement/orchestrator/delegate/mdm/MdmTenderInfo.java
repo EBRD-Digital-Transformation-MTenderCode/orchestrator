@@ -47,7 +47,7 @@ public class MdmTenderInfo implements JavaDelegate {
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode rqData = processService.getTenderItems(prevData, processId);
+        final JsonNode rqData = processService.getTenderInfo(prevData, processId);
         final CommandMessage commandMessage = processService.getCommandMessage(CommandType.TENDER_INFO, context, rqData);
         JsonNode responseData = null;
         if (Objects.nonNull(rqData))
@@ -60,6 +60,8 @@ public class MdmTenderInfo implements JavaDelegate {
         if (Objects.nonNull(responseData))
             operationService.saveOperationStep(
                     execution,
-                    entity);
+                    entity,
+                    jsonUtil.toJsonNode(commandMessage),
+                    processService.setTenderInfo(prevData, responseData, processId));
     }
 }

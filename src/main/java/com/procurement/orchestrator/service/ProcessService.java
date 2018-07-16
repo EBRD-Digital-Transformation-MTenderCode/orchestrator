@@ -124,6 +124,8 @@ public interface ProcessService {
 
     JsonNode getCurrencyOfBudget(JsonNode jsonData, String processId);
 
-    JsonNode getTenderItems(JsonNode jsonData, String processId);
+    JsonNode getTenderInfo(JsonNode jsonData, String processId);
+
+    JsonNode setTenderInfo(JsonNode jsonData, JsonNode responseData, String processId);
 }
 

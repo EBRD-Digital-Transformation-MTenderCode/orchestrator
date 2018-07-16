@@ -565,9 +565,10 @@ public class ProcessServiceImpl implements ProcessService {
     public JsonNode getCheckFs(final JsonNode jsonData, final String startDate, final String processId) {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
-            mainNode.replace("budgetBreakdown", jsonData.findPath("budgetBreakdown"));
-            mainNode.replace("tenderPeriod", jsonData.findPath("tenderPeriod"));
-            mainNode.replace("classification", jsonData.findPath("classification"));
+            mainNode.replace("planning", jsonData.get("planning"));
+            final ObjectNode tenderNode = mainNode.putObject("tender");
+            tenderNode.replace("mainProcurementCategory", jsonData.get("tender").get("mainProcurementCategory"));
+            tenderNode.replace("classification", jsonData.get("tender").get("classification"));
             return mainNode;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
@@ -579,8 +580,7 @@ public class ProcessServiceImpl implements ProcessService {
     public JsonNode setCheckFs(final JsonNode jsonData, final JsonNode responseData, final String processId) {
         try {
             final ObjectNode mainNode = (ObjectNode) jsonData;
-            final ObjectNode budgetNode = (ObjectNode) mainNode.get("planning").get("budget");
-            budgetNode.replace("budgetBreakdown", responseData.get("budgetBreakdown"));
+            mainNode.replace("planning", responseData.get("planning"));
             mainNode.replace("ei", responseData.get("ei"));
             mainNode.replace("buyer", responseData.get("buyer"));
             mainNode.replace("funder", responseData.get("funder"));
@@ -673,15 +673,37 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
-    public JsonNode getTenderItems(final JsonNode jsonData, final String processId) {
+    public JsonNode getTenderInfo(final JsonNode jsonData, final String processId) {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
             final JsonNode itemsNode = jsonData.get("tender").get("items");
-            if (itemsNode != null) mainNode.replace("items", itemsNode);
+            final JsonNode classificationNode = jsonData.get("tender").get("classification");
+            final ObjectNode tenderNode = mainNode.putObject("tender");
+            tenderNode.replace("items", itemsNode);
+            tenderNode.replace("classification", classificationNode);
             return mainNode;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
             return null;
         }
     }
+
+    @Override
+    public JsonNode setTenderInfo(final JsonNode jsonData, final JsonNode responseData, final String processId) {
+        try {
+            final ObjectNode tenderNode = (ObjectNode) jsonData.get("tender");
+            tenderNode.replace("items", responseData.get("items"));
+            tenderNode.replace("classification", responseData.get("classification"));
+            tenderNode.replace("mainProcurementCategory", responseData.get("mainProcurementCategory"));
+            tenderNode.replace("submissionMethodRationale", responseData.get("submissionMethodRationale"));
+            tenderNode.replace("submissionMethodDetails", responseData.get("submissionMethodDetails"));
+            tenderNode.replace("procurementMethodDetails", responseData.get("procurementMethodDetails"));
+            return jsonData;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+
 }

@@ -38,28 +38,26 @@
     "id": "ocds-t1s2t3-MD-1521823082027",
     "title": "Tender title",
     "description": "Tender description",
-    "status": "active",
-    "statusDetails": "empty",
     "items": [
       {
         "id": "8da82fb0-2eb8-11e8-907c-df4915b32957",
         "description": "A description of the goods, services to be provided.",
         "classification": {
-          "scheme": "CPV",
+          "scheme": "",
           "id": "15540000-5",
-          "description": "Cheese products"
+          "description": ""
         },
         "additionalClassifications": [
           {
-            "scheme": "CPVS",
-            "id": "CPVs-id-12341234",
-            "description": "A textual description or title for the code."
+            "scheme": "",
+            "id": "CB32-7",
+            "description": ""
           }
         ],
         "quantity": 10.0,
         "unit": {
-          "name": "kg",
-          "id": "0971"
+          "name": "",
+          "id": "TNE"
         },
         "relatedLot": "8da82fb1-2eb8-11e8-907c-df4915b32957"
       }
@@ -71,7 +69,7 @@
     "procurementMethod": "open",
     "procurementMethodDetails": "Open Procurement",
     "procurementMethodRationale": "Rationale of procurement method, especially in the case of Limited tendering.",
-    "mainProcurementCategory": "goods",
+    "mainProcurementCategory": "",
     "additionalProcurementCategories": [
       "goods"
     ],
