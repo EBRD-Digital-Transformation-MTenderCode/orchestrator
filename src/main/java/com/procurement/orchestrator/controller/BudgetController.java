@@ -34,10 +34,10 @@ public class BudgetController extends BaseController {
     }
 
     @RequestMapping(value = "/ei", method = RequestMethod.POST)
-    public ResponseEntity<String> createEIN(@RequestHeader("Authorization") final String authorization,
-                                            @RequestHeader("X-OPERATION-ID") final String operationId,
-                                            @RequestParam("country") final String country,
-                                            @RequestBody final JsonNode jsonData) {
+    public ResponseEntity<String> createEI(@RequestHeader("Authorization") final String authorization,
+                                           @RequestHeader("X-OPERATION-ID") final String operationId,
+                                           @RequestParam("country") final String country,
+                                           @RequestBody final JsonNode jsonData) {
         final Context context = new Context();
         context.setRequestId(UUIDs.timeBased().toString());
         context.setOwner(getOwner(authorization));
@@ -56,11 +56,11 @@ public class BudgetController extends BaseController {
     }
 
     @RequestMapping(value = "/ei/{cpid}", method = RequestMethod.POST)
-    public ResponseEntity<String> updateEIN(@RequestHeader("Authorization") final String authorization,
-                                            @RequestHeader("X-OPERATION-ID") final String operationId,
-                                            @RequestHeader("X-TOKEN") final String token,
-                                            @PathVariable("cpid") final String cpid,
-                                            @RequestBody final JsonNode jsonData) {
+    public ResponseEntity<String> updateEI(@RequestHeader("Authorization") final String authorization,
+                                           @RequestHeader("X-OPERATION-ID") final String operationId,
+                                           @RequestHeader("X-TOKEN") final String token,
+                                           @PathVariable("cpid") final String cpid,
+                                           @RequestBody final JsonNode jsonData) {
         final Context context = new Context();
         context.setRequestId(UUIDs.timeBased().toString());
         context.setOperationId(operationId);
