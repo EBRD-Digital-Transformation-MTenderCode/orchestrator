@@ -20,8 +20,8 @@ public interface BudgetRestClient {
 
     @RequestMapping(path = "/ei", method = RequestMethod.PUT)
     ResponseEntity<ResponseDto> updateEi(@RequestParam("cpid") String cpId,
-                                         @RequestParam("token") String token,
                                          @RequestParam("owner") String owner,
+                                         @RequestParam("token") String token,
                                          @RequestBody JsonNode jsonData) throws Exception;
 
     @RequestMapping(path = "/fs", method = RequestMethod.POST)
