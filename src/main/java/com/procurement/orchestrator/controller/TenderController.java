@@ -26,6 +26,7 @@ public class TenderController extends BaseController {
     private final DateUtil dateUtil;
     private final ProcessService processService;
     private final OperationService operationService;
+    private final String lang = "ro";
 
     public TenderController(final ProcessService processService,
                             final RequestService requestService,
@@ -52,6 +53,7 @@ public class TenderController extends BaseController {
         context.setEndDate(processService.getTenderPeriodEndDate(jsonData, null));
         context.setProcessType("createCN");
         context.setOperationType("createCN");
+        context.setLanguage(lang);
         context.setCountry(Country.fromValue(country.toUpperCase()).value());
         context.setPmd(Pmd.fromValue(pmd.toUpperCase()).value());
         context.setPhase("TENDERPERIOD");
@@ -78,6 +80,7 @@ public class TenderController extends BaseController {
         context.setEndDate(processService.getTenderPeriodEndDate(jsonData, null));
         context.setProcessType("updateCN");
         context.setOperationType("updateCN");
+        context.setLanguage(lang);
         context.setToken(token);
         context.setPhase("TENDERPERIOD");
         context.setStage(getStageForOperation(operationService.getContext(cpid)));
@@ -101,6 +104,7 @@ public class TenderController extends BaseController {
         context.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
         context.setProcessType("createPIN");
         context.setOperationType("createPIN");
+        context.setLanguage(lang);
         context.setCountry(Country.fromValue(country.toUpperCase()).value());
         context.setPmd(Pmd.fromValue(pmd.toUpperCase()).value());
         context.setPhase("PLANNED");
@@ -128,6 +132,7 @@ public class TenderController extends BaseController {
         context.setEndDate(processService.getTenderPeriodEndDate(jsonData, null));
         context.setProcessType("updatePIN");
         context.setOperationType("updatePIN");
+        context.setLanguage(lang);
         context.setPhase("PLANNED");
         context.setStage(getStageForOperation(operationService.getContext(cpid)));
         saveRequestAndCheckOperation(context, jsonData);
@@ -150,6 +155,7 @@ public class TenderController extends BaseController {
         context.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
         context.setProcessType("createPN");
         context.setOperationType("createPN");
+        context.setLanguage(lang);
         context.setCountry(Country.fromValue(country.toUpperCase()).value());
         context.setPmd(Pmd.fromValue(pmd.toUpperCase()).value());
         context.setPhase("PLANNING");
@@ -175,6 +181,7 @@ public class TenderController extends BaseController {
         context.setStage(Stage.fromValue(stage).value());
         context.setProcessType("submitTheBid");
         context.setOperationType("bid");
+        context.setLanguage(lang);
         context.setOwner(getOwner(authorization));
         context.setToken(token);
         saveRequestAndCheckOperation(context, jsonData);
@@ -200,6 +207,7 @@ public class TenderController extends BaseController {
         context.setStage(Stage.fromValue(stage).value());
         context.setProcessType("enquiry");
         context.setOperationType("createEnquiry");
+        context.setLanguage(lang);
         context.setToken(token);
         saveRequestAndCheckOperation(context, jsonData);
         final Map<String, Object> variables = new HashMap<>();
@@ -223,6 +231,7 @@ public class TenderController extends BaseController {
         context.setCpid(identifier);
         context.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
         context.setStage(Stage.fromValue(stage).value());
+        context.setLanguage(lang);
         final Map<String, Object> variables = new HashMap<>();
         if (context.getStage().equals(Stage.EV.value())) {
             variables.put("awardStatusDetails", "");
@@ -251,6 +260,7 @@ public class TenderController extends BaseController {
         context.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
         context.setStage(Stage.fromValue(stage).value());
         final Map<String, Object> variables = new HashMap<>();
+        context.setLanguage(lang);
         if (context.getStage().equals(Stage.EV.value())) {
             context.setProcessType("awardPeriodEndEv");
             context.setOperationType("awardPeriodEndEv");
@@ -283,6 +293,7 @@ public class TenderController extends BaseController {
         context.setStage(Stage.fromValue(stage).value());
         context.setProcessType("startNewStage");
         context.setOperationType("startNewStage");
+        context.setLanguage(lang);
         context.setPhase("TENDERPERIOD");
         saveRequestAndCheckOperation(context, null);
         processService.startProcess(context, new HashMap<>());
@@ -302,6 +313,7 @@ public class TenderController extends BaseController {
         context.setOperationId(operationId);
         context.setCpid(identifier);
         context.setStage(Stage.fromValue(stage).value());
+        context.setLanguage(lang);
         if (context.getStage().equals(Stage.EV.value())) {
             context.setProcessType("tenderPeriodEndEv");
             context.setOperationType("tenderPeriodEndEv");

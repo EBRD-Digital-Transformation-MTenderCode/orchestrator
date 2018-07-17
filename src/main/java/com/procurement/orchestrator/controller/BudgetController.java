@@ -22,6 +22,7 @@ public class BudgetController extends BaseController {
 
     private final DateUtil dateUtil;
     private final ProcessService processService;
+    private final String lang = "ro";
 
     public BudgetController(final ProcessService processService,
                             final RequestService requestService,
@@ -45,7 +46,7 @@ public class BudgetController extends BaseController {
         context.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
         context.setStage(Stage.EI.value());
         context.setCountry(Country.fromValue(country.toUpperCase()).value());
-        context.setLanguage("ro");
+        context.setLanguage(lang);
         context.setProcessType("ei");
         context.setOperationType("createEI");
         saveRequestAndCheckOperation(context, jsonData);
@@ -67,6 +68,7 @@ public class BudgetController extends BaseController {
         context.setCpid(cpid);
         context.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
         context.setStage(Stage.EI.value());
+        context.setLanguage(lang);
         context.setProcessType("ei");
         context.setOperationType("updateEI");
         context.setOwner(getOwner(authorization));
