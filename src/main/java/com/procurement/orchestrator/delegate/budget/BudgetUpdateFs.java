@@ -48,6 +48,7 @@ public class BudgetUpdateFs implements JavaDelegate {
         final JsonNode responseData = processService.processResponse(
                 budgetRestClient.updateFs(
                         context.getCpid(),
+                        context.getOcid(),
                         context.getToken(),
                         context.getOwner(),
                         requestData),

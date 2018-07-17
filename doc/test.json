@@ -1,54 +1,44 @@
 {
   "tender": {
-    "title": "TITLE",
-    "classification": {
-      "id": "79200000-6",
-      "scheme": "CPV",
-      "description": "Servicii de contabilitate, servicii de audit şi servicii fiscale"
-    }
-  },
-  "planning": {
-    "budget": {
-      "period": {
-        "startDate": "2018-07-08T00:00:00Z",
-        "endDate": "2018-09-01T00:00:00Z"
-      }
-    }
-  },
-  "buyer": {
-    "name": "NAME",
-    "identifier": {
-      "id": "string",
-      "scheme": "string",
-      "legalName": "string",
-      "uri": "string"
-    },
-    "address": {
-      "streetAddress": "string",
-      "locality": "string",
-      "region": "string",
-      "countryName": "Moldova"
-    },
-    "additionalIdentifiers": [
-      {
+    "procuringEntity": {
+      "name": "dfhdh",
+      "identifier": {
         "id": "string",
         "scheme": "string",
         "legalName": "string",
         "uri": "string"
+      },
+      "address": {
+        "streetAddress": "string",
+        "locality": "string",
+        "region": "string",
+        "countryName": "string"
+      },
+      "contactPoint": {
+        "name": "string",
+        "email": "string",
+        "telephone": "string",
+        "url": "string"
       }
-    ],
-    "contactPoint": {
-      "name": "string",
-      "email": "string",
-      "telephone": "string",
-      "url": "string"
-    },
-    "details": {
-      "typeOfBuyer": "NATIONAL_AGENCY",
-      "mainGeneralActivity": "ENVIRONMENT",
-      "mainSectoralActivity": "WATER",
-      "isACentralPurchasingBody": true,
-      "scale": "sme"
+    }
+  },
+  "planning": {
+    "budget": {
+      "id": "1",
+      "description": "1",
+      "period": {
+        "startDate": "2018-07-08T00:00:00Z",
+        "endDate": "2018-08-20T00:00:00Z"
+      },
+      "amount": {
+        "amount": 10,
+        "currency": "MDL"
+      },
+      "isEuropeanUnionFunded": false,
+      "europeanUnionFunding": {
+        "projectName": "1",
+        "projectIdentifier": "1"
+      }
     }
   }
 }

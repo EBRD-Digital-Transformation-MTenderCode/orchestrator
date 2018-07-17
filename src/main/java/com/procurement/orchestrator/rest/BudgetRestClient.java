@@ -19,19 +19,20 @@ public interface BudgetRestClient {
                                          @RequestBody JsonNode jsonData) throws Exception;
 
     @RequestMapping(path = "/ei", method = RequestMethod.PUT)
-    ResponseEntity<ResponseDto> updateEi(@RequestParam("identifier") String cpId,
+    ResponseEntity<ResponseDto> updateEi(@RequestParam("cpid") String cpId,
                                          @RequestParam("owner") String owner,
                                          @RequestParam("token") String token,
                                          @RequestBody JsonNode jsonData) throws Exception;
 
     @RequestMapping(path = "/fs", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> createFs(@RequestParam("identifier") String cpId,
+    ResponseEntity<ResponseDto> createFs(@RequestParam("cpid") String cpId,
                                          @RequestParam("owner") String owner,
                                          @RequestParam("date") String dateTime,
                                          @RequestBody JsonNode jsonData) throws Exception;
 
     @RequestMapping(path = "/fs", method = RequestMethod.PUT)
-    ResponseEntity<ResponseDto> updateFs(@RequestParam("identifier") String cpId,
+    ResponseEntity<ResponseDto> updateFs(@RequestParam("cpid") String cpId,
+                                         @RequestParam("ocid") String ocId,
                                          @RequestParam("token") String token,
                                          @RequestParam("owner") String owner,
                                          @RequestBody JsonNode jsonData) throws Exception;
