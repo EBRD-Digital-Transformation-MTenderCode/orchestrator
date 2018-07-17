@@ -602,11 +602,8 @@ public class ProcessServiceImpl implements ProcessService {
     @Override
     public JsonNode getClassificationOfTender(final JsonNode jsonData, final String processId) {
         try {
-            final JsonNode tenderNode = jsonData.get("tender");
-            final JsonNode classificationNode = tenderNode.findPath("classification");
-            if (classificationNode.isMissingNode()) return null;
             final ObjectNode mainNode = jsonUtil.createObjectNode();
-            mainNode.replace("classification", classificationNode);
+            mainNode.replace("classification", jsonData.get("tender").get("classification"));
             return mainNode;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
