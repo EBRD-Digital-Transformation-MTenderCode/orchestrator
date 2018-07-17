@@ -658,7 +658,7 @@ public class ProcessServiceImpl implements ProcessService {
     public JsonNode setTenderInfo(final JsonNode jsonData, final JsonNode responseData, final String processId) {
         try {
             final ObjectNode tenderNode = (ObjectNode) jsonData.get("tender");
-            final JsonNode tenderResponseNode = jsonData.get("tender");
+            final JsonNode tenderResponseNode = responseData.get("tender");
             tenderNode.replace("items", tenderResponseNode.get("items"));
             tenderNode.replace("classification", tenderResponseNode.get("classification"));
             tenderNode.replace("submissionMethodRationale", tenderResponseNode.get("submissionMethodRationale"));

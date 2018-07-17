@@ -3,8 +3,8 @@
     "budget": {
       "description": "A short free text description of the budget source. May be used to provide the title of the budget line, or the programme used to fund this project.",
       "amount": {
-        "amount": 2.85,
-        "currency": "LAJ"
+        "amount": 1.85,
+        "currency": "MDL"
       },
       "europeanUnionFunding": {
         "projectIdentifier": "proj-cn-12346",
@@ -14,15 +14,15 @@
       "isEuropeanUnionFunded": true,
       "budgetBreakdown": [
         {
-          "id": "ocds-t1s2t3-UA-1521797966040-FS-1521797969595",
+          "id": "ocds-t1s2t3-MD-1531394757741-FS-1531398489815",
           "description": "A short free text description of this budget entry.",
           "amount": {
-            "amount": 2.85,
-            "currency": "LAJ"
+            "amount": 1.85,
+            "currency": "MDL"
           },
           "period": {
-            "startDate": "2018-03-23T09:39:25Z",
-            "endDate": "2018-05-06T02:23:40Z"
+            "startDate":"2018-07-09T00:00:00Z",
+            "endDate":"2018-08-19T00:00:00Z"
           },
           "sourceParty": {
             "name": "Taylor, Dennis and Munoz",
@@ -41,28 +41,28 @@
         "id": "8da82fb0-2eb8-11e8-907c-df4915b32957",
         "description": "A description of the goods, services to be provided.",
         "classification": {
-          "scheme": "CPV",
-          "id": "03111600-8",
-          "description": "Cheese products"
+          "scheme": "",
+          "id": "79200000-6",
+          "description": ""
         },
         "additionalClassifications": [
           {
-            "scheme": "CPVS",
+            "scheme": "",
             "id": "AA08-2",
-            "description": "A textual description or title for the code."
+            "description": ""
           }
         ],
         "quantity": 10.0,
         "unit": {
-          "name": "kg",
-          "id": "MTR"
+          "name": "",
+          "id": "KGM"
         },
         "relatedLot": "8da82fb1-2eb8-11e8-907c-df4915b32957"
       }
     ],
     "value": {
-      "amount": 2.85,
-      "currency": "LAJ"
+      "amount": 1.85,
+      "currency": "MDL"
     },
     "procurementMethod": "open",
     "procurementMethodDetails": "Open Procurement",
@@ -124,7 +124,7 @@
         "description": "A short description of the document. We recommend descriptions do not exceed 250 words. In the event the document is not accessible online, the description field can be used to describe arrangements for obtaining a copy of the document.",
         "language": "ro",
         "relatedLots": [
-          "lot-id-123123"
+          "8da82fb1-2eb8-11e8-907c-df4915b32957"
         ]
       }
     ],
@@ -136,8 +136,8 @@
         "status": "active",
         "statusDetails": "empty",
         "value": {
-          "amount": 2.85,
-          "currency": "LAJ"
+          "amount": 1.85,
+          "currency": "MDL"
         },
         "options": [
           {
@@ -184,9 +184,9 @@
       "isAcceleratedProcedure": false
     },
     "classification": {
-      "scheme": "CPV",
+      "scheme": "",
       "id": "",
-      "description": "Cheese products"
+      "description": ""
     },
     "designContest": {
       "serviceContractAward": false
