@@ -1,114 +1,70 @@
 {
-  "planning": {
-    "rationale": "Rationale",
-    "budget": {
-      "description": "Budget Description",
-      "isEuropeanUnionFunded": false,
-      "budgetBreakdown": [
-        {
-          "id": "ocds-t1s2t3-MD-1531821672443-FS-1531831043190",
-          "description": "Budget Description",
-          "amount": {
-            "amount": 100,
-            "currency": "MDL"
-          }
-        }
-      ]
-    }
-  },
   "tender": {
-    "title": "Tender Title",
-    "description": "Tender Description",
+    "title": "Hand become put day with west join.",
+    "description": "Break along kitchen whom trip choice seem class adult travel high throughout government room receive second former family girl base same son democratic itself public girl say week.",
     "classification": {
+      "id": "30100000-0",
       "scheme": "CPV",
-      "description": "Description",
-      "id": "79200000-6"
+      "description": "Maşini de procesare de text"
     },
-    "legalBasis": "DIRECTIVE_2009_81_EC",
-    "procurementMethodRationale": "Method Rationale",
-    "procurementMethodAdditionalInfo": "Method info",
-    "tenderPeriod": {
-      "endDate": "2018-09-17T13:52:00Z"
-    },
-    "procuringEntity": {
-      "name": "Bebelo Name*",
-      "identifier": {
-        "scheme": "CXEMA Scheme*",
-        "id": "444777*",
-        "legalName": "Legal IMR Name*",
-        "uri": "URI*"
-      },
-      "additionalIdentifiers": [
-        {
-          "scheme": "CPVS",
-          "id": "AA08-2",
-          "legalName": "A textual description or title for the code.",
-          "uri": "URI"
-        }
-      ],
-      "address": {
-        "streetAddress": "Street Address",
-        "locality": "Locality",
-        "region": "1",
-        "postalCode": "Postal Code",
-        "countryName": "Republic of Moldova"
-      },
-      "contactPoint": {
-        "name": "Name*",
-        "email": "E-mail*",
-        "telephone": "Telephone*",
-        "faxNumber": "Fax*",
-        "url": "URL*"
+    "mainProcurementCategory": "goods"
+  },
+  "planning": {
+    "budget": {
+      "period": {
+        "startDate": "2018-02-30T09:00:00Z",
+        "endDate": "2018-08-22T09:00:00Z"
       }
     },
-    "lots": [
+    "rationale": "Ground national key nothing you sometimes."
+  },
+  "buyer": {
+    "name": "Burns-Davis",
+    "identifier": {
+      "scheme": "MD-IDNO",
+      "id": "354-37-1072",
+      "legalName": "Burns-Davis PLC",
+      "uri": "http://edwards.net/"
+    },
+    "additionalIdentifiers": [
       {
-        "id": "1",
-        "title": "Title",
-        "description": "description",
-        "value": {
-          "amount": 10,
-          "currency": "MDL"
-        },
-        "contractPeriod": {
-          "startDate": "2018-09-17T13:53:00Z",
-          "endDate": "2018-09-20T21:00:00Z"
-        },
-        "placeOfPerformance": {
-          "address": {
-            "streetAddress": "Street",
-            "locality": "Locality",
-            "region": "Region",
-            "postalCode": "20001",
-            "countryName": "Republic of Moldova"
-          },
-          "description": "Description"
-        }
+        "scheme": "MD-IDNO",
+        "id": "713-49-7544",
+        "legalName": "Burns-Davis PLC",
+        "uri": "http://baker.com/posts/about.asp"
       }
     ],
-    "items": [
-      {
-        "id": "1",
-        "classification": {
-          "scheme": "CPV",
-          "description": "Books and albums",
-          "id": "79200000-6"
+    "address": {
+      "streetAddress": "232323",
+      "postalCode": "424422",
+      "addressDetails": {
+        "country": {
+          "id": "MD"
         },
-        "additionalClassifications": [
-          {
-            "scheme": "CPVS",
-            "description": "A textual description or title for the code.",
-            "id": "AA08-2"
-          }
-        ],
-        "quantity": 12,
-        "unit": {
-          "id": "KGM",
-          "name": "kg"
+        "region": {
+          "id": "MD-RI"
         },
-        "description": "description",
-        "relatedLot": "1"
+        "locality": {
+          "scheme": "UN/LOCDE",
+          "id": "MD_BAS",
+          "description": "Basarabeasca"
+        }
       }
-    ]
+    },
+    "contactPoint": {
+      "name": "Jacqueline Soto",
+      "email": "tiffanygutierrez@yahoo.com",
+      "telephone": "724-095-3938x237",
+      "faxNumber": "897-612-1545",
+      "url": "http://hudson.biz/explore/list/category/"
+    },
+    "details": {
+      "typeOfBuyer": "MINISTRY",
+      "mainGeneralActivity": "HEALTH",
+      "mainSectoralActivity": "WATER",
+      "isACentralPurchasingBody": false,
+      "scale": "sme"
+    },
+    "buyerProfile": "http://ray.com/"
   }
 }

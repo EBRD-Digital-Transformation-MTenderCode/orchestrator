@@ -604,9 +604,8 @@ public class ProcessServiceImpl implements ProcessService {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
             final ObjectNode tenderNode = mainNode.putObject("tender");
-            final ObjectNode buyerNode = mainNode.putObject("tender").putObject("buyer");
             tenderNode.replace("classification", jsonData.get("tender").get("classification"));
-            buyerNode.replace("address", jsonData.get("buyer").get("address"));
+            mainNode.replace("buyer", jsonData.get("buyer"));
             return mainNode;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
@@ -617,11 +616,11 @@ public class ProcessServiceImpl implements ProcessService {
     @Override
     public JsonNode setEiData(final JsonNode jsonData, final JsonNode responseData, final String processId) {
         try {
+            final ObjectNode mainNode = (ObjectNode) jsonData;
             final ObjectNode tenderNode = (ObjectNode) jsonData.get("tender");
-            tenderNode.replace("classification", responseData.get("classification"));
-            tenderNode.replace("mainProcurementCategory", responseData.get("mainProcurementCategory"));
-            final ObjectNode buyerNode = (ObjectNode) jsonData.get("buyer");
-            buyerNode.replace("address", responseData.get("buyer").get("address"));
+            tenderNode.replace("classification", responseData.get("tender").get("classification"));
+            tenderNode.replace("mainProcurementCategory", responseData.get("tender").get("mainProcurementCategory"));
+            mainNode.replace("buyer", responseData.get("buyer"));
             return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
@@ -634,11 +633,10 @@ public class ProcessServiceImpl implements ProcessService {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
             final ObjectNode amountNode = mainNode.putObject("planning").putObject("budget").putObject("amount");
-            final ObjectNode procuringEntityNode = mainNode.putObject("tender").putObject("procuringEntity");
-            final ObjectNode buyerNode = mainNode.putObject("buyer");
+            final ObjectNode tenderNode = mainNode.putObject("tender");
             amountNode.replace("currency", jsonData.get("planning").get("budget").get("amount").get("currency"));
-            procuringEntityNode.replace("address", jsonData.get("tender").get("procuringEntity").get("address"));
-            buyerNode.replace("address", jsonData.get("buyer").get("address"));
+            tenderNode.replace("procuringEntity", jsonData.get("tender").get("procuringEntity"));
+            mainNode.replace("buyer", jsonData.get("buyer"));
             return mainNode;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
@@ -649,11 +647,11 @@ public class ProcessServiceImpl implements ProcessService {
     @Override
     public JsonNode setFsData(final JsonNode jsonData, final JsonNode responseData, final String processId) {
         try {
-            final ObjectNode buyerNode = (ObjectNode) jsonData.get("buyer");
-            final ObjectNode procuringEntityNode = (ObjectNode) jsonData.get("tender").get("procuringEntity");
+            final ObjectNode mainNode = (ObjectNode) jsonData;
+            final ObjectNode tenderNode = (ObjectNode) jsonData.get("tender");
             final ObjectNode amountNode = (ObjectNode) jsonData.get("planning").get("budget").get("amount");
-            buyerNode.replace("address", responseData.get("buyer").get("address"));
-            procuringEntityNode.replace("address", responseData.get("tender").get("procuringEntity").get("address"));
+            mainNode.replace("buyer", responseData.get("buyer"));
+            tenderNode.replace("procuringEntity", responseData.get("tender").get("procuringEntity"));
             amountNode.replace("currency", responseData.get("planning").get("budget").get("amount").get("currency"));
             return jsonData;
         } catch (Exception e) {

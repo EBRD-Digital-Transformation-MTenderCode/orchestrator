@@ -48,7 +48,7 @@ public class MdmValidateTender implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode rqData = processService.getTenderData(prevData, processId);
-        final CommandMessage commandMessage = processService.getCommandMessage(CommandType.TENDER_INFO, context, rqData);
+        final CommandMessage commandMessage = processService.getCommandMessage(CommandType.CREATE_TENDER, context, rqData);
         JsonNode responseData = null;
         if (Objects.nonNull(rqData))
             responseData = processService.processResponse(
