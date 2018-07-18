@@ -15,7 +15,7 @@
       <bpmn:outgoing>SequenceFlow_1tpqzi9</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="SequenceFlow_196ohf0" sourceRef="SaveFirstOperationTask" targetRef="GetEIContextTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1ea9fd0" sourceRef="ExclusiveGateway" targetRef="MdmCheckCurrencyTask">
+    <bpmn:sequenceFlow id="SequenceFlow_1ea9fd0" sourceRef="ExclusiveGateway" targetRef="MdmValidateFsTask">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isTokenPresent==0}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_1tpqzi9" sourceRef="ExclusiveGateway" targetRef="BudgetUpdateFsTask">
@@ -53,14 +53,14 @@
     <bpmn:sequenceFlow id="SequenceFlow_0ki9l1x" sourceRef="BudgetUpdateFsTask" targetRef="ExclusiveGateway_0rteoo4" />
     <bpmn:sequenceFlow id="SequenceFlow_1ud5koo" sourceRef="ExclusiveGateway_0rteoo4" targetRef="NoticeCreateReleaseTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0mm2ed1" sourceRef="NoticeCreateReleaseTask" targetRef="SendMessageToPlatformTask" />
-    <bpmn:serviceTask id="MdmCheckCurrencyTask" name="Mdm Check Currency" camunda:asyncBefore="true" camunda:delegateExpression="${mdmCheckCurrency}">
+    <bpmn:serviceTask id="MdmValidateFsTask" name="Mdm Validate Fs" camunda:asyncBefore="true" camunda:delegateExpression="${mdmValidateFs}">
       <bpmn:extensionElements>
         <camunda:failedJobRetryTimeCycle>R0/PT1S</camunda:failedJobRetryTimeCycle>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1ea9fd0</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_146x875</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_146x875" sourceRef="MdmCheckCurrencyTask" targetRef="BudgetCreateFsTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_146x875" sourceRef="MdmValidateFsTask" targetRef="BudgetCreateFsTask" />
     <bpmn:serviceTask id="GetEIContextTask" name="Get EI Context" camunda:asyncBefore="true" camunda:delegateExpression="${getContext}">
       <bpmn:incoming>SequenceFlow_196ohf0</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_12fnauw</bpmn:outgoing>
@@ -176,7 +176,7 @@
           <dc:Bounds x="1282" y="254" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_0vp0zxr_di" bpmnElement="MdmCheckCurrencyTask">
+      <bpmndi:BPMNShape id="ServiceTask_0vp0zxr_di" bpmnElement="MdmValidateFsTask">
         <dc:Bounds x="788" y="163" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_146x875_di" bpmnElement="SequenceFlow_146x875">

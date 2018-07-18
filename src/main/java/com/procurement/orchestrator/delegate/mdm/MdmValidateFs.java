@@ -17,9 +17,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MdmCheckCurrency implements JavaDelegate {
+public class MdmValidateFs implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(MdmCheckCurrency.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MdmValidateFs.class);
 
     private final MdmRestClient mdmRestClient;
 
@@ -29,10 +29,10 @@ public class MdmCheckCurrency implements JavaDelegate {
 
     private final JsonUtil jsonUtil;
 
-    public MdmCheckCurrency(final MdmRestClient mdmRestClient,
-                            final OperationService operationService,
-                            final ProcessService processService,
-                            final JsonUtil jsonUtil) {
+    public MdmValidateFs(final MdmRestClient mdmRestClient,
+                         final OperationService operationService,
+                         final ProcessService processService,
+                         final JsonUtil jsonUtil) {
         this.mdmRestClient = mdmRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -47,7 +47,7 @@ public class MdmCheckCurrency implements JavaDelegate {
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode rqData = processService.getCurrencyOfBudget(prevData, processId);
+        final JsonNode rqData = processService.getFsData(prevData, processId);
         final CommandMessage commandMessage = processService.getCommandMessage(CommandType.CHECK_CURRENCY, context, rqData);
         JsonNode responseData = null;
         if (Objects.nonNull(rqData))
@@ -60,6 +60,8 @@ public class MdmCheckCurrency implements JavaDelegate {
         if (Objects.nonNull(responseData))
             operationService.saveOperationStep(
                     execution,
-                    entity);
+                    entity,
+                    jsonUtil.toJsonNode(commandMessage),
+                    processService.setFsData(prevData, responseData, processId));
     }
 }

@@ -17,9 +17,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MdmGetTenderCPVCode implements JavaDelegate {
+public class MdmValidateTender implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(MdmGetTenderCPVCode.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MdmValidateTender.class);
 
     private final MdmRestClient mdmRestClient;
 
@@ -29,10 +29,10 @@ public class MdmGetTenderCPVCode implements JavaDelegate {
 
     private final JsonUtil jsonUtil;
 
-    public MdmGetTenderCPVCode(final MdmRestClient mdmRestClient,
-                               final OperationService operationService,
-                               final ProcessService processService,
-                               final JsonUtil jsonUtil) {
+    public MdmValidateTender(final MdmRestClient mdmRestClient,
+                             final OperationService operationService,
+                             final ProcessService processService,
+                             final JsonUtil jsonUtil) {
         this.mdmRestClient = mdmRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -47,8 +47,8 @@ public class MdmGetTenderCPVCode implements JavaDelegate {
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode rqData = processService.getClassificationOfTender(prevData, processId);
-        final CommandMessage commandMessage = processService.getCommandMessage(CommandType.TENDER_CPV, context, rqData);
+        final JsonNode rqData = processService.getTenderData(prevData, processId);
+        final CommandMessage commandMessage = processService.getCommandMessage(CommandType.TENDER_INFO, context, rqData);
         JsonNode responseData = null;
         if (Objects.nonNull(rqData))
             responseData = processService.processResponse(
@@ -62,6 +62,6 @@ public class MdmGetTenderCPVCode implements JavaDelegate {
                     execution,
                     entity,
                     jsonUtil.toJsonNode(commandMessage),
-                    processService.setClassificationOfTender(prevData, responseData, processId));
+                    processService.setTenderData(prevData, responseData, processId));
     }
 }

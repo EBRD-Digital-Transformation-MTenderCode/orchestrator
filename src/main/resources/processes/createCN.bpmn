@@ -52,7 +52,7 @@
       <bpmn:incoming>SequenceFlow_165gqdr</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0k2najp</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_0k2najp" sourceRef="SubmissionValidatePeriodTask" targetRef="MdmTenderInfoTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0k2najp" sourceRef="SubmissionValidatePeriodTask" targetRef="MdmValidateTenderTask" />
     <bpmn:sequenceFlow id="SequenceFlow_00b52kn" sourceRef="StorageOpenDocsOfTenderTask" targetRef="NoticeCreateReleaseTask" />
     <bpmn:sequenceFlow id="SequenceFlow_099e1em" sourceRef="NoticeCreateReleaseTask" targetRef="SaveContextTask" />
     <bpmn:serviceTask id="BudgetCheckFsTask" name="Budget Check Fs" camunda:asyncBefore="true" camunda:delegateExpression="${budgetCheckFs}">
@@ -66,14 +66,14 @@
     <bpmn:sequenceFlow id="SequenceFlow_1gczw0v" sourceRef="ClarificationSavePeriodTask" targetRef="StorageOpenDocsOfTenderTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0g4l6hq" sourceRef="SaveContextTask" targetRef="SendMessageTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0y27z9y" sourceRef="BudgetCheckFsTask" targetRef="AcessCreateCnTask" />
-    <bpmn:serviceTask id="MdmTenderInfoTask" name="Mdm Tender Info" camunda:asyncBefore="true" camunda:delegateExpression="${mdmTenderInfo}">
+    <bpmn:serviceTask id="MdmValidateTenderTask" name="Mdm Validate Tender" camunda:asyncBefore="true" camunda:delegateExpression="${mdmValidateTender}">
       <bpmn:extensionElements>
         <camunda:failedJobRetryTimeCycle>R0/PT1S</camunda:failedJobRetryTimeCycle>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0k2najp</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1tcokxp</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_1tcokxp" sourceRef="MdmTenderInfoTask" targetRef="BudgetCheckFsTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1tcokxp" sourceRef="MdmValidateTenderTask" targetRef="BudgetCheckFsTask" />
   </bpmn:process>
   <bpmn:error id="tr_exception" name="TR_EXCEPTION" errorCode="TR_EXCEPTION" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -207,7 +207,7 @@
           <dc:Bounds x="618.5" y="164" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_05wtyo9_di" bpmnElement="MdmTenderInfoTask">
+      <bpmndi:BPMNShape id="ServiceTask_05wtyo9_di" bpmnElement="MdmValidateTenderTask">
         <dc:Bounds x="420" y="145" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1tcokxp_di" bpmnElement="SequenceFlow_1tcokxp">

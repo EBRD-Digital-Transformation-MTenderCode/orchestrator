@@ -17,9 +17,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MdmTenderInfo implements JavaDelegate {
+public class MdmValidateEi implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(MdmTenderInfo.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MdmValidateEi.class);
 
     private final MdmRestClient mdmRestClient;
 
@@ -29,7 +29,7 @@ public class MdmTenderInfo implements JavaDelegate {
 
     private final JsonUtil jsonUtil;
 
-    public MdmTenderInfo(final MdmRestClient mdmRestClient,
+    public MdmValidateEi(final MdmRestClient mdmRestClient,
                          final OperationService operationService,
                          final ProcessService processService,
                          final JsonUtil jsonUtil) {
@@ -47,8 +47,8 @@ public class MdmTenderInfo implements JavaDelegate {
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode rqData = processService.getTenderInfo(prevData, processId);
-        final CommandMessage commandMessage = processService.getCommandMessage(CommandType.TENDER_INFO, context, rqData);
+        final JsonNode rqData = processService.getEiData(prevData, processId);
+        final CommandMessage commandMessage = processService.getCommandMessage(CommandType.TENDER_CPV, context, rqData);
         JsonNode responseData = null;
         if (Objects.nonNull(rqData))
             responseData = processService.processResponse(
@@ -62,6 +62,6 @@ public class MdmTenderInfo implements JavaDelegate {
                     execution,
                     entity,
                     jsonUtil.toJsonNode(commandMessage),
-                    processService.setTenderInfo(prevData, responseData, processId));
+                    processService.setEiData(prevData, responseData, processId));
     }
 }

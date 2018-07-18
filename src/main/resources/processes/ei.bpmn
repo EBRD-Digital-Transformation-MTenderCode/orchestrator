@@ -15,7 +15,7 @@
       <bpmn:outgoing>SequenceFlow_1tpqzi9</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="SequenceFlow_196ohf0" sourceRef="SaveFirstOperationTask" targetRef="ExclusiveGateway" />
-    <bpmn:sequenceFlow id="SequenceFlow_1ea9fd0" sourceRef="ExclusiveGateway" targetRef="MdmGetTenderCPVCodeTask">
+    <bpmn:sequenceFlow id="SequenceFlow_1ea9fd0" sourceRef="ExclusiveGateway" targetRef="MdmValidateEiTask">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isTokenPresent==0}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_1tpqzi9" sourceRef="ExclusiveGateway" targetRef="BudgetUpdateEiTask">
@@ -53,14 +53,14 @@
     <bpmn:sequenceFlow id="SequenceFlow_0m0msb1" sourceRef="BudgetCreateEiTask" targetRef="ExclusiveGateway_0rteoo4" />
     <bpmn:sequenceFlow id="SequenceFlow_06mlb27" sourceRef="BudgetUpdateEiTask" targetRef="ExclusiveGateway_0rteoo4" />
     <bpmn:sequenceFlow id="SequenceFlow_1d7l7v0" sourceRef="ExclusiveGateway_0rteoo4" targetRef="NoticeCreateReleaseTask" />
-    <bpmn:serviceTask id="MdmGetTenderCPVCodeTask" name="Mdm CPV" camunda:asyncBefore="true" camunda:delegateExpression="${mdmGetTenderCPVCode}">
+    <bpmn:serviceTask id="MdmValidateEiTask" name="Mdm Validate Ei" camunda:asyncBefore="true" camunda:delegateExpression="${mdmValidateEi}">
       <bpmn:extensionElements>
         <camunda:failedJobRetryTimeCycle>R0/PT1S</camunda:failedJobRetryTimeCycle>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1ea9fd0</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0npswn9</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_0npswn9" sourceRef="MdmGetTenderCPVCodeTask" targetRef="BudgetCreateEiTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0npswn9" sourceRef="MdmValidateEiTask" targetRef="BudgetCreateEiTask" />
     <bpmn:serviceTask id="SaveContextTask" name="Save Context" camunda:asyncBefore="true" camunda:delegateExpression="${saveContext}">
       <bpmn:incoming>SequenceFlow_1iy4f8j</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1pxpexp</bpmn:outgoing>
@@ -176,7 +176,7 @@
           <dc:Bounds x="882" y="254" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_1648nbr_di" bpmnElement="MdmGetTenderCPVCodeTask">
+      <bpmndi:BPMNShape id="ServiceTask_1648nbr_di" bpmnElement="MdmValidateEiTask">
         <dc:Bounds x="564" y="163" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0npswn9_di" bpmnElement="SequenceFlow_0npswn9">

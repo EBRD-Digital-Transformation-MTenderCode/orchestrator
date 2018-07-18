@@ -114,15 +114,17 @@ public interface ProcessService {
 
     JsonNode setTender(JsonNode jsonData, JsonNode responseData, String processId);
 
-    JsonNode getClassificationOfTender(JsonNode jsonData, String processId);
+    JsonNode getEiData(JsonNode jsonData, String processId);
 
-    JsonNode setClassificationOfTender(JsonNode jsonData, JsonNode responseData, String processId);
+    JsonNode setEiData(JsonNode jsonData, JsonNode responseData, String processId);
 
-    JsonNode getCurrencyOfBudget(JsonNode jsonData, String processId);
+    JsonNode getFsData(JsonNode jsonData, String processId);
 
-    JsonNode getTenderInfo(JsonNode jsonData, String processId);
+    JsonNode setFsData(JsonNode jsonData, JsonNode responseData, String processId);
 
-    JsonNode setTenderInfo(JsonNode jsonData, JsonNode responseData, String processId);
+    JsonNode getTenderData(JsonNode jsonData, String processId);
+
+    JsonNode setTenderData(JsonNode jsonData, JsonNode responseData, String processId);
 
     JsonNode getCheckFs(JsonNode jsonData, String startDate, String processId);
 
