@@ -1,0 +1,108 @@
+//{"cpid":"ocds-t1s2t3-MD-1531909393647"}
+{
+  "tender": {
+    "procuringEntity": {
+      "name": "Edward-Company",
+      "identifier": {
+        "id": "Enotis",
+        "scheme": "MD-IDNO",
+        "legalName": "legalName",
+        "uri": "uri"
+      },
+      "address": {
+        "streetAddress": "232323",
+        "postalCode": "424422",
+        "addressDetails": {
+          "country": {
+            "id": "MD"
+          },
+          "region": {
+            "id": "MD-AN"
+          },
+          "locality": {
+            "scheme": "UN/LOCODE",
+            "id": "MD AIN",
+            "description": "Anenii Noi"
+          }
+        }
+      },
+      "additionalIdentifiers": [
+        {
+          "id": "id",
+          "scheme": "scheme",
+          "legalName": "legalName2",
+          "uri": "uri2"
+        }
+      ],
+      "contactPoint": {
+        "name": "name",
+        "email": "email",
+        "telephone": "telephone",
+        "faxNumber": "fax",
+        "url": "uri3"
+      }
+    }
+  },
+  "planning": {
+    "budget": {
+      "id": "budgetID",
+      "description": "Hello world!",
+      "period": {
+        "startDate": "2018-05-25T21:00:00Z",
+        "endDate": "2018-05-26T21:00:00Z"
+      },
+      "amount": {
+        "amount": 1000,
+        "currency": "MDL"
+      },
+      "isEuropeanUnionFunded": true,
+      "europeanUnionFunding": {
+        "projectName": "PJNAME",
+        "projectIdentifier": "PJINDET",
+        "uri": "uri4"
+      }
+    },
+    "rationale": "Ebudget"
+  },
+  "buyer": {
+    "name": "Burns-Davis",
+    "identifier": {
+      "scheme": "MD-IDNO",
+      "id": "354-37-1072",
+      "legalName": "Burns-Davis PLC",
+      "uri": "http://edwards.net/"
+    },
+    "additionalIdentifiers": [
+      {
+        "scheme": "MD-IDNO",
+        "id": "713-49-7544",
+        "legalName": "Burns-Davis PLC",
+        "uri": "http://baker.com/posts/about.asp"
+      }
+    ],
+    "address": {
+      "streetAddress": "232323",
+      "postalCode": "424422",
+      "addressDetails": {
+        "country": {
+          "id": "MD"
+        },
+        "region": {
+          "id": "MD-RI"
+        },
+        "locality": {
+          "scheme": "UN/LOCDE",
+          "id": "MD_BAS",
+          "description": "Basarabeasca"
+        }
+      }
+    },
+    "contactPoint": {
+      "name": "Jacqueline Soto",
+      "email": "tiffanygutierrez@yahoo.com",
+      "telephone": "724-095-3938x237",
+      "faxNumber": "897-612-1545",
+      "url": "http://hudson.biz/explore/list/category/"
+    }
+  }
+}

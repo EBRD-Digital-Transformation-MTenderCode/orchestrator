@@ -1,0 +1,70 @@
+{
+  "tender": {
+    "title": "Hand become put day with west join.",
+    "description": "Break along kitchen whom trip choice seem class adult travel high throughout government room receive second former family girl base same son democratic itself public girl say week.",
+    "classification": {
+      "id": "30100000-0",
+      "scheme": "CPV",
+      "description": "Maşini de procesare de text"
+    },
+    "mainProcurementCategory": "goods"
+  },
+  "planning": {
+    "budget": {
+      "period": {
+        "startDate": "2018-02-30T09:00:00Z",
+        "endDate": "2018-08-22T09:00:00Z"
+      }
+    },
+    "rationale": "Ground national key nothing you sometimes."
+  },
+  "buyer": {
+    "name": "Burns-Davis",
+    "identifier": {
+      "scheme": "MD-IDNO",
+      "id": "354-37-1072",
+      "legalName": "Burns-Davis PLC",
+      "uri": "http://edwards.net/"
+    },
+    "additionalIdentifiers": [
+      {
+        "scheme": "MD-IDNO",
+        "id": "713-49-7544",
+        "legalName": "Burns-Davis PLC",
+        "uri": "http://baker.com/posts/about.asp"
+      }
+    ],
+    "address": {
+      "streetAddress": "232323",
+      "postalCode": "424422",
+      "addressDetails": {
+        "country": {
+          "id": "MD"
+        },
+        "region": {
+          "id": "MD-AN"
+        },
+        "locality": {
+          "scheme": "UN/LOCODE",
+          "id": "MD AIN",
+          "description": "Anenii Noi"
+        }
+      }
+    },
+    "contactPoint": {
+      "name": "Jacqueline Soto",
+      "email": "tiffanygutierrez@yahoo.com",
+      "telephone": "724-095-3938x237",
+      "faxNumber": "897-612-1545",
+      "url": "http://hudson.biz/explore/list/category/"
+    },
+    "details": {
+      "typeOfBuyer": "MINISTRY",
+      "mainGeneralActivity": "HEALTH",
+      "mainSectoralActivity": "WATER",
+      "isACentralPurchasingBody": false,
+      "scale": "sme"
+    },
+    "buyerProfile": "http://ray.com/"
+  }
+}
