@@ -16,10 +16,10 @@ spring:
       pool-name: orchestrator-pool
 
 cassandra:
-  contact-points: 10.0.20.104,10.0.20.105,10.0.20.106
+  contact-points: 10.0.10.104,10.0.10.105,10.0.10.106
   keyspace-name: ocds
   username: caclient
-  password: 6AH7vbrkMWnfK
+  password: brT4Kn27RQs
 
 eureka:
   client:
