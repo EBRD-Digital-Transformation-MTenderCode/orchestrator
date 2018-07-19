@@ -1,72 +1,90 @@
 {
-  "tender": {
-    "title": "Hand become put day with west join.",
-    "description": "Break along kitchen whom trip choice seem class adult travel high throughout government room receive second former family girl base same son democratic itself public girl say week.",
-    "classification": {
-      "id": "30100000-0",
-      "scheme": "CPV",
-      "description": "Maşini de procesare de text"
-    },
-    "mainProcurementCategory": "goods"
-  },
   "planning": {
     "budget": {
-      "period": {
-        "startDate": "2018-02-30T09:00:00Z",
-        "endDate": "2018-08-22T09:00:00Z"
-      }
-    },
-    "rationale": "Ground national key nothing you sometimes."
+      "isEuropeanUnionFunded": false,
+      "budgetBreakdown": [
+        {
+          "id": "ocds-t1s2t3-MD-1531904351698-FS-1531904505257",
+          "description": "Budget Description",
+          "amount": {
+            "amount": 100,
+            "currency": "USD"
+          }
+        }
+      ]
+    }
   },
-  "buyer": {
-    "name": "Burns-Davis",
-    "identifier": {
-      "scheme": "MD-IDNO",
-      "id": "354-37-1072",
-      "legalName": "Burns-Davis PLC",
-      "uri": "http://edwards.net/"
+  "tender": {
+    "title": "Tender Title",
+    "description": "Tender Description",
+    "classification": {
+      "scheme": "CPV",
+      "description": "Description",
+      "id": "79215000-6"
     },
-    "additionalIdentifiers": [
-      {
-        "scheme": "MD-IDNO",
-        "id": "713-49-7544",
-        "legalName": "Burns-Davis PLC",
-        "uri": "http://baker.com/posts/about.asp"
+    "legalBasis": "NATIONAL_PROCUREMENT_LAW",
+    "tenderPeriod": {
+      "endDate": "2018-09-18T08:12:00Z"
+    },
+    "procuringEntity": {
+      "name": "Bebelo Name*",
+      "identifier": {
+        "scheme": "CXEMA Scheme*",
+        "id": "444777*",
+        "legalName": "Legal IMR Name*",
+        "uri": "URI*"
+      },
+      "address": {
+        "streetAddress": "Street Address",
+        "locality": "Locality",
+        "region": "1",
+        "countryName": "Republic of Moldova"
+      },
+      "contactPoint": {
+        "name": "Name*",
+        "email": "E-mail*",
+        "telephone": "Telephone*",
+        "url": "URL*"
       }
-    ],
-    "address": {
-      "streetAddress": "232323",
-      "postalCode": "424422",
-      "addressDetails": {
-        "country": {
-          "id": "MD"
+    },
+    "lots": [
+      {
+        "id": "1",
+        "title": "Title",
+        "description": "description",
+        "value": {
+          "amount": 10,
+          "currency": "USD"
         },
-        "region": {
-          "id": "MD-RI"
+        "contractPeriod": {
+          "startDate": "2018-09-19T00:00:00Z",
+          "endDate": "2018-10-25T00:00:00Z"
         },
-        "locality": {
-          "scheme": "UN/LOCDE",
-          "id": "MD_BAS",
-          "description": "Basarabeasca"
+        "placeOfPerformance": {
+          "address": {
+            "streetAddress": "Street",
+            "locality": "Locality",
+            "region": "Region",
+            "countryName": "Republic of Moldova"
+          }
         }
       }
-    },
-    "contactPoint": {
-      "name": "Jacqueline Soto",
-      "email": "tiffanygutierrez@yahoo.com",
-      "telephone": "724-095-3938x237",
-      "faxNumber": "897-612-1545",
-      "url": "http://hudson.biz/explore/list/category/"
-    },
-    "details": {
-      "typeOfBuyer": "MINISTRY",
-      "mainGeneralActivity": "HEALTH",
-      "mainSectoralActivity": "WATER",
-      "isACentralPurchasingBody": false,
-      "scale": "sme"
-    },
-    "buyerProfile": "http://ray.com/"
+    ],
+    "items": [
+      {
+        "id": "1",
+        "classification": {
+          "scheme": "CPV",
+          "description": "Books and albums",
+          "id": "79200000-6"
+        },
+        "quantity": 12,
+        "unit": {
+          "id": "KGM",
+          "name": "kg"
+        },
+        "relatedLot": "1"
+      }
+    ]
   }
 }
-
-
