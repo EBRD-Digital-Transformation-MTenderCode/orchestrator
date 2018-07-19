@@ -1,72 +1,101 @@
 {
   "planning": {
+    "rationale": "enotis",
     "budget": {
-      "isEuropeanUnionFunded": false,
+      "description": "wow",
       "budgetBreakdown": [
         {
-          "id": "ocds-t1s2t3-MD-1531904351698-FS-1531904505257",
-          "description": "Budget Description",
+          "id": "ocds-t1s2t3-MD-1532008123198-FS-1532008390030",
           "amount": {
-            "amount": 100,
-            "currency": "USD"
+            "amount": 1000,
+            "currency": "MDL"
           }
         }
       ]
     }
   },
   "tender": {
-    "title": "Tender Title",
-    "description": "Tender Description",
-    "classification": {
-      "scheme": "CPV",
-      "description": "Description",
-      "id": "79215000-6"
-    },
-    "legalBasis": "NATIONAL_PROCUREMENT_LAW",
+    "title": "gav",
+    "description": "gav gav",
+    "legalBasis": "DIRECTIVE_2014_23_EU",
+    "procurementMethodRationale": "Write experience describe walk house high. Treatment shoulder word. Its newspaper toward happen next example safe middle.",
+    "procurementMethodAdditionalInfo": "Save instead agreement center. Art write enough item policy",
     "tenderPeriod": {
-      "endDate": "2018-09-18T08:12:00Z"
+      "endDate": "2018-09-18T18:45:00Z"
     },
     "procuringEntity": {
-      "name": "Bebelo Name*",
+      "name": "Edward-Compan",
       "identifier": {
-        "scheme": "CXEMA Scheme*",
-        "id": "444777*",
-        "legalName": "Legal IMR Name*",
-        "uri": "URI*"
+        "scheme": "rrr",
+        "id": "gggg",
+        "legalName": "fff",
+        "uri": "hhh"
       },
+      "additionalIdentifiers": [
+        {
+          "scheme": "hhh",
+          "id": "gg",
+          "legalName": "fff",
+          "uri": "jjj"
+        }
+      ],
       "address": {
-        "streetAddress": "Street Address",
-        "locality": "Locality",
-        "region": "1",
-        "countryName": "Republic of Moldova"
+        "streetAddress": "",
+        "postalCode": "",
+        "addressDetails": {
+          "country": {
+            "id": "MD"
+          },
+          "region": {
+            "id": "MD-AN"
+          },
+          "locality": {
+            "scheme": "",
+            "id": "",
+            "description": ""
+          }
+        }
       },
       "contactPoint": {
-        "name": "Name*",
-        "email": "E-mail*",
-        "telephone": "Telephone*",
-        "url": "URL*"
+        "name": "hgfh",
+        "email": "hfgh",
+        "telephone": "hgfhfh",
+        "faxNumber": "hgfh",
+        "url": "hgfhgf"
       }
     },
     "lots": [
       {
         "id": "1",
-        "title": "Title",
-        "description": "description",
+        "title": "lot1",
+        "description": "looot",
         "value": {
-          "amount": 10,
-          "currency": "USD"
+          "amount": 300,
+          "currency": "MDL"
         },
         "contractPeriod": {
-          "startDate": "2018-09-19T00:00:00Z",
-          "endDate": "2018-10-25T00:00:00Z"
+          "startDate": "2018-10-10T14:45:00Z",
+          "endDate": "2018-10-19T14:45:00Z"
         },
         "placeOfPerformance": {
           "address": {
-            "streetAddress": "Street",
-            "locality": "Locality",
-            "region": "Region",
-            "countryName": "Republic of Moldova"
-          }
+            "streetAddress": "",
+            "postalCode": "",
+            "addressDetails": {
+              "country": {
+                "id": "MD"
+              },
+              "region": {
+                "id": "MD-AN"
+              },
+              "locality": {
+                "scheme": "gfgf",
+                "id": "gfg",
+                "description": "gfg"
+              }
+            }
+          },
+          "description": ""
         }
       }
     ],
@@ -75,14 +104,22 @@
         "id": "1",
         "classification": {
           "scheme": "CPV",
-          "description": "Books and albums",
-          "id": "79200000-6"
+          "description": "ggg",
+          "id": "30100000-0"
         },
-        "quantity": 12,
+        "additionalClassifications": [
+          {
+            "scheme": "CPVs",
+            "description": "",
+            "id": "AB06-7"
+          }
+        ],
+        "quantity": 1,
         "unit": {
-          "id": "KGM",
-          "name": "kg"
+          "id": "MTK",
+          "name": "square metre"
         },
+        "description": "",
         "relatedLot": "1"
       }
     ]
