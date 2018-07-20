@@ -50,7 +50,7 @@
       <bpmn:outgoing>SequenceFlow_1d7l7v0</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="SequenceFlow_1iy4f8j" sourceRef="NoticeCreateReleaseTask" targetRef="SendMessageToPlatformTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0m0msb1" sourceRef="BudgetCreateEiTask" targetRef="ServiceTask_1o8qg53" />
+    <bpmn:sequenceFlow id="SequenceFlow_0m0msb1" sourceRef="BudgetCreateEiTask" targetRef="saveContextTask" />
     <bpmn:sequenceFlow id="SequenceFlow_06mlb27" sourceRef="BudgetUpdateEiTask" targetRef="ExclusiveGateway_0rteoo4" />
     <bpmn:sequenceFlow id="SequenceFlow_1d7l7v0" sourceRef="ExclusiveGateway_0rteoo4" targetRef="NoticeCreateReleaseTask" />
     <bpmn:serviceTask id="MdmValidateEiTask" name="Mdm Validate Ei" camunda:asyncBefore="true" camunda:delegateExpression="${mdmValidateEi}">
@@ -61,11 +61,11 @@
       <bpmn:outgoing>SequenceFlow_0npswn9</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_0npswn9" sourceRef="MdmValidateEiTask" targetRef="BudgetCreateEiTask" />
-    <bpmn:serviceTask id="ServiceTask_1o8qg53" name="Save Context" camunda:asyncBefore="true" camunda:delegateExpression="${saveContext}">
+    <bpmn:serviceTask id="saveContextTask" name="Save Context" camunda:asyncBefore="true" camunda:delegateExpression="${saveContext}">
       <bpmn:incoming>SequenceFlow_0m0msb1</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0hcabjb</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_0hcabjb" sourceRef="ServiceTask_1o8qg53" targetRef="ExclusiveGateway_0rteoo4" />
+    <bpmn:sequenceFlow id="SequenceFlow_0hcabjb" sourceRef="saveContextTask" targetRef="ExclusiveGateway_0rteoo4" />
   </bpmn:process>
   <bpmn:error id="Error_1espguw" name="TR_EXCEPTION" errorCode="TR_EXCEPTION" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -185,7 +185,7 @@
           <dc:Bounds x="638" y="182" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_1o8qg53_di" bpmnElement="ServiceTask_1o8qg53">
+      <bpmndi:BPMNShape id="ServiceTask_1o8qg53_di" bpmnElement="saveContextTask">
         <dc:Bounds x="849" y="163" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0hcabjb_di" bpmnElement="SequenceFlow_0hcabjb">
