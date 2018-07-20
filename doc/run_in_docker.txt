@@ -29,7 +29,7 @@ Password: EGrH4rOVQrcwXCtM
 
 #push
 mvn clean package docker:build
-docker push dev.docker-registry.eprocurement.systems/orchestrator:17.12.1
+docker push docker-registry.eprocurement.systems/orchestrator:18.06.1
 
 #run
 docker run -d --name=orchestrator-1 \
