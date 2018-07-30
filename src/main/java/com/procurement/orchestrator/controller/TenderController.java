@@ -6,7 +6,7 @@ import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.Country;
 import com.procurement.orchestrator.domain.Pmd;
 import com.procurement.orchestrator.domain.Stage;
-import com.procurement.orchestrator.rest.BudgetRestClient;
+import com.procurement.orchestrator.exception.OperationException;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.service.RequestService;
@@ -165,25 +165,27 @@ public class TenderController extends BaseController {
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
-    @RequestMapping(value = "/bid/{identifier}", method = RequestMethod.POST)
+    @RequestMapping(value = "/bid/{cpid}/{ocid}", method = RequestMethod.POST)
     public ResponseEntity<String> createBid(@RequestHeader("Authorization") final String authorization,
                                             @RequestHeader("X-OPERATION-ID") final String operationId,
                                             @RequestHeader(value = "X-TOKEN", required = false) final String token,
-                                            @PathVariable("identifier") final String identifier,
-                                            @RequestParam("stage") final String stage,
+                                            @PathVariable("cpid") final String cpid,
+                                            @PathVariable("ocid") final String ocid,
                                             @RequestBody final JsonNode jsonData) {
         final Context context = new Context();
         context.setRequestId(UUIDs.timeBased().toString());
         context.setOperationId(operationId);
-        context.setCpid(identifier);
+        context.setCpid(cpid);
         context.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
         context.setEndDate(processService.getTenderPeriodEndDate(jsonData, null));
-        context.setStage(Stage.fromValue(stage).value());
         context.setProcessType("submitTheBid");
         context.setOperationType("bid");
         context.setLanguage(lang);
         context.setOwner(getOwner(authorization));
         context.setToken(token);
+        final Stage stageFromOcid = getStageFromOcId(ocid);
+        validateOcId(cpid, ocid, stageFromOcid);
+        context.setStage(stageFromOcid.value());
         saveRequestAndCheckOperation(context, jsonData);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("isTokenPresent", ((context.getToken() == null || "".equals(context.getToken().trim())) ? 0 : 1));
@@ -367,6 +369,29 @@ public class TenderController extends BaseController {
 //                checkFsDto);
 //        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
 //    }
+
+
+    private Stage getStageFromOcId(final String ocid) {
+        Stage currentStage = null;
+        for (final Stage stage : Stage.values()) {
+            if (ocid.contains(stage.value())) {
+                currentStage = stage;
+            }
+        }
+        if (currentStage == null) {
+            throw new OperationException("Invalid ocid.");
+        } else {
+            return currentStage;
+        }
+    }
+
+
+    private void validateOcId(final String cpid, final String ocid, final Stage stage) {
+        final String cpidFromOcid = ocid.substring(0, ocid.indexOf("-" + stage.value() + "-"));
+        if (!cpid.equals(cpidFromOcid)) {
+            throw new OperationException("Invalid ocid.");
+        }
+    }
 
 }
 
