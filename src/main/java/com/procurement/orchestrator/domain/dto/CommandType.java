@@ -10,7 +10,8 @@ import java.util.Map;
 public enum CommandType {
     CREATE_EI("createEi"),
     CREATE_FS("createFs"),
-    CREATE_TENDER("createTender");;
+    CREATE_TENDER("createTender"),
+    CREATE_BID("createBid");
 
     private static final Map<String, CommandType> CONSTANTS = new HashMap<>();
     private final String value;
