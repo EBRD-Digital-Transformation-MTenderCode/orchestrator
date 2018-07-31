@@ -175,6 +175,7 @@ public class TenderController extends BaseController {
         context.setRequestId(UUIDs.timeBased().toString());
         context.setOperationId(operationId);
         context.setCpid(cpid);
+        context.setOcid(ocid);
         context.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
         context.setEndDate(processService.getTenderPeriodEndDate(data, null));
         context.setProcessType("submitTheBid");
@@ -203,6 +204,7 @@ public class TenderController extends BaseController {
         context.setRequestId(UUIDs.timeBased().toString());
         context.setOperationId(operationId);
         context.setCpid(cpid);
+        context.setOcid(ocid);
         context.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
         context.setEndDate(processService.getTenderPeriodEndDate(data, null));
         context.setProcessType("submitTheBid");

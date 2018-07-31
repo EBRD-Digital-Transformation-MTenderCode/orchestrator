@@ -50,9 +50,9 @@ public class AccessCheckBid implements JavaDelegate {
                 context,
                 processId,
                 taskId,
-                jsonUtil.empty());
+                jsonData);
         if (Objects.nonNull(responseData))
-            operationService.saveOperationStep(execution, entity, jsonUtil.empty(), jsonUtil.empty());
+            operationService.saveOperationStep(execution, entity);
     }
 }
 
