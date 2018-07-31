@@ -168,7 +168,6 @@ public class TenderController extends BaseController {
     @RequestMapping(value = "/bid/{cpid}/{ocid}", method = RequestMethod.POST)
     public ResponseEntity<String> createBid(@RequestHeader("Authorization") final String authorization,
                                             @RequestHeader("X-OPERATION-ID") final String operationId,
-                                            @RequestHeader(value = "X-TOKEN", required = false) final String token,
                                             @PathVariable("cpid") final String cpid,
                                             @PathVariable("ocid") final String ocid,
                                             @RequestBody final JsonNode jsonData) {
@@ -182,13 +181,42 @@ public class TenderController extends BaseController {
         context.setOperationType("bid");
         context.setLanguage(lang);
         context.setOwner(getOwner(authorization));
-        context.setToken(token);
         final Stage stageFromOcid = getStageFromOcId(ocid);
         validateOcId(cpid, ocid, stageFromOcid);
         context.setStage(stageFromOcid.value());
         saveRequestAndCheckOperation(context, jsonData);
         final Map<String, Object> variables = new HashMap<>();
-        variables.put("isTokenPresent", ((context.getToken() == null || "".equals(context.getToken().trim())) ? 0 : 1));
+        variables.put("isTokenPresent", 0);
+        processService.startProcess(context, variables);
+        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
+    }
+
+    @RequestMapping(value = "/bid/{cpid}/{ocid}/{bidid}", method = RequestMethod.POST)
+    public ResponseEntity<String> updateBid(@RequestHeader("Authorization") final String authorization,
+                                            @RequestHeader("X-OPERATION-ID") final String operationId,
+                                            @RequestHeader(value = "X-TOKEN") final String token,
+                                            @PathVariable("cpid") final String cpid,
+                                            @PathVariable("ocid") final String ocid,
+                                            @PathVariable("bidid") final String bidId,
+                                            @RequestBody final JsonNode jsonData) {
+        final Context context = new Context();
+        context.setRequestId(UUIDs.timeBased().toString());
+        context.setOperationId(operationId);
+        context.setCpid(cpid);
+        context.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
+        context.setEndDate(processService.getTenderPeriodEndDate(jsonData, null));
+        context.setProcessType("submitTheBid");
+        context.setOperationType("bid");
+        context.setLanguage(lang);
+        context.setOwner(getOwner(authorization));
+        context.setToken(token);
+        context.setBidId(bidId);
+        final Stage stageFromOcid = getStageFromOcId(ocid);
+        validateOcId(cpid, ocid, stageFromOcid);
+        context.setStage(stageFromOcid.value());
+        saveRequestAndCheckOperation(context, jsonData);
+        final Map<String, Object> variables = new HashMap<>();
+        variables.put("isTokenPresent", 1);
         processService.startProcess(context, variables);
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }

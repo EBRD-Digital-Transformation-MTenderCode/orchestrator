@@ -46,7 +46,12 @@ public class SubmissionCreateBid implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode responseData = processService.processResponse(
-                submissionRestClient.createBid(context.getCpid(), context.getStage(), context.getOwner(), requestData),
+                submissionRestClient.createBid(
+                        context.getCpid(),
+                        context.getStage(),
+                        context.getOwner(),
+                        context.getStartDate(),
+                        requestData),
                 context,
                 processId,
                 taskId,
