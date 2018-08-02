@@ -1,242 +1,98 @@
 {
-  "planning": {
-    "budget": {
-      "budgetBreakdown": [
+  "id": "d059e649-003d-4480-af6a-c6bc3c20eac9",
+  "command": "createTender",
+  "context": {
+    "operationId": "d059e649-003d-4480-af6a-c6bc3c20eac9",
+    "requestId": "55cb70e0-967b-11e8-8e76-5394cf1f882d",
+    "cpid": null,
+    "ocid": null,
+    "stage": "EV",
+    "prevStage": null,
+    "processType": "createCN",
+    "operationType": "createCN",
+    "phase": "TENDERPERIOD",
+    "owner": "445f6851-c908-407d-9b45-14b92f3e964b",
+    "country": "MD",
+    "language": "ro",
+    "pmd": "TEST_OT",
+    "token": null,
+    "access": null,
+    "startDate": "2018-08-02T17:41:49Z",
+    "endDate": "2018-08-02T19:12:00Z",
+    "bidId": null
+  },
+  "data": {
+    "tender": {
+      "items": [
         {
-          "id": "ocds-t1s2t3-MD-1533228192570-FS-1533228221126",
-          "amount": {
-            "amount": 900,
-            "currency": "MDL"
-          }
+          "id": "1",
+          "classification": {
+            "scheme": "CPV",
+            "description": "ggg",
+            "id": "30199220-8"
+          },
+          "additionalClassifications": [
+            {
+              "scheme": "CPVs",
+              "description": "",
+              "id": "AB06-7"
+            }
+          ],
+          "quantity": 1,
+          "unit": {
+            "id": "86",
+            "name": "square"
+          },
+          "description": "",
+          "relatedLot": "1"
         },
         {
-          "id": "ocds-t1s2t3-MD-1533228192570-FS-1533228221126",
-          "amount": {
-            "amount": 800,
-            "currency": "MDL"
-          }
+          "id": "2",
+          "classification": {
+            "scheme": "CPV",
+            "description": "ggg",
+            "id": "30199230-1"
+          },
+          "additionalClassifications": [
+            {
+              "scheme": "CPVs",
+              "description": "",
+              "id": "AB06-7"
+            }
+          ],
+          "quantity": 1,
+          "unit": {
+            "id": "86",
+            "name": "square metre"
+          },
+          "description": "",
+          "relatedLot": "2"
+        },
+        {
+          "id": "3",
+          "classification": {
+            "scheme": "CPV",
+            "description": "ggg",
+            "id": "30199230-1"
+          },
+          "additionalClassifications": [
+            {
+              "scheme": "CPVs",
+              "description": "",
+              "id": "AB06-7"
+            }
+          ],
+          "quantity": 1,
+          "unit": {
+            "id": "86",
+            "name": "square metre"
+          },
+          "description": "",
+          "relatedLot": "3"
         }
-      ]
+      ],
+      "classification": null
     }
   },
-  "tender": {
-    "title": "gav",
-    "description": "gav gav",
-    "legalBasis": "NATIONAL_PROCUREMENT_LAW",
-    "procurementMethodAdditionalInfo": "fsdfsdf",
-    "tenderPeriod": {
-      "endDate": "2018-08-02T18:55:00Z",
-      "startDate": "2018-08-02T16:44:07Z"
-    },
-    "procuringEntity": {
-      "name": "Edward-Compan",
-      "identifier": {
-        "scheme": "rrr",
-        "id": "gggg",
-        "legalName": "fff",
-        "uri": "hhh"
-      },
-      "address": {
-        "streetAddress": "",
-        "addressDetails": {
-          "country": {
-            "id": "MD"
-          },
-          "region": {
-            "id": "MD-AN"
-          },
-          "locality": {
-            "scheme": "",
-            "id": "gfdg",
-            "description": "dgfdfg"
-          }
-        }
-      },
-      "contactPoint": {
-        "name": "hgfh",
-        "email": "hfgh",
-        "telephone": "hgfhfh",
-        "faxNumber": "hgfh",
-        "url": "hgfhgf"
-      }
-    },
-    "lots": [
-      {
-        "id": "1",
-        "title": "lot1",
-        "description": "looot",
-        "value": {
-          "amount": 200,
-          "currency": "MDL"
-        },
-        "contractPeriod": {
-          "startDate": "2018-11-19T14:45:00Z",
-          "endDate": "2018-12-25T14:45:00Z"
-        },
-        "placeOfPerformance": {
-          "address": {
-            "streetAddress": "",
-            "postalCode": "",
-            "addressDetails": {
-              "country": {
-                "id": "MD"
-              },
-              "region": {
-                "id": "MD-AN"
-              },
-              "locality": {
-                "scheme": "gfgf",
-                "id": "gfg",
-                "description": "gfg"
-              }
-            }
-          }
-        }
-      },
-      {
-        "id": "2",
-        "title": "lot2",
-        "description": "looot",
-        "value": {
-          "amount": 500,
-          "currency": "MDL"
-        },
-        "contractPeriod": {
-          "startDate": "2018-11-21T14:45:00Z",
-          "endDate": "2018-12-22T14:45:00Z"
-        },
-        "placeOfPerformance": {
-          "address": {
-            "streetAddress": "",
-            "postalCode": "",
-            "addressDetails": {
-              "country": {
-                "id": "MD"
-              },
-              "region": {
-                "id": "MD-AN"
-              },
-              "locality": {
-                "scheme": "UN/LOCODE",
-                "id": "MD AIN",
-                "description": "gfg5555"
-              }
-            }
-          },
-          "description": "2"
-        }
-      },
-      {
-        "id": "3",
-        "title": "lot3",
-        "description": "looot",
-        "value": {
-          "amount": 200,
-          "currency": "MDL"
-        },
-        "contractPeriod": {
-          "startDate": "2018-11-19T14:45:00Z",
-          "endDate": "2018-12-25T14:45:00Z"
-        },
-        "placeOfPerformance": {
-          "address": {
-            "streetAddress": "",
-            "postalCode": "",
-            "addressDetails": {
-              "country": {
-                "id": "MD"
-              },
-              "region": {
-                "id": "MD-AN"
-              },
-              "locality": {
-                "scheme": "gfgf",
-                "id": "gfg",
-                "description": "gfg"
-              }
-            }
-          }
-        }
-      }
-    ],
-    "items": [
-      {
-        "id": "2",
-        "description": "",
-        "classification": {
-          "id": "30199230-1",
-          "description": "Plicuri",
-          "scheme": "CPV"
-        },
-        "additionalClassifications": [
-          {
-            "id": "AB06-7",
-            "description": "Plastic",
-            "scheme": "CPVS"
-          }
-        ],
-        "quantity": 1.00,
-        "unit": {
-          "id": "86",
-          "name": " Milion metri patrati spatiu locativ "
-        },
-        "relatedLot": "2"
-      },
-      {
-        "id": "3",
-        "description": "",
-        "classification": {
-          "id": "30199230-1",
-          "description": "Plicuri",
-          "scheme": "CPV"
-        },
-        "additionalClassifications": [
-          {
-            "id": "AB06-7",
-            "description": "Plastic",
-            "scheme": "CPVS"
-          }
-        ],
-        "quantity": 1.00,
-        "unit": {
-          "id": "86",
-          "name": " Milion metri patrati spatiu locativ "
-        },
-        "relatedLot": "3"
-      },
-      {
-        "id": "1",
-        "description": "",
-        "classification": {
-          "id": "30199220-8",
-          "description": "Cărţi poştale neilustrate",
-          "scheme": "CPV"
-        },
-        "additionalClassifications": [
-          {
-            "id": "AB06-7",
-            "description": "Plastic",
-            "scheme": "CPVS"
-          }
-        ],
-        "quantity": 1.00,
-        "unit": {
-          "id": "86",
-          "name": " Milion metri patrati spatiu locativ "
-        },
-        "relatedLot": "1"
-      }
-    ],
-    "classification": {
-      "id": "30199200-2",
-      "description": "Plicuri, cărţi poştale şi cărţi poştale neilustrate",
-      "scheme": "CPV"
-    },
-    "submissionMethodRationale": [
-      "submissionMethodRationale"
-    ],
-    "submissionMethodDetails": "submissionMethodDetails",
-    "procurementMethodDetails": "test",
-    "eligibilityCriteria": "eligibilityCriteria"
-  }
+  "version": "0.0.1"
 }
