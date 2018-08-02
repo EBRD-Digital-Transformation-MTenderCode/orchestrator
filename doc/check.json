@@ -1,26 +1,14 @@
-//ocds-t1s2t3-MD-1533024973642
-//ocds-t1s2t3-MD-1533024973642-EV-1533024973786
-
-
 {
   "bid": {
     "tenderers": [
       {
-        "name": "Edward-Compan",
+        "name": "Googleh555fhfghg12",
         "identifier": {
-          "scheme": "rrr",
-          "id": "gggg",
-          "legalName": "fff",
-          "uri": "hhh"
+          "scheme": "MD-IDNO",
+          "id": "3010000fhf5555554548-2",
+          "legalName": "Google Big Brother",
+          "uri": "hhtps://google.com"
         },
-        "additionalIdentifiers": [
-          {
-            "scheme": "hhh",
-            "id": "gg",
-            "legalName": "fff",
-            "uri": "jjj"
-          }
-        ],
         "address": {
           "streetAddress": "",
           "postalCode": "",
@@ -29,26 +17,28 @@
               "id": "MD"
             },
             "region": {
-              "id": "MD-AN"
+              "id": "8700000"
             },
             "locality": {
-              "scheme": "",
-              "id": "",
-              "description": ""
+              "scheme": "gfgf",
+              "id": "gfg",
+              "description": "gfg"
             }
           }
         },
+        "details": {
+          "scale": "sme"
+        },
         "contactPoint": {
-          "name": "hgfh",
-          "email": "hfgh",
-          "telephone": "hgfhfh",
-          "faxNumber": "hgfh",
-          "url": "hgfhgf"
+          "name": "111",
+          "email": "222",
+          "telephone": "333",
+          "url": "444"
         }
       }
     ],
     "value": {
-      "amount": 200,
+      "amount": 150,
       "currency": "MDL"
     },
     "documents": [
@@ -57,12 +47,12 @@
         "id": "0e3ba160-949f-11e8-9318-61ca1098e80e",
         "title": "doc1",
         "relatedLots": [
-          "fd5cbaa2-9499-11e8-bbd3-5d171722b12b"
+          "a9c3f6f4-965c-11e8-9422-df4968e00e7b"
         ]
       }
     ],
     "relatedLots": [
-      "fd5cbaa2-9499-11e8-bbd3-5d171722b12b"
+      "a9c3f6f4-965c-11e8-9422-df4968e00e7b"
     ]
   }
 }
