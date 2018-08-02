@@ -64,6 +64,9 @@ public class Context {
     @JsonProperty(value = "endDate")
     private String endDate;
 
+    @JsonProperty(value = "bidId")
+    private String bidId;
+
     public void setOperationId(final String operationId) {
         this.operationId = UUID.fromString(operationId).toString();
     }

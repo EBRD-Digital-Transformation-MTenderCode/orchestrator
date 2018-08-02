@@ -129,5 +129,9 @@ public interface ProcessService {
     JsonNode getCheckFs(JsonNode jsonData, String startDate, String processId);
 
     JsonNode setCheckFs(JsonNode jsonData, JsonNode responseData, String processId);
+
+    JsonNode getBidTenderersData(JsonNode jsonData, String processId);
+
+    JsonNode setBidTenderersData(JsonNode jsonData, JsonNode responseData, String processId);
 }
 

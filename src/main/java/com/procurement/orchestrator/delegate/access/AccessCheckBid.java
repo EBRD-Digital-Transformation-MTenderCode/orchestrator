@@ -1,10 +1,9 @@
-package com.procurement.orchestrator.delegate.submission;
+package com.procurement.orchestrator.delegate.access;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.procurement.orchestrator.delegate.access.AccessUpdateCn;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
-import com.procurement.orchestrator.rest.SubmissionRestClient;
+import com.procurement.orchestrator.rest.AccessRestClient;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -16,23 +15,20 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SubmissionUpdateBid implements JavaDelegate {
+public class AccessCheckBid implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AccessUpdateCn.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AccessCheckBid.class);
 
-    private final SubmissionRestClient submissionRestClient;
-
+    private final AccessRestClient accessRestClient;
     private final OperationService operationService;
-
     private final ProcessService processService;
-
     private final JsonUtil jsonUtil;
 
-    public SubmissionUpdateBid(final SubmissionRestClient submissionRestClient,
-                               final OperationService operationService,
-                               final ProcessService processService,
-                               final JsonUtil jsonUtil) {
-        this.submissionRestClient = submissionRestClient;
+    public AccessCheckBid(final AccessRestClient accessRestClient,
+                          final OperationService operationService,
+                          final ProcessService processService,
+                          final JsonUtil jsonUtil) {
+        this.accessRestClient = accessRestClient;
         this.operationService = operationService;
         this.processService = processService;
         this.jsonUtil = jsonUtil;
@@ -43,23 +39,20 @@ public class SubmissionUpdateBid implements JavaDelegate {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
-        final JsonNode requestData = jsonUtil.toJsonNode(entity.getResponseData());
+        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode responseData = processService.processResponse(
-                submissionRestClient.updateBid(
+                accessRestClient.checkBid(
                         context.getCpid(),
                         context.getStage(),
-                        context.getToken(),
-                        context.getOwner(),
-                        context.getBidId(),
-                        context.getStartDate(),
-                        requestData),
+                        jsonData),
                 context,
                 processId,
                 taskId,
-                requestData);
+                jsonData);
         if (Objects.nonNull(responseData))
-            operationService.saveOperationStep(execution, entity, requestData, responseData);
+            operationService.saveOperationStep(execution, entity);
     }
 }
+

@@ -48,7 +48,7 @@ public class AccessCheckLotStatusDetails implements JavaDelegate {
                 taskId,
                 jsonUtil.empty());
         if (Objects.nonNull(responseData))
-            operationService.saveOperationStep(execution, entity, jsonUtil.empty(), jsonUtil.empty());
+            operationService.saveOperationStep(execution, entity);
     }
 }
 
