@@ -39,14 +39,14 @@ public interface SubmissionRestClient {
                                               @RequestParam("pmd") String pmd,
                                               @RequestParam("startDate") String startDate) throws Exception;
 
-    @RequestMapping(path = "/submission/bid", method = RequestMethod.POST)
+    @RequestMapping(path = "/bid", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> createBid(@RequestParam("cpid") String cpId,
                                           @RequestParam("stage") String stage,
                                           @RequestParam("owner") String owner,
                                           @RequestParam("date") String startDate,
                                           @RequestBody JsonNode jsonData) throws Exception;
 
-    @RequestMapping(path = "/submission/bid", method = RequestMethod.PUT)
+    @RequestMapping(path = "/bid", method = RequestMethod.PUT)
     ResponseEntity<ResponseDto> updateBid(@RequestParam("cpid") String cpId,
                                           @RequestParam("stage") String stage,
                                           @RequestParam("token") String token,
@@ -55,7 +55,7 @@ public interface SubmissionRestClient {
                                           @RequestParam("date") String startDate,
                                           @RequestBody JsonNode jsonData) throws Exception;
 
-    @RequestMapping(path = "/submission/copyBids", method = RequestMethod.POST)
+    @RequestMapping(path = "/bid/copy", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> copyBids(@RequestParam("cpid") String cpId,
                                          @RequestParam("stage") String newStage,
                                          @RequestParam("previousStage") String previousStage,
@@ -63,7 +63,7 @@ public interface SubmissionRestClient {
                                          @RequestParam("endDate") String endDate,
                                          @RequestBody JsonNode jsonData) throws Exception;
 
-    @RequestMapping(path = "/submission/bids", method = RequestMethod.GET)
+    @RequestMapping(path = "/submission/successfulBids", method = RequestMethod.GET)
     ResponseEntity<ResponseDto> getBids(@RequestParam("cpid") String cpId,
                                         @RequestParam("stage") String stage,
                                         @RequestParam("country") String country,

@@ -6,24 +6,32 @@
   "bid": {
     "tenderers": [
       {
-        "name": "Googlehfhhfghg1",
+        "name": "Edward-Compan",
         "identifier": {
-          "scheme": "CPhffhghghV",
-          "id": "3010000fhfgfhgg0-0",
-          "legalName": "Google Big Brother",
-          "uri": "hhtps://google.com"
+          "scheme": "rrr",
+          "id": "gggg",
+          "legalName": "fff",
+          "uri": "hhh"
         },
+        "additionalIdentifiers": [
+          {
+            "scheme": "hhh",
+            "id": "gg",
+            "legalName": "fff",
+            "uri": "jjj"
+          }
+        ],
         "address": {
           "streetAddress": "",
           "postalCode": "",
-          "details": {
-            "countryDetails": {
-              "id": ""
+          "addressDetails": {
+            "country": {
+              "id": "MD"
             },
-            "regionDetails": {
-              "id": ""
+            "region": {
+              "id": "MD-AN"
             },
-            "localityDetails": {
+            "locality": {
               "scheme": "",
               "id": "",
               "description": ""
@@ -31,29 +39,30 @@
           }
         },
         "contactPoint": {
-          "name": "",
-          "email": "",
-          "telephone": "",
-          "url": ""
+          "name": "hgfh",
+          "email": "hfgh",
+          "telephone": "hgfhfh",
+          "faxNumber": "hgfh",
+          "url": "hgfhgf"
         }
       }
     ],
     "value": {
-      "amount": "500",
-      "currency": "RUB"
+      "amount": 200,
+      "currency": "MDL"
     },
     "documents": [
       {
-        "documentType": "",
+        "documentType": "submissionDocuments",
         "id": "0e3ba160-949f-11e8-9318-61ca1098e80e",
         "title": "doc1",
         "relatedLots": [
-          "fd5cbaa3-9499-11e8-bbd3-5d171722b12b"
+          "fd5cbaa2-9499-11e8-bbd3-5d171722b12b"
         ]
       }
     ],
     "relatedLots": [
-      "fd5cbaa3-9499-11e8-bbd3-5d171722b12b"
+      "fd5cbaa2-9499-11e8-bbd3-5d171722b12b"
     ]
   }
 }
