@@ -666,9 +666,11 @@ public class ProcessServiceImpl implements ProcessService {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
             final JsonNode itemsNode = jsonData.get("tender").get("items");
             final JsonNode classificationNode = jsonData.get("tender").get("classification");
+            final JsonNode procuringEntityNode = jsonData.get("tender").get("procuringEntity");
             final ObjectNode tenderNode = mainNode.putObject("tender");
             tenderNode.replace("items", itemsNode);
             tenderNode.replace("classification", classificationNode);
+            tenderNode.replace("procuringEntity", procuringEntityNode);
             return mainNode;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
@@ -687,6 +689,7 @@ public class ProcessServiceImpl implements ProcessService {
             tenderNode.replace("submissionMethodDetails", tenderResponseNode.get("submissionMethodDetails"));
             tenderNode.replace("procurementMethodDetails", tenderResponseNode.get("procurementMethodDetails"));
             tenderNode.replace("eligibilityCriteria", tenderResponseNode.get("eligibilityCriteria"));
+            tenderNode.replace("procuringEntity", tenderResponseNode.get("procuringEntity"));
             return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
