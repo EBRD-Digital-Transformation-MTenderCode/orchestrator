@@ -126,6 +126,10 @@ public interface ProcessService {
 
     JsonNode setTenderData(JsonNode jsonData, JsonNode responseData, String processId);
 
+    JsonNode getCheckItems(JsonNode jsonData, String processId);
+
+    JsonNode setCheckItems(JsonNode jsonData, JsonNode responseData, String processId);
+
     JsonNode getCheckFs(JsonNode jsonData, String startDate, String processId);
 
     JsonNode setCheckFs(JsonNode jsonData, JsonNode responseData, String processId);

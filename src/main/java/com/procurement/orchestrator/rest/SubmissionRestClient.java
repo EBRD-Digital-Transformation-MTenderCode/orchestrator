@@ -87,4 +87,9 @@ public interface SubmissionRestClient {
     ResponseEntity<ResponseDto> setFinalStatuses(@RequestParam("cpid") String cpId,
                                                  @RequestParam("stage") String stage,
                                                  @RequestParam("date") String startDate) throws Exception;
+
+    @RequestMapping(path = "/submission/bidsWithdrawn", method = RequestMethod.POST)
+    ResponseEntity<ResponseDto> bidsWithdrawn(@RequestParam("cpid") String cpId,
+                                                 @RequestParam("stage") String stage,
+                                                 @RequestParam("date") String startDate) throws Exception;
 }

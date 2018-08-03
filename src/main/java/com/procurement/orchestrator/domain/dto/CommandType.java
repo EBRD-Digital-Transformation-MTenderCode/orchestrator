@@ -11,7 +11,9 @@ public enum CommandType {
     CREATE_EI("createEi"),
     CREATE_FS("createFs"),
     CREATE_TENDER("createTender"),
-    CREATE_BID("createBid");
+    CREATE_BID("createBid"),
+    CHECK_BID("checkBid"),
+    CHECK_ITEMS("checkItems");
 
     private static final Map<String, CommandType> CONSTANTS = new HashMap<>();
     private final String value;

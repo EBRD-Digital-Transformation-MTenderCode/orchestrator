@@ -1,6 +1,7 @@
 package com.procurement.orchestrator.rest;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.procurement.orchestrator.domain.dto.CommandMessage;
 import com.procurement.orchestrator.domain.dto.ResponseDto;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient(name = "e-access")
 public interface AccessRestClient {
+
+    @RequestMapping(method = RequestMethod.POST, value = "/command")
+    ResponseEntity<ResponseDto> execute(@RequestBody CommandMessage commandMessage) throws Exception;
 
     @RequestMapping(path = "/cn", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> createCn(@RequestParam("stage") String stage,
