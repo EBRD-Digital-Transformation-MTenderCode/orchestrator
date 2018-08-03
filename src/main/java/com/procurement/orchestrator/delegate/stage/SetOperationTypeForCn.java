@@ -48,6 +48,21 @@ public class SetOperationTypeForCn implements JavaDelegate {
                 execution.setVariable("operationType", "createCNonPIN");
                 operationService.saveOperationStep(execution, entity, context, jsonData);
                 break;
+            case PS:
+                context.setOperationType("updateCN");
+                execution.setVariable("operationType", "updateCN");
+                operationService.saveOperationStep(execution, entity, context, jsonData);
+                break;
+            case PQ:
+                context.setOperationType("updateCN");
+                execution.setVariable("operationType", "updateCN");
+                operationService.saveOperationStep(execution, entity, context, jsonData);
+                break;
+            case EV:
+                context.setOperationType("updateCN");
+                execution.setVariable("operationType", "updateCN");
+                operationService.saveOperationStep(execution, entity, context, jsonData);
+                break;
             default:
                 processService.terminateProcessWithMessage(context, processId, OPERATION_ERROR);
         }
