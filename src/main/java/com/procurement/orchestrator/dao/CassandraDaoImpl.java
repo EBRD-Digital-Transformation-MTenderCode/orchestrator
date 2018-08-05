@@ -170,12 +170,12 @@ public class CassandraDaoImpl implements CassandraDao {
         final Statement query = select()
                 .all()
                 .from(RULES_TABLE)
-                .where(eq(NEW_STAGE, rules.getNewStage()))
+                .where(eq(OPERATION_TYPE, rules.getOperationType()))
+                .and(eq(NEW_STAGE, rules.getNewStage()))
                 .and(eq(PREV_STAGE, rules.getStage()))
                 .and(eq(COUNTRY, rules.getCountry()))
                 .and(eq(PMD, rules.getPmd()))
                 .and(eq(PHASE, rules.getPhase()))
-                .and(eq(OPERATION_TYPE, rules.getOperationType()))
                 .limit(1);
         final ResultSet rs = session.execute(query);
         return rs.all().size() > 0;
