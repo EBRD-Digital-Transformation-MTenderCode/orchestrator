@@ -99,13 +99,17 @@
       <bpmn:outgoing>SequenceFlow_0vs74bs</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlow_1a9d5nj</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="SequenceFlow_0vs74bs" sourceRef="ExclusiveGateway_1jdkyq3" targetRef="SubmissionValidatePeriodTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0vs74bs" sourceRef="ExclusiveGateway_1jdkyq3" targetRef="SubmissionValidatePeriodTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[${operationType!='updateCN'}]]></bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_13efayh" sourceRef="SetOperationTypeForCnTask" targetRef="ExclusiveGateway_1jdkyq3" />
-    <bpmn:serviceTask id="ServiceTask_1op3fd0" name="Submission Check Period" camunda:asyncBefore="true" camunda:delegateExpression="${submissionValidatePeriod}">
+    <bpmn:serviceTask id="SubmissionCheckPeriodTask" name="Submission Check Period" camunda:asyncBefore="true" camunda:delegateExpression="${submissionCheckPeriod}">
       <bpmn:incoming>SequenceFlow_1a9d5nj</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1jdamf1</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_1a9d5nj" sourceRef="ExclusiveGateway_1jdkyq3" targetRef="ServiceTask_1op3fd0" />
+    <bpmn:sequenceFlow id="SequenceFlow_1a9d5nj" sourceRef="ExclusiveGateway_1jdkyq3" targetRef="SubmissionCheckPeriodTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[${operationType=='updateCN'}]]></bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
     <bpmn:subProcess id="ItemValidationPNSubProcess" name="Item Validation">
       <bpmn:incoming>SequenceFlow_12dx8xd</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1ktjxk8</bpmn:outgoing>
@@ -129,7 +133,7 @@
     </bpmn:subProcess>
     <bpmn:serviceTask id="ServiceTask_0erfib8" name="Access Update Cn" camunda:asyncBefore="true" camunda:delegateExpression="${accessUpdateCn}">
       <bpmn:incoming>SequenceFlow_1ip9onz</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_070fwuo</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_0y0pw8q</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:subProcess id="PeriodSubProcess" name="Period">
       <bpmn:incoming>SequenceFlow_1owtaf3</bpmn:incoming>
@@ -162,23 +166,16 @@
       <bpmn:outgoing>SequenceFlow_1owtaf3</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlow_13yco3h</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="SequenceFlow_1jdamf1" sourceRef="ServiceTask_1op3fd0" targetRef="ExclusiveGateway_1k5if2z" />
-    <bpmn:sequenceFlow id="SequenceFlow_1owtaf3" sourceRef="ExclusiveGateway_1k5if2z" targetRef="PeriodSubProcess" />
+    <bpmn:sequenceFlow id="SequenceFlow_1jdamf1" sourceRef="SubmissionCheckPeriodTask" targetRef="ExclusiveGateway_1k5if2z" />
+    <bpmn:sequenceFlow id="SequenceFlow_1owtaf3" sourceRef="ExclusiveGateway_1k5if2z" targetRef="PeriodSubProcess">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isPeriodChanged==true}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
     <bpmn:serviceTask id="submissionBidsWithdrawnTask" name="Submission Bids Withdrawn" camunda:asyncBefore="true" camunda:delegateExpression="${submissionBidsWithdrawn}">
-      <bpmn:incoming>SequenceFlow_19niybn</bpmn:incoming>
-      <bpmn:incoming>SequenceFlow_1l8uj5s</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_0y0pw8q</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1x49zmo</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1x49zmo" sourceRef="submissionBidsWithdrawnTask" targetRef="StorageOpenDocsOfTenderTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0j8w0pp" sourceRef="PeriodSubProcess" targetRef="NoticeCreateReleaseTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_070fwuo" sourceRef="ServiceTask_0erfib8" targetRef="ExclusiveGateway_0o0aje8" />
-    <bpmn:exclusiveGateway id="ExclusiveGateway_0o0aje8">
-      <bpmn:incoming>SequenceFlow_070fwuo</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_19niybn</bpmn:outgoing>
-      <bpmn:outgoing>SequenceFlow_0myg130</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="SequenceFlow_19niybn" sourceRef="ExclusiveGateway_0o0aje8" targetRef="submissionBidsWithdrawnTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0myg130" sourceRef="ExclusiveGateway_0o0aje8" targetRef="PeriodCnSubProcess" />
     <bpmn:sequenceFlow id="SequenceFlow_0144wv0" sourceRef="AccessCreateCnOnPnTask" targetRef="PeriodPnSubProcess" />
     <bpmn:subProcess id="ItemValidationCNSubProcess" name="Item Validation">
       <bpmn:incoming>SequenceFlow_13yco3h</bpmn:incoming>
@@ -201,14 +198,16 @@
       <bpmn:sequenceFlow id="SequenceFlow_02acwg5" sourceRef="StartEvent_0xqcax2" targetRef="AccessCheckItemsCnTask" />
       <bpmn:sequenceFlow id="SequenceFlow_0lz2qof" sourceRef="AccessCheckItemsCnTask" targetRef="MdmValidateTenderCnTask" />
     </bpmn:subProcess>
-    <bpmn:sequenceFlow id="SequenceFlow_12dx8xd" sourceRef="ExclusiveGateway_0br6yxl" targetRef="ItemValidationPNSubProcess" />
+    <bpmn:sequenceFlow id="SequenceFlow_12dx8xd" sourceRef="ExclusiveGateway_0br6yxl" targetRef="ItemValidationPNSubProcess">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[${operationType=='createCNonPN'}]]></bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_1ktjxk8" sourceRef="ItemValidationPNSubProcess" targetRef="AccessCreateCnOnPnTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_13yco3h" sourceRef="ExclusiveGateway_1k5if2z" targetRef="ItemValidationCNSubProcess" />
+    <bpmn:sequenceFlow id="SequenceFlow_13yco3h" sourceRef="ExclusiveGateway_1k5if2z" targetRef="ItemValidationCNSubProcess">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isPeriodChanged==false}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_1ip9onz" sourceRef="ItemValidationCNSubProcess" targetRef="ServiceTask_0erfib8" />
     <bpmn:sequenceFlow id="SequenceFlow_14qzi0w" sourceRef="AccessCreateCnOnPinTask" targetRef="PeriodPnSubProcess" />
     <bpmn:subProcess id="PeriodCnSubProcess" name="Period">
-      <bpmn:incoming>SequenceFlow_0myg130</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1l8uj5s</bpmn:outgoing>
       <bpmn:serviceTask id="SubmissionSavePeriodCnTask" name="Submission Save Period" camunda:asyncBefore="true" camunda:delegateExpression="${submissionSavePeriod}">
         <bpmn:incoming>SequenceFlow_172r4z1</bpmn:incoming>
         <bpmn:outgoing>SequenceFlow_0zf9ftb</bpmn:outgoing>
@@ -232,7 +231,7 @@
       </bpmn:serviceTask>
       <bpmn:sequenceFlow id="SequenceFlow_0sm56n0" sourceRef="ClarificationSavePeriodCnTask" targetRef="EndEvent_1xy6jjq" />
     </bpmn:subProcess>
-    <bpmn:sequenceFlow id="SequenceFlow_1l8uj5s" sourceRef="PeriodCnSubProcess" targetRef="submissionBidsWithdrawnTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0y0pw8q" sourceRef="ServiceTask_0erfib8" targetRef="submissionBidsWithdrawnTask" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="updateCN">
@@ -462,7 +461,7 @@
           <dc:Bounds x="934" y="138" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_1op3fd0_di" bpmnElement="ServiceTask_1op3fd0">
+      <bpmndi:BPMNShape id="ServiceTask_1op3fd0_di" bpmnElement="SubmissionCheckPeriodTask">
         <dc:Bounds x="561" y="536" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1a9d5nj_di" bpmnElement="SequenceFlow_1a9d5nj">
@@ -559,34 +558,6 @@
         <di:waypoint xsi:type="dc:Point" x="1555" y="469" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1388" y="702" width="0" height="12" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_070fwuo_di" bpmnElement="SequenceFlow_070fwuo">
-        <di:waypoint xsi:type="dc:Point" x="1026" y="576" />
-        <di:waypoint xsi:type="dc:Point" x="1066" y="576" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1046" y="555" width="0" height="12" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ExclusiveGateway_0o0aje8_di" bpmnElement="ExclusiveGateway_0o0aje8" isMarkerVisible="true">
-        <dc:Bounds x="1066" y="551" width="50" height="50" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1091" y="605" width="0" height="12" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="SequenceFlow_19niybn_di" bpmnElement="SequenceFlow_19niybn">
-        <di:waypoint xsi:type="dc:Point" x="1116" y="576" />
-        <di:waypoint xsi:type="dc:Point" x="1203" y="576" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1159.5" y="555" width="0" height="12" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_0myg130_di" bpmnElement="SequenceFlow_0myg130">
-        <di:waypoint xsi:type="dc:Point" x="1091" y="551" />
-        <di:waypoint xsi:type="dc:Point" x="1091" y="454" />
-        <di:waypoint xsi:type="dc:Point" x="1121" y="454" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1061" y="496.5" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0144wv0_di" bpmnElement="SequenceFlow_0144wv0">
@@ -693,7 +664,7 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="SubProcess_1tcv236_di" bpmnElement="PeriodCnSubProcess" isExpanded="false">
-        <dc:Bounds x="1120.5" y="414" width="100" height="80" />
+        <dc:Bounds x="1121" y="414" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_094df4m_di" bpmnElement="SubmissionSavePeriodCnTask">
         <dc:Bounds x="987" y="414" width="100" height="80" />
@@ -744,12 +715,11 @@
           <dc:Bounds x="1279" y="433" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_1l8uj5s_di" bpmnElement="SequenceFlow_1l8uj5s">
-        <di:waypoint xsi:type="dc:Point" x="1221" y="454" />
-        <di:waypoint xsi:type="dc:Point" x="1253" y="454" />
-        <di:waypoint xsi:type="dc:Point" x="1253" y="536" />
+      <bpmndi:BPMNEdge id="SequenceFlow_0y0pw8q_di" bpmnElement="SequenceFlow_0y0pw8q">
+        <di:waypoint xsi:type="dc:Point" x="1026" y="576" />
+        <di:waypoint xsi:type="dc:Point" x="1203" y="576" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1192" y="433" width="90" height="12" />
+          <dc:Bounds x="1114.5" y="555" width="0" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
