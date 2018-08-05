@@ -1,7 +1,6 @@
 package com.procurement.orchestrator.delegate.submission;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.procurement.orchestrator.delegate.access.AccessUpdateCn;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.SubmissionRestClient;
@@ -18,7 +17,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class SubmissionUpdateBidStatus implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AccessUpdateCn.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SubmissionCopyBids.class);
 
     private final SubmissionRestClient submissionRestClient;
 

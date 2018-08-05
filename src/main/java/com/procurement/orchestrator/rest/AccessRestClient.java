@@ -32,6 +32,16 @@ public interface AccessRestClient {
                                           @RequestParam("date") String dateTime,
                                           @RequestBody JsonNode jsonData) throws Exception;
 
+
+    @RequestMapping(path = "/pn", method = RequestMethod.POST)
+    ResponseEntity<ResponseDto> createPn(@RequestParam("stage") String stage,
+                                         @RequestParam("country") String country,
+                                         @RequestParam("pmd") String pmd,
+                                         @RequestParam("owner") String owner,
+                                         @RequestParam("date") String dateTime,
+                                         @RequestBody JsonNode jsonData) throws Exception;
+
+
     @RequestMapping(path = "/pinOnPn", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> createPinOnPn(@RequestParam("cpid") String cpId,
                                               @RequestParam("token") String token,
@@ -65,11 +75,11 @@ public interface AccessRestClient {
                                               @RequestParam("date") String dateTime,
                                               @RequestBody JsonNode jsonData) throws Exception;
 
-    @RequestMapping(path = "/pn", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> createPn(@RequestParam("stage") String stage,
-                                         @RequestParam("country") String country,
-                                         @RequestParam("pmd") String pmd,
+    @RequestMapping(path = "/cn", method = RequestMethod.PUT)
+    ResponseEntity<ResponseDto> updateCn(@RequestParam("cpid") String cpId,
+                                         @RequestParam("stage") String stage,
                                          @RequestParam("owner") String owner,
+                                         @RequestParam("token") String token,
                                          @RequestParam("date") String dateTime,
                                          @RequestBody JsonNode jsonData) throws Exception;
 
