@@ -2,7 +2,9 @@ package com.procurement.orchestrator.config.kafka;
 
 import com.datastax.driver.core.utils.UUIDs;
 import com.procurement.orchestrator.domain.Context;
+import com.procurement.orchestrator.domain.Rules;
 import com.procurement.orchestrator.domain.chronograph.ChronographResponse;
+import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.service.RequestService;
 import com.procurement.orchestrator.utils.DateUtil;
@@ -22,15 +24,18 @@ public class MessageConsumer {
 
     private final ProcessService processService;
     private final RequestService requestService;
+    private final OperationService operationService;
     private final JsonUtil jsonUtil;
     private final DateUtil dateUtil;
 
     public MessageConsumer(final ProcessService processService,
                            final RequestService requestService,
+                           final OperationService operationService,
                            final JsonUtil jsonUtil,
                            final DateUtil dateUtil) {
         this.processService = processService;
         this.requestService = requestService;
+        this.operationService = operationService;
         this.jsonUtil = jsonUtil;
         this.dateUtil = dateUtil;
     }
@@ -45,14 +50,35 @@ public class MessageConsumer {
             final ChronographResponse response = jsonUtil.toObject(ChronographResponse.class, message);
             final ChronographResponse.ChronographResponseData data = response.getData();
             final Context contextChronograph = jsonUtil.toObject(Context.class, data.getMetaData());
-            contextChronograph.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
+
+            final Context prevContext = operationService.getContext(contextChronograph.getCpid());
+
+            final Rules rules = operationService.checkAndGetRules(prevContext, contextChronograph.getProcessType());
+
+            final Context context = new Context();
+            context.setCountry(rules.getCountry());
+            context.setPmd(rules.getPmd());
+            context.setProcessType(rules.getProcessType());
+            context.setStage(rules.getNewStage());
+            context.setPhase(rules.getNewPhase());
+            context.setOperationType(rules.getOperationType());
+
+            context.setRequestId(contextChronograph.getRequestId());
+            context.setOperationId(contextChronograph.getOperationId());
+            context.setOwner(prevContext.getOwner());
+            context.setCpid(prevContext.getCpid());
+            context.setOcid(prevContext.getOcid());
+            context.setToken(prevContext.getToken());
+            context.setLanguage(prevContext.getLanguage());
+            context.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
+
             requestService.saveRequest(
-                    contextChronograph.getRequestId(),
-                    contextChronograph.getOperationId(),
-                    contextChronograph,
+                    context.getRequestId(),
+                    context.getOperationId(),
+                    context,
                     jsonUtil.toJsonNode(data));
             final Map<String, Object> variables = new HashMap<>();
-            variables.put("checkEnquiries", 0);
+            variables.put("operationType", context.getOperationType());
             processService.startProcess(contextChronograph, variables);
         } catch (Exception e) {
         }

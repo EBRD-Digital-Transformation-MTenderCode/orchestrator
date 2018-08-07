@@ -3,6 +3,7 @@ package com.procurement.orchestrator.delegate.chronograph;
 import com.datastax.driver.core.utils.UUIDs;
 import com.procurement.orchestrator.config.kafka.MessageProducer;
 import com.procurement.orchestrator.domain.Context;
+import com.procurement.orchestrator.domain.Rules;
 import com.procurement.orchestrator.domain.Stage;
 import com.procurement.orchestrator.domain.chronograph.ActionType;
 import com.procurement.orchestrator.domain.chronograph.ScheduleTask;
@@ -20,17 +21,10 @@ import org.springframework.stereotype.Component;
 public class ChronographScheduleEndTenderPeriod implements JavaDelegate {
 
     private static final Logger LOG = LoggerFactory.getLogger(ChronographScheduleEndTenderPeriod.class);
-    private static final String TENDER_PERIOD_END = "tenderPeriodEnd";
-    private static final String TENDER_PERIOD_END_EV = "tenderPeriodEndEv";
-    private static final String NEXT_PHASE = "AWARDPERIOD";
-    private static final String CURRENT_PHASE = "TENDERPERIOD";
 
     private final MessageProducer messageProducer;
-
     private final OperationService operationService;
-
     private final JsonUtil jsonUtil;
-
     private final DateUtil dateUtil;
 
     public ChronographScheduleEndTenderPeriod(final MessageProducer messageProducer,
@@ -50,29 +44,15 @@ public class ChronographScheduleEndTenderPeriod implements JavaDelegate {
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         /**set context for next process*/
         final Context contextChronograph = new Context();
+        contextChronograph.setProcessType("tenderPeriodEnd");
         final String uuid = UUIDs.timeBased().toString();
         contextChronograph.setOperationId(uuid);
         contextChronograph.setRequestId(uuid);
-        if (context.getStage().equals(Stage.EV.value())) {
-            contextChronograph.setProcessType(TENDER_PERIOD_END_EV);
-            contextChronograph.setOperationType(TENDER_PERIOD_END_EV);
-        } else {
-            contextChronograph.setProcessType(TENDER_PERIOD_END);
-            contextChronograph.setOperationType(TENDER_PERIOD_END);
-        }
-        contextChronograph.setPhase(NEXT_PHASE);
-        contextChronograph.setCpid(context.getCpid());
-        contextChronograph.setStage(context.getStage());
-        contextChronograph.setOwner(context.getOwner());
-        contextChronograph.setCountry(context.getCountry());
-        contextChronograph.setPmd(context.getPmd());
-        contextChronograph.setStartDate(context.getStartDate());
-        contextChronograph.setEndDate(context.getEndDate());
 
         final ScheduleTask task = new ScheduleTask(
                 ActionType.SCHEDULE,
                 context.getCpid(),
-                CURRENT_PHASE,
+                context.getPhase(),
                 dateUtil.stringToLocal(context.getEndDate()),
                 null,
                 jsonUtil.toJson(contextChronograph));

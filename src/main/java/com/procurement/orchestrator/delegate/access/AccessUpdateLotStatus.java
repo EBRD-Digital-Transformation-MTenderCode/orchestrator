@@ -70,10 +70,7 @@ public class AccessUpdateLotStatus implements JavaDelegate {
     private void processContext(final DelegateExecution execution, final Context context, final JsonNode responseData, final String processId) {
         final String tenderStatus = processService.getText("tenderStatus", responseData, processId);
         if ("unsuccessful".equals(tenderStatus)) {
-            execution.setVariable("tenderUnsuccessful", 1);
             context.setOperationType("tenderUnsuccessful");
-        } else {
-            execution.setVariable("tenderUnsuccessful", 0);
         }
     }
 }

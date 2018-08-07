@@ -60,10 +60,7 @@ public class SubmissionGetBids implements JavaDelegate {
     private void processContext(final DelegateExecution execution, final Context context, final JsonNode responseData, final String processId) {
         final Boolean isBidsEmpty = processService.isBidsEmpty(responseData, processId);
         if (isBidsEmpty) {
-            execution.setVariable("tenderUnsuccessful", 1);
             context.setOperationType("tenderUnsuccessful");
-        } else {
-            execution.setVariable("tenderUnsuccessful", 0);
         }
     }
 }
