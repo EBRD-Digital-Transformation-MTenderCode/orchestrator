@@ -101,3 +101,16 @@ SELECT * FROM ocds.orchestrator_operation_step where task_id = 'AccessCreatePnTa
 
 SELECT * FROM ocds.orchestrator_request where operation_id = 'b7eb0d2d-7bbb-4f71-9e06-3731f249a7e8' allow filtering;
 SELECT * FROM ocds.orchestrator_stage where cp_id = 'ocds-t1s2t3-TEST-1524663516399';
+
+
+CREATE TABLE IF NOT EXISTS  ocds.orchestrator_stage_rules (
+    country text,
+    pmd text,
+    process_type text,
+    prev_stage text,
+    new_stage text,
+    prev_phase text,
+    new_phase text,
+    operation_type text,
+    primary key((country, pmd, process_type), prev_stage, prev_phase)
+    );

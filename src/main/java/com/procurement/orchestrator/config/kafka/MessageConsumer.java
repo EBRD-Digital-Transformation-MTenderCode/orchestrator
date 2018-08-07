@@ -37,9 +37,6 @@ public class MessageConsumer {
 
     @KafkaListener(topics = "chronograph-out")
     public void onReceiving(final String message,
-                            @Header(KafkaHeaders.OFFSET) final Integer offset,
-                            @Header(KafkaHeaders.RECEIVED_PARTITION_ID) final int partition,
-                            @Header(KafkaHeaders.RECEIVED_TOPIC) final String topic,
                             @Header(KafkaHeaders.ACKNOWLEDGMENT) final Acknowledgment acknowledgment) {
 
         acknowledgment.acknowledge();
@@ -47,18 +44,16 @@ public class MessageConsumer {
             LOG.info("Get task: " + message);
             final ChronographResponse response = jsonUtil.toObject(ChronographResponse.class, message);
             final ChronographResponse.ChronographResponseData data = response.getData();
-            final Context contextFromChronograph = jsonUtil.toObject(Context.class, data.getMetaData());
-            contextFromChronograph.setRequestId(UUIDs.timeBased().toString());
-            contextFromChronograph.setOperationId(contextFromChronograph.getOperationId());
-            contextFromChronograph.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
+            final Context contextChronograph = jsonUtil.toObject(Context.class, data.getMetaData());
+            contextChronograph.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
             requestService.saveRequest(
-                    contextFromChronograph.getRequestId(),
-                    contextFromChronograph.getOperationId(),
-                    contextFromChronograph,
+                    contextChronograph.getRequestId(),
+                    contextChronograph.getOperationId(),
+                    contextChronograph,
                     jsonUtil.toJsonNode(data));
             final Map<String, Object> variables = new HashMap<>();
             variables.put("checkEnquiries", 0);
-            processService.startProcess(contextFromChronograph, variables);
+            processService.startProcess(contextChronograph, variables);
         } catch (Exception e) {
         }
     }

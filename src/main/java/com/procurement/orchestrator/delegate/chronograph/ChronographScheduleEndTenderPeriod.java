@@ -49,23 +49,25 @@ public class ChronographScheduleEndTenderPeriod implements JavaDelegate {
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         /**set context for next process*/
-        final Context contextForChronograph = new Context();
-        contextForChronograph.setOperationId(UUIDs.timeBased().toString());
+        final Context contextChronograph = new Context();
+        final String uuid = UUIDs.timeBased().toString();
+        contextChronograph.setOperationId(uuid);
+        contextChronograph.setRequestId(uuid);
         if (context.getStage().equals(Stage.EV.value())) {
-            contextForChronograph.setProcessType(TENDER_PERIOD_END_EV);
-            contextForChronograph.setOperationType(TENDER_PERIOD_END_EV);
+            contextChronograph.setProcessType(TENDER_PERIOD_END_EV);
+            contextChronograph.setOperationType(TENDER_PERIOD_END_EV);
         } else {
-            contextForChronograph.setProcessType(TENDER_PERIOD_END);
-            contextForChronograph.setOperationType(TENDER_PERIOD_END);
+            contextChronograph.setProcessType(TENDER_PERIOD_END);
+            contextChronograph.setOperationType(TENDER_PERIOD_END);
         }
-        contextForChronograph.setPhase(NEXT_PHASE);
-        contextForChronograph.setCpid(context.getCpid());
-        contextForChronograph.setStage(context.getStage());
-        contextForChronograph.setOwner(context.getOwner());
-        contextForChronograph.setCountry(context.getCountry());
-        contextForChronograph.setPmd(context.getPmd());
-        contextForChronograph.setStartDate(context.getStartDate());
-        contextForChronograph.setEndDate(context.getEndDate());
+        contextChronograph.setPhase(NEXT_PHASE);
+        contextChronograph.setCpid(context.getCpid());
+        contextChronograph.setStage(context.getStage());
+        contextChronograph.setOwner(context.getOwner());
+        contextChronograph.setCountry(context.getCountry());
+        contextChronograph.setPmd(context.getPmd());
+        contextChronograph.setStartDate(context.getStartDate());
+        contextChronograph.setEndDate(context.getEndDate());
 
         final ScheduleTask task = new ScheduleTask(
                 ActionType.SCHEDULE,
@@ -73,7 +75,7 @@ public class ChronographScheduleEndTenderPeriod implements JavaDelegate {
                 CURRENT_PHASE,
                 dateUtil.stringToLocal(context.getEndDate()),
                 null,
-                jsonUtil.toJson(contextForChronograph));
+                jsonUtil.toJson(contextChronograph));
         messageProducer.sendToChronograph(task);
         operationService.saveOperationStep(execution, entity, jsonUtil.toJsonNode(task));
     }
