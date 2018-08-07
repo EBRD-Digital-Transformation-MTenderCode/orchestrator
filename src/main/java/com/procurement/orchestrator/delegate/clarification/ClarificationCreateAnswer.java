@@ -6,7 +6,6 @@ import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.ClarificationRestClient;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
-import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.Objects;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
@@ -24,18 +23,15 @@ public class ClarificationCreateAnswer implements JavaDelegate {
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
-    private final DateUtil dateUtil;
 
     public ClarificationCreateAnswer(final ClarificationRestClient clarificationRestClient,
                                      final OperationService operationService,
                                      final ProcessService processService,
-                                     final JsonUtil jsonUtil,
-                                     final DateUtil dateUtil) {
+                                     final JsonUtil jsonUtil) {
         this.clarificationRestClient = clarificationRestClient;
         this.operationService = operationService;
         this.processService = processService;
         this.jsonUtil = jsonUtil;
-        this.dateUtil = dateUtil;
     }
 
     @Override
@@ -59,12 +55,12 @@ public class ClarificationCreateAnswer implements JavaDelegate {
                 taskId,
                 requestData);
         if (Objects.nonNull(responseData)) {
-            processcontext(execution, context, responseData, processId);
+            processContext(execution, context, responseData, processId);
             operationService.saveOperationStep(execution, entity, context, requestData, responseData);
         }
     }
 
-    private void processcontext(final DelegateExecution execution, final Context context, final JsonNode responseData, final String processId) {
+    private void processContext(final DelegateExecution execution, final Context context, final JsonNode responseData, final String processId) {
         final Boolean allAnswered = processService.getBoolean("allAnswered", responseData, processId);
         execution.setVariable("allAnswered", allAnswered ? 1 : 0);
         if (!allAnswered) {

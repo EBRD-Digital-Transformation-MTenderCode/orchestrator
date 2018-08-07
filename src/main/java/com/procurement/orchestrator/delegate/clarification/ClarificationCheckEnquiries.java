@@ -49,12 +49,12 @@ public class ClarificationCheckEnquiries implements JavaDelegate {
                 taskId,
                 requestData);
         if (Objects.nonNull(responseData)) {
-            processcontext(execution, context, responseData, processId);
+            processContext(execution, context, responseData, processId);
             operationService.saveOperationStep(execution, entity, context, requestData, responseData);
         }
     }
 
-    private void processcontext(final DelegateExecution execution, final Context context, final JsonNode responseData, final String processId) {
+    private void processContext(final DelegateExecution execution, final Context context, final JsonNode responseData, final String processId) {
         final Boolean allAnswered = processService.getBoolean("allAnswered", responseData, processId);
         if (allAnswered != null) {
             execution.setVariable("checkEnquiries", allAnswered ? 1 : 2);
