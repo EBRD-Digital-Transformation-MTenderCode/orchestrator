@@ -1,6 +1,6 @@
 package com.procurement.orchestrator.config.kafka;
 
-import com.datastax.driver.core.utils.UUIDs;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.Rules;
 import com.procurement.orchestrator.domain.chronograph.ChronographResponse;
@@ -9,14 +9,16 @@ import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.service.RequestService;
 import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
-import java.util.HashMap;
-import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public class MessageConsumer {
 
@@ -53,9 +55,10 @@ public class MessageConsumer {
 
             final Context prevContext = operationService.getContext(contextChronograph.getCpid());
 
-            final Rules rules = operationService.checkAndGetRules(prevContext, contextChronograph.getProcessType());
-
             final Context context = new Context();
+            final Rules rules = operationService.checkAndGetRules(prevContext, contextChronograph.getProcessType());
+            context.setRequestId(contextChronograph.getRequestId());
+            context.setOperationId(contextChronograph.getOperationId());
             context.setCountry(rules.getCountry());
             context.setPmd(rules.getPmd());
             context.setProcessType(rules.getProcessType());
@@ -63,24 +66,29 @@ public class MessageConsumer {
             context.setPhase(rules.getNewPhase());
             context.setOperationType(rules.getOperationType());
 
-            context.setRequestId(contextChronograph.getRequestId());
-            context.setOperationId(contextChronograph.getOperationId());
             context.setOwner(prevContext.getOwner());
             context.setCpid(prevContext.getCpid());
             context.setOcid(prevContext.getOcid());
             context.setToken(prevContext.getToken());
             context.setLanguage(prevContext.getLanguage());
-            context.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
+            context.setStartDate(dateUtil.nowFormatted());
 
-            requestService.saveRequest(
-                    context.getRequestId(),
-                    context.getOperationId(),
-                    context,
-                    jsonUtil.toJsonNode(data));
+            saveRequestAndCheckOperation(context, jsonUtil.toJsonNode(data));
             final Map<String, Object> variables = new HashMap<>();
             variables.put("operationType", context.getOperationType());
             processService.startProcess(contextChronograph, variables);
         } catch (Exception e) {
         }
+    }
+
+    void saveRequestAndCheckOperation(final Context context, final JsonNode jsonData) {
+        final JsonNode data;
+        if (Objects.isNull(jsonData)) {
+            data = jsonUtil.createObjectNode();
+        } else {
+            data = jsonData;
+        }
+        requestService.saveRequest(context.getRequestId(), context.getOperationId(), context, data);
+        operationService.checkOperationById(context.getOperationId());
     }
 }

@@ -28,9 +28,14 @@ public class BaseController {
         this.operationService = operationService;
     }
 
-    void saveRequestAndCheckOperation(final Context context, JsonNode jsonData) {
-        if (Objects.isNull(jsonData)) jsonData = jsonUtil.createObjectNode();
-        requestService.saveRequest(context.getRequestId(), context.getOperationId(), context, jsonData);
+    void saveRequestAndCheckOperation(final Context context, final JsonNode jsonData) {
+        final JsonNode data;
+        if (Objects.isNull(jsonData)) {
+            data = jsonUtil.createObjectNode();
+        } else {
+            data = jsonData;
+        }
+        requestService.saveRequest(context.getRequestId(), context.getOperationId(), context, data);
         operationService.checkOperationById(context.getOperationId());
     }
 
