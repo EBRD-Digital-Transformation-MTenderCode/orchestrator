@@ -90,14 +90,14 @@
       <bpmn:outgoing>SequenceFlow_1a9d5nj</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="SequenceFlow_0vs74bs" sourceRef="ExclusiveGateway_1jdkyq3" targetRef="SubmissionValidatePeriodTask">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[${operationType!='updateCN'}]]></bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[${operationType=='createCNonPN' || operationType=='createCNonPIN'}]]></bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:serviceTask id="SubmissionCheckPeriodTask" name="Submission Check Period" camunda:asyncBefore="true" camunda:delegateExpression="${submissionCheckPeriod}">
       <bpmn:incoming>SequenceFlow_1a9d5nj</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1jdamf1</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1a9d5nj" sourceRef="ExclusiveGateway_1jdkyq3" targetRef="SubmissionCheckPeriodTask">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"></bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[${operationType=='updateCN' || operationType=='updateTenderPeriod'}]]></bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:subProcess id="ItemValidationPNSubProcess" name="Item Validation">
       <bpmn:incoming>SequenceFlow_12dx8xd</bpmn:incoming>
@@ -157,7 +157,7 @@
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="SequenceFlow_1jdamf1" sourceRef="SubmissionCheckPeriodTask" targetRef="ExclusiveGateway_1k5if2z" />
     <bpmn:sequenceFlow id="SequenceFlow_1owtaf3" sourceRef="ExclusiveGateway_1k5if2z" targetRef="PeriodSubProcess">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[${operationType=='updateTenderPeriod'}]]></bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[${operationType=='updateTenderPeriod' && isPeriodChanged==true}]]></bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:serviceTask id="submissionBidsWithdrawnTask" name="Submission Bids Withdrawn" camunda:asyncBefore="true" camunda:delegateExpression="${submissionBidsWithdrawn}">
       <bpmn:incoming>SequenceFlow_1v55yxp</bpmn:incoming>
