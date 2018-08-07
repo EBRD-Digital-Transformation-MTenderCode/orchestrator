@@ -32,39 +32,39 @@ public class SetOperationTypeForCn implements JavaDelegate {
 
     @Override
     public void execute(final DelegateExecution execution) {
-        LOG.info(execution.getCurrentActivityName());
-        final String processId = execution.getProcessInstanceId();
-        final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
-        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
-        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
-        switch (Stage.fromValue(context.getPrevStage())) {
-            case PN:
-                context.setOperationType("createCNonPN");
-                execution.setVariable("operationType", "createCNonPN");
-                operationService.saveOperationStep(execution, entity, context, jsonData);
-                break;
-            case PIN:
-                context.setOperationType("createCNonPIN");
-                execution.setVariable("operationType", "createCNonPIN");
-                operationService.saveOperationStep(execution, entity, context, jsonData);
-                break;
-            case PS:
-                context.setOperationType("updateCN");
-                execution.setVariable("operationType", "updateCN");
-                operationService.saveOperationStep(execution, entity, context, jsonData);
-                break;
-            case PQ:
-                context.setOperationType("updateCN");
-                execution.setVariable("operationType", "updateCN");
-                operationService.saveOperationStep(execution, entity, context, jsonData);
-                break;
-            case EV:
-                context.setOperationType("updateCN");
-                execution.setVariable("operationType", "updateCN");
-                operationService.saveOperationStep(execution, entity, context, jsonData);
-                break;
-            default:
-                processService.terminateProcessWithMessage(context, processId, OPERATION_ERROR);
-        }
+//        LOG.info(execution.getCurrentActivityName());
+//        final String processId = execution.getProcessInstanceId();
+//        final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
+//        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
+//        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
+//        switch (Stage.fromValue(context.getPrevStage())) {
+//            case PN:
+//                context.setOperationType("createCNonPN");
+//                execution.setVariable("operationType", "createCNonPN");
+//                operationService.saveOperationStep(execution, entity, context, jsonData);
+//                break;
+//            case PIN:
+//                context.setOperationType("createCNonPIN");
+//                execution.setVariable("operationType", "createCNonPIN");
+//                operationService.saveOperationStep(execution, entity, context, jsonData);
+//                break;
+//            case PS:
+//                context.setOperationType("updateCN");
+//                execution.setVariable("operationType", "updateCN");
+//                operationService.saveOperationStep(execution, entity, context, jsonData);
+//                break;
+//            case PQ:
+//                context.setOperationType("updateCN");
+//                execution.setVariable("operationType", "updateCN");
+//                operationService.saveOperationStep(execution, entity, context, jsonData);
+//                break;
+//            case EV:
+//                context.setOperationType("updateCN");
+//                execution.setVariable("operationType", "updateCN");
+//                operationService.saveOperationStep(execution, entity, context, jsonData);
+//                break;
+//            default:
+//                processService.terminateProcessWithMessage(context, processId, OPERATION_ERROR);
+//        }
     }
 }

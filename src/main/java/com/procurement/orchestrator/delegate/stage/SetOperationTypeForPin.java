@@ -32,24 +32,24 @@ public class SetOperationTypeForPin implements JavaDelegate {
 
     @Override
     public void execute(final DelegateExecution execution) {
-        LOG.info(execution.getCurrentActivityName());
-        final String processId = execution.getProcessInstanceId();
-        final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
-        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
-        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
-        switch (Stage.fromValue(context.getPrevStage())) {
-            case PN:
-                context.setOperationType("createPINonPN");
-                execution.setVariable("operationType", "createPINonPN");
-                operationService.saveOperationStep(execution, entity, context, jsonData);
-                break;
-            case PIN:
-                context.setOperationType("updatePIN");
-                execution.setVariable("operationType", "updatePIN");
-                operationService.saveOperationStep(execution, entity, context, jsonData);
-                break;
-            default:
-                processService.terminateProcessWithMessage(context, processId, OPERATION_ERROR);
-        }
+//        LOG.info(execution.getCurrentActivityName());
+//        final String processId = execution.getProcessInstanceId();
+//        final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
+//        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
+//        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
+//        switch (Stage.fromValue(context.getPrevStage())) {
+//            case PN:
+//                context.setOperationType("createPINonPN");
+//                execution.setVariable("operationType", "createPINonPN");
+//                operationService.saveOperationStep(execution, entity, context, jsonData);
+//                break;
+//            case PIN:
+//                context.setOperationType("updatePIN");
+//                execution.setVariable("operationType", "updatePIN");
+//                operationService.saveOperationStep(execution, entity, context, jsonData);
+//                break;
+//            default:
+//                processService.terminateProcessWithMessage(context, processId, OPERATION_ERROR);
+//        }
     }
 }

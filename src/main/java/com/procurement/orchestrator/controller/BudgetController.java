@@ -22,6 +22,7 @@ public class BudgetController extends BaseController {
 
     private final DateUtil dateUtil;
     private final ProcessService processService;
+    private final OperationService operationService;
     private final String lang = "ro";
 
     public BudgetController(final ProcessService processService,
@@ -32,6 +33,7 @@ public class BudgetController extends BaseController {
         super(jsonUtil, requestService, operationService);
         this.dateUtil = dateUtil;
         this.processService = processService;
+        this.operationService = operationService;
     }
 
     @RequestMapping(value = "/ei", method = RequestMethod.POST)
@@ -41,12 +43,12 @@ public class BudgetController extends BaseController {
                                            @RequestBody final JsonNode data) {
         final Context context = new Context();
         context.setRequestId(UUIDs.timeBased().toString());
-        context.setOwner(getOwner(authorization));
         context.setOperationId(operationId);
-        context.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
-        context.setStage(Stage.EI.value());
         context.setCountry(Country.fromValue(country.toUpperCase()).value());
         context.setLanguage(lang);
+        context.setStartDate(dateUtil.nowFormatted());
+        context.setStage(Stage.EI.value());
+        context.setOwner(getOwner(authorization));
         context.setProcessType("ei");
         context.setOperationType("createEI");
         saveRequestAndCheckOperation(context, data);
@@ -63,12 +65,15 @@ public class BudgetController extends BaseController {
                                            @PathVariable("cpid") final String cpid,
                                            @RequestBody final JsonNode data) {
         final Context context = new Context();
+        final Context prevContext = operationService.getContext(cpid);
+        context.setCountry(prevContext.getCountry());
+        context.setLanguage(lang);
+
         context.setRequestId(UUIDs.timeBased().toString());
         context.setOperationId(operationId);
         context.setCpid(cpid);
-        context.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
+        context.setStartDate(dateUtil.nowFormatted());
         context.setStage(Stage.EI.value());
-        context.setLanguage(lang);
         context.setProcessType("ei");
         context.setOperationType("updateEI");
         context.setOwner(getOwner(authorization));
@@ -86,13 +91,17 @@ public class BudgetController extends BaseController {
                                            @PathVariable("cpid") final String cpid,
                                            @RequestBody final JsonNode data) {
         final Context context = new Context();
+        final Context prevContext = operationService.getContext(cpid);
+        context.setCountry(prevContext.getCountry());
+        context.setLanguage(lang);
+
         context.setRequestId(UUIDs.timeBased().toString());
         context.setOperationId(operationId);
-        context.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
+        context.setStartDate(dateUtil.nowFormatted());
         context.setCpid(cpid);
         context.setStage(Stage.FS.value());
-        context.setOperationType("createFS");
         context.setProcessType("fs");
+        context.setOperationType("createFS");
         context.setOwner(getOwner(authorization));
         saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
@@ -110,11 +119,15 @@ public class BudgetController extends BaseController {
                                            @RequestBody final JsonNode data) {
         validateOcId(cpid, ocid);
         final Context context = new Context();
+        final Context prevContext = operationService.getContext(cpid);
+        context.setCountry(prevContext.getCountry());
+        context.setLanguage(lang);
+
         context.setRequestId(UUIDs.timeBased().toString());
         context.setOperationId(operationId);
         context.setCpid(cpid);
         context.setOcid(ocid);
-        context.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
+        context.setStartDate(dateUtil.nowFormatted());
         context.setStage(Stage.FS.value());
         context.setProcessType("fs");
         context.setOperationType("updateFS");

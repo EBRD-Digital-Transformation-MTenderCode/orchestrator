@@ -25,13 +25,13 @@ public class GetContext implements JavaDelegate {
 
     @Override
     public void execute(final DelegateExecution execution) {
-        LOG.info(execution.getCurrentActivityName());
-        final String processId = execution.getProcessInstanceId();
-        final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
-        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
-        final Context prevContext = operationService.getContext(context.getCpid(), processId);
-        context.setCountry(prevContext.getCountry());
-        context.setLanguage(prevContext.getLanguage());
-        operationService.saveOperationStep(execution, entity, context);
+//        LOG.info(execution.getCurrentActivityName());
+//        final String processId = execution.getProcessInstanceId();
+//        final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
+//        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
+//        final Context prevContext = operationService.getContext(context.getCpid(), processId);
+//        context.setCountry(prevContext.getCountry());
+//        context.setLanguage(prevContext.getLanguage());
+//        operationService.saveOperationStep(execution, entity, context);
     }
 }

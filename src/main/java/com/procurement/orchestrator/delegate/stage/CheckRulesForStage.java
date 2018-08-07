@@ -33,31 +33,31 @@ public class CheckRulesForStage implements JavaDelegate {
 
     @Override
     public void execute(final DelegateExecution execution) {
-        LOG.info(execution.getCurrentActivityName());
-        final String processId = execution.getProcessInstanceId();
-        final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
-        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
-        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
-        final Context prevContext = operationService.getContext(context.getCpid(), processId);
-
-        if (prevContext != null) {
-            context.setCountry(prevContext.getCountry());
-            context.setPmd(prevContext.getPmd());
-            context.setPrevStage(prevContext.getStage());
-            final Rules rules = new Rules(
-                    context.getStage(),
-                    context.getPrevStage(),
-                    context.getCountry(),
-                    context.getPmd(),
-                    prevContext.getPhase(),
-                    context.getOperationType());
-            if (operationService.isRulesExist(rules)) {
-                operationService.saveOperationStep(execution, entity, context, jsonData);
-            } else {
-                processService.terminateProcessWithMessage(context, processId, OPERATION_ERROR);
-            }
-        } else {
-            processService.terminateProcessWithMessage(context, processId, STAGE_ERROR);
-        }
+//        LOG.info(execution.getCurrentActivityName());
+//        final String processId = execution.getProcessInstanceId();
+//        final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
+//        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
+//        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
+//        final Context prevContext = operationService.getContext(context.getCpid(), processId);
+//
+//        if (prevContext != null) {
+//            context.setCountry(prevContext.getCountry());
+//            context.setPmd(prevContext.getPmd());
+//            context.setPrevStage(prevContext.getStage());
+//            final Rules rules = new Rules(
+//                    context.getStage(),
+//                    context.getPrevStage(),
+//                    context.getCountry(),
+//                    context.getPmd(),
+//                    prevContext.getPhase(),
+//                    context.getOperationType());
+//            if (operationService.checkRules(rules)) {
+//                operationService.saveOperationStep(execution, entity, context, jsonData);
+//            } else {
+//                processService.terminateProcessWithMessage(context, processId, OPERATION_ERROR);
+//            }
+//        } else {
+//            processService.terminateProcessWithMessage(context, processId, STAGE_ERROR);
+//        }
     }
 }

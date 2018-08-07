@@ -4,18 +4,21 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.dao.CassandraDao;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.Rules;
-import com.procurement.orchestrator.domain.Stage;
-import com.procurement.orchestrator.domain.entity.*;
+import com.procurement.orchestrator.domain.entity.ContextEntity;
+import com.procurement.orchestrator.domain.entity.OperationEntity;
+import com.procurement.orchestrator.domain.entity.OperationStepEntity;
+import com.procurement.orchestrator.domain.entity.RequestEntity;
 import com.procurement.orchestrator.exception.OperationException;
 import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
-import java.util.Objects;
-import java.util.Optional;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class OperationServiceImpl implements OperationService {
@@ -40,11 +43,6 @@ public class OperationServiceImpl implements OperationService {
         this.runtimeService = runtimeService;
         this.jsonUtil = jsonUtil;
         this.dateUtil = dateUtil;
-    }
-
-    @Override
-    public Boolean isRulesExist(final Rules rules) {
-        return cassandraDao.isRulesExist(rules);
     }
 
     @Override
@@ -178,30 +176,31 @@ public class OperationServiceImpl implements OperationService {
     }
 
     @Override
-    public Context getContext(final String cpId, final String processId) {
-        final Optional<ContextEntity> entityOptional = cassandraDao.getContextByCpId(cpId);
-        if (entityOptional.isPresent()) {
-            return jsonUtil.toObject(Context.class, entityOptional.get().getContext());
-        } else {
-            processException("No context found!", processId);
-            return null;
-        }
-    }
-
-    @Override
     public Context getContext(final String cpId) {
         final Optional<ContextEntity> entityOptional = cassandraDao.getContextByCpId(cpId);
+        if (!entityOptional.isPresent()) throw new OperationException("Context not found.");
         return jsonUtil.toObject(Context.class, entityOptional.get().getContext());
     }
 
+
     @Override
-    public Stage getStageFromRules(final String country, final String pmd, final String operationType) {
-        final Optional<StageRulesEntity> entityOptional = cassandraDao.getStageFromRules(country, pmd, operationType);
-        if (entityOptional.isPresent()) {
-            return Stage.fromValue(entityOptional.get().getStage());
-        } else {
-            throw new OperationException("No stage found!");
+    public Rules checkAndGetRules(final Context prevContext, final String processType) {
+        final Optional<Rules> entityOptional = cassandraDao.getRules(prevContext.getCountry(), prevContext.getPmd(), processType);
+        if (!entityOptional.isPresent()) {
+            throw new OperationException("Operation impossible.");
         }
+        final Rules rules = entityOptional.get();
+        if (!prevContext.getPhase().equals(rules.getPrevPhase()) || !prevContext.getStage().equals(rules.getPrevStage())) {
+            throw new OperationException("Operation impossible.");
+        }
+        return rules;
+    }
+
+    @Override
+    public Rules getRules(final String country, final String pmd, final String processType) {
+        final Optional<Rules> entityOptional = cassandraDao.getRules(country, pmd, processType);
+        if (!entityOptional.isPresent()) throw new OperationException("Operation impossible.");
+        return entityOptional.get();
     }
 
 

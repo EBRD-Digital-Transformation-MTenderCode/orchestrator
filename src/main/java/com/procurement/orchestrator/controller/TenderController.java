@@ -3,8 +3,7 @@ package com.procurement.orchestrator.controller;
 import com.datastax.driver.core.utils.UUIDs;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
-import com.procurement.orchestrator.domain.Country;
-import com.procurement.orchestrator.domain.Pmd;
+import com.procurement.orchestrator.domain.Rules;
 import com.procurement.orchestrator.domain.Stage;
 import com.procurement.orchestrator.exception.OperationException;
 import com.procurement.orchestrator.service.OperationService;
@@ -12,13 +11,14 @@ import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.service.RequestService;
 import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 public class TenderController extends BaseController {
@@ -45,19 +45,7 @@ public class TenderController extends BaseController {
                                            @RequestParam("country") final String country,
                                            @RequestParam("pmd") final String pmd,
                                            @RequestBody final JsonNode data) {
-        final Context context = new Context();
-        context.setRequestId(UUIDs.timeBased().toString());
-        context.setOwner(getOwner(authorization));
-        context.setOperationId(operationId);
-        context.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
-        context.setEndDate(processService.getTenderPeriodEndDate(data, null));
-        context.setProcessType("createCN");
-        context.setOperationType("createCN");
-        context.setLanguage(lang);
-        context.setCountry(Country.fromValue(country.toUpperCase()).value());
-        context.setPmd(Pmd.fromValue(pmd.toUpperCase()).value());
-        context.setPhase("TENDERPERIOD");
-        context.setStage(getStageForOperation(context));
+        final Context context = getContextCreate(authorization, operationId, country, pmd, "createCN", data);
         saveRequestAndCheckOperation(context, data);
         processService.startProcess(context, new HashMap<>());
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
@@ -70,23 +58,10 @@ public class TenderController extends BaseController {
                                            @PathVariable("cpid") final String cpid,
                                            @PathVariable("ocid") final String ocid,
                                            @RequestBody final JsonNode data) {
-        final Context context = new Context();
-        context.setRequestId(UUIDs.timeBased().toString());
-        context.setOwner(getOwner(authorization));
-        context.setOperationId(operationId);
-        context.setCpid(cpid);
-        context.setOcid(ocid);
-        context.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
-        context.setEndDate(processService.getTenderPeriodEndDate(data, null));
-        context.setProcessType("updateCN");
-        context.setOperationType("updateCN");
-        context.setLanguage(lang);
-        context.setToken(token);
-        context.setPhase("TENDERPERIOD");
-        context.setStage(getStageForOperation(operationService.getContext(cpid)));
+        final Context context = getContextUpdate(authorization, operationId, cpid, ocid, token, "updateCN", data);
         saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
-        variables.put("operationType", "updateCN");
+        variables.put("operationType", context.getOperationType());
         processService.startProcess(context, variables);
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
@@ -97,18 +72,7 @@ public class TenderController extends BaseController {
                                             @RequestParam("country") final String country,
                                             @RequestParam("pmd") final String pmd,
                                             @RequestBody final JsonNode data) {
-        final Context context = new Context();
-        context.setRequestId(UUIDs.timeBased().toString());
-        context.setOwner(getOwner(authorization));
-        context.setOperationId(operationId);
-        context.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
-        context.setProcessType("createPIN");
-        context.setOperationType("createPIN");
-        context.setLanguage(lang);
-        context.setCountry(Country.fromValue(country.toUpperCase()).value());
-        context.setPmd(Pmd.fromValue(pmd.toUpperCase()).value());
-        context.setPhase("PLANNED");
-        context.setStage(getStageForOperation(context));
+        final Context context = getContextCreate(authorization, operationId, country, pmd, "createPIN", data);
         saveRequestAndCheckOperation(context, data);
         processService.startProcess(context, new HashMap<>());
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
@@ -121,23 +85,10 @@ public class TenderController extends BaseController {
                                             @PathVariable("cpid") final String cpid,
                                             @PathVariable("ocid") final String ocid,
                                             @RequestBody final JsonNode data) {
-        final Context context = new Context();
-        context.setRequestId(UUIDs.timeBased().toString());
-        context.setOwner(getOwner(authorization));
-        context.setOperationId(operationId);
-        context.setCpid(cpid);
-        context.setOcid(ocid);
-        context.setToken(token);
-        context.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
-        context.setEndDate(processService.getTenderPeriodEndDate(data, null));
-        context.setProcessType("updatePIN");
-        context.setOperationType("updatePIN");
-        context.setLanguage(lang);
-        context.setPhase("PLANNED");
-        context.setStage(getStageForOperation(operationService.getContext(cpid)));
+        final Context context = getContextUpdate(authorization, operationId, cpid, ocid, token, "updatePIN", data);
         saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
-        variables.put("operationType", "updatePIN");
+        variables.put("operationType", context.getOperationType());
         processService.startProcess(context, variables);
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
@@ -148,18 +99,7 @@ public class TenderController extends BaseController {
                                            @RequestParam("country") final String country,
                                            @RequestParam("pmd") final String pmd,
                                            @RequestBody final JsonNode data) {
-        final Context context = new Context();
-        context.setRequestId(UUIDs.timeBased().toString());
-        context.setOwner(getOwner(authorization));
-        context.setOperationId(operationId);
-        context.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
-        context.setProcessType("createPN");
-        context.setOperationType("createPN");
-        context.setLanguage(lang);
-        context.setCountry(Country.fromValue(country.toUpperCase()).value());
-        context.setPmd(Pmd.fromValue(pmd.toUpperCase()).value());
-        context.setPhase("PLANNING");
-        setStageForOperation(context);
+        final Context context = getContextCreate(authorization, operationId, country, pmd, "createPN", data);
         saveRequestAndCheckOperation(context, data);
         processService.startProcess(context, new HashMap<>());
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
@@ -171,20 +111,7 @@ public class TenderController extends BaseController {
                                             @PathVariable("cpid") final String cpid,
                                             @PathVariable("ocid") final String ocid,
                                             @RequestBody final JsonNode data) {
-        final Context context = new Context();
-        context.setRequestId(UUIDs.timeBased().toString());
-        context.setOperationId(operationId);
-        context.setCpid(cpid);
-        context.setOcid(ocid);
-        context.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
-        context.setEndDate(processService.getTenderPeriodEndDate(data, null));
-        context.setProcessType("submitTheBid");
-        context.setOperationType("bid");
-        context.setLanguage(lang);
-        context.setOwner(getOwner(authorization));
-        final Stage stageFromOcid = getStageFromOcId(ocid);
-        validateOcId(cpid, ocid, stageFromOcid);
-        context.setStage(stageFromOcid.value());
+        final Context context = getContextUpdate(authorization, operationId, cpid, ocid, null, "submitTheBid", data);
         saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("isTokenPresent", 0);
@@ -200,22 +127,8 @@ public class TenderController extends BaseController {
                                             @PathVariable("ocid") final String ocid,
                                             @PathVariable("bidid") final String bidId,
                                             @RequestBody final JsonNode data) {
-        final Context context = new Context();
-        context.setRequestId(UUIDs.timeBased().toString());
-        context.setOperationId(operationId);
-        context.setCpid(cpid);
-        context.setOcid(ocid);
-        context.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
-        context.setEndDate(processService.getTenderPeriodEndDate(data, null));
-        context.setProcessType("submitTheBid");
-        context.setOperationType("bid");
-        context.setLanguage(lang);
-        context.setOwner(getOwner(authorization));
-        context.setToken(token);
+        final Context context = getContextUpdate(authorization, operationId, cpid, ocid, token, "submitTheBid", data);
         context.setBidId(bidId);
-        final Stage stageFromOcid = getStageFromOcId(ocid);
-        validateOcId(cpid, ocid, stageFromOcid);
-        context.setStage(stageFromOcid.value());
         saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("isTokenPresent", 1);
@@ -235,7 +148,7 @@ public class TenderController extends BaseController {
         context.setOwner(getOwner(authorization));
         context.setOperationId(operationId);
         context.setCpid(identifier);
-        context.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
+        context.setStartDate(dateUtil.nowFormatted());
         context.setStage(Stage.fromValue(stage).value());
         context.setProcessType("enquiry");
         context.setOperationType("createEnquiry");
@@ -261,7 +174,7 @@ public class TenderController extends BaseController {
         context.setOwner(getOwner(authorization));
         context.setOperationId(operationId);
         context.setCpid(identifier);
-        context.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
+        context.setStartDate(dateUtil.nowFormatted());
         context.setStage(Stage.fromValue(stage).value());
         context.setLanguage(lang);
         final Map<String, Object> variables = new HashMap<>();
@@ -289,7 +202,7 @@ public class TenderController extends BaseController {
         context.setOwner(getOwner(authorization));
         context.setOperationId(operationId);
         context.setCpid(identifier);
-        context.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
+        context.setStartDate(dateUtil.nowFormatted());
         context.setStage(Stage.fromValue(stage).value());
         final Map<String, Object> variables = new HashMap<>();
         context.setLanguage(lang);
@@ -320,7 +233,7 @@ public class TenderController extends BaseController {
         context.setOperationId(operationId);
         context.setCpid(identifier);
         context.setToken(token);
-        context.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
+        context.setStartDate(dateUtil.nowFormatted());
         context.setEndDate(dateUtil.format(endDate));
         context.setStage(Stage.fromValue(stage).value());
         context.setProcessType("startNewStage");
@@ -332,96 +245,85 @@ public class TenderController extends BaseController {
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
-    @RequestMapping(value = "/tenderPeriodEnd", method = RequestMethod.POST)
-    public ResponseEntity<String> newStage(@RequestHeader("Authorization") final String authorization,
-                                           @RequestHeader("X-OPERATION-ID") final String operationId,
-                                           @RequestHeader("identifier") final String identifier,
-                                           @RequestParam("stage") final String stage,
-                                           @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-                                           @RequestParam("endDate") final LocalDateTime endDate) {
+
+    private Context getContextCreate(final String authorization,
+                                     final String operationId,
+                                     final String country,
+                                     final String pmd,
+                                     final String processType,
+                                     final JsonNode data) {
         final Context context = new Context();
+        final Rules rules = operationService.getRules(country, pmd, processType);
+        context.setCountry(rules.getCountry());
+        context.setPmd(rules.getPmd());
+        context.setProcessType(rules.getProcessType());
+        context.setStage(rules.getNewStage());
+        context.setPhase(rules.getNewPhase());
+        context.setOperationType(rules.getOperationType());
+
         context.setRequestId(UUIDs.timeBased().toString());
         context.setOwner(getOwner(authorization));
         context.setOperationId(operationId);
-        context.setCpid(identifier);
-        context.setStage(Stage.fromValue(stage).value());
         context.setLanguage(lang);
-        if (context.getStage().equals(Stage.EV.value())) {
-            context.setProcessType("tenderPeriodEndEv");
-            context.setOperationType("tenderPeriodEndEv");
-        } else {
-            context.setProcessType("tenderPeriodEnd");
-            context.setOperationType("tenderPeriodEnd");
-        }
-        context.setCountry("TEST");
-        context.setPmd("TEST_RT");
-        context.setPhase("AWARDPERIOD");
-        context.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
-        context.setEndDate(dateUtil.format(endDate));
-        final Map<String, Object> variables = new HashMap<>();
-        variables.put("checkEnquiries", 0);
-        saveRequestAndCheckOperation(context, null);
-        processService.startProcess(context, variables);
-        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
+
+        context.setStartDate(dateUtil.nowFormatted());
+        context.setEndDate(processService.getTenderPeriodEndDate(data, null));
+
+        return context;
     }
 
-//    @RequestMapping(value = "/chronoTest", method = RequestMethod.POST)
-//    public ResponseEntity<String> enquiry(@RequestHeader("Authorization") final String authorization,
-//                                          @RequestHeader("X-OPERATION-ID") final String operationId,
-//                                          @RequestParam("identifier") final String identifier,
-//                                          @RequestParam("stage") final String stage) {
-//        final Context context = new Context();
-//        context.setRequestId(UUIDs.timeBased().toString());
-//        context.setOwner(getOwner(authorization));
-//        context.setOperationId(operationId);
-//        context.setCpid(identifier);
-//        context.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
-//        context.setEndDate(dateUtil.format(dateUtil.localDateTimeNowUTC().plusMinutes(2)));
-//        context.setStage(Stage.fromValue(stage).value());
-//        context.setProcessType("chronoTest");
-//        context.setOperationType("chronoTest");
-//        saveRequestAndCheckOperation(context, null);
-//        final Map<String, Object> variables = new HashMap<>();
-//        processService.startProcess(context, variables);
-//        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
-//    }
-//
-//    @RequestMapping(value = "/test", method = RequestMethod.POST)
-//    public ResponseEntity<String> test(@RequestBody final JsonNode jsonData) throws Exception{
-//        final Context context = new Context();
-//        context.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
-//        final JsonNode checkFsDto = processService.getCheckFs(jsonData, context.getStartDate(), "");
-//        final JsonNode responseData = processService.processResponse(
-//                budgetRestClient.checkFs(checkFsDto),
-//                context,
-//                "",
-//                "",
-//                checkFsDto);
-//        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
-//    }
+    private Context getContextUpdate(final String authorization,
+                                     final String operationId,
+                                     final String cpid,
+                                     final String ocid,
+                                     final String token,
+                                     final String processType,
+                                     final JsonNode data) {
+        final Context prevContext = operationService.getContext(cpid);
+        validateStageFromOcId(cpid, ocid, prevContext);
+        final Rules rules = operationService.checkAndGetRules(prevContext, processType);
+        final Context context = new Context();
+        context.setCountry(rules.getCountry());
+        context.setPmd(rules.getPmd());
+        context.setProcessType(rules.getProcessType());
+        context.setStage(rules.getNewStage());
+        context.setPhase(rules.getNewPhase());
+        context.setOperationType(rules.getOperationType());
 
+        context.setRequestId(UUIDs.timeBased().toString());
+        context.setOperationId(operationId);
+        context.setOwner(getOwner(authorization));
+        context.setCpid(cpid);
+        context.setOcid(ocid);
+        context.setToken(token);
+        context.setLanguage(lang);
 
-    private Stage getStageFromOcId(final String ocid) {
-        Stage currentStage = null;
+        context.setStartDate(dateUtil.nowFormatted());
+        context.setEndDate(processService.getTenderPeriodEndDate(data, null));
+
+        return context;
+    }
+
+    private void validateStageFromOcId(final String cpid, final String ocid, final Context prevContext) {
+        String currentStage = null;
         for (final Stage stage : Stage.values()) {
             if (ocid.contains(stage.value())) {
-                currentStage = stage;
+                currentStage = stage.value();
             }
         }
-        if (currentStage == null) {
-            throw new OperationException("Invalid ocid.");
-        } else {
-            return currentStage;
-        }
-    }
 
-
-    private void validateOcId(final String cpid, final String ocid, final Stage stage) {
-        final String cpidFromOcid = ocid.substring(0, ocid.indexOf("-" + stage.value() + "-"));
+        final String cpidFromOcid = ocid.substring(0, ocid.indexOf("-" + currentStage + "-"));
         if (!cpid.equals(cpidFromOcid)) {
             throw new OperationException("Invalid ocid.");
         }
-    }
 
+        if (currentStage == null) {
+            throw new OperationException("Invalid ocid.");
+        } else {
+            if (!currentStage.equals(prevContext.getStage())) {
+                throw new OperationException("Invalid ocid.");
+            }
+        }
+    }
 }
 
