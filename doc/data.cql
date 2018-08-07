@@ -114,3 +114,28 @@ CREATE TABLE IF NOT EXISTS  ocds.orchestrator_stage_rules (
     operation_type text,
     primary key((country, pmd, process_type), prev_stage, prev_phase)
     );
+
+INSERT INTO ocds.orchestrator_stage_rules (country, pmd, process_type, prev_stage, new_stage, prev_phase, new_phase, operation_type) VALUES ('MD', 'OT', 'updateCN', 'PN', 'EV', 'PLANNING', 'TENDERING', 'createCNonPN');
+INSERT INTO ocds.orchestrator_stage_rules (country, pmd, process_type, prev_stage, new_stage, prev_phase, new_phase, operation_type) VALUES ('MD', 'OT', 'updateCN', 'PIN', 'EV', 'PLANNED', 'TENDERING', 'createCNonPIN');
+INSERT INTO ocds.orchestrator_stage_rules (country, pmd, process_type, prev_stage, new_stage, prev_phase, new_phase, operation_type) VALUES ('MD', 'RT', 'updateCN', 'PN', 'PS', 'PLANNING', 'TENDERING', 'createCNonPN');
+INSERT INTO ocds.orchestrator_stage_rules (country, pmd, process_type, prev_stage, new_stage, prev_phase, new_phase, operation_type) VALUES ('MD', 'RT', 'updateCN', 'PIN', 'PS', 'PLANNED', 'TENDERING', 'createCNonPIN');
+
+INSERT INTO ocds.orchestrator_stage_rules (country, pmd, process_type, prev_stage, new_stage, prev_phase, new_phase, operation_type) VALUES ('MD', 'OT', 'updateCN', 'EV', 'EV', 'PLANNING', 'TENDERING', 'updateCN');
+INSERT INTO ocds.orchestrator_stage_rules (country, pmd, process_type, prev_stage, new_stage, prev_phase, new_phase, operation_type) VALUES ('MD', 'RT', 'updateCN', 'PS', 'PS', 'PLANNING', 'TENDERING', 'updateCN');
+INSERT INTO ocds.orchestrator_stage_rules (country, pmd, process_type, prev_stage, new_stage, prev_phase, new_phase, operation_type) VALUES ('MD', 'RT', 'updateCN', 'PQ', 'PQ', 'PLANNING', 'TENDERING', 'updateCN');
+INSERT INTO ocds.orchestrator_stage_rules (country, pmd, process_type, prev_stage, new_stage, prev_phase, new_phase, operation_type) VALUES ('MD', 'RT', 'updateCN', 'EV', 'EV', 'PLANNING', 'TENDERING', 'updateCN');
+
+INSERT INTO ocds.orchestrator_stage_rules (country, pmd, process_type, prev_stage, new_stage, prev_phase, new_phase, operation_type) VALUES ('MD', 'RT', 'awardByBid', 'PS', 'PS', 'AWARDING', 'AWARDING', 'awardByBid');
+INSERT INTO ocds.orchestrator_stage_rules (country, pmd, process_type, prev_stage, new_stage, prev_phase, new_phase, operation_type) VALUES ('MD', 'RT', 'awardByBid', 'PQ', 'PQ', 'AWARDING', 'AWARDING', 'awardByBid');
+INSERT INTO ocds.orchestrator_stage_rules (country, pmd, process_type, prev_stage, new_stage, prev_phase, new_phase, operation_type) VALUES ('MD', 'RT', 'awardByBid', 'EV', 'EV', 'AWARDING', 'AWARDING', 'awardByBidEv');
+INSERT INTO ocds.orchestrator_stage_rules (country, pmd, process_type, prev_stage, new_stage, prev_phase, new_phase, operation_type) VALUES ('MD', 'OT', 'awardByBid', 'EV', 'EV', 'AWARDING', 'AWARDING', 'awardByBidEv');
+
+INSERT INTO ocds.orchestrator_stage_rules (country, pmd, process_type, prev_stage, new_stage, prev_phase, new_phase, operation_type) VALUES ('MD', 'RT', 'tenderPeriodEnd', 'PS', 'PS', 'TENDERING', 'AWARDING', 'tenderPeriodEnd');
+INSERT INTO ocds.orchestrator_stage_rules (country, pmd, process_type, prev_stage, new_stage, prev_phase, new_phase, operation_type) VALUES ('MD', 'RT', 'tenderPeriodEnd', 'PQ', 'PQ', 'TENDERING', 'AWARDING', 'tenderPeriodEnd');
+INSERT INTO ocds.orchestrator_stage_rules (country, pmd, process_type, prev_stage, new_stage, prev_phase, new_phase, operation_type) VALUES ('MD', 'RT', 'tenderPeriodEnd', 'EV', 'EV', 'TENDERING', 'AWARDING', 'tenderPeriodEndEv');
+INSERT INTO ocds.orchestrator_stage_rules (country, pmd, process_type, prev_stage, new_stage, prev_phase, new_phase, operation_type) VALUES ('MD', 'OT', 'tenderPeriodEnd', 'EV', 'EV', 'TENDERING', 'AWARDING', 'tenderPeriodEndEv');
+
+INSERT INTO ocds.orchestrator_rules (new_stage, prev_stage, country, pmd, phase, operation_type)  VALUES ('PS', 'PS', 'MD', 'RT', 'AWARDPERIOD', 'awardPeriodEnd');
+INSERT INTO ocds.orchestrator_rules (new_stage, prev_stage, country, pmd, phase, operation_type)  VALUES ('PQ', 'PQ', 'MD', 'RT', 'AWARDPERIOD', 'awardPeriodEnd');
+INSERT INTO ocds.orchestrator_rules (new_stage, prev_stage, country, pmd, phase, operation_type)  VALUES ('EV', 'EV', 'MD', 'RT', 'AWARDPERIOD', 'awardPeriodEndEv');
+INSERT INTO ocds.orchestrator_rules (new_stage, prev_stage, country, pmd, phase, operation_type)  VALUES ('EV', 'EV', 'MD', 'OT', 'AWARDPERIOD', 'awardPeriodEndEv');
