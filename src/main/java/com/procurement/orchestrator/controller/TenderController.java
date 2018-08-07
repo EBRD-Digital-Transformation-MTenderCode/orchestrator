@@ -210,7 +210,7 @@ public class TenderController extends BaseController {
                                            @PathVariable("ocid") final String ocid,
                                            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
                                            @RequestParam("endDate") final LocalDateTime endDate) {
-        final Context context = getContext(authorization, operationId, cpid, ocid, null, "startNewStage");
+        final Context context = getContext(authorization, operationId, cpid, ocid, token, "startNewStage");
         context.setEndDate(dateUtil.format(endDate));
         saveRequestAndCheckOperation(context, null);
         processService.startProcess(context, new HashMap<>());
