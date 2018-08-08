@@ -249,14 +249,14 @@ public class TenderController extends BaseController {
                                final String processType) {
         final Context prevContext = operationService.getContext(cpid);
         validateStageFromOcId(cpid, ocid, prevContext);
-        final Rule rules = operationService.checkAndGetRule(prevContext, processType);
+        final Rule rule = operationService.checkAndGetRule(prevContext, processType);
         final Context context = new Context();
-        context.setCountry(rules.getCountry());
-        context.setPmd(rules.getPmd());
-        context.setProcessType(rules.getProcessType());
-        context.setStage(rules.getNewStage());
-        context.setPhase(rules.getNewPhase());
-        context.setOperationType(rules.getOperationType());
+        context.setCountry(rule.getCountry());
+        context.setPmd(rule.getPmd());
+        context.setProcessType(rule.getProcessType());
+        context.setStage(rule.getNewStage());
+        context.setPhase(rule.getNewPhase());
+        context.setOperationType(rule.getOperationType());
 
         context.setRequestId(UUIDs.timeBased().toString());
         context.setOperationId(operationId);
