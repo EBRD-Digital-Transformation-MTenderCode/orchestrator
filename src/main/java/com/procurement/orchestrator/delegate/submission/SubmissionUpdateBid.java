@@ -51,7 +51,7 @@ public class SubmissionUpdateBid implements JavaDelegate {
                         context.getStage(),
                         context.getToken(),
                         context.getOwner(),
-                        context.getBidId(),
+                        context.getId(),
                         context.getStartDate(),
                         requestData),
                 context,

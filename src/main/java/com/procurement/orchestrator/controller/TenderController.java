@@ -124,16 +124,16 @@ public class TenderController extends BaseController {
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
-    @RequestMapping(value = "/bid/{cpid}/{ocid}/{bidid}", method = RequestMethod.POST)
+    @RequestMapping(value = "/bid/{cpid}/{ocid}/{id}", method = RequestMethod.POST)
     public ResponseEntity<String> updateBid(@RequestHeader("Authorization") final String authorization,
                                             @RequestHeader("X-OPERATION-ID") final String operationId,
                                             @RequestHeader("X-TOKEN") final String token,
                                             @PathVariable("cpid") final String cpid,
                                             @PathVariable("ocid") final String ocid,
-                                            @PathVariable("bidid") final String bidId,
+                                            @PathVariable("id") final String id,
                                             @RequestBody final JsonNode data) {
         final Context context = getContext(authorization, operationId, cpid, ocid, token, "submitTheBid");
-        context.setBidId(bidId);
+        context.setId(id);
         saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("isTokenPresent", 1);
@@ -156,16 +156,16 @@ public class TenderController extends BaseController {
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
-    @RequestMapping(value = "/enquiry/{cpid}/{ocid}/{enquiryId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/enquiry/{cpid}/{ocid}/{id}", method = RequestMethod.POST)
     public ResponseEntity<String> updateEnquiry(@RequestHeader("Authorization") final String authorization,
                                                 @RequestHeader("X-OPERATION-ID") final String operationId,
                                                 @RequestHeader("X-TOKEN") final String token,
                                                 @PathVariable("cpid") final String cpid,
                                                 @PathVariable("ocid") final String ocid,
-                                                @PathVariable("enquiryId") final String enquiryId,
+                                                @PathVariable("id") final String id,
                                                 @RequestBody final JsonNode data) {
         final Context context = getContext(authorization, operationId, cpid, ocid, token, "enquiry");
-        context.setEnquiryId(enquiryId);
+        context.setId(id);
         saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("isTokenPresent", 1);
@@ -174,14 +174,16 @@ public class TenderController extends BaseController {
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
-    @RequestMapping(value = "/award/{cpid}/{ocid}", method = RequestMethod.POST)
+    @RequestMapping(value = "/award/{cpid}/{ocid}/{id}", method = RequestMethod.POST)
     public ResponseEntity<String> awardByBid(@RequestHeader("Authorization") final String authorization,
                                              @RequestHeader("X-OPERATION-ID") final String operationId,
                                              @RequestHeader("X-TOKEN") final String token,
                                              @PathVariable("cpid") final String cpid,
                                              @PathVariable("ocid") final String ocid,
+                                             @PathVariable("id") final String id,
                                              @RequestBody final JsonNode data) {
         final Context context = getContext(authorization, operationId, cpid, ocid, token, "awardByBid");
+        context.setId(id);
         saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("operationType", context.getOperationType());

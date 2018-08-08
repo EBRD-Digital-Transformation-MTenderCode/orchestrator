@@ -1,6 +1,5 @@
 package com.procurement.orchestrator.domain;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import java.util.UUID;
@@ -65,11 +64,8 @@ public class Context {
     @JsonProperty(value = "endDate")
     private String endDate;
 
-    @JsonProperty(value = "bidId")
-    private String bidId;
-
-    @JsonProperty(value = "enquiryId")
-    private String enquiryId;
+    @JsonProperty(value = "id")
+    private String id;
 
     public void setOperationId(final String operationId) {
         this.operationId = UUID.fromString(operationId).toString();
