@@ -23,6 +23,7 @@ public interface ClarificationRestClient {
     ResponseEntity<ResponseDto> updateEnquiry(@RequestParam("identifier") String cpId,
                                               @RequestParam("stage") String stage,
                                               @RequestParam("token") String token,
+                                              @RequestParam("enquiryId") String enquiryId,
                                               @RequestParam("owner") String owner,
                                               @RequestParam("date") String date,
                                               @RequestBody JsonNode jsonData) throws Exception;
