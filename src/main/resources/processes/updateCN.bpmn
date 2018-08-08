@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.10.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.11.3">
   <bpmn:error id="tr_exception" name="TR_EXCEPTION" errorCode="TR_EXCEPTION" />
   <bpmn:process id="updateCN" name="updateCN" isExecutable="true">
     <bpmn:startEvent id="StartEvent_1">
@@ -120,7 +120,7 @@
         <bpmn:outgoing>SequenceFlow_1hvhljh</bpmn:outgoing>
       </bpmn:serviceTask>
     </bpmn:subProcess>
-    <bpmn:serviceTask id="ServiceTask_0erfib8" name="Access Update Cn" camunda:asyncBefore="true" camunda:delegateExpression="${accessUpdateCn}">
+    <bpmn:serviceTask id="AccessUpdateCnTask" name="Access Update Cn" camunda:asyncBefore="true" camunda:delegateExpression="${accessUpdateCn}">
       <bpmn:incoming>SequenceFlow_1ip9onz</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_08i5kpi</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -159,12 +159,12 @@
     <bpmn:sequenceFlow id="SequenceFlow_1owtaf3" sourceRef="ExclusiveGateway_1k5if2z" targetRef="PeriodSubProcess">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[${operationType=='updateTenderPeriod' && isPeriodChanged==true}]]></bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:serviceTask id="submissionBidsWithdrawnTask" name="Submission Bids Withdrawn" camunda:asyncBefore="true" camunda:delegateExpression="${submissionBidsWithdrawn}">
+    <bpmn:serviceTask id="SubmissionBidsWithdrawnTask" name="Submission Bids Withdrawn" camunda:asyncBefore="true" camunda:delegateExpression="${submissionBidsWithdrawn}">
       <bpmn:incoming>SequenceFlow_1v55yxp</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_0hnz6bv</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1x49zmo</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_1x49zmo" sourceRef="submissionBidsWithdrawnTask" targetRef="StorageOpenDocsOfTenderTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1x49zmo" sourceRef="SubmissionBidsWithdrawnTask" targetRef="StorageOpenDocsOfTenderTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0j8w0pp" sourceRef="PeriodSubProcess" targetRef="NoticeCreateReleaseTask" />
     <bpmn:subProcess id="ItemValidationCNSubProcess" name="Item Validation">
       <bpmn:incoming>SequenceFlow_13yco3h</bpmn:incoming>
@@ -194,7 +194,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_13yco3h" sourceRef="ExclusiveGateway_1k5if2z" targetRef="ItemValidationCNSubProcess">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[${operationType=='updateCN'}]]></bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_1ip9onz" sourceRef="ItemValidationCNSubProcess" targetRef="ServiceTask_0erfib8" />
+    <bpmn:sequenceFlow id="SequenceFlow_1ip9onz" sourceRef="ItemValidationCNSubProcess" targetRef="AccessUpdateCnTask" />
     <bpmn:subProcess id="PeriodCnSubProcess" name="Period">
       <bpmn:incoming>SequenceFlow_0dewpqc</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0hnz6bv</bpmn:outgoing>
@@ -226,14 +226,14 @@
       <bpmn:outgoing>SequenceFlow_1v55yxp</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlow_0dewpqc</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="SequenceFlow_08i5kpi" sourceRef="ServiceTask_0erfib8" targetRef="ExclusiveGateway_062lx2x" />
-    <bpmn:sequenceFlow id="SequenceFlow_1v55yxp" sourceRef="ExclusiveGateway_062lx2x" targetRef="submissionBidsWithdrawnTask">
+    <bpmn:sequenceFlow id="SequenceFlow_08i5kpi" sourceRef="AccessUpdateCnTask" targetRef="ExclusiveGateway_062lx2x" />
+    <bpmn:sequenceFlow id="SequenceFlow_1v55yxp" sourceRef="ExclusiveGateway_062lx2x" targetRef="SubmissionBidsWithdrawnTask">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isPeriodChanged==false}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_0dewpqc" sourceRef="ExclusiveGateway_062lx2x" targetRef="PeriodCnSubProcess">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isPeriodChanged==true}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_0hnz6bv" sourceRef="PeriodCnSubProcess" targetRef="submissionBidsWithdrawnTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0hnz6bv" sourceRef="PeriodCnSubProcess" targetRef="SubmissionBidsWithdrawnTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0u7qlli" sourceRef="SaveFirstOperationTask" targetRef="ExclusiveGateway_1jdkyq3" />
     <bpmn:sequenceFlow id="SequenceFlow_1prqn23" sourceRef="AccessCreateCnOnPnTask" targetRef="PeriodPnSubProcess" />
     <bpmn:sequenceFlow id="SequenceFlow_0no6dzu" sourceRef="AccessCreateCnOnPinTask" targetRef="PeriodPnSubProcess" />
@@ -450,7 +450,7 @@
       <bpmndi:BPMNShape id="SubProcess_0jx0pyi_di" bpmnElement="ItemValidationPNSubProcess" isExpanded="false">
         <dc:Bounds x="791.5" y="119" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_0erfib8_di" bpmnElement="ServiceTask_0erfib8">
+      <bpmndi:BPMNShape id="ServiceTask_0erfib8_di" bpmnElement="AccessUpdateCnTask">
         <dc:Bounds x="926" y="536" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="SubProcess_16gxxcm_di" bpmnElement="PeriodSubProcess" isExpanded="false">
@@ -516,7 +516,7 @@
           <dc:Bounds x="702" y="656" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_1aq2ky5_di" bpmnElement="submissionBidsWithdrawnTask">
+      <bpmndi:BPMNShape id="ServiceTask_1aq2ky5_di" bpmnElement="SubmissionBidsWithdrawnTask">
         <dc:Bounds x="1203" y="536" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1x49zmo_di" bpmnElement="SequenceFlow_1x49zmo">
