@@ -332,38 +332,38 @@ public class TenderController extends BaseController {
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
-    @RequestMapping(value = "/tenderPeriodEnd", method = RequestMethod.POST)
-    public ResponseEntity<String> newStage(@RequestHeader("Authorization") final String authorization,
-                                           @RequestHeader("X-OPERATION-ID") final String operationId,
-                                           @RequestHeader("identifier") final String identifier,
-                                           @RequestParam("stage") final String stage,
-                                           @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-                                           @RequestParam("endDate") final LocalDateTime endDate) {
-        final Context context = new Context();
-        context.setRequestId(UUIDs.timeBased().toString());
-        context.setOwner(getOwner(authorization));
-        context.setOperationId(operationId);
-        context.setCpid(identifier);
-        context.setStage(Stage.fromValue(stage).value());
-        context.setLanguage(lang);
-        if (context.getStage().equals(Stage.EV.value())) {
-            context.setProcessType("tenderPeriodEndEv");
-            context.setOperationType("tenderPeriodEndEv");
-        } else {
-            context.setProcessType("tenderPeriodEnd");
-            context.setOperationType("tenderPeriodEnd");
-        }
-        context.setCountry("TEST");
-        context.setPmd("TEST_RT");
-        context.setPhase("AWARDPERIOD");
-        context.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
-        context.setEndDate(dateUtil.format(endDate));
-        final Map<String, Object> variables = new HashMap<>();
-        variables.put("checkEnquiries", 0);
-        saveRequestAndCheckOperation(context, null);
-        processService.startProcess(context, variables);
-        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
-    }
+//    @RequestMapping(value = "/tenderPeriodEnd", method = RequestMethod.POST)
+//    public ResponseEntity<String> newStage(@RequestHeader("Authorization") final String authorization,
+//                                           @RequestHeader("X-OPERATION-ID") final String operationId,
+//                                           @RequestHeader("identifier") final String identifier,
+//                                           @RequestParam("stage") final String stage,
+//                                           @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+//                                           @RequestParam("endDate") final LocalDateTime endDate) {
+//        final Context context = new Context();
+//        context.setRequestId(UUIDs.timeBased().toString());
+//        context.setOwner(getOwner(authorization));
+//        context.setOperationId(operationId);
+//        context.setCpid(identifier);
+//        context.setStage(Stage.fromValue(stage).value());
+//        context.setLanguage(lang);
+//        if (context.getStage().equals(Stage.EV.value())) {
+//            context.setProcessType("tenderPeriodEndEv");
+//            context.setOperationType("tenderPeriodEndEv");
+//        } else {
+//            context.setProcessType("tenderPeriodEnd");
+//            context.setOperationType("tenderPeriodEnd");
+//        }
+//        context.setCountry("TEST");
+//        context.setPmd("TEST_RT");
+//        context.setPhase("AWARDPERIOD");
+//        context.setStartDate(dateUtil.format(dateUtil.localDateTimeNowUTC()));
+//        context.setEndDate(dateUtil.format(endDate));
+//        final Map<String, Object> variables = new HashMap<>();
+//        variables.put("checkEnquiries", 0);
+//        saveRequestAndCheckOperation(context, null);
+//        processService.startProcess(context, variables);
+//        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
+//    }
 
 //    @RequestMapping(value = "/chronoTest", method = RequestMethod.POST)
 //    public ResponseEntity<String> enquiry(@RequestHeader("Authorization") final String authorization,
