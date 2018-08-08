@@ -698,12 +698,16 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
-    public JsonNode getCheckItems(JsonNode jsonData, String processId) {
+    public JsonNode getCheckItems(final JsonNode jsonData, final String processId) {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
             final JsonNode itemsNode = jsonData.get("tender").get("items");
-            mainNode.replace("items", itemsNode);
-            return mainNode;
+            if (itemsNode != null) {
+                mainNode.replace("items", itemsNode);
+                return mainNode;
+            } else {
+                return null;
+            }
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
             return null;
@@ -711,7 +715,7 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
-    public JsonNode setCheckItems(JsonNode jsonData, JsonNode responseData, String processId) {
+    public JsonNode setCheckItems(final JsonNode jsonData, final JsonNode responseData, final String processId) {
         try {
             final ObjectNode tenderNode = (ObjectNode) jsonData.get("tender");
             final JsonNode tenderResponseNode = responseData.get("tender");
