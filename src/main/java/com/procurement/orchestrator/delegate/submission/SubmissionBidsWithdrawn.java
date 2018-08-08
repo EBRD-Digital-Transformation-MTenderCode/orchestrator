@@ -7,13 +7,12 @@ import com.procurement.orchestrator.rest.SubmissionRestClient;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
+import java.util.Objects;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
-import java.util.Objects;
 
 @Component
 public class SubmissionBidsWithdrawn implements JavaDelegate {
@@ -43,7 +42,6 @@ public class SubmissionBidsWithdrawn implements JavaDelegate {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
-        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode responseData = processService.processResponse(
@@ -56,10 +54,6 @@ public class SubmissionBidsWithdrawn implements JavaDelegate {
                 taskId,
                 jsonUtil.empty());
         if (Objects.nonNull(responseData))
-            operationService.saveOperationStep(
-                    execution,
-                    entity,
-                    jsonUtil.empty(),
-                    processService.addBids(jsonData, responseData, processId));
+            operationService.saveOperationStep(execution, entity);
     }
 }
