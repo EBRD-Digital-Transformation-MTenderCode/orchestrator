@@ -22,7 +22,7 @@ public class CassandraDaoImpl implements CassandraDao {
     private static final String OPERATION_TABLE = "orchestrator_operation";
     private static final String REQUEST_TABLE = "orchestrator_request";
     private static final String CONTEXT_TABLE = "orchestrator_context";
-    private static final String RULES_TABLE = "orchestrator_stage_rules";
+    private static final String RULES_TABLE = "orchestrator_rules";
     private static final String REQUEST_DATE = "request_date";
     private static final String OPERATION_ID = "operation_id";
     private static final String CONTEXT = "context";
