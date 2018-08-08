@@ -2,16 +2,11 @@ package com.procurement.orchestrator.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
-import com.procurement.orchestrator.domain.Rules;
-import com.procurement.orchestrator.domain.Stage;
+import com.procurement.orchestrator.domain.Rule;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.domain.entity.RequestEntity;
-import com.procurement.orchestrator.domain.entity.StageRulesEntity;
-import com.procurement.orchestrator.exception.OperationException;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public interface OperationService {
@@ -44,9 +39,9 @@ public interface OperationService {
 
     Context getContext(String cpId);
 
-    Rules checkAndGetRules(Context prevContext, String processType);
+    Rule checkAndGetRule(Context prevContext, String processType);
 
-    Rules getRules(String country, String pmd, String processType);
+    Rule getRule(String country, String pmd, String processType);
 
 }
 

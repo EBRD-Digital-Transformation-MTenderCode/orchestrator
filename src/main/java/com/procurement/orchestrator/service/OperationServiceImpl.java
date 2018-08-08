@@ -3,7 +3,7 @@ package com.procurement.orchestrator.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.dao.CassandraDao;
 import com.procurement.orchestrator.domain.Context;
-import com.procurement.orchestrator.domain.Rules;
+import com.procurement.orchestrator.domain.Rule;
 import com.procurement.orchestrator.domain.entity.ContextEntity;
 import com.procurement.orchestrator.domain.entity.OperationEntity;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
@@ -11,14 +11,14 @@ import com.procurement.orchestrator.domain.entity.RequestEntity;
 import com.procurement.orchestrator.exception.OperationException;
 import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
-import java.util.Objects;
-import java.util.Optional;
 
 @Service
 public class OperationServiceImpl implements OperationService {
@@ -184,21 +184,27 @@ public class OperationServiceImpl implements OperationService {
 
 
     @Override
-    public Rules checkAndGetRules(final Context prevContext, final String processType) {
-        final Optional<Rules> entityOptional = cassandraDao.getRules(prevContext.getCountry(), prevContext.getPmd(), processType);
-        if (!entityOptional.isPresent()) {
+    public Rule checkAndGetRule(final Context prevContext, final String processType) {
+        final List<Rule> rules = cassandraDao.getRules(prevContext.getCountry(), prevContext.getPmd(), processType);
+        if (rules.isEmpty()) {
             throw new OperationException("Operation impossible.");
         }
-        final Rules rules = entityOptional.get();
-        if (!prevContext.getPhase().equals(rules.getPrevPhase()) || !prevContext.getStage().equals(rules.getPrevStage())) {
+        Rule rule = null;
+        for (final Rule r : rules) {
+            if (prevContext.getPhase().equals(r.getPrevPhase()) && prevContext.getStage().equals(r.getPrevStage())) {
+                rule = r;
+            }
+        }
+        if (rule != null) {
+            return rule;
+        } else {
             throw new OperationException("Operation impossible.");
         }
-        return rules;
     }
 
     @Override
-    public Rules getRules(final String country, final String pmd, final String processType) {
-        final Optional<Rules> entityOptional = cassandraDao.getRules(country, pmd, processType);
+    public Rule getRule(final String country, final String pmd, final String processType) {
+        final Optional<Rule> entityOptional = cassandraDao.getRule(country, pmd, processType);
         if (!entityOptional.isPresent()) throw new OperationException("Operation impossible.");
         return entityOptional.get();
     }

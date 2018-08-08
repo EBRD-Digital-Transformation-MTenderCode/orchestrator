@@ -3,7 +3,7 @@ package com.procurement.orchestrator.controller;
 import com.datastax.driver.core.utils.UUIDs;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
-import com.procurement.orchestrator.domain.Rules;
+import com.procurement.orchestrator.domain.Rule;
 import com.procurement.orchestrator.domain.Stage;
 import com.procurement.orchestrator.exception.OperationException;
 import com.procurement.orchestrator.service.OperationService;
@@ -224,7 +224,7 @@ public class TenderController extends BaseController {
                                      final String pmd,
                                      final String processType) {
         final Context context = new Context();
-        final Rules rules = operationService.getRules(country, pmd, processType);
+        final Rule rules = operationService.getRule(country, pmd, processType);
         context.setCountry(rules.getCountry());
         context.setPmd(rules.getPmd());
         context.setProcessType(rules.getProcessType());
@@ -249,7 +249,7 @@ public class TenderController extends BaseController {
                                final String processType) {
         final Context prevContext = operationService.getContext(cpid);
         validateStageFromOcId(cpid, ocid, prevContext);
-        final Rules rules = operationService.checkAndGetRules(prevContext, processType);
+        final Rule rules = operationService.checkAndGetRule(prevContext, processType);
         final Context context = new Context();
         context.setCountry(rules.getCountry());
         context.setPmd(rules.getPmd());

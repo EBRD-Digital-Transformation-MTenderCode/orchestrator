@@ -2,7 +2,7 @@ package com.procurement.orchestrator.config.kafka;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
-import com.procurement.orchestrator.domain.Rules;
+import com.procurement.orchestrator.domain.Rule;
 import com.procurement.orchestrator.domain.chronograph.ChronographResponse;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
@@ -59,7 +59,7 @@ public class MessageConsumer {
             final Context prevContext = operationService.getContext(contextChronograph.getCpid());
 
             final Context context = new Context();
-            final Rules rules = operationService.checkAndGetRules(prevContext, contextChronograph.getProcessType());
+            final Rule rules = operationService.checkAndGetRule(prevContext, contextChronograph.getProcessType());
             context.setRequestId(contextChronograph.getRequestId());
             context.setOperationId(contextChronograph.getOperationId());
             context.setCountry(rules.getCountry());

@@ -1,10 +1,11 @@
 package com.procurement.orchestrator.dao;
 
-import com.procurement.orchestrator.domain.Rules;
+import com.procurement.orchestrator.domain.Rule;
 import com.procurement.orchestrator.domain.entity.ContextEntity;
 import com.procurement.orchestrator.domain.entity.OperationEntity;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.domain.entity.RequestEntity;
+import java.util.List;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -28,9 +29,13 @@ public interface CassandraDao {
 
     Optional<ContextEntity> getContextByCpId(String cpId);
 
-    Optional<Rules> getRules(String country,
-                             String pmd,
-                             String processType);
+    Optional<Rule> getRule(String country,
+                            String pmd,
+                            String processType);
+
+    List<Rule> getRules(String country,
+                        String pmd,
+                        String processType);
 
 }
 

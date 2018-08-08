@@ -3,8 +3,6 @@ package com.procurement.orchestrator.delegate.chronograph;
 import com.datastax.driver.core.utils.UUIDs;
 import com.procurement.orchestrator.config.kafka.MessageProducer;
 import com.procurement.orchestrator.domain.Context;
-import com.procurement.orchestrator.domain.Rules;
-import com.procurement.orchestrator.domain.Stage;
 import com.procurement.orchestrator.domain.chronograph.ActionType;
 import com.procurement.orchestrator.domain.chronograph.ScheduleTask;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;

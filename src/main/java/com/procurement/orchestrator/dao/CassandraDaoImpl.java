@@ -1,17 +1,19 @@
 package com.procurement.orchestrator.dao;
 
 import com.datastax.driver.core.ResultSet;
+import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
 import com.datastax.driver.core.Statement;
 import com.datastax.driver.core.querybuilder.Insert;
-import com.procurement.orchestrator.domain.Rules;
+import com.procurement.orchestrator.domain.Rule;
 import com.procurement.orchestrator.domain.entity.ContextEntity;
 import com.procurement.orchestrator.domain.entity.OperationEntity;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.domain.entity.RequestEntity;
-import org.springframework.stereotype.Service;
-
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import org.springframework.stereotype.Service;
 
 import static com.datastax.driver.core.querybuilder.QueryBuilder.*;
 
@@ -169,9 +171,9 @@ public class CassandraDaoImpl implements CassandraDao {
     }
 
     @Override
-    public Optional<Rules> getRules(final String country,
-                                    final String pmd,
-                                    final String processType) {
+    public Optional<Rule> getRule(final String country,
+                                  final String pmd,
+                                  final String processType) {
         final Statement query = select()
                 .all()
                 .from(RULES_TABLE)
@@ -181,7 +183,7 @@ public class CassandraDaoImpl implements CassandraDao {
                 .limit(1);
         final ResultSet rows = session.execute(query);
         return Optional.ofNullable(rows.one())
-                .map(row -> new Rules(
+                .map(row -> new Rule(
                         row.getString(COUNTRY),
                         row.getString(PMD),
                         row.getString(PROCESS_TYPE),
@@ -190,5 +192,32 @@ public class CassandraDaoImpl implements CassandraDao {
                         row.getString(PREV_PHASE),
                         row.getString(NEW_PHASE),
                         row.getString(OPERATION_TYPE)));
+    }
+
+    @Override
+    public List<Rule> getRules(final String country,
+                               final String pmd,
+                               final String processType) {
+
+        final Statement query = select()
+                .all()
+                .from(RULES_TABLE)
+                .where(eq(COUNTRY, country))
+                .and(eq(PMD, pmd))
+                .and(eq(PROCESS_TYPE, processType));
+        final ResultSet rows = session.execute(query);
+        final List<Rule> entities = new ArrayList<>();
+        for (final Row row : rows) {
+            entities.add(new Rule(
+                    row.getString(COUNTRY),
+                    row.getString(PMD),
+                    row.getString(PROCESS_TYPE),
+                    row.getString(PREV_STAGE),
+                    row.getString(NEW_STAGE),
+                    row.getString(PREV_PHASE),
+                    row.getString(NEW_PHASE),
+                    row.getString(OPERATION_TYPE)));
+        }
+        return entities;
     }
 }
