@@ -11,16 +11,19 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Rules {
 
-    private String newStage;
-
-    private String stage;
-
     private String country;
 
     private String pmd;
 
-    private String phase;
+    private String processType;
+
+    private String prevStage;
+
+    private String newStage;
+
+    private String prevPhase;
+
+    private String newPhase;
 
     private String operationType;
-
 }

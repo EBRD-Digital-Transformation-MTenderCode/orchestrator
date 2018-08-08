@@ -1,9 +1,13 @@
 package com.procurement.orchestrator.dao;
 
 import com.procurement.orchestrator.domain.Rules;
-import com.procurement.orchestrator.domain.entity.*;
-import java.util.Optional;
+import com.procurement.orchestrator.domain.entity.ContextEntity;
+import com.procurement.orchestrator.domain.entity.OperationEntity;
+import com.procurement.orchestrator.domain.entity.OperationStepEntity;
+import com.procurement.orchestrator.domain.entity.RequestEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public interface CassandraDao {
@@ -24,9 +28,9 @@ public interface CassandraDao {
 
     Optional<ContextEntity> getContextByCpId(String cpId);
 
-    Boolean isRulesExist(Rules rules);
-
-    Optional<StageRulesEntity> getStageFromRules(String country, String pmd, String operationType);
+    Optional<Rules> getRules(String country,
+                             String pmd,
+                             String processType);
 
 }
 

@@ -43,6 +43,10 @@ public class DateUtil {
         return localDateTime.format(FORMATTER);
     }
 
+    public String nowFormatted() {
+        return localDateTimeNowUTC().format(FORMATTER);
+    }
+
     public Date localDateTimeToDate(final LocalDateTime startDate) {
         return Date.from(startDate.toInstant(ZoneOffset.UTC));
     }

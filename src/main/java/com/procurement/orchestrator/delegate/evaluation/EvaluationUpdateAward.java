@@ -55,12 +55,12 @@ public class EvaluationUpdateAward implements JavaDelegate {
                 taskId,
                 requestData);
         if (Objects.nonNull(responseData)) {
-            processcontext(execution, responseData, processId);
+            processContext(execution, responseData, processId);
             operationService.saveOperationStep(execution, entity, requestData, responseData);
         }
     }
 
-    private void processcontext(final DelegateExecution execution, final JsonNode responseData, final String processId) {
+    private void processContext(final DelegateExecution execution, final JsonNode responseData, final String processId) {
         final JsonNode nextAwardNode = processService.getNextAward(responseData, processId);
         if (nextAwardNode != null) {
             execution.setVariable("updateLot", 0);

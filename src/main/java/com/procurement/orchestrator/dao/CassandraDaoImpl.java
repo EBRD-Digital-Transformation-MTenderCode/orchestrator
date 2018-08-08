@@ -5,9 +5,13 @@ import com.datastax.driver.core.Session;
 import com.datastax.driver.core.Statement;
 import com.datastax.driver.core.querybuilder.Insert;
 import com.procurement.orchestrator.domain.Rules;
-import com.procurement.orchestrator.domain.entity.*;
-import java.util.Optional;
+import com.procurement.orchestrator.domain.entity.ContextEntity;
+import com.procurement.orchestrator.domain.entity.OperationEntity;
+import com.procurement.orchestrator.domain.entity.OperationStepEntity;
+import com.procurement.orchestrator.domain.entity.RequestEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 import static com.datastax.driver.core.querybuilder.QueryBuilder.*;
 
@@ -18,8 +22,7 @@ public class CassandraDaoImpl implements CassandraDao {
     private static final String OPERATION_TABLE = "orchestrator_operation";
     private static final String REQUEST_TABLE = "orchestrator_request";
     private static final String CONTEXT_TABLE = "orchestrator_context";
-    private static final String STAGE_RULES_TABLE = "orchestrator_stage";
-    private static final String RULES_TABLE = "orchestrator_rules";
+    private static final String RULES_TABLE = "orchestrator_stage_rules";
     private static final String REQUEST_DATE = "request_date";
     private static final String OPERATION_ID = "operation_id";
     private static final String CONTEXT = "context";
@@ -33,11 +36,12 @@ public class CassandraDaoImpl implements CassandraDao {
     private static final String CPID = "cp_id";
 
     private static final String OPERATION_TYPE = "operation_type";
+    private static final String PROCESS_TYPE = "process_type";
     private static final String PREV_STAGE = "prev_stage";
     private static final String NEW_STAGE = "new_stage";
-    private static final String STAGE = "stage";
+    private static final String PREV_PHASE = "prev_phase";
+    private static final String NEW_PHASE = "new_phase";
     private static final String COUNTRY = "country";
-    private static final String PHASE = "phase";
     private static final String PMD = "pmd";
 
     private final Session session;
@@ -137,8 +141,7 @@ public class CassandraDaoImpl implements CassandraDao {
                         row.getString(CONTEXT),
                         row.getString(REQUEST_DATA),
                         row.getString(RESPONSE_DATA),
-                        row.getString(CPID)
-                ));
+                        row.getString(CPID)));
     }
 
     @Override
@@ -166,39 +169,26 @@ public class CassandraDaoImpl implements CassandraDao {
     }
 
     @Override
-    public Boolean isRulesExist(final Rules rules) {
+    public Optional<Rules> getRules(final String country,
+                                    final String pmd,
+                                    final String processType) {
         final Statement query = select()
                 .all()
                 .from(RULES_TABLE)
-                .where(eq(OPERATION_TYPE, rules.getOperationType()))
-                .and(eq(NEW_STAGE, rules.getNewStage()))
-                .and(eq(PREV_STAGE, rules.getStage()))
-                .and(eq(COUNTRY, rules.getCountry()))
-                .and(eq(PMD, rules.getPmd()))
-                .and(eq(PHASE, rules.getPhase()))
-                .limit(1);
-        final ResultSet rs = session.execute(query);
-        return rs.all().size() > 0;
-    }
-
-    @Override
-    public Optional<StageRulesEntity> getStageFromRules(final String country,
-                                                        final String pmd,
-                                                        final String operationType) {
-        final Statement query = select()
-                .all()
-                .from(STAGE_RULES_TABLE)
                 .where(eq(COUNTRY, country))
                 .and(eq(PMD, pmd))
-                .and(eq(OPERATION_TYPE, operationType))
+                .and(eq(PROCESS_TYPE, processType))
                 .limit(1);
-
         final ResultSet rows = session.execute(query);
         return Optional.ofNullable(rows.one())
-                .map(row -> new StageRulesEntity(
+                .map(row -> new Rules(
                         row.getString(COUNTRY),
                         row.getString(PMD),
-                        row.getString(OPERATION_TYPE),
-                        row.getString(STAGE)));
+                        row.getString(PROCESS_TYPE),
+                        row.getString(PREV_STAGE),
+                        row.getString(NEW_STAGE),
+                        row.getString(PREV_PHASE),
+                        row.getString(NEW_PHASE),
+                        row.getString(OPERATION_TYPE)));
     }
 }
