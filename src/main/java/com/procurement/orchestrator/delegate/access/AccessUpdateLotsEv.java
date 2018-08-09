@@ -56,7 +56,7 @@ public class AccessUpdateLotsEv implements JavaDelegate {
                 taskId,
                 unsuccessfulLots);
         if (Objects.nonNull(responseData)) {
-            processContext(context, responseData, processId);
+            processContext(execution, context, responseData, processId);
             operationService.saveOperationStep(
                     execution,
                     entity,
@@ -66,10 +66,14 @@ public class AccessUpdateLotsEv implements JavaDelegate {
         }
     }
 
-    private void processContext(final Context context, final JsonNode responseData, final String processId) {
+    private void processContext(final DelegateExecution execution,
+                                final Context context,
+                                final JsonNode responseData,
+                                final String processId) {
         final String tenderStatus = processService.getText("tenderStatus", responseData, processId);
         if ("unsuccessful".equals(tenderStatus)) {
             context.setOperationType("tenderUnsuccessful");
+            execution.setVariable("operationType", "tenderUnsuccessful");
         }
     }
 }
