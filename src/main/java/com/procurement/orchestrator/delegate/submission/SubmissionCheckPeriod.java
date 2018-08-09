@@ -7,13 +7,12 @@ import com.procurement.orchestrator.rest.SubmissionRestClient;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
+import java.util.Objects;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
-import java.util.Objects;
 
 @Component
 public class SubmissionCheckPeriod implements JavaDelegate {
@@ -43,6 +42,7 @@ public class SubmissionCheckPeriod implements JavaDelegate {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
+        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode responseData = processService.processResponse(
@@ -60,7 +60,12 @@ public class SubmissionCheckPeriod implements JavaDelegate {
                 jsonUtil.empty());
         if (Objects.nonNull(responseData)) {
             execution.setVariable("isPeriodChanged", processService.getBoolean("isPeriodChanged", responseData, processId));
-            operationService.saveOperationStep(execution, entity, jsonUtil.empty());
+            processContext(context, responseData, processId);
+            operationService.saveOperationStep(execution, entity);
         }
+    }
+
+    private void processContext(final Context context, final JsonNode responseData, final String processId) {
+        context.setEndDate(processService.getTenderPeriodEndDate(responseData, processId));
     }
 }
