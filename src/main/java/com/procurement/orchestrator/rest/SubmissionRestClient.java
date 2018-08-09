@@ -17,6 +17,7 @@ public interface SubmissionRestClient {
                                             @RequestParam("stage") String stage,
                                             @RequestParam("country") String country,
                                             @RequestParam("pmd") String pmd,
+                                            @RequestParam("operationType") String operationType ,
                                             @RequestParam("startDate") String startDate,
                                             @RequestParam("endDate") String endDate) throws Exception;
 

@@ -51,6 +51,7 @@ public class SubmissionCheckPeriod implements JavaDelegate {
                         context.getStage(),
                         context.getCountry(),
                         context.getPmd(),
+                        context.getOperationType(),
                         context.getStartDate(),
                         context.getEndDate()),
                 context,
