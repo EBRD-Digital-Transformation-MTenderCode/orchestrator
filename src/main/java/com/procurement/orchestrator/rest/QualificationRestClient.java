@@ -25,6 +25,7 @@ public interface QualificationRestClient {
     ResponseEntity<ResponseDto> updateAward(@RequestParam("identifier") String cpId,
                                             @RequestParam("stage") String stage,
                                             @RequestParam("token") String token,
+                                            @RequestParam("awardId") String awardId,
                                             @RequestParam("owner") String owner,
                                             @RequestBody JsonNode jsonData) throws Exception;
 
