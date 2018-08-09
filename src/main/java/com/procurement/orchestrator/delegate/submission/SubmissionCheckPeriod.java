@@ -65,6 +65,6 @@ public class SubmissionCheckPeriod implements JavaDelegate {
     }
 
     private void processContext(final Context context, final JsonNode responseData, final String processId) {
-        context.setEndDate(processService.getTenderPeriodEndDate(responseData, processId));
+        context.setEndDate(processService.getCheckPeriodEndDate(responseData, processId));
     }
 }

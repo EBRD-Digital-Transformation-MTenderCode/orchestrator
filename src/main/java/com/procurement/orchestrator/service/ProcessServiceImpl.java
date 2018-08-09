@@ -122,6 +122,14 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
+    public String getCheckPeriodEndDate(final JsonNode jsonData, final String processId) {
+        try {
+            return jsonData.get("tenderPeriod").get("endDate").asText();
+        } catch (Exception e) {
+            if (Objects.nonNull(processId)) terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
 
     public Context addAccessToContext(final Context context,
                                       final String entityType,
