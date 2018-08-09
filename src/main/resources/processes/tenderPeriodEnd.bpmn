@@ -38,7 +38,7 @@
       <bpmn:incoming>SequenceFlow_1wrkow4</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0qt5wln</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="AccessUpdateLotStatusTask" name="Access Update Lot Status" camunda:asyncBefore="true" camunda:delegateExpression="${accessUpdateLotStatus}">
+    <bpmn:serviceTask id="AccessUpdateLotsTask" name="Access Update Lots" camunda:asyncBefore="true" camunda:delegateExpression="${AccessUpdateLots}">
       <bpmn:incoming>SequenceFlow_0qt5wln</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0tb9vzy</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -48,7 +48,7 @@
       <bpmn:incoming>SequenceFlow_121uwe9</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1n5w707</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_0tb9vzy" sourceRef="AccessUpdateLotStatusTask" targetRef="StorageOpenDocsOfBibsTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0tb9vzy" sourceRef="AccessUpdateLotsTask" targetRef="StorageOpenDocsOfBibsTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1n5w707" sourceRef="NoticeCreateReleaseTask" targetRef="SaveContextTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1gx4xfj" sourceRef="StartEvent_1" targetRef="SaveFirstOperationTask" />
     <bpmn:exclusiveGateway id="ExclusiveGateway_0hg3tz9">
@@ -113,8 +113,8 @@
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${checkEnquiries==2}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_121uwe9" sourceRef="AccessSuspendTenderTask" targetRef="NoticeCreateReleaseTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0qt5wln" sourceRef="SubmissionUpdateBidStatusTask" targetRef="AccessUpdateLotStatusTask" />
-    <bpmn:serviceTask id="ServiceTask_0ryshkj" name="Evaluation Create Awards" camunda:asyncBefore="true" camunda:delegateExpression="${evaluationCreateAwards}">
+    <bpmn:sequenceFlow id="SequenceFlow_0qt5wln" sourceRef="SubmissionUpdateBidStatusTask" targetRef="AccessUpdateLotsTask" />
+    <bpmn:serviceTask id="EvaluationCreateAwardsTask" name="Evaluation Create Awards" camunda:asyncBefore="true" camunda:delegateExpression="${evaluationCreateAwards}">
       <bpmn:incoming>SequenceFlow_04mlcnn</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1wrkow4</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -127,11 +127,11 @@
     <bpmn:sequenceFlow id="SequenceFlow_00a7mhp" sourceRef="ExclusiveGateway_0g0ytba" targetRef="QualificationCreateAwardsTask">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[${operationType=='tenderPeriodEnd'}]]></bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_04mlcnn" sourceRef="ExclusiveGateway_0g0ytba" targetRef="ServiceTask_0ryshkj">
+    <bpmn:sequenceFlow id="SequenceFlow_04mlcnn" sourceRef="ExclusiveGateway_0g0ytba" targetRef="EvaluationCreateAwardsTask">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[${operationType=='tenderPeriodEndEv'}]]></bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_1ubh0gy" sourceRef="QualificationCreateAwardsTask" targetRef="SubmissionUpdateBidStatusTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1wrkow4" sourceRef="ServiceTask_0ryshkj" targetRef="SubmissionUpdateBidStatusTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1wrkow4" sourceRef="EvaluationCreateAwardsTask" targetRef="SubmissionUpdateBidStatusTask" />
   </bpmn:process>
   <bpmn:error id="tr_exception" name="TR_EXCEPTION" errorCode="TR_EXCEPTION" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -180,7 +180,7 @@
       <bpmndi:BPMNShape id="ServiceTask_072eguw_di" bpmnElement="SubmissionUpdateBidStatusTask">
         <dc:Bounds x="1402" y="281" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_0tz60l8_di" bpmnElement="AccessUpdateLotStatusTask">
+      <bpmndi:BPMNShape id="ServiceTask_0tz60l8_di" bpmnElement="AccessUpdateLotsTask">
         <dc:Bounds x="1537" y="281" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_1tvffuw_di" bpmnElement="NoticeCreateReleaseTask">
@@ -336,7 +336,7 @@
           <dc:Bounds x="1474.5" y="300" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_0ryshkj_di" bpmnElement="ServiceTask_0ryshkj">
+      <bpmndi:BPMNShape id="ServiceTask_0ryshkj_di" bpmnElement="EvaluationCreateAwardsTask">
         <dc:Bounds x="1216" y="346" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ExclusiveGateway_0g0ytba_di" bpmnElement="ExclusiveGateway_0g0ytba" isMarkerVisible="true">
