@@ -257,6 +257,7 @@ public class TenderController extends BaseController {
         context.setCountry(rule.getCountry());
         context.setPmd(rule.getPmd());
         context.setProcessType(rule.getProcessType());
+        context.setPrevStage(rule.getPrevStage());
         context.setStage(rule.getNewStage());
         context.setPhase(rule.getNewPhase());
         context.setOperationType(rule.getOperationType());
