@@ -131,10 +131,10 @@ public class TenderController extends BaseController {
                                             @RequestHeader("X-TOKEN") final String token,
                                             @PathVariable("cpid") final String cpid,
                                             @PathVariable("ocid") final String ocid,
-                                            @PathVariable("id") final String id,
+                                            @PathVariable("id") final UUID id,
                                             @RequestBody final JsonNode data) {
         final Context context = getContext(authorization, operationId.toString(), cpid, ocid, token, "submitTheBid");
-        context.setId(id);
+        context.setId(id.toString());
         saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("isTokenPresent", 1);
@@ -163,10 +163,10 @@ public class TenderController extends BaseController {
                                                 @RequestHeader("X-TOKEN") final String token,
                                                 @PathVariable("cpid") final String cpid,
                                                 @PathVariable("ocid") final String ocid,
-                                                @PathVariable("id") final String id,
+                                                @PathVariable("id") final UUID id,
                                                 @RequestBody final JsonNode data) {
         final Context context = getContext(authorization, operationId.toString(), cpid, ocid, token, "enquiry");
-        context.setId(id);
+        context.setId(id.toString());
         saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("isTokenPresent", 1);
@@ -181,10 +181,10 @@ public class TenderController extends BaseController {
                                              @RequestHeader("X-TOKEN") final String token,
                                              @PathVariable("cpid") final String cpid,
                                              @PathVariable("ocid") final String ocid,
-                                             @PathVariable("id") final String id,
+                                             @PathVariable("id") final UUID id,
                                              @RequestBody final JsonNode data) {
         final Context context = getContext(authorization, operationId.toString(), cpid, ocid, token, "awardByBid");
-        context.setId(id);
+        context.setId(id.toString());
         saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("operationType", context.getOperationType());
