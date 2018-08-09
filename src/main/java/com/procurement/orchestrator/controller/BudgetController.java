@@ -13,6 +13,7 @@ import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,12 +39,12 @@ public class BudgetController extends BaseController {
 
     @RequestMapping(value = "/ei", method = RequestMethod.POST)
     public ResponseEntity<String> createEI(@RequestHeader("Authorization") final String authorization,
-                                           @RequestHeader("X-OPERATION-ID") final String operationId,
+                                           @RequestHeader("X-OPERATION-ID") final UUID operationId,
                                            @RequestParam("country") final String country,
                                            @RequestBody final JsonNode data) {
         final Context context = new Context();
         context.setRequestId(UUIDs.timeBased().toString());
-        context.setOperationId(operationId);
+        context.setOperationId(operationId.toString());
         context.setCountry(Country.fromValue(country.toUpperCase()).value());
         context.setLanguage(lang);
         context.setStartDate(dateUtil.nowFormatted());
@@ -60,7 +61,7 @@ public class BudgetController extends BaseController {
 
     @RequestMapping(value = "/ei/{cpid}", method = RequestMethod.POST)
     public ResponseEntity<String> updateEI(@RequestHeader("Authorization") final String authorization,
-                                           @RequestHeader("X-OPERATION-ID") final String operationId,
+                                           @RequestHeader("X-OPERATION-ID") final UUID operationId,
                                            @RequestHeader("X-TOKEN") final String token,
                                            @PathVariable("cpid") final String cpid,
                                            @RequestBody final JsonNode data) {
@@ -70,7 +71,7 @@ public class BudgetController extends BaseController {
         context.setLanguage(lang);
 
         context.setRequestId(UUIDs.timeBased().toString());
-        context.setOperationId(operationId);
+        context.setOperationId(operationId.toString());
         context.setCpid(cpid);
         context.setStartDate(dateUtil.nowFormatted());
         context.setStage(Stage.EI.value());
@@ -87,7 +88,7 @@ public class BudgetController extends BaseController {
 
     @RequestMapping(value = "/fs/{cpid}", method = RequestMethod.POST)
     public ResponseEntity<String> createFS(@RequestHeader("Authorization") final String authorization,
-                                           @RequestHeader("X-OPERATION-ID") final String operationId,
+                                           @RequestHeader("X-OPERATION-ID") final UUID operationId,
                                            @PathVariable("cpid") final String cpid,
                                            @RequestBody final JsonNode data) {
         final Context context = new Context();
@@ -96,7 +97,7 @@ public class BudgetController extends BaseController {
         context.setLanguage(lang);
 
         context.setRequestId(UUIDs.timeBased().toString());
-        context.setOperationId(operationId);
+        context.setOperationId(operationId.toString());
         context.setStartDate(dateUtil.nowFormatted());
         context.setCpid(cpid);
         context.setStage(Stage.FS.value());
@@ -112,7 +113,7 @@ public class BudgetController extends BaseController {
 
     @RequestMapping(value = "/fs/{cpid}/{ocid}", method = RequestMethod.POST)
     public ResponseEntity<String> updateFS(@RequestHeader("Authorization") final String authorization,
-                                           @RequestHeader("X-OPERATION-ID") final String operationId,
+                                           @RequestHeader("X-OPERATION-ID") final UUID operationId,
                                            @RequestHeader("X-TOKEN") final String token,
                                            @PathVariable("cpid") final String cpid,
                                            @PathVariable("ocid") final String ocid,
@@ -124,7 +125,7 @@ public class BudgetController extends BaseController {
         context.setLanguage(lang);
 
         context.setRequestId(UUIDs.timeBased().toString());
-        context.setOperationId(operationId);
+        context.setOperationId(operationId.toString());
         context.setCpid(cpid);
         context.setOcid(ocid);
         context.setStartDate(dateUtil.nowFormatted());

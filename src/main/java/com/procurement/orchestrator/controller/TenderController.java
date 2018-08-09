@@ -11,6 +11,7 @@ import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.service.RequestService;
 import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
+import java.util.UUID;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,11 +42,11 @@ public class TenderController extends BaseController {
 
     @RequestMapping(value = "/cn", method = RequestMethod.POST)
     public ResponseEntity<String> createCN(@RequestHeader("Authorization") final String authorization,
-                                           @RequestHeader("X-OPERATION-ID") final String operationId,
+                                           @RequestHeader("X-OPERATION-ID") final UUID operationId,
                                            @RequestParam("country") final String country,
                                            @RequestParam("pmd") final String pmd,
                                            @RequestBody final JsonNode data) {
-        final Context context = getContextCreate(authorization, operationId, country, pmd, "createCN");
+        final Context context = getContextCreate(authorization, operationId.toString(), country, pmd, "createCN");
         context.setEndDate(processService.getTenderPeriodEndDate(data, null));
         saveRequestAndCheckOperation(context, data);
         processService.startProcess(context, new HashMap<>());
@@ -54,12 +55,12 @@ public class TenderController extends BaseController {
 
     @RequestMapping(value = "/cn/{cpid}/{ocid}", method = RequestMethod.POST)
     public ResponseEntity<String> updateCN(@RequestHeader("Authorization") final String authorization,
-                                           @RequestHeader("X-OPERATION-ID") final String operationId,
+                                           @RequestHeader("X-OPERATION-ID") final UUID operationId,
                                            @RequestHeader("X-TOKEN") final String token,
                                            @PathVariable("cpid") final String cpid,
                                            @PathVariable("ocid") final String ocid,
                                            @RequestBody final JsonNode data) {
-        final Context context = getContext(authorization, operationId, cpid, ocid, token, "updateCN");
+        final Context context = getContext(authorization, operationId.toString(), cpid, ocid, token, "updateCN");
         context.setEndDate(processService.getTenderPeriodEndDate(data, null));
         saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
@@ -70,11 +71,11 @@ public class TenderController extends BaseController {
 
     @RequestMapping(value = "/pin", method = RequestMethod.POST)
     public ResponseEntity<String> createPIN(@RequestHeader("Authorization") final String authorization,
-                                            @RequestHeader("X-OPERATION-ID") final String operationId,
+                                            @RequestHeader("X-OPERATION-ID") final UUID operationId,
                                             @RequestParam("country") final String country,
                                             @RequestParam("pmd") final String pmd,
                                             @RequestBody final JsonNode data) {
-        final Context context = getContextCreate(authorization, operationId, country, pmd, "createPIN");
+        final Context context = getContextCreate(authorization, operationId.toString(), country, pmd, "createPIN");
         context.setEndDate(processService.getTenderPeriodEndDate(data, null));
         saveRequestAndCheckOperation(context, data);
         processService.startProcess(context, new HashMap<>());
@@ -83,12 +84,12 @@ public class TenderController extends BaseController {
 
     @RequestMapping(value = "/pin/{cpid}/{ocid}", method = RequestMethod.POST)
     public ResponseEntity<String> updatePIN(@RequestHeader("Authorization") final String authorization,
-                                            @RequestHeader("X-OPERATION-ID") final String operationId,
+                                            @RequestHeader("X-OPERATION-ID") final UUID operationId,
                                             @RequestHeader("X-TOKEN") final String token,
                                             @PathVariable("cpid") final String cpid,
                                             @PathVariable("ocid") final String ocid,
                                             @RequestBody final JsonNode data) {
-        final Context context = getContext(authorization, operationId, cpid, ocid, token, "updatePIN");
+        final Context context = getContext(authorization, operationId.toString(), cpid, ocid, token, "updatePIN");
         context.setEndDate(processService.getTenderPeriodEndDate(data, null));
         saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
@@ -99,11 +100,11 @@ public class TenderController extends BaseController {
 
     @RequestMapping(value = "/pn", method = RequestMethod.POST)
     public ResponseEntity<String> createPN(@RequestHeader("Authorization") final String authorization,
-                                           @RequestHeader("X-OPERATION-ID") final String operationId,
+                                           @RequestHeader("X-OPERATION-ID") final UUID operationId,
                                            @RequestParam("country") final String country,
                                            @RequestParam("pmd") final String pmd,
                                            @RequestBody final JsonNode data) {
-        final Context context = getContextCreate(authorization, operationId, country, pmd, "createPN");
+        final Context context = getContextCreate(authorization, operationId.toString(), country, pmd, "createPN");
         context.setEndDate(processService.getTenderPeriodEndDate(data, null));
         saveRequestAndCheckOperation(context, data);
         processService.startProcess(context, new HashMap<>());
@@ -112,11 +113,11 @@ public class TenderController extends BaseController {
 
     @RequestMapping(value = "/bid/{cpid}/{ocid}", method = RequestMethod.POST)
     public ResponseEntity<String> createBid(@RequestHeader("Authorization") final String authorization,
-                                            @RequestHeader("X-OPERATION-ID") final String operationId,
+                                            @RequestHeader("X-OPERATION-ID") final UUID operationId,
                                             @PathVariable("cpid") final String cpid,
                                             @PathVariable("ocid") final String ocid,
                                             @RequestBody final JsonNode data) {
-        final Context context = getContext(authorization, operationId, cpid, ocid, null, "submitTheBid");
+        final Context context = getContext(authorization, operationId.toString(), cpid, ocid, null, "submitTheBid");
         saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("isTokenPresent", 0);
@@ -126,13 +127,13 @@ public class TenderController extends BaseController {
 
     @RequestMapping(value = "/bid/{cpid}/{ocid}/{id}", method = RequestMethod.POST)
     public ResponseEntity<String> updateBid(@RequestHeader("Authorization") final String authorization,
-                                            @RequestHeader("X-OPERATION-ID") final String operationId,
+                                            @RequestHeader("X-OPERATION-ID") final UUID operationId,
                                             @RequestHeader("X-TOKEN") final String token,
                                             @PathVariable("cpid") final String cpid,
                                             @PathVariable("ocid") final String ocid,
                                             @PathVariable("id") final String id,
                                             @RequestBody final JsonNode data) {
-        final Context context = getContext(authorization, operationId, cpid, ocid, token, "submitTheBid");
+        final Context context = getContext(authorization, operationId.toString(), cpid, ocid, token, "submitTheBid");
         context.setId(id);
         saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
@@ -143,11 +144,11 @@ public class TenderController extends BaseController {
 
     @RequestMapping(value = "/enquiry/{cpid}/{ocid}", method = RequestMethod.POST)
     public ResponseEntity<String> createEnquiry(@RequestHeader("Authorization") final String authorization,
-                                                @RequestHeader("X-OPERATION-ID") final String operationId,
+                                                @RequestHeader("X-OPERATION-ID") final UUID operationId,
                                                 @PathVariable("cpid") final String cpid,
                                                 @PathVariable("ocid") final String ocid,
                                                 @RequestBody final JsonNode data) {
-        final Context context = getContext(authorization, operationId, cpid, ocid, null, "enquiry");
+        final Context context = getContext(authorization, operationId.toString(), cpid, ocid, null, "enquiry");
         saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("isTokenPresent", 0);
@@ -158,13 +159,13 @@ public class TenderController extends BaseController {
 
     @RequestMapping(value = "/enquiry/{cpid}/{ocid}/{id}", method = RequestMethod.POST)
     public ResponseEntity<String> updateEnquiry(@RequestHeader("Authorization") final String authorization,
-                                                @RequestHeader("X-OPERATION-ID") final String operationId,
+                                                @RequestHeader("X-OPERATION-ID") final UUID operationId,
                                                 @RequestHeader("X-TOKEN") final String token,
                                                 @PathVariable("cpid") final String cpid,
                                                 @PathVariable("ocid") final String ocid,
                                                 @PathVariable("id") final String id,
                                                 @RequestBody final JsonNode data) {
-        final Context context = getContext(authorization, operationId, cpid, ocid, token, "enquiry");
+        final Context context = getContext(authorization, operationId.toString(), cpid, ocid, token, "enquiry");
         context.setId(id);
         saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
@@ -176,13 +177,13 @@ public class TenderController extends BaseController {
 
     @RequestMapping(value = "/award/{cpid}/{ocid}/{id}", method = RequestMethod.POST)
     public ResponseEntity<String> awardByBid(@RequestHeader("Authorization") final String authorization,
-                                             @RequestHeader("X-OPERATION-ID") final String operationId,
+                                             @RequestHeader("X-OPERATION-ID") final UUID operationId,
                                              @RequestHeader("X-TOKEN") final String token,
                                              @PathVariable("cpid") final String cpid,
                                              @PathVariable("ocid") final String ocid,
                                              @PathVariable("id") final String id,
                                              @RequestBody final JsonNode data) {
-        final Context context = getContext(authorization, operationId, cpid, ocid, token, "awardByBid");
+        final Context context = getContext(authorization, operationId.toString(), cpid, ocid, token, "awardByBid");
         context.setId(id);
         saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
@@ -193,10 +194,10 @@ public class TenderController extends BaseController {
 
     @RequestMapping(value = "/end-award-period/{cpid}/{ocid}", method = RequestMethod.POST)
     public ResponseEntity<String> endAwardPeriod(@RequestHeader("Authorization") final String authorization,
-                                                 @RequestHeader("X-OPERATION-ID") final String operationId,
+                                                 @RequestHeader("X-OPERATION-ID") final UUID operationId,
                                                  @PathVariable("cpid") final String cpid,
                                                  @PathVariable("ocid") final String ocid) {
-        final Context context = getContext(authorization, operationId, cpid, ocid, null, "awardPeriodEnd");
+        final Context context = getContext(authorization, operationId.toString(), cpid, ocid, null, "awardPeriodEnd");
         saveRequestAndCheckOperation(context, null);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("operationType", context.getOperationType());
@@ -206,13 +207,13 @@ public class TenderController extends BaseController {
 
     @RequestMapping(value = "/new-stage/{cpid}/{ocid}", method = RequestMethod.POST)
     public ResponseEntity<String> newStage(@RequestHeader("Authorization") final String authorization,
-                                           @RequestHeader("X-OPERATION-ID") final String operationId,
+                                           @RequestHeader("X-OPERATION-ID") final UUID operationId,
                                            @RequestHeader("X-TOKEN") final String token,
                                            @PathVariable("cpid") final String cpid,
                                            @PathVariable("ocid") final String ocid,
                                            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
                                            @RequestParam("endDate") final LocalDateTime endDate) {
-        final Context context = getContext(authorization, operationId, cpid, ocid, token, "startNewStage");
+        final Context context = getContext(authorization, operationId.toString(), cpid, ocid, token, "startNewStage");
         context.setEndDate(dateUtil.format(endDate));
         saveRequestAndCheckOperation(context, null);
         processService.startProcess(context, new HashMap<>());
