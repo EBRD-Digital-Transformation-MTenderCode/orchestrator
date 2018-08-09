@@ -66,10 +66,10 @@ INSERT INTO ocds.orchestrator_rules (country, pmd, process_type, prev_stage, new
 INSERT INTO ocds.orchestrator_rules (country, pmd, process_type, prev_stage, new_stage, prev_phase, new_phase, operation_type) VALUES ('MD', 'RT', 'submitTheBid', 'EV', 'EV', 'TENDERING', 'TENDERING', 'submitTheBid');
 INSERT INTO ocds.orchestrator_rules (country, pmd, process_type, prev_stage, new_stage, prev_phase, new_phase, operation_type) VALUES ('MD', 'OT', 'submitTheBid', 'EV', 'EV', 'TENDERING', 'TENDERING', 'submitTheBid');
 
-INSERT INTO ocds.orchestrator_rules (country, pmd, process_type, prev_stage, new_stage, prev_phase, new_phase, operation_type) VALUES ('MD', 'RT', 'bidWithdrown', 'PS', 'PS', 'TENDERING', 'TENDERING', 'bidWithdrown');
-INSERT INTO ocds.orchestrator_rules (country, pmd, process_type, prev_stage, new_stage, prev_phase, new_phase, operation_type) VALUES ('MD', 'RT', 'bidWithdrown', 'PQ', 'PQ', 'TENDERING', 'TENDERING', 'bidWithdrown');
-INSERT INTO ocds.orchestrator_rules (country, pmd, process_type, prev_stage, new_stage, prev_phase, new_phase, operation_type) VALUES ('MD', 'RT', 'bidWithdrown', 'EV', 'EV', 'TENDERING', 'TENDERING', 'bidWithdrown');
-INSERT INTO ocds.orchestrator_rules (country, pmd, process_type, prev_stage, new_stage, prev_phase, new_phase, operation_type) VALUES ('MD', 'OT', 'bidWithdrown', 'EV', 'EV', 'TENDERING', 'TENDERING', 'bidWithdrown');
+INSERT INTO ocds.orchestrator_rules (country, pmd, process_type, prev_stage, new_stage, prev_phase, new_phase, operation_type) VALUES ('MD', 'RT', 'bidWithdrawn', 'PS', 'PS', 'TENDERING', 'TENDERING', 'bidWithdrawn');
+INSERT INTO ocds.orchestrator_rules (country, pmd, process_type, prev_stage, new_stage, prev_phase, new_phase, operation_type) VALUES ('MD', 'RT', 'bidWithdrawn', 'PQ', 'PQ', 'TENDERING', 'TENDERING', 'bidWithdrawn');
+INSERT INTO ocds.orchestrator_rules (country, pmd, process_type, prev_stage, new_stage, prev_phase, new_phase, operation_type) VALUES ('MD', 'RT', 'bidWithdrawn', 'EV', 'EV', 'TENDERING', 'TENDERING', 'bidWithdrawn');
+INSERT INTO ocds.orchestrator_rules (country, pmd, process_type, prev_stage, new_stage, prev_phase, new_phase, operation_type) VALUES ('MD', 'OT', 'bidWithdrawn', 'EV', 'EV', 'TENDERING', 'TENDERING', 'bidWithdrawn');
 
 INSERT INTO ocds.orchestrator_rules (country, pmd, process_type, prev_stage, new_stage, prev_phase, new_phase, operation_type) VALUES ('MD', 'RT', 'enquiry', 'PS', 'PS', 'TENDERING', 'TENDERING', 'createEnquiry');
 INSERT INTO ocds.orchestrator_rules (country, pmd, process_type, prev_stage, new_stage, prev_phase, new_phase, operation_type) VALUES ('MD', 'RT', 'enquiry', 'PQ', 'PQ', 'TENDERING', 'TENDERING', 'createEnquiry');
@@ -119,10 +119,10 @@ INSERT INTO ocds.orchestrator_rules (country, pmd, process_type, prev_stage, new
 INSERT INTO ocds.orchestrator_rules (country, pmd, process_type, prev_stage, new_stage, prev_phase, new_phase, operation_type) VALUES ('MD', 'TEST_RT', 'submitTheBid', 'EV', 'EV', 'TENDERING', 'TENDERING', 'submitTheBid');
 INSERT INTO ocds.orchestrator_rules (country, pmd, process_type, prev_stage, new_stage, prev_phase, new_phase, operation_type) VALUES ('MD', 'TEST_OT', 'submitTheBid', 'EV', 'EV', 'TENDERING', 'TENDERING', 'submitTheBid');
 
-INSERT INTO ocds.orchestrator_rules (country, pmd, process_type, prev_stage, new_stage, prev_phase, new_phase, operation_type) VALUES ('MD', 'TEST_RT', 'bidWithdrown', 'PS', 'PS', 'TENDERING', 'TENDERING', 'bidWithdrown');
-INSERT INTO ocds.orchestrator_rules (country, pmd, process_type, prev_stage, new_stage, prev_phase, new_phase, operation_type) VALUES ('MD', 'TEST_RT', 'bidWithdrown', 'PQ', 'PQ', 'TENDERING', 'TENDERING', 'bidWithdrown');
-INSERT INTO ocds.orchestrator_rules (country, pmd, process_type, prev_stage, new_stage, prev_phase, new_phase, operation_type) VALUES ('MD', 'TEST_RT', 'bidWithdrown', 'EV', 'EV', 'TENDERING', 'TENDERING', 'bidWithdrown');
-INSERT INTO ocds.orchestrator_rules (country, pmd, process_type, prev_stage, new_stage, prev_phase, new_phase, operation_type) VALUES ('MD', 'TEST_OT', 'bidWithdrown', 'EV', 'EV', 'TENDERING', 'TENDERING', 'bidWithdrown');
+INSERT INTO ocds.orchestrator_rules (country, pmd, process_type, prev_stage, new_stage, prev_phase, new_phase, operation_type) VALUES ('MD', 'TEST_RT', 'bidWithdrawn', 'PS', 'PS', 'TENDERING', 'TENDERING', 'bidWithdrawn');
+INSERT INTO ocds.orchestrator_rules (country, pmd, process_type, prev_stage, new_stage, prev_phase, new_phase, operation_type) VALUES ('MD', 'TEST_RT', 'bidWithdrawn', 'PQ', 'PQ', 'TENDERING', 'TENDERING', 'bidWithdrawn');
+INSERT INTO ocds.orchestrator_rules (country, pmd, process_type, prev_stage, new_stage, prev_phase, new_phase, operation_type) VALUES ('MD', 'TEST_RT', 'bidWithdrawn', 'EV', 'EV', 'TENDERING', 'TENDERING', 'bidWithdrawn');
+INSERT INTO ocds.orchestrator_rules (country, pmd, process_type, prev_stage, new_stage, prev_phase, new_phase, operation_type) VALUES ('MD', 'TEST_OT', 'bidWithdrawn', 'EV', 'EV', 'TENDERING', 'TENDERING', 'bidWithdrawn');
 
 INSERT INTO ocds.orchestrator_rules (country, pmd, process_type, prev_stage, new_stage, prev_phase, new_phase, operation_type) VALUES ('MD', 'TEST_RT', 'enquiry', 'PS', 'PS', 'TENDERING', 'TENDERING', 'createEnquiry');
 INSERT INTO ocds.orchestrator_rules (country, pmd, process_type, prev_stage, new_stage, prev_phase, new_phase, operation_type) VALUES ('MD', 'TEST_RT', 'enquiry', 'PQ', 'PQ', 'TENDERING', 'TENDERING', 'createEnquiry');
