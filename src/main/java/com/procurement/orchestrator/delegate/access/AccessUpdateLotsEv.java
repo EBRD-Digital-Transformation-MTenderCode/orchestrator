@@ -15,9 +15,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AccessUpdateLotStatusEv implements JavaDelegate {
+public class AccessUpdateLotsEv implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AccessUpdateLotStatusEv.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AccessUpdateLotsEv.class);
 
     private final AccessRestClient accessRestClient;
 
@@ -27,10 +27,10 @@ public class AccessUpdateLotStatusEv implements JavaDelegate {
 
     private final JsonUtil jsonUtil;
 
-    public AccessUpdateLotStatusEv(final AccessRestClient accessRestClient,
-                                   final OperationService operationService,
-                                   final ProcessService processService,
-                                   final JsonUtil jsonUtil) {
+    public AccessUpdateLotsEv(final AccessRestClient accessRestClient,
+                              final OperationService operationService,
+                              final ProcessService processService,
+                              final JsonUtil jsonUtil) {
         this.accessRestClient = accessRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -47,10 +47,9 @@ public class AccessUpdateLotStatusEv implements JavaDelegate {
         final String taskId = execution.getCurrentActivityId();
         final JsonNode unsuccessfulLots = processService.getUnsuccessfulLots(jsonData, processId);
         final JsonNode responseData = processService.processResponse(
-                accessRestClient.updateLotsStatusEv(
+                accessRestClient.updateLotsEv(
                         context.getCpid(),
                         context.getStage(),
-                        "unsuccessful",
                         unsuccessfulLots),
                 context,
                 processId,
@@ -63,7 +62,7 @@ public class AccessUpdateLotStatusEv implements JavaDelegate {
                     entity,
                     context,
                     unsuccessfulLots,
-                    processService.addLots(jsonData, responseData, processId));
+                    processService.addLotsAndItems(jsonData, responseData, processId));
         }
     }
 

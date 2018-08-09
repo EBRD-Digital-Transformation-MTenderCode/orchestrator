@@ -41,11 +41,11 @@
       <bpmn:incoming>SequenceFlow_1ycpybw</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0jd0glt</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="AccessUpdateLotStatusTask" name="Access Update Lot Status" camunda:asyncBefore="true" camunda:delegateExpression="${accessUpdateLotStatus}">
+    <bpmn:serviceTask id="AccessUpdateLotsTask" name="Access Update Lots" camunda:asyncBefore="true" camunda:delegateExpression="${accessUpdateLots}">
       <bpmn:incoming>SequenceFlow_0jd0glt</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_02bv6jg</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_02bv6jg" sourceRef="AccessUpdateLotStatusTask" targetRef="SubmissionSetFinalStatusesTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_02bv6jg" sourceRef="AccessUpdateLotsTask" targetRef="SubmissionSetFinalStatusesTask" />
     <bpmn:serviceTask id="SubmissionSetFinalStatusesTask" name="Submission Set Final Statuses" camunda:asyncBefore="true" camunda:delegateExpression="${submissionSetFinalStatuses}">
       <bpmn:incoming>SequenceFlow_02bv6jg</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_09r9ycb</bpmn:outgoing>
@@ -104,7 +104,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_0vae4uq" sourceRef="ExclusiveGateway_0ow3sqh" targetRef="AccessCheckLotStatusDetailsTask">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[${operationType=='awardPeriodEndEv'}]]></bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_0jd0glt" sourceRef="QualificationEndAwardPeriodTask" targetRef="AccessUpdateLotStatusTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0jd0glt" sourceRef="QualificationEndAwardPeriodTask" targetRef="AccessUpdateLotsTask" />
     <bpmn:serviceTask id="ContractingCreateContractTask" name="Contracting Create Contract" camunda:asyncBefore="true" camunda:delegateExpression="${contractingCreateContract}">
       <bpmn:extensionElements>
         <camunda:failedJobRetryTimeCycle>R0/PT1S</camunda:failedJobRetryTimeCycle>
@@ -112,7 +112,7 @@
       <bpmn:incoming>SequenceFlow_13zfu1s</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0dpgupg</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="accessUpdateLotStatusEvTask" name="Access Update Lot Status" camunda:asyncBefore="true" camunda:delegateExpression="${accessUpdateLotStatusEv}">
+    <bpmn:serviceTask id="AccessUpdateLotsEvTask" name="Access Update Lots" camunda:asyncBefore="true" camunda:delegateExpression="${accessUpdateLotsEv}">
       <bpmn:incoming>SequenceFlow_1s785tg</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0re99ew</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -120,8 +120,8 @@
       <bpmn:incoming>SequenceFlow_0re99ew</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_13zfu1s</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_1s785tg" sourceRef="EvaluationEndAwardPeriodTask" targetRef="accessUpdateLotStatusEvTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0re99ew" sourceRef="accessUpdateLotStatusEvTask" targetRef="SubmissionSetFinalStatusesEvTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1s785tg" sourceRef="EvaluationEndAwardPeriodTask" targetRef="AccessUpdateLotsEvTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0re99ew" sourceRef="AccessUpdateLotsEvTask" targetRef="SubmissionSetFinalStatusesEvTask" />
     <bpmn:sequenceFlow id="SequenceFlow_13zfu1s" sourceRef="SubmissionSetFinalStatusesEvTask" targetRef="ContractingCreateContractTask" />
     <bpmn:exclusiveGateway id="ExclusiveGateway_1npu3t8">
       <bpmn:incoming>SequenceFlow_0dpgupg</bpmn:incoming>
@@ -210,7 +210,7 @@
       <bpmndi:BPMNShape id="ServiceTask_0644rp3_di" bpmnElement="QualificationEndAwardPeriodTask">
         <dc:Bounds x="895" y="28" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_1hkspto_di" bpmnElement="AccessUpdateLotStatusTask">
+      <bpmndi:BPMNShape id="ServiceTask_1hkspto_di" bpmnElement="AccessUpdateLotsTask">
         <dc:Bounds x="1039" y="28" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_02bv6jg_di" bpmnElement="SequenceFlow_02bv6jg">
@@ -335,7 +335,7 @@
       <bpmndi:BPMNShape id="ServiceTask_0xoopu9_di" bpmnElement="ContractingCreateContractTask">
         <dc:Bounds x="1312" y="224" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_1f6nwxy_di" bpmnElement="accessUpdateLotStatusEvTask">
+      <bpmndi:BPMNShape id="ServiceTask_1f6nwxy_di" bpmnElement="AccessUpdateLotsEvTask">
         <dc:Bounds x="1052" y="224" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_04zamah_di" bpmnElement="SubmissionSetFinalStatusesEvTask">

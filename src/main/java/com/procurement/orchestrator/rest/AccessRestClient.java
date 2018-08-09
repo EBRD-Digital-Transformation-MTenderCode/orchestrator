@@ -108,17 +108,15 @@ public interface AccessRestClient {
                                         @RequestParam("stage") String stage,
                                         @RequestParam("status") String status) throws Exception;
 
-    @RequestMapping(path = "/lots/updateStatus", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> updateLotsStatus(@RequestParam("cpid") String cpId,
-                                                 @RequestParam("stage") String stage,
-                                                 @RequestParam("status") String status,
-                                                 @RequestBody JsonNode jsonData) throws Exception;
+    @RequestMapping(path = "/lots/updateLots", method = RequestMethod.POST)
+    ResponseEntity<ResponseDto> updateLots(@RequestParam("cpid") String cpId,
+                                           @RequestParam("stage") String stage,
+                                           @RequestBody JsonNode jsonData) throws Exception;
 
-    @RequestMapping(path = "/lots/updateStatus", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> updateLotsStatusEv(@RequestParam("cpid") String cpId,
-                                                   @RequestParam("stage") String stage,
-                                                   @RequestParam("status") String status,
-                                                   @RequestBody JsonNode jsonData) throws Exception;
+    @RequestMapping(path = "/lots/updateLotsEv", method = RequestMethod.POST)
+    ResponseEntity<ResponseDto> updateLotsEv(@RequestParam("cpid") String cpId,
+                                             @RequestParam("stage") String stage,
+                                             @RequestBody JsonNode jsonData) throws Exception;
 
     @RequestMapping(path = "/lots/updateStatusDetails", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> updateLotsStatusDetails(@RequestParam("cpid") String cpId,
@@ -136,10 +134,6 @@ public interface AccessRestClient {
     ResponseEntity<ResponseDto> checkStatusDetails(@RequestParam("cpid") String cpId,
                                                    @RequestParam("stage") String stage) throws Exception;
 
-    @RequestMapping(path = "/lots/updateLots", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> updateLots(@RequestParam("cpid") String cpId,
-                                           @RequestParam("stage") String stage,
-                                           @RequestBody JsonNode lotsDto) throws Exception;
 
     @RequestMapping(path = "/newStage", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> startNewStage(@RequestParam("cpid") String cpId,

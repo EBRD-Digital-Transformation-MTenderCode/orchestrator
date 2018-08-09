@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class AccessSetTenderUnsuccessful implements JavaDelegate {
-    private static final Logger LOG = LoggerFactory.getLogger(AccessUpdateLotStatus.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AccessSetTenderUnsuccessful.class);
 
     private final AccessRestClient accessRestClient;
 
