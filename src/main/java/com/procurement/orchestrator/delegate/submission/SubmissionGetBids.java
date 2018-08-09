@@ -52,15 +52,19 @@ public class SubmissionGetBids implements JavaDelegate {
                 taskId,
                 jsonUtil.empty());
         if (Objects.nonNull(responseData)) {
-            processContext(context, responseData, processId);
+            processContext(execution, context, responseData, processId);
             operationService.saveOperationStep(execution, entity, context, jsonUtil.empty(), responseData);
         }
     }
 
-    private void processContext(final Context context, final JsonNode responseData, final String processId) {
+    private void processContext(final DelegateExecution execution,
+                                final Context context,
+                                final JsonNode responseData,
+                                final String processId) {
         final Boolean isBidsEmpty = processService.isBidsEmpty(responseData, processId);
         if (isBidsEmpty) {
             context.setOperationType("tenderUnsuccessful");
+            execution.setVariable("operationType", "tenderUnsuccessful");
         }
     }
 }
