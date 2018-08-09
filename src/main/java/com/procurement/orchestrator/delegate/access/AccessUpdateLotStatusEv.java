@@ -1,9 +1,9 @@
-package com.procurement.orchestrator.delegate.submission;
+package com.procurement.orchestrator.delegate.access;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
-import com.procurement.orchestrator.rest.SubmissionRestClient;
+import com.procurement.orchestrator.rest.AccessRestClient;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -15,20 +15,23 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SubmissionGetBids implements JavaDelegate {
+public class AccessUpdateLotStatusEv implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SubmissionGetBids.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AccessUpdateLotStatusEv.class);
 
-    private final SubmissionRestClient submissionRestClient;
+    private final AccessRestClient accessRestClient;
+
     private final OperationService operationService;
+
     private final ProcessService processService;
+
     private final JsonUtil jsonUtil;
 
-    public SubmissionGetBids(final SubmissionRestClient submissionRestClient,
-                             final OperationService operationService,
-                             final ProcessService processService,
-                             final JsonUtil jsonUtil) {
-        this.submissionRestClient = submissionRestClient;
+    public AccessUpdateLotStatusEv(final AccessRestClient accessRestClient,
+                                   final OperationService operationService,
+                                   final ProcessService processService,
+                                   final JsonUtil jsonUtil) {
+        this.accessRestClient = accessRestClient;
         this.operationService = operationService;
         this.processService = processService;
         this.jsonUtil = jsonUtil;
@@ -39,27 +42,34 @@ public class SubmissionGetBids implements JavaDelegate {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
+        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
+        final JsonNode unsuccessfulLots = processService.getUnsuccessfulLots(jsonData, processId);
         final JsonNode responseData = processService.processResponse(
-                submissionRestClient.getBids(
+                accessRestClient.updateLotsStatusEv(
                         context.getCpid(),
                         context.getStage(),
-                        context.getCountry(),
-                        context.getPmd()),
+                        "unsuccessful",
+                        unsuccessfulLots),
                 context,
                 processId,
                 taskId,
-                jsonUtil.empty());
+                unsuccessfulLots);
         if (Objects.nonNull(responseData)) {
             processContext(context, responseData, processId);
-            operationService.saveOperationStep(execution, entity, context, jsonUtil.empty(), responseData);
+            operationService.saveOperationStep(
+                    execution,
+                    entity,
+                    context,
+                    unsuccessfulLots,
+                    processService.addLots(jsonData, responseData, processId));
         }
     }
 
     private void processContext(final Context context, final JsonNode responseData, final String processId) {
-        final Boolean isBidsEmpty = processService.isBidsEmpty(responseData, processId);
-        if (isBidsEmpty) {
+        final String tenderStatus = processService.getText("tenderStatus", responseData, processId);
+        if ("unsuccessful".equals(tenderStatus)) {
             context.setOperationType("tenderUnsuccessful");
         }
     }

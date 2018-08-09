@@ -114,6 +114,12 @@ public interface AccessRestClient {
                                                  @RequestParam("status") String status,
                                                  @RequestBody JsonNode jsonData) throws Exception;
 
+    @RequestMapping(path = "/lots/updateStatus", method = RequestMethod.POST)
+    ResponseEntity<ResponseDto> updateLotsStatusEv(@RequestParam("cpid") String cpId,
+                                                   @RequestParam("stage") String stage,
+                                                   @RequestParam("status") String status,
+                                                   @RequestBody JsonNode jsonData) throws Exception;
+
     @RequestMapping(path = "/lots/updateStatusDetails", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> updateLotsStatusDetails(@RequestParam("cpid") String cpId,
                                                         @RequestParam("stage") String stage,
