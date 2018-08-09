@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface EvaluationRestClient {
 
     @RequestMapping(path = "/evaluation", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> createAwards(@RequestParam("identifier") String cpId,
+    ResponseEntity<ResponseDto> createAwards(@RequestParam("cpid") String cpId,
                                              @RequestParam("stage") String stage,
                                              @RequestParam("owner") String owner,
                                              @RequestParam("country") String country,
@@ -23,7 +23,7 @@ public interface EvaluationRestClient {
                                              @RequestBody JsonNode jsonData) throws Exception;
 
     @RequestMapping(path = "/evaluation", method = RequestMethod.PUT)
-    ResponseEntity<ResponseDto> updateAward(@RequestParam("identifier") String cpId,
+    ResponseEntity<ResponseDto> updateAward(@RequestParam("cpid") String cpId,
                                             @RequestParam("stage") String stage,
                                             @RequestParam("token") String token,
                                             @RequestParam("awardId") String awardId,
@@ -32,13 +32,13 @@ public interface EvaluationRestClient {
                                             @RequestBody JsonNode jsonData) throws Exception;
 
     @RequestMapping(path = "/evaluation", method = RequestMethod.GET)
-    ResponseEntity<ResponseDto> getAwards(@RequestParam("identifier") String cpId,
+    ResponseEntity<ResponseDto> getAwards(@RequestParam("cpid") String cpId,
                                           @RequestParam("stage") String stage,
                                           @RequestParam("country") String country,
                                           @RequestParam("pmd") String pmd) throws Exception;
 
     @RequestMapping(path = "/evaluation/endAwardPeriod", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> endAwardPeriod(@RequestParam("identifier") String cpId,
+    ResponseEntity<ResponseDto> endAwardPeriod(@RequestParam("cpid") String cpId,
                                                @RequestParam("stage") String stage,
                                                @RequestParam("country") String country,
                                                @RequestParam("pmd") String pmd,
