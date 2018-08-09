@@ -60,7 +60,7 @@ public class SubmissionCheckPeriod implements JavaDelegate {
         if (Objects.nonNull(responseData)) {
             execution.setVariable("isPeriodChanged", processService.getBoolean("isPeriodChanged", responseData, processId));
             processContext(context, responseData, processId);
-            operationService.saveOperationStep(execution, entity);
+            operationService.saveOperationStep(execution, entity, context);
         }
     }
 
