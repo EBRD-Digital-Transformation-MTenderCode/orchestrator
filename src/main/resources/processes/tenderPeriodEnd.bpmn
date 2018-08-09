@@ -38,7 +38,7 @@
       <bpmn:incoming>SequenceFlow_1wrkow4</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0qt5wln</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="AccessUpdateLotsTask" name="Access Update Lots" camunda:asyncBefore="true" camunda:delegateExpression="${AccessUpdateLots}">
+    <bpmn:serviceTask id="AccessUpdateLotsTask" name="Access Update Lots" camunda:asyncBefore="true" camunda:delegateExpression="${accessUpdateLots}">
       <bpmn:incoming>SequenceFlow_0qt5wln</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0tb9vzy</bpmn:outgoing>
     </bpmn:serviceTask>
