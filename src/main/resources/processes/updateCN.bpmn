@@ -117,7 +117,7 @@
     </bpmn:subProcess>
     <bpmn:serviceTask id="AccessUpdateCnTask" name="Access Update Cn" camunda:asyncBefore="true" camunda:delegateExpression="${accessUpdateCn}">
       <bpmn:incoming>SequenceFlow_1ip9onz</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_08i5kpi</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_09sluna</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:subProcess id="PeriodSubProcess" name="Period">
       <bpmn:incoming>SequenceFlow_1owtaf3</bpmn:incoming>
@@ -190,7 +190,7 @@
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_1ip9onz" sourceRef="ItemValidationCNSubProcess" targetRef="AccessUpdateCnTask" />
     <bpmn:subProcess id="PeriodCnSubProcess" name="Period">
-      <bpmn:incoming>SequenceFlow_0dewpqc</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_0w1mvk8</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0znib6j</bpmn:outgoing>
       <bpmn:serviceTask id="SubmissionSavePeriodCnTask" name="Submission Save Period" camunda:asyncBefore="true" camunda:delegateExpression="${submissionSavePeriod}">
         <bpmn:incoming>SequenceFlow_172r4z1</bpmn:incoming>
@@ -215,18 +215,6 @@
         <bpmn:outgoing>SequenceFlow_0sm56n0</bpmn:outgoing>
       </bpmn:serviceTask>
     </bpmn:subProcess>
-    <bpmn:exclusiveGateway id="ExclusiveGateway_062lx2x">
-      <bpmn:incoming>SequenceFlow_08i5kpi</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1v55yxp</bpmn:outgoing>
-      <bpmn:outgoing>SequenceFlow_0dewpqc</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="SequenceFlow_08i5kpi" sourceRef="AccessUpdateCnTask" targetRef="ExclusiveGateway_062lx2x" />
-    <bpmn:sequenceFlow id="SequenceFlow_1v55yxp" sourceRef="ExclusiveGateway_062lx2x" targetRef="SubProcess_0vptdb1">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isPeriodChanged==false}</bpmn:conditionExpression>
-    </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_0dewpqc" sourceRef="ExclusiveGateway_062lx2x" targetRef="PeriodCnSubProcess">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isPeriodChanged==true}</bpmn:conditionExpression>
-    </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_0u7qlli" sourceRef="SaveFirstOperationTask" targetRef="ExclusiveGateway_1jdkyq3" />
     <bpmn:sequenceFlow id="SequenceFlow_1prqn23" sourceRef="AccessCreateCnOnPnTask" targetRef="PeriodPnSubProcess" />
     <bpmn:sequenceFlow id="SequenceFlow_0no6dzu" sourceRef="AccessCreateCnOnPinTask" targetRef="PeriodPnSubProcess" />
@@ -236,7 +224,7 @@
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1xykxv6" sourceRef="SaveContextTask" targetRef="SendMessageTask" />
     <bpmn:subProcess id="SubProcess_0vptdb1" name="Period">
-      <bpmn:incoming>SequenceFlow_1v55yxp</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_0zsim72</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1nc91iw</bpmn:outgoing>
       <bpmn:startEvent id="StartEvent_0ng0ftx">
         <bpmn:outgoing>SequenceFlow_0isrw36</bpmn:outgoing>
@@ -264,6 +252,18 @@
     <bpmn:sequenceFlow id="SequenceFlow_1nc91iw" sourceRef="SubProcess_0vptdb1" targetRef="ExclusiveGateway_1pup3aq" />
     <bpmn:sequenceFlow id="SequenceFlow_0y85ebk" sourceRef="ExclusiveGateway_1pup3aq" targetRef="SubmissionBidsWithdrawnTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0znib6j" sourceRef="PeriodCnSubProcess" targetRef="ExclusiveGateway_1pup3aq" />
+    <bpmn:exclusiveGateway id="ExclusiveGateway_1qs97z1">
+      <bpmn:incoming>SequenceFlow_09sluna</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0zsim72</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_0w1mvk8</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="SequenceFlow_09sluna" sourceRef="AccessUpdateCnTask" targetRef="ExclusiveGateway_1qs97z1" />
+    <bpmn:sequenceFlow id="SequenceFlow_0zsim72" sourceRef="ExclusiveGateway_1qs97z1" targetRef="SubProcess_0vptdb1">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isPeriodChanged==false}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_0w1mvk8" sourceRef="ExclusiveGateway_1qs97z1" targetRef="PeriodCnSubProcess">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isPeriodChanged==true}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="updateCN">
@@ -689,34 +689,6 @@
           <dc:Bounds x="1304" y="433" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ExclusiveGateway_062lx2x_di" bpmnElement="ExclusiveGateway_062lx2x" isMarkerVisible="true">
-        <dc:Bounds x="1061" y="551" width="50" height="50" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1086" y="605" width="0" height="12" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="SequenceFlow_08i5kpi_di" bpmnElement="SequenceFlow_08i5kpi">
-        <di:waypoint xsi:type="dc:Point" x="1026" y="576" />
-        <di:waypoint xsi:type="dc:Point" x="1061" y="576" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1043.5" y="555" width="0" height="12" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_1v55yxp_di" bpmnElement="SequenceFlow_1v55yxp">
-        <di:waypoint xsi:type="dc:Point" x="1111" y="576" />
-        <di:waypoint xsi:type="dc:Point" x="1146" y="576" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1083.5" y="555" width="90" height="12" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_0dewpqc_di" bpmnElement="SequenceFlow_0dewpqc">
-        <di:waypoint xsi:type="dc:Point" x="1086" y="551" />
-        <di:waypoint xsi:type="dc:Point" x="1086" y="454" />
-        <di:waypoint xsi:type="dc:Point" x="1145" y="454" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1056" y="496.5" width="90" height="12" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0u7qlli_di" bpmnElement="SequenceFlow_0u7qlli">
         <di:waypoint xsi:type="dc:Point" x="452" y="430" />
         <di:waypoint xsi:type="dc:Point" x="486" y="429" />
@@ -826,6 +798,34 @@
         <di:waypoint xsi:type="dc:Point" x="1305" y="551" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1275.5" y="433" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ExclusiveGateway_1qs97z1_di" bpmnElement="ExclusiveGateway_1qs97z1" isMarkerVisible="true">
+        <dc:Bounds x="1058.6353077816493" y="551" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1083.6353077816493" y="605" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_09sluna_di" bpmnElement="SequenceFlow_09sluna">
+        <di:waypoint xsi:type="dc:Point" x="1026" y="576" />
+        <di:waypoint xsi:type="dc:Point" x="1059" y="576" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1042.5" y="555" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0zsim72_di" bpmnElement="SequenceFlow_0zsim72">
+        <di:waypoint xsi:type="dc:Point" x="1109" y="576" />
+        <di:waypoint xsi:type="dc:Point" x="1146" y="576" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1127.5" y="555" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0w1mvk8_di" bpmnElement="SequenceFlow_0w1mvk8">
+        <di:waypoint xsi:type="dc:Point" x="1084" y="551" />
+        <di:waypoint xsi:type="dc:Point" x="1084" y="454" />
+        <di:waypoint xsi:type="dc:Point" x="1145" y="454" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1099" y="496.5" width="0" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
