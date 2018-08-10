@@ -1,5 +1,5 @@
 {
-  "ocid": "ocds-t1s2t3-MD-1533852573569",
+  "ocid": "ocds-t1s2t3-MD-1533900923567",
   "planning": {
     "budget": {
       "amount": {
@@ -30,10 +30,11 @@
           }
         }
       ]
-    }
+    },
+    "rationale": "PROVERKA"
   },
   "tender": {
-    "id": "ocds-t1s2t3-MD-1533852573569",
+    "id": "ocds-t1s2t3-MD-1533900923567",
     "title": "gav",
     "description": "gav gav",
     "status": "active",
@@ -121,15 +122,11 @@
     "awardCriteria": "priceOnly",
     "requiresElectronicCatalogue": false,
     "contractPeriod": {
-      "startDate": "2018-11-19T14:45:00Z",
-      "endDate": "2018-12-25T14:45:00Z"
-    },
-    "tenderPeriod": {
-      "startDate": "2018-08-09T22:09:33Z",
-      "endDate": "2018-08-09T22:20:00Z"
+      "startDate": "2018-11-22T14:45:00Z",
+      "endDate": "2018-12-26T14:45:00Z"
     },
     "value": {
-      "amount": 200.00,
+      "amount": 400.00,
       "currency": "MDL"
     },
     "lotGroups": [
@@ -139,10 +136,64 @@
     ],
     "lots": [
       {
-        "id": "2ba365f1-9c22-11e8-8a3c-99f0ba27f4e6",
+        "id": "c23563f0-9c91-11e8-b59c-311915ff3018",
         "title": "lot1update",
         "description": "looot",
         "status": "active",
+        "statusDetails": "empty",
+        "value": {
+          "amount": 400.00,
+          "currency": "MDL"
+        },
+        "options": [
+          {
+            "hasOptions": false
+          }
+        ],
+        "recurrentProcurement": [
+          {
+            "isRecurrent": false
+          }
+        ],
+        "renewals": [
+          {
+            "hasRenewals": false
+          }
+        ],
+        "variants": [
+          {
+            "hasVariants": false
+          }
+        ],
+        "contractPeriod": {
+          "startDate": "2018-11-22T14:45:00Z",
+          "endDate": "2018-12-26T14:45:00Z"
+        },
+        "placeOfPerformance": {
+          "address": {
+            "streetAddress": "11111111",
+            "postalCode": "555",
+            "addressDetails": {
+              "country": {
+                "id": "Ml"
+              },
+              "region": {
+                "id": "MD-AN"
+              },
+              "locality": {
+                "scheme": "gfgf",
+                "id": "gfg",
+                "description": "gfg"
+              }
+            }
+          }
+        }
+      },
+      {
+        "id": "783a7c90-9c91-11e8-b59c-311915ff3018",
+        "title": "lot1",
+        "description": "looot",
+        "status": "cancelled",
         "statusDetails": "empty",
         "value": {
           "amount": 200.00,
@@ -191,30 +242,132 @@
             }
           }
         }
+      },
+      {
+        "id": "783a7c91-9c91-11e8-b59c-311915ff3018",
+        "title": "lot2",
+        "description": "looot",
+        "status": "cancelled",
+        "statusDetails": "empty",
+        "value": {
+          "amount": 500.00,
+          "currency": "MDL"
+        },
+        "options": [
+          {
+            "hasOptions": false
+          }
+        ],
+        "recurrentProcurement": [
+          {
+            "isRecurrent": false
+          }
+        ],
+        "renewals": [
+          {
+            "hasRenewals": false
+          }
+        ],
+        "variants": [
+          {
+            "hasVariants": false
+          }
+        ],
+        "contractPeriod": {
+          "startDate": "2018-11-21T14:45:00Z",
+          "endDate": "2018-12-22T14:45:00Z"
+        },
+        "placeOfPerformance": {
+          "address": {
+            "streetAddress": "",
+            "postalCode": "",
+            "addressDetails": {
+              "country": {
+                "id": "MD"
+              },
+              "region": {
+                "id": "MD-AN"
+              },
+              "locality": {
+                "scheme": "CUATM",
+                "id": "MD AIN",
+                "description": "gfg5555"
+              }
+            }
+          },
+          "description": "2"
+        }
+      },
+      {
+        "id": "783a7c92-9c91-11e8-b59c-311915ff3018",
+        "title": "lot3",
+        "description": "looot",
+        "status": "cancelled",
+        "statusDetails": "empty",
+        "value": {
+          "amount": 200.00,
+          "currency": "MDL"
+        },
+        "options": [
+          {
+            "hasOptions": false
+          }
+        ],
+        "recurrentProcurement": [
+          {
+            "isRecurrent": false
+          }
+        ],
+        "renewals": [
+          {
+            "hasRenewals": false
+          }
+        ],
+        "variants": [
+          {
+            "hasVariants": false
+          }
+        ],
+        "contractPeriod": {
+          "startDate": "2018-11-19T14:45:00Z",
+          "endDate": "2018-12-25T14:45:00Z"
+        },
+        "placeOfPerformance": {
+          "address": {
+            "streetAddress": "",
+            "postalCode": "",
+            "addressDetails": {
+              "country": {
+                "id": "MD"
+              },
+              "region": {
+                "id": "MD-AN"
+              },
+              "locality": {
+                "scheme": "gfgf",
+                "id": "gfg",
+                "description": "gfg"
+              }
+            }
+          }
+        }
       }
     ],
     "items": [
       {
-        "id": "2ba365f0-9c22-11e8-8a3c-99f0ba27f4e6",
+        "id": "c2353ce0-9c91-11e8-b59c-311915ff3018",
         "description": "",
         "classification": {
           "scheme": "CPV",
           "id": "30199220-8",
           "description": "Cărţi poştale neilustrate"
         },
-        "additionalClassifications": [
-          {
-            "scheme": "CPVS",
-            "id": "AB06-7",
-            "description": "Plastic"
-          }
-        ],
-        "quantity": 1.00,
+        "quantity": 15.00,
         "unit": {
           "id": "86",
           "name": " Milion metri patrati spatiu locativ "
         },
-        "relatedLot": "2ba365f1-9c22-11e8-8a3c-99f0ba27f4e6"
+        "relatedLot": "c23563f0-9c91-11e8-b59c-311915ff3018"
       }
     ],
     "documents": [
