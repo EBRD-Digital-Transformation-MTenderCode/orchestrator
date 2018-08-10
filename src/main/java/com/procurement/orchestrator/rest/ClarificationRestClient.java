@@ -40,7 +40,8 @@ public interface ClarificationRestClient {
                                            @RequestParam("country") String country,
                                            @RequestParam("pmd") String pmd,
                                            @RequestParam("startDate") String startDate,
-                                           @RequestParam("endDate") String endDate) throws Exception;
+                                           @RequestParam("endDate") String endDate,
+                                           @RequestParam("setExtendedPeriod") Boolean setExtendedPeriod) throws Exception;
 
     @RequestMapping(path = "/period", method = RequestMethod.GET)
     ResponseEntity<ResponseDto> getPeriod(@RequestParam("cpid") String cpId,

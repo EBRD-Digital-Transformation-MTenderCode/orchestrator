@@ -59,12 +59,9 @@ public class SubmissionCheckPeriod implements JavaDelegate {
                 jsonUtil.empty());
         if (Objects.nonNull(responseData)) {
             execution.setVariable("isPeriodChanged", processService.getBoolean("isPeriodChanged", responseData, processId));
-            processContext(context, responseData, processId);
+            context.setSetExtendedPeriod(processService.getBoolean("setExtendedPeriod", responseData, processId));
+            context.setEndDate(processService.getText("tenderPeriodEndDate", responseData, processId));
             operationService.saveOperationStep(execution, entity, context);
         }
-    }
-
-    private void processContext(final Context context, final JsonNode responseData, final String processId) {
-        context.setEndDate(processService.getCheckPeriodEndDate(responseData, processId));
     }
 }

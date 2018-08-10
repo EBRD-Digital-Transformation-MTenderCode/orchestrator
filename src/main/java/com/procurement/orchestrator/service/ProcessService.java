@@ -36,8 +36,6 @@ public interface ProcessService {
 
     String getTenderPeriodEndDate(JsonNode jsonData, String processId);
 
-    String getCheckPeriodEndDate(JsonNode jsonData, String processId);
-
     Context addAccessToContext(Context context, String entityType, String entityId, JsonNode responseData, String processId);
 
     Context addBidAccessToContext(Context context, JsonNode responseData, String processId);

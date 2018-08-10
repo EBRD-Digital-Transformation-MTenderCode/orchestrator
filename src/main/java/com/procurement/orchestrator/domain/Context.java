@@ -69,6 +69,9 @@ public class Context {
     @JsonProperty(value = "id")
     private String id;
 
+    @JsonProperty(value = "setExtendedPeriod")
+    private Boolean setExtendedPeriod = false;
+
     public void setOperationId(final String operationId) {
         this.operationId = UUID.fromString(operationId).toString();
     }
