@@ -40,6 +40,10 @@ public interface SubmissionRestClient {
                                               @RequestParam("pmd") String pmd,
                                               @RequestParam("startDate") String startDate) throws Exception;
 
+    @RequestMapping(path = "/period", method = RequestMethod.GET)
+    ResponseEntity<ResponseDto> getPeriod(@RequestParam("cpid") String cpId,
+                                           @RequestParam("stage") String stage) throws Exception;
+
     @RequestMapping(path = "/bid", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> createBid(@RequestParam("cpid") String cpId,
                                           @RequestParam("stage") String stage,

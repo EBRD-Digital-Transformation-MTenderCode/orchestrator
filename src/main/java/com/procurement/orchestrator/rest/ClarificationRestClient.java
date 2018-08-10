@@ -41,4 +41,8 @@ public interface ClarificationRestClient {
                                            @RequestParam("pmd") String pmd,
                                            @RequestParam("startDate") String startDate,
                                            @RequestParam("endDate") String endDate) throws Exception;
+
+    @RequestMapping(path = "/period", method = RequestMethod.GET)
+    ResponseEntity<ResponseDto> getPeriod(@RequestParam("cpid") String cpId,
+                                          @RequestParam("stage") String stage) throws Exception;
 }
