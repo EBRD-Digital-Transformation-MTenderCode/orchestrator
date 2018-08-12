@@ -297,18 +297,18 @@ public class TenderController extends BaseController {
         }
     }
 
-    @RequestMapping(value = "/tenderPeriodEnd", method = RequestMethod.POST)
-    public ResponseEntity<String> newStage(@RequestHeader("Authorization") final String authorization,
-                                           @RequestHeader("X-OPERATION-ID") final UUID operationId,
-                                           @RequestHeader("cpid") final String cpid) {
-
-        final Context context = getContext(authorization, operationId.toString(), cpid, null, null, "tenderPeriodEnd");
-        saveRequestAndCheckOperation(context, null);
-        final Map<String, Object> variables = new HashMap<>();
-        variables.put("operationType", context.getOperationType());
-        processService.startProcess(context, variables);
-        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
-    }
+//    @RequestMapping(value = "/tenderPeriodEnd", method = RequestMethod.POST)
+//    public ResponseEntity<String> newStage(@RequestHeader("Authorization") final String authorization,
+//                                           @RequestHeader("X-OPERATION-ID") final UUID operationId,
+//                                           @RequestHeader("cpid") final String cpid) {
+//
+//        final Context context = getContext(authorization, operationId.toString(), cpid, null, null, "tenderPeriodEnd");
+//        saveRequestAndCheckOperation(context, null);
+//        final Map<String, Object> variables = new HashMap<>();
+//        variables.put("operationType", context.getOperationType());
+//        processService.startProcess(context, variables);
+//        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
+//    }
 
 }
 
