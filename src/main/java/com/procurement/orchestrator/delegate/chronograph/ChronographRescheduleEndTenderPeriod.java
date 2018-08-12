@@ -51,12 +51,13 @@ public class ChronographRescheduleEndTenderPeriod implements JavaDelegate {
         contextChronograph.setProcessType("tenderPeriodEnd");
         contextChronograph.setOperationId(uuid);
         contextChronograph.setRequestId(uuid);
+        contextChronograph.setSetExtendedPeriod(null);
 
         final ScheduleTask task = new ScheduleTask(
                 ActionType.REPLACE,
                 context.getCpid(),
                 context.getPhase(),
-                null,
+                dateUtil.stringToLocal(context.getEndDate()),
                 dateUtil.stringToLocal(context.getEndDate()),
                 jsonUtil.toJson(contextChronograph));
         messageProducer.sendToChronograph(task);

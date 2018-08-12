@@ -47,6 +47,7 @@ public class ChronographScheduleEndTenderPeriod implements JavaDelegate {
         contextChronograph.setProcessType("tenderPeriodEnd");
         contextChronograph.setOperationId(uuid);
         contextChronograph.setRequestId(uuid);
+        contextChronograph.setSetExtendedPeriod(null);
 
         final ScheduleTask task = new ScheduleTask(
                 ActionType.SCHEDULE,
