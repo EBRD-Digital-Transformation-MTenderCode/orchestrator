@@ -14,3 +14,6 @@ eyJhbGciOiJSUzI1NiIsInR5cFRva2VuIjoiQUNDRVNTIiwidHlwIjoiSldUIn0
 http://bpe.eprocurement.systems/api/v1/ei
 
 home/kafka/bin/kafka-console-consumer-sasl-dev4.sh --bootstrap-server localhost:9092 --topic 2c97d565-e527-4e7d-b3e9-bf5dv76c4f5c --from-beginning --consumer.config=config/consumer-sasl-dev4.properties
+
+
+select * from tasks where ocid = 'ocds-t1s2t3-MD-1534102735905'
