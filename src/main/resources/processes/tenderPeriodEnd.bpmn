@@ -60,7 +60,7 @@
       <bpmn:incoming>SequenceFlow_0tb9vzy</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0bwrwq3</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="chronographUpdatePeriodTask" name="Chronograph reschedule end tender period" camunda:asyncBefore="true" camunda:delegateExpression="${chronographRescheduleEndTenderPeriod}">
+    <bpmn:serviceTask id="ChronographUpdatePeriodTask" name="Chronograph reschedule end tender period" camunda:asyncBefore="true" camunda:delegateExpression="${chronographRescheduleEndTenderPeriod}">
       <bpmn:incoming>SequenceFlow_1vmk2lo</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1366kgx</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -128,8 +128,8 @@
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_0oqpftm" sourceRef="AccessSetTenderUnsuccessfulTask" targetRef="NoticeCreateReleaseTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0bwrwq3" sourceRef="StorageOpenDocsOfBibsTask" targetRef="NoticeCreateReleaseTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1366kgx" sourceRef="chronographUpdatePeriodTask" targetRef="EndEvent_1" />
-    <bpmn:sequenceFlow id="SequenceFlow_1vmk2lo" sourceRef="ExclusiveGateway_0dq76qu" targetRef="chronographUpdatePeriodTask">
+    <bpmn:sequenceFlow id="SequenceFlow_1366kgx" sourceRef="ChronographUpdatePeriodTask" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="SequenceFlow_1vmk2lo" sourceRef="ExclusiveGateway_0dq76qu" targetRef="ChronographUpdatePeriodTask">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[${operationType=='rescheduleEndTenderPeriod'}]]></bpmn:conditionExpression>
     </bpmn:sequenceFlow>
   </bpmn:process>
@@ -216,7 +216,7 @@
       <bpmndi:BPMNShape id="ServiceTask_13to6ht_di" bpmnElement="StorageOpenDocsOfBibsTask">
         <dc:Bounds x="1693" y="281" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_1rs54aj_di" bpmnElement="chronographUpdatePeriodTask">
+      <bpmndi:BPMNShape id="ServiceTask_1rs54aj_di" bpmnElement="ChronographUpdatePeriodTask">
         <dc:Bounds x="1216" y="459" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_0sahqyo_di" bpmnElement="AccessSuspendTenderTask">
