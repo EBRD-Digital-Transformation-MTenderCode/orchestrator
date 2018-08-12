@@ -47,8 +47,9 @@ public class ChronographRescheduleEndTenderPeriod implements JavaDelegate {
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         /**set context for next process*/
         final Context contextChronograph = new Context();
-        contextChronograph.setProcessType("tenderPeriodEnd");
         final String uuid = UUIDs.timeBased().toString();
+        contextChronograph.setCpid(context.getCpid());
+        contextChronograph.setProcessType("tenderPeriodEnd");
         contextChronograph.setOperationId(uuid);
         contextChronograph.setRequestId(uuid);
 
@@ -59,7 +60,6 @@ public class ChronographRescheduleEndTenderPeriod implements JavaDelegate {
                 null,
                 dateUtil.stringToLocal(context.getEndDate()),
                 jsonUtil.toJson(contextChronograph));
-
         messageProducer.sendToChronograph(task);
         operationService.saveOperationStep(execution, entity, jsonUtil.toJsonNode(task));
     }
