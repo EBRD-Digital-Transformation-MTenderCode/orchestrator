@@ -43,11 +43,12 @@ public class SubmissionGetBids implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode responseData = processService.processResponse(
-                submissionRestClient.getBids(
+                submissionRestClient.bidsSelection(
                         context.getCpid(),
                         context.getStage(),
                         context.getCountry(),
-                        context.getPmd()),
+                        context.getPmd(),
+                        context.getStartDate()),
                 context,
                 processId,
                 taskId,
@@ -66,7 +67,13 @@ public class SubmissionGetBids implements JavaDelegate {
         if (isBidsEmpty) {
             context.setOperationType("tenderUnsuccessful");
             execution.setVariable("operationType", "tenderUnsuccessful");
-        }
+        } else {
+            final Boolean isPeriodExpired = processService.getBoolean("isPeriodExpired", responseData, processId);
+            if (!isPeriodExpired) {
+                execution.setVariable("operationType", "rescheduleEndTenderPeriod");
+                context.setEndDate(processService.getText("tenderPeriodEndDate", responseData, processId));
+            }
+         }
     }
 }
 

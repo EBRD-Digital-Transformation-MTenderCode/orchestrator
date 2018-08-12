@@ -57,17 +57,11 @@ public class ClarificationCheckEnquiries implements JavaDelegate {
 
     private void processContext(final DelegateExecution execution, final Context context, final JsonNode responseData, final String processId) {
         final Boolean allAnswered = processService.getBoolean("allAnswered", responseData, processId);
-        if (allAnswered != null) {
-            if (allAnswered) {
-                execution.setVariable("checkEnquiries", 1);
-            } else {
-                execution.setVariable("checkEnquiries", 2);
-                context.setOperationType("suspendTender");
-            }
+        if (allAnswered) {
+            execution.setVariable("allAnswered", true);
         } else {
-            final String endDate = processService.getText("tenderPeriodEndDate", responseData, processId);
-            execution.setVariable("checkEnquiries", 3);
-            context.setEndDate(endDate);
+            execution.setVariable("allAnswered", false);
+            context.setOperationType("suspendTender");
         }
     }
 }

@@ -68,11 +68,12 @@ public interface SubmissionRestClient {
                                          @RequestParam("endDate") String endDate,
                                          @RequestBody JsonNode jsonData) throws Exception;
 
-    @RequestMapping(path = "/submission/successfulBids", method = RequestMethod.GET)
-    ResponseEntity<ResponseDto> getBids(@RequestParam("cpid") String cpId,
-                                        @RequestParam("stage") String stage,
-                                        @RequestParam("country") String country,
-                                        @RequestParam("pmd") String pmd) throws Exception;
+    @RequestMapping(path = "/submission/bidsSelection", method = RequestMethod.GET)
+    ResponseEntity<ResponseDto> bidsSelection(@RequestParam("cpid") String cpId,
+                                              @RequestParam("stage") String stage,
+                                              @RequestParam("country") String country,
+                                              @RequestParam("pmd") String pmd,
+                                              @RequestParam("date") String startDate) throws Exception;
 
     @RequestMapping(path = "/submission/updateStatus", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> updateStatus(@RequestParam("cpid") String cpId,
