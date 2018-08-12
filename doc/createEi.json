@@ -1,70 +1,158 @@
 {
-  "tender": {
-    "title": "Hand become put day with west join.",
-    "description": "Break along kitchen whom trip choice seem class adult travel high throughout government room receive second former family girl base same son democratic itself public girl say week.",
-    "classification": {
-      "id": "30100000-0",
-      "scheme": "CPV",
-      "description": "Maşini de procesare de text"
-    },
-    "mainProcurementCategory": "goods"
-  },
-  "planning": {
-    "budget": {
-      "period": {
-        "startDate": "2018-02-30T09:00:00Z",
-        "endDate": "2018-08-22T09:00:00Z"
-      }
-    },
-    "rationale": "Ground national key nothing you sometimes."
-  },
-  "buyer": {
-    "name": "Burns-Davis",
-    "identifier": {
-      "scheme": "MD-IDNO",
-      "id": "354-37-1072",
-      "legalName": "Burns-Davis PLC",
-      "uri": "http://edwards.net/"
-    },
-    "additionalIdentifiers": [
-      {
-        "scheme": "MD-IDNO",
-        "id": "713-49-7544",
-        "legalName": "Burns-Davis PLC",
-        "uri": "http://baker.com/posts/about.asp"
-      }
-    ],
-    "address": {
-      "streetAddress": "232323",
-      "postalCode": "424422",
-      "addressDetails": {
-        "country": {
-          "id": "MD"
-        },
-        "region": {
-          "id": "MD-AN"
-        },
-        "locality": {
-          "scheme": "UN/LOCODE",
-          "id": "MD AIN",
-          "description": "Anenii Noi"
+  "bids": [
+    {
+      "id": "c0417180-9e65-11e8-9464-910498fc7ddf",
+      "date": "2018-08-12T19:27:28Z",
+      "status": "pending",
+      "statusDetails": "empty",
+      "tenderers": [
+        {
+          "id": "MD-IDNO-987654322",
+          "name": "TEST Provider 2",
+          "identifier": {
+            "id": "987654322",
+            "scheme": "MD-IDNO",
+            "legalName": "TEST Provider 3 LEGAL",
+            "uri": "https://test1.ua"
+          },
+          "address": {
+            "streetAddress": "",
+            "postalCode": "",
+            "addressDetails": {
+              "country": {
+                "scheme": "iso-alpha2",
+                "id": "MD",
+                "description": "MOLDOVA",
+                "uri": "http://reference.iatistandard.org/202/codelists/Country/#id1"
+              },
+              "region": {
+                "scheme": "CUATM",
+                "id": "3800000",
+                "description": "Dubăsari",
+                "uri": "www.statistica.md/public/files/Clasificatoare/CUATM_rom.zip"
+              },
+              "locality": {
+                "scheme": "other",
+                "id": "",
+                "description": ""
+              }
+            }
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "987654377",
+              "scheme": "UA-EDR",
+              "legalName": "ADDITIONAL TEST Provider 3 LEGAL",
+              "uri": "https://add.test1.ua"
+            }
+          ],
+          "contactPoint": {
+            "name": "WHO ARE YOU",
+            "email": "test1@test.test",
+            "telephone": "+38022222222",
+            "faxNumber": "+38022222222",
+            "url": "https://cp.test1.ua"
+          },
+          "details": {
+            "scale": "sme"
+          }
         }
-      }
+      ],
+      "value": {
+        "amount": 1.65,
+        "currency": "MDL"
+      },
+      "documents": [
+        {
+          "id": "aaf7c220-9974-11e8-9318-61ca1098e80e",
+          "documentType": "submissionDocuments",
+          "title": "File for test",
+          "description": "test file ",
+          "relatedLots": [
+            "82f9bad1-9e65-11e8-b59c-311915ff3018"
+          ]
+        }
+      ],
+      "relatedLots": [
+        "82f9bad1-9e65-11e8-b59c-311915ff3018"
+      ]
     },
-    "contactPoint": {
-      "name": "Jacqueline Soto",
-      "email": "tiffanygutierrez@yahoo.com",
-      "telephone": "724-095-3938x237",
-      "faxNumber": "897-612-1545",
-      "url": "http://hudson.biz/explore/list/category/"
-    },
-    "details": {
-      "typeOfBuyer": "MINISTRY",
-      "mainGeneralActivity": "HEALTH",
-      "mainSectoralActivity": "WATER",
-      "isACentralPurchasingBody": false,
-      "scale": "sme"
-    },
-    "buyerProfile": "http://ray.com/"
-  }
+    {
+      "id": "cdece4e0-9e65-11e8-9464-910498fc7ddf",
+      "date": "2018-08-12T19:27:51Z",
+      "status": "pending",
+      "statusDetails": "empty",
+      "tenderers": [
+        {
+          "id": "MD-IDNO-987654321",
+          "name": "TEST Provider 1",
+          "identifier": {
+            "id": "987654321",
+            "scheme": "MD-IDNO",
+            "legalName": "TEST Provider 3 LEGAL",
+            "uri": "https://test1.ua"
+          },
+          "address": {
+            "streetAddress": "",
+            "postalCode": "",
+            "addressDetails": {
+              "country": {
+                "scheme": "iso-alpha2",
+                "id": "MD",
+                "description": "MOLDOVA",
+                "uri": "http://reference.iatistandard.org/202/codelists/Country/#id1"
+              },
+              "region": {
+                "scheme": "CUATM",
+                "id": "3800000",
+                "description": "Dubăsari",
+                "uri": "www.statistica.md/public/files/Clasificatoare/CUATM_rom.zip"
+              },
+              "locality": {
+                "scheme": "other",
+                "id": "",
+                "description": ""
+              }
+            }
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "987654377",
+              "scheme": "UA-EDR",
+              "legalName": "ADDITIONAL TEST Provider 3 LEGAL",
+              "uri": "https://add.test1.ua"
+            }
+          ],
+          "contactPoint": {
+            "name": "WHO ARE YOU",
+            "email": "test1@test.test",
+            "telephone": "+38022222222",
+            "faxNumber": "+38022222222",
+            "url": "https://cp.test1.ua"
+          },
+          "details": {
+            "scale": "sme"
+          }
+        }
+      ],
+      "value": {
+        "amount": 1.65,
+        "currency": "MDL"
+      },
+      "documents": [
+        {
+          "id": "aaf7c220-9974-11e8-9318-61ca1098e80e",
+          "documentType": "submissionDocuments",
+          "title": "File for test",
+          "description": "test file ",
+          "relatedLots": [
+            "82f9bad1-9e65-11e8-b59c-311915ff3018"
+          ]
+        }
+      ],
+      "relatedLots": [
+        "82f9bad1-9e65-11e8-b59c-311915ff3018"
+      ]
+    }
+  ]
 }

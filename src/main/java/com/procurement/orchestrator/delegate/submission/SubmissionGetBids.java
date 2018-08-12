@@ -70,7 +70,7 @@ public class SubmissionGetBids implements JavaDelegate {
                     entity,
                     context,
                     jsonUtil.empty(),
-                    processService.addBids(jsonUtil.empty(), responseData, processId));
+                    responseData);
         }
     }
 }
