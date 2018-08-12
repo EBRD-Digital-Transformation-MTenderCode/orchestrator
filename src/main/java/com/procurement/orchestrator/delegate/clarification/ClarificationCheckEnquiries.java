@@ -50,7 +50,7 @@ public class ClarificationCheckEnquiries implements JavaDelegate {
                 jsonUtil.empty());
         if (Objects.nonNull(responseData)) {
             processContext(execution, context, responseData, processId);
-            operationService.saveOperationStep(execution, entity, context);
+            operationService.saveOperationStep(execution, entity, context, jsonUtil.empty(), responseData);
         }
     }
 
