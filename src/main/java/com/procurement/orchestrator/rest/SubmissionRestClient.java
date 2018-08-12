@@ -17,7 +17,7 @@ public interface SubmissionRestClient {
                                             @RequestParam("stage") String stage,
                                             @RequestParam("country") String country,
                                             @RequestParam("pmd") String pmd,
-                                            @RequestParam("operationType") String operationType ,
+                                            @RequestParam("operationType") String operationType,
                                             @RequestParam("startDate") String startDate,
                                             @RequestParam("endDate") String endDate) throws Exception;
 
@@ -42,7 +42,7 @@ public interface SubmissionRestClient {
 
     @RequestMapping(path = "/period", method = RequestMethod.GET)
     ResponseEntity<ResponseDto> getPeriod(@RequestParam("cpid") String cpId,
-                                           @RequestParam("stage") String stage) throws Exception;
+                                          @RequestParam("stage") String stage) throws Exception;
 
     @RequestMapping(path = "/bid", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> createBid(@RequestParam("cpid") String cpId,
@@ -95,6 +95,6 @@ public interface SubmissionRestClient {
 
     @RequestMapping(path = "/submission/bidsWithdrawn", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> bidsWithdrawn(@RequestParam("cpid") String cpId,
-                                                 @RequestParam("stage") String stage,
-                                                 @RequestParam("date") String startDate) throws Exception;
+                                              @RequestParam("stage") String stage,
+                                              @RequestParam("date") String startDate) throws Exception;
 }
