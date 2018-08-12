@@ -72,7 +72,7 @@ public class MessageConsumer {
             context.setLanguage(prevContext.getLanguage());
             context.setStartDate(dateUtil.nowFormatted());
 
-            saveRequestAndCheckOperation(context, jsonUtil.toJsonNode(data));
+            saveRequestAndCheckOperation(context, jsonUtil.empty());
             final Map<String, Object> variables = new HashMap<>();
             variables.put("operationType", context.getOperationType());
             processService.startProcess(contextChronograph, variables);

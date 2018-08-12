@@ -40,7 +40,6 @@ public class ClarificationCheckEnquiries implements JavaDelegate {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
-        final JsonNode requestData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode responseData = processService.processResponse(
@@ -48,10 +47,10 @@ public class ClarificationCheckEnquiries implements JavaDelegate {
                 context,
                 processId,
                 taskId,
-                requestData);
+                jsonUtil.empty());
         if (Objects.nonNull(responseData)) {
             processContext(execution, context, responseData, processId);
-            operationService.saveOperationStep(execution, entity, context, requestData, responseData);
+            operationService.saveOperationStep(execution, entity, context);
         }
     }
 

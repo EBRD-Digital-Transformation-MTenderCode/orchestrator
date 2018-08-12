@@ -54,26 +54,24 @@ public class SubmissionGetBids implements JavaDelegate {
                 taskId,
                 jsonUtil.empty());
         if (Objects.nonNull(responseData)) {
-            processContext(execution, context, responseData, processId);
-            operationService.saveOperationStep(execution, entity, context, jsonUtil.empty(), responseData);
-        }
-    }
-
-    private void processContext(final DelegateExecution execution,
-                                final Context context,
-                                final JsonNode responseData,
-                                final String processId) {
-        final Boolean isBidsEmpty = processService.isBidsEmpty(responseData, processId);
-        if (isBidsEmpty) {
-            context.setOperationType("tenderUnsuccessful");
-            execution.setVariable("operationType", "tenderUnsuccessful");
-        } else {
-            final Boolean isPeriodExpired = processService.getBoolean("isPeriodExpired", responseData, processId);
-            if (!isPeriodExpired) {
-                execution.setVariable("operationType", "rescheduleEndTenderPeriod");
-                context.setEndDate(processService.getText("tenderPeriodEndDate", responseData, processId));
+            final Boolean isBidsEmpty = processService.isBidsEmpty(responseData, processId);
+            if (isBidsEmpty) {
+                context.setOperationType("tenderUnsuccessful");
+                execution.setVariable("operationType", "tenderUnsuccessful");
+            } else {
+                final Boolean isPeriodExpired = processService.getBoolean("isPeriodExpired", responseData, processId);
+                if (!isPeriodExpired) {
+                    execution.setVariable("operationType", "rescheduleEndTenderPeriod");
+                    context.setEndDate(processService.getText("tenderPeriodEndDate", responseData, processId));
+                }
             }
-         }
+            operationService.saveOperationStep(
+                    execution,
+                    entity,
+                    context,
+                    jsonUtil.empty(),
+                    processService.addBids(jsonUtil.empty(), responseData, processId));
+        }
     }
 }
 

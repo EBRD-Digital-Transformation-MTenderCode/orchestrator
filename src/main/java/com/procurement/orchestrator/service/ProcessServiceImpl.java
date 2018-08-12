@@ -368,7 +368,7 @@ public class ProcessServiceImpl implements ProcessService {
     public Boolean isBidsEmpty(final JsonNode responseData, final String processId) {
         try {
             final ArrayNode bidsNode = (ArrayNode) responseData.get("bids");
-            return bidsNode.size() == 0;
+            return (bidsNode.size() == 0);
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
             return null;
@@ -773,7 +773,8 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
-    public JsonNode setBidTenderersData(final JsonNode jsonData, final JsonNode responseData, final String processId) {
+    public JsonNode setBidTenderersData(final JsonNode jsonData, final JsonNode responseData,
+                                        final String processId) {
         try {
             final ObjectNode bidNode = (ObjectNode) jsonData.get("bid");
             final JsonNode tenderersResponseNode = responseData.get("tenderers");
