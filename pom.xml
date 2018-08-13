@@ -31,7 +31,7 @@
         <netty.version>4.1.17.Final</netty.version>
         <docker-image-profile></docker-image-profile>
         <docker-maven-plugin.version>0.23.0</docker-maven-plugin.version>
-        <docker-registry>dev.docker-registry.eprocurement.systems</docker-registry>
+        <docker-registry>docker-registry.eprocurement.systems</docker-registry>
     </properties>
 
     <dependencyManagement>
