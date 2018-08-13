@@ -3,7 +3,6 @@ package com.procurement.orchestrator.domain.dto;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.procurement.orchestrator.exception.EnumException;
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;

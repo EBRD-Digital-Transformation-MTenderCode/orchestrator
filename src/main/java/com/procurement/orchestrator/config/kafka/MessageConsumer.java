@@ -9,16 +9,15 @@ import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.service.RequestService;
 import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
 
 public class MessageConsumer {
 
@@ -52,10 +51,10 @@ public class MessageConsumer {
             final ChronographResponse.ChronographResponseData data = response.getData();
             final Context contextChronograph = jsonUtil.toObject(Context.class, data.getMetaData());
 
-            final Context prevContext = operationService.getContext(contextChronograph.getCpid());
+            final Context prevContext = requestService.getContext(contextChronograph.getCpid());
 
             final Context context = new Context();
-            final Rule rules = operationService.checkAndGetRule(prevContext, contextChronograph.getProcessType());
+            final Rule rules = requestService.checkAndGetRule(prevContext, contextChronograph.getProcessType());
             context.setRequestId(contextChronograph.getRequestId());
             context.setOperationId(contextChronograph.getOperationId());
             context.setCountry(rules.getCountry());

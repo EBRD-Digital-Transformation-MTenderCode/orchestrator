@@ -1,6 +1,8 @@
 package com.procurement.orchestrator.config.kafka;
 
 import com.procurement.orchestrator.utils.JsonUtil;
+import java.util.HashMap;
+import java.util.Map;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -9,9 +11,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @Profile("default")
 @Configuration

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.11.3">
+  <bpmn:process id="bidWithdrawn" name="submitTheBid" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>SequenceFlow_1bfbs0n</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_1bfbs0n" sourceRef="StartEvent_1" targetRef="SaveFirstOperationTask" />
+    <bpmn:serviceTask id="SaveFirstOperationTask" name="Save First Operation Task" camunda:delegateExpression="${saveFirstOperation}">
+      <bpmn:incoming>SequenceFlow_1bfbs0n</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1r07uoa</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="SubmissionBidWithdrawnTask" name="Submission Bid Withdrawn" camunda:asyncBefore="true" camunda:delegateExpression="${submissionBidWithdrawn}">
+      <bpmn:extensionElements>
+        <camunda:failedJobRetryTimeCycle>R0/PT1S</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1r07uoa</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_045aoy9</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_045aoy9" sourceRef="SubmissionBidWithdrawnTask" targetRef="SaveContextTask" />
+    <bpmn:serviceTask id="SendMessageTask" name="Send &#10;message" camunda:asyncBefore="true" camunda:delegateExpression="${sendMessageToPlatform}">
+      <bpmn:incoming>SequenceFlow_1j38voa</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_062dyz9</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="EndEvent_1g4psv1">
+      <bpmn:incoming>SequenceFlow_062dyz9</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_062dyz9" sourceRef="SendMessageTask" targetRef="EndEvent_1g4psv1" />
+    <bpmn:serviceTask id="SaveContextTask" name="Save Context" camunda:delegateExpression="${saveContext}">
+      <bpmn:incoming>SequenceFlow_045aoy9</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1j38voa</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1j38voa" sourceRef="SaveContextTask" targetRef="SendMessageTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1r07uoa" sourceRef="SaveFirstOperationTask" targetRef="SubmissionBidWithdrawnTask" />
+  </bpmn:process>
+  <bpmn:error id="Error_1espguw" name="TR_EXCEPTION" errorCode="TR_EXCEPTION" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="bidWithdrawn">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="77" y="257" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="50" y="293" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1bfbs0n_di" bpmnElement="SequenceFlow_1bfbs0n">
+        <di:waypoint xsi:type="dc:Point" x="113" y="275" />
+        <di:waypoint xsi:type="dc:Point" x="161" y="275" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="92" y="254" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_140pczd_di" bpmnElement="SaveFirstOperationTask">
+        <dc:Bounds x="161" y="235" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1eyrp2x_di" bpmnElement="SubmissionBidWithdrawnTask">
+        <dc:Bounds x="311" y="235" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_045aoy9_di" bpmnElement="SequenceFlow_045aoy9">
+        <di:waypoint xsi:type="dc:Point" x="411" y="275" />
+        <di:waypoint xsi:type="dc:Point" x="452" y="275" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="386.5" y="254" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_07afguu_di" bpmnElement="SendMessageTask">
+        <dc:Bounds x="587" y="235" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_1g4psv1_di" bpmnElement="EndEvent_1g4psv1">
+        <dc:Bounds x="717" y="257" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="690" y="297" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_062dyz9_di" bpmnElement="SequenceFlow_062dyz9">
+        <di:waypoint xsi:type="dc:Point" x="687" y="275" />
+        <di:waypoint xsi:type="dc:Point" x="717" y="275" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="657" y="254" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_17recmq_di" bpmnElement="SaveContextTask">
+        <dc:Bounds x="452" y="235" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1j38voa_di" bpmnElement="SequenceFlow_1j38voa">
+        <di:waypoint xsi:type="dc:Point" x="552" y="275" />
+        <di:waypoint xsi:type="dc:Point" x="587" y="275" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="524.5" y="254" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1r07uoa_di" bpmnElement="SequenceFlow_1r07uoa">
+        <di:waypoint xsi:type="dc:Point" x="261" y="275" />
+        <di:waypoint xsi:type="dc:Point" x="311" y="275" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="286" y="254" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

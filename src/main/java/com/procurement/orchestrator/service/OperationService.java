@@ -2,7 +2,6 @@ package com.procurement.orchestrator.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
-import com.procurement.orchestrator.domain.Rule;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.domain.entity.RequestEntity;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
@@ -36,12 +35,6 @@ public interface OperationService {
     void saveOperationException(String processId, String taskId, Context context, JsonNode request, JsonNode response);
 
     void saveContext(Context context);
-
-    Context getContext(String cpId);
-
-    Rule checkAndGetRule(Context prevContext, String processType);
-
-    Rule getRule(String country, String pmd, String processType);
 
 }
 

@@ -5,10 +5,9 @@ import com.procurement.orchestrator.domain.entity.ContextEntity;
 import com.procurement.orchestrator.domain.entity.OperationEntity;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.domain.entity.RequestEntity;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
+import org.springframework.stereotype.Service;
 
 @Service
 public interface CassandraDao {

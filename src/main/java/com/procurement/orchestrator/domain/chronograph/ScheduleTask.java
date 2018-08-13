@@ -7,9 +7,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.procurement.orchestrator.databinding.LocalDateTimeDeserializer;
 import com.procurement.orchestrator.databinding.LocalDateTimeSerializer;
-import lombok.Data;
-
 import java.time.LocalDateTime;
+import lombok.Data;
 
 @Data
 @JsonInclude(value = JsonInclude.Include.NON_NULL)

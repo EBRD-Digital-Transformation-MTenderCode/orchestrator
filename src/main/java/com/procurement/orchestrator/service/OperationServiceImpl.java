@@ -3,7 +3,6 @@ package com.procurement.orchestrator.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.dao.CassandraDao;
 import com.procurement.orchestrator.domain.Context;
-import com.procurement.orchestrator.domain.Rule;
 import com.procurement.orchestrator.domain.entity.ContextEntity;
 import com.procurement.orchestrator.domain.entity.OperationEntity;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
@@ -11,15 +10,13 @@ import com.procurement.orchestrator.domain.entity.RequestEntity;
 import com.procurement.orchestrator.exception.OperationException;
 import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
+import java.util.Objects;
+import java.util.Optional;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 @Service
 public class OperationServiceImpl implements OperationService {
@@ -30,6 +27,8 @@ public class OperationServiceImpl implements OperationService {
 
     private final CassandraDao cassandraDao;
 
+    private final RequestService requestService;
+
     private final RuntimeService runtimeService;
 
     private final JsonUtil jsonUtil;
@@ -38,10 +37,12 @@ public class OperationServiceImpl implements OperationService {
 
     public OperationServiceImpl(final CassandraDao cassandraDao,
                                 final RuntimeService runtimeService,
+                                final RequestService requestService,
                                 final JsonUtil jsonUtil,
                                 final DateUtil dateUtil) {
         this.cassandraDao = cassandraDao;
         this.runtimeService = runtimeService;
+        this.requestService = requestService;
         this.jsonUtil = jsonUtil;
         this.dateUtil = dateUtil;
     }
@@ -176,43 +177,8 @@ public class OperationServiceImpl implements OperationService {
         cassandraDao.saveContext(contextEntity);
     }
 
-    @Override
-    public Context getContext(final String cpId) {
-        final Optional<ContextEntity> entityOptional = cassandraDao.getContextByCpId(cpId);
-        if (!entityOptional.isPresent()) throw new OperationException("Context not found.");
-        return jsonUtil.toObject(Context.class, entityOptional.get().getContext());
-    }
-
-
-    @Override
-    public Rule checkAndGetRule(final Context prevContext, final String processType) {
-        final List<Rule> rules = cassandraDao.getRules(prevContext.getCountry(), prevContext.getPmd(), processType);
-        if (rules.isEmpty()) {
-            throw new OperationException("Operation impossible.");
-        }
-        Rule rule = null;
-        for (final Rule r : rules) {
-            if (prevContext.getPhase().equals(r.getPrevPhase()) && prevContext.getStage().equals(r.getPrevStage())) {
-                rule = r;
-            }
-        }
-        if (rule != null) {
-            return rule;
-        } else {
-            throw new OperationException("Operation impossible.");
-        }
-    }
-
-    @Override
-    public Rule getRule(final String country, final String pmd, final String processType) {
-        final Optional<Rule> entityOptional = cassandraDao.getRule(country, pmd, processType);
-        if (!entityOptional.isPresent()) throw new OperationException("Operation impossible.");
-        return entityOptional.get();
-    }
-
-
-    public void processException(final String error,
-                                 final String processId) {
+    void processException(final String error,
+                          final String processId) {
         try {
             LOG.info("Exception in process Id: " + processId + "; message: " + error);
             runtimeService.suspendProcessInstanceById(processId);

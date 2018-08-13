@@ -6,36 +6,30 @@ import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.Country;
 import com.procurement.orchestrator.domain.Stage;
 import com.procurement.orchestrator.exception.OperationException;
-import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.service.RequestService;
 import com.procurement.orchestrator.utils.DateUtil;
-import com.procurement.orchestrator.utils.JsonUtil;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-
 @RestController
-public class BudgetController extends BaseController {
+public class BudgetController extends DoBaseController {
 
     private final DateUtil dateUtil;
     private final ProcessService processService;
-    private final OperationService operationService;
+    private final RequestService requestService;
     private final String lang = "ro";
 
     public BudgetController(final ProcessService processService,
                             final RequestService requestService,
-                            final OperationService operationService,
-                            final JsonUtil jsonUtil,
                             final DateUtil dateUtil) {
-        super(jsonUtil, requestService, operationService);
         this.dateUtil = dateUtil;
         this.processService = processService;
-        this.operationService = operationService;
+        this.requestService = requestService;
     }
 
     @RequestMapping(value = "/ei", method = RequestMethod.POST)
@@ -50,10 +44,10 @@ public class BudgetController extends BaseController {
         context.setLanguage(lang);
         context.setStartDate(dateUtil.nowFormatted());
         context.setStage(Stage.EI.value());
-        context.setOwner(getOwner(authorization));
+        context.setOwner(requestService.getOwner(authorization));
         context.setProcessType("ei");
         context.setOperationType("createEI");
-        saveRequestAndCheckOperation(context, data);
+        requestService.saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("isTokenPresent", 0);
         processService.startProcess(context, variables);
@@ -67,7 +61,7 @@ public class BudgetController extends BaseController {
                                            @PathVariable("cpid") final String cpid,
                                            @RequestBody final JsonNode data) {
         final Context context = new Context();
-        final Context prevContext = operationService.getContext(cpid);
+        final Context prevContext = requestService.getContext(cpid);
         context.setCountry(prevContext.getCountry());
         context.setLanguage(lang);
 
@@ -78,9 +72,9 @@ public class BudgetController extends BaseController {
         context.setStage(Stage.EI.value());
         context.setProcessType("ei");
         context.setOperationType("updateEI");
-        context.setOwner(getOwner(authorization));
+        context.setOwner(requestService.getOwner(authorization));
         context.setToken(token);
-        saveRequestAndCheckOperation(context, data);
+        requestService.saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("isTokenPresent", (context.getToken() == null || "".equals(context.getToken().trim())) ? 0 : 1);
         processService.startProcess(context, variables);
@@ -93,7 +87,7 @@ public class BudgetController extends BaseController {
                                            @PathVariable("cpid") final String cpid,
                                            @RequestBody final JsonNode data) {
         final Context context = new Context();
-        final Context prevContext = operationService.getContext(cpid);
+        final Context prevContext = requestService.getContext(cpid);
         context.setCountry(prevContext.getCountry());
         context.setLanguage(lang);
 
@@ -104,8 +98,8 @@ public class BudgetController extends BaseController {
         context.setStage(Stage.FS.value());
         context.setProcessType("fs");
         context.setOperationType("createFS");
-        context.setOwner(getOwner(authorization));
-        saveRequestAndCheckOperation(context, data);
+        context.setOwner(requestService.getOwner(authorization));
+        requestService.saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("isTokenPresent", 0);
         processService.startProcess(context, variables);
@@ -121,7 +115,7 @@ public class BudgetController extends BaseController {
                                            @RequestBody final JsonNode data) {
         validateOcId(cpid, ocid);
         final Context context = new Context();
-        final Context prevContext = operationService.getContext(cpid);
+        final Context prevContext = requestService.getContext(cpid);
         context.setCountry(prevContext.getCountry());
         context.setLanguage(lang);
 
@@ -133,9 +127,9 @@ public class BudgetController extends BaseController {
         context.setStage(Stage.FS.value());
         context.setProcessType("fs");
         context.setOperationType("updateFS");
-        context.setOwner(getOwner(authorization));
+        context.setOwner(requestService.getOwner(authorization));
         context.setToken(token);
-        saveRequestAndCheckOperation(context, data);
+        requestService.saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("isTokenPresent", (context.getToken() == null || "".equals(context.getToken().trim())) ? 0 : 1);
         processService.startProcess(context, variables);

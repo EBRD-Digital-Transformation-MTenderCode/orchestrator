@@ -98,4 +98,12 @@ public interface SubmissionRestClient {
     ResponseEntity<ResponseDto> bidsWithdrawn(@RequestParam("cpid") String cpId,
                                               @RequestParam("stage") String stage,
                                               @RequestParam("date") String startDate) throws Exception;
+
+    @RequestMapping(path = "/submission/bidWithdrawn", method = RequestMethod.POST)
+    ResponseEntity<ResponseDto> bidWithdrawn(@RequestParam("cpid") String cpId,
+                                             @RequestParam("stage") String stage,
+                                             @RequestParam("token") String token,
+                                             @RequestParam("owner") String owner,
+                                             @RequestParam("bidId") String bidId,
+                                             @RequestParam("date") String startDate) throws Exception;
 }
