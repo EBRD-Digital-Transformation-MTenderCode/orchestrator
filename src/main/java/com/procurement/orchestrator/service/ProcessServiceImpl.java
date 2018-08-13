@@ -20,7 +20,6 @@ public class ProcessServiceImpl implements ProcessService {
     private static final Logger LOG = LoggerFactory.getLogger(ProcessServiceImpl.class);
 
     private final RuntimeService runtimeService;
-
     private final OperationService operationService;
 
     private final JsonUtil jsonUtil;

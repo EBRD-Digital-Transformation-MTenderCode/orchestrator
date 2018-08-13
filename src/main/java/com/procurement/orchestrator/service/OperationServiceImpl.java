@@ -27,8 +27,6 @@ public class OperationServiceImpl implements OperationService {
 
     private final CassandraDao cassandraDao;
 
-    private final RequestService requestService;
-
     private final RuntimeService runtimeService;
 
     private final JsonUtil jsonUtil;
@@ -37,12 +35,10 @@ public class OperationServiceImpl implements OperationService {
 
     public OperationServiceImpl(final CassandraDao cassandraDao,
                                 final RuntimeService runtimeService,
-                                final RequestService requestService,
                                 final JsonUtil jsonUtil,
                                 final DateUtil dateUtil) {
         this.cassandraDao = cassandraDao;
         this.runtimeService = runtimeService;
-        this.requestService = requestService;
         this.jsonUtil = jsonUtil;
         this.dateUtil = dateUtil;
     }
