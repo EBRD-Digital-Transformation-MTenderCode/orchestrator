@@ -52,7 +52,7 @@ public class ChronographScheduleEndTenderPeriod implements JavaDelegate {
         final ScheduleTask task = new ScheduleTask(
                 ActionType.SCHEDULE,
                 context.getCpid(),
-                context.getPhase(),
+                "TENDERING",
                 dateUtil.stringToLocal(context.getEndDate()), /*launchTime*/
                 null, /*newLaunchTime*/
                 jsonUtil.toJson(contextChronograph));
