@@ -50,7 +50,6 @@ public class ClarificationCreateEnquiry implements JavaDelegate {
                 clarificationRestClient.createEnquiry(
                         context.getCpid(),
                         context.getStage(),
-                        context.getOwner(),
                         context.getStartDate(),
                         requestData),
                 context,

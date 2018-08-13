@@ -43,7 +43,7 @@ public class ClarificationCreateAnswer implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode responseData = processService.processResponse(
-                clarificationRestClient.updateEnquiry(
+                clarificationRestClient.createAnswer(
                         context.getCpid(),
                         context.getStage(),
                         context.getToken(),
