@@ -42,7 +42,10 @@ public class ClarificationCheckEnquiries implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode responseData = processService.processResponse(
-                clarificationRestClient.checkEnquiries(context.getCpid(), context.getStage()),
+                clarificationRestClient.checkEnquiries(
+                        context.getCpid(),
+                        context.getStage(),
+                        context.getStartDate()),
                 context,
                 processId,
                 taskId,

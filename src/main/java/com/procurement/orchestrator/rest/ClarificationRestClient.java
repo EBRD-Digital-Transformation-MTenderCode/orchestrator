@@ -30,7 +30,8 @@ public interface ClarificationRestClient {
 
     @RequestMapping(path = "/enquiry", method = RequestMethod.GET)
     ResponseEntity<ResponseDto> checkEnquiries(@RequestParam("identifier") String cpId,
-                                               @RequestParam("stage") String stage) throws Exception;
+                                               @RequestParam("stage") String stage,
+                                               @RequestParam("date") String date) throws Exception;
 
 
     @RequestMapping(path = "/period/save", method = RequestMethod.POST)
