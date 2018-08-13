@@ -7,13 +7,12 @@ import com.procurement.orchestrator.rest.ClarificationRestClient;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
+import java.util.Objects;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
-import java.util.Objects;
 
 @Component
 public class ClarificationCheckEnquiries implements JavaDelegate {
@@ -55,12 +54,17 @@ public class ClarificationCheckEnquiries implements JavaDelegate {
     }
 
     private void processContext(final DelegateExecution execution, final Context context, final JsonNode responseData, final String processId) {
-        final Boolean allAnswered = processService.getBoolean("allAnswered", responseData, processId);
-        if (allAnswered) {
-            execution.setVariable("allAnswered", true);
+        final Boolean isTenderPeriodExpired = processService.getBoolean("isTenderPeriodExpired", responseData, processId);
+        if (!isTenderPeriodExpired) {
+            execution.setVariable("operationType", "rescheduleEndTenderPeriod");
+            context.setOperationType("rescheduleEndTenderPeriod");
+            context.setEndDate(processService.getText("tenderPeriodEndDate", responseData, processId));
         } else {
-            execution.setVariable("allAnswered", false);
-            context.setOperationType("suspendTender");
+            final Boolean allAnswered = processService.getBoolean("allAnswered", responseData, processId);
+            if (!allAnswered) {
+                execution.setVariable("operationType", "suspendTender");
+                context.setOperationType("suspendTender");
+            }
         }
     }
 }
