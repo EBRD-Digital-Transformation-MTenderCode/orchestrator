@@ -24,6 +24,14 @@ public interface AccessRestClient {
                                          @RequestParam("date") String dateTime,
                                          @RequestBody JsonNode jsonData) throws Exception;
 
+    @RequestMapping(path = "/cn", method = RequestMethod.PUT)
+    ResponseEntity<ResponseDto> updateCn(@RequestParam("cpid") String cpId,
+                                         @RequestParam("stage") String stage,
+                                         @RequestParam("owner") String owner,
+                                         @RequestParam("token") String token,
+                                         @RequestParam("date") String dateTime,
+                                         @RequestBody JsonNode jsonData) throws Exception;
+
     @RequestMapping(path = "/pin", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> createPin(@RequestParam("stage") String stage,
                                           @RequestParam("country") String country,
@@ -38,6 +46,14 @@ public interface AccessRestClient {
                                          @RequestParam("country") String country,
                                          @RequestParam("pmd") String pmd,
                                          @RequestParam("owner") String owner,
+                                         @RequestParam("date") String dateTime,
+                                         @RequestBody JsonNode jsonData) throws Exception;
+
+    @RequestMapping(path = "/pn", method = RequestMethod.PUT)
+    ResponseEntity<ResponseDto> updatePn(@RequestParam("cpid") String cpId,
+                                         @RequestParam("stage") String stage,
+                                         @RequestParam("owner") String owner,
+                                         @RequestParam("token") String token,
                                          @RequestParam("date") String dateTime,
                                          @RequestBody JsonNode jsonData) throws Exception;
 
@@ -74,14 +90,6 @@ public interface AccessRestClient {
                                               @RequestParam("token") String token,
                                               @RequestParam("date") String dateTime,
                                               @RequestBody JsonNode jsonData) throws Exception;
-
-    @RequestMapping(path = "/cn", method = RequestMethod.PUT)
-    ResponseEntity<ResponseDto> updateCn(@RequestParam("cpid") String cpId,
-                                         @RequestParam("stage") String stage,
-                                         @RequestParam("owner") String owner,
-                                         @RequestParam("token") String token,
-                                         @RequestParam("date") String dateTime,
-                                         @RequestBody JsonNode jsonData) throws Exception;
 
     @RequestMapping(path = "/tender/updateStatus", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> updateTenderStatus(@RequestParam("cpid") String cpId,
