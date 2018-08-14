@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.10.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.11.3">
   <bpmn:process id="enquiry" name="enquiry" isExecutable="true">
     <bpmn:startEvent id="StartEvent_1">
       <bpmn:outgoing>SequenceFlow_1gx4xfj</bpmn:outgoing>
@@ -30,8 +30,8 @@
       <bpmn:incoming>SequenceFlow_1hezswa</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0yvod6v</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_0djgl78" sourceRef="ChronographUpdatePeriodTask" targetRef="ClarificationSavePeriodTask" />
-    <bpmn:serviceTask id="ChronographUpdatePeriodTask" name="Chronograph Update Period" camunda:asyncBefore="true" camunda:delegateExpression="${chronographRescheduleEndTenderPeriod}">
+    <bpmn:sequenceFlow id="SequenceFlow_0djgl78" sourceRef="ChronographEndTenderPeriodTask" targetRef="ClarificationSavePeriodTask" />
+    <bpmn:serviceTask id="ChronographEndTenderPeriodTask" name="Chronograph Update Period" camunda:asyncBefore="true" camunda:delegateExpression="${chronographScheduleEndTenderPeriod}">
       <bpmn:incoming>SequenceFlow_0yvod6v</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0djgl78</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -46,7 +46,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_0tb9vzy" sourceRef="ClarificationSavePeriodTask" targetRef="ExclusiveGateway_07ftixw" />
     <bpmn:sequenceFlow id="SequenceFlow_1gx4xfj" sourceRef="StartEvent_1" targetRef="SaveFirstOperationTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1hezswa" sourceRef="AccessUnsuspendTenderTask" targetRef="SubmissionSaveNewPeriodTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0yvod6v" sourceRef="SubmissionSaveNewPeriodTask" targetRef="ChronographUpdatePeriodTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0yvod6v" sourceRef="SubmissionSaveNewPeriodTask" targetRef="ChronographEndTenderPeriodTask" />
     <bpmn:exclusiveGateway id="ExclusiveGateway_0hg3tz9">
       <bpmn:incoming>SequenceFlow_165gqdr</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0lquzzw</bpmn:outgoing>
@@ -59,10 +59,10 @@
       <bpmn:extensionElements>
         <camunda:failedJobRetryTimeCycle>R0/PT1S</camunda:failedJobRetryTimeCycle>
       </bpmn:extensionElements>
-      <bpmn:incoming>SequenceFlow_1xawr69</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_18zhhk1</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1dft457</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_08q61ym" sourceRef="ExclusiveGateway_0hg3tz9" targetRef="mdmValidateEnquiryTask">
+    <bpmn:sequenceFlow id="SequenceFlow_08q61ym" sourceRef="ExclusiveGateway_0hg3tz9" targetRef="MdmValidateTenderTask">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isTokenPresent==0}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:exclusiveGateway id="ExclusiveGateway_07ftixw">
@@ -90,14 +90,14 @@
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_09bp8om" sourceRef="SaveContextTask" targetRef="SendMessageTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1360xez" sourceRef="NoticeCreateReleaseTask" targetRef="SaveContextTask" />
-    <bpmn:serviceTask id="mdmValidateEnquiryTask" name="Mdm Validate" camunda:asyncBefore="true" camunda:delegateExpression="${mdmValidateEnquiry}">
+    <bpmn:serviceTask id="MdmValidateTenderTask" name="Mdm Validate" camunda:asyncBefore="true" camunda:delegateExpression="${mdmValidateEnquiry}">
       <bpmn:extensionElements>
         <camunda:failedJobRetryTimeCycle>R0/PT1S</camunda:failedJobRetryTimeCycle>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_08q61ym</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1xawr69</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_18zhhk1</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_1xawr69" sourceRef="mdmValidateEnquiryTask" targetRef="ClarificationCreateEnquiryTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_18zhhk1" sourceRef="MdmValidateTenderTask" targetRef="ClarificationCreateEnquiryTask" />
   </bpmn:process>
   <bpmn:error id="tr_exception" name="TR_EXCEPTION" errorCode="TR_EXCEPTION" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -157,7 +157,7 @@
           <dc:Bounds x="1075" y="288" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_072eguw_di" bpmnElement="ChronographUpdatePeriodTask">
+      <bpmndi:BPMNShape id="ServiceTask_072eguw_di" bpmnElement="ChronographEndTenderPeriodTask">
         <dc:Bounds x="1000" y="269" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_0tz60l8_di" bpmnElement="ClarificationSavePeriodTask">
@@ -210,12 +210,12 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ServiceTask_0m7p1o9_di" bpmnElement="ClarificationCreateEnquiryTask">
-        <dc:Bounds x="580" y="26" width="100" height="80" />
+        <dc:Bounds x="671" y="26" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_08q61ym_di" bpmnElement="SequenceFlow_08q61ym">
         <di:waypoint xsi:type="dc:Point" x="375" y="160" />
         <di:waypoint xsi:type="dc:Point" x="375" y="66" />
-        <di:waypoint xsi:type="dc:Point" x="432" y="66" />
+        <di:waypoint xsi:type="dc:Point" x="479" y="66" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="345" y="107" width="90" height="12" />
         </bpmndi:BPMNLabel>
@@ -234,11 +234,11 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1dft457_di" bpmnElement="SequenceFlow_1dft457">
-        <di:waypoint xsi:type="dc:Point" x="680" y="66" />
+        <di:waypoint xsi:type="dc:Point" x="771" y="66" />
         <di:waypoint xsi:type="dc:Point" x="1305" y="66" />
         <di:waypoint xsi:type="dc:Point" x="1305" y="160" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="948" y="45" width="90" height="12" />
+          <dc:Bounds x="993" y="45" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ExclusiveGateway_0ai5ezj_di" bpmnElement="ExclusiveGateway_0ai5ezj" isMarkerVisible="true">
@@ -279,14 +279,14 @@
           <dc:Bounds x="1488" y="164" width="0" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_0gc7wvd_di" bpmnElement="mdmValidateEnquiryTask">
-        <dc:Bounds x="432" y="26" width="100" height="80" />
+      <bpmndi:BPMNShape id="ServiceTask_08tlqtv_di" bpmnElement="MdmValidateTenderTask">
+        <dc:Bounds x="479" y="26" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="SequenceFlow_1xawr69_di" bpmnElement="SequenceFlow_1xawr69">
-        <di:waypoint xsi:type="dc:Point" x="532" y="66" />
-        <di:waypoint xsi:type="dc:Point" x="580" y="66" />
+      <bpmndi:BPMNEdge id="SequenceFlow_18zhhk1_di" bpmnElement="SequenceFlow_18zhhk1">
+        <di:waypoint xsi:type="dc:Point" x="579" y="66" />
+        <di:waypoint xsi:type="dc:Point" x="671" y="66" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="556" y="45" width="0" height="12" />
+          <dc:Bounds x="625" y="45" width="0" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
