@@ -783,4 +783,30 @@ public class ProcessServiceImpl implements ProcessService {
             return null;
         }
     }
+
+    @Override
+    public JsonNode getEnquiryAuthor(final JsonNode jsonData,final String processId) {
+        try {
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            final JsonNode enquiryNode = jsonData.get("enquiry").get("author");
+            mainNode.replace("author", enquiryNode);
+            return mainNode;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public JsonNode setEnquiryAuthor(JsonNode jsonData, JsonNode responseData, String processId) {
+        try {
+            final ObjectNode enquiryNode = (ObjectNode) jsonData.get("enquiry");
+            final JsonNode authorResponseNode = responseData.get("author");
+            enquiryNode.replace("author", authorResponseNode);
+            return jsonData;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
 }
