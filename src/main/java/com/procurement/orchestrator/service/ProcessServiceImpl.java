@@ -663,10 +663,12 @@ public class ProcessServiceImpl implements ProcessService {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
             final JsonNode itemsNode = jsonData.get("tender").get("items");
+            final JsonNode lotsNode = jsonData.get("tender").get("lots");
             final JsonNode classificationNode = jsonData.get("tender").get("classification");
             final JsonNode procuringEntityNode = jsonData.get("tender").get("procuringEntity");
             final ObjectNode tenderNode = mainNode.putObject("tender");
             tenderNode.replace("items", itemsNode);
+            tenderNode.replace("lots", lotsNode);
             tenderNode.replace("classification", classificationNode);
             tenderNode.replace("procuringEntity", procuringEntityNode);
             return mainNode;
@@ -682,6 +684,7 @@ public class ProcessServiceImpl implements ProcessService {
             final ObjectNode tenderNode = (ObjectNode) jsonData.get("tender");
             final JsonNode tenderResponseNode = responseData.get("tender");
             tenderNode.replace("items", tenderResponseNode.get("items"));
+            tenderNode.replace("lots", tenderResponseNode.get("lots"));
             tenderNode.replace("classification", tenderResponseNode.get("classification"));
             tenderNode.replace("submissionMethodRationale", tenderResponseNode.get("submissionMethodRationale"));
             tenderNode.replace("submissionMethodDetails", tenderResponseNode.get("submissionMethodDetails"));
