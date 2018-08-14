@@ -100,6 +100,22 @@ public class TenderController extends DoBaseController {
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
+    @RequestMapping(value = "/pn/{cpid}/{ocid}", method = RequestMethod.POST)
+    public ResponseEntity<String> updatePN(@RequestHeader("Authorization") final String authorization,
+                                           @RequestHeader("X-OPERATION-ID") final UUID operationId,
+                                           @RequestHeader("X-TOKEN") final String token,
+                                           @PathVariable("cpid") final String cpid,
+                                           @PathVariable("ocid") final String ocid,
+                                           @RequestBody final JsonNode data) {
+        final Context context = requestService.getContextForUpdate(authorization, operationId.toString(), cpid, ocid, token, "updatePN");
+        context.setEndDate(processService.getTenderPeriodEndDate(data, null));
+        requestService.saveRequestAndCheckOperation(context, data);
+        final Map<String, Object> variables = new HashMap<>();
+        variables.put("operationType", context.getOperationType());
+        processService.startProcess(context, variables);
+        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
+    }
+
     @RequestMapping(value = "/bid/{cpid}/{ocid}", method = RequestMethod.POST)
     public ResponseEntity<String> createBid(@RequestHeader("Authorization") final String authorization,
                                             @RequestHeader("X-OPERATION-ID") final UUID operationId,
