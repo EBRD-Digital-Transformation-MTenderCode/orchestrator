@@ -798,7 +798,7 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
-    public JsonNode setEnquiryAuthor(JsonNode jsonData, JsonNode responseData, String processId) {
+    public JsonNode setEnquiryAuthor(final JsonNode jsonData, final JsonNode responseData, final String processId) {
         try {
             final ObjectNode enquiryNode = (ObjectNode) jsonData.get("enquiry");
             final JsonNode authorResponseNode = responseData.get("author");
