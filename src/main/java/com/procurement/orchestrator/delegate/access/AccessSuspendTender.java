@@ -46,6 +46,7 @@ public class AccessSuspendTender implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         context.setOperationType("suspendTender");
+        context.setPhase("TENDERING");
         final JsonNode responseData = processService.processResponse(
                 accessRestClient.setSuspended(
                         context.getCpid(),
