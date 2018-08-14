@@ -58,13 +58,6 @@ public class SubmissionGetBids implements JavaDelegate {
                 context.setOperationType("tenderUnsuccessful");
                 execution.setVariable("operationType", "tenderUnsuccessful");
             }
-//            else {
-//                final Boolean isPeriodExpired = processService.getBoolean("isPeriodExpired", responseData, processId);
-//                if (!isPeriodExpired) {
-//                    execution.setVariable("operationType", "rescheduleEndTenderPeriod");
-//                    context.setEndDate(processService.getText("tenderPeriodEndDate", responseData, processId));
-//                }
-//            }
             operationService.saveOperationStep(
                     execution,
                     entity,
