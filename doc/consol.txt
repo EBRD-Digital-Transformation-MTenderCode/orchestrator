@@ -18,4 +18,4 @@ home/kafka/bin/kafka-console-consumer-sasl-dev4.sh --bootstrap-server localhost:
 
 select * from tasks where ocid = 'ocds-t1s2t3-MD-1534102735905'
 
-  http://10.0.20.116:8900/api/v1/cancel/bid/ocds-t1s2t3-MD-1534343968586/ocds-t1s2t3-MD-1534343968586-EV-1534343968749/43fc0370-a099-11e8-840c-cf05023ffb5c \
+  http://10.0.20.116:8900/api/v1/cancel/bid/ocds-t1s2t3-MD-1534346521461/ocds-t1s2t3-MD-1534346521461-EV-1534346521605/11d13e50-a09f-11e8-840c-cf05023ffb5c \
