@@ -1,47 +1,138 @@
 {
-  "enquiry": {
-    "author": {
-      "name": "name",
-      "address": {
-        "streetAddress": "1",
-        "postalCode": "1",
-        "addressDetails": {
-          "country": {
-            "scheme": "iso-alpha2",
-            "id": "MD",
-            "description": "MOLDOVA",
-            "uri": "http://reference.iatistandard.org/202/codelists/Country/#id1"
+  "bids": [
+    {
+      "id": "ddfb4c20-a0a2-11e8-8f3c-07a6907f568d",
+      "date": "2018-08-15T15:49:59Z",
+      "status": "pending",
+      "statusDetails": "empty",
+      "tenderers": [
+        {
+          "id": "MD-IDNO-1-2",
+          "name": "Googleh555fhfgh55g12",
+          "identifier": {
+            "id": "1-2",
+            "scheme": "MD-IDNO",
+            "legalName": "Google Big Brother",
+            "uri": "hhtps://google.com"
           },
-          "region": {
-            "scheme": "CUATM",
-            "id": "1000000",
-            "description": "Anenii Noi",
-            "uri": "www.statistica.md/public/files/Clasificatoare/CUATM_rom.zip"
+          "address": {
+            "streetAddress": "",
+            "postalCode": "",
+            "addressDetails": {
+              "country": {
+                "scheme": "iso-alpha2",
+                "id": "MD",
+                "description": "MOLDOVA",
+                "uri": "http://reference.iatistandard.org/202/codelists/Country/#id1"
+              },
+              "region": {
+                "scheme": "CUATM",
+                "id": "1000000",
+                "description": "Anenii Noi",
+                "uri": "www.statistica.md/public/files/Clasificatoare/CUATM_rom.zip"
+              },
+              "locality": {
+                "scheme": "CUATM",
+                "id": "1001000",
+                "description": "or.Anenii Noi"
+              }
+            }
           },
-          "locality": {
-            "scheme": "CUATM",
-            "id": "1001000",
-            "description": "or.Anenii Noi"
+          "contactPoint": {
+            "name": "111",
+            "email": "222",
+            "telephone": "333",
+            "url": "444"
+          },
+          "details": {
+            "scale": "sme"
           }
         }
+      ],
+      "value": {
+        "amount": 150.00,
+        "currency": "MDL"
       },
-      "identifier": {
-        "id": "2",
-        "scheme": "MD-IDNO",
-        "legalName": "1",
-        "uri": "1"
-      },
-      "contactPoint": {
-        "name": "1",
-        "email": "1",
-        "telephone": "1",
-        "url": "1"
-      },
-      "details": {
-        "scale": ""
-      }
+      "documents": [
+        {
+          "id": "f7178f90-9fba-11e8-9318-61ca1098e80e",
+          "documentType": "submissionDocuments",
+          "title": "doc1",
+          "relatedLots": [
+            "3cd6a985-a0a1-11e8-9e68-9f6bde9f3e6b"
+          ]
+        }
+      ],
+      "relatedLots": [
+        "3cd6a985-a0a1-11e8-9e68-9f6bde9f3e6b"
+      ]
     },
-    "title": "1",
-    "description": "1"
-  }
+    {
+      "id": "e58e3b50-a0a2-11e8-8f3c-07a6907f568d",
+      "date": "2018-08-15T15:50:48Z",
+      "status": "withdrawn",
+      "statusDetails": "empty",
+      "tenderers": [
+        {
+          "id": "MD-IDNO-1-1",
+          "name": "Googleh555fhfgh55g12",
+          "identifier": {
+            "id": "1-1",
+            "scheme": "MD-IDNO",
+            "legalName": "Google Big Brother",
+            "uri": "hhtps://google.com"
+          },
+          "address": {
+            "streetAddress": "",
+            "postalCode": "",
+            "addressDetails": {
+              "country": {
+                "scheme": "iso-alpha2",
+                "id": "MD",
+                "description": "MOLDOVA",
+                "uri": "http://reference.iatistandard.org/202/codelists/Country/#id1"
+              },
+              "region": {
+                "scheme": "CUATM",
+                "id": "1000000",
+                "description": "Anenii Noi",
+                "uri": "www.statistica.md/public/files/Clasificatoare/CUATM_rom.zip"
+              },
+              "locality": {
+                "scheme": "CUATM",
+                "id": "1001000",
+                "description": "or.Anenii Noi"
+              }
+            }
+          },
+          "contactPoint": {
+            "name": "111",
+            "email": "222",
+            "telephone": "333",
+            "url": "444"
+          },
+          "details": {
+            "scale": "sme"
+          }
+        }
+      ],
+      "value": {
+        "amount": 150.00,
+        "currency": "MDL"
+      },
+      "documents": [
+        {
+          "id": "f7178f90-9fba-11e8-9318-61ca1098e80e",
+          "documentType": "submissionDocuments",
+          "title": "doc1",
+          "relatedLots": [
+            "3cd6a985-a0a1-11e8-9e68-9f6bde9f3e6b"
+          ]
+        }
+      ],
+      "relatedLots": [
+        "3cd6a985-a0a1-11e8-9e68-9f6bde9f3e6b"
+      ]
+    }
+  ]
 }
