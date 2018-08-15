@@ -1,10 +1,9 @@
 package com.procurement.orchestrator.controller;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.service.RequestService;
-import com.procurement.orchestrator.utils.DateUtil;
+import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -18,11 +17,14 @@ public class CancelController {
 
     private final ProcessService processService;
     private final RequestService requestService;
+    private final JsonUtil jsonUtil;
 
     public CancelController(final ProcessService processService,
-                            final RequestService requestService) {
+                            final RequestService requestService,
+                            final JsonUtil jsonUtil) {
         this.processService = processService;
         this.requestService = requestService;
+        this.jsonUtil = jsonUtil;
     }
 
 
@@ -32,11 +34,10 @@ public class CancelController {
                                                @RequestHeader("X-TOKEN") final String token,
                                                @PathVariable("cpid") final String cpid,
                                                @PathVariable("ocid") final String ocid,
-                                               @PathVariable("id") final UUID id,
-                                               @RequestBody final JsonNode data) {
+                                               @PathVariable("id") final UUID id) {
         final Context context = requestService.getContextForUpdate(authorization, operationId.toString(), cpid, ocid, token, "bidWithdrawn");
         context.setId(id.toString());
-        requestService.saveRequestAndCheckOperation(context, data);
+        requestService.saveRequestAndCheckOperation(context, jsonUtil.empty());
         final Map<String, Object> variables = new HashMap<>();
         processService.startProcess(context, variables);
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
