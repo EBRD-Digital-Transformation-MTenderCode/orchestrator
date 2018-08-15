@@ -52,6 +52,7 @@ public class SubmissionUpdateBidStatusDetails implements JavaDelegate {
                         context.getCpid(),
                         context.getStage(),
                         bidId,
+                        context.getStartDate(),
                         awardStatusDetails),
                 context,
                 processId,

@@ -86,6 +86,7 @@ public interface SubmissionRestClient {
     ResponseEntity<ResponseDto> updateStatusDetails(@RequestParam("cpid") String cpId,
                                                     @RequestParam("stage") String stage,
                                                     @RequestParam("bidId") String bidId,
+                                                    @RequestParam("date") String startDate,
                                                     @RequestParam("awardStatusDetails") String awardStatusDetails)
             throws Exception;
 
