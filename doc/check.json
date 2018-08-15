@@ -1,15 +1,47 @@
 {
-  "operationId": "59bf4ed0-9e67-11e8-8ebc-6587311267e3",
-  "requestId": "59bf4ed0-9e67-11e8-8ebc-6587311267e3",
-  "cpid": "ocds-t1s2t3-MD-1534102735905",
-  "processType": "tenderPeriodEnd",
-  "setExtendedPeriod": false
-}
-
-{
-  "operationId": "a58643a0-9e67-11e8-8ebc-6587311267e3",
-  "requestId": "a58643a0-9e67-11e8-8ebc-6587311267e3",
-  "cpid": "ocds-t1s2t3-MD-1534102735905",
-  "processType": "tenderPeriodEnd",
-  "setExtendedPeriod": false
+  "enquiry": {
+    "author": {
+      "name": "name",
+      "address": {
+        "streetAddress": "1",
+        "postalCode": "1",
+        "addressDetails": {
+          "country": {
+            "scheme": "iso-alpha2",
+            "id": "MD",
+            "description": "MOLDOVA",
+            "uri": "http://reference.iatistandard.org/202/codelists/Country/#id1"
+          },
+          "region": {
+            "scheme": "CUATM",
+            "id": "1000000",
+            "description": "Anenii Noi",
+            "uri": "www.statistica.md/public/files/Clasificatoare/CUATM_rom.zip"
+          },
+          "locality": {
+            "scheme": "CUATM",
+            "id": "1001000",
+            "description": "or.Anenii Noi"
+          }
+        }
+      },
+      "identifier": {
+        "id": "2",
+        "scheme": "MD-IDNO",
+        "legalName": "1",
+        "uri": "1"
+      },
+      "contactPoint": {
+        "name": "1",
+        "email": "1",
+        "telephone": "1",
+        "url": "1"
+      },
+      "details": {
+        "scale": ""
+      }
+    },
+    "title": "1",
+    "description": "1"
+  }
 }

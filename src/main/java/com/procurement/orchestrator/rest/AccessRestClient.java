@@ -142,6 +142,10 @@ public interface AccessRestClient {
     ResponseEntity<ResponseDto> checkStatusDetails(@RequestParam("cpid") String cpId,
                                                    @RequestParam("stage") String stage) throws Exception;
 
+    @RequestMapping(path = "/lots/checkStatus", method = RequestMethod.GET)
+    ResponseEntity<ResponseDto> checkStatus(@RequestParam("cpid") String cpId,
+                                            @RequestParam("stage") String stage,
+                                            @RequestBody JsonNode jsonData) throws Exception;
 
     @RequestMapping(path = "/newStage", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> startNewStage(@RequestParam("cpid") String cpId,

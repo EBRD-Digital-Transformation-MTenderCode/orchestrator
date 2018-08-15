@@ -142,6 +142,8 @@ public interface ProcessService {
 
     JsonNode setEnquiryAuthor(JsonNode jsonData, JsonNode responseData, String processId);
 
+    JsonNode getEnquiryRelatedLot(JsonNode jsonData, String processId);
+
 
 }
 
