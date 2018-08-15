@@ -7,7 +7,7 @@
     <bpmn:endEvent id="EndEvent_1">
       <bpmn:incoming>SequenceFlow_1je78pv</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:serviceTask id="ClarificationCreateAnswerTask" name="Clarification create answer" camunda:asyncBefore="true" camunda:delegateExpression="${clarificationCreateAnswer}">
+    <bpmn:serviceTask id="ClarificationAddAnswerTask" name="Clarification add answer" camunda:asyncBefore="true" camunda:delegateExpression="${clarificationAddAnswer}">
       <bpmn:incoming>SequenceFlow_0lquzzw</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0ggq87j</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -16,7 +16,7 @@
       <bpmn:outgoing>SequenceFlow_1je78pv</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1je78pv" sourceRef="SendMessageTask" targetRef="EndEvent_1" />
-    <bpmn:sequenceFlow id="SequenceFlow_0ggq87j" sourceRef="ClarificationCreateAnswerTask" targetRef="ExclusiveGateway_0ai5ezj" />
+    <bpmn:sequenceFlow id="SequenceFlow_0ggq87j" sourceRef="ClarificationAddAnswerTask" targetRef="ExclusiveGateway_0ai5ezj" />
     <bpmn:sequenceFlow id="SequenceFlow_165gqdr" sourceRef="SaveFirstOperationTask" targetRef="ExclusiveGateway_0hg3tz9" />
     <bpmn:serviceTask id="SaveFirstOperationTask" name="Save first operation" camunda:delegateExpression="${saveFirstOperation}">
       <bpmn:incoming>SequenceFlow_1gx4xfj</bpmn:incoming>
@@ -52,10 +52,10 @@
       <bpmn:outgoing>SequenceFlow_0lquzzw</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlow_08q61ym</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="SequenceFlow_0lquzzw" sourceRef="ExclusiveGateway_0hg3tz9" targetRef="ClarificationCreateAnswerTask">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isTokenPresent==1}</bpmn:conditionExpression>
+    <bpmn:sequenceFlow id="SequenceFlow_0lquzzw" sourceRef="ExclusiveGateway_0hg3tz9" targetRef="ClarificationAddAnswerTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[${operationType=='addAnswer'}]]></bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:serviceTask id="ClarificationCreateEnquiryTask" name="Clarification Create Enquiry" camunda:asyncBefore="true" camunda:delegateExpression="${clarificationCreateEnquiry}">
+    <bpmn:serviceTask id="ClarificationCreateEnquiryTask" name="Clarification create Enquiry" camunda:asyncBefore="true" camunda:delegateExpression="${clarificationCreateEnquiry}">
       <bpmn:extensionElements>
         <camunda:failedJobRetryTimeCycle>R0/PT1S</camunda:failedJobRetryTimeCycle>
       </bpmn:extensionElements>
@@ -63,7 +63,7 @@
       <bpmn:outgoing>SequenceFlow_1dft457</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_08q61ym" sourceRef="ExclusiveGateway_0hg3tz9" targetRef="MdmValidateTenderTask">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isTokenPresent==0}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[${operationType=='createEnquiry'}]]></bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:exclusiveGateway id="ExclusiveGateway_07ftixw">
       <bpmn:incoming>SequenceFlow_0tb9vzy</bpmn:incoming>
@@ -114,7 +114,7 @@
           <dc:Bounds x="1753" y="207" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_1xpunoq_di" bpmnElement="ClarificationCreateAnswerTask">
+      <bpmndi:BPMNShape id="ServiceTask_1xpunoq_di" bpmnElement="ClarificationAddAnswerTask">
         <dc:Bounds x="440" y="269" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_02g673z_di" bpmnElement="SendMessageTask">
