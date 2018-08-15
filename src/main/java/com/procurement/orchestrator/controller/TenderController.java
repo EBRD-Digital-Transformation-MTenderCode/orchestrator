@@ -156,7 +156,7 @@ public class TenderController extends DoBaseController {
         final Context context = requestService.getContextForUpdate(authorization, operationId.toString(), cpid, ocid, null, "enquiry");
         requestService.saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
-        variables.put("isTokenPresent", 0);
+        variables.put("operationType", "'createEnquiry'");
         processService.startProcess(context, variables);
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
@@ -173,7 +173,7 @@ public class TenderController extends DoBaseController {
         context.setId(id.toString());
         requestService.saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
-        variables.put("isTokenPresent", 1);
+        variables.put("operationType", "'addAnswer'");
         processService.startProcess(context, variables);
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }

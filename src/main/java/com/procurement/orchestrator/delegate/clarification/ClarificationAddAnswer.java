@@ -15,19 +15,19 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ClarificationCreateAnswer implements JavaDelegate {
+public class ClarificationAddAnswer implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ClarificationCreateAnswer.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ClarificationAddAnswer.class);
 
     private final ClarificationRestClient clarificationRestClient;
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public ClarificationCreateAnswer(final ClarificationRestClient clarificationRestClient,
-                                     final OperationService operationService,
-                                     final ProcessService processService,
-                                     final JsonUtil jsonUtil) {
+    public ClarificationAddAnswer(final ClarificationRestClient clarificationRestClient,
+                                  final OperationService operationService,
+                                  final ProcessService processService,
+                                  final JsonUtil jsonUtil) {
         this.clarificationRestClient = clarificationRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -64,10 +64,5 @@ public class ClarificationCreateAnswer implements JavaDelegate {
     private void processContext(final DelegateExecution execution, final Context context, final JsonNode responseData, final String processId) {
         final Boolean allAnswered = processService.getBoolean("allAnswered", responseData, processId);
         execution.setVariable("allAnswered", allAnswered ? 1 : 0);
-        if (!allAnswered) {
-            context.setOperationType("addAnswer");
-        } else {
-            context.setOperationType("unsuspendTender");
-        }
     }
 }
