@@ -16,14 +16,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/cancel")
 public class CancelController {
 
-    private final DateUtil dateUtil;
     private final ProcessService processService;
     private final RequestService requestService;
 
     public CancelController(final ProcessService processService,
                             final RequestService requestService,
                             final DateUtil dateUtil) {
-        this.dateUtil = dateUtil;
         this.processService = processService;
         this.requestService = requestService;
     }
