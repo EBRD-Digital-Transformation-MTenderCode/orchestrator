@@ -20,8 +20,7 @@ public class CancelController {
     private final RequestService requestService;
 
     public CancelController(final ProcessService processService,
-                            final RequestService requestService,
-                            final DateUtil dateUtil) {
+                            final RequestService requestService) {
         this.processService = processService;
         this.requestService = requestService;
     }
