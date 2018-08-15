@@ -155,26 +155,22 @@ public class TenderController extends DoBaseController {
                                                 @RequestBody final JsonNode data) {
         final Context context = requestService.getContextForUpdate(authorization, operationId.toString(), cpid, ocid, null, "enquiry");
         requestService.saveRequestAndCheckOperation(context, data);
-        final Map<String, Object> variables = new HashMap<>();
-        variables.put("operationType", "createEnquiry");
-        processService.startProcess(context, variables);
+        processService.startProcess(context, new HashMap<>());
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
     @RequestMapping(value = "/enquiry/{cpid}/{ocid}/{id}", method = RequestMethod.POST)
-    public ResponseEntity<String> updateEnquiry(@RequestHeader("Authorization") final String authorization,
-                                                @RequestHeader("X-OPERATION-ID") final UUID operationId,
-                                                @RequestHeader("X-TOKEN") final String token,
-                                                @PathVariable("cpid") final String cpid,
-                                                @PathVariable("ocid") final String ocid,
-                                                @PathVariable("id") final UUID id,
-                                                @RequestBody final JsonNode data) {
-        final Context context = requestService.getContextForUpdate(authorization, operationId.toString(), cpid, ocid, token, "enquiry");
+    public ResponseEntity<String> addAnswer(@RequestHeader("Authorization") final String authorization,
+                                            @RequestHeader("X-OPERATION-ID") final UUID operationId,
+                                            @RequestHeader("X-TOKEN") final String token,
+                                            @PathVariable("cpid") final String cpid,
+                                            @PathVariable("ocid") final String ocid,
+                                            @PathVariable("id") final UUID id,
+                                            @RequestBody final JsonNode data) {
+        final Context context = requestService.getContextForUpdate(authorization, operationId.toString(), cpid, ocid, token, "answer");
         context.setId(id.toString());
         requestService.saveRequestAndCheckOperation(context, data);
-        final Map<String, Object> variables = new HashMap<>();
-        variables.put("operationType", "addAnswer");
-        processService.startProcess(context, variables);
+        processService.startProcess(context, new HashMap<>());
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 

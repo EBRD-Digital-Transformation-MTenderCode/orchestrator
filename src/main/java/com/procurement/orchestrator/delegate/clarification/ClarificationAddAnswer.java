@@ -56,12 +56,12 @@ public class ClarificationAddAnswer implements JavaDelegate {
                 taskId,
                 requestData);
         if (Objects.nonNull(responseData)) {
-            processContext(execution, context, responseData, processId);
+            processContext(execution, responseData, processId);
             operationService.saveOperationStep(execution, entity, context, requestData, responseData);
         }
     }
 
-    private void processContext(final DelegateExecution execution, final Context context, final JsonNode responseData, final String processId) {
+    private void processContext(final DelegateExecution execution, final JsonNode responseData, final String processId) {
         final Boolean allAnswered = processService.getBoolean("allAnswered", responseData, processId);
         execution.setVariable("allAnswered", allAnswered ? 1 : 0);
     }
