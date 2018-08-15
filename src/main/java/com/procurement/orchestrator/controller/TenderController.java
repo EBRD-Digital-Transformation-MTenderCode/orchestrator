@@ -194,9 +194,10 @@ public class TenderController extends DoBaseController {
     @RequestMapping(value = "/end-award-period/{cpid}/{ocid}", method = RequestMethod.POST)
     public ResponseEntity<String> endAwardPeriod(@RequestHeader("Authorization") final String authorization,
                                                  @RequestHeader("X-OPERATION-ID") final UUID operationId,
+                                                 @RequestHeader("X-TOKEN") final String token,
                                                  @PathVariable("cpid") final String cpid,
                                                  @PathVariable("ocid") final String ocid) {
-        final Context context = requestService.getContextForUpdate(authorization, operationId.toString(), cpid, ocid, null, "awardPeriodEnd");
+        final Context context = requestService.getContextForUpdate(authorization, operationId.toString(), cpid, ocid, token, "awardPeriodEnd");
         requestService.saveRequestAndCheckOperation(context, null);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("operationType", context.getOperationType());
