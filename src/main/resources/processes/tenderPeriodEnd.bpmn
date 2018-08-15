@@ -128,7 +128,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_09q332n" sourceRef="SubmissionGetBidsTask" targetRef="ExclusiveGateway_0dq76qu" />
     <bpmn:sequenceFlow id="SequenceFlow_17ivlc6" sourceRef="QualificationCreateAwardsTask" targetRef="SubmissionUpdateBidStatusTask" />
     <bpmn:sequenceFlow id="SequenceFlow_171leka" sourceRef="EvaluationCreateAwardsTask" targetRef="SubmissionUpdateBidStatusTask" />
-    <bpmn:serviceTask id="SubmissionGetBidsTask" name="Submission Get Bids" camunda:expression="${submissionGetBids}">
+    <bpmn:serviceTask id="SubmissionGetBidsTask" name="Submission Get Bids" camunda:asyncBefore="true" camunda:expression="${submissionGetBids}">
       <bpmn:incoming>SequenceFlow_01bmiwq</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_09q332n</bpmn:outgoing>
     </bpmn:serviceTask>
