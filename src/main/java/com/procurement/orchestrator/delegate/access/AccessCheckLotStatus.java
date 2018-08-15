@@ -43,12 +43,15 @@ public class AccessCheckLotStatus implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode relatedLot = processService.getEnquiryRelatedLot(jsonData, processId);
-        final JsonNode responseData = processService.processResponse(
-                accessRestClient.checkStatus(context.getCpid(), context.getStage(), relatedLot),
-                context,
-                processId,
-                taskId,
-                jsonUtil.empty());
+        JsonNode responseData = null;
+        if (Objects.nonNull(relatedLot)) {
+            responseData = processService.processResponse(
+                    accessRestClient.checkStatus(context.getCpid(), context.getStage(), relatedLot),
+                    context,
+                    processId,
+                    taskId,
+                    jsonUtil.empty());
+        }
         if (Objects.nonNull(responseData)) {
             operationService.saveOperationStep(execution, entity);
         }
