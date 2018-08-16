@@ -2,6 +2,8 @@ package com.procurement.orchestrator.delegate.notice;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
+import com.procurement.orchestrator.domain.dto.CommandMessage;
+import com.procurement.orchestrator.domain.dto.CommandType;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.NoticeRestClient;
 import com.procurement.orchestrator.service.OperationService;
@@ -45,20 +47,15 @@ public class NoticeCreateRelease implements JavaDelegate {
         final JsonNode requestData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode responseData = processService.processResponse(
-                noticeRestClient.createRelease(
-                        context.getCpid(),
-                        context.getOcid(),
-                        context.getStage(),
-                        context.getPrevStage(),
-                        context.getOperationType(),
-                        context.getPhase(),
-                        context.getStartDate(),
-                        requestData),
-                context,
-                processId,
-                taskId,
-                requestData);
+        final CommandMessage commandMessage = processService.getCommandMessage(CommandType.CREATE_RELEASE, context, requestData);
+        JsonNode responseData = null;
+        if (Objects.nonNull(requestData))
+            responseData = processService.processResponse(
+                    noticeRestClient.execute(commandMessage),
+                    context,
+                    processId,
+                    taskId,
+                    jsonUtil.toJsonNode(commandMessage));
         if (Objects.nonNull(responseData))
             operationService.saveOperationStep(execution, entity, requestData, responseData);
     }

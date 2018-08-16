@@ -15,7 +15,8 @@ public enum CommandType {
     CHECK_BID("checkBid"),
     CHECK_ITEMS("checkItems"),
     CHECK_TOKEN("checkToken"),
-    CREATE_ENQUIRY("createEnquiry");
+    CREATE_ENQUIRY("createEnquiry"),
+    CREATE_RELEASE("createRelease");
 
     private static final Map<String, CommandType> CONSTANTS = new HashMap<>();
     private final String value;

@@ -42,6 +42,7 @@ public class BudgetController extends DoBaseController {
         context.setOperationId(operationId.toString());
         context.setCountry(Country.fromValue(country.toUpperCase()).value());
         context.setLanguage(lang);
+
         context.setStartDate(dateUtil.nowFormatted());
         context.setStage(Stage.EI.value());
         context.setOwner(requestService.getOwner(authorization));
