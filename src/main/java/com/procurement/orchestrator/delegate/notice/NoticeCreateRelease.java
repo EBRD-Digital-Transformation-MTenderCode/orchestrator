@@ -57,6 +57,6 @@ public class NoticeCreateRelease implements JavaDelegate {
                     taskId,
                     jsonUtil.toJsonNode(commandMessage));
         if (Objects.nonNull(responseData))
-            operationService.saveOperationStep(execution, entity, requestData, responseData);
+            operationService.saveOperationStep(execution, entity, jsonUtil.toJsonNode(commandMessage), responseData);
     }
 }
