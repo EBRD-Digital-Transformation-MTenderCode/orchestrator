@@ -54,6 +54,8 @@ public interface ProcessService {
 
     JsonNode addLots(JsonNode jsonData, JsonNode lotsData, String processId);
 
+    JsonNode addLotsAndAwardCriteria(JsonNode jsonData, JsonNode lotsData, String processId);
+
     JsonNode addLotsAndItems(JsonNode jsonData, JsonNode data, String processId);
 
     JsonNode addAwardData(JsonNode jsonData, JsonNode awardData, String processId);

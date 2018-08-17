@@ -56,7 +56,7 @@ public class AccessGetLots implements JavaDelegate {
                     execution,
                     entity,
                     jsonUtil.empty(),
-                    processService.addLots(jsonData, responseData, processId));
+                    processService.addLotsAndAwardCriteria(jsonData, responseData, processId));
     }
 }
 

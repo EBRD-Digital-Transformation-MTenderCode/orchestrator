@@ -42,6 +42,7 @@ public class EvaluationCreateAwards implements JavaDelegate {
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final String taskId = execution.getCurrentActivityId();
         final JsonNode requestData = jsonUtil.toJsonNode(entity.getResponseData());
+        final String awardCriteria = processService.getText("awardCriteria", requestData, processId);
         final JsonNode responseData = processService.processResponse(
                 evaluationRestClient.createAwards(
                         context.getCpid(),
@@ -49,7 +50,7 @@ public class EvaluationCreateAwards implements JavaDelegate {
                         context.getOwner(),
                         context.getCountry(),
                         context.getPmd(),
-                        "priceOnly",
+                        awardCriteria,
                         context.getStartDate(),
                         requestData),
                 context,
