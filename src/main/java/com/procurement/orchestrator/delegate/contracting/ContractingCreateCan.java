@@ -47,6 +47,7 @@ public class ContractingCreateCan implements JavaDelegate {
                         context.getCpid(),
                         context.getStage(),
                         context.getOwner(),
+                        context.getStartDate(),
                         requestData),
                 context,
                 processId,

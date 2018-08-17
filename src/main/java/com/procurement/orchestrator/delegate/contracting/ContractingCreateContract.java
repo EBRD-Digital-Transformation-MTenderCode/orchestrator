@@ -46,6 +46,7 @@ public class ContractingCreateContract implements JavaDelegate {
                 contractingRestClient.createAC(
                         context.getCpid(),
                         context.getStage(),
+                        context.getStartDate(),
                         requestData),
                 context,
                 processId,

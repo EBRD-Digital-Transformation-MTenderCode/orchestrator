@@ -16,11 +16,13 @@ public interface ContractingRestClient {
     ResponseEntity<ResponseDto> createCan(@RequestParam(value = "identifier") String cpid,
                                           @RequestParam(value = "stage") String stage,
                                           @RequestParam(value = "owner") String owner,
+                                          @RequestParam("date") String date,
                                           @RequestBody JsonNode jsonData) throws Exception;
 
     @RequestMapping(path = "/createAC", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> createAC(@RequestParam(value = "identifier") String cpid,
                                          @RequestParam(value = "stage") String stage,
+                                         @RequestParam("date") String date,
                                          @RequestBody JsonNode jsonData) throws Exception;
 
 }
