@@ -1,0 +1,434 @@
+# createEI
+{
+  "initiator": "platform",
+  "X-OPERATION-ID": "f5c6a3c0-5ff8-463f-9c0c-d4c1f324b7fb",
+  "X-RESPONSE-ID": "f5c6a3c1-5ff8-463f-9c0c-d4c1f324b7fb",
+  "data": {
+    "ocid": "ocds-t1s2t3-TEST-EI"
+    "url": "http://public.eprocurement.systems/budgets/ocds-t1s2t3-TEST-EI",
+    "operationDate": "2018-08-14T13:51:06Z",
+    "outcomes": {
+      "ei": [
+        {
+          "id": "ocds-t1s2t3-TEST-EI",
+          "X-TOKEN": "c3bdd497-ac2d-4e25-bd7f-cd55111aa7b4",
+        }
+      ]
+    }
+  }
+}
+
+# updateEI
+{
+  "initiator": "platform",
+  "X-OPERATION-ID": "f5c6a3c0-5ff8-463f-9c0c-d4c1f324b7fb",
+  "X-RESPONSE-ID": "f5c6a3c1-5ff8-463f-9c0c-d4c1f324b7fb",
+  "data": {
+    "ocid": "ocds-t1s2t3-TEST-EI",
+    "url": "http://public.eprocurement.systems/tenders/ocds-t1s2t3-TEST/ocds-t1s2t3-TEST-EI",
+    "operationDate": "2018-08-14T13:51:06Z",
+    "outcomes": {
+      "amendments": [
+        {
+          "id": "ocds-t1s2t3-TEST-EI-amendment-1"
+        }
+      ]
+    }
+  }
+}
+
+# createFS
+{
+  "initiator": "platform",
+  "X-OPERATION-ID": "f5c6a3c0-5ff8-463f-9c0c-d4c1f324b7fb",
+  "X-RESPONSE-ID": "f5c6a3c1-5ff8-463f-9c0c-d4c1f324b7fb",
+  "data": {
+    "ocid": "ocds-t1s2t3-TEST-EI",
+    "url": "http://public.eprocurement.systems/budget/ocds-t1s2t3-TEST-EI",
+    "operationDate": "2018-08-14T13:51:06Z",
+    "outcomes": {
+      "fs": [
+        {
+          "id": "ocds-t1s2t3-TEST-FS",
+          "X-TOKEN": "c3bdd497-ac2d-4e25-bd7f-cd55111aa7b4",
+        }
+      ]
+    }
+  }
+}
+
+# updateFS
+{
+  "initiator": "platform",
+  "X-OPERATION-ID": "f5c6a3c0-5ff8-463f-9c0c-d4c1f324b7fb",
+  "X-RESPONSE-ID": "f5c6a3c1-5ff8-463f-9c0c-d4c1f324b7fb",
+  "data": {
+    "ocid": "ocds-t1s2t3-TEST-FS",
+    "url": "http://public.eprocurement.systems/tenders/ocds-t1s2t3-TEST/ocds-t1s2t3-TEST-FS",
+    "operationDate": "2018-08-14T13:51:06Z",
+    "outcomes": {
+      "amendments": [
+        {
+          "id": "ocds-t1s2t3-TEST-EI-amendment-1"
+        }
+      ]
+    }
+  }
+}
+
+# createPN
+{
+  "initiator": "platform",
+  "X-OPERATION-ID": "f5c6a3c0-5ff8-463f-9c0c-d4c1f324b7fb",
+  "X-RESPONSE-ID": "f5c6a3c1-5ff8-463f-9c0c-d4c1f324b7fb",
+  "data": {
+    "ocid": "ocds-t1s2t3-TEST",
+    "url": "http://public.eprocurement.systems/tenders/ocds-t1s2t3-TEST",
+    "operationDate": "2018-08-14T13:51:06Z",
+    "outcomes": {
+      "pn": [
+        {
+          "id": "ocds-t1s2t3-TEST-PN",
+          "X-TOKEN": "c3bdd497-ac2d-4e25-bd7f-cd55111aa7b4"
+        }
+      ]
+    }
+  }
+}
+
+# updatePN
+{
+  "initiator": "platform",
+  "X-OPERATION-ID": "f5c6a3c0-5ff8-463f-9c0c-d4c1f324b7fb",
+  "X-RESPONSE-ID": "f5c6a3c1-5ff8-463f-9c0c-d4c1f324b7fb",
+  "data": {
+    "ocid": "ocds-t1s2t3-TEST-PN",
+    "url": "http://public.eprocurement.systems/tenders/ocds-t1s2t3-TEST/ocds-t1s2t3-TEST-PN",
+    "operationDate": "2018-08-14T13:51:06Z",
+    "outcomes": {
+      "amendments": [
+        {
+          "id": "ocds-t1s2t3-TEST-PN-amendment-1"
+        }
+      ]
+    }
+  }
+}
+
+# createPIN
+{
+  "initiator": "platform",
+  "X-OPERATION-ID": "f5c6a3c0-5ff8-463f-9c0c-d4c1f324b7fb",
+  "X-RESPONSE-ID": "f5c6a3c1-5ff8-463f-9c0c-d4c1f324b7fb",
+  "data": {
+    "ocid": "ocds-t1s2t3-TEST",
+    "url": "http://public.eprocurement.systems/tenders/ocds-t1s2t3-TEST",
+    "operationDate": "2018-08-14T13:51:06Z",
+    "outcomes": {
+      "pin": [
+        {
+          "id": "ocds-t1s2t3-TEST-PN",
+          "X-TOKEN": "c3bdd497-ac2d-4e25-bd7f-cd55111aa7b4"
+        }
+      ]
+    }
+  }
+}
+
+# updatePIN
+{
+  "initiator": "platform",
+  "X-OPERATION-ID": "f5c6a3c0-5ff8-463f-9c0c-d4c1f324b7fb",
+  "X-RESPONSE-ID": "f5c6a3c1-5ff8-463f-9c0c-d4c1f324b7fb",
+  "data": {
+    "ocid": "ocds-t1s2t3-TEST-PIN",
+    "url": "http://public.eprocurement.systems/tenders/ocds-t1s2t3-TEST/ocds-t1s2t3-TEST-PIN",
+    "operationDate": "2018-08-14T13:51:06Z",
+    "outcomes": {
+      "amendments": [
+        {
+          "id": "ocds-t1s2t3-TEST-EV-amendment-1"
+        }
+      ]
+    }
+  }
+}
+
+# createCN
+{
+  "initiator": "platform",
+  "X-OPERATION-ID": "f5c6a3c0-5ff8-463f-9c0c-d4c1f324b7fb",
+  "X-RESPONSE-ID": "f5c6a3c1-5ff8-463f-9c0c-d4c1f324b7fb",
+  "data": {
+    "ocid": "ocds-t1s2t3-TEST",
+    "url": "http://public.eprocurement.systems/tenders/ocds-t1s2t3-TEST",
+    "operationDate": "2018-08-14T13:51:06Z",
+    "outcomes": {
+      "ev": [  //  ключ - "ev" для OT || "ps" для RT
+        {
+          "id": "ocds-t1s2t3-TEST-EV",
+          "X-TOKEN": "c3bdd497-ac2d-4e25-bd7f-cd55111aa7b4"
+        }
+      ]
+    }
+  }
+}
+
+# updateCN (+ Update Tender Period)
+{
+  "initiator": "platform",
+  "X-OPERATION-ID": "f5c6a3c0-5ff8-463f-9c0c-d4c1f324b7fb",
+  "X-RESPONSE-ID": "f5c6a3c1-5ff8-463f-9c0c-d4c1f324b7fb",
+  "data": {
+    "ocid": "ocds-t1s2t3-TEST-ev",
+    "url": "http://public.eprocurement.systems/tenders/ocds-t1s2t3-TEST/ocds-t1s2t3-TEST-EV",
+    "operationDate": "2018-08-14T13:51:06Z",
+    "outcomes": {
+      "amendment": [
+        {
+          "id": "ocds-t1s2t3-TEST-EV-amendment-1"
+        }
+      ]
+    }
+  }
+}
+
+# createCNonPN
+{
+  "initiator": "platform",
+  "X-OPERATION-ID": "f5c6a3c0-5ff8-463f-9c0c-d4c1f324b7fb",
+  "X-RESPONSE-ID": "f5c6a3c1-5ff8-463f-9c0c-d4c1f324b7fb",
+  "data": {
+    "ocid": "ocds-t1s2t3-TEST",
+    "url": "http://public.eprocurement.systems/tenders/ocds-t1s2t3-TEST",
+    "operationDate": "2018-08-14T13:51:06Z",
+    "outcomes": {
+      "ev": [  //  ключ - "ev" для OT || "ps" для RT
+        {
+          "id": "ocds-t1s2t3-TEST-EV"
+        }
+      ]
+    }
+  }
+}
+
+# createCNonPIN
+{
+  "initiator": "platform",
+  "X-OPERATION-ID": "f5c6a3c0-5ff8-463f-9c0c-d4c1f324b7fb",
+  "X-RESPONSE-ID": "f5c6a3c1-5ff8-463f-9c0c-d4c1f324b7fb",
+  "data": {
+    "ocid": "ocds-t1s2t3-TEST",
+    "url": "http://public.eprocurement.systems/tenders/ocds-t1s2t3-TEST",
+    "operationDate": "2018-08-14T13:51:06Z",
+    "outcomes": {
+      "ev": [  //  ключ - "ev" для OT || "ps" для RT
+        {
+          "id": "ocds-t1s2t3-TEST-EV"
+        }
+      ]
+    }
+  }
+}
+
+# createPINonPN
+{
+  "initiator": "platform",
+  "X-OPERATION-ID": "f5c6a3c0-5ff8-463f-9c0c-d4c1f324b7fb",
+  "X-RESPONSE-ID": "f5c6a3c1-5ff8-463f-9c0c-d4c1f324b7fb",
+  "data": {
+    "ocid": "ocds-t1s2t3-TEST",
+    "url": "http://public.eprocurement.systems/tenders/ocds-t1s2t3-TEST",
+    "operationDate": "2018-08-14T13:51:06Z",
+    "outcomes": {
+      "pin": [
+        {
+          "id": "ocds-t1s2t3-TEST-PIN"
+        }
+      ]
+    }
+  }
+}
+
+# createEnquiry (CA topic)
+{
+  "initiator": "bpe",
+  "X-OPERATION-ID": "f5c6a3c0-5ff8-463f-9c0c-d4c1f324b7fb",
+  "X-RESPONSE-ID": "f5c6a3c1-5ff8-463f-9c0c-d4c1f324b7fb",
+  "data": {
+    "ocid": "ocds-t1s2t3-TEST-ev",
+    "url": "http://public.eprocurement.systems/tenders/ocds-t1s2t3-TEST/ocds-t1s2t3-TEST-EV",
+    "operationDate": "2018-08-14T13:51:06Z",
+    "outcomes": {
+      "enquiries": [
+        {
+          "id": "ocds-t1s2t3-TEST-EV-enquiry-1",
+          "X-TOKEN": "c3bdd497-ac2d-4e25-bd7f-cd55111aa7b4",
+        }
+      ]
+    }
+  }
+}
+
+# createEnquiry (EO topic)
+{
+  "initiator": "platform",
+  "X-OPERATION-ID": "f5c6a3c0-5ff8-463f-9c0c-d4c1f324b7fb",
+  "X-RESPONSE-ID": "f5c6a3c1-5ff8-463f-9c0c-d4c1f324b7fb",
+  "data": {
+    "ocid": "ocds-t1s2t3-TEST-ev",
+    "url": "http://public.eprocurement.systems/tenders/ocds-t1s2t3-TEST/ocds-t1s2t3-TEST-EV",
+    "operationDate": "2018-08-14T13:51:06Z",
+    "outcomes": {
+      "enquiries": [
+        {
+          "id": "ocds-t1s2t3-TEST-EV-enquiry-1"
+        }
+      ]
+    }
+  }
+}
+
+# addAnswer
+{
+  "initiator": "platform",
+  "X-OPERATION-ID": "f5c6a3c0-5ff8-463f-9c0c-d4c1f324b7fb",
+  "X-RESPONSE-ID": "f5c6a3c1-5ff8-463f-9c0c-d4c1f324b7fb",
+  "data": {
+    "ocid": "ocds-t1s2t3-TEST-ev",
+    "url": "http://public.eprocurement.systems/tenders/ocds-t1s2t3-TEST/ocds-t1s2t3-TEST-EV",
+    "operationDate": "2018-08-14T13:51:06Z",
+  }
+}
+
+# submitTheBid
+{
+  "initiator": "platform",
+  "X-OPERATION-ID": "f5c6a3c0-5ff8-463f-9c0c-d4c1f324b7fb",
+  "X-RESPONSE-ID": "f5c6a3c1-5ff8-463f-9c0c-d4c1f324b7fb",
+  "data": {
+    "ocid": "ocds-t1s2t3-TEST-ev",
+    "url": "http://public.eprocurement.systems/tenders/ocds-t1s2t3-TEST/ocds-t1s2t3-TEST-EV",
+    "operationDate": "2018-08-14T13:51:06Z",
+    "outcomes": {
+      "bids": [
+        {
+          "id": "ocds-t1s2t3-TEST-EV-bid-1",
+          "X-TOKEN": "c3bdd497-ac2d-4e25-bd7f-cd55111aa7b4",
+        }
+      ]
+    }
+  }
+}
+
+# updateBid (+bidWithdrawn)
+{
+  "initiator": "platform",
+  "X-OPERATION-ID": "f5c6a3c0-5ff8-463f-9c0c-d4c1f324b7fb",
+  "X-RESPONSE-ID": "f5c6a3c1-5ff8-463f-9c0c-d4c1f324b7fb",
+  "data": {
+    "ocid": "ocds-t1s2t3-TEST-ev",
+    "url": "http://public.eprocurement.systems/tenders/ocds-t1s2t3-TEST/ocds-t1s2t3-TEST-EV",
+    "operationDate": "2018-08-14T13:51:06Z",
+  }
+}
+
+# tenderPeriodEnd (+tenderPeriodEndEv)
+{
+  "initiator": "bpe",
+  "X-OPERATION-ID": "f5c6a3c0-5ff8-463f-9c0c-d4c1f324b7fb",
+  "X-RESPONSE-ID": "f5c6a3c1-5ff8-463f-9c0c-d4c1f324b7fb",
+  "data": {
+    "ocid": "ocds-t1s2t3-TEST-ev",
+    "url": "http://public.eprocurement.systems/tenders/ocds-t1s2t3-TEST/ocds-t1s2t3-TEST-EV",
+    "operationDate": "2018-08-14T13:51:06Z",
+    "outcomes": {
+      "awards": [
+        {
+          "id": "ocds-t1s2t3-TEST-EV-AWARD-1",
+          "X-TOKEN": "c3bdd497-ac2d-4e25-bd7f-cd55111aa7b4",
+        },
+        {
+          "id": "ocds-t1s2t3-TEST-EV-AWARD-2",
+          "X-TOKEN": "c3bdd497-ac2d-4e25-bd7f-cd55111aa7b4",
+        }
+      ]
+    }
+  }
+}
+
+# awardByBid (+awardByBidEv)
+{
+  "initiator": "platform",
+  "X-OPERATION-ID": "f5c6a3c0-5ff8-463f-9c0c-d4c1f324b7fb",
+  "X-RESPONSE-ID": "f5c6a3c1-5ff8-463f-9c0c-d4c1f324b7fb",
+  "data": {
+    "ocid": "ocds-t1s2t3-TEST-ev",
+    "url": "http://public.eprocurement.systems/tenders/ocds-t1s2t3-TEST/ocds-t1s2t3-TEST-EV",
+    "operationDate": "2018-08-14T13:51:06Z",
+  }
+}
+
+# awardPeriodEnd (+awardPeriodEndEv)
+{
+  "initiator": "platform",
+  "X-OPERATION-ID": "f5c6a3c0-5ff8-463f-9c0c-d4c1f324b7fb",
+  "X-RESPONSE-ID": "f5c6a3c1-5ff8-463f-9c0c-d4c1f324b7fb",
+  "data": {
+    "ocid": "ocds-t1s2t3-TEST-ev",
+    "url": "http://public.eprocurement.systems/tenders/ocds-t1s2t3-TEST/ocds-t1s2t3-TEST-EV",
+    "operationDate": "2018-08-14T13:51:06Z",
+    "outcomes": {
+     “cans”:[{
+             “id”: “ocds-t1s2t3-TEST-EV-can-1”,
+            },
+            {
+             “id”: “ocds-t1s2t3-TEST-EV-can-2”,
+            }
+        ]
+    }
+  }
+}
+
+# awardPeriodEnd (+awardPeriodEndEv)
+{
+  "initiator": "bpe",
+  "X-OPERATION-ID": "f5c6a3c0-5ff8-463f-9c0c-d4c1f324b7fb",
+  "X-RESPONSE-ID": "f5c6a3c1-5ff8-463f-9c0c-d4c1f324b7fb",
+  "data": {
+    "ocid": "ocds-t1s2t3-TEST",
+    "url": "http://public.eprocurement.systems/tenders/ocds-t1s2t3-TEST",
+    "operationDate": "2018-08-14T13:51:06Z",
+    "outcomes": {
+         “ac”:[{
+               "id": "ocds-t1s2t3-TEST-AC",
+               “X-TOKEN”: “c3bdd497-ac2d-4e25-bd7f-cd55111aa7b4”
+                },
+                {
+               "id": "ocds-t1s2t3-TEST-AC",
+               “X-TOKEN”: “c3bdd497-ac2d-4e25-bd7f-cd55111aa7b4”
+                }
+            ]
+        }
+    }
+}
+
+# startNewStage
+{
+  "initiator": "platform",
+  "X-OPERATION-ID": "f5c6a3c0-5ff8-463f-9c0c-d4c1f324b7fb",
+  "X-RESPONSE-ID": "f5c6a3c1-5ff8-463f-9c0c-d4c1f324b7fb",
+  "data": {
+    "ocid": "ocds-t1s2t3-TEST",
+    "url": "http://public.eprocurement.systems/tenders/ocds-t1s2t3-TEST",
+    "operationDate": "2018-08-14T13:51:06Z",
+    "outcomes": {
+        “pq”:[{   ключ - "pq" при переходе PS => PQ || "ev" при переходе PQ => EV
+             “id”: “ocds-t1s2t3-TEST-PQ”,
+             “X-TOKEN”: “c3bdd497-ac2d-4e25-bd7f-cd55111aa7b4”
+            }
+        ]
+    }
+  }
+}
+

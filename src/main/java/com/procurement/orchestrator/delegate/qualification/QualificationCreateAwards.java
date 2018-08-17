@@ -6,7 +6,6 @@ import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.QualificationRestClient;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
-import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.Objects;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
@@ -24,18 +23,15 @@ public class QualificationCreateAwards implements JavaDelegate {
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
-    private final DateUtil dateUtil;
 
     public QualificationCreateAwards(final QualificationRestClient qualificationRestClient,
                                      final OperationService operationService,
                                      final ProcessService processService,
-                                     final JsonUtil jsonUtil,
-                                     final DateUtil dateUtil) {
+                                     final JsonUtil jsonUtil) {
         this.qualificationRestClient = qualificationRestClient;
         this.operationService = operationService;
         this.processService = processService;
         this.jsonUtil = jsonUtil;
-        this.dateUtil = dateUtil;
     }
 
     @Override

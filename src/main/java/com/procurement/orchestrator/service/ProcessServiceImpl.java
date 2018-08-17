@@ -800,7 +800,7 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
-    public JsonNode getEnquiryAuthor(final JsonNode jsonData,final String processId) {
+    public JsonNode getEnquiryAuthor(final JsonNode jsonData, final String processId) {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
             final JsonNode enquiryNode = jsonData.get("enquiry").get("author");

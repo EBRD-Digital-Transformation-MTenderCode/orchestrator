@@ -1,165 +1,202 @@
 {
-  "bids": [
-    {
-      "id": "1d7b10d0-a209-11e8-8273-f17aaee1d82e",
-      "date": "2018-08-17T10:34:26Z",
-      "status": "pending",
-      "statusDetails": "empty",
-      "tenderers": [
+  "planning": {
+    "budget": {
+      "budgetBreakdown": [
         {
-          "id": "MD-IDNO-12",
-          "name": "12",
-          "identifier": {
-            "id": "12",
-            "scheme": "MD-IDNO",
-            "legalName": "12",
-            "uri": "12"
-          },
-          "address": {
-            "streetAddress": "12",
-            "postalCode": "12",
-            "addressDetails": {
-              "country": {
-                "scheme": "iso-alpha2",
-                "id": "MD",
-                "description": "MOLDOVA",
-                "uri": "http://reference.iatistandard.org/202/codelists/Country/#id1"
-              },
-              "region": {
-                "scheme": "CUATM",
-                "id": "4300000",
-                "description": "Făleşti",
-                "uri": "www.statistica.md/public/files/Clasificatoare/CUATM_rom.zip"
-              },
-              "locality": {
-                "scheme": "other",
-                "id": "999999999",
-                "description": "1212"
-              }
-            }
-          },
-          "additionalIdentifiers": [
-            {
-              "id": "222",
-              "scheme": "MD-IDNO",
-              "legalName": "222",
-              "uri": "222"
-            },
-            {
-              "id": "12",
-              "scheme": "MD-IDNO",
-              "legalName": "12",
-              "uri": "12"
-            }
-          ],
-          "contactPoint": {
-            "name": "2",
-            "email": "2",
-            "telephone": "2",
-            "url": "2"
-          },
-          "details": {
-            "scale": "sme"
+          "id": "ocds-t1s2t3-MD-1534501687212-FS-1534501697441",
+          "amount": {
+            "amount": 900,
+            "currency": "MDL"
           }
-        }
-      ],
-      "value": {
-        "amount": 12.00,
-        "currency": "MDL"
-      },
-      "documents": [
-        {
-          "id": "faca9a60-a208-11e8-941f-116f5508f313",
-          "documentType": "submissionDocuments",
-          "title": "654654.docx",
-          "relatedLots": [
-            "ecca9e61-a208-11e8-ad3f-ab71870a05a4"
-          ]
-        }
-      ],
-      "relatedLots": [
-        "ecca9e61-a208-11e8-ad3f-ab71870a05a4"
-      ]
-    },
-    {
-      "id": "35225d10-a209-11e8-8273-f17aaee1d82e",
-      "date": "2018-08-17T10:35:06Z",
-      "status": "pending",
-      "statusDetails": "empty",
-      "tenderers": [
-        {
-          "id": "MD-IDNO-1",
-          "name": "1",
-          "identifier": {
-            "id": "1",
-            "scheme": "MD-IDNO",
-            "legalName": "1",
-            "uri": "1"
-          },
-          "address": {
-            "streetAddress": "1",
-            "postalCode": "1",
-            "addressDetails": {
-              "country": {
-                "scheme": "iso-alpha2",
-                "id": "MD",
-                "description": "MOLDOVA",
-                "uri": "http://reference.iatistandard.org/202/codelists/Country/#id1"
-              },
-              "region": {
-                "scheme": "CUATM",
-                "id": "5300000",
-                "description": "Hînceşti",
-                "uri": "www.statistica.md/public/files/Clasificatoare/CUATM_rom.zip"
-              },
-              "locality": {
-                "scheme": "CUATM",
-                "id": "5311001",
-                "description": "s.Dahnovici"
-              }
-            }
-          },
-          "contactPoint": {
-            "name": "1",
-            "email": "1",
-            "telephone": "1",
-            "url": "1"
-          },
-          "details": {
-            "scale": "micro"
-          }
-        }
-      ],
-      "value": {
-        "amount": 100.00,
-        "currency": "MDL"
-      },
-      "documents": [
-        {
-          "id": "24a1f7c0-a209-11e8-941f-116f5508f313",
-          "documentType": "submissionDocuments",
-          "title": "654654.docx",
-          "relatedLots": [
-            "ecca9e61-a208-11e8-ad3f-ab71870a05a4"
-          ]
         },
         {
-          "id": "2871eb80-a209-11e8-941f-116f5508f313",
-          "documentType": "illustration",
-          "title": "ТЗ-ХристинівкаgAZy4b0jkgni.doc",
-          "relatedLots": [
-            "ecca9e61-a208-11e8-ad3f-ab71870a05a4"
-          ]
+          "id": "ocds-t1s2t3-MD-1534501687212-FS-1534501724872",
+          "amount": {
+            "amount": 800,
+            "currency": "MDL"
+          }
         }
-      ],
-      "relatedLots": [
-        "ecca9e61-a208-11e8-ad3f-ab71870a05a4"
       ]
     }
-  ],
-  "lots": [
-    {
-      "id": "ecca9e61-a208-11e8-ad3f-ab71870a05a4"
-    }
-  ]
+  },
+  "tender": {
+    "title": "gav",
+    "description": "gav gav",
+    "legalBasis": "DIRECTIVE_2014_24_EU",
+    "tenderPeriod": {
+      "startDate": "2018-07-01T01:01:01Z"
+    },
+    "procuringEntity": {
+      "name": "Edward-Compan",
+      "address": {
+        "streetAddress": "",
+        "addressDetails": {
+          "country": {
+            "scheme": "iso-alpha2",
+            "id": "MD",
+            "description": "MOLDOVA",
+            "uri": "http://reference.iatistandard.org/202/codelists/Country/#id1"
+          },
+          "region": {
+            "scheme": "CUATM",
+            "id": "1000000",
+            "description": "Anenii Noi",
+            "uri": "www.statistica.md/public/files/Clasificatoare/CUATM_rom.zip"
+          },
+          "locality": {
+            "scheme": "CUATM",
+            "id": "1001000",
+            "description": "or.Anenii Noi"
+          }
+        }
+      },
+      "identifier": {
+        "id": "gggg",
+        "scheme": "MD-IDNO",
+        "legalName": "fff",
+        "uri": "hhh"
+      },
+      "contactPoint": {
+        "name": "hgfh",
+        "email": "hfgh",
+        "telephone": "hgfhfh",
+        "faxNumber": "hgfh",
+        "url": "hgfhgf"
+      }
+    },
+    "lots": [
+      {
+        "id": "3",
+        "title": "lot3",
+        "description": "looot",
+        "value": {
+          "amount": 200.00,
+          "currency": "MDL"
+        },
+        "contractPeriod": {
+          "startDate": "2018-11-15T14:45:00Z",
+          "endDate": "2018-12-26T14:45:00Z"
+        },
+        "placeOfPerformance": {
+          "address": {
+            "streetAddress": "",
+            "postalCode": "",
+            "addressDetails": {
+              "country": {
+                "scheme": "iso-alpha2",
+                "id": "MD",
+                "description": "MOLDOVA",
+                "uri": "http://reference.iatistandard.org/202/codelists/Country/#id1"
+              },
+              "region": {
+                "scheme": "CUATM",
+                "id": "1000000",
+                "description": "Anenii Noi",
+                "uri": "www.statistica.md/public/files/Clasificatoare/CUATM_rom.zip"
+              },
+              "locality": {
+                "scheme": "gfgf",
+                "id": "gfg",
+                "description": "gfg"
+              }
+            }
+          },
+          "description": null
+        }
+      },
+      {
+        "id": "1",
+        "title": "lot1",
+        "description": "looot",
+        "value": {
+          "amount": 200.00,
+          "currency": "MDL"
+        },
+        "contractPeriod": {
+          "startDate": "2018-07-01T02:02:02Z",
+          "endDate": "2018-08-01T02:00:00Z"
+        },
+        "placeOfPerformance": {
+          "address": {
+            "streetAddress": "",
+            "postalCode": "",
+            "addressDetails": {
+              "country": {
+                "scheme": "iso-alpha2",
+                "id": "MD",
+                "description": "MOLDOVA",
+                "uri": "http://reference.iatistandard.org/202/codelists/Country/#id1"
+              },
+              "region": {
+                "scheme": "CUATM",
+                "id": "1000000",
+                "description": "Anenii Noi",
+                "uri": "www.statistica.md/public/files/Clasificatoare/CUATM_rom.zip"
+              },
+              "locality": {
+                "scheme": "gfgf",
+                "id": "gfg",
+                "description": "gfg"
+              }
+            }
+          },
+          "description": null
+        }
+      },
+      {
+        "id": "2",
+        "title": "lot2",
+        "description": "looot",
+        "value": {
+          "amount": 500.00,
+          "currency": "MDL"
+        },
+        "contractPeriod": {
+          "startDate": "2018-11-19T14:45:00Z",
+          "endDate": "2018-12-25T14:45:00Z"
+        },
+        "placeOfPerformance": {
+          "address": {
+            "streetAddress": "",
+            "postalCode": "",
+            "addressDetails": {
+              "country": {
+                "scheme": "iso-alpha2",
+                "id": "MD",
+                "description": "MOLDOVA",
+                "uri": "http://reference.iatistandard.org/202/codelists/Country/#id1"
+              },
+              "region": {
+                "scheme": "CUATM",
+                "id": "1000000",
+                "description": "Anenii Noi",
+                "uri": "www.statistica.md/public/files/Clasificatoare/CUATM_rom.zip"
+              },
+              "locality": {
+                "scheme": "CUATM",
+                "id": "1001001",
+                "description": "s.Albiniţa"
+              }
+            }
+          },
+          "description": "2"
+        }
+      }
+    ],
+    "documents": [
+      {
+        "documentType": "tenderNotice",
+        "id": "f7178f90-9fba-11e8-9318-61ca1098e80e",
+        "title": "doc1"
+      }
+    ],
+    "items": null,
+    "classification": null,
+    "submissionMethodRationale": [
+      "submissionMethodRationale"
+    ],
+    "submissionMethodDetails": "submissionMethodDetails",
+    "procurementMethodDetails": "test",
+    "eligibilityCriteria": "eligibilityCriteria"
+  }
 }
