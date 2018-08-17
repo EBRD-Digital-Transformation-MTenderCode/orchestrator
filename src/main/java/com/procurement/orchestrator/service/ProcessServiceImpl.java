@@ -760,6 +760,7 @@ public class ProcessServiceImpl implements ProcessService {
             final ObjectNode mainNode = (ObjectNode) jsonData;
             final ObjectNode tenderNode = (ObjectNode) jsonData.get("tender");
             tenderNode.replace("mainProcurementCategory", responseData.get("tender").get("mainProcurementCategory"));
+            tenderNode.replace("classification", responseData.get("tender").get("classification"));
             mainNode.replace("planning", responseData.get("planning"));
             mainNode.replace("ei", responseData.get("ei"));
             mainNode.replace("buyer", responseData.get("buyer"));
