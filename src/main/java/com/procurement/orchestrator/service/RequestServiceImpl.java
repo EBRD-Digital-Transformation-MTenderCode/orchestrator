@@ -28,6 +28,7 @@ public class RequestServiceImpl implements RequestService {
     private final ProcessService processService;
     private final OperationService operationService;
     private final String lang = "ro";
+    private final String initiator = "platform";
 
 
     public RequestServiceImpl(final JsonUtil jsonUtil,
@@ -148,6 +149,7 @@ public class RequestServiceImpl implements RequestService {
         context.setOwner(getOwner(authorization));
         context.setOperationId(operationId);
         context.setLanguage(lang);
+        context.setInitiator(initiator);
 
         context.setStartDate(dateUtil.nowFormatted());
         return context;
@@ -179,6 +181,7 @@ public class RequestServiceImpl implements RequestService {
         context.setOcid(ocid);
         context.setToken(token);
         context.setLanguage(lang);
+        context.setInitiator(initiator);
 
         context.setStartDate(dateUtil.nowFormatted());
 
