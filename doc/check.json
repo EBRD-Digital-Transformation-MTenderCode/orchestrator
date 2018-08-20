@@ -1,14 +1,5 @@
 {
-  "X-OPERATION-ID": "a9bcd359-b59d-4644-b1e6-4b75020b6103",
-  "data": {
-    "operationDate": "2018-08-20T11:00:22Z",
-    "outcomes": {
-      "ei": [
-        {
-          "id": "ocds-t1s2t3-MD-1534762822912",
-          "X-TOKEN": "364c0055-81de-4fc4-a248-f22726c584b1"
-        }
-      ]
-    }
-  }
+  "platformId": "445f6851-c908-407d-9b45-14b92f3e964b",
+  "operationId": "3df03021-b5df-4161-9055-d601e3236b9e",
+  "message": "{\"initiator\":\"platform\",\"X-OPERATION-ID\":\"3df03021-b5df-4161-9055-d601e3236b9e\",\"data\":{\"ocid\":\"ocds-t1s2t3-MD-1534775452432\",\"url\":\"http://dev.public.eprocurement.systems/budgets/ocds-t1s2t3-MD-1534775452432/ocds-t1s2t3-MD-1534775452432\",\"operationDate\":\"2018-08-20T14:30:29Z\",\"outcomes\":{\"ei\":[{\"id\":\"ocds-t1s2t3-MD-1534775452432\",\"X-TOKEN\":\"045ae1b3-ddb4-4b60-9462-43cd80013903\"}]}}}"
 }

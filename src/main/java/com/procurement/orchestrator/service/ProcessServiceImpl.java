@@ -234,12 +234,14 @@ public class ProcessServiceImpl implements ProcessService {
         final ObjectNode outcomes = jsonUtil.createObjectNode();
         final ArrayNode outcomeArray = jsonUtil.createArrayNode();
         final ArrayNode amendmentsNode = (ArrayNode) responseData.get("amendments");
-        for (final JsonNode amendmentNode : amendmentsNode) {
-            final ObjectNode outcomeItem = jsonUtil.createObjectNode();
-            outcomeItem.put("id", amendmentNode.get("id").asText());
-            outcomeArray.add(outcomeItem);
+        if (amendmentsNode != null) {
+            for (final JsonNode amendmentNode : amendmentsNode) {
+                final ObjectNode outcomeItem = jsonUtil.createObjectNode();
+                outcomeItem.put("id", amendmentNode.get("id").asText());
+                outcomeArray.add(outcomeItem);
+            }
+            outcomes.replace("amendments", outcomeArray);
         }
-        outcomes.replace("amendments", outcomeArray);
         final PlatformMessageData data = context.getData();
         data.setUrl(getText("url", responseData, processId));
         if (outcomeArray.size() > 0) {
