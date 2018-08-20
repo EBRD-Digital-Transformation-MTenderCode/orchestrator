@@ -43,6 +43,8 @@ public interface ProcessService {
 
     Context addContractOutcomeToContext(Context context, JsonNode responseData, String processId);
 
+    Context addNoticeOutcomeToContext(Context context, JsonNode responseData, String processId);
+
     JsonNode addTenderTenderPeriod(JsonNode jsonData, JsonNode periodData, String processId);
 
     JsonNode addTenderTenderPeriodStartDate(JsonNode jsonData, String startDate, String processId);

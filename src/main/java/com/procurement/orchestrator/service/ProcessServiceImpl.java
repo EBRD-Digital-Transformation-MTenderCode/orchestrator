@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.procurement.orchestrator.domain.Context;
-import com.procurement.orchestrator.domain.EntityAccess;
 import com.procurement.orchestrator.domain.PlatformError;
 import com.procurement.orchestrator.domain.PlatformMessageData;
 import com.procurement.orchestrator.domain.dto.*;
@@ -226,6 +225,26 @@ public class ProcessServiceImpl implements ProcessService {
         data.setOcid(context.getCpid());
         data.setOperationDate(context.getStartDate());
         data.setOutcomes(outcomes);
+        context.setData(data);
+        return context;
+    }
+
+    @Override
+    public Context addNoticeOutcomeToContext(final Context context, final JsonNode responseData, final String processId) {
+        final ObjectNode outcomes = jsonUtil.createObjectNode();
+        final ArrayNode outcomeArray = jsonUtil.createArrayNode();
+        final ArrayNode amendmentsNode = (ArrayNode) responseData.get("amendments");
+        for (final JsonNode amendmentNode : amendmentsNode) {
+            final ObjectNode outcomeItem = jsonUtil.createObjectNode();
+            outcomeItem.put("id", amendmentNode.get("id").asText());
+            outcomeArray.add(outcomeItem);
+        }
+        outcomes.replace("amendments", outcomeArray);
+        final PlatformMessageData data = context.getData();
+        data.setUrl(getText("url", responseData, processId));
+        if (outcomeArray.size() > 0) {
+            data.setOutcomes(outcomes);
+        }
         context.setData(data);
         return context;
     }
