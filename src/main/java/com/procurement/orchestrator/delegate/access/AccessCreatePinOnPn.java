@@ -68,6 +68,7 @@ public class AccessCreatePinOnPn implements JavaDelegate {
     }
 
     private Context addDataToContext(final Context context, final JsonNode responseData, final String processId) {
+        context.setToken(processService.getText("token", responseData, processId));
         return processService.addOutcomeToContext(context, context.getStage(), context.getCpid(), responseData, processId);
     }
 

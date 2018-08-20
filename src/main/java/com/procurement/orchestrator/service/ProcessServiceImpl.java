@@ -123,22 +123,19 @@ public class ProcessServiceImpl implements ProcessService {
                                        final String outcomeId,
                                        final JsonNode responseData,
                                        final String processId) {
-        final String token = getText("token", responseData, processId);
         final ObjectNode outcomes = jsonUtil.createObjectNode();
         final ArrayNode outcomeArray = jsonUtil.createArrayNode();
         final ObjectNode outcomeItem = jsonUtil.createObjectNode();
         outcomeItem.put("id", outcomeId);
-        outcomeItem.put("X-TOKEN", token);
+        outcomeItem.put("X-TOKEN", context.getToken());
         outcomeArray.add(outcomeItem);
         outcomes.replace(outcomeKey.toLowerCase(), outcomeArray);
-        context.setToken(token);
 
         final PlatformMessageData data = new PlatformMessageData();
         data.setOcid(outcomeId);
         data.setOperationDate(context.getStartDate());
         data.setOutcomes(outcomes);
         context.setData(data);
-
         return context;
     }
 
@@ -243,11 +240,13 @@ public class ProcessServiceImpl implements ProcessService {
             outcomes.replace("amendments", outcomeArray);
         }
         final PlatformMessageData data = context.getData();
-        data.setUrl(getText("url", responseData, processId));
-        if (outcomeArray.size() > 0) {
-            data.setOutcomes(outcomes);
+        if (data != null) {
+            data.setUrl(getText("url", responseData, processId));
+            if (outcomeArray.size() > 0) {
+                data.setOutcomes(outcomes);
+            }
+            context.setData(data);
         }
-        context.setData(data);
         return context;
     }
 
