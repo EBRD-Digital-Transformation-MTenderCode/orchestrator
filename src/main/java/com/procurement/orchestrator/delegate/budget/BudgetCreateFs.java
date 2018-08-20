@@ -2,13 +2,11 @@ package com.procurement.orchestrator.delegate.budget;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
-import com.procurement.orchestrator.domain.EntityAccess;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.BudgetRestClient;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
-import java.util.Arrays;
 import java.util.Objects;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
@@ -61,8 +59,6 @@ public class BudgetCreateFs implements JavaDelegate {
 
     private Context addDataToContext(final Context context, final JsonNode responseData, final String processId) {
         context.setOcid(processService.getFsId(responseData, processId));
-        context.setToken(processService.getFsToken(responseData, processId));
-        context.setAccess(Arrays.asList(new EntityAccess("fs", context.getOcid(), context.getToken())));
-        return context;
+        return processService.addOutcomeToContext(context, "fs", context.getOcid(), responseData, processId);
     }
 }

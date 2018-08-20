@@ -22,5 +22,5 @@ public class PlatformMessageData {
     private String operationDate;
 
     @JsonProperty("outcomes")
-    private List<JsonNode> outcomes;
+    private JsonNode outcomes;
 }

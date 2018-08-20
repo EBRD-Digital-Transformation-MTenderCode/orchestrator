@@ -59,7 +59,7 @@ public class QualificationCreateAwards implements JavaDelegate {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    processService.addAwardAccessToContext(context, responseData, processId),
+                    processService.addAwardOutcomeToContext(context, responseData, processId),
                     requestData,
                     processService.addAwardData(requestData, responseData, processId));
         }

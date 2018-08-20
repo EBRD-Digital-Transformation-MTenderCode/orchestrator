@@ -14,13 +14,10 @@ public interface ProcessService {
 
     void startProcess(Context context, Map<String, Object> variables);
 
-    void startProcessCheckRules(Context context);
-
-    void startProcessError(Context context, String message);
+    void startProcessError(Context context);
 
     void terminateProcess(String processId, String message);
 
-    void terminateProcessWithMessage(Context context, String processId, String message);
 
     CommandMessage getCommandMessage(CommandType commandType, Context context, JsonNode data);
 
@@ -36,13 +33,15 @@ public interface ProcessService {
 
     String getTenderPeriodEndDate(JsonNode jsonData, String processId);
 
-    Context addAccessToContext(Context context, String entityType, String entityId, JsonNode responseData, String processId);
+    Context addOutcomeToContext(Context context, String outcomeKey, String outcomeId, JsonNode responseData, String processId);
 
-    Context addBidAccessToContext(Context context, JsonNode responseData, String processId);
+    Context addBidOutcomeToContext(Context context, JsonNode responseData, String processId);
 
-    Context addAwardAccessToContext(Context context, JsonNode responseData, String processId);
+    Context addAwardOutcomeToContext(Context context, JsonNode responseData, String processId);
 
-    Context addContractAccessToContext(Context context, JsonNode responseData, String processId);
+    Context addCanOutcomeToContext(Context context, JsonNode responseData, String processId);
+
+    Context addContractOutcomeToContext(Context context, JsonNode responseData, String processId);
 
     JsonNode addTenderTenderPeriod(JsonNode jsonData, JsonNode periodData, String processId);
 

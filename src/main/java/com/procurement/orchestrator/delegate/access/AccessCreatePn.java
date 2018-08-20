@@ -66,6 +66,6 @@ public class AccessCreatePn implements JavaDelegate {
 
     private Context addDataToContext(final Context context, final JsonNode responseData, final String processId) {
         context.setCpid(processService.getText("ocid", responseData, processId));
-        return processService.addAccessToContext(context, "tender", context.getCpid(), responseData, processId);
+        return processService.addOutcomeToContext(context, context.getStage(), context.getCpid(), responseData, processId);
     }
 }

@@ -57,6 +57,7 @@ public class ContractingCreateCan implements JavaDelegate {
             operationService.saveOperationStep(
                     execution,
                     entity,
+                    processService.addCanOutcomeToContext(context, responseData, processId),
                     requestData,
                     processService.addCans(requestData, responseData, processId));
     }

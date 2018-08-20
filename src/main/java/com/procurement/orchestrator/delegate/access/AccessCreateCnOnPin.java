@@ -68,6 +68,6 @@ public class AccessCreateCnOnPin implements JavaDelegate {
     }
 
     private Context addDataToContext(final Context context, final JsonNode responseData, final String processId) {
-        return processService.addAccessToContext(context, "tender", context.getCpid(), responseData, processId);
+        return processService.addOutcomeToContext(context, context.getStage(), context.getCpid(), responseData, processId);
     }
 }

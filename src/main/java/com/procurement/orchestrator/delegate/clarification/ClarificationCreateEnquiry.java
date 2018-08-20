@@ -66,6 +66,6 @@ public class ClarificationCreateEnquiry implements JavaDelegate {
     }
 
     private Context addDataToContext(final Context context, final JsonNode responseData, final String processId) {
-        return processService.addAccessToContext(context, "enquiry", null, responseData, processId);
+        return processService.addOutcomeToContext(context, "enquiry", context.getCpid(), responseData, processId);
     }
 }

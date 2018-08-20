@@ -65,7 +65,7 @@ public class Context {
     private String initiator;
 
     @JsonProperty("outcomes")
-    private List<JsonNode> outcomes;
+    private JsonNode outcomes;
 
     @JsonProperty("errors")
     private List<PlatformError> errors;

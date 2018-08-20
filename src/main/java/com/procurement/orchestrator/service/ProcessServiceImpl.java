@@ -8,7 +8,10 @@ import com.procurement.orchestrator.domain.EntityAccess;
 import com.procurement.orchestrator.domain.PlatformError;
 import com.procurement.orchestrator.domain.dto.*;
 import com.procurement.orchestrator.utils.JsonUtil;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import org.camunda.bpm.engine.RuntimeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,14 +41,6 @@ public class ProcessServiceImpl implements ProcessService {
         runtimeService.startProcessInstanceByKey(context.getProcessType(), context.getOperationId(), variables);
     }
 
-    public void startProcessCheckRules(final Context context) {
-        final Map<String, Object> variables = new HashMap<>();
-        variables.put("requestId", context.getRequestId());
-        variables.put("checkRules", 1);
-        variables.put("message", "");
-        runtimeService.startProcessInstanceByKey("checkRules", variables);
-    }
-
     public void startProcessError(final Context context) {
         final Map<String, Object> variables = new HashMap<>();
         variables.put("requestId", context.getRequestId());
@@ -57,12 +52,6 @@ public class ProcessServiceImpl implements ProcessService {
         runtimeService.deleteProcessInstance(processId, message);
     }
 
-
-    public void terminateProcessWithMessage(final Context context, final String processId, final String message) {
-        LOG.error(message);
-        runtimeService.deleteProcessInstance(processId, message);
-        startProcessError(context, message);
-    }
 
     public CommandMessage getCommandMessage(final CommandType commandType, final Context context, final JsonNode data) {
         return new CommandMessage(context.getOperationId(), commandType, context, data, ApiVersion.V_0_0_1);
@@ -78,7 +67,7 @@ public class ProcessServiceImpl implements ProcessService {
         if (responseEntity.getBody().getDetails() != null) {
             operationService.saveOperationException(processId, taskId, context, request, jsonUtil.toJsonNode(responseEntity.getBody()));
             final List<ResponseDetailsDto> details = responseEntity.getBody().getDetails();
-            for (final ResponseDetailsDto detail: details){
+            for (final ResponseDetailsDto detail : details) {
                 errors.add(new PlatformError(detail.getCode(), detail.getMessage()));
             }
             context.setErrors(errors);
@@ -89,7 +78,7 @@ public class ProcessServiceImpl implements ProcessService {
         } else if (responseEntity.getBody().getErrors() != null) {
             operationService.saveOperationException(processId, taskId, context, request, jsonUtil.toJsonNode(responseEntity.getBody()));
             final List<ResponseErrorDto> responseErrors = responseEntity.getBody().getErrors();
-            for (final ResponseErrorDto error: responseErrors){
+            for (final ResponseErrorDto error : responseErrors) {
                 errors.add(new PlatformError(error.getCode(), error.getDescription()));
             }
             context.setErrors(errors);
@@ -129,52 +118,90 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public Context addAccessToContext(final Context context,
-                                      final String entityType,
-                                      final String entityId,
-                                      final JsonNode responseData,
-                                      final String processId) {
-        final String entityToken = getText("token", responseData, processId);
-        context.setAccess(Arrays.asList(new EntityAccess(entityType, entityId, entityToken)));
+    public Context addOutcomeToContext(final Context context,
+                                       final String outcomeKey,
+                                       final String outcomeId,
+                                       final JsonNode responseData,
+                                       final String processId) {
+        final String token = getText("token", responseData, processId);
+        final ObjectNode outcomes = jsonUtil.createObjectNode();
+        final ArrayNode outcomeArray = jsonUtil.createArrayNode();
+        final ObjectNode outcomeItem = jsonUtil.createObjectNode();
+        outcomeItem.put("id", outcomeId);
+        outcomeItem.put("X-TOKEN", token);
+        outcomeArray.add(outcomeItem);
+        outcomes.replace(outcomeKey.toLowerCase(), outcomeArray);
+        context.setToken(token);
+        context.setOutcomes(outcomes);
         return context;
     }
 
     @Override
-    public Context addBidAccessToContext(final Context context, final JsonNode responseData, final String processId) {
-        final String entityToken = getText("token", responseData, processId);
-        final String entityId = getText("bidId", responseData, processId);
-        context.setAccess(Arrays.asList(new EntityAccess("bid", entityId, entityToken)));
+    public Context addBidOutcomeToContext(final Context context, final JsonNode responseData, final String processId) {
+        final String token = getText("token", responseData, processId);
+        final String outcomeId = getText("bidId", responseData, processId);
+        final ObjectNode outcomes = jsonUtil.createObjectNode();
+        final ArrayNode outcomeArray = jsonUtil.createArrayNode();
+        final ObjectNode outcomeItem = jsonUtil.createObjectNode();
+        outcomeItem.put("id", outcomeId);
+        outcomeItem.put("X-TOKEN", token);
+        outcomeArray.add(outcomeItem);
+        outcomes.replace("bids", outcomeArray);
+        context.setToken(token);
+        context.setId(outcomeId);
+        context.setOutcomes(outcomes);
         return context;
     }
 
-    public Context addAwardAccessToContext(final Context context, final JsonNode responseData, final String processId) {
+    public Context addAwardOutcomeToContext(final Context context, final JsonNode responseData, final String processId) {
+        final ObjectNode outcomes = jsonUtil.createObjectNode();
+        final ArrayNode outcomeArray = jsonUtil.createArrayNode();
         final ArrayNode awardsNode = (ArrayNode) responseData.get("awards");
-        final List<EntityAccess> accesses = new ArrayList<>();
         for (final JsonNode awardNode : awardsNode) {
             if (awardNode.get("token") != null) {
-                accesses.add(new EntityAccess(
-                        "award",
-                        awardNode.get("id").asText(),
-                        awardNode.get("token").asText())
-                );
+                final ObjectNode outcomeItem = jsonUtil.createObjectNode();
+                outcomeItem.put("id", awardNode.get("id").asText());
+                outcomeItem.put("X-TOKEN", awardNode.get("token").asText());
+                outcomeArray.add(outcomeItem);
             }
         }
-        context.setAccess(accesses);
+        outcomes.replace("awards", outcomeArray);
+        context.setOutcomes(outcomes);
         return context;
     }
 
-    public Context addContractAccessToContext(final Context context, final JsonNode responseData,
-                                              final String processId) {
-        final ArrayNode contractsNode = (ArrayNode) responseData.get("contracts");
-        final List<EntityAccess> accesses = new ArrayList<>();
-        for (final JsonNode awardNode : contractsNode) {
-            accesses.add(new EntityAccess(
-                    "contract",
-                    awardNode.get("id").asText(),
-                    awardNode.get("token").asText())
-            );
+    public Context addCanOutcomeToContext(final Context context, final JsonNode responseData, final String processId) {
+        final ObjectNode outcomes = jsonUtil.createObjectNode();
+        final ArrayNode outcomeArray = jsonUtil.createArrayNode();
+        final ArrayNode cansNode = (ArrayNode) responseData.get("cans");
+        for (final JsonNode canNode : cansNode) {
+            if (canNode.get("token") != null) {
+                final ObjectNode outcomeItem = jsonUtil.createObjectNode();
+                outcomeItem.put("id", canNode.get("id").asText());
+                outcomeItem.put("X-TOKEN", canNode.get("token").asText());
+                outcomeArray.add(outcomeItem);
+            }
         }
-        context.setAccess(accesses);
+        outcomes.replace("cans", outcomeArray);
+        context.setOutcomes(outcomes);
+        return context;
+    }
+
+
+    public Context addContractOutcomeToContext(final Context context, final JsonNode responseData, final String processId) {
+        final ObjectNode outcomes = jsonUtil.createObjectNode();
+        final ArrayNode outcomeArray = jsonUtil.createArrayNode();
+        final ArrayNode contractsNode = (ArrayNode) responseData.get("contracts");
+        for (final JsonNode contractNode : contractsNode) {
+            if (contractNode.get("token") != null) {
+                final ObjectNode outcomeItem = jsonUtil.createObjectNode();
+                outcomeItem.put("id", contractNode.get("id").asText());
+                outcomeItem.put("X-TOKEN", contractNode.get("token").asText());
+                outcomeArray.add(outcomeItem);
+            }
+        }
+        outcomes.replace("ac", outcomeArray);
+        context.setOutcomes(outcomes);
         return context;
     }
 
