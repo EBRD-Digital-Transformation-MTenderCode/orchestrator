@@ -150,8 +150,9 @@ public class RequestServiceImpl implements RequestService {
         context.setOperationId(operationId);
         context.setLanguage(lang);
         context.setInitiator(initiator);
-
+        context.setResponseId(context.getRequestId());
         context.setStartDate(dateUtil.nowFormatted());
+
         return context;
     }
 
@@ -182,7 +183,7 @@ public class RequestServiceImpl implements RequestService {
         context.setToken(token);
         context.setLanguage(lang);
         context.setInitiator(initiator);
-
+        context.setResponseId(context.getRequestId());
         context.setStartDate(dateUtil.nowFormatted());
 
         return context;

@@ -4,7 +4,6 @@ import com.procurement.orchestrator.config.kafka.MessageProducer;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.Notification;
 import com.procurement.orchestrator.domain.PlatformMessage;
-import com.procurement.orchestrator.domain.PlatformMessageData;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -39,17 +38,11 @@ public class SendMessageToPlatform implements JavaDelegate {
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
 
-        final PlatformMessageData data = new PlatformMessageData();
-        data.setOcid(context.getOcid());
-        data.setUrl(context.getUrl());
-        data.setOperationDate(context.getStartDate());
-        data.setOutcomes(context.getOutcomes());
-
         final PlatformMessage message = new PlatformMessage();
         message.setInitiator(context.getInitiator());
         message.setOperationId(context.getOperationId());
         message.setResponseId(context.getResponseId());
-        message.setData(data);
+        message.setData(context.getData());
 
         final Notification notification = new Notification(
                 UUID.fromString(context.getOwner()),

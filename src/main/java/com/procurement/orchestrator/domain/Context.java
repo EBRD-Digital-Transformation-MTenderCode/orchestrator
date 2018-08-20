@@ -64,14 +64,11 @@ public class Context {
     @JsonProperty("initiator")
     private String initiator;
 
-    @JsonProperty("outcomes")
-    private JsonNode outcomes;
+    @JsonProperty("data")
+    private PlatformMessageData data;
 
     @JsonProperty("errors")
     private List<PlatformError> errors;
-
-    @JsonProperty("url")
-    private String url;
 
     @JsonProperty(value = "startDate")
     private String startDate;

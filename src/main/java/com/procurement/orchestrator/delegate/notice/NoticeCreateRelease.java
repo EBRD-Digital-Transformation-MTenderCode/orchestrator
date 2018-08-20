@@ -2,6 +2,7 @@ package com.procurement.orchestrator.delegate.notice;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
+import com.procurement.orchestrator.domain.PlatformMessageData;
 import com.procurement.orchestrator.domain.dto.CommandMessage;
 import com.procurement.orchestrator.domain.dto.CommandType;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
@@ -56,7 +57,14 @@ public class NoticeCreateRelease implements JavaDelegate {
                     processId,
                     taskId,
                     jsonUtil.toJsonNode(commandMessage));
-        if (Objects.nonNull(responseData))
-            operationService.saveOperationStep(execution, entity, jsonUtil.toJsonNode(commandMessage), responseData);
+        if (Objects.nonNull(responseData)) {
+            context.getData().setUrl(processService.getText("url", responseData, processId));
+            operationService.saveOperationStep(
+                    execution,
+                    entity,
+                    context,
+                    jsonUtil.toJsonNode(commandMessage),
+                    responseData);
+        }
     }
 }

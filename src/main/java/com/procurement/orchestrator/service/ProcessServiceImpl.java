@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.EntityAccess;
 import com.procurement.orchestrator.domain.PlatformError;
+import com.procurement.orchestrator.domain.PlatformMessageData;
 import com.procurement.orchestrator.domain.dto.*;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.HashMap;
@@ -132,7 +133,13 @@ public class ProcessServiceImpl implements ProcessService {
         outcomeArray.add(outcomeItem);
         outcomes.replace(outcomeKey.toLowerCase(), outcomeArray);
         context.setToken(token);
-        context.setOutcomes(outcomes);
+
+        final PlatformMessageData data = new PlatformMessageData();
+        data.setOcid(outcomeId);
+        data.setOperationDate(context.getStartDate());
+        data.setOutcomes(outcomes);
+        context.setData(data);
+
         return context;
     }
 
@@ -149,7 +156,13 @@ public class ProcessServiceImpl implements ProcessService {
         outcomes.replace("bids", outcomeArray);
         context.setToken(token);
         context.setId(outcomeId);
-        context.setOutcomes(outcomes);
+
+        final PlatformMessageData data = new PlatformMessageData();
+        data.setOcid(context.getOcid());
+        data.setOperationDate(context.getStartDate());
+        data.setOutcomes(outcomes);
+        context.setData(data);
+
         return context;
     }
 
@@ -166,7 +179,11 @@ public class ProcessServiceImpl implements ProcessService {
             }
         }
         outcomes.replace("awards", outcomeArray);
-        context.setOutcomes(outcomes);
+        final PlatformMessageData data = new PlatformMessageData();
+        data.setOcid(context.getOcid());
+        data.setOperationDate(context.getStartDate());
+        data.setOutcomes(outcomes);
+        context.setData(data);
         return context;
     }
 
@@ -183,7 +200,11 @@ public class ProcessServiceImpl implements ProcessService {
             }
         }
         outcomes.replace("cans", outcomeArray);
-        context.setOutcomes(outcomes);
+        final PlatformMessageData data = new PlatformMessageData();
+        data.setOcid(context.getCpid());
+        data.setOperationDate(context.getStartDate());
+        data.setOutcomes(outcomes);
+        context.setData(data);
         return context;
     }
 
@@ -201,7 +222,11 @@ public class ProcessServiceImpl implements ProcessService {
             }
         }
         outcomes.replace("ac", outcomeArray);
-        context.setOutcomes(outcomes);
+        final PlatformMessageData data = new PlatformMessageData();
+        data.setOcid(context.getCpid());
+        data.setOperationDate(context.getStartDate());
+        data.setOutcomes(outcomes);
+        context.setData(data);
         return context;
     }
 
