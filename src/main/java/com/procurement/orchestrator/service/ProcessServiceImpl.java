@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.EntityAccess;
+import com.procurement.orchestrator.domain.PlatformError;
 import com.procurement.orchestrator.domain.dto.*;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.*;
@@ -45,10 +46,9 @@ public class ProcessServiceImpl implements ProcessService {
         runtimeService.startProcessInstanceByKey("checkRules", variables);
     }
 
-    public void startProcessError(final Context context, final String message) {
+    public void startProcessError(final Context context) {
         final Map<String, Object> variables = new HashMap<>();
         variables.put("requestId", context.getRequestId());
-        variables.put("message", message);
         runtimeService.startProcessInstanceByKey("error", variables);
     }
 
@@ -73,21 +73,29 @@ public class ProcessServiceImpl implements ProcessService {
                                     final String processId,
                                     final String taskId,
                                     final JsonNode request) {
+
+        final List<PlatformError> errors = null;
         if (responseEntity.getBody().getDetails() != null) {
             operationService.saveOperationException(processId, taskId, context, request, jsonUtil.toJsonNode(responseEntity.getBody()));
             final List<ResponseDetailsDto> details = responseEntity.getBody().getDetails();
-            final String message = Objects.nonNull(details) ?
-                    "Error in operation: " + context.getOperationId() + "; message: " + jsonUtil.toJson(details) : "";
+            for (final ResponseDetailsDto detail: details){
+                errors.add(new PlatformError(detail.getCode(), detail.getMessage()));
+            }
+            context.setErrors(errors);
+            final String message = Objects.nonNull(details) ? "Error in operation: " + context.getOperationId() + "; details: " + jsonUtil.toJson(details) : "";
             runtimeService.deleteProcessInstance(processId, message);
-            startProcessError(context, message);
+            startProcessError(context);
             return null;
         } else if (responseEntity.getBody().getErrors() != null) {
             operationService.saveOperationException(processId, taskId, context, request, jsonUtil.toJsonNode(responseEntity.getBody()));
-            final List<ResponseErrorDto> errors = responseEntity.getBody().getErrors();
-            final String message = Objects.nonNull(errors) ?
-                    "Error in operation: " + context.getOperationId() + "; message: " + jsonUtil.toJson(errors) : "";
+            final List<ResponseErrorDto> responseErrors = responseEntity.getBody().getErrors();
+            for (final ResponseErrorDto error: responseErrors){
+                errors.add(new PlatformError(error.getCode(), error.getDescription()));
+            }
+            context.setErrors(errors);
+            final String message = Objects.nonNull(errors) ? "Error in operation: " + context.getOperationId() + "; details: " + jsonUtil.toJson(errors) : "";
             runtimeService.deleteProcessInstance(processId, message);
-            startProcessError(context, message);
+            startProcessError(context);
             return null;
         } else {
             return jsonUtil.toJsonNode(responseEntity.getBody().getData());
