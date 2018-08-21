@@ -65,7 +65,7 @@ public class ProcessServiceImpl implements ProcessService {
             }
             context.setErrors(errors);
             sendErrorToPlatform(context);
-            runtimeService.deleteProcessInstance(processId, jsonUtil.toJson(details));
+            runtimeService.deleteProcessInstance(processId, context.getOperationId());
             return null;
         } else if (responseEntity.getBody().getErrors() != null) {
             operationService.saveOperationException(processId, taskId, context, request, jsonUtil.toJsonNode(responseEntity.getBody()));
@@ -76,7 +76,7 @@ public class ProcessServiceImpl implements ProcessService {
             if (errors.size() > 0) {
                 context.setErrors(errors);
                 sendErrorToPlatform(context);
-                runtimeService.deleteProcessInstance(processId, jsonUtil.toJson(errors));
+                runtimeService.deleteProcessInstance(processId, context.getOperationId());
             }
             return null;
         } else {
