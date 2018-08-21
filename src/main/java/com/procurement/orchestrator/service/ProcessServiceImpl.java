@@ -8,10 +8,7 @@ import com.procurement.orchestrator.domain.PlatformError;
 import com.procurement.orchestrator.domain.PlatformMessageData;
 import com.procurement.orchestrator.domain.dto.*;
 import com.procurement.orchestrator.utils.JsonUtil;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import org.camunda.bpm.engine.RuntimeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,7 +60,7 @@ public class ProcessServiceImpl implements ProcessService {
                                     final String taskId,
                                     final JsonNode request) {
 
-        final List<PlatformError> errors = null;
+        final List<PlatformError> errors = new ArrayList<>();
         if (responseEntity.getBody().getDetails() != null) {
             operationService.saveOperationException(processId, taskId, context, request, jsonUtil.toJsonNode(responseEntity.getBody()));
             final List<ResponseDetailsDto> details = responseEntity.getBody().getDetails();
@@ -81,10 +78,12 @@ public class ProcessServiceImpl implements ProcessService {
             for (final ResponseErrorDto error : responseErrors) {
                 errors.add(new PlatformError(error.getCode(), error.getDescription()));
             }
-            context.setErrors(errors);
-            final String message = Objects.nonNull(errors) ? "Error in operation: " + context.getOperationId() + "; details: " + jsonUtil.toJson(errors) : "";
-            runtimeService.deleteProcessInstance(processId, message);
-            startProcessError(context);
+            if (errors.size() > 0) {
+                context.setErrors(errors);
+                final String message = Objects.nonNull(errors) ? "Error in operation: " + context.getOperationId() + "; details: " + jsonUtil.toJson(errors) : "";
+                runtimeService.deleteProcessInstance(processId, message);
+                startProcessError(context);
+            }
             return null;
         } else {
             return jsonUtil.toJsonNode(responseEntity.getBody().getData());

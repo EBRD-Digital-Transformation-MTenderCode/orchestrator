@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.config.kafka;
 
+import com.datastax.driver.core.utils.UUIDs;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.Rule;
@@ -71,7 +72,7 @@ public class MessageConsumer {
             context.setLanguage(prevContext.getLanguage());
             context.setStartDate(dateUtil.nowFormatted());
             context.setInitiator("bpe");
-            context.setResponseId(context.getRequestId());
+            context.setResponseId(UUIDs.timeBased().toString());
 
             saveRequestAndCheckOperation(context, jsonUtil.empty());
             final Map<String, Object> variables = new HashMap<>();
