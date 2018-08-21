@@ -236,7 +236,7 @@ public class ProcessServiceImpl implements ProcessService {
         data.setOcid(responseData.get("ocid").asText());
         data.setOperationDate(context.getStartDate());
         data.setUrl(getText("url", responseData, processId));
-        if (outcomeArray.size() > 0) {
+        if (outcomeArray.size() > 0 && data.getOutcomes() == null) {
             data.setOutcomes(outcomes);
         }
         context.setData(data);
