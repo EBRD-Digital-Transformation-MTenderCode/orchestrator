@@ -84,21 +84,6 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public void sendErrorToPlatform(final Context context) {
-        final PlatformMessage message = new PlatformMessage();
-        message.setInitiator(context.getInitiator());
-        message.setOperationId(context.getOperationId());
-        message.setResponseId(context.getResponseId());
-        message.setErrors(context.getErrors());
-
-        final Notification notification = new Notification(
-                UUID.fromString(context.getOwner()),
-                UUID.fromString(context.getOperationId()),
-                jsonUtil.toJson(message)
-        );
-        messageProducer.sendToPlatform(notification);
-    }
-
     public String getText(final String fieldName, final JsonNode jsonData, final String processId) {
         try {
             return jsonData.get(fieldName).asText();
@@ -211,7 +196,6 @@ public class ProcessServiceImpl implements ProcessService {
         return context;
     }
 
-
     public Context addContractOutcomeToContext(final Context context, final JsonNode responseData, final String processId) {
         final ObjectNode outcomes = jsonUtil.createObjectNode();
         final ArrayNode outcomeArray = jsonUtil.createArrayNode();
@@ -245,14 +229,23 @@ public class ProcessServiceImpl implements ProcessService {
             }
             outcomes.replace("amendments", outcomeArray);
         }
-        final PlatformMessageData data = context.getData();
-        if (data != null) {
-            data.setUrl(getText("url", responseData, processId));
-            if (outcomeArray.size() > 0) {
-                data.setOutcomes(outcomes);
-            }
-            context.setData(data);
+        PlatformMessageData data = context.getData();
+        if (data == null) {
+            data = new PlatformMessageData();
         }
+        data.setUrl(getText("url", responseData, processId));
+        if (outcomeArray.size() > 0) {
+            data.setOutcomes(outcomes);
+        }
+        context.setData(data);
+        String ocid = context.getOcid();
+        if (ocid == null) {
+            ocid = context.getCpid();
+        }
+        data.setOcid(ocid);
+        data.setOperationDate(context.getStartDate());
+        context.setData(data);
+
         return context;
     }
 
@@ -865,5 +858,19 @@ public class ProcessServiceImpl implements ProcessService {
             terminateProcess(processId, e.getMessage());
             return null;
         }
+    }
+
+    public void sendErrorToPlatform(final Context context) {
+        final PlatformMessage message = new PlatformMessage();
+        message.setOperationId(context.getOperationId());
+        message.setResponseId(context.getResponseId());
+        message.setErrors(context.getErrors());
+
+        final Notification notification = new Notification(
+                UUID.fromString(context.getOwner()),
+                UUID.fromString(context.getOperationId()),
+                jsonUtil.toJson(message)
+        );
+        messageProducer.sendToPlatform(notification);
     }
 }
