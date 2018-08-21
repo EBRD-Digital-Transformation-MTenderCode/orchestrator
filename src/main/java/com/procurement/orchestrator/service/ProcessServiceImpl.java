@@ -214,7 +214,7 @@ public class ProcessServiceImpl implements ProcessService {
         final ObjectNode outcomes = jsonUtil.createObjectNode();
         final ArrayNode outcomeArray = jsonUtil.createArrayNode();
         final ArrayNode amendmentsArray = (ArrayNode) responseData.get("amendments");
-        final String id = responseData.get("id").asText();
+        final JsonNode idNode = responseData.get("id");
         if (amendmentsArray != null) {
             for (final JsonNode amendment : amendmentsArray) {
                 final ObjectNode outcomeItem = jsonUtil.createObjectNode();
@@ -223,9 +223,9 @@ public class ProcessServiceImpl implements ProcessService {
             }
             outcomes.replace("amendments", outcomeArray);
         }
-        if (id != null) {
+        if (idNode != null) {
             final ObjectNode outcomeItem = jsonUtil.createObjectNode();
-            outcomeItem.put("id", id);
+            outcomeItem.put("id", idNode.asText());
             outcomeArray.add(outcomeItem);
             outcomes.replace("amendments", outcomeArray);
         }
