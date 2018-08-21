@@ -232,20 +232,18 @@ public class ProcessServiceImpl implements ProcessService {
         PlatformMessageData data = context.getData();
         if (data == null) {
             data = new PlatformMessageData();
+            String ocid = context.getOcid();
+            if (ocid == null) {
+                ocid = context.getCpid();
+            }
+            data.setOcid(ocid);
+            data.setOperationDate(context.getStartDate());
         }
         data.setUrl(getText("url", responseData, processId));
         if (outcomeArray.size() > 0) {
             data.setOutcomes(outcomes);
         }
         context.setData(data);
-        String ocid = context.getOcid();
-        if (ocid == null) {
-            ocid = context.getCpid();
-        }
-        data.setOcid(ocid);
-        data.setOperationDate(context.getStartDate());
-        context.setData(data);
-
         return context;
     }
 
