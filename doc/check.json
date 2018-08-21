@@ -1,1 +1,10 @@
-data":{"outcomes":{"awards":[{"id":"8b852650-a561-11e8-b3f1-937ccfae459e","X-TOKEN":"41781d30-d4a0-47a3-9476-d6c00176f9fe"},{"id":"8b852651-a561-11e8-b3f1-937ccfae459e","X-TOKEN":"07e85fe7-d5f5-4048-9bf3-7f2f6c00d978"}]}}
+{
+  "X-OPERATION-ID": "98d49d3c-68c6-11e8-adc0-fa7ae01bb281",
+  "X-RESPONSE-ID": "1c12bc71-a565-11e8-85f9-97998ad23572",
+  "errors": [
+    {
+      "code": "400.03.00",
+      "description": "Request method 'POST' not supported"
+    }
+  ]
+}

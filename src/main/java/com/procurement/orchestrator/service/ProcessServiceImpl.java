@@ -857,8 +857,12 @@ public class ProcessServiceImpl implements ProcessService {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
             final JsonNode relatedLotNode = jsonData.get("enquiry").get("relatedLot");
-            mainNode.replace("relatedLot", relatedLotNode);
-            return mainNode;
+            if (relatedLotNode != null) {
+                mainNode.replace("relatedLot", relatedLotNode);
+                return mainNode;
+            } else {
+                return null;
+            }
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
             return null;
