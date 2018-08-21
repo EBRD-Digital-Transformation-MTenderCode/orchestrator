@@ -125,8 +125,6 @@ public class ProcessServiceImpl implements ProcessService {
         outcomes.replace(outcomeKey.toLowerCase(), outcomeArray);
 
         final PlatformMessageData data = new PlatformMessageData();
-        data.setOcid(outcomeId);
-        data.setOperationDate(context.getStartDate());
         data.setOutcomes(outcomes);
         context.setData(data);
         return context;
@@ -169,8 +167,6 @@ public class ProcessServiceImpl implements ProcessService {
         }
         outcomes.replace("awards", outcomeArray);
         final PlatformMessageData data = new PlatformMessageData();
-        data.setOcid(context.getOcid());
-        data.setOperationDate(context.getStartDate());
         data.setOutcomes(outcomes);
         context.setData(data);
         return context;
@@ -190,8 +186,6 @@ public class ProcessServiceImpl implements ProcessService {
         }
         outcomes.replace("cans", outcomeArray);
         final PlatformMessageData data = new PlatformMessageData();
-        data.setOcid(context.getCpid());
-        data.setOperationDate(context.getStartDate());
         data.setOutcomes(outcomes);
         context.setData(data);
         return context;
@@ -211,8 +205,6 @@ public class ProcessServiceImpl implements ProcessService {
         }
         outcomes.replace("ac", outcomeArray);
         final PlatformMessageData data = new PlatformMessageData();
-        data.setOcid(context.getCpid());
-        data.setOperationDate(context.getStartDate());
         data.setOutcomes(outcomes);
         context.setData(data);
         return context;
@@ -233,13 +225,9 @@ public class ProcessServiceImpl implements ProcessService {
         PlatformMessageData data = context.getData();
         if (data == null) {
             data = new PlatformMessageData();
-            String ocid = context.getOcid();
-            if (ocid == null) {
-                ocid = context.getCpid();
-            }
-            data.setOcid(ocid);
-            data.setOperationDate(context.getStartDate());
         }
+        data.setOcid(responseData.get("ocid").asText());
+        data.setOperationDate(context.getStartDate());
         data.setUrl(getText("url", responseData, processId));
         if (outcomeArray.size() > 0) {
             data.setOutcomes(outcomes);
