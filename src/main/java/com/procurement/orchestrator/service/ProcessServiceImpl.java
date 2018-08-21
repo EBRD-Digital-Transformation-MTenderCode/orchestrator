@@ -148,6 +148,7 @@ public class ProcessServiceImpl implements ProcessService {
         final PlatformMessageData data = new PlatformMessageData();
         data.setOcid(context.getOcid());
         data.setOperationDate(context.getStartDate());
+        data.setUrl("http://dev.public.eprocurement.systems/tenders/" + context.getCpid() + "/" + context.getOcid());
         data.setOutcomes(outcomes);
         context.setData(data);
 
@@ -220,11 +221,11 @@ public class ProcessServiceImpl implements ProcessService {
     public Context addNoticeOutcomeToContext(final Context context, final JsonNode responseData, final String processId) {
         final ObjectNode outcomes = jsonUtil.createObjectNode();
         final ArrayNode outcomeArray = jsonUtil.createArrayNode();
-        final ArrayNode amendmentsNode = (ArrayNode) responseData.get("amendments");
-        if (amendmentsNode != null) {
-            for (final JsonNode amendmentNode : amendmentsNode) {
+        final ArrayNode amendmentsArray = (ArrayNode) responseData.get("amendments");
+        if (amendmentsArray != null) {
+            for (final JsonNode amendment : amendmentsArray) {
                 final ObjectNode outcomeItem = jsonUtil.createObjectNode();
-                outcomeItem.put("id", amendmentNode.get("id").asText());
+                outcomeItem.put("id", amendment.asText());
                 outcomeArray.add(outcomeItem);
             }
             outcomes.replace("amendments", outcomeArray);
