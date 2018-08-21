@@ -86,7 +86,12 @@ public class ProcessServiceImpl implements ProcessService {
 
     public String getText(final String fieldName, final JsonNode jsonData, final String processId) {
         try {
-            return jsonData.get(fieldName).asText();
+            final JsonNode jsonNode = jsonData.get(fieldName);
+            if (jsonNode != null) {
+                return jsonNode.asText();
+            } else {
+                return null;
+            }
         } catch (Exception e) {
             terminateProcess(processId, fieldName + " not found.");
         }
@@ -95,7 +100,12 @@ public class ProcessServiceImpl implements ProcessService {
 
     public Boolean getBoolean(final String fieldName, final JsonNode jsonData, final String processId) {
         try {
-            return jsonData.get(fieldName).asBoolean();
+            final JsonNode jsonNode = jsonData.get(fieldName);
+            if (jsonNode != null) {
+                return jsonNode.asBoolean();
+            } else {
+                return null;
+            }
         } catch (Exception e) {
             terminateProcess(processId, fieldName + " not found.");
         }
@@ -132,23 +142,23 @@ public class ProcessServiceImpl implements ProcessService {
     public Context addBidOutcomeToContext(final Context context, final JsonNode responseData, final String processId) {
         final String token = getText("token", responseData, processId);
         final String outcomeId = getText("bidId", responseData, processId);
-        final ObjectNode outcomes = jsonUtil.createObjectNode();
-        final ArrayNode outcomeArray = jsonUtil.createArrayNode();
-        final ObjectNode outcomeItem = jsonUtil.createObjectNode();
-        outcomeItem.put("id", outcomeId);
-        outcomeItem.put("X-TOKEN", token);
-        outcomeArray.add(outcomeItem);
-        outcomes.replace("bids", outcomeArray);
-        context.setToken(token);
-        context.setId(outcomeId);
-
         final PlatformMessageData data = new PlatformMessageData();
         data.setOcid(context.getOcid());
         data.setOperationDate(context.getStartDate());
         data.setUrl("http://dev.public.eprocurement.systems/tenders/" + context.getCpid() + "/" + context.getOcid());
-        data.setOutcomes(outcomes);
+        if (outcomeId != null) {
+            final ObjectNode outcomes = jsonUtil.createObjectNode();
+            final ArrayNode outcomeArray = jsonUtil.createArrayNode();
+            final ObjectNode outcomeItem = jsonUtil.createObjectNode();
+            outcomeItem.put("id", outcomeId);
+            outcomeItem.put("X-TOKEN", token);
+            outcomeArray.add(outcomeItem);
+            outcomes.replace("bids", outcomeArray);
+            context.setToken(token);
+            context.setId(outcomeId);
+            data.setOutcomes(outcomes);
+        }
         context.setData(data);
-
         return context;
     }
 
