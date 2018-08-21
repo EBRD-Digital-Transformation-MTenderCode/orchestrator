@@ -64,9 +64,8 @@ public class ProcessServiceImpl implements ProcessService {
                 errors.add(new PlatformError(detail.getCode(), detail.getMessage()));
             }
             context.setErrors(errors);
-            final String message = Objects.nonNull(details) ? "Error in operation: " + context.getOperationId() + "; details: " + jsonUtil.toJson(details) : "";
-            runtimeService.deleteProcessInstance(processId, message);
             sendErrorToPlatform(context);
+            runtimeService.deleteProcessInstance(processId, jsonUtil.toJson(details));
             return null;
         } else if (responseEntity.getBody().getErrors() != null) {
             operationService.saveOperationException(processId, taskId, context, request, jsonUtil.toJsonNode(responseEntity.getBody()));
@@ -76,9 +75,8 @@ public class ProcessServiceImpl implements ProcessService {
             }
             if (errors.size() > 0) {
                 context.setErrors(errors);
-                final String message = Objects.nonNull(errors) ? "Error in operation: " + context.getOperationId() + "; details: " + jsonUtil.toJson(errors) : "";
-                runtimeService.deleteProcessInstance(processId, message);
                 sendErrorToPlatform(context);
+                runtimeService.deleteProcessInstance(processId, jsonUtil.toJson(errors));
             }
             return null;
         } else {
