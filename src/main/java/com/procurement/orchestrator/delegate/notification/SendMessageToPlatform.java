@@ -3,6 +3,7 @@ package com.procurement.orchestrator.delegate.notification;
 import com.procurement.orchestrator.config.kafka.MessageProducer;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.Notification;
+import com.procurement.orchestrator.domain.OperationType;
 import com.procurement.orchestrator.domain.PlatformMessage;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.service.OperationService;
@@ -35,25 +36,34 @@ public class SendMessageToPlatform implements JavaDelegate {
     @Override
     public void execute(final DelegateExecution execution) {
         LOG.info(execution.getCurrentActivityName());
+
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
+        final String operationType = context.getOperationType();
+        if (OperationType.fromValue(operationType) != OperationType.SUSPEND_TENDER
+                || OperationType.fromValue(operationType) != OperationType.UNSUSPEND_TENDER
+                || OperationType.fromValue(operationType) != OperationType.UNSUCCESSFUL_TENDER
+                || OperationType.fromValue(operationType) != OperationType.STANDSTILL_PERIOD
+                || OperationType.fromValue(operationType) != OperationType.STANDSTILL_PERIOD_EV) {
 
-        final PlatformMessage message = new PlatformMessage();
-        message.setInitiator(context.getInitiator());
-        message.setOperationId(context.getOperationId());
-        message.setResponseId(context.getResponseId());
-        message.setData(context.getData());
+            final PlatformMessage message = new PlatformMessage();
+            message.setInitiator(context.getInitiator());
+            message.setOperationId(context.getOperationId());
+            message.setResponseId(context.getResponseId());
+            message.setData(context.getData());
 
-        final Notification notification = new Notification(
-                UUID.fromString(context.getOwner()),
-                UUID.fromString(context.getOperationId()),
-                jsonUtil.toJson(message)
-        );
-        messageProducer.sendToPlatform(notification);
-        operationService.saveOperationStep(
-                execution,
-                entity,
-                context,
-                jsonUtil.toJsonNode(notification));
+            final Notification notification = new Notification(
+                    UUID.fromString(context.getOwner()),
+                    UUID.fromString(context.getOperationId()),
+                    jsonUtil.toJson(message)
+            );
+            messageProducer.sendToPlatform(notification);
+            operationService.saveOperationStep(
+                    execution,
+                    entity,
+                    context,
+                    jsonUtil.empty(),
+                    jsonUtil.toJsonNode(notification));
+        }
     }
 }

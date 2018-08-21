@@ -181,10 +181,10 @@ public class ProcessServiceImpl implements ProcessService {
         final ArrayNode outcomeArray = jsonUtil.createArrayNode();
         final ArrayNode cansNode = (ArrayNode) responseData.get("cans");
         for (final JsonNode canNode : cansNode) {
-            if (canNode.get("token") != null) {
+            if (canNode.get("contract").get("token") != null) {
                 final ObjectNode outcomeItem = jsonUtil.createObjectNode();
-                outcomeItem.put("id", canNode.get("id").asText());
-                outcomeItem.put("X-TOKEN", canNode.get("token").asText());
+                outcomeItem.put("id", canNode.get("contract").get("id").asText());
+                outcomeItem.put("X-TOKEN", canNode.get("contract").get("token").asText());
                 outcomeArray.add(outcomeItem);
             }
         }
