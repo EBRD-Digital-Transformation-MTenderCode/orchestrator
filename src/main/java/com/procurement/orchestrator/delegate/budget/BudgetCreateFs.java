@@ -61,6 +61,6 @@ public class BudgetCreateFs implements JavaDelegate {
     private Context addDataToContext(final Context context, final JsonNode responseData, final String processId) {
         context.setOcid(responseData.get("fs").get("ocid").asText());
         context.setToken(responseData.get("fs").get("token").asText());
-        return processService.addOutcomeToContext(context, "fs", context.getOcid(), responseData, processId);
+        return context;
     }
 }

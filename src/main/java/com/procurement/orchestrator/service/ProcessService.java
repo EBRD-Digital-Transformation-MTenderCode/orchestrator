@@ -30,7 +30,7 @@ public interface ProcessService {
 
     String getTenderPeriodEndDate(JsonNode jsonData, String processId);
 
-    Context addOutcomeToContext(Context context, String outcomeKey, String outcomeId, JsonNode responseData, String processId);
+    Context addEnquiryOutcomeToContext(Context context, JsonNode responseData, String processId);
 
     Context addBidOutcomeToContext(Context context, JsonNode responseData, String processId);
 

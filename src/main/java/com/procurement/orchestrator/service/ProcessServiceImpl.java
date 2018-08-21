@@ -111,18 +111,17 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public Context addOutcomeToContext(final Context context,
-                                       final String outcomeKey,
-                                       final String outcomeId,
-                                       final JsonNode responseData,
-                                       final String processId) {
+    public Context addEnquiryOutcomeToContext(final Context context,
+                                              final JsonNode responseData,
+                                              final String processId) {
         final ObjectNode outcomes = jsonUtil.createObjectNode();
         final ArrayNode outcomeArray = jsonUtil.createArrayNode();
         final ObjectNode outcomeItem = jsonUtil.createObjectNode();
+        final String outcomeId = getEnquiryId(responseData, processId);
         outcomeItem.put("id", outcomeId);
         outcomeItem.put("X-TOKEN", context.getToken());
         outcomeArray.add(outcomeItem);
-        outcomes.replace(outcomeKey.toLowerCase(), outcomeArray);
+        outcomes.replace("enquiries", outcomeArray);
 
         final PlatformMessageData data = new PlatformMessageData();
         data.setOutcomes(outcomes);
@@ -226,6 +225,7 @@ public class ProcessServiceImpl implements ProcessService {
         if (idNode != null) {
             final ObjectNode outcomeItem = jsonUtil.createObjectNode();
             outcomeItem.put("id", idNode.asText());
+            outcomeItem.put("X-TOKEN", context.getToken());
             outcomeArray.add(outcomeItem);
             outcomes.replace(context.getStage().toLowerCase(), outcomeArray);
         }
