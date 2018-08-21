@@ -214,6 +214,7 @@ public class ProcessServiceImpl implements ProcessService {
         }
         outcomes.replace("ac", outcomeArray);
         final PlatformMessageData data = new PlatformMessageData();
+        context.setInitiator("bpe");
         data.setOutcomes(outcomes);
         context.setData(data);
         return context;
