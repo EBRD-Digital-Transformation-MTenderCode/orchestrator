@@ -3,9 +3,8 @@ package com.procurement.orchestrator.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.procurement.orchestrator.domain.Context;
-import com.procurement.orchestrator.domain.PlatformError;
-import com.procurement.orchestrator.domain.PlatformMessageData;
+import com.procurement.orchestrator.config.kafka.MessageProducer;
+import com.procurement.orchestrator.domain.*;
 import com.procurement.orchestrator.domain.dto.*;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.*;
@@ -22,26 +21,23 @@ public class ProcessServiceImpl implements ProcessService {
 
     private final RuntimeService runtimeService;
     private final OperationService operationService;
+    private final MessageProducer messageProducer;
 
     private final JsonUtil jsonUtil;
 
     public ProcessServiceImpl(final RuntimeService runtimeService,
                               final OperationService operationService,
+                              final MessageProducer messageProducer,
                               final JsonUtil jsonUtil) {
         this.operationService = operationService;
         this.runtimeService = runtimeService;
+        this.messageProducer = messageProducer;
         this.jsonUtil = jsonUtil;
     }
 
     public void startProcess(final Context context, final Map<String, Object> variables) {
         variables.put("requestId", context.getRequestId());
         runtimeService.startProcessInstanceByKey(context.getProcessType(), context.getOperationId(), variables);
-    }
-
-    public void startProcessError(final Context context) {
-        final Map<String, Object> variables = new HashMap<>();
-        variables.put("requestId", context.getRequestId());
-        runtimeService.startProcessInstanceByKey("error", variables);
     }
 
     public void terminateProcess(final String processId, final String message) {
@@ -70,7 +66,7 @@ public class ProcessServiceImpl implements ProcessService {
             context.setErrors(errors);
             final String message = Objects.nonNull(details) ? "Error in operation: " + context.getOperationId() + "; details: " + jsonUtil.toJson(details) : "";
             runtimeService.deleteProcessInstance(processId, message);
-            startProcessError(context);
+            sendErrorToPlatform(context);
             return null;
         } else if (responseEntity.getBody().getErrors() != null) {
             operationService.saveOperationException(processId, taskId, context, request, jsonUtil.toJsonNode(responseEntity.getBody()));
@@ -82,12 +78,27 @@ public class ProcessServiceImpl implements ProcessService {
                 context.setErrors(errors);
                 final String message = Objects.nonNull(errors) ? "Error in operation: " + context.getOperationId() + "; details: " + jsonUtil.toJson(errors) : "";
                 runtimeService.deleteProcessInstance(processId, message);
-                startProcessError(context);
+                sendErrorToPlatform(context);
             }
             return null;
         } else {
             return jsonUtil.toJsonNode(responseEntity.getBody().getData());
         }
+    }
+
+    public void sendErrorToPlatform(final Context context) {
+        final PlatformMessage message = new PlatformMessage();
+        message.setInitiator(context.getInitiator());
+        message.setOperationId(context.getOperationId());
+        message.setResponseId(context.getResponseId());
+        message.setErrors(context.getErrors());
+
+        final Notification notification = new Notification(
+                UUID.fromString(context.getOwner()),
+                UUID.fromString(context.getOperationId()),
+                jsonUtil.toJson(message)
+        );
+        messageProducer.sendToPlatform(notification);
     }
 
     public String getText(final String fieldName, final JsonNode jsonData, final String processId) {
@@ -138,7 +149,6 @@ public class ProcessServiceImpl implements ProcessService {
         return context;
     }
 
-    @Override
     public Context addBidOutcomeToContext(final Context context, final JsonNode responseData, final String processId) {
         final String token = getText("token", responseData, processId);
         final String outcomeId = getText("bidId", responseData, processId);
@@ -225,7 +235,6 @@ public class ProcessServiceImpl implements ProcessService {
         return context;
     }
 
-    @Override
     public Context addNoticeOutcomeToContext(final Context context, final JsonNode responseData, final String processId) {
         final ObjectNode outcomes = jsonUtil.createObjectNode();
         final ArrayNode outcomeArray = jsonUtil.createArrayNode();
@@ -266,7 +275,6 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    @Override
     public JsonNode addTenderTenderPeriodStartDate(final JsonNode jsonData, final String startDate, final String
             processId) {
         try {
@@ -322,7 +330,6 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    @Override
     public JsonNode addLotsAndAwardCriteria(final JsonNode jsonData, final JsonNode lotsData, final String processId) {
         try {
             ((ObjectNode) jsonData).replace("lots", lotsData.get("lots"));
@@ -359,7 +366,6 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    @Override
     public JsonNode addAwards(final JsonNode jsonData, final JsonNode awardsData, final String processId) {
         try {
             ((ObjectNode) jsonData).replace("awards", awardsData.get("awards"));
@@ -370,7 +376,6 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    @Override
     public JsonNode addCans(final JsonNode jsonData, final JsonNode cansData, final String processId) {
         try {
             final ObjectNode mainNode = (ObjectNode) jsonData;
@@ -382,7 +387,6 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    @Override
     public JsonNode addContracts(final JsonNode jsonData, final JsonNode data, final String processId) {
         try {
             final ObjectNode mainNode = (ObjectNode) jsonData;
@@ -406,7 +410,6 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    @Override
     public JsonNode getTenderLots(final JsonNode jsonData, final String processId) {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
@@ -453,42 +456,10 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    @Override
     public Boolean isBidsEmpty(final JsonNode responseData, final String processId) {
         try {
             final ArrayNode bidsNode = (ArrayNode) responseData.get("bids");
             return (bidsNode.size() == 0);
-        } catch (Exception e) {
-            terminateProcess(processId, e.getMessage());
-            return null;
-        }
-    }
-
-    @Override
-    public Boolean isAwardsEmpty(final JsonNode responseData, final String processId) {
-        try {
-            final ArrayNode awardsNode = (ArrayNode) responseData.get("awards");
-            return awardsNode.size() == 0;
-        } catch (Exception e) {
-            terminateProcess(processId, e.getMessage());
-            return null;
-        }
-    }
-
-    @Override
-    public String getFsId(final JsonNode jsonData, final String processId) {
-        try {
-            return jsonData.get("fs").get("ocid").asText();
-        } catch (Exception e) {
-            terminateProcess(processId, e.getMessage());
-            return null;
-        }
-    }
-
-    @Override
-    public String getFsToken(final JsonNode jsonData, final String processId) {
-        try {
-            return jsonData.get("fs").get("token").asText();
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
             return null;
@@ -503,7 +474,6 @@ public class ProcessServiceImpl implements ProcessService {
             return null;
         }
     }
-
 
     public String getLotId(final JsonNode jsonData, final String processId) {
         try {
@@ -543,7 +513,6 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    @Override
     public JsonNode addUpdatedLot(final JsonNode jsonData, final JsonNode lotData, final String processId) {
         try {
             ((ObjectNode) jsonData).replace("lot", lotData.get("lot"));
@@ -650,7 +619,6 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    @Override
     public JsonNode setAccessData(final JsonNode jsonData, final JsonNode responseData, final String processId) {
         try {
             final ObjectNode mainNode = (ObjectNode) jsonData;
@@ -663,7 +631,6 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    @Override
     public JsonNode getAccessData(final JsonNode jsonData, final String processId) {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
@@ -676,7 +643,6 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    @Override
     public JsonNode setTender(final JsonNode jsonData, final JsonNode responseData, final String processId) {
         try {
             final ObjectNode mainNode = (ObjectNode) jsonData;
@@ -688,7 +654,6 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    @Override
     public JsonNode getEiData(final JsonNode jsonData, final String processId) {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
@@ -702,7 +667,6 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    @Override
     public JsonNode setEiData(final JsonNode jsonData, final JsonNode responseData, final String processId) {
         try {
             final ObjectNode mainNode = (ObjectNode) jsonData;
@@ -717,7 +681,6 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    @Override
     public JsonNode getFsData(final JsonNode jsonData, final String processId) {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
@@ -733,7 +696,6 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    @Override
     public JsonNode setFsData(final JsonNode jsonData, final JsonNode responseData, final String processId) {
         try {
             final ObjectNode mainNode = (ObjectNode) jsonData;
@@ -749,7 +711,6 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    @Override
     public JsonNode getTenderData(final JsonNode jsonData, final String processId) {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
@@ -769,7 +730,6 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    @Override
     public JsonNode setTenderData(final JsonNode jsonData, final JsonNode responseData, final String processId) {
         try {
             final ObjectNode tenderNode = (ObjectNode) jsonData.get("tender");
@@ -789,7 +749,6 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    @Override
     public JsonNode getCheckItems(final JsonNode jsonData, final String processId) {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
@@ -806,7 +765,6 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    @Override
     public JsonNode setCheckItems(final JsonNode jsonData, final JsonNode responseData, final String processId) {
         try {
             final ObjectNode tenderNode = (ObjectNode) jsonData.get("tender");
@@ -819,7 +777,6 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    @Override
     public JsonNode getCheckFs(final JsonNode jsonData, final String startDate, final String processId) {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
@@ -833,7 +790,6 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    @Override
     public JsonNode setCheckFs(final JsonNode jsonData, final JsonNode responseData, final String processId) {
         try {
             final ObjectNode mainNode = (ObjectNode) jsonData;
@@ -852,7 +808,6 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    @Override
     public JsonNode getBidTenderersData(final JsonNode jsonData, final String processId) {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
@@ -865,7 +820,6 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    @Override
     public JsonNode setBidTenderersData(final JsonNode jsonData, final JsonNode responseData,
                                         final String processId) {
         try {
@@ -879,7 +833,6 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    @Override
     public JsonNode getEnquiryAuthor(final JsonNode jsonData, final String processId) {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
@@ -892,7 +845,6 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    @Override
     public JsonNode setEnquiryAuthor(final JsonNode jsonData, final JsonNode responseData, final String processId) {
         try {
             final ObjectNode enquiryNode = (ObjectNode) jsonData.get("enquiry");
@@ -905,7 +857,6 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    @Override
     public JsonNode getEnquiryRelatedLot(final JsonNode jsonData, final String processId) {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();

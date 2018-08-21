@@ -14,10 +14,7 @@ public interface ProcessService {
 
     void startProcess(Context context, Map<String, Object> variables);
 
-    void startProcessError(Context context);
-
     void terminateProcess(String processId, String message);
-
 
     CommandMessage getCommandMessage(CommandType commandType, Context context, JsonNode data);
 
@@ -78,12 +75,6 @@ public interface ProcessService {
     JsonNode addBids(JsonNode jsonData, JsonNode responseData, String processId);
 
     Boolean isBidsEmpty(JsonNode responseData, String processId);
-
-    Boolean isAwardsEmpty(JsonNode responseData, String processId);
-
-    String getFsId(JsonNode jsonData, String processId);
-
-    String getFsToken(JsonNode jsonData, String processId);
 
     String getAwardRelatedBid(JsonNode jsonData, String processId);
 

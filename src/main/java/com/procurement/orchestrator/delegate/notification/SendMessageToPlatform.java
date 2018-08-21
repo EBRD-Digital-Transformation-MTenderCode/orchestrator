@@ -1,6 +1,5 @@
 package com.procurement.orchestrator.delegate.notification;
 
-import com.datastax.driver.core.utils.UUIDs;
 import com.procurement.orchestrator.config.kafka.MessageProducer;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.Notification;
@@ -42,7 +41,7 @@ public class SendMessageToPlatform implements JavaDelegate {
         final PlatformMessage message = new PlatformMessage();
         message.setInitiator(context.getInitiator());
         message.setOperationId(context.getOperationId());
-        message.setResponseId(UUIDs.timeBased().toString());
+        message.setResponseId(context.getResponseId());
         message.setData(context.getData());
 
         final Notification notification = new Notification(
