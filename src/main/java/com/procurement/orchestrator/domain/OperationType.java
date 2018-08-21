@@ -36,6 +36,7 @@ public enum OperationType {
     STANDSTILL_PERIOD("standstillPeriod"),//no message
     STANDSTILL_PERIOD_EV("standstillPeriodEv"),//no message
     SUBMIT_THE_BID("submitTheBid"),
+    BID_WITHDRAWN("bidWithdrawn"),
     START_NEW_STAGE("startNewStage");
 
     private static final Map<String, OperationType> CONSTANTS = new HashMap<>();
