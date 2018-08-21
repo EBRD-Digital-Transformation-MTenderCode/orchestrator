@@ -1,5 +1,81 @@
 {
-  "platformId": "445f6851-c908-407d-9b45-14b92f3e964b",
-  "operationId": "3df03021-b5df-4161-9055-d601e3236b9e",
-  "message": "{\"initiator\":\"platform\",\"X-OPERATION-ID\":\"3df03021-b5df-4161-9055-d601e3236b9e\",\"data\":{\"ocid\":\"ocds-t1s2t3-MD-1534775452432\",\"url\":\"http://dev.public.eprocurement.systems/budgets/ocds-t1s2t3-MD-1534775452432/ocds-t1s2t3-MD-1534775452432\",\"operationDate\":\"2018-08-20T14:30:29Z\",\"outcomes\":{\"ei\":[{\"id\":\"ocds-t1s2t3-MD-1534775452432\",\"X-TOKEN\":\"045ae1b3-ddb4-4b60-9462-43cd80013903\"}]}}}"
+  "id": "0e09671a-63be-4050-b5a4-512a2a9be001",
+  "command": "checkItems",
+  "context": {
+    "operationId": "0e09671a-63be-4050-b5a4-512a2a9be001",
+    "requestId": "80d48b30-a497-11e8-9272-7983407c6c6a",
+    "stage": "EV",
+    "processType": "createCN",
+    "operationType": "createCN",
+    "phase": "TENDERING",
+    "owner": "445f6851-c908-407d-9b45-14b92f3e964b",
+    "country": "MD",
+    "language": "ro",
+    "pmd": "TEST_OT",
+    "startDate": "2018-08-20T16:38:44Z",
+    "endDate": "2018-08-20T17:00:00Z",
+    "setExtendedPeriod": false
+  },
+  "data": {
+    "items": [
+      {
+        "id": "root_section2_lots_0_items_0_itemId",
+        "relatedLot": "root_section2_lots_0_description_lotId",
+        "description": "Short description of item 1 - 1",
+        "quantity": 100,
+        "unit": {
+          "id": "357",
+          "name": " in2 "
+        },
+        "classification": {
+          "scheme": "CPV",
+          "id": "55100000-1",
+          "description": "Hotel services"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "CPVs",
+            "id": "AA01-1",
+            "description": "Metal"
+          },
+          {
+            "scheme": "CPVs",
+            "id": "AA02-4",
+            "description": "Aluminium"
+          }
+        ]
+      },
+      {
+        "id": "root_section2_lots_0_items_1_itemId",
+        "relatedLot": "root_section2_lots_0_description_lotId",
+        "description": "Short description of item 1 - 2",
+        "quantity": 120,
+        "unit": {
+          "id": "357",
+          "name": " h lucr. "
+        },
+        "classification": {
+          "scheme": "CPV",
+          "id": "55400000-4",
+          "description": "Beverage-serving services"
+        }
+      },
+      {
+        "id": "root_section2_lots_1_items_0_itemId",
+        "relatedLot": "root_section2_lots_1_description_lotId",
+        "description": "Short description of item*",
+        "quantity": 210,
+        "unit": {
+          "id": "357",
+          "name": " mln m2 ar.tot. "
+        },
+        "classification": {
+          "scheme": "CPV",
+          "id": "55100000-1",
+          "description": "Hotel services"
+        }
+      }
+    ]
+  },
+  "version": "0.0.1"
 }
