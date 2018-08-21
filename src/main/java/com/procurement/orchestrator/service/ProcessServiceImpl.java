@@ -227,7 +227,7 @@ public class ProcessServiceImpl implements ProcessService {
             final ObjectNode outcomeItem = jsonUtil.createObjectNode();
             outcomeItem.put("id", idNode.asText());
             outcomeArray.add(outcomeItem);
-            outcomes.replace("amendments", outcomeArray);
+            outcomes.replace(context.getStage().toLowerCase(), outcomeArray);
         }
         PlatformMessageData data = context.getData();
         if (data == null) {
