@@ -132,6 +132,8 @@ public interface ProcessService {
 
     JsonNode setBidTenderersData(JsonNode jsonData, JsonNode responseData, String processId);
 
+    String getEnquiryId(JsonNode jsonData, String processId);
+
     JsonNode getEnquiryAuthor(JsonNode jsonData, String processId);
 
     JsonNode setEnquiryAuthor(JsonNode jsonData, JsonNode responseData, String processId);

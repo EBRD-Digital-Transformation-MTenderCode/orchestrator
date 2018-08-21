@@ -214,12 +214,19 @@ public class ProcessServiceImpl implements ProcessService {
         final ObjectNode outcomes = jsonUtil.createObjectNode();
         final ArrayNode outcomeArray = jsonUtil.createArrayNode();
         final ArrayNode amendmentsArray = (ArrayNode) responseData.get("amendments");
+        final String id = responseData.get("id").asText();
         if (amendmentsArray != null) {
             for (final JsonNode amendment : amendmentsArray) {
                 final ObjectNode outcomeItem = jsonUtil.createObjectNode();
                 outcomeItem.put("id", amendment.asText());
                 outcomeArray.add(outcomeItem);
             }
+            outcomes.replace("amendments", outcomeArray);
+        }
+        if (id != null) {
+            final ObjectNode outcomeItem = jsonUtil.createObjectNode();
+            outcomeItem.put("id", id);
+            outcomeArray.add(outcomeItem);
             outcomes.replace("amendments", outcomeArray);
         }
         PlatformMessageData data = context.getData();
@@ -805,6 +812,17 @@ public class ProcessServiceImpl implements ProcessService {
             final JsonNode tenderersResponseNode = responseData.get("tenderers");
             bidNode.replace("tenderers", tenderersResponseNode);
             return jsonData;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public String getEnquiryId(final JsonNode jsonData, final String processId) {
+        try {
+            final String enquiryId = jsonData.get("enquiry").get("id").asText();
+            return enquiryId;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
             return null;
