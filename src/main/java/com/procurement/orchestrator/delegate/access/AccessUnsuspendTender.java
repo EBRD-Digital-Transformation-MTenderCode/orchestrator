@@ -55,13 +55,19 @@ public class AccessUnsuspendTender implements JavaDelegate {
                 taskId,
                 jsonUtil.empty());
         if (Objects.nonNull(responseData)) {
-            context.setOperationType("unsuspendTender");
-            operationService.saveOperationStep(
-                    execution,
-                    entity,
-                    context,
-                    jsonUtil.empty(),
-                    processService.addTenderStatus(jsonData, responseData, processId));
+            final String statusDetails = processService.getText("statusDetails", responseData, processId);
+            if (statusDetails != null) {
+                context.setOperationType("unsuspendTender");
+                execution.setVariable("operationType", "unsuspendTender");
+                operationService.saveOperationStep(
+                        execution,
+                        entity,
+                        context,
+                        jsonUtil.empty(),
+                        processService.addTenderStatus(jsonData, responseData, processId));
+            } else {
+                execution.setVariable("operationType", "addAnswer");
+            }
         }
     }
 }
