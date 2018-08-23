@@ -66,7 +66,7 @@ public class NotificationServiceImpl implements NotificationService {
         final ObjectNode outcomes = jsonUtil.createObjectNode();
         final ArrayNode outcomeArray = jsonUtil.createArrayNode();
         final ObjectNode outcomeItem = jsonUtil.createObjectNode();
-        for (final Outcome outcome: contextOutcomes){
+        for (final Outcome outcome : contextOutcomes) {
             outcomeItem.put("id", outcome.getId());
             if (outcome.getToken() != null) {
                 outcomeItem.put("X-TOKEN", outcome.getToken());
@@ -99,8 +99,10 @@ public class NotificationServiceImpl implements NotificationService {
         final Set<Outcome> outcomes = new HashSet<>();
         final ArrayNode awardsNode = (ArrayNode) responseData.get("awards");
         for (final JsonNode awardNode : awardsNode) {
-            final Outcome outcome = new Outcome(awardNode.get("id").asText(), awardNode.get("token").asText());
-            outcomes.add(outcome);
+            if (awardNode.get("token") != null) {
+                final Outcome outcome = new Outcome(awardNode.get("id").asText(), awardNode.get("token").asText());
+                outcomes.add(outcome);
+            }
         }
         context.setOutcomes(outcomes);
         return context;
@@ -219,8 +221,8 @@ public class NotificationServiceImpl implements NotificationService {
                 break;
             }
             case UPDATE_PN: {
-                data.setOcid(context.getCpid());
-                data.setUrl(getTenderUri(context.getCpid(), null));
+                data.setOcid(context.getOcid());
+                data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
                 break;
             }
             case CREATE_PIN_ON_PN: {
@@ -238,7 +240,7 @@ public class NotificationServiceImpl implements NotificationService {
             case CREATE_ENQUIRY: {
                 data.setOcid(context.getOcid());
                 data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
-                data.setOutcomes(getOutcomes("enquiries", context.getOutcomes()));
+                data.setOutcomes(getOutcomes("enquiries", context.getId(), context.getToken()));
                 break;
             }
             case ADD_ANSWER: {
