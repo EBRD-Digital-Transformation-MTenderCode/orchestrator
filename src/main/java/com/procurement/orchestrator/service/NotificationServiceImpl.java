@@ -251,7 +251,7 @@ public class NotificationServiceImpl implements NotificationService {
             case CREATE_BID: {
                 data.setOcid(context.getOcid());
                 data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
-                data.setOutcomes(getOutcomes("bids", context.getOutcomes()));
+                data.setOutcomes(getOutcomes("bids", context.getId(), context.getToken()));
                 break;
             }
             case UPDATE_BID: {
