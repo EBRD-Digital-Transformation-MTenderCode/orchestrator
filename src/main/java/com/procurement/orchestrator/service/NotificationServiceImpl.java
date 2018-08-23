@@ -15,9 +15,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class NotificationServiceImpl implements NotificationService {
 
-    @Value("{uri.budget}")
+    @Value("${uri.budget}")
     private String budgetUri;
-    @Value("{uri.tender}")
+    @Value("${uri.tender}")
     private String tenderUri;
 
     private final ProcessService processService;
