@@ -263,12 +263,14 @@ public class NotificationServiceImpl implements NotificationService {
                 break;
             }
             case TENDER_PERIOD_END: {
+                message.setInitiator(BPE);
                 data.setOcid(context.getOcid());
                 data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
                 data.setOutcomes(getOutcomes("awards", context.getOutcomes()));
                 break;
             }
             case TENDER_PERIOD_END_EV: {
+                message.setInitiator(BPE);
                 data.setOcid(context.getOcid());
                 data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
                 data.setOutcomes(getOutcomes("awards", context.getOutcomes()));
@@ -297,12 +299,14 @@ public class NotificationServiceImpl implements NotificationService {
                 break;
             }
             case AWARD_PERIOD_END: {
+                message.setInitiator(BPE);
                 data.setOcid(context.getOcid());
                 data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
                 data.setOutcomes(getOutcomes("contracts", context.getOutcomes()));
                 break;
             }
             case AWARD_PERIOD_END_EV: {
+                message.setInitiator(BPE);
                 data.setOcid(context.getOcid());
                 data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
                 data.setOutcomes(getOutcomes("contracts", context.getOutcomes()));
