@@ -123,6 +123,7 @@ public class TenderController extends DoBaseController {
                                             @PathVariable("ocid") final String ocid,
                                             @RequestBody final JsonNode data) {
         final Context context = requestService.getContextForUpdate(authorization, operationId.toString(), cpid, ocid, null, "submitTheBid");
+        context.setOperationType("createBid");
         requestService.saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("operationType", "createBid");
@@ -140,6 +141,7 @@ public class TenderController extends DoBaseController {
                                             @RequestBody final JsonNode data) {
         final Context context = requestService.getContextForUpdate(authorization, operationId.toString(), cpid, ocid, token, "submitTheBid");
         context.setId(id.toString());
+        context.setOperationType("updateBid");
         requestService.saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("operationType", "updateBid");
