@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.util.List;
+import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -32,5 +33,5 @@ public class PlatformMessage {
     private PlatformMessageData data;
 
     @JsonProperty("errors")
-    private List<PlatformError> errors;
+    private Set<PlatformError> errors;
 }

@@ -149,8 +149,6 @@ public class RequestServiceImpl implements RequestService {
         context.setOwner(getOwner(authorization));
         context.setOperationId(operationId);
         context.setLanguage(lang);
-        context.setInitiator(initiator);
-        context.setResponseId(UUIDs.timeBased().toString());
         context.setStartDate(dateUtil.nowFormatted());
 
         return context;
@@ -182,8 +180,6 @@ public class RequestServiceImpl implements RequestService {
         context.setOcid(ocid);
         context.setToken(token);
         context.setLanguage(lang);
-        context.setInitiator(initiator);
-        context.setResponseId(UUIDs.timeBased().toString());
         context.setStartDate(dateUtil.nowFormatted());
 
         return context;

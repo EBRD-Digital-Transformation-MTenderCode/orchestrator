@@ -25,7 +25,9 @@ eureka:
   client:
     enabled: false
 
-ocds.prefix: ocds-t1s2t3
+uri:
+  budget: http://public.eprocurement.systems/budget/
+  tender: http://public.eprocurement.systems/tender/
 
 camunda:
    bpm:

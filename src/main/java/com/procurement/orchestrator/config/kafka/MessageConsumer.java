@@ -71,8 +71,6 @@ public class MessageConsumer {
             context.setToken(prevContext.getToken());
             context.setLanguage(prevContext.getLanguage());
             context.setStartDate(dateUtil.nowFormatted());
-            context.setInitiator("bpe");
-            context.setResponseId(UUIDs.timeBased().toString());
 
             saveRequestAndCheckOperation(context, jsonUtil.empty());
             final Map<String, Object> variables = new HashMap<>();

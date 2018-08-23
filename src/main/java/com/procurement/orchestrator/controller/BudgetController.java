@@ -49,8 +49,6 @@ public class BudgetController extends DoBaseController {
         context.setOwner(requestService.getOwner(authorization));
         context.setProcessType("ei");
         context.setOperationType("createEI");
-        context.setInitiator(initiator);
-        context.setResponseId(UUIDs.timeBased().toString());
         requestService.saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("isTokenPresent", 0);
@@ -78,8 +76,6 @@ public class BudgetController extends DoBaseController {
         context.setOperationType("updateEI");
         context.setOwner(requestService.getOwner(authorization));
         context.setToken(token);
-        context.setInitiator(initiator);
-        context.setResponseId(UUIDs.timeBased().toString());
         requestService.saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("isTokenPresent", (context.getToken() == null || "".equals(context.getToken().trim())) ? 0 : 1);
@@ -105,8 +101,6 @@ public class BudgetController extends DoBaseController {
         context.setProcessType("fs");
         context.setOperationType("createFS");
         context.setOwner(requestService.getOwner(authorization));
-        context.setInitiator(initiator);
-        context.setResponseId(UUIDs.timeBased().toString());
         requestService.saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("isTokenPresent", 0);
@@ -137,8 +131,6 @@ public class BudgetController extends DoBaseController {
         context.setOperationType("updateFS");
         context.setOwner(requestService.getOwner(authorization));
         context.setToken(token);
-        context.setInitiator(initiator);
-        context.setResponseId(UUIDs.timeBased().toString());
         requestService.saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("isTokenPresent", (context.getToken() == null || "".equals(context.getToken().trim())) ? 0 : 1);

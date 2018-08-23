@@ -33,9 +33,10 @@ public enum OperationType {
     AWARD_BY_BID_EV("awardByBidEv"),
     AWARD_PERIOD_END("awardPeriodEnd"),
     AWARD_PERIOD_END_EV("awardPeriodEndEv"),
-    STANDSTILL_PERIOD("standstillPeriod"),//no message
-    STANDSTILL_PERIOD_EV("standstillPeriodEv"),//no message
-    SUBMIT_THE_BID("submitTheBid"),
+    STANDSTILL_PERIOD("standstillPeriod"),
+    STANDSTILL_PERIOD_EV("standstillPeriodEv"),
+    CREATE_BID("createBid"),
+    UPDATE_BID("updateBid"),
     BID_WITHDRAWN("bidWithdrawn"),
     START_NEW_STAGE("startNewStage");
 

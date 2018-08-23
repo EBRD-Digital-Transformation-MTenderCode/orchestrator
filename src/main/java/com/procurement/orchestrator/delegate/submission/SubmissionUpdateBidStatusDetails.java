@@ -47,17 +47,20 @@ public class SubmissionUpdateBidStatusDetails implements JavaDelegate {
         final String taskId = execution.getCurrentActivityId();
         final String bidId = processService.getText("bidId", jsonData, processId);
         final String awardStatusDetails = processService.getText("awardStatusDetails", jsonData, processId);
-        final JsonNode responseData = processService.processResponse(
-                submissionRestClient.updateStatusDetails(
-                        context.getCpid(),
-                        context.getStage(),
-                        bidId,
-                        context.getStartDate(),
-                        awardStatusDetails),
-                context,
-                processId,
-                taskId,
-                jsonData);
+        JsonNode responseData = null;
+        if (bidId != null && awardStatusDetails != null) {
+            responseData = processService.processResponse(
+                    submissionRestClient.updateStatusDetails(
+                            context.getCpid(),
+                            context.getStage(),
+                            bidId,
+                            context.getStartDate(),
+                            awardStatusDetails),
+                    context,
+                    processId,
+                    taskId,
+                    jsonData);
+        }
         if (Objects.nonNull(responseData))
             operationService.saveOperationStep(
                     execution,

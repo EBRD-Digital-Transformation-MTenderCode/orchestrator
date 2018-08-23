@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.ClarificationRestClient;
+import com.procurement.orchestrator.service.NotificationService;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.DateUtil;
@@ -21,21 +22,21 @@ public class ClarificationCreateEnquiry implements JavaDelegate {
     private static final Logger LOG = LoggerFactory.getLogger(ClarificationCreateEnquiry.class);
 
     private final ClarificationRestClient clarificationRestClient;
+    private final NotificationService notificationService;
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
-    private final DateUtil dateUtil;
 
     public ClarificationCreateEnquiry(final ClarificationRestClient clarificationRestClient,
+                                      final NotificationService notificationService,
                                       final OperationService operationService,
                                       final ProcessService processService,
-                                      final JsonUtil jsonUtil,
-                                      final DateUtil dateUtil) {
+                                      final JsonUtil jsonUtil) {
         this.clarificationRestClient = clarificationRestClient;
+        this.notificationService = notificationService;
         this.operationService = operationService;
         this.processService = processService;
         this.jsonUtil = jsonUtil;
-        this.dateUtil = dateUtil;
     }
 
     @Override
@@ -66,7 +67,6 @@ public class ClarificationCreateEnquiry implements JavaDelegate {
     }
 
     private Context addDataToContext(final Context context, final JsonNode responseData, final String processId) {
-        context.setToken(processService.getText("token", responseData, processId));
-        return processService.addEnquiryOutcomeToContext(context, responseData, processId);
+        return notificationService.addEnquiryOutcomeToContext(context, responseData, processId);
     }
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.SubmissionRestClient;
+import com.procurement.orchestrator.service.NotificationService;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -20,18 +21,18 @@ public class SubmissionCreateBid implements JavaDelegate {
     private static final Logger LOG = LoggerFactory.getLogger(SubmissionCreateBid.class);
 
     private final SubmissionRestClient submissionRestClient;
-
+    private final NotificationService notificationService;
     private final OperationService operationService;
-
     private final ProcessService processService;
-
     private final JsonUtil jsonUtil;
 
     public SubmissionCreateBid(final SubmissionRestClient submissionRestClient,
+                               final NotificationService notificationService,
                                final OperationService operationService,
                                final ProcessService processService,
                                final JsonUtil jsonUtil) {
         this.submissionRestClient = submissionRestClient;
+        this.notificationService = notificationService;
         this.operationService = operationService;
         this.processService = processService;
         this.jsonUtil = jsonUtil;
@@ -56,12 +57,13 @@ public class SubmissionCreateBid implements JavaDelegate {
                 processId,
                 taskId,
                 requestData);
-        if (Objects.nonNull(responseData))
+        if (Objects.nonNull(responseData)) {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    processService.addBidOutcomeToContext(context, responseData, processId),
+                    notificationService.addBidOutcomeToContext(context, responseData, processId),
                     requestData,
                     responseData);
+        }
     }
 }

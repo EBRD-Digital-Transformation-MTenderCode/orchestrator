@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.EvaluationRestClient;
+import com.procurement.orchestrator.service.NotificationService;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -20,15 +21,18 @@ public class EvaluationCreateAwards implements JavaDelegate {
     private static final Logger LOG = LoggerFactory.getLogger(EvaluationCreateAwards.class);
 
     private final EvaluationRestClient evaluationRestClient;
+    private final NotificationService notificationService;
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
     public EvaluationCreateAwards(final EvaluationRestClient evaluationRestClient,
+                                  final NotificationService notificationService,
                                   final OperationService operationService,
                                   final ProcessService processService,
                                   final JsonUtil jsonUtil) {
         this.evaluationRestClient = evaluationRestClient;
+        this.notificationService = notificationService;
         this.operationService = operationService;
         this.processService = processService;
         this.jsonUtil = jsonUtil;
@@ -61,7 +65,7 @@ public class EvaluationCreateAwards implements JavaDelegate {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    processService.addAwardOutcomeToContext(context, responseData, processId),
+                    notificationService.addAwardOutcomeToContext(context, responseData, processId),
                     requestData,
                     processService.addAwardData(requestData, responseData, processId));
         }

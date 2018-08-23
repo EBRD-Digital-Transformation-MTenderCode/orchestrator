@@ -30,18 +30,6 @@ public interface ProcessService {
 
     String getTenderPeriodEndDate(JsonNode jsonData, String processId);
 
-    Context addEnquiryOutcomeToContext(Context context, JsonNode responseData, String processId);
-
-    Context addBidOutcomeToContext(Context context, JsonNode responseData, String processId);
-
-    Context addAwardOutcomeToContext(Context context, JsonNode responseData, String processId);
-
-    Context addCanOutcomeToContext(Context context, JsonNode responseData, String processId);
-
-    Context addContractOutcomeToContext(Context context, JsonNode responseData, String processId);
-
-    Context addNoticeOutcomeToContext(Context context, JsonNode responseData, String processId);
-
     JsonNode addTenderTenderPeriod(JsonNode jsonData, JsonNode periodData, String processId);
 
     JsonNode addTenderTenderPeriodStartDate(JsonNode jsonData, String startDate, String processId);
@@ -75,12 +63,6 @@ public interface ProcessService {
     JsonNode addBids(JsonNode jsonData, JsonNode responseData, String processId);
 
     Boolean isBidsEmpty(JsonNode responseData, String processId);
-
-    String getAwardRelatedBid(JsonNode jsonData, String processId);
-
-    String getLotId(JsonNode jsonData, String processId);
-
-    String getAwardStatusDetails(JsonNode jsonData, String processId);
 
     JsonNode getNextAward(JsonNode jsonData, String processId);
 

@@ -3,12 +3,10 @@ package com.procurement.orchestrator.delegate.notification;
 import com.procurement.orchestrator.config.kafka.MessageProducer;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.Notification;
-import com.procurement.orchestrator.domain.OperationType;
-import com.procurement.orchestrator.domain.PlatformMessage;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
+import com.procurement.orchestrator.service.NotificationService;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.utils.JsonUtil;
-import java.util.UUID;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
@@ -19,44 +17,28 @@ import org.springframework.stereotype.Component;
 public class SendMessageToPlatform implements JavaDelegate {
     private static final Logger LOG = LoggerFactory.getLogger(SendMessageToPlatform.class);
 
-    private final MessageProducer messageProducer;
-
+    private final NotificationService notificationService;
     private final OperationService operationService;
-
+    private final MessageProducer messageProducer;
     private final JsonUtil jsonUtil;
 
-    public SendMessageToPlatform(final MessageProducer messageProducer,
+    public SendMessageToPlatform(final NotificationService notificationService,
                                  final OperationService operationService,
+                                 final MessageProducer messageProducer,
                                  final JsonUtil jsonUtil) {
-        this.messageProducer = messageProducer;
+        this.notificationService = notificationService;
         this.operationService = operationService;
+        this.messageProducer = messageProducer;
         this.jsonUtil = jsonUtil;
     }
 
     @Override
     public void execute(final DelegateExecution execution) {
         LOG.info(execution.getCurrentActivityName());
-
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
-        final String operationType = context.getOperationType();
-        if (OperationType.fromValue(operationType) != OperationType.SUSPEND_TENDER
-                || OperationType.fromValue(operationType) != OperationType.UNSUSPEND_TENDER
-                || OperationType.fromValue(operationType) != OperationType.UNSUCCESSFUL_TENDER
-                || OperationType.fromValue(operationType) != OperationType.STANDSTILL_PERIOD
-                || OperationType.fromValue(operationType) != OperationType.STANDSTILL_PERIOD_EV) {
-
-            final PlatformMessage message = new PlatformMessage();
-            message.setInitiator(context.getInitiator());
-            message.setOperationId(context.getOperationId());
-            message.setResponseId(context.getResponseId());
-            message.setData(context.getData());
-
-            final Notification notification = new Notification(
-                    UUID.fromString(context.getOwner()),
-                    UUID.fromString(context.getOperationId()),
-                    jsonUtil.toJson(message)
-            );
+        final Notification notification = notificationService.getNotificationForPlatform(context);
+        if (notification != null) {
             messageProducer.sendToPlatform(notification);
             operationService.saveOperationStep(
                     execution,

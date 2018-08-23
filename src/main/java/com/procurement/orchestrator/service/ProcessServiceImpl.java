@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.service;
 
+import com.datastax.driver.core.utils.UUIDs;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -56,7 +57,7 @@ public class ProcessServiceImpl implements ProcessService {
                                     final String taskId,
                                     final JsonNode request) {
 
-        final List<PlatformError> errors = new ArrayList<>();
+        final Set<PlatformError> errors = new HashSet<>();
         if (responseEntity.getBody().getDetails() != null) {
             operationService.saveOperationException(processId, taskId, context, request, jsonUtil.toJsonNode(responseEntity.getBody()));
             final List<ResponseDetailsDto> details = responseEntity.getBody().getDetails();
@@ -121,138 +122,6 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public Context addEnquiryOutcomeToContext(final Context context,
-                                              final JsonNode responseData,
-                                              final String processId) {
-        final ObjectNode outcomes = jsonUtil.createObjectNode();
-        final ArrayNode outcomeArray = jsonUtil.createArrayNode();
-        final ObjectNode outcomeItem = jsonUtil.createObjectNode();
-        final String outcomeId = getEnquiryId(responseData, processId);
-        outcomeItem.put("id", outcomeId);
-        outcomeItem.put("X-TOKEN", context.getToken());
-        outcomeArray.add(outcomeItem);
-        outcomes.replace("enquiries", outcomeArray);
-
-        final PlatformMessageData data = new PlatformMessageData();
-        data.setOutcomes(outcomes);
-        context.setData(data);
-        return context;
-    }
-
-    public Context addBidOutcomeToContext(final Context context, final JsonNode responseData, final String processId) {
-        final String token = getText("token", responseData, processId);
-        final String outcomeId = getText("bidId", responseData, processId);
-        final PlatformMessageData data = new PlatformMessageData();
-        data.setOcid(context.getOcid());
-        data.setOperationDate(context.getStartDate());
-        data.setUrl("http://dev.public.eprocurement.systems/tenders/" + context.getCpid() + "/" + context.getOcid());
-        if (outcomeId != null) {
-            final ObjectNode outcomes = jsonUtil.createObjectNode();
-            final ArrayNode outcomeArray = jsonUtil.createArrayNode();
-            final ObjectNode outcomeItem = jsonUtil.createObjectNode();
-            outcomeItem.put("id", outcomeId);
-            outcomeItem.put("X-TOKEN", token);
-            outcomeArray.add(outcomeItem);
-            outcomes.replace("bids", outcomeArray);
-            context.setToken(token);
-            context.setId(outcomeId);
-            data.setOutcomes(outcomes);
-        }
-        context.setData(data);
-        return context;
-    }
-
-    public Context addAwardOutcomeToContext(final Context context, final JsonNode responseData, final String processId) {
-        final ObjectNode outcomes = jsonUtil.createObjectNode();
-        final ArrayNode outcomeArray = jsonUtil.createArrayNode();
-        final ArrayNode awardsNode = (ArrayNode) responseData.get("awards");
-        for (final JsonNode awardNode : awardsNode) {
-            if (awardNode.get("token") != null) {
-                final ObjectNode outcomeItem = jsonUtil.createObjectNode();
-                outcomeItem.put("id", awardNode.get("id").asText());
-                outcomeItem.put("X-TOKEN", awardNode.get("token").asText());
-                outcomeArray.add(outcomeItem);
-            }
-        }
-        outcomes.replace("awards", outcomeArray);
-        final PlatformMessageData data = new PlatformMessageData();
-        data.setOutcomes(outcomes);
-        context.setData(data);
-        return context;
-    }
-
-    public Context addCanOutcomeToContext(final Context context, final JsonNode responseData, final String processId) {
-        final ObjectNode outcomes = jsonUtil.createObjectNode();
-        final ArrayNode outcomeArray = jsonUtil.createArrayNode();
-        final ArrayNode cansNode = (ArrayNode) responseData.get("cans");
-        for (final JsonNode canNode : cansNode) {
-            if (canNode.get("contract").get("token") != null) {
-                final ObjectNode outcomeItem = jsonUtil.createObjectNode();
-                outcomeItem.put("id", canNode.get("contract").get("id").asText());
-                outcomeItem.put("X-TOKEN", canNode.get("contract").get("token").asText());
-                outcomeArray.add(outcomeItem);
-            }
-        }
-        outcomes.replace("cans", outcomeArray);
-        final PlatformMessageData data = new PlatformMessageData();
-        data.setOutcomes(outcomes);
-        context.setData(data);
-        return context;
-    }
-
-    public Context addContractOutcomeToContext(final Context context, final JsonNode responseData, final String processId) {
-        final ObjectNode outcomes = jsonUtil.createObjectNode();
-        final ArrayNode outcomeArray = jsonUtil.createArrayNode();
-        final ArrayNode contractsNode = (ArrayNode) responseData.get("contracts");
-        for (final JsonNode contractNode : contractsNode) {
-            if (contractNode.get("token") != null) {
-                final ObjectNode outcomeItem = jsonUtil.createObjectNode();
-                outcomeItem.put("id", contractNode.get("id").asText());
-                outcomeItem.put("X-TOKEN", contractNode.get("token").asText());
-                outcomeArray.add(outcomeItem);
-            }
-        }
-        outcomes.replace("ac", outcomeArray);
-        final PlatformMessageData data = new PlatformMessageData();
-        context.setInitiator("bpe");
-        data.setOutcomes(outcomes);
-        context.setData(data);
-        return context;
-    }
-
-    public Context addNoticeOutcomeToContext(final Context context, final JsonNode responseData, final String processId) {
-        final ObjectNode outcomes = jsonUtil.createObjectNode();
-        final ArrayNode outcomeArray = jsonUtil.createArrayNode();
-        final ArrayNode amendmentsArray = (ArrayNode) responseData.get("amendments");
-        final JsonNode idNode = responseData.get("id");
-        if (amendmentsArray != null) {
-            for (final JsonNode amendment : amendmentsArray) {
-                final ObjectNode outcomeItem = jsonUtil.createObjectNode();
-                outcomeItem.put("id", amendment.asText());
-                outcomeArray.add(outcomeItem);
-            }
-            outcomes.replace("amendments", outcomeArray);
-        }
-        if (idNode != null) {
-            final ObjectNode outcomeItem = jsonUtil.createObjectNode();
-            outcomeItem.put("id", idNode.asText());
-            outcomeItem.put("X-TOKEN", context.getToken());
-            outcomeArray.add(outcomeItem);
-            outcomes.replace(context.getStage().toLowerCase(), outcomeArray);
-        }
-        PlatformMessageData data = context.getData();
-        if (data == null) {
-            data = new PlatformMessageData();
-        }
-        data.setOcid(responseData.get("ocid").asText());
-        data.setOperationDate(context.getStartDate());
-        data.setUrl(getText("url", responseData, processId));
-        if (outcomeArray.size() > 0 && data.getOutcomes() == null) {
-            data.setOutcomes(outcomes);
-        }
-        context.setData(data);
-        return context;
-    }
 
     public JsonNode addTenderTenderPeriod(final JsonNode jsonData, final JsonNode periodData,
                                           final String processId) {
@@ -456,38 +325,6 @@ public class ProcessServiceImpl implements ProcessService {
         try {
             final ArrayNode bidsNode = (ArrayNode) responseData.get("bids");
             return (bidsNode.size() == 0);
-        } catch (Exception e) {
-            terminateProcess(processId, e.getMessage());
-            return null;
-        }
-    }
-
-    public String getAwardRelatedBid(final JsonNode jsonData, final String processId) {
-        try {
-            return jsonData.get("award").get("relatedBid").asText();
-        } catch (Exception e) {
-            terminateProcess(processId, e.getMessage());
-            return null;
-        }
-    }
-
-    public String getLotId(final JsonNode jsonData, final String processId) {
-        try {
-            final JsonNode lotIdNode = jsonData.get("lotId");
-            if (lotIdNode != null) {
-                return lotIdNode.asText();
-            } else {
-                return null;
-            }
-        } catch (Exception e) {
-            terminateProcess(processId, e.getMessage());
-            return null;
-        }
-    }
-
-    public String getAwardStatusDetails(final JsonNode jsonData, final String processId) {
-        try {
-            return jsonData.get("award").get("statusDetails").asText();
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
             return null;
@@ -887,7 +724,7 @@ public class ProcessServiceImpl implements ProcessService {
     public void sendErrorToPlatform(final Context context) {
         final PlatformMessage message = new PlatformMessage();
         message.setOperationId(context.getOperationId());
-        message.setResponseId(context.getResponseId());
+        message.setResponseId(UUIDs.timeBased().toString());
         message.setErrors(context.getErrors());
 
         final Notification notification = new Notification(

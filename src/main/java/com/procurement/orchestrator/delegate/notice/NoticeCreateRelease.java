@@ -6,6 +6,7 @@ import com.procurement.orchestrator.domain.dto.CommandMessage;
 import com.procurement.orchestrator.domain.dto.CommandType;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.NoticeRestClient;
+import com.procurement.orchestrator.service.NotificationService;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -21,18 +22,19 @@ public class NoticeCreateRelease implements JavaDelegate {
 
     private static final Logger LOG = LoggerFactory.getLogger(NoticeCreateRelease.class);
 
+
+    private final NotificationService notificationService;
     private final NoticeRestClient noticeRestClient;
-
     private final OperationService operationService;
-
     private final ProcessService processService;
-
     private final JsonUtil jsonUtil;
 
-    public NoticeCreateRelease(final NoticeRestClient noticeRestClient,
+    public NoticeCreateRelease(final NotificationService notificationService,
+                               final NoticeRestClient noticeRestClient,
                                final OperationService operationService,
                                final ProcessService processService,
                                final JsonUtil jsonUtil) {
+        this.notificationService = notificationService;
         this.noticeRestClient = noticeRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -67,6 +69,6 @@ public class NoticeCreateRelease implements JavaDelegate {
     }
 
     private Context addDataToContext(final Context context, final JsonNode responseData, final String processId) {
-        return processService.addNoticeOutcomeToContext(context, responseData, processId);
+        return notificationService.addNoticeOutcomeToContext(context, responseData, processId);
     }
 }

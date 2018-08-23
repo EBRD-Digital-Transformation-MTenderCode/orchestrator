@@ -2,7 +2,7 @@ package com.procurement.orchestrator.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,9 +20,6 @@ public class Context {
 
     @JsonProperty(value = "requestId")
     private String requestId;
-
-    @JsonProperty(value = "responseId")
-    private String responseId;
 
     @JsonProperty(value = "cpid")
     private String cpid;
@@ -60,14 +57,11 @@ public class Context {
     @JsonProperty(value = "token")
     private String token;
 
-    @JsonProperty("initiator")
-    private String initiator;
-
-    @JsonProperty("data")
-    private PlatformMessageData data;
+    @JsonProperty("outcomes")
+    private Set<Outcome> outcomes;
 
     @JsonProperty("errors")
-    private List<PlatformError> errors;
+    private Set<PlatformError> errors;
 
     @JsonProperty(value = "startDate")
     private String startDate;
