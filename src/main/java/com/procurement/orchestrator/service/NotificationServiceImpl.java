@@ -134,7 +134,7 @@ public class NotificationServiceImpl implements NotificationService {
         if (amendmentsArray != null) {
             final Set<Outcome> outcomes = new HashSet<>();
             for (final JsonNode amendmentNode : amendmentsArray) {
-                final Outcome outcome = new Outcome(amendmentNode.get("id").asText(), null);
+                final Outcome outcome = new Outcome(amendmentNode.asText(), null);
                 outcomes.add(outcome);
             }
             context.setOutcomes(outcomes);
@@ -203,7 +203,7 @@ public class NotificationServiceImpl implements NotificationService {
             case UPDATE_CN: {
                 data.setOcid(context.getOcid());
                 data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
-                data.setOutcomes(getOutcomes(context.getStage(), context.getOutcomes()));
+                data.setOutcomes(getOutcomes("amendments", context.getOutcomes()));
                 break;
             }
             case CREATE_CN_ON_PN: {
@@ -232,7 +232,7 @@ public class NotificationServiceImpl implements NotificationService {
             case UPDATE_TENDER_PERIOD: {
                 data.setOcid(context.getCpid());
                 data.setUrl(getTenderUri(context.getCpid(), null));
-                data.setOutcomes(getOutcomes(context.getStage(), context.getOcid(), null));
+                data.setOutcomes(getOutcomes("amendments", context.getOcid(), null));
                 break;
             }
             case CREATE_ENQUIRY: {

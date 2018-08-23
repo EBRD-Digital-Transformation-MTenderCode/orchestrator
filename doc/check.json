@@ -1,228 +1,122 @@
 {
-  "id": "759a1040-9307-41d9-975a-8f0caa90306d",
-  "command": "createTender",
-  "context": {
-    "operationId": "759a1040-9307-41d9-975a-8f0caa90306d",
-    "requestId": "fc1d6e60-a564-11e8-85f9-97998ad23572",
-    "responseId": "fc1d6e61-a564-11e8-85f9-97998ad23572",
-    "stage": "EV",
-    "processType": "createCN",
-    "operationType": "createCN",
-    "phase": "TENDERING",
-    "owner": "445f6851-c908-407d-9b45-14b92f3e964b",
-    "country": "MD",
-    "language": "ro",
-    "pmd": "TEST_OT",
-    "initiator": "platform",
-    "startDate": "2018-08-21T17:09:37Z",
-    "endDate": "2018-08-21T17:10:37Z",
-    "setExtendedPeriod": false
-  },
-  "data": {
-    "tender": {
-      "items": [
+  "planning": {
+    "rationale": "PROVERKA",
+    "budget": {
+      "budgetBreakdown": [
         {
-          "id": 1,
-          "classification": {
-            "scheme": "CPV",
-            "description": "Radio and television services",
-            "id": "92200000-3"
-          },
-          "additionalClassifications": [
-            {
-              "scheme": "CPVs",
-              "description": "Metal",
-              "id": "AA01-1"
-            }
-          ],
-          "quantity": 73232198749.96,
-          "unit": {
-            "id": "166",
-            "name": "kg"
-          },
-          "description": "Four reason leg audience central shoulder through word machine new raise amount claim five buy within wrong hair nice grow senior condition himself food she account since support dinner coach reach family consider maintain.",
-          "relatedLot": 0
-        },
-        {
-          "id": 3,
-          "classification": {
-            "scheme": "CPV",
-            "description": "Radio and television services",
-            "id": "92200000-3"
-          },
-          "additionalClassifications": [
-            {
-              "scheme": "CPVs",
-              "description": "Metal",
-              "id": "AA01-1"
-            }
-          ],
-          "quantity": 928174113299.67,
-          "unit": {
-            "id": "166",
-            "name": "kg"
-          },
-          "description": "Development loss out tend within Mrs south TV significant stock process trade future pay standard land available film well contain modern reduce move full various however price law huge.",
-          "relatedLot": 0
-        },
-        {
-          "id": 4,
-          "classification": {
-            "scheme": "CPV",
-            "description": "Radio and television services",
-            "id": "92200000-3"
-          },
-          "additionalClassifications": [
-            {
-              "scheme": "CPVs",
-              "description": "Metal",
-              "id": "AA01-1"
-            }
-          ],
-          "quantity": 6395158925.6,
-          "unit": {
-            "id": "166",
-            "name": "kg"
-          },
-          "description": "Line may bill key history data hour great country win throughout bill end might indicate heavy bed alone condition use others scene despite remain catch crime mean deal sit show term guess appear account.",
-          "relatedLot": 1
-        },
-        {
-          "id": 6,
-          "classification": {
-            "scheme": "CPV",
-            "description": "Radio and television services",
-            "id": "92200000-3"
-          },
-          "additionalClassifications": [
-            {
-              "scheme": "CPVs",
-              "description": "Metal",
-              "id": "AA01-1"
-            }
-          ],
-          "quantity": 2.94,
-          "unit": {
-            "id": "166",
-            "name": "kg"
-          },
-          "description": "Power miss window fine modern rock suddenly like adult individual officer leave contain future record save.",
-          "relatedLot": 1
-        }
-      ],
-      "lots": [
-        {
-          "id": 0,
-          "title": "Either along good among camera debate near specific.",
-          "description": "Agent big want cover box author middle service debate such expect reason city power black while be group him air particular they service represent eight it entire.",
-          "value": {
-            "amount": 4867119.05,
+          "id": "ocds-t1s2t3-MD-1534845582864-FS-1534846045276",
+          "amount": {
+            "amount": 900,
             "currency": "MDL"
-          },
-          "contractPeriod": {
-            "startDate": "2018-08-21T17:10:38Z",
-            "endDate": "2019-03-16T04:04:39Z"
-          },
-          "placeOfPerformance": {
-            "address": {
-              "streetAddress": "83126 Cory Canyon Apt. 024",
-              "postalCode": "90182",
-              "addressDetails": {
-                "country": {
-                  "id": "MD"
-                },
-                "region": {
-                  "id": "2100000"
-                },
-                "locality": {
-                  "scheme": "TEST",
-                  "id": "1001002",
-                  "description": "West Karen"
-                }
-              }
-            },
-            "description": "Movement theory number skill call many party blood above listen actually heart plant realize direction simply against make your start field forget quite prevent participant they very something big skill pull."
           }
         },
         {
-          "id": 1,
-          "title": "Effect much week both sign base suddenly.",
-          "description": "Idea campaign kind serve red begin stand possible key remain two customer health wish truth build analysis art.",
-          "value": {
-            "amount": 3521415.56,
+          "id": "ocds-t1s2t3-MD-1534845582864-FS-1534846108019",
+          "amount": {
+            "amount": 800,
             "currency": "MDL"
-          },
-          "contractPeriod": {
-            "startDate": "2018-08-21T17:10:38Z",
-            "endDate": "2018-12-10T11:32:06Z"
-          },
-          "placeOfPerformance": {
-            "address": {
-              "streetAddress": "181 John Forks",
-              "postalCode": "56846-5312",
-              "addressDetails": {
-                "country": {
-                  "id": "MD"
-                },
-                "region": {
-                  "id": "9800000"
-                },
-                "locality": {
-                  "scheme": "TEST",
-                  "id": "1001002",
-                  "description": "Codymouth"
-                }
-              }
-            },
-            "description": "Defense cover father sell art trouble firm American rock air attorney study water factor know subject approach hand listen."
           }
         }
-      ],
-      "classification": {
-        "id": "92200000"
-      },
-      "procuringEntity": {
-        "name": "Evans-Irwin",
-        "identifier": {
-          "scheme": "MD-IDNO",
-          "id": "302-19-6623",
-          "legalName": "Evans-Irwin Ltd",
-          "uri": "https://sherman.info/post/"
-        },
-        "additionalIdentifiers": [
-          {
-            "scheme": "MD-IDNO",
-            "id": "802-89-6538",
-            "legalName": "Evans-Irwin Inc",
-            "uri": "http://www.coleman-smith.com/categories/faq/"
-          }
-        ],
-        "address": {
-          "streetAddress": "514 Shannon Parkway Suite 573",
-          "postalCode": "72181-6738",
-          "addressDetails": {
-            "country": {
-              "id": "MD"
-            },
-            "region": {
-              "id": "2900000"
-            },
-            "locality": {
-              "scheme": "TEST",
-              "id": "1001000",
-              "description": "Lake Emily"
-            }
-          }
-        },
-        "contactPoint": {
-          "name": "Devin Fox",
-          "email": "pwhitaker@yahoo.com",
-          "telephone": "00231248391",
-          "faxNumber": "1-476-474-4967",
-          "url": "http://www.harris.com/search/terms/"
-        }
-      }
+      ]
     }
   },
-  "version": "0.0.1"
+  "tender": {
+    "title": "gav mur mur",
+    "description": "gav mur",
+    "legalBasis": "NATIONAL_PROCUREMENT_LAW",
+    "procurementMethodAdditionalInfo": "fsdfsdf",
+    "tenderPeriod": {
+      "endDate": "2018-08-23T16:40:00Z"
+    },
+    "procuringEntity": {
+      "name": "Edward-Compan",
+      "identifier": {
+        "scheme": "MD-IDNO",
+        "id": "gggg",
+        "legalName": "fff",
+        "uri": "hhh"
+      },
+      "address": {
+        "streetAddress": "",
+        "addressDetails": {
+          "country": {
+            "id": "MD"
+          },
+          "region": {
+            "id": "1000000"
+          },
+          "locality": {
+            "scheme": "CUAM",
+            "id": "1001001",
+            "description": "dgfdfg"
+          }
+        }
+      },
+      "contactPoint": {
+        "name": "hgfh",
+        "email": "hfgh",
+        "telephone": "hgfhfh",
+        "faxNumber": "hgfh",
+        "url": "hgfhgf"
+      }
+    },
+    "lots": [
+      {
+        "id": "1",
+        "title": "lot1update",
+        "description": "looot",
+        "value": {
+          "amount": 400,
+          "currency": "MDL"
+        },
+        "contractPeriod": {
+          "startDate": "2018-11-22T14:45:00Z",
+          "endDate": "2018-12-26T14:45:00Z"
+        },
+        "placeOfPerformance": {
+          "address": {
+            "streetAddress": "11111111",
+            "postalCode": "555",
+            "addressDetails": {
+              "country": {
+                "id": "MD"
+              },
+              "region": {
+                "id": "1000000"
+              },
+              "locality": {
+                "scheme": "gfgf",
+                "id": "gfg",
+                "description": "gfg"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "items": [
+      {
+        "id": "1",
+        "classification": {
+          "scheme": "CPV",
+          "description": "ggg",
+          "id": "30199220-8"
+        },
+        "quantity": 15,
+        "unit": {
+          "id": "86",
+          "name": "square"
+        },
+        "description": "",
+        "relatedLot": "1"
+      }
+    ],
+    "documents": [
+      {
+        "documentType": "tenderNotice",
+        "id": "f7178f90-9fba-11e8-9318-61ca1098e80e",
+        "title": "doc1"
+      }
+    ]
+  }
 }
