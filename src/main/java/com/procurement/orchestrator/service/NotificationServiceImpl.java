@@ -65,8 +65,8 @@ public class NotificationServiceImpl implements NotificationService {
     private JsonNode getOutcomes(final String outcomeName, final Set<Outcome> contextOutcomes) {
         final ObjectNode outcomes = jsonUtil.createObjectNode();
         final ArrayNode outcomeArray = jsonUtil.createArrayNode();
-        final ObjectNode outcomeItem = jsonUtil.createObjectNode();
         for (final Outcome outcome : contextOutcomes) {
+            final ObjectNode outcomeItem = jsonUtil.createObjectNode();
             outcomeItem.put("id", outcome.getId());
             if (outcome.getToken() != null) {
                 outcomeItem.put("X-TOKEN", outcome.getToken());
@@ -100,8 +100,7 @@ public class NotificationServiceImpl implements NotificationService {
         final ArrayNode awardsNode = (ArrayNode) responseData.get("awards");
         for (final JsonNode awardNode : awardsNode) {
             if (awardNode.get("token") != null) {
-                final Outcome outcome = new Outcome(awardNode.get("id").asText(), awardNode.get("token").asText());
-                outcomes.add(outcome);
+                outcomes.add(new Outcome(awardNode.get("id").asText(), awardNode.get("token").asText()));
             }
         }
         context.setOutcomes(outcomes);
@@ -123,8 +122,7 @@ public class NotificationServiceImpl implements NotificationService {
         final Set<Outcome> outcomes = new HashSet<>();
         final ArrayNode contractsNode = (ArrayNode) responseData.get("contracts");
         for (final JsonNode contractNode : contractsNode) {
-            final Outcome outcome = new Outcome(contractNode.get("id").asText(), contractNode.get("token").asText());
-            outcomes.add(outcome);
+            outcomes.add(new Outcome(contractNode.get("id").asText(), contractNode.get("token").asText()));
         }
         context.setOutcomes(outcomes);
         return context;
@@ -136,8 +134,7 @@ public class NotificationServiceImpl implements NotificationService {
         if (amendmentsArray != null) {
             final Set<Outcome> outcomes = new HashSet<>();
             for (final JsonNode amendmentNode : amendmentsArray) {
-                final Outcome outcome = new Outcome(amendmentNode.asText(), null);
-                outcomes.add(outcome);
+                outcomes.add(new Outcome(amendmentNode.asText(), null));
             }
             context.setOutcomes(outcomes);
         }
