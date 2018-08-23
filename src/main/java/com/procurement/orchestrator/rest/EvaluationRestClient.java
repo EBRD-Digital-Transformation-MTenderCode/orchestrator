@@ -45,4 +45,13 @@ public interface EvaluationRestClient {
                                                @RequestParam("endPeriod") String endPeriod) throws Exception;
 
 
+    @RequestMapping(path = "/awardByBid", method = RequestMethod.POST)
+    ResponseEntity<ResponseDto> awardByBid(@RequestParam("token") String token,
+                                           @RequestParam("owner") String owner,
+                                           @RequestParam("cpid") String cpid,
+                                           @RequestParam("stage") String stage,
+                                           @RequestParam(value = "date") String dateTime,
+                                           @RequestParam(value = "awardId") String awardId,
+                                           @RequestBody JsonNode jsonData) throws Exception;
+
 }

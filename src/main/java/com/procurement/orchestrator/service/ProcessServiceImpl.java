@@ -473,8 +473,12 @@ public class ProcessServiceImpl implements ProcessService {
 
     public String getLotId(final JsonNode jsonData, final String processId) {
         try {
-            final ArrayNode lotsNode = (ArrayNode) jsonData.get("award").get("relatedLots");
-            return lotsNode.get(0).asText();
+            final JsonNode lotIdNode = jsonData.get("lotId");
+            if (lotIdNode != null) {
+                return lotIdNode.asText();
+            } else {
+                return null;
+            }
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
             return null;

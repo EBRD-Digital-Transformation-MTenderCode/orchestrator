@@ -135,7 +135,7 @@ public interface AccessRestClient {
     @RequestMapping(path = "/lots/updateStatusDetailsById", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> updateStatusDetailsById(@RequestParam("cpid") String cpId,
                                                         @RequestParam("stage") String stage,
-                                                        @RequestParam("statusDetails") String statusDetails,
+                                                        @RequestParam("lotAwarded") Boolean lotAwarded,
                                                         @RequestParam("lotId") String lotId) throws Exception;
 
     @RequestMapping(path = "/lots/checkStatusDetails", method = RequestMethod.GET)

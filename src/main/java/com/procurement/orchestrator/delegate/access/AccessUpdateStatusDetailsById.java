@@ -45,12 +45,13 @@ public class AccessUpdateStatusDetailsById implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityName();
-        final String lotId = processService.getLotId(jsonData, processId);
+        final String lotId = processService.getText("lotId", jsonData, processId);
+        final Boolean lotAwarded = processService.getBoolean("lotAwarded", jsonData, processId);
         final JsonNode responseData = processService.processResponse(
                 accessRestClient.updateStatusDetailsById(
                         context.getCpid(),
                         context.getStage(),
-                        "awarded",
+                        lotAwarded,
                         lotId),
                 context,
                 processId,
