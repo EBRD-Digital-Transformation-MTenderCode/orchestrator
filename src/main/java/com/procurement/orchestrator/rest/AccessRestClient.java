@@ -99,8 +99,7 @@ public interface AccessRestClient {
     @RequestMapping(path = "/tender/updateStatusDetails", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> updateTenderStatusDetails(@RequestParam("cpid") String cpId,
                                                           @RequestParam("stage") String stage,
-                                                          @RequestParam("statusDetails") String statusDetails)
-            throws Exception;
+                                                          @RequestParam("statusDetails") String statusDetails) throws Exception;
 
     @RequestMapping(path = "/tender/setSuspended", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> setSuspended(@RequestParam("cpid") String cpId,
@@ -155,10 +154,19 @@ public interface AccessRestClient {
                                               @RequestParam("owner") String owner) throws Exception;
 
 
-    @RequestMapping(path = "/checkBid", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> checkBid(@RequestParam("cpid") String cpId,
-                                         @RequestParam("stage") String stage,
-                                         @RequestBody JsonNode jsonData) throws Exception;
+    @RequestMapping(path = "tender/prepareCancellation", method = RequestMethod.POST)
+    ResponseEntity<ResponseDto> prepareCancellation(@RequestParam("cpid") String cpId,
+                                                    @RequestParam("stage") String stage,
+                                                    @RequestParam("owner") String owner,
+                                                    @RequestParam("token") String token,
+                                                    @RequestParam("operationType") String operationType) throws Exception;
+
+    @RequestMapping(path = "tender/cancellation", method = RequestMethod.POST)
+    ResponseEntity<ResponseDto> cancellation(@RequestParam("cpid") String cpId,
+                                                    @RequestParam("stage") String stage,
+                                                    @RequestParam("owner") String owner,
+                                                    @RequestParam("token") String token,
+                                                    @RequestParam("operationType") String operationType) throws Exception;
 
 
 }
