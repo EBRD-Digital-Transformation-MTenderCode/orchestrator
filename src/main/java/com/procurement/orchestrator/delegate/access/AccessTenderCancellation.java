@@ -44,7 +44,7 @@ public class AccessTenderCancellation implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode responseData = processService.processResponse(
-                accessRestClient.cancellation(
+                accessRestClient.tenderCancellation(
                         context.getCpid(),
                         context.getStage(),
                         context.getOwner(),
@@ -55,7 +55,6 @@ public class AccessTenderCancellation implements JavaDelegate {
                 taskId,
                 jsonUtil.empty());
         if (Objects.nonNull(responseData)) {
-           // processContext(context, responseData, processId);
             operationService.saveOperationStep(
                     execution,
                     entity,
@@ -65,11 +64,5 @@ public class AccessTenderCancellation implements JavaDelegate {
         }
     }
 
-//    private void processContext(final Context context, final JsonNode responseData, final String processId) {
-//        final String tenderStatusDetails = processService.getText("tenderStatusDetails", responseData, processId);
-//        if ("unsuccessful".equals(tenderStatusDetails)) {
-//            context.setOperationType("tenderUnsuccessful");
-//        }
-//    }
 }
 

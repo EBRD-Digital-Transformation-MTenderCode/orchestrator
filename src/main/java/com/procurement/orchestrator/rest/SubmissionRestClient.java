@@ -107,4 +107,20 @@ public interface SubmissionRestClient {
                                              @RequestParam("owner") String owner,
                                              @RequestParam("bidId") String bidId,
                                              @RequestParam("date") String startDate) throws Exception;
+
+    @RequestMapping(path = "submission/prepareCancellation", method = RequestMethod.POST)
+    ResponseEntity<ResponseDto> prepareCancellation(@RequestParam("cpid") String cpId,
+                                                    @RequestParam("stage") String stage,
+                                                    @RequestParam("pmd") String pmd,
+                                                    @RequestParam("phase") String phase,
+                                                    @RequestParam("date") String startDate) throws Exception;
+
+    @RequestMapping(path = "submission/bidsCancellation", method = RequestMethod.POST)
+    ResponseEntity<ResponseDto> bidsCancellation(@RequestParam("cpid") String cpId,
+                                                 @RequestParam("stage") String stage,
+                                                 @RequestParam("pmd") String pmd,
+                                                 @RequestParam("phase") String phase,
+                                                 @RequestParam("date") String startDate) throws Exception;
+
+
 }

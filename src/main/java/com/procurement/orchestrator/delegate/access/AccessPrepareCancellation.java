@@ -55,7 +55,6 @@ public class AccessPrepareCancellation implements JavaDelegate {
                 taskId,
                 jsonUtil.empty());
         if (Objects.nonNull(responseData)) {
-           // processContext(context, responseData, processId);
             operationService.saveOperationStep(
                     execution,
                     entity,
@@ -64,12 +63,5 @@ public class AccessPrepareCancellation implements JavaDelegate {
                     processService.addLots(jsonData, responseData, processId));
         }
     }
-
-//    private void processContext(final Context context, final JsonNode responseData, final String processId) {
-//        final String tenderStatusDetails = processService.getText("tenderStatusDetails", responseData, processId);
-//        if ("unsuccessful".equals(tenderStatusDetails)) {
-//            context.setOperationType("tenderUnsuccessful");
-//        }
-//    }
 }
 

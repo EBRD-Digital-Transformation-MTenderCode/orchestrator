@@ -20,11 +20,8 @@ public class QualificationEndAwardPeriod implements JavaDelegate {
     private static final Logger LOG = LoggerFactory.getLogger(QualificationEndAwardPeriod.class);
 
     private final QualificationRestClient qualificationRestClient;
-
     private final OperationService operationService;
-
     private final ProcessService processService;
-
     private final JsonUtil jsonUtil;
 
     public QualificationEndAwardPeriod(final QualificationRestClient qualificationRestClient,

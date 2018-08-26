@@ -42,5 +42,15 @@ public interface QualificationRestClient {
                                                @RequestParam("pmd") String pmd,
                                                @RequestParam("endPeriod") String endPeriod) throws Exception;
 
+    @RequestMapping(path = "qualification/prepareCancellation", method = RequestMethod.POST)
+    ResponseEntity<ResponseDto> prepareCancellation(@RequestParam("cpid") String cpId,
+                                                    @RequestParam("stage") String stage,
+                                                    @RequestParam("date") String startDate) throws Exception;
+
+    @RequestMapping(path = "qualification/awardsCancellation", method = RequestMethod.POST)
+    ResponseEntity<ResponseDto> awardsCancellation(@RequestParam("cpid") String cpId,
+                                                   @RequestParam("stage") String stage,
+                                                   @RequestParam("date") String startDate) throws Exception;
+
 
 }

@@ -54,4 +54,15 @@ public interface EvaluationRestClient {
                                            @RequestParam(value = "awardId") String awardId,
                                            @RequestBody JsonNode jsonData) throws Exception;
 
+    @RequestMapping(path = "evaluation/prepareCancellation", method = RequestMethod.POST)
+    ResponseEntity<ResponseDto> prepareCancellation(@RequestParam("cpid") String cpId,
+                                                    @RequestParam("stage") String stage,
+                                                    @RequestParam("date") String startDate) throws Exception;
+
+    @RequestMapping(path = "evaluation/awardsCancellation", method = RequestMethod.POST)
+    ResponseEntity<ResponseDto> awardsCancellation(@RequestParam("cpid") String cpId,
+                                                   @RequestParam("stage") String stage,
+                                                   @RequestParam("date") String startDate) throws Exception;
+
+
 }

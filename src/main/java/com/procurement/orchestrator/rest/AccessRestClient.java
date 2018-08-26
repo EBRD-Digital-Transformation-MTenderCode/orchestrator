@@ -161,12 +161,12 @@ public interface AccessRestClient {
                                                     @RequestParam("token") String token,
                                                     @RequestParam("operationType") String operationType) throws Exception;
 
-    @RequestMapping(path = "tender/cancellation", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> cancellation(@RequestParam("cpid") String cpId,
-                                                    @RequestParam("stage") String stage,
-                                                    @RequestParam("owner") String owner,
-                                                    @RequestParam("token") String token,
-                                                    @RequestParam("operationType") String operationType) throws Exception;
+    @RequestMapping(path = "tender/tenderCancellation", method = RequestMethod.POST)
+    ResponseEntity<ResponseDto> tenderCancellation(@RequestParam("cpid") String cpId,
+                                                   @RequestParam("stage") String stage,
+                                                   @RequestParam("owner") String owner,
+                                                   @RequestParam("token") String token,
+                                                   @RequestParam("operationType") String operationType) throws Exception;
 
 
 }
