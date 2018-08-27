@@ -11,12 +11,13 @@ import com.procurement.orchestrator.domain.PlatformError;
 import com.procurement.orchestrator.domain.PlatformMessage;
 import com.procurement.orchestrator.domain.dto.*;
 import com.procurement.orchestrator.utils.JsonUtil;
-import java.util.*;
 import org.camunda.bpm.engine.RuntimeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.*;
 
 @Service
 public class ProcessServiceImpl implements ProcessService {
@@ -334,15 +335,6 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public JsonNode getNextAward(final JsonNode jsonData, final String processId) {
-        try {
-            return jsonData.get("nextAward");
-        } catch (Exception e) {
-            terminateProcess(processId, e.getMessage());
-            return null;
-        }
-    }
-
     public JsonNode addUpdatedBid(final JsonNode jsonData, final JsonNode bidData, final String processId) {
         try {
             ((ObjectNode) jsonData).replace("bid", bidData.get("bid"));
@@ -389,17 +381,14 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public JsonNode getDocumentsOfAwards(final JsonNode jsonData, final String processId) {
+    public JsonNode getDocumentsOfAward(final JsonNode jsonData, final String processId) {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
             final ArrayNode documentsArray = mainNode.putArray("documents");
-            final ArrayNode awardsNode = (ArrayNode) jsonData.get("awards");
-            for (final JsonNode awardNode : awardsNode) {
-                final JsonNode documentsNode = awardNode.get("documents");
-                if (documentsNode != null) {
-                    for (final JsonNode docNode : documentsNode) {
-                        documentsArray.add(docNode);
-                    }
+            final ArrayNode documentsNode = (ArrayNode) jsonData.get("award").get("documents");
+            if (documentsNode != null) {
+                for (final JsonNode docNode : documentsNode) {
+                    documentsArray.add(docNode);
                 }
             }
             return mainNode;

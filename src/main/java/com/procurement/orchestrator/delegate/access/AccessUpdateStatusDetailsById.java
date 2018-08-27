@@ -58,7 +58,10 @@ public class AccessUpdateStatusDetailsById implements JavaDelegate {
                 taskId,
                 jsonData);
         if (Objects.nonNull(responseData))
-            operationService.saveOperationStep(execution, entity, jsonData,
+            operationService.saveOperationStep(
+                    execution,
+                    entity,
+                    jsonData,
                     processService.addUpdatedLot(jsonData, responseData, processId));
     }
 }

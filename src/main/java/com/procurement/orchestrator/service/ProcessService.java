@@ -64,8 +64,6 @@ public interface ProcessService {
 
     Boolean isBidsEmpty(JsonNode responseData, String processId);
 
-    JsonNode getNextAward(JsonNode jsonData, String processId);
-
     JsonNode addUpdatedBid(JsonNode jsonData, JsonNode bidData, String processId);
 
     JsonNode addUpdatedLot(JsonNode jsonData, JsonNode lotData, String processId);
@@ -74,7 +72,7 @@ public interface ProcessService {
 
     JsonNode setDocumentsOfTender(JsonNode jsonData, JsonNode documentsData, String processId);
 
-    JsonNode getDocumentsOfAwards(JsonNode jsonData, String processId);
+    JsonNode getDocumentsOfAward(JsonNode jsonData, String processId);
 
     JsonNode setDocumentsOfAward(JsonNode jsonData, JsonNode documentsData, String processId);
 
