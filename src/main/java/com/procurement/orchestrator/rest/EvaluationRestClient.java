@@ -22,15 +22,6 @@ public interface EvaluationRestClient {
                                              @RequestParam("date") String dateTime,
                                              @RequestBody JsonNode jsonData) throws Exception;
 
-    @RequestMapping(path = "/evaluation", method = RequestMethod.PUT)
-    ResponseEntity<ResponseDto> updateAward(@RequestParam("cpid") String cpId,
-                                            @RequestParam("stage") String stage,
-                                            @RequestParam("token") String token,
-                                            @RequestParam("awardId") String awardId,
-                                            @RequestParam("owner") String owner,
-                                            @RequestParam(value = "date") String dateTime,
-                                            @RequestBody JsonNode jsonData) throws Exception;
-
     @RequestMapping(path = "/evaluation", method = RequestMethod.GET)
     ResponseEntity<ResponseDto> getAwards(@RequestParam("cpid") String cpId,
                                           @RequestParam("stage") String stage,
@@ -63,6 +54,5 @@ public interface EvaluationRestClient {
     ResponseEntity<ResponseDto> awardsCancellation(@RequestParam("cpid") String cpId,
                                                    @RequestParam("stage") String stage,
                                                    @RequestParam("date") String startDate) throws Exception;
-
 
 }
