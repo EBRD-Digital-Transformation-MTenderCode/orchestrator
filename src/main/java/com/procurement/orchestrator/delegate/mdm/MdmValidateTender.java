@@ -47,21 +47,25 @@ public class MdmValidateTender implements JavaDelegate {
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode rqData = processService.getTenderData(prevData, processId);
+        final Boolean mdmValidation = (Boolean) execution.getVariable("mdmValidation");
+        final Boolean itemsAdd = (Boolean) execution.getVariable("itemsAdd");
+        final JsonNode rqData = processService.getTenderData(itemsAdd, prevData, processId);
         final CommandMessage commandMessage = processService.getCommandMessage(CommandType.CREATE_TENDER, context, rqData);
         JsonNode responseData = null;
-        if (Objects.nonNull(rqData))
-            responseData = processService.processResponse(
-                    mdmRestClient.execute(commandMessage),
-                    context,
-                    processId,
-                    taskId,
-                    jsonUtil.toJsonNode(commandMessage));
-        if (Objects.nonNull(responseData))
-            operationService.saveOperationStep(
-                    execution,
-                    entity,
-                    jsonUtil.toJsonNode(commandMessage),
-                    processService.setTenderData(prevData, responseData, processId));
+        if (mdmValidation) {
+            if (Objects.nonNull(rqData))
+                responseData = processService.processResponse(
+                        mdmRestClient.execute(commandMessage),
+                        context,
+                        processId,
+                        taskId,
+                        jsonUtil.toJsonNode(commandMessage));
+            if (Objects.nonNull(responseData))
+                operationService.saveOperationStep(
+                        execution,
+                        entity,
+                        jsonUtil.toJsonNode(commandMessage),
+                        processService.setTenderData(prevData, responseData, processId));
+        }
     }
 }

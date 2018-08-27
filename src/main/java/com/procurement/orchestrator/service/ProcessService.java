@@ -74,7 +74,7 @@ public interface ProcessService {
 
     JsonNode setDocumentsOfTender(JsonNode jsonData, JsonNode documentsData, String processId);
 
-    JsonNode getDocumentsOfAward(JsonNode jsonData, String processId);
+    JsonNode getDocumentsOfAwards(JsonNode jsonData, String processId);
 
     JsonNode setDocumentsOfAward(JsonNode jsonData, JsonNode documentsData, String processId);
 
@@ -98,7 +98,7 @@ public interface ProcessService {
 
     JsonNode setFsData(JsonNode jsonData, JsonNode responseData, String processId);
 
-    JsonNode getTenderData(JsonNode jsonData, String processId);
+    JsonNode getTenderData(Boolean itemsAdd, JsonNode jsonData, String processId);
 
     JsonNode setTenderData(JsonNode jsonData, JsonNode responseData, String processId);
 

@@ -5,7 +5,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.procurement.orchestrator.config.kafka.MessageProducer;
-import com.procurement.orchestrator.domain.*;
+import com.procurement.orchestrator.domain.Context;
+import com.procurement.orchestrator.domain.Notification;
+import com.procurement.orchestrator.domain.PlatformError;
+import com.procurement.orchestrator.domain.PlatformMessage;
 import com.procurement.orchestrator.domain.dto.*;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.*;
@@ -386,13 +389,19 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public JsonNode getDocumentsOfAward(final JsonNode jsonData, final String processId) {
+    public JsonNode getDocumentsOfAwards(final JsonNode jsonData, final String processId) {
         try {
-            final JsonNode awardNode = jsonData.get("award");
-            final JsonNode documentsNode = awardNode.findPath("documents");
-            if (documentsNode.isMissingNode()) return null;
             final ObjectNode mainNode = jsonUtil.createObjectNode();
-            mainNode.replace("documents", documentsNode);
+            final ArrayNode documentsArray = mainNode.putArray("documents");
+            final ArrayNode awardsNode = (ArrayNode) jsonData.get("awards");
+            for (final JsonNode awardNode : awardsNode) {
+                final JsonNode documentsNode = awardNode.get("documents");
+                if (documentsNode != null) {
+                    for (final JsonNode docNode : documentsNode) {
+                        documentsArray.add(docNode);
+                    }
+                }
+            }
             return mainNode;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
@@ -418,8 +427,8 @@ public class ProcessServiceImpl implements ProcessService {
             final ArrayNode documentsArray = mainNode.putArray("documents");
             final ArrayNode bidsNode = (ArrayNode) jsonData.get("bids");
             for (final JsonNode bidNode : bidsNode) {
-                final JsonNode documentsNode = bidNode.findPath("documents");
-                if (!documentsNode.isMissingNode()) {
+                final JsonNode documentsNode = bidNode.get("documents");
+                if (documentsNode != null) {
                     for (final JsonNode docNode : documentsNode) {
                         documentsArray.add(docNode);
                     }
@@ -548,18 +557,20 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public JsonNode getTenderData(final JsonNode jsonData, final String processId) {
+    public JsonNode getTenderData(final Boolean itemsAdd, final JsonNode jsonData, final String processId) {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
-            final JsonNode itemsNode = jsonData.get("tender").get("items");
             final JsonNode lotsNode = jsonData.get("tender").get("lots");
-            final JsonNode classificationNode = jsonData.get("tender").get("classification");
             final JsonNode procuringEntityNode = jsonData.get("tender").get("procuringEntity");
             final ObjectNode tenderNode = mainNode.putObject("tender");
-            tenderNode.replace("items", itemsNode);
             tenderNode.replace("lots", lotsNode);
-            tenderNode.replace("classification", classificationNode);
             tenderNode.replace("procuringEntity", procuringEntityNode);
+            if (itemsAdd) {
+                final JsonNode classificationNode = jsonData.get("tender").get("classification");
+                final JsonNode itemsNode = jsonData.get("tender").get("items");
+                tenderNode.replace("classification", classificationNode);
+                tenderNode.replace("items", itemsNode);
+            }
             return mainNode;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
@@ -606,7 +617,9 @@ public class ProcessServiceImpl implements ProcessService {
         try {
             final ObjectNode tenderNode = (ObjectNode) jsonData.get("tender");
             final JsonNode tenderResponseNode = responseData.get("tender");
-            tenderNode.replace("classification", tenderResponseNode.get("classification"));
+            if (tenderResponseNode != null) {
+                tenderNode.replace("classification", tenderResponseNode.get("classification"));
+            }
             return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
