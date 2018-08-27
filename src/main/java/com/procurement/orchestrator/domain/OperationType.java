@@ -41,7 +41,8 @@ public enum OperationType {
     START_NEW_STAGE("startNewStage"),
     CANCEL_TENDER("cancelTender"),
     CANCEL_TENDER_EV("cancelTenderEv"),
-    CANCEL_PLAN("cancelPlan"),;
+    CANCEL_PLAN("cancelPlan"),
+    CANCEL_STANDSTILL("cancellationStandstillPeriod");
 
     private static final Map<String, OperationType> CONSTANTS = new HashMap<>();
     private final String value;

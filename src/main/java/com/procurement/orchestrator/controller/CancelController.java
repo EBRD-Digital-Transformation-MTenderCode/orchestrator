@@ -50,10 +50,9 @@ public class CancelController {
                                                      @RequestHeader("X-OPERATION-ID") final UUID operationId,
                                                      @RequestHeader("X-TOKEN") final String token,
                                                      @PathVariable("cpid") final String cpid,
-                                                     @PathVariable("ocid") final String ocid,
-                                                     @RequestBody final JsonNode data) {
+                                                     @PathVariable("ocid") final String ocid) {
         final Context context = requestService.getContextForUpdate(authorization, operationId.toString(), cpid, ocid, token, "tenderCancellation");
-        requestService.saveRequestAndCheckOperation(context, data);
+        requestService.saveRequestAndCheckOperation(context, jsonUtil.empty());
         final Map<String, Object> variables = new HashMap<>();
         variables.put("operationType", context.getOperationType());
         variables.put("phase", context.getPhase());

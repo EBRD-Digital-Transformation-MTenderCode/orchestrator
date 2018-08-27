@@ -6,11 +6,12 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.procurement.orchestrator.domain.*;
 import com.procurement.orchestrator.utils.JsonUtil;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 
 @Service
 public class NotificationServiceImpl implements NotificationService {
@@ -309,6 +310,30 @@ public class NotificationServiceImpl implements NotificationService {
                 data.setOcid(context.getOcid());
                 data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
                 data.setOutcomes(getOutcomes("contracts", context.getOutcomes()));
+                break;
+            }
+            case CANCEL_STANDSTILL: {
+                data.setOcid(context.getCpid());
+                data.setUrl(getTenderUri(context.getCpid(), null));
+                data.setOutcomes(getOutcomes("amendments", context.getOcid(), null));
+                break;
+            }
+            case CANCEL_TENDER: {
+                data.setOcid(context.getCpid());
+                data.setUrl(getTenderUri(context.getCpid(), null));
+                data.setOutcomes(getOutcomes(context.getStage(), context.getOcid(), null));
+                break;
+            }
+            case CANCEL_TENDER_EV: {
+                data.setOcid(context.getCpid());
+                data.setUrl(getTenderUri(context.getCpid(), null));
+                data.setOutcomes(getOutcomes(context.getStage(), context.getOcid(), null));
+                break;
+            }
+            case CANCEL_PLAN: {
+                data.setOcid(context.getCpid());
+                data.setUrl(getTenderUri(context.getCpid(), null));
+                data.setOutcomes(getOutcomes(context.getStage(), context.getOcid(), null));
                 break;
             }
             default:
