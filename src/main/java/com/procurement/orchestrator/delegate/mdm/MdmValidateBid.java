@@ -48,7 +48,7 @@ public class MdmValidateBid implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode rqData = processService.getBidTenderersData(prevData, processId);
-        final CommandMessage commandMessage = processService.getCommandMessage(CommandType.CREATE_BID, context, rqData);
+        final CommandMessage commandMessage = processService.getCommandMessage(CommandType.PROCESS_BID_DATA, context, rqData);
         JsonNode responseData = null;
         if (Objects.nonNull(rqData))
             responseData = processService.processResponse(

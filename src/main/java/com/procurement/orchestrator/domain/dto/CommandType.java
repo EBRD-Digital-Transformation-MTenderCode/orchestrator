@@ -3,19 +3,20 @@ package com.procurement.orchestrator.domain.dto;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.procurement.orchestrator.exception.EnumException;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 public enum CommandType {
-    CREATE_EI("createEi"),
-    CREATE_FS("createFs"),
-    CREATE_TENDER("createTender"),
-    CREATE_BID("createBid"),
+    PROCESS_EI_DATA("processEiData"),
+    PROCESS_FS_DATA("processFsData"),
+    PROCESS_TENDER_DATA("processTenderData"),
+    PROCESS_BID_DATA("processBidData"),
+    PROCESS_ENQUIRY_DATA("processEnquiryData"),
     CHECK_BID("checkBid"),
     CHECK_ITEMS("checkItems"),
     CHECK_TOKEN("checkToken"),
-    CREATE_ENQUIRY("createEnquiry"),
     CREATE_RELEASE("createRelease");
 
     private static final Map<String, CommandType> CONSTANTS = new HashMap<>();

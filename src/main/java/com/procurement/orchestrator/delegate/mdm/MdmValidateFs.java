@@ -48,7 +48,7 @@ public class MdmValidateFs implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode rqData = processService.getFsData(prevData, processId);
-        final CommandMessage commandMessage = processService.getCommandMessage(CommandType.CREATE_FS, context, rqData);
+        final CommandMessage commandMessage = processService.getCommandMessage(CommandType.PROCESS_FS_DATA, context, rqData);
         JsonNode responseData = null;
         if (Objects.nonNull(rqData))
             responseData = processService.processResponse(

@@ -45,7 +45,7 @@ public class CancelController {
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
-    @RequestMapping(value = "/cn/{cpid}/{ocid}", method = RequestMethod.POST)
+    @RequestMapping(value = "/tender/{cpid}/{ocid}", method = RequestMethod.POST)
     public ResponseEntity<String> tenderCancellation(@RequestHeader("Authorization") final String authorization,
                                                      @RequestHeader("X-OPERATION-ID") final UUID operationId,
                                                      @RequestHeader("X-TOKEN") final String token,
