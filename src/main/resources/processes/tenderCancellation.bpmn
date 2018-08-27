@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.10.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.11.3">
   <bpmn:process id="tenderCancellation" name="tenderCancellation" isExecutable="true">
     <bpmn:startEvent id="StartEvent_1">
       <bpmn:outgoing>SequenceFlow_1gx4xfj</bpmn:outgoing>
@@ -85,12 +85,16 @@
       <bpmn:outgoing>SequenceFlow_0pnr9nc</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="SequenceFlow_0h9n95l" sourceRef="SubmissionPrepareCancellationTask" targetRef="ExclusiveGateway_1f8xez3" />
-    <bpmn:sequenceFlow id="SequenceFlow_02lc1qa" sourceRef="ExclusiveGateway_1f8xez3" targetRef="EvaluationPrepareCancellationTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_02lc1qa" sourceRef="ExclusiveGateway_1f8xez3" targetRef="EvaluationPrepareCancellationTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[${operationType=='cancelTenderEv'}]]></bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
     <bpmn:serviceTask id="QualificationPrepareCancelationTask" name="Qualification Prepare Cancellation" camunda:asyncBefore="true" camunda:delegateExpression="${qualificationPrepareCancelation}">
       <bpmn:incoming>SequenceFlow_1fzxcxr</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_07gaem1</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_1fzxcxr" sourceRef="ExclusiveGateway_1f8xez3" targetRef="QualificationPrepareCancelationTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1fzxcxr" sourceRef="ExclusiveGateway_1f8xez3" targetRef="QualificationPrepareCancelationTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[${operationType=='cancelTender'}]]></bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
     <bpmn:exclusiveGateway id="ExclusiveGateway_1cl5qj2">
       <bpmn:incoming>SequenceFlow_07gaem1</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_1uupj1y</bpmn:incoming>
@@ -98,7 +102,9 @@
       <bpmn:outgoing>SequenceFlow_0jov9rc</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="SequenceFlow_07gaem1" sourceRef="QualificationPrepareCancelationTask" targetRef="ExclusiveGateway_1cl5qj2" />
-    <bpmn:sequenceFlow id="SequenceFlow_0pnr9nc" sourceRef="ExclusiveGateway_1f8xez3" targetRef="ExclusiveGateway_1cl5qj2" />
+    <bpmn:sequenceFlow id="SequenceFlow_0pnr9nc" sourceRef="ExclusiveGateway_1f8xez3" targetRef="ExclusiveGateway_1cl5qj2">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[${operationType=='cancelTenderE'}]]></bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_0jov9rc" sourceRef="ExclusiveGateway_1cl5qj2" targetRef="NoticeStandstillTask" />
     <bpmn:serviceTask id="AccessTenderCancellationTask" name="Access Tender Cancellation" camunda:asyncBefore="true" camunda:delegateExpression="${accessTenderCancellation}">
       <bpmn:incoming>SequenceFlow_18hl9sz</bpmn:incoming>
@@ -126,8 +132,12 @@
       <bpmn:incoming>SequenceFlow_0lpgcm4</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1ntd0sx</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_0lpgcm4" sourceRef="ExclusiveGateway_0q6yppb" targetRef="QualificationAwardsCancellationTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0pkp07b" sourceRef="ExclusiveGateway_0q6yppb" targetRef="EvaluationAwardsCancellationTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0lpgcm4" sourceRef="ExclusiveGateway_0q6yppb" targetRef="QualificationAwardsCancellationTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[${operationType=='cancelTender'}]]></bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_0pkp07b" sourceRef="ExclusiveGateway_0q6yppb" targetRef="EvaluationAwardsCancellationTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[${operationType=='cancelTenderEv'}]]></bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
     <bpmn:exclusiveGateway id="ExclusiveGateway_0w5edcf">
       <bpmn:incoming>SequenceFlow_0u1yrus</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_1ntd0sx</bpmn:incoming>
@@ -138,7 +148,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_0iy8oka" sourceRef="ExclusiveGateway_0w5edcf" targetRef="ExclusiveGateway_1npu3t8" />
     <bpmn:sequenceFlow id="SequenceFlow_02bj5a2" sourceRef="AccessPlanCancellationTask" targetRef="ExclusiveGateway_1npu3t8" />
     <bpmn:sequenceFlow id="SequenceFlow_117ktgd" sourceRef="ExclusiveGateway_0ow3sqh" targetRef="AccessPlanCancellationTask">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[${operationType=='cancelPlan}]]></bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[${operationType=='cancelPlan'}]]></bpmn:conditionExpression>
     </bpmn:sequenceFlow>
   </bpmn:process>
   <bpmn:error id="tr_exception" name="TR_EXCEPTION" errorCode="TR_EXCEPTION" />
