@@ -17,19 +17,19 @@ import org.springframework.stereotype.Component;
 import java.util.Objects;
 
 @Component
-public class AccessTenderCancellation implements JavaDelegate {
+public class AccessPlanCancellation implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AccessTenderCancellation.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AccessPlanCancellation.class);
 
     private final AccessRestClient accessRestClient;
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public AccessTenderCancellation(final AccessRestClient accessRestClient,
-                                    final OperationService operationService,
-                                    final ProcessService processService,
-                                    final JsonUtil jsonUtil) {
+    public AccessPlanCancellation(final AccessRestClient accessRestClient,
+                                  final OperationService operationService,
+                                  final ProcessService processService,
+                                  final JsonUtil jsonUtil) {
         this.accessRestClient = accessRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -41,11 +41,6 @@ public class AccessTenderCancellation implements JavaDelegate {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
-        if (context.getStage().equals(Stage.EV.value())) {
-            context.setOperationType("cancelTenderEv");
-        } else {
-            context.setOperationType("cancelTender");
-        }
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();

@@ -38,7 +38,10 @@ public enum OperationType {
     CREATE_BID("createBid"),
     UPDATE_BID("updateBid"),
     BID_WITHDRAWN("bidWithdrawn"),
-    START_NEW_STAGE("startNewStage");
+    START_NEW_STAGE("startNewStage"),
+    CANCEL_TENDER("cancelTender"),
+    CANCEL_TENDER_EV("cancelTenderEv"),
+    CANCEL_PLAN("cancelPlan"),;
 
     private static final Map<String, OperationType> CONSTANTS = new HashMap<>();
     private final String value;

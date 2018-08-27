@@ -55,6 +55,8 @@ public class CancelController {
         final Context context = requestService.getContextForUpdate(authorization, operationId.toString(), cpid, ocid, token, "tenderCancellation");
         requestService.saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
+        variables.put("operationType", context.getOperationType());
+        variables.put("phase", context.getPhase());
         processService.startProcess(context, variables);
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
