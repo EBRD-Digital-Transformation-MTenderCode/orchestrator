@@ -65,7 +65,7 @@ public class MdmValidateTender implements JavaDelegate {
                         execution,
                         entity,
                         jsonUtil.toJsonNode(commandMessage),
-                        processService.setTenderData(prevData, responseData, processId));
+                        processService.setTenderData(itemsAdd, prevData, responseData, processId));
         }
     }
 }

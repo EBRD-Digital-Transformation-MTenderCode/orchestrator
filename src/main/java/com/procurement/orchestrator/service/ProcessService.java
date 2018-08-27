@@ -100,7 +100,7 @@ public interface ProcessService {
 
     JsonNode getTenderData(Boolean itemsAdd, JsonNode jsonData, String processId);
 
-    JsonNode setTenderData(JsonNode jsonData, JsonNode responseData, String processId);
+    JsonNode setTenderData(Boolean itemsAdd, JsonNode jsonData, JsonNode responseData, String processId);
 
     JsonNode getCheckItems(JsonNode jsonData, String processId);
 
