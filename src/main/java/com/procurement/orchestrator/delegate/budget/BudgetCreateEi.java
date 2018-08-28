@@ -48,13 +48,14 @@ public class BudgetCreateEi implements JavaDelegate {
                 processId,
                 taskId,
                 requestData);
-        if (Objects.nonNull(responseData))
+        if (Objects.nonNull(responseData)) {
             operationService.saveOperationStep(
                     execution,
                     entity,
                     addDataToContext(context, responseData, processId),
                     requestData,
                     responseData);
+        }
     }
 
     private Context addDataToContext(final Context context, final JsonNode responseData, final String processId) {

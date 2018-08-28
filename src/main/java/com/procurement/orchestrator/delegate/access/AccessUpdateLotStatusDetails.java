@@ -56,8 +56,9 @@ public class AccessUpdateLotStatusDetails implements JavaDelegate {
                 processId,
                 taskId,
                 unsuccessfulLots);
-        if (Objects.nonNull(responseData))
+        if (Objects.nonNull(responseData)) {
             operationService.saveOperationStep(execution, entity, unsuccessfulLots,
                     processService.addLots(jsonData, responseData, processId));
+        }
     }
 }

@@ -51,12 +51,13 @@ public class AccessGetLots implements JavaDelegate {
                 processId,
                 taskId,
                 jsonUtil.empty());
-        if (Objects.nonNull(responseData))
+        if (Objects.nonNull(responseData)) {
             operationService.saveOperationStep(
                     execution,
                     entity,
                     jsonUtil.empty(),
                     processService.addLotsAndAwardCriteria(jsonData, responseData, processId));
+        }
     }
 }
 

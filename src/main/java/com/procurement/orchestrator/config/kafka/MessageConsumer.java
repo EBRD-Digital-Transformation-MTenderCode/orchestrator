@@ -1,6 +1,5 @@
 package com.procurement.orchestrator.config.kafka;
 
-import com.datastax.driver.core.utils.UUIDs;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.Rule;

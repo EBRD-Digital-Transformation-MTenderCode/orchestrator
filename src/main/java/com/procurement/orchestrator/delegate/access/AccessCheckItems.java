@@ -47,20 +47,22 @@ public class AccessCheckItems implements JavaDelegate {
         final JsonNode rqData = processService.getCheckItems(prevData, processId);
         final CommandMessage commandMessage = processService.getCommandMessage(CommandType.CHECK_ITEMS, context, rqData);
         JsonNode responseData = null;
-        if (Objects.nonNull(rqData))
+        if (Objects.nonNull(rqData)) {
             responseData = processService.processResponse(
                     accessRestClient.execute(commandMessage),
                     context,
                     processId,
                     taskId,
                     jsonUtil.toJsonNode(commandMessage));
-        if (Objects.nonNull(responseData))
+        }
+        if (Objects.nonNull(responseData)) {
             processResponse(execution, responseData, processId);
             operationService.saveOperationStep(
                     execution,
                     entity,
                     jsonUtil.toJsonNode(commandMessage),
                     processService.setCheckItems(prevData, responseData, processId));
+        }
     }
 
     private void processResponse(final DelegateExecution execution,

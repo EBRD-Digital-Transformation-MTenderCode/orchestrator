@@ -54,11 +54,12 @@ public class SubmissionSetFinalStatuses implements JavaDelegate {
                 processId,
                 taskId,
                 jsonUtil.empty());
-        if (Objects.nonNull(responseData))
+        if (Objects.nonNull(responseData)) {
             operationService.saveOperationStep(
                     execution,
                     entity,
                     jsonUtil.empty(),
                     processService.addBids(jsonData, responseData, processId));
+        }
     }
 }

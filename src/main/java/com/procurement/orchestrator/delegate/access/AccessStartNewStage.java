@@ -53,12 +53,13 @@ public class AccessStartNewStage implements JavaDelegate {
                 processId,
                 taskId,
                 jsonUtil.empty());
-        if (Objects.nonNull(responseData))
+        if (Objects.nonNull(responseData)) {
             operationService.saveOperationStep(
                     execution,
                     entity,
                     jsonUtil.empty(),
                     processService.setTender(jsonData, responseData, processId));
+        }
     }
 
 }

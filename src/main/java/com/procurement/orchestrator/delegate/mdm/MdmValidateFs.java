@@ -57,11 +57,12 @@ public class MdmValidateFs implements JavaDelegate {
                     processId,
                     taskId,
                     jsonUtil.toJsonNode(commandMessage));
-        if (Objects.nonNull(responseData))
+        if (Objects.nonNull(responseData)) {
             operationService.saveOperationStep(
                     execution,
                     entity,
                     jsonUtil.toJsonNode(commandMessage),
                     processService.setFsData(prevData, responseData, processId));
+        }
     }
 }

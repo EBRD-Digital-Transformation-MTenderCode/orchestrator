@@ -55,8 +55,8 @@ public class AccessUpdateCn implements JavaDelegate {
                 processId,
                 taskId,
                 requestData);
-        if (Objects.nonNull(responseData))
+        if (Objects.nonNull(responseData)) {
             operationService.saveOperationStep(execution, entity, context, requestData, responseData);
+        }
     }
-
 }

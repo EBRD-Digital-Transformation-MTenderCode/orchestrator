@@ -48,18 +48,20 @@ public class StorageOpenDocsOfAward implements JavaDelegate {
         final JsonNode documents = processService.getDocumentsOfAward(jsonData, processId);
         final String taskId = execution.getCurrentActivityName();
         JsonNode responseData = null;
-        if (Objects.nonNull(documents))
+        if (Objects.nonNull(documents)) {
             responseData = processService.processResponse(
                     storageRestClient.setPublishDate(startDate, documents),
                     context,
                     processId,
                     taskId,
                     documents);
-        if (Objects.nonNull(responseData))
+        }
+        if (Objects.nonNull(responseData)) {
             operationService.saveOperationStep(
                     execution,
                     entity,
                     documents,
                     processService.setDocumentsOfAward(jsonData, responseData, processId));
+        }
     }
 }

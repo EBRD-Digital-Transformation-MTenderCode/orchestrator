@@ -46,15 +46,17 @@ public class AccessCheckBid implements JavaDelegate {
         final String taskId = execution.getCurrentActivityId();
         final CommandMessage commandMessage = processService.getCommandMessage(CommandType.CHECK_BID, context, jsonData);
         JsonNode responseData = null;
-        if (Objects.nonNull(jsonData))
+        if (Objects.nonNull(jsonData)) {
             responseData = processService.processResponse(
                     accessRestClient.execute(commandMessage),
                     context,
                     processId,
                     taskId,
                     jsonUtil.toJsonNode(commandMessage));
-        if (Objects.nonNull(responseData))
+        }
+        if (Objects.nonNull(responseData)) {
             operationService.saveOperationStep(execution, entity);
+        }
     }
 }
 

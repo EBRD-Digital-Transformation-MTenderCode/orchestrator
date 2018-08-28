@@ -6,7 +6,6 @@ import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.SubmissionRestClient;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
-import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.Objects;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
@@ -57,13 +56,14 @@ public class SubmissionSaveNewPeriod implements JavaDelegate {
                 processId,
                 taskId,
                 jsonUtil.empty());
-        if (Objects.nonNull(responseData))
+        if (Objects.nonNull(responseData)) {
             operationService.saveOperationStep(
                     execution,
                     entity,
                     addDataTocontext(context, responseData, processId),
                     jsonUtil.empty(),
                     processService.addTenderTenderPeriod(jsonData, responseData, processId));
+        }
     }
 
     private Context addDataTocontext(final Context context,

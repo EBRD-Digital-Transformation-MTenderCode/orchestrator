@@ -7,7 +7,6 @@ import com.procurement.orchestrator.rest.ClarificationRestClient;
 import com.procurement.orchestrator.service.NotificationService;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
-import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.Objects;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
@@ -57,13 +56,14 @@ public class ClarificationCreateEnquiry implements JavaDelegate {
                 processId,
                 taskId,
                 requestData);
-        if (Objects.nonNull(responseData))
+        if (Objects.nonNull(responseData)) {
             operationService.saveOperationStep(
                     execution,
                     entity,
                     addDataToContext(context, responseData, processId),
                     requestData,
                     responseData);
+        }
     }
 
     private Context addDataToContext(final Context context, final JsonNode responseData, final String processId) {

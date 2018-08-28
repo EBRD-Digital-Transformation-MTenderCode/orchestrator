@@ -53,7 +53,8 @@ public class QualificationEndAwardPeriod implements JavaDelegate {
                 processId,
                 taskId,
                 jsonUtil.empty());
-        if (Objects.nonNull(responseData))
+        if (Objects.nonNull(responseData)) {
             operationService.saveOperationStep(execution, entity, context, jsonUtil.empty(), responseData);
+        }
     }
 }

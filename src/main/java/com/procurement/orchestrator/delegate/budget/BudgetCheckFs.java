@@ -50,11 +50,12 @@ public class BudgetCheckFs implements JavaDelegate {
                 taskId,
                 checkFsDto);
 
-        if (Objects.nonNull(responseData))
+        if (Objects.nonNull(responseData)) {
             operationService.saveOperationStep(
                     execution,
                     entity,
                     checkFsDto,
                     processService.setCheckFs(jsonData, responseData, processId));
+        }
     }
 }

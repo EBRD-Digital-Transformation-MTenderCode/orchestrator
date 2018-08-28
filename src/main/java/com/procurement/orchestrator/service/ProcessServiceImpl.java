@@ -11,13 +11,12 @@ import com.procurement.orchestrator.domain.PlatformError;
 import com.procurement.orchestrator.domain.PlatformMessage;
 import com.procurement.orchestrator.domain.dto.*;
 import com.procurement.orchestrator.utils.JsonUtil;
+import java.util.*;
 import org.camunda.bpm.engine.RuntimeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import java.util.*;
 
 @Service
 public class ProcessServiceImpl implements ProcessService {
@@ -69,8 +68,8 @@ public class ProcessServiceImpl implements ProcessService {
                 errors.add(new PlatformError(detail.getCode(), detail.getMessage()));
             }
             context.setErrors(errors);
-            sendErrorToPlatform(context);
             runtimeService.deleteProcessInstance(processId, context.getOperationId());
+            sendErrorToPlatform(context);
             return null;
         } else if (responseEntity.getBody().getErrors() != null) {
             operationService.saveOperationException(processId, taskId, context, request, jsonUtil.toJsonNode(responseEntity.getBody()));
@@ -80,8 +79,8 @@ public class ProcessServiceImpl implements ProcessService {
             }
             if (errors.size() > 0) {
                 context.setErrors(errors);
-                sendErrorToPlatform(context);
                 runtimeService.deleteProcessInstance(processId, context.getOperationId());
+                sendErrorToPlatform(context);
             }
             return null;
         } else {
