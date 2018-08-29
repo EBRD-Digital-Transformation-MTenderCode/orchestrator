@@ -50,8 +50,14 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
 
-    public CommandMessage getCommandMessage(final CommandType commandType, final Context context, final JsonNode data) {
-        return new CommandMessage(context.getOperationId(), commandType, context, data, ApiVersion.V_0_0_1);
+    public JsonNode getCommandMessage(final CommandType commandType, final Context context, final JsonNode data) {
+        final CommandMessage commandMessage = new CommandMessage(
+                context.getOperationId(),
+                commandType,
+                context,
+                data,
+                ApiVersion.V_0_0_1);
+        return jsonUtil.toJsonNode(commandMessage);
     }
 
     public JsonNode processResponse(final ResponseEntity<ResponseDto> responseEntity,

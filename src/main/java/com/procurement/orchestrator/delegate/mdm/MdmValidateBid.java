@@ -48,7 +48,7 @@ public class MdmValidateBid implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode rqData = processService.getBidTenderersData(prevData, processId);
-        final CommandMessage commandMessage = processService.getCommandMessage(CommandType.PROCESS_BID_DATA, context, rqData);
+        final JsonNode commandMessage = processService.getCommandMessage(CommandType.PROCESS_BID_DATA, context, rqData);
         JsonNode responseData = null;
         if (Objects.nonNull(rqData))
             responseData = processService.processResponse(
@@ -56,12 +56,12 @@ public class MdmValidateBid implements JavaDelegate {
                     context,
                     processId,
                     taskId,
-                    jsonUtil.toJsonNode(commandMessage));
+                    commandMessage);
         if (Objects.nonNull(responseData)) {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    jsonUtil.toJsonNode(commandMessage),
+                    commandMessage,
                     processService.setBidTenderersData(prevData, responseData, processId));
         }
     }

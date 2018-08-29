@@ -1,0 +1,69 @@
+{
+  "planning": {
+    "budget": {
+      "budgetBreakdown": [
+        {
+          "id": "ocds-t1s2t3-MD-1535448844826-FS-1535448860117",
+          "amount": {
+            "amount": 900,
+            "currency": "MDL"
+          }
+        },
+        {
+          "id": "ocds-t1s2t3-MD-1535448844826-FS-1535448884837",
+          "amount": {
+            "amount": 800,
+            "currency": "MDL"
+          }
+        }
+      ]
+    }
+  },
+  "tender": {
+    "title": "gav",
+    "description": "gav gav",
+    "legalBasis": "DIRECTIVE_2014_24_EU",
+    "tenderPeriod": {
+      "startDate": "2018-07-01T01:01:01Z"
+    },
+    "procuringEntity": {
+      "name": "Edward-Compan",
+      "identifier": {
+        "scheme": "MD-IDNO",
+        "id": "gggg",
+        "legalName": "fff",
+        "uri": "hhh"
+      },
+      "address": {
+        "streetAddress": "",
+        "addressDetails": {
+          "country": {
+            "id": "MD"
+          },
+          "region": {
+            "id": "1000000"
+          },
+          "locality": {
+            "scheme": "CUATM",
+            "id": "1001000",
+            "description": "dgfdfg"
+          }
+        }
+      },
+      "contactPoint": {
+        "name": "hgfh",
+        "email": "hfgh",
+        "telephone": "hgfhfh",
+        "faxNumber": "hgfh",
+        "url": "hgfhgf"
+      }
+    },
+    "documents": [
+      {
+        "documentType": "tenderNotice",
+        "id": "f7178f90-9fba-11e8-9318-61ca1098e80e",
+        "title": "doc1"
+      }
+    ]
+  }
+}

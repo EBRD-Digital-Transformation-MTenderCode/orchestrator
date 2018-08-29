@@ -16,7 +16,7 @@ public interface ProcessService {
 
     void terminateProcess(String processId, String message);
 
-    CommandMessage getCommandMessage(CommandType commandType, Context context, JsonNode data);
+    JsonNode getCommandMessage(CommandType commandType, Context context, JsonNode data);
 
     JsonNode processResponse(ResponseEntity<ResponseDto> responseEntity,
                              Context context,

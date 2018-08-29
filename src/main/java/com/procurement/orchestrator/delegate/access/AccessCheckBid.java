@@ -44,7 +44,7 @@ public class AccessCheckBid implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final CommandMessage commandMessage = processService.getCommandMessage(CommandType.CHECK_BID, context, jsonData);
+        final JsonNode commandMessage = processService.getCommandMessage(CommandType.CHECK_BID, context, jsonData);
         JsonNode responseData = null;
         if (Objects.nonNull(jsonData)) {
             responseData = processService.processResponse(
@@ -52,7 +52,7 @@ public class AccessCheckBid implements JavaDelegate {
                     context,
                     processId,
                     taskId,
-                    jsonUtil.toJsonNode(commandMessage));
+                    commandMessage);
         }
         if (Objects.nonNull(responseData)) {
             operationService.saveOperationStep(execution, entity);

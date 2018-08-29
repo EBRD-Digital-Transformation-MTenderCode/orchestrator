@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface AccessRestClient {
 
     @RequestMapping(method = RequestMethod.POST, value = "/command")
-    ResponseEntity<ResponseDto> execute(@RequestBody CommandMessage commandMessage) throws Exception;
+    ResponseEntity<ResponseDto> execute(@RequestBody JsonNode commandMessage) throws Exception;
 
     @RequestMapping(path = "/cn", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> createCn(@RequestParam("stage") String stage,

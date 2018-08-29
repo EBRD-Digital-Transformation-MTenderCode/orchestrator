@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.rest;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.dto.CommandMessage;
 import com.procurement.orchestrator.domain.dto.ResponseDto;
 import org.springframework.cloud.netflix.feign.FeignClient;
@@ -12,5 +13,5 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public interface MdmRestClient {
 
     @RequestMapping(method = RequestMethod.POST, value = "/command")
-    ResponseEntity<ResponseDto> execute(@RequestBody CommandMessage commandMessage) throws Exception;
+    ResponseEntity<ResponseDto> execute(@RequestBody JsonNode commandMessage) throws Exception;
 }

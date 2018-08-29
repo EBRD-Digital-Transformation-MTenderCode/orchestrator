@@ -49,7 +49,7 @@ public class NoticeCreateRelease implements JavaDelegate {
         final JsonNode requestData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final CommandMessage commandMessage = processService.getCommandMessage(CommandType.CREATE_RELEASE, context, requestData);
+        final JsonNode commandMessage = processService.getCommandMessage(CommandType.CREATE_RELEASE, context, requestData);
         JsonNode responseData = null;
         if (Objects.nonNull(requestData)) {
             responseData = processService.processResponse(
@@ -57,14 +57,14 @@ public class NoticeCreateRelease implements JavaDelegate {
                     context,
                     processId,
                     taskId,
-                    jsonUtil.toJsonNode(commandMessage));
+                    commandMessage);
         }
         if (Objects.nonNull(responseData)) {
             operationService.saveOperationStep(
                     execution,
                     entity,
                     addDataToContext(context, responseData, processId),
-                    jsonUtil.toJsonNode(commandMessage),
+                    commandMessage,
                     responseData);
         }
     }

@@ -50,7 +50,7 @@ public class MdmValidateTender implements JavaDelegate {
         final Boolean mdmValidation = (Boolean) execution.getVariable("mdmValidation");
         final Boolean itemsAdd = (Boolean) execution.getVariable("itemsAdd");
         final JsonNode rqData = processService.getTenderData(itemsAdd, prevData, processId);
-        final CommandMessage commandMessage = processService.getCommandMessage(CommandType.PROCESS_TENDER_DATA, context, rqData);
+        final JsonNode commandMessage = processService.getCommandMessage(CommandType.PROCESS_TENDER_DATA, context, rqData);
         JsonNode responseData = null;
         if (mdmValidation) {
             if (Objects.nonNull(rqData))
@@ -59,12 +59,12 @@ public class MdmValidateTender implements JavaDelegate {
                         context,
                         processId,
                         taskId,
-                        jsonUtil.toJsonNode(commandMessage));
+                        commandMessage);
             if (Objects.nonNull(responseData)) {
                 operationService.saveOperationStep(
                         execution,
                         entity,
-                        jsonUtil.toJsonNode(commandMessage),
+                        commandMessage,
                         processService.setTenderData(itemsAdd, prevData, responseData, processId));
             }
         }

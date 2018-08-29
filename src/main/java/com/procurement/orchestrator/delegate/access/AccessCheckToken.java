@@ -43,7 +43,7 @@ public class AccessCheckToken implements JavaDelegate {
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final CommandMessage commandMessage = processService.getCommandMessage(CommandType.CHECK_TOKEN, context, jsonUtil.empty());
+        final JsonNode commandMessage = processService.getCommandMessage(CommandType.CHECK_TOKEN, context, jsonUtil.empty());
         final JsonNode responseData = processService.processResponse(
                 accessRestClient.execute(commandMessage),
                 context,
