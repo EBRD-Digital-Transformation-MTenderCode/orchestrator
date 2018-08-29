@@ -111,7 +111,7 @@ public class NotificationServiceImpl implements NotificationService {
         final Set<Outcome> outcomes = new HashSet<>();
         final ArrayNode cansNode = (ArrayNode) responseData.get("cans");
         for (final JsonNode canNode : cansNode) {
-            final Outcome outcome = new Outcome(canNode.get("id").asText(), null);
+            final Outcome outcome = new Outcome(canNode.get("contract").get("id").asText(), null);
             outcomes.add(outcome);
         }
         context.setOutcomes(outcomes);

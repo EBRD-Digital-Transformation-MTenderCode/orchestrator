@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface ContractingRestClient {
 
     @RequestMapping(path = "/createCAN", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> createCan(@RequestParam(value = "identifier") String cpid,
+    ResponseEntity<ResponseDto> createCan(@RequestParam(value = "cpid") String cpid,
                                           @RequestParam(value = "stage") String stage,
                                           @RequestParam(value = "owner") String owner,
                                           @RequestParam("date") String date,
                                           @RequestBody JsonNode jsonData) throws Exception;
 
     @RequestMapping(path = "/createAC", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> createAC(@RequestParam(value = "identifier") String cpid,
+    ResponseEntity<ResponseDto> createAC(@RequestParam(value = "cpid") String cpid,
                                          @RequestParam(value = "stage") String stage,
                                          @RequestParam("date") String date,
                                          @RequestBody JsonNode jsonData) throws Exception;
