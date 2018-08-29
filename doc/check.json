@@ -1,72 +1,207 @@
 {
-  "planning": {
-    "budget": {
-      "budgetBreakdown": [
-        {
-          "id": "ocds-t1s2t3-MD-1535448844826-FS-1535448860117",
-          "amount": {
-            "amount": 900,
-            "currency": "MDL"
+  "award": {
+    "id": "55951093-ab61-11e8-81c5-8d7564ebb12d",
+    "date": "2018-08-29T09:25:45Z",
+    "status": "pending",
+    "statusDetails": "active",
+    "value": {
+      "amount": 150.00,
+      "currency": "MDL"
+    },
+    "relatedLots": [
+      "225b7f12-ab5d-11e8-98a2-6f3f096d14ac"
+    ],
+    "relatedBid": "ff578a10-ab5f-11e8-a774-c56f31395882",
+    "suppliers": [
+      {
+        "id": "MD-IDNO-j1jj4",
+        "name": "ijj0",
+        "identifier": {
+          "id": "j1jj4",
+          "scheme": "MD-IDNO",
+          "legalName": "441",
+          "uri": "pj1241kpoi"
+        },
+        "address": {
+          "streetAddress": "rrfhgsfrdg",
+          "addressDetails": {
+            "country": {
+              "scheme": "iso-alpha2",
+              "id": "MD",
+              "description": "MOLDOVA",
+              "uri": "http://reference.iatistandard.org"
+            },
+            "region": {
+              "scheme": "CUATM",
+              "id": "1700000",
+              "description": "Cahul",
+              "uri": "http://statistica.md"
+            },
+            "locality": {
+              "scheme": "hfhfhf",
+              "id": "00",
+              "description": "hnhn"
+            }
           }
         },
-        {
-          "id": "ocds-t1s2t3-MD-1535448844826-FS-1535448884837",
-          "amount": {
-            "amount": 800,
-            "currency": "MDL"
+        "additionalIdentifiers": [
+          {
+            "id": "chh",
+            "scheme": "r121g",
+            "legalName": "ch",
+            "uri": "hc"
           }
+        ],
+        "contactPoint": {
+          "name": "nhnh",
+          "email": "nhnhn",
+          "telephone": "hnhn",
+          "url": "hnhn"
+        },
+        "details": {
+          "scale": "sme"
         }
-      ]
-    }
+      }
+    ],
+    "documents": []
   },
-  "tender": {
-    "title": "gav",
-    "description": "gav gav",
-    "legalBasis": "DIRECTIVE_2014_24_EU",
-    "tenderPeriod": {
-      "startDate": "2018-07-01T01:01:01Z"
+  "awardStatusDetails": "active",
+  "bidId": "ff578a10-ab5f-11e8-a774-c56f31395882",
+  "lotId": "225b7f12-ab5d-11e8-98a2-6f3f096d14ac",
+  "lotAwarded": true,
+  "lot": {
+    "id": "225b7f12-ab5d-11e8-98a2-6f3f096d14ac",
+    "title": "lot2",
+    "description": "2",
+    "status": "active",
+    "statusDetails": "awarded",
+    "value": {
+      "amount": 200.00,
+      "currency": "MDL"
     },
-    "procuringEntity": {
-      "name": "Edward-Compan",
-      "identifier": {
-        "scheme": "MD-IDNO",
-        "id": "gggg",
-        "legalName": "fff",
-        "uri": "hhh"
-      },
+    "options": [
+      {
+        "hasOptions": false
+      }
+    ],
+    "recurrentProcurement": [
+      {
+        "isRecurrent": false
+      }
+    ],
+    "renewals": [
+      {
+        "hasRenewals": false
+      }
+    ],
+    "variants": [
+      {
+        "hasVariants": false
+      }
+    ],
+    "contractPeriod": {
+      "startDate": "2018-10-20T12:40:00Z",
+      "endDate": "2018-11-24T12:00:00Z"
+    },
+    "placeOfPerformance": {
       "address": {
-        "streetAddress": "",
+        "streetAddress": "Steet",
+        "postalCode": "5",
         "addressDetails": {
           "country": {
-            "id": "MD"
+            "scheme": "iso-alpha2",
+            "id": "MD",
+            "description": "MOLDOVA",
+            "uri": "http://reference.iatistandard.org"
           },
           "region": {
-            "id": "1000000"
+            "scheme": "CUATM",
+            "id": "0301000",
+            "description": "mun.Bălţi",
+            "uri": "http://statistica.md"
           },
           "locality": {
             "scheme": "CUATM",
-            "id": "1001000",
-            "description": "dgfdfg"
+            "id": "0301000",
+            "description": "mun.Bălţi",
+            "uri": "http://statistica.md"
           }
         }
       },
-      "contactPoint": {
-        "name": "hgfh",
-        "email": "hfgh",
-        "telephone": "hgfhfh",
-        "faxNumber": "hgfh",
-        "url": "hgfhgf"
+      "description": "decr"
+    }
+  },
+  "bid": {
+    "id": "ff578a10-ab5f-11e8-a774-c56f31395882",
+    "date": "2018-08-29T09:25:45Z",
+    "status": "pending",
+    "statusDetails": "valid",
+    "tenderers": [
+      {
+        "id": "MD-IDNO-j1jj4",
+        "name": "ijj0",
+        "identifier": {
+          "id": "j1jj4",
+          "scheme": "MD-IDNO",
+          "legalName": "441",
+          "uri": "pj1241kpoi"
+        },
+        "address": {
+          "streetAddress": "rrfhgsfrdg",
+          "addressDetails": {
+            "country": {
+              "scheme": "iso-alpha2",
+              "id": "MD",
+              "description": "MOLDOVA",
+              "uri": "http://reference.iatistandard.org"
+            },
+            "region": {
+              "scheme": "CUATM",
+              "id": "1700000",
+              "description": "Cahul",
+              "uri": "http://statistica.md"
+            },
+            "locality": {
+              "scheme": "hfhfhf",
+              "id": "00",
+              "description": "hnhn"
+            }
+          }
+        },
+        "additionalIdentifiers": [
+          {
+            "id": "chh",
+            "scheme": "r121g",
+            "legalName": "ch",
+            "uri": "hc"
+          }
+        ],
+        "contactPoint": {
+          "name": "nhnh",
+          "email": "nhnhn",
+          "telephone": "hnhn",
+          "url": "hnhn"
+        },
+        "details": {
+          "scale": "sme"
+        }
       }
+    ],
+    "value": {
+      "amount": 150.00,
+      "currency": "MDL"
     },
     "documents": [
       {
-        "documentType": "tenderNotice",
-        "id": "f7178f90-9fba-11e8-9318-61ca1098e80e",
-        "title": "doc1",
+        "id": "28fc73f0-a127-11e8-941f-116f5508f313",
+        "documentType": "submissionDocuments",
         "relatedLots": [
-          "1"
+          "225b7f12-ab5d-11e8-98a2-6f3f096d14ac"
         ]
       }
+    ],
+    "relatedLots": [
+      "225b7f12-ab5d-11e8-98a2-6f3f096d14ac"
     ]
   }
 }

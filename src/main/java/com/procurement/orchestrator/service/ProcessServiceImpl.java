@@ -372,7 +372,10 @@ public class ProcessServiceImpl implements ProcessService {
                                          final String processId) {
         try {
             final ObjectNode tenderNode = (ObjectNode) jsonData.get("tender");
-            tenderNode.replace("documents", documentsData.get("documents"));
+            final ArrayNode documentsArray = (ArrayNode) documentsData.get("documents");
+            if (documentsArray.size() > 0) {
+                tenderNode.replace("documents", documentsArray);
+            }
             return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
@@ -401,7 +404,10 @@ public class ProcessServiceImpl implements ProcessService {
                                         final String processId) {
         try {
             final ObjectNode awardNode = (ObjectNode) jsonData.get("award");
-            awardNode.replace("documents", documentsData.get("documents"));
+            final ArrayNode documentsArray = (ArrayNode) documentsData.get("documents");
+            if (documentsArray.size() > 0) {
+                awardNode.replace("documents", documentsArray);
+            }
             return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
@@ -432,7 +438,10 @@ public class ProcessServiceImpl implements ProcessService {
     public JsonNode setDocumentsOfBids(final JsonNode jsonData, final JsonNode documentsData,
                                        final String processId) {
         try {
-            ((ObjectNode) jsonData).replace("documents", documentsData.get("documents"));
+            final ArrayNode documentsArray = (ArrayNode) documentsData.get("documents");
+            if (documentsArray.size() > 0) {
+                ((ObjectNode) jsonData).replace("documents", documentsArray);
+            }
             return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
