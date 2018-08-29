@@ -56,20 +56,27 @@ public class AccessCheckItems implements JavaDelegate {
                     jsonUtil.toJsonNode(commandMessage));
         }
         if (Objects.nonNull(responseData)) {
-            processResponse(execution, responseData, processId);
             operationService.saveOperationStep(
                     execution,
                     entity,
                     jsonUtil.toJsonNode(commandMessage),
                     processService.setCheckItems(prevData, responseData, processId));
         }
+        processResponse(execution, responseData, processId);
     }
 
     private void processResponse(final DelegateExecution execution,
                                  final JsonNode responseData,
                                  final String processId) {
-        final Boolean mdmValidation = processService.getBoolean("mdmValidation", responseData, processId);
-        final Boolean itemsAdd = processService.getBoolean("itemsAdd", responseData, processId);
+        final Boolean mdmValidation;
+        final Boolean itemsAdd;
+        if (responseData != null) {
+            mdmValidation = processService.getBoolean("mdmValidation", responseData, processId);
+            itemsAdd = processService.getBoolean("itemsAdd", responseData, processId);
+        } else {
+            mdmValidation = true;
+            itemsAdd = false;
+        }
         execution.setVariable("mdmValidation", mdmValidation);
         execution.setVariable("itemsAdd", itemsAdd);
     }
