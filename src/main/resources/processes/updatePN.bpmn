@@ -17,7 +17,7 @@
       <bpmn:incoming>SequenceFlow_1gx4xfj</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_165gqdr</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="AccessUpdatePnTask" name="Acess update PN" camunda:asyncBefore="true" camunda:delegateExpression="${accessUpdatePn}">
+    <bpmn:serviceTask id="AccessUpdatePnTask" name="Access update PN" camunda:asyncBefore="true" camunda:delegateExpression="${accessUpdatePn}">
       <bpmn:extensionElements>
         <camunda:failedJobRetryTimeCycle>R0/PT1S</camunda:failedJobRetryTimeCycle>
       </bpmn:extensionElements>
