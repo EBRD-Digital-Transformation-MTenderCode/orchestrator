@@ -137,11 +137,11 @@ public interface AccessRestClient {
                                                         @RequestParam("lotAwarded") Boolean lotAwarded,
                                                         @RequestParam("lotId") String lotId) throws Exception;
 
-    @RequestMapping(path = "/lots/checkStatusDetails", method = RequestMethod.GET)
+    @RequestMapping(path = "/lots/checkStatusDetails", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> checkStatusDetails(@RequestParam("cpid") String cpId,
                                                    @RequestParam("stage") String stage) throws Exception;
 
-    @RequestMapping(path = "/lots/checkStatus", method = RequestMethod.GET)
+    @RequestMapping(path = "/lots/checkStatus", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> checkStatus(@RequestParam("cpid") String cpId,
                                             @RequestParam("stage") String stage,
                                             @RequestBody JsonNode jsonData) throws Exception;

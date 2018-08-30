@@ -120,6 +120,5 @@ public interface ProcessService {
 
     JsonNode getEnquiryRelatedLot(JsonNode jsonData, String processId);
 
-
 }
 
