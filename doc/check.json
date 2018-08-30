@@ -5,16 +5,9 @@
       "description": "description_update",
       "budgetBreakdown": [
         {
-          "id": "ocds-t1s2t3-MD-1534248504719-FS-1534248520484",
+          "id": "ocds-t1s2t3-MD-1534845582864-FS-1534846045276",
           "amount": {
             "amount": 900,
-            "currency": "MDL"
-          }
-        },
-        {
-          "id": "ocds-t1s2t3-MD-1534248504719-FS-1534329123626",
-          "amount": {
-            "amount": 800,
             "currency": "MDL"
           }
         }
@@ -28,7 +21,7 @@
     "procurementMethodRationale": "pmr_update",
     "procurementMethodAdditionalInfo": "pmai_update",
     "tenderPeriod": {
-      "endDate": "2018-08-29T12:45:00Z"
+      "startDate": "2018-04-01T00:00:01Z"
     },
     "procuringEntity": {
       "name": "Update_company",
@@ -68,7 +61,7 @@
         "title": "lot1",
         "description": "looot",
         "value": {
-          "amount": 200,
+          "amount": 100,
           "currency": "MDL"
         },
         "contractPeriod": {
@@ -77,8 +70,8 @@
         },
         "placeOfPerformance": {
           "address": {
-            "streetAddress": "555",
-            "postalCode": "666",
+            "streetAddress": "444",
+            "postalCode": "555",
             "addressDetails": {
               "country": {
                 "id": "MD"
@@ -107,7 +100,7 @@
         "additionalClassifications": [
           {
             "scheme": "CPVS",
-            "description": "",
+            "description": "666",
             "id": "AB06-7"
           }
         ],
@@ -116,7 +109,7 @@
           "id": "86",
           "name": "square"
         },
-        "description": "1",
+        "description": "111",
         "relatedLot": "1"
       },
       {
@@ -128,8 +121,8 @@
         },
         "additionalClassifications": [
           {
-            "scheme": "CPVs",
-            "description": "",
+            "scheme": "CPVS",
+            "description": "666",
             "id": "AB06-7"
           }
         ],
@@ -138,7 +131,7 @@
           "id": "86",
           "name": "square"
         },
-        "description": "2",
+        "description": "111",
         "relatedLot": "1"
       }
     ],

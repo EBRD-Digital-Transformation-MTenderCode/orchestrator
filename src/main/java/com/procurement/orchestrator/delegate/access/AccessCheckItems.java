@@ -2,7 +2,6 @@ package com.procurement.orchestrator.delegate.access;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
-import com.procurement.orchestrator.domain.dto.CommandMessage;
 import com.procurement.orchestrator.domain.dto.CommandType;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.AccessRestClient;
@@ -44,6 +43,8 @@ public class AccessCheckItems implements JavaDelegate {
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
+        execution.setVariable("mdmValidation", true);
+        execution.setVariable("itemsAdd", false);
         final JsonNode rqData = processService.getCheckItems(prevData, processId);
         final JsonNode commandMessage = processService.getCommandMessage(CommandType.CHECK_ITEMS, context, rqData);
         JsonNode responseData = null;
@@ -56,27 +57,22 @@ public class AccessCheckItems implements JavaDelegate {
                     commandMessage);
         }
         if (Objects.nonNull(responseData)) {
+
+            processResponse(execution, responseData, processId);
+
             operationService.saveOperationStep(
                     execution,
                     entity,
                     commandMessage,
                     processService.setCheckItems(prevData, responseData, processId));
         }
-        processResponse(execution, responseData, processId);
     }
 
     private void processResponse(final DelegateExecution execution,
                                  final JsonNode responseData,
                                  final String processId) {
-        final Boolean mdmValidation;
-        final Boolean itemsAdd;
-        if (responseData != null) {
-            mdmValidation = processService.getBoolean("mdmValidation", responseData, processId);
-            itemsAdd = processService.getBoolean("itemsAdd", responseData, processId);
-        } else {
-            mdmValidation = true;
-            itemsAdd = false;
-        }
+        final Boolean mdmValidation = processService.getBoolean("mdmValidation", responseData, processId);
+        final Boolean itemsAdd = processService.getBoolean("itemsAdd", responseData, processId);
         execution.setVariable("mdmValidation", mdmValidation);
         execution.setVariable("itemsAdd", itemsAdd);
     }
