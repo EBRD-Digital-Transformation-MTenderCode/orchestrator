@@ -154,7 +154,9 @@ public class NotificationServiceImpl implements NotificationService {
                 return null;
             }
             case UNSUSPEND_TENDER: {
-                return null;
+                data.setOcid(context.getOcid());
+                data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
+                break;
             }
             case UNSUCCESSFUL_TENDER: {
                 return null;
