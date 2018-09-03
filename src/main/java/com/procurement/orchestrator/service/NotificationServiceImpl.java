@@ -363,8 +363,7 @@ public class NotificationServiceImpl implements NotificationService {
 
         final PlatformMessage message = new PlatformMessage();
         final PlatformMessageData data = new PlatformMessageData();
-        message.setInitiator(PLATFORM);
-
+        message.setInitiator(BPE);
         data.setOcid(context.getOcid());
         data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
         data.setOutcomes(getOutcomes("enquiries", context.getId(), context.getToken()));
