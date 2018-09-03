@@ -6,9 +6,11 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.procurement.orchestrator.domain.*;
 import com.procurement.orchestrator.utils.JsonUtil;
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -82,7 +84,9 @@ public class NotificationServiceImpl implements NotificationService {
                                               final String processId) {
         final String id = processService.getEnquiryId(responseData, processId);
         final String token = processService.getText("token", responseData, processId);
+        final String ownerCA = processService.getText("ownerCA", responseData, processId);
         context.setId(id);
+        context.setOwnerCA(ownerCA);
         context.setToken(token);
         return context;
     }
@@ -239,7 +243,7 @@ public class NotificationServiceImpl implements NotificationService {
             case CREATE_ENQUIRY: {
                 data.setOcid(context.getOcid());
                 data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
-                data.setOutcomes(getOutcomes("enquiries", context.getId(), context.getToken()));
+                data.setOutcomes(getOutcomes("enquiries", context.getId(), null));
                 break;
             }
             case ADD_ANSWER: {
@@ -352,5 +356,29 @@ public class NotificationServiceImpl implements NotificationService {
                 jsonUtil.toJson(message));
 
         return notification;
+    }
+
+    @Override
+    public Notification getNotificationForPlatformCA(Context context) {
+
+        final PlatformMessage message = new PlatformMessage();
+        final PlatformMessageData data = new PlatformMessageData();
+        message.setInitiator(PLATFORM);
+
+        data.setOcid(context.getOcid());
+        data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
+        data.setOutcomes(getOutcomes("enquiries", context.getId(), context.getToken()));
+        message.setOperationId(context.getOperationId());
+        message.setResponseId(UUIDs.timeBased().toString());
+        data.setOperationDate(context.getStartDate());
+        message.setData(data);
+
+        final Notification notification = new Notification(
+                UUID.fromString(context.getOwnerCA()),
+                UUID.fromString(context.getOperationId()),
+                jsonUtil.toJson(message));
+
+        return notification;
+
     }
 }

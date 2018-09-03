@@ -21,6 +21,8 @@ public interface NotificationService {
     Context addNoticeOutcomeToContext(Context context, JsonNode responseData, String processId);
 
     Notification getNotificationForPlatform(Context context);
+
+    Notification getNotificationForPlatformCA(Context context);
 }
 
 

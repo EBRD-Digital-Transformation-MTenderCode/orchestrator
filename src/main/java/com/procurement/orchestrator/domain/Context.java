@@ -45,6 +45,9 @@ public class Context {
     @JsonProperty(value = "owner")
     private String owner;
 
+    @JsonProperty(value = "ownerCA")
+    private String ownerCA;
+
     @JsonProperty(value = "country")
     private String country;
 
