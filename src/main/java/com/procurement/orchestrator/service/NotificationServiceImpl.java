@@ -134,7 +134,7 @@ public class NotificationServiceImpl implements NotificationService {
 
     public Context addNoticeOutcomeToContext(final Context context, final JsonNode responseData, final String processId) {
         context.setOcid(processService.getText("ocid", responseData, processId));
-        final ArrayNode amendmentsArray = (ArrayNode) responseData.get("amendments");
+        final ArrayNode amendmentsArray = (ArrayNode) responseData.get("amendmentsIds");
         if (amendmentsArray != null) {
             final Set<Outcome> outcomes = new HashSet<>();
             for (final JsonNode amendmentNode : amendmentsArray) {

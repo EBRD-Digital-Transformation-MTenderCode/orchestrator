@@ -48,7 +48,7 @@ public class SendEnquiryMessages implements JavaDelegate {
                     jsonUtil.toJsonNode(notificationEO));
         }
 
-        final Notification notificationCA = notificationService.getNotificationForPlatform(context);
+        final Notification notificationCA = notificationService.getNotificationForPlatformCA(context);
         if (notificationCA != null) {
             messageProducer.sendToPlatform(notificationCA);
             operationService.saveOperationStep(
