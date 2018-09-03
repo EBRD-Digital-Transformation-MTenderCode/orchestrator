@@ -1,104 +1,21 @@
 {
-  "planning": {
-    "budget": {
-      "amount": {
-        "amount": 1700.00,
-        "currency": "MDL"
-      },
-      "isEuropeanUnionFunded": false,
-      "budgetBreakdown": [
-        {
-          "id": "ocds-t1s2t3-MD-1535448844826-FS-1535448860117",
-          "description": "Hello world!",
-          "amount": {
-            "amount": 900.00,
-            "currency": "MDL"
-          },
-          "period": {
-            "startDate": "2018-05-25T22:00:00Z",
-            "endDate": "2018-12-27T21:00:00Z"
-          },
-          "sourceParty": {
-            "id": "MD-IDNO-Enotis",
-            "name": "Edward-Company2"
-          }
-        },
-        {
-          "id": "ocds-t1s2t3-MD-1535448844826-FS-1535448884837",
-          "description": "Hello world!",
-          "amount": {
-            "amount": 800.00,
-            "currency": "MDL"
-          },
-          "period": {
-            "startDate": "2018-05-25T22:00:00Z",
-            "endDate": "2018-12-27T21:00:00Z"
-          },
-          "sourceParty": {
-            "id": "MD-IDNO-Enotis",
-            "name": "Edward-Company2"
-          }
-        }
-      ]
-    }
-  },
-  "tender": {
-    "id": "ocds-t1s2t3-MD-1535626875733",
-    "title": "gav",
-    "description": "gav gav",
-    "status": "planning",
-    "statusDetails": "empty",
-    "classification": {
-      "scheme": "CPV",
-      "id": "30100000-0",
-      "description": "Maşini de procesare de text"
-    },
-    "mainProcurementCategory": "goods",
-    "procurementMethod": "open",
-    "procurementMethodDetails": "test",
-    "submissionMethod": [
-      "electronicSubmission"
-    ],
-    "submissionMethodDetails": "submissionMethodDetails",
-    "submissionMethodRationale": [
-      "submissionMethodRationale"
-    ],
-    "eligibilityCriteria": "eligibilityCriteria",
-    "acceleratedProcedure": {
-      "isAcceleratedProcedure": false
-    },
-    "designContest": {
-      "serviceContractAward": false
-    },
-    "electronicWorkflows": {
-      "useOrdering": false,
-      "usePayment": false,
-      "acceptInvoicing": false
-    },
-    "jointProcurement": {
-      "isJointProcurement": false
-    },
-    "procedureOutsourcing": {
-      "procedureOutsourced": false
-    },
-    "framework": {
-      "isAFramework": false
-    },
-    "dynamicPurchasingSystem": {
-      "hasDynamicPurchasingSystem": false
-    },
-    "legalBasis": "DIRECTIVE_2014_24_EU",
-    "procuringEntity": {
-      "id": "MD-IDNO-gggg",
-      "name": "Edward-Compan",
+  "token": "58407e9b-bf05-42b3-b950-30c186727384",
+  "ownerCA": "445f6851-c908-407d-9b45-14b92f3e964b",
+  "enquiry": {
+    "id": "87a29450-af7a-11e8-81fb-31036f55e49e",
+    "date": "2018-09-03T13:09:03Z",
+    "author": {
+      "name": "name",
+      "id": "MD-IDNO-2",
       "identifier": {
-        "id": "gggg",
         "scheme": "MD-IDNO",
-        "legalName": "fff",
-        "uri": "hhh"
+        "id": "2",
+        "legalName": "1",
+        "uri": "1"
       },
       "address": {
-        "streetAddress": "",
+        "streetAddress": "1",
+        "postalCode": "1",
         "addressDetails": {
           "country": {
             "scheme": "iso-alpha2",
@@ -121,196 +38,16 @@
         }
       },
       "contactPoint": {
-        "name": "hgfh",
-        "email": "hfgh",
-        "telephone": "hgfhfh",
-        "faxNumber": "hgfh",
-        "url": "hgfhgf"
-      }
-    },
-    "awardCriteria": "priceOnly",
-    "requiresElectronicCatalogue": false,
-    "tenderPeriod": {
-      "startDate": "2018-07-01T01:01:01Z"
-    },
-    "value": {
-      "amount": 1700.00,
-      "currency": "MDL"
-    },
-    "lotGroups": [
-      {
-        "optionToCombine": false
-      }
-    ],
-    "lots": [],
-    "items": [],
-    "documents": [
-      {
-        "id": "f7178f90-9fba-11e8-9318-61ca1098e80e",
-        "documentType": "tenderNotice",
-        "title": "doc1"
-      }
-    ]
-  },
-  "ei": [
-    "ocds-t1s2t3-MD-1535448844826"
-  ],
-  "buyer": [
-    {
-      "id": "MD-IDNO-354-37-1072",
-      "name": "Burns-Davis",
-      "identifier": {
-        "id": "354-37-1072",
-        "scheme": "MD-IDNO",
-        "legalName": "Burns-Davis PLC",
-        "uri": "http://edwards.net/"
-      },
-      "address": {
-        "streetAddress": "232323",
-        "postalCode": "424422",
-        "addressDetails": {
-          "country": {
-            "scheme": "iso-alpha2",
-            "id": "MD",
-            "description": "MOLDOVA",
-            "uri": "http://reference.iatistandard.org"
-          },
-          "region": {
-            "scheme": "CUATM",
-            "id": "1000000",
-            "description": "Anenii Noi",
-            "uri": "http://statistica.md"
-          },
-          "locality": {
-            "scheme": "CUATM",
-            "id": "1001000",
-            "description": "or.Anenii Noi",
-            "uri": "http://statistica.md"
-          }
-        }
-      },
-      "additionalIdentifiers": [
-        {
-          "id": "713-49-7544",
-          "scheme": "MD-IDNO",
-          "legalName": "Burns-Davis PLC",
-          "uri": "http://baker.com/posts/about.asp"
-        }
-      ],
-      "contactPoint": {
-        "name": "Jacqueline Soto",
-        "email": "tiffanygutierrez@yahoo.com",
-        "telephone": "724-095-3938x237",
-        "faxNumber": "897-612-1545",
-        "url": "http://hudson.biz/explore/list/category/"
+        "name": "1",
+        "email": "1",
+        "telephone": "1",
+        "url": "1"
       },
       "details": {
-        "typeOfBuyer": "MINISTRY",
-        "mainGeneralActivity": "HEALTH",
-        "mainSectoralActivity": "WATER"
-      },
-      "buyerProfile": "http://ray.com/"
-    }
-  ],
-  "funder": [
-    {
-      "id": "MD-IDNO-Enotis",
-      "name": "Edward-Company2",
-      "identifier": {
-        "id": "Enotis",
-        "scheme": "MD-IDNO",
-        "legalName": "legalName",
-        "uri": "uri"
-      },
-      "address": {
-        "streetAddress": "",
-        "postalCode": "",
-        "addressDetails": {
-          "country": {
-            "scheme": "iso-alpha2",
-            "id": "MD",
-            "description": "MOLDOVA",
-            "uri": "http://reference.iatistandard.org"
-          },
-          "region": {
-            "scheme": "CUATM",
-            "id": "1000000",
-            "description": "Anenii Noi",
-            "uri": "http://statistica.md"
-          },
-          "locality": {
-            "scheme": "gggg",
-            "id": "",
-            "description": ""
-          }
-        }
-      },
-      "additionalIdentifiers": [
-        {
-          "id": "string",
-          "scheme": "string",
-          "legalName": "string",
-          "uri": "string"
-        }
-      ],
-      "contactPoint": {
-        "name": "string",
-        "email": "string",
-        "telephone": "string",
-        "faxNumber": "string",
-        "url": "string"
+        "scale": ""
       }
-    }
-  ],
-  "payer": [
-    {
-      "id": "MD-IDNO-Enotis",
-      "name": "Edward-Company",
-      "identifier": {
-        "id": "Enotis",
-        "scheme": "MD-IDNO",
-        "legalName": "legalName",
-        "uri": "uri"
-      },
-      "address": {
-        "streetAddress": "",
-        "postalCode": "",
-        "addressDetails": {
-          "country": {
-            "scheme": "iso-alpha2",
-            "id": "MD",
-            "description": "MOLDOVA",
-            "uri": "http://reference.iatistandard.org"
-          },
-          "region": {
-            "scheme": "CUATM",
-            "id": "1000000",
-            "description": "Anenii Noi",
-            "uri": "http://statistica.md"
-          },
-          "locality": {
-            "scheme": "CUATM",
-            "id": "1001000",
-            "description": "or.Anenii Noi",
-            "uri": "http://statistica.md"
-          }
-        }
-      },
-      "additionalIdentifiers": [
-        {
-          "id": "id",
-          "scheme": "scheme",
-          "legalName": "legalName2",
-          "uri": "uri2"
-        }
-      ],
-      "contactPoint": {
-        "name": "name",
-        "email": "email",
-        "telephone": "telephone",
-        "faxNumber": "fax",
-        "url": "uri3"
-      }
-    }
-  ]
+    },
+    "title": "1",
+    "description": "1"
+  }
 }
