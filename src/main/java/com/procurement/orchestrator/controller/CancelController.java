@@ -2,6 +2,7 @@ package com.procurement.orchestrator.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
+import com.procurement.orchestrator.exception.OperationException;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.service.RequestService;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -52,6 +53,7 @@ public class CancelController {
                                                  @PathVariable("ocid") final String ocid,
                                                  @RequestBody final JsonNode data) {
         final Context context = requestService.getContextForUpdate(authorization, operationId.toString(), cpid, ocid, token, "tenderCancellation");
+        if (!ocid.contains("CN")) throw new OperationException("Invalid ocid.");
         requestService.saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("operationType", context.getOperationType());
@@ -67,6 +69,7 @@ public class CancelController {
                                                   @PathVariable("cpid") final String cpid,
                                                   @PathVariable("ocid") final String ocid) {
         final Context pinContext = requestService.getContextForUpdate(authorization, operationId.toString(), cpid, ocid, token, "tenderCancellation");
+        if (!ocid.contains("PIN")) throw new OperationException("Invalid ocid.");
         requestService.saveRequestAndCheckOperation(pinContext, jsonUtil.empty());
         final Map<String, Object> variables = new HashMap<>();
         variables.put("operationType", pinContext.getOperationType());
@@ -81,6 +84,7 @@ public class CancelController {
                                                  @PathVariable("cpid") final String cpid,
                                                  @PathVariable("ocid") final String ocid) {
         final Context pnContext = requestService.getContextForUpdate(authorization, operationId.toString(), cpid, ocid, token, "tenderCancellation");
+        if (!ocid.contains("PN")) throw new OperationException("Invalid ocid.");
         final Map<String, Object> variables = new HashMap<>();
         variables.put("operationType", pnContext.getOperationType());
         requestService.saveRequestAndCheckOperation(pnContext, jsonUtil.empty());
