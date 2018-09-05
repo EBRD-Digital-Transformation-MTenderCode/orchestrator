@@ -45,6 +45,7 @@ public class AccessTenderCancellation implements JavaDelegate {
         } else {
             context.setOperationType("cancelTender");
         }
+        context.setStartDate(context.getEndDate());
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();

@@ -1,21 +1,105 @@
 {
-  "token": "58407e9b-bf05-42b3-b950-30c186727384",
-  "ownerCA": "445f6851-c908-407d-9b45-14b92f3e964b",
-  "enquiry": {
-    "id": "87a29450-af7a-11e8-81fb-31036f55e49e",
-    "date": "2018-09-03T13:09:03Z",
-    "author": {
-      "name": "name",
-      "id": "MD-IDNO-2",
+  "ocid": "ocds-t1s2t3-MD-1536149589399",
+  "planning": {
+    "budget": {
+      "amount": {
+        "amount": 1000.00,
+        "currency": "MDL"
+      },
+      "isEuropeanUnionFunded": false,
+      "budgetBreakdown": [
+        {
+          "id": "ocds-t1s2t3-MD-1536051766665-FS-1536052030299",
+          "description": "description",
+          "amount": {
+            "amount": 500.00,
+            "currency": "MDL"
+          },
+          "period": {
+            "startDate": "2018-09-02T00:00:00Z",
+            "endDate": "2019-01-01T00:00:00Z"
+          },
+          "sourceParty": {
+            "id": "MD-IDNO-7787-9898-88",
+            "name": "nameOfFSbuyer"
+          }
+        },
+        {
+          "id": "ocds-t1s2t3-MD-1536051766665-FS-1536051975283",
+          "description": "description",
+          "amount": {
+            "amount": 500.00,
+            "currency": "MDL"
+          },
+          "period": {
+            "startDate": "2018-09-02T00:00:00Z",
+            "endDate": "2019-01-01T00:00:00Z"
+          },
+          "sourceParty": {
+            "id": "MD-IDNO-7787-9898-88",
+            "name": "nameOfFSbuyer"
+          }
+        }
+      ]
+    }
+  },
+  "tender": {
+    "id": "ocds-t1s2t3-MD-1536149589399",
+    "title": "Joseph",
+    "description": "Joseph on the horse",
+    "status": "planning",
+    "statusDetails": "empty",
+    "classification": {
+      "scheme": "CPV",
+      "id": "03100000-2",
+      "description": "Produse agricole şi horticole"
+    },
+    "mainProcurementCategory": "goods",
+    "procurementMethod": "open",
+    "procurementMethodDetails": "TEST Licitatia deschisa",
+    "submissionMethod": [
+      "electronicSubmission"
+    ],
+    "submissionMethodDetails": "Lista platformelor: achizitii, ebs, licitatie, yptender",
+    "submissionMethodRationale": [
+      "Ofertele vor fi primite prin intermediul unei platforme electronice de achiziții publice"
+    ],
+    "eligibilityCriteria": "Regulile generale privind naționalitatea și originea, precum și alte criterii de eligibilitate sunt enumerate în Ghidul practic privind procedurile de contractare a acțiunilor externe ale UE (PRAG)",
+    "acceleratedProcedure": {
+      "isAcceleratedProcedure": false
+    },
+    "designContest": {
+      "serviceContractAward": false
+    },
+    "electronicWorkflows": {
+      "useOrdering": false,
+      "usePayment": false,
+      "acceptInvoicing": false
+    },
+    "jointProcurement": {
+      "isJointProcurement": false
+    },
+    "procedureOutsourcing": {
+      "procedureOutsourced": false
+    },
+    "framework": {
+      "isAFramework": false
+    },
+    "dynamicPurchasingSystem": {
+      "hasDynamicPurchasingSystem": false
+    },
+    "legalBasis": "DIRECTIVE_2014_24_EU",
+    "procuringEntity": {
+      "id": "MD-IDNO-gggg",
+      "name": "MY-Company",
       "identifier": {
+        "id": "gggg",
         "scheme": "MD-IDNO",
-        "id": "2",
-        "legalName": "1",
-        "uri": "1"
+        "legalName": "fff",
+        "uri": "hhh"
       },
       "address": {
-        "streetAddress": "1",
-        "postalCode": "1",
+        "streetAddress": "",
         "addressDetails": {
           "country": {
             "scheme": "iso-alpha2",
@@ -38,16 +122,28 @@
         }
       },
       "contactPoint": {
-        "name": "1",
-        "email": "1",
-        "telephone": "1",
-        "url": "1"
-      },
-      "details": {
-        "scale": ""
+        "name": "hgfh",
+        "email": "hfgh",
+        "telephone": "hgfhfh",
+        "faxNumber": "hgfh",
+        "url": "hgfhgf"
       }
     },
-    "title": "1",
-    "description": "1"
+    "awardCriteria": "priceOnly",
+    "requiresElectronicCatalogue": false,
+    "tenderPeriod": {
+      "startDate": "2018-07-01T01:01:01Z"
+    },
+    "value": {
+      "amount": 1000.00,
+      "currency": "MDL"
+    },
+    "lotGroups": [
+      {
+        "optionToCombine": false
+      }
+    ],
+    "lots": [],
+    "items": []
   }
 }
