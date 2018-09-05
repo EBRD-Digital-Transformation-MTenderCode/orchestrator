@@ -31,32 +31,16 @@ Password: EGrH4rOVQrcwXCtM
 mvn clean package docker:build docker:push
 docker push docker-registry.eprocurement.systems/orchestrator:18.06.1
 
-#run
-docker run -d --name=orchestrator-1 \
-  --env __PROP_spring_cloud_config_uri=http://config-server-1:8700 \
-  --env __PROP_spring_profiles_active=default \
-  --env __PROP_spring_cloud_config_label=e961791 \
-  --publish 9101:8080 \
-  --network ocds-network \
-  --dns 10.0.10.115 \
-  dev.docker-registry.eprocurement.systems/orchestrator:17.12.1
-
-docker logs orchestrator-1
-
-docker rm orchestrator-1
-
 //copy image to remote node
-docker save dev.docker-registry.eprocurement.systems/orchestrator:18.06.1  | bzip2 | ssh root@10.0.20.116 'bunzip2 | docker load'
-YLDKekTUnzyouh3D
-
-echo 'Stopping container...'
 docker stop orchestrator-1
 
-echo 'Removing container...'
 docker rm orchestrator-1
 
-echo 'Removing image...'
 docker rmi dev.docker-registry.eprocurement.systems/orchestrator:18.06.1
+
+mvn clean package docker:build
+docker save dev.docker-registry.eprocurement.systems/orchestrator:18.06.1  | bzip2 | ssh root@10.0.20.116 'bunzip2 | docker load'
+YLDKekTUnzyouh3D
 
 echo 'Re-deploying'
 docker run -d --name=orchestrator-1 \
