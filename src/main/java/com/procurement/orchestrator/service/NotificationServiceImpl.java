@@ -67,15 +67,17 @@ public class NotificationServiceImpl implements NotificationService {
     private JsonNode getOutcomes(final String outcomeName, final Set<Outcome> contextOutcomes) {
         final ObjectNode outcomes = jsonUtil.createObjectNode();
         final ArrayNode outcomeArray = jsonUtil.createArrayNode();
-        for (final Outcome outcome : contextOutcomes) {
-            final ObjectNode outcomeItem = jsonUtil.createObjectNode();
-            outcomeItem.put("id", outcome.getId());
-            if (outcome.getToken() != null) {
-                outcomeItem.put("X-TOKEN", outcome.getToken());
+        if (contextOutcomes != null) {
+            for (final Outcome outcome : contextOutcomes) {
+                final ObjectNode outcomeItem = jsonUtil.createObjectNode();
+                outcomeItem.put("id", outcome.getId());
+                if (outcome.getToken() != null) {
+                    outcomeItem.put("X-TOKEN", outcome.getToken());
+                }
+                outcomeArray.add(outcomeItem);
             }
-            outcomeArray.add(outcomeItem);
+            outcomes.replace(outcomeName.toLowerCase(), outcomeArray);
         }
-        outcomes.replace(outcomeName.toLowerCase(), outcomeArray);
         return outcomes;
     }
 
@@ -336,9 +338,9 @@ public class NotificationServiceImpl implements NotificationService {
                 break;
             }
             case CANCEL_PLAN: {
-                data.setOcid(context.getOcid());
-                data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
-                data.setOutcomes(getOutcomes("amendments", context.getOutcomes()));
+                data.setOcid(context.getCpid());
+                data.setUrl(getTenderUri(context.getCpid(), null));
+                data.setOutcomes(getOutcomes(context.getStage(), context.getOcid(), null));
                 break;
             }
             default:
