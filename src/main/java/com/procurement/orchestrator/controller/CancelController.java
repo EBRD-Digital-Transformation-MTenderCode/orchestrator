@@ -6,9 +6,11 @@ import com.procurement.orchestrator.exception.OperationException;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.service.RequestService;
 import com.procurement.orchestrator.utils.JsonUtil;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -53,7 +55,7 @@ public class CancelController {
                                                  @PathVariable("ocid") final String ocid,
                                                  @RequestBody final JsonNode data) {
         final Context context = requestService.getContextForUpdate(authorization, operationId.toString(), cpid, ocid, token, "tenderCancellation");
-        if (!ocid.contains("CN")) throw new OperationException("Invalid ocid.");
+        if (ocid.contains("PN") || ocid.contains("PIN")) throw new OperationException("Invalid ocid.");
         requestService.saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("operationType", context.getOperationType());
