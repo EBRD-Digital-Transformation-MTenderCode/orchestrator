@@ -318,27 +318,27 @@ public class NotificationServiceImpl implements NotificationService {
                 break;
             }
             case CANCEL_STANDSTILL: {
-                data.setOcid(context.getCpid());
-                data.setUrl(getTenderUri(context.getCpid(), null));
-                data.setOutcomes(getOutcomes("amendments", context.getOcid(), null));
+                data.setOcid(context.getOcid());
+                data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
+                data.setOutcomes(getOutcomes("amendments", context.getOutcomes()));
                 break;
             }
             case CANCEL_TENDER: {
-                data.setOcid(context.getCpid());
-                data.setUrl(getTenderUri(context.getCpid(), null));
-                data.setOutcomes(getOutcomes(context.getStage(), context.getOcid(), null));
+                data.setOcid(context.getOcid());
+                data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
+                data.setOutcomes(getOutcomes("amendments", context.getOutcomes()));
                 break;
             }
             case CANCEL_TENDER_EV: {
-                data.setOcid(context.getCpid());
-                data.setUrl(getTenderUri(context.getCpid(), null));
-                data.setOutcomes(getOutcomes(context.getStage(), context.getOcid(), null));
+                data.setOcid(context.getOcid());
+                data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
+                data.setOutcomes(getOutcomes("amendments", context.getOutcomes()));
                 break;
             }
             case CANCEL_PLAN: {
-                data.setOcid(context.getCpid());
-                data.setUrl(getTenderUri(context.getCpid(), null));
-                data.setOutcomes(getOutcomes(context.getStage(), context.getOcid(), null));
+                data.setOcid(context.getOcid());
+                data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
+                data.setOutcomes(getOutcomes("amendments", context.getOutcomes()));
                 break;
             }
             default:
