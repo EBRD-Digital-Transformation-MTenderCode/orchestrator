@@ -39,7 +39,7 @@
       <bpmn:incoming>SequenceFlow_0ulvope</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0h9n95l</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="EvaluationPrepareCancellationTask" name="Evaluation Prepare Cancellation" camunda:asyncBefore="true" camunda:delegateExpression="${evaluationPrepareCancelation}">
+    <bpmn:serviceTask id="EvaluationPrepareCancellationTask" name="Evaluation Prepare Cancellation" camunda:asyncBefore="true" camunda:delegateExpression="${evaluationPrepareCancellation}">
       <bpmn:incoming>SequenceFlow_02lc1qa</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1uupj1y</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -79,11 +79,11 @@
     <bpmn:sequenceFlow id="SequenceFlow_02lc1qa" sourceRef="ExclusiveGateway_1f8xez3" targetRef="EvaluationPrepareCancellationTask">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${operationType=='cancelTenderEv' &amp;&amp; phase == 'AWARDING'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:serviceTask id="QualificationPrepareCancelationTask" name="Qualification Prepare Cancellation" camunda:asyncBefore="true" camunda:delegateExpression="${qualificationPrepareCancelation}">
+    <bpmn:serviceTask id="QualificationPrepareCancellationTask" name="Qualification Prepare Cancellation" camunda:asyncBefore="true" camunda:delegateExpression="${qualificationPrepareCancellation}">
       <bpmn:incoming>SequenceFlow_1fzxcxr</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_07gaem1</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_1fzxcxr" sourceRef="ExclusiveGateway_1f8xez3" targetRef="QualificationPrepareCancelationTask">
+    <bpmn:sequenceFlow id="SequenceFlow_1fzxcxr" sourceRef="ExclusiveGateway_1f8xez3" targetRef="QualificationPrepareCancellationTask">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${operationType=='cancelTender' &amp;&amp; phase == 'AWARDING'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:exclusiveGateway id="ExclusiveGateway_1cl5qj2">
@@ -92,7 +92,7 @@
       <bpmn:incoming>SequenceFlow_0pnr9nc</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0jov9rc</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="SequenceFlow_07gaem1" sourceRef="QualificationPrepareCancelationTask" targetRef="ExclusiveGateway_1cl5qj2" />
+    <bpmn:sequenceFlow id="SequenceFlow_07gaem1" sourceRef="QualificationPrepareCancellationTask" targetRef="ExclusiveGateway_1cl5qj2" />
     <bpmn:sequenceFlow id="SequenceFlow_0pnr9nc" sourceRef="ExclusiveGateway_1f8xez3" targetRef="ExclusiveGateway_1cl5qj2">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${operationType=='cancelTenderEv' &amp;&amp; phase == 'TENDERING'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
@@ -296,7 +296,7 @@
           <dc:Bounds x="790" y="206" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_1eover9_di" bpmnElement="QualificationPrepareCancelationTask">
+      <bpmndi:BPMNShape id="ServiceTask_1eover9_di" bpmnElement="QualificationPrepareCancellationTask">
         <dc:Bounds x="886" y="306" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1fzxcxr_di" bpmnElement="SequenceFlow_1fzxcxr">
