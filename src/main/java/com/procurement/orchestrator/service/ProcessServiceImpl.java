@@ -445,7 +445,7 @@ public class ProcessServiceImpl implements ProcessService {
                                        final String processId) {
         try {
             final ArrayNode documentsArray = (ArrayNode) documentsData.get("documents");
-            if (documentsArray.size() > 0) {
+            if (documentsArray != null) {
                 ((ObjectNode) jsonData).replace("documents", documentsArray);
             }
             return jsonData;
