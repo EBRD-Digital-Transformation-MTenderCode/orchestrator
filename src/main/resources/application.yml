@@ -26,8 +26,12 @@ eureka:
     enabled: false
 
 uri:
-  budget: http://public.eprocurement.systems/budget/
-  tender: http://public.eprocurement.systems/tender/
+#  budget: http://public.eprocurement.systems/budget/
+#  tender: http://public.eprocurement.systems/tender/
+  budget: http://dev.public.eprocurement.systems/budget/
+  tender: http://dev.public.eprocurement.systems/tender/
+
+  http://public.eprocurement.systems
 
 camunda:
    bpm:
