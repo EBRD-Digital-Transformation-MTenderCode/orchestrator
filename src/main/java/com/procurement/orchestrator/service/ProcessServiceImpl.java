@@ -10,6 +10,7 @@ import com.procurement.orchestrator.domain.Notification;
 import com.procurement.orchestrator.domain.PlatformError;
 import com.procurement.orchestrator.domain.PlatformMessage;
 import com.procurement.orchestrator.domain.dto.*;
+import com.procurement.orchestrator.domain.dto.commnds.MdmCommandType;
 import com.procurement.orchestrator.utils.JsonUtil;
 import java.util.*;
 import org.camunda.bpm.engine.RuntimeService;
@@ -50,10 +51,10 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
 
-    public JsonNode getCommandMessage(final CommandType commandType, final Context context, final JsonNode data) {
+    public JsonNode getCommandMessage(final String command, final Context context, final JsonNode data) {
         final CommandMessage commandMessage = new CommandMessage(
                 context.getOperationId(),
-                commandType,
+                command,
                 context,
                 data,
                 ApiVersion.V_0_0_1);
@@ -221,6 +222,18 @@ public class ProcessServiceImpl implements ProcessService {
             mainNode.replace("lots", data.get("lots"));
             mainNode.replace("items", data.get("items"));
             return jsonData;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public JsonNode addItems(JsonNode data, String processId) {
+        try {
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            mainNode.replace("items", data.get("items"));
+            return mainNode;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
             return null;

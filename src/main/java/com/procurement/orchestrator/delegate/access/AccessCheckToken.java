@@ -2,14 +2,16 @@ package com.procurement.orchestrator.delegate.access;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
-import com.procurement.orchestrator.domain.dto.CommandMessage;
-import com.procurement.orchestrator.domain.dto.CommandType;
+import com.procurement.orchestrator.domain.dto.commnds.AccessCommandType;
+import com.procurement.orchestrator.domain.dto.commnds.MdmCommandType;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.AccessRestClient;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
+
 import java.util.Objects;
+
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
@@ -43,7 +45,7 @@ public class AccessCheckToken implements JavaDelegate {
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(CommandType.CHECK_TOKEN, context, jsonUtil.empty());
+        final JsonNode commandMessage = processService.getCommandMessage(AccessCommandType.CHECK_TOKEN.value(), context, jsonUtil.empty());
         final JsonNode responseData = processService.processResponse(
                 accessRestClient.execute(commandMessage),
                 context,

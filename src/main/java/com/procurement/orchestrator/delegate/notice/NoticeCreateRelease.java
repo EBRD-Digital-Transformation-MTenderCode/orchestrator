@@ -2,15 +2,17 @@ package com.procurement.orchestrator.delegate.notice;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
-import com.procurement.orchestrator.domain.dto.CommandMessage;
-import com.procurement.orchestrator.domain.dto.CommandType;
+import com.procurement.orchestrator.domain.dto.commnds.MdmCommandType;
+import com.procurement.orchestrator.domain.dto.commnds.NoticeCommandType;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.NoticeRestClient;
 import com.procurement.orchestrator.service.NotificationService;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
+
 import java.util.Objects;
+
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
@@ -49,7 +51,7 @@ public class NoticeCreateRelease implements JavaDelegate {
         final JsonNode requestData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(CommandType.CREATE_RELEASE, context, requestData);
+        final JsonNode commandMessage = processService.getCommandMessage(NoticeCommandType.CREATE_RELEASE.value(), context, requestData);
         JsonNode responseData = null;
         if (Objects.nonNull(requestData)) {
             responseData = processService.processResponse(

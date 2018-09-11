@@ -2,8 +2,7 @@ package com.procurement.orchestrator.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
-import com.procurement.orchestrator.domain.dto.CommandMessage;
-import com.procurement.orchestrator.domain.dto.CommandType;
+import com.procurement.orchestrator.domain.dto.commnds.MdmCommandType;
 import com.procurement.orchestrator.domain.dto.ResponseDto;
 import java.util.Map;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +15,7 @@ public interface ProcessService {
 
     void terminateProcess(String processId, String message);
 
-    JsonNode getCommandMessage(CommandType commandType, Context context, JsonNode data);
+    JsonNode getCommandMessage(String command, Context context, JsonNode data);
 
     JsonNode processResponse(ResponseEntity<ResponseDto> responseEntity,
                              Context context,
@@ -43,6 +42,8 @@ public interface ProcessService {
     JsonNode addLotsAndAwardCriteria(JsonNode jsonData, JsonNode lotsData, String processId);
 
     JsonNode addLotsAndItems(JsonNode jsonData, JsonNode data, String processId);
+
+    JsonNode addItems(JsonNode data, String processId);
 
     JsonNode addAwardData(JsonNode jsonData, JsonNode awardData, String processId);
 

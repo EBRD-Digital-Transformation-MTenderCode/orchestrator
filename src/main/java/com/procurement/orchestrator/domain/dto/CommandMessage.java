@@ -3,6 +3,7 @@ package com.procurement.orchestrator.domain.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
+import com.procurement.orchestrator.domain.dto.commnds.MdmCommandType;
 import lombok.Data;
 
 @Data
@@ -12,7 +13,7 @@ public class CommandMessage {
     private String id;
 
     @JsonProperty(value = "command")
-    private CommandType command;
+    private String command;
 
     @JsonProperty(value = "context")
     private Context context;
@@ -24,7 +25,7 @@ public class CommandMessage {
     private ApiVersion version;
 
     public CommandMessage(@JsonProperty("id") final String id,
-                          @JsonProperty("command") final CommandType command,
+                          @JsonProperty("command") final String command,
                           @JsonProperty("context") final Context context,
                           @JsonProperty("data") final JsonNode data,
                           @JsonProperty("version") final ApiVersion version) {

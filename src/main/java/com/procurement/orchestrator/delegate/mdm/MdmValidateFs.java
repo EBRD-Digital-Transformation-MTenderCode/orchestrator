@@ -2,8 +2,7 @@ package com.procurement.orchestrator.delegate.mdm;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
-import com.procurement.orchestrator.domain.dto.CommandMessage;
-import com.procurement.orchestrator.domain.dto.CommandType;
+import com.procurement.orchestrator.domain.dto.commnds.MdmCommandType;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.MdmRestClient;
 import com.procurement.orchestrator.service.OperationService;
@@ -48,7 +47,7 @@ public class MdmValidateFs implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode rqData = processService.getFsData(prevData, processId);
-        final JsonNode commandMessage = processService.getCommandMessage(CommandType.PROCESS_FS_DATA, context, rqData);
+        final JsonNode commandMessage = processService.getCommandMessage(MdmCommandType.PROCESS_FS_DATA.value(), context, rqData);
         JsonNode responseData = null;
         if (Objects.nonNull(rqData))
             responseData = processService.processResponse(

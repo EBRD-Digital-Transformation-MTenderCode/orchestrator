@@ -2,13 +2,16 @@ package com.procurement.orchestrator.delegate.access;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
-import com.procurement.orchestrator.domain.dto.CommandType;
+import com.procurement.orchestrator.domain.dto.commnds.AccessCommandType;
+import com.procurement.orchestrator.domain.dto.commnds.MdmCommandType;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.AccessRestClient;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
+
 import java.util.Objects;
+
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
@@ -46,7 +49,7 @@ public class AccessCheckItems implements JavaDelegate {
         execution.setVariable("mdmValidation", true);
         execution.setVariable("itemsAdd", false);
         final JsonNode rqData = processService.getCheckItems(prevData, processId);
-        final JsonNode commandMessage = processService.getCommandMessage(CommandType.CHECK_ITEMS, context, rqData);
+        final JsonNode commandMessage = processService.getCommandMessage(AccessCommandType.CHECK_ITEMS.value(), context, rqData);
         JsonNode responseData = null;
         if (Objects.nonNull(rqData)) {
             responseData = processService.processResponse(

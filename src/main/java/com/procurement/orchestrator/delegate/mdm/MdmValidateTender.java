@@ -2,8 +2,7 @@ package com.procurement.orchestrator.delegate.mdm;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
-import com.procurement.orchestrator.domain.dto.CommandMessage;
-import com.procurement.orchestrator.domain.dto.CommandType;
+import com.procurement.orchestrator.domain.dto.commnds.MdmCommandType;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.MdmRestClient;
 import com.procurement.orchestrator.service.OperationService;
@@ -50,7 +49,7 @@ public class MdmValidateTender implements JavaDelegate {
         final Boolean mdmValidation = (Boolean) execution.getVariable("mdmValidation");
         final Boolean itemsAdd = (Boolean) execution.getVariable("itemsAdd");
         final JsonNode rqData = processService.getTenderData(itemsAdd, prevData, processId);
-        final JsonNode commandMessage = processService.getCommandMessage(CommandType.PROCESS_TENDER_DATA, context, rqData);
+        final JsonNode commandMessage = processService.getCommandMessage(MdmCommandType.PROCESS_TENDER_DATA.value(), context, rqData);
         JsonNode responseData = null;
         if (mdmValidation) {
             if (Objects.nonNull(rqData))
