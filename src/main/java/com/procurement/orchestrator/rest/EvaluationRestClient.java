@@ -12,6 +12,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(name = "e-evaluation")
 public interface EvaluationRestClient {
 
+
+    @RequestMapping(method = RequestMethod.POST, value = "/command")
+    ResponseEntity<ResponseDto> execute(@RequestBody JsonNode commandMessage) throws Exception;
+
     @RequestMapping(path = "/evaluation", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> createAwards(@RequestParam("cpid") String cpId,
                                              @RequestParam("stage") String stage,
@@ -21,12 +25,6 @@ public interface EvaluationRestClient {
                                              @RequestParam("awardCriteria") String awardCriteria,
                                              @RequestParam("date") String dateTime,
                                              @RequestBody JsonNode jsonData) throws Exception;
-
-    @RequestMapping(path = "/evaluation", method = RequestMethod.GET)
-    ResponseEntity<ResponseDto> getAwards(@RequestParam("cpid") String cpId,
-                                          @RequestParam("stage") String stage,
-                                          @RequestParam("country") String country,
-                                          @RequestParam("pmd") String pmd) throws Exception;
 
     @RequestMapping(path = "/evaluation/endAwardPeriod", method = RequestMethod.POST)
     ResponseEntity<ResponseDto> endAwardPeriod(@RequestParam("cpid") String cpId,
