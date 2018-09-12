@@ -2,6 +2,7 @@ package com.procurement.orchestrator.delegate.contracting;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
+import com.procurement.orchestrator.domain.dto.commnds.ContractingCommandType;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.ContractingRestClient;
 import com.procurement.orchestrator.service.NotificationService;
@@ -46,16 +47,13 @@ public class ContractingCreateContract implements JavaDelegate {
         final JsonNode requestData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode responseData = processService.processResponse(
-                contractingRestClient.createAC(
-                        context.getCpid(),
-                        context.getStage(),
-                        context.getStartDate(),
-                        requestData),
+        final JsonNode commandMessage = processService.getCommandMessage(ContractingCommandType.CREATE_AC.value(), context, requestData);
+        JsonNode responseData = processService.processResponse(
+                contractingRestClient.execute(commandMessage),
                 context,
                 processId,
                 taskId,
-                requestData);
+                commandMessage);
         if (Objects.nonNull(responseData)) {
             operationService.saveOperationStep(
                     execution,
