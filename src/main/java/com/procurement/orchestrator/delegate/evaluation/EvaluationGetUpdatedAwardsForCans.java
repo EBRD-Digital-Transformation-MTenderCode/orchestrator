@@ -2,8 +2,7 @@ package com.procurement.orchestrator.delegate.evaluation;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
-import com.procurement.orchestrator.domain.dto.commnds.AccessCommandType;
-import com.procurement.orchestrator.domain.dto.commnds.EvaluationCommandType;
+import com.procurement.orchestrator.domain.dto.commands.EvaluationCommandType;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.EvaluationRestClient;
 import com.procurement.orchestrator.service.OperationService;

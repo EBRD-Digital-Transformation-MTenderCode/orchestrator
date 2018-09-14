@@ -3,7 +3,6 @@ package com.procurement.orchestrator.domain.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
-import com.procurement.orchestrator.domain.dto.commnds.MdmCommandType;
 import lombok.Data;
 
 @Data

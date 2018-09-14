@@ -2,6 +2,7 @@ package com.procurement.orchestrator.delegate.evaluation;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
+import com.procurement.orchestrator.domain.dto.commands.EvaluationCommandType;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.EvaluationRestClient;
 import com.procurement.orchestrator.service.OperationService;
@@ -15,19 +16,19 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class EvaluationEndAwardPeriod implements JavaDelegate {
+public class EvaluationSetFinalStatuses implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(EvaluationEndAwardPeriod.class);
+    private static final Logger LOG = LoggerFactory.getLogger(EvaluationSetFinalStatuses.class);
 
     private final EvaluationRestClient evaluationRestClient;
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public EvaluationEndAwardPeriod(final EvaluationRestClient evaluationRestClient,
-                                    final OperationService operationService,
-                                    final ProcessService processService,
-                                    final JsonUtil jsonUtil) {
+    public EvaluationSetFinalStatuses(final EvaluationRestClient evaluationRestClient,
+                                      final OperationService operationService,
+                                      final ProcessService processService,
+                                      final JsonUtil jsonUtil) {
         this.evaluationRestClient = evaluationRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -43,19 +44,23 @@ public class EvaluationEndAwardPeriod implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         context.setOperationType("awardPeriodEndEv");
         execution.setVariable("operationType", "awardPeriodEndEv");
+        final JsonNode commandMessage = processService.getCommandMessage(
+                EvaluationCommandType.SET_FINAL_STATUSES.value(),
+                context,
+                jsonUtil.empty());
         final JsonNode responseData = processService.processResponse(
-                evaluationRestClient.endAwardPeriod(
-                        context.getCpid(),
-                        context.getStage(),
-                        context.getCountry(),
-                        context.getPmd(),
-                        context.getEndDate()),
+                evaluationRestClient.execute(commandMessage),
                 context,
                 processId,
                 taskId,
-                jsonUtil.empty());
+                commandMessage);
         if (Objects.nonNull(responseData)) {
-            operationService.saveOperationStep(execution, entity, context, jsonUtil.empty(), responseData);
+            operationService.saveOperationStep(
+                    execution,
+                    entity,
+                    context,
+                    commandMessage,
+                    responseData);
         }
     }
 }

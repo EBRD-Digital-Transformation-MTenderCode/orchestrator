@@ -1,4 +1,4 @@
-package com.procurement.orchestrator.domain.dto.commnds;
+package com.procurement.orchestrator.domain.dto.commands;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -8,28 +8,29 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public enum NoticeCommandType {
+public enum ContractingCommandType {
 
-    CREATE_RELEASE("createRelease");
+    CREATE_CAN("createCAN"),
+    CREATE_AC("createAC");
 
-    private static final Map<String, NoticeCommandType> CONSTANTS = new HashMap<>();
+    private static final Map<String, ContractingCommandType> CONSTANTS = new HashMap<>();
     private final String value;
 
     static {
-        for (final NoticeCommandType c : values()) {
+        for (final ContractingCommandType c : values()) {
             CONSTANTS.put(c.value, c);
         }
     }
 
-    NoticeCommandType(final String value) {
+    ContractingCommandType(final String value) {
         this.value = value;
     }
 
     @JsonCreator
-    public static NoticeCommandType fromValue(final String value) {
-        final NoticeCommandType constant = CONSTANTS.get(value);
+    public static ContractingCommandType fromValue(final String value) {
+        final ContractingCommandType constant = CONSTANTS.get(value);
         if (constant == null) {
-            throw new EnumException(NoticeCommandType.class.getName(), value, Arrays.toString(values()));
+            throw new EnumException(ContractingCommandType.class.getName(), value, Arrays.toString(values()));
         }
         return constant;
     }

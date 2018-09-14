@@ -2,13 +2,16 @@ package com.procurement.orchestrator.delegate.evaluation;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
+import com.procurement.orchestrator.domain.dto.commands.EvaluationCommandType;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.EvaluationRestClient;
 import com.procurement.orchestrator.service.NotificationService;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
+
 import java.util.Objects;
+
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
@@ -46,21 +49,16 @@ public class EvaluationCreateAwards implements JavaDelegate {
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final String taskId = execution.getCurrentActivityId();
         final JsonNode requestData = jsonUtil.toJsonNode(entity.getResponseData());
-        final String awardCriteria = processService.getText("awardCriteria", requestData, processId);
+        final JsonNode commandMessage = processService.getCommandMessage(
+                EvaluationCommandType.CREATE_AWARDS.value(),
+                context,
+                requestData);
         final JsonNode responseData = processService.processResponse(
-                evaluationRestClient.createAwards(
-                        context.getCpid(),
-                        context.getStage(),
-                        context.getOwner(),
-                        context.getCountry(),
-                        context.getPmd(),
-                        awardCriteria,
-                        context.getStartDate(),
-                        requestData),
+                evaluationRestClient.execute(commandMessage),
                 context,
                 processId,
                 taskId,
-                requestData);
+                commandMessage);
         if (Objects.nonNull(responseData)) {
             operationService.saveOperationStep(
                     execution,
