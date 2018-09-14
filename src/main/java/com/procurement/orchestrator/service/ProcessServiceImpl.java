@@ -10,14 +10,14 @@ import com.procurement.orchestrator.domain.Notification;
 import com.procurement.orchestrator.domain.PlatformError;
 import com.procurement.orchestrator.domain.PlatformMessage;
 import com.procurement.orchestrator.domain.dto.*;
-import com.procurement.orchestrator.domain.dto.commnds.MdmCommandType;
 import com.procurement.orchestrator.utils.JsonUtil;
-import java.util.*;
 import org.camunda.bpm.engine.RuntimeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.*;
 
 @Service
 public class ProcessServiceImpl implements ProcessService {
@@ -51,7 +51,7 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
 
-    public JsonNode getCommandMessage(final String command, final Context context, final JsonNode data) {
+    public JsonNode getCommandMessage(final Enum command, final Context context, final JsonNode data) {
         final CommandMessage commandMessage = new CommandMessage(
                 context.getOperationId(),
                 command,

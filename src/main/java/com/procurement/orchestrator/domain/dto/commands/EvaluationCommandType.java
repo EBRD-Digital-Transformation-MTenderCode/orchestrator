@@ -12,7 +12,7 @@ public enum EvaluationCommandType {
 
     CREATE_AWARDS("createAwards"),
     AWARD_BY_BID("awardByBid"),
-    GET_UPDATED_AWARDS_FOR_CANS("GetUpdatedAwardsForCAN"),
+    AWARDS_FOR_CANS("AwardsForCans"),
     SET_FINAL_STATUSES("setFinalStatuses"),
     PREPARE_CANCELLATION("prepareCancellation"),
     AWARDS_CANCELLATION("awardsCancellation");

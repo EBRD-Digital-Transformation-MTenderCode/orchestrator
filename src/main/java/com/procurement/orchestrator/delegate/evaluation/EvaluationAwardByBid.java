@@ -7,12 +7,15 @@ import com.procurement.orchestrator.rest.EvaluationRestClient;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
-import java.util.Objects;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+
+import java.util.Objects;
+
+import static com.procurement.orchestrator.domain.dto.commands.EvaluationCommandType.AWARD_BY_BID;
 
 @Component
 public class EvaluationAwardByBid implements JavaDelegate {
@@ -39,25 +42,19 @@ public class EvaluationAwardByBid implements JavaDelegate {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
-        final JsonNode requestData = jsonUtil.toJsonNode(entity.getResponseData());
+        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String taskId = execution.getCurrentActivityId();
         final String processId = execution.getProcessInstanceId();
+        final JsonNode commandMessage = processService.getCommandMessage(AWARD_BY_BID, context, jsonData);
         final JsonNode responseData = processService.processResponse(
-                evaluationRestClient.awardByBid(
-                        context.getToken(),
-                        context.getOwner(),
-                        context.getCpid(),
-                        context.getStage(),
-                        context.getId(),
-                        context.getStartDate(),
-                        requestData),
+                evaluationRestClient.execute(commandMessage),
                 context,
                 processId,
                 taskId,
-                requestData);
+                commandMessage);
         if (Objects.nonNull(responseData)) {
             processContext(execution, responseData, processId);
-            operationService.saveOperationStep(execution, entity, requestData, responseData);
+            operationService.saveOperationStep(execution, entity, jsonData, responseData);
         }
     }
 

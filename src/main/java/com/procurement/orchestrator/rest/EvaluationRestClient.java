@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient(name = "e-evaluation")
 public interface EvaluationRestClient {
@@ -15,42 +14,5 @@ public interface EvaluationRestClient {
 
     @RequestMapping(method = RequestMethod.POST, value = "/command")
     ResponseEntity<ResponseDto> execute(@RequestBody JsonNode commandMessage) throws Exception;
-
-    @RequestMapping(path = "/evaluation", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> createAwards(@RequestParam("cpid") String cpId,
-                                             @RequestParam("stage") String stage,
-                                             @RequestParam("owner") String owner,
-                                             @RequestParam("country") String country,
-                                             @RequestParam("pmd") String pmd,
-                                             @RequestParam("awardCriteria") String awardCriteria,
-                                             @RequestParam("date") String dateTime,
-                                             @RequestBody JsonNode jsonData) throws Exception;
-
-    @RequestMapping(path = "/evaluation/endAwardPeriod", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> endAwardPeriod(@RequestParam("cpid") String cpId,
-                                               @RequestParam("stage") String stage,
-                                               @RequestParam("country") String country,
-                                               @RequestParam("pmd") String pmd,
-                                               @RequestParam("endPeriod") String endPeriod) throws Exception;
-
-
-    @RequestMapping(path = "/evaluation/awardByBid", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> awardByBid(@RequestParam("token") String token,
-                                           @RequestParam("owner") String owner,
-                                           @RequestParam("cpid") String cpid,
-                                           @RequestParam("stage") String stage,
-                                           @RequestParam("awardId") String awardId,
-                                           @RequestParam("date") String dateTime,
-                                           @RequestBody JsonNode jsonData) throws Exception;
-
-    @RequestMapping(path = "evaluation/prepareCancellation", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> prepareCancellation(@RequestParam("cpid") String cpId,
-                                                    @RequestParam("stage") String stage,
-                                                    @RequestParam("date") String startDate) throws Exception;
-
-    @RequestMapping(path = "evaluation/awardsCancellation", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> awardsCancellation(@RequestParam("cpid") String cpId,
-                                                   @RequestParam("stage") String stage,
-                                                   @RequestParam("date") String startDate) throws Exception;
 
 }

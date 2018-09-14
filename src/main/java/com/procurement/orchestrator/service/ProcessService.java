@@ -2,11 +2,11 @@ package com.procurement.orchestrator.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
-import com.procurement.orchestrator.domain.dto.commnds.MdmCommandType;
 import com.procurement.orchestrator.domain.dto.ResponseDto;
-import java.util.Map;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 @Service
 public interface ProcessService {
@@ -15,7 +15,7 @@ public interface ProcessService {
 
     void terminateProcess(String processId, String message);
 
-    JsonNode getCommandMessage(String command, Context context, JsonNode data);
+    JsonNode getCommandMessage(Enum command, Context context, JsonNode data);
 
     JsonNode processResponse(ResponseEntity<ResponseDto> responseEntity,
                              Context context,

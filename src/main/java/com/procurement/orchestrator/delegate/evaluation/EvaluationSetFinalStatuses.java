@@ -2,18 +2,20 @@ package com.procurement.orchestrator.delegate.evaluation;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
-import com.procurement.orchestrator.domain.dto.commands.EvaluationCommandType;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.EvaluationRestClient;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
-import java.util.Objects;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+
+import java.util.Objects;
+
+import static com.procurement.orchestrator.domain.dto.commands.EvaluationCommandType.SET_FINAL_STATUSES;
 
 @Component
 public class EvaluationSetFinalStatuses implements JavaDelegate {
@@ -44,10 +46,7 @@ public class EvaluationSetFinalStatuses implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         context.setOperationType("awardPeriodEndEv");
         execution.setVariable("operationType", "awardPeriodEndEv");
-        final JsonNode commandMessage = processService.getCommandMessage(
-                EvaluationCommandType.SET_FINAL_STATUSES.value(),
-                context,
-                jsonUtil.empty());
+        final JsonNode commandMessage = processService.getCommandMessage(SET_FINAL_STATUSES, context, jsonUtil.empty());
         final JsonNode responseData = processService.processResponse(
                 evaluationRestClient.execute(commandMessage),
                 context,

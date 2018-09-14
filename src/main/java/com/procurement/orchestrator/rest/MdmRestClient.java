@@ -1,7 +1,6 @@
 package com.procurement.orchestrator.rest;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.procurement.orchestrator.domain.dto.CommandMessage;
 import com.procurement.orchestrator.domain.dto.ResponseDto;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.http.ResponseEntity;

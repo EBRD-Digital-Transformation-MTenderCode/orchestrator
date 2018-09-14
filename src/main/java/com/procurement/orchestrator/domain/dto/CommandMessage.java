@@ -12,7 +12,7 @@ public class CommandMessage {
     private String id;
 
     @JsonProperty(value = "command")
-    private String command;
+    private Enum command;
 
     @JsonProperty(value = "context")
     private Context context;
@@ -24,7 +24,7 @@ public class CommandMessage {
     private ApiVersion version;
 
     public CommandMessage(@JsonProperty("id") final String id,
-                          @JsonProperty("command") final String command,
+                          @JsonProperty("command") final Enum command,
                           @JsonProperty("context") final Context context,
                           @JsonProperty("data") final JsonNode data,
                           @JsonProperty("version") final ApiVersion version) {

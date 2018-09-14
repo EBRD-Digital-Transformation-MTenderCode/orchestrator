@@ -6,13 +6,12 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.procurement.orchestrator.domain.*;
 import com.procurement.orchestrator.utils.JsonUtil;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 
 @Service
 public class NotificationServiceImpl implements NotificationService {

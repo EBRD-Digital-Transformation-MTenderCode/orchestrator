@@ -7,12 +7,15 @@ import com.procurement.orchestrator.rest.EvaluationRestClient;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
-import java.util.Objects;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+
+import java.util.Objects;
+
+import static com.procurement.orchestrator.domain.dto.commands.EvaluationCommandType.PREPARE_CANCELLATION;
 
 @Component
 public class EvaluationPrepareCancellation implements JavaDelegate {
@@ -42,15 +45,13 @@ public class EvaluationPrepareCancellation implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
+        final JsonNode commandMessage = processService.getCommandMessage(PREPARE_CANCELLATION, context, jsonData);
         final JsonNode responseData = processService.processResponse(
-                evaluationRestClient.prepareCancellation(
-                        context.getCpid(),
-                        context.getStage(),
-                        context.getStartDate()),
+                evaluationRestClient.execute(commandMessage),
                 context,
                 processId,
                 taskId,
-                jsonUtil.empty());
+                commandMessage);
         if (Objects.nonNull(responseData)) {
             operationService.saveOperationStep(
                     execution,

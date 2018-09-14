@@ -3,20 +3,18 @@ package com.procurement.orchestrator.delegate.access;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.dto.commnds.AccessCommandType;
-import com.procurement.orchestrator.domain.dto.commnds.MdmCommandType;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.AccessRestClient;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
-
-import java.util.Objects;
-
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+
+import java.util.Objects;
 
 @Component
 public class AccessCheckLotStatusDetailsGetItems implements JavaDelegate {
