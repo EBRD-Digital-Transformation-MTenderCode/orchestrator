@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @FeignClient(name = "e-contracting")
 public interface ContractingRestClient {
 
-
     @RequestMapping(method = RequestMethod.POST, value = "/command")
     ResponseEntity<ResponseDto> execute(@RequestBody JsonNode commandMessage) throws Exception;
+
 }

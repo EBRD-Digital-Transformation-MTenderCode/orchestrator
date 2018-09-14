@@ -2,7 +2,6 @@ package com.procurement.orchestrator.delegate.mdm;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
-import com.procurement.orchestrator.domain.dto.commnds.MdmCommandType;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.MdmRestClient;
 import com.procurement.orchestrator.service.OperationService;
@@ -15,6 +14,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
+
+import static com.procurement.orchestrator.domain.dto.commands.MdmCommandType.PROCESS_ENQUIRY_DATA;
 
 @Component
 public class MdmValidateEnquiry implements JavaDelegate {
@@ -48,7 +49,7 @@ public class MdmValidateEnquiry implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode rqData = processService.getEnquiryAuthor(prevData, processId);
-        final JsonNode commandMessage = processService.getCommandMessage(MdmCommandType.PROCESS_ENQUIRY_DATA.value(), context, rqData);
+        final JsonNode commandMessage = processService.getCommandMessage(PROCESS_ENQUIRY_DATA, context, rqData);
         JsonNode responseData = null;
         if (Objects.nonNull(rqData))
             responseData = processService.processResponse(

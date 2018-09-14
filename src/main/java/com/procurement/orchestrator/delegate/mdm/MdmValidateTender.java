@@ -2,7 +2,6 @@ package com.procurement.orchestrator.delegate.mdm;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
-import com.procurement.orchestrator.domain.dto.commnds.MdmCommandType;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.MdmRestClient;
 import com.procurement.orchestrator.service.OperationService;
@@ -15,6 +14,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
+
+import static com.procurement.orchestrator.domain.dto.commands.MdmCommandType.PROCESS_TENDER_DATA;
 
 @Component
 public class MdmValidateTender implements JavaDelegate {
@@ -50,23 +51,21 @@ public class MdmValidateTender implements JavaDelegate {
         final Boolean mdmValidation = (Boolean) execution.getVariable("mdmValidation");
         final Boolean itemsAdd = (Boolean) execution.getVariable("itemsAdd");
         final JsonNode rqData = processService.getTenderData(itemsAdd, prevData, processId);
-        final JsonNode commandMessage = processService.getCommandMessage(MdmCommandType.PROCESS_TENDER_DATA.value(), context, rqData);
+        final JsonNode commandMessage = processService.getCommandMessage(PROCESS_TENDER_DATA, context, rqData);
         JsonNode responseData = null;
-        if (mdmValidation) {
-            if (Objects.nonNull(rqData))
-                responseData = processService.processResponse(
-                        mdmRestClient.execute(commandMessage),
-                        context,
-                        processId,
-                        taskId,
-                        commandMessage);
-            if (Objects.nonNull(responseData)) {
-                operationService.saveOperationStep(
-                        execution,
-                        entity,
-                        commandMessage,
-                        processService.setTenderData(itemsAdd, prevData, responseData, processId));
-            }
+        if (mdmValidation && Objects.nonNull(rqData))
+            responseData = processService.processResponse(
+                    mdmRestClient.execute(commandMessage),
+                    context,
+                    processId,
+                    taskId,
+                    commandMessage);
+        if (Objects.nonNull(responseData)) {
+            operationService.saveOperationStep(
+                    execution,
+                    entity,
+                    commandMessage,
+                    processService.setTenderData(itemsAdd, prevData, responseData, processId));
         }
     }
 }

@@ -2,7 +2,6 @@ package com.procurement.orchestrator.delegate.notice;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
-import com.procurement.orchestrator.domain.dto.commnds.NoticeCommandType;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.NoticeRestClient;
 import com.procurement.orchestrator.service.NotificationService;
@@ -16,6 +15,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
+
+import static com.procurement.orchestrator.domain.dto.commands.NoticeCommandType.CREATE_RELEASE;
 
 @Component
 public class NoticeCreateRelease implements JavaDelegate {
@@ -49,7 +50,7 @@ public class NoticeCreateRelease implements JavaDelegate {
         final JsonNode requestData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(NoticeCommandType.CREATE_RELEASE.value(), context, requestData);
+        final JsonNode commandMessage = processService.getCommandMessage(CREATE_RELEASE, context, requestData);
         JsonNode responseData = null;
         if (Objects.nonNull(requestData)) {
             responseData = processService.processResponse(
