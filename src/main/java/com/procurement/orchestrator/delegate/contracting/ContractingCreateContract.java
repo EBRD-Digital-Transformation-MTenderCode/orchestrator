@@ -2,7 +2,6 @@ package com.procurement.orchestrator.delegate.contracting;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
-import com.procurement.orchestrator.domain.dto.commnds.ContractingCommandType;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.ContractingRestClient;
 import com.procurement.orchestrator.service.NotificationService;
@@ -16,6 +15,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
+
+import static com.procurement.orchestrator.domain.dto.commands.ContractingCommandType.CREATE_AC;
 
 @Component
 public class ContractingCreateContract implements JavaDelegate {
@@ -45,10 +46,10 @@ public class ContractingCreateContract implements JavaDelegate {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
-        final JsonNode requestData = jsonUtil.toJsonNode(entity.getResponseData());
+        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(ContractingCommandType.CREATE_AC.value(), context, requestData);
+        final JsonNode commandMessage = processService.getCommandMessage(CREATE_AC, context, jsonData);
         JsonNode responseData = processService.processResponse(
                 contractingRestClient.execute(commandMessage),
                 context,
@@ -60,8 +61,8 @@ public class ContractingCreateContract implements JavaDelegate {
                     execution,
                     entity,
                     notificationService.addContractOutcomeToContext(context, responseData, processId),
-                    requestData,
-                    processService.addContracts(requestData, responseData, processId));
+                    jsonData,
+                    processService.addContracts(jsonData, responseData, processId));
         }
     }
 
