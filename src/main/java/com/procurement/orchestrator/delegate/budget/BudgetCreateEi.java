@@ -15,6 +15,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
+import static com.procurement.orchestrator.domain.dto.commands.BudgetCommandType.CHECK_FS;
+import static com.procurement.orchestrator.domain.dto.commands.BudgetCommandType.CREATE_EI;
+
 @Component
 public class BudgetCreateEi implements JavaDelegate {
 
@@ -43,12 +46,13 @@ public class BudgetCreateEi implements JavaDelegate {
         final JsonNode requestData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode responseData = processService.processResponse(
-                budgetRestClient.createEi(context.getOwner(), context.getCountry(), context.getStartDate(), requestData),
+        final JsonNode commandMessage = processService.getCommandMessage(CREATE_EI, context, requestData);
+        JsonNode responseData = processService.processResponse(
+                budgetRestClient.execute(commandMessage),
                 context,
                 processId,
                 taskId,
-                requestData);
+                commandMessage);
         if (Objects.nonNull(responseData)) {
             operationService.saveOperationStep(
                     execution,

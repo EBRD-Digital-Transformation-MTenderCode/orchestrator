@@ -2,7 +2,6 @@ package com.procurement.orchestrator.delegate.access;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
-import com.procurement.orchestrator.domain.dto.commnds.AccessCommandType;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.AccessRestClient;
 import com.procurement.orchestrator.service.OperationService;
@@ -15,6 +14,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
+
+import static com.procurement.orchestrator.domain.dto.commands.AccessCommandType.CHECK_TOKEN;
 
 @Component
 public class AccessCheckToken implements JavaDelegate {
@@ -43,7 +44,7 @@ public class AccessCheckToken implements JavaDelegate {
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(AccessCommandType.CHECK_TOKEN.value(), context, jsonUtil.empty());
+        final JsonNode commandMessage = processService.getCommandMessage(CHECK_TOKEN, context, jsonUtil.empty());
         final JsonNode responseData = processService.processResponse(
                 accessRestClient.execute(commandMessage),
                 context,

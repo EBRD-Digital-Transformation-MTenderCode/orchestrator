@@ -2,7 +2,6 @@ package com.procurement.orchestrator.delegate.access;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
-import com.procurement.orchestrator.domain.dto.commnds.AccessCommandType;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.AccessRestClient;
 import com.procurement.orchestrator.service.OperationService;
@@ -15,6 +14,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
+
+import static com.procurement.orchestrator.domain.dto.commands.AccessCommandType.CHECK_ITEMS;
 
 @Component
 public class AccessCheckItems implements JavaDelegate {
@@ -47,7 +48,7 @@ public class AccessCheckItems implements JavaDelegate {
         execution.setVariable("mdmValidation", true);
         execution.setVariable("itemsAdd", false);
         final JsonNode rqData = processService.getCheckItems(prevData, processId);
-        final JsonNode commandMessage = processService.getCommandMessage(AccessCommandType.CHECK_ITEMS.value(), context, rqData);
+        final JsonNode commandMessage = processService.getCommandMessage(CHECK_ITEMS, context, rqData);
         JsonNode responseData = null;
         if (Objects.nonNull(rqData)) {
             responseData = processService.processResponse(

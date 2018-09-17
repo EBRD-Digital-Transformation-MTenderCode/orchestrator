@@ -15,6 +15,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
+import static com.procurement.orchestrator.domain.dto.commands.BudgetCommandType.CREATE_FS;
+
 @Component
 public class BudgetCreateFs implements JavaDelegate {
 
@@ -43,12 +45,13 @@ public class BudgetCreateFs implements JavaDelegate {
         final JsonNode requestData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode responseData = processService.processResponse(
-                budgetRestClient.createFs(context.getCpid(), context.getOwner(), context.getStartDate(), requestData),
+        final JsonNode commandMessage = processService.getCommandMessage(CREATE_FS, context, requestData);
+        JsonNode responseData = processService.processResponse(
+                budgetRestClient.execute(commandMessage),
                 context,
                 processId,
                 taskId,
-                requestData);
+                commandMessage);
         if (Objects.nonNull(responseData)) {
             operationService.saveOperationStep(
                     execution,

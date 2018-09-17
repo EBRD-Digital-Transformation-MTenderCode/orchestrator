@@ -15,6 +15,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
+import static com.procurement.orchestrator.domain.dto.commands.BudgetCommandType.CHECK_FS;
+
 @Component
 public class BudgetCheckFs implements JavaDelegate {
 
@@ -44,13 +46,13 @@ public class BudgetCheckFs implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode checkFsDto = processService.getCheckFs(jsonData, context.getStartDate(), processId);
-        final JsonNode responseData = processService.processResponse(
-                budgetRestClient.checkFs(checkFsDto),
+        final JsonNode commandMessage = processService.getCommandMessage(CHECK_FS, context, checkFsDto);
+        JsonNode responseData = processService.processResponse(
+                budgetRestClient.execute(commandMessage),
                 context,
                 processId,
                 taskId,
-                checkFsDto);
-
+                commandMessage);
         if (Objects.nonNull(responseData)) {
             operationService.saveOperationStep(
                     execution,

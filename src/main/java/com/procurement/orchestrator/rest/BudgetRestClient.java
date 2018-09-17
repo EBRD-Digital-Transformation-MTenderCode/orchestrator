@@ -12,32 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(name = "e-budget")
 public interface BudgetRestClient {
 
-    @RequestMapping(path = "/ei", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> createEi(@RequestParam("owner") String owner,
-                                         @RequestParam("country") String country,
-                                         @RequestParam("date") String dateTime,
-                                         @RequestBody JsonNode jsonData) throws Exception;
-
-    @RequestMapping(path = "/ei", method = RequestMethod.PUT)
-    ResponseEntity<ResponseDto> updateEi(@RequestParam("cpid") String cpId,
-                                         @RequestParam("owner") String owner,
-                                         @RequestParam("token") String token,
-                                         @RequestBody JsonNode jsonData) throws Exception;
-
-    @RequestMapping(path = "/fs", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> createFs(@RequestParam("cpid") String cpId,
-                                         @RequestParam("owner") String owner,
-                                         @RequestParam("date") String dateTime,
-                                         @RequestBody JsonNode jsonData) throws Exception;
-
-    @RequestMapping(path = "/fs", method = RequestMethod.PUT)
-    ResponseEntity<ResponseDto> updateFs(@RequestParam("cpid") String cpId,
-                                         @RequestParam("ocid") String ocId,
-                                         @RequestParam("token") String token,
-                                         @RequestParam("owner") String owner,
-                                         @RequestBody JsonNode jsonData) throws Exception;
-
-    @RequestMapping(path = "/fs/check", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> checkFs(@RequestBody JsonNode jsonData) throws Exception;
+    @RequestMapping(method = RequestMethod.POST, value = "/command")
+    ResponseEntity<ResponseDto> execute(@RequestBody JsonNode commandMessage) throws Exception;
 
 }

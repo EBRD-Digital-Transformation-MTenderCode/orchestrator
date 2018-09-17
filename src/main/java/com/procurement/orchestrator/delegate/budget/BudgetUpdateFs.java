@@ -15,6 +15,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
+import static com.procurement.orchestrator.domain.dto.commands.BudgetCommandType.UPDATE_EI;
+import static com.procurement.orchestrator.domain.dto.commands.BudgetCommandType.UPDATE_FS;
+
 @Component
 public class BudgetUpdateFs implements JavaDelegate {
 
@@ -46,17 +49,13 @@ public class BudgetUpdateFs implements JavaDelegate {
         final JsonNode requestData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode responseData = processService.processResponse(
-                budgetRestClient.updateFs(
-                        context.getCpid(),
-                        context.getOcid(),
-                        context.getToken(),
-                        context.getOwner(),
-                        requestData),
+        final JsonNode commandMessage = processService.getCommandMessage(UPDATE_FS, context, requestData);
+        JsonNode responseData = processService.processResponse(
+                budgetRestClient.execute(commandMessage),
                 context,
                 processId,
                 taskId,
-                requestData);
+                commandMessage);
         if (Objects.nonNull(responseData)) {
             operationService.saveOperationStep(execution, entity, context, requestData, responseData);
         }
