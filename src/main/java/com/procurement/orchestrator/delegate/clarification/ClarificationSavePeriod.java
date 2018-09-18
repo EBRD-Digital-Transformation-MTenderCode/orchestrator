@@ -15,6 +15,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
+import static com.procurement.orchestrator.domain.commands.ClarificationCommandType.SAVE_PERIOD;
+
 @Component
 public class ClarificationSavePeriod implements JavaDelegate {
 
@@ -46,25 +48,18 @@ public class ClarificationSavePeriod implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode responseData = processService.processResponse(
-                clarificationRestClient.savePeriod(
-                        context.getCpid(),
-                        context.getStage(),
-                        context.getOwner(),
-                        context.getCountry(),
-                        context.getPmd(),
-                        context.getStartDate(),
-                        context.getEndDate(),
-                        context.getSetExtendedPeriod()),
+        final JsonNode commandMessage = processService.getCommandMessage(SAVE_PERIOD, context, jsonUtil.empty());
+        JsonNode responseData = processService.processResponse(
+                clarificationRestClient.execute(commandMessage),
                 context,
                 processId,
                 taskId,
-                jsonUtil.empty());
+                commandMessage);
         if (Objects.nonNull(responseData)) {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    jsonUtil.empty(),
+                    commandMessage,
                     processService.addTenderEnquiryPeriod(jsonData, responseData, processId));
         }
     }

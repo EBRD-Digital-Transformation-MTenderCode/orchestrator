@@ -15,6 +15,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
+import static com.procurement.orchestrator.domain.commands.ClarificationCommandType.GET_PERIOD;
+
 @Component
 public class ClarificationGetPeriod implements JavaDelegate {
 
@@ -46,19 +48,18 @@ public class ClarificationGetPeriod implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode responseData = processService.processResponse(
-                clarificationRestClient.getPeriod(
-                        context.getCpid(),
-                        context.getStage()),
+        final JsonNode commandMessage = processService.getCommandMessage(GET_PERIOD, context, jsonUtil.empty());
+        JsonNode responseData = processService.processResponse(
+                clarificationRestClient.execute(commandMessage),
                 context,
                 processId,
                 taskId,
-                jsonUtil.empty());
+                commandMessage);
         if (Objects.nonNull(responseData)) {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    jsonUtil.empty(),
+                    commandMessage,
                     processService.addTenderEnquiryPeriod(jsonData, responseData, processId));
         }
     }
