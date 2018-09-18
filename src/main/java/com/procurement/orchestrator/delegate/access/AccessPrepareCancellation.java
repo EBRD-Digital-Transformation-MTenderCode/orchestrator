@@ -16,7 +16,6 @@ import org.springframework.stereotype.Component;
 import java.util.Objects;
 
 import static com.procurement.orchestrator.domain.commands.AccessCommandType.PREPARE_CANCELLATION;
-import static com.procurement.orchestrator.domain.commands.AccessCommandType.TENDER_CANCELLATION;
 
 @Component
 public class AccessPrepareCancellation implements JavaDelegate {

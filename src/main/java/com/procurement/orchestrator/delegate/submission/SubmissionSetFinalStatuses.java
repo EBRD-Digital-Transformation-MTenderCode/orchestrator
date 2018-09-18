@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.SubmissionCommandType.SAVE_PERIOD;
 import static com.procurement.orchestrator.domain.commands.SubmissionCommandType.SET_BIDS_FINAL_STATUSES;
 
 @Component

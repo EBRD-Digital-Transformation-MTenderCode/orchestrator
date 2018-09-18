@@ -86,10 +86,25 @@ public class OperationServiceImpl implements OperationService {
     }
 
     @Override
-    public OperationStepEntity getPreviousOperationStep(final DelegateExecution execution) {
+    public Boolean checkCurrentOperationStep(final DelegateExecution execution) {
         final String processId = execution.getProcessInstanceId();
-        final String taskId = (String) execution.getVariable(LAST_TASK);
-        return getOperationStep(processId, taskId);
+        final String taskId = execution.getCurrentActivityId();
+        final Optional<OperationStepEntity> entityOptional = cassandraDao.getOperationStep(processId, taskId);
+        if (entityOptional.isPresent()) {
+            processException("Current taskId already processed:" + taskId, processId);
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public OperationStepEntity getPreviousOperationStep(final DelegateExecution execution) {
+        if (checkCurrentOperationStep(execution)) {
+            final String processId = execution.getProcessInstanceId();
+            final String lastTaskId = (String) execution.getVariable(LAST_TASK);
+            return getOperationStep(processId, lastTaskId);
+        }
+        return null;
     }
 
     @Override

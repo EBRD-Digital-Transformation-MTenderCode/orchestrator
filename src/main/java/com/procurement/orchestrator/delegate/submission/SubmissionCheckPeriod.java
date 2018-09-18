@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.SubmissionCommandType.BID_WITHDRAWN;
 import static com.procurement.orchestrator.domain.commands.SubmissionCommandType.CHECK_PERIOD;
 
 @Component

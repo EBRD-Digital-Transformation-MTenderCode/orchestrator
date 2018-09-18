@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.AccessCommandType.TENDER_CANCELLATION;
 import static com.procurement.orchestrator.domain.commands.AccessCommandType.UNSUSPEND_TENDER;
 
 @Component

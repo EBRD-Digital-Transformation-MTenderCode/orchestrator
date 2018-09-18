@@ -1,25 +1,22 @@
-
-
-
   10.73.10.5
   login: pgsql
   pass: E8_kmdUV_2dtEsX
 
- datasource:
-   driver-class-name: org.postgresql.Driver
-   url: jdbc:postgresql://10.73.10.5:5432/mdm
-   username: pgsql
-   password: E8_kmdUV_2dtEsX
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://10.73.10.5:5432/mdm
+    username: pgsql
+    password: E8_kmdUV_2dtEsX
 
-cassandra:
-  contact-points: 10.73.10.7,10.73.10.9
-  keyspace-name: ocds
-  port: 9042
-  username: caclient
-  password: 9kT4Kn27RQs9d3H
+  cassandra:
+    contact-points: 10.73.10.7,10.73.10.9
+    keyspace-name: ocds
+    port: 9042
+    username: caclient
+    password: 9kT4Kn27RQs9d3H
 
 
-  10.73.10.12:9092,10.73.10.11:9092,10.73.10.24:9092
+    10.73.10.12:9092,10.73.10.11:9092,10.73.10.24:9092
 
-  kafka:
-    bootstrap-servers: 10.73.10.12:9092,10.73.10.11:9092,10.73.10.24:9092
+    kafka:
+      bootstrap-servers: 10.73.10.12:9092,10.73.10.11:9092,10.73.10.24:9092

@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.AccessCommandType.GET_LOTS;
 import static com.procurement.orchestrator.domain.commands.AccessCommandType.TENDER_CANCELLATION;
 
 @Component

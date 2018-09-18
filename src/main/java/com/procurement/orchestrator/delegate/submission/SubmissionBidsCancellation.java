@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.BudgetCommandType.CHECK_FS;
 import static com.procurement.orchestrator.domain.commands.SubmissionCommandType.BIDS_CANCELLATION;
 
 @Component

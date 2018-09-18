@@ -3,7 +3,7 @@ server:
 
 spring:
   profiles:
-     active: local
+    active: local
   application:
     name: orchestrator
   datasource:
@@ -26,15 +26,15 @@ eureka:
     enabled: false
 
 uri:
-#  budget: http://public.eprocurement.systems/budget/
-#  tender: http://public.eprocurement.systems/tender/
+  #  budget: http://public.eprocurement.systems/budget/
+  #  tender: http://public.eprocurement.systems/tender/
   budget: http://dev.public.eprocurement.systems/budget/
   tender: http://dev.public.eprocurement.systems/tender/
 
   http://public.eprocurement.systems
 
 camunda:
-   bpm:
+  bpm:
     auto-deployment-enabled: true
     history-level: none
 
@@ -48,7 +48,7 @@ feign:
         readTimeout: 10000
 
 ribbon:
-   eureka:
+  eureka:
     enabled: false
 e-budget:
   ribbon:

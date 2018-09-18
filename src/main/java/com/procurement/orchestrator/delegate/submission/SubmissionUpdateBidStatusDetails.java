@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.SubmissionCommandType.UPDATE_BIDS_BY_LOTS;
 import static com.procurement.orchestrator.domain.commands.SubmissionCommandType.UPDATE_BID_BY_AWARD_STATUS;
 
 @Component

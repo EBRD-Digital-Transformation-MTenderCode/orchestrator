@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.SubmissionCommandType.GET_PERIOD;
 import static com.procurement.orchestrator.domain.commands.SubmissionCommandType.PREPARE_BIDS_CANCELLATION;
 
 @Component

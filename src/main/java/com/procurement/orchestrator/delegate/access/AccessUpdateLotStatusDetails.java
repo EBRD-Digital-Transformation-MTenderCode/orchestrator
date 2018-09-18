@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.AccessCommandType.UPDATE_LOTS_EV;
 import static com.procurement.orchestrator.domain.commands.AccessCommandType.UPDATE_LOT_STATUS_DETAILS;
 
 @Component

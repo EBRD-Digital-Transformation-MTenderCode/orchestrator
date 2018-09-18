@@ -16,7 +16,6 @@ import org.springframework.stereotype.Component;
 import java.util.Objects;
 
 import static com.procurement.orchestrator.domain.commands.SubmissionCommandType.BIDS_SELECTION;
-import static com.procurement.orchestrator.domain.commands.SubmissionCommandType.CREATE_BID;
 
 @Component
 public class SubmissionGetBids implements JavaDelegate {

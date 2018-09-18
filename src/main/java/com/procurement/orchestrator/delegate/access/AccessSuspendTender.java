@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.AccessCommandType.START_NEW_STAGE;
 import static com.procurement.orchestrator.domain.commands.AccessCommandType.SUSPEND_TENDER;
 
 @Component
