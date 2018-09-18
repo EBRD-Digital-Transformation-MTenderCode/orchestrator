@@ -1,4 +1,4 @@
-package com.procurement.orchestrator.domain.dto.commands;
+package com.procurement.orchestrator.domain.commands;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -10,10 +10,32 @@ import java.util.Map;
 
 public enum AccessCommandType {
 
+    CREATE_PIN("createPin"),
+    CREATE_PN("createPn"),
+    UPDATE_PN("updatePn"),
+    CREATE_CN("createCn"),
+    UPDATE_CN("updateCn"),
+    CREATE_PIN_ON_PN("createPinOnPn"),
+    CREATE_CN_ON_PIN("createCnOnPin"),
+    CREATE_CN_ON_PN("createCnOnPn"),
+
+    SUSPEND_TENDER("suspendTender"),
+    UNSUSPEND_TENDER("unsuspendTender"),
+    UNSUCCESSFUL_TENDER("unsuccessfulTender"),
+    PREPARE_CANCELLATION("prepareCancellation"),
+    TENDER_CANCELLATION("tenderCancellation"),
+    START_NEW_STAGE("startNewStage"),
+
+    GET_LOTS("getLots"),
+    UPDATE_LOT_STATUS_DETAILS("updateLotStatusDetails"),
+    UPDATE_LOT_STATUS_DETAILS_BY_BID("updateLotStatusDetailsById"),
+    UPDATE_LOTS("updateLots"),
+    UPDATE_LOTS_EV("updateLotsEv"),
+    CHECK_LOT_STATUS("checkLotStatus"),
+    CHECK_LOT_GET_ITEMS("checkLotGetItems"),
     CHECK_BID("checkBid"),
     CHECK_ITEMS("checkItems"),
-    CHECK_TOKEN("checkToken"),
-    CHECK_LOT_GET_ITEMS("checkLotGetItems");
+    CHECK_TOKEN("checkToken");
 
     private static final Map<String, AccessCommandType> CONSTANTS = new HashMap<>();
     private final String value;

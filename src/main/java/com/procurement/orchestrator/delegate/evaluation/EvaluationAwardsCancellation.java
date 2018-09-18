@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.dto.commands.EvaluationCommandType.AWARDS_CANCELLATION;
+import static com.procurement.orchestrator.domain.commands.EvaluationCommandType.AWARDS_CANCELLATION;
 
 @Component
 public class EvaluationAwardsCancellation implements JavaDelegate {
@@ -57,7 +57,7 @@ public class EvaluationAwardsCancellation implements JavaDelegate {
                     execution,
                     entity,
                     context,
-                    jsonUtil.empty(),
+                    commandMessage,
                     processService.addAwards(jsonData, responseData, processId));
         }
     }

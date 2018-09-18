@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.dto.commands.BudgetCommandType.CREATE_FS;
+import static com.procurement.orchestrator.domain.commands.BudgetCommandType.CREATE_FS;
 
 @Component
 public class BudgetCreateFs implements JavaDelegate {
@@ -57,7 +57,7 @@ public class BudgetCreateFs implements JavaDelegate {
                     execution,
                     entity,
                     addDataToContext(context, responseData, processId),
-                    requestData,
+                    commandMessage,
                     responseData);
         }
     }

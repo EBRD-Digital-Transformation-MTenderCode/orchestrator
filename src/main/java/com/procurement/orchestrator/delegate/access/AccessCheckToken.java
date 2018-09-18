@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.dto.commands.AccessCommandType.CHECK_TOKEN;
+import static com.procurement.orchestrator.domain.commands.AccessCommandType.CHECK_TOKEN;
 
 @Component
 public class AccessCheckToken implements JavaDelegate {
@@ -50,9 +50,9 @@ public class AccessCheckToken implements JavaDelegate {
                 context,
                 processId,
                 taskId,
-                jsonUtil.toJsonNode(commandMessage));
+                commandMessage);
         if (Objects.nonNull(responseData)) {
-            operationService.saveOperationStep(execution, entity);
+            operationService.saveOperationStep(execution, entity, commandMessage);
         }
     }
 }

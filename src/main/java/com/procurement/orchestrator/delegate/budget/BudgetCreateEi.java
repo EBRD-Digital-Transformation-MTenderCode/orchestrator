@@ -15,8 +15,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.dto.commands.BudgetCommandType.CHECK_FS;
-import static com.procurement.orchestrator.domain.dto.commands.BudgetCommandType.CREATE_EI;
+import static com.procurement.orchestrator.domain.commands.BudgetCommandType.CREATE_EI;
 
 @Component
 public class BudgetCreateEi implements JavaDelegate {
@@ -58,7 +57,7 @@ public class BudgetCreateEi implements JavaDelegate {
                     execution,
                     entity,
                     addDataToContext(context, responseData, processId),
-                    requestData,
+                    commandMessage,
                     responseData);
         }
     }

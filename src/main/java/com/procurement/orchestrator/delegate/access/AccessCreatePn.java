@@ -15,6 +15,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
+import static com.procurement.orchestrator.domain.commands.AccessCommandType.CREATE_PN;
+
 @Component
 public class AccessCreatePn implements JavaDelegate {
 
@@ -44,24 +46,19 @@ public class AccessCreatePn implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode requestData = processService.getAccessData(jsonData, processId);
-        final JsonNode responseData = processService.processResponse(
-                accessRestClient.createPn(
-                        context.getStage(),
-                        context.getCountry(),
-                        context.getPmd(),
-                        context.getOwner(),
-                        context.getStartDate(),
-                        requestData),
+        final JsonNode commandMessage = processService.getCommandMessage(CREATE_PN, context, requestData);
+        JsonNode responseData = processService.processResponse(
+                accessRestClient.execute(commandMessage),
                 context,
                 processId,
                 taskId,
-                requestData);
+                commandMessage);
         if (Objects.nonNull(responseData)) {
             operationService.saveOperationStep(
                     execution,
                     entity,
                     addDataToContext(context, responseData, processId),
-                    requestData,
+                    commandMessage,
                     processService.setAccessData(jsonData, responseData, processId));
         }
     }

@@ -1,4 +1,4 @@
-package com.procurement.orchestrator.domain.dto.commands;
+package com.procurement.orchestrator.domain.commands;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;

@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.dto.commands.ContractingCommandType.CREATE_CAN;
+import static com.procurement.orchestrator.domain.commands.ContractingCommandType.CREATE_CAN;
 
 @Component
 public class ContractingCreateCan implements JavaDelegate {
@@ -61,7 +61,7 @@ public class ContractingCreateCan implements JavaDelegate {
                     execution,
                     entity,
                     notificationService.addCanOutcomeToContext(context, responseData, processId),
-                    jsonData,
+                    commandMessage,
                     processService.addCans(jsonData, responseData, processId));
         }
     }

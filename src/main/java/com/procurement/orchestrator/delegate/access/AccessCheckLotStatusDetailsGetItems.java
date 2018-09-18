@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.dto.commands.AccessCommandType.CHECK_LOT_GET_ITEMS;
+import static com.procurement.orchestrator.domain.commands.AccessCommandType.CHECK_LOT_GET_ITEMS;
 
 @Component
 public class AccessCheckLotStatusDetailsGetItems implements JavaDelegate {

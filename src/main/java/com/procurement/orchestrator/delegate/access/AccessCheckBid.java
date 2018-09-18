@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.dto.commands.AccessCommandType.CHECK_BID;
+import static com.procurement.orchestrator.domain.commands.AccessCommandType.CHECK_BID;
 
 @Component
 public class AccessCheckBid implements JavaDelegate {
@@ -56,7 +56,7 @@ public class AccessCheckBid implements JavaDelegate {
                     commandMessage);
         }
         if (Objects.nonNull(responseData)) {
-            operationService.saveOperationStep(execution, entity);
+            operationService.saveOperationStep(execution, entity, commandMessage);
         }
     }
 }

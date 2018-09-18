@@ -15,6 +15,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
+import static com.procurement.orchestrator.domain.commands.SubmissionCommandType.UPDATE_BIDS_BY_LOTS;
+import static com.procurement.orchestrator.domain.commands.SubmissionCommandType.UPDATE_BID_BY_AWARD_STATUS;
+
 @Component
 public class SubmissionUpdateBidStatusDetails implements JavaDelegate {
 
@@ -46,27 +49,18 @@ public class SubmissionUpdateBidStatusDetails implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final String bidId = processService.getText("bidId", jsonData, processId);
-        final String awardStatusDetails = processService.getText("awardStatusDetails", jsonData, processId);
-        JsonNode responseData = null;
-        if (bidId != null && awardStatusDetails != null) {
-            responseData = processService.processResponse(
-                    submissionRestClient.updateStatusDetails(
-                            context.getCpid(),
-                            context.getStage(),
-                            bidId,
-                            context.getStartDate(),
-                            awardStatusDetails),
-                    context,
-                    processId,
-                    taskId,
-                    jsonData);
-        }
+        final JsonNode commandMessage = processService.getCommandMessage(UPDATE_BID_BY_AWARD_STATUS, context, jsonData);
+        JsonNode responseData = processService.processResponse(
+                submissionRestClient.execute(commandMessage),
+                context,
+                processId,
+                taskId,
+                commandMessage);
         if (Objects.nonNull(responseData)) {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    jsonData,
+                    commandMessage,
                     processService.addUpdatedBid(jsonData, responseData, processId));
         }
     }

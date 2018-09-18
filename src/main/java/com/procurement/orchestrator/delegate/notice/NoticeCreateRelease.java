@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.dto.commands.NoticeCommandType.CREATE_RELEASE;
+import static com.procurement.orchestrator.domain.commands.NoticeCommandType.CREATE_RELEASE;
 
 @Component
 public class NoticeCreateRelease implements JavaDelegate {

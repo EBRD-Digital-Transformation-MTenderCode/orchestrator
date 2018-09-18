@@ -15,6 +15,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
+import static com.procurement.orchestrator.domain.commands.AccessCommandType.PREPARE_CANCELLATION;
+import static com.procurement.orchestrator.domain.commands.AccessCommandType.UNSUCCESSFUL_TENDER;
+
 @Component
 public class AccessSetTenderUnsuccessful implements JavaDelegate {
     private static final Logger LOG = LoggerFactory.getLogger(AccessSetTenderUnsuccessful.class);
@@ -44,19 +47,18 @@ public class AccessSetTenderUnsuccessful implements JavaDelegate {
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode responseData = processService.processResponse(
-                accessRestClient.setUnsuccessful(
-                        context.getCpid(),
-                        context.getStage()),
+        final JsonNode commandMessage = processService.getCommandMessage(UNSUCCESSFUL_TENDER, context, jsonUtil.empty());
+        JsonNode responseData = processService.processResponse(
+                accessRestClient.execute(commandMessage),
                 context,
                 processId,
                 taskId,
-                jsonUtil.empty());
+                commandMessage);
         if (Objects.nonNull(responseData)) {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    jsonUtil.empty(),
+                    commandMessage,
                     responseData);
         }
     }

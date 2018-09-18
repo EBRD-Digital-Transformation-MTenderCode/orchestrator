@@ -15,6 +15,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
+import static com.procurement.orchestrator.domain.commands.AccessCommandType.UPDATE_LOTS;
+import static com.procurement.orchestrator.domain.commands.AccessCommandType.UPDATE_PN;
+
 @Component
 public class AccessUpdatePn implements JavaDelegate {
 
@@ -44,20 +47,20 @@ public class AccessUpdatePn implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode requestData = processService.getAccessData(jsonData, processId);
-        final JsonNode responseData = processService.processResponse(
-                accessRestClient.updatePn(
-                        context.getCpid(),
-                        context.getStage(),
-                        context.getOwner(),
-                        context.getToken(),
-                        context.getStartDate(),
-                        requestData),
+        final JsonNode commandMessage = processService.getCommandMessage(UPDATE_PN, context, requestData);
+        JsonNode responseData = processService.processResponse(
+                accessRestClient.execute(commandMessage),
                 context,
                 processId,
                 taskId,
-                requestData);
+                commandMessage);
         if (Objects.nonNull(responseData)) {
-            operationService.saveOperationStep(execution, entity, context, requestData, responseData);
+            operationService.saveOperationStep(
+                    execution,
+                    entity,
+                    context,
+                    commandMessage,
+                    responseData);
         }
     }
 

@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.dto.commands.ContractingCommandType.CREATE_AC;
+import static com.procurement.orchestrator.domain.commands.ContractingCommandType.CREATE_AC;
 
 @Component
 public class ContractingCreateContract implements JavaDelegate {
@@ -61,7 +61,7 @@ public class ContractingCreateContract implements JavaDelegate {
                     execution,
                     entity,
                     notificationService.addContractOutcomeToContext(context, responseData, processId),
-                    jsonData,
+                    commandMessage,
                     processService.addContracts(jsonData, responseData, processId));
         }
     }

@@ -15,6 +15,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
+import static com.procurement.orchestrator.domain.commands.AccessCommandType.START_NEW_STAGE;
+import static com.procurement.orchestrator.domain.commands.AccessCommandType.UNSUCCESSFUL_TENDER;
+
 @Component
 public class AccessStartNewStage implements JavaDelegate {
 
@@ -43,22 +46,18 @@ public class AccessStartNewStage implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode responseData = processService.processResponse(
-                accessRestClient.startNewStage(
-                        context.getCpid(),
-                        context.getToken(),
-                        context.getPrevStage(),
-                        context.getStage(),
-                        context.getOwner()),
+        final JsonNode commandMessage = processService.getCommandMessage(START_NEW_STAGE, context, jsonUtil.empty());
+        JsonNode responseData = processService.processResponse(
+                accessRestClient.execute(commandMessage),
                 context,
                 processId,
                 taskId,
-                jsonUtil.empty());
+                commandMessage);
         if (Objects.nonNull(responseData)) {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    jsonUtil.empty(),
+                    commandMessage,
                     processService.setTender(jsonData, responseData, processId));
         }
     }

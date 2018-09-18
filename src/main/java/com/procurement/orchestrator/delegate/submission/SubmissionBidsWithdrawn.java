@@ -15,6 +15,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
+import static com.procurement.orchestrator.domain.commands.SubmissionCommandType.BIDS_CANCELLATION;
+import static com.procurement.orchestrator.domain.commands.SubmissionCommandType.BIDS_WITHDRAWN;
+
 @Component
 public class SubmissionBidsWithdrawn implements JavaDelegate {
 
@@ -45,17 +48,18 @@ public class SubmissionBidsWithdrawn implements JavaDelegate {
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode responseData = processService.processResponse(
-                submissionRestClient.bidsWithdrawn(
-                        context.getCpid(),
-                        context.getStage(),
-                        context.getStartDate()),
+        final JsonNode commandMessage = processService.getCommandMessage(BIDS_WITHDRAWN, context, jsonUtil.empty());
+        JsonNode responseData = processService.processResponse(
+                submissionRestClient.execute(commandMessage),
                 context,
                 processId,
                 taskId,
-                jsonUtil.empty());
+                commandMessage);
         if (Objects.nonNull(responseData)) {
-            operationService.saveOperationStep(execution, entity);
+            operationService.saveOperationStep(
+                    execution,
+                    entity,
+                    commandMessage);
         }
     }
 }

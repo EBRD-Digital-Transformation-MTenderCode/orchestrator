@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.dto.commands.BudgetCommandType.CHECK_FS;
+import static com.procurement.orchestrator.domain.commands.BudgetCommandType.CHECK_FS;
 
 @Component
 public class BudgetCheckFs implements JavaDelegate {
@@ -57,7 +57,7 @@ public class BudgetCheckFs implements JavaDelegate {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    checkFsDto,
+                    commandMessage,
                     processService.setCheckFs(jsonData, responseData, processId));
         }
     }

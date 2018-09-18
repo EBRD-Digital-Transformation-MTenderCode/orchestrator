@@ -16,6 +16,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
+import static com.procurement.orchestrator.domain.commands.SubmissionCommandType.UPDATE_BID;
+
 @Component
 public class SubmissionUpdateBid implements JavaDelegate {
 
@@ -47,25 +49,19 @@ public class SubmissionUpdateBid implements JavaDelegate {
         final JsonNode requestData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode responseData = processService.processResponse(
-                submissionRestClient.updateBid(
-                        context.getCpid(),
-                        context.getStage(),
-                        context.getToken(),
-                        context.getOwner(),
-                        context.getId(),
-                        context.getStartDate(),
-                        requestData),
+        final JsonNode commandMessage = processService.getCommandMessage(UPDATE_BID, context, requestData);
+        JsonNode responseData = processService.processResponse(
+                submissionRestClient.execute(commandMessage),
                 context,
                 processId,
                 taskId,
-                requestData);
+                commandMessage);
         if (Objects.nonNull(responseData)) {
             operationService.saveOperationStep(
                     execution,
                     entity,
                     notificationService.addBidOutcomeToContext(context, responseData, processId),
-                    requestData,
+                    commandMessage,
                     responseData);
         }
     }

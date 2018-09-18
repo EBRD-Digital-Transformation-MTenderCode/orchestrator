@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.dto.commands.EvaluationCommandType.CREATE_AWARDS;
+import static com.procurement.orchestrator.domain.commands.EvaluationCommandType.CREATE_AWARDS;
 
 @Component
 public class EvaluationCreateAwards implements JavaDelegate {
@@ -61,7 +61,7 @@ public class EvaluationCreateAwards implements JavaDelegate {
                     execution,
                     entity,
                     notificationService.addAwardOutcomeToContext(context, responseData, processId),
-                    jsonData,
+                    commandMessage,
                     processService.addAwardData(jsonData, responseData, processId));
         }
     }

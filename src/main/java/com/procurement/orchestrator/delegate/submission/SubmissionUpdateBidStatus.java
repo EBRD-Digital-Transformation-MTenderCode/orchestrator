@@ -15,6 +15,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
+import static com.procurement.orchestrator.domain.commands.SubmissionCommandType.UPDATE_BID;
+import static com.procurement.orchestrator.domain.commands.SubmissionCommandType.UPDATE_BIDS_BY_LOTS;
+
 @Component
 public class SubmissionUpdateBidStatus implements JavaDelegate {
 
@@ -47,22 +50,18 @@ public class SubmissionUpdateBidStatus implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode unsuccessfulLots = processService.getUnsuccessfulLots(jsonData, processId);
-        final JsonNode responseData = processService.processResponse(
-                submissionRestClient.updateStatus(
-                        context.getCpid(),
-                        context.getStage(),
-                        context.getCountry(),
-                        context.getPmd(),
-                        unsuccessfulLots),
+        final JsonNode commandMessage = processService.getCommandMessage(UPDATE_BIDS_BY_LOTS, context, unsuccessfulLots);
+        JsonNode responseData = processService.processResponse(
+                submissionRestClient.execute(commandMessage),
                 context,
                 processId,
                 taskId,
-                unsuccessfulLots);
+                commandMessage);
         if (Objects.nonNull(responseData)) {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    unsuccessfulLots,
+                    commandMessage,
                     processService.addUpdateBidsStatusData(jsonData, responseData, processId));
         }
     }

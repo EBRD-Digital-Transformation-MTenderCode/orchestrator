@@ -15,6 +15,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
+import static com.procurement.orchestrator.domain.commands.AccessCommandType.CREATE_CN_ON_PN;
+
 @Component
 public class AccessCreateCnOnPn implements JavaDelegate {
 
@@ -44,27 +46,19 @@ public class AccessCreateCnOnPn implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode requestData = processService.getAccessData(jsonData, processId);
-        final JsonNode responseData = processService.processResponse(
-                accessRestClient.createCnOnPn(
-                        context.getCpid(),
-                        context.getPrevStage(),
-                        context.getStage(),
-                        context.getCountry(),
-                        context.getPmd(),
-                        context.getOwner(),
-                        context.getToken(),
-                        context.getStartDate(),
-                        requestData),
+        final JsonNode commandMessage = processService.getCommandMessage(CREATE_CN_ON_PN, context, requestData);
+        JsonNode responseData = processService.processResponse(
+                accessRestClient.execute(commandMessage),
                 context,
                 processId,
                 taskId,
-                requestData);
+                commandMessage);
         if (Objects.nonNull(responseData)) {
             operationService.saveOperationStep(
                     execution,
                     entity,
                     addDataToContext(context, responseData, processId),
-                    requestData,
+                    commandMessage,
                     processService.setAccessData(jsonData, responseData, processId));
         }
     }

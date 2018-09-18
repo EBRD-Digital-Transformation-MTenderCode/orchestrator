@@ -15,6 +15,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
+import static com.procurement.orchestrator.domain.commands.AccessCommandType.TENDER_CANCELLATION;
+import static com.procurement.orchestrator.domain.commands.AccessCommandType.UNSUSPEND_TENDER;
+
 @Component
 public class AccessUnsuspendTender implements JavaDelegate {
 
@@ -46,15 +49,13 @@ public class AccessUnsuspendTender implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode responseData = processService.processResponse(
-                accessRestClient.setSuspended(
-                        context.getCpid(),
-                        context.getStage(),
-                        false),
+        final JsonNode commandMessage = processService.getCommandMessage(UNSUSPEND_TENDER, context, jsonUtil.empty());
+        JsonNode responseData = processService.processResponse(
+                accessRestClient.execute(commandMessage),
                 context,
                 processId,
                 taskId,
-                jsonUtil.empty());
+                commandMessage);
         if (Objects.nonNull(responseData)) {
             final String statusDetails = processService.getText("statusDetails", responseData, processId);
             if (statusDetails != null) {
@@ -64,7 +65,7 @@ public class AccessUnsuspendTender implements JavaDelegate {
                         execution,
                         entity,
                         context,
-                        jsonUtil.empty(),
+                        commandMessage,
                         processService.addTenderStatus(jsonData, responseData, processId));
             } else {
                 execution.setVariable("operationType", "addAnswer");

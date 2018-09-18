@@ -15,6 +15,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
+import static com.procurement.orchestrator.domain.commands.SubmissionCommandType.BID_WITHDRAWN;
+import static com.procurement.orchestrator.domain.commands.SubmissionCommandType.CHECK_PERIOD;
+
 @Component
 public class SubmissionCheckPeriod implements JavaDelegate {
 
@@ -45,24 +48,18 @@ public class SubmissionCheckPeriod implements JavaDelegate {
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode responseData = processService.processResponse(
-                submissionRestClient.checkPeriod(
-                        context.getCpid(),
-                        context.getStage(),
-                        context.getCountry(),
-                        context.getPmd(),
-                        context.getOperationType(),
-                        context.getStartDate(),
-                        context.getEndDate()),
+        final JsonNode commandMessage = processService.getCommandMessage(CHECK_PERIOD, context, jsonUtil.empty());
+        JsonNode responseData = processService.processResponse(
+                submissionRestClient.execute(commandMessage),
                 context,
                 processId,
                 taskId,
-                jsonUtil.empty());
+                commandMessage);
         if (Objects.nonNull(responseData)) {
             execution.setVariable("isPeriodChanged", processService.getBoolean("isPeriodChanged", responseData, processId));
             context.setSetExtendedPeriod(processService.getBoolean("setExtendedPeriod", responseData, processId));
             context.setEndDate(processService.getText("tenderPeriodEndDate", responseData, processId));
-            operationService.saveOperationStep(execution, entity, context);
+            operationService.saveOperationStep(execution, entity, context, commandMessage);
         }
     }
 }

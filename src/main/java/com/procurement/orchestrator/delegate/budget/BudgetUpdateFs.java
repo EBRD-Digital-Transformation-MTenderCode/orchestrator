@@ -15,8 +15,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.dto.commands.BudgetCommandType.UPDATE_EI;
-import static com.procurement.orchestrator.domain.dto.commands.BudgetCommandType.UPDATE_FS;
+import static com.procurement.orchestrator.domain.commands.BudgetCommandType.UPDATE_FS;
 
 @Component
 public class BudgetUpdateFs implements JavaDelegate {
@@ -57,7 +56,7 @@ public class BudgetUpdateFs implements JavaDelegate {
                 taskId,
                 commandMessage);
         if (Objects.nonNull(responseData)) {
-            operationService.saveOperationStep(execution, entity, context, requestData, responseData);
+            operationService.saveOperationStep(execution, entity, context, commandMessage, responseData);
         }
     }
 }

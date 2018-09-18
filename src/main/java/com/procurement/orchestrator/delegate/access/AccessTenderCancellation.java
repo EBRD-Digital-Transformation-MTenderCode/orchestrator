@@ -16,6 +16,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
+import static com.procurement.orchestrator.domain.commands.AccessCommandType.TENDER_CANCELLATION;
+
 @Component
 public class AccessTenderCancellation implements JavaDelegate {
 
@@ -50,23 +52,19 @@ public class AccessTenderCancellation implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode responseData = processService.processResponse(
-                accessRestClient.tenderCancellation(
-                        context.getCpid(),
-                        context.getStage(),
-                        context.getOwner(),
-                        context.getToken(),
-                        context.getOperationType()),
+        final JsonNode commandMessage = processService.getCommandMessage(TENDER_CANCELLATION, context, jsonUtil.empty());
+        JsonNode responseData = processService.processResponse(
+                accessRestClient.execute(commandMessage),
                 context,
                 processId,
                 taskId,
-                jsonUtil.empty());
+                commandMessage);
         if (Objects.nonNull(responseData)) {
             operationService.saveOperationStep(
                     execution,
                     entity,
                     context,
-                    jsonUtil.empty(),
+                    commandMessage,
                     processService.addLots(jsonData, responseData, processId));
         }
     }

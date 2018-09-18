@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.dto.commands.MdmCommandType.PROCESS_EI_DATA;
+import static com.procurement.orchestrator.domain.commands.MdmCommandType.PROCESS_EI_DATA;
 
 @Component
 public class MdmValidateEi implements JavaDelegate {

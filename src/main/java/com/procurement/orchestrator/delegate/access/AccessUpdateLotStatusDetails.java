@@ -15,6 +15,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
+import static com.procurement.orchestrator.domain.commands.AccessCommandType.UPDATE_LOTS_EV;
+import static com.procurement.orchestrator.domain.commands.AccessCommandType.UPDATE_LOT_STATUS_DETAILS;
+
 @Component
 public class AccessUpdateLotStatusDetails implements JavaDelegate {
 
@@ -47,18 +50,18 @@ public class AccessUpdateLotStatusDetails implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityName();
         final JsonNode unsuccessfulLots = processService.getUnsuccessfulLots(jsonData, processId);
-        final JsonNode responseData = processService.processResponse(
-                accessRestClient.updateLotsStatusDetails(
-                        context.getCpid(),
-                        context.getStage(),
-                        "unsuccessful",
-                        unsuccessfulLots),
+        final JsonNode commandMessage = processService.getCommandMessage(UPDATE_LOT_STATUS_DETAILS, context, unsuccessfulLots);
+        JsonNode responseData = processService.processResponse(
+                accessRestClient.execute(commandMessage),
                 context,
                 processId,
                 taskId,
-                unsuccessfulLots);
+                commandMessage);
         if (Objects.nonNull(responseData)) {
-            operationService.saveOperationStep(execution, entity, unsuccessfulLots,
+            operationService.saveOperationStep(
+                    execution,
+                    entity,
+                    commandMessage,
                     processService.addLots(jsonData, responseData, processId));
         }
     }

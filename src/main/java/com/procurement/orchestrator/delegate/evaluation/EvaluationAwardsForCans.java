@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.dto.commands.EvaluationCommandType.AWARDS_FOR_CANS;
+import static com.procurement.orchestrator.domain.commands.EvaluationCommandType.AWARDS_FOR_CANS;
 
 @Component
 public class EvaluationAwardsForCans implements JavaDelegate {

@@ -15,6 +15,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
+import static com.procurement.orchestrator.domain.commands.SubmissionCommandType.SAVE_NEW_PERIOD;
+
 @Component
 public class SubmissionSaveNewPeriod implements JavaDelegate {
 
@@ -46,23 +48,19 @@ public class SubmissionSaveNewPeriod implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode responseData = processService.processResponse(
-                submissionRestClient.saveNewPeriod(
-                        context.getCpid(),
-                        context.getStage(),
-                        context.getCountry(),
-                        context.getPmd(),
-                        context.getStartDate()),
+        final JsonNode commandMessage = processService.getCommandMessage(SAVE_NEW_PERIOD, context, jsonUtil.empty());
+        JsonNode responseData = processService.processResponse(
+                submissionRestClient.execute(commandMessage),
                 context,
                 processId,
                 taskId,
-                jsonUtil.empty());
+                commandMessage);
         if (Objects.nonNull(responseData)) {
             operationService.saveOperationStep(
                     execution,
                     entity,
                     addDataTocontext(context, responseData, processId),
-                    jsonUtil.empty(),
+                    commandMessage,
                     processService.addTenderTenderPeriod(jsonData, responseData, processId));
         }
     }

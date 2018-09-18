@@ -15,6 +15,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
+import static com.procurement.orchestrator.domain.commands.SubmissionCommandType.SAVE_PERIOD;
+import static com.procurement.orchestrator.domain.commands.SubmissionCommandType.SET_BIDS_FINAL_STATUSES;
+
 @Component
 public class SubmissionSetFinalStatuses implements JavaDelegate {
 
@@ -46,15 +49,13 @@ public class SubmissionSetFinalStatuses implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode responseData = processService.processResponse(
-                submissionRestClient.setFinalStatuses(
-                        context.getCpid(),
-                        context.getStage(),
-                        context.getStartDate()),
+        final JsonNode commandMessage = processService.getCommandMessage(SET_BIDS_FINAL_STATUSES, context, jsonUtil.empty());
+        JsonNode responseData = processService.processResponse(
+                submissionRestClient.execute(commandMessage),
                 context,
                 processId,
                 taskId,
-                jsonUtil.empty());
+                commandMessage);
         if (Objects.nonNull(responseData)) {
             operationService.saveOperationStep(
                     execution,

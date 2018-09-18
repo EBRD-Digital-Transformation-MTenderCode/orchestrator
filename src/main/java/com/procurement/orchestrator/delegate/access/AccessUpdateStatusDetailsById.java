@@ -15,6 +15,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
+import static com.procurement.orchestrator.domain.commands.AccessCommandType.UPDATE_LOT_STATUS_DETAILS_BY_BID;
+
 @Component
 public class AccessUpdateStatusDetailsById implements JavaDelegate {
 
@@ -46,23 +48,18 @@ public class AccessUpdateStatusDetailsById implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityName();
-        final String lotId = processService.getText("lotId", jsonData, processId);
-        final Boolean lotAwarded = processService.getBoolean("lotAwarded", jsonData, processId);
-        final JsonNode responseData = processService.processResponse(
-                accessRestClient.updateStatusDetailsById(
-                        context.getCpid(),
-                        context.getStage(),
-                        lotAwarded,
-                        lotId),
+        final JsonNode commandMessage = processService.getCommandMessage(UPDATE_LOT_STATUS_DETAILS_BY_BID, context, jsonData);
+        JsonNode responseData = processService.processResponse(
+                accessRestClient.execute(commandMessage),
                 context,
                 processId,
                 taskId,
-                jsonData);
+                commandMessage);
         if (Objects.nonNull(responseData)) {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    jsonData,
+                    commandMessage,
                     processService.addUpdatedLot(jsonData, responseData, processId));
         }
     }

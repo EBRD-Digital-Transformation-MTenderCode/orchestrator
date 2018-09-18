@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.dto.commands.EvaluationCommandType.AWARD_BY_BID;
+import static com.procurement.orchestrator.domain.commands.EvaluationCommandType.AWARD_BY_BID;
 
 @Component
 public class EvaluationAwardByBid implements JavaDelegate {
@@ -54,7 +54,7 @@ public class EvaluationAwardByBid implements JavaDelegate {
                 commandMessage);
         if (Objects.nonNull(responseData)) {
             processContext(execution, responseData, processId);
-            operationService.saveOperationStep(execution, entity, jsonData, responseData);
+            operationService.saveOperationStep(execution, entity, commandMessage, responseData);
         }
     }
 

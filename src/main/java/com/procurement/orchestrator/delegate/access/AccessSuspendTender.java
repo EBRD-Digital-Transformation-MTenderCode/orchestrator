@@ -15,6 +15,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
+import static com.procurement.orchestrator.domain.commands.AccessCommandType.START_NEW_STAGE;
+import static com.procurement.orchestrator.domain.commands.AccessCommandType.SUSPEND_TENDER;
+
 @Component
 public class AccessSuspendTender implements JavaDelegate {
 
@@ -46,15 +49,13 @@ public class AccessSuspendTender implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode responseData = processService.processResponse(
-                accessRestClient.setSuspended(
-                        context.getCpid(),
-                        context.getStage(),
-                        true),
+        final JsonNode commandMessage = processService.getCommandMessage(SUSPEND_TENDER, context, jsonUtil.empty());
+        JsonNode responseData = processService.processResponse(
+                accessRestClient.execute(commandMessage),
                 context,
                 processId,
                 taskId,
-                jsonUtil.empty());
+                commandMessage);
         if (Objects.nonNull(responseData)) {
             context.setOperationType("suspendTender");
             context.setPhase("SUSPENDED");
@@ -62,7 +63,7 @@ public class AccessSuspendTender implements JavaDelegate {
                     execution,
                     entity,
                     context,
-                    jsonUtil.empty(),
+                    commandMessage,
                     processService.addTenderStatus(jsonData, responseData, processId));
         }
     }

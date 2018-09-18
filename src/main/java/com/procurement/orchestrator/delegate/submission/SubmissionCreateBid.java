@@ -16,6 +16,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
+import static com.procurement.orchestrator.domain.commands.SubmissionCommandType.CHECK_PERIOD;
+import static com.procurement.orchestrator.domain.commands.SubmissionCommandType.CREATE_BID;
+
 @Component
 public class SubmissionCreateBid implements JavaDelegate {
 
@@ -47,23 +50,19 @@ public class SubmissionCreateBid implements JavaDelegate {
         final JsonNode requestData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode responseData = processService.processResponse(
-                submissionRestClient.createBid(
-                        context.getCpid(),
-                        context.getStage(),
-                        context.getOwner(),
-                        context.getStartDate(),
-                        requestData),
+        final JsonNode commandMessage = processService.getCommandMessage(CREATE_BID, context, requestData);
+        JsonNode responseData = processService.processResponse(
+                submissionRestClient.execute(commandMessage),
                 context,
                 processId,
                 taskId,
-                requestData);
+                commandMessage);
         if (Objects.nonNull(responseData)) {
             operationService.saveOperationStep(
                     execution,
                     entity,
                     notificationService.addBidOutcomeToContext(context, responseData, processId),
-                    requestData,
+                    commandMessage,
                     responseData);
         }
     }

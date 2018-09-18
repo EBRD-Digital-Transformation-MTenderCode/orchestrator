@@ -15,6 +15,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
+import static com.procurement.orchestrator.domain.commands.BudgetCommandType.CHECK_FS;
+import static com.procurement.orchestrator.domain.commands.SubmissionCommandType.BIDS_CANCELLATION;
+
 @Component
 public class SubmissionBidsCancellation implements JavaDelegate {
 
@@ -43,23 +46,19 @@ public class SubmissionBidsCancellation implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode responseData = processService.processResponse(
-                submissionRestClient.bidsCancellation(
-                        context.getCpid(),
-                        context.getStage(),
-                        context.getPmd(),
-                        context.getPhase(),
-                        context.getStartDate()),
+        final JsonNode commandMessage = processService.getCommandMessage(BIDS_CANCELLATION, context, jsonUtil.empty());
+        JsonNode responseData = processService.processResponse(
+                submissionRestClient.execute(commandMessage),
                 context,
                 processId,
                 taskId,
-                jsonUtil.empty());
+                commandMessage);
         if (Objects.nonNull(responseData)) {
             operationService.saveOperationStep(
                     execution,
                     entity,
                     context,
-                    jsonUtil.empty(),
+                    commandMessage,
                     processService.addBids(jsonData, responseData, processId));
         }
     }

@@ -15,6 +15,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
+import static com.procurement.orchestrator.domain.commands.AccessCommandType.CHECK_LOT_STATUS;
+
 @Component
 public class AccessCheckLotStatus implements JavaDelegate {
 
@@ -45,16 +47,17 @@ public class AccessCheckLotStatus implements JavaDelegate {
         final String taskId = execution.getCurrentActivityId();
         final JsonNode relatedLot = processService.getEnquiryRelatedLot(jsonData, processId);
         JsonNode responseData = null;
+        final JsonNode commandMessage = processService.getCommandMessage(CHECK_LOT_STATUS, context, relatedLot);
         if (Objects.nonNull(relatedLot)) {
             responseData = processService.processResponse(
-                    accessRestClient.checkStatus(context.getCpid(), context.getStage(), relatedLot),
+                    accessRestClient.execute(commandMessage),
                     context,
                     processId,
                     taskId,
-                    jsonUtil.empty());
+                    commandMessage);
         }
         if (Objects.nonNull(responseData)) {
-            operationService.saveOperationStep(execution, entity);
+            operationService.saveOperationStep(execution, entity, commandMessage);
         }
     }
 }

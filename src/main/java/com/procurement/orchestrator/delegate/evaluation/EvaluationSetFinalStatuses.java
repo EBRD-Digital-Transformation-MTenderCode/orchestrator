@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.dto.commands.EvaluationCommandType.SET_FINAL_STATUSES;
+import static com.procurement.orchestrator.domain.commands.EvaluationCommandType.SET_FINAL_STATUSES;
 
 @Component
 public class EvaluationSetFinalStatuses implements JavaDelegate {
