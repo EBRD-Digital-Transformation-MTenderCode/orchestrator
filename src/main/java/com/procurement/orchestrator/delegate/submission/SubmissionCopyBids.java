@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.SubmissionCommandType.CHECK_PERIOD;
 import static com.procurement.orchestrator.domain.commands.SubmissionCommandType.COPY_BIDS;
 
 @Component

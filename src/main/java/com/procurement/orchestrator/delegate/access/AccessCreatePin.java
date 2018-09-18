@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.AccessCommandType.CREATE_CN;
 import static com.procurement.orchestrator.domain.commands.AccessCommandType.CREATE_PIN;
 
 @Component
