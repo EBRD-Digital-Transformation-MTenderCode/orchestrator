@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 import java.util.Objects;
 
 import static com.procurement.orchestrator.domain.commands.SubmissionCommandType.CHECK_PERIOD;
+import static com.procurement.orchestrator.domain.commands.SubmissionCommandType.COPY_BIDS;
 
 @Component
 public class SubmissionCopyBids implements JavaDelegate {
@@ -49,7 +50,7 @@ public class SubmissionCopyBids implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode tenderLots = processService.getTenderLots(jsonData, processId);
-        final JsonNode commandMessage = processService.getCommandMessage(CHECK_PERIOD, context, tenderLots);
+        final JsonNode commandMessage = processService.getCommandMessage(COPY_BIDS, context, tenderLots);
         JsonNode responseData = processService.processResponse(
                 submissionRestClient.execute(commandMessage),
                 context,

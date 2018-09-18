@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 import java.util.Objects;
 
 import static com.procurement.orchestrator.domain.commands.AccessCommandType.CREATE_CN;
+import static com.procurement.orchestrator.domain.commands.AccessCommandType.CREATE_PIN;
 
 @Component
 public class AccessCreatePin implements JavaDelegate {
@@ -46,7 +47,7 @@ public class AccessCreatePin implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode requestData = processService.getAccessData(jsonData, processId);
-        final JsonNode commandMessage = processService.getCommandMessage(CREATE_CN, context, requestData);
+        final JsonNode commandMessage = processService.getCommandMessage(CREATE_PIN, context, requestData);
         JsonNode responseData = processService.processResponse(
                 accessRestClient.execute(commandMessage),
                 context,
