@@ -15,6 +15,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
+import static com.procurement.orchestrator.domain.commands.ClarificationCommandType.CHECK_ENQUIRIES;
+
 @Component
 public class ClarificationCheckEnquiries implements JavaDelegate {
 
@@ -42,18 +44,16 @@ public class ClarificationCheckEnquiries implements JavaDelegate {
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode responseData = processService.processResponse(
-                clarificationRestClient.checkEnquiries(
-                        context.getCpid(),
-                        context.getStage(),
-                        context.getStartDate()),
+        final JsonNode commandMessage = processService.getCommandMessage(CHECK_ENQUIRIES, context, jsonUtil.empty());
+        JsonNode responseData = processService.processResponse(
+                clarificationRestClient.execute(commandMessage),
                 context,
                 processId,
                 taskId,
-                jsonUtil.empty());
+                commandMessage);
         if (Objects.nonNull(responseData)) {
             processContext(execution, context, responseData, processId);
-            operationService.saveOperationStep(execution, entity, context, jsonUtil.empty(), responseData);
+            operationService.saveOperationStep(execution, entity, context, commandMessage, responseData);
         }
     }
 

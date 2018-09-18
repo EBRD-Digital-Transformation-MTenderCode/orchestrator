@@ -13,4 +13,5 @@ public interface MdmRestClient {
 
     @RequestMapping(method = RequestMethod.POST, value = "/command")
     ResponseEntity<ResponseDto> execute(@RequestBody JsonNode commandMessage) throws Exception;
+
 }

@@ -99,12 +99,9 @@ public class OperationServiceImpl implements OperationService {
 
     @Override
     public OperationStepEntity getPreviousOperationStep(final DelegateExecution execution) {
-        if (checkCurrentOperationStep(execution)) {
-            final String processId = execution.getProcessInstanceId();
-            final String lastTaskId = (String) execution.getVariable(LAST_TASK);
-            return getOperationStep(processId, lastTaskId);
-        }
-        return null;
+        final String processId = execution.getProcessInstanceId();
+        final String lastTaskId = (String) execution.getVariable(LAST_TASK);
+        return getOperationStep(processId, lastTaskId);
     }
 
     @Override
