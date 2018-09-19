@@ -15,12 +15,12 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.StorageCommandType.PUBLISH;
+import static com.procurement.orchestrator.domain.commands.StorageCommandType.VALIDATE;
 
 @Component
-public class StorageOpenDocsOfAward implements JavaDelegate {
+public class StorageValidateDocsOfTender implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(StorageOpenDocsOfAward.class);
+    private static final Logger LOG = LoggerFactory.getLogger(StorageValidateDocsOfTender.class);
 
     private final StorageRestClient storageRestClient;
 
@@ -30,10 +30,10 @@ public class StorageOpenDocsOfAward implements JavaDelegate {
 
     private final JsonUtil jsonUtil;
 
-    public StorageOpenDocsOfAward(final StorageRestClient storageRestClient,
-                                  final OperationService operationService,
-                                  final ProcessService processService,
-                                  final JsonUtil jsonUtil) {
+    public StorageValidateDocsOfTender(final StorageRestClient storageRestClient,
+                                       final OperationService operationService,
+                                       final ProcessService processService,
+                                       final JsonUtil jsonUtil) {
         this.storageRestClient = storageRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -48,8 +48,8 @@ public class StorageOpenDocsOfAward implements JavaDelegate {
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityName();
-        final JsonNode documents = processService.getDocumentsOfAward(jsonData, processId);
-        final JsonNode commandMessage = processService.getCommandMessage(PUBLISH, context, documents);
+        final JsonNode documents = processService.getDocumentsOfTender(jsonData, processId);
+        final JsonNode commandMessage = processService.getCommandMessage(VALIDATE, context, documents);
         JsonNode responseData = null;
         if (Objects.nonNull(documents)) {
             responseData = processService.processResponse(
@@ -63,7 +63,7 @@ public class StorageOpenDocsOfAward implements JavaDelegate {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    commandMessage,
+                    documents,
                     processService.setDocumentsOfAward(jsonData, responseData, processId));
         }
     }

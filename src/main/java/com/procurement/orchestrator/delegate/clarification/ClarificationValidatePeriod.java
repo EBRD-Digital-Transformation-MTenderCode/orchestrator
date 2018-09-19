@@ -15,12 +15,12 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.ClarificationCommandType.SAVE_PERIOD;
+import static com.procurement.orchestrator.domain.commands.ClarificationCommandType.VALIDATE_PERIOD;
 
 @Component
-public class ClarificationSavePeriod implements JavaDelegate {
+public class ClarificationValidatePeriod implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ClarificationSavePeriod.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ClarificationValidatePeriod.class);
 
     private final ClarificationRestClient clarificationRestClient;
 
@@ -30,10 +30,10 @@ public class ClarificationSavePeriod implements JavaDelegate {
 
     private final JsonUtil jsonUtil;
 
-    public ClarificationSavePeriod(final ClarificationRestClient clarificationRestClient,
-                                   final OperationService operationService,
-                                   final ProcessService processService,
-                                   final JsonUtil jsonUtil) {
+    public ClarificationValidatePeriod(final ClarificationRestClient clarificationRestClient,
+                                       final OperationService operationService,
+                                       final ProcessService processService,
+                                       final JsonUtil jsonUtil) {
         this.clarificationRestClient = clarificationRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -49,7 +49,7 @@ public class ClarificationSavePeriod implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode enquiryPeriod = processService.getEnquiryPeriod(jsonData, processId);
-        final JsonNode commandMessage = processService.getCommandMessage(SAVE_PERIOD, context, enquiryPeriod);
+        final JsonNode commandMessage = processService.getCommandMessage(VALIDATE_PERIOD, context, enquiryPeriod);
         JsonNode responseData = processService.processResponse(
                 clarificationRestClient.execute(commandMessage),
                 context,
@@ -60,6 +60,7 @@ public class ClarificationSavePeriod implements JavaDelegate {
             operationService.saveOperationStep(
                     execution,
                     entity,
+                    context,
                     commandMessage,
                     jsonData);
         }

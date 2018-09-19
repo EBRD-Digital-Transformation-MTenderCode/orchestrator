@@ -15,6 +15,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
+import static com.procurement.orchestrator.domain.commands.StorageCommandType.PUBLISH;
+
 @Component
 public class StorageOpenDocsOfTender implements JavaDelegate {
 
@@ -45,17 +47,17 @@ public class StorageOpenDocsOfTender implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final String processId = execution.getProcessInstanceId();
-        final String startDate = context.getStartDate();
-        final JsonNode documents = processService.getDocumentsOfTender(jsonData, processId);
         final String taskId = execution.getCurrentActivityName();
+        final JsonNode documents = processService.getDocumentsOfTender(jsonData, processId);
+        final JsonNode commandMessage = processService.getCommandMessage(PUBLISH, context, documents);
         JsonNode responseData = null;
         if (Objects.nonNull(documents)) {
             responseData = processService.processResponse(
-                    storageRestClient.setPublishDate(startDate, documents),
+                    storageRestClient.execute(commandMessage),
                     context,
                     processId,
                     taskId,
-                    documents);
+                    commandMessage);
         }
         if (Objects.nonNull(responseData)) {
             operationService.saveOperationStep(

@@ -48,7 +48,8 @@ public class SubmissionSavePeriod implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(SAVE_PERIOD, context, jsonUtil.empty());
+        final JsonNode tenderPeriod = processService.getTenderPeriod(jsonData, processId);
+        final JsonNode commandMessage = processService.getCommandMessage(SAVE_PERIOD, context, tenderPeriod);
         JsonNode responseData = processService.processResponse(
                 submissionRestClient.execute(commandMessage),
                 context,
@@ -60,7 +61,7 @@ public class SubmissionSavePeriod implements JavaDelegate {
                     execution,
                     entity,
                     commandMessage,
-                    processService.addTenderTenderPeriod(jsonData, responseData, processId));
+                    jsonData);
         }
     }
 }

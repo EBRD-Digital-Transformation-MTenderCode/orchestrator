@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(name = "e-storage")
 public interface StorageRestClient {
 
-    @RequestMapping(method = RequestMethod.POST, value = "/storage/publish")
-    ResponseEntity<ResponseDto> setPublishDate(@RequestParam("datePublished") String datePublished,
-                                               @RequestBody JsonNode jsonData) throws Exception;
+    @RequestMapping(method = RequestMethod.POST, value = "/command")
+    ResponseEntity<ResponseDto> execute(@RequestBody JsonNode commandMessage) throws Exception;
+
 }

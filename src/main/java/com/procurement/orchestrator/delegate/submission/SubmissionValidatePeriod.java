@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.SubmissionCommandType.PERIOD_VALIDATION;
+import static com.procurement.orchestrator.domain.commands.SubmissionCommandType.VALIDATE_PERIOD;
 
 @Component
 public class SubmissionValidatePeriod implements JavaDelegate {
@@ -49,7 +49,8 @@ public class SubmissionValidatePeriod implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(PERIOD_VALIDATION, context, jsonUtil.empty());
+        final JsonNode tenderPeriod = processService.getTenderPeriod(jsonData, processId);
+        final JsonNode commandMessage = processService.getCommandMessage(VALIDATE_PERIOD, context, tenderPeriod);
         JsonNode responseData = processService.processResponse(
                 submissionRestClient.execute(commandMessage),
                 context,
@@ -61,7 +62,7 @@ public class SubmissionValidatePeriod implements JavaDelegate {
                     execution,
                     entity,
                     commandMessage,
-                    processService.addTenderTenderPeriodStartDate(jsonData, context.getStartDate(), processId));
+                    jsonData);
         }
     }
 }

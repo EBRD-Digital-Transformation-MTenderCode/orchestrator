@@ -14,7 +14,9 @@ public enum ClarificationCommandType {
     CREATE_ANSWER("createAnswer"),
     CHECK_ENQUIRIES("checkEnquiries"),
     GET_PERIOD("getPeriod"),
-    SAVE_PERIOD("savePeriod");
+    SAVE_PERIOD("savePeriod"),
+    VALIDATE_PERIOD("validatePeriod"),
+    CALCULATE_SAVE_PERIOD("calculateSavePeriod");
 
     private static final Map<String, ClarificationCommandType> CONSTANTS = new HashMap<>();
     private final String value;

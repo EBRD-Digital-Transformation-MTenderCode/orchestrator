@@ -27,11 +27,19 @@ public interface ProcessService {
 
     Boolean getBoolean(String fieldName, JsonNode jsonData, String processId);
 
+    void setEnquiryPeriodStartDate(JsonNode jsonData, String startDate, String processId);
+
+    void setTenderPeriodStartDate(JsonNode jsonData, String startDate, String processId);
+
     String getTenderPeriodEndDate(JsonNode jsonData, String processId);
 
-    JsonNode addTenderTenderPeriod(JsonNode jsonData, JsonNode periodData, String processId);
+    String getEnquiryPeriodEndDate(JsonNode jsonData, String processId);
 
-    JsonNode addTenderTenderPeriodStartDate(JsonNode jsonData, String startDate, String processId);
+    JsonNode getTenderPeriod(JsonNode jsonData, String processId);
+
+    JsonNode getEnquiryPeriod(JsonNode jsonData, String processId);
+
+    JsonNode addTenderTenderPeriod(JsonNode jsonData, JsonNode periodData, String processId);
 
     JsonNode addTenderEnquiryPeriod(JsonNode jsonData, JsonNode periodData, String processId);
 

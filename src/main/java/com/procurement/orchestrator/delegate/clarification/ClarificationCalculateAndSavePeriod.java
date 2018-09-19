@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
+import static com.procurement.orchestrator.domain.commands.ClarificationCommandType.CALCULATE_SAVE_PERIOD;
 import static com.procurement.orchestrator.domain.commands.ClarificationCommandType.SAVE_PERIOD;
 
 @Component
@@ -48,7 +49,7 @@ public class ClarificationCalculateAndSavePeriod implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(SAVE_PERIOD, context, jsonUtil.empty());
+        final JsonNode commandMessage = processService.getCommandMessage(CALCULATE_SAVE_PERIOD, context, jsonUtil.empty());
         JsonNode responseData = processService.processResponse(
                 clarificationRestClient.execute(commandMessage),
                 context,

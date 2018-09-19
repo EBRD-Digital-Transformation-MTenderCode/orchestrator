@@ -37,7 +37,8 @@ public class TenderController extends DoBaseController {
                                            @RequestParam("pmd") final String pmd,
                                            @RequestBody final JsonNode data) {
         final Context context = requestService.getContextForCreate(authorization, operationId.toString(), country, pmd, "createCN");
-        context.setEndDate(processService.getTenderPeriodEndDate(data, null));
+        processService.setEnquiryPeriodStartDate(data, context.getStartDate(), null);
+        processService.setTenderPeriodStartDate(data, processService.getEnquiryPeriodEndDate(data, null), null);
         requestService.saveRequestAndCheckOperation(context, data);
         processService.startProcess(context, new HashMap<>());
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
