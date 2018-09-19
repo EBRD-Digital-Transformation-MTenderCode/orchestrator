@@ -17,6 +17,7 @@ public enum SubmissionCommandType {
     SAVE_PERIOD("savePeriod"),
     SAVE_NEW_PERIOD("saveNewPeriod"),
     VALIDATE_PERIOD("validatePeriod"),
+    CHECK_PERIOD_END_DATE("checkPeriodEndDate"),
     CHECK_PERIOD("checkPeriod"),
     BIDS_SELECTION("bidsSelection"),
     UPDATE_BIDS_BY_LOTS("updateBidsByLots"),

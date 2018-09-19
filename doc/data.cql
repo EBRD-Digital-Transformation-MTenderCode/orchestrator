@@ -42,134 +42,49 @@ CREATE TABLE IF NOT EXISTS  ocds.orchestrator_rules (
     primary key((country, pmd, process_type), prev_stage, prev_phase)
  );
  
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_RT','awardByBid','PQ','AWARDING','AWARDING','PQ','awardByBid');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_RT','awardByBid','PS','AWARDING','AWARDING','PS','awardByBid');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','RT','awardByBid','PQ','AWARDING','AWARDING','PQ','awardByBid');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','RT','awardByBid','PS','AWARDING','AWARDING','PS','awardByBid');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_RT','awardByBid','EV','AWARDING','AWARDING','EV','awardByBidEv');
+INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','OT','createPIN','PIN','PLANNED','PLANNED','PIN','createPIN');
+INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','createPIN','PIN','PLANNED','PLANNED','PIN','createPIN');
+INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','createPN','PN','PLANNING','PLANNING','PN','createPN');
+INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','OT','createPN','PN','PLANNING','PLANNING','PN','createPN');
+INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','updatePN','PN','PLANNING','PLANNING','PN','updatePN');
+INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','OT','updatePN','PN','PLANNING','PLANNING','PN','updatePN');
+
+INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','OT','submitTheBid','EV','TENDERING','TENDERING','EV','submitTheBid');
+INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','submitTheBid','EV','TENDERING','TENDERING','EV','submitTheBid');
+INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','OT','tenderPeriodEnd','EV','TENDERING','AWARDING','EV','tenderPeriodEndEv');
+INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','tenderPeriodEnd','EV','TENDERING','AWARDING','EV','tenderPeriodEndEv');
+
+INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','OT','createCN','EV','ENQUIRING','ENQUIRING','EV','createCN');
+INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','createCN','EV','ENQUIRING','ENQUIRING','EV','createCN');
+INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','OT','updateCN','EV','ENQUIRING','ENQUIRING','EV','updateCN');
+INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','updateCN','EV','ENQUIRING','ENQUIRING','EV','updateCN');
+INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','OT','updateCN','PIN','PLANNED','ENQUIRING','EV','createCNonPIN');
+INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','updateCN','PIN','PLANNED','ENQUIRING','EV','createCNonPIN');
+INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','OT','updateCN','PN','PLANNING','ENQUIRING','EV','createCNonPN');
+INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','updateCN','PN','PLANNING','ENQUIRING','EV','createCNonPN');
+
+INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','OT','enquiry','EV','ENQUIRING','ENQUIRING','EV','createEnquiry');
+INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','enquiry','EV','ENQUIRING','ENQUIRING','EV','createEnquiry');
+
+INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','OT','answer','EV','ENQUIRING','ENQUIRING','EV','addAnswer');
+INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','answer','EV','ENQUIRING','ENQUIRING','EV','addAnswer');
+INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','OT','answer','EV','SUSPENDED','ENQUIRING','EV','addAnswer');
+INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','answer','EV','SUSPENDED','ENQUIRING','EV','addAnswer');
+
 INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','OT','awardByBid','EV','AWARDING','AWARDING','EV','awardByBidEv');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','RT','awardByBid','EV','AWARDING','AWARDING','EV','awardByBidEv');
 INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','awardByBid','EV','AWARDING','AWARDING','EV','awardByBidEv');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','RT','awardPeriodEnd','PQ','AWARDING','TRANSITION','PQ','awardPeriodEnd');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','RT','awardPeriodEnd','PS','AWARDING','TRANSITION','PS','awardPeriodEnd');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_RT','awardPeriodEnd','PQ','AWARDING','TRANSITION','PQ','awardPeriodEnd');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_RT','awardPeriodEnd','PS','AWARDING','TRANSITION','PS','awardPeriodEnd');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','RT','awardPeriodEnd','EV','AWARDING','CONTRACTING','EV','awardPeriodEndEv');
 INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','awardPeriodEnd','EV','AWARDING','CONTRACTING','EV','awardPeriodEndEv');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_RT','awardPeriodEnd','EV','AWARDING','CONTRACTING','EV','awardPeriodEndEv');
 INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','OT','awardPeriodEnd','EV','AWARDING','CONTRACTING','EV','awardPeriodEndEv');
 INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','bidWithdrawn','EV','TENDERING','TENDERING','EV','bidWithdrawn');
 INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','OT','bidWithdrawn','EV','TENDERING','TENDERING','EV','bidWithdrawn');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','RT','bidWithdrawn','EV','TENDERING','TENDERING','EV','bidWithdrawn');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','RT','bidWithdrawn','PQ','TENDERING','TENDERING','PQ','bidWithdrawn');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','RT','bidWithdrawn','PS','TENDERING','TENDERING','PS','bidWithdrawn');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_RT','bidWithdrawn','EV','TENDERING','TENDERING','EV','bidWithdrawn');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_RT','bidWithdrawn','PQ','TENDERING','TENDERING','PQ','bidWithdrawn');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_RT','bidWithdrawn','PS','TENDERING','TENDERING','PS','bidWithdrawn');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','OT','createCN','EV','TENDERING','TENDERING','EV','createCN');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','createCN','EV','TENDERING','TENDERING','EV','createCN');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_RT','createCN','PS','TENDERING','TENDERING','PS','createCN');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','RT','createCN','PS','TENDERING','TENDERING','PS','createCN');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','OT','updateCN','PIN','PLANNED','TENDERING','EV','createCNonPIN');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','updateCN','PIN','PLANNED','TENDERING','EV','createCNonPIN');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','RT','updateCN','PIN','PLANNED','TENDERING','PS','createCNonPIN');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_RT','updateCN','PIN','PLANNED','TENDERING','PS','createCNonPIN');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','OT','updateCN','PN','PLANNING','TENDERING','EV','createCNonPN');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','updateCN','PN','PLANNING','TENDERING','EV','createCNonPN');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','RT','updateCN','PN','PLANNING','TENDERING','PS','createCNonPN');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_RT','updateCN','PN','PLANNING','TENDERING','PS','createCNonPN');
-
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','OT','enquiry','EV','TENDERING','TENDERING','EV','createEnquiry');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','RT','enquiry','EV','TENDERING','TENDERING','EV','createEnquiry');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','RT','enquiry','PQ','TENDERING','TENDERING','PQ','createEnquiry');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','RT','enquiry','PS','TENDERING','TENDERING','PS','createEnquiry');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','enquiry','EV','TENDERING','TENDERING','EV','createEnquiry');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_RT','enquiry','EV','TENDERING','TENDERING','EV','createEnquiry');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_RT','enquiry','PQ','TENDERING','TENDERING','PQ','createEnquiry');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_RT','enquiry','PS','TENDERING','TENDERING','PS','createEnquiry');
-
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','OT','answer','EV','TENDERING','TENDERING','EV','addAnswer');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','RT','answer','EV','TENDERING','TENDERING','EV','addAnswer');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','RT','answer','PQ','TENDERING','TENDERING','PQ','addAnswer');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','RT','answer','PS','TENDERING','TENDERING','PS','addAnswer');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','answer','EV','TENDERING','TENDERING','EV','addAnswer');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_RT','answer','EV','TENDERING','TENDERING','EV','addAnswer');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_RT','answer','PQ','TENDERING','TENDERING','PQ','addAnswer');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_RT','answer','PS','TENDERING','TENDERING','PS','addAnswer');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','OT','answer','EV','SUSPENDED','TENDERING','EV','addAnswer');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','RT','answer','EV','SUSPENDED','TENDERING','EV','addAnswer');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','RT','answer','PQ','SUSPENDED','TENDERING','PQ','addAnswer');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','RT','answer','PS','SUSPENDED','TENDERING','PS','addAnswer');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','answer','EV','SUSPENDED','TENDERING','EV','addAnswer');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_RT','answer','EV','SUSPENDED','TENDERING','EV','addAnswer');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_RT','answer','PQ','SUSPENDED','TENDERING','PQ','addAnswer');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_RT','answer','PS','SUSPENDED','TENDERING','PS','addAnswer');
-
-
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','RT','createPIN','PIN','PLANNED','PLANNED','PIN','createPIN');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','OT','createPIN','PIN','PLANNED','PLANNED','PIN','createPIN');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_RT','createPIN','PIN','PLANNED','PLANNED','PIN','createPIN');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','createPIN','PIN','PLANNED','PLANNED','PIN','createPIN');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','createPN','PN','PLANNING','PLANNING','PN','createPN');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_RT','createPN','PN','PLANNING','PLANNING','PN','createPN');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','OT','createPN','PN','PLANNING','PLANNING','PN','createPN');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','RT','createPN','PN','PLANNING','PLANNING','PN','createPN');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','updatePN','PN','PLANNING','PLANNING','PN','updatePN');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_RT','updatePN','PN','PLANNING','PLANNING','PN','updatePN');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','OT','updatePN','PN','PLANNING','PLANNING','PN','updatePN');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','RT','updatePN','PN','PLANNING','PLANNING','PN','updatePN');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_RT','startNewStage','PQ','TRANSITION','TENDERING','EV','startNewStage');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_RT','startNewStage','PS','TRANSITION','TENDERING','PQ','startNewStage');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','RT','startNewStage','PQ','TRANSITION','TENDERING','EV','startNewStage');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','RT','startNewStage','PS','TRANSITION','TENDERING','PQ','startNewStage');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','OT','submitTheBid','EV','TENDERING','TENDERING','EV','submitTheBid');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','RT','submitTheBid','EV','TENDERING','TENDERING','EV','submitTheBid');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','RT','submitTheBid','PQ','TENDERING','TENDERING','PQ','submitTheBid');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','RT','submitTheBid','PS','TENDERING','TENDERING','PS','submitTheBid');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','submitTheBid','EV','TENDERING','TENDERING','EV','submitTheBid');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_RT','submitTheBid','EV','TENDERING','TENDERING','EV','submitTheBid');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_RT','submitTheBid','PQ','TENDERING','TENDERING','PQ','submitTheBid');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_RT','submitTheBid','PS','TENDERING','TENDERING','PS','submitTheBid');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','RT','tenderPeriodEnd','PQ','TENDERING','AWARDING','PQ','tenderPeriodEnd');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','RT','tenderPeriodEnd','PS','TENDERING','AWARDING','PS','tenderPeriodEnd');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_RT','tenderPeriodEnd','PQ','TENDERING','AWARDING','PQ','tenderPeriodEnd');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_RT','tenderPeriodEnd','PS','TENDERING','AWARDING','PS','tenderPeriodEnd');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','OT','tenderPeriodEnd','EV','TENDERING','AWARDING','EV','tenderPeriodEndEv');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','RT','tenderPeriodEnd','EV','TENDERING','AWARDING','EV','tenderPeriodEndEv');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_RT','tenderPeriodEnd','EV','TENDERING','AWARDING','EV','tenderPeriodEndEv');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','tenderPeriodEnd','EV','TENDERING','AWARDING','EV','tenderPeriodEndEv');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','OT','updateCN','EV','TENDERING','TENDERING','EV','updateCN');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','updateCN','EV','TENDERING','TENDERING','EV','updateCN');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','RT','updateCN','PS','TENDERING','TENDERING','PS','updateCN');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_RT','updateCN','PS','TENDERING','TENDERING','PS','updateCN');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','RT','updateCN','EV','TENDERING','TENDERING','EV','updateTenderPeriod');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','RT','updateCN','PQ','TENDERING','TENDERING','PQ','updateTenderPeriod');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_RT','updateCN','EV','TENDERING','TENDERING','EV','updateTenderPeriod');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_RT','updateCN','PQ','TENDERING','TENDERING','PQ','updateTenderPeriod');
-
-
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','OT','tenderCancellation','EV','TENDERING','TENDERING','EV','cancelTenderEv');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','OT','tenderCancellation','EV','AWARDING','AWARDING','EV','cancelTenderEv');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','tenderCancellation','EV','TENDERING','TENDERING','EV','cancelTenderEv');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','tenderCancellation','EV','AWARDING','AWARDING','EV','cancelTenderEv');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','RT','tenderCancellation','EV','TENDERING','TENDERING','EV','cancelTenderEv');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','RT','tenderCancellation','PQ','TENDERING','TENDERING','PQ','cancelTender');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','RT','tenderCancellation','PS','TENDERING','TENDERING','PS','cancelTender');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','RT','tenderCancellation','EV','AWARDING','AWARDING','EV','cancelTenderEv');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','RT','tenderCancellation','PQ','AWARDING','AWARDING','PQ','cancelTender');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','RT','tenderCancellation','PS','AWARDING','AWARDING','PS','cancelTender');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_RT','tenderCancellation','EV','TENDERING','TENDERING','EV','cancelTenderEv');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_RT','tenderCancellation','PQ','TENDERING','TENDERING','PQ','cancelTender');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_RT','tenderCancellation','PS','TENDERING','TENDERING','PS','cancelTender');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_RT','tenderCancellation','EV','AWARDING','AWARDING','EV','cancelTenderEv');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_RT','tenderCancellation','PQ','AWARDING','AWARDING','PQ','cancelTender');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_RT','tenderCancellation','PS','AWARDING','AWARDING','PS','cancelTender');
 
 INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','OT','tenderCancellation','PN','PLANNING','PLANNING','PN','cancelPlan');
 INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','OT','tenderCancellation','PIN','PLANNED','PLANNED','PIN','cancelPlan');
 INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','tenderCancellation','PN','PLANNING','PLANNING','PN','cancelPlan');
 INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','tenderCancellation','PIN','PLANNED','PLANNED','PIN','cancelPlan');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','RT','tenderCancellation','PN','PLANNING','PLANNING','PN','cancelPlan');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','RT','tenderCancellation','PIN','PLANNED','PLANNED','PIN','cancelPlan');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_RT','tenderCancellation','PN','PLANNING','PLANNING','PN','cancelPlan');
-INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_RT','tenderCancellation','PIN','PLANNED','PLANNED','PIN','cancelPlan');
+
+INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','OT','tenderCancellation','EV','TENDERING','TENDERING','EV','cancelTenderEv');
+INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','OT','tenderCancellation','EV','AWARDING','AWARDING','EV','cancelTenderEv');
+INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','tenderCancellation','EV','TENDERING','TENDERING','EV','cancelTenderEv');
+INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','tenderCancellation','EV','AWARDING','AWARDING','EV','cancelTenderEv');
+
