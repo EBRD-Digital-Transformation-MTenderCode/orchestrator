@@ -15,23 +15,22 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-@Component
-public class QualificationUpdateAward implements JavaDelegate {
+import static com.procurement.orchestrator.domain.commands.QualificationCommandType.SET_FINAL_STATUSES;
 
-    private static final Logger LOG = LoggerFactory.getLogger(QualificationUpdateAward.class);
+@Component
+public class QualificationSetFinalStatuses implements JavaDelegate {
+
+    private static final Logger LOG = LoggerFactory.getLogger(QualificationSetFinalStatuses.class);
 
     private final QualificationRestClient qualificationRestClient;
-
     private final OperationService operationService;
-
     private final ProcessService processService;
-
     private final JsonUtil jsonUtil;
 
-    public QualificationUpdateAward(final QualificationRestClient qualificationRestClient,
-                                    final OperationService operationService,
-                                    final ProcessService processService,
-                                    final JsonUtil jsonUtil) {
+    public QualificationSetFinalStatuses(final QualificationRestClient qualificationRestClient,
+                                         final OperationService operationService,
+                                         final ProcessService processService,
+                                         final JsonUtil jsonUtil) {
         this.qualificationRestClient = qualificationRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -43,23 +42,18 @@ public class QualificationUpdateAward implements JavaDelegate {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
-        final JsonNode requestData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
+        context.setOperationType("awardPeriodEnd");
+        final JsonNode commandMessage = processService.getCommandMessage(SET_FINAL_STATUSES, context, jsonUtil.empty());
         final JsonNode responseData = processService.processResponse(
-                qualificationRestClient.updateAward(
-                        context.getCpid(),
-                        context.getStage(),
-                        context.getToken(),
-                        context.getId(),
-                        context.getOwner(),
-                        requestData),
+                qualificationRestClient.execute(commandMessage),
                 context,
                 processId,
                 taskId,
-                requestData);
+                commandMessage);
         if (Objects.nonNull(responseData)) {
-            operationService.saveOperationStep(execution, entity, requestData, responseData);
+            operationService.saveOperationStep(execution, entity, context, commandMessage, responseData);
         }
     }
 }

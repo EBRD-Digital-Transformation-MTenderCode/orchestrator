@@ -15,6 +15,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
+import static com.procurement.orchestrator.domain.commands.QualificationCommandType.AWARDS_CANCELLATION;
+
 @Component
 public class QualificationAwardsCancellation implements JavaDelegate {
 
@@ -43,21 +45,19 @@ public class QualificationAwardsCancellation implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
+        final JsonNode commandMessage = processService.getCommandMessage(AWARDS_CANCELLATION, context, jsonUtil.empty());
         final JsonNode responseData = processService.processResponse(
-                qualificationRestClient.awardsCancellation(
-                        context.getCpid(),
-                        context.getStage(),
-                        context.getStartDate()),
+                qualificationRestClient.execute(commandMessage),
                 context,
                 processId,
                 taskId,
-                jsonUtil.empty());
+                commandMessage);
         if (Objects.nonNull(responseData)) {
             operationService.saveOperationStep(
                     execution,
                     entity,
                     context,
-                    jsonUtil.empty(),
+                    commandMessage,
                     processService.addAwards(jsonData, responseData, processId));
         }
     }

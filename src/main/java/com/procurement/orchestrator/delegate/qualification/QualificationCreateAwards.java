@@ -16,6 +16,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
+import static com.procurement.orchestrator.domain.commands.QualificationCommandType.CREATE_AWARDS;
+
 @Component
 public class QualificationCreateAwards implements JavaDelegate {
 
@@ -47,25 +49,19 @@ public class QualificationCreateAwards implements JavaDelegate {
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final JsonNode requestData = jsonUtil.toJsonNode(entity.getResponseData());
         final String taskId = execution.getCurrentActivityId();
+        final JsonNode commandMessage = processService.getCommandMessage(CREATE_AWARDS, context, requestData);
         final JsonNode responseData = processService.processResponse(
-                qualificationRestClient.createAwards(
-                        context.getCpid(),
-                        context.getStage(),
-                        context.getOwner(),
-                        context.getCountry(),
-                        context.getPmd(),
-                        context.getStartDate(),
-                        requestData),
+                qualificationRestClient.execute(commandMessage),
                 context,
                 processId,
                 taskId,
-                requestData);
+                commandMessage);
         if (Objects.nonNull(responseData)) {
             operationService.saveOperationStep(
                     execution,
                     entity,
                     notificationService.addAwardOutcomeToContext(context, responseData, processId),
-                    requestData,
+                    commandMessage,
                     processService.addAwardData(requestData, responseData, processId));
         }
     }

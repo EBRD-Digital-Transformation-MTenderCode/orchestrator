@@ -16,6 +16,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
+import static com.procurement.orchestrator.domain.commands.QualificationCommandType.CHECK_AWARDED;
+
 @Component
 public class QualificationCheckAwarded implements JavaDelegate {
 
@@ -46,18 +48,15 @@ public class QualificationCheckAwarded implements JavaDelegate {
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
+        final JsonNode commandMessage = processService.getCommandMessage(CHECK_AWARDED, context, jsonUtil.empty());
         final JsonNode responseData = processService.processResponse(
-                qualificationRestClient.checkAwarded(
-                        context.getCpid(),
-                        context.getStage(),
-                        context.getCountry(),
-                        context.getPmd()),
+                qualificationRestClient.execute(commandMessage),
                 context,
                 processId,
                 taskId,
-                jsonUtil.empty());
+                commandMessage);
         if (Objects.nonNull(responseData)) {
-            operationService.saveOperationStep(execution, entity, jsonUtil.empty(), responseData);
+            operationService.saveOperationStep(execution, entity, commandMessage, responseData);
         }
     }
 }

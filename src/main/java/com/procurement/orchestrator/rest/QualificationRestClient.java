@@ -12,45 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(name = "e-qualification")
 public interface QualificationRestClient {
 
-    @RequestMapping(path = "/qualification", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> createAwards(@RequestParam("identifier") String cpId,
-                                             @RequestParam("stage") String stage,
-                                             @RequestParam("owner") String owner,
-                                             @RequestParam("country") String country,
-                                             @RequestParam("pmd") String pmd,
-                                             @RequestParam("startDate") String startDate,
-                                             @RequestBody JsonNode jsonData) throws Exception;
-
-    @RequestMapping(path = "/qualification", method = RequestMethod.PUT)
-    ResponseEntity<ResponseDto> updateAward(@RequestParam("identifier") String cpId,
-                                            @RequestParam("stage") String stage,
-                                            @RequestParam("token") String token,
-                                            @RequestParam("awardId") String awardId,
-                                            @RequestParam("owner") String owner,
-                                            @RequestBody JsonNode jsonData) throws Exception;
-
-    @RequestMapping(path = "/qualification/checkAwarded", method = RequestMethod.GET)
-    ResponseEntity<ResponseDto> checkAwarded(@RequestParam("identifier") String cpId,
-                                             @RequestParam("stage") String stage,
-                                             @RequestParam("country") String country,
-                                             @RequestParam("pmd") String pmd) throws Exception;
-
-    @RequestMapping(path = "/qualification/endAwardPeriod", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> endAwardPeriod(@RequestParam("identifier") String cpId,
-                                               @RequestParam("stage") String stage,
-                                               @RequestParam("country") String country,
-                                               @RequestParam("pmd") String pmd,
-                                               @RequestParam("endPeriod") String endPeriod) throws Exception;
-
-    @RequestMapping(path = "qualification/prepareCancellation", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> prepareCancellation(@RequestParam("cpid") String cpId,
-                                                    @RequestParam("stage") String stage,
-                                                    @RequestParam("date") String startDate) throws Exception;
-
-    @RequestMapping(path = "qualification/awardsCancellation", method = RequestMethod.POST)
-    ResponseEntity<ResponseDto> awardsCancellation(@RequestParam("cpid") String cpId,
-                                                   @RequestParam("stage") String stage,
-                                                   @RequestParam("date") String startDate) throws Exception;
-
+    @RequestMapping(method = RequestMethod.POST, value = "/command")
+    ResponseEntity<ResponseDto> execute(@RequestBody JsonNode commandMessage) throws Exception;
 
 }

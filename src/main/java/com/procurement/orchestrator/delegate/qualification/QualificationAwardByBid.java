@@ -15,20 +15,25 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-@Component
-public class QualificationEndAwardPeriod implements JavaDelegate {
+import static com.procurement.orchestrator.domain.commands.QualificationCommandType.AWARD_BY_BID;
 
-    private static final Logger LOG = LoggerFactory.getLogger(QualificationEndAwardPeriod.class);
+@Component
+public class QualificationAwardByBid implements JavaDelegate {
+
+    private static final Logger LOG = LoggerFactory.getLogger(QualificationAwardByBid.class);
 
     private final QualificationRestClient qualificationRestClient;
+
     private final OperationService operationService;
+
     private final ProcessService processService;
+
     private final JsonUtil jsonUtil;
 
-    public QualificationEndAwardPeriod(final QualificationRestClient qualificationRestClient,
-                                       final OperationService operationService,
-                                       final ProcessService processService,
-                                       final JsonUtil jsonUtil) {
+    public QualificationAwardByBid(final QualificationRestClient qualificationRestClient,
+                                   final OperationService operationService,
+                                   final ProcessService processService,
+                                   final JsonUtil jsonUtil) {
         this.qualificationRestClient = qualificationRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -40,22 +45,18 @@ public class QualificationEndAwardPeriod implements JavaDelegate {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
+        final JsonNode requestData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        context.setOperationType("awardPeriodEnd");
+        final JsonNode commandMessage = processService.getCommandMessage(AWARD_BY_BID, context, requestData);
         final JsonNode responseData = processService.processResponse(
-                qualificationRestClient.endAwardPeriod(
-                        context.getCpid(),
-                        context.getStage(),
-                        context.getCountry(),
-                        context.getPmd(),
-                        context.getEndDate()),
+                qualificationRestClient.execute(commandMessage),
                 context,
                 processId,
                 taskId,
-                jsonUtil.empty());
+                commandMessage);
         if (Objects.nonNull(responseData)) {
-            operationService.saveOperationStep(execution, entity, context, jsonUtil.empty(), responseData);
+            operationService.saveOperationStep(execution, entity, commandMessage, responseData);
         }
     }
 }
