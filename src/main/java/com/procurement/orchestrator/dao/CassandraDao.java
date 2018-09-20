@@ -1,6 +1,7 @@
 package com.procurement.orchestrator.dao;
 
 import com.procurement.orchestrator.domain.Rule;
+import com.procurement.orchestrator.domain.TypeOfProcess;
 import com.procurement.orchestrator.domain.entity.ContextEntity;
 import com.procurement.orchestrator.domain.entity.OperationEntity;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
@@ -28,6 +29,10 @@ public interface CassandraDao {
     void saveContext(ContextEntity entity);
 
     Optional<ContextEntity> getContextByCpId(String cpId);
+
+    Optional<TypeOfProcess> getProcess(String country,
+                                       String pmd,
+                                       String process);
 
     Optional<Rule> getRule(String country,
                            String pmd,

@@ -7,6 +7,7 @@ import com.procurement.orchestrator.dao.CassandraDaoImpl;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.Rule;
 import com.procurement.orchestrator.domain.Stage;
+import com.procurement.orchestrator.domain.TypeOfProcess;
 import com.procurement.orchestrator.domain.entity.ContextEntity;
 import com.procurement.orchestrator.domain.entity.RequestEntity;
 import com.procurement.orchestrator.exception.OperationException;
@@ -125,6 +126,13 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
+    public TypeOfProcess getProcessType(final String country, final String pmd, final String process) {
+        final Optional<TypeOfProcess> entityOptional = cassandraDao.getProcess(country, pmd, process);
+        if (!entityOptional.isPresent()) throw new OperationException("Operation impossible.");
+        return entityOptional.get();
+    }
+
+    @Override
     public Rule getRule(final String country, final String pmd, final String processType) {
         final Optional<Rule> entityOptional = cassandraDao.getRule(country, pmd, processType);
         if (!entityOptional.isPresent()) throw new OperationException("Operation impossible.");
@@ -136,9 +144,9 @@ public class RequestServiceImpl implements RequestService {
                                        final String operationId,
                                        final String country,
                                        final String pmd,
-                                       final String processType) {
+                                       final String process) {
         final Context context = new Context();
-        final Rule rules = getRule(country, pmd, processType);
+        final Rule rules = getRule(country, pmd, process);
         context.setCountry(rules.getCountry());
         context.setPmd(rules.getPmd());
         context.setProcessType(rules.getProcessType());
@@ -161,10 +169,10 @@ public class RequestServiceImpl implements RequestService {
                                        final String cpid,
                                        final String ocid,
                                        final String token,
-                                       final String processType) {
+                                       final String process) {
         final Context prevContext = getContext(cpid);
         if (ocid != null) validateStageFromOcId(cpid, ocid, prevContext);
-        final Rule rule = checkAndGetRule(prevContext, processType);
+        final Rule rule = checkAndGetRule(prevContext, process);
         final Context context = new Context();
         context.setCountry(rule.getCountry());
         context.setPmd(rule.getPmd());

@@ -5,6 +5,7 @@ import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
 import com.datastax.driver.core.Statement;
 import com.datastax.driver.core.querybuilder.Insert;
+import com.procurement.orchestrator.domain.TypeOfProcess;
 import com.procurement.orchestrator.domain.Rule;
 import com.procurement.orchestrator.domain.entity.ContextEntity;
 import com.procurement.orchestrator.domain.entity.OperationEntity;
@@ -22,6 +23,7 @@ import static com.datastax.driver.core.querybuilder.QueryBuilder.*;
 public class CassandraDaoImpl implements CassandraDao {
 
     private static final String OPERATION_STEP_TABLE = "orchestrator_operation_step";
+    private static final String PROCESS_TYPE_TABLE = "orchestrator_process_type";
     private static final String OPERATION_TABLE = "orchestrator_operation";
     private static final String REQUEST_TABLE = "orchestrator_request";
     private static final String CONTEXT_TABLE = "orchestrator_context";
@@ -45,6 +47,7 @@ public class CassandraDaoImpl implements CassandraDao {
     private static final String PREV_PHASE = "prev_phase";
     private static final String NEW_PHASE = "new_phase";
     private static final String COUNTRY = "country";
+    private static final String PROCESS = "process";
     private static final String PMD = "pmd";
 
     private final Session session;
@@ -169,6 +172,24 @@ public class CassandraDaoImpl implements CassandraDao {
                 .map(row -> new ContextEntity(
                         row.getString(CPID),
                         row.getString(CONTEXT)));
+    }
+
+    @Override
+    public Optional<TypeOfProcess> getProcess(String country, String pmd, String process) {
+        final Statement query = select()
+                .all()
+                .from(PROCESS_TYPE_TABLE)
+                .where(eq(COUNTRY, country))
+                .and(eq(PMD, pmd))
+                .and(eq(PROCESS, process))
+                .limit(1);
+        final ResultSet rows = session.execute(query);
+        return Optional.ofNullable(rows.one())
+                .map(row -> new TypeOfProcess(
+                        row.getString(COUNTRY),
+                        row.getString(PMD),
+                        row.getString(PROCESS),
+                        row.getString(PROCESS_TYPE)));
     }
 
     @Override

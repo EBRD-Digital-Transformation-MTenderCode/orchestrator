@@ -41,7 +41,47 @@ CREATE TABLE IF NOT EXISTS  ocds.orchestrator_rules (
     operation_type text,
     primary key((country, pmd, process_type), prev_stage, prev_phase)
  );
- 
+
+ CREATE TABLE IF NOT EXISTS  ocds.orchestrator_process_type (
+     country text,
+     pmd text,
+     process text,
+     process_type text,
+     primary key((country, pmd, process))
+  );
+
+INSERT INTO orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','OT','createEI','ei');
+INSERT INTO orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','createEI','ei');
+INSERT INTO orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','OT','updateEI','ei');
+INSERT INTO orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','updateEI','ei');
+
+INSERT INTO orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','OT','createFS','fs');
+INSERT INTO orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','createFS','fs');
+INSERT INTO orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','OT','updateFS','fs');
+INSERT INTO orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','updateFS','fs');
+
+INSERT INTO orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','OT','createCN','createCN');
+INSERT INTO orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','createCN','createCN');
+INSERT INTO orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','OT','updateCN','updateCN');
+INSERT INTO orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','updateCN','updateCN');
+
+INSERT INTO orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','OT','createPN','createPN');
+INSERT INTO orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','createPN','createPN');
+INSERT INTO orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','OT','updatePN','updatePN');
+INSERT INTO orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','updatePN','updatePN');
+
+INSERT INTO orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','OT','createBid','submitTheBid');
+INSERT INTO orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','createBid','submitTheBid');
+INSERT INTO orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','OT','updateBid','submitTheBid');
+INSERT INTO orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','updateBid','submitTheBid');
+
+INSERT INTO orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','OT','createEnquiry','enquiry');
+INSERT INTO orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','addAnswer','answer');
+
+INSERT INTO orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','endAwardPeriod','awardPeriodEnd');
+
+
+
 INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','OT','createPIN','PIN','PLANNED','PLANNED','PIN','createPIN');
 INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','createPIN','PIN','PLANNED','PLANNED','PIN','createPIN');
 INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','createPN','PN','PLANNING','PLANNING','PN','createPN');

@@ -24,7 +24,6 @@ public class BudgetController extends DoBaseController {
     private final ProcessService processService;
     private final RequestService requestService;
     private final String lang = "ro";
-    private final String initiator = "platform";
 
     public BudgetController(final ProcessService processService,
                             final RequestService requestService,

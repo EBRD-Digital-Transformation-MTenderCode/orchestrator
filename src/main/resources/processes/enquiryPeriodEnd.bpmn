@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_15jjmqc" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="2.0.0">
+  <bpmn:process id="enquiryPeriodEnd" name="enquiryPeriodEnd" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>SequenceFlow_1grs6yw</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="ClarificationCheckEnquiriesTask" name="Clarification Check Enquiries" camunda:asyncBefore="true" camunda:delegateExpression="${clarificationCheckEnquiries}">
+      <bpmn:incoming>SequenceFlow_1grs6yw</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0zmi6kj</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="AccessSuspendTenderTask" name="Access Suspend Tender" camunda:asyncBefore="true" camunda:delegateExpression="${accessSuspendTender}">
+      <bpmn:extensionElements>
+        <camunda:properties>
+          <camunda:property name="suspended" value="true" />
+        </camunda:properties>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1or8807</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0w4rihq</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_0l2aeei">
+      <bpmn:incoming>SequenceFlow_0zmi6kj</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1or8807</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_1ste78k</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_0blnl93</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="NoticeCreateReleaseTask" name="Notice Create Release" camunda:asyncBefore="true" camunda:delegateExpression="${noticeCreateRelease}">
+      <bpmn:incoming>SequenceFlow_16kaqb4</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1akeonl</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="SaveContextTask" name="Save Context" camunda:delegateExpression="${saveContext}">
+      <bpmn:incoming>SequenceFlow_1akeonl</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1vqutii</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1akeonl" sourceRef="NoticeCreateReleaseTask" targetRef="SaveContextTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1vqutii" sourceRef="SaveContextTask" targetRef="EndEvent_0n3vj80" />
+    <bpmn:endEvent id="EndEvent_0n3vj80">
+      <bpmn:incoming>SequenceFlow_1vqutii</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_1or8807" sourceRef="ExclusiveGateway_0l2aeei" targetRef="AccessSuspendTenderTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${operationType=='suspendTender'}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:serviceTask id="ChronographUpdatePeriodTask" name="Chronograph reshedule end enquiry period" camunda:asyncBefore="true" camunda:delegateExpression="${chronographRescheduleEndEnquiryPeriod}">
+      <bpmn:incoming>SequenceFlow_1ste78k</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_03ibnjr</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1ste78k" sourceRef="ExclusiveGateway_0l2aeei" targetRef="ChronographUpdatePeriodTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${operationType=='rescheduleEndEnquiryPeriod'}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_1cs7kj4">
+      <bpmn:incoming>SequenceFlow_0blnl93</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_0w4rihq</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_03ibnjr</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_16kaqb4</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="SequenceFlow_0blnl93" sourceRef="ExclusiveGateway_0l2aeei" targetRef="ExclusiveGateway_1cs7kj4">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${operationType=='enquiryPeriodEnd'}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_0w4rihq" sourceRef="AccessSuspendTenderTask" targetRef="ExclusiveGateway_1cs7kj4" />
+    <bpmn:sequenceFlow id="SequenceFlow_03ibnjr" sourceRef="ChronographUpdatePeriodTask" targetRef="ExclusiveGateway_1cs7kj4" />
+    <bpmn:sequenceFlow id="SequenceFlow_16kaqb4" sourceRef="ExclusiveGateway_1cs7kj4" targetRef="NoticeCreateReleaseTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0zmi6kj" sourceRef="ClarificationCheckEnquiriesTask" targetRef="ExclusiveGateway_0l2aeei" />
+    <bpmn:sequenceFlow id="SequenceFlow_1grs6yw" sourceRef="StartEvent_1" targetRef="ClarificationCheckEnquiriesTask" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="enquiryPeriodEnd">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="289" y="369" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0671h02_di" bpmnElement="ClarificationCheckEnquiriesTask">
+        <dc:Bounds x="359" y="347" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_14vug2r_di" bpmnElement="AccessSuspendTenderTask">
+        <dc:Bounds x="587" y="267" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExclusiveGateway_0l2aeei_di" bpmnElement="ExclusiveGateway_0l2aeei" isMarkerVisible="true">
+        <dc:Bounds x="498" y="362" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1894uh1_di" bpmnElement="NoticeCreateReleaseTask">
+        <dc:Bounds x="815" y="347" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1ummwnc_di" bpmnElement="SaveContextTask">
+        <dc:Bounds x="954" y="347" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1akeonl_di" bpmnElement="SequenceFlow_1akeonl">
+        <di:waypoint x="915" y="387" />
+        <di:waypoint x="954" y="387" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1vqutii_di" bpmnElement="SequenceFlow_1vqutii">
+        <di:waypoint x="1054" y="387" />
+        <di:waypoint x="1086" y="387" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_0n3vj80_di" bpmnElement="EndEvent_0n3vj80">
+        <dc:Bounds x="1086" y="369" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1or8807_di" bpmnElement="SequenceFlow_1or8807">
+        <di:waypoint x="523" y="362" />
+        <di:waypoint x="523" y="307" />
+        <di:waypoint x="587" y="307" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_0n8oksq_di" bpmnElement="ChronographUpdatePeriodTask">
+        <dc:Bounds x="587" y="428" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1ste78k_di" bpmnElement="SequenceFlow_1ste78k">
+        <di:waypoint x="523" y="412" />
+        <di:waypoint x="523" y="468" />
+        <di:waypoint x="587" y="468" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ExclusiveGateway_1cs7kj4_di" bpmnElement="ExclusiveGateway_1cs7kj4" isMarkerVisible="true">
+        <dc:Bounds x="726" y="362" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0blnl93_di" bpmnElement="SequenceFlow_0blnl93">
+        <di:waypoint x="548" y="387" />
+        <di:waypoint x="726" y="387" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0w4rihq_di" bpmnElement="SequenceFlow_0w4rihq">
+        <di:waypoint x="687" y="307" />
+        <di:waypoint x="751" y="307" />
+        <di:waypoint x="751" y="362" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_03ibnjr_di" bpmnElement="SequenceFlow_03ibnjr">
+        <di:waypoint x="687" y="468" />
+        <di:waypoint x="751" y="468" />
+        <di:waypoint x="751" y="412" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_16kaqb4_di" bpmnElement="SequenceFlow_16kaqb4">
+        <di:waypoint x="776" y="387" />
+        <di:waypoint x="815" y="387" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0zmi6kj_di" bpmnElement="SequenceFlow_0zmi6kj">
+        <di:waypoint x="459" y="387" />
+        <di:waypoint x="498" y="387" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1grs6yw_di" bpmnElement="SequenceFlow_1grs6yw">
+        <di:waypoint x="325" y="387" />
+        <di:waypoint x="359" y="387" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

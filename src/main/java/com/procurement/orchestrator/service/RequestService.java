@@ -3,6 +3,7 @@ package com.procurement.orchestrator.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.Rule;
+import com.procurement.orchestrator.domain.TypeOfProcess;
 import com.procurement.orchestrator.domain.entity.RequestEntity;
 import org.springframework.stereotype.Service;
 
@@ -21,19 +22,21 @@ public interface RequestService {
 
     Rule checkAndGetRule(Context prevContext, String processType);
 
+    TypeOfProcess getProcessType(String country, String pmd, String process);
+
     Rule getRule(String country, String pmd, String processType);
 
     Context getContextForCreate(String authorization,
                                 String operationId,
                                 String country,
                                 String pmd,
-                                String processType);
+                                String process);
 
     Context getContextForUpdate(String authorization,
                                 String operationId,
                                 String cpid,
                                 String ocid,
                                 String token,
-                                String processType);
+                                String process);
 
 }
