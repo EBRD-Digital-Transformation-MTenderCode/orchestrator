@@ -76,10 +76,21 @@ INSERT INTO orchestrator_process_type (country, pmd, process, process_type) VALU
 INSERT INTO orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','updateBid','submitTheBid');
 
 INSERT INTO orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','OT','createEnquiry','enquiry');
+INSERT INTO orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','createEnquiry','enquiry');
+INSERT INTO orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','OT','addAnswer','answer');
 INSERT INTO orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','addAnswer','answer');
 
+INSERT INTO orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','OT','endAwardPeriod','awardPeriodEnd');
 INSERT INTO orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','endAwardPeriod','awardPeriodEnd');
 
+INSERT INTO orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','OT','bidWithdrawn','bidWithdrawn');
+INSERT INTO orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','bidWithdrawn','bidWithdrawn');
+INSERT INTO orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','OT','cnCancellation','tenderCancellation');
+INSERT INTO orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','cnCancellation','tenderCancellation');
+INSERT INTO orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','OT','pinCancellation','tenderCancellation');
+INSERT INTO orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','pinCancellation','tenderCancellation');
+INSERT INTO orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','OT','pnCancellation','tenderCancellation');
+INSERT INTO orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','pnCancellation','tenderCancellation');
 
 
 INSERT INTO orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','OT','createPIN','PIN','PLANNED','PLANNED','PIN','createPIN');

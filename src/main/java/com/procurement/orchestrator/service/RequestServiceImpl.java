@@ -126,10 +126,10 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
-    public TypeOfProcess getProcessType(final String country, final String pmd, final String process) {
+    public String getProcessType(final String country, final String pmd, final String process) {
         final Optional<TypeOfProcess> entityOptional = cassandraDao.getProcess(country, pmd, process);
         if (!entityOptional.isPresent()) throw new OperationException("Operation impossible.");
-        return entityOptional.get();
+        return entityOptional.get().getProcessType();
     }
 
     @Override
@@ -146,10 +146,12 @@ public class RequestServiceImpl implements RequestService {
                                        final String pmd,
                                        final String process) {
         final Context context = new Context();
-        final Rule rules = getRule(country, pmd, process);
+        final String processType = getProcessType(country, pmd, process);
+        final Rule rules = getRule(country, pmd, processType);
+
         context.setCountry(rules.getCountry());
         context.setPmd(rules.getPmd());
-        context.setProcessType(rules.getProcessType());
+        context.setProcessType(processType);
         context.setStage(rules.getNewStage());
         context.setPhase(rules.getNewPhase());
         context.setOperationType(rules.getOperationType());
@@ -159,7 +161,6 @@ public class RequestServiceImpl implements RequestService {
         context.setOperationId(operationId);
         context.setLanguage(lang);
         context.setStartDate(dateUtil.nowFormatted());
-
         return context;
     }
 
@@ -172,11 +173,12 @@ public class RequestServiceImpl implements RequestService {
                                        final String process) {
         final Context prevContext = getContext(cpid);
         if (ocid != null) validateStageFromOcId(cpid, ocid, prevContext);
-        final Rule rule = checkAndGetRule(prevContext, process);
+        final String processType = getProcessType(prevContext.getCountry(), prevContext.getPmd(), process);
+        final Rule rule = checkAndGetRule(prevContext, processType);
         final Context context = new Context();
         context.setCountry(rule.getCountry());
         context.setPmd(rule.getPmd());
-        context.setProcessType(rule.getProcessType());
+        context.setProcessType(processType);
         context.setPrevStage(rule.getPrevStage());
         context.setStage(rule.getNewStage());
         context.setPhase(rule.getNewPhase());

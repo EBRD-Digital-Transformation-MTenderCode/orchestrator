@@ -22,7 +22,7 @@ public interface RequestService {
 
     Rule checkAndGetRule(Context prevContext, String processType);
 
-    TypeOfProcess getProcessType(String country, String pmd, String process);
+    String getProcessType(String country, String pmd, String process);
 
     Rule getRule(String country, String pmd, String processType);
 
