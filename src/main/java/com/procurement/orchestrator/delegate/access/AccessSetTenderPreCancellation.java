@@ -15,25 +15,22 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.AccessCommandType.UPDATE_LOTS_EV;
+import static com.procurement.orchestrator.domain.commands.AccessCommandType.SET_TENDER_PRECANCELLATION;
 
 @Component
-public class AccessUpdateLotsEv implements JavaDelegate {
+public class AccessSetTenderPreCancellation implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AccessUpdateLotsEv.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AccessSetTenderPreCancellation.class);
 
     private final AccessRestClient accessRestClient;
-
     private final OperationService operationService;
-
     private final ProcessService processService;
-
     private final JsonUtil jsonUtil;
 
-    public AccessUpdateLotsEv(final AccessRestClient accessRestClient,
-                              final OperationService operationService,
-                              final ProcessService processService,
-                              final JsonUtil jsonUtil) {
+    public AccessSetTenderPreCancellation(final AccessRestClient accessRestClient,
+                                          final OperationService operationService,
+                                          final ProcessService processService,
+                                          final JsonUtil jsonUtil) {
         this.accessRestClient = accessRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -48,8 +45,7 @@ public class AccessUpdateLotsEv implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode unsuccessfulLots = processService.getUnsuccessfulLots(jsonData, processId);
-        final JsonNode commandMessage = processService.getCommandMessage(UPDATE_LOTS_EV, context, unsuccessfulLots);
+        final JsonNode commandMessage = processService.getCommandMessage(SET_TENDER_PRECANCELLATION, context, jsonUtil.empty());
         JsonNode responseData = processService.processResponse(
                 accessRestClient.execute(commandMessage),
                 context,
@@ -57,24 +53,12 @@ public class AccessUpdateLotsEv implements JavaDelegate {
                 taskId,
                 commandMessage);
         if (Objects.nonNull(responseData)) {
-            processContext(execution, context, responseData, processId);
             operationService.saveOperationStep(
                     execution,
                     entity,
                     context,
                     commandMessage,
-                    processService.addLotsAndItems(jsonData, responseData, processId));
-        }
-    }
-
-    private void processContext(final DelegateExecution execution,
-                                final Context context,
-                                final JsonNode responseData,
-                                final String processId) {
-        final String tenderStatus = processService.getText("tenderStatus", responseData, processId);
-        if ("unsuccessful".equals(tenderStatus)) {
-            context.setOperationType("tenderUnsuccessful");
-            execution.setVariable("operationType", "tenderUnsuccessful");
+                    processService.addLots(jsonData, responseData, processId));
         }
     }
 }

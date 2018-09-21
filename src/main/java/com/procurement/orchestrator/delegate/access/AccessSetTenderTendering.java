@@ -15,22 +15,25 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.AccessCommandType.CHECK_LOT_STATUS;
+import static com.procurement.orchestrator.domain.commands.AccessCommandType.SET_TENDER_SUSPENDED;
 
 @Component
-public class AccessCheckLotStatus implements JavaDelegate {
+public class AccessSetTenderTendering implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AccessCheckLotStatus.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AccessSetTenderTendering.class);
 
     private final AccessRestClient accessRestClient;
+
     private final OperationService operationService;
+
     private final ProcessService processService;
+
     private final JsonUtil jsonUtil;
 
-    public AccessCheckLotStatus(final AccessRestClient accessRestClient,
-                                final OperationService operationService,
-                                final ProcessService processService,
-                                final JsonUtil jsonUtil) {
+    public AccessSetTenderTendering(final AccessRestClient accessRestClient,
+                                    final OperationService operationService,
+                                    final ProcessService processService,
+                                    final JsonUtil jsonUtil) {
         this.accessRestClient = accessRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -45,20 +48,22 @@ public class AccessCheckLotStatus implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode relatedLot = processService.getEnquiryRelatedLot(jsonData, processId);
-        JsonNode responseData = null;
-        final JsonNode commandMessage = processService.getCommandMessage(CHECK_LOT_STATUS, context, relatedLot);
-        if (Objects.nonNull(relatedLot)) {
-            responseData = processService.processResponse(
-                    accessRestClient.execute(commandMessage),
-                    context,
-                    processId,
-                    taskId,
-                    commandMessage);
-        }
+        final JsonNode commandMessage = processService.getCommandMessage(SET_TENDER_SUSPENDED, context, jsonUtil.empty());
+        JsonNode responseData = processService.processResponse(
+                accessRestClient.execute(commandMessage),
+                context,
+                processId,
+                taskId,
+                commandMessage);
         if (Objects.nonNull(responseData)) {
-            operationService.saveOperationStep(execution, entity, commandMessage);
+            context.setOperationType("suspendTender");
+            context.setPhase("SUSPENDED");
+            operationService.saveOperationStep(
+                    execution,
+                    entity,
+                    context,
+                    commandMessage,
+                    processService.addTenderStatus(jsonData, responseData, processId));
         }
     }
 }
-

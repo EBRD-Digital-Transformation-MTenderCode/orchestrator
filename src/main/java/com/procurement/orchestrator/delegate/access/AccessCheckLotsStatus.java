@@ -15,22 +15,19 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.AccessCommandType.UNSUSPEND_TENDER;
+import static com.procurement.orchestrator.domain.commands.AccessCommandType.CHECK_LOTS_STATUS;
 
 @Component
-public class AccessUnsuspendTender implements JavaDelegate {
+public class AccessCheckLotsStatus implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AccessUnsuspendTender.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AccessCheckLotsStatus.class);
 
     private final AccessRestClient accessRestClient;
-
     private final OperationService operationService;
-
     private final ProcessService processService;
-
     private final JsonUtil jsonUtil;
 
-    public AccessUnsuspendTender(final AccessRestClient accessRestClient,
+    public AccessCheckLotsStatus(final AccessRestClient accessRestClient,
                                  final OperationService operationService,
                                  final ProcessService processService,
                                  final JsonUtil jsonUtil) {
@@ -48,27 +45,20 @@ public class AccessUnsuspendTender implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(UNSUSPEND_TENDER, context, jsonUtil.empty());
-        JsonNode responseData = processService.processResponse(
-                accessRestClient.execute(commandMessage),
-                context,
-                processId,
-                taskId,
-                commandMessage);
+        final JsonNode relatedLot = processService.getEnquiryRelatedLot(jsonData, processId);
+        JsonNode responseData = null;
+        final JsonNode commandMessage = processService.getCommandMessage(CHECK_LOTS_STATUS, context, relatedLot);
+        if (Objects.nonNull(relatedLot)) {
+            responseData = processService.processResponse(
+                    accessRestClient.execute(commandMessage),
+                    context,
+                    processId,
+                    taskId,
+                    commandMessage);
+        }
         if (Objects.nonNull(responseData)) {
-            final String statusDetails = processService.getText("statusDetails", responseData, processId);
-            if (statusDetails != null) {
-                context.setOperationType("unsuspendTender");
-                execution.setVariable("operationType", "unsuspendTender");
-                operationService.saveOperationStep(
-                        execution,
-                        entity,
-                        context,
-                        commandMessage,
-                        processService.addTenderStatus(jsonData, responseData, processId));
-            } else {
-                execution.setVariable("operationType", "addAnswer");
-            }
+            operationService.saveOperationStep(execution, entity, commandMessage);
         }
     }
 }
+

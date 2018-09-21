@@ -15,25 +15,22 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.AccessCommandType.SUSPEND_TENDER;
+import static com.procurement.orchestrator.domain.commands.AccessCommandType.CHECK_LOTS_STATUS_DETAILS;
 
 @Component
-public class AccessSuspendTender implements JavaDelegate {
+public class AccessCheckLotsStatusDetails implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AccessSuspendTender.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AccessCheckLotsStatusDetails.class);
 
     private final AccessRestClient accessRestClient;
-
     private final OperationService operationService;
-
     private final ProcessService processService;
-
     private final JsonUtil jsonUtil;
 
-    public AccessSuspendTender(final AccessRestClient accessRestClient,
-                               final OperationService operationService,
-                               final ProcessService processService,
-                               final JsonUtil jsonUtil) {
+    public AccessCheckLotsStatusDetails(final AccessRestClient accessRestClient,
+                                        final OperationService operationService,
+                                        final ProcessService processService,
+                                        final JsonUtil jsonUtil) {
         this.accessRestClient = accessRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -45,10 +42,9 @@ public class AccessSuspendTender implements JavaDelegate {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
-        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(SUSPEND_TENDER, context, jsonUtil.empty());
+        final JsonNode commandMessage = processService.getCommandMessage(CHECK_LOTS_STATUS_DETAILS, context, jsonUtil.empty());
         JsonNode responseData = processService.processResponse(
                 accessRestClient.execute(commandMessage),
                 context,
@@ -56,14 +52,12 @@ public class AccessSuspendTender implements JavaDelegate {
                 taskId,
                 commandMessage);
         if (Objects.nonNull(responseData)) {
-            context.setOperationType("suspendTender");
-            context.setPhase("SUSPENDED");
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    context,
                     commandMessage,
-                    processService.addTenderStatus(jsonData, responseData, processId));
+                    processService.addItems(responseData, processId));
         }
     }
 }
+

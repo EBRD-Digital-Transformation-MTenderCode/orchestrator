@@ -2,7 +2,6 @@ package com.procurement.orchestrator.delegate.access;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
-import com.procurement.orchestrator.domain.Stage;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.AccessRestClient;
 import com.procurement.orchestrator.service.OperationService;
@@ -16,22 +15,25 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.AccessCommandType.TENDER_CANCELLATION;
+import static com.procurement.orchestrator.domain.commands.AccessCommandType.SET_LOTS_UNSUCCESSFUL_EV;
 
 @Component
-public class AccessTenderCancellation implements JavaDelegate {
+public class AccessSetLotsUnsuccessfulEv implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AccessTenderCancellation.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AccessSetLotsUnsuccessfulEv.class);
 
     private final AccessRestClient accessRestClient;
+
     private final OperationService operationService;
+
     private final ProcessService processService;
+
     private final JsonUtil jsonUtil;
 
-    public AccessTenderCancellation(final AccessRestClient accessRestClient,
-                                    final OperationService operationService,
-                                    final ProcessService processService,
-                                    final JsonUtil jsonUtil) {
+    public AccessSetLotsUnsuccessfulEv(final AccessRestClient accessRestClient,
+                                       final OperationService operationService,
+                                       final ProcessService processService,
+                                       final JsonUtil jsonUtil) {
         this.accessRestClient = accessRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -43,16 +45,11 @@ public class AccessTenderCancellation implements JavaDelegate {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
-        if (context.getStage().equals(Stage.EV.value())) {
-            context.setOperationType("cancelTenderEv");
-        } else {
-            context.setOperationType("cancelTender");
-        }
-        context.setStartDate(context.getEndDate());
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(TENDER_CANCELLATION, context, jsonUtil.empty());
+        final JsonNode unsuccessfulLots = processService.getUnsuccessfulLots(jsonData, processId);
+        final JsonNode commandMessage = processService.getCommandMessage(SET_LOTS_UNSUCCESSFUL_EV, context, unsuccessfulLots);
         JsonNode responseData = processService.processResponse(
                 accessRestClient.execute(commandMessage),
                 context,
@@ -60,14 +57,25 @@ public class AccessTenderCancellation implements JavaDelegate {
                 taskId,
                 commandMessage);
         if (Objects.nonNull(responseData)) {
+            processContext(execution, context, responseData, processId);
             operationService.saveOperationStep(
                     execution,
                     entity,
                     context,
                     commandMessage,
-                    processService.addLots(jsonData, responseData, processId));
+                    processService.addLotsAndItems(jsonData, responseData, processId));
         }
     }
 
+    private void processContext(final DelegateExecution execution,
+                                final Context context,
+                                final JsonNode responseData,
+                                final String processId) {
+        final String tenderStatus = processService.getText("tenderStatus", responseData, processId);
+        if ("unsuccessful".equals(tenderStatus)) {
+            context.setOperationType("tenderUnsuccessful");
+            execution.setVariable("operationType", "tenderUnsuccessful");
+        }
+    }
 }
 

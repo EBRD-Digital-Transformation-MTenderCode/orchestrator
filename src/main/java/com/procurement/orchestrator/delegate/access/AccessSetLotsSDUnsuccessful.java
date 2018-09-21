@@ -15,22 +15,25 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.AccessCommandType.PREPARE_CANCELLATION;
+import static com.procurement.orchestrator.domain.commands.AccessCommandType.SET_LOTS_SD_UNSUCCESSFUL;
 
 @Component
-public class AccessPrepareCancellation implements JavaDelegate {
+public class AccessSetLotsSDUnsuccessful implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AccessPrepareCancellation.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AccessSetLotsSDUnsuccessful.class);
 
     private final AccessRestClient accessRestClient;
+
     private final OperationService operationService;
+
     private final ProcessService processService;
+
     private final JsonUtil jsonUtil;
 
-    public AccessPrepareCancellation(final AccessRestClient accessRestClient,
-                                     final OperationService operationService,
-                                     final ProcessService processService,
-                                     final JsonUtil jsonUtil) {
+    public AccessSetLotsSDUnsuccessful(final AccessRestClient accessRestClient,
+                                       final OperationService operationService,
+                                       final ProcessService processService,
+                                       final JsonUtil jsonUtil) {
         this.accessRestClient = accessRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -44,8 +47,9 @@ public class AccessPrepareCancellation implements JavaDelegate {
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
-        final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(PREPARE_CANCELLATION, context, jsonUtil.empty());
+        final String taskId = execution.getCurrentActivityName();
+        final JsonNode unsuccessfulLots = processService.getUnsuccessfulLots(jsonData, processId);
+        final JsonNode commandMessage = processService.getCommandMessage(SET_LOTS_SD_UNSUCCESSFUL, context, unsuccessfulLots);
         JsonNode responseData = processService.processResponse(
                 accessRestClient.execute(commandMessage),
                 context,
@@ -56,10 +60,8 @@ public class AccessPrepareCancellation implements JavaDelegate {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    context,
                     commandMessage,
                     processService.addLots(jsonData, responseData, processId));
         }
     }
 }
-

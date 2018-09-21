@@ -15,22 +15,22 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.AccessCommandType.TENDER_CANCELLATION;
+import static com.procurement.orchestrator.domain.commands.AccessCommandType.SET_TENDER_CANCELLATION;
 
 @Component
-public class AccessPlanCancellation implements JavaDelegate {
+public class AccessSetPlanCancellation implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AccessPlanCancellation.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AccessSetPlanCancellation.class);
 
     private final AccessRestClient accessRestClient;
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public AccessPlanCancellation(final AccessRestClient accessRestClient,
-                                  final OperationService operationService,
-                                  final ProcessService processService,
-                                  final JsonUtil jsonUtil) {
+    public AccessSetPlanCancellation(final AccessRestClient accessRestClient,
+                                     final OperationService operationService,
+                                     final ProcessService processService,
+                                     final JsonUtil jsonUtil) {
         this.accessRestClient = accessRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -45,7 +45,7 @@ public class AccessPlanCancellation implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(TENDER_CANCELLATION, context, jsonUtil.empty());
+        final JsonNode commandMessage = processService.getCommandMessage(SET_TENDER_CANCELLATION, context, jsonUtil.empty());
         JsonNode responseData = processService.processResponse(
                 accessRestClient.execute(commandMessage),
                 context,

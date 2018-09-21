@@ -2,6 +2,7 @@ package com.procurement.orchestrator.delegate.access;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
+import com.procurement.orchestrator.domain.Stage;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.AccessRestClient;
 import com.procurement.orchestrator.service.OperationService;
@@ -15,22 +16,22 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.AccessCommandType.CHECK_LOT_GET_ITEMS;
+import static com.procurement.orchestrator.domain.commands.AccessCommandType.SET_TENDER_CANCELLATION;
 
 @Component
-public class AccessCheckLotStatusDetailsGetItems implements JavaDelegate {
+public class AccessSetTenderCancellation implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AccessCheckLotStatusDetailsGetItems.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AccessSetTenderCancellation.class);
 
     private final AccessRestClient accessRestClient;
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public AccessCheckLotStatusDetailsGetItems(final AccessRestClient accessRestClient,
-                                               final OperationService operationService,
-                                               final ProcessService processService,
-                                               final JsonUtil jsonUtil) {
+    public AccessSetTenderCancellation(final AccessRestClient accessRestClient,
+                                       final OperationService operationService,
+                                       final ProcessService processService,
+                                       final JsonUtil jsonUtil) {
         this.accessRestClient = accessRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -42,9 +43,16 @@ public class AccessCheckLotStatusDetailsGetItems implements JavaDelegate {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
+        if (context.getStage().equals(Stage.EV.value())) {
+            context.setOperationType("cancelTenderEv");
+        } else {
+            context.setOperationType("cancelTender");
+        }
+        context.setStartDate(context.getEndDate());
+        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(CHECK_LOT_GET_ITEMS, context, jsonUtil.empty());
+        final JsonNode commandMessage = processService.getCommandMessage(SET_TENDER_CANCELLATION, context, jsonUtil.empty());
         JsonNode responseData = processService.processResponse(
                 accessRestClient.execute(commandMessage),
                 context,
@@ -55,9 +63,11 @@ public class AccessCheckLotStatusDetailsGetItems implements JavaDelegate {
             operationService.saveOperationStep(
                     execution,
                     entity,
+                    context,
                     commandMessage,
-                    processService.addItems(responseData, processId));
+                    processService.addLots(jsonData, responseData, processId));
         }
     }
+
 }
 

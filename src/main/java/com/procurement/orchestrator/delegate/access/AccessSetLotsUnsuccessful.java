@@ -15,11 +15,12 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.AccessCommandType.SET_TENDER_UNSUCCESSFUL;
+import static com.procurement.orchestrator.domain.commands.AccessCommandType.SET_LOTS_UNSUCCESSFUL;
 
 @Component
-public class AccessSetTenderUnsuccessful implements JavaDelegate {
-    private static final Logger LOG = LoggerFactory.getLogger(AccessSetTenderUnsuccessful.class);
+public class AccessSetLotsUnsuccessful implements JavaDelegate {
+
+    private static final Logger LOG = LoggerFactory.getLogger(AccessSetLotsUnsuccessful.class);
 
     private final AccessRestClient accessRestClient;
 
@@ -29,10 +30,10 @@ public class AccessSetTenderUnsuccessful implements JavaDelegate {
 
     private final JsonUtil jsonUtil;
 
-    public AccessSetTenderUnsuccessful(final AccessRestClient accessRestClient,
-                                       final OperationService operationService,
-                                       final ProcessService processService,
-                                       final JsonUtil jsonUtil) {
+    public AccessSetLotsUnsuccessful(final AccessRestClient accessRestClient,
+                                     final OperationService operationService,
+                                     final ProcessService processService,
+                                     final JsonUtil jsonUtil) {
         this.accessRestClient = accessRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -44,9 +45,11 @@ public class AccessSetTenderUnsuccessful implements JavaDelegate {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
+        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(SET_TENDER_UNSUCCESSFUL, context, jsonUtil.empty());
+        final JsonNode unsuccessfulLots = processService.getUnsuccessfulLots(jsonData, processId);
+        final JsonNode commandMessage = processService.getCommandMessage(SET_LOTS_UNSUCCESSFUL, context, unsuccessfulLots);
         JsonNode responseData = processService.processResponse(
                 accessRestClient.execute(commandMessage),
                 context,
@@ -54,11 +57,21 @@ public class AccessSetTenderUnsuccessful implements JavaDelegate {
                 taskId,
                 commandMessage);
         if (Objects.nonNull(responseData)) {
+            processContext(context, responseData, processId);
             operationService.saveOperationStep(
                     execution,
                     entity,
+                    context,
                     commandMessage,
-                    responseData);
+                    processService.addLots(jsonData, responseData, processId));
+        }
+    }
+
+    private void processContext(final Context context, final JsonNode responseData, final String processId) {
+        final String tenderStatus = processService.getText("tenderStatus", responseData, processId);
+        if ("unsuccessful".equals(tenderStatus)) {
+            context.setOperationType("tenderUnsuccessful");
         }
     }
 }
+

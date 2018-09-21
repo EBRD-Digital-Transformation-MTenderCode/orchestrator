@@ -15,12 +15,12 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.AccessCommandType.UPDATE_LOT_STATUS_DETAILS_BY_BID;
+import static com.procurement.orchestrator.domain.commands.AccessCommandType.SET_TENDER_SUSPENDED;
 
 @Component
-public class AccessUpdateStatusDetailsById implements JavaDelegate {
+public class AccessSetTenderSuspended implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AccessUpdateStatusDetailsById.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AccessSetTenderSuspended.class);
 
     private final AccessRestClient accessRestClient;
 
@@ -30,10 +30,10 @@ public class AccessUpdateStatusDetailsById implements JavaDelegate {
 
     private final JsonUtil jsonUtil;
 
-    public AccessUpdateStatusDetailsById(final AccessRestClient accessRestClient,
-                                         final OperationService operationService,
-                                         final ProcessService processService,
-                                         final JsonUtil jsonUtil) {
+    public AccessSetTenderSuspended(final AccessRestClient accessRestClient,
+                                    final OperationService operationService,
+                                    final ProcessService processService,
+                                    final JsonUtil jsonUtil) {
         this.accessRestClient = accessRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -47,8 +47,8 @@ public class AccessUpdateStatusDetailsById implements JavaDelegate {
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
-        final String taskId = execution.getCurrentActivityName();
-        final JsonNode commandMessage = processService.getCommandMessage(UPDATE_LOT_STATUS_DETAILS_BY_BID, context, jsonData);
+        final String taskId = execution.getCurrentActivityId();
+        final JsonNode commandMessage = processService.getCommandMessage(SET_TENDER_SUSPENDED, context, jsonUtil.empty());
         JsonNode responseData = processService.processResponse(
                 accessRestClient.execute(commandMessage),
                 context,
@@ -56,11 +56,14 @@ public class AccessUpdateStatusDetailsById implements JavaDelegate {
                 taskId,
                 commandMessage);
         if (Objects.nonNull(responseData)) {
+            context.setOperationType("suspendTender");
+            context.setPhase("SUSPENDED");
             operationService.saveOperationStep(
                     execution,
                     entity,
+                    context,
                     commandMessage,
-                    processService.addUpdatedLot(jsonData, responseData, processId));
+                    processService.addTenderStatus(jsonData, responseData, processId));
         }
     }
 }

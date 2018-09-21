@@ -15,12 +15,12 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.AccessCommandType.UPDATE_LOT_STATUS_DETAILS;
+import static com.procurement.orchestrator.domain.commands.AccessCommandType.SET_TENDER_UNSUSPENDED;
 
 @Component
-public class AccessUpdateLotStatusDetails implements JavaDelegate {
+public class AccessSetTenderUnsuspended implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AccessUpdateLotStatusDetails.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AccessSetTenderUnsuspended.class);
 
     private final AccessRestClient accessRestClient;
 
@@ -30,10 +30,10 @@ public class AccessUpdateLotStatusDetails implements JavaDelegate {
 
     private final JsonUtil jsonUtil;
 
-    public AccessUpdateLotStatusDetails(final AccessRestClient accessRestClient,
-                                        final OperationService operationService,
-                                        final ProcessService processService,
-                                        final JsonUtil jsonUtil) {
+    public AccessSetTenderUnsuspended(final AccessRestClient accessRestClient,
+                                      final OperationService operationService,
+                                      final ProcessService processService,
+                                      final JsonUtil jsonUtil) {
         this.accessRestClient = accessRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -47,9 +47,8 @@ public class AccessUpdateLotStatusDetails implements JavaDelegate {
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
-        final String taskId = execution.getCurrentActivityName();
-        final JsonNode unsuccessfulLots = processService.getUnsuccessfulLots(jsonData, processId);
-        final JsonNode commandMessage = processService.getCommandMessage(UPDATE_LOT_STATUS_DETAILS, context, unsuccessfulLots);
+        final String taskId = execution.getCurrentActivityId();
+        final JsonNode commandMessage = processService.getCommandMessage(SET_TENDER_UNSUSPENDED, context, jsonUtil.empty());
         JsonNode responseData = processService.processResponse(
                 accessRestClient.execute(commandMessage),
                 context,
@@ -57,11 +56,19 @@ public class AccessUpdateLotStatusDetails implements JavaDelegate {
                 taskId,
                 commandMessage);
         if (Objects.nonNull(responseData)) {
-            operationService.saveOperationStep(
-                    execution,
-                    entity,
-                    commandMessage,
-                    processService.addLots(jsonData, responseData, processId));
+            final String statusDetails = processService.getText("statusDetails", responseData, processId);
+            if (statusDetails != null) {
+                context.setOperationType("unsuspendTender");
+                execution.setVariable("operationType", "unsuspendTender");
+                operationService.saveOperationStep(
+                        execution,
+                        entity,
+                        context,
+                        commandMessage,
+                        processService.addTenderStatus(jsonData, responseData, processId));
+            } else {
+                execution.setVariable("operationType", "addAnswer");
+            }
         }
     }
 }

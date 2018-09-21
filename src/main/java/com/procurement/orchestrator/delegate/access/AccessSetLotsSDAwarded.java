@@ -15,12 +15,12 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.AccessCommandType.UPDATE_LOTS;
+import static com.procurement.orchestrator.domain.commands.AccessCommandType.SET_LOTS_SD_AWARDED;
 
 @Component
-public class AccessUpdateLots implements JavaDelegate {
+public class AccessSetLotsSDAwarded implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AccessUpdateLots.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AccessSetLotsSDAwarded.class);
 
     private final AccessRestClient accessRestClient;
 
@@ -30,10 +30,10 @@ public class AccessUpdateLots implements JavaDelegate {
 
     private final JsonUtil jsonUtil;
 
-    public AccessUpdateLots(final AccessRestClient accessRestClient,
-                            final OperationService operationService,
-                            final ProcessService processService,
-                            final JsonUtil jsonUtil) {
+    public AccessSetLotsSDAwarded(final AccessRestClient accessRestClient,
+                                  final OperationService operationService,
+                                  final ProcessService processService,
+                                  final JsonUtil jsonUtil) {
         this.accessRestClient = accessRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -47,9 +47,8 @@ public class AccessUpdateLots implements JavaDelegate {
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
-        final String taskId = execution.getCurrentActivityId();
-        final JsonNode unsuccessfulLots = processService.getUnsuccessfulLots(jsonData, processId);
-        final JsonNode commandMessage = processService.getCommandMessage(UPDATE_LOTS, context, unsuccessfulLots);
+        final String taskId = execution.getCurrentActivityName();
+        final JsonNode commandMessage = processService.getCommandMessage(SET_LOTS_SD_AWARDED, context, jsonData);
         JsonNode responseData = processService.processResponse(
                 accessRestClient.execute(commandMessage),
                 context,
@@ -57,21 +56,11 @@ public class AccessUpdateLots implements JavaDelegate {
                 taskId,
                 commandMessage);
         if (Objects.nonNull(responseData)) {
-            processContext(context, responseData, processId);
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    context,
                     commandMessage,
-                    processService.addLots(jsonData, responseData, processId));
-        }
-    }
-
-    private void processContext(final Context context, final JsonNode responseData, final String processId) {
-        final String tenderStatus = processService.getText("tenderStatus", responseData, processId);
-        if ("unsuccessful".equals(tenderStatus)) {
-            context.setOperationType("tenderUnsuccessful");
+                    processService.addUpdatedLot(jsonData, responseData, processId));
         }
     }
 }
-
