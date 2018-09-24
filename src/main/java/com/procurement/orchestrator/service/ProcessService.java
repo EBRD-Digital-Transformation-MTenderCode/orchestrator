@@ -31,6 +31,12 @@ public interface ProcessService {
 
     void setTenderPeriodStartDate(JsonNode jsonData, String startDate, String processId);
 
+    JsonNode setCheckEnquiryPeriod(JsonNode jsonData, JsonNode periodData, String processId);
+
+    JsonNode getCheckTenderPeriod(JsonNode jsonData, String processId);
+
+    JsonNode setCheckTenderPeriod(JsonNode jsonData, JsonNode periodData, String processId);
+
     String getTenderPeriodEndDate(JsonNode jsonData, String processId);
 
     String getEnquiryPeriodEndDate(JsonNode jsonData, String processId);
@@ -128,6 +134,5 @@ public interface ProcessService {
     JsonNode setEnquiryAuthor(JsonNode jsonData, JsonNode responseData, String processId);
 
     JsonNode getEnquiryRelatedLot(JsonNode jsonData, String processId);
-
 }
 
