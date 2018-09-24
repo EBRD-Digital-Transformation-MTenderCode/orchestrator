@@ -52,7 +52,6 @@ public class TenderController extends DoBaseController {
                                            @PathVariable("ocid") final String ocid,
                                            @RequestBody final JsonNode data) {
         final Context context = requestService.getContextForUpdate(authorization, operationId.toString(), cpid, ocid, token, "updateCN");
-        context.setEndDate(processService.getTenderPeriodEndDate(data, null));
         requestService.saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("operationType", context.getOperationType());

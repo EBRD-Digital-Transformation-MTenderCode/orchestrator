@@ -54,7 +54,6 @@ public class ChronographScheduleEndEnquiryPeriod implements JavaDelegate {
         contextChronograph.setProcessType("tenderPeriodEnd");
         contextChronograph.setOperationId(uuid);
         contextChronograph.setRequestId(uuid);
-        contextChronograph.setSetExtendedPeriod(null);
 
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();

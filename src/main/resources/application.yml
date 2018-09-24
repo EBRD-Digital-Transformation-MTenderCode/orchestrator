@@ -52,31 +52,31 @@ ribbon:
     enabled: false
 e-budget:
   ribbon:
-    listOfServers: http://10.0.20.116:9051
+    listOfServers: http://10.0.20.125:9051
 e-access:
   ribbon:
-    listOfServers: http://10.0.20.116:9031
+    listOfServers: http://10.0.20.125:9031
 e-notice:
   ribbon:
-    listOfServers: http://10.0.20.116:9041
+    listOfServers: http://10.0.20.125:9041
 e-submission:
   ribbon:
-    listOfServers: http://10.0.20.116:9061
+    listOfServers: http://10.0.20.125:9061
 e-clarification:
   ribbon:
-    listOfServers: http://10.0.20.116:9071
+    listOfServers: http://10.0.20.125:9071
 e-storage:
   ribbon:
-    listOfServers: http://10.0.20.116:9131
+    listOfServers: http://10.0.20.125:9131
 e-qualification:
   ribbon:
-    listOfServers: http://10.0.20.116:9091
+    listOfServers: http://10.0.20.125:9091
 e-evaluation:
   ribbon:
-    listOfServers: http://10.0.20.116:9081
+    listOfServers: http://10.0.20.125:9081
 e-contracting:
   ribbon:
-    listOfServers: http://10.0.20.116:9151
+    listOfServers: http://10.0.20.125:9151
 e-mdm:
   ribbon:
-    listOfServers: http://10.0.20.116:9161
+    listOfServers: http://10.0.20.125:9161

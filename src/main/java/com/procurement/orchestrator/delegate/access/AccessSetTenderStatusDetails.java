@@ -15,12 +15,12 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.AccessCommandType.SET_TENDER_SUSPENDED;
+import static com.procurement.orchestrator.domain.commands.AccessCommandType.SET_TENDER_STATUS_DETAILS;
 
 @Component
-public class AccessSetTenderTendering implements JavaDelegate {
+public class AccessSetTenderStatusDetails implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AccessSetTenderTendering.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AccessSetTenderStatusDetails.class);
 
     private final AccessRestClient accessRestClient;
 
@@ -30,10 +30,10 @@ public class AccessSetTenderTendering implements JavaDelegate {
 
     private final JsonUtil jsonUtil;
 
-    public AccessSetTenderTendering(final AccessRestClient accessRestClient,
-                                    final OperationService operationService,
-                                    final ProcessService processService,
-                                    final JsonUtil jsonUtil) {
+    public AccessSetTenderStatusDetails(final AccessRestClient accessRestClient,
+                                        final OperationService operationService,
+                                        final ProcessService processService,
+                                        final JsonUtil jsonUtil) {
         this.accessRestClient = accessRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -48,7 +48,7 @@ public class AccessSetTenderTendering implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(SET_TENDER_SUSPENDED, context, jsonUtil.empty());
+        final JsonNode commandMessage = processService.getCommandMessage(SET_TENDER_STATUS_DETAILS, context, jsonUtil.empty());
         JsonNode responseData = processService.processResponse(
                 accessRestClient.execute(commandMessage),
                 context,
@@ -56,8 +56,6 @@ public class AccessSetTenderTendering implements JavaDelegate {
                 taskId,
                 commandMessage);
         if (Objects.nonNull(responseData)) {
-            context.setOperationType("suspendTender");
-            context.setPhase("SUSPENDED");
             operationService.saveOperationStep(
                     execution,
                     entity,

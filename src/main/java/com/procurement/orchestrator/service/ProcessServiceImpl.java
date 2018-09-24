@@ -156,6 +156,7 @@ public class ProcessServiceImpl implements ProcessService {
             final ObjectNode enquiryPeriodNode = (ObjectNode) jsonData.get("tender").get("enquiryPeriod");
             enquiryPeriodNode.replace("startDate", periodData.get("startDate"));
             enquiryPeriodNode.replace("endDate", periodData.get("endDate"));
+            setTenderPeriodStartDate(jsonData, periodData.get("endDate").asText(), processId);
             return mainNode;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
@@ -171,7 +172,7 @@ public class ProcessServiceImpl implements ProcessService {
             mainNode.replace("isEnquiryPeriodChanged", jsonData.get("isEnquiryPeriodChanged"));
             mainNode.replace("enquiryPeriod", jsonData.get("tender").get("enquiryPeriod"));
             mainNode.replace("tenderPeriod", jsonData.get("tender").get("tenderPeriod"));
-            return jsonData.get("tender").get("tenderPeriod");
+            return mainNode;
         } catch (Exception e) {
             if (Objects.nonNull(processId)) terminateProcess(processId, e.getMessage());
             return null;

@@ -58,11 +58,11 @@ public class ClarificationCheckEnquiries implements JavaDelegate {
     }
 
     private void processContext(final DelegateExecution execution, final Context context, final JsonNode responseData, final String processId) {
-        final Boolean isTenderPeriodExpired = processService.getBoolean("isTenderPeriodExpired", responseData, processId);
-        if (!isTenderPeriodExpired) {
-            execution.setVariable("operationType", "rescheduleEndTenderPeriod");
-            context.setOperationType("rescheduleEndTenderPeriod");
-            context.setEndDate(processService.getText("tenderPeriodEndDate", responseData, processId));
+        final Boolean isEnquiryPeriodExpired = processService.getBoolean("isEnquiryPeriodExpired", responseData, processId);
+        if (!isEnquiryPeriodExpired) {
+            execution.setVariable("operationType", "rescheduleEndEnquiryPeriod");
+            context.setOperationType("rescheduleEndEnquiryPeriod");
+            context.setEndDate(processService.getText("enquiryPeriodEndDate", responseData, processId));
         } else {
             final Boolean allAnswered = processService.getBoolean("allAnswered", responseData, processId);
             if (!allAnswered) {
