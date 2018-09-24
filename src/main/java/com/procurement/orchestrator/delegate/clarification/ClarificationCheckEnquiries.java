@@ -52,12 +52,12 @@ public class ClarificationCheckEnquiries implements JavaDelegate {
                 taskId,
                 commandMessage);
         if (Objects.nonNull(responseData)) {
-            processContext(execution, context, responseData, processId);
+            processResponse(execution, responseData, processId);
             operationService.saveOperationStep(execution, entity, context, commandMessage, responseData);
         }
     }
 
-    private void processContext(final DelegateExecution execution, final Context context, final JsonNode responseData, final String processId) {
+    private void processResponse(final DelegateExecution execution, final JsonNode responseData, final String processId) {
         final Boolean isEnquiryPeriodExpired = processService.getBoolean("isEnquiryPeriodExpired", responseData, processId);
         final Boolean allAnswered = processService.getBoolean("allAnswered", responseData, processId);
         execution.setVariable("isEnquiryPeriodExpired", isEnquiryPeriodExpired);
