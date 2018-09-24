@@ -11,7 +11,7 @@ import java.util.Map;
 public enum ClarificationCommandType {
 
     CREATE_ENQUIRY("createEnquiry"),
-    CREATE_ANSWER("createAnswer"),
+    ADD_ANSWER("addAnswer"),
     CHECK_ENQUIRIES("checkEnquiries"),
     CHECK_PERIOD("checkPeriod"),
     GET_PERIOD("getPeriod"),

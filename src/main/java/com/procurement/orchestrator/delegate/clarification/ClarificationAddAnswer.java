@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.ClarificationCommandType.CREATE_ANSWER;
+import static com.procurement.orchestrator.domain.commands.ClarificationCommandType.ADD_ANSWER;
 
 @Component
 public class ClarificationAddAnswer implements JavaDelegate {
@@ -45,7 +45,7 @@ public class ClarificationAddAnswer implements JavaDelegate {
         final JsonNode requestData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(CREATE_ANSWER, context, requestData);
+        final JsonNode commandMessage = processService.getCommandMessage(ADD_ANSWER, context, requestData);
         JsonNode responseData = processService.processResponse(
                 clarificationRestClient.execute(commandMessage),
                 context,
