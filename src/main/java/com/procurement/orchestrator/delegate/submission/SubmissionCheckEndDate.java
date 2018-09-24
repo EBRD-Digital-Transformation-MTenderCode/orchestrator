@@ -1,9 +1,9 @@
-package com.procurement.orchestrator.delegate.access;
+package com.procurement.orchestrator.delegate.submission;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
-import com.procurement.orchestrator.rest.AccessRestClient;
+import com.procurement.orchestrator.rest.SubmissionRestClient;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -15,14 +15,14 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.AccessCommandType.SET_LOTS_UNSUCCESSFUL;
+import static com.procurement.orchestrator.domain.commands.SubmissionCommandType.CHECK_PERIOD_END_DATE;
 
 @Component
-public class AccessSetLotsUnsuccessful implements JavaDelegate {
+public class SubmissionCheckEndDate implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AccessSetLotsUnsuccessful.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SubmissionCheckEndDate.class);
 
-    private final AccessRestClient accessRestClient;
+    private final SubmissionRestClient submissionRestClient;
 
     private final OperationService operationService;
 
@@ -30,11 +30,11 @@ public class AccessSetLotsUnsuccessful implements JavaDelegate {
 
     private final JsonUtil jsonUtil;
 
-    public AccessSetLotsUnsuccessful(final AccessRestClient accessRestClient,
-                                     final OperationService operationService,
-                                     final ProcessService processService,
-                                     final JsonUtil jsonUtil) {
-        this.accessRestClient = accessRestClient;
+    public SubmissionCheckEndDate(final SubmissionRestClient submissionRestClient,
+                                  final OperationService operationService,
+                                  final ProcessService processService,
+                                  final JsonUtil jsonUtil) {
+        this.submissionRestClient = submissionRestClient;
         this.operationService = operationService;
         this.processService = processService;
         this.jsonUtil = jsonUtil;
@@ -45,34 +45,27 @@ public class AccessSetLotsUnsuccessful implements JavaDelegate {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
-        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode unsuccessfulLots = processService.getUnsuccessfulLots(jsonData, processId);
-        final JsonNode commandMessage = processService.getCommandMessage(SET_LOTS_UNSUCCESSFUL, context, unsuccessfulLots);
+        final JsonNode commandMessage = processService.getCommandMessage(CHECK_PERIOD_END_DATE, context, jsonUtil.empty());
         JsonNode responseData = processService.processResponse(
-                accessRestClient.execute(commandMessage),
+                submissionRestClient.execute(commandMessage),
                 context,
                 processId,
                 taskId,
                 commandMessage);
         if (Objects.nonNull(responseData)) {
-            processContext(context, responseData, processId);
+            final Boolean isTenderPeriodExpired = processService.getBoolean("isTenderPeriodExpired", responseData, processId);
+            if (!isTenderPeriodExpired) {
+                execution.setVariable("operationType", "rescheduleEndTenderPeriod");
+                context.setOperationType("rescheduleEndEnquiryPeriod");
+            }
             operationService.saveOperationStep(
                     execution,
                     entity,
                     context,
                     commandMessage,
-                    processService.addLotsUnsuccessful(jsonData, responseData, processId));
-        }
-    }
-
-    private void processContext(final Context context, final JsonNode responseData, final String processId) {
-        final String tenderStatus = processService.getText("tenderStatus", responseData, processId);
-        if ("unsuccessful".equals(tenderStatus)) {
-            context.setOperationType("tenderUnsuccessful");
-            context.setPhase("empty");
+                    responseData);
         }
     }
 }
-

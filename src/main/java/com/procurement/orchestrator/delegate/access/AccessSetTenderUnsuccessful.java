@@ -54,9 +54,11 @@ public class AccessSetTenderUnsuccessful implements JavaDelegate {
                 taskId,
                 commandMessage);
         if (Objects.nonNull(responseData)) {
+            context.setPhase("empty");
             operationService.saveOperationStep(
                     execution,
                     entity,
+                    context,
                     commandMessage,
                     responseData);
         }
