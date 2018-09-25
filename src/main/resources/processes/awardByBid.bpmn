@@ -56,7 +56,9 @@
     <bpmn:sequenceFlow id="SequenceFlow_1wtnwzg" sourceRef="SendMessageTask" targetRef="EndEvent_1" />
     <bpmn:sequenceFlow id="SequenceFlow_1mzu2bf" sourceRef="SaveFirstOperationTask" targetRef="EvaluationAwardByBidTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1takhmo" sourceRef="AccessSetLotsSDAwardedTask" targetRef="ExclusiveGateway_0jrrnwx" />
-    <bpmn:sequenceFlow id="SequenceFlow_1nqdiay" sourceRef="ExclusiveGateway_0j3ce5y" targetRef="ExclusiveGateway_0jrrnwx" />
+    <bpmn:sequenceFlow id="SequenceFlow_1nqdiay" sourceRef="ExclusiveGateway_0j3ce5y" targetRef="ExclusiveGateway_0jrrnwx">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${updateLot==0}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
     <bpmn:exclusiveGateway id="ExclusiveGateway_0jrrnwx">
       <bpmn:incoming>SequenceFlow_1takhmo</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_1nqdiay</bpmn:incoming>

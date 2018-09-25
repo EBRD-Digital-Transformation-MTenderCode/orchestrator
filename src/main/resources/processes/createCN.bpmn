@@ -26,7 +26,7 @@
       <bpmn:incoming>SequenceFlow_1nzlskk</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_07dv9tu</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="StorageOpenDocsOfTenderTask" name="Storage open cocuments" camunda:asyncBefore="true" camunda:delegateExpression="${storageOpenDocsOfTender}">
+    <bpmn:serviceTask id="StorageOpenDocsOfTenderTask" name="Storage open documents of Tender" camunda:asyncBefore="true" camunda:delegateExpression="${storageOpenDocsOfTender}">
       <bpmn:incoming>SequenceFlow_1kf7ik2</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1nzlskk</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -48,7 +48,7 @@
       <bpmn:incoming>SequenceFlow_077g0cd</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1s5i46b</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="ChronographEndTenderPeriodTask" name="Chronograph Tender Period" camunda:asyncBefore="true" camunda:delegateExpression="${chronographScheduleEndTenderPeriod}">
+    <bpmn:serviceTask id="ChronographEndTenderPeriodTask" name="Chronograph Schedule Tender Period" camunda:asyncBefore="true" camunda:delegateExpression="${chronographScheduleEndTenderPeriod}">
       <bpmn:incoming>SequenceFlow_02vilqx</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1kf7ik2</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -56,7 +56,7 @@
       <bpmn:incoming>SequenceFlow_0w2rv9s</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1xz5j9n</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="ChronographScheduleEndEnquiryPeriodTask" name="Chronograph Enquiry Period" camunda:asyncBefore="true" camunda:delegateExpression="${chronographScheduleEndEnquiryPeriod}">
+    <bpmn:serviceTask id="ChronographScheduleEndEnquiryPeriodTask" name="Chronograph Schedule Enquiry Period" camunda:asyncBefore="true" camunda:delegateExpression="${chronographScheduleEndEnquiryPeriod}">
       <bpmn:incoming>SequenceFlow_1ybktg4</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1u30hck</bpmn:outgoing>
     </bpmn:serviceTask>

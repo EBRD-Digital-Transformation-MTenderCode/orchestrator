@@ -35,32 +35,31 @@
     <bpmn:sequenceFlow id="SequenceFlow_1vqutii" sourceRef="SaveContextTask" targetRef="EndEvent_0n3vj80" />
     <bpmn:endEvent id="EndEvent_0n3vj80">
       <bpmn:incoming>SequenceFlow_1vqutii</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_0dqxv58</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="SequenceFlow_1or8807" sourceRef="ExclusiveGateway_0l2aeei" targetRef="AccessSetTenderSuspendedTask">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${operationType=='suspendTender'}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isEnquiryPeriodExpired==true &amp;&amp; allAnswered==false}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:serviceTask id="ChronographUpdatePeriodTask" name="Chronograph reshedule end enquiry period" camunda:asyncBefore="true" camunda:delegateExpression="${chronographRescheduleEndEnquiryPeriod}">
       <bpmn:incoming>SequenceFlow_1ste78k</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_03ibnjr</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_0dqxv58</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1ste78k" sourceRef="ExclusiveGateway_0l2aeei" targetRef="ChronographUpdatePeriodTask">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${operationType=='rescheduleEndEnquiryPeriod'}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isEnquiryPeriodExpired==false}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:exclusiveGateway id="ExclusiveGateway_1cs7kj4">
       <bpmn:incoming>SequenceFlow_0w4rihq</bpmn:incoming>
-      <bpmn:incoming>SequenceFlow_03ibnjr</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_1nh9tbt</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_16kaqb4</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="SequenceFlow_0blnl93" sourceRef="ExclusiveGateway_0l2aeei" targetRef="AccessSetTenderTenderingTask">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${operationType=='enquiryPeriodEnd'}</bpmn:conditionExpression>
+    <bpmn:sequenceFlow id="SequenceFlow_0blnl93" sourceRef="ExclusiveGateway_0l2aeei" targetRef="AccessSetTenderStatusDetailsTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isEnquiryPeriodExpired==true &amp;&amp; allAnswered==true}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_0w4rihq" sourceRef="AccessSetTenderSuspendedTask" targetRef="ExclusiveGateway_1cs7kj4" />
-    <bpmn:sequenceFlow id="SequenceFlow_03ibnjr" sourceRef="ChronographUpdatePeriodTask" targetRef="ExclusiveGateway_1cs7kj4" />
     <bpmn:sequenceFlow id="SequenceFlow_16kaqb4" sourceRef="ExclusiveGateway_1cs7kj4" targetRef="NoticeCreateReleaseTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0zmi6kj" sourceRef="ClarificationCheckEnquiriesTask" targetRef="ExclusiveGateway_0l2aeei" />
     <bpmn:sequenceFlow id="SequenceFlow_1grs6yw" sourceRef="StartEvent_1" targetRef="ClarificationCheckEnquiriesTask" />
-    <bpmn:serviceTask id="AccessSetTenderTenderingTask" name="Access Set Tender Tendering" camunda:asyncBefore="true" camunda:delegateExpression="${AccessSetTenderTendering}">
+    <bpmn:serviceTask id="AccessSetTenderStatusDetailsTask" name="Access Set Tender Status Details" camunda:asyncBefore="true" camunda:delegateExpression="${accessSetTenderStatusDetails}">
       <bpmn:extensionElements>
         <camunda:properties>
           <camunda:property name="suspended" value="true" />
@@ -69,7 +68,8 @@
       <bpmn:incoming>SequenceFlow_0blnl93</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1nh9tbt</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_1nh9tbt" sourceRef="AccessSetTenderTenderingTask" targetRef="ExclusiveGateway_1cs7kj4" />
+    <bpmn:sequenceFlow id="SequenceFlow_1nh9tbt" sourceRef="AccessSetTenderStatusDetailsTask" targetRef="ExclusiveGateway_1cs7kj4" />
+    <bpmn:sequenceFlow id="SequenceFlow_0dqxv58" sourceRef="ChronographUpdatePeriodTask" targetRef="EndEvent_0n3vj80" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="enquiryPeriodEnd">
@@ -127,11 +127,6 @@
         <di:waypoint x="751" y="254" />
         <di:waypoint x="751" y="363" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_03ibnjr_di" bpmnElement="SequenceFlow_03ibnjr">
-        <di:waypoint x="687" y="521" />
-        <di:waypoint x="751" y="521" />
-        <di:waypoint x="751" y="413" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_16kaqb4_di" bpmnElement="SequenceFlow_16kaqb4">
         <di:waypoint x="776" y="388" />
         <di:waypoint x="815" y="388" />
@@ -144,12 +139,17 @@
         <di:waypoint x="325" y="388" />
         <di:waypoint x="359" y="388" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_1rtr7ry_di" bpmnElement="AccessSetTenderTenderingTask">
+      <bpmndi:BPMNShape id="ServiceTask_1rtr7ry_di" bpmnElement="AccessSetTenderStatusDetailsTask">
         <dc:Bounds x="587" y="348" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1nh9tbt_di" bpmnElement="SequenceFlow_1nh9tbt">
         <di:waypoint x="687" y="388" />
         <di:waypoint x="726" y="388" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0dqxv58_di" bpmnElement="SequenceFlow_0dqxv58">
+        <di:waypoint x="687" y="521" />
+        <di:waypoint x="1104" y="521" />
+        <di:waypoint x="1104" y="406" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
