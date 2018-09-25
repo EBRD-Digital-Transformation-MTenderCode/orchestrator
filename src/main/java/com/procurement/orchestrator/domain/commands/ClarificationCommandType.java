@@ -12,7 +12,7 @@ public enum ClarificationCommandType {
 
     CREATE_ENQUIRY("createEnquiry"),
     ADD_ANSWER("addAnswer"),
-    REMOVE_ANSWER("removeAnswer"),
+    CHECK_ANSWER("checkAnswer"),
     CHECK_ENQUIRIES("checkEnquiries"),
     CHECK_PERIOD("checkPeriod"),
     GET_PERIOD("getPeriod"),

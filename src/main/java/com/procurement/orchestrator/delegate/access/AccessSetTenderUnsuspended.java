@@ -56,7 +56,7 @@ public class AccessSetTenderUnsuspended implements JavaDelegate {
                 taskId,
                 commandMessage);
         if (Objects.nonNull(responseData)) {
-            processResponse(execution, context, responseData, processId);
+            context.setOperationType("unsuspendTender");
             operationService.saveOperationStep(
                     execution,
                     entity,
@@ -65,15 +65,4 @@ public class AccessSetTenderUnsuspended implements JavaDelegate {
                     processService.addTenderStatus(jsonData, responseData, processId));
         }
     }
-
-    private void processResponse(final DelegateExecution execution, final Context context, final JsonNode responseData, final String processId) {
-        final String statusDetails = processService.getText("statusDetails", responseData, processId);
-        if (statusDetails != null) {
-            context.setOperationType("unsuspendTender");
-            execution.setVariable("operationType", "unsuspendTender");
-        } else {
-            execution.setVariable("operationType", "removeAnswer");
-        }
-    }
-
 }

@@ -53,13 +53,12 @@ public class ClarificationAddAnswer implements JavaDelegate {
                 taskId,
                 commandMessage);
         if (Objects.nonNull(responseData)) {
-            processResponse(execution, responseData, processId);
-            operationService.saveOperationStep(execution, entity, context, commandMessage, responseData);
+            operationService.saveOperationStep(
+                    execution,
+                    entity,
+                    context,
+                    commandMessage,
+                    responseData);
         }
-    }
-
-    private void processResponse(final DelegateExecution execution, final JsonNode responseData, final String processId) {
-        final Boolean setUnsuspended = processService.getBoolean("setUnsuspended", responseData, processId);
-        execution.setVariable("setUnsuspended", setUnsuspended);
     }
 }

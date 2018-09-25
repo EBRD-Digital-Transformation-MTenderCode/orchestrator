@@ -13,22 +13,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import static com.procurement.orchestrator.domain.commands.ClarificationCommandType.REMOVE_ANSWER;
+import java.util.Objects;
+
+import static com.procurement.orchestrator.domain.commands.ClarificationCommandType.CHECK_ANSWER;
 
 @Component
-public class ClarificationRemoveAnswer implements JavaDelegate {
+public class ClarificationCheckAnswer implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ClarificationRemoveAnswer.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ClarificationCheckAnswer.class);
 
     private final ClarificationRestClient clarificationRestClient;
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public ClarificationRemoveAnswer(final ClarificationRestClient clarificationRestClient,
-                                     final OperationService operationService,
-                                     final ProcessService processService,
-                                     final JsonUtil jsonUtil) {
+    public ClarificationCheckAnswer(final ClarificationRestClient clarificationRestClient,
+                                    final OperationService operationService,
+                                    final ProcessService processService,
+                                    final JsonUtil jsonUtil) {
         this.clarificationRestClient = clarificationRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -40,14 +42,26 @@ public class ClarificationRemoveAnswer implements JavaDelegate {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
+        final JsonNode requestData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(REMOVE_ANSWER, context, jsonUtil.empty());
-        processService.processResponse(
+        final JsonNode commandMessage = processService.getCommandMessage(CHECK_ANSWER, context, jsonUtil.empty());
+        JsonNode responseData = processService.processResponse(
                 clarificationRestClient.execute(commandMessage),
                 context,
                 processId,
                 taskId,
                 commandMessage);
+
+        if (Objects.nonNull(responseData)) {
+            processResponse(execution, responseData, processId);
+            operationService.saveOperationStep(execution, entity, context, commandMessage, requestData);
+        }
     }
+
+    private void processResponse(final DelegateExecution execution, final JsonNode responseData, final String processId) {
+        final Boolean setUnsuspended = processService.getBoolean("setUnsuspended", responseData, processId);
+        execution.setVariable("setUnsuspended", setUnsuspended);
+    }
+
 }
