@@ -1,20 +1,66 @@
 {
-  "id": "bc7d2fa3-32fe-4851-a709-da8ea9484b98",
-  "command": "createRelease",
-  "context": {
-    "operationId": "bc7d2fa3-32fe-4851-a709-da8ea9484b98",
-    "requestId": "ecb85310-b7fa-11e8-9ab1-c5955142dce4",
-    "cpid": "ocds-t1s2t3-MD-1536914897655",
-    "stage": "EI",
-    "processType": "ei",
-    "operationType": "createEI",
-    "owner": "445f6851-c908-407d-9b45-14b92f3e964b",
-    "country": "MD",
-    "language": "ro",
-    "token": "ab6a0e43-9871-434c-b859-b3968588deb2",
-    "startDate": "2018-09-14T08:48:17Z",
+  "tender": {
+    "title": "test mtender 9 ei edited",
+    "description": "test description",
+    "classification": {
+      "scheme": "CPV",
+      "id": "03100000-2",
+      "description": "Agricultural and horticultural products"
+    }
   },
-  "data": {
-     },
-  "version": "0.0.1"
+  "planning": {
+    "budget": {
+      "amount": {
+        "currency": "MDL"
+      },
+      "period": {
+        "startDate": "2018-03-01T17:02:00Z",
+        "endDate": "2019-09-01T23:02:00Z"
+      }
+    },
+    "rationale": "this is a test"
+  },
+  "buyer": {
+    "name": "asad",
+    "address": {
+      "streetAddress": "Stefan cel Mare, 1",
+      "postalCode": "MD2000",
+      "addressDetails": {
+        "locality": {
+          "scheme": "UN/LOCODE",
+          "id": "MD KIV",
+          "description": "Chisinau"
+        },
+        "region": {
+          "scheme": "CUATM",
+          "id": "1000000",
+          "description": "Anenii Noi"
+        },
+        "country": {
+          "scheme": "iso-alpha2",
+          "id": "MD",
+          "description": "Moldova, Republic of"
+        }
+      }
+    },
+    "identifier": {
+      "id": "1241412",
+      "scheme": "MD-IDNO",
+      "legalName": "asad",
+      "uri": "aaa.co"
+    },
+    "details": {
+      "typeOfBuyer": "BODY_PUBLIC",
+      "mainGeneralActivity": "GENERAL_PUBLIC_SERVICES",
+      "mainSectoralActivity": "POSTAL_SERVICES",
+      "isACentralPurchasingBody": false,
+      "scale": "micro"
+    },
+    "contactPoint": {
+      "name": "Ivan Petrov",
+      "url": "adfa.co",
+      "telephone": "078000000",
+      "email": "a@a.com"
+    }
+  }
 }
