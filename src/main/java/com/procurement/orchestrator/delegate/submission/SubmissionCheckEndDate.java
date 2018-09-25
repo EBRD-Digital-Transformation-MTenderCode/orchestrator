@@ -56,16 +56,12 @@ public class SubmissionCheckEndDate implements JavaDelegate {
                 commandMessage);
         if (Objects.nonNull(responseData)) {
             final Boolean isTenderPeriodExpired = processService.getBoolean("isTenderPeriodExpired", responseData, processId);
-            if (!isTenderPeriodExpired) {
-                execution.setVariable("operationType", "rescheduleEndTenderPeriod");
-                context.setOperationType("rescheduleEndEnquiryPeriod");
-            }
+            execution.setVariable("isTenderPeriodExpired", isTenderPeriodExpired);
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    context,
                     commandMessage,
-                    responseData);
+                    processService.addTenderTenderPeriod(jsonUtil.empty(), responseData, processId));
         }
     }
 }
