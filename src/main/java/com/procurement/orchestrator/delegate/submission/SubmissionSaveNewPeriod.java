@@ -59,17 +59,8 @@ public class SubmissionSaveNewPeriod implements JavaDelegate {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    addDataTocontext(context, responseData, processId),
                     commandMessage,
                     processService.addTenderTenderPeriod(jsonData, responseData, processId));
         }
-    }
-
-    private Context addDataTocontext(final Context context,
-                                     final JsonNode responseData,
-                                     final String processId) {
-        context.setStartDate(processService.getText("startDate", responseData, processId));
-        context.setEndDate(processService.getText("endDate", responseData, processId));
-        return context;
     }
 }

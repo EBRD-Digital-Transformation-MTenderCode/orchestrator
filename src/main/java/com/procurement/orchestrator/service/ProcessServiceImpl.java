@@ -144,19 +144,19 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
-    public JsonNode setCheckEnquiryPeriod(JsonNode jsonData, JsonNode periodData, String processId) {
+    public JsonNode setCheckEnquiryPeriod(JsonNode jsonData, JsonNode respData, String processId) {
         try {
             final ObjectNode mainNode = (ObjectNode) jsonData;
-            mainNode.replace("setExtendedPeriod", jsonData.get("setExtendedPeriod"));
-            mainNode.replace("isEnquiryPeriodChanged", jsonData.get("isEnquiryPeriodChanged"));
+            mainNode.replace("setExtendedPeriod", respData.get("setExtendedPeriod"));
+            mainNode.replace("isEnquiryPeriodChanged", respData.get("isEnquiryPeriodChanged"));
             if (Objects.isNull(jsonData.get("tender")))
                 ((ObjectNode) jsonData).putObject("tender");
             if (Objects.isNull(jsonData.get("tender").get("enquiryPeriod")))
                 ((ObjectNode) jsonData.get("tender")).putObject("enquiryPeriod");
             final ObjectNode enquiryPeriodNode = (ObjectNode) jsonData.get("tender").get("enquiryPeriod");
-            enquiryPeriodNode.replace("startDate", periodData.get("startDate"));
-            enquiryPeriodNode.replace("endDate", periodData.get("endDate"));
-            setTenderPeriodStartDate(jsonData, periodData.get("endDate").asText(), processId);
+            enquiryPeriodNode.replace("startDate", respData.get("startDate"));
+            enquiryPeriodNode.replace("endDate", respData.get("endDate"));
+            setTenderPeriodStartDate(jsonData, respData.get("endDate").asText(), processId);
             return mainNode;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
@@ -180,17 +180,17 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
-    public JsonNode setCheckTenderPeriod(JsonNode jsonData, JsonNode periodData, String processId) {
+    public JsonNode setCheckTenderPeriod(JsonNode jsonData, JsonNode respData, String processId) {
         try {
             final ObjectNode mainNode = (ObjectNode) jsonData;
-            mainNode.replace("isTenderPeriodChanged", jsonData.get("isTenderPeriodChanged"));
+            mainNode.replace("isTenderPeriodChanged", respData.get("isTenderPeriodChanged"));
             if (Objects.isNull(jsonData.get("tender")))
                 ((ObjectNode) jsonData).putObject("tender");
             if (Objects.isNull(jsonData.get("tender").get("tenderPeriod")))
                 ((ObjectNode) jsonData.get("tender")).putObject("tenderPeriod");
             final ObjectNode enquiryPeriodNode = (ObjectNode) jsonData.get("tender").get("tenderPeriod");
-            enquiryPeriodNode.replace("startDate", periodData.get("startDate"));
-            enquiryPeriodNode.replace("endDate", periodData.get("endDate"));
+            enquiryPeriodNode.replace("startDate", respData.get("startDate"));
+            enquiryPeriodNode.replace("endDate", respData.get("endDate"));
             return mainNode;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
@@ -255,7 +255,8 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public JsonNode addTenderEnquiryPeriod(final JsonNode jsonData, final JsonNode periodData,
+    public JsonNode addTenderEnquiryPeriod(final JsonNode jsonData,
+                                           final JsonNode periodData,
                                            final String processId) {
         try {
             if (Objects.isNull(jsonData.get("tender")))

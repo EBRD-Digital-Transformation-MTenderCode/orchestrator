@@ -15,22 +15,25 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.ClarificationCommandType.ADD_ANSWER;
+import static com.procurement.orchestrator.domain.commands.ClarificationCommandType.SAVE_NEW_PERIOD;
 
 @Component
-public class ClarificationAddAnswer implements JavaDelegate {
+public class ClarificationSaveNewPeriod implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ClarificationAddAnswer.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ClarificationSaveNewPeriod.class);
 
     private final ClarificationRestClient clarificationRestClient;
+
     private final OperationService operationService;
+
     private final ProcessService processService;
+
     private final JsonUtil jsonUtil;
 
-    public ClarificationAddAnswer(final ClarificationRestClient clarificationRestClient,
-                                  final OperationService operationService,
-                                  final ProcessService processService,
-                                  final JsonUtil jsonUtil) {
+    public ClarificationSaveNewPeriod(final ClarificationRestClient clarificationRestClient,
+                                      final OperationService operationService,
+                                      final ProcessService processService,
+                                      final JsonUtil jsonUtil) {
         this.clarificationRestClient = clarificationRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -42,10 +45,11 @@ public class ClarificationAddAnswer implements JavaDelegate {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
-        final JsonNode requestData = jsonUtil.toJsonNode(entity.getResponseData());
+        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(ADD_ANSWER, context, requestData);
+        final JsonNode enquiryPeriod = processService.getEnquiryPeriod(jsonData, processId);
+        final JsonNode commandMessage = processService.getCommandMessage(SAVE_NEW_PERIOD, context, enquiryPeriod);
         JsonNode responseData = processService.processResponse(
                 clarificationRestClient.execute(commandMessage),
                 context,
@@ -53,13 +57,11 @@ public class ClarificationAddAnswer implements JavaDelegate {
                 taskId,
                 commandMessage);
         if (Objects.nonNull(responseData)) {
-            processResponse(execution, responseData, processId);
-            operationService.saveOperationStep(execution, entity, context, commandMessage, responseData);
+            operationService.saveOperationStep(
+                    execution,
+                    entity,
+                    commandMessage,
+                    processService.addTenderEnquiryPeriod(jsonData, responseData, processId));
         }
-    }
-
-    private void processResponse(final DelegateExecution execution, final JsonNode responseData, final String processId) {
-        final Boolean setUnsuspended = processService.getBoolean("setUnsuspended", responseData, processId);
-        execution.setVariable("setUnsuspended", setUnsuspended);
     }
 }
