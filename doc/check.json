@@ -1,359 +1,58 @@
 {
+  "tender": {
+    "title": "1",
+    "description": "2",
+    "classification": {
+      "id": "03100000-2"
+    }
+  },
   "planning": {
     "budget": {
-      "description": "description_update",
+      "period": {
+        "startDate": "2018-08-30T11:07:00Z",
+        "endDate": "2019-09-08T00:00:00Z"
+      },
       "amount": {
-        "amount": 60.00,
-        "currency": "MDL"
-      },
-      "isEuropeanUnionFunded": false,
-      "budgetBreakdown": [
-        {
-          "id": "ocds-t1s2t3-MD-1537957806127-FS-1537957955388",
-          "description": "fs description",
-          "amount": {
-            "amount": 60.00,
-            "currency": "MDL"
-          },
-          "period": {
-            "startDate": "2018-10-02T00:00:00Z",
-            "endDate": "2018-12-09T00:00:00Z"
-          },
-          "sourceParty": {
-            "id": "MD-IDNO-7224272726",
-            "name": "asfsaffasfas"
-          }
-        }
-      ]
+        "currency": "USD"
+      }
     },
-    "rationale": "rationale_update"
+    "rationale": "ythty"
   },
-  "tender": {
-    "id": "ocds-t1s2t3-MD-1537962261634",
-    "title": "gav",
-    "description": "gav gav",
-    "status": "active",
-    "statusDetails": "clarification",
-    "classification": {
-      "scheme": "CPV",
-      "id": "03100000-2",
-      "description": "Produse agricole şi horticole"
+  "buyer": {
+    "name": "BUYER",
+    "identifier": {
+      "id": "MD_MD",
+      "scheme": "MD-IDNO",
+      "legalName": "string",
+      "uri": "uri*"
     },
-    "mainProcurementCategory": "goods",
-    "procurementMethod": "open",
-    "procurementMethodDetails": "TEST Licitatia deschisa",
-    "procurementMethodRationale": "pmr_update",
-    "procurementMethodAdditionalInfo": "pmai_update",
-    "submissionMethod": [
-      "electronicSubmission"
-    ],
-    "submissionMethodDetails": "Lista platformelor: achizitii, ebs, licitatie, yptender",
-    "submissionMethodRationale": [
-      "Ofertele vor fi primite prin intermediul unei platforme electronice de achiziții publice"
-    ],
-    "eligibilityCriteria": "Regulile generale privind naționalitatea și originea, precum și alte criterii de eligibilitate sunt enumerate în Ghidul practic privind procedurile de contractare a acțiunilor externe ale UE (PRAG)",
-    "acceleratedProcedure": {
-      "isAcceleratedProcedure": false
-    },
-    "designContest": {
-      "serviceContractAward": false
-    },
-    "electronicWorkflows": {
-      "useOrdering": false,
-      "usePayment": false,
-      "acceptInvoicing": false
-    },
-    "jointProcurement": {
-      "isJointProcurement": false
-    },
-    "procedureOutsourcing": {
-      "procedureOutsourced": false
-    },
-    "framework": {
-      "isAFramework": false
-    },
-    "dynamicPurchasingSystem": {
-      "hasDynamicPurchasingSystem": false
-    },
-    "legalBasis": "NATIONAL_PROCUREMENT_LAW",
-    "procuringEntity": {
-      "id": "MD-IDNO-update_id",
-      "name": "Update_company",
-      "identifier": {
-        "id": "update_id",
-        "scheme": "MD-IDNO",
-        "legalName": "fff",
-        "uri": "hhh"
-      },
-      "address": {
-        "streetAddress": "444",
-        "addressDetails": {
-          "country": {
-            "scheme": "iso-alpha2",
-            "id": "MD",
-            "description": "MOLDOVA",
-            "uri": "http://reference.iatistandard.org"
-          },
-          "region": {
-            "scheme": "CUATM",
-            "id": "1000000",
-            "description": "Anenii Noi",
-            "uri": "http://statistica.md"
-          },
-          "locality": {
-            "scheme": "CUAT",
-            "id": "1001000",
-            "description": "dgfdfg"
-          }
-        }
-      },
-      "contactPoint": {
-        "name": "hgfh",
-        "email": "hfgh",
-        "telephone": "hgfhfh",
-        "faxNumber": "hgfh",
-        "url": "hgfhgf"
-      }
-    },
-    "awardCriteria": "priceOnly",
-    "requiresElectronicCatalogue": false,
-    "contractPeriod": {
-      "startDate": "2018-10-26T11:30:00Z",
-      "endDate": "2018-10-26T11:40:00Z"
-    },
-    "value": {
-      "amount": 10.00,
-      "currency": "MDL"
-    },
-    "lotGroups": [
-      {
-        "optionToCombine": false
-      }
-    ],
-    "lots": [
-      {
-        "id": "8254d621-c181-11e8-9548-85ac93e52381",
-        "title": "lot1",
-        "description": "looot",
-        "status": "active",
-        "statusDetails": "empty",
-        "value": {
-          "amount": 10.00,
-          "currency": "MDL"
+    "address": {
+      "streetAddress": "ukukyo777uk",
+      "postalCode": "4545454",
+      "addressDetails": {
+        "country": {
+          "id": "MD"
         },
-        "options": [
-          {
-            "hasOptions": false
-          }
-        ],
-        "recurrentProcurement": [
-          {
-            "isRecurrent": false
-          }
-        ],
-        "renewals": [
-          {
-            "hasRenewals": false
-          }
-        ],
-        "variants": [
-          {
-            "hasVariants": false
-          }
-        ],
-        "contractPeriod": {
-          "startDate": "2018-10-26T11:30:00Z",
-          "endDate": "2018-10-26T11:40:00Z"
+        "region": {
+          "id": "1700000"
         },
-        "placeOfPerformance": {
-          "address": {
-            "streetAddress": "555",
-            "postalCode": "666",
-            "addressDetails": {
-              "country": {
-                "scheme": "iso-alpha2",
-                "id": "MD",
-                "description": "MOLDOVA",
-                "uri": "http://reference.iatistandard.org"
-              },
-              "region": {
-                "scheme": "CUATM",
-                "id": "1000000",
-                "description": "Anenii Noi",
-                "uri": "http://statistica.md"
-              },
-              "locality": {
-                "scheme": "gfgf",
-                "id": "gfg",
-                "description": "gfg"
-              }
-            }
-          }
+        "locality": {
+          "scheme": "CUATM",
+          "id": "1701000",
+          "description": ""
         }
       }
-    ],
-    "items": [
-      {
-        "id": "8254d620-c181-11e8-9548-85ac93e52381",
-        "description": "1",
-        "classification": {
-          "scheme": "CPV",
-          "id": "03100000-2",
-          "description": "Produse agricole şi horticole"
-        },
-        "additionalClassifications": [
-          {
-            "scheme": "CPVS",
-            "id": "AB06-7",
-            "description": "Plastic"
-          }
-        ],
-        "quantity": 100.00,
-        "unit": {
-          "id": "86",
-          "name": "Milion metri patrati spatiu locativ"
-        },
-        "relatedLot": "8254d621-c181-11e8-9548-85ac93e52381"
-      }
-    ],
-    "documents": [
-      {
-        "id": "e6986560-c17d-11e8-8cbe-a1835757f77d",
-        "documentType": "illustration",
-        "title": "doc1",
-        "relatedLots": [
-          "8254d621-c181-11e8-9548-85ac93e52381"
-        ]
-      }
-    ]
-  },
-  "ei": [
-    "ocds-t1s2t3-MD-1537957806127"
-  ],
-  "buyer": [
-    {
-      "id": "MD-IDNO-1241412",
-      "name": "asad",
-      "identifier": {
-        "id": "1241412",
-        "scheme": "MD-IDNO",
-        "legalName": "asad",
-        "uri": "aaa.co"
-      },
-      "address": {
-        "streetAddress": "Stefan cel Mare, 1",
-        "postalCode": "MD2000",
-        "addressDetails": {
-          "country": {
-            "scheme": "iso-alpha2",
-            "id": "MD",
-            "description": "MOLDOVA",
-            "uri": "http://reference.iatistandard.org"
-          },
-          "region": {
-            "scheme": "CUATM",
-            "id": "1000000",
-            "description": "Anenii Noi",
-            "uri": "http://statistica.md"
-          },
-          "locality": {
-            "scheme": "UN/LOCODE",
-            "id": "MD KIV",
-            "description": "Chisinau"
-          }
-        }
-      },
-      "contactPoint": {
-        "name": "Ivan Petrov",
-        "email": "a@a.com",
-        "telephone": "078000000",
-        "url": "adfa.co"
-      },
-      "details": {
-        "typeOfBuyer": "BODY_PUBLIC",
-        "mainGeneralActivity": "GENERAL_PUBLIC_SERVICES",
-        "mainSectoralActivity": "POSTAL_SERVICES"
-      }
+    },
+    "contactPoint": {
+      "name": "1",
+      "email": "string",
+      "telephone": "string",
+      "url": "string"
+    },
+    "details": {
+      "typeOfBuyer": "EU_INSTITUTION",
+      "mainGeneralActivity": "ENVIRONMENT",
+      "mainSectoralActivity": "WATER"
     }
-  ],
-  "funder": [
-    {
-      "id": "MD-IDNO-7224272726",
-      "name": "asfsaffasfas",
-      "identifier": {
-        "id": "7224272726",
-        "scheme": "MD-IDNO",
-        "legalName": "asasasdafasfa"
-      },
-      "address": {
-        "streetAddress": "SFaf, 33",
-        "postalCode": "MD2000",
-        "addressDetails": {
-          "country": {
-            "scheme": "iso-alpha2",
-            "id": "MD",
-            "description": "MOLDOVA",
-            "uri": "http://reference.iatistandard.org"
-          },
-          "region": {
-            "scheme": "CUATM",
-            "id": "0101000",
-            "description": "mun.Chişinău",
-            "uri": "http://statistica.md"
-          },
-          "locality": {
-            "scheme": "UN/LOCODE",
-            "id": "0101000",
-            "description": "mun.Chişinău"
-          }
-        }
-      },
-      "contactPoint": {
-        "name": "Ivan Petrov",
-        "email": "a@a.com",
-        "telephone": "078000000",
-        "url": "tete.bo"
-      }
-    }
-  ],
-  "payer": [
-    {
-      "id": "MD-IDNO-7224272726",
-      "name": "asfsaffasfas",
-      "identifier": {
-        "id": "7224272726",
-        "scheme": "MD-IDNO",
-        "legalName": "asasasdafasfa"
-      },
-      "address": {
-        "streetAddress": "SFaf, 33",
-        "postalCode": "MD2000",
-        "addressDetails": {
-          "country": {
-            "scheme": "iso-alpha2",
-            "id": "MD",
-            "description": "MOLDOVA",
-            "uri": "http://reference.iatistandard.org"
-          },
-          "region": {
-            "scheme": "CUATM",
-            "id": "0101000",
-            "description": "mun.Chişinău",
-            "uri": "http://statistica.md"
-          },
-          "locality": {
-            "scheme": "UN/LOCODE",
-            "id": "0101000",
-            "description": "mun.Chişinău"
-          }
-        }
-      },
-      "contactPoint": {
-        "name": "Ivan Petrov",
-        "email": "a@a.com",
-        "telephone": "078000000",
-        "url": "tete.bo"
-      }
-    }
-  ]
+  }
 }
