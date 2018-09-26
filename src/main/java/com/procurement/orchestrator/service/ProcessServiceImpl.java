@@ -9,7 +9,10 @@ import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.Notification;
 import com.procurement.orchestrator.domain.PlatformError;
 import com.procurement.orchestrator.domain.PlatformMessage;
-import com.procurement.orchestrator.domain.dto.*;
+import com.procurement.orchestrator.domain.dto.ApiVersion;
+import com.procurement.orchestrator.domain.dto.CommandMessage;
+import com.procurement.orchestrator.domain.dto.ResponseDto;
+import com.procurement.orchestrator.domain.dto.ResponseErrorDto;
 import com.procurement.orchestrator.utils.JsonUtil;
 import org.camunda.bpm.engine.RuntimeService;
 import org.slf4j.Logger;
@@ -68,17 +71,7 @@ public class ProcessServiceImpl implements ProcessService {
                                     final JsonNode request) {
 
         final Set<PlatformError> errors = new HashSet<>();
-        if (responseEntity.getBody().getDetails() != null) {
-            operationService.saveOperationException(processId, taskId, context, request, jsonUtil.toJsonNode(responseEntity.getBody()));
-            final List<ResponseDetailsDto> details = responseEntity.getBody().getDetails();
-            for (final ResponseDetailsDto detail : details) {
-                errors.add(new PlatformError(detail.getCode(), detail.getMessage()));
-            }
-            context.setErrors(errors);
-            runtimeService.deleteProcessInstance(processId, context.getOperationId());
-            sendErrorToPlatform(context);
-            return null;
-        } else if (responseEntity.getBody().getErrors() != null) {
+        if (responseEntity.getBody().getErrors() != null) {
             operationService.saveOperationException(processId, taskId, context, request, jsonUtil.toJsonNode(responseEntity.getBody()));
             final List<ResponseErrorDto> responseErrors = responseEntity.getBody().getErrors();
             for (final ResponseErrorDto error : responseErrors) {
@@ -220,7 +213,9 @@ public class ProcessServiceImpl implements ProcessService {
     @Override
     public JsonNode getTenderPeriod(JsonNode jsonData, String processId) {
         try {
-            return jsonData.get("tender").get("tenderPeriod");
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            mainNode.replace("tenderPeriod", jsonData.get("tender").get("tenderPeriod"));
+            return mainNode;
         } catch (Exception e) {
             if (Objects.nonNull(processId)) terminateProcess(processId, e.getMessage());
             return null;
@@ -230,7 +225,9 @@ public class ProcessServiceImpl implements ProcessService {
     @Override
     public JsonNode getEnquiryPeriod(JsonNode jsonData, String processId) {
         try {
-            return jsonData.get("tender").get("enquiryPeriod");
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            mainNode.replace("enquiryPeriod", jsonData.get("tender").get("enquiryPeriod"));
+            return mainNode;
         } catch (Exception e) {
             if (Objects.nonNull(processId)) terminateProcess(processId, e.getMessage());
             return null;

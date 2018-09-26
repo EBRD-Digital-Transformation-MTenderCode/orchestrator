@@ -5,7 +5,7 @@
       "description": "description_update",
       "budgetBreakdown": [
         {
-          "id": "ocds-t1s2t3-MD-1537913088983-FS-1537946035480",
+          "id": "ocds-t1s2t3-MD-1537957806127-FS-1537957955388",
           "amount": {
             "amount": 60,
             "currency": "MDL"
@@ -20,8 +20,11 @@
     "legalBasis": "NATIONAL_PROCUREMENT_LAW",
     "procurementMethodRationale": "pmr_update",
     "procurementMethodAdditionalInfo": "pmai_update",
+    "enquiryPeriod": {
+      "endDate": "2018-11-10T16:59:00Z"
+    },
     "tenderPeriod": {
-      "endDate": "2018-08-29T16:59:00Z"
+      "endDate": "2018-12-30T16:59:00Z"
     },
     "procuringEntity": {
       "name": "Update_company",
