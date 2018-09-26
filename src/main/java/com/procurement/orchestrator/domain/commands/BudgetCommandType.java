@@ -10,7 +10,7 @@ import java.util.Map;
 
 public enum BudgetCommandType {
 
-    CREATE_EI("createEi"),
+    CREATE_EI("createEi.json"),
     UPDATE_EI("updateEi"),
     CREATE_FS("createFs"),
     UPDATE_FS("updateFs"),

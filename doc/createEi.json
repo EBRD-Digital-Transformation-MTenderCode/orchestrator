@@ -1,0 +1,66 @@
+{
+  "tender": {
+    "title": "test mtender 9 ei edited",
+    "description": "test description",
+    "classification": {
+      "scheme": "CPV",
+      "id": "03100000-2",
+      "description": "Agricultural and horticultural products"
+    }
+  },
+  "planning": {
+    "budget": {
+      "amount": {
+        "currency": "MDL"
+      },
+      "period": {
+        "startDate": "2018-03-01T17:02:00Z",
+        "endDate": "2019-09-01T23:02:00Z"
+      }
+    },
+    "rationale": "this is a test"
+  },
+  "buyer": {
+    "name": "asad",
+    "address": {
+      "streetAddress": "Stefan cel Mare, 1",
+      "postalCode": "MD2000",
+      "addressDetails": {
+        "locality": {
+          "scheme": "UN/LOCODE",
+          "id": "MD KIV",
+          "description": "Chisinau"
+        },
+        "region": {
+          "scheme": "CUATM",
+          "id": "1000000",
+          "description": "Anenii Noi"
+        },
+        "country": {
+          "scheme": "iso-alpha2",
+          "id": "MD",
+          "description": "Moldova, Republic of"
+        }
+      }
+    },
+    "identifier": {
+      "id": "1241412",
+      "scheme": "MD-IDNO",
+      "legalName": "asad",
+      "uri": "aaa.co"
+    },
+    "details": {
+      "typeOfBuyer": "BODY_PUBLIC",
+      "mainGeneralActivity": "GENERAL_PUBLIC_SERVICES",
+      "mainSectoralActivity": "POSTAL_SERVICES",
+      "isACentralPurchasingBody": false,
+      "scale": "micro"
+    },
+    "contactPoint": {
+      "name": "Ivan Petrov",
+      "url": "adfa.co",
+      "telephone": "078000000",
+      "email": "a@a.com"
+    }
+  }
+}

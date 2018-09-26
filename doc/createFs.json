@@ -1,0 +1,97 @@
+{
+  "tender": {
+    "procuringEntity": {
+      "name": "asfsaffasfas",
+      "address": {
+        "streetAddress": "SFaf, 33",
+        "postalCode": "MD2000",
+        "addressDetails": {
+          "country": {
+            "scheme": "iso-alpha2",
+            "id": "MD",
+            "description": "MOLDOVA",
+            "uri": "http://reference.iatistandard.org"
+          },
+          "region": {
+            "scheme": "CUATM",
+            "id": "0101000",
+            "description": "mun.Chişinău",
+            "uri": "http://statistica.md"
+          },
+          "locality": {
+            "scheme": "UN/LOCODE",
+            "id": "0101000",
+            "description": "mun.Chişinău"
+          }
+        }
+      },
+      "identifier": {
+        "id": "7224272726",
+        "scheme": "MD-IDNO",
+        "legalName": "asasasdafasfa"
+      },
+      "contactPoint": {
+        "name": "Ivan Petrov",
+        "email": "a@a.com",
+        "telephone": "078000000",
+        "url": "tete.bo"
+      }
+    }
+  },
+  "planning": {
+    "budget": {
+      "description": "fs description",
+      "projectID": "552",
+      "isEuropeanUnionFunded": false,
+      "period": {
+        "startDate": "2018-10-02T00:00:00Z",
+        "endDate": "2018-12-09T00:00:00Z"
+      },
+      "uri": "dgaga.co",
+      "project": "pojet",
+      "amount": {
+        "currency": "MDL",
+        "amount": 100
+      },
+      "id": "431515"
+    },
+    "rationale": "test"
+  },
+  "buyer": {
+    "name": "asfsaffasfas",
+    "address": {
+      "streetAddress": "SFaf, 33",
+      "postalCode": "MD2000",
+      "addressDetails": {
+        "country": {
+          "scheme": "iso-alpha2",
+          "id": "MD",
+          "description": "MOLDOVA",
+          "uri": "http://reference.iatistandard.org"
+        },
+        "region": {
+          "scheme": "CUATM",
+          "id": "0101000",
+          "description": "mun.Chişinău",
+          "uri": "http://statistica.md"
+        },
+        "locality": {
+          "scheme": "UN/LOCODE",
+          "id": "0101000",
+          "description": "mun.Chişinău"
+        }
+      }
+    },
+    "identifier": {
+      "id": "7224272726",
+      "scheme": "MD-IDNO",
+      "legalName": "asasasdafasfa"
+    },
+    "contactPoint": {
+      "name": "Ivan Petrov",
+      "email": "a@a.com",
+      "telephone": "078000000",
+      "url": "tete.bo"
+    }
+  }
+}
