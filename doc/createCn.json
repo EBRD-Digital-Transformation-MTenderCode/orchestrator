@@ -21,10 +21,10 @@
     "procurementMethodRationale": "pmr_update",
     "procurementMethodAdditionalInfo": "pmai_update",
     "enquiryPeriod": {
-      "endDate": "2018-10-26T11:10:00Z"
+      "endDate": "2018-10-26T12:10:00Z"
     },
     "tenderPeriod": {
-      "endDate": "2018-10-26T11:20:00Z"
+      "endDate": "2018-10-26T12:20:00Z"
     },
     "procuringEntity": {
       "name": "Update_company",
@@ -64,12 +64,12 @@
         "title": "lot1",
         "description": "looot",
         "value": {
-          "amount": 200,
+          "amount": 10,
           "currency": "MDL"
         },
         "contractPeriod": {
-          "startDate": "2018-11-19T14:45:00Z",
-          "endDate": "2018-12-25T14:45:00Z"
+          "startDate": "2018-10-26T12:30:00Z",
+          "endDate": "2018-10-26T12:40:00Z"
         },
         "placeOfPerformance": {
           "address": {
@@ -98,7 +98,7 @@
         "classification": {
           "scheme": "CPV",
           "description": "ggg",
-          "id": "30199220-8"
+          "id": "03100000-2"
         },
         "additionalClassifications": [
           {

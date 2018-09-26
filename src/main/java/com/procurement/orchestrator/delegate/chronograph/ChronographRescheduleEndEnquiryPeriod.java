@@ -66,7 +66,7 @@ public class ChronographRescheduleEndEnquiryPeriod implements JavaDelegate {
         final ScheduleTask task = new ScheduleTask(
                 ActionType.REPLACE,
                 context.getCpid(),
-                "TENDERING",
+                "clarification",
                 null, /*launchTime*/
                 newLaunchTime,
                 jsonUtil.toJson(contextChronograph));
