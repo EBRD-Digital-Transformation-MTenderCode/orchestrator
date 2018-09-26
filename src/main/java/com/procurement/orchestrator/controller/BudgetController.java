@@ -38,6 +38,8 @@ public class BudgetController extends DoBaseController {
                                            @RequestHeader("X-OPERATION-ID") final UUID operationId,
                                            @RequestParam("country") final String country,
                                            @RequestBody final JsonNode data) {
+
+        if (data.size() == 0) throw new OperationException("Data is empty!");
         final Context context = new Context();
         context.setRequestId(UUIDs.timeBased().toString());
         context.setOperationId(operationId.toString());
@@ -62,6 +64,8 @@ public class BudgetController extends DoBaseController {
                                            @RequestHeader("X-TOKEN") final String token,
                                            @PathVariable("cpid") final String cpid,
                                            @RequestBody final JsonNode data) {
+
+        if (data.size() == 0) throw new OperationException("Data is empty!");
         final Context context = new Context();
         final Context prevContext = requestService.getContext(cpid);
         context.setCountry(prevContext.getCountry());
@@ -88,6 +92,8 @@ public class BudgetController extends DoBaseController {
                                            @RequestHeader("X-OPERATION-ID") final UUID operationId,
                                            @PathVariable("cpid") final String cpid,
                                            @RequestBody final JsonNode data) {
+
+        if (data.size() == 0) throw new OperationException("Data is empty!");
         final Context context = new Context();
         final Context prevContext = requestService.getContext(cpid);
         context.setCountry(prevContext.getCountry());
@@ -115,6 +121,8 @@ public class BudgetController extends DoBaseController {
                                            @PathVariable("cpid") final String cpid,
                                            @PathVariable("ocid") final String ocid,
                                            @RequestBody final JsonNode data) {
+
+        if (data.size() == 0) throw new OperationException("Data is empty!");
         validateOcId(cpid, ocid);
         final Context context = new Context();
         final Context prevContext = requestService.getContext(cpid);

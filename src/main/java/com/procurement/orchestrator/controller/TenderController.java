@@ -2,6 +2,7 @@ package com.procurement.orchestrator.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
+import com.procurement.orchestrator.exception.OperationException;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.service.RequestService;
 import com.procurement.orchestrator.utils.DateUtil;
@@ -36,6 +37,8 @@ public class TenderController extends DoBaseController {
                                            @RequestParam("country") final String country,
                                            @RequestParam("pmd") final String pmd,
                                            @RequestBody final JsonNode data) {
+
+        if (data.size() == 0) throw new OperationException("Data is empty!");
         final Context context = requestService.getContextForCreate(authorization, operationId.toString(), country, pmd, "createCN");
         processService.setEnquiryPeriodStartDate(data, context.getStartDate(), null);
         processService.setTenderPeriodStartDate(data, processService.getEnquiryPeriodEndDate(data, null), null);
@@ -51,6 +54,8 @@ public class TenderController extends DoBaseController {
                                            @PathVariable("cpid") final String cpid,
                                            @PathVariable("ocid") final String ocid,
                                            @RequestBody final JsonNode data) {
+
+        if (data.size() == 0) throw new OperationException("Data is empty!");
         final Context context = requestService.getContextForUpdate(authorization, operationId.toString(), cpid, ocid, token, "updateCN");
         requestService.saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
@@ -65,6 +70,8 @@ public class TenderController extends DoBaseController {
                                             @RequestParam("country") final String country,
                                             @RequestParam("pmd") final String pmd,
                                             @RequestBody final JsonNode data) {
+
+        if (data.size() == 0) throw new OperationException("Data is empty!");
         final Context context = requestService.getContextForCreate(authorization, operationId.toString(), country, pmd, "createPIN");
         context.setEndDate(processService.getTenderPeriodEndDate(data, null));
         requestService.saveRequestAndCheckOperation(context, data);
@@ -79,6 +86,8 @@ public class TenderController extends DoBaseController {
                                             @PathVariable("cpid") final String cpid,
                                             @PathVariable("ocid") final String ocid,
                                             @RequestBody final JsonNode data) {
+
+        if (data.size() == 0) throw new OperationException("Data is empty!");
         final Context context = requestService.getContextForUpdate(authorization, operationId.toString(), cpid, ocid, token, "updatePIN");
         context.setEndDate(processService.getTenderPeriodEndDate(data, null));
         requestService.saveRequestAndCheckOperation(context, data);
@@ -94,6 +103,8 @@ public class TenderController extends DoBaseController {
                                            @RequestParam("country") final String country,
                                            @RequestParam("pmd") final String pmd,
                                            @RequestBody final JsonNode data) {
+
+        if (data.size() == 0) throw new OperationException("Data is empty!");
         final Context context = requestService.getContextForCreate(authorization, operationId.toString(), country, pmd, "createPN");
         context.setEndDate(processService.getTenderPeriodEndDate(data, null));
         requestService.saveRequestAndCheckOperation(context, data);
@@ -108,6 +119,8 @@ public class TenderController extends DoBaseController {
                                            @PathVariable("cpid") final String cpid,
                                            @PathVariable("ocid") final String ocid,
                                            @RequestBody final JsonNode data) {
+
+        if (data.size() == 0) throw new OperationException("Data is empty!");
         final Context context = requestService.getContextForUpdate(authorization, operationId.toString(), cpid, ocid, token, "updatePN");
         context.setEndDate(processService.getTenderPeriodEndDate(data, null));
         requestService.saveRequestAndCheckOperation(context, data);
@@ -123,6 +136,8 @@ public class TenderController extends DoBaseController {
                                             @PathVariable("cpid") final String cpid,
                                             @PathVariable("ocid") final String ocid,
                                             @RequestBody final JsonNode data) {
+
+        if (data.size() == 0) throw new OperationException("Data is empty!");
         final Context context = requestService.getContextForUpdate(authorization, operationId.toString(), cpid, ocid, null, "submitTheBid");
         context.setOperationType("createBid");
         requestService.saveRequestAndCheckOperation(context, data);
@@ -140,6 +155,8 @@ public class TenderController extends DoBaseController {
                                             @PathVariable("ocid") final String ocid,
                                             @PathVariable("id") final UUID id,
                                             @RequestBody final JsonNode data) {
+
+        if (data.size() == 0) throw new OperationException("Data is empty!");
         final Context context = requestService.getContextForUpdate(authorization, operationId.toString(), cpid, ocid, token, "submitTheBid");
         context.setId(id.toString());
         context.setOperationType("updateBid");
@@ -156,6 +173,8 @@ public class TenderController extends DoBaseController {
                                                 @PathVariable("cpid") final String cpid,
                                                 @PathVariable("ocid") final String ocid,
                                                 @RequestBody final JsonNode data) {
+
+        if (data.size() == 0) throw new OperationException("Data is empty!");
         final Context context = requestService.getContextForUpdate(authorization, operationId.toString(), cpid, ocid, null, "enquiry");
         requestService.saveRequestAndCheckOperation(context, data);
         processService.startProcess(context, new HashMap<>());
@@ -170,6 +189,8 @@ public class TenderController extends DoBaseController {
                                             @PathVariable("ocid") final String ocid,
                                             @PathVariable("id") final UUID id,
                                             @RequestBody final JsonNode data) {
+
+        if (data.size() == 0) throw new OperationException("Data is empty!");
         final Context context = requestService.getContextForUpdate(authorization, operationId.toString(), cpid, ocid, token, "answer");
         context.setId(id.toString());
         requestService.saveRequestAndCheckOperation(context, data);
@@ -185,6 +206,8 @@ public class TenderController extends DoBaseController {
                                              @PathVariable("ocid") final String ocid,
                                              @PathVariable("id") final UUID id,
                                              @RequestBody final JsonNode data) {
+
+        if (data.size() == 0) throw new OperationException("Data is empty!");
         final Context context = requestService.getContextForUpdate(authorization, operationId.toString(), cpid, ocid, token, "awardByBid");
         context.setId(id.toString());
         requestService.saveRequestAndCheckOperation(context, data);
@@ -200,6 +223,7 @@ public class TenderController extends DoBaseController {
                                                  @RequestHeader("X-TOKEN") final String token,
                                                  @PathVariable("cpid") final String cpid,
                                                  @PathVariable("ocid") final String ocid) {
+
         final Context context = requestService.getContextForUpdate(authorization, operationId.toString(), cpid, ocid, token, "awardPeriodEnd");
         requestService.saveRequestAndCheckOperation(context, null);
         final Map<String, Object> variables = new HashMap<>();
@@ -216,6 +240,7 @@ public class TenderController extends DoBaseController {
                                            @PathVariable("ocid") final String ocid,
                                            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
                                            @RequestParam("endDate") final LocalDateTime endDate) {
+
         final Context context = requestService.getContextForUpdate(authorization, operationId.toString(), cpid, ocid, token, "startNewStage");
         context.setEndDate(dateUtil.format(endDate));
         requestService.saveRequestAndCheckOperation(context, null);

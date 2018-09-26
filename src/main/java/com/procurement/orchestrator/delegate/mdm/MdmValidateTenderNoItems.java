@@ -15,12 +15,12 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.MdmCommandType.PROCESS_EI_DATA;
+import static com.procurement.orchestrator.domain.commands.MdmCommandType.PROCESS_TENDER_DATA;
 
 @Component
-public class MdmValidateEi implements JavaDelegate {
+public class MdmValidateTenderNoItems implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(MdmValidateEi.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MdmValidateTenderNoItems.class);
 
     private final MdmRestClient mdmRestClient;
 
@@ -30,10 +30,10 @@ public class MdmValidateEi implements JavaDelegate {
 
     private final JsonUtil jsonUtil;
 
-    public MdmValidateEi(final MdmRestClient mdmRestClient,
-                         final OperationService operationService,
-                         final ProcessService processService,
-                         final JsonUtil jsonUtil) {
+    public MdmValidateTenderNoItems(final MdmRestClient mdmRestClient,
+                                    final OperationService operationService,
+                                    final ProcessService processService,
+                                    final JsonUtil jsonUtil) {
         this.mdmRestClient = mdmRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -48,8 +48,8 @@ public class MdmValidateEi implements JavaDelegate {
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode rqData = processService.getEiData(prevData, processId);
-        final JsonNode commandMessage = processService.getCommandMessage(PROCESS_EI_DATA, context, rqData);
+        final JsonNode rqData = processService.getTenderData(false, prevData, processId);
+        final JsonNode commandMessage = processService.getCommandMessage(PROCESS_TENDER_DATA, context, rqData);
         JsonNode responseData = processService.processResponse(
                     mdmRestClient.execute(commandMessage),
                     context,
@@ -61,7 +61,7 @@ public class MdmValidateEi implements JavaDelegate {
                     execution,
                     entity,
                     commandMessage,
-                    processService.setEiData(prevData, responseData, processId));
+                    processService.setTenderData(false, prevData, responseData, processId));
         }
     }
 }

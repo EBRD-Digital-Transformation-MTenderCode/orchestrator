@@ -112,7 +112,7 @@
       <bpmn:incoming>SequenceFlow_1gc972z</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0dke939</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="MdmValidateTenderCnTask" name="Mdm Validate" camunda:asyncBefore="true" camunda:delegateExpression="${mdmValidateTender}">
+    <bpmn:serviceTask id="MdmValidateTenderCnTask" name="Mdm Validate" camunda:asyncBefore="true" camunda:delegateExpression="${MdmValidateTenderNoItems}">
       <bpmn:incoming>SequenceFlow_1jdamf1</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1jr5cqn</bpmn:outgoing>
     </bpmn:serviceTask>

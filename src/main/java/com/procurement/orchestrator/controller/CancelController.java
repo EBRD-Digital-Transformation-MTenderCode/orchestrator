@@ -38,6 +38,7 @@ public class CancelController {
                                                @PathVariable("cpid") final String cpid,
                                                @PathVariable("ocid") final String ocid,
                                                @PathVariable("id") final UUID id) {
+
         final Context context = requestService.getContextForUpdate(authorization, operationId.toString(), cpid, ocid, token, "bidWithdrawn");
         context.setId(id.toString());
         requestService.saveRequestAndCheckOperation(context, jsonUtil.empty());
@@ -53,6 +54,8 @@ public class CancelController {
                                                  @PathVariable("cpid") final String cpid,
                                                  @PathVariable("ocid") final String ocid,
                                                  @RequestBody final JsonNode data) {
+
+        if (data.size() == 0) throw new OperationException("Data is empty!");
         final Context context = requestService.getContextForUpdate(authorization, operationId.toString(), cpid, ocid, token, "tenderCancellation");
         if (ocid.contains("PN") || ocid.contains("PIN")) throw new OperationException("Invalid ocid.");
         requestService.saveRequestAndCheckOperation(context, data);
@@ -69,6 +72,7 @@ public class CancelController {
                                                   @RequestHeader("X-TOKEN") final String token,
                                                   @PathVariable("cpid") final String cpid,
                                                   @PathVariable("ocid") final String ocid) {
+
         final Context pinContext = requestService.getContextForUpdate(authorization, operationId.toString(), cpid, ocid, token, "tenderCancellation");
         if (!ocid.contains("PIN")) throw new OperationException("Invalid ocid.");
         requestService.saveRequestAndCheckOperation(pinContext, jsonUtil.empty());
@@ -84,6 +88,7 @@ public class CancelController {
                                                  @RequestHeader("X-TOKEN") final String token,
                                                  @PathVariable("cpid") final String cpid,
                                                  @PathVariable("ocid") final String ocid) {
+
         final Context pnContext = requestService.getContextForUpdate(authorization, operationId.toString(), cpid, ocid, token, "tenderCancellation");
         if (!ocid.contains("PN")) throw new OperationException("Invalid ocid.");
         final Map<String, Object> variables = new HashMap<>();
