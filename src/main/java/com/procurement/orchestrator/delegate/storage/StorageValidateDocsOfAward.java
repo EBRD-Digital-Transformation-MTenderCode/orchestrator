@@ -64,8 +64,8 @@ public class StorageValidateDocsOfAward implements JavaDelegate {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    documents,
-                    processService.setDocumentsOfAward(jsonData, responseData, processId));
+                    commandMessage,
+                    jsonData);
         }
     }
 }

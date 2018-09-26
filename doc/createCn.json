@@ -21,10 +21,10 @@
     "procurementMethodRationale": "pmr_update",
     "procurementMethodAdditionalInfo": "pmai_update",
     "enquiryPeriod": {
-      "endDate": "2018-11-10T16:59:00Z"
+      "endDate": "2018-10-26T11:10:00Z"
     },
     "tenderPeriod": {
-      "endDate": "2018-12-30T16:59:00Z"
+      "endDate": "2018-10-26T11:20:00Z"
     },
     "procuringEntity": {
       "name": "Update_company",
@@ -114,39 +114,12 @@
         },
         "description": "1",
         "relatedLot": "1"
-      },
-      {
-        "id": "2",
-        "classification": {
-          "scheme": "CPV",
-          "description": "ggg",
-          "id": "30199220-8"
-        },
-        "additionalClassifications": [
-          {
-            "scheme": "CPVs",
-            "description": "",
-            "id": "AB06-7"
-          }
-        ],
-        "quantity": 100,
-        "unit": {
-          "id": "86",
-          "name": "square"
-        },
-        "description": "2",
-        "relatedLot": "1"
       }
-    ],
+     ],
     "documents": [
       {
-        "documentType": "tenderNotice",
-        "id": "f7178f90-9fba-11e8-9318-61ca1098e80e",
-        "title": "doc1"
-      },
-      {
         "documentType": "illustration",
-        "id": "0a326080-a058-11e8-9318-61ca1098e80e",
+        "id": "e6986560-c17d-11e8-8cbe-a1835757f77d",
         "title": "doc1",
         "relatedLots": [
           "1"
