@@ -1,41 +1,129 @@
 {
-  "enquiry": {
-    "author": {
-      "name": "name123-321",
+  "planning": {
+    "rationale": "rationale",
+    "budget": {
+      "description": "e",
+      "budgetBreakdown": [
+        {
+          "id": "ocds-t1s2t3-MD-1537979578285-FS-1538043492430",
+          "amount": {
+            "amount": 560,
+            "currency": "USD"
+          }
+        }
+      ]
+    }
+  },
+  "tender": {
+    "title": "TITLE",
+    "description": "d",
+    "legalBasis": "NATIONAL_PROCUREMENT_LAW",
+    "tenderPeriod": {
+      "endDate": "2018-09-29T17:30:00Z"
+    },
+    "enquiryPeriod": {
+      "endDate": "2018-09-29T13:45:00Z"
+    },
+    "procuringEntity": {
+      "name": "Name of CN pE",
       "identifier": {
         "scheme": "MD-IDNO",
-        "id": "2",
-        "legalName": "1",
-        "uri": "1"
+        "id": "555-555",
+        "legalName": "legal name of pe",
+        "uri": "g"
       },
+      "additionalIdentifiers": [
+        {
+          "scheme": "ert",
+          "id": "tre",
+          "legalName": "etr",
+          "uri": "ter"
+        }
+      ],
       "address": {
-        "streetAddress": "1",
-        "postalCode": "1",
+        "streetAddress": "address of pe",
+        "postalCode": "00000",
         "addressDetails": {
           "country": {
             "id": "MD"
           },
           "region": {
-            "id": "1000000"
+            "id": "0101000"
           },
           "locality": {
             "scheme": "CUATM",
-            "id": "1001000",
-            "description": "gfg"
+            "id": "0101000",
+            "description": "hhh"
           }
         }
       },
-      "details": {
-        "scale": ""
-      },
       "contactPoint": {
-        "name": "1",
-        "email": "1",
-        "telephone": "1",
-        "url": "1"
+        "name": "contact name",
+        "email": "email",
+        "telephone": "4521",
+        "faxNumber": "45",
+        "url": "d"
       }
     },
-    "title": "1",
-    "description": "1"
+    "lots": [
+      {
+        "id": "lot2",
+        "title": "lot2",
+        "description": "2",
+        "value": {
+          "amount": 20,
+          "currency": "USD"
+        },
+        "contractPeriod": {
+          "startDate": "2018-09-28T12:40:00Z",
+          "endDate": "2018-09-29T12:45:00Z"
+        },
+        "placeOfPerformance": {
+          "address": {
+            "streetAddress": "Steet",
+            "postalCode": "5",
+            "addressDetails": {
+              "country": {
+                "id": "MD"
+              },
+              "region": {
+                "id": "0301000"
+              },
+              "locality": {
+                "scheme": "CUATM",
+                "id": "0301000",
+                "description": ""
+              }
+            }
+          },
+          "description": "decr"
+        }
+      }
+    ],
+    "items": [
+      {
+        "id": "1",
+        "classification": {
+          "scheme": "CPV",
+          "description": "4",
+          "id": "03100000-2"
+        },
+        "quantity": 100,
+        "unit": {
+          "id": "120"
+        },
+        "description": "p",
+        "relatedLot": "lot2"
+      }
+    ],
+    "documents": [
+      {
+        "documentType": "tenderNotice",
+        "id": "99197990-c23c-11e8-8cbe-a1835757f77d",
+        "relatedLots": [
+          "lot2"
+        ]
+      }
+    ]
   }
 }

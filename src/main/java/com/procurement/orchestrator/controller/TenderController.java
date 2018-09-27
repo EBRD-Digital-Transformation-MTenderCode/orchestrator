@@ -57,6 +57,8 @@ public class TenderController extends DoBaseController {
 
         if (data.size() == 0) throw new OperationException("Data is empty!");
         final Context context = requestService.getContextForUpdate(authorization, operationId.toString(), cpid, ocid, token, "updateCN");
+        processService.setEnquiryPeriodStartDate(data, context.getStartDate(), null);
+        processService.setTenderPeriodStartDate(data, processService.getEnquiryPeriodEndDate(data, null), null);
         requestService.saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("operationType", context.getOperationType());
