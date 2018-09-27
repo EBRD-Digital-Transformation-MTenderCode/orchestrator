@@ -1,6 +1,6 @@
 package com.procurement.orchestrator.delegate.notification;
 
-import com.procurement.orchestrator.config.kafka.MessageProducer;
+import com.procurement.orchestrator.delegate.kafka.MessageProducer;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.Notification;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;

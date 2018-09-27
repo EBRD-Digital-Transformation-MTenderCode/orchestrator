@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.config.kafka;
 
+import com.procurement.orchestrator.delegate.kafka.MessageConsumer;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.service.RequestService;

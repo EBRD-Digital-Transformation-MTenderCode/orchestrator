@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 @RestController
 public class BudgetController extends DoBaseController {
@@ -36,14 +37,16 @@ public class BudgetController extends DoBaseController {
 
     @RequestMapping(value = "/ei", method = RequestMethod.POST)
     public ResponseEntity<String> createEI(@RequestHeader("Authorization") final String authorization,
-                                           @RequestHeader("X-OPERATION-ID") final UUID operationId,
+                                           @RequestHeader("X-OPERATION-ID") final String operationId,
                                            @RequestParam("country") final String country,
                                            @RequestBody final JsonNode data) {
 
+        Pattern p = Pattern.compile("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$");
+        if (!p.matcher(operationId).matches()) throw new OperationException("Invalid UUID.");
         if (data.size() == 0) throw new OperationException("Data is empty!");
         final Context context = new Context();
         context.setRequestId(UUIDs.timeBased().toString());
-        context.setOperationId(operationId.toString());
+        context.setOperationId(operationId);
         context.setCountry(Country.fromValue(country.toUpperCase()).value());
         context.setLanguage(lang);
 
