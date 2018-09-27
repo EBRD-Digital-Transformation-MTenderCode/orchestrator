@@ -13,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -35,15 +34,13 @@ public class BudgetController extends DoBaseController {
         this.requestService = requestService;
     }
 
+
     @RequestMapping(value = "/ei", method = RequestMethod.POST)
     public ResponseEntity<String> createEI(@RequestHeader("Authorization") final String authorization,
                                            @RequestHeader("X-OPERATION-ID") final String operationId,
                                            @RequestParam("country") final String country,
                                            @RequestBody final JsonNode data) {
-
-        Pattern p = Pattern.compile("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$");
-        if (!p.matcher(operationId).matches()) throw new OperationException("Invalid UUID.");
-        if (data.size() == 0) throw new OperationException("Data is empty!");
+        requestService.validate(operationId, data);
         final Context context = new Context();
         context.setRequestId(UUIDs.timeBased().toString());
         context.setOperationId(operationId);
@@ -64,19 +61,18 @@ public class BudgetController extends DoBaseController {
 
     @RequestMapping(value = "/ei/{cpid}", method = RequestMethod.POST)
     public ResponseEntity<String> updateEI(@RequestHeader("Authorization") final String authorization,
-                                           @RequestHeader("X-OPERATION-ID") final UUID operationId,
+                                           @RequestHeader("X-OPERATION-ID") final String operationId,
                                            @RequestHeader("X-TOKEN") final String token,
                                            @PathVariable("cpid") final String cpid,
                                            @RequestBody final JsonNode data) {
-
-        if (data.size() == 0) throw new OperationException("Data is empty!");
+        requestService.validate(operationId, data);
         final Context context = new Context();
         final Context prevContext = requestService.getContext(cpid);
         context.setCountry(prevContext.getCountry());
         context.setLanguage(lang);
 
         context.setRequestId(UUIDs.timeBased().toString());
-        context.setOperationId(operationId.toString());
+        context.setOperationId(operationId);
         context.setCpid(cpid);
         context.setStartDate(dateUtil.nowFormatted());
         context.setStage(Stage.EI.value());
@@ -93,18 +89,17 @@ public class BudgetController extends DoBaseController {
 
     @RequestMapping(value = "/fs/{cpid}", method = RequestMethod.POST)
     public ResponseEntity<String> createFS(@RequestHeader("Authorization") final String authorization,
-                                           @RequestHeader("X-OPERATION-ID") final UUID operationId,
+                                           @RequestHeader("X-OPERATION-ID") final String operationId,
                                            @PathVariable("cpid") final String cpid,
                                            @RequestBody final JsonNode data) {
-
-        if (data.size() == 0) throw new OperationException("Data is empty!");
+        requestService.validate(operationId, data);
         final Context context = new Context();
         final Context prevContext = requestService.getContext(cpid);
         context.setCountry(prevContext.getCountry());
         context.setLanguage(lang);
 
         context.setRequestId(UUIDs.timeBased().toString());
-        context.setOperationId(operationId.toString());
+        context.setOperationId(operationId);
         context.setStartDate(dateUtil.nowFormatted());
         context.setCpid(cpid);
         context.setStage(Stage.FS.value());
@@ -120,13 +115,12 @@ public class BudgetController extends DoBaseController {
 
     @RequestMapping(value = "/fs/{cpid}/{ocid}", method = RequestMethod.POST)
     public ResponseEntity<String> updateFS(@RequestHeader("Authorization") final String authorization,
-                                           @RequestHeader("X-OPERATION-ID") final UUID operationId,
+                                           @RequestHeader("X-OPERATION-ID") final String operationId,
                                            @RequestHeader("X-TOKEN") final String token,
                                            @PathVariable("cpid") final String cpid,
                                            @PathVariable("ocid") final String ocid,
                                            @RequestBody final JsonNode data) {
-
-        if (data.size() == 0) throw new OperationException("Data is empty!");
+        requestService.validate(operationId, data);
         validateOcId(cpid, ocid);
         final Context context = new Context();
         final Context prevContext = requestService.getContext(cpid);
@@ -134,7 +128,7 @@ public class BudgetController extends DoBaseController {
         context.setLanguage(lang);
 
         context.setRequestId(UUIDs.timeBased().toString());
-        context.setOperationId(operationId.toString());
+        context.setOperationId(operationId);
         context.setCpid(cpid);
         context.setOcid(ocid);
         context.setStartDate(dateUtil.nowFormatted());

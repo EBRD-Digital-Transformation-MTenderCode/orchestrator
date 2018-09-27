@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 @Service
 public interface RequestService {
 
+    void validate(String operationId, JsonNode data);
+
     void saveRequest(String requestId, String operationId, Context context, JsonNode jsonData);
 
     RequestEntity getRequestById(String requestId, String processId);

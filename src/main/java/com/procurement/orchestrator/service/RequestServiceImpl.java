@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 @Service
 public class RequestServiceImpl implements RequestService {
@@ -43,6 +44,13 @@ public class RequestServiceImpl implements RequestService {
         this.cassandraDao = cassandraDao;
         this.processService = processService;
         this.operationService = operationService;
+    }
+
+    @Override
+    public void validate(final String operationId, final JsonNode data) {
+        Pattern p = Pattern.compile("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$");
+        if (!p.matcher(operationId).matches()) throw new OperationException("Invalid UUID.");
+        if (data != null && data.size() == 0) throw new OperationException("Data is empty!");
     }
 
     @Override
