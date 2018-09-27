@@ -75,10 +75,10 @@ INSERT INTO orchestrator_process_type (country, pmd, process, process_type) VALU
 INSERT INTO orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','OT','updateBid','submitTheBid');
 INSERT INTO orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','updateBid','submitTheBid');
 
-INSERT INTO orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','OT','createEnquiry','enquiry');
-INSERT INTO orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','createEnquiry','enquiry');
-INSERT INTO orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','OT','addAnswer','answer');
-INSERT INTO orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','addAnswer','answer');
+INSERT INTO orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','OT','enquiry','enquiry');
+INSERT INTO orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','enquiry','enquiry');
+INSERT INTO orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','OT','answer','answer');
+INSERT INTO orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','answer','answer');
 
 INSERT INTO orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','OT','endAwardPeriod','awardPeriodEnd');
 INSERT INTO orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','endAwardPeriod','awardPeriodEnd');

@@ -138,7 +138,7 @@ public class TenderController extends DoBaseController {
                                             @RequestBody final JsonNode data) {
 
         if (data.size() == 0) throw new OperationException("Data is empty!");
-        final Context context = requestService.getContextForUpdate(authorization, operationId.toString(), cpid, ocid, null, "submitTheBid");
+        final Context context = requestService.getContextForUpdate(authorization, operationId.toString(), cpid, ocid, null, "createBid");
         context.setOperationType("createBid");
         requestService.saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
@@ -157,7 +157,7 @@ public class TenderController extends DoBaseController {
                                             @RequestBody final JsonNode data) {
 
         if (data.size() == 0) throw new OperationException("Data is empty!");
-        final Context context = requestService.getContextForUpdate(authorization, operationId.toString(), cpid, ocid, token, "submitTheBid");
+        final Context context = requestService.getContextForUpdate(authorization, operationId.toString(), cpid, ocid, token, "updateBid");
         context.setId(id.toString());
         context.setOperationType("updateBid");
         requestService.saveRequestAndCheckOperation(context, data);
