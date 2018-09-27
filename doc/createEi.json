@@ -1,13 +1,4 @@
 {
-  "tender": {
-    "title": "test mtender 9 ei edited",
-    "description": "test description",
-    "classification": {
-      "scheme": "CPV",
-      "id": "03100000-2",
-      "description": "Agricultural and horticultural products"
-    }
-  },
   "planning": {
     "budget": {
       "amount": {
