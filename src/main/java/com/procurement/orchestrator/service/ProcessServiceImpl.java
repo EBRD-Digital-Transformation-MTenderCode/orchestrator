@@ -50,9 +50,15 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     public void terminateProcess(final String processId, final String message) {
+        final String description;
+        if(Objects.nonNull(message)){
+            description = message;
+        }else{
+            description = "JSON processing exception.";
+        }
         LOG.error(message);
         final Set<PlatformError> errors = new HashSet<>();
-        errors.add(new PlatformError("400.00.00.00", message));
+        errors.add(new PlatformError("400.00.00.00", description));
         final OperationStepEntity entity = operationService.getOperationStep(processId, "SaveFirstOperationTask");
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         context.setErrors(errors);
