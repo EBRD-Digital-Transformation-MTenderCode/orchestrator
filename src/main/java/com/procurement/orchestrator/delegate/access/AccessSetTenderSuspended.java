@@ -57,7 +57,7 @@ public class AccessSetTenderSuspended implements JavaDelegate {
                 commandMessage);
         if (Objects.nonNull(responseData)) {
             context.setOperationType("suspendTender");
-            context.setPhase("SUSPENDED");
+            context.setPhase("suspended");
             operationService.saveOperationStep(
                     execution,
                     entity,
