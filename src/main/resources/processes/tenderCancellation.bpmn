@@ -22,7 +22,7 @@
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1n5w707" sourceRef="NoticeCreateReleaseTask" targetRef="SaveContextTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1gx4xfj" sourceRef="StartEvent_1" targetRef="SaveFirstOperationTask" />
-    <bpmn:serviceTask id="AccessPlanCancellationTask" name="Access Plan Cancellation" camunda:asyncBefore="true" camunda:delegateExpression="${accessPlanCancellation}">
+    <bpmn:serviceTask id="AccessPlanCancellationTask" name="Access Plan Cancellation" camunda:asyncBefore="true" camunda:delegateExpression="${accessSetPlanCancellation}">
       <bpmn:incoming>SequenceFlow_117ktgd</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_02bj5a2</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -31,7 +31,7 @@
       <bpmn:outgoing>SequenceFlow_0smtj68</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_0smtj68" sourceRef="SaveContextTask" targetRef="SendMessageTask" />
-    <bpmn:serviceTask id="AccessPrepareCancellationTask" name="Access Prepare Cancellation" camunda:asyncBefore="true" camunda:delegateExpression="${accessPrepareCancellation}">
+    <bpmn:serviceTask id="AccessPrepareCancellationTask" name="Access Prepare Cancellation" camunda:asyncBefore="true" camunda:delegateExpression="${accessSetTenderPreCancellation}">
       <bpmn:incoming>SequenceFlow_0vae4uq</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_128xj8w</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -57,7 +57,7 @@
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="SequenceFlow_1jf09wy" sourceRef="SaveFirstOperationTask" targetRef="ExclusiveGateway_0ow3sqh" />
     <bpmn:sequenceFlow id="SequenceFlow_0vae4uq" sourceRef="ExclusiveGateway_0ow3sqh" targetRef="AccessPrepareCancellationTask">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${operationType=='cancelTenderEv'}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${operationType=='cancellationStandstillPeriod'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:serviceTask id="SubmissionBidsCancellationTask" name="Submission Bids Cancellation" camunda:asyncBefore="true" camunda:delegateExpression="${submissionBidsCancellation}">
       <bpmn:incoming>SequenceFlow_16helok</bpmn:incoming>
@@ -69,7 +69,7 @@
       <bpmn:outgoing>SequenceFlow_0jy2p9p</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="SequenceFlow_0jy2p9p" sourceRef="ExclusiveGateway_1npu3t8" targetRef="NoticeCreateReleaseTask" />
-    <bpmn:serviceTask id="AccessTenderCancellationTask" name="Access Tender Cancellation" camunda:asyncBefore="true" camunda:delegateExpression="${accessTenderCancellation}">
+    <bpmn:serviceTask id="AccessTenderCancellationTask" name="Access Tender Cancellation" camunda:asyncBefore="true" camunda:delegateExpression="${accessSetTenderCancellation}">
       <bpmn:incoming>SequenceFlow_1jrbhue</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_19usp1i</bpmn:outgoing>
     </bpmn:serviceTask>

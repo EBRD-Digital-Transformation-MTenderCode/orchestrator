@@ -44,7 +44,6 @@ public class SetCancellationStandstillPeriod implements JavaDelegate {
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         context.setEndDate(dateUtil.format(dateUtil.localDateTimeNowUTC().plusSeconds(5)));
-        context.setOperationType("cancellationStandstillPeriod");
         final String processId = execution.getProcessInstanceId();
         operationService.saveOperationStep(
                 execution,
