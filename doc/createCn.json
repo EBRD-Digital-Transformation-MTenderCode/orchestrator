@@ -21,10 +21,10 @@
     "procurementMethodRationale": "pmr_update",
     "procurementMethodAdditionalInfo": "pmai_update",
     "enquiryPeriod": {
-      "endDate": "2018-10-26T12:10:00Z"
+      "endDate": "2018-10-28T09:00:00Z"
     },
     "tenderPeriod": {
-      "endDate": "2018-10-26T12:20:00Z"
+      "endDate": "2018-10-28T10:20:00Z"
     },
     "procuringEntity": {
       "name": "Update_company",

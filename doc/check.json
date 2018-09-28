@@ -1,129 +1,68 @@
 {
-  "planning": {
-    "rationale": "rationale",
-    "budget": {
-      "description": "e",
-      "budgetBreakdown": [
-        {
-          "id": "ocds-t1s2t3-MD-1537979578285-FS-1538043492430",
-          "amount": {
-            "amount": 560,
-            "currency": "USD"
-          }
-        }
-      ]
-    }
+  "id": "a0bcd000-b00d-0000-b0e0-4b00000b0151",
+  "command": "processEiData",
+  "context": {
+    "operationId": "a0bcd000-b00d-0000-b0e0-4b00000b0151",
+    "requestId": "323a90e0-c23e-11e8-99ee-0b69f972361b",
+    "stage": "EI",
+    "processType": "ei",
+    "operationType": "createEI",
+    "owner": "445f6851-c908-407d-9b45-14b92f3e964b",
+    "country": "MD",
+    "language": "ro",
+    "startDate": "2018-09-27T10:15:02Z"
   },
-  "tender": {
-    "title": "TITLE",
-    "description": "d",
-    "legalBasis": "NATIONAL_PROCUREMENT_LAW",
-    "tenderPeriod": {
-      "endDate": "2018-09-29T17:30:00Z"
+  "data": {
+    "tender": {
+      "classification": {
+        "id": "03100000-2"
+      }
     },
-    "enquiryPeriod": {
-      "endDate": "2018-09-29T13:45:00Z"
-    },
-    "procuringEntity": {
-      "name": "Name of CN pE",
+    "buyer": {
+      "name": "BUYER",
       "identifier": {
+        "id": "MD_MD",
         "scheme": "MD-IDNO",
-        "id": "555-555",
-        "legalName": "legal name of pe",
-        "uri": "g"
+        "legalName": "string",
+        "uri": "uri*"
       },
-      "additionalIdentifiers": [
-        {
-          "scheme": "ert",
-          "id": "tre",
-          "legalName": "etr",
-          "uri": "ter"
-        }
-      ],
       "address": {
-        "streetAddress": "address of pe",
-        "postalCode": "00000",
+        "streetAddress": "ukukyo777uk",
+        "postalCode": "4545454",
         "addressDetails": {
           "country": {
             "id": "MD"
           },
           "region": {
-            "id": "0101000"
+            "id": "1700000"
           },
           "locality": {
             "scheme": "CUATM",
-            "id": "0101000",
-            "description": "hhh"
+            "id": "1701000",
+            "description": ""
           }
         }
       },
-      "contactPoint": {
-        "name": "contact name",
-        "email": "email",
-        "telephone": "4521",
-        "faxNumber": "45",
-        "url": "d"
-      }
-    },
-    "lots": [
-      {
-        "id": "lot2",
-        "title": "lot2",
-        "description": "2",
-        "value": {
-          "amount": 20,
-          "currency": "USD"
-        },
-        "contractPeriod": {
-          "startDate": "2018-09-28T12:40:00Z",
-          "endDate": "2018-09-29T12:45:00Z"
-        },
-        "placeOfPerformance": {
-          "address": {
-            "streetAddress": "Steet",
-            "postalCode": "5",
-            "addressDetails": {
-              "country": {
-                "id": "MD"
-              },
-              "region": {
-                "id": "0301000"
-              },
-              "locality": {
-                "scheme": "CUATM",
-                "id": "0301000",
-                "description": ""
-              }
-            }
-          },
-          "description": "decr"
+      "additionalIdentifiers": [
+        {
+          "id": "string",
+          "scheme": "string",
+          "legalName": "string",
+          "uri": "string"
         }
+      ],
+      "contactPoint": {
+        "name": "",
+        "email": "string",
+        "telephone": "string",
+        "url": "string"
+      },
+      "details": {
+        "typeOfBuyer": "MINISTRY",
+        "mainGeneralActivity": "HEALTH",
+        "mainSectoralActivity": "POSTAL_SERVICES"
       }
-    ],
-    "items": [
-      {
-        "id": "1",
-        "classification": {
-          "scheme": "CPV",
-          "description": "4",
-          "id": "03100000-2"
-        },
-        "quantity": 100,
-        "unit": {
-          "id": "120"
-        },
-        "description": "p",
-        "relatedLot": "lot2"
-      }
-    ],
-    "documents": [
-      {
-        "documentType": "tenderNotice",
-        "id": "99197990-c23c-11e8-8cbe-a1835757f77d",
-        "relatedLots": [
-          "lot2"
-        ]
-      }
-    ]
-  }
+    }
+  },
+  "version": "0.0.1"
 }

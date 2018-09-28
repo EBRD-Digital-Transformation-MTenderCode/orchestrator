@@ -118,7 +118,7 @@ public class RequestServiceImpl implements RequestService {
     public Rule checkAndGetRule(final Context prevContext, final String processType) {
         final List<Rule> rules = cassandraDao.getRules(prevContext.getCountry(), prevContext.getPmd(), processType);
         if (rules.isEmpty()) {
-            throw new OperationException("Operation impossible.");
+            throw new OperationException("Operation impossible in phase: " + prevContext.getPhase());
         }
         Rule rule = null;
         for (final Rule r : rules) {
@@ -129,7 +129,7 @@ public class RequestServiceImpl implements RequestService {
         if (rule != null) {
             return rule;
         } else {
-            throw new OperationException("Operation impossible.");
+            throw new OperationException("Operation impossible in phase: " + prevContext.getPhase());
         }
     }
 
