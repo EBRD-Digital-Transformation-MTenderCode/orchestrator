@@ -13,6 +13,7 @@ import com.procurement.orchestrator.domain.dto.ApiVersion;
 import com.procurement.orchestrator.domain.dto.CommandMessage;
 import com.procurement.orchestrator.domain.dto.ResponseDto;
 import com.procurement.orchestrator.domain.dto.ResponseErrorDto;
+import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.utils.JsonUtil;
 import org.camunda.bpm.engine.RuntimeService;
 import org.slf4j.Logger;
@@ -50,7 +51,13 @@ public class ProcessServiceImpl implements ProcessService {
 
     public void terminateProcess(final String processId, final String message) {
         LOG.error(message);
-        runtimeService.deleteProcessInstance(processId, message);
+        final Set<PlatformError> errors = new HashSet<>();
+        errors.add(new PlatformError("400.00.00.00", message));
+        final OperationStepEntity entity = operationService.getOperationStep(processId, "SaveFirstOperationTask");
+        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
+        context.setErrors(errors);
+        runtimeService.deleteProcessInstance(processId, context.getOperationId());
+        sendErrorToPlatform(context);
     }
 
 

@@ -18,8 +18,6 @@ public interface OperationService {
 
     OperationStepEntity getOperationStep(String processId, String taskId);
 
-    Boolean checkCurrentOperationStep(DelegateExecution execution);
-
     OperationStepEntity getPreviousOperationStep(DelegateExecution execution);
 
     void saveOperationStep(DelegateExecution execution, OperationStepEntity entity);
