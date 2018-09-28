@@ -54,7 +54,7 @@ public class ProcessServiceImpl implements ProcessService {
         if(Objects.nonNull(message)){
             description = message;
         }else{
-            description = "JSON processing exception.";
+            description = "Data processing exception.";
         }
         LOG.error(message);
         final Set<PlatformError> errors = new HashSet<>();
