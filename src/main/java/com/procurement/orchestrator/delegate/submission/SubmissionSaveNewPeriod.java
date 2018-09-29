@@ -48,7 +48,8 @@ public class SubmissionSaveNewPeriod implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(SAVE_NEW_PERIOD, context, jsonUtil.empty());
+        final JsonNode enquiryPeriod = processService.getEnquiryPeriod(jsonData, processId);
+        final JsonNode commandMessage = processService.getCommandMessage(SAVE_NEW_PERIOD, context, enquiryPeriod);
         JsonNode responseData = processService.processResponse(
                 submissionRestClient.execute(commandMessage),
                 context,
