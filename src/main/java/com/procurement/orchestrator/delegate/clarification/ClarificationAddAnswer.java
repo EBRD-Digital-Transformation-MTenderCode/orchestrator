@@ -58,7 +58,7 @@ public class ClarificationAddAnswer implements JavaDelegate {
                     entity,
                     context,
                     commandMessage,
-                    responseData);
+                    processService.addEnquiryWithAnswer(requestData, responseData, processId));
         }
     }
 }

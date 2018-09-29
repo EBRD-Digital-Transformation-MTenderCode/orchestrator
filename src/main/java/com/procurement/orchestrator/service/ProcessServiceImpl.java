@@ -283,6 +283,17 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
+    @Override
+    public JsonNode addEnquiryWithAnswer(JsonNode jsonData, JsonNode enquiryData, String processId) {
+        try {
+            ((ObjectNode)jsonData).replace("enquiry", enquiryData.get("enquiry"));
+            return jsonData;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
     public JsonNode addTenderStatus(final JsonNode jsonData, final JsonNode statusData, final String processId) {
         try {
             ((ObjectNode) jsonData).putObject("tender")
