@@ -63,7 +63,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_07garu8" sourceRef="ExclusiveGateway_0ai5ezj" targetRef="ClarificationAddAnswerTask">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${setUnsuspended==false}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:serviceTask id="chronographRescheduleEndTenderPeriodTask" name="Chronograph Reschedule End Tender Period" camunda:asyncBefore="true" camunda:delegateExpression="${chronographRescheduleEndTenderPeriod}">
+    <bpmn:serviceTask id="ChronographRescheduleEndTenderPeriodTask" name="Chronograph Reschedule End Tender Period" camunda:asyncBefore="true" camunda:delegateExpression="${chronographRescheduleEndTenderPeriod}">
       <bpmn:incoming>SequenceFlow_0s4tbs2</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0j98cv1</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -79,7 +79,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_0nt16ku" sourceRef="ClarificationAddAnswerUnsuspendedTask" targetRef="ClarificationSaveNewPeriodTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1cfk6vg" sourceRef="ClarificationSaveNewPeriodTask" targetRef="ChronographScheduleEndEnquiryPeriodTask" />
     <bpmn:sequenceFlow id="SequenceFlow_16avrg9" sourceRef="ChronographScheduleEndEnquiryPeriodTask" targetRef="SubmissionSaveNewPeriodTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0s4tbs2" sourceRef="SubmissionSaveNewPeriodTask" targetRef="chronographRescheduleEndTenderPeriodTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0s4tbs2" sourceRef="SubmissionSaveNewPeriodTask" targetRef="ChronographRescheduleEndTenderPeriodTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0uqd6mn" sourceRef="ExclusiveGateway_07ftixw" targetRef="SendMessageTask" />
     <bpmn:serviceTask id="NoticeCreateReleaseAnswerTask" name="Notice Create Release" camunda:asyncBefore="true" camunda:delegateExpression="${noticeCreateRelease}">
       <bpmn:incoming>SequenceFlow_1ypcf3g</bpmn:incoming>
@@ -89,7 +89,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_0c7uix1" sourceRef="NoticeCreateReleaseAnswerTask" targetRef="ExclusiveGateway_07ftixw" />
     <bpmn:sequenceFlow id="SequenceFlow_0kx3wva" sourceRef="SaveContextTask" targetRef="ExclusiveGateway_07ftixw" />
     <bpmn:sequenceFlow id="SequenceFlow_1lb2xgg" sourceRef="NoticeCreateReleaseTask" targetRef="SaveContextTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0j98cv1" sourceRef="chronographRescheduleEndTenderPeriodTask" targetRef="NoticeCreateReleaseTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0j98cv1" sourceRef="ChronographRescheduleEndTenderPeriodTask" targetRef="NoticeCreateReleaseTask" />
   </bpmn:process>
   <bpmn:error id="tr_exception" name="TR_EXCEPTION" errorCode="TR_EXCEPTION" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -188,7 +188,7 @@
           <dc:Bounds x="933" y="186" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_04dh426_di" bpmnElement="chronographRescheduleEndTenderPeriodTask">
+      <bpmndi:BPMNShape id="ServiceTask_04dh426_di" bpmnElement="ChronographRescheduleEndTenderPeriodTask">
         <dc:Bounds x="1366" y="269" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_1t5tcs7_di" bpmnElement="ClarificationAddAnswerUnsuspendedTask">
