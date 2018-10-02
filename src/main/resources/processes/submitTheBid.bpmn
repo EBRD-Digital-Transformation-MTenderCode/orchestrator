@@ -48,9 +48,8 @@
     <bpmn:exclusiveGateway id="ExclusiveGateway_0rteoo4">
       <bpmn:incoming>SequenceFlow_1et5xwd</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_045aoy9</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_02w4twd</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_1hgf7j5</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="SequenceFlow_02w4twd" sourceRef="ExclusiveGateway_0rteoo4" targetRef="SaveContextTask" />
     <bpmn:serviceTask id="MdmValidateBidTask" name="Mdm Validate Bid" camunda:asyncBefore="true" camunda:delegateExpression="${mdmValidateBid}">
       <bpmn:extensionElements>
         <camunda:failedJobRetryTimeCycle>R0/PT1S</camunda:failedJobRetryTimeCycle>
@@ -68,7 +67,7 @@
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1cvz30j" sourceRef="AccessCheckBidTask" targetRef="ExclusiveGateway" />
     <bpmn:serviceTask id="SaveContextTask" name="Save Context" camunda:delegateExpression="${saveContext}">
-      <bpmn:incoming>SequenceFlow_02w4twd</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_1hgf7j5</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1j38voa</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1j38voa" sourceRef="SaveContextTask" targetRef="SendMessageTask" />
@@ -77,6 +76,7 @@
       <bpmn:outgoing>SequenceFlow_1llcn73</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1llcn73" sourceRef="StorageValidateDocsOfBidsTask" targetRef="AccessCheckBidTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1hgf7j5" sourceRef="ExclusiveGateway_0rteoo4" targetRef="SaveContextTask" />
   </bpmn:process>
   <bpmn:error id="Error_1espguw" name="TR_EXCEPTION" errorCode="TR_EXCEPTION" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -135,7 +135,7 @@
       <bpmndi:BPMNEdge id="SequenceFlow_1et5xwd_di" bpmnElement="SequenceFlow_1et5xwd">
         <di:waypoint x="934" y="203" />
         <di:waypoint x="1005" y="203" />
-        <di:waypoint x="1005" y="251" />
+        <di:waypoint x="1005" y="250" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="795" y="182" width="90" height="12" />
         </bpmndi:BPMNLabel>
@@ -143,7 +143,7 @@
       <bpmndi:BPMNEdge id="SequenceFlow_045aoy9_di" bpmnElement="SequenceFlow_045aoy9">
         <di:waypoint x="934" y="355" />
         <di:waypoint x="1005" y="355" />
-        <di:waypoint x="1005" y="301" />
+        <di:waypoint x="1005" y="300" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="795" y="334" width="90" height="12" />
         </bpmndi:BPMNLabel>
@@ -152,33 +152,24 @@
         <dc:Bounds x="1222" y="235" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="EndEvent_1g4psv1_di" bpmnElement="EndEvent_1g4psv1">
-        <dc:Bounds x="1365" y="257" width="36" height="36" />
+        <dc:Bounds x="1366" y="257" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1214" y="297" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_062dyz9_di" bpmnElement="SequenceFlow_062dyz9">
         <di:waypoint x="1322" y="275" />
-        <di:waypoint x="1365" y="275" />
+        <di:waypoint x="1366" y="275" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1175.5" y="254" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ExclusiveGateway_0ctgywu_di" bpmnElement="ExclusiveGateway_0rteoo4" isMarkerVisible="true">
-        <dc:Bounds x="980" y="251" width="50" height="50" />
+        <dc:Bounds x="980" y="250" width="50" height="50" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="787" y="305" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="SequenceFlow_02w4twd_di" bpmnElement="SequenceFlow_02w4twd">
-        <di:waypoint x="1029" y="275" />
-        <di:waypoint x="1053" y="275" />
-        <di:waypoint x="1053" y="277" />
-        <di:waypoint x="1076" y="277" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="881" y="254.5" width="90" height="12" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ServiceTask_1e87wuo_di" bpmnElement="MdmValidateBidTask">
         <dc:Bounds x="688" y="163" width="100" height="80" />
       </bpmndi:BPMNShape>
@@ -215,6 +206,10 @@
       <bpmndi:BPMNEdge id="SequenceFlow_1llcn73_di" bpmnElement="SequenceFlow_1llcn73">
         <di:waypoint x="400" y="275" />
         <di:waypoint x="446" y="275" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1hgf7j5_di" bpmnElement="SequenceFlow_1hgf7j5">
+        <di:waypoint x="1030" y="275" />
+        <di:waypoint x="1076" y="275" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

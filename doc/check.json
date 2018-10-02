@@ -1,259 +1,58 @@
 {
-  "id": "a1bcd000-b00d-4644-b0e6-4b75020b1243",
-  "command": "createRelease",
-  "context": {
-    "operationId": "a1bcd000-b00d-4644-b0e6-4b75020b1243",
-    "requestId": "5c6b0c30-c42a-11e8-848b-cbadf45487ca",
-    "cpid": "ocds-t1s2t3-MD-1538241194854",
-    "ocid": "ocds-t1s2t3-MD-1538241194854-PN-1538241195495",
-    "stage": "PN",
-    "prevStage": "PN",
-    "processType": "updatePN",
-    "operationType": "updatePN",
-    "phase": "planning",
-    "owner": "445f6851-c908-407d-9b45-14b92f3e964b",
-    "country": "MD",
-    "language": "ro",
-    "pmd": "TEST_OT",
-    "token": "ceb710c5-9ada-4759-9fa4-758822e6df55",
-    "startDate": "2018-09-29T20:58:05Z"
-  },
-  "data": {
-    "ocid": "ocds-t1s2t3-MD-1538241194854",
-    "planning": {
-      "budget": {
-        "description": "e",
-        "amount": {
-          "amount": 560.00,
-          "currency": "USD"
-        },
-        "isEuropeanUnionFunded": false,
-        "budgetBreakdown": [
-          {
-            "id": "ocds-t1s2t3-MD-1538217217264-FS-1538217354202",
-            "description": "description",
-            "amount": {
-              "amount": 560.00,
-              "currency": "USD"
-            },
-            "period": {
-              "startDate": "2018-10-01T00:00:00Z",
-              "endDate": "2018-10-08T00:00:00Z"
-            },
-            "sourceParty": {
-              "id": "MD-IDNO-7787-9898-88ty",
-              "name": "nameOfFSbuyer"
-            }
-          }
-        ]
-      }
-    },
-    "tender": {
-      "id": "ocds-t1s2t3-MD-1538241194854",
-      "title": "TITLE",
-      "description": "d",
-      "status": "planning",
-      "statusDetails": "planning",
-      "classification": {
-        "scheme": "CPV",
-        "id": "03117140-7",
-        "description": "Plante utilizate ca fungicide sau cu utilizare similară"
-      },
-      "mainProcurementCategory": "goods",
-      "procurementMethod": "open",
-      "procurementMethodDetails": "TEST Licitatia deschisa",
-      "submissionMethod": [
-        "electronicSubmission"
-      ],
-      "submissionMethodDetails": "Lista platformelor: achizitii, ebs, licitatie, yptender",
-      "submissionMethodRationale": [
-        "Ofertele vor fi primite prin intermediul unei platforme electronice de achiziții publice"
-      ],
-      "eligibilityCriteria": "Regulile generale privind naționalitatea și originea, precum și alte criterii de eligibilitate sunt enumerate în Ghidul practic privind procedurile de contractare a acțiunilor externe ale UE (PRAG)",
-      "acceleratedProcedure": {
-        "isAcceleratedProcedure": false
-      },
-      "designContest": {
-        "serviceContractAward": false
-      },
-      "electronicWorkflows": {
-        "useOrdering": false,
-        "usePayment": false,
-        "acceptInvoicing": false
-      },
-      "jointProcurement": {
-        "isJointProcurement": false
-      },
-      "procedureOutsourcing": {
-        "procedureOutsourced": false
-      },
-      "framework": {
-        "isAFramework": false
-      },
-      "dynamicPurchasingSystem": {
-        "hasDynamicPurchasingSystem": false
-      },
-      "legalBasis": "DIRECTIVE_2014_23_EU",
-      "procuringEntity": {
-        "id": "MD-IDNO-555-555",
-        "name": "Name of CN pE",
+  "bid": {
+    "tenderers": [
+      {
+        "name": "Googleh555fhfgh55g12",
         "identifier": {
-          "id": "555-555",
           "scheme": "MD-IDNO",
-          "legalName": "legal name of pe",
-          "uri": "g"
+          "id": "1-1",
+          "legalName": "Google Big Brother",
+          "uri": "hhtps://google.com"
         },
         "address": {
-          "streetAddress": "address of pe",
-          "postalCode": "00000",
+          "streetAddress": "",
+          "postalCode": "",
           "addressDetails": {
             "country": {
-              "scheme": "iso-alpha2",
-              "id": "MD",
-              "description": "MOLDOVA",
-              "uri": "http://reference.iatistandard.org"
+              "id": "MD"
             },
             "region": {
-              "scheme": "CUATM",
-              "id": "0101000",
-              "description": "mun.Chişinău",
-              "uri": "http://statistica.md"
+              "id": "1000000"
             },
             "locality": {
               "scheme": "CUATM",
-              "id": "0101000",
-              "description": "mun.Chişinău",
-              "uri": "http://statistica.md"
+              "id": "1001000",
+              "description": "gfg"
             }
           }
         },
-        "additionalIdentifiers": [
-          {
-            "id": "tre",
-            "scheme": "ert",
-            "legalName": "etr",
-            "uri": "ter"
-          }
-        ],
+        "details": {
+          "scale": "sme"
+        },
         "contactPoint": {
-          "name": "contact name",
-          "email": "email",
-          "telephone": "4521",
-          "faxNumber": "45",
-          "url": "d"
+          "name": "111",
+          "email": "222",
+          "telephone": "333",
+          "url": "444"
         }
-      },
-      "awardCriteria": "priceOnly",
-      "requiresElectronicCatalogue": false,
-      "contractPeriod": {
-        "startDate": "2018-10-01T19:40:00Z",
-        "endDate": "2018-10-01T23:45:00Z"
-      },
-      "tenderPeriod": {
-        "startDate": "2018-10-01T00:00:00Z"
-      },
-      "value": {
-        "amount": 0.01,
-        "currency": "USD"
-      },
-      "lotGroups": [
-        {
-          "optionToCombine": false
-        }
-      ],
-      "lots": [
-        {
-          "id": "f37c8061-c40a-11e8-a56e-5de58af8d5c9",
-          "status": "planning",
-          "statusDetails": "empty",
-          "value": {
-            "amount": 0.01,
-            "currency": "USD"
-          },
-          "options": [
-            {
-              "hasOptions": false
-            }
-          ],
-          "recurrentProcurement": [
-            {
-              "isRecurrent": false
-            }
-          ],
-          "renewals": [
-            {
-              "hasRenewals": false
-            }
-          ],
-          "variants": [
-            {
-              "hasVariants": false
-            }
-          ],
-          "contractPeriod": {
-            "startDate": "2018-10-01T19:40:00Z",
-            "endDate": "2018-10-01T23:45:00Z"
-          },
-          "placeOfPerformance": {
-            "address": {
-              "streetAddress": "Steet",
-              "postalCode": "5",
-              "addressDetails": {
-                "country": {
-                  "scheme": "iso-alpha2",
-                  "id": "MD",
-                  "description": "MOLDOVA",
-                  "uri": "http://reference.iatistandard.org"
-                },
-                "region": {
-                  "scheme": "CUATM",
-                  "id": "0101000",
-                  "description": "mun.Chişinău",
-                  "uri": "http://statistica.md"
-                },
-                "locality": {
-                  "scheme": "675hhh",
-                  "id": "0301000",
-                  "description": ""
-                }
-              }
-            },
-            "description": "decr"
-          }
-        }
-      ],
-      "items": [
-        {
-          "id": "f37c8060-c40a-11e8-a56e-5de58af8d5c9",
-          "description": "p",
-          "classification": {
-            "scheme": "CPV",
-            "id": "03117140-7",
-            "description": "Plante utilizate ca fungicide sau cu utilizare similară"
-          },
-          "quantity": 10.00,
-          "unit": {
-            "id": "10",
-            "name": "Parsec"
-          },
-          "relatedLot": "f37c8061-c40a-11e8-a56e-5de58af8d5c9"
-        }
-      ],
-      "documents": [
-        {
-          "id": "ea21a690-c256-11e8-8cbe-a1835757f77d",
-          "documentType": "hearingNotice",
-          "title": null,
-          "description": null,
-          "url": "http://dev.bpe.eprocurement.systems/api/v1/storage/get/ea21a690-c256-11e8-8cbe-a1835757f77d",
-          "datePublished": "2018-09-27T13:59:59Z",
-          "dateModified": null,
-          "format": null,
-          "language": null,
-          "relatedLots": null
-        }
-      ]
-    }
-  },
-  "version": "0.0.1"
+      }
+    ],
+    "value": {
+      "amount": 30,
+      "currency": "MDL"
+    },
+    "documents": [
+      {
+        "documentType": "submissionDocuments",
+        "id": "006ff150-c23d-11e8-8cbe-a1835757f77d",
+        "title": "doc1",
+        "relatedLots": [
+          "e9078615-c65e-11e8-8454-01af08bf41a9"
+        ]
+      }
+    ],
+    "relatedLots": [
+      "e9078615-c65e-11e8-8454-01af08bf41a9"
+    ]
+  }
 }

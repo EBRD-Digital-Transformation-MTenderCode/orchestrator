@@ -97,6 +97,8 @@ public interface ProcessService {
 
     JsonNode getDocumentsOfBids(JsonNode jsonData, String processId);
 
+    JsonNode getDocumentsOfBid(JsonNode jsonData, String processId);
+
     JsonNode setDocumentsOfBids(JsonNode jsonData, JsonNode documentsData, String processId);
 
     JsonNode addStandstillPeriod(JsonNode jsonData, String startDate, String endDate, String processId);
