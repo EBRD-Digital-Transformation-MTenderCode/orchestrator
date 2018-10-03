@@ -68,7 +68,7 @@ public class ChronographRescheduleEndEnquiryPeriod implements JavaDelegate {
                 context.getCpid(),
                 "clarification",
                 null, /*launchTime*/
-                newLaunchTime,
+                null,
                 jsonUtil.toJson(contextChronograph));
         messageProducer.sendToChronograph(cancelTask);
 
@@ -76,8 +76,8 @@ public class ChronographRescheduleEndEnquiryPeriod implements JavaDelegate {
                 ActionType.SCHEDULE,
                 context.getCpid(),
                 "clarification",
-                null, /*launchTime*/
-                newLaunchTime,
+                newLaunchTime, /*launchTime*/
+                null,
                 jsonUtil.toJson(contextChronograph));
         messageProducer.sendToChronograph(scheduleTask);
         operationService.saveOperationStep(execution, entity, jsonUtil.toJsonNode(scheduleTask));
