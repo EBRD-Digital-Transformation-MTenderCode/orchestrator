@@ -50,18 +50,20 @@ public class MdmValidateEnquiry implements JavaDelegate {
         final String taskId = execution.getCurrentActivityId();
         final JsonNode rqData = processService.getEnquiryAuthor(prevData, processId);
         final JsonNode commandMessage = processService.getCommandMessage(PROCESS_ENQUIRY_DATA, context, rqData);
-        JsonNode responseData = processService.processResponse(
+        if (rqData != null) {
+            JsonNode responseData = processService.processResponse(
                     mdmRestClient.execute(commandMessage),
                     context,
                     processId,
                     taskId,
                     commandMessage);
-        if (Objects.nonNull(responseData)) {
-            operationService.saveOperationStep(
-                    execution,
-                    entity,
-                    commandMessage,
-                    processService.setEnquiryAuthor(prevData, responseData, processId));
+            if (Objects.nonNull(responseData)) {
+                operationService.saveOperationStep(
+                        execution,
+                        entity,
+                        commandMessage,
+                        processService.setEnquiryAuthor(prevData, responseData, processId));
+            }
         }
     }
 }

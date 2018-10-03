@@ -50,18 +50,20 @@ public class MdmValidateEi implements JavaDelegate {
         final String taskId = execution.getCurrentActivityId();
         final JsonNode rqData = processService.getEiData(prevData, processId);
         final JsonNode commandMessage = processService.getCommandMessage(PROCESS_EI_DATA, context, rqData);
-        JsonNode responseData = processService.processResponse(
+        if (rqData != null) {
+            JsonNode responseData = processService.processResponse(
                     mdmRestClient.execute(commandMessage),
                     context,
                     processId,
                     taskId,
                     commandMessage);
-        if (Objects.nonNull(responseData)) {
-            operationService.saveOperationStep(
-                    execution,
-                    entity,
-                    commandMessage,
-                    processService.setEiData(prevData, responseData, processId));
+            if (Objects.nonNull(responseData)) {
+                operationService.saveOperationStep(
+                        execution,
+                        entity,
+                        commandMessage,
+                        processService.setEiData(prevData, responseData, processId));
+            }
         }
     }
 }

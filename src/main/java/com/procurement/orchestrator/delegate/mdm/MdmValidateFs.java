@@ -49,19 +49,21 @@ public class MdmValidateFs implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode rqData = processService.getFsData(prevData, processId);
-        final JsonNode commandMessage = processService.getCommandMessage(PROCESS_FS_DATA, context, rqData);
-        JsonNode responseData = processService.processResponse(
+        if (rqData != null) {
+            final JsonNode commandMessage = processService.getCommandMessage(PROCESS_FS_DATA, context, rqData);
+            JsonNode responseData = processService.processResponse(
                     mdmRestClient.execute(commandMessage),
                     context,
                     processId,
                     taskId,
                     commandMessage);
-        if (Objects.nonNull(responseData)) {
-            operationService.saveOperationStep(
-                    execution,
-                    entity,
-                    commandMessage,
-                    processService.setFsData(prevData, responseData, processId));
+            if (Objects.nonNull(responseData)) {
+                operationService.saveOperationStep(
+                        execution,
+                        entity,
+                        commandMessage,
+                        processService.setFsData(prevData, responseData, processId));
+            }
         }
     }
 }

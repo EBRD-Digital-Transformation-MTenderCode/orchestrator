@@ -1,58 +1,93 @@
 {
-  "bid": {
-    "tenderers": [
-      {
-        "name": "Googleh555fhfgh55g12",
-        "identifier": {
-          "scheme": "MD-IDNO",
-          "id": "1-1",
-          "legalName": "Google Big Brother",
-          "uri": "hhtps://google.com"
-        },
-        "address": {
-          "streetAddress": "",
-          "postalCode": "",
-          "addressDetails": {
-            "country": {
-              "id": "MD"
-            },
-            "region": {
-              "id": "1000000"
-            },
-            "locality": {
-              "scheme": "CUATM",
-              "id": "1001000",
-              "description": "gfg"
-            }
+  "tender": {
+    "procuringEntity": {
+      "name": "NAMEP000E2",
+      "identifier": {
+        "id": "7787-9898-88",
+        "scheme": "MD-IDNO",
+        "legalName": "LN",
+        "uri": "http://454.to"
+      },
+      "address": {
+        "streetAddress": "street",
+        "postalCode": "785412",
+        "addressDetails": {
+          "country": {
+            "id": "MD"
+          },
+          "region": {
+            "id": "3400000"
+          },
+          "locality": {
+            "scheme": "CUATM",
+            "id": "3401000",
+            "description": ""
           }
+        }
+      },
+      "additionalIdentifiers": [
+        {
+          "id": "id of addIdent",
+          "scheme": "scheme",
+          "legalName": "legalname",
+          "uri": "kykyky"
+        }
+      ],
+      "contactPoint": {
+        "name": "NAME of contact person",
+        "email": "string@mail.ccc",
+        "telephone": "987987",
+        "url": "string"
+      }
+    }
+  },
+  "planning": {
+    "budget": {
+      "period": {
+        "startDate": "2018-10-01T00:00:00Z",
+        "endDate": "2018-12-31T00:00:00Z"
+      },
+      "description": "description",
+      "isEuropeanUnionFunded": false,
+      "europeanUnionFunding": {
+        "projectName": "Name of this marvelous project",
+        "projectIdentifier": "projectIdentifier",
+        "uri": "uriuri"
+      },
+      "project": "1",
+      "projectID": "2",
+      "uri": "3"
+    }
+  },
+  "buyer": {
+    "name": "nameOfFSbuyer",
+    "identifier": {
+      "id": "7787-9898-88ty",
+      "scheme": "MD-IDNO",
+      "legalName": "mem",
+      "uri": "uri"
+    },
+    "address": {
+      "streetAddress": "street",
+      "addressDetails": {
+        "country": {
+          "id": "MD"
         },
-        "details": {
-          "scale": "sme"
+        "region": {
+          "id": "1400000"
         },
-        "contactPoint": {
-          "name": "111",
-          "email": "222",
-          "telephone": "333",
-          "url": "444"
+        "locality": {
+          "scheme": "other",
+          "id": "buyer",
+          "description": "description"
         }
       }
-    ],
-    "value": {
-      "amount": 30,
-      "currency": "MDL"
     },
-    "documents": [
-      {
-        "documentType": "submissionDocuments",
-        "id": "006ff150-c23d-11e8-8cbe-a1835757f77d",
-        "title": "doc1",
-        "relatedLots": [
-          "e9078615-c65e-11e8-8454-01af08bf41a9"
-        ]
-      }
-    ],
-    "relatedLots": [
-      "e9078615-c65e-11e8-8454-01af08bf41a9"
-    ]
+    "contactPoint": {
+      "name": "buyerContactPersonOfFS",
+      "email": "dfgdfg",
+      "telephone": "dfgdfgfd",
+      "url": "url"
+    }
   }
 }
