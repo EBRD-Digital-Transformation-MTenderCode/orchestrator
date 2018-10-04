@@ -51,21 +51,20 @@ public class StorageValidateDocsOfAward implements JavaDelegate {
         final String taskId = execution.getCurrentActivityName();
         final JsonNode documents = processService.getDocumentsOfAward(jsonData, processId);
         final JsonNode commandMessage = processService.getCommandMessage(VALIDATE, context, documents);
-        JsonNode responseData = null;
-        if (Objects.nonNull(documents)) {
-            responseData = processService.processResponse(
+        if (documents != null) {
+            JsonNode responseData = processService.processResponse(
                     storageRestClient.execute(commandMessage),
                     context,
                     processId,
                     taskId,
                     commandMessage);
-        }
-        if (Objects.nonNull(responseData)) {
-            operationService.saveOperationStep(
-                    execution,
-                    entity,
-                    commandMessage,
-                    jsonData);
+            if (Objects.nonNull(responseData)) {
+                operationService.saveOperationStep(
+                        execution,
+                        entity,
+                        commandMessage,
+                        jsonData);
+            }
         }
     }
 }
