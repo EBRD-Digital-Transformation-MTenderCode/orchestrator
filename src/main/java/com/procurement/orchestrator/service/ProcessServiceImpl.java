@@ -527,10 +527,10 @@ public class ProcessServiceImpl implements ProcessService {
 
     public JsonNode getDocumentsOfAward(final JsonNode jsonData, final String processId) {
         try {
-            final ObjectNode mainNode = jsonUtil.createObjectNode();
-            final ArrayNode documentsArray = mainNode.putArray("documents");
             final JsonNode documentsNode = jsonData.get("award").findPath("documents");
             if (documentsNode.isMissingNode()) return null;
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            final ArrayNode documentsArray = mainNode.putArray("documents");
             if (documentsNode.size() > 0) {
                 for (final JsonNode docNode : documentsNode) {
                     documentsArray.add(docNode);
@@ -581,9 +581,9 @@ public class ProcessServiceImpl implements ProcessService {
     @Override
     public JsonNode getDocumentsOfBid(JsonNode jsonData, String processId) {
         try {
-            final ObjectNode mainNode = jsonUtil.createObjectNode();
             final JsonNode documentsNode = jsonData.get("bid").findPath("documents");
             if (documentsNode.isMissingNode()) return null;
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
             if (documentsNode.size() > 0) {
                 mainNode.replace("documents", documentsNode);
             }
