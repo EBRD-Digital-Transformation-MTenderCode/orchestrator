@@ -529,8 +529,9 @@ public class ProcessServiceImpl implements ProcessService {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
             final ArrayNode documentsArray = mainNode.putArray("documents");
-            final ArrayNode documentsNode = (ArrayNode) jsonData.get("award").get("documents");
-            if (documentsNode != null) {
+            final JsonNode documentsNode = jsonData.get("award").findPath("documents");
+            if (documentsNode.isMissingNode()) return null;
+            if (documentsNode.size() > 0) {
                 for (final JsonNode docNode : documentsNode) {
                     documentsArray.add(docNode);
                 }
@@ -564,7 +565,7 @@ public class ProcessServiceImpl implements ProcessService {
             final ArrayNode bidsNode = (ArrayNode) jsonData.get("bids");
             for (final JsonNode bidNode : bidsNode) {
                 final JsonNode documentsNode = bidNode.get("documents");
-                if (documentsNode != null) {
+                if (documentsNode != null && documentsNode.size() > 0) {
                     for (final JsonNode docNode : documentsNode) {
                         documentsArray.add(docNode);
                     }
@@ -581,9 +582,10 @@ public class ProcessServiceImpl implements ProcessService {
     public JsonNode getDocumentsOfBid(JsonNode jsonData, String processId) {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
-            final ArrayNode documentsArray = (ArrayNode) jsonData.get("bid").get("documents");
-            if (documentsArray.size() > 0) {
-                mainNode.replace("documents", documentsArray);
+            final JsonNode documentsNode = jsonData.get("bid").findPath("documents");
+            if (documentsNode.isMissingNode()) return null;
+            if (documentsNode.size() > 0) {
+                mainNode.replace("documents", documentsNode);
             }
             return mainNode;
         } catch (Exception e) {
