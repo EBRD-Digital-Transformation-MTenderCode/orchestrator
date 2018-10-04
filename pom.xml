@@ -30,9 +30,9 @@
         <spring-kafka.version>2.1.0.RELEASE</spring-kafka.version>
         <netty.version>4.1.17.Final</netty.version>
         <!--Docker-->
-        <docker-registry>docker.io/eprocurementsystems</docker-registry>
-        <docker-image-profile></docker-image-profile>
         <docker-maven-plugin.version>0.24.0</docker-maven-plugin.version>
+        <docker-image-profile>-swarm</docker-image-profile>
+        <docker-registry>dev.docker-registry.eprocurement.systems</docker-registry>
     </properties>
 
     <dependencyManagement>
