@@ -73,8 +73,8 @@ e-mdm:
   ribbon:
     listOfServers: http://10.0.20.125:9161
 
-logging:
-#  level:
-#    root: WARN
-  pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n"
+#logging:
+##  level:
+##    root: WARN
+#  pattern:
+#    console: "%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n"
