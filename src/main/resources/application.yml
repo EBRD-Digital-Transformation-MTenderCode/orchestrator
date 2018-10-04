@@ -4,8 +4,6 @@ server:
 spring:
   profiles:
     active: local
-  application:
-    name: bpe
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://10.0.20.112:5432/orchestrator
