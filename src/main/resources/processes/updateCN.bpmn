@@ -52,7 +52,7 @@
       <bpmn:outgoing>SequenceFlow_0vs74bs</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlow_1a9d5nj</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="SequenceFlow_0vs74bs" sourceRef="ExclusiveGateway_1jdkyq3" targetRef="clarificationValidatePeriodTask">
+    <bpmn:sequenceFlow id="SequenceFlow_0vs74bs" sourceRef="ExclusiveGateway_1jdkyq3" targetRef="ClarificationValidatePeriodTask">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${operationType=='createCNonPN' || operationType=='createCNonPIN'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:serviceTask id="SubmissionCheckPeriodTask" name="Submission Check Period" camunda:asyncBefore="true" camunda:delegateExpression="${submissionCheckPeriod}">
@@ -129,7 +129,7 @@
       <bpmn:outgoing>SequenceFlow_1kktyb3</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1jr5cqn" sourceRef="MdmValidateTenderCnTask" targetRef="AccessUpdateCnTask" />
-    <bpmn:serviceTask id="clarificationValidatePeriodTask" name="Clarification Validate Period" camunda:asyncBefore="true" camunda:delegateExpression="${clarificationValidatePeriod}">
+    <bpmn:serviceTask id="ClarificationValidatePeriodTask" name="Clarification Validate Period" camunda:asyncBefore="true" camunda:delegateExpression="${clarificationValidatePeriod}">
       <bpmn:incoming>SequenceFlow_0vs74bs</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1dye7ma</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -139,7 +139,7 @@
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1q80495" sourceRef="SaveFirstOperationTask" targetRef="StorageValidateDocsOfTenderTask" />
     <bpmn:sequenceFlow id="SequenceFlow_05ohfz1" sourceRef="StartEvent_1" targetRef="SaveFirstOperationTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1dye7ma" sourceRef="clarificationValidatePeriodTask" targetRef="SubmissionValidatePeriodTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1dye7ma" sourceRef="ClarificationValidatePeriodTask" targetRef="SubmissionValidatePeriodTask" />
     <bpmn:sequenceFlow id="SequenceFlow_19ohdq1" sourceRef="NoticeCreateReleaseTask" targetRef="SaveContextTask" />
     <bpmn:serviceTask id="ClarificationCheckPeriodTask" name="Clarification Check Period" camunda:asyncBefore="true" camunda:delegateExpression="${clarificationCheckPeriod}">
       <bpmn:incoming>SequenceFlow_1a9d5nj</bpmn:incoming>
@@ -373,7 +373,7 @@
         <di:waypoint x="870" y="480" />
         <di:waypoint x="1044" y="480" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_1pjujri_di" bpmnElement="clarificationValidatePeriodTask">
+      <bpmndi:BPMNShape id="ServiceTask_1pjujri_di" bpmnElement="ClarificationValidatePeriodTask">
         <dc:Bounds x="480" y="234" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_1rbnf7z_di" bpmnElement="ChronographScheduleEndEnquiryPeriodTask">

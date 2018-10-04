@@ -51,9 +51,9 @@ public class ProcessServiceImpl implements ProcessService {
 
     public void terminateProcess(final String processId, final String message) {
         final String description;
-        if(Objects.nonNull(message)){
+        if (Objects.nonNull(message)) {
             description = message;
-        }else{
+        } else {
             description = "Data processing exception.";
         }
         LOG.error(message);
@@ -286,7 +286,7 @@ public class ProcessServiceImpl implements ProcessService {
     @Override
     public JsonNode addEnquiryWithAnswer(JsonNode jsonData, JsonNode enquiryData, String processId) {
         try {
-            ((ObjectNode)jsonData).replace("enquiry", enquiryData.get("enquiry"));
+            ((ObjectNode) jsonData).replace("enquiry", enquiryData.get("enquiry"));
             return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
@@ -569,6 +569,21 @@ public class ProcessServiceImpl implements ProcessService {
                         documentsArray.add(docNode);
                     }
                 }
+            }
+            return mainNode;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public JsonNode getDocumentsOfBid(JsonNode jsonData, String processId) {
+        try {
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            final ArrayNode documentsArray = (ArrayNode) jsonData.get("bid").get("documents");
+            if (documentsArray.size() > 0) {
+                mainNode.replace("documents", documentsArray);
             }
             return mainNode;
         } catch (Exception e) {

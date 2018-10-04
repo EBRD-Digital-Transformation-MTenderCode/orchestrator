@@ -6,9 +6,9 @@ import org.springframework.cloud.netflix.feign.EnableFeignClients;
 
 @SpringBootApplication
 @EnableFeignClients
-public class OrchestratorApplication {
+public class BpeApplication {
 
     public static void main(final String[] args) {
-        SpringApplication.run(OrchestratorApplication.class, args);
+        SpringApplication.run(BpeApplication.class, args);
     }
 }

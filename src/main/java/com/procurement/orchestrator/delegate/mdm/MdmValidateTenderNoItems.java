@@ -50,18 +50,20 @@ public class MdmValidateTenderNoItems implements JavaDelegate {
         final String taskId = execution.getCurrentActivityId();
         final JsonNode rqData = processService.getTenderData(false, prevData, processId);
         final JsonNode commandMessage = processService.getCommandMessage(PROCESS_TENDER_DATA, context, rqData);
-        JsonNode responseData = processService.processResponse(
+        if (rqData != null) {
+            JsonNode responseData = processService.processResponse(
                     mdmRestClient.execute(commandMessage),
                     context,
                     processId,
                     taskId,
                     commandMessage);
-        if (Objects.nonNull(responseData)) {
-            operationService.saveOperationStep(
-                    execution,
-                    entity,
-                    commandMessage,
-                    processService.setTenderData(false, prevData, responseData, processId));
+            if (Objects.nonNull(responseData)) {
+                operationService.saveOperationStep(
+                        execution,
+                        entity,
+                        commandMessage,
+                        processService.setTenderData(false, prevData, responseData, processId));
+            }
         }
     }
 }
