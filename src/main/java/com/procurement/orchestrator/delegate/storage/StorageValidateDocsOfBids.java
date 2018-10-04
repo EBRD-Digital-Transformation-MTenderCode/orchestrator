@@ -49,8 +49,8 @@ public class StorageValidateDocsOfBids implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityName();
         final JsonNode documents = processService.getDocumentsOfBid(jsonData, processId);
-        final JsonNode commandMessage = processService.getCommandMessage(VALIDATE, context, documents);
         if (documents != null) {
+            final JsonNode commandMessage = processService.getCommandMessage(VALIDATE, context, documents);
             JsonNode responseData = processService.processResponse(
                     storageRestClient.execute(commandMessage),
                     context,
