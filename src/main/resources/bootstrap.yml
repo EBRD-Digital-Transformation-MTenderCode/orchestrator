@@ -3,9 +3,9 @@ server:
 
 spring:
   application:
-    name: orchestrator
+    name: bpe
 
   cloud:
     config:
       failFast: true
-      name: orchestrator
+      name: bpe
