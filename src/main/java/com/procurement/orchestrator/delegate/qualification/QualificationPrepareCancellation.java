@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.QualificationCommandType.AWARDS_CANCELLATION;
 import static com.procurement.orchestrator.domain.commands.QualificationCommandType.PREPARE_CANCELLATION;
 
 @Component

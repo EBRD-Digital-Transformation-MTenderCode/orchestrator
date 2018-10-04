@@ -16,7 +16,6 @@ import org.springframework.stereotype.Component;
 import java.util.Objects;
 
 import static com.procurement.orchestrator.domain.commands.ClarificationCommandType.CALCULATE_SAVE_PERIOD;
-import static com.procurement.orchestrator.domain.commands.ClarificationCommandType.SAVE_PERIOD;
 
 @Component
 public class ClarificationCalculateAndSavePeriod implements JavaDelegate {
