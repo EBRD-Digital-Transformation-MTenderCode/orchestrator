@@ -92,6 +92,9 @@ INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type)
 INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','OT','pnCancellation','tenderCancellation');
 INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','pnCancellation','tenderCancellation');
 
+INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','OT','awardByBid','awardByBid');
+INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','awardByBid','awardByBid');
+
 
 INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','OT','createPN','PN','planning','planning','PN','createPN');
 INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','OT','updatePN','PN','planning','planning','PN','updatePN');
