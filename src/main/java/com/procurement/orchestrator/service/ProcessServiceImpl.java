@@ -66,6 +66,19 @@ public class ProcessServiceImpl implements ProcessService {
         sendErrorToPlatform(context);
     }
 
+    public void sendErrorToPlatform(final Context context) {
+        final PlatformMessage message = new PlatformMessage();
+        message.setOperationId(context.getOperationId());
+        message.setResponseId(UUIDs.timeBased().toString());
+        message.setErrors(context.getErrors());
+
+        final Notification notification = new Notification(
+                UUID.fromString(context.getOwner()),
+                UUID.fromString(context.getOperationId()),
+                jsonUtil.toJson(message)
+        );
+        messageProducer.sendToPlatform(notification);
+    }
 
     public JsonNode getCommandMessage(final Enum command, final Context context, final JsonNode data) {
         final CommandMessage commandMessage = new CommandMessage(
@@ -892,17 +905,25 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public void sendErrorToPlatform(final Context context) {
-        final PlatformMessage message = new PlatformMessage();
-        message.setOperationId(context.getOperationId());
-        message.setResponseId(UUIDs.timeBased().toString());
-        message.setErrors(context.getErrors());
+    public JsonNode getAuctionData(JsonNode prevData, String processId) {
+        try {
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            mainNode.replace("electronicAuctions", prevData.get("tender").get("electronicAuctions"));
+            return mainNode;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
 
-        final Notification notification = new Notification(
-                UUID.fromString(context.getOwner()),
-                UUID.fromString(context.getOperationId()),
-                jsonUtil.toJson(message)
-        );
-        messageProducer.sendToPlatform(notification);
+    public JsonNode setAuctionData(JsonNode jsonData, JsonNode responseData, String processId) {
+        try {
+            final ObjectNode tenderNode = (ObjectNode) jsonData.get("tender");
+            tenderNode.replace("electronicAuctions", responseData);
+            return jsonData;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
     }
 }
