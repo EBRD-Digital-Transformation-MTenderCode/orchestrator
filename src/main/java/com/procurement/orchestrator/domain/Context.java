@@ -76,6 +76,9 @@ public class Context {
     @JsonProperty(value = "id")
     private String id;
 
+    @JsonProperty(value = "isAuction")
+    private Boolean isAuction;
+
     public void setOperationId(final String operationId) {
         this.operationId = UUID.fromString(operationId).toString();
     }

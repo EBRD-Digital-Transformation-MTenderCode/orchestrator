@@ -62,7 +62,7 @@ public class AuctionSchedule implements JavaDelegate {
                         execution,
                         entity,
                         commandMessage,
-                        processService.setBidTenderersData(prevData, responseData, processId));
+                        processService.setAuctionData(prevData, responseData, processId));
             }
         }
     }
