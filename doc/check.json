@@ -1,93 +1,114 @@
 {
-  "tender": {
-    "procuringEntity": {
-      "name": "NAMEP000E2",
-      "identifier": {
-        "id": "7787-9898-88",
-        "scheme": "MD-IDNO",
-        "legalName": "LN",
-        "uri": "http://454.to"
+  "items": [
+    {
+      "id": "dcfca930-cc86-11e8-8fed-13040b8f3c2c",
+      "description": "888-2",
+      "classification": {
+        "scheme": "CPV",
+        "id": "30199230-1",
+        "description": "Plicuri"
       },
-      "address": {
-        "streetAddress": "street",
-        "postalCode": "785412",
-        "addressDetails": {
-          "country": {
-            "id": "MD"
-          },
-          "region": {
-            "id": "3400000"
-          },
-          "locality": {
-            "scheme": "CUATM",
-            "id": "3401000",
-            "description": ""
-          }
-        }
-      },
-      "additionalIdentifiers": [
+      "additionalClassifications": [
         {
-          "id": "id of addIdent",
-          "scheme": "scheme",
-          "legalName": "legalname",
-          "uri": "kykyky"
+          "scheme": "CPVS",
+          "id": "AB06-7",
+          "description": "Plastic"
         }
       ],
-      "contactPoint": {
-        "name": "NAME of contact person",
-        "email": "string@mail.ccc",
-        "telephone": "987987",
-        "url": "string"
-      }
-    }
-  },
-  "planning": {
-    "budget": {
-      "period": {
-        "startDate": "2018-10-01T00:00:00Z",
-        "endDate": "2018-12-31T00:00:00Z"
+      "quantity": 3.00,
+      "unit": {
+        "id": "86",
+        "name": "Milion metri patrati spatiu locativ"
       },
-      "description": "description",
-      "isEuropeanUnionFunded": false,
-      "europeanUnionFunding": {
-        "projectName": "Name of this marvelous project",
-        "projectIdentifier": "projectIdentifier",
-        "uri": "uriuri"
-      },
-      "project": "1",
-      "projectID": "2",
-      "uri": "3"
-    }
-  },
-  "buyer": {
-    "name": "nameOfFSbuyer",
-    "identifier": {
-      "id": "7787-9898-88ty",
-      "scheme": "MD-IDNO",
-      "legalName": "mem",
-      "uri": "uri"
+      "relatedLot": "dcfca934-cc86-11e8-8fed-13040b8f3c2c"
     },
-    "address": {
-      "streetAddress": "street",
-      "addressDetails": {
-        "country": {
-          "id": "MD"
-        },
-        "region": {
-          "id": "1400000"
-        },
-        "locality": {
-          "scheme": "other",
-          "id": "buyer",
-          "description": "description"
+    {
+      "id": "dcfca931-cc86-11e8-8fed-13040b8f3c2c",
+      "description": "777-2",
+      "classification": {
+        "scheme": "CPV",
+        "id": "30199230-1",
+        "description": "Plicuri"
+      },
+      "additionalClassifications": [
+        {
+          "scheme": "CPVS",
+          "id": "AB06-7",
+          "description": "Plastic"
         }
-      }
+      ],
+      "quantity": 2.00,
+      "unit": {
+        "id": "86",
+        "name": "Milion metri patrati spatiu locativ"
+      },
+      "relatedLot": "dcfca933-cc86-11e8-8fed-13040b8f3c2c"
     },
-    "contactPoint": {
-      "name": "buyerContactPersonOfFS",
-      "email": "dfgdfg",
-      "telephone": "dfgdfgfd",
-      "url": "url"
+    {
+      "id": "dcfca932-cc86-11e8-8fed-13040b8f3c2c",
+      "description": "666-2",
+      "classification": {
+        "scheme": "CPV",
+        "id": "30199220-8",
+        "description": "Cărţi poştale neilustrate"
+      },
+      "additionalClassifications": [
+        {
+          "scheme": "CPVS",
+          "id": "AB06-7",
+          "description": "Plastic"
+        }
+      ],
+      "quantity": 1.00,
+      "unit": {
+        "id": "86",
+        "name": "Milion metri patrati spatiu locativ"
+      },
+      "relatedLot": "dcfca935-cc86-11e8-8fed-13040b8f3c2c"
     }
-  }
+  ],
+  "standstillPeriod": {
+    "startDate": "2018-10-10T12:55:42Z",
+    "endDate": "2018-10-10T12:55:47Z"
+  },
+  "awards": [
+    {
+      "id": "c923ad90-cc87-11e8-ae99-51651af92b90",
+      "items": [
+        {
+          "id": "dcfca932-cc86-11e8-8fed-13040b8f3c2c",
+          "description": "666-2",
+          "classification": {
+            "scheme": "CPV",
+            "id": "30199220-8",
+            "description": "Cărţi poştale neilustrate"
+          },
+          "additionalClassifications": [
+            {
+              "scheme": "CPVS",
+              "id": "AB06-7",
+              "description": "Plastic"
+            }
+          ],
+          "quantity": 1.00,
+          "unit": {
+            "id": "86",
+            "name": "Milion metri patrati spatiu locativ"
+          },
+          "relatedLot": "dcfca935-cc86-11e8-8fed-13040b8f3c2c"
+        }
+      ]
+    }
+  ],
+  "cans": [
+    {
+      "contract": {
+        "id": "a19b05b7-32d0-4c45-af20-3c6cf3158344",
+        "date": "2018-10-10T12:55:42Z",
+        "awardId": "c923ad90-cc87-11e8-ae99-51651af92b90",
+        "status": "pending",
+        "statusDetails": "contractProject"
+      }
+    }
+  ]
 }
