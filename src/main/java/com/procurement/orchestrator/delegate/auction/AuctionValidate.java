@@ -51,6 +51,7 @@ public class AuctionValidate implements JavaDelegate {
         final JsonNode rqData = processService.getAuctionData(prevData, processId);
         final JsonNode commandMessage = processService.getCommandMessage(VALIDATE, context, rqData);
         if (rqData != null) {
+            context.setIsAuction(true);
             JsonNode responseData = processService.processResponse(
                     mdmRestClient.execute(commandMessage),
                     context,
