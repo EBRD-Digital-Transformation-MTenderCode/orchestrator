@@ -109,12 +109,16 @@
       <bpmn:outgoing>SequenceFlow_0svmux8</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlow_0oyfeam</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="SequenceFlow_0svmux8" sourceRef="ExclusiveGateway_0obqhma" targetRef="EvaluationCreateAwardsTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0svmux8" sourceRef="ExclusiveGateway_0obqhma" targetRef="EvaluationCreateAwardsTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isAuctionStarted==false}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
     <bpmn:serviceTask id="EvaluationCreateAwardsByLotTask" name="Evaluation Create Awards By Lot" camunda:asyncBefore="true" camunda:delegateExpression="${evaluationCreateAwardsByLot}">
       <bpmn:incoming>SequenceFlow_0oyfeam</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_153tgn6</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_0oyfeam" sourceRef="ExclusiveGateway_0obqhma" targetRef="EvaluationCreateAwardsByLotTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0oyfeam" sourceRef="ExclusiveGateway_0obqhma" targetRef="EvaluationCreateAwardsByLotTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isAuctionStarted==true}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
     <bpmn:exclusiveGateway id="ExclusiveGateway_1dbfwyw">
       <bpmn:incoming>SequenceFlow_153tgn6</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_1gi93yc</bpmn:incoming>

@@ -43,28 +43,28 @@ public class AuctionValidate implements JavaDelegate {
     @Override
     public void execute(final DelegateExecution execution) throws Exception {
         LOG.info(execution.getCurrentActivityName());
-        final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
-        final JsonNode prevData = jsonUtil.toJsonNode(entity.getResponseData());
-        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
-        final String processId = execution.getProcessInstanceId();
-        final String taskId = execution.getCurrentActivityId();
-        final JsonNode rqData = processService.getAuctionData(prevData, processId);
-        final JsonNode commandMessage = processService.getCommandMessage(VALIDATE, context, rqData);
-        if (rqData != null) {
-            context.setIsAuction(true);
-            JsonNode responseData = processService.processResponse(
-                    mdmRestClient.execute(commandMessage),
-                    context,
-                    processId,
-                    taskId,
-                    commandMessage);
-            if (Objects.nonNull(responseData)) {
-                operationService.saveOperationStep(
-                        execution,
-                        entity,
-                        commandMessage,
-                        processService.setBidTenderersData(prevData, responseData, processId));
-            }
-        }
+//        final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
+//        final JsonNode prevData = jsonUtil.toJsonNode(entity.getResponseData());
+//        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
+//        final String processId = execution.getProcessInstanceId();
+//        final String taskId = execution.getCurrentActivityId();
+//        final JsonNode rqData = processService.getAuctionData(prevData, processId);
+//        final JsonNode commandMessage = processService.getCommandMessage(VALIDATE, context, rqData);
+//        if (rqData != null) {
+//            context.setIsAuction(true);
+//            JsonNode responseData = processService.processResponse(
+//                    mdmRestClient.execute(commandMessage),
+//                    context,
+//                    processId,
+//                    taskId,
+//                    commandMessage);
+//            if (Objects.nonNull(responseData)) {
+//                operationService.saveOperationStep(
+//                        execution,
+//                        entity,
+//                        commandMessage,
+//                        processService.setBidTenderersData(prevData, responseData, processId));
+//            }
+//        }
     }
 }
