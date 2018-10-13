@@ -1,9 +1,6 @@
 package com.procurement.orchestrator.delegate.auction;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.procurement.orchestrator.domain.Context;
-import com.procurement.orchestrator.domain.entity.OperationStepEntity;
-import com.procurement.orchestrator.rest.MdmRestClient;
+import com.procurement.orchestrator.rest.AuctionRestClient;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -13,16 +10,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.util.Objects;
-
-import static com.procurement.orchestrator.domain.commands.AuctionCommandType.VALIDATE;
-
 @Component
 public class AuctionValidate implements JavaDelegate {
 
     private static final Logger LOG = LoggerFactory.getLogger(AuctionValidate.class);
 
-    private final MdmRestClient mdmRestClient;
+    private final AuctionRestClient auctionRestClient;
 
     private final OperationService operationService;
 
@@ -30,11 +23,11 @@ public class AuctionValidate implements JavaDelegate {
 
     private final JsonUtil jsonUtil;
 
-    public AuctionValidate(final MdmRestClient mdmRestClient,
+    public AuctionValidate(final AuctionRestClient auctionRestClient,
                            final OperationService operationService,
                            final ProcessService processService,
                            final JsonUtil jsonUtil) {
-        this.mdmRestClient = mdmRestClient;
+        this.auctionRestClient = auctionRestClient;
         this.operationService = operationService;
         this.processService = processService;
         this.jsonUtil = jsonUtil;
@@ -49,11 +42,10 @@ public class AuctionValidate implements JavaDelegate {
 //        final String processId = execution.getProcessInstanceId();
 //        final String taskId = execution.getCurrentActivityId();
 //        final JsonNode rqData = processService.getAuctionData(prevData, processId);
-//        final JsonNode commandMessage = processService.getCommandMessage(VALIDATE, context, rqData);
+//        final JsonNode commandMessage = processService.getCommandMessage(SCHEDULE, context, rqData);
 //        if (rqData != null) {
-//            context.setIsAuction(true);
 //            JsonNode responseData = processService.processResponse(
-//                    mdmRestClient.execute(commandMessage),
+//                    auctionRestClient.execute(commandMessage),
 //                    context,
 //                    processId,
 //                    taskId,
@@ -63,7 +55,7 @@ public class AuctionValidate implements JavaDelegate {
 //                        execution,
 //                        entity,
 //                        commandMessage,
-//                        processService.setBidTenderersData(prevData, responseData, processId));
+//                        processService.setAuctionData(prevData, responseData, processId));
 //            }
 //        }
     }

@@ -3,6 +3,7 @@ package com.procurement.orchestrator.delegate.auction;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
+import com.procurement.orchestrator.rest.AuctionRestClient;
 import com.procurement.orchestrator.rest.MdmRestClient;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
@@ -22,7 +23,7 @@ public class AuctionSchedule implements JavaDelegate {
 
     private static final Logger LOG = LoggerFactory.getLogger(AuctionSchedule.class);
 
-    private final MdmRestClient mdmRestClient;
+    private final AuctionRestClient auctionRestClient;
 
     private final OperationService operationService;
 
@@ -30,11 +31,11 @@ public class AuctionSchedule implements JavaDelegate {
 
     private final JsonUtil jsonUtil;
 
-    public AuctionSchedule(final MdmRestClient mdmRestClient,
+    public AuctionSchedule(final AuctionRestClient auctionRestClient,
                            final OperationService operationService,
                            final ProcessService processService,
                            final JsonUtil jsonUtil) {
-        this.mdmRestClient = mdmRestClient;
+        this.auctionRestClient = auctionRestClient;
         this.operationService = operationService;
         this.processService = processService;
         this.jsonUtil = jsonUtil;
@@ -52,7 +53,7 @@ public class AuctionSchedule implements JavaDelegate {
         final JsonNode commandMessage = processService.getCommandMessage(SCHEDULE, context, rqData);
         if (rqData != null) {
             JsonNode responseData = processService.processResponse(
-                    mdmRestClient.execute(commandMessage),
+                    auctionRestClient.execute(commandMessage),
                     context,
                     processId,
                     taskId,
