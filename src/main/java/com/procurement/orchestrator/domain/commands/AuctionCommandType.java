@@ -10,8 +10,10 @@ import java.util.Map;
 
 public enum AuctionCommandType {
 
-    VALIDATE("validate"),
-    SCHEDULE("schedule");
+    VALIDATE("validateAuctionDetails"),
+    SCHEDULE("scheduleAuctions"),
+    START("scheduleAuctions"),
+    CANCEL("auctionsCancellation");
 
     private static final Map<String, AuctionCommandType> CONSTANTS = new HashMap<>();
     private final String value;

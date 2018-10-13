@@ -908,6 +908,7 @@ public class ProcessServiceImpl implements ProcessService {
     public JsonNode getAuctionData(JsonNode prevData, String processId) {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
+            mainNode.replace("tenderPeriod", prevData.get("tender").get("tenderPeriod"));
             mainNode.replace("electronicAuctions", prevData.get("tender").get("electronicAuctions"));
             return mainNode;
         } catch (Exception e) {
@@ -919,7 +920,8 @@ public class ProcessServiceImpl implements ProcessService {
     public JsonNode setAuctionData(JsonNode jsonData, JsonNode responseData, String processId) {
         try {
             final ObjectNode tenderNode = (ObjectNode) jsonData.get("tender");
-            tenderNode.replace("electronicAuctions", responseData);
+            tenderNode.replace("auctionPeriod", responseData.get("auctionPeriod"));
+            tenderNode.replace("electronicAuctions", responseData.get("electronicAuctions"));
             return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
