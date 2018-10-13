@@ -31,21 +31,21 @@
       <bpmn:outgoing>SequenceFlow_152vu65</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="NoticeCreateReleaseTask" name="Notice create release" camunda:asyncBefore="true" camunda:delegateExpression="${noticeCreateRelease}">
-      <bpmn:incoming>SequenceFlow_01vqles</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_0vfomec</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_19ohdq1</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:endEvent id="EndEvent_13r5oj1">
       <bpmn:incoming>SequenceFlow_152vu65</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:serviceTask id="StorageOpenDocsOfTenderTask" name="Storage open documents" camunda:asyncBefore="true" camunda:delegateExpression="${storageOpenDocsOfTender}">
-      <bpmn:incoming>SequenceFlow_0y85ebk</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_0eq62u4</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0vfomec</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_18l6729" sourceRef="SubmissionValidatePeriodTask" targetRef="ExclusiveGateway_0br6yxl" />
     <bpmn:sequenceFlow id="SequenceFlow_0ushpau" sourceRef="ExclusiveGateway_0br6yxl" targetRef="AccessCreateCnOnPinTask">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${operationType=='createCNonPIN'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_0vfomec" sourceRef="StorageOpenDocsOfTenderTask" targetRef="AuctionScheduleTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0vfomec" sourceRef="StorageOpenDocsOfTenderTask" targetRef="NoticeCreateReleaseTask" />
     <bpmn:exclusiveGateway id="ExclusiveGateway_1jdkyq3">
       <bpmn:incoming>SequenceFlow_16k19dh</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0vs74bs</bpmn:outgoing>
@@ -79,7 +79,7 @@
       <bpmn:incoming>SequenceFlow_0r46yeh</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0y85ebk</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="SequenceFlow_0y85ebk" sourceRef="ExclusiveGateway_1pup3aq" targetRef="StorageOpenDocsOfTenderTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0y85ebk" sourceRef="ExclusiveGateway_1pup3aq" targetRef="AuctionScheduleTask" />
     <bpmn:exclusiveGateway id="ExclusiveGateway_1qs97z1">
       <bpmn:incoming>SequenceFlow_04expyu</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0w1mvk8</bpmn:outgoing>
@@ -196,10 +196,10 @@
       <bpmn:extensionElements>
         <camunda:failedJobRetryTimeCycle>R0/PT1S</camunda:failedJobRetryTimeCycle>
       </bpmn:extensionElements>
-      <bpmn:incoming>SequenceFlow_0vfomec</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_01vqles</bpmn:outgoing>
+      <bpmn:incoming>SequenceFlow_0y85ebk</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0eq62u4</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_01vqles" sourceRef="AuctionScheduleTask" targetRef="NoticeCreateReleaseTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0eq62u4" sourceRef="AuctionScheduleTask" targetRef="StorageOpenDocsOfTenderTask" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="updateCN">
@@ -246,7 +246,7 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_0m3grhv_di" bpmnElement="StorageOpenDocsOfTenderTask">
-        <dc:Bounds x="1998" y="440" width="100" height="80" />
+        <dc:Bounds x="2134" y="440" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_18l6729_di" bpmnElement="SequenceFlow_18l6729">
         <di:waypoint x="721" y="274" />
@@ -264,8 +264,8 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0vfomec_di" bpmnElement="SequenceFlow_0vfomec">
-        <di:waypoint x="2098" y="480" />
-        <di:waypoint x="2137" y="480" />
+        <di:waypoint x="2234" y="480" />
+        <di:waypoint x="2272" y="480" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1521.5" y="410" width="90" height="12" />
         </bpmndi:BPMNLabel>
@@ -344,7 +344,7 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0y85ebk_di" bpmnElement="SequenceFlow_0y85ebk">
         <di:waypoint x="1954" y="480" />
-        <di:waypoint x="1998" y="480" />
+        <di:waypoint x="1992" y="480" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1342" y="555" width="0" height="12" />
         </bpmndi:BPMNLabel>
@@ -507,12 +507,12 @@
         <di:waypoint x="354" y="480" />
         <di:waypoint x="389" y="480" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_1spii1n_di" bpmnElement="AuctionScheduleTask">
-        <dc:Bounds x="2137" y="440" width="100" height="80" />
+      <bpmndi:BPMNShape id="ServiceTask_0wcy7wu_di" bpmnElement="AuctionScheduleTask">
+        <dc:Bounds x="1992" y="440" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="SequenceFlow_01vqles_di" bpmnElement="SequenceFlow_01vqles">
-        <di:waypoint x="2237" y="480" />
-        <di:waypoint x="2272" y="480" />
+      <bpmndi:BPMNEdge id="SequenceFlow_0eq62u4_di" bpmnElement="SequenceFlow_0eq62u4">
+        <di:waypoint x="2092" y="480" />
+        <di:waypoint x="2134" y="480" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
