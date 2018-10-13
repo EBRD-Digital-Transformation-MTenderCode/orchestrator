@@ -46,6 +46,9 @@ e-budget:
 e-access:
   ribbon:
     listOfServers: http://10.0.20.125:9031
+e-auction:
+  ribbon:
+    listOfServers: http://10.0.20.125:9191
 e-notice:
   ribbon:
     listOfServers: http://10.0.20.125:9041

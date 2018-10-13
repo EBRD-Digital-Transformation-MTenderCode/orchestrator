@@ -24,11 +24,27 @@
     "description": "gav gav",
     "legalBasis": "DIRECTIVE_2014_24_EU",
     "procurementMethodAdditionalInfo": "fsdfsdf",
-    "tenderPeriod": {
-      "endDate": "2018-10-10T11:10:00Z"
-    },
     "enquiryPeriod": {
-      "endDate": "2018-10-10T11:05:00Z"
+      "endDate": "2018-10-13T15:20:00Z"
+    },
+    "tenderPeriod": {
+      "endDate": "2018-10-13T15:30:17Z"
+    },
+    "electronicAuctions": {
+      "details": [
+        {
+          "id": "",
+          "relatedLot": "1",
+          "electronicAuctionModalities": [
+            {
+              "eligibleMinimumDifference": {
+                "amount": 250.00,
+                "currency": "MDL"
+              }
+            }
+          ]
+        }
+      ]
     },
     "procuringEntity": {
       "name": "Edward_UPDATE",
@@ -239,7 +255,7 @@
     "documents": [
       {
         "documentType": "projectPlan",
-        "id": "006ff150-c23d-11e8-8cbe-a1835757f77d",
+        "id": "f33eeb0e-eb12-476c-a62c-b35cec612b9c-1539358532949",
         "language": "en",
         "title": "doc1т",
         "relatedLots": [

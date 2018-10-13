@@ -1,114 +1,33 @@
 {
-  "items": [
-    {
-      "id": "dcfca930-cc86-11e8-8fed-13040b8f3c2c",
-      "description": "888-2",
-      "classification": {
-        "scheme": "CPV",
-        "id": "30199230-1",
-        "description": "Plicuri"
-      },
-      "additionalClassifications": [
-        {
-          "scheme": "CPVS",
-          "id": "AB06-7",
-          "description": "Plastic"
-        }
-      ],
-      "quantity": 3.00,
-      "unit": {
-        "id": "86",
-        "name": "Milion metri patrati spatiu locativ"
-      },
-      "relatedLot": "dcfca934-cc86-11e8-8fed-13040b8f3c2c"
-    },
-    {
-      "id": "dcfca931-cc86-11e8-8fed-13040b8f3c2c",
-      "description": "777-2",
-      "classification": {
-        "scheme": "CPV",
-        "id": "30199230-1",
-        "description": "Plicuri"
-      },
-      "additionalClassifications": [
-        {
-          "scheme": "CPVS",
-          "id": "AB06-7",
-          "description": "Plastic"
-        }
-      ],
-      "quantity": 2.00,
-      "unit": {
-        "id": "86",
-        "name": "Milion metri patrati spatiu locativ"
-      },
-      "relatedLot": "dcfca933-cc86-11e8-8fed-13040b8f3c2c"
-    },
-    {
-      "id": "dcfca932-cc86-11e8-8fed-13040b8f3c2c",
-      "description": "666-2",
-      "classification": {
-        "scheme": "CPV",
-        "id": "30199220-8",
-        "description": "Cărţi poştale neilustrate"
-      },
-      "additionalClassifications": [
-        {
-          "scheme": "CPVS",
-          "id": "AB06-7",
-          "description": "Plastic"
-        }
-      ],
-      "quantity": 1.00,
-      "unit": {
-        "id": "86",
-        "name": "Milion metri patrati spatiu locativ"
-      },
-      "relatedLot": "dcfca935-cc86-11e8-8fed-13040b8f3c2c"
-    }
-  ],
-  "standstillPeriod": {
-    "startDate": "2018-10-10T12:55:42Z",
-    "endDate": "2018-10-10T12:55:47Z"
+  "id": "id",
+  "command": "scheduleAuctions",
+  "context": {
+    "cpid": "cpid-2",
+    "operationId": "c15501a1-8be0-4734-bd5c-000000000000",
+    "startDate": "2018-10-01T08:48:17Z",
+    "pmd": "",
+    "country": "MD"
   },
-  "awards": [
-    {
-      "id": "c923ad90-cc87-11e8-ae99-51651af92b90",
-      "items": [
+  "data": {
+    "tenderPeriod": {
+      "endDate": "2018-10-02T08:48:17Z"
+    },
+    "electronicAuctions": {
+      "details": [
         {
-          "id": "dcfca932-cc86-11e8-8fed-13040b8f3c2c",
-          "description": "666-2",
-          "classification": {
-            "scheme": "CPV",
-            "id": "30199220-8",
-            "description": "Cărţi poştale neilustrate"
-          },
-          "additionalClassifications": [
+          "id": "",
+          "relatedLot": "rel-lot-id-2",
+          "electronicAuctionModalities": [
             {
-              "scheme": "CPVS",
-              "id": "AB06-7",
-              "description": "Plastic"
+              "eligibleMinimumDifference": {
+                "amount": 250.00,
+                "currency": "MDL"
+              }
             }
-          ],
-          "quantity": 1.00,
-          "unit": {
-            "id": "86",
-            "name": "Milion metri patrati spatiu locativ"
-          },
-          "relatedLot": "dcfca935-cc86-11e8-8fed-13040b8f3c2c"
+          ]
         }
       ]
     }
-  ],
-  "cans": [
-    {
-      "contract": {
-        "id": "a19b05b7-32d0-4c45-af20-3c6cf3158344",
-        "date": "2018-10-10T12:55:42Z",
-        "awardId": "c923ad90-cc87-11e8-ae99-51651af92b90",
-        "status": "pending",
-        "statusDetails": "contractProject"
-      }
-    }
-  ]
+  },
+  "version": "0.0.1"
 }
