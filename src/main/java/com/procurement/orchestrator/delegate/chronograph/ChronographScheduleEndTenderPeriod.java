@@ -51,9 +51,9 @@ public class ChronographScheduleEndTenderPeriod implements JavaDelegate {
         final Context contextChronograph = new Context();
         final String uuid = UUIDs.timeBased().toString();
         contextChronograph.setCpid(context.getCpid());
-        if (context.getIsAuction()){
+        if (context.getIsAuction()) {
             contextChronograph.setProcessType("tenderPeriodEndAuction");
-        }else{
+        } else {
             contextChronograph.setProcessType("tenderPeriodEnd");
         }
         contextChronograph.setOperationId(uuid);

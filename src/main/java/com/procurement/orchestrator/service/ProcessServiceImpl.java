@@ -912,7 +912,7 @@ public class ProcessServiceImpl implements ProcessService {
             if (electronicAuctionsNode != null) {
                 mainNode.replace("tenderPeriod", prevData.get("tender").get("tenderPeriod"));
                 mainNode.replace("electronicAuctions", prevData.get("tender").get("electronicAuctions"));
-            }else{
+            } else {
                 return null;
             }
             return mainNode;
