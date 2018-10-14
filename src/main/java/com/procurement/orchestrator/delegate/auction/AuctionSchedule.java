@@ -58,9 +58,11 @@ public class AuctionSchedule implements JavaDelegate {
                     taskId,
                     commandMessage);
             if (Objects.nonNull(responseData)) {
+                context.setIsAuction(true);
                 operationService.saveOperationStep(
                         execution,
                         entity,
+                        context,
                         commandMessage,
                         processService.setAuctionData(prevData, responseData, processId));
             }
