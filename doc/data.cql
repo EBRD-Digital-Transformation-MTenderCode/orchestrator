@@ -51,53 +51,49 @@ CREATE TABLE IF NOT EXISTS  ocds.orchestrator_rules (
   );
 
 INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','OT','createEI','ei');
-INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','createEI','ei');
 INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','OT','updateEI','ei');
-INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','updateEI','ei');
-
 INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','OT','createFS','fs');
-INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','createFS','fs');
 INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','OT','updateFS','fs');
-INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','updateFS','fs');
-
 INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','OT','createCN','createCN');
-INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','createCN','createCN');
 INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','OT','updateCN','updateCN');
-INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','updateCN','updateCN');
-
 INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','OT','createPN','createPN');
-INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','createPN','createPN');
 INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','OT','updatePN','updatePN');
-INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','updatePN','updatePN');
-
 INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','OT','createBid','submitTheBid');
-INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','createBid','submitTheBid');
 INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','OT','updateBid','submitTheBid');
-INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','updateBid','submitTheBid');
-
 INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','OT','enquiry','enquiry');
-INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','enquiry','enquiry');
 INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','OT','answer','answer');
-INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','answer','answer');
-
-INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','OT','endAwardPeriod','awardPeriodEnd');
-INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','endAwardPeriod','awardPeriodEnd');
-
+INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','OT','awardPeriodEnd','awardPeriodEnd');
 INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','OT','bidWithdrawn','bidWithdrawn');
-INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','bidWithdrawn','bidWithdrawn');
 INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','OT','cnCancellation','tenderCancellation');
-INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','cnCancellation','tenderCancellation');
 INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','OT','pinCancellation','tenderCancellation');
-INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','pinCancellation','tenderCancellation');
 INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','OT','pnCancellation','tenderCancellation');
-INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','pnCancellation','tenderCancellation');
+INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','OT','awardByBid','awardByBid');
 
+INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','createEI','ei');
+INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','updateEI','ei');
+INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','createFS','fs');
+INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','updateFS','fs');
+INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','createCN','createCN');
+INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','updateCN','updateCN');
+INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','createPN','createPN');
+INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','updatePN','updatePN');
+INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','createBid','submitTheBid');
+INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','updateBid','submitTheBid');
+INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','enquiry','enquiry');
+INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','answer','answer');
+INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','awardPeriodEnd','awardPeriodEnd');
+INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','bidWithdrawn','bidWithdrawn');
+INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','cnCancellation','tenderCancellation');
+INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','pinCancellation','tenderCancellation');
+INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','pnCancellation','tenderCancellation');
+INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OT','awardByBid','awardByBid');
 
 INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','OT','createPN','PN','planning','planning','PN','createPN');
 INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','OT','updatePN','PN','planning','planning','PN','updatePN');
 INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','OT','submitTheBid','EV','tendering','tendering','EV','submitTheBid');
 INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','OT','enquiryPeriodEnd','EV','clarification','tendering','EV','enquiryPeriodEnd');
 INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','OT','tenderPeriodEnd','EV','tendering','awarding','EV','tenderPeriodEndEv');
+INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','OT','tenderPeriodEndAuction','EV','tendering','auction','EV','tenderPeriodEndAuctionEv');
 INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','OT','createCN','EV','clarification','clarification','EV','createCN');
 INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','OT','updateCN','EV','clarification','clarification','EV','updateCN');
 INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','OT','updateCN','PIN','planned','clarification','EV','createCNonPIN');
@@ -118,6 +114,7 @@ INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_ph
 INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','submitTheBid','EV','tendering','tendering','EV','submitTheBid');
 INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','enquiryPeriodEnd','EV','clarification','tendering','EV','enquiryPeriodEnd');
 INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','tenderPeriodEnd','EV','tendering','awarding','EV','tenderPeriodEndEv');
+INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','tenderPeriodEndAuction','EV','tendering','auction','EV','tenderPeriodEndAuctionEv');
 INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','createCN','EV','clarification','clarification','EV','createCN');
 INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','updateCN','EV','clarification','clarification','EV','updateCN');
 INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','updateCN','PIN','planned','clarification','EV','createCNonPIN');

@@ -1,93 +1,118 @@
 {
   "tender": {
+    "title": "Test CN",
+    "description": "description",
+    "legalBasis": "NATIONAL_PROCUREMENT_LAW",
+    "enquiryPeriod": {
+      "endDate": "2018-10-21T00:00:00Z"
+    },
+    "tenderPeriod": {
+      "endDate": "2018-10-31T00:00:00Z"
+    },
     "procuringEntity": {
-      "name": "NAMEP000E2",
+      "name": "EI Byuer Новороздільська міська лікарня",
       "identifier": {
-        "id": "7787-9898-88",
+        "id": "1006601000185",
         "scheme": "MD-IDNO",
-        "legalName": "LN",
-        "uri": "http://454.to"
+        "legalName": "Serviciul Vamal",
+        "uri": "serviviulvamal@test.test"
+      },
+      "contactPoint": {
+        "name": "Осипових Сергій Олександрович",
+        "email": "test2@test.test",
+        "telephone": "+380222222222",
+        "faxNumber": "+380222222222",
+        "url": "test3@test.test"
       },
       "address": {
-        "streetAddress": "street",
-        "postalCode": "785412",
+        "streetAddress": "streetAddress",
+        "postalCode": "09100",
         "addressDetails": {
           "country": {
             "id": "MD"
           },
           "region": {
-            "id": "3400000"
+            "id": "0101000"
           },
           "locality": {
-            "scheme": "CUATM",
-            "id": "3401000",
-            "description": ""
+            "scheme": "other",
+            "id": "0112000",
+            "description": "TEST"
           }
         }
-      },
-      "additionalIdentifiers": [
-        {
-          "id": "id of addIdent",
-          "scheme": "scheme",
-          "legalName": "legalname",
-          "uri": "kykyky"
-        }
-      ],
-      "contactPoint": {
-        "name": "NAME of contact person",
-        "email": "string@mail.ccc",
-        "telephone": "987987",
-        "url": "string"
       }
-    }
+    },
+    "items": [
+      {
+        "id": "40cec070-cf8d-11e8-beb1-750e80b9a392",
+        "description": "Dasdas",
+        "classification": {
+          "id": "30000000-9",
+          "scheme": "CPV"
+        },
+        "quantity": 1,
+        "unit": {
+          "id": "110",
+          "name": "ml"
+        },
+        "relatedLot": "40cec071-cf8d-11e8-beb1-750e80b9a392"
+      }
+    ],
+    "lots": [
+      {
+        "id": "40cec071-cf8d-11e8-beb1-750e80b9a392",
+        "title": "test 1",
+        "description": "test 1",
+        "value": {
+          "amount": 100,
+          "currency": "MDL"
+        },
+        "contractPeriod": {
+          "startDate": "2018-11-05T00:00:00Z",
+          "endDate": "2018-12-10T00:00:00Z"
+        },
+        "placeOfPerformance": {
+          "address": {
+            "streetAddress": "streetAddress",
+            "postalCode": "09100",
+            "addressDetails": {
+              "country": {
+                "id": "MD"
+              },
+              "region": {
+                "id": "0101000"
+              },
+              "locality": {
+                "scheme": "other",
+                "id": "0112000",
+                "description": "TEST"
+              }
+            }
+          },
+          "description": "test Description"
+        }
+      }
+    ],
+    "documents": [
+      {
+        "id": "462b46ef-c057-4888-9c95-1edefc612b3b-1539506388957",
+        "documentType": "complaints",
+        "title": "test",
+        "description": "test"
+      }
+    ]
   },
   "planning": {
     "budget": {
-      "period": {
-        "startDate": "2018-10-01T00:00:00Z",
-        "endDate": "2018-12-31T00:00:00Z"
-      },
-      "description": "description",
-      "isEuropeanUnionFunded": false,
-      "europeanUnionFunding": {
-        "projectName": "Name of this marvelous project",
-        "projectIdentifier": "projectIdentifier",
-        "uri": "uriuri"
-      },
-      "project": "1",
-      "projectID": "2",
-      "uri": "3"
-    }
-  },
-  "buyer": {
-    "name": "nameOfFSbuyer",
-    "identifier": {
-      "id": "7787-9898-88ty",
-      "scheme": "MD-IDNO",
-      "legalName": "mem",
-      "uri": "uri"
-    },
-    "address": {
-      "streetAddress": "street",
-      "addressDetails": {
-        "country": {
-          "id": "MD"
-        },
-        "region": {
-          "id": "1400000"
-        },
-        "locality": {
-          "scheme": "other",
-          "id": "buyer",
-          "description": "description"
+      "budgetBreakdown": [
+        {
+          "id": "ocds-t1s2t3-MD-1538145377716-FS-1538145381668",
+          "amount": {
+            "amount": 100,
+            "currency": "MDL"
+          }
         }
-      }
-    },
-    "contactPoint": {
-      "name": "buyerContactPersonOfFS",
-      "email": "dfgdfg",
-      "telephone": "dfgdfgfd",
-      "url": "url"
+      ]
     }
   }
 }
