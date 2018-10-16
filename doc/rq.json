@@ -1,0 +1,38 @@
+{
+    "tender":{
+      "id":"ocds-prefix-timstamp-postfix-tender",
+      "title":"",
+      "description":"",
+      "lots":[
+        {
+          "id":"",
+          "title":"",
+          "description":"",
+          "value":{
+            "amount":"",
+            "currency":""
+          }
+        }
+      ]
+    },
+    "bidsData":
+    [{
+        "owner": "",
+        "bids": [{
+          "id": "",
+          "relatedLots":[""],
+          "createDate":"",
+          "pendingDate":"",
+          --"value":
+          {
+              "amount":"",
+              "currency":""
+          },
+          "tenderers":
+          [{
+              "id":"",
+              "name":""
+          }]
+        }]
+    }]
+}
