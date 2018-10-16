@@ -1,20 +1,118 @@
 {
-  "id": "bc7d2fa3-32fe-4851-a709-da8ea9484b98",
-  "command": "createRelease",
-  "context": {
-    "operationId": "bc7d2fa3-32fe-4851-a709-da8ea9484b98",
-    "requestId": "ecb85310-b7fa-11e8-9ab1-c5955142dce4",
-    "cpid": "ocds-t1s2t3-MD-1536914897655",
-    "stage": "EI",
-    "processType": "ei",
-    "operationType": "createEI",
-    "owner": "445f6851-c908-407d-9b45-14b92f3e964b",
-    "country": "MD",
-    "language": "ro",
-    "token": "ab6a0e43-9871-434c-b859-b3968588deb2",
-    "startDate": "2018-09-14T08:48:17Z",
+  "tender": {
+    "title": "Test CN",
+    "description": "description",
+    "legalBasis": "NATIONAL_PROCUREMENT_LAW",
+    "enquiryPeriod": {
+      "endDate": "2018-10-21T00:00:00Z"
+    },
+    "tenderPeriod": {
+      "endDate": "2018-10-31T00:00:00Z"
+    },
+    "procuringEntity": {
+      "name": "EI Byuer Новороздільська міська лікарня",
+      "identifier": {
+        "id": "1006601000185",
+        "scheme": "MD-IDNO",
+        "legalName": "Serviciul Vamal",
+        "uri": "serviviulvamal@test.test"
+      },
+      "contactPoint": {
+        "name": "Осипових Сергій Олександрович",
+        "email": "test2@test.test",
+        "telephone": "+380222222222",
+        "faxNumber": "+380222222222",
+        "url": "test3@test.test"
+      },
+      "address": {
+        "streetAddress": "streetAddress",
+        "postalCode": "09100",
+        "addressDetails": {
+          "country": {
+            "id": "MD"
+          },
+          "region": {
+            "id": "0101000"
+          },
+          "locality": {
+            "scheme": "other",
+            "id": "0112000",
+            "description": "TEST"
+          }
+        }
+      }
+    },
+    "items": [
+      {
+        "id": "40cec070-cf8d-11e8-beb1-750e80b9a392",
+        "description": "Dasdas",
+        "classification": {
+          "id": "30000000-9",
+          "scheme": "CPV"
+        },
+        "quantity": 1,
+        "unit": {
+          "id": "110",
+          "name": "ml"
+        },
+        "relatedLot": "40cec071-cf8d-11e8-beb1-750e80b9a392"
+      }
+    ],
+    "lots": [
+      {
+        "id": "40cec071-cf8d-11e8-beb1-750e80b9a392",
+        "title": "test 1",
+        "description": "test 1",
+        "value": {
+          "amount": 100,
+          "currency": "MDL"
+        },
+        "contractPeriod": {
+          "startDate": "2018-11-05T00:00:00Z",
+          "endDate": "2018-12-10T00:00:00Z"
+        },
+        "placeOfPerformance": {
+          "address": {
+            "streetAddress": "streetAddress",
+            "postalCode": "09100",
+            "addressDetails": {
+              "country": {
+                "id": "MD"
+              },
+              "region": {
+                "id": "0101000"
+              },
+              "locality": {
+                "scheme": "other",
+                "id": "0112000",
+                "description": "TEST"
+              }
+            }
+          },
+          "description": "test Description"
+        }
+      }
+    ],
+    "documents": [
+      {
+        "id": "462b46ef-c057-4888-9c95-1edefc612b3b-1539506388957",
+        "documentType": "complaints",
+        "title": "test",
+        "description": "test"
+      }
+    ]
   },
-  "data": {
-     },
-  "version": "0.0.1"
+  "planning": {
+    "budget": {
+      "budgetBreakdown": [
+        {
+          "id": "ocds-t1s2t3-MD-1538145377716-FS-1538145381668",
+          "amount": {
+            "amount": 100,
+            "currency": "MDL"
+          }
+        }
+      ]
+    }
+  }
 }

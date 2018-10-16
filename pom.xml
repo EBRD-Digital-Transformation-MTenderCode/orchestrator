@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.procurement</groupId>
-    <artifactId>orchestrator</artifactId>
-    <version>18.06.1</version>
+    <artifactId>bpe</artifactId>
+    <version>1.1.1</version>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -29,9 +29,10 @@
         <maven-failsafe-plugin.version>2.19</maven-failsafe-plugin.version>
         <spring-kafka.version>2.1.0.RELEASE</spring-kafka.version>
         <netty.version>4.1.17.Final</netty.version>
+        <!--Docker-->
+        <docker-registry>docker.io/eprocurementsystems</docker-registry>
         <docker-image-profile></docker-image-profile>
-        <docker-maven-plugin.version>0.23.0</docker-maven-plugin.version>
-        <docker-registry>dev.docker-registry.eprocurement.systems</docker-registry>
+        <docker-maven-plugin.version>0.24.0</docker-maven-plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -47,12 +48,7 @@
     </dependencyManagement>
 
     <dependencies>
-        <!--Spring Cloud-->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-        </dependency>
-        <!--Web-->
+        <!--Spring-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>

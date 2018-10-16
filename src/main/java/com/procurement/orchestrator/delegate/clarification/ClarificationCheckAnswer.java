@@ -45,7 +45,7 @@ public class ClarificationCheckAnswer implements JavaDelegate {
         final JsonNode requestData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(CHECK_ANSWER, context, jsonUtil.empty());
+        final JsonNode commandMessage = processService.getCommandMessage(CHECK_ANSWER, context, requestData);
         JsonNode responseData = processService.processResponse(
                 clarificationRestClient.execute(commandMessage),
                 context,

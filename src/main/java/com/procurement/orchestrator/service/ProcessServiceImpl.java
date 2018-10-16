@@ -4,12 +4,16 @@ import com.datastax.driver.core.utils.UUIDs;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.procurement.orchestrator.config.kafka.MessageProducer;
+import com.procurement.orchestrator.delegate.kafka.MessageProducer;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.Notification;
 import com.procurement.orchestrator.domain.PlatformError;
 import com.procurement.orchestrator.domain.PlatformMessage;
-import com.procurement.orchestrator.domain.dto.*;
+import com.procurement.orchestrator.domain.dto.ApiVersion;
+import com.procurement.orchestrator.domain.dto.CommandMessage;
+import com.procurement.orchestrator.domain.dto.ResponseDto;
+import com.procurement.orchestrator.domain.dto.ResponseErrorDto;
+import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.utils.JsonUtil;
 import org.camunda.bpm.engine.RuntimeService;
 import org.slf4j.Logger;
@@ -46,10 +50,35 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     public void terminateProcess(final String processId, final String message) {
+        final String description;
+        if (Objects.nonNull(message)) {
+            description = message;
+        } else {
+            description = "Data processing exception.";
+        }
         LOG.error(message);
-        runtimeService.deleteProcessInstance(processId, message);
+        final Set<PlatformError> errors = new HashSet<>();
+        errors.add(new PlatformError("400.00.00.00", description));
+        final OperationStepEntity entity = operationService.getOperationStep(processId, "SaveFirstOperationTask");
+        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
+        context.setErrors(errors);
+        runtimeService.deleteProcessInstance(processId, context.getOperationId());
+        sendErrorToPlatform(context);
     }
 
+    public void sendErrorToPlatform(final Context context) {
+        final PlatformMessage message = new PlatformMessage();
+        message.setOperationId(context.getOperationId());
+        message.setResponseId(UUIDs.timeBased().toString());
+        message.setErrors(context.getErrors());
+
+        final Notification notification = new Notification(
+                UUID.fromString(context.getOwner()),
+                UUID.fromString(context.getOperationId()),
+                jsonUtil.toJson(message)
+        );
+        messageProducer.sendToPlatform(notification);
+    }
 
     public JsonNode getCommandMessage(final Enum command, final Context context, final JsonNode data) {
         final CommandMessage commandMessage = new CommandMessage(
@@ -68,17 +97,7 @@ public class ProcessServiceImpl implements ProcessService {
                                     final JsonNode request) {
 
         final Set<PlatformError> errors = new HashSet<>();
-        if (responseEntity.getBody().getDetails() != null) {
-            operationService.saveOperationException(processId, taskId, context, request, jsonUtil.toJsonNode(responseEntity.getBody()));
-            final List<ResponseDetailsDto> details = responseEntity.getBody().getDetails();
-            for (final ResponseDetailsDto detail : details) {
-                errors.add(new PlatformError(detail.getCode(), detail.getMessage()));
-            }
-            context.setErrors(errors);
-            runtimeService.deleteProcessInstance(processId, context.getOperationId());
-            sendErrorToPlatform(context);
-            return null;
-        } else if (responseEntity.getBody().getErrors() != null) {
+        if (responseEntity.getBody().getErrors() != null) {
             operationService.saveOperationException(processId, taskId, context, request, jsonUtil.toJsonNode(responseEntity.getBody()));
             final List<ResponseErrorDto> responseErrors = responseEntity.getBody().getErrors();
             for (final ResponseErrorDto error : responseErrors) {
@@ -220,7 +239,9 @@ public class ProcessServiceImpl implements ProcessService {
     @Override
     public JsonNode getTenderPeriod(JsonNode jsonData, String processId) {
         try {
-            return jsonData.get("tender").get("tenderPeriod");
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            mainNode.replace("tenderPeriod", jsonData.get("tender").get("tenderPeriod"));
+            return mainNode;
         } catch (Exception e) {
             if (Objects.nonNull(processId)) terminateProcess(processId, e.getMessage());
             return null;
@@ -230,7 +251,9 @@ public class ProcessServiceImpl implements ProcessService {
     @Override
     public JsonNode getEnquiryPeriod(JsonNode jsonData, String processId) {
         try {
-            return jsonData.get("tender").get("enquiryPeriod");
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            mainNode.replace("enquiryPeriod", jsonData.get("tender").get("enquiryPeriod"));
+            return mainNode;
         } catch (Exception e) {
             if (Objects.nonNull(processId)) terminateProcess(processId, e.getMessage());
             return null;
@@ -266,6 +289,17 @@ public class ProcessServiceImpl implements ProcessService {
             final ObjectNode enquiryPeriodNode = (ObjectNode) jsonData.get("tender").get("enquiryPeriod");
             enquiryPeriodNode.replace("startDate", periodData.get("startDate"));
             enquiryPeriodNode.replace("endDate", periodData.get("endDate"));
+            return jsonData;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public JsonNode addEnquiryWithAnswer(JsonNode jsonData, JsonNode enquiryData, String processId) {
+        try {
+            ((ObjectNode) jsonData).replace("enquiry", enquiryData.get("enquiry"));
             return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
@@ -506,10 +540,11 @@ public class ProcessServiceImpl implements ProcessService {
 
     public JsonNode getDocumentsOfAward(final JsonNode jsonData, final String processId) {
         try {
+            final JsonNode documentsNode = jsonData.get("award").findPath("documents");
+            if (documentsNode.isMissingNode()) return null;
             final ObjectNode mainNode = jsonUtil.createObjectNode();
             final ArrayNode documentsArray = mainNode.putArray("documents");
-            final ArrayNode documentsNode = (ArrayNode) jsonData.get("award").get("documents");
-            if (documentsNode != null) {
+            if (documentsNode.size() > 0) {
                 for (final JsonNode docNode : documentsNode) {
                     documentsArray.add(docNode);
                 }
@@ -543,11 +578,27 @@ public class ProcessServiceImpl implements ProcessService {
             final ArrayNode bidsNode = (ArrayNode) jsonData.get("bids");
             for (final JsonNode bidNode : bidsNode) {
                 final JsonNode documentsNode = bidNode.get("documents");
-                if (documentsNode != null) {
+                if (documentsNode != null && documentsNode.size() > 0) {
                     for (final JsonNode docNode : documentsNode) {
                         documentsArray.add(docNode);
                     }
                 }
+            }
+            return mainNode;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public JsonNode getDocumentsOfBid(JsonNode jsonData, String processId) {
+        try {
+            final JsonNode documentsNode = jsonData.get("bid").findPath("documents");
+            if (documentsNode.isMissingNode()) return null;
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            if (documentsNode.size() > 0) {
+                mainNode.replace("documents", documentsNode);
             }
             return mainNode;
         } catch (Exception e) {
@@ -854,17 +905,32 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public void sendErrorToPlatform(final Context context) {
-        final PlatformMessage message = new PlatformMessage();
-        message.setOperationId(context.getOperationId());
-        message.setResponseId(UUIDs.timeBased().toString());
-        message.setErrors(context.getErrors());
+    public JsonNode getAuctionData(JsonNode prevData, String processId) {
+        try {
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            final JsonNode electronicAuctionsNode = prevData.get("tender").get("electronicAuctions");
+            if (electronicAuctionsNode != null) {
+                mainNode.replace("tenderPeriod", prevData.get("tender").get("tenderPeriod"));
+                mainNode.replace("electronicAuctions", prevData.get("tender").get("electronicAuctions"));
+            } else {
+                return null;
+            }
+            return mainNode;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
 
-        final Notification notification = new Notification(
-                UUID.fromString(context.getOwner()),
-                UUID.fromString(context.getOperationId()),
-                jsonUtil.toJson(message)
-        );
-        messageProducer.sendToPlatform(notification);
+    public JsonNode setAuctionData(JsonNode jsonData, JsonNode responseData, String processId) {
+        try {
+            final ObjectNode tenderNode = (ObjectNode) jsonData.get("tender");
+            tenderNode.replace("auctionPeriod", responseData.get("auctionPeriod"));
+            tenderNode.replace("electronicAuctions", responseData.get("electronicAuctions"));
+            return jsonData;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
     }
 }

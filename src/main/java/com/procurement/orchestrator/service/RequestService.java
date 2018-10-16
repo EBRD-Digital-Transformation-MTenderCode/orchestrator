@@ -3,12 +3,13 @@ package com.procurement.orchestrator.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.Rule;
-import com.procurement.orchestrator.domain.TypeOfProcess;
 import com.procurement.orchestrator.domain.entity.RequestEntity;
 import org.springframework.stereotype.Service;
 
 @Service
 public interface RequestService {
+
+    void validate(String operationId, JsonNode data);
 
     void saveRequest(String requestId, String operationId, Context context, JsonNode jsonData);
 

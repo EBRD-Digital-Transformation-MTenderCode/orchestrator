@@ -4,8 +4,6 @@ server:
 spring:
   profiles:
     active: local
-  application:
-    name: orchestrator
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://10.0.20.112:5432/orchestrator
@@ -21,17 +19,9 @@ cassandra:
   username: caclient
   password: 6AH7vbrkMWnfK
 
-eureka:
-  client:
-    enabled: false
-
 uri:
-  #  budget: http://public.eprocurement.systems/budget/
-  #  tender: http://public.eprocurement.systems/tender/
   budget: http://dev.public.eprocurement.systems/budget/
   tender: http://dev.public.eprocurement.systems/tender/
-
-  http://public.eprocurement.systems
 
 camunda:
   bpm:
@@ -56,6 +46,9 @@ e-budget:
 e-access:
   ribbon:
     listOfServers: http://10.0.20.125:9031
+e-auction:
+  ribbon:
+    listOfServers: http://10.0.20.125:9191
 e-notice:
   ribbon:
     listOfServers: http://10.0.20.125:9041
@@ -80,3 +73,9 @@ e-contracting:
 e-mdm:
   ribbon:
     listOfServers: http://10.0.20.125:9161
+
+logging:
+  ##  level:
+  ##    root: WARN
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n"

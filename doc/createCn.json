@@ -1,18 +1,16 @@
 {
   "planning": {
-    "rationale": "rationale_update",
     "budget": {
-      "description": "description_update",
       "budgetBreakdown": [
         {
-          "id": "ocds-t1s2t3-MD-1534248504719-FS-1534248520484",
+          "id": "ocds-t1s2t3-MD-1539164150837-FS-1539164169036",
           "amount": {
             "amount": 900,
             "currency": "MDL"
           }
         },
         {
-          "id": "ocds-t1s2t3-MD-1534248504719-FS-1534329123626",
+          "id": "ocds-t1s2t3-MD-1539164150837-FS-1539164179110",
           "amount": {
             "amount": 800,
             "currency": "MDL"
@@ -24,22 +22,47 @@
   "tender": {
     "title": "gav",
     "description": "gav gav",
-    "legalBasis": "NATIONAL_PROCUREMENT_LAW",
-    "procurementMethodRationale": "pmr_update",
-    "procurementMethodAdditionalInfo": "pmai_update",
+    "legalBasis": "DIRECTIVE_2014_24_EU",
+    "procurementMethodAdditionalInfo": "fsdfsdf",
+    "enquiryPeriod": {
+      "endDate": "2018-10-13T15:20:00Z"
+    },
     "tenderPeriod": {
-      "endDate": "2018-08-29T16:59:00Z"
+      "endDate": "2018-10-13T15:30:17Z"
+    },
+    "electronicAuctions": {
+      "details": [
+        {
+          "id": "",
+          "relatedLot": "1",
+          "electronicAuctionModalities": [
+            {
+              "eligibleMinimumDifference": {
+                "amount": 250.00,
+                "currency": "MDL"
+              }
+            }
+          ]
+        }
+      ]
     },
     "procuringEntity": {
-      "name": "Update_company",
+      "name": "Edward_UPDATE",
       "identifier": {
         "scheme": "MD-IDNO",
-        "id": "update_id",
-        "legalName": "fff",
-        "uri": "hhh"
+        "id": "66666666",
+        "legalName": "6666",
+        "uri": "trtt"
       },
+      "additionalIdentifiers": [
+        {
+          "scheme": "33",
+          "id": "22",
+          "legalName": "11"
+        }
+      ],
       "address": {
-        "streetAddress": "444",
+        "streetAddress": "66666666",
         "addressDetails": {
           "country": {
             "id": "MD"
@@ -48,18 +71,17 @@
             "id": "1000000"
           },
           "locality": {
-            "scheme": "CUAT",
+            "scheme": "CUATM",
             "id": "1001000",
-            "description": "dgfdfg"
+            "description": "66666"
           }
         }
       },
       "contactPoint": {
-        "name": "hgfh",
-        "email": "hfgh",
-        "telephone": "hgfhfh",
-        "faxNumber": "hgfh",
-        "url": "hgfhgf"
+        "name": "6666",
+        "email": "6666",
+        "telephone": "66666666",
+        "faxNumber": "66666"
       }
     },
     "lots": [
@@ -68,16 +90,16 @@
         "title": "lot1",
         "description": "looot",
         "value": {
-          "amount": 200,
+          "amount": 500,
           "currency": "MDL"
         },
         "contractPeriod": {
-          "startDate": "2018-11-19T14:45:00Z",
-          "endDate": "2018-12-25T14:45:00Z"
+          "startDate": "2019-12-29T14:45:00Z",
+          "endDate": "2019-12-30T14:45:00Z"
         },
         "placeOfPerformance": {
           "address": {
-            "streetAddress": "555",
+            "streetAddress": "6666",
             "postalCode": "666",
             "addressDetails": {
               "country": {
@@ -87,12 +109,78 @@
                 "id": "1000000"
               },
               "locality": {
-                "scheme": "gfgf",
-                "id": "gfg",
-                "description": "gfg"
+                "scheme": "666",
+                "id": "666",
+                "description": "666"
               }
             }
           }
+        }
+      },
+      {
+        "id": "2",
+        "title": "lot2",
+        "description": "looot",
+        "value": {
+          "amount": 200,
+          "currency": "MDL"
+        },
+        "contractPeriod": {
+          "startDate": "2018-12-22T14:45:00Z",
+          "endDate": "2018-12-22T14:45:01Z"
+        },
+        "placeOfPerformance": {
+          "address": {
+            "streetAddress": "777",
+            "postalCode": "777",
+            "addressDetails": {
+              "country": {
+                "id": "MD"
+              },
+              "region": {
+                "id": "1000000"
+              },
+              "locality": {
+                "scheme": "CUATM",
+                "id": "1001001",
+                "description": "777"
+              }
+            }
+          },
+          "description": "2"
+        }
+      },
+      {
+        "id": "3",
+        "title": "lot3",
+        "description": "looot",
+        "value": {
+          "amount": 200,
+          "currency": "MDL"
+        },
+        "contractPeriod": {
+          "startDate": "2018-12-22T14:45:00Z",
+          "endDate": "2018-12-22T14:45:01Z"
+        },
+        "placeOfPerformance": {
+          "address": {
+            "streetAddress": "777",
+            "postalCode": "777",
+            "addressDetails": {
+              "country": {
+                "id": "MD"
+              },
+              "region": {
+                "id": "1000000"
+              },
+              "locality": {
+                "scheme": "CUATM",
+                "id": "1001001",
+                "description": "777"
+              }
+            }
+          },
+          "description": "2"
         }
       }
     ],
@@ -107,16 +195,16 @@
         "additionalClassifications": [
           {
             "scheme": "CPVS",
-            "description": "",
+            "description": "666",
             "id": "AB06-7"
           }
         ],
-        "quantity": 100,
+        "quantity": 1,
         "unit": {
           "id": "86",
           "name": "square"
         },
-        "description": "1",
+        "description": "666-2",
         "relatedLot": "1"
       },
       {
@@ -124,36 +212,55 @@
         "classification": {
           "scheme": "CPV",
           "description": "ggg",
-          "id": "30199220-8"
+          "id": "30199230-1"
         },
         "additionalClassifications": [
           {
-            "scheme": "CPVs",
-            "description": "",
+            "scheme": "CPVS",
+            "description": "777",
             "id": "AB06-7"
           }
         ],
-        "quantity": 100,
+        "quantity": 2,
         "unit": {
           "id": "86",
-          "name": "square"
+          "name": "square metre"
         },
-        "description": "2",
-        "relatedLot": "1"
+        "description": "777-2",
+        "relatedLot": "2"
+      },
+      {
+        "id": "3",
+        "classification": {
+          "scheme": "CPV",
+          "description": "ggg",
+          "id": "30199230-1"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "CPVS",
+            "description": "888",
+            "id": "AB06-7"
+          }
+        ],
+        "quantity": 3,
+        "unit": {
+          "id": "86",
+          "name": "square metre"
+        },
+        "description": "888-2",
+        "relatedLot": "3"
       }
     ],
     "documents": [
       {
-        "documentType": "tenderNotice",
-        "id": "f7178f90-9fba-11e8-9318-61ca1098e80e",
-        "title": "doc1"
-      },
-      {
-        "documentType": "illustration",
-        "id": "0a326080-a058-11e8-9318-61ca1098e80e",
-        "title": "doc1",
+        "documentType": "projectPlan",
+        "id": "f33eeb0e-eb12-476c-a62c-b35cec612b9c-1539358532949",
+        "language": "en",
+        "title": "doc1т",
         "relatedLots": [
-          "1"
+          "1",
+          "2"
         ]
       }
     ]

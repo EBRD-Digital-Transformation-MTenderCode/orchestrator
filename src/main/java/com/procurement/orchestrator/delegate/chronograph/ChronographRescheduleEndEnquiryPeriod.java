@@ -2,7 +2,7 @@ package com.procurement.orchestrator.delegate.chronograph;
 
 import com.datastax.driver.core.utils.UUIDs;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.procurement.orchestrator.config.kafka.MessageProducer;
+import com.procurement.orchestrator.delegate.kafka.MessageProducer;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.chronograph.ActionType;
 import com.procurement.orchestrator.domain.chronograph.ScheduleTask;
@@ -50,7 +50,7 @@ public class ChronographRescheduleEndEnquiryPeriod implements JavaDelegate {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
-        /**set context for next process*/
+        /*set context for next process*/
         final Context contextChronograph = new Context();
         final String uuid = UUIDs.timeBased().toString();
         contextChronograph.setCpid(context.getCpid());
@@ -63,14 +63,23 @@ public class ChronographRescheduleEndEnquiryPeriod implements JavaDelegate {
         final LocalDateTime newLaunchTime = dateUtil.stringToLocal(
                 processService.getEnquiryPeriodEndDate(jsonData, processId));
 
-        final ScheduleTask task = new ScheduleTask(
-                ActionType.REPLACE,
+        final ScheduleTask cancelTask = new ScheduleTask(
+                ActionType.CANCEL,
                 context.getCpid(),
-                "TENDERING",
+                "clarification",
                 null, /*launchTime*/
-                newLaunchTime,
+                null,
                 jsonUtil.toJson(contextChronograph));
-        messageProducer.sendToChronograph(task);
-        operationService.saveOperationStep(execution, entity, jsonUtil.toJsonNode(task));
+        messageProducer.sendToChronograph(cancelTask);
+
+        final ScheduleTask scheduleTask = new ScheduleTask(
+                ActionType.SCHEDULE,
+                context.getCpid(),
+                "clarification",
+                newLaunchTime, /*launchTime*/
+                null,
+                jsonUtil.toJson(contextChronograph));
+        messageProducer.sendToChronograph(scheduleTask);
+        operationService.saveOperationStep(execution, entity, jsonUtil.toJsonNode(scheduleTask));
     }
 }

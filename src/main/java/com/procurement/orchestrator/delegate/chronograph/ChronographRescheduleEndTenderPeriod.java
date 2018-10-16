@@ -2,7 +2,7 @@ package com.procurement.orchestrator.delegate.chronograph;
 
 import com.datastax.driver.core.utils.UUIDs;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.procurement.orchestrator.config.kafka.MessageProducer;
+import com.procurement.orchestrator.delegate.kafka.MessageProducer;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.chronograph.ActionType;
 import com.procurement.orchestrator.domain.chronograph.ScheduleTask;
@@ -50,11 +50,15 @@ public class ChronographRescheduleEndTenderPeriod implements JavaDelegate {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
-        /**set context for next process*/
+        /*set context for next process*/
         final Context contextChronograph = new Context();
         final String uuid = UUIDs.timeBased().toString();
         contextChronograph.setCpid(context.getCpid());
-        contextChronograph.setProcessType("tenderPeriodEnd");
+        if (context.getIsAuction()) {
+            contextChronograph.setProcessType("tenderPeriodEndAuction");
+        } else {
+            contextChronograph.setProcessType("tenderPeriodEnd");
+        }
         contextChronograph.setOperationId(uuid);
         contextChronograph.setRequestId(uuid);
 
@@ -63,14 +67,23 @@ public class ChronographRescheduleEndTenderPeriod implements JavaDelegate {
         final LocalDateTime newLaunchTime = dateUtil.stringToLocal(
                 processService.getTenderPeriodEndDate(jsonData, processId));
 
-        final ScheduleTask task = new ScheduleTask(
-                ActionType.REPLACE,
+        final ScheduleTask cancelTask = new ScheduleTask(
+                ActionType.CANCEL,
                 context.getCpid(),
-                "TENDERING",
-                null, /*launchTime*/
-                newLaunchTime,
+                "tendering",
+                null,
+                null,
                 jsonUtil.toJson(contextChronograph));
-        messageProducer.sendToChronograph(task);
-        operationService.saveOperationStep(execution, entity, jsonUtil.toJsonNode(task));
+        messageProducer.sendToChronograph(cancelTask);
+
+        final ScheduleTask scheduleTask = new ScheduleTask(
+                ActionType.SCHEDULE,
+                context.getCpid(),
+                "tendering",
+                newLaunchTime, /*launchTime*/
+                null,
+                jsonUtil.toJson(contextChronograph));
+        messageProducer.sendToChronograph(scheduleTask);
+        operationService.saveOperationStep(execution, entity, jsonUtil.toJsonNode(scheduleTask));
     }
 }

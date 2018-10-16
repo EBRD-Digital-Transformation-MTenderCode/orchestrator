@@ -59,9 +59,7 @@ public class AccessCheckItems implements JavaDelegate {
                     commandMessage);
         }
         if (Objects.nonNull(responseData)) {
-
             processResponse(execution, responseData, processId);
-
             operationService.saveOperationStep(
                     execution,
                     entity,

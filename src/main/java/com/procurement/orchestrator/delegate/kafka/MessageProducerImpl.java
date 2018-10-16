@@ -1,4 +1,4 @@
-package com.procurement.orchestrator.config.kafka;
+package com.procurement.orchestrator.delegate.kafka;
 
 import com.procurement.orchestrator.domain.Notification;
 import com.procurement.orchestrator.domain.chronograph.ScheduleTask;

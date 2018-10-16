@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 @Service
 public class RequestServiceImpl implements RequestService {
@@ -43,6 +44,13 @@ public class RequestServiceImpl implements RequestService {
         this.cassandraDao = cassandraDao;
         this.processService = processService;
         this.operationService = operationService;
+    }
+
+    @Override
+    public void validate(final String operationId, final JsonNode data) {
+        Pattern p = Pattern.compile("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$");
+        if (!p.matcher(operationId).matches()) throw new OperationException("Invalid UUID.");
+        if (data != null && data.size() == 0) throw new OperationException("Data is empty!");
     }
 
     @Override
@@ -110,7 +118,7 @@ public class RequestServiceImpl implements RequestService {
     public Rule checkAndGetRule(final Context prevContext, final String processType) {
         final List<Rule> rules = cassandraDao.getRules(prevContext.getCountry(), prevContext.getPmd(), processType);
         if (rules.isEmpty()) {
-            throw new OperationException("Operation impossible.");
+            throw new OperationException("Operation impossible in phase: " + prevContext.getPhase());
         }
         Rule rule = null;
         for (final Rule r : rules) {
@@ -121,7 +129,7 @@ public class RequestServiceImpl implements RequestService {
         if (rule != null) {
             return rule;
         } else {
-            throw new OperationException("Operation impossible.");
+            throw new OperationException("Operation impossible in phase: " + prevContext.getPhase());
         }
     }
 

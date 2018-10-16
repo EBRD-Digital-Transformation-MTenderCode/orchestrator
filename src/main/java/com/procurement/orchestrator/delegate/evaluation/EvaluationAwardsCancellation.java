@@ -53,6 +53,7 @@ public class EvaluationAwardsCancellation implements JavaDelegate {
                 taskId,
                 commandMessage);
         if (Objects.nonNull(responseData)) {
+            context.setPhase("empty");
             operationService.saveOperationStep(
                     execution,
                     entity,

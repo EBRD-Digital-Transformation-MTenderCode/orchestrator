@@ -2,7 +2,7 @@ package com.procurement.orchestrator.delegate.chronograph;
 
 import com.datastax.driver.core.utils.UUIDs;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.procurement.orchestrator.config.kafka.MessageProducer;
+import com.procurement.orchestrator.delegate.kafka.MessageProducer;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.chronograph.ActionType;
 import com.procurement.orchestrator.domain.chronograph.ScheduleTask;
@@ -51,7 +51,7 @@ public class ChronographScheduleEndEnquiryPeriod implements JavaDelegate {
         final Context contextChronograph = new Context();
         final String uuid = UUIDs.timeBased().toString();
         contextChronograph.setCpid(context.getCpid());
-        contextChronograph.setProcessType("tenderPeriodEnd");
+        contextChronograph.setProcessType("enquiryPeriodEnd");
         contextChronograph.setOperationId(uuid);
         contextChronograph.setRequestId(uuid);
 
@@ -63,7 +63,7 @@ public class ChronographScheduleEndEnquiryPeriod implements JavaDelegate {
         final ScheduleTask task = new ScheduleTask(
                 ActionType.SCHEDULE,
                 context.getCpid(),
-                "ENQUIRING",
+                "clarification",
                 launchTime,
                 null, /*newLaunchTime*/
                 jsonUtil.toJson(contextChronograph));

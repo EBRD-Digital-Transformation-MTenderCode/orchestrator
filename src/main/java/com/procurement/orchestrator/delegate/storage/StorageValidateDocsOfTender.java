@@ -49,22 +49,21 @@ public class StorageValidateDocsOfTender implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityName();
         final JsonNode documents = processService.getDocumentsOfTender(jsonData, processId);
-        final JsonNode commandMessage = processService.getCommandMessage(VALIDATE, context, documents);
-        JsonNode responseData = null;
-        if (Objects.nonNull(documents)) {
-            responseData = processService.processResponse(
+        if (documents != null) {
+            final JsonNode commandMessage = processService.getCommandMessage(VALIDATE, context, documents);
+            JsonNode responseData = processService.processResponse(
                     storageRestClient.execute(commandMessage),
                     context,
                     processId,
                     taskId,
                     commandMessage);
-        }
-        if (Objects.nonNull(responseData)) {
-            operationService.saveOperationStep(
-                    execution,
-                    entity,
-                    documents,
-                    processService.setDocumentsOfAward(jsonData, responseData, processId));
+            if (Objects.nonNull(responseData)) {
+                operationService.saveOperationStep(
+                        execution,
+                        entity,
+                        commandMessage,
+                        jsonData);
+            }
         }
     }
 }

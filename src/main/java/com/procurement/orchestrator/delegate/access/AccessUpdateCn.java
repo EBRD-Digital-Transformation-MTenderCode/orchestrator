@@ -47,6 +47,7 @@ public class AccessUpdateCn implements JavaDelegate {
         final String taskId = execution.getCurrentActivityId();
         final JsonNode requestData = processService.getAccessData(jsonData, processId);
         final JsonNode commandMessage = processService.getCommandMessage(UPDATE_CN, context, requestData);
+        execution.setVariable("isLotsChanged", false);
         JsonNode responseData = processService.processResponse(
                 accessRestClient.execute(commandMessage),
                 context,
@@ -54,6 +55,7 @@ public class AccessUpdateCn implements JavaDelegate {
                 taskId,
                 commandMessage);
         if (Objects.nonNull(responseData)) {
+            execution.setVariable("isLotsChanged", processService.getBoolean("isLotsChanged", responseData, processId));
             operationService.saveOperationStep(
                     execution,
                     entity,

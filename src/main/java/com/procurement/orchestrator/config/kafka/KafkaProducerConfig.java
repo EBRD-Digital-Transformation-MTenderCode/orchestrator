@@ -1,5 +1,7 @@
 package com.procurement.orchestrator.config.kafka;
 
+import com.procurement.orchestrator.delegate.kafka.MessageProducer;
+import com.procurement.orchestrator.delegate.kafka.MessageProducerImpl;
 import com.procurement.orchestrator.utils.JsonUtil;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;

@@ -49,6 +49,8 @@ public interface ProcessService {
 
     JsonNode addTenderEnquiryPeriod(JsonNode jsonData, JsonNode periodData, String processId);
 
+    JsonNode addEnquiryWithAnswer(JsonNode jsonData, JsonNode periodData, String processId);
+
     JsonNode addTenderStatus(JsonNode jsonData, JsonNode statusData, String processId);
 
     JsonNode addLots(JsonNode jsonData, JsonNode lotsData, String processId);
@@ -95,6 +97,8 @@ public interface ProcessService {
 
     JsonNode getDocumentsOfBids(JsonNode jsonData, String processId);
 
+    JsonNode getDocumentsOfBid(JsonNode jsonData, String processId);
+
     JsonNode setDocumentsOfBids(JsonNode jsonData, JsonNode documentsData, String processId);
 
     JsonNode addStandstillPeriod(JsonNode jsonData, String startDate, String endDate, String processId);
@@ -136,5 +140,10 @@ public interface ProcessService {
     JsonNode setEnquiryAuthor(JsonNode jsonData, JsonNode responseData, String processId);
 
     JsonNode getEnquiryRelatedLot(JsonNode jsonData, String processId);
+
+    JsonNode getAuctionData(JsonNode prevData, String processId);
+
+    JsonNode setAuctionData(JsonNode jsonData, JsonNode responseData, String processId);
+
 }
 
