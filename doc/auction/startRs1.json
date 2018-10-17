@@ -1,0 +1,65 @@
+{
+  "isAuctionStarted": true,
+  "auctionsLinks": [
+    {
+      "owner": "",
+      "links": [
+        {
+          "relatedBid": "",
+          "url": ""
+        }
+      ]
+    }
+  ],
+  "electronicAuctions": {
+    "details": [
+      {
+        "id": "",
+        "relatedLot": "",
+        "auctionPeriod": {
+          "startDate": ""
+        },
+        "electronicAuctionModalities": [
+          {
+            "url": "https://eauction.mtender.md/cpid/ocid",
+            "eligibleMinimumDifference": {
+              "amount": 150.00,
+              "currency": "MDL"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auctionsData": {
+    "tender": {
+      "id": "ocds-prefix-timstamp-postfix-tender",
+      "title": "",
+      "description": "",
+      "lots": [
+        {
+          "id": "",
+          "title": "",
+          "description": "",
+          "eligibleMinimumDifference": "",
+          "value": {
+            "amount": "",
+            "currency": ""
+          },
+          "auctionPeriod": {
+            "startDate": ""
+          }
+        }
+      ]
+    },
+    "bids": [
+      {
+        "id": "",
+        "value": "",
+        "relatedLot": "",
+        "pendingDate": "",
+        "sign": ""
+      }
+    ]
+  }
+}

@@ -21,9 +21,7 @@
       "bids": [
         {
           "id": "",
-          "relatedLots": [
-            ""
-          ],
+          "relatedLots": [""],
           "createDate": "",
           "pendingDate": "",
           "value": {
