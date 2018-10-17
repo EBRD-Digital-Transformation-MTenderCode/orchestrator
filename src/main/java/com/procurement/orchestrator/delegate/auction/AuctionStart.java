@@ -17,7 +17,7 @@ public class AuctionStart implements JavaDelegate {
 //
 //    private final JsonUtil jsonUtil;
 //
-//    public AuctionSchedule(final AuctionRestClient auctionRestClient,
+//    public AuctionStart(final AuctionRestClient auctionRestClient,
 //                           final OperationService operationService,
 //                           final ProcessService processService,
 //                           final JsonUtil jsonUtil) {
