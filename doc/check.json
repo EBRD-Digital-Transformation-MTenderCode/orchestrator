@@ -1,43 +1,253 @@
 {
-  "id": "2217257c-31d9-4347-ad75-c2f81fdf2394",
-  "command": "SCHEDULE",
-  "context": {
-    "operationId": "2217257c-31d9-4347-ad75-c2f81fdf2394",
-    "requestId": "86fc1120-d216-11e8-9a5d-b1c9fa961d02",
-    "cpid": "ocds-t1s2t3-MD-1539785483268",
-    "stage": "EV",
-    "processType": "createCN",
-    "operationType": "createCN",
-    "phase": "clarification",
-    "owner": "445f6851-c908-407d-9b45-14b92f3e964b",
-    "country": "MD",
-    "language": "ro",
-    "pmd": "TEST_SV",
-    "token": "3730b365-c563-48eb-a2fa-48c26de7e9da",
-    "startDate": "2018-10-17T14:11:23Z",
-    "isAuction": false
+  "planning": {
+    "rationale": "The rationale for the procurement provided in free text. More detail can be provided in an attached document.",
+    "budget": {
+      "description": "A short free text description of the budget source. May be used to provide the title of the budget line, or the programme used to fund this project.",
+      "budgetBreakdown": [
+        {
+          "id": "ocds-t1s2t3-MD-1538646686033-FS-1538646700667",
+          "amount": {
+            "amount": 200,
+            "currency": "MDL"
+          }
+        }
+      ]
+    }
   },
-  "data": {
+  "tender": {
+    "title": "Tender title",
+    "description": "Tender description",
+    "legalBasis": "DIRECTIVE_2014_24_EU",
+    "procurementMethodRationale": "Rationale of procurement method, especially in the case of Limited tendering.",
+    "procurementMethodAdditionalInfo": "Additional information about the procurement method.",
+    "eligibilityCriteria": "A description of any eligibility criteria for potential suppliers.",
     "tenderPeriod": {
-      "startDate": "2018-11-10T12:00:00Z",
-      "endDate": "2018-11-20T23:59:00Z"
+      "endDate": "2018-10-18T21:59:00Z",
+      "startDate": "2018-10-17T20:59:00Z"
     },
+    "enquiryPeriod": {
+      "endDate": "2018-10-17T22:00:00Z",
+      "startDate": "2018-10-17T21:00:41Z"
+    },
+    "procurementMethodModalities": [
+      "electronicAuctio"
+    ],
     "electronicAuctions": {
       "details": [
         {
-          "id": "1",
-          "relatedLot": "871c1c42-d216-11e8-a3db-d9ed4fe172ef",
+          "id": "123456",
+          "relatedLot": "lot-id-222222",
           "electronicAuctionModalities": [
             {
               "eligibleMinimumDifference": {
-                "amount": 50.00,
+                "amount": 5.00,
+                "currency": "MDL"
+              }
+            }
+          ]
+        },
+        {
+          "id": "123456",
+          "relatedLot": "lot-id-111111",
+          "electronicAuctionModalities": [
+            {
+              "eligibleMinimumDifference": {
+                "amount": 7.00,
                 "currency": "MDL"
               }
             }
           ]
         }
       ]
-    }
-  },
-  "version": "0.0.1"
+    },
+    "lots": [
+      {
+        "id": "lot-id-111111",
+        "title": "A title for this lot.",
+        "description": "A description of this lot.",
+        "value": {
+          "amount": 100,
+          "currency": "MDL"
+        },
+        "contractPeriod": {
+          "startDate": "2018-10-18T00:00:00Z",
+          "endDate": "2018-12-16T00:00:00Z"
+        },
+        "placeOfPerformance": {
+          "address": {
+            "streetAddress": "",
+            "postalCode": "",
+            "addressDetails": {
+              "country": {
+                "id": "MD"
+              },
+              "region": {
+                "id": "3400000"
+              },
+              "locality": {
+                "scheme": "other",
+                "id": "",
+                "description": ""
+              }
+            }
+          },
+          "description": "Further description of the place of performance of the contract. Required by EU."
+        }
+      },
+      {
+        "id": "lot-id-222222",
+        "title": "A title for this lot.",
+        "description": "A description of this lot.",
+        "value": {
+          "amount": 100,
+          "currency": "MDL"
+        },
+        "contractPeriod": {
+          "startDate": "2018-10-18T00:00:00Z",
+          "endDate": "2018-12-16T00:00:00Z"
+        },
+        "placeOfPerformance": {
+          "address": {
+            "streetAddress": "",
+            "postalCode": "",
+            "addressDetails": {
+              "country": {
+                "id": "MD"
+              },
+              "region": {
+                "id": "3400000"
+              },
+              "locality": {
+                "scheme": "other",
+                "id": "",
+                "description": ""
+              }
+            }
+          },
+          "description": "Further description of the place of performance of the contract. Required by EU."
+        }
+      }
+    ],
+    "items": [
+      {
+        "id": "item-id-111111",
+        "classification": {
+          "scheme": "CPV",
+          "description": "Fire-prevention installation works",
+          "id": "30100000-0"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "CPVS",
+            "description": "A textual description or title for the code.",
+            "id": "AA01-1"
+          }
+        ],
+        "quantity": 10,
+        "unit": {
+          "id": "118",
+          "name": "square centimetre"
+        },
+        "description": "A description of the goods, services to be provided.",
+        "relatedLot": "lot-id-111111"
+      },
+      {
+        "id": "item-id-222222",
+        "classification": {
+          "scheme": "CPV",
+          "description": "Fire-prevention installation works",
+          "id": "30100000-0"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "CPVS",
+            "description": "A textual description or title for the code.",
+            "id": "AA01-1"
+          }
+        ],
+        "quantity": 10,
+        "unit": {
+          "id": "118",
+          "name": "square centimetre"
+        },
+        "description": "A description of the goods, services to be provided.",
+        "relatedLot": "lot-id-111111"
+      },
+      {
+        "id": "item-id-333333",
+        "classification": {
+          "scheme": "CPV",
+          "description": "Fire-prevention installation works",
+          "id": "30100000-0"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "CPVS",
+            "description": "A textual description or title for the code.",
+            "id": "AA01-1"
+          }
+        ],
+        "quantity": 10,
+        "unit": {
+          "id": "118",
+          "name": "square centimetre"
+        },
+        "description": "A description of the goods, services to be provided.",
+        "relatedLot": "lot-id-222222"
+      }
+    ],
+    "procuringEntity": {
+      "name": "Новороздільська міська лікарня",
+      "identifier": {
+        "scheme": "MD-IDNO",
+        "id": "20764777",
+        "legalName": "Новороздільська міська лікарня",
+        "uri": "http://buyerTestLink.ua"
+      },
+      "additionalIdentifiers": [
+        {
+          "scheme": "MD-IDNO",
+          "id": "123123123",
+          "legalName": "Додатково Новороздільська міська лікарня",
+          "uri": "http://additionalBuyerTestLink.ua"
+        }
+      ],
+      "address": {
+        "streetAddress": "",
+        "postalCode": "",
+        "addressDetails": {
+          "country": {
+            "id": "MD"
+          },
+          "region": {
+            "id": "3800000"
+          },
+          "locality": {
+            "scheme": "other",
+            "id": "",
+            "description": ""
+          }
+        }
+      },
+      "contactPoint": {
+        "name": "Осипових Сергій Олександрович",
+        "email": "test2@test.test",
+        "telephone": "+380222222222",
+        "faxNumber": "+380222222222",
+        "url": "http://test.ua"
+      }
+    },
+    "documents": [
+      {
+        "documentType": "tenderNotice",
+        "id": "51c659bf-605e-4995-ac39-b87bc5f64e07-1539682623658",
+        "title": "File for test",
+        "description": "test file ",
+        "language": "en",
+        "relatedLots": [
+          "lot-id-111111"
+        ]
+      }
+    ]
+  }
 }
