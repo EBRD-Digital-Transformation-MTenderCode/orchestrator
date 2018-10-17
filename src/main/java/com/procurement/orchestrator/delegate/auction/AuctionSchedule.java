@@ -15,7 +15,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.chronograph.ActionType.SCHEDULE;
+import static com.procurement.orchestrator.domain.commands.AuctionCommandType.SCHEDULE;
+
 
 @Component
 public class AuctionSchedule implements JavaDelegate {
