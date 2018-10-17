@@ -1,118 +1,43 @@
 {
-  "tender": {
-    "title": "Test CN",
-    "description": "description",
-    "legalBasis": "NATIONAL_PROCUREMENT_LAW",
-    "enquiryPeriod": {
-      "endDate": "2018-10-21T00:00:00Z"
-    },
+  "id": "2217257c-31d9-4347-ad75-c2f81fdf2394",
+  "command": "SCHEDULE",
+  "context": {
+    "operationId": "2217257c-31d9-4347-ad75-c2f81fdf2394",
+    "requestId": "86fc1120-d216-11e8-9a5d-b1c9fa961d02",
+    "cpid": "ocds-t1s2t3-MD-1539785483268",
+    "stage": "EV",
+    "processType": "createCN",
+    "operationType": "createCN",
+    "phase": "clarification",
+    "owner": "445f6851-c908-407d-9b45-14b92f3e964b",
+    "country": "MD",
+    "language": "ro",
+    "pmd": "TEST_SV",
+    "token": "3730b365-c563-48eb-a2fa-48c26de7e9da",
+    "startDate": "2018-10-17T14:11:23Z",
+    "isAuction": false
+  },
+  "data": {
     "tenderPeriod": {
-      "endDate": "2018-10-31T00:00:00Z"
+      "startDate": "2018-11-10T12:00:00Z",
+      "endDate": "2018-11-20T23:59:00Z"
     },
-    "procuringEntity": {
-      "name": "EI Byuer Новороздільська міська лікарня",
-      "identifier": {
-        "id": "1006601000185",
-        "scheme": "MD-IDNO",
-        "legalName": "Serviciul Vamal",
-        "uri": "serviviulvamal@test.test"
-      },
-      "contactPoint": {
-        "name": "Осипових Сергій Олександрович",
-        "email": "test2@test.test",
-        "telephone": "+380222222222",
-        "faxNumber": "+380222222222",
-        "url": "test3@test.test"
-      },
-      "address": {
-        "streetAddress": "streetAddress",
-        "postalCode": "09100",
-        "addressDetails": {
-          "country": {
-            "id": "MD"
-          },
-          "region": {
-            "id": "0101000"
-          },
-          "locality": {
-            "scheme": "other",
-            "id": "0112000",
-            "description": "TEST"
-          }
-        }
-      }
-    },
-    "items": [
-      {
-        "id": "40cec070-cf8d-11e8-beb1-750e80b9a392",
-        "description": "Dasdas",
-        "classification": {
-          "id": "30000000-9",
-          "scheme": "CPV"
-        },
-        "quantity": 1,
-        "unit": {
-          "id": "110",
-          "name": "ml"
-        },
-        "relatedLot": "40cec071-cf8d-11e8-beb1-750e80b9a392"
-      }
-    ],
-    "lots": [
-      {
-        "id": "40cec071-cf8d-11e8-beb1-750e80b9a392",
-        "title": "test 1",
-        "description": "test 1",
-        "value": {
-          "amount": 100,
-          "currency": "MDL"
-        },
-        "contractPeriod": {
-          "startDate": "2018-11-05T00:00:00Z",
-          "endDate": "2018-12-10T00:00:00Z"
-        },
-        "placeOfPerformance": {
-          "address": {
-            "streetAddress": "streetAddress",
-            "postalCode": "09100",
-            "addressDetails": {
-              "country": {
-                "id": "MD"
-              },
-              "region": {
-                "id": "0101000"
-              },
-              "locality": {
-                "scheme": "other",
-                "id": "0112000",
-                "description": "TEST"
+    "electronicAuctions": {
+      "details": [
+        {
+          "id": "1",
+          "relatedLot": "871c1c42-d216-11e8-a3db-d9ed4fe172ef",
+          "electronicAuctionModalities": [
+            {
+              "eligibleMinimumDifference": {
+                "amount": 50.00,
+                "currency": "MDL"
               }
             }
-          },
-          "description": "test Description"
-        }
-      }
-    ],
-    "documents": [
-      {
-        "id": "462b46ef-c057-4888-9c95-1edefc612b3b-1539506388957",
-        "documentType": "complaints",
-        "title": "test",
-        "description": "test"
-      }
-    ]
-  },
-  "planning": {
-    "budget": {
-      "budgetBreakdown": [
-        {
-          "id": "ocds-t1s2t3-MD-1538145377716-FS-1538145381668",
-          "amount": {
-            "amount": 100,
-            "currency": "MDL"
-          }
+          ]
         }
       ]
     }
-  }
+  },
+  "version": "0.0.1"
 }

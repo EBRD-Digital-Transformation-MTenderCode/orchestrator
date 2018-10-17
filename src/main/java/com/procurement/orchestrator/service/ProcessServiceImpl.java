@@ -319,6 +319,17 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
+    @Override
+    public JsonNode addTenderUnsuspendData(JsonNode jsonData, JsonNode tenderData, String processId) {
+        try {
+            ((ObjectNode) jsonData).replace("tender", tenderData.get("tender"));
+            return jsonData;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
     public JsonNode addLots(final JsonNode jsonData, final JsonNode lotsData, final String processId) {
         try {
             ((ObjectNode) jsonData).replace("lots", lotsData.get("lots"));

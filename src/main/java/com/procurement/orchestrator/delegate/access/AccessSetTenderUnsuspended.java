@@ -62,7 +62,7 @@ public class AccessSetTenderUnsuspended implements JavaDelegate {
                     entity,
                     context,
                     commandMessage,
-                    processService.addTenderStatus(jsonData, responseData, processId));
+                    processService.addTenderUnsuspendData(jsonData, responseData, processId));
         }
     }
 }

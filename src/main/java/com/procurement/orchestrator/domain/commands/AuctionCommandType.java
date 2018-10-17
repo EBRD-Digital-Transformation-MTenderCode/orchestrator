@@ -12,7 +12,8 @@ public enum AuctionCommandType {
 
     VALIDATE("validateAuctionDetails"),
     SCHEDULE("scheduleAuctions"),
-    START("startAuctions"),
+    START("auctionsStart"),
+    END("auctionsEnd"),
     CANCEL("auctionsCancellation");
 
     private static final Map<String, AuctionCommandType> CONSTANTS = new HashMap<>();

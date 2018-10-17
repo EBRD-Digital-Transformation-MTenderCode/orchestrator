@@ -1,0 +1,36 @@
+{
+  "tender": {
+    "id": "ocds-prefix-timstamp-postfix-tender",
+    "title": "",
+    "description": "",
+    "lots": [
+      {
+        "id": "",
+        "title": "",
+        "description": "",
+        "minStep": {
+          "amount": "",
+          "currency": ""
+        },
+        "value": {
+          "amount": "",
+          "currency": ""
+        },
+        "auctionPeriod": {
+          "starDate": ""
+        }
+      }
+    ]
+  },
+  "bids": [
+    {
+      "id": "",
+      "value": {
+        "amount": "",
+        "currency": ""
+      },
+      "relatedLot": "",
+      "sign": ""
+    }
+  ]
+}
