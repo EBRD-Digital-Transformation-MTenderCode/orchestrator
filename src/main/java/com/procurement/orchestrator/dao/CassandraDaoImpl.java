@@ -71,7 +71,12 @@ public class CassandraDaoImpl implements CassandraDao {
     @Override
     public Optional<RequestEntity> getRequestById(final String id) {
         final Statement query = select()
-                .all()
+                .column(REQUEST_ID)
+                .column(REQUEST_DATE)
+                .column(OPERATION_ID)
+                .column(JSON_DATA)
+                .column(CONTEXT)
+                .writeTime("OPERATION_ID")
                 .from(REQUEST_TABLE)
                 .where(eq(REQUEST_ID, id))
                 .limit(1);
@@ -80,11 +85,14 @@ public class CassandraDaoImpl implements CassandraDao {
 
         return Optional.ofNullable(rows.one())
                 .map(row -> new RequestEntity(
-                        row.getString(REQUEST_ID),
-                        row.getTimestamp(REQUEST_DATE),
-                        row.getString(OPERATION_ID),
-                        row.getString(JSON_DATA),
-                        row.getString(CONTEXT)));
+                                row.getString(REQUEST_ID),
+                                row.getTimestamp(REQUEST_DATE),
+                                row.getString(OPERATION_ID),
+                                row.getString(JSON_DATA),
+                                row.getString(CONTEXT),
+                                row.getLong("writetime(operation_id)")
+                        )
+                );
     }
 
     @Override

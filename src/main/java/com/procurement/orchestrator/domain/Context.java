@@ -76,6 +76,9 @@ public class Context {
     @JsonProperty(value = "id")
     private String id;
 
+    @JsonProperty(value = "timeStamp")
+    private Long timeStamp;
+
     @JsonProperty(value = "isAuction")
     private Boolean isAuction = false;
 
