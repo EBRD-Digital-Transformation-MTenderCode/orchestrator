@@ -28,6 +28,7 @@ public enum AccessCommandType {
     START_NEW_STAGE("startNewStage"),
 
     GET_LOTS("getLots"),
+    GET_LOTS_AUCTION("getLotsAuction"),
     SET_LOTS_SD_UNSUCCESSFUL("setStatusDetailsUnsuccessful"),
     SET_LOTS_SD_AWARDED("setStatusDetailsAwarded"),
     SET_LOTS_UNSUCCESSFUL("setStatusUnsuccessful"),
