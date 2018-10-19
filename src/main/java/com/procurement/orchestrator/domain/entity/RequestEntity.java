@@ -23,4 +23,5 @@ public class RequestEntity {
 
     private String context;
 
+    private Long writeTime;
 }

@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.SubmissionCommandType.BIDS_SELECTION;
+import static com.procurement.orchestrator.domain.commands.SubmissionCommandType.GET_BIDS;
 
 @Component
 public class SubmissionGetBids implements JavaDelegate {
@@ -44,7 +44,7 @@ public class SubmissionGetBids implements JavaDelegate {
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(BIDS_SELECTION, context, jsonUtil.empty());
+        final JsonNode commandMessage = processService.getCommandMessage(GET_BIDS, context, jsonUtil.empty());
         JsonNode responseData = processService.processResponse(
                 submissionRestClient.execute(commandMessage),
                 context,
