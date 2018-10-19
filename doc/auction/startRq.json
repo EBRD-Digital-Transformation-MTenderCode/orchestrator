@@ -1,41 +1,38 @@
 {
-  "tender": {
-    "id": "ocds-prefix-timstamp-postfix-tender",
-    "title": "",
-    "description": "",
-    "lots": [
+  "tender":{
+    "id":"ocds-prefix-timstamp-postfix-tender",
+    "title":"",
+    "description":"",
+    "lots":[
       {
-        "id": "",
-        "title": "",
-        "description": "",
-        "value": {
-          "amount": "",
-          "currency": ""
+        "id":"40cec071-cf8d-11e8-beb1-750e80b9a392",
+        "title":"",
+        "description":"",
+        "value":{
+          "amount":100.00,
+          "currency":""
         }
       }
     ]
   },
-  "bidsData": [
-    {
-      "owner": "",
-      "bids": [
-        {
-          "id": "",
-          "relatedLots": [""],
-          "createDate": "",
-          "pendingDate": "",
-          "value": {
-            "amount": "",
-            "currency": ""
-          },
-          "tenderers": [
-            {
-              "id": "",
-              "name": ""
-            }
-          ]
-        }
-      ]
-    }
-  ]
+  "bidsData":
+  [{
+    "owner": "445f6851-c908-407d-9b45-14b92f3e964b",
+    "bids": [{
+      "id": "a80b61e0-c348-11e8-b9a8-dd319bd9bbdf",
+      "relatedLots":["39614de2-c348-11e8-987b-a7ad59777db6"],
+      "createDate":"2018-09-28T18:02:25Z",
+      "pendingDate":"2018-09-28T18:02:25Z",
+      "value":
+      {
+        "amount":5.00,
+        "currency":""
+      },
+      "tenderers":
+      [{
+        "id":"",
+        "name":""
+      }]
+    }]
+  }]
 }
