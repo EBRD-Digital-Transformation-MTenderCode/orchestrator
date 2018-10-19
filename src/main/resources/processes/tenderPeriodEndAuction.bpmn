@@ -47,7 +47,7 @@
       <bpmn:incoming>SequenceFlow_0jgrm91</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_16on829</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_01bmiwq" sourceRef="ExclusiveGateway_0hg3tz9" targetRef="SubmissionGetBidsTask">
+    <bpmn:sequenceFlow id="SequenceFlow_01bmiwq" sourceRef="ExclusiveGateway_0hg3tz9" targetRef="SubmissionGetBidsAuctionTask">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isTenderPeriodExpired==true}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:serviceTask id="SaveContextTask" name="Save Context" camunda:delegateExpression="${saveContext}">
@@ -80,8 +80,8 @@
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_16on829" sourceRef="SaveFirstOperationTask" targetRef="SubmissionCheckEndDateTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0jgrm91" sourceRef="StartEvent_1" targetRef="SaveFirstOperationTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_09q332n" sourceRef="SubmissionGetBidsTask" targetRef="ExclusiveGateway_0dq76qu" />
-    <bpmn:serviceTask id="SubmissionGetBidsTask" name="Submission Get Bids" camunda:asyncBefore="true" camunda:delegateExpression="${submissionGetBids}">
+    <bpmn:sequenceFlow id="SequenceFlow_09q332n" sourceRef="SubmissionGetBidsAuctionTask" targetRef="ExclusiveGateway_0dq76qu" />
+    <bpmn:serviceTask id="SubmissionGetBidsAuctionTask" name="Submission Get Bids Auction" camunda:asyncBefore="true" camunda:delegateExpression="${submissionGetBidsAuction}">
       <bpmn:incoming>SequenceFlow_01bmiwq</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_09q332n</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -268,7 +268,7 @@
           <dc:Bounds x="992.5" y="300" width="0" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_1ovhe6g_di" bpmnElement="SubmissionGetBidsTask">
+      <bpmndi:BPMNShape id="ServiceTask_1ovhe6g_di" bpmnElement="SubmissionGetBidsAuctionTask">
         <dc:Bounds x="845" y="281" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_0dtftxh_di" bpmnElement="SubmissionCheckEndDateTask">
