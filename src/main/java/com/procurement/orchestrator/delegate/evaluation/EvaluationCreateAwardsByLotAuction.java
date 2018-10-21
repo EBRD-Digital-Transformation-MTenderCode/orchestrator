@@ -19,9 +19,9 @@ import java.util.Objects;
 import static com.procurement.orchestrator.domain.commands.EvaluationCommandType.CREATE_AWARDS_AUCTION;
 
 @Component
-public class EvaluationCreateAwardsAuction implements JavaDelegate {
+public class EvaluationCreateAwardsByLotAuction implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(EvaluationCreateAwardsAuction.class);
+    private static final Logger LOG = LoggerFactory.getLogger(EvaluationCreateAwardsByLotAuction.class);
 
     private final EvaluationRestClient evaluationRestClient;
     private final NotificationService notificationService;
@@ -29,11 +29,11 @@ public class EvaluationCreateAwardsAuction implements JavaDelegate {
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public EvaluationCreateAwardsAuction(final EvaluationRestClient evaluationRestClient,
-                                         final NotificationService notificationService,
-                                         final OperationService operationService,
-                                         final ProcessService processService,
-                                         final JsonUtil jsonUtil) {
+    public EvaluationCreateAwardsByLotAuction(final EvaluationRestClient evaluationRestClient,
+                                              final NotificationService notificationService,
+                                              final OperationService operationService,
+                                              final ProcessService processService,
+                                              final JsonUtil jsonUtil) {
         this.evaluationRestClient = evaluationRestClient;
         this.notificationService = notificationService;
         this.operationService = operationService;
