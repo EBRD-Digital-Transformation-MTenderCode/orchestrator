@@ -70,6 +70,7 @@ public class MessageConsumer {
             context.setOcid(prevContext.getOcid());
             context.setToken(prevContext.getToken());
             context.setLanguage(prevContext.getLanguage());
+            context.setIsAuction(prevContext.getIsAuction());
             context.setStartDate(dateUtil.nowFormatted());
 
             saveRequestAndCheckOperation(context, jsonUtil.empty());

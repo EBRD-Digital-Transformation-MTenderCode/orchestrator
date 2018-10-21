@@ -1,43 +1,147 @@
 {
-  "id": "2217257c-31d9-4347-ad75-c2f81fdf2394",
-  "command": "SCHEDULE",
-  "context": {
-    "operationId": "2217257c-31d9-4347-ad75-c2f81fdf2394",
-    "requestId": "86fc1120-d216-11e8-9a5d-b1c9fa961d02",
-    "cpid": "ocds-t1s2t3-MD-1539785483268",
-    "stage": "EV",
-    "processType": "createCN",
-    "operationType": "createCN",
-    "phase": "clarification",
-    "owner": "445f6851-c908-407d-9b45-14b92f3e964b",
-    "country": "MD",
-    "language": "ro",
-    "pmd": "TEST_SV",
-    "token": "3730b365-c563-48eb-a2fa-48c26de7e9da",
-    "startDate": "2018-10-17T14:11:23Z",
-    "isAuction": false
-  },
-  "data": {
-    "tenderPeriod": {
-      "startDate": "2018-11-10T12:00:00Z",
-      "endDate": "2018-11-20T23:59:00Z"
-    },
-    "electronicAuctions": {
-      "details": [
+  "bidsData": [
+    {
+      "owner": "445f6851-c908-407d-9b45-14b92f3e964b",
+      "bids": [
         {
-          "id": "1",
-          "relatedLot": "871c1c42-d216-11e8-a3db-d9ed4fe172ef",
-          "electronicAuctionModalities": [
+          "id": "b5ab8860-d514-11e8-9b10-93caa9b2ae8d",
+          "date": "2018-10-21T09:35:55Z",
+          "createdDate": "2018-10-21T09:35:55Z",
+          "pendingDate": "2018-10-21T09:35:55Z",
+          "value": {
+            "amount": 1.65,
+            "currency": "MDL"
+          },
+          "tenderers": [
             {
-              "eligibleMinimumDifference": {
-                "amount": 50.00,
-                "currency": "MDL"
-              }
+              "id": "MD-IDNO-987654311",
+              "name": "TEST Provider 1"
             }
+          ],
+          "relatedLots": [
+            "416c29f4-d514-11e8-9aa2-83ca03c078d9"
+          ]
+        },
+        {
+          "id": "c37691b0-d514-11e8-9b10-93caa9b2ae8d",
+          "date": "2018-10-21T09:36:18Z",
+          "createdDate": "2018-10-21T09:36:18Z",
+          "pendingDate": "2018-10-21T09:36:18Z",
+          "value": {
+            "amount": 1.65,
+            "currency": "MDL"
+          },
+          "tenderers": [
+            {
+              "id": "MD-IDNO-987654322",
+              "name": "TEST Provider 2"
+            }
+          ],
+          "relatedLots": [
+            "416c29f4-d514-11e8-9aa2-83ca03c078d9"
           ]
         }
       ]
     }
+  ],
+  "tender": {
+    "id": "ocds-t1s2t3-MD-1540114360846",
+    "title": "Tender title",
+    "description": "Tender description",
+    "awardCriteria": "priceOnly",
+    "lots": [
+      {
+        "id": "416c29f3-d514-11e8-9aa2-83ca03c078d9",
+        "title": "A title for this lot.",
+        "description": "A description of this lot.",
+        "value": {
+          "amount": 100.00,
+          "currency": "MDL"
+        }
+      },
+      {
+        "id": "416c29f4-d514-11e8-9aa2-83ca03c078d9",
+        "title": "A title for this lot.",
+        "description": "A description of this lot.",
+        "value": {
+          "amount": 100.00,
+          "currency": "MDL"
+        }
+      }
+    ]
   },
-  "version": "0.0.1"
+  "isAuctionStarted": true,
+  "auctionsLinks": [
+    {
+      "owner": "445f6851-c908-407d-9b45-14b92f3e964b",
+      "links": [
+        {
+          "relatedBid": "b5ab8860-d514-11e8-9b10-93caa9b2ae8d",
+          "url": "https://eauction.mtender.md/ocds-t1s2t3-MD-1540114360846/416c29f4-d514-11e8-9aa2-83ca03c078d9?bid_id=b5ab8860-d514-11e8-9b10-93caa9b2ae8d&sign=8ecc6528-ed19-426b-8919-34aa882236bc"
+        },
+        {
+          "relatedBid": "c37691b0-d514-11e8-9b10-93caa9b2ae8d",
+          "url": "https://eauction.mtender.md/ocds-t1s2t3-MD-1540114360846/416c29f4-d514-11e8-9aa2-83ca03c078d9?bid_id=c37691b0-d514-11e8-9b10-93caa9b2ae8d&sign=355e49d5-a937-48b8-a1f6-9ff0476af3d9"
+        }
+      ]
+    }
+  ],
+  "electronicAuctions": {
+    "details": [
+      {
+        "id": "0d0efb19-1e9e-44de-aee8-93802bea97f0",
+        "relatedLot": "416c29f4-d514-11e8-9aa2-83ca03c078d9",
+        "auctionPeriod": {
+          "startDate": "2018-10-22T07:42:30Z"
+        },
+        "electronicAuctionModalities": [
+          {
+            "url": "https://eauction.mtender.md/ocds-t1s2t3-MD-1540114360846/416c29f4-d514-11e8-9aa2-83ca03c078d9",
+            "eligibleMinimumDifference": {
+              "amount": 5.0,
+              "currency": "MDL"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auctionsData": {
+    "tender": {
+      "id": "ocds-t1s2t3-MD-1540114360846",
+      "title": "Tender title",
+      "description": "Tender description",
+      "lots": [
+        {
+          "id": "416c29f4-d514-11e8-9aa2-83ca03c078d9",
+          "title": "A title for this lot.",
+          "description": "A description of this lot.",
+          "eligibleMinimumDifference": 5.0,
+          "value": {
+            "amount": 100.0,
+            "currency": "MDL"
+          },
+          "auctionPeriod": {
+            "startDate": "2018-10-22T07:42:30Z"
+          }
+        }
+      ]
+    },
+    "bids": [
+      {
+        "id": "b5ab8860-d514-11e8-9b10-93caa9b2ae8d",
+        "value": 1.65,
+        "relatedLot": "416c29f4-d514-11e8-9aa2-83ca03c078d9",
+        "pendingDate": "2018-10-21T09:35:55Z",
+        "sign": "8ecc6528-ed19-426b-8919-34aa882236bc"
+      },
+      {
+        "id": "c37691b0-d514-11e8-9b10-93caa9b2ae8d",
+        "value": 1.65,
+        "relatedLot": "416c29f4-d514-11e8-9aa2-83ca03c078d9",
+        "pendingDate": "2018-10-21T09:36:18Z",
+        "sign": "355e49d5-a937-48b8-a1f6-9ff0476af3d9"
+      }
+    ]
+  }
 }
