@@ -1,8 +1,8 @@
 package com.procurement.orchestrator.delegate.kafka;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Notification;
 import com.procurement.orchestrator.domain.chronograph.ScheduleTask;
+import com.procurement.orchestrator.domain.dto.CommandMessage;
 import com.procurement.orchestrator.utils.JsonUtil;
 import org.apache.kafka.clients.producer.RecordMetadata;
 import org.slf4j.Logger;
@@ -53,7 +53,7 @@ public class MessageProducerImpl implements MessageProducer {
         }
     }
 
-    public boolean sendToAuction(final JsonNode commandMessage) {
+    public boolean sendToAuction(final CommandMessage commandMessage) {
         try {
             final SendResult<String, String> sendResult = internalKafkaTemplate.send(
                     AUCTION_TOPIC,

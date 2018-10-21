@@ -1,8 +1,8 @@
 package com.procurement.orchestrator.delegate.kafka;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Notification;
 import com.procurement.orchestrator.domain.chronograph.ScheduleTask;
+import com.procurement.orchestrator.domain.dto.CommandMessage;
 
 public interface MessageProducer {
 
@@ -10,7 +10,7 @@ public interface MessageProducer {
 
     boolean sendToPlatform(Notification notification);
 
-    boolean sendToAuction(JsonNode commandMessage);
+    boolean sendToAuction(CommandMessage commandMessage);
 
 }
 

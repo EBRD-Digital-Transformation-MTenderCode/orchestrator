@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.procurement.orchestrator.domain.*;
+import com.procurement.orchestrator.domain.dto.ApiVersion;
+import com.procurement.orchestrator.domain.dto.CommandMessage;
 import com.procurement.orchestrator.utils.JsonUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -380,5 +382,15 @@ public class NotificationServiceImpl implements NotificationService {
 
         return notification;
 
+    }
+
+    @Override
+    public CommandMessage getCommandMessage(Enum command, Context context, JsonNode data) {
+        return new CommandMessage(
+                context.getOperationId(),
+                command,
+                null,
+                data,
+                ApiVersion.V_0_0_1);
     }
 }
