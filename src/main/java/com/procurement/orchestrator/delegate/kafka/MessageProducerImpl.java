@@ -15,7 +15,7 @@ public class MessageProducerImpl implements MessageProducer {
     private static final Logger LOG = LoggerFactory.getLogger(MessageProducerImpl.class);
     private static final String CHRONOGRAPH_TOPIC = "chronograph-in";
     private static final String PLATFORM_TOPIC = "notification-kafka-channel";
-    private static final String AUCTION_TOPIC = "auction-in";
+    private static final String AUCTION_TOPIC = "auction-front-in";
     private final KafkaTemplate<String, String> internalKafkaTemplate;
     private final JsonUtil jsonUtil;
 
