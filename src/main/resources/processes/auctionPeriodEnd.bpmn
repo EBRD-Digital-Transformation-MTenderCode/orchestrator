@@ -35,19 +35,19 @@
       <bpmn:incoming>SequenceFlow_0fc9i4u</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1almqeo</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="EvaluationCreateAwardsTask" name="Evaluation Create Awards" camunda:asyncBefore="true" camunda:delegateExpression="${evaluationCreateAwards}">
+    <bpmn:serviceTask id="EvaluationCreateAwardsAuctionEndTask" name="Evaluation Create Awards Auction End" camunda:asyncBefore="true" camunda:delegateExpression="${evaluationCreateAwardsAuctionEnd}">
       <bpmn:incoming>SequenceFlow_166mcag</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0nuv6dr</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_0bwrwq3" sourceRef="StorageOpenDocsOfBibsTask" targetRef="NoticeCreateReleaseTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0jgrm91" sourceRef="StartEvent_1" targetRef="SaveFirstOperationTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_09q332n" sourceRef="SubmissionGetBidsTask" targetRef="AccessGetLotsTask" />
-    <bpmn:serviceTask id="SubmissionGetBidsTask" name="Submission Get Bids" camunda:asyncBefore="true" camunda:delegateExpression="${submissionGetBids}">
+    <bpmn:sequenceFlow id="SequenceFlow_09q332n" sourceRef="SubmissionGetBidsAuctionEndTask" targetRef="AccessGetLotsTask" />
+    <bpmn:serviceTask id="SubmissionGetBidsAuctionEndTask" name="Submission Get Bids Auction End" camunda:asyncBefore="true" camunda:delegateExpression="${submissionGetBidsAuctionEnd}">
       <bpmn:incoming>SequenceFlow_1xgxfco</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_09q332n</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_166mcag" sourceRef="AccessGetLotsTask" targetRef="EvaluationCreateAwardsTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0nuv6dr" sourceRef="EvaluationCreateAwardsTask" targetRef="SubmissionUpdateBidStatusTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_166mcag" sourceRef="AccessGetLotsTask" targetRef="EvaluationCreateAwardsAuctionEndTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0nuv6dr" sourceRef="EvaluationCreateAwardsAuctionEndTask" targetRef="SubmissionUpdateBidStatusTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1aqx7s0" sourceRef="SubmissionUpdateBidStatusTask" targetRef="AccessSetLotsUnsuccessfulTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0e3pm3w" sourceRef="AccessSetLotsUnsuccessfulTask" targetRef="StorageOpenDocsOfBibsTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0fc9i4u" sourceRef="NoticeCreateReleaseTask" targetRef="SaveContextTask" />
@@ -57,7 +57,7 @@
       <bpmn:outgoing>SequenceFlow_1xgxfco</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_0aewde9" sourceRef="SaveFirstOperationTask" targetRef="AuctionEndTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1xgxfco" sourceRef="AuctionEndTask" targetRef="SubmissionGetBidsTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1xgxfco" sourceRef="AuctionEndTask" targetRef="SubmissionGetBidsAuctionEndTask" />
   </bpmn:process>
   <bpmn:error id="tr_exception" name="TR_EXCEPTION" errorCode="TR_EXCEPTION" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -95,7 +95,7 @@
       <bpmndi:BPMNShape id="ServiceTask_15n70vl_di" bpmnElement="SaveContextTask">
         <dc:Bounds x="1786" y="281" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_0ryshkj_di" bpmnElement="EvaluationCreateAwardsTask">
+      <bpmndi:BPMNShape id="ServiceTask_0ryshkj_di" bpmnElement="EvaluationCreateAwardsAuctionEndTask">
         <dc:Bounds x="1065" y="281" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0bwrwq3_di" bpmnElement="SequenceFlow_0bwrwq3">
@@ -119,7 +119,7 @@
           <dc:Bounds x="992.5" y="300" width="0" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_1ovhe6g_di" bpmnElement="SubmissionGetBidsTask">
+      <bpmndi:BPMNShape id="ServiceTask_1ovhe6g_di" bpmnElement="SubmissionGetBidsAuctionEndTask">
         <dc:Bounds x="777" y="281" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_166mcag_di" bpmnElement="SequenceFlow_166mcag">

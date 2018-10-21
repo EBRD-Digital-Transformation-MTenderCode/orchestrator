@@ -44,10 +44,8 @@ public class MessageConsumer {
     }
 
     @KafkaListener(topics = "chronograph-out")
-    public void onReceivingFromChronograph(final String message,
-                                           @Header(KafkaHeaders.ACKNOWLEDGMENT) final Acknowledgment acknowledgment) {
-
-        acknowledgment.acknowledge();
+    public void onChronograph(final String message, @Header(KafkaHeaders.ACKNOWLEDGMENT) final Acknowledgment ac) {
+        ac.acknowledge();
         try {
             LOG.info("Get task: " + message);
             final ChronographResponse response = jsonUtil.toObject(ChronographResponse.class, message);
@@ -84,10 +82,8 @@ public class MessageConsumer {
     }
 
     @KafkaListener(topics = "auction-front-out")
-    public void onReceivingAuction(final String message,
-                                   @Header(KafkaHeaders.ACKNOWLEDGMENT) final Acknowledgment acknowledgment) {
-
-        acknowledgment.acknowledge();
+    public void onAuction(final String message, @Header(KafkaHeaders.ACKNOWLEDGMENT) final Acknowledgment ac) {
+        ac.acknowledge();
         try {
             LOG.info("Get task: " + message);
             final JsonNode response = jsonUtil.toJsonNode(message);

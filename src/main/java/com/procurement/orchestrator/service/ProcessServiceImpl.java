@@ -963,7 +963,7 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public JsonNode setAuctionStartData(JsonNode jsonData, JsonNode responseData, String processId) {
+    public JsonNode setAuctionStartData(final JsonNode jsonData, final JsonNode responseData, final String processId) {
         try {
             final ObjectNode mainNode = (ObjectNode) jsonData;
             mainNode.replace("isAuctionStarted", responseData.get("isAuctionStarted"));
@@ -977,7 +977,7 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public JsonNode getAuctionLaunchData(JsonNode jsonData, String processId) {
+    public JsonNode getAuctionLaunchData(final JsonNode jsonData, final String processId) {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
             final JsonNode auctionsDataNode = jsonData.get("auctionsData");
@@ -988,6 +988,17 @@ public class ProcessServiceImpl implements ProcessService {
                 return null;
             }
             return mainNode;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    public JsonNode setAuctionEndData(final JsonNode jsonData, final JsonNode responseData, final String processId) {
+        try {
+            final ObjectNode tenderNode = (ObjectNode) jsonData.get("tender");
+            tenderNode.replace("tender", responseData.get("tender"));
+            return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
             return null;
