@@ -57,7 +57,6 @@ public class EvaluationCreateAwardsByLotAuction implements JavaDelegate {
                 taskId,
                 commandMessage);
         if (Objects.nonNull(responseData)) {
-            context.setOperationType("tenderPeriodEndEv");
             operationService.saveOperationStep(
                     execution,
                     entity,
