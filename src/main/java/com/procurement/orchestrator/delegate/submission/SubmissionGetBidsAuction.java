@@ -1,6 +1,7 @@
 package com.procurement.orchestrator.delegate.submission;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.SubmissionRestClient;
@@ -52,6 +53,11 @@ public class SubmissionGetBidsAuction implements JavaDelegate {
                 taskId,
                 commandMessage);
         if (Objects.nonNull(responseData)) {
+            final ArrayNode bidsNode = (ArrayNode) responseData.get("bidsData");
+            if (bidsNode.size() == 0) {
+                context.setOperationType("tenderUnsuccessful");
+                execution.setVariable("operationType", "tenderUnsuccessful");
+            }
             operationService.saveOperationStep(
                     execution,
                     entity,
