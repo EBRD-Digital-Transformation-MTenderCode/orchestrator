@@ -199,6 +199,7 @@ public class RequestServiceImpl implements RequestService {
         context.setOcid(ocid);
         context.setToken(token);
         context.setLanguage(lang);
+        context.setIsAuction(prevContext.getIsAuction());
         context.setStartDate(dateUtil.nowFormatted());
 
         return context;

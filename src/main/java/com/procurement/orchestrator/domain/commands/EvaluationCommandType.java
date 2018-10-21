@@ -16,6 +16,7 @@ public enum EvaluationCommandType {
     SET_FINAL_STATUSES("setFinalStatuses"),
     PREPARE_CANCELLATION("prepareCancellation"),
     AWARDS_CANCELLATION("awardsCancellation"),
+    CREATE_AWARDS_BY_LOT_AUCTION("createAwardsByLotAuction"),
     CREATE_AWARDS_AUCTION("createAwardsAuction");
 
     private static final Map<String, EvaluationCommandType> CONSTANTS = new HashMap<>();

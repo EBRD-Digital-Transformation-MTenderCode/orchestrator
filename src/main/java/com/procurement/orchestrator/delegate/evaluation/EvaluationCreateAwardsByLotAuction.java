@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.EvaluationCommandType.CREATE_AWARDS_AUCTION;
+import static com.procurement.orchestrator.domain.commands.EvaluationCommandType.CREATE_AWARDS_BY_LOT_AUCTION;
 
 @Component
 public class EvaluationCreateAwardsByLotAuction implements JavaDelegate {
@@ -49,7 +49,7 @@ public class EvaluationCreateAwardsByLotAuction implements JavaDelegate {
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final String taskId = execution.getCurrentActivityId();
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
-        final JsonNode commandMessage = processService.getCommandMessage(CREATE_AWARDS_AUCTION, context, jsonData);
+        final JsonNode commandMessage = processService.getCommandMessage(CREATE_AWARDS_BY_LOT_AUCTION, context, jsonData);
         final JsonNode responseData = processService.processResponse(
                 evaluationRestClient.execute(commandMessage),
                 context,
