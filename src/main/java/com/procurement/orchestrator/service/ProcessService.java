@@ -150,5 +150,7 @@ public interface ProcessService {
     JsonNode getAuctionStartData(JsonNode prevData, String processId);
 
     JsonNode setAuctionStartData(JsonNode jsonData, JsonNode responseData, String processId);
+
+    JsonNode getAuctionLaunchData(JsonNode jsonData, String processId);
 }
 

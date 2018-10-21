@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.delegate.kafka;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Notification;
 import com.procurement.orchestrator.domain.chronograph.ScheduleTask;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -14,6 +15,7 @@ public class MessageProducerImpl implements MessageProducer {
     private static final Logger LOG = LoggerFactory.getLogger(MessageProducerImpl.class);
     private static final String CHRONOGRAPH_TOPIC = "chronograph-in";
     private static final String PLATFORM_TOPIC = "notification-kafka-channel";
+    private static final String AUCTION_TOPIC = "auction-in";
     private final KafkaTemplate<String, String> internalKafkaTemplate;
     private final JsonUtil jsonUtil;
 
@@ -45,6 +47,20 @@ public class MessageProducerImpl implements MessageProducer {
                     jsonUtil.toJson(notification)).get();
             final RecordMetadata recordMetadata = sendResult.getRecordMetadata();
             LOG.info("Send to platform: ", recordMetadata.topic(), recordMetadata.partition(), recordMetadata.offset(), notification.toString());
+            return true;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean sendToAuction(final JsonNode commandMessage) {
+        try {
+            final SendResult<String, String> sendResult = internalKafkaTemplate.send(
+                    AUCTION_TOPIC,
+                    jsonUtil.toJson(commandMessage)).get();
+            final RecordMetadata recordMetadata = sendResult.getRecordMetadata();
+            LOG.info("Send to auction: ", recordMetadata.topic(),
+                    recordMetadata.partition(), recordMetadata.offset(), commandMessage.toString());
             return true;
         } catch (Exception e) {
             throw new RuntimeException(e);

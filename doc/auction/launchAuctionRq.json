@@ -1,0 +1,36 @@
+{
+  "id": "bc7d2fa3-32fe-4851-a709-da8ea9484b98",
+  "command": "auctionsLaunching ",
+  "data": {
+    "tender": {
+      "id": "ocds-t1s2t3-MD-1538221557422",
+      "title": "",
+      "description": "",
+      "lots": [
+        {
+          "id": "",
+          "title": "",
+          "description": "",
+          "eligibleMinimumDifference": 1000.00,
+          "value": {
+            "amount": 100.00,
+            "currency": ""
+          },
+          "auctionPeriod": {
+            "startDate": ""
+          }
+        }
+      ]
+    },
+    "bids": [
+      {
+        "id": "",
+        "value": 1000.00,
+        "pendingDate": "",
+        "relatedLot": "",
+        "sign": ""
+      }
+    ]
+  },
+  "version": "0.0.1"
+}

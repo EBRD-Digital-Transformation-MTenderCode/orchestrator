@@ -976,4 +976,20 @@ public class ProcessServiceImpl implements ProcessService {
             return null;
         }
     }
+
+    public JsonNode getAuctionLaunchData(JsonNode jsonData, String processId) {
+        try {
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            final JsonNode auctionsDataNode = jsonData.get("auctionsData");
+            if (auctionsDataNode != null) {
+                mainNode.replace("data", auctionsDataNode);
+            } else {
+                return null;
+            }
+            return mainNode;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
 }
