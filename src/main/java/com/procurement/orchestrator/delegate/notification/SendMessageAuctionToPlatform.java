@@ -69,9 +69,6 @@ public class SendMessageAuctionToPlatform implements JavaDelegate {
                     for (final Outcome outcome : contextOutcomes) {
                         final ObjectNode outcomeItem = jsonUtil.createObjectNode();
                         outcomeItem.put("id", outcome.getId());
-                        if (outcome.getToken() != null) {
-                            outcomeItem.put("X-TOKEN", outcome.getToken());
-                        }
                         outcomeArray.add(outcomeItem);
                     }
                     outcomes.replace("awards", outcomeArray);
