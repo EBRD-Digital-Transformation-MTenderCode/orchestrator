@@ -23,23 +23,5 @@ public class AuctionLinks {
         this.owner = owner;
         this.links = links;
     }
-
-    @Getter
-    @Setter
-    public class AuctionLink {
-
-        @JsonProperty("relatedBid")
-        private String relatedBid;
-
-        @JsonProperty("url")
-        private String url;
-
-        @JsonCreator
-        public AuctionLink(@JsonProperty("relatedBid") final String relatedBid,
-                           @JsonProperty("url") final String url) {
-            this.relatedBid = relatedBid;
-            this.url = url;
-        }
-    }
 }
 

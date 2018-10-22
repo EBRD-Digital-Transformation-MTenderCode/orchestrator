@@ -54,7 +54,7 @@ public class SendMessageAuctionToPlatform implements JavaDelegate {
             final ObjectNode outcomes = jsonUtil.createObjectNode();
             //links
             final ArrayNode linksArray = jsonUtil.createArrayNode();
-            for (final AuctionLinks.AuctionLink link : links.getLinks()) {
+            for (final AuctionLink link : links.getLinks()) {
                 final ObjectNode linksItem = jsonUtil.createObjectNode();
                 linksItem.put("relatedBid", link.getRelatedBid());
                 linksItem.put("url", link.getUrl());
