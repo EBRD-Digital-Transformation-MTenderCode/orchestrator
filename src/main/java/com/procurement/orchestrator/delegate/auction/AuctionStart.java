@@ -66,7 +66,7 @@ public class AuctionStart implements JavaDelegate {
                 execution.setVariable("isAuctionStarted", isAuctionStarted);
                 if (isAuctionStarted) {
                     context.setIsAuction(true);
-                    final ArrayNode auctionLinksNode = (ArrayNode) responseData.get("auctionLinks");
+                    final ArrayNode auctionLinksNode = (ArrayNode) responseData.get("auctionsLinks");
                     if (auctionLinksNode.size() > 0) {
                         Set<AuctionLinks> auctionLinks = new HashSet<>();
                         for (final JsonNode auctionLinkNode : auctionLinksNode) {
