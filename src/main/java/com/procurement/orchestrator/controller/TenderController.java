@@ -244,38 +244,35 @@ public class TenderController extends DoBaseController {
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
-    @RequestMapping(value = "/auctionPeriodEnd", method = RequestMethod.POST)
-    public ResponseEntity<String> test(@RequestBody final JsonNode response) {
-        final JsonNode dataNode = response.get("data");
-        final AuctionData data = jsonUtil.toObject(AuctionData.class, dataNode);
-        final String cpid = data.getTender().getId();
-        final Context prevContext = requestService.getContext(cpid);
-        final Context context = new Context();
-        final Rule rules = requestService.checkAndGetRule(prevContext, "auctionPeriodEnd");
-        final String uuid = UUIDs.timeBased().toString();
-        context.setRequestId(uuid);
-        context.setOperationId(uuid);
-        context.setCountry(rules.getCountry());
-        context.setPmd(rules.getPmd());
-        context.setProcessType(rules.getProcessType());
-        context.setStage(rules.getNewStage());
-        context.setPhase(rules.getNewPhase());
-        context.setOperationType(rules.getOperationType());
-        context.setOwner(prevContext.getOwner());
-        context.setCpid(prevContext.getCpid());
-        context.setOcid(prevContext.getOcid());
-        context.setToken(prevContext.getToken());
-        context.setLanguage(prevContext.getLanguage());
-        context.setIsAuction(prevContext.getIsAuction());
-        context.setStartDate(dateUtil.nowFormatted());
-        requestService.saveRequestAndCheckOperation(context, jsonUtil.toJsonNode(data));
-        final Map<String, Object> variables = new HashMap<>();
-        variables.put("operationType", context.getOperationType());
-        processService.startProcess(context, variables);
-
-        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
-
-
-    }
+//    @RequestMapping(value = "/auctionPeriodEnd", method = RequestMethod.POST)
+//    public ResponseEntity<String> test(@RequestBody final JsonNode response) {
+//        final JsonNode dataNode = response.get("data");
+//        final AuctionData data = jsonUtil.toObject(AuctionData.class, dataNode);
+//        final String cpid = data.getTender().getId();
+//        final Context prevContext = requestService.getContext(cpid);
+//        final Context context = new Context();
+//        final Rule rules = requestService.checkAndGetRule(prevContext, "auctionPeriodEnd");
+//        final String uuid = UUIDs.timeBased().toString();
+//        context.setRequestId(uuid);
+//        context.setOperationId(uuid);
+//        context.setCountry(rules.getCountry());
+//        context.setPmd(rules.getPmd());
+//        context.setProcessType(rules.getProcessType());
+//        context.setStage(rules.getNewStage());
+//        context.setPhase(rules.getNewPhase());
+//        context.setOperationType(rules.getOperationType());
+//        context.setOwner(prevContext.getOwner());
+//        context.setCpid(prevContext.getCpid());
+//        context.setOcid(prevContext.getOcid());
+//        context.setToken(prevContext.getToken());
+//        context.setLanguage(prevContext.getLanguage());
+//        context.setIsAuction(prevContext.getIsAuction());
+//        context.setStartDate(dateUtil.nowFormatted());
+//        requestService.saveRequestAndCheckOperation(context, jsonUtil.toJsonNode(data));
+//        final Map<String, Object> variables = new HashMap<>();
+//        variables.put("operationType", context.getOperationType());
+//        processService.startProcess(context, variables);
+//        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
+//    }
 
 }

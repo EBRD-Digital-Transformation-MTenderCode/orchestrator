@@ -996,8 +996,8 @@ public class ProcessServiceImpl implements ProcessService {
 
     public JsonNode setAuctionEndData(final JsonNode jsonData, final JsonNode responseData, final String processId) {
         try {
-            final ObjectNode tenderNode = (ObjectNode) jsonData.get("tender");
-            tenderNode.replace("tender", responseData.get("tender"));
+            final ObjectNode mainNode = (ObjectNode) jsonData;
+            mainNode.replace("tender", responseData.get("tender"));
             return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
