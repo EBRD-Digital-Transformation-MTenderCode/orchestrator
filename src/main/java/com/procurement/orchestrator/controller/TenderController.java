@@ -1,7 +1,9 @@
 package com.procurement.orchestrator.controller;
 
+import com.datastax.driver.core.utils.UUIDs;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
+import com.procurement.orchestrator.domain.Rule;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.service.RequestService;
 import com.procurement.orchestrator.utils.DateUtil;
@@ -237,34 +239,36 @@ public class TenderController extends DoBaseController {
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
-//    @RequestMapping(value = "/enquiryPeriodEnd", method = RequestMethod.POST)
-//    public ResponseEntity<String> test(@RequestHeader("cpid") final String cpid) {
-//        final Context prevContext = requestService.getContext(cpid);
-//        final Context context = new Context();
-//        final Rule rules = requestService.checkAndGetRule(prevContext, "enquiryPeriodEnd");
-//        final String uuid = UUIDs.timeBased().toString();
-//        context.setRequestId(uuid);
-//        context.setOperationId(uuid);
-//        context.setCountry(rules.getCountry());
-//        context.setPmd(rules.getPmd());
-//        context.setProcessType(rules.getProcessType());
-//        context.setStage(rules.getNewStage());
-//        context.setPhase(rules.getNewPhase());
-//        context.setOperationType(rules.getOperationType());
-//
-//        context.setOwner(prevContext.getOwner());
-//        context.setCpid(prevContext.getCpid());
-//        context.setOcid(prevContext.getOcid());
-//        context.setToken(prevContext.getToken());
-//        context.setLanguage(prevContext.getLanguage());
-//        context.setStartDate(dateUtil.nowFormatted());
-//
-//        requestService.saveRequestAndCheckOperation(context, null);
-//        final Map<String, Object> variables = new HashMap<>();
-//        variables.put("operationType", context.getOperationType());
-//        processService.startProcess(context, variables);
-//
-//        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
-//    }
+    @RequestMapping(value = "/auctionPeriodEnd/{cpid}", method = RequestMethod.POST)
+    public ResponseEntity<String> test(@PathVariable("cpid") final String cpid,
+                                       @RequestBody final JsonNode message) {
+        final Context prevContext = requestService.getContext(cpid);
+        final Context context = new Context();
+        final Rule rules = requestService.checkAndGetRule(prevContext, "auctionPeriodEnd");
+        final String uuid = UUIDs.timeBased().toString();
+        context.setRequestId(uuid);
+        context.setOperationId(uuid);
+        context.setCountry(rules.getCountry());
+        context.setPmd(rules.getPmd());
+        context.setProcessType(rules.getProcessType());
+        context.setStage(rules.getNewStage());
+        context.setPhase(rules.getNewPhase());
+        context.setOperationType(rules.getOperationType());
+        context.setOwner(prevContext.getOwner());
+        context.setCpid(prevContext.getCpid());
+        context.setOcid(prevContext.getOcid());
+        context.setToken(prevContext.getToken());
+        context.setLanguage(prevContext.getLanguage());
+        context.setIsAuction(prevContext.getIsAuction());
+        context.setStartDate(dateUtil.nowFormatted());
+        requestService.saveRequestAndCheckOperation(context, message);
+        final Map<String, Object> variables = new HashMap<>();
+        variables.put("operationType", context.getOperationType());
+        processService.startProcess(context, variables);
+
+        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
+
+
+    }
 
 }
