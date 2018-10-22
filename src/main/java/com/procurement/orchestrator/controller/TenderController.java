@@ -239,9 +239,11 @@ public class TenderController extends DoBaseController {
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
-    @RequestMapping(value = "/auctionPeriodEnd/{cpid}", method = RequestMethod.POST)
-    public ResponseEntity<String> test(@PathVariable("cpid") final String cpid,
-                                       @RequestBody final JsonNode message) {
+    @RequestMapping(value = "/auctionPeriodEnd", method = RequestMethod.POST)
+    public ResponseEntity<String> test(@RequestBody final JsonNode response) {
+
+        final JsonNode data = response.get("data");
+        final String cpid = data.get("tender").get("id").asText();
         final Context prevContext = requestService.getContext(cpid);
         final Context context = new Context();
         final Rule rules = requestService.checkAndGetRule(prevContext, "auctionPeriodEnd");
@@ -261,7 +263,7 @@ public class TenderController extends DoBaseController {
         context.setLanguage(prevContext.getLanguage());
         context.setIsAuction(prevContext.getIsAuction());
         context.setStartDate(dateUtil.nowFormatted());
-        requestService.saveRequestAndCheckOperation(context, message);
+        requestService.saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("operationType", context.getOperationType());
         processService.startProcess(context, variables);

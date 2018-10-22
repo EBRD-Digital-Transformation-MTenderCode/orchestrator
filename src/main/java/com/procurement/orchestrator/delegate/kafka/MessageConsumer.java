@@ -88,7 +88,7 @@ public class MessageConsumer {
             } else {
                 final JsonNode data = response.get("data");
                 if (data != null) {
-                    final String cpid = data.get("tender").get("id").toString();
+                    final String cpid = data.get("tender").get("id").asText();
                     final Context prevContext = requestService.getContext(cpid);
                     final Context context = new Context();
                     final Rule rules = requestService.checkAndGetRule(prevContext, "auctionPeriodEnd");
