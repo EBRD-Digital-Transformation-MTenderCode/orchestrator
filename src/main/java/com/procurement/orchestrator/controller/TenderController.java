@@ -246,7 +246,6 @@ public class TenderController extends DoBaseController {
 
     @RequestMapping(value = "/auctionPeriodEnd", method = RequestMethod.POST)
     public ResponseEntity<String> test(@RequestBody final JsonNode response) {
-
         final JsonNode dataNode = response.get("data");
         final AuctionData data = jsonUtil.toObject(AuctionData.class, dataNode);
         final String cpid = data.getTender().getId();
