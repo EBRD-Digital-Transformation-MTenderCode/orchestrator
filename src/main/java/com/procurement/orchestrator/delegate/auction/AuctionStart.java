@@ -1,6 +1,8 @@
 package com.procurement.orchestrator.delegate.auction;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.procurement.orchestrator.domain.AuctionLinks;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.AuctionRestClient;
@@ -13,7 +15,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import static com.procurement.orchestrator.domain.commands.AuctionCommandType.START;
 
@@ -60,7 +64,19 @@ public class AuctionStart implements JavaDelegate {
             if (Objects.nonNull(responseData)) {
                 final Boolean isAuctionStarted = processService.getBoolean("isAuctionStarted", responseData, processId);
                 execution.setVariable("isAuctionStarted", isAuctionStarted);
-                if (!isAuctionStarted) context.setIsAuction(false);
+                if (isAuctionStarted) {
+                    context.setIsAuction(true);
+                    final ArrayNode auctionLinksNode = (ArrayNode) responseData.get("auctionLinks");
+                    if (auctionLinksNode.size() > 0) {
+                        Set<AuctionLinks> auctionLinks = new HashSet<>();
+                        for (final JsonNode auctionLinkNode : auctionLinksNode) {
+                            auctionLinks.add(jsonUtil.toObject(AuctionLinks.class, auctionLinkNode));
+                        }
+                        context.setAuctionLinks(auctionLinks);
+                    }
+                } else {
+                    context.setIsAuction(false);
+                }
                 operationService.saveOperationStep(
                         execution,
                         entity,

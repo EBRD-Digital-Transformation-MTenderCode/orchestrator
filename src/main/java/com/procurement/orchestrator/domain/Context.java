@@ -82,6 +82,10 @@ public class Context {
     @JsonProperty(value = "isAuction")
     private Boolean isAuction = false;
 
+    @JsonProperty(value = "auctionLinks")
+    private Set<AuctionLinks> auctionLinks;
+
+
     public void setOperationId(final String operationId) {
         this.operationId = UUID.fromString(operationId).toString();
     }
