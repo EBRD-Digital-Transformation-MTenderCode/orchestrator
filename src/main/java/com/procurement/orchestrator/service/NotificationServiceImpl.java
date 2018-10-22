@@ -44,7 +44,7 @@ public class NotificationServiceImpl implements NotificationService {
         return uri;
     }
 
-    private String getTenderUri(final String cpId, final String ocId) {
+    public String getTenderUri(final String cpId, final String ocId) {
         String uri = tenderUri + cpId;
         if (ocId != null) {
             uri = uri + URI_SEPARATOR + ocId;
@@ -109,6 +109,16 @@ public class NotificationServiceImpl implements NotificationService {
             if (awardNode.get("token") != null) {
                 outcomes.add(new Outcome(awardNode.get("id").asText(), awardNode.get("token").asText()));
             }
+        }
+        context.setOutcomes(outcomes);
+        return context;
+    }
+
+    public Context addUnsiccessfullAwardOutcomeToContext(final Context context, final JsonNode responseData, final String processId) {
+        final Set<Outcome> outcomes = new HashSet<>();
+        final ArrayNode awardsNode = (ArrayNode) responseData.get("awards");
+        for (final JsonNode awardNode : awardsNode) {
+            outcomes.add(new Outcome(awardNode.get("id").asText(), null));
         }
         context.setOutcomes(outcomes);
         return context;
@@ -278,13 +288,6 @@ public class NotificationServiceImpl implements NotificationService {
                 break;
             }
             case TENDER_PERIOD_END_EV: {
-                message.setInitiator(BPE);
-                data.setOcid(context.getOcid());
-                data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
-                data.setOutcomes(getOutcomes("awards", context.getOutcomes()));
-                break;
-            }
-            case TENDER_PERIOD_END_AUCTION: {
                 message.setInitiator(BPE);
                 data.setOcid(context.getOcid());
                 data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));

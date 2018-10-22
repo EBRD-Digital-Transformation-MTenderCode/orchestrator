@@ -25,7 +25,9 @@ public class AuctionLinks {
         this.links = links;
     }
 
-    class AuctionLink {
+    @Getter
+    @Setter
+    public class AuctionLink {
 
         @JsonProperty("relatedBid")
         private String relatedBid;
