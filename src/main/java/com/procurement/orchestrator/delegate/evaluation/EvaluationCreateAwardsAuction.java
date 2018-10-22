@@ -58,6 +58,8 @@ public class EvaluationCreateAwardsAuction implements JavaDelegate {
                 commandMessage);
         if (Objects.nonNull(responseData)) {
             context.setOperationType("tenderPeriodEndEv");
+            context.setPhase("awarding");
+            context.setIsAuction(false);
             operationService.saveOperationStep(
                     execution,
                     entity,
