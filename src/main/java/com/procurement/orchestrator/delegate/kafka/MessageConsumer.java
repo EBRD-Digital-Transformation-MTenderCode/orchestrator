@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.Rule;
 import com.procurement.orchestrator.domain.chronograph.ChronographResponse;
+import com.procurement.orchestrator.domain.dto.auction.AuctionData;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.service.RequestService;
@@ -86,9 +87,10 @@ public class MessageConsumer {
             if (response.get("errors") != null) {
                 //TODO error processing
             } else {
-                final JsonNode data = response.get("data");
-                if (data != null) {
-                    final String cpid = data.get("tender").get("id").asText();
+                final JsonNode dataNode = response.get("data");
+                if (dataNode != null) {
+                    final AuctionData data = jsonUtil.toObject(AuctionData.class, dataNode);
+                    final String cpid = data.getTender().getId();
                     final Context prevContext = requestService.getContext(cpid);
                     final Context context = new Context();
                     final Rule rules = requestService.checkAndGetRule(prevContext, "auctionPeriodEnd");
@@ -108,7 +110,7 @@ public class MessageConsumer {
                     context.setLanguage(prevContext.getLanguage());
                     context.setIsAuction(prevContext.getIsAuction());
                     context.setStartDate(dateUtil.nowFormatted());
-                    saveRequestAndCheckOperation(context, data);
+                    saveRequestAndCheckOperation(context, jsonUtil.toJsonNode(data));
                     final Map<String, Object> variables = new HashMap<>();
                     variables.put("operationType", context.getOperationType());
                     processService.startProcess(context, variables);
