@@ -54,6 +54,7 @@ public class AuctionStart implements JavaDelegate {
         final String taskId = execution.getCurrentActivityId();
         final JsonNode rqData = processService.getAuctionStartData(prevData, processId);
         final JsonNode commandMessage = processService.getCommandMessage(START, context, rqData);
+        execution.setVariable("isAuctionStarted", false);
         if (rqData != null) {
             JsonNode responseData = processService.processResponse(
                     auctionRestClient.execute(commandMessage),
