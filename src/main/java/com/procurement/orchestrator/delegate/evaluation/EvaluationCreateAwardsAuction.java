@@ -50,6 +50,9 @@ public class EvaluationCreateAwardsAuction implements JavaDelegate {
         final String taskId = execution.getCurrentActivityId();
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final JsonNode commandMessage = processService.getCommandMessage(CREATE_AWARDS_AUCTION, context, jsonData);
+        context.setOperationType("tenderPeriodEndEv");
+        context.setPhase("awarding");
+        context.setIsAuction(false);
         final JsonNode responseData = processService.processResponse(
                 evaluationRestClient.execute(commandMessage),
                 context,
@@ -57,9 +60,6 @@ public class EvaluationCreateAwardsAuction implements JavaDelegate {
                 taskId,
                 commandMessage);
         if (Objects.nonNull(responseData)) {
-            context.setOperationType("tenderPeriodEndEv");
-            context.setPhase("awarding");
-            context.setIsAuction(false);
             operationService.saveOperationStep(
                     execution,
                     entity,
