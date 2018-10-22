@@ -60,6 +60,7 @@ public class AuctionStart implements JavaDelegate {
             if (Objects.nonNull(responseData)) {
                 final Boolean isAuctionStarted = processService.getBoolean("isAuctionStarted", responseData, processId);
                 execution.setVariable("isAuctionStarted", isAuctionStarted);
+                if (!isAuctionStarted) context.setIsAuction(false);
                 operationService.saveOperationStep(
                         execution,
                         entity,
