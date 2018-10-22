@@ -51,9 +51,7 @@ public class MessageConsumer {
             final ChronographResponse response = jsonUtil.toObject(ChronographResponse.class, message);
             final ChronographResponse.ChronographResponseData data = response.getData();
             final Context contextChronograph = jsonUtil.toObject(Context.class, data.getMetaData());
-
             final Context prevContext = requestService.getContext(contextChronograph.getCpid());
-
             final Context context = new Context();
             final Rule rules = requestService.checkAndGetRule(prevContext, contextChronograph.getProcessType());
             context.setRequestId(contextChronograph.getRequestId());
@@ -64,7 +62,6 @@ public class MessageConsumer {
             context.setStage(rules.getNewStage());
             context.setPhase(rules.getNewPhase());
             context.setOperationType(rules.getOperationType());
-
             context.setOwner(prevContext.getOwner());
             context.setCpid(prevContext.getCpid());
             context.setOcid(prevContext.getOcid());
@@ -72,7 +69,6 @@ public class MessageConsumer {
             context.setLanguage(prevContext.getLanguage());
             context.setIsAuction(prevContext.getIsAuction());
             context.setStartDate(dateUtil.nowFormatted());
-
             saveRequestAndCheckOperation(context, jsonUtil.empty());
             final Map<String, Object> variables = new HashMap<>();
             variables.put("operationType", context.getOperationType());
@@ -87,33 +83,37 @@ public class MessageConsumer {
         try {
             LOG.info("Get task: " + message);
             final JsonNode response = jsonUtil.toJsonNode(message);
-            final String cpid = response.get("tender").get("id").toString();
-            final Context prevContext = requestService.getContext(cpid);
-            final Context context = new Context();
-            final Rule rules = requestService.checkAndGetRule(prevContext, "auctionPeriodEnd");
-
-            final String uuid = UUIDs.timeBased().toString();
-            context.setRequestId(uuid);
-            context.setOperationId(uuid);
-            context.setCountry(rules.getCountry());
-            context.setPmd(rules.getPmd());
-            context.setProcessType(rules.getProcessType());
-            context.setStage(rules.getNewStage());
-            context.setPhase(rules.getNewPhase());
-            context.setOperationType(rules.getOperationType());
-
-            context.setOwner(prevContext.getOwner());
-            context.setCpid(prevContext.getCpid());
-            context.setOcid(prevContext.getOcid());
-            context.setToken(prevContext.getToken());
-            context.setLanguage(prevContext.getLanguage());
-            context.setIsAuction(prevContext.getIsAuction());
-            context.setStartDate(dateUtil.nowFormatted());
-
-            saveRequestAndCheckOperation(context, jsonUtil.empty());
-            final Map<String, Object> variables = new HashMap<>();
-            variables.put("operationType", context.getOperationType());
-            processService.startProcess(context, variables);
+            if (response.get("errors") != null) {
+                //TODO error processing
+            } else {
+                final JsonNode dataNode = response.get("data");
+                if (dataNode != null) {
+                    final String cpid = dataNode.get("tender").get("id").toString();
+                    final Context prevContext = requestService.getContext(cpid);
+                    final Context context = new Context();
+                    final Rule rules = requestService.checkAndGetRule(prevContext, "auctionPeriodEnd");
+                    final String uuid = UUIDs.timeBased().toString();
+                    context.setRequestId(uuid);
+                    context.setOperationId(uuid);
+                    context.setCountry(rules.getCountry());
+                    context.setPmd(rules.getPmd());
+                    context.setProcessType(rules.getProcessType());
+                    context.setStage(rules.getNewStage());
+                    context.setPhase(rules.getNewPhase());
+                    context.setOperationType(rules.getOperationType());
+                    context.setOwner(prevContext.getOwner());
+                    context.setCpid(prevContext.getCpid());
+                    context.setOcid(prevContext.getOcid());
+                    context.setToken(prevContext.getToken());
+                    context.setLanguage(prevContext.getLanguage());
+                    context.setIsAuction(prevContext.getIsAuction());
+                    context.setStartDate(dateUtil.nowFormatted());
+                    saveRequestAndCheckOperation(context, jsonUtil.empty());
+                    final Map<String, Object> variables = new HashMap<>();
+                    variables.put("operationType", context.getOperationType());
+                    processService.startProcess(context, variables);
+                }
+            }
         } catch (Exception e) {
         }
     }
