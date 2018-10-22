@@ -4,9 +4,11 @@ import com.datastax.driver.core.utils.UUIDs;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.Rule;
+import com.procurement.orchestrator.domain.dto.auction.AuctionData;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.service.RequestService;
 import com.procurement.orchestrator.utils.DateUtil;
+import com.procurement.orchestrator.utils.JsonUtil;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,11 +24,14 @@ public class TenderController extends DoBaseController {
     private final DateUtil dateUtil;
     private final ProcessService processService;
     private final RequestService requestService;
+    private final JsonUtil jsonUtil;
 
     public TenderController(final ProcessService processService,
                             final RequestService requestService,
+                            final JsonUtil jsonUtil,
                             final DateUtil dateUtil) {
         this.dateUtil = dateUtil;
+        this.jsonUtil = jsonUtil;
         this.processService = processService;
         this.requestService = requestService;
     }
@@ -242,8 +247,9 @@ public class TenderController extends DoBaseController {
     @RequestMapping(value = "/auctionPeriodEnd", method = RequestMethod.POST)
     public ResponseEntity<String> test(@RequestBody final JsonNode response) {
 
-        final JsonNode data = response.get("data");
-        final String cpid = data.get("tender").get("id").asText();
+        final JsonNode dataNode = response.get("data");
+        final AuctionData data = jsonUtil.toObject(AuctionData.class, dataNode);
+        final String cpid = data.getTender().getId();
         final Context prevContext = requestService.getContext(cpid);
         final Context context = new Context();
         final Rule rules = requestService.checkAndGetRule(prevContext, "auctionPeriodEnd");
@@ -263,7 +269,7 @@ public class TenderController extends DoBaseController {
         context.setLanguage(prevContext.getLanguage());
         context.setIsAuction(prevContext.getIsAuction());
         context.setStartDate(dateUtil.nowFormatted());
-        requestService.saveRequestAndCheckOperation(context, data);
+        requestService.saveRequestAndCheckOperation(context, jsonUtil.toJsonNode(data));
         final Map<String, Object> variables = new HashMap<>();
         variables.put("operationType", context.getOperationType());
         processService.startProcess(context, variables);

@@ -1,34 +1,110 @@
 {
-  "operationId": "244eacc0-d600-11e8-b100-b593e0982ed6",
-  "requestId": "244eacc0-d600-11e8-b100-b593e0982ed6",
-  "cpid": "ocds-t1s2t3-MD-1540215672847",
-  "ocid": "ocds-t1s2t3-MD-1540215672847-EV-1540215673438",
-  "stage": "EV",
-  "processType": "tenderPeriodEndAuction",
-  "operationType": "tenderPeriodEndAuction",
-  "phase": "auction",
-  "owner": "445f6851-c908-407d-9b45-14b92f3e964b",
-  "country": "MD",
-  "language": "ro",
-  "pmd": "TEST_OT",
-  "token": "d51d82c5-4d9a-45d0-bc73-86387cd53d2f",
-  "outcomes": [],
-  "startDate": "2018-10-22T13:46:00Z",
-  "timeStamp": 1540215960497503,
-  "isAuction": true,
-  "auctionLinks": [
-    {
-      "owner": "445f6851-c908-407d-9b45-14b92f3e964b",
-      "links": [
-        {
-          "relatedBid": "65d19c20-d600-11e8-ad26-e5c1eb0d4905",
-          "url": "http://auction.eprocurement.systems/ocds-t1s2t3-MD-1540215672847/241489f2-d600-11e8-ac0d-dd2b0a703f98?bid_id=65d19c20-d600-11e8-ad26-e5c1eb0d4905&sign=0e0517d8-0765-49f7-a0cb-3705640b8ca5"
-        },
-        {
-          "relatedBid": "6d7b95c0-d600-11e8-ad26-e5c1eb0d4905",
-          "url": "http://auction.eprocurement.systems/ocds-t1s2t3-MD-1540215672847/241489f2-d600-11e8-ac0d-dd2b0a703f98?bid_id=6d7b95c0-d600-11e8-ad26-e5c1eb0d4905&sign=4e09f3b6-582c-402a-a353-2af0cc8474f4"
-        }
-      ]
+  "id": "165",
+  "data": {
+    "tender": {
+      "id": "ocds-t1s2t3-MD-1540218638731",
+      "electronicAuctions": {
+        "details": [
+          {
+            "id": "165",
+            "relatedLot": "0be285b1-d607-11e8-ac0d-dd2b0a703f98",
+            "auctionPeriod": {
+              "startDate": "2018-10-22T14:43:00+00:00",
+              "endDate": "2018-10-22T14:49:35+00:00"
+            },
+            "electronicAuctionProgress": [
+              {
+                "id": "1",
+                "period": {
+                  "startDate": "2018-10-22T14:43:05+00:00",
+                  "endDate": "2018-10-22T14:45:10+00:00"
+                },
+                "breakdown": [
+                  {
+                    "relatedBid": "95015dd0-d607-11e8-ad26-e5c1eb0d4905",
+                    "dateMet": "2018-10-22T14:45:10+00:00",
+                    "value": {
+                      "amount": 6000
+                    }
+                  },
+                  {
+                    "relatedBid": "869d21c0-d607-11e8-ad26-e5c1eb0d4905",
+                    "dateMet": "2018-10-22T14:45:10+00:00",
+                    "value": {
+                      "amount": 6000
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "2",
+                "period": {
+                  "startDate": "2018-10-22T14:45:15+00:00",
+                  "endDate": "2018-10-22T14:47:20+00:00"
+                },
+                "breakdown": [
+                  {
+                    "relatedBid": "95015dd0-d607-11e8-ad26-e5c1eb0d4905",
+                    "dateMet": "2018-10-22T14:47:20+00:00",
+                    "value": {
+                      "amount": 6000
+                    }
+                  },
+                  {
+                    "relatedBid": "869d21c0-d607-11e8-ad26-e5c1eb0d4905",
+                    "dateMet": "2018-10-22T14:47:20+00:00",
+                    "value": {
+                      "amount": 6000
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "3",
+                "period": {
+                  "startDate": "2018-10-22T14:47:25+00:00",
+                  "endDate": "2018-10-22T14:49:30+00:00"
+                },
+                "breakdown": [
+                  {
+                    "relatedBid": "95015dd0-d607-11e8-ad26-e5c1eb0d4905",
+                    "dateMet": "2018-10-22T14:49:30+00:00",
+                    "value": {
+                      "amount": 6000
+                    }
+                  },
+                  {
+                    "relatedBid": "869d21c0-d607-11e8-ad26-e5c1eb0d4905",
+                    "dateMet": "2018-10-22T14:49:30+00:00",
+                    "value": {
+                      "amount": 6000
+                    }
+                  }
+                ]
+              }
+            ],
+            "electronicAuctionResult": [
+              {
+                "relatedBid": "95015dd0-d607-11e8-ad26-e5c1eb0d4905",
+                "value": {
+                  "amount": 6000
+                }
+              },
+              {
+                "relatedBid": "869d21c0-d607-11e8-ad26-e5c1eb0d4905",
+                "value": {
+                  "amount": 6000
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "auctionPeriod": {
+        "startDate": "2018-10-22T14:43:00+00:00",
+        "endDate": "2018-10-22T14:49:35+00:00"
+      }
     }
-  ]
+  },
+  "version": "0.0.1"
 }
