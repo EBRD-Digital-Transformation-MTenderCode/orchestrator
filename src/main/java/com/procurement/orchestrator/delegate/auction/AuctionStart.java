@@ -76,6 +76,7 @@ public class AuctionStart implements JavaDelegate {
                     }
                 } else {
                     context.setIsAuction(false);
+                    context.setPhase("awarding");
                 }
                 operationService.saveOperationStep(
                         execution,
