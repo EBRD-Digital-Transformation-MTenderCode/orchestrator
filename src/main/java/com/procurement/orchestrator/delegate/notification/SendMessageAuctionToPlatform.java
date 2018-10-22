@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -44,54 +45,61 @@ public class SendMessageAuctionToPlatform implements JavaDelegate {
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         //auction links
         final Set<AuctionLinks> auctionLinks = context.getAuctionLinks();
-        for (final AuctionLinks links : auctionLinks) {
-            final String owner = links.getOwner();
-            final PlatformMessage message = new PlatformMessage();
-            final PlatformMessageData data = new PlatformMessageData();
-            message.setInitiator("bpe");
-            data.setOcid(context.getOcid());
-            data.setUrl(notificationService.getTenderUri(context.getCpid(), context.getOcid()));
-            final ObjectNode outcomes = jsonUtil.createObjectNode();
-            //links
-            final ArrayNode linksArray = jsonUtil.createArrayNode();
-            for (final AuctionLink link : links.getLinks()) {
-                final ObjectNode linksItem = jsonUtil.createObjectNode();
-                linksItem.put("relatedBid", link.getRelatedBid());
-                linksItem.put("url", link.getUrl());
-                linksArray.add(linksItem);
-            }
-            outcomes.replace("links", linksArray);
-            //unsuccessful awards
-            if (owner.equals(context.getOwner())) {
-                final Set<Outcome> contextOutcomes = context.getOutcomes();
-                if (contextOutcomes != null) {
-                    final ArrayNode outcomeArray = jsonUtil.createArrayNode();
-                    for (final Outcome outcome : contextOutcomes) {
-                        final ObjectNode outcomeItem = jsonUtil.createObjectNode();
-                        outcomeItem.put("id", outcome.getId());
-                        outcomeArray.add(outcomeItem);
-                    }
-                    outcomes.replace("awards", outcomeArray);
+        final Set<Notification> notifications = new HashSet<>();
+        if (auctionLinks != null && !auctionLinks.isEmpty()) {
+            for (final AuctionLinks links : auctionLinks) {
+                final String owner = links.getOwner();
+                final PlatformMessage message = new PlatformMessage();
+                final PlatformMessageData data = new PlatformMessageData();
+                message.setInitiator("bpe");
+                data.setOcid(context.getOcid());
+                data.setUrl(notificationService.getTenderUri(context.getCpid(), context.getOcid()));
+                final ObjectNode outcomes = jsonUtil.createObjectNode();
+                //links
+                final ArrayNode linksArray = jsonUtil.createArrayNode();
+                for (final AuctionLink link : links.getLinks()) {
+                    final ObjectNode linksItem = jsonUtil.createObjectNode();
+                    linksItem.put("relatedBid", link.getRelatedBid());
+                    linksItem.put("url", link.getUrl());
+                    linksArray.add(linksItem);
                 }
+                outcomes.replace("links", linksArray);
+                //unsuccessful awards
+                if (owner.equals(context.getOwner())) {
+                    final Set<Outcome> contextOutcomes = context.getOutcomes();
+                    if (contextOutcomes != null && !contextOutcomes.isEmpty()) {
+                        final ArrayNode outcomeArray = jsonUtil.createArrayNode();
+                        for (final Outcome outcome : contextOutcomes) {
+                            final ObjectNode outcomeItem = jsonUtil.createObjectNode();
+                            outcomeItem.put("id", outcome.getId());
+                            outcomeArray.add(outcomeItem);
+                        }
+                        outcomes.replace("awards", outcomeArray);
+                    }
+                }
+                data.setOutcomes(outcomes);
+                message.setOperationId(context.getOperationId());
+                message.setResponseId(UUIDs.timeBased().toString());
+                data.setOperationDate(context.getStartDate());
+                message.setData(data);
+
+                final Notification notification = new Notification(
+                        UUID.fromString(owner),
+                        UUID.fromString(context.getOperationId()),
+                        jsonUtil.toJson(message));
+
+                notifications.add(notification);
             }
-            data.setOutcomes(outcomes);
-            message.setOperationId(context.getOperationId());
-            message.setResponseId(UUIDs.timeBased().toString());
-            data.setOperationDate(context.getStartDate());
-            message.setData(data);
-
-            final Notification notification = new Notification(
-                    UUID.fromString(owner),
-                    UUID.fromString(context.getOperationId()),
-                    jsonUtil.toJson(message));
-            messageProducer.sendToPlatform(notification);
-
-            operationService.saveOperationStep(
-                    execution,
-                    entity,
-                    context,
-                    jsonUtil.toJsonNode(notification));
-
         }
+        if (notifications != null && !notifications.isEmpty()) {
+            for (final Notification notification : notifications) {
+                messageProducer.sendToPlatform(notification);
+            }
+        }
+        operationService.saveOperationStep(
+                execution,
+                entity,
+                context,
+                jsonUtil.toJsonNode(notifications));
     }
 }
