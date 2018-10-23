@@ -1,58 +1,54 @@
 {
-  "id": "165",
+  "id": "9acc90d0-d6c1-11e8-8bc3-a384f1b3dfb8",
+  "command": "auctionsEnd",
+  "context": {
+    "operationId": "9acc90d0-d6c1-11e8-8bc3-a384f1b3dfb8",
+    "requestId": "9acc90d0-d6c1-11e8-8bc3-a384f1b3dfb8",
+    "cpid": "ocds-t1s2t3-MD-1540231500611",
+    "ocid": "ocds-t1s2t3-MD-1540231500611-EV-1540231500746",
+    "stage": "EV",
+    "processType": "auctionPeriodEnd",
+    "operationType": "auctionPeriodEnd",
+    "phase": "awarding",
+    "owner": "445f6851-c908-407d-9b45-14b92f3e964b",
+    "country": "MD",
+    "language": "ro",
+    "pmd": "OT",
+    "token": "07296632-c970-44bd-8d8f-260f15609826",
+    "startDate": "2018-10-23T12:46:04Z",
+    "timeStamp": 1540298764946822,
+    "isAuction": true
+  },
   "data": {
     "tender": {
-      "id": "ocds-t1s2t3-MD-1540218638731",
+      "id": "ocds-t1s2t3-MD-1540231500611",
       "electronicAuctions": {
         "details": [
           {
-            "id": "165",
-            "relatedLot": "0be285b1-d607-11e8-ac0d-dd2b0a703f98",
+            "id": "167",
+            "relatedLot": "fe29a931-d624-11e8-ac0d-dd2b0a703f98",
             "auctionPeriod": {
-              "startDate": "2018-10-22T14:43:00+00:00",
-              "endDate": "2018-10-22T14:49:35+00:00"
+              "startDate": "2018-10-22T18:16:00Z",
+              "endDate": "2018-10-22T18:22:35Z"
             },
             "electronicAuctionProgress": [
               {
-                "id": "1",
-                "period": {
-                  "startDate": "2018-10-22T14:43:05+00:00",
-                  "endDate": "2018-10-22T14:45:10+00:00"
-                },
-                "breakdown": [
-                  {
-                    "relatedBid": "95015dd0-d607-11e8-ad26-e5c1eb0d4905",
-                    "dateMet": "2018-10-22T14:45:10+00:00",
-                    "value": {
-                      "amount": 6000
-                    }
-                  },
-                  {
-                    "relatedBid": "869d21c0-d607-11e8-ad26-e5c1eb0d4905",
-                    "dateMet": "2018-10-22T14:45:10+00:00",
-                    "value": {
-                      "amount": 6000
-                    }
-                  }
-                ]
-              },
-              {
                 "id": "2",
                 "period": {
-                  "startDate": "2018-10-22T14:45:15+00:00",
-                  "endDate": "2018-10-22T14:47:20+00:00"
+                  "startDate": "2018-10-22T18:18:15Z",
+                  "endDate": "2018-10-22T18:20:20Z"
                 },
                 "breakdown": [
                   {
-                    "relatedBid": "95015dd0-d607-11e8-ad26-e5c1eb0d4905",
-                    "dateMet": "2018-10-22T14:47:20+00:00",
+                    "relatedBid": "29db6be0-d625-11e8-ad26-e5c1eb0d4905",
+                    "dateMet": "2018-10-22T18:20:20Z",
                     "value": {
                       "amount": 6000
                     }
                   },
                   {
-                    "relatedBid": "869d21c0-d607-11e8-ad26-e5c1eb0d4905",
-                    "dateMet": "2018-10-22T14:47:20+00:00",
+                    "relatedBid": "24e48450-d625-11e8-ad26-e5c1eb0d4905",
+                    "dateMet": "2018-10-22T18:20:20Z",
                     "value": {
                       "amount": 6000
                     }
@@ -62,20 +58,43 @@
               {
                 "id": "3",
                 "period": {
-                  "startDate": "2018-10-22T14:47:25+00:00",
-                  "endDate": "2018-10-22T14:49:30+00:00"
+                  "startDate": "2018-10-22T18:20:25Z",
+                  "endDate": "2018-10-22T18:22:30Z"
                 },
                 "breakdown": [
                   {
-                    "relatedBid": "95015dd0-d607-11e8-ad26-e5c1eb0d4905",
-                    "dateMet": "2018-10-22T14:49:30+00:00",
+                    "relatedBid": "29db6be0-d625-11e8-ad26-e5c1eb0d4905",
+                    "dateMet": "2018-10-22T18:22:30Z",
                     "value": {
                       "amount": 6000
                     }
                   },
                   {
-                    "relatedBid": "869d21c0-d607-11e8-ad26-e5c1eb0d4905",
-                    "dateMet": "2018-10-22T14:49:30+00:00",
+                    "relatedBid": "24e48450-d625-11e8-ad26-e5c1eb0d4905",
+                    "dateMet": "2018-10-22T18:22:30Z",
+                    "value": {
+                      "amount": 6000
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "1",
+                "period": {
+                  "startDate": "2018-10-22T18:16:05Z",
+                  "endDate": "2018-10-22T18:18:10Z"
+                },
+                "breakdown": [
+                  {
+                    "relatedBid": "24e48450-d625-11e8-ad26-e5c1eb0d4905",
+                    "dateMet": "2018-10-22T18:18:10Z",
+                    "value": {
+                      "amount": 6000
+                    }
+                  },
+                  {
+                    "relatedBid": "29db6be0-d625-11e8-ad26-e5c1eb0d4905",
+                    "dateMet": "2018-10-22T18:18:10Z",
                     "value": {
                       "amount": 6000
                     }
@@ -85,13 +104,13 @@
             ],
             "electronicAuctionResult": [
               {
-                "relatedBid": "95015dd0-d607-11e8-ad26-e5c1eb0d4905",
+                "relatedBid": "29db6be0-d625-11e8-ad26-e5c1eb0d4905",
                 "value": {
                   "amount": 6000
                 }
               },
               {
-                "relatedBid": "869d21c0-d607-11e8-ad26-e5c1eb0d4905",
+                "relatedBid": "24e48450-d625-11e8-ad26-e5c1eb0d4905",
                 "value": {
                   "amount": 6000
                 }
@@ -101,8 +120,8 @@
         ]
       },
       "auctionPeriod": {
-        "startDate": "2018-10-22T14:43:00+00:00",
-        "endDate": "2018-10-22T14:49:35+00:00"
+        "startDate": "2018-10-22T18:16:00Z",
+        "endDate": "2018-10-22T18:22:35Z"
       }
     }
   },

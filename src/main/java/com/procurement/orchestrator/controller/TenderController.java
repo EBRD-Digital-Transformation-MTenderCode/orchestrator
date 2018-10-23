@@ -251,16 +251,16 @@ public class TenderController extends DoBaseController {
 //        final String cpid = data.getTender().getId();
 //        final Context prevContext = requestService.getContext(cpid);
 //        final Context context = new Context();
-//        final Rule rules = requestService.checkAndGetRule(prevContext, "auctionPeriodEnd");
 //        final String uuid = UUIDs.timeBased().toString();
 //        context.setRequestId(uuid);
 //        context.setOperationId(uuid);
-//        context.setCountry(rules.getCountry());
-//        context.setPmd(rules.getPmd());
-//        context.setProcessType(rules.getProcessType());
-//        context.setStage(rules.getNewStage());
-//        context.setPhase(rules.getNewPhase());
-//        context.setOperationType(rules.getOperationType());
+//        context.setCountry("MD");
+//        context.setPmd("OT");
+//        context.setProcessType("auctionPeriodEnd");
+//        context.setStage("EV");
+//        context.setPhase("awarding");
+//        context.setOperationType("auctionPeriodEnd");
+//
 //        context.setOwner(prevContext.getOwner());
 //        context.setCpid(prevContext.getCpid());
 //        context.setOcid(prevContext.getOcid());

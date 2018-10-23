@@ -309,10 +309,10 @@ public class ProcessServiceImpl implements ProcessService {
 
     public JsonNode addTenderStatus(final JsonNode jsonData, final JsonNode statusData, final String processId) {
         try {
-            ((ObjectNode) jsonData).putObject("tender")
-                    .put("status", statusData.get("status").asText())
-                    .put("statusDetails", statusData.get("statusDetails").asText());
-            return jsonData;
+            ObjectNode mainNode=  ((ObjectNode) jsonData);
+            mainNode.replace("tenderStatus", statusData.get("status"));
+            mainNode.replace("tenderStatusDetails", statusData.get("statusDetails"));
+            return mainNode;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
             return null;
