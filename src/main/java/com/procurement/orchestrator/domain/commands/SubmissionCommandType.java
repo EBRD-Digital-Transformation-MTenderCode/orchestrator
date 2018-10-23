@@ -20,6 +20,7 @@ public enum SubmissionCommandType {
     CHECK_PERIOD_END_DATE("checkPeriodEndDate"),
     CHECK_PERIOD("checkPeriod"),
     GET_BIDS("getBids"),
+    GET_BIDS_AUCTION("getBidsAuction"),
     UPDATE_BIDS_BY_LOTS("updateBidsByLots"),
     UPDATE_BID_BY_AWARD_STATUS("updateBidBAwardStatus"),
     SET_BIDS_FINAL_STATUSES("setBidsFinalStatuses"),

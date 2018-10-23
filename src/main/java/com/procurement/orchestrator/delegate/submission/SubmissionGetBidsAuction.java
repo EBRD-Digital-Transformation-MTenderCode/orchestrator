@@ -1,10 +1,10 @@
-package com.procurement.orchestrator.delegate.auction;
+package com.procurement.orchestrator.delegate.submission;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.procurement.orchestrator.domain.Context;
-import com.procurement.orchestrator.domain.dto.auction.AuctionData;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
-import com.procurement.orchestrator.rest.AuctionRestClient;
+import com.procurement.orchestrator.rest.SubmissionRestClient;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -16,26 +16,23 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.AuctionCommandType.END;
+import static com.procurement.orchestrator.domain.commands.SubmissionCommandType.GET_BIDS_AUCTION;
 
 @Component
-public class AuctionEnd implements JavaDelegate {
+public class SubmissionGetBidsAuction implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AuctionSchedule.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SubmissionGetBidsAuction.class);
 
-    private final AuctionRestClient auctionRestClient;
-
+    private final SubmissionRestClient submissionRestClient;
     private final OperationService operationService;
-
     private final ProcessService processService;
-
     private final JsonUtil jsonUtil;
 
-    public AuctionEnd(final AuctionRestClient auctionRestClient,
-                      final OperationService operationService,
-                      final ProcessService processService,
-                      final JsonUtil jsonUtil) {
-        this.auctionRestClient = auctionRestClient;
+    public SubmissionGetBidsAuction(final SubmissionRestClient submissionRestClient,
+                                    final OperationService operationService,
+                                    final ProcessService processService,
+                                    final JsonUtil jsonUtil) {
+        this.submissionRestClient = submissionRestClient;
         this.operationService = operationService;
         this.processService = processService;
         this.jsonUtil = jsonUtil;
@@ -45,25 +42,29 @@ public class AuctionEnd implements JavaDelegate {
     public void execute(final DelegateExecution execution) throws Exception {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
-        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
-        final AuctionData data = jsonUtil.toObject(AuctionData.class, jsonData);
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(END, context, jsonUtil.toJsonNode(data));
+        final JsonNode commandMessage = processService.getCommandMessage(GET_BIDS_AUCTION, context, jsonUtil.empty());
         JsonNode responseData = processService.processResponse(
-                auctionRestClient.execute(commandMessage),
+                submissionRestClient.execute(commandMessage),
                 context,
                 processId,
                 taskId,
                 commandMessage);
         if (Objects.nonNull(responseData)) {
+            final ArrayNode bidsNode = (ArrayNode) responseData.get("bidsData");
+            if (bidsNode.size() == 0) {
+                context.setOperationType("tenderUnsuccessful");
+                execution.setVariable("operationType", "tenderUnsuccessful");
+            }
             operationService.saveOperationStep(
                     execution,
                     entity,
                     context,
                     commandMessage,
-                    processService.setAuctionEndData(jsonData, responseData, processId));
+                    responseData);
         }
     }
 }
+

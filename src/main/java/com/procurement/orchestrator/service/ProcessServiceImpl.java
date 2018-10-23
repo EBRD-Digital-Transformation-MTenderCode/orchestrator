@@ -309,10 +309,10 @@ public class ProcessServiceImpl implements ProcessService {
 
     public JsonNode addTenderStatus(final JsonNode jsonData, final JsonNode statusData, final String processId) {
         try {
-            ((ObjectNode) jsonData).putObject("tender")
-                    .put("status", statusData.get("status").asText())
-                    .put("statusDetails", statusData.get("statusDetails").asText());
-            return jsonData;
+            ObjectNode mainNode=  ((ObjectNode) jsonData);
+            mainNode.replace("tenderStatus", statusData.get("status"));
+            mainNode.replace("tenderStatusDetails", statusData.get("statusDetails"));
+            return mainNode;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
             return null;
@@ -916,7 +916,7 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public JsonNode getAuctionData(JsonNode prevData, String processId) {
+    public JsonNode getAuctionData(final JsonNode prevData, final String processId) {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
             final JsonNode electronicAuctionsNode = prevData.get("tender").get("electronicAuctions");
@@ -933,11 +933,71 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public JsonNode setAuctionData(JsonNode jsonData, JsonNode responseData, String processId) {
+    public JsonNode setAuctionData(final JsonNode jsonData, final JsonNode responseData, final String processId) {
         try {
             final ObjectNode tenderNode = (ObjectNode) jsonData.get("tender");
             tenderNode.replace("auctionPeriod", responseData.get("auctionPeriod"));
             tenderNode.replace("electronicAuctions", responseData.get("electronicAuctions"));
+            return jsonData;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    public JsonNode getAuctionStartData(final JsonNode prevData, final String processId) {
+        try {
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            final JsonNode tenderNode = prevData.get("tender");
+            final JsonNode bidsDataNode = prevData.get("bidsData");
+            if (tenderNode != null && bidsDataNode != null) {
+                mainNode.replace("tender", tenderNode);
+                mainNode.replace("bidsData", bidsDataNode);
+            } else {
+                return null;
+            }
+            return mainNode;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    public JsonNode setAuctionStartData(final JsonNode jsonData, final JsonNode responseData, final String processId) {
+        try {
+            final ObjectNode mainNode = (ObjectNode) jsonData;
+            mainNode.replace("isAuctionStarted", responseData.get("isAuctionStarted"));
+            mainNode.replace("auctionsLinks", responseData.get("auctionsLinks"));
+            mainNode.replace("electronicAuctions", responseData.get("electronicAuctions"));
+            mainNode.replace("auctionsData", responseData.get("auctionsData"));
+            return jsonData;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    public JsonNode getAuctionLaunchData(final JsonNode jsonData, final String processId) {
+        try {
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            final JsonNode auctionsDataNode = jsonData.get("auctionsData");
+            if (auctionsDataNode != null) {
+                mainNode.replace("tender", auctionsDataNode.get("tender"));
+                mainNode.replace("bids", auctionsDataNode.get("bids"));
+            } else {
+                return null;
+            }
+            return mainNode;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    public JsonNode setAuctionEndData(final JsonNode jsonData, final JsonNode responseData, final String processId) {
+        try {
+            final ObjectNode mainNode = (ObjectNode) jsonData;
+            mainNode.replace("tender", responseData.get("tender"));
             return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());

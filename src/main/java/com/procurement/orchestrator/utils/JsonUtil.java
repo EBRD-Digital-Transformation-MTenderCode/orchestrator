@@ -47,6 +47,15 @@ public class JsonUtil {
         }
     }
 
+    public <T> T toObject(final Class<T> clazz, final JsonNode json) {
+        Objects.requireNonNull(json);
+        try {
+            return mapper.treeToValue(json, clazz);
+        } catch (IOException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+
     public JsonNode toJsonNode(final String json) {
         Objects.requireNonNull(json);
         try {

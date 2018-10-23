@@ -1,3 +1,49 @@
+# tenderPeriodEndAuction
+{
+    "X-OPERATION-ID": "95945400-d5d0-11e8-b646-791d6894bd79",
+    "X-RESPONSE-ID": "50c50350-d5d1-11e8-b646-791d6894bd79",
+    "initiator": "bpe",
+    "data": {
+        "ocid": "ocds-t1s2t3-MD-1540195247129-EV-1540195248219",
+        "url": "http://dev.public.eprocurement.systems/tenders/ocds-t1s2t3-MD-1540195247129/ocds-t1s2t3-MD-1540195247129-EV-1540195248219",
+        "operationDate": "2018-10-22T08:06:00Z",
+        "outcomes": {
+            "awards": [{
+                "id": "509f04c0-d5d1-11e8-85b1-337a681d86a2",
+                "X-TOKEN": "d80918e9-1fe5-45f3-a7b9-d355191afb60"
+            }],
+            "links": [{
+                "relatedBid": "a80b61e0-c348-11e8-b9a8-dd319bd9bbdf",
+                "url": "http://eauction.mtender.md/cpid/lot-id?bid_id={bid_id}&amp;sign={sign}"
+            }]
+        }
+    }
+}
+
+
+
+
+{
+    "X-OPERATION-ID": "95945400-d5d0-11e8-b646-791d6894bd79",
+    "X-RESPONSE-ID": "50c50350-d5d1-11e8-b646-791d6894bd79",
+    "initiator": "bpe",
+    "data": {
+        "ocid": "ocds-t1s2t3-MD-1540195247129-EV-1540195248219",
+        "url": "http://dev.public.eprocurement.systems/tenders/ocds-t1s2t3-MD-1540195247129/ocds-t1s2t3-MD-1540195247129-EV-1540195248219",
+        "operationDate": "2018-10-22T08:06:00Z",
+        "outcomes": {
+            "awards": [{
+                "id": "509f04c0-d5d1-11e8-85b1-337a681d86a2",
+                "X-TOKEN": "d80918e9-1fe5-45f3-a7b9-d355191afb60"
+            }],
+            "links": [{
+                "relatedBid": "a80b61e0-c348-11e8-b9a8-dd319bd9bbdf",
+                "url": "http://eauction.mtender.md/cpid/lot-id?bid_id={bid_id}&amp;sign={sign}"
+            }]
+        }
+    }
+}
+
 # createEI
 {
   "initiator": "platform",

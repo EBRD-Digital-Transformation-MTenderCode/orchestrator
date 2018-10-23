@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.procurement.orchestrator.domain.*;
+import com.procurement.orchestrator.domain.dto.ApiVersion;
+import com.procurement.orchestrator.domain.dto.CommandMessage;
 import com.procurement.orchestrator.utils.JsonUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -42,7 +44,7 @@ public class NotificationServiceImpl implements NotificationService {
         return uri;
     }
 
-    private String getTenderUri(final String cpId, final String ocId) {
+    public String getTenderUri(final String cpId, final String ocId) {
         String uri = tenderUri + cpId;
         if (ocId != null) {
             uri = uri + URI_SEPARATOR + ocId;
@@ -66,7 +68,7 @@ public class NotificationServiceImpl implements NotificationService {
     private JsonNode getOutcomes(final String outcomeName, final Set<Outcome> contextOutcomes) {
         final ObjectNode outcomes = jsonUtil.createObjectNode();
         final ArrayNode outcomeArray = jsonUtil.createArrayNode();
-        if (contextOutcomes != null) {
+        if (contextOutcomes != null && !contextOutcomes.isEmpty()) {
             for (final Outcome outcome : contextOutcomes) {
                 final ObjectNode outcomeItem = jsonUtil.createObjectNode();
                 outcomeItem.put("id", outcome.getId());
@@ -76,8 +78,9 @@ public class NotificationServiceImpl implements NotificationService {
                 outcomeArray.add(outcomeItem);
             }
             outcomes.replace(outcomeName.toLowerCase(), outcomeArray);
+            return outcomes;
         }
-        return outcomes;
+        return null;
     }
 
     public Context addEnquiryOutcomeToContext(final Context context,
@@ -282,6 +285,13 @@ public class NotificationServiceImpl implements NotificationService {
                 data.setOutcomes(getOutcomes("awards", context.getOutcomes()));
                 break;
             }
+            case AUCTION_PERIOD_END: {
+                message.setInitiator(BPE);
+                data.setOcid(context.getOcid());
+                data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
+                data.setOutcomes(getOutcomes("awards", context.getOutcomes()));
+                break;
+            }
             case AWARD_BY_BID: {
                 data.setOcid(context.getOcid());
                 data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
@@ -380,5 +390,15 @@ public class NotificationServiceImpl implements NotificationService {
 
         return notification;
 
+    }
+
+    @Override
+    public CommandMessage getCommandMessage(Enum command, Context context, JsonNode data) {
+        return new CommandMessage(
+                context.getOperationId(),
+                command,
+                null,
+                data,
+                ApiVersion.V_0_0_1);
     }
 }

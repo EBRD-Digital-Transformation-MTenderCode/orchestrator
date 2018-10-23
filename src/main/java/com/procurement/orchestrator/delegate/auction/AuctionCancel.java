@@ -2,7 +2,6 @@ package com.procurement.orchestrator.delegate.auction;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
-import com.procurement.orchestrator.domain.dto.auction.AuctionData;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.AuctionRestClient;
 import com.procurement.orchestrator.service.OperationService;
@@ -16,10 +15,10 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.AuctionCommandType.END;
+import static com.procurement.orchestrator.domain.commands.AuctionCommandType.START;
 
 @Component
-public class AuctionEnd implements JavaDelegate {
+public class AuctionCancel implements JavaDelegate {
 
     private static final Logger LOG = LoggerFactory.getLogger(AuctionSchedule.class);
 
@@ -31,10 +30,10 @@ public class AuctionEnd implements JavaDelegate {
 
     private final JsonUtil jsonUtil;
 
-    public AuctionEnd(final AuctionRestClient auctionRestClient,
-                      final OperationService operationService,
-                      final ProcessService processService,
-                      final JsonUtil jsonUtil) {
+    public AuctionCancel(final AuctionRestClient auctionRestClient,
+                         final OperationService operationService,
+                         final ProcessService processService,
+                         final JsonUtil jsonUtil) {
         this.auctionRestClient = auctionRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -45,12 +44,12 @@ public class AuctionEnd implements JavaDelegate {
     public void execute(final DelegateExecution execution) throws Exception {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
-        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
-        final AuctionData data = jsonUtil.toObject(AuctionData.class, jsonData);
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(END, context, jsonUtil.toJsonNode(data));
+        final JsonNode commandMessage = processService.getCommandMessage(START, context, jsonUtil.empty());
+        execution.setVariable("isAuctionStarted", false);
+        context.setIsAuction(false);
         JsonNode responseData = processService.processResponse(
                 auctionRestClient.execute(commandMessage),
                 context,
@@ -62,8 +61,7 @@ public class AuctionEnd implements JavaDelegate {
                     execution,
                     entity,
                     context,
-                    commandMessage,
-                    processService.setAuctionEndData(jsonData, responseData, processId));
+                    commandMessage);
         }
     }
 }

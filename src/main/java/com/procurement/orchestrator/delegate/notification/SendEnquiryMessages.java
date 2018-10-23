@@ -44,7 +44,6 @@ public class SendEnquiryMessages implements JavaDelegate {
                     execution,
                     entity,
                     context,
-                    jsonUtil.empty(),
                     jsonUtil.toJsonNode(notificationEO));
         }
 
@@ -55,7 +54,6 @@ public class SendEnquiryMessages implements JavaDelegate {
                     execution,
                     entity,
                     context,
-                    jsonUtil.empty(),
                     jsonUtil.toJsonNode(notificationCA));
         }
     }
