@@ -68,7 +68,7 @@ public class NotificationServiceImpl implements NotificationService {
     private JsonNode getOutcomes(final String outcomeName, final Set<Outcome> contextOutcomes) {
         final ObjectNode outcomes = jsonUtil.createObjectNode();
         final ArrayNode outcomeArray = jsonUtil.createArrayNode();
-        if (contextOutcomes != null) {
+        if (contextOutcomes != null && !contextOutcomes.isEmpty()) {
             for (final Outcome outcome : contextOutcomes) {
                 final ObjectNode outcomeItem = jsonUtil.createObjectNode();
                 outcomeItem.put("id", outcome.getId());
@@ -78,8 +78,9 @@ public class NotificationServiceImpl implements NotificationService {
                 outcomeArray.add(outcomeItem);
             }
             outcomes.replace(outcomeName.toLowerCase(), outcomeArray);
+            return outcomes;
         }
-        return outcomes;
+        return null;
     }
 
     public Context addEnquiryOutcomeToContext(final Context context,
