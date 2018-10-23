@@ -1,11 +1,54 @@
-[
-  {
-    "platformId": "445f6851-c908-407d-9b45-14b92f3e964b",
-    "operationId": "d41ae7e0-d6c3-11e8-891d-fdfd2ec398be",
-    "message": "{\"X-OPERATION-ID\":\"d41ae7e0-d6c3-11e8-891d-fdfd2ec398be\",\"X-RESPONSE-ID\":\"63a06430-d6c4-11e8-891d-fdfd2ec398be\",\"initiator\":\"bpe\",\"data\":{\"ocid\":\"ocds-t1s2t3-MD-1540299719648-EV-1540299720246\",\"url\":\"http://dev.public.eprocurement.systems/tenders/ocds-t1s2t3-MD-1540299719648/ocds-t1s2t3-MD-1540299719648-EV-1540299720246\",\"operationDate\":\"2018-10-23T13:06:00Z\",\"outcomes\":{\"links\":[{\"relatedBid\":\"1d5405e0-d6c4-11e8-ad26-e5c1eb0d4905\",\"url\":\"http://auction.eprocurement.systems/auctions/ocds-t1s2t3-MD-1540299719648/d3e09e01-d6c3-11e8-8191-413e90804d99?bid_id=1d5405e0-d6c4-11e8-ad26-e5c1eb0d4905&sign=9a44f834-fd8a-435d-b72b-47b1d2d770d3\"},{\"relatedBid\":\"227eceb0-d6c4-11e8-ad26-e5c1eb0d4905\",\"url\":\"http://auction.eprocurement.systems/auctions/ocds-t1s2t3-MD-1540299719648/d3e09e01-d6c3-11e8-8191-413e90804d99?bid_id=227eceb0-d6c4-11e8-ad26-e5c1eb0d4905&sign=535d00be-5501-4d01-9a38-8215d51fb346\"}]}}}",
-
-
-
-
+{
+  "data": {
+    "awardPeriod": {
+      "startDate": "2018-10-23T15:59:18Z"
+    },
+    "awards": [
+      {
+        "token": "2c0f808c-3fc5-4722-b775-1d4133541a9e",
+        "id": "99765b60-d6dc-11e8-94d5-734e925230bd",
+        "date": "2018-10-23T15:59:19Z",
+        "description": "",
+        "status": "pending",
+        "statusDetails": "consideration",
+        "value": {
+          "amount": 6000,
+          "currency": "MDL"
+        },
+        "relatedLots": [
+          "fcb6ef01-d6d7-11e8-8191-413e90804d99"
+        ],
+        "relatedBid": "44813ac0-d6d8-11e8-ad26-e5c1eb0d4905",
+        "suppliers": [
+          {
+            "id": "MD-IDNO-1-1",
+            "name": "Googleh555fhfgh55g12"
+          }
+        ]
+      },
+      {
+        "token": "1841f556-d76b-4b18-9d9e-85024c66bd63",
+        "id": "99765b61-d6dc-11e8-94d5-734e925230bd",
+        "date": "2018-10-23T15:59:19Z",
+        "description": "",
+        "status": "pending",
+        "statusDetails": "empty",
+        "value": {
+          "amount": 6000,
+          "currency": "MDL"
+        },
+        "relatedLots": [
+          "fcb6ef01-d6d7-11e8-8191-413e90804d99"
+        ],
+        "relatedBid": "3f41b170-d6d8-11e8-ad26-e5c1eb0d4905",
+        "suppliers": [
+          {
+            "id": "MD-IDNO-1-2",
+            "name": "Googleh555fhfgh55g12"
+          }
+        ]
+      }
+    ],
+    "unsuccessfulLots": []
   }
-]
+}

@@ -284,6 +284,13 @@ public class NotificationServiceImpl implements NotificationService {
                 data.setOutcomes(getOutcomes("awards", context.getOutcomes()));
                 break;
             }
+            case AUCTION_PERIOD_END: {
+                message.setInitiator(BPE);
+                data.setOcid(context.getOcid());
+                data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
+                data.setOutcomes(getOutcomes("awards", context.getOutcomes()));
+                break;
+            }
             case AWARD_BY_BID: {
                 data.setOcid(context.getOcid());
                 data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
