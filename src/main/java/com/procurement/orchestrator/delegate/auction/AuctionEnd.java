@@ -2,6 +2,7 @@ package com.procurement.orchestrator.delegate.auction;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
+import com.procurement.orchestrator.domain.dto.auction.AuctionData;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.AuctionRestClient;
 import com.procurement.orchestrator.service.OperationService;
@@ -45,10 +46,11 @@ public class AuctionEnd implements JavaDelegate {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
+        final AuctionData data = jsonUtil.toObject(AuctionData.class, jsonData);
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(END, context, jsonData);
+        final JsonNode commandMessage = processService.getCommandMessage(END, context, jsonUtil.toJsonNode(data));
         JsonNode responseData = processService.processResponse(
                 auctionRestClient.execute(commandMessage),
                 context,

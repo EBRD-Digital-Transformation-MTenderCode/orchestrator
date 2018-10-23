@@ -89,8 +89,7 @@ public class MessageConsumer {
             } else {
                 final JsonNode dataNode = response.get("data");
                 if (dataNode != null) {
-                    final AuctionData data = jsonUtil.toObject(AuctionData.class, dataNode);
-                    final String cpid = data.getTender().getId();
+                    final String cpid = dataNode.get("tender").get("id").asText();
                     final Context prevContext = requestService.getContext(cpid);
                     final Context context = new Context();
                     final Rule rules = requestService.checkAndGetRule(prevContext, "auctionPeriodEnd");
@@ -110,7 +109,7 @@ public class MessageConsumer {
                     context.setLanguage(prevContext.getLanguage());
                     context.setIsAuction(prevContext.getIsAuction());
                     context.setStartDate(dateUtil.nowFormatted());
-                    saveRequestAndCheckOperation(context, jsonUtil.toJsonNode(data));
+                    saveRequestAndCheckOperation(context, dataNode);
                     final Map<String, Object> variables = new HashMap<>();
                     variables.put("operationType", context.getOperationType());
                     processService.startProcess(context, variables);
