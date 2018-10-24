@@ -1,33 +1,31 @@
 {
-  "data": {
-    "tender": {
-      "id": "ocds-prefix-timstamp-postfix-tender",
-      "title": "",
-      "description": "",
-      "lots": [
-        {
-          "id": "",
-          "title": "",
-          "description": "",
-          "eligibleMinimumDifference": "",
-          "value": {
-            "amount": "",
-            "currency": ""
-          },
-          "auctionPeriod": {
-            "startDate": ""
-          }
-        }
-      ]
-    },
-    "bids": [
+  "tender": {
+    "id": "ocds-prefix-timstamp-postfix-tender",
+    "title": "",
+    "description": "",
+    "lots": [
       {
         "id": "",
-        "value": "",
-        "relatedLot": "",
-        "pendingDate": "",
-        "sign": ""
+        "title": "",
+        "description": "",
+        "eligibleMinimumDifference": "",
+        "value": {
+          "amount": "",
+          "currency": ""
+        },
+        "auctionPeriod": {
+          "startDate": "2018-10-24T10:53:48Z"
+        }
       }
     ]
-  }
+  },
+  "bids": [
+    {
+      "id": "",
+      "value": "",
+      "relatedLot": "",
+      "pendingDate": "",
+      "sign": ""
+    }
+  ]
 }

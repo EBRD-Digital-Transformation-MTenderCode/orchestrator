@@ -1,8 +1,6 @@
 package com.procurement.orchestrator.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.service.RequestService;
@@ -243,17 +241,9 @@ public class TenderController extends DoBaseController {
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
-    @RequestMapping(value = "/auctionPeriodEnd", method = RequestMethod.POST)
-    public ResponseEntity<String> test(@RequestBody final JsonNode response) {
-        final JsonNode dataNode = response.get("data");
-        final ArrayNode lotsArray = (ArrayNode) dataNode.get("tender").get("lots");
-        if (lotsArray.size() > 0) {
-            for (final JsonNode lotNode : lotsArray) {
-                ObjectNode auctionPeriodNode = (ObjectNode) lotNode.get("auctionPeriod");
-                final LocalDateTime startDate = dateUtil.localDateTimeNowUTC().plusMinutes(5);
-                auctionPeriodNode.replace("startDate", jsonUtil.toJsonNode(startDate));
-            }
-        }
+//    @RequestMapping(value = "/auctionPeriodEnd", method = RequestMethod.POST)
+//    public ResponseEntity<String> test(@RequestBody final JsonNode response) {
+//        final JsonNode dataNode = response.get("data");
 //        final String cpid = dataNode.get("tender").get("id").asText();
 //        final Context prevContext = requestService.getContext(cpid);
 //        final Context context = new Context();
@@ -278,7 +268,7 @@ public class TenderController extends DoBaseController {
 //        final Map<String, Object> variables = new HashMap<>();
 //        variables.put("operationType", context.getOperationType());
 //        processService.startProcess(context, variables);
-        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
-    }
+//        return new ResponseEntity<>(dataNode.toString(), HttpStatus.ACCEPTED);
+//    }
 
 }
