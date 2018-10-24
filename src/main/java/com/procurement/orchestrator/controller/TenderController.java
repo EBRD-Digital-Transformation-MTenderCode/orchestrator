@@ -254,7 +254,6 @@ public class TenderController extends DoBaseController {
                 auctionPeriodNode.replace("startDate", jsonUtil.toJsonNode(startDate));
             }
         }
-
 //        final String cpid = dataNode.get("tender").get("id").asText();
 //        final Context prevContext = requestService.getContext(cpid);
 //        final Context context = new Context();
