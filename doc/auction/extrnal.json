@@ -1,111 +1,33 @@
 {
-  "id": "181",
-  "command": "auctionsEnd",
   "data": {
     "tender": {
-      "id": "ocds-t1s2t3-MD-1540308378096",
-      "electronicAuctions": {
-        "details": [
-          {
-            "id": "181",
-            "relatedLot": "fcb6ef01-d6d7-11e8-8191-413e90804d99",
-            "auctionPeriod": {
-              "startDate": "2018-10-23T15:52:00+00:00",
-              "endDate": "2018-10-23T15:58:35+00:00"
-            },
-            "electronicAuctionProgress": [
-              {
-                "id": "1",
-                "period": {
-                  "startDate": "2018-10-23T15:52:05+00:00",
-                  "endDate": "2018-10-23T15:54:10+00:00"
-                },
-                "breakdown": [
-                  {
-                    "relatedBid": "44813ac0-d6d8-11e8-ad26-e5c1eb0d4905",
-                    "dateMet": "2018-10-23T15:54:10+00:00",
-                    "value": {
-                      "amount": 6000
-                    }
-                  },
-                  {
-                    "relatedBid": "3f41b170-d6d8-11e8-ad26-e5c1eb0d4905",
-                    "dateMet": "2018-10-23T15:54:10+00:00",
-                    "value": {
-                      "amount": 6000
-                    }
-                  }
-                ]
-              },
-              {
-                "id": "2",
-                "period": {
-                  "startDate": "2018-10-23T15:54:15+00:00",
-                  "endDate": "2018-10-23T15:56:20+00:00"
-                },
-                "breakdown": [
-                  {
-                    "relatedBid": "44813ac0-d6d8-11e8-ad26-e5c1eb0d4905",
-                    "dateMet": "2018-10-23T15:56:20+00:00",
-                    "value": {
-                      "amount": 6000
-                    }
-                  },
-                  {
-                    "relatedBid": "3f41b170-d6d8-11e8-ad26-e5c1eb0d4905",
-                    "dateMet": "2018-10-23T15:56:20+00:00",
-                    "value": {
-                      "amount": 6000
-                    }
-                  }
-                ]
-              },
-              {
-                "id": "3",
-                "period": {
-                  "startDate": "2018-10-23T15:56:25+00:00",
-                  "endDate": "2018-10-23T15:58:30+00:00"
-                },
-                "breakdown": [
-                  {
-                    "relatedBid": "44813ac0-d6d8-11e8-ad26-e5c1eb0d4905",
-                    "dateMet": "2018-10-23T15:58:30+00:00",
-                    "value": {
-                      "amount": 6000
-                    }
-                  },
-                  {
-                    "relatedBid": "3f41b170-d6d8-11e8-ad26-e5c1eb0d4905",
-                    "dateMet": "2018-10-23T15:58:30+00:00",
-                    "value": {
-                      "amount": 6000
-                    }
-                  }
-                ]
-              }
-            ],
-            "electronicAuctionResult": [
-              {
-                "relatedBid": "44813ac0-d6d8-11e8-ad26-e5c1eb0d4905",
-                "value": {
-                  "amount": 6000
-                }
-              },
-              {
-                "relatedBid": "3f41b170-d6d8-11e8-ad26-e5c1eb0d4905",
-                "value": {
-                  "amount": 6000
-                }
-              }
-            ]
+      "id": "ocds-prefix-timstamp-postfix-tender",
+      "title": "",
+      "description": "",
+      "lots": [
+        {
+          "id": "",
+          "title": "",
+          "description": "",
+          "eligibleMinimumDifference": "",
+          "value": {
+            "amount": "",
+            "currency": ""
+          },
+          "auctionPeriod": {
+            "startDate": ""
           }
-        ]
-      },
-      "auctionPeriod": {
-        "startDate": "2018-10-23T15:52:00+00:00",
-        "endDate": "2018-10-23T15:58:35+00:00"
+        }
+      ]
+    },
+    "bids": [
+      {
+        "id": "",
+        "value": "",
+        "relatedLot": "",
+        "pendingDate": "",
+        "sign": ""
       }
-    }
-  },
-  "version": "0.0.1"
+    ]
+  }
 }
