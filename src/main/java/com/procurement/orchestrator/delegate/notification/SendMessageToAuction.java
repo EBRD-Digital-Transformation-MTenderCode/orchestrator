@@ -71,7 +71,7 @@ public class SendMessageToAuction implements JavaDelegate {
         if (lotsArray.size() > 0) {
             for (final JsonNode lotNode : lotsArray) {
                 ObjectNode auctionPeriodNode = (ObjectNode) lotNode.get("auctionPeriod");
-                final LocalDateTime startDate = dateUtil.localDateTimeNowUTC().plusMinutes(5);
+                final LocalDateTime startDate = dateUtil.localDateTimeNowUTC().plusMinutes(2);
                 final String startDateString = dateUtil.format(startDate);
                 auctionPeriodNode.put("startDate", startDateString);
             }
