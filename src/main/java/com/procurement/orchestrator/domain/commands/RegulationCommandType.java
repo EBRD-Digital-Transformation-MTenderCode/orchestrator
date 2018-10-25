@@ -1,4 +1,4 @@
-package com.procurement.orchestrator.domain.dto;
+package com.procurement.orchestrator.domain.commands;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -8,27 +8,28 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public enum ApiVersion {
-    V_0_0_1("0.0.1");
+public enum RegulationCommandType {
 
-    private static final Map<String, ApiVersion> CONSTANTS = new HashMap<>();
+    GET_TERMS("getTerms");
+
+    private static final Map<String, RegulationCommandType> CONSTANTS = new HashMap<>();
     private final String value;
 
     static {
-        for (final ApiVersion c : values()) {
+        for (final RegulationCommandType c : values()) {
             CONSTANTS.put(c.value, c);
         }
     }
 
-    ApiVersion(final String value) {
+    RegulationCommandType(final String value) {
         this.value = value;
     }
 
     @JsonCreator
-    public static ApiVersion fromValue(final String value) {
-        final ApiVersion constant = CONSTANTS.get(value);
+    public static RegulationCommandType fromValue(final String value) {
+        final RegulationCommandType constant = CONSTANTS.get(value);
         if (constant == null) {
-            throw new EnumException(ApiVersion.class.getName(), value, Arrays.toString(values()));
+            throw new EnumException(RegulationCommandType.class.getName(), value, Arrays.toString(values()));
         }
         return constant;
     }

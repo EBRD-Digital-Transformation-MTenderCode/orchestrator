@@ -2,7 +2,7 @@ package com.procurement.orchestrator.delegate.kafka;
 
 import com.procurement.orchestrator.domain.Notification;
 import com.procurement.orchestrator.domain.chronograph.ScheduleTask;
-import com.procurement.orchestrator.domain.dto.CommandMessage;
+import com.procurement.orchestrator.domain.dto.command.CommandMessage;
 import com.procurement.orchestrator.utils.JsonUtil;
 import org.apache.kafka.clients.producer.RecordMetadata;
 import org.slf4j.Logger;

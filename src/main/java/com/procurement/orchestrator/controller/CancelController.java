@@ -1,7 +1,7 @@
 package com.procurement.orchestrator.controller;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
+import com.procurement.orchestrator.domain.dto.cancellation.CancellationDto;
 import com.procurement.orchestrator.exception.OperationException;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.service.RequestService;
@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,11 +54,11 @@ public class CancelController {
                                                  @RequestHeader("X-TOKEN") final String token,
                                                  @PathVariable("cpid") final String cpid,
                                                  @PathVariable("ocid") final String ocid,
-                                                 @RequestBody final JsonNode data) {
-        requestService.validate(operationId, data);
+                                                 @RequestBody @Valid final CancellationDto data) {
+        requestService.validate(operationId, null);
         final Context context = requestService.getContextForUpdate(authorization, operationId, cpid, ocid, token, "cnCancellation");
         if (ocid.contains("PN") || ocid.contains("PIN")) throw new OperationException("Invalid ocid.");
-        requestService.saveRequestAndCheckOperation(context, data);
+        requestService.saveRequestAndCheckOperation(context, jsonUtil.toJsonNode(data));
         final Map<String, Object> variables = new HashMap<>();
         variables.put("operationType", context.getOperationType());
         variables.put("phase", context.getPhase());
