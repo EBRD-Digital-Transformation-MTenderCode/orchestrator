@@ -1,6 +1,5 @@
 package com.procurement.orchestrator.controller;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.dto.cancellation.CancellationDto;
 import com.procurement.orchestrator.exception.OperationException;

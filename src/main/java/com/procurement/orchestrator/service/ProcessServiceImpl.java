@@ -308,7 +308,7 @@ public class ProcessServiceImpl implements ProcessService {
 
     public JsonNode addTenderStatus(final JsonNode jsonData, final JsonNode statusData, final String processId) {
         try {
-            ObjectNode mainNode=  ((ObjectNode) jsonData);
+            ObjectNode mainNode = ((ObjectNode) jsonData);
             mainNode.replace("tenderStatus", statusData.get("status"));
             mainNode.replace("tenderStatusDetails", statusData.get("statusDetails"));
             return mainNode;

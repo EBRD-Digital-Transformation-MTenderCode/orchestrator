@@ -119,7 +119,7 @@ public class MessageConsumer {
                             processService.startProcess(context, variables);
                             break;
                         }
-                        default:{
+                        default: {
                             saveRequestAndCheckOperation(context, dataNode);
                             break;
                         }
