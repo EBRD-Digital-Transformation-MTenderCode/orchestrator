@@ -9,10 +9,9 @@ import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.Notification;
 import com.procurement.orchestrator.domain.PlatformError;
 import com.procurement.orchestrator.domain.PlatformMessage;
-import com.procurement.orchestrator.domain.dto.ApiVersion;
-import com.procurement.orchestrator.domain.dto.CommandMessage;
-import com.procurement.orchestrator.domain.dto.ResponseDto;
-import com.procurement.orchestrator.domain.dto.ResponseErrorDto;
+import com.procurement.orchestrator.domain.dto.command.CommandMessage;
+import com.procurement.orchestrator.domain.dto.command.ResponseDto;
+import com.procurement.orchestrator.domain.dto.command.ResponseErrorDto;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.utils.JsonUtil;
 import org.camunda.bpm.engine.RuntimeService;
@@ -86,7 +85,7 @@ public class ProcessServiceImpl implements ProcessService {
                 command,
                 context,
                 data,
-                ApiVersion.V_0_0_1);
+                CommandMessage.ApiVersion.V_0_0_1);
         return jsonUtil.toJsonNode(commandMessage);
     }
 

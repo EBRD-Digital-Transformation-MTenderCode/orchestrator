@@ -2,9 +2,6 @@ package com.procurement.orchestrator.domain.dto.auction;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.procurement.orchestrator.domain.Context;
-import com.procurement.orchestrator.domain.dto.ApiVersion;
 import lombok.Data;
 
 import java.util.Set;

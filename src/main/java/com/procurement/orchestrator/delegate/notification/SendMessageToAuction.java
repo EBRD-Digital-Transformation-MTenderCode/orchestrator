@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.procurement.orchestrator.delegate.kafka.MessageProducer;
 import com.procurement.orchestrator.domain.Context;
-import com.procurement.orchestrator.domain.dto.CommandMessage;
+import com.procurement.orchestrator.domain.dto.command.CommandMessage;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.service.NotificationService;
 import com.procurement.orchestrator.service.OperationService;
