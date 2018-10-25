@@ -32,7 +32,7 @@ public enum AccessCommandType {
     SET_LOTS_SD_UNSUCCESSFUL("setLotsStatusDetailsUnsuccessful"),
     SET_LOTS_SD_AWARDED("setLotsStatusDetailsAwarded"),
     SET_LOTS_UNSUCCESSFUL("setLotsStatusUnsuccessful"),
-    SET_LOTS_UNSUCCESSFUL_EV("setLotsStatusUnsuccessfulEv"),
+    CONTRACT_PREPARATION("contractPreparation"),
 
     CHECK_LOTS_STATUS_DETAILS("checkLotsStatusDetails"),
     CHECK_LOTS_STATUS("checkLotsStatus"),

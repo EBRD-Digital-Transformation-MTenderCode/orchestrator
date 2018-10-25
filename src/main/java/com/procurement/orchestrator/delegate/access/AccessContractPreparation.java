@@ -15,12 +15,12 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.AccessCommandType.SET_LOTS_UNSUCCESSFUL_EV;
+import static com.procurement.orchestrator.domain.commands.AccessCommandType.CONTRACT_PREPARATION;
 
 @Component
-public class AccessSetLotsUnsuccessfulEv implements JavaDelegate {
+public class AccessContractPreparation implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AccessSetLotsUnsuccessfulEv.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AccessContractPreparation.class);
 
     private final AccessRestClient accessRestClient;
 
@@ -30,10 +30,10 @@ public class AccessSetLotsUnsuccessfulEv implements JavaDelegate {
 
     private final JsonUtil jsonUtil;
 
-    public AccessSetLotsUnsuccessfulEv(final AccessRestClient accessRestClient,
-                                       final OperationService operationService,
-                                       final ProcessService processService,
-                                       final JsonUtil jsonUtil) {
+    public AccessContractPreparation(final AccessRestClient accessRestClient,
+                                     final OperationService operationService,
+                                     final ProcessService processService,
+                                     final JsonUtil jsonUtil) {
         this.accessRestClient = accessRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -49,7 +49,7 @@ public class AccessSetLotsUnsuccessfulEv implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode unsuccessfulLots = processService.getUnsuccessfulLots(jsonData, processId);
-        final JsonNode commandMessage = processService.getCommandMessage(SET_LOTS_UNSUCCESSFUL_EV, context, unsuccessfulLots);
+        final JsonNode commandMessage = processService.getCommandMessage(CONTRACT_PREPARATION, context, unsuccessfulLots);
         JsonNode responseData = processService.processResponse(
                 accessRestClient.execute(commandMessage),
                 context,
