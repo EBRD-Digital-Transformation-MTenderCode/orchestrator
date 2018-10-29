@@ -18,9 +18,9 @@ import java.util.Objects;
 import static com.procurement.orchestrator.domain.commands.AccessCommandType.CONTRACT_PREPARATION;
 
 @Component
-public class AccessContractPreparation implements JavaDelegate {
+public class AccessSetLotsUnsuccessfulEv implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AccessContractPreparation.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AccessSetLotsUnsuccessfulEv.class);
 
     private final AccessRestClient accessRestClient;
 
@@ -30,10 +30,10 @@ public class AccessContractPreparation implements JavaDelegate {
 
     private final JsonUtil jsonUtil;
 
-    public AccessContractPreparation(final AccessRestClient accessRestClient,
-                                     final OperationService operationService,
-                                     final ProcessService processService,
-                                     final JsonUtil jsonUtil) {
+    public AccessSetLotsUnsuccessfulEv(final AccessRestClient accessRestClient,
+                                       final OperationService operationService,
+                                       final ProcessService processService,
+                                       final JsonUtil jsonUtil) {
         this.accessRestClient = accessRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -63,7 +63,7 @@ public class AccessContractPreparation implements JavaDelegate {
                     entity,
                     context,
                     commandMessage,
-                    processService.addLotsAndItems(jsonData, responseData, processId));
+                    processService.setTender(jsonData, responseData, processId));
         }
     }
 
