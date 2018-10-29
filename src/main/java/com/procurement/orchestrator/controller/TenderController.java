@@ -250,14 +250,13 @@ public class TenderController extends DoBaseController {
         final String uuid = UUIDs.timeBased().toString();
         context.setRequestId(uuid);
         context.setOperationId(uuid);
-        context.setCountry("MD");
-        context.setPmd("TEST_OT");
         context.setProcessType("awardPeriodEnd");
         context.setStage("EV");
         context.setPrevStage("EV");
         context.setPhase("awardedContractPreparation");
         context.setOperationType("awardPeriodEndEv");
-        //JSON parse error
+        context.setCountry(prevContext.getCountry());
+        context.setPmd(prevContext.getPmd());
         context.setOwner(prevContext.getOwner());
         context.setCpid(prevContext.getCpid());
         context.setOcid(prevContext.getOcid());
