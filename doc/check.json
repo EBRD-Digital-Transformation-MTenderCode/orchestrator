@@ -59,7 +59,7 @@
   ],
   "awardPeriod": {
     "startDate": "2018-10-26T09:27:19Z",
-    "endDate": "2018-10-29T10:12:05Z"
+    "endDate": "2018-10-29T17:25:48Z"
   },
   "unsuccessfulLots": [
     {
@@ -222,5 +222,246 @@
       ]
     }
   ],
-  "tender": null
+  "lots": [
+    {
+      "id": "eb0d60b4-d900-11e8-8191-413e90804d99",
+      "title": "Husband from public specific game lawyer section.",
+      "description": "Such response rule structure choice purpose bed eye campaign born often teacher understand under concern toward fish guess fly fly animal raise they keep time.",
+      "status": "unsuccessful",
+      "statusDetails": "empty",
+      "value": {
+        "amount": 10145483365.14,
+        "currency": "MDL"
+      },
+      "options": [
+        {
+          "hasOptions": false
+        }
+      ],
+      "recurrentProcurement": [
+        {
+          "isRecurrent": false
+        }
+      ],
+      "renewals": [
+        {
+          "hasRenewals": false
+        }
+      ],
+      "variants": [
+        {
+          "hasVariants": false
+        }
+      ],
+      "contractPeriod": {
+        "startDate": "2018-11-27T09:24:19Z",
+        "endDate": "2018-12-24T09:24:19Z"
+      },
+      "placeOfPerformance": {
+        "address": {
+          "streetAddress": "3243 Williams Divide",
+          "postalCode": "17656",
+          "addressDetails": {
+            "country": {
+              "scheme": "iso-alpha2",
+              "id": "MD",
+              "description": "MOLDOVA",
+              "uri": "http://reference.iatistandard.org"
+            },
+            "region": {
+              "scheme": "CUATM",
+              "id": "3100000",
+              "description": "Criuleni",
+              "uri": "http://statistica.md"
+            },
+            "locality": {
+              "scheme": "CUATM",
+              "id": "3118000",
+              "description": "s.Drăsliceni",
+              "uri": "http://statistica.md"
+            }
+          }
+        },
+        "description": "Style few story at mind option husband over development figure until can little happen although close court assume since."
+      }
+    },
+    {
+      "id": "eb0d60b5-d900-11e8-8191-413e90804d99",
+      "title": "Business someone remain.",
+      "description": "Receive together always describe thousand mind live effect travel cost good break later wall say game put course.",
+      "status": "complete",
+      "statusDetails": "empty",
+      "value": {
+        "amount": 19716405594.48,
+        "currency": "MDL"
+      },
+      "options": [
+        {
+          "hasOptions": false
+        }
+      ],
+      "recurrentProcurement": [
+        {
+          "isRecurrent": false
+        }
+      ],
+      "renewals": [
+        {
+          "hasRenewals": false
+        }
+      ],
+      "variants": [
+        {
+          "hasVariants": false
+        }
+      ],
+      "contractPeriod": {
+        "startDate": "2018-11-27T09:24:19Z",
+        "endDate": "2018-12-24T09:24:19Z"
+      },
+      "placeOfPerformance": {
+        "address": {
+          "streetAddress": "1065 Bartlett Branch",
+          "postalCode": "20131",
+          "addressDetails": {
+            "country": {
+              "scheme": "iso-alpha2",
+              "id": "MD",
+              "description": "MOLDOVA",
+              "uri": "http://reference.iatistandard.org"
+            },
+            "region": {
+              "scheme": "CUATM",
+              "id": "0501000",
+              "description": "mun.Bender",
+              "uri": "http://statistica.md"
+            },
+            "locality": {
+              "scheme": "CUATM",
+              "id": "0501000",
+              "description": "mun.Bender",
+              "uri": "http://statistica.md"
+            }
+          }
+        },
+        "description": "Ability century brother claim fly gun happy fact tree personal himself couple former chance key some live behavior meeting approach myself against project raise tonight rock day grow page."
+      }
+    }
+  ],
+  "tenderStatus": "active",
+  "tenderStatusDetails": "awardedContractPreparation",
+  "cans": [
+    {
+      "contract": {
+        "id": "cd6604c6-cb41-4074-9f65-6cec9754451f",
+        "date": "2018-10-26T09:27:24Z",
+        "awardId": "5630e600-d901-11e8-82f4-c3b403e102b4",
+        "status": "active",
+        "statusDetails": "empty"
+      }
+    }
+  ],
+  "contracts": [
+    {
+      "token": "90089175-0dfe-4ad2-a33f-91e3ff3ce5f1",
+      "id": "ocds-t1s2t3-MD-1540545860155-AC-1540042582944",
+      "date": "2018-10-29T17:25:42Z",
+      "awardId": "5630e600-d901-11e8-82f4-c3b403e102b4",
+      "status": "pending",
+      "statusDetails": "contractProject"
+    }
+  ],
+  "contractTerms": [
+    {
+      "id": "ocds-t1s2t3-MD-1540545860155-AC-1540042582944",
+      "agreedMetrics": [
+        {
+          "id": "cc-general",
+          "title": "General Responsibilities",
+          "description": "Contract conditions governing the general responsibilities related to both: CA and EO",
+          "observations": [
+            {
+              "id": "cc-general-1-3",
+              "notes": "Maximum days to respond on termination intention",
+              "unit": {
+                "id": "359",
+                "name": "day",
+                "scheme": "MD-CUMC"
+              }
+            },
+            {
+              "id": "cc-general-1-1",
+              "notes": "Maximum days to inform on invoking Force Majeure",
+              "unit": {
+                "id": "359",
+                "name": "day",
+                "scheme": "MD-CUMC"
+              }
+            },
+            {
+              "id": "cc-general-1-2",
+              "notes": "Maximum days to inform on termination intention",
+              "unit": {
+                "id": "359",
+                "name": "day",
+                "scheme": "MD-CUMC"
+              }
+            }
+          ]
+        },
+        {
+          "id": "cc-tenderer-1",
+          "title": "Execution Guarantee",
+          "description": "Contract conditions governing the general responsibilities related to EO regarding guarantee",
+          "observations": [
+            {
+              "id": "cc-tenderer-1-1",
+              "notes": "Guarantee amount",
+              "unit": {
+                "id": "746",
+                "name": "percent",
+                "scheme": "MD-CUMC"
+              }
+            },
+            {
+              "id": "cc-tenderer-1-4",
+              "notes": "Maximum amount in case of successive withholding from partial invoices",
+              "unit": {
+                "id": "359",
+                "name": "day",
+                "scheme": "MD-CUMC"
+              }
+            },
+            {
+              "id": "cc-tenderer-1-5",
+              "notes": "Maximum days of guarantee transfer",
+              "unit": {
+                "id": "359",
+                "name": "day",
+                "scheme": "MD-CUMC"
+              }
+            },
+            {
+              "id": "cc-tenderer-1-2",
+              "notes": "Guarantee amount provided by the general entrepreneur",
+              "unit": {
+                "id": "746",
+                "name": "percent",
+                "scheme": "MD-CUMC"
+              }
+            },
+            {
+              "id": "cc-tenderer-1-3",
+              "notes": "Amount of guarantee in case of successive withholding from partial invoices",
+              "unit": {
+                "id": "359",
+                "name": "day",
+                "scheme": "MD-CUMC"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }

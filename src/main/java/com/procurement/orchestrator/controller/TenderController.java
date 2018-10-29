@@ -243,7 +243,8 @@ public class TenderController extends DoBaseController {
     }
 
     @RequestMapping(value = "/awardPeriodEnd/{cpid}", method = RequestMethod.POST)
-    public ResponseEntity<String> test(@PathVariable("cpid") final String cpid) { //ocds-t1s2t3-MD-1540545860155
+    public ResponseEntity<String> test(@PathVariable("cpid") final String cpid,
+                                       @RequestHeader("X-TOKEN") final String token) {
         final Context prevContext = requestService.getContext(cpid);
         final Context context = new Context();
         final String uuid = UUIDs.timeBased().toString();
@@ -260,7 +261,7 @@ public class TenderController extends DoBaseController {
         context.setOwner(prevContext.getOwner());
         context.setCpid(prevContext.getCpid());
         context.setOcid(prevContext.getOcid());
-        context.setToken("95838ccd-1507-4fc0-993d-403ed20aea1f");
+        context.setToken(token);
         context.setLanguage(prevContext.getLanguage());
         context.setIsAuction(prevContext.getIsAuction());
         context.setStartDate(dateUtil.nowFormatted());
