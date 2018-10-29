@@ -268,7 +268,7 @@ public class TenderController extends DoBaseController {
         final Map<String, Object> variables = new HashMap<>();
         variables.put("operationType", context.getOperationType());
         processService.startProcess(context, variables);
-        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(uuid, HttpStatus.ACCEPTED);
     }
 
 //    @RequestMapping(value = "/auctionPeriodEnd", method = RequestMethod.POST)
