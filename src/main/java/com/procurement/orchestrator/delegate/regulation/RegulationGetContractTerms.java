@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.AccessRestClient;
+import com.procurement.orchestrator.rest.RegulationRestClient;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -22,16 +23,16 @@ public class RegulationGetContractTerms implements JavaDelegate {
 
     private static final Logger LOG = LoggerFactory.getLogger(RegulationGetContractTerms.class);
 
-    private final AccessRestClient accessRestClient;
+    private final RegulationRestClient regulationRestClient;
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public RegulationGetContractTerms(final AccessRestClient accessRestClient,
+    public RegulationGetContractTerms(final RegulationRestClient regulationRestClient,
                                       final OperationService operationService,
                                       final ProcessService processService,
                                       final JsonUtil jsonUtil) {
-        this.accessRestClient = accessRestClient;
+        this.regulationRestClient = regulationRestClient;
         this.operationService = operationService;
         this.processService = processService;
         this.jsonUtil = jsonUtil;
@@ -45,9 +46,9 @@ public class RegulationGetContractTerms implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(GET_TERMS, context, jsonUtil.empty());
+        final JsonNode commandMessage = processService.getCommandMessage(GET_TERMS, context, jsonData);
         JsonNode responseData = processService.processResponse(
-                accessRestClient.execute(commandMessage),
+                regulationRestClient.execute(commandMessage),
                 context,
                 processId,
                 taskId,
@@ -56,8 +57,9 @@ public class RegulationGetContractTerms implements JavaDelegate {
             operationService.saveOperationStep(
                     execution,
                     entity,
+                    context,
                     commandMessage,
-                    jsonData);
+                    processService.addContractTerms(jsonData, responseData, processId));
         }
     }
 }

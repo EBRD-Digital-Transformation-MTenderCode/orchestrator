@@ -304,13 +304,11 @@ public class NotificationServiceImpl implements NotificationService {
             case STANDSTILL_PERIOD: {
                 data.setOcid(context.getOcid());
                 data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
-                data.setOutcomes(getOutcomes("cans", context.getOutcomes()));
                 break;
             }
             case STANDSTILL_PERIOD_EV: {
                 data.setOcid(context.getOcid());
                 data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
-                data.setOutcomes(getOutcomes("cans", context.getOutcomes()));
                 break;
             }
             case AWARD_PERIOD_END: {

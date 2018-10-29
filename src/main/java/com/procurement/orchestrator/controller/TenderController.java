@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.controller;
 
+import com.datastax.driver.core.utils.UUIDs;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.service.ProcessService;
@@ -238,6 +239,34 @@ public class TenderController extends DoBaseController {
         context.setEndDate(dateUtil.format(endDate));
         requestService.saveRequestAndCheckOperation(context, null);
         processService.startProcess(context, new HashMap<>());
+        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
+    }
+
+    @RequestMapping(value = "/awardPeriodEnd/{cpid}", method = RequestMethod.POST)
+    public ResponseEntity<String> test(@PathVariable("cpid") final String cpid) { //ocds-t1s2t3-MD-1540545860155
+        final Context prevContext = requestService.getContext(cpid);
+        final Context context = new Context();
+        final String uuid = UUIDs.timeBased().toString();
+        context.setRequestId(uuid);
+        context.setOperationId(uuid);
+        context.setCountry("MD");
+        context.setPmd("TEST_OT");
+        context.setProcessType("awardPeriodEnd");
+        context.setStage("EV");
+        context.setPhase("awardedContractPreparation");
+        context.setOperationType("awardPeriodEndEv");
+        //JSON parse error
+        context.setOwner(prevContext.getOwner());
+        context.setCpid(prevContext.getCpid());
+        context.setOcid(prevContext.getOcid());
+        context.setToken("95838ccd-1507-4fc0-993d-403ed20aea1f");
+        context.setLanguage(prevContext.getLanguage());
+        context.setIsAuction(prevContext.getIsAuction());
+        context.setStartDate(dateUtil.nowFormatted());
+        requestService.saveRequestAndCheckOperation(context, jsonUtil.empty());
+        final Map<String, Object> variables = new HashMap<>();
+        variables.put("operationType", context.getOperationType());
+        processService.startProcess(context, variables);
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 

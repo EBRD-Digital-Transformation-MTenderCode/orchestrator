@@ -1,10 +1,226 @@
 {
-  "X-OPERATION-ID": "928ccec0-d6e0-11e8-8a7b-43544b93d747",
-  "X-RESPONSE-ID": "84cb1ed0-d6e1-11e8-a33f-73f558434a51",
-  "initiator": "bpe",
-  "data": {
-    "ocid": "ocds-t1s2t3-MD-1540308378096-EV-1540308378529",
-    "url": "http://dev.public.eprocurement.systems/tender/ocds-t1s2t3-MD-1540308378096/ocds-t1s2t3-MD-1540308378096-EV-1540308378529",
-    "operationDate": "2018-10-23T16:27:45Z"
-  }
+  "awards": [
+    {
+      "token": "78912ba2-95ce-47f4-9d7d-9e03b10af4f2",
+      "id": "5630e602-d901-11e8-82f4-c3b403e102b4",
+      "date": "2018-10-26T09:27:19Z",
+      "description": "Other reasons (discontinuation of procedure)",
+      "title": "The contract/lot is not awarded",
+      "status": "unsuccessful",
+      "statusDetails": "empty",
+      "relatedLots": [
+        "eb0d60b4-d900-11e8-8191-413e90804d99"
+      ]
+    },
+    {
+      "token": "7c159944-33b7-481a-bc30-8a82d20637d7",
+      "id": "5630e600-d901-11e8-82f4-c3b403e102b4",
+      "date": "2018-10-26T09:27:29Z",
+      "description": "Personal across cell discover town major until often heart science can partner music cell class grow key recent ever especially research eat catch need leave.",
+      "status": "active",
+      "statusDetails": "empty",
+      "value": {
+        "amount": 100.00,
+        "currency": "MDL"
+      },
+      "relatedLots": [
+        "eb0d60b5-d900-11e8-8191-413e90804d99"
+      ],
+      "relatedBid": "26d63f90-d901-11e8-ad26-e5c1eb0d4905",
+      "suppliers": [
+        {
+          "id": "MD-IDNO-446-04-7287",
+          "name": "Mcdonald-Matthews"
+        }
+      ]
+    },
+    {
+      "token": "a8b7b995-8577-4c00-ac75-6b946dbaac16",
+      "id": "5630e601-d901-11e8-82f4-c3b403e102b4",
+      "date": "2018-10-26T09:27:29Z",
+      "description": "",
+      "status": "unsuccessful",
+      "statusDetails": "empty",
+      "value": {
+        "amount": 100.00,
+        "currency": "MDL"
+      },
+      "relatedLots": [
+        "eb0d60b5-d900-11e8-8191-413e90804d99"
+      ],
+      "relatedBid": "27cf93b0-d901-11e8-ad26-e5c1eb0d4905",
+      "suppliers": [
+        {
+          "id": "MD-IDNO-667-81-1618",
+          "name": "Lee Group"
+        }
+      ]
+    }
+  ],
+  "awardPeriod": {
+    "startDate": "2018-10-26T09:27:19Z",
+    "endDate": "2018-10-29T10:12:05Z"
+  },
+  "unsuccessfulLots": [
+    {
+      "id": "eb0d60b4-d900-11e8-8191-413e90804d99"
+    }
+  ],
+  "bids": [
+    {
+      "id": "26d63f90-d901-11e8-ad26-e5c1eb0d4905",
+      "date": "2018-10-26T09:27:24Z",
+      "status": "valid",
+      "statusDetails": "empty",
+      "tenderers": [
+        {
+          "id": "MD-IDNO-446-04-7287",
+          "name": "Mcdonald-Matthews",
+          "identifier": {
+            "id": "446-04-7287",
+            "scheme": "MD-IDNO",
+            "legalName": "Bowers-Hanson Ltd",
+            "uri": "http://davis.org/explore/privacy/"
+          },
+          "address": {
+            "streetAddress": "01855 Montes Circle",
+            "postalCode": "07300",
+            "addressDetails": {
+              "country": {
+                "scheme": "iso-alpha2",
+                "id": "MD",
+                "description": "MOLDOVA",
+                "uri": "http://reference.iatistandard.org"
+              },
+              "region": {
+                "scheme": "CUATM",
+                "id": "1000000",
+                "description": "Anenii Noi",
+                "uri": "http://statistica.md"
+              },
+              "locality": {
+                "scheme": "CUATM",
+                "id": "1015000",
+                "description": "s.Ciobanovca (r-l Anenii Noi)",
+                "uri": "http://statistica.md"
+              }
+            }
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "483-19-7567",
+              "scheme": "MD-IDNO",
+              "legalName": "Bowers-Hanson LLC",
+              "uri": "https://www.medina-brown.biz/register/"
+            }
+          ],
+          "contactPoint": {
+            "name": "Jay Taylor",
+            "email": "jamesbender@gmail.com",
+            "telephone": "+28(4)3643606091",
+            "faxNumber": "1-885-287-2567",
+            "url": "https://www.rangel.net/categories/about/"
+          },
+          "details": {
+            "scale": "large"
+          }
+        }
+      ],
+      "value": {
+        "amount": 100.00,
+        "currency": "MDL"
+      },
+      "relatedLots": [
+        "eb0d60b5-d900-11e8-8191-413e90804d99"
+      ]
+    },
+    {
+      "id": "27cf93b0-d901-11e8-ad26-e5c1eb0d4905",
+      "date": "2018-10-26T09:27:24Z",
+      "status": "withdrawn",
+      "statusDetails": "empty",
+      "tenderers": [
+        {
+          "id": "MD-IDNO-667-81-1618",
+          "name": "Lee Group",
+          "identifier": {
+            "id": "667-81-1618",
+            "scheme": "MD-IDNO",
+            "legalName": "Summers LLC and Sons",
+            "uri": "https://brewer-weiss.com/"
+          },
+          "address": {
+            "streetAddress": "966 Henry Gardens Apt. 209",
+            "postalCode": "26302",
+            "addressDetails": {
+              "country": {
+                "scheme": "iso-alpha2",
+                "id": "MD",
+                "description": "MOLDOVA",
+                "uri": "http://reference.iatistandard.org"
+              },
+              "region": {
+                "scheme": "CUATM",
+                "id": "9600000",
+                "description": "UTA Găgăuzia",
+                "uri": "http://statistica.md"
+              },
+              "locality": {
+                "scheme": "CUATM",
+                "id": "9627002",
+                "description": "s.Etulia Nouă",
+                "uri": "http://statistica.md"
+              }
+            }
+          },
+          "additionalIdentifiers": [
+            {
+              "id": "448-92-5925",
+              "scheme": "MD-IDNO",
+              "legalName": "Summers LLC Ltd",
+              "uri": "https://wilkins-aguirre.com/homepage.htm"
+            }
+          ],
+          "contactPoint": {
+            "name": "Brett Rios",
+            "email": "vjames@yahoo.com",
+            "telephone": "+77(3)6692760657",
+            "faxNumber": "1-584-355-2990x1129",
+            "url": "https://wyatt.com/app/author.php"
+          },
+          "details": {
+            "scale": "sme"
+          }
+        }
+      ],
+      "value": {
+        "amount": 100.00,
+        "currency": "MDL"
+      },
+      "documents": [
+        {
+          "id": "2f0cb693-d164-4344-b156-518ca3159522-1540545961012",
+          "documentType": "submissionDocuments",
+          "title": "Fast mother since human list executive process.",
+          "description": "Second upon skin up able author ahead always able back figure event job total agree significant view finally consider seem lead leg.",
+          "relatedLots": [
+            "eb0d60b5-d900-11e8-8191-413e90804d99"
+          ]
+        },
+        {
+          "id": "d9feadf8-0015-4d1d-91cd-1dccb3079cff-1540545961413",
+          "documentType": "submissionDocuments",
+          "title": "Physical reality program whom recognize economy.",
+          "description": "Who economic trade change ground claim spring sign figure information toward factor trip forward could bank available impact true among impact painting likely through own parent discuss.",
+          "relatedLots": [
+            "eb0d60b5-d900-11e8-8191-413e90804d99"
+          ]
+        }
+      ],
+      "relatedLots": [
+        "eb0d60b5-d900-11e8-8191-413e90804d99"
+      ]
+    }
+  ],
+  "tender": null
 }

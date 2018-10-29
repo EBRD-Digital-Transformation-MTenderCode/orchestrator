@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.AccessCommandType.CONTRACT_PREPARATION;
+import static com.procurement.orchestrator.domain.commands.AccessCommandType.SET_LOTS_UNSUCCESSFUL_EV;
 
 @Component
 public class AccessSetLotsUnsuccessfulEv implements JavaDelegate {
@@ -49,7 +49,7 @@ public class AccessSetLotsUnsuccessfulEv implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode unsuccessfulLots = processService.getUnsuccessfulLots(jsonData, processId);
-        final JsonNode commandMessage = processService.getCommandMessage(CONTRACT_PREPARATION, context, unsuccessfulLots);
+        final JsonNode commandMessage = processService.getCommandMessage(SET_LOTS_UNSUCCESSFUL_EV, context, unsuccessfulLots);
         JsonNode responseData = processService.processResponse(
                 accessRestClient.execute(commandMessage),
                 context,
@@ -63,7 +63,7 @@ public class AccessSetLotsUnsuccessfulEv implements JavaDelegate {
                     entity,
                     context,
                     commandMessage,
-                    processService.setTender(jsonData, responseData, processId));
+                    processService.addLotsUnsuccessful(jsonData, responseData, processId));
         }
     }
 
@@ -72,6 +72,8 @@ public class AccessSetLotsUnsuccessfulEv implements JavaDelegate {
                                 final JsonNode responseData,
                                 final String processId) {
         final String tenderStatus = processService.getText("tenderStatus", responseData, processId);
+        final String mainProcurementCategory = processService.getText("mainProcurementCategory", responseData, processId);
+        context.setMainProcurementCategory(mainProcurementCategory);
         if ("unsuccessful".equals(tenderStatus)) {
             context.setOperationType("tenderUnsuccessful");
             execution.setVariable("operationType", "tenderUnsuccessful");

@@ -108,12 +108,12 @@
       <bpmn:incoming>SequenceFlow_0dpgupg</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_039ubs8</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_039ubs8" sourceRef="RegulationGetContractTermsTask" targetRef="StorageOpenDocsOfAwardTask" />
-    <bpmn:serviceTask id="StorageOpenDocsOfAwardTask" name="Storage open documents of Contract" camunda:asyncBefore="true" camunda:delegateExpression="${storageOpenDocsOfAward}">
+    <bpmn:sequenceFlow id="SequenceFlow_039ubs8" sourceRef="RegulationGetContractTermsTask" targetRef="StorageOpenDocsOfAwardsTask" />
+    <bpmn:serviceTask id="StorageOpenDocsOfAwardsTask" name="Storage open documents of Awards" camunda:asyncBefore="true" camunda:delegateExpression="${storageOpenDocsOfAwards}">
       <bpmn:incoming>SequenceFlow_039ubs8</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0t0kdxz</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_0t0kdxz" sourceRef="StorageOpenDocsOfAwardTask" targetRef="ExclusiveGateway_1npu3t8" />
+    <bpmn:sequenceFlow id="SequenceFlow_0t0kdxz" sourceRef="StorageOpenDocsOfAwardsTask" targetRef="ExclusiveGateway_1npu3t8" />
     <bpmn:sequenceFlow id="SequenceFlow_1c92naw" sourceRef="ContractingCreateCanTask" targetRef="NoticePostEvTask" />
     <bpmn:sequenceFlow id="SequenceFlow_14ypa4f" sourceRef="NoticePostEvTask" targetRef="SendMessageStandstillEvTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0v4iu4v" sourceRef="EvaluationSetFinalStatusesTask" targetRef="SubmissionSetFinalStatusesEvTask" />
@@ -299,7 +299,7 @@
         <di:waypoint x="1863" y="164" />
         <di:waypoint x="1896" y="164" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_15lr03h_di" bpmnElement="StorageOpenDocsOfAwardTask">
+      <bpmndi:BPMNShape id="ServiceTask_15lr03h_di" bpmnElement="StorageOpenDocsOfAwardsTask">
         <dc:Bounds x="1896" y="124" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0t0kdxz_di" bpmnElement="SequenceFlow_0t0kdxz">
