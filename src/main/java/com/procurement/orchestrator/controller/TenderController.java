@@ -253,6 +253,7 @@ public class TenderController extends DoBaseController {
         context.setPmd("TEST_OT");
         context.setProcessType("awardPeriodEnd");
         context.setStage("EV");
+        context.setPrevStage("EV");
         context.setPhase("awardedContractPreparation");
         context.setOperationType("awardPeriodEndEv");
         //JSON parse error

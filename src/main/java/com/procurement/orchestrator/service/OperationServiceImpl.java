@@ -69,7 +69,7 @@ public class OperationServiceImpl implements OperationService {
         operationStepEntity.setOperationId(requestEntity.getOperationId());
         operationStepEntity.setDate(dateUtil.dateNowUTC());
         final Context context = jsonUtil.toObject(Context.class, requestEntity.getContext());
-        context.setTimeStamp(requestEntity.getWriteTime());
+//        context.setTimeStamp(requestEntity.getWriteTime());
         operationStepEntity.setContext(jsonUtil.toJson(context));
         operationStepEntity.setRequestData(requestEntity.getJsonData());
         operationStepEntity.setResponseData(requestEntity.getJsonData());
