@@ -81,7 +81,7 @@ public class ProcessServiceImpl implements ProcessService {
 
     public JsonNode getCommandMessage(final Enum command, final Context context, final JsonNode data) {
         final CommandMessage commandMessage = new CommandMessage(
-                context.getOperationId(),
+                context.getRequestId(),
                 command,
                 context,
                 data,
