@@ -1,0 +1,7 @@
+Operation with current id already exist.
+Invalid ocid.
+Invalid UUID.
+Data is empty!
+Context not found.
+Operation impossible in phase:
+Operation impossible.
