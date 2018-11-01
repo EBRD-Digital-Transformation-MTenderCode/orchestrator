@@ -107,7 +107,11 @@ public class NotificationServiceImpl implements NotificationService {
         final ArrayNode awardsNode = (ArrayNode) responseData.get("awards");
         for (final JsonNode awardNode : awardsNode) {
             if (awardNode.get("token") != null) {
-                outcomes.add(new Outcome(awardNode.get("id").asText(), awardNode.get("token").asText()));
+                if (!awardNode.get("status").asText().equals("unsuccessful")) {
+                    outcomes.add(new Outcome(awardNode.get("id").asText(), awardNode.get("token").asText()));
+                } else {
+                    outcomes.add(new Outcome(awardNode.get("id").asText(), null));
+                }
             }
         }
         context.setOutcomes(outcomes);
