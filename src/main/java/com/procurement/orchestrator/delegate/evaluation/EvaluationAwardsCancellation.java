@@ -45,8 +45,8 @@ public class EvaluationAwardsCancellation implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode unsuccessfulLots = processService.getLots(jsonData, processId);
-        final JsonNode commandMessage = processService.getCommandMessage(AWARDS_CANCELLATION, context, unsuccessfulLots);
+        final JsonNode lots = processService.getLots(jsonData, processId);
+        final JsonNode commandMessage = processService.getCommandMessage(AWARDS_CANCELLATION, context, lots);
         final JsonNode responseData = processService.processResponse(
                 evaluationRestClient.execute(commandMessage),
                 context,
