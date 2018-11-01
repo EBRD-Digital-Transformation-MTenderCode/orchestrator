@@ -329,6 +329,18 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
+    @Override
+    public JsonNode getLots(JsonNode jsonData, String processId) {
+        try {
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            mainNode.replace("lots", jsonData.get("lots"));
+            return mainNode;
+        } catch (Exception e) {
+            if (Objects.nonNull(processId)) terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
     public JsonNode addLots(final JsonNode jsonData, final JsonNode lotsData, final String processId) {
         try {
             ((ObjectNode) jsonData).replace("lots", lotsData.get("lots"));

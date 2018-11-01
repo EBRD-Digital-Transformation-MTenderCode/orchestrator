@@ -55,6 +55,8 @@ public interface ProcessService {
 
     JsonNode addTenderUnsuspendData(JsonNode jsonData, JsonNode statusData, String processId);
 
+    JsonNode getLots(JsonNode jsonData, String processId);
+
     JsonNode addLots(JsonNode jsonData, JsonNode lotsData, String processId);
 
     JsonNode addLotsUnsuccessful(JsonNode jsonData, JsonNode lotsData, String processId);
