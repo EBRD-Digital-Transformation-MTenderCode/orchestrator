@@ -92,9 +92,6 @@ public class RequestServiceImpl implements RequestService {
         } else {
             data = jsonData;
         }
-        context.setRequestId(UUIDs.timeBased().toString());
-        context.setStartDate(dateUtil.nowFormatted());
-        context.setTimeStamp(dateUtil.milliNowUTC());
         saveRequest(context.getRequestId(), context.getOperationId(), context, data);
         operationService.checkOperationById(context.getOperationId());
     }
@@ -168,6 +165,9 @@ public class RequestServiceImpl implements RequestService {
         context.setOwner(getOwner(authorization));
         context.setOperationId(operationId);
         context.setLanguage(lang);
+        context.setRequestId(UUIDs.timeBased().toString());
+        context.setStartDate(dateUtil.nowFormatted());
+        context.setTimeStamp(dateUtil.milliNowUTC());
         return context;
     }
 
@@ -197,6 +197,9 @@ public class RequestServiceImpl implements RequestService {
         context.setToken(token);
         context.setLanguage(lang);
         context.setIsAuction(prevContext.getIsAuction());
+        context.setRequestId(UUIDs.timeBased().toString());
+        context.setStartDate(dateUtil.nowFormatted());
+        context.setTimeStamp(dateUtil.milliNowUTC());
 
         return context;
     }

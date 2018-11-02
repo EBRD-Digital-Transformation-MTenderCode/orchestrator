@@ -42,9 +42,9 @@ public class TenderController extends DoBaseController {
                                            @RequestBody final JsonNode data) {
         requestService.validate(operationId, data);
         final Context context = requestService.getContextForCreate(authorization, operationId, country, pmd, "createCN");
-        requestService.saveRequestAndCheckOperation(context, data);
         processService.setEnquiryPeriodStartDate(data, context.getStartDate(), null);
         processService.setTenderPeriodStartDate(data, processService.getEnquiryPeriodEndDate(data, null), null);
+        requestService.saveRequestAndCheckOperation(context, data);
         processService.startProcess(context, new HashMap<>());
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
@@ -58,9 +58,9 @@ public class TenderController extends DoBaseController {
                                            @RequestBody final JsonNode data) {
         requestService.validate(operationId, data);
         final Context context = requestService.getContextForUpdate(authorization, operationId, cpid, ocid, token, "updateCN");
-        requestService.saveRequestAndCheckOperation(context, data);
         processService.setEnquiryPeriodStartDate(data, context.getStartDate(), null);
         processService.setTenderPeriodStartDate(data, processService.getEnquiryPeriodEndDate(data, null), null);
+        requestService.saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("operationType", context.getOperationType());
         processService.startProcess(context, variables);
