@@ -105,7 +105,12 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     public Context addAwardOutcomeToContext(final Context context, final JsonNode responseData, final String processId) {
-        final Set<Outcome> outcomes = new HashSet<>();
+        Set<Outcome> outcomes;
+        if (context.getOutcomes() != null) {
+            outcomes = context.getOutcomes();
+        } else {
+            outcomes = new HashSet<>();
+        }
         final ArrayNode awardsNode = (ArrayNode) responseData.get("awards");
         for (final JsonNode awardNode : awardsNode) {
             if (awardNode.get("token") != null) {
@@ -121,7 +126,12 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     public Context addCanOutcomeToContext(final Context context, final JsonNode responseData, final String processId) {
-        final Set<Outcome> outcomes = new HashSet<>();
+        Set<Outcome> outcomes;
+        if (context.getOutcomes() != null) {
+            outcomes = context.getOutcomes();
+        } else {
+            outcomes = new HashSet<>();
+        }
         final ArrayNode cansNode = (ArrayNode) responseData.get("cans");
         for (final JsonNode canNode : cansNode) {
             final Outcome outcome = new Outcome(canNode.get("contract").get("id").asText(), null, "cans");
@@ -132,7 +142,12 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     public Context addContractOutcomeToContext(final Context context, final JsonNode responseData, final String processId) {
-        final Set<Outcome> outcomes = new HashSet<>();
+        Set<Outcome> outcomes;
+        if (context.getOutcomes() != null) {
+            outcomes = context.getOutcomes();
+        } else {
+            outcomes = new HashSet<>();
+        }
         final ArrayNode contractsNode = (ArrayNode) responseData.get("contracts");
         for (final JsonNode contractNode : contractsNode) {
             outcomes.add(new Outcome(contractNode.get("id").asText(), contractNode.get("token").asText(), "contracts"));
@@ -145,7 +160,12 @@ public class NotificationServiceImpl implements NotificationService {
         context.setOcid(processService.getText("ocid", responseData, processId));
         final ArrayNode amendmentsArray = (ArrayNode) responseData.get("amendmentsIds");
         if (amendmentsArray != null) {
-            final Set<Outcome> outcomes = new HashSet<>();
+            Set<Outcome> outcomes;
+            if (context.getOutcomes() != null) {
+                outcomes = context.getOutcomes();
+            } else {
+                outcomes = new HashSet<>();
+            }
             for (final JsonNode amendmentNode : amendmentsArray) {
                 outcomes.add(new Outcome(amendmentNode.asText(), null, "amendments"));
             }
