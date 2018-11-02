@@ -1,7 +1,6 @@
 package com.procurement.orchestrator.config.kafka;
 
 import com.procurement.orchestrator.delegate.kafka.MessageConsumer;
-import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.service.RequestService;
 import com.procurement.orchestrator.utils.DateUtil;
@@ -63,10 +62,9 @@ public class KafkaConsumerConfig {
     @Bean
     public MessageConsumer messageConsumer(final ProcessService processService,
                                            final RequestService requestService,
-                                           final OperationService operationService,
                                            final JsonUtil jsonUtil,
                                            final DateUtil dateUtil) {
-        return new MessageConsumer(processService, requestService, operationService, jsonUtil, dateUtil);
+        return new MessageConsumer(processService, requestService, jsonUtil, dateUtil);
     }
 
 }
