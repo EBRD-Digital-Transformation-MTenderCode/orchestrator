@@ -40,12 +40,9 @@ public class BudgetController extends DoBaseController {
                                            @RequestBody final JsonNode data) {
         requestService.validate(operationId, data);
         final Context context = new Context();
-        context.setRequestId(UUIDs.timeBased().toString());
         context.setOperationId(operationId);
         context.setCountry(Country.fromValue(country.toUpperCase()).value());
         context.setLanguage(lang);
-
-        context.setStartDate(dateUtil.nowFormatted());
         context.setStage(Stage.EI.value());
         context.setOwner(requestService.getOwner(authorization));
         context.setProcessType("ei");
@@ -68,11 +65,8 @@ public class BudgetController extends DoBaseController {
         final Context prevContext = requestService.getContext(cpid);
         context.setCountry(prevContext.getCountry());
         context.setLanguage(lang);
-
-        context.setRequestId(UUIDs.timeBased().toString());
         context.setOperationId(operationId);
         context.setCpid(cpid);
-        context.setStartDate(dateUtil.nowFormatted());
         context.setStage(Stage.EI.value());
         context.setProcessType("ei");
         context.setOperationType("updateEI");
@@ -95,10 +89,7 @@ public class BudgetController extends DoBaseController {
         final Context prevContext = requestService.getContext(cpid);
         context.setCountry(prevContext.getCountry());
         context.setLanguage(lang);
-
-        context.setRequestId(UUIDs.timeBased().toString());
         context.setOperationId(operationId);
-        context.setStartDate(dateUtil.nowFormatted());
         context.setCpid(cpid);
         context.setStage(Stage.FS.value());
         context.setProcessType("fs");
@@ -124,12 +115,9 @@ public class BudgetController extends DoBaseController {
         final Context prevContext = requestService.getContext(cpid);
         context.setCountry(prevContext.getCountry());
         context.setLanguage(lang);
-
-        context.setRequestId(UUIDs.timeBased().toString());
         context.setOperationId(operationId);
         context.setCpid(cpid);
         context.setOcid(ocid);
-        context.setStartDate(dateUtil.nowFormatted());
         context.setStage(Stage.FS.value());
         context.setProcessType("fs");
         context.setOperationType("updateFS");

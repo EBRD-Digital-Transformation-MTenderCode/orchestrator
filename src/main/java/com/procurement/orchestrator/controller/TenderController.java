@@ -42,9 +42,9 @@ public class TenderController extends DoBaseController {
                                            @RequestBody final JsonNode data) {
         requestService.validate(operationId, data);
         final Context context = requestService.getContextForCreate(authorization, operationId, country, pmd, "createCN");
+        requestService.saveRequestAndCheckOperation(context, data);
         processService.setEnquiryPeriodStartDate(data, context.getStartDate(), null);
         processService.setTenderPeriodStartDate(data, processService.getEnquiryPeriodEndDate(data, null), null);
-        requestService.saveRequestAndCheckOperation(context, data);
         processService.startProcess(context, new HashMap<>());
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
@@ -58,9 +58,9 @@ public class TenderController extends DoBaseController {
                                            @RequestBody final JsonNode data) {
         requestService.validate(operationId, data);
         final Context context = requestService.getContextForUpdate(authorization, operationId, cpid, ocid, token, "updateCN");
+        requestService.saveRequestAndCheckOperation(context, data);
         processService.setEnquiryPeriodStartDate(data, context.getStartDate(), null);
         processService.setTenderPeriodStartDate(data, processService.getEnquiryPeriodEndDate(data, null), null);
-        requestService.saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("operationType", context.getOperationType());
         processService.startProcess(context, variables);
@@ -242,34 +242,34 @@ public class TenderController extends DoBaseController {
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
-    @RequestMapping(value = "/awardPeriodEnd/{cpid}", method = RequestMethod.POST)
-    public ResponseEntity<String> test(@PathVariable("cpid") final String cpid,
-                                       @RequestHeader("X-TOKEN") final String token) {
-        final Context prevContext = requestService.getContext(cpid);
-        final Context context = new Context();
-        final String uuid = UUIDs.timeBased().toString();
-        context.setRequestId(uuid);
-        context.setOperationId(uuid);
-        context.setProcessType("awardPeriodEnd");
-        context.setStage("EV");
-        context.setPrevStage("EV");
-        context.setPhase("awardedContractPreparation");
-        context.setOperationType("awardPeriodEndEv");
-        context.setCountry(prevContext.getCountry());
-        context.setPmd(prevContext.getPmd());
-        context.setOwner(prevContext.getOwner());
-        context.setCpid(prevContext.getCpid());
-        context.setOcid(prevContext.getOcid());
-        context.setToken(token);
-        context.setLanguage(prevContext.getLanguage());
-        context.setIsAuction(prevContext.getIsAuction());
-        context.setStartDate(dateUtil.nowFormatted());
-        requestService.saveRequestAndCheckOperation(context, jsonUtil.empty());
-        final Map<String, Object> variables = new HashMap<>();
-        variables.put("operationType", context.getOperationType());
-        processService.startProcess(context, variables);
-        return new ResponseEntity<>(uuid, HttpStatus.ACCEPTED);
-    }
+//    @RequestMapping(value = "/awardPeriodEnd/{cpid}", method = RequestMethod.POST)
+//    public ResponseEntity<String> test(@PathVariable("cpid") final String cpid,
+//                                       @RequestHeader("X-TOKEN") final String token) {
+//        final Context prevContext = requestService.getContext(cpid);
+//        final Context context = new Context();
+//        final String uuid = UUIDs.timeBased().toString();
+//        context.setRequestId(uuid);
+//        context.setOperationId(uuid);
+//        context.setProcessType("awardPeriodEnd");
+//        context.setStage("EV");
+//        context.setPrevStage("EV");
+//        context.setPhase("awardedContractPreparation");
+//        context.setOperationType("awardPeriodEndEv");
+//        context.setCountry(prevContext.getCountry());
+//        context.setPmd(prevContext.getPmd());
+//        context.setOwner(prevContext.getOwner());
+//        context.setCpid(prevContext.getCpid());
+//        context.setOcid(prevContext.getOcid());
+//        context.setToken(token);
+//        context.setLanguage(prevContext.getLanguage());
+//        context.setIsAuction(prevContext.getIsAuction());
+//        context.setStartDate(dateUtil.nowFormatted());
+//        requestService.saveRequestAndCheckOperation(context, jsonUtil.empty());
+//        final Map<String, Object> variables = new HashMap<>();
+//        variables.put("operationType", context.getOperationType());
+//        processService.startProcess(context, variables);
+//        return new ResponseEntity<>(uuid, HttpStatus.ACCEPTED);
+//    }
 
 //    @RequestMapping(value = "/auctionPeriodEnd", method = RequestMethod.POST)
 //    public ResponseEntity<String> test(@RequestBody final JsonNode response) {
