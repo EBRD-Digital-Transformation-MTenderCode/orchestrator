@@ -69,12 +69,14 @@ public class NotificationServiceImpl implements NotificationService {
         final ArrayNode outcomeArray = jsonUtil.createArrayNode();
         if (contextOutcomes != null && !contextOutcomes.isEmpty()) {
             for (final Outcome outcome : contextOutcomes) {
-                final ObjectNode outcomeItem = jsonUtil.createObjectNode();
-                outcomeItem.put("id", outcome.getId());
-                if (outcome.getToken() != null) {
-                    outcomeItem.put("X-TOKEN", outcome.getToken());
+                if (outcome.getType().equals(outcomeName)) {
+                    final ObjectNode outcomeItem = jsonUtil.createObjectNode();
+                    outcomeItem.put("id", outcome.getId());
+                    if (outcome.getToken() != null) {
+                        outcomeItem.put("X-TOKEN", outcome.getToken());
+                    }
+                    outcomeArray.add(outcomeItem);
                 }
-                outcomeArray.add(outcomeItem);
             }
             outcomes.replace(outcomeName.toLowerCase(), outcomeArray);
             return outcomes;
@@ -108,9 +110,9 @@ public class NotificationServiceImpl implements NotificationService {
         for (final JsonNode awardNode : awardsNode) {
             if (awardNode.get("token") != null) {
                 if (!awardNode.get("status").asText().equals("unsuccessful")) {
-                    outcomes.add(new Outcome(awardNode.get("id").asText(), awardNode.get("token").asText()));
+                    outcomes.add(new Outcome(awardNode.get("id").asText(), awardNode.get("token").asText(), "awards"));
                 } else {
-                    outcomes.add(new Outcome(awardNode.get("id").asText(), null));
+                    outcomes.add(new Outcome(awardNode.get("id").asText(), null, "awards"));
                 }
             }
         }
@@ -122,7 +124,7 @@ public class NotificationServiceImpl implements NotificationService {
         final Set<Outcome> outcomes = new HashSet<>();
         final ArrayNode cansNode = (ArrayNode) responseData.get("cans");
         for (final JsonNode canNode : cansNode) {
-            final Outcome outcome = new Outcome(canNode.get("contract").get("id").asText(), null);
+            final Outcome outcome = new Outcome(canNode.get("contract").get("id").asText(), null, "cans");
             outcomes.add(outcome);
         }
         context.setOutcomes(outcomes);
@@ -133,7 +135,7 @@ public class NotificationServiceImpl implements NotificationService {
         final Set<Outcome> outcomes = new HashSet<>();
         final ArrayNode contractsNode = (ArrayNode) responseData.get("contracts");
         for (final JsonNode contractNode : contractsNode) {
-            outcomes.add(new Outcome(contractNode.get("id").asText(), contractNode.get("token").asText()));
+            outcomes.add(new Outcome(contractNode.get("id").asText(), contractNode.get("token").asText(), "contracts"));
         }
         context.setOutcomes(outcomes);
         return context;
@@ -145,7 +147,7 @@ public class NotificationServiceImpl implements NotificationService {
         if (amendmentsArray != null) {
             final Set<Outcome> outcomes = new HashSet<>();
             for (final JsonNode amendmentNode : amendmentsArray) {
-                outcomes.add(new Outcome(amendmentNode.asText(), null));
+                outcomes.add(new Outcome(amendmentNode.asText(), null, "amendments"));
             }
             context.setOutcomes(outcomes);
         }
@@ -339,12 +341,14 @@ public class NotificationServiceImpl implements NotificationService {
                 data.setOcid(context.getOcid());
                 data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
                 data.setOutcomes(getOutcomes("amendments", context.getOutcomes()));
+                data.setOutcomes(getOutcomes("awards", context.getOutcomes()));
                 break;
             }
             case CANCEL_TENDER_EV: {
                 data.setOcid(context.getOcid());
                 data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
                 data.setOutcomes(getOutcomes("amendments", context.getOutcomes()));
+                data.setOutcomes(getOutcomes("awards", context.getOutcomes()));
                 break;
             }
             case CANCEL_PLAN: {
