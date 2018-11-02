@@ -6,7 +6,6 @@ import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.Rule;
 import com.procurement.orchestrator.domain.chronograph.ChronographResponse;
 import com.procurement.orchestrator.domain.commands.AuctionCommandType;
-import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.service.RequestService;
 import com.procurement.orchestrator.utils.DateUtil;
@@ -20,7 +19,6 @@ import org.springframework.messaging.handler.annotation.Header;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class MessageConsumer {
 
