@@ -10,9 +10,7 @@ import com.procurement.orchestrator.utils.JsonUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class NotificationServiceImpl implements NotificationService {
@@ -51,7 +49,7 @@ public class NotificationServiceImpl implements NotificationService {
         return uri;
     }
 
-    private JsonNode getOutcomes(final String outcomeName, final String id, final String token) {
+    private JsonNode buildOutcomes(final String type, final String id, final String token) {
         final ObjectNode outcomes = jsonUtil.createObjectNode();
         final ArrayNode outcomeArray = jsonUtil.createArrayNode();
         final ObjectNode outcomeItem = jsonUtil.createObjectNode();
@@ -60,16 +58,18 @@ public class NotificationServiceImpl implements NotificationService {
             outcomeItem.put("X-TOKEN", token);
         }
         outcomeArray.add(outcomeItem);
-        outcomes.replace(outcomeName.toLowerCase(), outcomeArray);
+        outcomes.replace(type.toLowerCase(), outcomeArray);
         return outcomes;
     }
 
-    private JsonNode getOutcomes(final String outcomeName, final Set<Outcome> contextOutcomes) {
+    private JsonNode buildOutcomesFromContext(final List<String> outcomeTypes, final Context context) {
+        final Set<Outcome> contextOutcomes = context.getOutcomes();
+        if (contextOutcomes == null && contextOutcomes.isEmpty()) return null;
         final ObjectNode outcomes = jsonUtil.createObjectNode();
-        final ArrayNode outcomeArray = jsonUtil.createArrayNode();
-        if (contextOutcomes != null && !contextOutcomes.isEmpty()) {
+        for (final String outcomeType : outcomeTypes) {
+            final ArrayNode outcomeArray = jsonUtil.createArrayNode();
             for (final Outcome outcome : contextOutcomes) {
-                if (outcome.getType().equals(outcomeName)) {
+                if (outcome.getType().equals(outcomeType)) {
                     final ObjectNode outcomeItem = jsonUtil.createObjectNode();
                     outcomeItem.put("id", outcome.getId());
                     if (outcome.getToken() != null) {
@@ -78,10 +78,9 @@ public class NotificationServiceImpl implements NotificationService {
                     outcomeArray.add(outcomeItem);
                 }
             }
-            outcomes.replace(outcomeName.toLowerCase(), outcomeArray);
-            return outcomes;
+            outcomes.replace(outcomeType.toLowerCase(), outcomeArray);
         }
-        return null;
+        return outcomes;
     }
 
     public Context addEnquiryOutcomeToContext(final Context context,
@@ -197,7 +196,7 @@ public class NotificationServiceImpl implements NotificationService {
             case CREATE_EI: {
                 data.setOcid(context.getCpid());
                 data.setUrl(getBudgetUri(context.getCpid(), null));
-                data.setOutcomes(getOutcomes("ei", context.getCpid(), context.getToken()));
+                data.setOutcomes(buildOutcomes("ei", context.getCpid(), context.getToken()));
                 break;
             }
             case UPDATE_EI: {
@@ -208,7 +207,7 @@ public class NotificationServiceImpl implements NotificationService {
             case CREATE_FS: {
                 data.setOcid(context.getCpid());
                 data.setUrl(getBudgetUri(context.getCpid(), null));
-                data.setOutcomes(getOutcomes("fs", context.getOcid(), context.getToken()));
+                data.setOutcomes(buildOutcomes("fs", context.getOcid(), context.getToken()));
                 break;
             }
             case UPDATE_FS: {
@@ -219,37 +218,37 @@ public class NotificationServiceImpl implements NotificationService {
             case CREATE_CN: {
                 data.setOcid(context.getCpid());
                 data.setUrl(getTenderUri(context.getCpid(), null));
-                data.setOutcomes(getOutcomes(context.getStage(), context.getOcid(), context.getToken()));
+                data.setOutcomes(buildOutcomes(context.getStage(), context.getOcid(), context.getToken()));
                 break;
             }
             case CREATE_PN: {
                 data.setOcid(context.getCpid());
                 data.setUrl(getTenderUri(context.getCpid(), null));
-                data.setOutcomes(getOutcomes(context.getStage(), context.getOcid(), context.getToken()));
+                data.setOutcomes(buildOutcomes(context.getStage(), context.getOcid(), context.getToken()));
                 break;
             }
             case CREATE_PIN: {
                 data.setOcid(context.getCpid());
                 data.setUrl(getTenderUri(context.getCpid(), null));
-                data.setOutcomes(getOutcomes(context.getStage(), context.getOcid(), context.getToken()));
+                data.setOutcomes(buildOutcomes(context.getStage(), context.getOcid(), context.getToken()));
                 break;
             }
             case UPDATE_CN: {
                 data.setOcid(context.getOcid());
                 data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
-                data.setOutcomes(getOutcomes("amendments", context.getOutcomes()));
+                data.setOutcomes(buildOutcomesFromContext(Collections.singletonList("amendments"), context));
                 break;
             }
             case CREATE_CN_ON_PN: {
                 data.setOcid(context.getCpid());
                 data.setUrl(getTenderUri(context.getCpid(), null));
-                data.setOutcomes(getOutcomes(context.getStage(), context.getOcid(), null));
+                data.setOutcomes(buildOutcomes(context.getStage(), context.getOcid(), null));
                 break;
             }
             case CREATE_CN_ON_PIN: {
                 data.setOcid(context.getCpid());
                 data.setUrl(getTenderUri(context.getCpid(), null));
-                data.setOutcomes(getOutcomes(context.getStage(), context.getOcid(), null));
+                data.setOutcomes(buildOutcomes(context.getStage(), context.getOcid(), null));
                 break;
             }
             case UPDATE_PN: {
@@ -260,19 +259,19 @@ public class NotificationServiceImpl implements NotificationService {
             case CREATE_PIN_ON_PN: {
                 data.setOcid(context.getCpid());
                 data.setUrl(getTenderUri(context.getCpid(), null));
-                data.setOutcomes(getOutcomes(context.getStage(), context.getOcid(), null));
+                data.setOutcomes(buildOutcomes(context.getStage(), context.getOcid(), null));
                 break;
             }
             case UPDATE_TENDER_PERIOD: {
                 data.setOcid(context.getCpid());
                 data.setUrl(getTenderUri(context.getCpid(), null));
-                data.setOutcomes(getOutcomes("amendments", context.getOcid(), null));
+                data.setOutcomes(buildOutcomes("amendments", context.getOcid(), null));
                 break;
             }
             case CREATE_ENQUIRY: {
                 data.setOcid(context.getOcid());
                 data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
-                data.setOutcomes(getOutcomes("enquiries", context.getId(), null));
+                data.setOutcomes(buildOutcomes("enquiries", context.getId(), null));
                 break;
             }
             case ADD_ANSWER: {
@@ -283,7 +282,7 @@ public class NotificationServiceImpl implements NotificationService {
             case CREATE_BID: {
                 data.setOcid(context.getOcid());
                 data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
-                data.setOutcomes(getOutcomes("bids", context.getId(), context.getToken()));
+                data.setOutcomes(buildOutcomes("bids", context.getId(), context.getToken()));
                 break;
             }
             case UPDATE_BID: {
@@ -300,21 +299,21 @@ public class NotificationServiceImpl implements NotificationService {
                 message.setInitiator(BPE);
                 data.setOcid(context.getOcid());
                 data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
-                data.setOutcomes(getOutcomes("awards", context.getOutcomes()));
+                data.setOutcomes(buildOutcomesFromContext(Collections.singletonList("awards"), context));
                 break;
             }
             case TENDER_PERIOD_END_EV: {
                 message.setInitiator(BPE);
                 data.setOcid(context.getOcid());
                 data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
-                data.setOutcomes(getOutcomes("awards", context.getOutcomes()));
+                data.setOutcomes(buildOutcomesFromContext(Collections.singletonList("awards"), context));
                 break;
             }
             case AUCTION_PERIOD_END: {
                 message.setInitiator(BPE);
                 data.setOcid(context.getOcid());
                 data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
-                data.setOutcomes(getOutcomes("awards", context.getOutcomes()));
+                data.setOutcomes(buildOutcomesFromContext(Collections.singletonList("awards"), context));
                 break;
             }
             case AWARD_BY_BID: {
@@ -341,40 +340,38 @@ public class NotificationServiceImpl implements NotificationService {
                 message.setInitiator(BPE);
                 data.setOcid(context.getOcid());
                 data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
-                data.setOutcomes(getOutcomes("contracts", context.getOutcomes()));
+                data.setOutcomes(buildOutcomesFromContext(Collections.singletonList("contracts"), context));
                 break;
             }
             case AWARD_PERIOD_END_EV: {
                 message.setInitiator(BPE);
                 data.setOcid(context.getOcid());
                 data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
-                data.setOutcomes(getOutcomes("contracts", context.getOutcomes()));
+                data.setOutcomes(buildOutcomesFromContext(Collections.singletonList("contracts"), context));
                 break;
             }
             case CANCEL_STANDSTILL: {
                 data.setOcid(context.getOcid());
                 data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
-                data.setOutcomes(getOutcomes("amendments", context.getOutcomes()));
+                data.setOutcomes(buildOutcomesFromContext(Collections.singletonList("amendments"), context));
                 break;
             }
             case CANCEL_TENDER: {
                 data.setOcid(context.getOcid());
                 data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
-                data.setOutcomes(getOutcomes("amendments", context.getOutcomes()));
-                data.setOutcomes(getOutcomes("awards", context.getOutcomes()));
+                data.setOutcomes(buildOutcomesFromContext(Arrays.asList("amendments", "awards"), context));
                 break;
             }
             case CANCEL_TENDER_EV: {
                 data.setOcid(context.getOcid());
                 data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
-                data.setOutcomes(getOutcomes("amendments", context.getOutcomes()));
-                data.setOutcomes(getOutcomes("awards", context.getOutcomes()));
+                data.setOutcomes(buildOutcomesFromContext(Arrays.asList("amendments", "awards"), context));
                 break;
             }
             case CANCEL_PLAN: {
                 data.setOcid(context.getCpid());
                 data.setUrl(getTenderUri(context.getCpid(), null));
-                data.setOutcomes(getOutcomes(context.getStage(), context.getOcid(), null));
+                data.setOutcomes(buildOutcomes(context.getStage(), context.getOcid(), null));
                 break;
             }
             default:
@@ -402,7 +399,7 @@ public class NotificationServiceImpl implements NotificationService {
         message.setInitiator(BPE);
         data.setOcid(context.getOcid());
         data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
-        data.setOutcomes(getOutcomes("enquiries", context.getId(), context.getToken()));
+        data.setOutcomes(buildOutcomes("enquiries", context.getId(), context.getToken()));
         message.setOperationId(context.getOperationId());
         message.setResponseId(UUIDs.timeBased().toString());
         data.setOperationDate(context.getStartDate());
