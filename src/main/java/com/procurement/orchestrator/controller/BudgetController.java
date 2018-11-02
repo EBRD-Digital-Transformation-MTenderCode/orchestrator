@@ -49,7 +49,6 @@ public class BudgetController extends DoBaseController {
         context.setOperationType("createEI");
         context.setRequestId(UUIDs.timeBased().toString());
         context.setStartDate(dateUtil.nowFormatted());
-        context.setTimeStamp(dateUtil.milliNowUTC());
         requestService.saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("isTokenPresent", 0);
@@ -77,7 +76,6 @@ public class BudgetController extends DoBaseController {
         context.setToken(token);
         context.setRequestId(UUIDs.timeBased().toString());
         context.setStartDate(dateUtil.nowFormatted());
-        context.setTimeStamp(dateUtil.milliNowUTC());
         requestService.saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("isTokenPresent", (context.getToken() == null || "".equals(context.getToken().trim())) ? 0 : 1);
@@ -103,7 +101,6 @@ public class BudgetController extends DoBaseController {
         context.setOwner(requestService.getOwner(authorization));
         context.setRequestId(UUIDs.timeBased().toString());
         context.setStartDate(dateUtil.nowFormatted());
-        context.setTimeStamp(dateUtil.milliNowUTC());
         requestService.saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("isTokenPresent", 0);
@@ -134,7 +131,6 @@ public class BudgetController extends DoBaseController {
         context.setToken(token);
         context.setRequestId(UUIDs.timeBased().toString());
         context.setStartDate(dateUtil.nowFormatted());
-        context.setTimeStamp(dateUtil.milliNowUTC());
         requestService.saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("isTokenPresent", (context.getToken() == null || "".equals(context.getToken().trim())) ? 0 : 1);

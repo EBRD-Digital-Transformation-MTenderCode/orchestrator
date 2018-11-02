@@ -28,18 +28,15 @@ public class MessageConsumer {
 
     private final ProcessService processService;
     private final RequestService requestService;
-    private final OperationService operationService;
     private final JsonUtil jsonUtil;
     private final DateUtil dateUtil;
 
     public MessageConsumer(final ProcessService processService,
                            final RequestService requestService,
-                           final OperationService operationService,
                            final JsonUtil jsonUtil,
                            final DateUtil dateUtil) {
         this.processService = processService;
         this.requestService = requestService;
-        this.operationService = operationService;
         this.jsonUtil = jsonUtil;
         this.dateUtil = dateUtil;
     }
@@ -70,7 +67,7 @@ public class MessageConsumer {
             context.setLanguage(prevContext.getLanguage());
             context.setIsAuction(prevContext.getIsAuction());
             context.setStartDate(dateUtil.nowFormatted());
-            saveRequestAndCheckOperation(context, jsonUtil.empty());
+            requestService.saveRequestAndCheckOperation(context, jsonUtil.empty());
             final Map<String, Object> variables = new HashMap<>();
             variables.put("operationType", context.getOperationType());
             processService.startProcess(context, variables);
@@ -113,14 +110,14 @@ public class MessageConsumer {
                             context.setLanguage(prevContext.getLanguage());
                             context.setIsAuction(prevContext.getIsAuction());
                             context.setStartDate(dateUtil.nowFormatted());
-                            saveRequestAndCheckOperation(context, dataNode);
+                            requestService.saveRequestAndCheckOperation(context, dataNode);
                             final Map<String, Object> variables = new HashMap<>();
                             variables.put("operationType", context.getOperationType());
                             processService.startProcess(context, variables);
                             break;
                         }
                         default: {
-                            saveRequestAndCheckOperation(context, dataNode);
+                            requestService.saveRequestAndCheckOperation(context, dataNode);
                             break;
                         }
                     }
@@ -128,16 +125,5 @@ public class MessageConsumer {
             }
         } catch (Exception e) {
         }
-    }
-
-    void saveRequestAndCheckOperation(final Context context, final JsonNode jsonData) {
-        final JsonNode data;
-        if (Objects.isNull(jsonData)) {
-            data = jsonUtil.createObjectNode();
-        } else {
-            data = jsonData;
-        }
-        requestService.saveRequest(context.getRequestId(), context.getOperationId(), context, data);
-        operationService.checkOperationById(context.getOperationId());
     }
 }
