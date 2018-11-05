@@ -166,5 +166,7 @@ public interface ProcessService {
     JsonNode addContractTerms(JsonNode jsonData, JsonNode responseData, String processId);
 
     JsonNode addActualBudgetSource(JsonNode jsonData, JsonNode responseData, String processId);
+
+    JsonNode getAwardsValue(JsonNode jsonData, String processId);
 }
 

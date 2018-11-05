@@ -13,8 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.util.Objects;
-
 import static com.procurement.orchestrator.domain.commands.EvaluationCommandType.CHECK_AWARD_VALUE;
 
 @Component
@@ -45,19 +43,18 @@ public class EvaluationCheckAwardValue implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String taskId = execution.getCurrentActivityId();
         final String processId = execution.getProcessInstanceId();
-        final JsonNode commandMessage = processService.getCommandMessage(CHECK_AWARD_VALUE, context, jsonData);
-        final JsonNode responseData = processService.processResponse(
-                evaluationRestClient.execute(commandMessage),
-                context,
-                processId,
-                taskId,
-                commandMessage);
-        if (Objects.nonNull(responseData)) {
-            operationService.saveOperationStep(
-                    execution,
-                    entity,
-                    commandMessage,
-                    processService.addAwards(jsonData, responseData, processId));
+        final JsonNode rqData = processService.getAwardsValue(jsonData, processId);
+        if (rqData != null) {
+            final JsonNode commandMessage = processService.getCommandMessage(CHECK_AWARD_VALUE, context, rqData);
+            JsonNode responseData = processService.processResponse(
+                    evaluationRestClient.execute(commandMessage),
+                    context,
+                    processId,
+                    taskId,
+                    commandMessage);
+            if (responseData != null) {
+                operationService.saveOperationStep(execution, entity, commandMessage);
+            }
         }
     }
 }
