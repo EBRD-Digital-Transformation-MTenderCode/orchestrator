@@ -22,14 +22,14 @@
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_09bp8om" sourceRef="SaveContextTask" targetRef="SendMessageTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1360xez" sourceRef="NoticeCreateReleaseTask" targetRef="SaveContextTask" />
-    <bpmn:serviceTask id="EvaluationUpdateContractTermsTask" name="Evaluation Update Contract Terms" camunda:asyncBefore="true" camunda:delegateExpression="${evaluationUpdateContractTerms}">
+    <bpmn:serviceTask id="RegulationUpdateContractTermsTask" name="Regulation&#10;Update Contract Terms" camunda:asyncBefore="true" camunda:delegateExpression="${regulationUpdateContractTerms}">
       <bpmn:extensionElements>
         <camunda:failedJobRetryTimeCycle>R0/PT1S</camunda:failedJobRetryTimeCycle>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1kiz1cs</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_18zhhk1</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_18zhhk1" sourceRef="EvaluationUpdateContractTermsTask" targetRef="MdmGetInfoForContractTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_18zhhk1" sourceRef="RegulationUpdateContractTermsTask" targetRef="MdmGetInfoForContractTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0ipeyos" sourceRef="SaveFirstOperationTask" targetRef="ServiceTask_1nevn5z" />
     <bpmn:serviceTask id="MdmGetInfoForContractTask" name="Mdm Get Info For Contract" camunda:asyncBefore="true" camunda:delegateExpression="${mdmGetInfoForContract}">
       <bpmn:incoming>SequenceFlow_18zhhk1</bpmn:incoming>
@@ -41,7 +41,7 @@
       <bpmn:outgoing>SequenceFlow_1kkdaac</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1kkdaac" sourceRef="ServiceTask_1nevn5z" targetRef="AccessCheckBudgetSourcesTask" />
-    <bpmn:serviceTask id="AccessCheckBudgetSourcesTask" name="AccessCheck Budget Sources" camunda:asyncBefore="true" camunda:delegateExpression="${accessCheckBudgetSources}">
+    <bpmn:serviceTask id="AccessCheckBudgetSourcesTask" name="Access Check Budget Sources" camunda:asyncBefore="true" camunda:delegateExpression="${accessCheckBudgetSources}">
       <bpmn:incoming>SequenceFlow_1kkdaac</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0pz1akj</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -50,17 +50,17 @@
       <bpmn:incoming>SequenceFlow_0pz1akj</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0iseutl</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_0iseutl" sourceRef="ContractingGetActualBudgetSourcesTask" targetRef="BudgetCheckFinanceSourceTask" />
-    <bpmn:serviceTask id="BudgetCheckFinanceSourceTask" name="Budget Check Finance Source" camunda:asyncBefore="true" camunda:delegateExpression="${budgetCheckFinanceSource}">
+    <bpmn:sequenceFlow id="SequenceFlow_0iseutl" sourceRef="ContractingGetActualBudgetSourcesTask" targetRef="BudgetCheckBudgetSourcesTask" />
+    <bpmn:serviceTask id="BudgetCheckBudgetSourcesTask" name="Budget Check Budget SourcSourcese" camunda:asyncBefore="true" camunda:delegateExpression="${budgetCheckBudgetSources}">
       <bpmn:incoming>SequenceFlow_0iseutl</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0xf9tf3</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_0xf9tf3" sourceRef="BudgetCheckFinanceSourceTask" targetRef="EvaluationCheckAwardValueTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0xf9tf3" sourceRef="BudgetCheckBudgetSourcesTask" targetRef="EvaluationCheckAwardValueTask" />
     <bpmn:serviceTask id="EvaluationCheckAwardValueTask" name="Evaluation Check Award Value" camunda:asyncBefore="true" camunda:delegateExpression="${evaluationCheckAwardValue}">
       <bpmn:incoming>SequenceFlow_0xf9tf3</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1kiz1cs</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_1kiz1cs" sourceRef="EvaluationCheckAwardValueTask" targetRef="EvaluationUpdateContractTermsTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1kiz1cs" sourceRef="EvaluationCheckAwardValueTask" targetRef="RegulationUpdateContractTermsTask" />
     <bpmn:serviceTask id="ContractingUpdateContractTask" name="Contracting Update Contract" camunda:asyncBefore="true" camunda:delegateExpression="${contractingUpdateContract}">
       <bpmn:incoming>SequenceFlow_1gek9tl</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0nhwjuo</bpmn:outgoing>
@@ -122,7 +122,7 @@
           <dc:Bounds x="821" y="164" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_08tlqtv_di" bpmnElement="EvaluationUpdateContractTermsTask">
+      <bpmndi:BPMNShape id="ServiceTask_08tlqtv_di" bpmnElement="RegulationUpdateContractTermsTask">
         <dc:Bounds x="1022" y="145" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_18zhhk1_di" bpmnElement="SequenceFlow_18zhhk1">
@@ -170,7 +170,7 @@
         <di:waypoint x="714" y="185" />
         <di:waypoint x="750" y="185" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_0wzh7vs_di" bpmnElement="BudgetCheckFinanceSourceTask">
+      <bpmndi:BPMNShape id="ServiceTask_0wzh7vs_di" bpmnElement="BudgetCheckBudgetSourcesTask">
         <dc:Bounds x="750" y="145" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0xf9tf3_di" bpmnElement="SequenceFlow_0xf9tf3">
