@@ -105,6 +105,8 @@ public interface ProcessService {
 
     JsonNode getDocumentsOfBid(JsonNode jsonData, String processId);
 
+    JsonNode getDocumentsOfContract(JsonNode jsonData, String processId);
+
     JsonNode setDocumentsOfBids(JsonNode jsonData, JsonNode documentsData, String processId);
 
     JsonNode addStandstillPeriod(JsonNode jsonData, String startDate, String endDate, String processId);
@@ -126,6 +128,8 @@ public interface ProcessService {
     JsonNode getTenderData(Boolean itemsAdd, JsonNode jsonData, String processId);
 
     JsonNode setTenderData(Boolean itemsAdd, JsonNode jsonData, JsonNode responseData, String processId);
+
+    JsonNode getPlanning(JsonNode jsonData, String processId);
 
     JsonNode getCheckItems(JsonNode jsonData, String processId);
 
@@ -160,5 +164,7 @@ public interface ProcessService {
     JsonNode setAuctionEndData(JsonNode jsonData, JsonNode responseData, String processId);
 
     JsonNode addContractTerms(JsonNode jsonData, JsonNode responseData, String processId);
+
+    JsonNode addActualBudgetSource(JsonNode jsonData, JsonNode responseData, String processId);
 }
 

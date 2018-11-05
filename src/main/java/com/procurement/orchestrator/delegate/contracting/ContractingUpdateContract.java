@@ -17,12 +17,12 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.ContractingCommandType.CREATE_AC;
+import static com.procurement.orchestrator.domain.commands.ContractingCommandType.UPDATE_AC;
 
 @Component
-public class ContractingCreateContract implements JavaDelegate {
+public class ContractingUpdateContract implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ContractingCreateContract.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ContractingUpdateContract.class);
 
     private final ContractingRestClient contractingRestClient;
     private final NotificationService notificationService;
@@ -30,7 +30,7 @@ public class ContractingCreateContract implements JavaDelegate {
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public ContractingCreateContract(final ContractingRestClient contractingRestClient,
+    public ContractingUpdateContract(final ContractingRestClient contractingRestClient,
                                      final NotificationService notificationService,
                                      final OperationService operationService,
                                      final ProcessService processService,
@@ -51,8 +51,8 @@ public class ContractingCreateContract implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         context.setStage(Stage.AC.value());
-        context.setPhase("contracting");
-        final JsonNode commandMessage = processService.getCommandMessage(CREATE_AC, context, jsonData);
+        context.setPhase("contractCreation");
+        final JsonNode commandMessage = processService.getCommandMessage(UPDATE_AC, context, jsonData);
         JsonNode responseData = processService.processResponse(
                 contractingRestClient.execute(commandMessage),
                 context,

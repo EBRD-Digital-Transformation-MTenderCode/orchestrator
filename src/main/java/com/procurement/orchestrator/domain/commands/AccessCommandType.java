@@ -38,7 +38,8 @@ public enum AccessCommandType {
     CHECK_LOTS_STATUS("checkLotsStatus"),
     CHECK_BID("checkBid"),
     CHECK_ITEMS("checkItems"),
-    CHECK_TOKEN("checkToken");
+    CHECK_TOKEN("checkToken"),
+    CHECK_BUDGET_SOURCES("checkBudgetSources");
 
     private static final Map<String, AccessCommandType> CONSTANTS = new HashMap<>();
     private final String value;

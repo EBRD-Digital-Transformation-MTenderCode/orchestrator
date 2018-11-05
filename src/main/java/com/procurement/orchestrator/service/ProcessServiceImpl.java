@@ -656,6 +656,49 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
+    @Override
+    public JsonNode getDocumentsOfContract(JsonNode jsonData, String processId) {
+        try {
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            final ArrayNode documentsArray = mainNode.putArray("documents");
+            final ArrayNode docsOfContractNode = (ArrayNode) jsonData.get("contracts").get("documents");
+            if (docsOfContractNode != null && docsOfContractNode.size() > 0) {
+                documentsArray.addAll(docsOfContractNode);
+            }
+            final ArrayNode docsOfAwardNode = (ArrayNode) jsonData.get("awards").get("documents");
+            if (docsOfAwardNode != null && docsOfAwardNode.size() > 0) {
+                documentsArray.addAll(docsOfAwardNode);
+            }
+            final ArrayNode suppliersNode = (ArrayNode) jsonData.get("awards").get("suppliers");
+            for (final JsonNode supplierNode : suppliersNode) {
+                final ArrayNode personesNode = (ArrayNode) supplierNode.get("persones");
+                for (final JsonNode personNode : personesNode) {
+                    final ArrayNode bfsNode = (ArrayNode) personNode.get("businessFunctions");
+                    for (final JsonNode bfNode : bfsNode) {
+                        final ArrayNode documentsOfBfNode = (ArrayNode) bfNode.get("documents");
+                        if (documentsOfBfNode != null && documentsOfBfNode.size() > 0) {
+                            documentsArray.addAll(documentsOfBfNode);
+                        }
+                    }
+                }
+            }
+            final ArrayNode personesNode = (ArrayNode) jsonData.get("buyer").get("persones");
+            for (final JsonNode personNode : personesNode) {
+                final ArrayNode bfsNode = (ArrayNode) personNode.get("businessFunctions");
+                for (final JsonNode bfNode : bfsNode) {
+                    final ArrayNode documentsOfBfNode = (ArrayNode) bfNode.get("documents");
+                    if (documentsOfBfNode != null && documentsOfBfNode.size() > 0) {
+                        documentsArray.addAll(documentsOfBfNode);
+                    }
+                }
+            }
+            return mainNode;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
     public JsonNode setDocumentsOfBids(final JsonNode jsonData, final JsonNode documentsData,
                                        final String processId) {
         try {
@@ -811,6 +854,17 @@ public class ProcessServiceImpl implements ProcessService {
             tenderNode.replace("eligibilityCriteria", tenderResponseNode.get("eligibilityCriteria"));
             tenderNode.replace("procuringEntity", tenderResponseNode.get("procuringEntity"));
             return jsonData;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    public JsonNode getPlanning(final JsonNode jsonData, final String processId) {
+        try {
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            mainNode.replace("planning", jsonData.get("planning"));
+            return mainNode;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
             return null;
@@ -1043,10 +1097,21 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    @Override
-    public JsonNode addContractTerms(JsonNode jsonData, JsonNode responseData, String processId) {
+    public JsonNode addContractTerms(final JsonNode jsonData, final JsonNode responseData, final String processId) {
         try {
             ((ObjectNode) jsonData).replace("contractTerms", responseData.get("contractTerms"));
+            return jsonData;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    public JsonNode addActualBudgetSource(final JsonNode jsonData, final JsonNode responseData, final String processId) {
+        try {
+            final ObjectNode mainNode = (ObjectNode) jsonData;
+            mainNode.replace("language", responseData.get("language"));
+            mainNode.replace("actualBudgetSource", responseData.get("actualBudgetSource"));
             return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());

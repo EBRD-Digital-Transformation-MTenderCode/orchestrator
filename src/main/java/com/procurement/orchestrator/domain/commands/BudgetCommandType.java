@@ -14,7 +14,8 @@ public enum BudgetCommandType {
     UPDATE_EI("updateEi"),
     CREATE_FS("createFs"),
     UPDATE_FS("updateFs"),
-    CHECK_FS("checkFs");
+    CHECK_FS("checkFs"),
+    CHECK_BS("checkBudgetSources");
 
     private static final Map<String, BudgetCommandType> CONSTANTS = new HashMap<>();
     private final String value;

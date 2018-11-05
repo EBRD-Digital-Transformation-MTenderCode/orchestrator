@@ -44,12 +44,12 @@
       "startDate": "",
       "endDate": ""
     },
-    "documents": [
+    "-documents": [
       {
         "documentType": "",
         "id": "",
-        "title": "",
-        "description": "",
+        "-title": "",
+        "-description": "",
         "relatedLots": [
           ""
         ]
@@ -59,12 +59,16 @@
       {
         "id": "approval-re1atedparties.id",
         "type": "approval",
-        "relatedItems": [],
+        "-relatedItems": [
+          ""
+        ],
         "additionalInformation": "",
-        "dueDate": ""
+        "dueDate": "",
+        "title": "",
+        "description": ""
       }
     ],
-    "confirmationRequests": [
+    "-confirmationRequests": [
       {
         "id": "cs-tenderer-confirmation-on-document.id",
         "relatedItem": "document.id",
@@ -81,7 +85,7 @@
             "id": "cc-general-1-1",
             "notes": "Maximum days to inform on invoking Force Majeure",
             "measure": 5,
-            "unit": {
+            "-unit": {
               "name": "day",
               "id": "359",
               "scheme": "MD-CUMC"
@@ -124,8 +128,8 @@
                   {
                     "id": "",
                     "documentType": "regulatoryDocument",
-                    "title": "",
-                    "description": ""
+                    "-title": "",
+                    "-description": ""
                   }
                 ]
               }
@@ -160,8 +164,7 @@
             {
               "description": "",
               "bankName": "",
-              "address": {
-              },
+              "address": {},
               "identifier": {
                 "scheme": "UA-MFO",
                 "id": "300711"
@@ -191,8 +194,8 @@
       {
         "documentType": "",
         "id": "",
-        "title": "",
-        "description": "",
+        "-title": "",
+        "-description": "",
         "relatedLots": [
           ""
         ]
@@ -202,7 +205,7 @@
       "amount": "",
       "currency": "",
       "amountNet": "",
-      "valueAddedTaxincluded": true
+      "valueAddedTaxIncluded": true
     },
     "items": [
       {
@@ -266,8 +269,8 @@
               {
                 "id": "",
                 "documentType": "regulatoryDocument",
-                "title": "",
-                "description": ""
+                "-title": "",
+                "-description": ""
               }
             ]
           }
@@ -291,7 +294,7 @@
         },
         "gpaThresholds": [
           {
-            "mainProcurementCatogory": "",
+            "mainProcurementCategory": "",
             "value": {
               "amount": "",
               "currency": ""
@@ -303,8 +306,7 @@
         {
           "description": "",
           "bankName": "",
-          "address": {
-          },
+          "address": {},
           "identifier": {
             "scheme": "MD-BANKS",
             "id": "300711"

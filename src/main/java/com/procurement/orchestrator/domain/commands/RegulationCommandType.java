@@ -10,7 +10,8 @@ import java.util.Map;
 
 public enum RegulationCommandType {
 
-    GET_TERMS("getTerms");
+    GET_TERMS("getTerms"),
+    UPDATE_TERMS("updateTerms");
 
     private static final Map<String, RegulationCommandType> CONSTANTS = new HashMap<>();
     private final String value;

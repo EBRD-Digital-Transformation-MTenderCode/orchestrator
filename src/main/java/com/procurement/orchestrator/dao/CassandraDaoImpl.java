@@ -90,7 +90,6 @@ public class CassandraDaoImpl implements CassandraDao {
                                 row.getString(OPERATION_ID),
                                 row.getString(JSON_DATA),
                                 row.getString(CONTEXT)
-//                                row.getLong("writetime(operation_id)")
                         )
                 );
     }

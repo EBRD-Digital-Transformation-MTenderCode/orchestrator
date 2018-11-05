@@ -1,9 +1,9 @@
-package com.procurement.orchestrator.delegate.access;
+package com.procurement.orchestrator.delegate.evaluation;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
-import com.procurement.orchestrator.rest.AccessRestClient;
+import com.procurement.orchestrator.rest.EvaluationRestClient;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -13,23 +13,25 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import static com.procurement.orchestrator.domain.commands.AccessCommandType.CHECK_LOTS_STATUS_DETAILS;
+import java.util.Objects;
+
+import static com.procurement.orchestrator.domain.commands.EvaluationCommandType.CHECK_AWARD_VALUE;
 
 @Component
-public class AccessCheckLotsStatusDetails implements JavaDelegate {
+public class EvaluationCheckAwardValue implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AccessCheckLotsStatusDetails.class);
+    private static final Logger LOG = LoggerFactory.getLogger(EvaluationCheckAwardValue.class);
 
-    private final AccessRestClient accessRestClient;
+    private final EvaluationRestClient evaluationRestClient;
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public AccessCheckLotsStatusDetails(final AccessRestClient accessRestClient,
-                                        final OperationService operationService,
-                                        final ProcessService processService,
-                                        final JsonUtil jsonUtil) {
-        this.accessRestClient = accessRestClient;
+    public EvaluationCheckAwardValue(final EvaluationRestClient evaluationRestClient,
+                                     final OperationService operationService,
+                                     final ProcessService processService,
+                                     final JsonUtil jsonUtil) {
+        this.evaluationRestClient = evaluationRestClient;
         this.operationService = operationService;
         this.processService = processService;
         this.jsonUtil = jsonUtil;
@@ -40,22 +42,22 @@ public class AccessCheckLotsStatusDetails implements JavaDelegate {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
-        final String processId = execution.getProcessInstanceId();
+        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(CHECK_LOTS_STATUS_DETAILS, context, jsonUtil.empty());
-        JsonNode responseData = processService.processResponse(
-                accessRestClient.execute(commandMessage),
+        final String processId = execution.getProcessInstanceId();
+        final JsonNode commandMessage = processService.getCommandMessage(CHECK_AWARD_VALUE, context, jsonData);
+        final JsonNode responseData = processService.processResponse(
+                evaluationRestClient.execute(commandMessage),
                 context,
                 processId,
                 taskId,
                 commandMessage);
-        if (responseData != null) {
+        if (Objects.nonNull(responseData)) {
             operationService.saveOperationStep(
                     execution,
                     entity,
                     commandMessage,
-                    processService.addItems(responseData, processId));
+                    processService.addAwards(jsonData, responseData, processId));
         }
     }
 }
-

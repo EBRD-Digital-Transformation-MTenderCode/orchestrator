@@ -22,6 +22,4 @@ public class RequestEntity {
     private String jsonData;
 
     private String context;
-
-//    private Long writeTime;
 }

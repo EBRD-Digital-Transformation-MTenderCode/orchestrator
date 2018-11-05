@@ -13,8 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.util.Objects;
-
 import static com.procurement.orchestrator.domain.commands.AccessCommandType.CHECK_ITEMS;
 
 @Component
@@ -48,23 +46,22 @@ public class AccessCheckItems implements JavaDelegate {
         execution.setVariable("mdmValidation", true);
         execution.setVariable("itemsAdd", false);
         final JsonNode rqData = processService.getCheckItems(prevData, processId);
-        final JsonNode commandMessage = processService.getCommandMessage(CHECK_ITEMS, context, rqData);
-        JsonNode responseData = null;
-        if (Objects.nonNull(rqData)) {
-            responseData = processService.processResponse(
+        if (rqData != null) {
+            final JsonNode commandMessage = processService.getCommandMessage(CHECK_ITEMS, context, rqData);
+            final JsonNode responseData = processService.processResponse(
                     accessRestClient.execute(commandMessage),
                     context,
                     processId,
                     taskId,
                     commandMessage);
-        }
-        if (Objects.nonNull(responseData)) {
-            processResponse(execution, responseData, processId);
-            operationService.saveOperationStep(
-                    execution,
-                    entity,
-                    commandMessage,
-                    processService.setCheckItems(prevData, responseData, processId));
+            if (responseData != null) {
+                processResponse(execution, responseData, processId);
+                operationService.saveOperationStep(
+                        execution,
+                        entity,
+                        commandMessage,
+                        processService.setCheckItems(prevData, responseData, processId));
+            }
         }
     }
 

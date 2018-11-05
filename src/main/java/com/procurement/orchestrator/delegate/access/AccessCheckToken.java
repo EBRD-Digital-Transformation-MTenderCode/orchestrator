@@ -13,8 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.util.Objects;
-
 import static com.procurement.orchestrator.domain.commands.AccessCommandType.CHECK_TOKEN;
 
 @Component
@@ -51,7 +49,7 @@ public class AccessCheckToken implements JavaDelegate {
                 processId,
                 taskId,
                 commandMessage);
-        if (Objects.nonNull(responseData)) {
+        if (responseData != null) {
             operationService.saveOperationStep(execution, entity, commandMessage);
         }
     }

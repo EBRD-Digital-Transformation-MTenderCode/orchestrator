@@ -1,9 +1,9 @@
-package com.procurement.orchestrator.delegate.access;
+package com.procurement.orchestrator.delegate.mdm;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
-import com.procurement.orchestrator.rest.AccessRestClient;
+import com.procurement.orchestrator.rest.MdmRestClient;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -13,23 +13,28 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import static com.procurement.orchestrator.domain.commands.AccessCommandType.CHECK_LOTS_STATUS;
+import java.util.Objects;
+
+import static com.procurement.orchestrator.domain.commands.MdmCommandType.PROCESS_BID_DATA;
 
 @Component
-public class AccessCheckLotsStatus implements JavaDelegate {
+public class MdmGetInfoForContract implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AccessCheckLotsStatus.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MdmGetInfoForContract.class);
 
-    private final AccessRestClient accessRestClient;
+    private final MdmRestClient mdmRestClient;
+
     private final OperationService operationService;
+
     private final ProcessService processService;
+
     private final JsonUtil jsonUtil;
 
-    public AccessCheckLotsStatus(final AccessRestClient accessRestClient,
+    public MdmGetInfoForContract(final MdmRestClient mdmRestClient,
                                  final OperationService operationService,
                                  final ProcessService processService,
                                  final JsonUtil jsonUtil) {
-        this.accessRestClient = accessRestClient;
+        this.mdmRestClient = mdmRestClient;
         this.operationService = operationService;
         this.processService = processService;
         this.jsonUtil = jsonUtil;
@@ -39,23 +44,26 @@ public class AccessCheckLotsStatus implements JavaDelegate {
     public void execute(final DelegateExecution execution) throws Exception {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
+        final JsonNode prevData = jsonUtil.toJsonNode(entity.getResponseData());
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
-        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode relatedLot = processService.getEnquiryRelatedLot(jsonData, processId);
-        final JsonNode commandMessage = processService.getCommandMessage(CHECK_LOTS_STATUS, context, relatedLot);
-        if (relatedLot != null) {
-            final JsonNode responseData = processService.processResponse(
-                    accessRestClient.execute(commandMessage),
+        final JsonNode rqData = processService.getBidTenderersData(prevData, processId);
+        final JsonNode commandMessage = processService.getCommandMessage(PROCESS_BID_DATA, context, rqData);
+        if (rqData != null) {
+            JsonNode responseData = processService.processResponse(
+                    mdmRestClient.execute(commandMessage),
                     context,
                     processId,
                     taskId,
                     commandMessage);
-            if (responseData != null) {
-                operationService.saveOperationStep(execution, entity, commandMessage);
+            if (Objects.nonNull(responseData)) {
+                operationService.saveOperationStep(
+                        execution,
+                        entity,
+                        commandMessage,
+                        processService.setBidTenderersData(prevData, responseData, processId));
             }
         }
     }
 }
-
