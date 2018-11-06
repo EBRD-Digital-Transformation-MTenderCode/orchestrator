@@ -1,224 +1,54 @@
 {
-  "tenderStatus": "unsuccessful",
-  "tenderStatusDetails": "empty",
-  "lots": [
-    {
-      "id": "3a2ec6d3-e1e3-11e8-9bdc-0f420d06db77",
-      "title": "lot1",
-      "description": "looot",
-      "status": "unsuccessful",
-      "statusDetails": "empty",
-      "value": {
-        "amount": 500.00,
-        "currency": "MDL"
+  "id": "3b02fe60-e1f1-11e8-a4b6-bde2b130f95f",
+  "command": "checkItems",
+  "context": {
+    "operationId": "1029671a-63be-4050-b5a4-512a2a9be206",
+    "requestId": "3b02fe60-e1f1-11e8-a4b6-bde2b130f95f",
+    "stage": "EV",
+    "processType": "createCN",
+    "operationType": "createCN",
+    "phase": "clarification",
+    "owner": "445f6851-c908-407d-9b45-14b92f3e964b",
+    "country": "MD",
+    "language": "ro",
+    "pmd": "TEST_OT",
+    "startDate": "2018-11-06T18:24:42Z",
+    "timeStamp": 1541528682822,
+    "isAuction": false
+  },
+  "data": {
+    "items": [
+      {
+        "id": "13d6ba60-ddec-11e8-8b7f-85047fcb2c0a",
+        "classification": {
+          "scheme": "CPV",
+          "description": "4",
+          "id": "03100000-2"
+        },
+        "quantity": 100,
+        "unit": {
+          "id": "120",
+          "name": "tratata za sebe"
+        },
+        "description": "p",
+        "relatedLot": "lot2"
       },
-      "options": [
-        {
-          "hasOptions": false
-        }
-      ],
-      "recurrentProcurement": [
-        {
-          "isRecurrent": false
-        }
-      ],
-      "renewals": [
-        {
-          "hasRenewals": false
-        }
-      ],
-      "variants": [
-        {
-          "hasVariants": false
-        }
-      ],
-      "contractPeriod": {
-        "startDate": "2019-12-25T15:45:00Z",
-        "endDate": "2020-12-25T15:45:00Z"
-      },
-      "placeOfPerformance": {
-        "address": {
-          "streetAddress": "6666",
-          "postalCode": "666",
-          "addressDetails": {
-            "country": {
-              "scheme": "iso-alpha2",
-              "id": "MD",
-              "description": "MOLDOVA",
-              "uri": "http://reference.iatistandard.org"
-            },
-            "region": {
-              "scheme": "CUATM",
-              "id": "1000000",
-              "description": "Anenii Noi",
-              "uri": "http://statistica.md"
-            },
-            "locality": {
-              "scheme": "666",
-              "id": "666",
-              "description": "666"
-            }
-          }
-        }
+      {
+        "id": "13d6ba60-ddec-11e8-8b7f-85047fcb2c0a",
+        "classification": {
+          "scheme": "CPV",
+          "description": "4",
+          "id": "03100000-2"
+        },
+        "quantity": 100,
+        "unit": {
+          "id": "120",
+          "name": "tratata za sebe"
+        },
+        "description": "p",
+        "relatedLot": "lot2"
       }
-    },
-    {
-      "id": "3a2ec6d4-e1e3-11e8-9bdc-0f420d06db77",
-      "title": "lot3",
-      "description": "looot",
-      "status": "unsuccessful",
-      "statusDetails": "empty",
-      "value": {
-        "amount": 500.00,
-        "currency": "MDL"
-      },
-      "options": [
-        {
-          "hasOptions": false
-        }
-      ],
-      "recurrentProcurement": [
-        {
-          "isRecurrent": false
-        }
-      ],
-      "renewals": [
-        {
-          "hasRenewals": false
-        }
-      ],
-      "variants": [
-        {
-          "hasVariants": false
-        }
-      ],
-      "contractPeriod": {
-        "startDate": "2019-12-25T14:45:00Z",
-        "endDate": "2020-12-25T14:50:00Z"
-      },
-      "placeOfPerformance": {
-        "address": {
-          "streetAddress": "6666",
-          "postalCode": "666",
-          "addressDetails": {
-            "country": {
-              "scheme": "iso-alpha2",
-              "id": "MD",
-              "description": "MOLDOVA",
-              "uri": "http://reference.iatistandard.org"
-            },
-            "region": {
-              "scheme": "CUATM",
-              "id": "1000000",
-              "description": "Anenii Noi",
-              "uri": "http://statistica.md"
-            },
-            "locality": {
-              "scheme": "666",
-              "id": "666",
-              "description": "666"
-            }
-          }
-        }
-      }
-    },
-    {
-      "id": "3a2ec6d5-e1e3-11e8-9bdc-0f420d06db77",
-      "title": "lot2",
-      "description": "looot",
-      "status": "unsuccessful",
-      "statusDetails": "empty",
-      "value": {
-        "amount": 500.00,
-        "currency": "MDL"
-      },
-      "options": [
-        {
-          "hasOptions": false
-        }
-      ],
-      "recurrentProcurement": [
-        {
-          "isRecurrent": false
-        }
-      ],
-      "renewals": [
-        {
-          "hasRenewals": false
-        }
-      ],
-      "variants": [
-        {
-          "hasVariants": false
-        }
-      ],
-      "contractPeriod": {
-        "startDate": "2019-12-25T14:45:00Z",
-        "endDate": "2020-12-25T14:50:00Z"
-      },
-      "placeOfPerformance": {
-        "address": {
-          "streetAddress": "6666",
-          "postalCode": "666",
-          "addressDetails": {
-            "country": {
-              "scheme": "iso-alpha2",
-              "id": "MD",
-              "description": "MOLDOVA",
-              "uri": "http://reference.iatistandard.org"
-            },
-            "region": {
-              "scheme": "CUATM",
-              "id": "1000000",
-              "description": "Anenii Noi",
-              "uri": "http://statistica.md"
-            },
-            "locality": {
-              "scheme": "666",
-              "id": "666",
-              "description": "666"
-            }
-          }
-        }
-      }
-    }
-  ],
-  "awards": [
-    {
-      "token": "12983f67-78c3-4033-8344-70d12a7f2f6c",
-      "id": "b8c8bff0-e1e3-11e8-b523-bf6a4a5a4ff3",
-      "date": "2018-11-06T16:48:00Z",
-      "description": "Other reasons (discontinuation of procedure)",
-      "title": "The contract/lot is not awarded",
-      "status": "unsuccessful",
-      "statusDetails": "empty",
-      "relatedLots": [
-        "3a2ec6d3-e1e3-11e8-9bdc-0f420d06db77"
-      ]
-    },
-    {
-      "token": "02b2e21e-6cdb-48dd-b14b-82df3bb7b2e6",
-      "id": "b8c8bff1-e1e3-11e8-b523-bf6a4a5a4ff3",
-      "date": "2018-11-06T16:48:00Z",
-      "description": "Other reasons (discontinuation of procedure)",
-      "title": "The contract/lot is not awarded",
-      "status": "unsuccessful",
-      "statusDetails": "empty",
-      "relatedLots": [
-        "3a2ec6d4-e1e3-11e8-9bdc-0f420d06db77"
-      ]
-    },
-    {
-      "token": "f389dbe1-29c3-4dcd-ad44-ae53eeba5897",
-      "id": "b8c8bff2-e1e3-11e8-b523-bf6a4a5a4ff3",
-      "date": "2018-11-06T16:48:00Z",
-      "description": "Other reasons (discontinuation of procedure)",
-      "title": "The contract/lot is not awarded",
-      "status": "unsuccessful",
-      "statusDetails": "empty",
-      "relatedLots": [
-        "3a2ec6d5-e1e3-11e8-9bdc-0f420d06db77"
-      ]
-    }
-  ]
+    ]
+  },
+  "version": "0.0.1"
 }
