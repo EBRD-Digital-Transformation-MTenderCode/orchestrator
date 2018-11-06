@@ -45,7 +45,7 @@
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="SequenceFlow_0k4rglg" sourceRef="EvaluationAwardByBidTask" targetRef="ExclusiveGateway_0j3ce5y" />
     <bpmn:sequenceFlow id="SequenceFlow_0g28tz5" sourceRef="ExclusiveGateway_0j3ce5y" targetRef="AccessSetLotsSDAwardedTask">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${updateLot==true&amp;&amp;budAwarded==true}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${updateLot==true&amp;&amp;bidAwarded==true}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:serviceTask id="SaveContextTask" name="Save Context" camunda:delegateExpression="${saveContext}">
       <bpmn:incoming>SequenceFlow_1m9bkjs</bpmn:incoming>
@@ -59,7 +59,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_1mzu2bf" sourceRef="SaveFirstOperationTask" targetRef="StorageValidateDocsOfAward" />
     <bpmn:sequenceFlow id="SequenceFlow_1takhmo" sourceRef="AccessSetLotsSDAwardedTask" targetRef="ExclusiveGateway_0jrrnwx" />
     <bpmn:sequenceFlow id="SequenceFlow_1nqdiay" sourceRef="ExclusiveGateway_0j3ce5y" targetRef="ExclusiveGateway_0jrrnwx">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${updateLot==false&amp;&amp;budAwarded==true}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${updateLot==false&amp;&amp;bidAwarded==true}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:exclusiveGateway id="ExclusiveGateway_0jrrnwx">
       <bpmn:incoming>SequenceFlow_1takhmo</bpmn:incoming>
@@ -73,7 +73,7 @@
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_0005ood" sourceRef="StorageValidateDocsOfAward" targetRef="EvaluationAwardByBidTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0ib7mel" sourceRef="ExclusiveGateway_0j3ce5y" targetRef="StorageOpenDocsOfAwardTask">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${budAwarded==false}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${bidAwarded==false}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
   </bpmn:process>
   <bpmn:error id="tr_exception" name="TR_EXCEPTION" errorCode="TR_EXCEPTION" />
