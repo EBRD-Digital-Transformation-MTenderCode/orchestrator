@@ -170,5 +170,9 @@ public interface ProcessService {
     JsonNode getAwardsValue(JsonNode jsonData, String processId);
 
     JsonNode getDataForGetTerms(JsonNode jsonData, String processId);
+
+    JsonNode getAgreedMetrics(JsonNode jsonData, String processId);
+
+    JsonNode setAgreedMetrics(JsonNode jsonData, JsonNode responseData, String processId);
 }
 
