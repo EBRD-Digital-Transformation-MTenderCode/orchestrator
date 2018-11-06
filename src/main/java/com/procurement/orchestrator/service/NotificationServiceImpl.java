@@ -126,14 +126,10 @@ public class NotificationServiceImpl implements NotificationService {
 
     public Context addCanOutcomeToContext(final Context context, final JsonNode responseData, final String processId) {
         Set<Outcome> outcomes;
-        if (context.getOutcomes() != null) {
-            outcomes = context.getOutcomes();
-        } else {
-            outcomes = new HashSet<>();
-        }
+        outcomes = new HashSet<>();
         final ArrayNode cansNode = (ArrayNode) responseData.get("cans");
         for (final JsonNode canNode : cansNode) {
-            final Outcome outcome = new Outcome(canNode.get("contract").get("id").asText(), null, "cans");
+            final Outcome outcome = new Outcome(canNode.get("contract").get("id").asText(), null, "contracts");
             outcomes.add(outcome);
         }
         context.setOutcomes(outcomes);
@@ -142,14 +138,10 @@ public class NotificationServiceImpl implements NotificationService {
 
     public Context addContractOutcomeToContext(final Context context, final JsonNode responseData, final String processId) {
         Set<Outcome> outcomes;
-        if (context.getOutcomes() != null) {
-            outcomes = context.getOutcomes();
-        } else {
-            outcomes = new HashSet<>();
-        }
+        outcomes = new HashSet<>();
         final ArrayNode contractsNode = (ArrayNode) responseData.get("contracts");
         for (final JsonNode contractNode : contractsNode) {
-            outcomes.add(new Outcome(contractNode.get("id").asText(), contractNode.get("token").asText(), "contracts"));
+            outcomes.add(new Outcome(contractNode.get("id").asText(), contractNode.get("token").asText(), "ac"));
         }
         context.setOutcomes(outcomes);
         return context;
@@ -348,6 +340,7 @@ public class NotificationServiceImpl implements NotificationService {
                 data.setOcid(context.getOcid());
                 data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
                 data.setOutcomes(buildOutcomesFromContext(Collections.singletonList("contracts"), context));
+                data.setOutcomes(buildOutcomesFromContext(Collections.singletonList("ac"), context));
                 break;
             }
             case CANCEL_STANDSTILL: {
