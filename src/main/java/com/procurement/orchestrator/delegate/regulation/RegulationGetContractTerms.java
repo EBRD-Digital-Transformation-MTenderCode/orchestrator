@@ -13,8 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.util.Objects;
-
 import static com.procurement.orchestrator.domain.commands.RegulationCommandType.GET_TERMS;
 
 @Component
@@ -45,20 +43,23 @@ public class RegulationGetContractTerms implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(GET_TERMS, context, jsonData);
-        JsonNode responseData = processService.processResponse(
-                regulationRestClient.execute(commandMessage),
-                context,
-                processId,
-                taskId,
-                commandMessage);
-        if (Objects.nonNull(responseData)) {
-            operationService.saveOperationStep(
-                    execution,
-                    entity,
+        final JsonNode rqData = processService.getDataForGetTerms(jsonData, processId);
+        if (rqData != null) {
+            final JsonNode commandMessage = processService.getCommandMessage(GET_TERMS, context, jsonData);
+            JsonNode responseData = processService.processResponse(
+                    regulationRestClient.execute(commandMessage),
                     context,
-                    commandMessage,
-                    processService.addContractTerms(jsonData, responseData, processId));
+                    processId,
+                    taskId,
+                    commandMessage);
+            if (responseData != null) {
+                operationService.saveOperationStep(
+                        execution,
+                        entity,
+                        context,
+                        commandMessage,
+                        processService.addContractTerms(jsonData, responseData, processId));
+            }
         }
     }
 }

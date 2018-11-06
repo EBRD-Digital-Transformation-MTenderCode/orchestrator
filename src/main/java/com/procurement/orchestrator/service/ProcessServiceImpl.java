@@ -1130,4 +1130,17 @@ public class ProcessServiceImpl implements ProcessService {
             return null;
         }
     }
+
+    public JsonNode getDataForGetTerms(final JsonNode jsonData, final String processId) {
+        try {
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            final ObjectNode awardsNode = mainNode.putObject("awards");
+            awardsNode.replace("awards", jsonData.get("awards"));
+            awardsNode.replace("contracts", jsonData.get("contracts"));
+            return mainNode;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
 }
