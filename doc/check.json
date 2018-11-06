@@ -3,7 +3,7 @@
   "tenderStatusDetails": "empty",
   "lots": [
     {
-      "id": "15d6e122-d84f-11e8-8191-413e90804d99",
+      "id": "3a2ec6d3-e1e3-11e8-9bdc-0f420d06db77",
       "title": "lot1",
       "description": "looot",
       "status": "unsuccessful",
@@ -33,8 +33,8 @@
         }
       ],
       "contractPeriod": {
-        "startDate": "2019-12-25T14:45:00Z",
-        "endDate": "2019-12-30T14:45:00Z"
+        "startDate": "2019-12-25T15:45:00Z",
+        "endDate": "2020-12-25T15:45:00Z"
       },
       "placeOfPerformance": {
         "address": {
@@ -63,7 +63,67 @@
       }
     },
     {
-      "id": "15d6e123-d84f-11e8-8191-413e90804d99",
+      "id": "3a2ec6d4-e1e3-11e8-9bdc-0f420d06db77",
+      "title": "lot3",
+      "description": "looot",
+      "status": "unsuccessful",
+      "statusDetails": "empty",
+      "value": {
+        "amount": 500.00,
+        "currency": "MDL"
+      },
+      "options": [
+        {
+          "hasOptions": false
+        }
+      ],
+      "recurrentProcurement": [
+        {
+          "isRecurrent": false
+        }
+      ],
+      "renewals": [
+        {
+          "hasRenewals": false
+        }
+      ],
+      "variants": [
+        {
+          "hasVariants": false
+        }
+      ],
+      "contractPeriod": {
+        "startDate": "2019-12-25T14:45:00Z",
+        "endDate": "2020-12-25T14:50:00Z"
+      },
+      "placeOfPerformance": {
+        "address": {
+          "streetAddress": "6666",
+          "postalCode": "666",
+          "addressDetails": {
+            "country": {
+              "scheme": "iso-alpha2",
+              "id": "MD",
+              "description": "MOLDOVA",
+              "uri": "http://reference.iatistandard.org"
+            },
+            "region": {
+              "scheme": "CUATM",
+              "id": "1000000",
+              "description": "Anenii Noi",
+              "uri": "http://statistica.md"
+            },
+            "locality": {
+              "scheme": "666",
+              "id": "666",
+              "description": "666"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "3a2ec6d5-e1e3-11e8-9bdc-0f420d06db77",
       "title": "lot2",
       "description": "looot",
       "status": "unsuccessful",
@@ -94,7 +154,7 @@
       ],
       "contractPeriod": {
         "startDate": "2019-12-25T14:45:00Z",
-        "endDate": "2019-12-30T14:45:00Z"
+        "endDate": "2020-12-25T14:50:00Z"
       },
       "placeOfPerformance": {
         "address": {
@@ -121,6 +181,44 @@
           }
         }
       }
+    }
+  ],
+  "awards": [
+    {
+      "token": "12983f67-78c3-4033-8344-70d12a7f2f6c",
+      "id": "b8c8bff0-e1e3-11e8-b523-bf6a4a5a4ff3",
+      "date": "2018-11-06T16:48:00Z",
+      "description": "Other reasons (discontinuation of procedure)",
+      "title": "The contract/lot is not awarded",
+      "status": "unsuccessful",
+      "statusDetails": "empty",
+      "relatedLots": [
+        "3a2ec6d3-e1e3-11e8-9bdc-0f420d06db77"
+      ]
+    },
+    {
+      "token": "02b2e21e-6cdb-48dd-b14b-82df3bb7b2e6",
+      "id": "b8c8bff1-e1e3-11e8-b523-bf6a4a5a4ff3",
+      "date": "2018-11-06T16:48:00Z",
+      "description": "Other reasons (discontinuation of procedure)",
+      "title": "The contract/lot is not awarded",
+      "status": "unsuccessful",
+      "statusDetails": "empty",
+      "relatedLots": [
+        "3a2ec6d4-e1e3-11e8-9bdc-0f420d06db77"
+      ]
+    },
+    {
+      "token": "f389dbe1-29c3-4dcd-ad44-ae53eeba5897",
+      "id": "b8c8bff2-e1e3-11e8-b523-bf6a4a5a4ff3",
+      "date": "2018-11-06T16:48:00Z",
+      "description": "Other reasons (discontinuation of procedure)",
+      "title": "The contract/lot is not awarded",
+      "status": "unsuccessful",
+      "statusDetails": "empty",
+      "relatedLots": [
+        "3a2ec6d5-e1e3-11e8-9bdc-0f420d06db77"
+      ]
     }
   ]
 }

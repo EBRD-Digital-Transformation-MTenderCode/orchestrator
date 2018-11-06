@@ -183,7 +183,11 @@ public class NotificationServiceImpl implements NotificationService {
                 break;
             }
             case UNSUCCESSFUL_TENDER: {
-                return null;
+                message.setInitiator(BPE);
+                data.setOcid(context.getOcid());
+                data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
+                data.setOutcomes(buildOutcomesFromContext(Collections.singletonList("awards"), context));
+                break;
             }
             case CREATE_EI: {
                 data.setOcid(context.getCpid());
