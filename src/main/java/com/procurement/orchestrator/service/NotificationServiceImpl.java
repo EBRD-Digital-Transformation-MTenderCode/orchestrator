@@ -330,6 +330,7 @@ public class NotificationServiceImpl implements NotificationService {
             case STANDSTILL_PERIOD_EV: {
                 data.setOcid(context.getOcid());
                 data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
+                data.setOutcomes(buildOutcomesFromContext(Collections.singletonList("contracts"), context));
                 break;
             }
             case AWARD_PERIOD_END: {
@@ -343,7 +344,6 @@ public class NotificationServiceImpl implements NotificationService {
                 message.setInitiator(BPE);
                 data.setOcid(context.getOcid());
                 data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
-                data.setOutcomes(buildOutcomesFromContext(Collections.singletonList("contracts"), context));
                 data.setOutcomes(buildOutcomesFromContext(Collections.singletonList("ac"), context));
                 break;
             }
