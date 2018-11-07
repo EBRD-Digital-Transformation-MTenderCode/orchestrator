@@ -50,8 +50,6 @@ public class ContractingUpdateContract implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        context.setStage(Stage.AC.value());
-        context.setPhase("contractCreation");
         final JsonNode commandMessage = processService.getCommandMessage(UPDATE_AC, context, jsonData);
         JsonNode responseData = processService.processResponse(
                 contractingRestClient.execute(commandMessage),
