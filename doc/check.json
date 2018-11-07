@@ -1,54 +1,334 @@
 {
-  "id": "3b02fe60-e1f1-11e8-a4b6-bde2b130f95f",
-  "command": "checkItems",
+  "id": "21b5a790-e2d3-11e8-b8a0-a14e4c3c0b3c",
+  "command": "createCnOnPn",
   "context": {
-    "operationId": "1029671a-63be-4050-b5a4-512a2a9be206",
-    "requestId": "3b02fe60-e1f1-11e8-a4b6-bde2b130f95f",
+    "operationId": "a1bcd000-b00d-4644-b0e6-4b75020b7283",
+    "requestId": "21b5a790-e2d3-11e8-b8a0-a14e4c3c0b3c",
+    "cpid": "ocds-t1s2t3-MD-1541625364068",
+    "ocid": "ocds-t1s2t3-MD-1541625364068-PN-1541625364122",
     "stage": "EV",
-    "processType": "createCN",
-    "operationType": "createCN",
+    "prevStage": "PN",
+    "processType": "updateCN",
+    "operationType": "createCNonPN",
     "phase": "clarification",
     "owner": "445f6851-c908-407d-9b45-14b92f3e964b",
     "country": "MD",
     "language": "ro",
-    "pmd": "TEST_OT",
-    "startDate": "2018-11-06T18:24:42Z",
-    "timeStamp": 1541528682822,
+    "pmd": "TEST_SV",
+    "token": "bb16cb38-8896-405b-90a0-752b579e4bc2",
+    "startDate": "2018-11-07T21:21:46Z",
+    "timeStamp": 1541625706633,
     "isAuction": false
   },
   "data": {
-    "items": [
-      {
-        "id": "13d6ba60-ddec-11e8-8b7f-85047fcb2c0a",
-        "classification": {
-          "scheme": "CPV",
-          "description": "4",
-          "id": "03100000-2"
-        },
-        "quantity": 100,
-        "unit": {
-          "id": "120",
-          "name": "tratata za sebe"
-        },
-        "description": "p",
-        "relatedLot": "lot2"
-      },
-      {
-        "id": "13d6ba60-ddec-11e8-8b7f-85047fcb2c0a",
-        "classification": {
-          "scheme": "CPV",
-          "description": "4",
-          "id": "03100000-2"
-        },
-        "quantity": 100,
-        "unit": {
-          "id": "120",
-          "name": "tratata za sebe"
-        },
-        "description": "p",
-        "relatedLot": "lot2"
+    "planning": {
+      "rationale": "rationalelele",
+      "budget": {
+        "description": "description",
+        "budgetBreakdown": [
+          {
+            "id": "ocds-t1s2t3-MD-1540980156453-FS-1540980168384",
+            "amount": {
+              "amount": 500,
+              "currency": "MDL"
+            }
+          },
+          {
+            "id": "ocds-t1s2t3-MD-1541588569839-FS-1541588739601",
+            "amount": {
+              "amount": 5002.00,
+              "currency": "MDL"
+            }
+          }
+        ]
       }
-    ]
+    },
+    "tender": {
+      "title": "TITLE",
+      "description": "dscrptn",
+      "legalBasis": "NATIONAL_PROCUREMENT_LAW",
+      "procurementMethodRationale": "bububu",
+      "procurementMethodAdditionalInfo": "addtinfo ",
+      "tenderPeriod": {
+        "endDate": "2018-11-07T21:35:00Z",
+        "startDate": "2018-11-07T21:25:00Z"
+      },
+      "enquiryPeriod": {
+        "endDate": "2018-11-07T21:25:00Z",
+        "startDate": "2018-11-07T21:21:46Z"
+      },
+      "procurementMethodModalities": [
+        "electronicAuction"
+      ],
+      "electronicAuctions": {
+        "details": [
+          {
+            "id": "tytytyty",
+            "relatedLot": "lot2",
+            "electronicAuctionModalities": [
+              {
+                "eligibleMinimumDifference": {
+                  "amount": 5.00,
+                  "currency": "MDL"
+                }
+              }
+            ]
+          },
+          {
+            "id": "tytytyty2",
+            "relatedLot": "lot4",
+            "electronicAuctionModalities": [
+              {
+                "eligibleMinimumDifference": {
+                  "amount": 15.00,
+                  "currency": "MDL"
+                }
+              }
+            ]
+          },
+          {
+            "id": "tytytyty1",
+            "relatedLot": "lot",
+            "electronicAuctionModalities": [
+              {
+                "eligibleMinimumDifference": {
+                  "amount": 10.00,
+                  "currency": "MDL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "procuringEntity": {
+        "name": "Name of CN pE",
+        "identifier": {
+          "scheme": "MD-IDNO",
+          "id": "555-555",
+          "legalName": "legal name of pe",
+          "uri": "uri-uri-uri"
+        },
+        "address": {
+          "streetAddress": "address of pe",
+          "addressDetails": {
+            "country": {
+              "id": "MD"
+            },
+            "region": {
+              "id": "0101000"
+            },
+            "locality": {
+              "scheme": "CUATM",
+              "id": "0101000",
+              "description": "DESCRIPTION"
+            }
+          }
+        },
+        "contactPoint": {
+          "name": "contact name",
+          "email": "email",
+          "telephone": "4521"
+        }
+      },
+      "lots": [
+        {
+          "id": "lot4",
+          "title": "lot2",
+          "description": "2",
+          "value": {
+            "amount": 200,
+            "currency": "MDL"
+          },
+          "contractPeriod": {
+            "startDate": "2018-12-31T00:01:01Z",
+            "endDate": "2019-01-01T00:00:00Z"
+          },
+          "placeOfPerformance": {
+            "address": {
+              "streetAddress": "Steet",
+              "postalCode": "5",
+              "addressDetails": {
+                "country": {
+                  "id": "MD"
+                },
+                "region": {
+                  "id": "0301000"
+                },
+                "locality": {
+                  "scheme": "CUATM",
+                  "id": "0301000",
+                  "description": ""
+                }
+              }
+            },
+            "description": "decr"
+          }
+        },
+        {
+          "id": "lot2",
+          "title": "lot2",
+          "description": "2",
+          "value": {
+            "amount": 200,
+            "currency": "MDL"
+          },
+          "contractPeriod": {
+            "startDate": "2018-12-09T00:01:01Z",
+            "endDate": "2019-03-01T00:00:00Z"
+          },
+          "placeOfPerformance": {
+            "address": {
+              "streetAddress": "Steet",
+              "postalCode": "5",
+              "addressDetails": {
+                "country": {
+                  "id": "MD"
+                },
+                "region": {
+                  "id": "0301000"
+                },
+                "locality": {
+                  "scheme": "CUATM",
+                  "id": "0301000",
+                  "description": ""
+                }
+              }
+            },
+            "description": "decr"
+          }
+        },
+        {
+          "id": "lot",
+          "title": "lot2",
+          "description": "2",
+          "value": {
+            "amount": 200,
+            "currency": "MDL"
+          },
+          "contractPeriod": {
+            "startDate": "2018-12-08T00:01:01Z",
+            "endDate": "2018-12-15T00:00:00Z"
+          },
+          "placeOfPerformance": {
+            "address": {
+              "streetAddress": "Steet",
+              "postalCode": "5",
+              "addressDetails": {
+                "country": {
+                  "id": "MD"
+                },
+                "region": {
+                  "id": "0301000"
+                },
+                "locality": {
+                  "scheme": "CUATM",
+                  "id": "0301000",
+                  "description": ""
+                }
+              }
+            },
+            "description": "decr"
+          }
+        }
+      ],
+      "items": [
+        {
+          "id": "55866240-e2d2-11e8-999c-0b5d037697d4",
+          "classification": {
+            "scheme": "CPV",
+            "description": "4",
+            "id": "03100000-2"
+          },
+          "additionalClassifications": [
+            {
+              "scheme": "CPVS",
+              "id": "AA28-2",
+              "description": ""
+            },
+            {
+              "scheme": "CPVS",
+              "id": "AA25-3",
+              "description": "f"
+            }
+          ],
+          "quantity": 100,
+          "unit": {
+            "id": "120",
+            "name": "name"
+          },
+          "description": "p",
+          "relatedLot": "lot4"
+        },
+        {
+          "id": "55866242-e2d2-11e8-999c-0b5d037697d4",
+          "classification": {
+            "scheme": "CPV",
+            "description": "4",
+            "id": "03100000-2"
+          },
+          "additionalClassifications": [
+            {
+              "scheme": "CPVS",
+              "id": "AA28-2",
+              "description": ""
+            },
+            {
+              "scheme": "CPVS",
+              "id": "AA25-3",
+              "description": "f"
+            }
+          ],
+          "quantity": 100,
+          "unit": {
+            "id": "120",
+            "name": "name"
+          },
+          "description": "p",
+          "relatedLot": "lot2"
+        },
+        {
+          "id": "55866241-e2d2-11e8-999c-0b5d037697d4",
+          "classification": {
+            "scheme": "CPV",
+            "description": "4",
+            "id": "03100000-2"
+          },
+          "additionalClassifications": [
+            {
+              "scheme": "CPVS",
+              "id": "AA28-2",
+              "description": ""
+            },
+            {
+              "scheme": "CPVS",
+              "id": "AA25-3",
+              "description": "f"
+            }
+          ],
+          "quantity": 100,
+          "unit": {
+            "id": "120",
+            "name": "name"
+          },
+          "description": "p",
+          "relatedLot": "lot"
+        }
+      ],
+      "documents": [
+        {
+          "id": "99b2d0c8-5f20-408e-853f-f04d1b85abdf-1541514937062",
+          "documentType": "evaluationCriteria"
+        },
+        {
+          "id": "569b8c19-88ed-40d0-823f-4e93da1dc973-1541600974778",
+          "documentType": "riskProvisions"
+        },
+        {
+          "id": "5acb5b47-c3c6-40a8-a24d-aef5617e06ef-1541600992708",
+          "documentType": "conflictOfInterest"
+        }
+      ]
+    }
   },
   "version": "0.0.1"
 }
