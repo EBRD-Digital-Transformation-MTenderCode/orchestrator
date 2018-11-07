@@ -11,7 +11,9 @@ import java.util.Map;
 public enum ContractingCommandType {
 
     CREATE_CAN("createCAN"),
-    CREATE_AC("createAC");
+    CREATE_AC("createAC"),
+    UPDATE_AC("updateAC"),
+    GET_BUDGET_SOURCES("getActualBudgetSources");
 
     private static final Map<String, ContractingCommandType> CONSTANTS = new HashMap<>();
     private final String value;

@@ -55,13 +55,13 @@ public interface ProcessService {
 
     JsonNode addTenderUnsuspendData(JsonNode jsonData, JsonNode statusData, String processId);
 
+    JsonNode getLots(JsonNode jsonData, String processId);
+
     JsonNode addLots(JsonNode jsonData, JsonNode lotsData, String processId);
 
     JsonNode addLotsUnsuccessful(JsonNode jsonData, JsonNode lotsData, String processId);
 
     JsonNode addLotsAndAwardCriteria(JsonNode jsonData, JsonNode lotsData, String processId);
-
-    JsonNode addLotsAndItems(JsonNode jsonData, JsonNode data, String processId);
 
     JsonNode addItems(JsonNode data, String processId);
 
@@ -97,9 +97,15 @@ public interface ProcessService {
 
     JsonNode setDocumentsOfAward(JsonNode jsonData, JsonNode documentsData, String processId);
 
+    JsonNode getDocumentsOfAwards(JsonNode jsonData, String processId);
+
+    JsonNode setDocumentsOfAwards(JsonNode jsonData, JsonNode documentsData, String processId);
+
     JsonNode getDocumentsOfBids(JsonNode jsonData, String processId);
 
     JsonNode getDocumentsOfBid(JsonNode jsonData, String processId);
+
+    JsonNode getDocumentsOfContract(JsonNode jsonData, String processId);
 
     JsonNode setDocumentsOfBids(JsonNode jsonData, JsonNode documentsData, String processId);
 
@@ -122,6 +128,12 @@ public interface ProcessService {
     JsonNode getTenderData(Boolean itemsAdd, JsonNode jsonData, String processId);
 
     JsonNode setTenderData(Boolean itemsAdd, JsonNode jsonData, JsonNode responseData, String processId);
+
+    JsonNode getContractData(JsonNode jsonData, String processId);
+
+    JsonNode setContractData(JsonNode jsonData, JsonNode responseData, String processId);
+
+    JsonNode getPlanning(JsonNode jsonData, String processId);
 
     JsonNode getCheckItems(JsonNode jsonData, String processId);
 
@@ -154,5 +166,17 @@ public interface ProcessService {
     JsonNode getAuctionLaunchData(JsonNode jsonData, String processId);
 
     JsonNode setAuctionEndData(JsonNode jsonData, JsonNode responseData, String processId);
+
+    JsonNode addContractTerms(JsonNode jsonData, JsonNode responseData, String processId);
+
+    JsonNode addActualBudgetSource(JsonNode jsonData, JsonNode responseData, String processId);
+
+    JsonNode getAwardsValue(JsonNode jsonData, String processId);
+
+    JsonNode getDataForGetTerms(JsonNode jsonData, String processId);
+
+    JsonNode getAgreedMetrics(JsonNode jsonData, String processId);
+
+    JsonNode setAgreedMetrics(JsonNode jsonData, JsonNode responseData, String processId);
 }
 

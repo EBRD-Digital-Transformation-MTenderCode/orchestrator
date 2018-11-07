@@ -14,7 +14,8 @@ public enum MdmCommandType {
     PROCESS_FS_DATA("processFsData"),
     PROCESS_TENDER_DATA("processTenderData"),
     PROCESS_BID_DATA("processBidData"),
-    PROCESS_ENQUIRY_DATA("processEnquiryData");
+    PROCESS_ENQUIRY_DATA("processEnquiryData"),
+    PROCESS_CONTRACT_DATA("processContractData");
 
     private static final Map<String, MdmCommandType> CONSTANTS = new HashMap<>();
     private final String value;

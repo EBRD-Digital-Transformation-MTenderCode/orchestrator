@@ -57,6 +57,7 @@ public class SubmissionGetBidsAuction implements JavaDelegate {
             if (bidsNode.size() == 0) {
                 context.setOperationType("tenderUnsuccessful");
                 execution.setVariable("operationType", "tenderUnsuccessful");
+                execution.setVariable("isAuctionStarted", false);
             }
             operationService.saveOperationStep(
                     execution,

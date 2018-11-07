@@ -31,7 +31,6 @@ public class RequestServiceImpl implements RequestService {
     private final ProcessService processService;
     private final OperationService operationService;
     private final String lang = "ro";
-    private final String initiator = "platform";
 
 
     public RequestServiceImpl(final JsonUtil jsonUtil,
@@ -93,6 +92,7 @@ public class RequestServiceImpl implements RequestService {
         } else {
             data = jsonData;
         }
+        context.setTimeStamp(dateUtil.milliNowUTC());
         saveRequest(context.getRequestId(), context.getOperationId(), context, data);
         operationService.checkOperationById(context.getOperationId());
     }
@@ -163,11 +163,10 @@ public class RequestServiceImpl implements RequestService {
         context.setStage(rules.getNewStage());
         context.setPhase(rules.getNewPhase());
         context.setOperationType(rules.getOperationType());
-
-        context.setRequestId(UUIDs.timeBased().toString());
         context.setOwner(getOwner(authorization));
         context.setOperationId(operationId);
         context.setLanguage(lang);
+        context.setRequestId(UUIDs.timeBased().toString());
         context.setStartDate(dateUtil.nowFormatted());
         return context;
     }
@@ -191,8 +190,6 @@ public class RequestServiceImpl implements RequestService {
         context.setStage(rule.getNewStage());
         context.setPhase(rule.getNewPhase());
         context.setOperationType(rule.getOperationType());
-
-        context.setRequestId(UUIDs.timeBased().toString());
         context.setOperationId(operationId);
         context.setOwner(getOwner(authorization));
         context.setCpid(cpid);
@@ -200,8 +197,8 @@ public class RequestServiceImpl implements RequestService {
         context.setToken(token);
         context.setLanguage(lang);
         context.setIsAuction(prevContext.getIsAuction());
+        context.setRequestId(UUIDs.timeBased().toString());
         context.setStartDate(dateUtil.nowFormatted());
-
         return context;
     }
 

@@ -1,6 +1,5 @@
 package com.procurement.orchestrator.delegate.evaluation;
 
-import com.datastax.driver.core.utils.UUIDs;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
@@ -14,24 +13,22 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.util.Objects;
-
-import static com.procurement.orchestrator.domain.commands.EvaluationCommandType.SET_FINAL_STATUSES;
+import static com.procurement.orchestrator.domain.commands.EvaluationCommandType.CHECK_AWARD_VALUE;
 
 @Component
-public class EvaluationSetFinalStatuses implements JavaDelegate {
+public class EvaluationCheckAwardValue implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(EvaluationSetFinalStatuses.class);
+    private static final Logger LOG = LoggerFactory.getLogger(EvaluationCheckAwardValue.class);
 
     private final EvaluationRestClient evaluationRestClient;
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public EvaluationSetFinalStatuses(final EvaluationRestClient evaluationRestClient,
-                                      final OperationService operationService,
-                                      final ProcessService processService,
-                                      final JsonUtil jsonUtil) {
+    public EvaluationCheckAwardValue(final EvaluationRestClient evaluationRestClient,
+                                     final OperationService operationService,
+                                     final ProcessService processService,
+                                     final JsonUtil jsonUtil) {
         this.evaluationRestClient = evaluationRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -43,25 +40,21 @@ public class EvaluationSetFinalStatuses implements JavaDelegate {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
+        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String taskId = execution.getCurrentActivityId();
         final String processId = execution.getProcessInstanceId();
-        context.setOperationType("awardPeriodEndEv");
-        context.setRequestId(UUIDs.timeBased().toString());
-        execution.setVariable("operationType", "awardPeriodEndEv");
-        final JsonNode commandMessage = processService.getCommandMessage(SET_FINAL_STATUSES, context, jsonUtil.empty());
-        final JsonNode responseData = processService.processResponse(
-                evaluationRestClient.execute(commandMessage),
-                context,
-                processId,
-                taskId,
-                commandMessage);
-        if (Objects.nonNull(responseData)) {
-            operationService.saveOperationStep(
-                    execution,
-                    entity,
+        final JsonNode rqData = processService.getAwardsValue(jsonData, processId);
+        if (rqData != null) {
+            final JsonNode commandMessage = processService.getCommandMessage(CHECK_AWARD_VALUE, context, rqData);
+            JsonNode responseData = processService.processResponse(
+                    evaluationRestClient.execute(commandMessage),
                     context,
-                    commandMessage,
-                    responseData);
+                    processId,
+                    taskId,
+                    commandMessage);
+            if (responseData != null) {
+                operationService.saveOperationStep(execution, entity, commandMessage);
+            }
         }
     }
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.EvaluationRestClient;
+import com.procurement.orchestrator.service.NotificationService;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -23,15 +24,18 @@ public class EvaluationAwardsCancellation implements JavaDelegate {
     private static final Logger LOG = LoggerFactory.getLogger(EvaluationAwardsCancellation.class);
 
     private final EvaluationRestClient evaluationRestClient;
+    private final NotificationService notificationService;
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
     public EvaluationAwardsCancellation(final EvaluationRestClient evaluationRestClient,
+                                        final NotificationService notificationService,
                                         final OperationService operationService,
                                         final ProcessService processService,
                                         final JsonUtil jsonUtil) {
         this.evaluationRestClient = evaluationRestClient;
+        this.notificationService = notificationService;
         this.operationService = operationService;
         this.processService = processService;
         this.jsonUtil = jsonUtil;
@@ -45,7 +49,8 @@ public class EvaluationAwardsCancellation implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(AWARDS_CANCELLATION, context, jsonUtil.empty());
+        final JsonNode lots = processService.getLots(jsonData, processId);
+        final JsonNode commandMessage = processService.getCommandMessage(AWARDS_CANCELLATION, context, lots);
         final JsonNode responseData = processService.processResponse(
                 evaluationRestClient.execute(commandMessage),
                 context,
@@ -53,11 +58,10 @@ public class EvaluationAwardsCancellation implements JavaDelegate {
                 taskId,
                 commandMessage);
         if (Objects.nonNull(responseData)) {
-            context.setPhase("empty");
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    context,
+                    notificationService.addAwardOutcomeToContext(context, responseData, processId),
                     commandMessage,
                     processService.addAwards(jsonData, responseData, processId));
         }

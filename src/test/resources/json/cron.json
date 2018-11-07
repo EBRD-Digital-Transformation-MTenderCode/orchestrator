@@ -1,9 +1,0 @@
-{
-  "status": "NOTIFICATION",
-  "data": {
-    "ocid": "ocds-t1s2t3-MD-1519744216136",
-    "phase": "tenderPeriodEnd",
-    "launchTime": "2018-02-27T15:25:00",
-    "metaData": "{\"operationId\":null,\"requestId\":null,\"cpid\":\"ocds-t1s2t3-MD-1519744216136\",\"ocid\":null,\"stage\":\"ps\",\"processType\":\"tenderPeriodEnd\",\"operationType\":null,\"owner\":\"445f6851-c908-407d-9b45-14b92f3e964b\",\"country\":\"test\",\"pmd\":\"test\",\"token\":null,\"startDate\":\"2018-02-27T15:10:16.136Z\",\"endDate\":\"2018-02-27T15:25:00Z\"}"
-  }
-}

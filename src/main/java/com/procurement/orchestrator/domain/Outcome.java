@@ -17,10 +17,16 @@ public class Outcome {
     @JsonProperty("token")
     private String token;
 
+    @JsonProperty("type")
+    private String type;
+
     @JsonCreator
     public Outcome(@JsonProperty("id") final String id,
-                   @JsonProperty("token") final String token) {
+                   @JsonProperty("token") final String token,
+                   @JsonProperty("type") final String type
+    ) {
         this.id = id;
         this.token = token;
+        this.type = type;
     }
 }

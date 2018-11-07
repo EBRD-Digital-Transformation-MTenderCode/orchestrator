@@ -1,9 +1,9 @@
-package com.procurement.orchestrator.delegate.access;
+package com.procurement.orchestrator.delegate.regulation;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
-import com.procurement.orchestrator.rest.AccessRestClient;
+import com.procurement.orchestrator.rest.RegulationRestClient;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -13,23 +13,23 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import static com.procurement.orchestrator.domain.commands.AccessCommandType.CHECK_LOTS_STATUS;
+import static com.procurement.orchestrator.domain.commands.RegulationCommandType.UPDATE_TERMS;
 
 @Component
-public class AccessCheckLotsStatus implements JavaDelegate {
+public class RegulationUpdateContractTerms implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AccessCheckLotsStatus.class);
+    private static final Logger LOG = LoggerFactory.getLogger(RegulationUpdateContractTerms.class);
 
-    private final AccessRestClient accessRestClient;
+    private final RegulationRestClient regulationRestClient;
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public AccessCheckLotsStatus(final AccessRestClient accessRestClient,
-                                 final OperationService operationService,
-                                 final ProcessService processService,
-                                 final JsonUtil jsonUtil) {
-        this.accessRestClient = accessRestClient;
+    public RegulationUpdateContractTerms(final RegulationRestClient regulationRestClient,
+                                         final OperationService operationService,
+                                         final ProcessService processService,
+                                         final JsonUtil jsonUtil) {
+        this.regulationRestClient = regulationRestClient;
         this.operationService = operationService;
         this.processService = processService;
         this.jsonUtil = jsonUtil;
@@ -43,17 +43,22 @@ public class AccessCheckLotsStatus implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode relatedLot = processService.getEnquiryRelatedLot(jsonData, processId);
-        final JsonNode commandMessage = processService.getCommandMessage(CHECK_LOTS_STATUS, context, relatedLot);
-        if (relatedLot != null) {
-            final JsonNode responseData = processService.processResponse(
-                    accessRestClient.execute(commandMessage),
+        final JsonNode rqData = processService.getAgreedMetrics(jsonData, processId);
+        if (rqData != null) {
+            final JsonNode commandMessage = processService.getCommandMessage(UPDATE_TERMS, context, jsonData);
+            JsonNode responseData = processService.processResponse(
+                    regulationRestClient.execute(commandMessage),
                     context,
                     processId,
                     taskId,
                     commandMessage);
             if (responseData != null) {
-                operationService.saveOperationStep(execution, entity, commandMessage);
+                operationService.saveOperationStep(
+                        execution,
+                        entity,
+                        context,
+                        commandMessage,
+                        processService.setAgreedMetrics(jsonData, responseData, processId));
             }
         }
     }

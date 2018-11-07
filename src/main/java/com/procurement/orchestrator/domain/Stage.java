@@ -16,7 +16,7 @@ public enum Stage {
     PIN("PIN"),
     PN("PN"),
     EV("EV"),
-    CT("CT");
+    AC("AC");
 
     private static final Map<String, Stage> CONSTANTS = new HashMap<>();
     private final String value;

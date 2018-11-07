@@ -81,7 +81,7 @@ public class ProcessServiceImpl implements ProcessService {
 
     public JsonNode getCommandMessage(final Enum command, final Context context, final JsonNode data) {
         final CommandMessage commandMessage = new CommandMessage(
-                context.getOperationId(),
+                context.getRequestId(),
                 command,
                 context,
                 data,
@@ -329,6 +329,18 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
+    @Override
+    public JsonNode getLots(JsonNode jsonData, String processId) {
+        try {
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            mainNode.replace("lots", jsonData.get("lots"));
+            return mainNode;
+        } catch (Exception e) {
+            if (Objects.nonNull(processId)) terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
     public JsonNode addLots(final JsonNode jsonData, final JsonNode lotsData, final String processId) {
         try {
             ((ObjectNode) jsonData).replace("lots", lotsData.get("lots"));
@@ -355,18 +367,6 @@ public class ProcessServiceImpl implements ProcessService {
         try {
             ((ObjectNode) jsonData).replace("lots", lotsData.get("lots"));
             ((ObjectNode) jsonData).replace("awardCriteria", lotsData.get("awardCriteria"));
-            return jsonData;
-        } catch (Exception e) {
-            terminateProcess(processId, e.getMessage());
-            return null;
-        }
-    }
-
-    public JsonNode addLotsAndItems(final JsonNode jsonData, final JsonNode data, final String processId) {
-        try {
-            final ObjectNode mainNode = (ObjectNode) jsonData;
-            mainNode.replace("lots", data.get("lots"));
-            mainNode.replace("items", data.get("items"));
             return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
@@ -581,6 +581,45 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
+    @Override
+    public JsonNode getDocumentsOfAwards(JsonNode jsonData, String processId) {
+        try {
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            final ArrayNode documentsArray = mainNode.putArray("documents");
+            final ArrayNode awardsNode = (ArrayNode) jsonData.get("awards");
+            for (final JsonNode awardNode : awardsNode) {
+                final JsonNode documentsNode = awardNode.get("documents");
+                if (documentsNode != null && documentsNode.size() > 0) {
+                    for (final JsonNode docNode : documentsNode) {
+                        documentsArray.add(docNode);
+                    }
+                }
+            }
+            if (documentsArray.size() > 0) {
+                return mainNode;
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public JsonNode setDocumentsOfAwards(JsonNode jsonData, JsonNode documentsData, String processId) {
+        try {
+            final ArrayNode documentsArray = (ArrayNode) documentsData.get("documents");
+            if (documentsArray != null) {
+                ((ObjectNode) jsonData).replace("documents", documentsArray);
+            }
+            return jsonData;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
     public JsonNode getDocumentsOfBids(final JsonNode jsonData, final String processId) {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
@@ -609,6 +648,49 @@ public class ProcessServiceImpl implements ProcessService {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
             if (documentsNode.size() > 0) {
                 mainNode.replace("documents", documentsNode);
+            }
+            return mainNode;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public JsonNode getDocumentsOfContract(JsonNode jsonData, String processId) {
+        try {
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            final ArrayNode documentsArray = mainNode.putArray("documents");
+            final ArrayNode docsOfContractNode = (ArrayNode) jsonData.get("contracts").get("documents");
+            if (docsOfContractNode != null && docsOfContractNode.size() > 0) {
+                documentsArray.addAll(docsOfContractNode);
+            }
+            final ArrayNode docsOfAwardNode = (ArrayNode) jsonData.get("awards").get("documents");
+            if (docsOfAwardNode != null && docsOfAwardNode.size() > 0) {
+                documentsArray.addAll(docsOfAwardNode);
+            }
+            final ArrayNode suppliersNode = (ArrayNode) jsonData.get("awards").get("suppliers");
+            for (final JsonNode supplierNode : suppliersNode) {
+                final ArrayNode personesNode = (ArrayNode) supplierNode.get("persones");
+                for (final JsonNode personNode : personesNode) {
+                    final ArrayNode bfsNode = (ArrayNode) personNode.get("businessFunctions");
+                    for (final JsonNode bfNode : bfsNode) {
+                        final ArrayNode documentsOfBfNode = (ArrayNode) bfNode.get("documents");
+                        if (documentsOfBfNode != null && documentsOfBfNode.size() > 0) {
+                            documentsArray.addAll(documentsOfBfNode);
+                        }
+                    }
+                }
+            }
+            final ArrayNode personesNode = (ArrayNode) jsonData.get("buyer").get("persones");
+            for (final JsonNode personNode : personesNode) {
+                final ArrayNode bfsNode = (ArrayNode) personNode.get("businessFunctions");
+                for (final JsonNode bfNode : bfsNode) {
+                    final ArrayNode documentsOfBfNode = (ArrayNode) bfNode.get("documents");
+                    if (documentsOfBfNode != null && documentsOfBfNode.size() > 0) {
+                        documentsArray.addAll(documentsOfBfNode);
+                    }
+                }
             }
             return mainNode;
         } catch (Exception e) {
@@ -772,6 +854,39 @@ public class ProcessServiceImpl implements ProcessService {
             tenderNode.replace("eligibilityCriteria", tenderResponseNode.get("eligibilityCriteria"));
             tenderNode.replace("procuringEntity", tenderResponseNode.get("procuringEntity"));
             return jsonData;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    public JsonNode getContractData(final JsonNode jsonData, final String processId) {
+        try {
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            mainNode.replace("items", jsonData.get("awards").get("items"));
+            return mainNode;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    public JsonNode setContractData(final JsonNode jsonData, final JsonNode responseData, final String processId) {
+        try {
+            final ObjectNode awardsNode = (ObjectNode) jsonData.get("awards");
+            awardsNode.replace("items", responseData.get("items"));
+            return jsonData;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    public JsonNode getPlanning(final JsonNode jsonData, final String processId) {
+        try {
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            mainNode.replace("planning", jsonData.get("planning"));
+            return mainNode;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
             return null;
@@ -997,6 +1112,75 @@ public class ProcessServiceImpl implements ProcessService {
         try {
             final ObjectNode mainNode = (ObjectNode) jsonData;
             mainNode.replace("tender", responseData.get("tender"));
+            return jsonData;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    public JsonNode addContractTerms(final JsonNode jsonData, final JsonNode responseData, final String processId) {
+        try {
+            ((ObjectNode) jsonData).replace("contractTerms", responseData.get("contractTerms"));
+            return jsonData;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    public JsonNode addActualBudgetSource(final JsonNode jsonData, final JsonNode responseData, final String processId) {
+        try {
+            final ObjectNode mainNode = (ObjectNode) jsonData;
+            mainNode.replace("language", responseData.get("language"));
+            mainNode.replace("actualBudgetSource", responseData.get("actualBudgetSource"));
+            return jsonData;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    public JsonNode getAwardsValue(final JsonNode jsonData, final String processId) {
+        try {
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            final ObjectNode awardsNode = mainNode.putObject("awards");
+            awardsNode.replace("value", jsonData.get("awards").get("value"));
+            return mainNode;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    public JsonNode getDataForGetTerms(final JsonNode jsonData, final String processId) {
+        try {
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            final ObjectNode awardsNode = mainNode.putObject("awards");
+            awardsNode.replace("awards", jsonData.get("awards"));
+            awardsNode.replace("contracts", jsonData.get("contracts"));
+            return mainNode;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    public JsonNode getAgreedMetrics(final JsonNode jsonData, final String processId) {
+        try {
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            mainNode.replace("agreedMetrics", jsonData.get("contracts").get("agreedMetrics"));
+            return mainNode;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    public JsonNode setAgreedMetrics(final JsonNode jsonData, final JsonNode responseData, String processId) {
+        try {
+            final ObjectNode contractsNode = (ObjectNode) jsonData.get("contracts");
+            contractsNode.replace("agreedMetrics", responseData.get("agreedMetrics"));
             return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());

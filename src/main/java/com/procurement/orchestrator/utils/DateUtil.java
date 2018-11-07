@@ -48,6 +48,10 @@ public class DateUtil {
         return localDateTimeNowUTC().format(FORMATTER);
     }
 
+    public Long milliNowUTC() {
+        return localDateTimeNowUTC().toInstant(ZoneOffset.UTC).toEpochMilli();
+    }
+
     public Date localDateTimeToDate(final LocalDateTime startDate) {
         return Date.from(startDate.toInstant(ZoneOffset.UTC));
     }

@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.delegate.access;
 
+import com.datastax.driver.core.utils.UUIDs;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.Stage;
@@ -48,6 +49,7 @@ public class AccessSetTenderCancellation implements JavaDelegate {
         } else {
             context.setOperationType("cancelTender");
         }
+        context.setRequestId(UUIDs.timeBased().toString());
         context.setStartDate(context.getEndDate());
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();

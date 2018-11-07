@@ -13,22 +13,27 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import static com.procurement.orchestrator.domain.commands.AccessCommandType.CHECK_LOTS_STATUS_DETAILS;
+import java.util.Objects;
+
+import static com.procurement.orchestrator.domain.commands.AccessCommandType.SET_LOTS_UNSUCCESSFUL_EV;
 
 @Component
-public class AccessCheckLotsStatusDetails implements JavaDelegate {
+public class AccessSetLotsUnsuccessfulEv implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AccessCheckLotsStatusDetails.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AccessSetLotsUnsuccessfulEv.class);
 
     private final AccessRestClient accessRestClient;
+
     private final OperationService operationService;
+
     private final ProcessService processService;
+
     private final JsonUtil jsonUtil;
 
-    public AccessCheckLotsStatusDetails(final AccessRestClient accessRestClient,
-                                        final OperationService operationService,
-                                        final ProcessService processService,
-                                        final JsonUtil jsonUtil) {
+    public AccessSetLotsUnsuccessfulEv(final AccessRestClient accessRestClient,
+                                       final OperationService operationService,
+                                       final ProcessService processService,
+                                       final JsonUtil jsonUtil) {
         this.accessRestClient = accessRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -40,21 +45,38 @@ public class AccessCheckLotsStatusDetails implements JavaDelegate {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
+        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(CHECK_LOTS_STATUS_DETAILS, context, jsonUtil.empty());
+        final JsonNode unsuccessfulLots = processService.getUnsuccessfulLots(jsonData, processId);
+        final JsonNode commandMessage = processService.getCommandMessage(SET_LOTS_UNSUCCESSFUL_EV, context, unsuccessfulLots);
         JsonNode responseData = processService.processResponse(
                 accessRestClient.execute(commandMessage),
                 context,
                 processId,
                 taskId,
                 commandMessage);
-        if (responseData != null) {
+        if (Objects.nonNull(responseData)) {
+            processContext(execution, context, responseData, processId);
             operationService.saveOperationStep(
                     execution,
                     entity,
+                    context,
                     commandMessage,
-                    processService.addItems(responseData, processId));
+                    processService.addLotsUnsuccessful(jsonData, responseData, processId));
+        }
+    }
+
+    private void processContext(final DelegateExecution execution,
+                                final Context context,
+                                final JsonNode responseData,
+                                final String processId) {
+        final String tenderStatus = processService.getText("tenderStatus", responseData, processId);
+        final String mainProcurementCategory = processService.getText("mainProcurementCategory", responseData, processId);
+        context.setMainProcurementCategory(mainProcurementCategory);
+        if ("unsuccessful".equals(tenderStatus)) {
+            context.setOperationType("tenderUnsuccessful");
+            execution.setVariable("operationType", "tenderUnsuccessful");
         }
     }
 }

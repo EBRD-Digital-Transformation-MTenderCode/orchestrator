@@ -60,10 +60,12 @@ public class EvaluationAwardByBid implements JavaDelegate {
 
     private void processContext(final DelegateExecution execution, final JsonNode responseData, final String processId) {
         final Boolean lotAwarded = processService.getBoolean("lotAwarded", responseData, processId);
+        final Boolean bidAwarded = processService.getBoolean("bidAwarded", responseData, processId);
+        execution.setVariable("bidAwarded", bidAwarded);
         if (lotAwarded != null) {
-            execution.setVariable("updateLot", 1);
+            execution.setVariable("updateLot", true);
         } else {
-            execution.setVariable("updateLot", 0);
+            execution.setVariable("updateLot", false);
         }
     }
 }

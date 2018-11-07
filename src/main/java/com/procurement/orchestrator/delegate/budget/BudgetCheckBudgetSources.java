@@ -1,9 +1,9 @@
-package com.procurement.orchestrator.delegate.access;
+package com.procurement.orchestrator.delegate.budget;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
-import com.procurement.orchestrator.rest.AccessRestClient;
+import com.procurement.orchestrator.rest.BudgetRestClient;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -13,23 +13,25 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import static com.procurement.orchestrator.domain.commands.AccessCommandType.CHECK_LOTS_STATUS_DETAILS;
+import java.util.Objects;
+
+import static com.procurement.orchestrator.domain.commands.BudgetCommandType.CHECK_BS;
 
 @Component
-public class AccessCheckLotsStatusDetails implements JavaDelegate {
+public class BudgetCheckBudgetSources implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AccessCheckLotsStatusDetails.class);
+    private static final Logger LOG = LoggerFactory.getLogger(BudgetCheckBudgetSources.class);
 
-    private final AccessRestClient accessRestClient;
+    private final BudgetRestClient budgetRestClient;
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public AccessCheckLotsStatusDetails(final AccessRestClient accessRestClient,
-                                        final OperationService operationService,
-                                        final ProcessService processService,
-                                        final JsonUtil jsonUtil) {
-        this.accessRestClient = accessRestClient;
+    public BudgetCheckBudgetSources(final BudgetRestClient budgetRestClient,
+                                    final OperationService operationService,
+                                    final ProcessService processService,
+                                    final JsonUtil jsonUtil) {
+        this.budgetRestClient = budgetRestClient;
         this.operationService = operationService;
         this.processService = processService;
         this.jsonUtil = jsonUtil;
@@ -40,22 +42,23 @@ public class AccessCheckLotsStatusDetails implements JavaDelegate {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
+        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(CHECK_LOTS_STATUS_DETAILS, context, jsonUtil.empty());
+        final JsonNode checkFsDto = processService.getCheckFs(jsonData, context.getStartDate(), processId);
+        final JsonNode commandMessage = processService.getCommandMessage(CHECK_BS, context, checkFsDto);
         JsonNode responseData = processService.processResponse(
-                accessRestClient.execute(commandMessage),
+                budgetRestClient.execute(commandMessage),
                 context,
                 processId,
                 taskId,
                 commandMessage);
-        if (responseData != null) {
+        if (Objects.nonNull(responseData)) {
             operationService.saveOperationStep(
                     execution,
                     entity,
                     commandMessage,
-                    processService.addItems(responseData, processId));
+                    processService.setCheckFs(jsonData, responseData, processId));
         }
     }
 }
-

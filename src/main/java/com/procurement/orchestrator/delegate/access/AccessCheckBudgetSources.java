@@ -13,22 +13,22 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import static com.procurement.orchestrator.domain.commands.AccessCommandType.CHECK_LOTS_STATUS_DETAILS;
+import static com.procurement.orchestrator.domain.commands.AccessCommandType.CHECK_BUDGET_SOURCES;
 
 @Component
-public class AccessCheckLotsStatusDetails implements JavaDelegate {
+public class AccessCheckBudgetSources implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AccessCheckLotsStatusDetails.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AccessCheckBudgetSources.class);
 
     private final AccessRestClient accessRestClient;
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public AccessCheckLotsStatusDetails(final AccessRestClient accessRestClient,
-                                        final OperationService operationService,
-                                        final ProcessService processService,
-                                        final JsonUtil jsonUtil) {
+    public AccessCheckBudgetSources(final AccessRestClient accessRestClient,
+                                    final OperationService operationService,
+                                    final ProcessService processService,
+                                    final JsonUtil jsonUtil) {
         this.accessRestClient = accessRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -39,22 +39,22 @@ public class AccessCheckLotsStatusDetails implements JavaDelegate {
     public void execute(final DelegateExecution execution) throws Exception {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
+        final JsonNode prevData = jsonUtil.toJsonNode(entity.getResponseData());
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(CHECK_LOTS_STATUS_DETAILS, context, jsonUtil.empty());
-        JsonNode responseData = processService.processResponse(
-                accessRestClient.execute(commandMessage),
-                context,
-                processId,
-                taskId,
-                commandMessage);
-        if (responseData != null) {
-            operationService.saveOperationStep(
-                    execution,
-                    entity,
-                    commandMessage,
-                    processService.addItems(responseData, processId));
+        final JsonNode rqData = processService.getPlanning(prevData, processId);
+        if (rqData != null) {
+            final JsonNode commandMessage = processService.getCommandMessage(CHECK_BUDGET_SOURCES, context, rqData);
+            JsonNode responseData = processService.processResponse(
+                    accessRestClient.execute(commandMessage),
+                    context,
+                    processId,
+                    taskId,
+                    commandMessage);
+            if (responseData != null) {
+                operationService.saveOperationStep(execution, entity, commandMessage);
+            }
         }
     }
 }
