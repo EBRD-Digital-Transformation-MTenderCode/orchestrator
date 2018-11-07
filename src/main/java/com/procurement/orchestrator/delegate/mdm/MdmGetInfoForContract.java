@@ -48,9 +48,9 @@ public class MdmGetInfoForContract implements JavaDelegate {
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode rqData = processService.getBidTenderersData(prevData, processId);
-        final JsonNode commandMessage = processService.getCommandMessage(PROCESS_BID_DATA, context, rqData);
+        final JsonNode rqData = processService.getContractData(prevData, processId);
         if (rqData != null) {
+            final JsonNode commandMessage = processService.getCommandMessage(PROCESS_BID_DATA, context, rqData);
             JsonNode responseData = processService.processResponse(
                     mdmRestClient.execute(commandMessage),
                     context,
@@ -62,7 +62,7 @@ public class MdmGetInfoForContract implements JavaDelegate {
                         execution,
                         entity,
                         commandMessage,
-                        processService.setBidTenderersData(prevData, responseData, processId));
+                        processService.setContractData(prevData, responseData, processId));
             }
         }
     }

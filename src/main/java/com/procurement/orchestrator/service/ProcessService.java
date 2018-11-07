@@ -129,6 +129,10 @@ public interface ProcessService {
 
     JsonNode setTenderData(Boolean itemsAdd, JsonNode jsonData, JsonNode responseData, String processId);
 
+    JsonNode getContractData(JsonNode jsonData, String processId);
+
+    JsonNode setContractData(JsonNode jsonData, JsonNode responseData, String processId);
+
     JsonNode getPlanning(JsonNode jsonData, String processId);
 
     JsonNode getCheckItems(JsonNode jsonData, String processId);
