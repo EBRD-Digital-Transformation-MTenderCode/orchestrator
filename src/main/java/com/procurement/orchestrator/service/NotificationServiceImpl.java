@@ -80,7 +80,8 @@ public class NotificationServiceImpl implements NotificationService {
             }
             outcomes.replace(outcomeType.toLowerCase(), outcomeArray);
         }
-        return outcomes;
+        if (outcomes.size() > 0) return outcomes;
+        else return null;
     }
 
     public Context addEnquiryOutcomeToContext(final Context context,
