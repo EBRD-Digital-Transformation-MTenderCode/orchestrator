@@ -78,7 +78,7 @@ public class NotificationServiceImpl implements NotificationService {
                     outcomeArray.add(outcomeItem);
                 }
             }
-            outcomes.replace(outcomeType.toLowerCase(), outcomeArray);
+            if (outcomeArray.size() > 0) outcomes.replace(outcomeType.toLowerCase(), outcomeArray);
         }
         if (outcomes.size() > 0) return outcomes;
         else return null;
