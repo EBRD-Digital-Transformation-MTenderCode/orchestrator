@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="2.0.0">
+  <bpmn:process id="enquiry" name="enquiry" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>SequenceFlow_1gx4xfj</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:endEvent id="EndEvent_1">
+      <bpmn:incoming>SequenceFlow_1je78pv</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="SendEnquiryMessagesTask" name="Send Enquiry Messages&#10;" camunda:asyncBefore="true" camunda:delegateExpression="${sendEnquiryMessages}">
+      <bpmn:incoming>SequenceFlow_09bp8om</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1je78pv</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1je78pv" sourceRef="SendEnquiryMessagesTask" targetRef="EndEvent_1" />
+    <bpmn:serviceTask id="SaveFirstOperationTask" name="Save first operation" camunda:delegateExpression="${saveFirstOperation}">
+      <bpmn:incoming>SequenceFlow_1gx4xfj</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0ipeyos</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="NoticeCreateReleaseTask" name="Notice Create Release" camunda:asyncBefore="true" camunda:delegateExpression="${noticeCreateRelease}">
+      <bpmn:incoming>SequenceFlow_1dft457</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1360xez</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1gx4xfj" sourceRef="StartEvent_1" targetRef="SaveFirstOperationTask" />
+    <bpmn:serviceTask id="ClarificationCreateEnquiryTask" name="Clarification create Enquiry" camunda:asyncBefore="true" camunda:delegateExpression="${clarificationCreateEnquiry}">
+      <bpmn:extensionElements>
+        <camunda:failedJobRetryTimeCycle>R0/PT1S</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1gek9tl</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1dft457</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1dft457" sourceRef="ClarificationCreateEnquiryTask" targetRef="NoticeCreateReleaseTask" />
+    <bpmn:serviceTask id="SaveContextTask" name="Save Context" camunda:delegateExpression="${saveContext}">
+      <bpmn:incoming>SequenceFlow_1360xez</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_09bp8om</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_09bp8om" sourceRef="SaveContextTask" targetRef="SendEnquiryMessagesTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1360xez" sourceRef="NoticeCreateReleaseTask" targetRef="SaveContextTask" />
+    <bpmn:serviceTask id="MdmValidateTenderTask" name="Mdm Validate" camunda:asyncBefore="true" camunda:delegateExpression="${mdmValidateEnquiry}">
+      <bpmn:extensionElements>
+        <camunda:failedJobRetryTimeCycle>R0/PT1S</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0ipeyos</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_18zhhk1</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_18zhhk1" sourceRef="MdmValidateTenderTask" targetRef="AccessCheckLotsStatusTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0ipeyos" sourceRef="SaveFirstOperationTask" targetRef="MdmValidateTenderTask" />
+    <bpmn:serviceTask id="AccessCheckLotsStatusTask" name="Access Check Lots Status" camunda:asyncBefore="true" camunda:delegateExpression="${accessCheckLotsStatus}">
+      <bpmn:incoming>SequenceFlow_18zhhk1</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1gek9tl</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1gek9tl" sourceRef="AccessCheckLotsStatusTask" targetRef="ClarificationCreateEnquiryTask" />
+  </bpmn:process>
+  <bpmn:error id="tr_exception" name="TR_EXCEPTION" errorCode="TR_EXCEPTION" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="enquiry">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="139" y="167" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="112" y="203" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_0wpvj65_di" bpmnElement="EndEvent_1">
+        <dc:Bounds x="1149" y="167" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1122" y="207" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_02g673z_di" bpmnElement="SendEnquiryMessagesTask">
+        <dc:Bounds x="1020" y="145" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1je78pv_di" bpmnElement="SequenceFlow_1je78pv">
+        <di:waypoint x="1120" y="185" />
+        <di:waypoint x="1149" y="185" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1089.5" y="164" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_0kegmvr_di" bpmnElement="SaveFirstOperationTask">
+        <dc:Bounds x="206" y="145" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1tvffuw_di" bpmnElement="NoticeCreateReleaseTask">
+        <dc:Bounds x="748" y="145" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1gx4xfj_di" bpmnElement="SequenceFlow_1gx4xfj">
+        <di:waypoint x="175" y="185" />
+        <di:waypoint x="206" y="185" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="145.5" y="164" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_0m7p1o9_di" bpmnElement="ClarificationCreateEnquiryTask">
+        <dc:Bounds x="612" y="145" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1dft457_di" bpmnElement="SequenceFlow_1dft457">
+        <di:waypoint x="712" y="185" />
+        <di:waypoint x="748" y="185" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="685" y="164" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_0tvpqvb_di" bpmnElement="SaveContextTask">
+        <dc:Bounds x="884" y="145" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_09bp8om_di" bpmnElement="SequenceFlow_09bp8om">
+        <di:waypoint x="984" y="185" />
+        <di:waypoint x="1020" y="185" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="957" y="164" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1360xez_di" bpmnElement="SequenceFlow_1360xez">
+        <di:waypoint x="848" y="185" />
+        <di:waypoint x="884" y="185" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="821" y="164" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_08tlqtv_di" bpmnElement="MdmValidateTenderTask">
+        <dc:Bounds x="342" y="145" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_18zhhk1_di" bpmnElement="SequenceFlow_18zhhk1">
+        <di:waypoint x="442" y="185" />
+        <di:waypoint x="477" y="185" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="414.5" y="164" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0ipeyos_di" bpmnElement="SequenceFlow_0ipeyos">
+        <di:waypoint x="306" y="185" />
+        <di:waypoint x="342" y="185" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="324" y="164" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_0d9hbik_di" bpmnElement="AccessCheckLotsStatusTask">
+        <dc:Bounds x="477" y="145" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1gek9tl_di" bpmnElement="SequenceFlow_1gek9tl">
+        <di:waypoint x="577" y="185" />
+        <di:waypoint x="612" y="185" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="594.5" y="164" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

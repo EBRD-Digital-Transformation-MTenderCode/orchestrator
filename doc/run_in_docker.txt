@@ -1,0 +1,34 @@
+#*****************************#
+# Create Network if not exist #
+#*****************************#
+
+docker network create \
+  --driver bridge \
+  --subnet 192.168.100.0/24 \
+  --gateway 192.168.100.1 \
+  ocds-network
+
+#login
+docker login https://docker-registry.eprocurement.systems
+Username: docker
+Password: 3FFcKYtMxzmwFMa
+
+#login
+docker login https://docker-registry.eprocurement.systems
+Username: docker
+Password: 3FFcKYtMxzmwFMa
+
+docker login https://dev.docker-registry.eprocurement.systems
+Username: docker
+Password: EGrH4rOVQrcwXCtM
+
+#****************************************#
+# Run E-ORCHESTRATOR                     #
+# Need assign uri, username and password #
+#****************************************#
+
+#push
+mvn clean package docker:build docker:push
+docker login docker.io/eprocurementsystems
+Docker ID: eprocurementsystems
+pass: uStudioeProcurement

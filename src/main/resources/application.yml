@@ -1,36 +1,84 @@
 server:
-  port: 8088
-
-logging.level: error
-
-#spring:
-#  datasource:
-#    url: jdbc:h2:mem:example-simple;MODE=Oracle;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+  port: 8080
 
 spring:
-  jpa:
-    database: mysql
-    hibernate.ddl-auto: update
+  profiles:
+    active: local
   datasource:
-    driver-class-processDefinitionName: com.mysql.jdbc.Driver
-    type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:mysql://localhost:3306/camunda?useSSL=false
-    username: root
-    password: mysql
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://10.0.20.112:5432/orchestrator
+    username: postgres
+    password: postgres
     hikari:
-     maximum-pool-size: 10
+      maximum-pool-size: 10
+      pool-name: orchestrator-pool
+
+cassandra:
+  contact-points: 10.0.20.104,10.0.20.105,10.0.20.106
+  keyspace-name: ocds
+  username: caclient
+  password: 6AH7vbrkMWnfK
+
+uri:
+  budget: http://dev.public.eprocurement.systems/budget/
+  tender: http://dev.public.eprocurement.systems/tender/
 
 camunda:
   bpm:
-    application:
-      isDeleteUponUndeploy: false
-      isScanForProcessDefinitions: true
-      isDeployChangedOnly: true
-      isResumePreviousVersions: true
-      resumePreviousBy: a value
-    job-execution:
-      enabled: true
-    metrics:
-      enabled: false
-      db-reporter-activate: false
+    auto-deployment-enabled: true
+    history-level: none
 
+feign:
+  hystrix:
+    enabled: false
+  client:
+    config:
+      default:
+        connectTimeout: 10000
+        readTimeout: 10000
+
+ribbon:
+  eureka:
+    enabled: false
+e-budget:
+  ribbon:
+    listOfServers: http://10.0.20.125:9051
+e-access:
+  ribbon:
+    listOfServers: http://10.0.20.125:9031
+e-auction:
+  ribbon:
+    listOfServers: http://10.0.20.125:9191
+e-notice:
+  ribbon:
+    listOfServers: http://10.0.20.125:9041
+e-submission:
+  ribbon:
+    listOfServers: http://10.0.20.125:9061
+e-clarification:
+  ribbon:
+    listOfServers: http://10.0.20.125:9071
+e-storage:
+  ribbon:
+    listOfServers: http://10.0.20.125:9131
+e-qualification:
+  ribbon:
+    listOfServers: http://10.0.20.125:9091
+e-evaluation:
+  ribbon:
+    listOfServers: http://10.0.20.125:9081
+e-contracting:
+  ribbon:
+    listOfServers: http://10.0.20.125:9151
+e-regulation:
+  ribbon:
+    listOfServers: http://10.0.20.125:9201
+e-mdm:
+  ribbon:
+    listOfServers: http://10.0.20.125:9161
+
+logging:
+  ##  level:
+  ##    root: WARN
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n"

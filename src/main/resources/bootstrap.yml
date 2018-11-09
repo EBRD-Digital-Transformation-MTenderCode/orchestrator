@@ -1,0 +1,11 @@
+server:
+  port: @project.service.port@
+
+spring:
+  application:
+    name: bpe
+
+  cloud:
+    config:
+      failFast: true
+      name: bpe

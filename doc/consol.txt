@@ -1,0 +1,21 @@
+cd /home/kafka
+root@AK-node1:~# bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic chronograph-out --from-beginning
+
+cd /home/kafka
+root@AK-node2:/home/kafka# bin/kafka-console-producer.sh --broker-list localhost:9092 --topic chronograph-in
+
+git ls-files | grep "\.java$" | xargs wc -l
+
+eyJhbGciOiJSUzI1NiIsInR5cFRva2VuIjoiQUNDRVNTIiwidHlwIjoiSldUIn0
+.eyJpZFBsYXRmb3JtIjoiNDQ1ZjY4NTEtYzkwOC00MDdkLTliNDUtMTRiOTJmM2U5NjRiIiwiZXhwIjoxNTE3OTk5MjE4fQ
+.WP8FvP6qu4yAhW-NP6WA9mTtkBaLZabfz33BoV9McZQXlHnZqgP1lZoau9vzrr72R5VZGv7pHe2hom54z2z5xgyL34wWI2of7Ewgdv2FjCDdt9jE0LHF9O6m7SOfQucw1LQzhXiosNCKTQZUEejZHhFi6RtUtGTxnq2Kfh6tfQoPUHuL0flKudFTPtrGIGlbrukuIzjUIrv7GyA4PjGaGqGVEdYqxgQ6zZ8GCRuImgzoFbRT2Gv2RAZ1-LrkwihKLFcHfalXPPjNcCIcUEu0wtn8DCVReZRJdganDR3QmWRR6-2B0fnRXtBJayTufE0zYRvWEcKSj21oUhr6RD7DGQ
+
+
+http://bpe.eprocurement.systems/api/v1/ei
+
+home/kafka/bin/kafka-console-consumer-sasl-dev4.sh --bootstrap-server localhost:9092 --topic 2c97d565-e527-4e7d-b3e9-bf5dv76c4f5c --from-beginning --consumer.config=config/consumer-sasl-dev4.properties
+
+
+select * from tasks where ocid = 'ocds-t1s2t3-MD-1534102735905'
+
+  http://10.0.20.116:8900/api/v1/cancel/bid/ocds-t1s2t3-MD-1534346521461/ocds-t1s2t3-MD-1534346521461-EV-1534346521605/11d13e50-a09f-11e8-840c-cf05023ffb5c \

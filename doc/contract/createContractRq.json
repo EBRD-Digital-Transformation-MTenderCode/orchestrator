@@ -1,0 +1,386 @@
+{
+  "contractTerms": [
+    {
+      "id": "cc-general",
+      "type": "generalResponsibilities",
+      "title": "General Responsibilities",
+      "description": "Contract conditions governing the general responsibilities",
+      "source": "buyer",
+      "requirementGroups": [
+        {
+          "id": "cc-general-1",
+          "description": "Periods",
+          "requirements": [
+            {
+              "id": "cc-general-1-1",
+              "title": "Inform on Force Majeure, days",
+              "description": "Maximum days to inform on invoking Force Majeure",
+              "dataType": "integer"
+            },
+            {
+              "id": "cc-general-1-2",
+              "title": "Inform on annul, days",
+              "description": "Maximum days to inform on termination intention",
+              "dataType": "integer"
+            },
+            {
+              "id": "cc-general-1-3",
+              "title": "Respond on inform on annul, days",
+              "description": "Maximum days to respond on termination intention",
+              "dataType": "integer"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cc-tenderer",
+      "type": "supplierResponsibilities",
+      "title": "Supplier's responsibilities",
+      "description": "Contract conditions governing the supplier's responsibilities",
+      "relatesTo": "tenderer",
+      "source": "tenderer",
+      "requirementGroups": [
+        {
+          "id": "cc-tenderer-1",
+          "description": "Execution Guarantee",
+          "requirements": [
+            {
+              "id": "cc-tenderer-1-1",
+              "title": "Guarantee type",
+              "description": "Form of performance guarantee for the contract",
+              "dateType": "object",
+              "properties": {
+                "id": "",
+                "description": ""
+              }
+            },
+            {
+              "id": "cc-tenderer-1-2",
+              "title": "Guarantee amount, %",
+              "description": "",
+              "dateType": "number"
+            },
+            {
+              "id": "cc-tenderer-1-3",
+              "title": "A1, %",
+              "description": "Guarantee amount provided by the general entrepreneur",
+              "dateType": "number"
+            },
+            {
+              "id": "cc-tenderer-1-4",
+              "title": "A2, %",
+              "description": "Guarantee amount in case of successive withholding from partial invoices",
+              "dateType": "number"
+            },
+            {
+              "id": "cc-tenderer-1-5",
+              "title": "A3, %",
+              "description": "Maximum amount in case of successive withholding from partial invoices",
+              "dateType": "number"
+            },
+            {
+              "id": "cc-tenderer-1-6",
+              "title": "Guarantee transfer, days",
+              "description": "Maximum days of guarantee transfer",
+              "dataType": "integer"
+            }
+          ]
+        },
+        {
+          "id": "cc-tenderer-2",
+          "description": "Periods",
+          "requirements": [
+            {
+              "id": "cc-tenderer-2-1",
+              "title": "Inform on signed, days",
+              "description": "Maximum days from the signing of the contract to Buyer's announcement of the availability on delivery of the Goods and/or the provision of the Services",
+              "dataType": "integer"
+            },
+            {
+              "id": "cc-tenderer-2-2",
+              "title": "Respond claims, days",
+              "description": "Maximum days to respond to claims on quality of delivered goods and/or services",
+              "dataType": "integer"
+            },
+            {
+              "id": "cc-tenderer-2-3",
+              "title": "Deliver on claims, days",
+              "description": "Maximum days to additional delivery related to quality claims",
+              "dataType": "integer"
+            },
+            {
+              "id": "cc-tenderer-2-4",
+              "title": "Maximum delay, days",
+              "description": "Period after which it is considered a refuse of execute the contract",
+              "dataType": "integer"
+            },
+            {
+              "id": "cc-tenderer-2-5",
+              "title": "Warranty, month",
+              "description": "Warranty Period for Executed Works",
+              "dataType": "integer"
+            },
+            {
+              "id": "cc-tenderer-2-6",
+              "title": "Execution Start",
+              "description": "Maximum number of days from the signing and registration of the contract when the works will start",
+              "dataType": "integer"
+            },
+            {
+              "id": "cc-tenderer-2-7",
+              "title": "Execution duration from date signed, months",
+              "description": "Works execution duration from date signed",
+              "dataType": "integer"
+            }
+          ]
+        },
+        {
+          "id": "cc-tenderer-3",
+          "description": "Liability",
+          "requirements": [
+            {
+              "id": "cc-tenderer-3-1",
+              "title": "Material liability, %",
+              "description": "Material liability for delivery with delay",
+              "dataType": "number"
+            },
+            {
+              "id": "cc-tenderer-3-2",
+              "title": "Maximum material liability, %",
+              "description": "Maximum of material liability for delivery with delay",
+              "dataType": "number"
+            },
+            {
+              "id": "cc-tenderer-3-3",
+              "title": "Refusal to execute, %",
+              "description": "Maximum of the penalty for the refusal to execute",
+              "dataType": "number"
+            },
+            {
+              "id": "cc-tenderer-3-4",
+              "title": "Penalty for delay, %/day",
+              "description": "Material liability for late execution of works (per day)",
+              "dataType": "number"
+            },
+            {
+              "id": "cc-tenderer-3-5",
+              "title": "Maximum penalty for delay, %/day",
+              "description": "Maximum of material liability for Late execution of Works",
+              "dataType": "number"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cc-buyer",
+      "type": "buyerResponsibilities",
+      "title": "Buyer's responsibilities",
+      "description": "Contract conditions governing the buyer's responsibilities",
+      "relatesTo": "buyer",
+      "source": "buyer",
+      "requirementGroups": [
+        {
+          "id": "cc-buyer-1",
+          "description": "Periods",
+          "requirements": [
+            {
+              "id": "cc-buyer-1-1",
+              "title": "Submit claims, days",
+              "description": "Maximum days to submit claims on quality",
+              "dataType": "integer"
+            },
+            {
+              "id": "cc-buyer-1-2",
+              "title": "Maximum non-payment, month",
+              "description": "Maximum term for non-payment by the Beneficiary",
+              "dataType": "integer"
+            }
+          ]
+        },
+        {
+          "id": "cc-buyer-2",
+          "description": "Liability",
+          "requirements": [
+            {
+              "id": "cc-buyer-2-1",
+              "title": "Material liability, %",
+              "description": "Beneficiary's material liability in case of late payment",
+              "dataType": "number"
+            },
+            {
+              "id": "cc-buyer-2-2",
+              "title": "Maximum material liability, %",
+              "description": "Maximum of Beneficiary liability in case of late payment",
+              "dataType": "number"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cc-subject",
+      "type": "subjectSpecification",
+      "title": "Subject specification",
+      "description": "Description of procured items of subject of contracting process",
+      "relatesTo": "item",
+      "relatedItem": "item.id",
+      "source": "buyer",
+      "requirementGroups": [
+        {
+          "id": "cc-subject-item.id",
+          "description": "item.description",
+          "requirements": [
+            {
+              "id": "cc-subject-item.id-1",
+              "title": "Item model",
+              "description": "",
+              "dataType": "string"
+            },
+            {
+              "id": "cc-subject-item.id-2",
+              "title": "Country of origin",
+              "description": "",
+              "dataType": "object",
+              "properties": {
+                "scheme": "",
+                "id": "",
+                "description": ""
+              }
+            },
+            {
+              "id": "cc-subject-item.id-3",
+              "title": "Producer",
+              "description": "",
+              "dataType": "object",
+              "properties": {
+                "scheme": "",
+                "id": "",
+                "legalName": ""
+              }
+            },
+            {
+              "id": "cc-subject-item.id-4",
+              "title": "Tech specification",
+              "description": "",
+              "dataType": "string"
+            },
+            {
+              "id": "cc-subject-item.id-5",
+              "title": "Reference standards",
+              "description": "",
+              "dataType": "string"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "awards": [
+    {
+      "id": "",
+      "date": "",
+      "description": "",
+      "status": "",
+      "statusDetails": "",
+      "value": {
+        "amount": "",
+        "currency": ""
+      },
+      "relatedLots": [
+        ""
+      ],
+      "relatedBid": "",
+      "suppliers": [
+        {
+          "id": "",
+          "name": "",
+          "identifier": {
+            "scheme": "",
+            "id": "",
+            "legalName": "",
+            "uri": ""
+          },
+          "additionalIdentifiers": [
+            {
+              "scheme": "",
+              "id": "",
+              "legalName": "",
+              "uri": ""
+            }
+          ],
+          "address": {
+            "streetAddress": "",
+            "postalCode": "",
+            "addressDetails": {
+              "country": {
+                "scheme": "",
+                "id": "",
+                "description": "",
+                "uri": ""
+              },
+              "region": {
+                "scheme": "",
+                "id": "",
+                "description": "",
+                "uri": ""
+              },
+              "locality": {
+                "scheme": "",
+                "id": "",
+                "description": "",
+                "uri": ""
+              }
+            }
+          },
+          "contactPoint": {
+            "name": "",
+            "email": "",
+            "telephone": "",
+            "faxNumber": "",
+            "url": ""
+          }
+        }
+      ],
+      "items": [
+        {
+          "id": "",
+          "classification": {
+            "scheme": "CPV",
+            "description": "",
+            "id": ""
+          },
+          "additionalClassifications": [
+            {
+              "scheme": "",
+              "description": "",
+              "id": ""
+            }
+          ],
+          "quantity": 0,
+          "unit": {
+            "id": "",
+            "name": ""
+          },
+          "description": "",
+          "relatedLot": ""
+        }
+      ],
+      "documents": [
+        {
+          "documentType": "",
+          "id": "",
+          "title": "",
+          "description": "",
+          "relatedLots": [
+            ""
+          ]
+        }
+      ]
+    }
+  ],
+  "tender": {
+    "mainProcurementCategory": ""
+  }
+}
