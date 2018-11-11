@@ -656,7 +656,20 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    @Override
+    public JsonNode setDocumentsOfBids(final JsonNode jsonData, final JsonNode documentsData,
+                                       final String processId) {
+        try {
+            final ArrayNode documentsArray = (ArrayNode) documentsData.get("documents");
+            if (documentsArray != null) {
+                ((ObjectNode) jsonData).replace("documents", documentsArray);
+            }
+            return jsonData;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
     public JsonNode getDocumentsOfContract(JsonNode jsonData, String processId) {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
@@ -665,10 +678,32 @@ public class ProcessServiceImpl implements ProcessService {
             if (docsOfContractNode != null && docsOfContractNode.size() > 0) {
                 documentsArray.addAll(docsOfContractNode);
             }
+            return mainNode;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    public JsonNode getDocumentsOfContractAwards(final JsonNode jsonData, final String processId) {
+        try {
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            final ArrayNode documentsArray = mainNode.putArray("documents");
             final ArrayNode docsOfAwardNode = (ArrayNode) jsonData.get("awards").get("documents");
             if (docsOfAwardNode != null && docsOfAwardNode.size() > 0) {
                 documentsArray.addAll(docsOfAwardNode);
             }
+            return mainNode;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    public JsonNode getDocumentsOfContractPersones(final JsonNode jsonData, final String processId) {
+        try {
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            final ArrayNode documentsArray = mainNode.putArray("documents");
             final ArrayNode suppliersNode = (ArrayNode) jsonData.get("awards").get("suppliers");
             for (final JsonNode supplierNode : suppliersNode) {
                 final ArrayNode personesNode = (ArrayNode) supplierNode.get("persones");
@@ -682,16 +717,16 @@ public class ProcessServiceImpl implements ProcessService {
                     }
                 }
             }
-            final ArrayNode personesNode = (ArrayNode) jsonData.get("buyer").get("persones");
-            for (final JsonNode personNode : personesNode) {
-                final ArrayNode bfsNode = (ArrayNode) personNode.get("businessFunctions");
-                for (final JsonNode bfNode : bfsNode) {
-                    final ArrayNode documentsOfBfNode = (ArrayNode) bfNode.get("documents");
-                    if (documentsOfBfNode != null && documentsOfBfNode.size() > 0) {
-                        documentsArray.addAll(documentsOfBfNode);
-                    }
-                }
-            }
+//            final ArrayNode personesNode = (ArrayNode) jsonData.get("buyer").get("persones");
+//            for (final JsonNode personNode : personesNode) {
+//                final ArrayNode bfsNode = (ArrayNode) personNode.get("businessFunctions");
+//                for (final JsonNode bfNode : bfsNode) {
+//                    final ArrayNode documentsOfBfNode = (ArrayNode) bfNode.get("documents");
+//                    if (documentsOfBfNode != null && documentsOfBfNode.size() > 0) {
+//                        documentsArray.addAll(documentsOfBfNode);
+//                    }
+//                }
+//            }
             return mainNode;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
@@ -699,12 +734,39 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public JsonNode setDocumentsOfBids(final JsonNode jsonData, final JsonNode documentsData,
-                                       final String processId) {
+    public JsonNode setDocumentsOfContract(final JsonNode jsonData, final JsonNode documentsData, final String processId) {
+        try {
+            final ObjectNode contractsNode = (ObjectNode) jsonData.get("contracts");
+            final ArrayNode documentsArray = (ArrayNode) documentsData.get("documents");
+            if (documentsArray.size() > 0) {
+                contractsNode.replace("documents", documentsArray);
+            }
+            return jsonData;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    public JsonNode setDocumentsOfContractAwards(final JsonNode jsonData, final JsonNode documentsData, final String processId) {
+        try {
+            final ObjectNode awardsNode = (ObjectNode) jsonData.get("awards");
+            final ArrayNode documentsArray = (ArrayNode) documentsData.get("documents");
+            if (documentsArray.size() > 0) {
+                awardsNode.replace("documents", documentsArray);
+            }
+            return jsonData;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    public JsonNode setDocumentsOfContractPersones(final JsonNode jsonData, final JsonNode documentsData, final String processId) {
         try {
             final ArrayNode documentsArray = (ArrayNode) documentsData.get("documents");
             if (documentsArray != null) {
-                ((ObjectNode) jsonData).replace("documents", documentsArray);
+                ((ObjectNode) jsonData).replace("documentsOfContractPersones", documentsArray);
             }
             return jsonData;
         } catch (Exception e) {
