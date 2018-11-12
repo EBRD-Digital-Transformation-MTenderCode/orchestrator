@@ -717,16 +717,16 @@ public class ProcessServiceImpl implements ProcessService {
                     }
                 }
             }
-//            final ArrayNode personesNode = (ArrayNode) jsonData.get("buyer").get("persones");
-//            for (final JsonNode personNode : personesNode) {
-//                final ArrayNode bfsNode = (ArrayNode) personNode.get("businessFunctions");
-//                for (final JsonNode bfNode : bfsNode) {
-//                    final ArrayNode documentsOfBfNode = (ArrayNode) bfNode.get("documents");
-//                    if (documentsOfBfNode != null && documentsOfBfNode.size() > 0) {
-//                        documentsArray.addAll(documentsOfBfNode);
-//                    }
-//                }
-//            }
+            final ArrayNode personesNode = (ArrayNode) jsonData.get("buyer").get("persones");
+            for (final JsonNode personNode : personesNode) {
+                final ArrayNode bfsNode = (ArrayNode) personNode.get("businessFunctions");
+                for (final JsonNode bfNode : bfsNode) {
+                    final ArrayNode documentsOfBfNode = (ArrayNode) bfNode.get("documents");
+                    if (documentsOfBfNode != null && documentsOfBfNode.size() > 0) {
+                        documentsArray.addAll(documentsOfBfNode);
+                    }
+                }
+            }
             return mainNode;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
