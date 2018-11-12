@@ -42,28 +42,28 @@ public class MdmGetInfoForContract implements JavaDelegate {
 
     @Override
     public void execute(final DelegateExecution execution) throws Exception {
-        LOG.info(execution.getCurrentActivityName());
-        final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
-        final JsonNode prevData = jsonUtil.toJsonNode(entity.getResponseData());
-        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
-        final String processId = execution.getProcessInstanceId();
-        final String taskId = execution.getCurrentActivityId();
-        final JsonNode rqData = processService.getContractData(prevData, processId);
-        if (rqData != null) {
-            final JsonNode commandMessage = processService.getCommandMessage(PROCESS_BID_DATA, context, rqData);
-            JsonNode responseData = processService.processResponse(
-                    mdmRestClient.execute(commandMessage),
-                    context,
-                    processId,
-                    taskId,
-                    commandMessage);
-            if (Objects.nonNull(responseData)) {
-                operationService.saveOperationStep(
-                        execution,
-                        entity,
-                        commandMessage,
-                        processService.setContractData(prevData, responseData, processId));
-            }
-        }
+//        LOG.info(execution.getCurrentActivityName());
+//        final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
+//        final JsonNode prevData = jsonUtil.toJsonNode(entity.getResponseData());
+//        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
+//        final String processId = execution.getProcessInstanceId();
+//        final String taskId = execution.getCurrentActivityId();
+//        final JsonNode rqData = processService.getContractData(prevData, processId);
+//        if (rqData != null) {
+//            final JsonNode commandMessage = processService.getCommandMessage(PROCESS_BID_DATA, context, rqData);
+//            JsonNode responseData = processService.processResponse(
+//                    mdmRestClient.execute(commandMessage),
+//                    context,
+//                    processId,
+//                    taskId,
+//                    commandMessage);
+//            if (Objects.nonNull(responseData)) {
+//                operationService.saveOperationStep(
+//                        execution,
+//                        entity,
+//                        commandMessage,
+//                        processService.setContractData(prevData, responseData, processId));
+//            }
+//        }
     }
 }
