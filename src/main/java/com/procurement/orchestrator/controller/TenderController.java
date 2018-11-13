@@ -161,7 +161,7 @@ public class TenderController extends DoBaseController {
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
-    @RequestMapping(value = "/bid/{cpid}/{ocid}/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/bidDocs/{cpid}/{ocid}/{id}", method = RequestMethod.POST)
     public ResponseEntity<String> bidDocs(@RequestHeader("Authorization") final String authorization,
                                             @RequestHeader("X-OPERATION-ID") final String operationId,
                                             @RequestHeader("X-TOKEN") final String token,
