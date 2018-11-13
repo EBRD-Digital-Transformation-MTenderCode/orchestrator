@@ -175,6 +175,14 @@ public class OperationServiceImpl implements OperationService {
         cassandraDao.saveContext(contextEntity);
     }
 
+    @Override
+    public void saveContractContext(Context context) {
+        final ContextEntity contextEntity = new ContextEntity();
+        contextEntity.setCpId(context.getOcid());
+        contextEntity.setContext(jsonUtil.toJson(context));
+        cassandraDao.saveContext(contextEntity);
+    }
+
     void processException(final String error,
                           final String processId) {
         try {

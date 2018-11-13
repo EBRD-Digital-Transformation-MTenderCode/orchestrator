@@ -36,6 +36,8 @@ public interface OperationService {
 
     void saveContext(Context context);
 
+    void saveContractContext(Context context);
+
 }
 
 

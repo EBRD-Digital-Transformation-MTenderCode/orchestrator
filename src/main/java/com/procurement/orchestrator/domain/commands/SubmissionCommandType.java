@@ -12,6 +12,7 @@ public enum SubmissionCommandType {
 
     CREATE_BID("createBid"),
     UPDATE_BID("updateBid"),
+    UPDATE_BID_DOCS("updateBidDocs"),
     COPY_BIDS("copyBids"),
     GET_PERIOD("getPeriod"),
     SAVE_PERIOD("savePeriod"),
