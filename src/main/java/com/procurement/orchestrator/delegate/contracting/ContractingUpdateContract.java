@@ -2,7 +2,6 @@ package com.procurement.orchestrator.delegate.contracting;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
-import com.procurement.orchestrator.domain.Stage;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.ContractingRestClient;
 import com.procurement.orchestrator.service.NotificationService;

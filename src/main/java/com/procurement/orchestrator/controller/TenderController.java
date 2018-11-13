@@ -6,12 +6,10 @@ import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.service.RequestService;
 import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -163,6 +161,25 @@ public class TenderController extends DoBaseController {
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
+    @RequestMapping(value = "/bid/{cpid}/{ocid}/{id}", method = RequestMethod.POST)
+    public ResponseEntity<String> bidDocs(@RequestHeader("Authorization") final String authorization,
+                                            @RequestHeader("X-OPERATION-ID") final String operationId,
+                                            @RequestHeader("X-TOKEN") final String token,
+                                            @PathVariable("cpid") final String cpid,
+                                            @PathVariable("ocid") final String ocid,
+                                            @PathVariable("id") final String id,
+                                            @RequestBody final JsonNode data) {
+        requestService.validate(operationId, data);
+        final Context context = requestService.getContextForBidUpdate(authorization, operationId, cpid, ocid, token, "updateBidDocs");
+        context.setId(id);
+        context.setOperationType("updateBidDocs");
+        requestService.saveRequestAndCheckOperation(context, data);
+        final Map<String, Object> variables = new HashMap<>();
+        variables.put("operationType", "updateBidDocs");
+        processService.startProcess(context, variables);
+        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
+    }
+
     @RequestMapping(value = "/enquiry/{cpid}/{ocid}", method = RequestMethod.POST)
     public ResponseEntity<String> createEnquiry(@RequestHeader("Authorization") final String authorization,
                                                 @RequestHeader("X-OPERATION-ID") final String operationId,
@@ -225,7 +242,7 @@ public class TenderController extends DoBaseController {
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
-//    @RequestMapping(value = "/new-stage/{cpid}/{ocid}", method = RequestMethod.POST)
+//    @RequestMapping(value = "/new-context/{cpid}/{ocid}", method = RequestMethod.POST)
 //    public ResponseEntity<String> newStage(@RequestHeader("Authorization") final String authorization,
 //                                           @RequestHeader("X-OPERATION-ID") final String operationId,
 //                                           @RequestHeader("X-TOKEN") final String token,
