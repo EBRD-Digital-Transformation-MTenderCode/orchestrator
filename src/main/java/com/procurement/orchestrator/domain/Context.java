@@ -28,7 +28,7 @@ public class Context {
     @JsonProperty(value = "ocid")
     private String ocid;
 
-    @JsonProperty(value = "context")
+    @JsonProperty(value = "stage")
     private String stage;
 
     @JsonProperty(value = "prevStage")
