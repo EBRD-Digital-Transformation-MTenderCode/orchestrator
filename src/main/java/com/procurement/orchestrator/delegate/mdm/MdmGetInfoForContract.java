@@ -1,5 +1,8 @@
 package com.procurement.orchestrator.delegate.mdm;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.procurement.orchestrator.domain.Context;
+import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.MdmRestClient;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
@@ -9,6 +12,8 @@ import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+
+import static com.procurement.orchestrator.domain.commands.MdmCommandType.PROCESS_CONTRACT_DATA;
 
 @Component
 public class MdmGetInfoForContract implements JavaDelegate {
@@ -35,28 +40,28 @@ public class MdmGetInfoForContract implements JavaDelegate {
 
     @Override
     public void execute(final DelegateExecution execution) throws Exception {
-//        LOG.info(execution.getCurrentActivityName());
-//        final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
-//        final JsonNode prevData = jsonUtil.toJsonNode(entity.getResponseData());
-//        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
-//        final String processId = execution.getProcessInstanceId();
-//        final String taskId = execution.getCurrentActivityId();
-//        final JsonNode rqData = processService.getContractData(prevData, processId);
-//        if (rqData != null) {
-//            final JsonNode commandMessage = processService.getCommandMessage(PROCESS_BID_DATA, context, rqData);
-//            JsonNode responseData = processService.processResponse(
-//                    mdmRestClient.execute(commandMessage),
-//                    context,
-//                    processId,
-//                    taskId,
-//                    commandMessage);
-//            if (Objects.nonNull(responseData)) {
-//                operationService.saveOperationStep(
-//                        execution,
-//                        entity,
-//                        commandMessage,
-//                        processService.setContractData(prevData, responseData, processId));
-//            }
-//        }
+        LOG.info(execution.getCurrentActivityName());
+        final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
+        final JsonNode prevData = jsonUtil.toJsonNode(entity.getResponseData());
+        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
+        final String processId = execution.getProcessInstanceId();
+        final String taskId = execution.getCurrentActivityId();
+        final JsonNode rqData = processService.getContractData(prevData, processId);
+        if (rqData != null) {
+            final JsonNode commandMessage = processService.getCommandMessage(PROCESS_CONTRACT_DATA, context, rqData);
+            JsonNode responseData = processService.processResponse(
+                    mdmRestClient.execute(commandMessage),
+                    context,
+                    processId,
+                    taskId,
+                    commandMessage);
+            if (responseData != null) {
+                operationService.saveOperationStep(
+                        execution,
+                        entity,
+                        commandMessage,
+                        processService.setContractData(prevData, responseData, processId));
+            }
+        }
     }
 }
