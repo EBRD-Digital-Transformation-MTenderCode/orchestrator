@@ -2,6 +2,7 @@ package com.procurement.orchestrator.delegate.context;
 
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.Outcome;
+import com.procurement.orchestrator.domain.Stage;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -32,12 +33,17 @@ public class SaveContractContext implements JavaDelegate {
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final Set<Outcome> contextOutcomes = context.getOutcomes();
+        context.setPhase("awardedContractPreparation");
+        operationService.saveContext(context);
+
+        context.setStage(Stage.AC.value());
+        context.setPhase("contractProject");
         for (final Outcome outcome : contextOutcomes) {
             if (outcome.getType().equals("ac")) {
                 operationService.saveContractContext(outcome.getId(), context);
             }
         }
 
-        operationService.saveOperationStep(execution, entity, context);
+        operationService.saveOperationStep(execution, entity);
     }
 }

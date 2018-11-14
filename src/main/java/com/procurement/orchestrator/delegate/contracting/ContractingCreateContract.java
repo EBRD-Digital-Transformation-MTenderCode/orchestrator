@@ -50,8 +50,6 @@ public class ContractingCreateContract implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        context.setStage(Stage.AC.value());
-        context.setPhase("contractProject");
         final JsonNode commandMessage = processService.getCommandMessage(CREATE_AC, context, jsonData);
         JsonNode responseData = processService.processResponse(
                 contractingRestClient.execute(commandMessage),
