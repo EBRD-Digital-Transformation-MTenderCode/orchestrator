@@ -1,9 +1,9 @@
-package com.procurement.orchestrator.delegate.contracting;
+package com.procurement.orchestrator.delegate.submission;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
-import com.procurement.orchestrator.rest.ContractingRestClient;
+import com.procurement.orchestrator.rest.SubmissionRestClient;
 import com.procurement.orchestrator.service.NotificationService;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
@@ -16,25 +16,25 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.ContractingCommandType.UPDATE_AC;
+import static com.procurement.orchestrator.domain.commands.SubmissionCommandType.UPDATE_BID_DOCS;
 
 @Component
-public class ContractingUpdateContract implements JavaDelegate {
+public class SubmissionUpdateBidDocs implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ContractingUpdateContract.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SubmissionCopyBids.class);
 
-    private final ContractingRestClient contractingRestClient;
+    private final SubmissionRestClient submissionRestClient;
     private final NotificationService notificationService;
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public ContractingUpdateContract(final ContractingRestClient contractingRestClient,
-                                     final NotificationService notificationService,
-                                     final OperationService operationService,
-                                     final ProcessService processService,
-                                     final JsonUtil jsonUtil) {
-        this.contractingRestClient = contractingRestClient;
+    public SubmissionUpdateBidDocs(final SubmissionRestClient submissionRestClient,
+                                   final NotificationService notificationService,
+                                   final OperationService operationService,
+                                   final ProcessService processService,
+                                   final JsonUtil jsonUtil) {
+        this.submissionRestClient = submissionRestClient;
         this.notificationService = notificationService;
         this.operationService = operationService;
         this.processService = processService;
@@ -46,12 +46,12 @@ public class ContractingUpdateContract implements JavaDelegate {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
-        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
+        final JsonNode requestData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(UPDATE_AC, context, jsonData);
+        final JsonNode commandMessage = processService.getCommandMessage(UPDATE_BID_DOCS, context, requestData);
         JsonNode responseData = processService.processResponse(
-                contractingRestClient.execute(commandMessage),
+                submissionRestClient.execute(commandMessage),
                 context,
                 processId,
                 taskId,
@@ -60,10 +60,9 @@ public class ContractingUpdateContract implements JavaDelegate {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    notificationService.addContractOutcomeToContext(context, responseData, processId),
+                    context,
                     commandMessage,
-                    processService.addContracts(jsonData, responseData, processId));
+                    responseData);
         }
     }
-
 }

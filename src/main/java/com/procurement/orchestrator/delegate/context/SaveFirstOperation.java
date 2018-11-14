@@ -1,4 +1,4 @@
-package com.procurement.orchestrator.delegate.stage;
+package com.procurement.orchestrator.delegate.context;
 
 import com.procurement.orchestrator.domain.entity.RequestEntity;
 import com.procurement.orchestrator.service.OperationService;

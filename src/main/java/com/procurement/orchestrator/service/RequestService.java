@@ -40,4 +40,10 @@ public interface RequestService {
                                 String token,
                                 String process);
 
+    Context getContextForContractUpdate(String authorization,
+                                        String operationId,
+                                        String cpid,
+                                        String ocid,
+                                        String token,
+                                        String process);
 }

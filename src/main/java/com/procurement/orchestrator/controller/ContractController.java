@@ -39,7 +39,8 @@ public class ContractController extends DoBaseController {
                                            @PathVariable("ocid") final String ocid,
                                            @RequestBody final JsonNode data) {
         requestService.validate(operationId, data);
-        final Context context = requestService.getContextForUpdate(authorization, operationId, cpid, ocid, token, "updateAC");
+        final Context context = requestService.getContextForContractUpdate(authorization, operationId,
+                cpid, ocid, token, "updateAC");
         requestService.saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("operationType", context.getOperationType());

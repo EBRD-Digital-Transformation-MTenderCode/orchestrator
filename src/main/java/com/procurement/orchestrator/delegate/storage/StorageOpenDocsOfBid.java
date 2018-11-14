@@ -18,9 +18,9 @@ import java.util.Objects;
 import static com.procurement.orchestrator.domain.commands.StorageCommandType.PUBLISH;
 
 @Component
-public class StorageOpenDocsOfBibs implements JavaDelegate {
+public class StorageOpenDocsOfBid implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(StorageOpenDocsOfBibs.class);
+    private static final Logger LOG = LoggerFactory.getLogger(StorageOpenDocsOfBid.class);
 
     private final StorageRestClient storageRestClient;
 
@@ -30,10 +30,10 @@ public class StorageOpenDocsOfBibs implements JavaDelegate {
 
     private final JsonUtil jsonUtil;
 
-    public StorageOpenDocsOfBibs(final StorageRestClient storageRestClient,
-                                 final OperationService operationService,
-                                 final ProcessService processService,
-                                 final JsonUtil jsonUtil) {
+    public StorageOpenDocsOfBid(final StorageRestClient storageRestClient,
+                                final OperationService operationService,
+                                final ProcessService processService,
+                                final JsonUtil jsonUtil) {
         this.storageRestClient = storageRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -48,7 +48,7 @@ public class StorageOpenDocsOfBibs implements JavaDelegate {
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityName();
-        final JsonNode documents = processService.getDocumentsOfBids(jsonData, processId);
+        final JsonNode documents = processService.getDocumentsOfBid(jsonData, processId);
         final JsonNode commandMessage = processService.getCommandMessage(PUBLISH, context, documents);
         JsonNode responseData = null;
         if (Objects.nonNull(documents)) {
@@ -64,7 +64,7 @@ public class StorageOpenDocsOfBibs implements JavaDelegate {
                     execution,
                     entity,
                     commandMessage,
-                    processService.setDocumentsOfBids(jsonData, responseData, processId));
+                    processService.setDocumentsOfBid(jsonData, responseData, processId));
         }
     }
 }

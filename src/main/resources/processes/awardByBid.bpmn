@@ -16,7 +16,7 @@
       <bpmn:outgoing>SequenceFlow_1mzu2bf</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="SubmissionUpdateBidStatusDetailsTask" name="Submission Update Bid Status Details" camunda:asyncBefore="true" camunda:delegateExpression="${submissionUpdateBidStatusDetails}">
-      <bpmn:incoming>SequenceFlow_143tmro</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_1i596lw</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_13n35us</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="NoticeCreateReleaseTask" name="Notice Create Release" camunda:asyncBefore="true" camunda:delegateExpression="${noticeCreateRelease}">
@@ -64,9 +64,8 @@
     <bpmn:exclusiveGateway id="ExclusiveGateway_0jrrnwx">
       <bpmn:incoming>SequenceFlow_1takhmo</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_1nqdiay</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_143tmro</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_1i596lw</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="SequenceFlow_143tmro" sourceRef="ExclusiveGateway_0jrrnwx" targetRef="SubmissionUpdateBidStatusDetailsTask" />
     <bpmn:serviceTask id="StorageValidateDocsOfAward" name="Storage&#10;Validate" camunda:asyncBefore="true" camunda:delegateExpression="${storageValidateDocsOfAward}">
       <bpmn:incoming>SequenceFlow_1mzu2bf</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0005ood</bpmn:outgoing>
@@ -75,6 +74,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_0ib7mel" sourceRef="ExclusiveGateway_0j3ce5y" targetRef="StorageOpenDocsOfAwardTask">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${bidAwarded==false}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_1i596lw" sourceRef="ExclusiveGateway_0jrrnwx" targetRef="SubmissionUpdateBidStatusDetailsTask" />
   </bpmn:process>
   <bpmn:error id="tr_exception" name="TR_EXCEPTION" errorCode="TR_EXCEPTION" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -194,10 +194,6 @@
       <bpmndi:BPMNShape id="ExclusiveGateway_0jrrnwx_di" bpmnElement="ExclusiveGateway_0jrrnwx" isMarkerVisible="true">
         <dc:Bounds x="878" y="225" width="50" height="50" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="SequenceFlow_143tmro_di" bpmnElement="SequenceFlow_143tmro">
-        <di:waypoint x="903" y="250" />
-        <di:waypoint x="971" y="250" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ServiceTask_1dncqyj_di" bpmnElement="StorageValidateDocsOfAward">
         <dc:Bounds x="385" y="210" width="100" height="80" />
       </bpmndi:BPMNShape>
@@ -210,6 +206,10 @@
         <di:waypoint x="679" y="148" />
         <di:waypoint x="1157" y="148" />
         <di:waypoint x="1157" y="210" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1i596lw_di" bpmnElement="SequenceFlow_1i596lw">
+        <di:waypoint x="928" y="250" />
+        <di:waypoint x="971" y="250" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

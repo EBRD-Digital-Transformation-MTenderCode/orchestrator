@@ -372,6 +372,11 @@ public class NotificationServiceImpl implements NotificationService {
                 data.setOutcomes(buildOutcomes(context.getStage(), context.getOcid(), null));
                 break;
             }
+            case UPDATE_BID_DOCS: {
+                data.setOcid(context.getCpid());
+                data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
+                break;
+            }
             default:
                 return null;
         }

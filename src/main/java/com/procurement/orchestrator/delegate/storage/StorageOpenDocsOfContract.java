@@ -49,10 +49,9 @@ public class StorageOpenDocsOfContract implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityName();
         final JsonNode documents = processService.getDocumentsOfContract(jsonData, processId);
-        JsonNode responseData = null;
         if (Objects.nonNull(documents)) {
             final JsonNode commandMessage = processService.getCommandMessage(PUBLISH, context, documents);
-            responseData = processService.processResponse(
+            JsonNode responseData = processService.processResponse(
                     storageRestClient.execute(commandMessage),
                     context,
                     processId,
@@ -63,7 +62,7 @@ public class StorageOpenDocsOfContract implements JavaDelegate {
                         execution,
                         entity,
                         commandMessage,
-                        processService.setDocumentsOfAward(jsonData, responseData, processId));
+                        processService.setDocumentsOfContract(jsonData, responseData, processId));
             }
         }
     }

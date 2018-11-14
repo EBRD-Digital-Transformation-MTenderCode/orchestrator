@@ -13,7 +13,8 @@ public enum ContractingCommandType {
     CREATE_CAN("createCAN"),
     CREATE_AC("createAC"),
     UPDATE_AC("updateAC"),
-    GET_BUDGET_SOURCES("getActualBudgetSources");
+    GET_BUDGET_SOURCES("getActualBudgetSources"),
+    CHECK_STATUS_DETAILS("contractingCheckStatusDetails");
 
     private static final Map<String, ContractingCommandType> CONSTANTS = new HashMap<>();
     private final String value;
