@@ -60,7 +60,7 @@ public class SubmissionUpdateBidDocs implements JavaDelegate {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    notificationService.addBidOutcomeToContext(context, responseData, processId),
+                    context,
                     commandMessage,
                     responseData);
         }
