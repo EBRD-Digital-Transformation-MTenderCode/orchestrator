@@ -170,7 +170,7 @@ public class TenderController extends DoBaseController {
                                           @PathVariable("id") final String id,
                                           @RequestBody final JsonNode data) {
         requestService.validate(operationId, data);
-        final Context context = requestService.getContextForBidUpdate(authorization, operationId, cpid, ocid, token, "updateBidDocs");
+        final Context context = requestService.getContextForUpdate(authorization, operationId, cpid, ocid, token, "updateBidDocs");
         context.setId(id);
         context.setOperationType("updateBidDocs");
         requestService.saveRequestAndCheckOperation(context, data);

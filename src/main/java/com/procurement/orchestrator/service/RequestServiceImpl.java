@@ -233,43 +233,6 @@ public class RequestServiceImpl implements RequestService {
         return context;
     }
 
-    @Override
-    public Context getContextForBidUpdate(final String authorization,
-                                          final String operationId,
-                                          final String cpid,
-                                          final String ocid,
-                                          final String token,
-                                          final String process) {
-
-        Context prevContext;
-        if (ocid.contains("AC")) {
-            prevContext = getContext(ocid);
-        } else {
-            prevContext = getContext(cpid);
-        }
-        validateStageFromOcId(cpid, ocid, prevContext);
-        final String processType = getProcessType(prevContext.getCountry(), prevContext.getPmd(), process);
-        final Rule rule = checkAndGetRule(prevContext, processType);
-        final Context context = new Context();
-        context.setCountry(rule.getCountry());
-        context.setPmd(rule.getPmd());
-        context.setProcessType(processType);
-        context.setPrevStage(rule.getPrevStage());
-        context.setStage(rule.getNewStage());
-        context.setPhase(rule.getNewPhase());
-        context.setOperationType(rule.getOperationType());
-        context.setOperationId(operationId);
-        context.setOwner(getOwner(authorization));
-        context.setCpid(cpid);
-        context.setOcid(ocid);
-        context.setToken(token);
-        context.setLanguage(lang);
-        context.setIsAuction(prevContext.getIsAuction());
-        context.setRequestId(UUIDs.timeBased().toString());
-        context.setStartDate(dateUtil.nowFormatted());
-        return context;
-    }
-
     private void validateStageFromOcId(final String cpid, final String ocid, final Context prevContext) {
         String currentStage = null;
         for (final Stage stage : Stage.values()) {
