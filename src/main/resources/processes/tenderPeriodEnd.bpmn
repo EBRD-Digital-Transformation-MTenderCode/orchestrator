@@ -35,7 +35,7 @@
       <bpmn:outgoing>SequenceFlow_01bmiwq</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlow_1vmk2lo</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:serviceTask id="StorageOpenDocsOfBibsTask" name="Storage Open Docs of Bibs" camunda:asyncBefore="true" camunda:delegateExpression="${storageOpenDocsOfBibs}">
+    <bpmn:serviceTask id="StorageOpenDocsOfBidsTask" name="Storage Open Docs of Bids" camunda:asyncBefore="true" camunda:delegateExpression="${storageOpenDocsOfBids}">
       <bpmn:incoming>SequenceFlow_0e3pm3w</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0bwrwq3</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -74,7 +74,7 @@
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${operationType=='tenderPeriodEndEv'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_0oqpftm" sourceRef="AccessSetTenderUnsuccessfulTask" targetRef="EvaluationAwardsCancellationTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0bwrwq3" sourceRef="StorageOpenDocsOfBibsTask" targetRef="NoticeCreateReleaseTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0bwrwq3" sourceRef="StorageOpenDocsOfBidsTask" targetRef="NoticeCreateReleaseTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1366kgx" sourceRef="ChronographUpdatePeriodTask" targetRef="EndEvent_1" />
     <bpmn:sequenceFlow id="SequenceFlow_1vmk2lo" sourceRef="ExclusiveGateway_0hg3tz9" targetRef="ChronographUpdatePeriodTask">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isTenderPeriodExpired==false}</bpmn:conditionExpression>
@@ -94,7 +94,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_166mcag" sourceRef="AccessGetLotsTask" targetRef="EvaluationCreateAwardsTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0nuv6dr" sourceRef="EvaluationCreateAwardsTask" targetRef="SubmissionUpdateBidStatusTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1aqx7s0" sourceRef="SubmissionUpdateBidStatusTask" targetRef="AccessSetLotsUnsuccessfulTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0e3pm3w" sourceRef="AccessSetLotsUnsuccessfulTask" targetRef="StorageOpenDocsOfBibsTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0e3pm3w" sourceRef="AccessSetLotsUnsuccessfulTask" targetRef="StorageOpenDocsOfBidsTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0fc9i4u" sourceRef="NoticeCreateReleaseTask" targetRef="SaveContextTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1almqeo" sourceRef="SaveContextTask" targetRef="SendMessageTask" />
     <bpmn:serviceTask id="EvaluationAwardsCancellationTask" name="Evaluation&#10;Awards Cancellation" camunda:asyncBefore="true" camunda:delegateExpression="${evaluationAwardsCancellation}">
@@ -146,7 +146,7 @@
           <dc:Bounds x="161" y="358" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_13to6ht_di" bpmnElement="StorageOpenDocsOfBibsTask">
+      <bpmndi:BPMNShape id="ServiceTask_13to6ht_di" bpmnElement="StorageOpenDocsOfBidsTask">
         <dc:Bounds x="1683" y="281" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_1rs54aj_di" bpmnElement="ChronographUpdatePeriodTask">

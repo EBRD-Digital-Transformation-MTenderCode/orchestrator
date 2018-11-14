@@ -109,12 +109,12 @@
       <bpmn:incoming>SequenceFlow_1fksx36</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1tvwduk</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="StorageOpenDocsOfBibsTask" name="Storage Open Docs of Bibs" camunda:asyncBefore="true" camunda:delegateExpression="${storageOpenDocsOfBibs}">
+    <bpmn:serviceTask id="StorageOpenDocsOfBidsTask" name="Storage Open Docs of Bids" camunda:asyncBefore="true" camunda:delegateExpression="${storageOpenDocsOfBids}">
       <bpmn:incoming>SequenceFlow_1tvwduk</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1vfgx98</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1fksx36" sourceRef="EvaluationCreateAwardsAuctionTask" targetRef="SubmissionUpdateBidStatusTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1tvwduk" sourceRef="SubmissionUpdateBidStatusTask" targetRef="StorageOpenDocsOfBibsTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1tvwduk" sourceRef="SubmissionUpdateBidStatusTask" targetRef="StorageOpenDocsOfBidsTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1ajer8q" sourceRef="ExclusiveGateway_1j9pwmt" targetRef="EvaluationCreateAwardsAuctionTask">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isAuctionStarted==false}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
@@ -123,7 +123,7 @@
       <bpmn:incoming>SequenceFlow_1ackve6</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_11cc7rz</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="SequenceFlow_1vfgx98" sourceRef="StorageOpenDocsOfBibsTask" targetRef="ExclusiveGateway_1k6durd" />
+    <bpmn:sequenceFlow id="SequenceFlow_1vfgx98" sourceRef="StorageOpenDocsOfBidsTask" targetRef="ExclusiveGateway_1k6durd" />
     <bpmn:sequenceFlow id="SequenceFlow_0f9jn4m" sourceRef="EvaluationCreateAwardsByLotAuctionTask" targetRef="SendMessageToAuctionTask" />
     <bpmn:sequenceFlow id="SequenceFlow_11cc7rz" sourceRef="ExclusiveGateway_1k6durd" targetRef="AccessSetLotsUnsuccessfulTask" />
     <bpmn:serviceTask id="SendMessageToAuctionTask" name="Send&#10;message to auction&#10;" camunda:asyncBefore="true" camunda:delegateExpression="${sendMessageToAuction}">
@@ -323,7 +323,7 @@
       <bpmndi:BPMNShape id="ServiceTask_131pybs_di" bpmnElement="SubmissionUpdateBidStatusTask">
         <dc:Bounds x="1567" y="161" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_0meoi7f_di" bpmnElement="StorageOpenDocsOfBibsTask">
+      <bpmndi:BPMNShape id="ServiceTask_0meoi7f_di" bpmnElement="StorageOpenDocsOfBidsTask">
         <dc:Bounds x="1708" y="161" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1fksx36_di" bpmnElement="SequenceFlow_1fksx36">

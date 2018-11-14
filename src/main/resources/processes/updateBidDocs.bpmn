@@ -35,7 +35,7 @@
       <bpmn:incoming>SequenceFlow_1llcn73</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0mv0pq3</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="StorageOpenDocsOfBibsTask" name="Storage Open Docs of Bibs" camunda:asyncBefore="true" camunda:delegateExpression="${storageOpenDocsOfBibs}">
+    <bpmn:serviceTask id="StorageOpenDocsOfBidTask" name="Storage Open Docs of Bid" camunda:asyncBefore="true" camunda:delegateExpression="${storageOpenDocsOfBid}">
       <bpmn:incoming>SequenceFlow_0mv0pq3</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0057xjk</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -43,8 +43,8 @@
       <bpmn:incoming>SequenceFlow_0057xjk</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1lcd47i</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_0mv0pq3" sourceRef="SubmissionUpdateBidDocsTask" targetRef="StorageOpenDocsOfBibsTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0057xjk" sourceRef="StorageOpenDocsOfBibsTask" targetRef="NoticeCreateReleaseTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0mv0pq3" sourceRef="SubmissionUpdateBidDocsTask" targetRef="StorageOpenDocsOfBidTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0057xjk" sourceRef="StorageOpenDocsOfBidTask" targetRef="NoticeCreateReleaseTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1lcd47i" sourceRef="NoticeCreateReleaseTask" targetRef="SaveContextTask" />
   </bpmn:process>
   <bpmn:error id="Error_1espguw" name="TR_EXCEPTION" errorCode="TR_EXCEPTION" />
@@ -109,7 +109,7 @@
       <bpmndi:BPMNShape id="ServiceTask_1eyrp2x_di" bpmnElement="SubmissionUpdateBidDocsTask">
         <dc:Bounds x="413" y="235" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_1n3hygp_di" bpmnElement="StorageOpenDocsOfBibsTask">
+      <bpmndi:BPMNShape id="ServiceTask_1n3hygp_di" bpmnElement="StorageOpenDocsOfBidTask">
         <dc:Bounds x="548" y="235" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_1mh69v6_di" bpmnElement="NoticeCreateReleaseTask">

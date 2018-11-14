@@ -581,7 +581,6 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    @Override
     public JsonNode getDocumentsOfAwards(JsonNode jsonData, String processId) {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
@@ -606,7 +605,6 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    @Override
     public JsonNode setDocumentsOfAwards(JsonNode jsonData, JsonNode documentsData, String processId) {
         try {
             final ArrayNode documentsArray = (ArrayNode) documentsData.get("documents");
@@ -640,7 +638,6 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    @Override
     public JsonNode getDocumentsOfBid(JsonNode jsonData, String processId) {
         try {
             final JsonNode documentsNode = jsonData.get("bid").findPath("documents");
@@ -650,6 +647,21 @@ public class ProcessServiceImpl implements ProcessService {
                 mainNode.replace("documents", documentsNode);
             }
             return mainNode;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    public JsonNode setDocumentsOfBid(final JsonNode jsonData, final JsonNode documentsData,
+                                       final String processId) {
+        try {
+            final ObjectNode bidNode = (ObjectNode) jsonData.get("bid");
+            final ArrayNode documentsArray = (ArrayNode) documentsData.get("documents");
+            if (documentsArray.size() > 0) {
+                bidNode.replace("documents", documentsArray);
+            }
+            return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
             return null;
