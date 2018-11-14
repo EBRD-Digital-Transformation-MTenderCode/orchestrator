@@ -39,9 +39,6 @@
       <bpmn:outgoing>SequenceFlow_1645qy2</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="ContractingCreateCanTask" name="Contracting Create CAN" camunda:asyncBefore="true" camunda:delegateExpression="${contractingCreateCan}">
-      <bpmn:extensionElements>
-        <camunda:failedJobRetryTimeCycle>R0/PT1S</camunda:failedJobRetryTimeCycle>
-      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1645qy2</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1c92naw</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -58,9 +55,6 @@
     <bpmn:sequenceFlow id="SequenceFlow_1645qy2" sourceRef="EvaluationAwardsForCansTask" targetRef="ContractingCreateCanTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1jf09wy" sourceRef="SaveFirstOperationTask" targetRef="AccessCheckTokenTask" />
     <bpmn:serviceTask id="ContractingCreateContractTask" name="Contracting Create Contract" camunda:asyncBefore="true" camunda:delegateExpression="${contractingCreateContract}">
-      <bpmn:extensionElements>
-        <camunda:failedJobRetryTimeCycle>R0/PT1S</camunda:failedJobRetryTimeCycle>
-      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1ey8wtp</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0dpgupg</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -101,9 +95,6 @@
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_0lbkla6" sourceRef="SendMessageStandstillEvTask" targetRef="EvaluationSetFinalStatusesTask" />
     <bpmn:serviceTask id="RegulationGetContractTermsTask" name="Regulation Get Contract Terms" camunda:asyncBefore="true" camunda:delegateExpression="${regulationGetContractTerms}">
-      <bpmn:extensionElements>
-        <camunda:failedJobRetryTimeCycle>R0/PT1S</camunda:failedJobRetryTimeCycle>
-      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0dpgupg</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0f77w8j</bpmn:outgoing>
     </bpmn:serviceTask>
