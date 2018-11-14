@@ -163,12 +163,12 @@ public class TenderController extends DoBaseController {
 
     @RequestMapping(value = "/bidDocs/{cpid}/{ocid}/{id}", method = RequestMethod.POST)
     public ResponseEntity<String> bidDocs(@RequestHeader("Authorization") final String authorization,
-                                            @RequestHeader("X-OPERATION-ID") final String operationId,
-                                            @RequestHeader("X-TOKEN") final String token,
-                                            @PathVariable("cpid") final String cpid,
-                                            @PathVariable("ocid") final String ocid,
-                                            @PathVariable("id") final String id,
-                                            @RequestBody final JsonNode data) {
+                                          @RequestHeader("X-OPERATION-ID") final String operationId,
+                                          @RequestHeader("X-TOKEN") final String token,
+                                          @PathVariable("cpid") final String cpid,
+                                          @PathVariable("ocid") final String ocid,
+                                          @PathVariable("id") final String id,
+                                          @RequestBody final JsonNode data) {
         requestService.validate(operationId, data);
         final Context context = requestService.getContextForBidUpdate(authorization, operationId, cpid, ocid, token, "updateBidDocs");
         context.setId(id);
