@@ -654,7 +654,7 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     public JsonNode setDocumentsOfBid(final JsonNode jsonData, final JsonNode documentsData,
-                                       final String processId) {
+                                      final String processId) {
         try {
             final ObjectNode bidNode = (ObjectNode) jsonData.get("bid");
             final ArrayNode documentsArray = (ArrayNode) documentsData.get("documents");
@@ -695,25 +695,35 @@ public class ProcessServiceImpl implements ProcessService {
                 documentsArray.addAll(docsOfContractNode);
             }
             final ArrayNode suppliersNode = (ArrayNode) jsonData.get("awards").get("suppliers");
-            for (final JsonNode supplierNode : suppliersNode) {
-                final ArrayNode personesNode = (ArrayNode) supplierNode.get("persones");
-                for (final JsonNode personNode : personesNode) {
-                    final ArrayNode bfsNode = (ArrayNode) personNode.get("businessFunctions");
-                    for (final JsonNode bfNode : bfsNode) {
-                        final ArrayNode documentsOfBfNode = (ArrayNode) bfNode.get("documents");
-                        if (documentsOfBfNode != null && documentsOfBfNode.size() > 0) {
-                            documentsArray.addAll(documentsOfBfNode);
+            if (suppliersNode != null && suppliersNode.size() > 0) {
+                for (final JsonNode supplierNode : suppliersNode) {
+                    final ArrayNode personesNode = (ArrayNode) supplierNode.get("persones");
+                    if (personesNode != null && personesNode.size() > 0) {
+                        for (final JsonNode personNode : personesNode) {
+                            final ArrayNode bfsNode = (ArrayNode) personNode.get("businessFunctions");
+                            if (bfsNode != null && bfsNode.size() > 0) {
+                                for (final JsonNode bfNode : bfsNode) {
+                                    final ArrayNode documentsOfBfNode = (ArrayNode) bfNode.get("documents");
+                                    if (documentsOfBfNode != null && documentsOfBfNode.size() > 0) {
+                                        documentsArray.addAll(documentsOfBfNode);
+                                    }
+                                }
+                            }
                         }
                     }
                 }
             }
             final ArrayNode personesNode = (ArrayNode) jsonData.get("buyer").get("persones");
-            for (final JsonNode personNode : personesNode) {
-                final ArrayNode bfsNode = (ArrayNode) personNode.get("businessFunctions");
-                for (final JsonNode bfNode : bfsNode) {
-                    final ArrayNode documentsOfBfNode = (ArrayNode) bfNode.get("documents");
-                    if (documentsOfBfNode != null && documentsOfBfNode.size() > 0) {
-                        documentsArray.addAll(documentsOfBfNode);
+            if (personesNode != null && personesNode.size() > 0) {
+                for (final JsonNode personNode : personesNode) {
+                    final ArrayNode bfsNode = (ArrayNode) personNode.get("businessFunctions");
+                    if (bfsNode != null && bfsNode.size() > 0) {
+                        for (final JsonNode bfNode : bfsNode) {
+                            final ArrayNode documentsOfBfNode = (ArrayNode) bfNode.get("documents");
+                            if (documentsOfBfNode != null && documentsOfBfNode.size() > 0) {
+                                documentsArray.addAll(documentsOfBfNode);
+                            }
+                        }
                     }
                 }
             }
