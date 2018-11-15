@@ -31,7 +31,7 @@
       <bpmn:outgoing>SequenceFlow_1gek9tl</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1gek9tl" sourceRef="MdmGetInfoForContractTask" targetRef="ContractingUpdateContractTask" />
-    <bpmn:serviceTask id="StorageValidateDocsOfContractTask" name="Storage&#10;Validate" camunda:asyncBefore="true" camunda:delegateExpression="${storageValidateDocsOfContract}">
+    <bpmn:serviceTask id="StorageValidateDocsOfContractTask" name="Storage Validate" camunda:asyncBefore="true" camunda:delegateExpression="${storageValidateDocsOfContract}">
       <bpmn:incoming>SequenceFlow_0ipeyos</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1kkdaac</bpmn:outgoing>
     </bpmn:serviceTask>
