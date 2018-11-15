@@ -61,8 +61,7 @@ public class StorageValidateDocsOfAward implements JavaDelegate {
                 operationService.saveOperationStep(
                         execution,
                         entity,
-                        commandMessage,
-                        jsonData);
+                        commandMessage);
             }
         }
     }

@@ -61,8 +61,7 @@ public class StorageValidateDocsOfBids implements JavaDelegate {
                 operationService.saveOperationStep(
                         execution,
                         entity,
-                        commandMessage,
-                        jsonData);
+                        commandMessage);
             }
         }
     }
