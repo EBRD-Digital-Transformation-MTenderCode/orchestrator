@@ -654,7 +654,7 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     public JsonNode setDocumentsOfBid(final JsonNode jsonData, final JsonNode documentsData,
-                                       final String processId) {
+                                      final String processId) {
         try {
             final ObjectNode bidNode = (ObjectNode) jsonData.get("bid");
             final ArrayNode documentsArray = (ArrayNode) documentsData.get("documents");
@@ -682,13 +682,50 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public JsonNode getDocumentsOfContract(JsonNode jsonData, String processId) {
+    public JsonNode getDocumentsOfContractUpdate(final JsonNode jsonData, final String processId) {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
             final ArrayNode documentsArray = mainNode.putArray("documents");
+            final ArrayNode docsOfAwardNode = (ArrayNode) jsonData.get("awards").get("documents");
+            if (docsOfAwardNode != null && docsOfAwardNode.size() > 0) {
+                documentsArray.addAll(docsOfAwardNode);
+            }
             final ArrayNode docsOfContractNode = (ArrayNode) jsonData.get("contracts").get("documents");
             if (docsOfContractNode != null && docsOfContractNode.size() > 0) {
                 documentsArray.addAll(docsOfContractNode);
+            }
+            final ArrayNode suppliersNode = (ArrayNode) jsonData.get("awards").get("suppliers");
+            if (suppliersNode != null && suppliersNode.size() > 0) {
+                for (final JsonNode supplierNode : suppliersNode) {
+                    final ArrayNode personesNode = (ArrayNode) supplierNode.get("persones");
+                    if (personesNode != null && personesNode.size() > 0) {
+                        for (final JsonNode personNode : personesNode) {
+                            final ArrayNode bfsNode = (ArrayNode) personNode.get("businessFunctions");
+                            if (bfsNode != null && bfsNode.size() > 0) {
+                                for (final JsonNode bfNode : bfsNode) {
+                                    final ArrayNode documentsOfBfNode = (ArrayNode) bfNode.get("documents");
+                                    if (documentsOfBfNode != null && documentsOfBfNode.size() > 0) {
+                                        documentsArray.addAll(documentsOfBfNode);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            final ArrayNode personesNode = (ArrayNode) jsonData.get("buyer").get("persones");
+            if (personesNode != null && personesNode.size() > 0) {
+                for (final JsonNode personNode : personesNode) {
+                    final ArrayNode bfsNode = (ArrayNode) personNode.get("businessFunctions");
+                    if (bfsNode != null && bfsNode.size() > 0) {
+                        for (final JsonNode bfNode : bfsNode) {
+                            final ArrayNode documentsOfBfNode = (ArrayNode) bfNode.get("documents");
+                            if (documentsOfBfNode != null && documentsOfBfNode.size() > 0) {
+                                documentsArray.addAll(documentsOfBfNode);
+                            }
+                        }
+                    }
+                }
             }
             return mainNode;
         } catch (Exception e) {
@@ -746,7 +783,7 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public JsonNode setDocumentsOfContract(final JsonNode jsonData, final JsonNode documentsData, final String processId) {
+    public JsonNode setDocumentsOfContracts(final JsonNode jsonData, final JsonNode documentsData, final String processId) {
         try {
             final ObjectNode contractsNode = (ObjectNode) jsonData.get("contracts");
             final ArrayNode documentsArray = (ArrayNode) documentsData.get("documents");

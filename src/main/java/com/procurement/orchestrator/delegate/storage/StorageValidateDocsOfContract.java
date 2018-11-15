@@ -47,8 +47,8 @@ public class StorageValidateDocsOfContract implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final String processId = execution.getProcessInstanceId();
-        final String taskId = execution.getCurrentActivityName();
-        final JsonNode documents = processService.getDocumentsOfContract(jsonData, processId);
+        final String taskId = execution.getCurrentActivityId();
+        final JsonNode documents = processService.getDocumentsOfContractUpdate(jsonData, processId);
         if (documents != null) {
             final JsonNode commandMessage = processService.getCommandMessage(VALIDATE, context, documents);
             JsonNode responseData = processService.processResponse(
@@ -61,8 +61,7 @@ public class StorageValidateDocsOfContract implements JavaDelegate {
                 operationService.saveOperationStep(
                         execution,
                         entity,
-                        commandMessage,
-                        jsonData);
+                        commandMessage);
             }
         }
     }

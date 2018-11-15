@@ -3,274 +3,506 @@
     "implementation": {
       "transactions": [
         {
-          "id": "",
+          "id": "666",
           "type": "advance",
           "value": {
             "amount": 20000,
             "currency": "MDL"
           },
           "executionPeriod": {
-            "durationInDays": ""
-          },
-          "relatedContractMilestone": "approval-3"
+            "durationInDays": "10"
+          }
         }
       ]
     },
     "budget": {
-      "description": "",
+      "description": "1111111",
       "budgetAllocation": [
         {
-          "budgetBreakdownID": "",
+          "budgetBreakdownID": "ocds-t1s2t3-MD-1542277887490-FS-1542277923637",
           "period": {
-            "startDate": "",
-            "endDate": ""
+            "startDate": "2018-11-13T15:39:46Z",
+            "endDate": "2019-05-12T15:39:46Z"
           },
-          "relatedItem": ""
+          "relatedItem": "5d743592-e75a-11e8-9363-3fbb2bac86b6"
         }
       ],
       "budgetSource": [
         {
-          "budgetBreakdownID": "",
-          "amount": 0,
-          "currency": ""
+          "budgetBreakdownID": "ocds-t1s2t3-MD-1542277887490-FS-1542277923637",
+          "amount": 20000,
+          "currency": "MDL"
         }
       ]
     }
   },
-  "contracts": {
-    "title": "",
-    "description": "",
-    "period": {
-      "startDate": "",
-      "endDate": ""
-    },
-    "-documents": [
-      {
-        "documentType": "",
-        "id": "",
-        "-title": "",
-        "-description": "",
-        "relatedLots": [
-          ""
-        ]
-      }
-    ],
-    "milestones": [
-      {
-        "id": "approval-re1atedparties.id",
-        "type": "approval",
-        "-relatedItems": [
-          ""
-        ],
-        "additionalInformation": "",
-        "dueDate": "",
-        "title": "",
-        "description": ""
-      }
-    ],
-    "-confirmationRequests": [
-      {
-        "id": "cs-tenderer-confirmation-on-document.id",
-        "relatedItem": "document.id",
-        "source": "tenderer"
-      }
-    ],
-    "agreedMetrics": [
-      {
-        "id": "cc-general",
-        "title": "General Responsibilities",
-        "description": "Contract conditions governing the general responsibilities related to both: CA and EO",
-        "observations": [
-          {
-            "id": "cc-general-1-1",
-            "notes": "Maximum days to inform on invoking Force Majeure",
-            "measure": 5,
-            "-unit": {
-              "name": "day",
-              "id": "359",
-              "scheme": "MD-CUMC"
-            }
-          }
-        ]
-      }
-    ]
-  },
-  "awards": {
-    "id": "",
-    "suppliers": [
-      {
-        "id": "",
-        "additionalIdentifiers": [
-          {
-            "scheme": "MD-SRJE",
-            "id": "",
-            "legalName": "",
-            "uri": ""
-          }
-        ],
-        "persones": [
-          {
-            "title": "",
-            "name": "",
-            "identifier": {
-              "scheme": "",
-              "id": "",
-              "uri": ""
+  "contracts": [
+    {
+      "title": "Hello_WORLD",
+      "description": "LOL_KEK_AZAZA",
+      "period": {
+        "startDate": "2018-11-13T15:45:05Z",
+        "endDate": "2019-03-28T22:44:32Z"
+      },
+      "milestones": [
+        {
+          "id": "MD-IDNO-212-45-0215",
+          "type": "approval",
+          "additionalInformation": "TEST_ENOTIS",
+          "dueDate": "2018-11-15T15:45:10Z",
+          "title": "123",
+          "description": "321"
+        }
+      ],
+      "confirmationRequests": [
+        {
+          "id": "Hello_document",
+          "relatedItem": "ad900cf7-a42c-4509-a3f6-07814bd0bb0b-1542278375087",
+          "source": "tenderer"
+        }
+      ],
+      "agreedMetrics": [
+        {
+          "id": "cc-general",
+          "title": "Responsabilități generale",
+          "description": "Condiții contractuale care reglementează responsabilitățile generale legate de ambele părți",
+          "observations": [
+            {
+              "id": "cc-general-1-1",
+              "notes": "Nr. max. de zile pentru informarea prinvind invocarea forței majore",
+              "unit": {
+                "id": "359",
+                "name": "ziua",
+                "scheme": "MD-CUMC"
+              }
             },
-            "businessFunctions": [
-              {
-                "type": "authority",
-                "jobTitle": "Chief Executive Officer",
-                "period": {
-                  "startDate": ""
-                },
-                "documents": [
-                  {
-                    "id": "",
-                    "documentType": "regulatoryDocument",
-                    "-title": "",
-                    "-description": ""
-                  }
-                ]
-              }
-            ]
-          }
-        ],
-        "details": {
-          "typeOfSupplier": "",
-          "mainEconomicActivity": [
-            ""
-          ],
-          "scale": "sme",
-          "permits": [
             {
-              "scheme": "SRLE",
-              "id": "",
-              "url": "",
-              "permit": {
-                "issuedBy": {
-                  "id": "",
-                  "name": ""
-                },
-                "issuedThought": {
-                  "id": "",
-                  "name": ""
-                },
-                "validityPeriod": {}
+              "id": "cc-general-1-2",
+              "notes": "Nr. max. de pentru notificarea despre intenția de reziliere",
+              "unit": {
+                "id": "359",
+                "name": "ziua",
+                "scheme": "MD-CUMC"
+              }
+            },
+            {
+              "id": "cc-general-1-3",
+              "notes": "Nr. max. de zile pentru răspunsul la notificarea despre intenția de reziliere",
+              "unit": {
+                "id": "359",
+                "name": "ziua",
+                "scheme": "MD-CUMC"
               }
             }
-          ],
-          "bankAccounts": [
+          ]
+        },
+        {
+          "id": "cc-tenderer-1",
+          "title": "Garanție de executare",
+          "description": "Condiții contractuale care reglementează responsabilitățile generale legate de operatorul economic în ceea ce privește garanția",
+          "observations": [
             {
-              "description": "",
-              "bankName": "",
-              "address": {},
+              "id": "cc-tenderer-1-1",
+              "notes": "Cuantumul garanției",
+              "unit": {
+                "id": "743",
+                "name": "procent",
+                "scheme": "MD-CUMC"
+              }
+            },
+            {
+              "id": "cc-tenderer-1-2",
+              "notes": "Forma de garanţie de bună executare a contractului"
+            }
+          ]
+        },
+        {
+          "id": "cc-tenderer-2",
+          "title": "Termeni",
+          "description": "Condiții contractuale care reglementează responsabilitățile generale legate de EO în ceea ce privește calendarul",
+          "observations": [
+            {
+              "id": "cc-tenderer-2-1",
+              "notes": "Nr. max. de zile de la semnarea contractului pentru anunțarea Cumpărătorului despre disponibilitatea livrării Bunurilor şi/sau prestării Serviciilor",
+              "unit": {
+                "id": "359",
+                "name": "ziua",
+                "scheme": "MD-CUMC"
+              }
+            },
+            {
+              "id": "cc-tenderer-2-2",
+              "notes": "Nr. max. de zile pentru examinarea pretenţiilor înaintate privind calitatea bunurilor şi/sau serviciilor livrate",
+              "unit": {
+                "id": "359",
+                "name": "ziua",
+                "scheme": "MD-CUMC"
+              }
+            },
+            {
+              "id": "cc-tenderer-2-3",
+              "notes": "Nr. max. de zile pentru livrarea suplimentară în baza pretențiilor privind calitatea",
+              "unit": {
+                "id": "359",
+                "name": "ziua",
+                "scheme": "MD-CUMC"
+              }
+            },
+            {
+              "id": "cc-tenderer-2-4",
+              "notes": "Nr. de zile după care se consideră refuz de a vinde Bunurile/Serviciile/Lucrările contractate",
+              "unit": {
+                "id": "359",
+                "name": "ziua",
+                "scheme": "MD-CUMC"
+              }
+            }
+          ]
+        },
+        {
+          "id": "cc-tenderer-3",
+          "title": "Răspundere",
+          "description": "Condiții contractuale care reglementează responsabilitățile generale legate de furnizor în ceea ce privește răspunderea",
+          "observations": [
+            {
+              "id": "cc-tenderer-3-1",
+              "notes": "% de răspundere materială pentru livrarea cu întărziere",
+              "unit": {
+                "id": "743",
+                "name": "procent",
+                "scheme": "MD-CUMC"
+              }
+            },
+            {
+              "id": "cc-tenderer-3-2",
+              "notes": "% maxim de răspundere materială a Vânzătorului în cazul livrării cu întârziere",
+              "unit": {
+                "id": "743",
+                "name": "procent",
+                "scheme": "MD-CUMC"
+              }
+            },
+            {
+              "id": "cc-tenderer-3-3",
+              "notes": "% max. a penalității pentru refuzul executării contractului",
+              "unit": {
+                "id": "743",
+                "name": "procent",
+                "scheme": "MD-CUMC"
+              }
+            }
+          ]
+        },
+        {
+          "id": "cc-buyer-1",
+          "title": "Termeni",
+          "description": "Condiții contractuale care reglementează responsabilitățile generale legate de entitatea contractantă în ceea ce privește calendarul",
+          "observations": [
+            {
+              "id": "cc-buyer-1-1",
+              "notes": "Nr. max. de zile pentru depunerea pretențiilor privind calitatea bunurilor şi/sau serviciilor livrate",
+              "unit": {
+                "id": "359",
+                "name": "ziua",
+                "scheme": "MD-CUMC"
+              }
+            }
+          ]
+        },
+        {
+          "id": "cc-buyer-2",
+          "title": "Răspundere",
+          "description": "Condiții contractuale care reglementează responsabilitățile generale legate de entitatea contractantă privind răspunderea",
+          "observations": [
+            {
+              "id": "cc-buyer-2-1",
+              "notes": "% de răspundere materială a Beneficiarului in caz de achitare cu întârziere",
+              "unit": {
+                "id": "743",
+                "name": "procent",
+                "scheme": "MD-CUMC"
+              }
+            },
+            {
+              "id": "cc-buyer-2-2",
+              "notes": "% răspundere materială maximă a Beneficiarului in caz de achitare cu întârziere",
+              "unit": {
+                "id": "743",
+                "name": "procent",
+                "scheme": "MD-CUMC"
+              }
+            }
+          ]
+        },
+        {
+          "id": "cc-subject-16fefd11-e75b-11e8-a259-b72781a0d355-5d743590-e75a-11e8-9363-3fbb2bac86b6",
+          "title": "Specificație pentru Born three check color support top before response around hospital sort spring manage key with laugh sound south drive officer tonight fast.",
+          "description": "Informații detaliate privind obiectul achiziției",
+          "observations": [
+            {
+              "id": "cc-subject-1",
+              "notes": "Modelul articolului"
+            },
+            {
+              "id": "cc-subject-2",
+              "notes": "Tara de origine"
+            },
+            {
+              "id": "cc-subject-3",
+              "notes": "Producător"
+            },
+            {
+              "id": "cc-subject-4",
+              "notes": "Specificația tehnică propusă de Furnizor"
+            },
+            {
+              "id": "cc-subject-5",
+              "notes": "Standarde de referință"
+            }
+          ]
+        },
+        {
+          "id": "cc-subject-16fefd11-e75b-11e8-a259-b72781a0d355-5d743592-e75a-11e8-9363-3fbb2bac86b6",
+          "title": "Specificație pentru Seek herself listen pick strong conference individual marriage right song better room key store back by if evening unit free without eye.",
+          "description": "Informații detaliate privind obiectul achiziției",
+          "observations": [
+            {
+              "id": "cc-subject-1",
+              "notes": "Modelul articolului"
+            },
+            {
+              "id": "cc-subject-2",
+              "notes": "Tara de origine"
+            },
+            {
+              "id": "cc-subject-3",
+              "notes": "Producător"
+            },
+            {
+              "id": "cc-subject-4",
+              "notes": "Specificația tehnică propusă de Furnizor"
+            },
+            {
+              "id": "cc-subject-5",
+              "notes": "Standarde de referință"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "awards": [
+    {
+      "id": "16fefd11-e75b-11e8-a259-b72781a0d355",
+      "suppliers": [
+        {
+          "id": "MD-IDNO-212-45-0215",
+          "additionalIdentifiers": [
+            {
+              "scheme": "MD-SEREGA",
+              "id": "12332513533",
+              "legalName": "321587876875875",
+              "uri": "123456"
+            }
+          ],
+          "persones": [
+            {
+              "title": "PERSON1",
+              "name": "Shit",
               "identifier": {
-                "scheme": "UA-MFO",
-                "id": "300711"
+                "scheme": "MD-IDNO",
+                "id": "212-45-0215",
+                "uri": "http://www.romero.net/index/"
               },
-              "accountIdentification": {
-                "scheme": "IBAN",
-                "id": "2600000625637"
-              },
-              "additionalAccountIdentifiers": [
+              "businessFunctions": [
                 {
-                  "scheme": "settlement",
-                  "id": ""
+                  "id": "Senior PHP Developer",
+                  "type": "authority",
+                  "jobTitle": "Chief Executive Officer",
+                  "period": {
+                    "startDate": "2018-11-11T15:45:15Z"
+                  },
+                  "documents": [
+                    {
+                      "id": "ad900cf7-a42c-4509-a3f6-07814bd0bb0b-1542278375087",
+                      "documentType": "regulatoryDocument"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "title": "PERSON2",
+              "name": "GAV GAV2",
+              "identifier": {
+                "scheme": "MD-IDNO",
+                "id": "212-45-0215",
+                "uri": "http://www.romero.net/index/"
+              },
+              "businessFunctions": [
+                {
+                  "id": "SystemArchitector",
+                  "type": "authority",
+                  "jobTitle": "Chief Executive Officer",
+                  "period": {
+                    "startDate": "2018-11-11T15:45:15Z"
+                  },
+                  "documents": [
+                    {
+                      "id": "ad900cf7-a42c-4509-a3f6-07814bd0bb0b-1542278375087",
+                      "documentType": "regulatoryDocument"
+                    }
+                  ]
                 }
               ]
             }
           ],
-          "legalForm": {
-            "scheme": "",
-            "id": "",
-            "description": "",
-            "uri": ""
-          }
-        }
-      }
-    ],
-    "documents": [
-      {
-        "documentType": "",
-        "id": "",
-        "-title": "",
-        "-description": "",
-        "relatedLots": [
-          ""
-        ]
-      }
-    ],
-    "value": {
-      "amount": "",
-      "currency": "",
-      "amountNet": "",
-      "valueAddedTaxIncluded": true
-    },
-    "items": [
-      {
-        "id": "",
-        "quantity": 0,
-        "unit": {
-          "value": {
-            "amount": "",
-            "amountNet": "",
-            "valueAddedTaxIncluded": true,
-            "currency": ""
-          }
-        },
-        "deliveryAddress": {
-          "streetAddress": "",
-          "postalCode": "",
-          "addressDetails": {
-            "country": {
-              "id": "UA"
-            },
-            "region": {
-              "id": "UA-12"
-            },
-            "locality": {
-              "scheme": "UN/LOCDE",
-              "id": "UA-DNP",
-              "description": "Dnipro"
+          "details": {
+            "typeOfSupplier": "MYEAV",
+            "mainEconomicActivity": [
+              {
+                "scheme": "MD-CAEM",
+                "id": "123",
+                "description": "99",
+                "uri": "99"
+              },
+              {
+                "scheme": "MD-CAEM",
+                "id": "888",
+                "description": "99",
+                "uri": "99"
+              }
+            ],
+            "scale": "sme",
+            "permits": [
+              {
+                "scheme": "SRLE",
+                "id": "555",
+                "url": "FUCK_YOU_URL",
+                "permit": {
+                  "issuedBy": {
+                    "id": "me",
+                    "name": "Enot"
+                  },
+                  "issuedThought": {
+                    "id": "Mu mu",
+                    "name": "Lol"
+                  },
+                  "validityPeriod": {
+                    "startDate": "2018-06-06T15:45:15Z"
+                  }
+                }
+              }
+            ],
+            "bankAccounts": [
+              {
+                "description": "E-bank",
+                "bankName": "E-bank",
+                "address": {},
+                "identifier": {
+                  "scheme": "UA-MFO",
+                  "id": "300711"
+                },
+                "accountIdentification": {
+                  "scheme": "IBAN",
+                  "id": "2600000625637"
+                },
+                "additionalAccountIdentifiers": [
+                  {
+                    "scheme": "settlement",
+                    "id": "666-777-888"
+                  }
+                ]
+              }
+            ],
+            "legalForm": {
+              "scheme": "MD-CFOJ",
+              "id": "888888888",
+              "description": "3696787",
+              "uri": "uri"
             }
           }
         }
-      }
-    ]
-  },
+      ],
+      "documents": [
+        {
+          "documentType": "YA HZ KAKOI TUT TIP DOCUMENTOV",
+          "id": "ad900cf7-a42c-4509-a3f6-07814bd0bb0b-1542278375087",
+          "relatedLots": [
+            "5d743595-e75a-11e8-9363-3fbb2bac86b6"
+          ]
+        }
+      ],
+      "value": {
+        "amount": 3527608104.01,
+        "currency": "MDL",
+        "amountNet": 3527608104.01,
+        "valueAddedTaxincluded": true
+      },
+      "items": [
+        {
+          "id": "5d743592-e75a-11e8-9363-3fbb2bac86b6",
+          "quantity": 2.6,
+          "unit": {
+            "value": {
+              "amount": "12061287278.61",
+              "amountNet": "12061287278.61",
+              "valueAddedTaxIncluded": true,
+              "currency": "MDL"
+            }
+          },
+          "deliveryAddress": {
+            "streetAddress": "313 Graves Center",
+            "postalCode": "18882",
+            "addressDetails": {
+              "country": {
+                "id": "MD"
+              },
+              "region": {
+                "id": "3100000"
+              },
+              "locality": {
+                "scheme": "CUATM",
+                "id": "3110001",
+                "description": "s.Mălăieşti (r-l Criuleni)"
+              }
+            }
+          }
+        }
+      ]
+    }
+  ],
   "buyer": {
-    "id": "",
+    "id": "MD-IDNO-302-55-0443",
     "additionalIdentifiers": [
       {
-        "scheme": "MD-SRJE",
-        "id": "",
-        "legalName": "",
-        "uri": ""
+        "scheme": "MD-IDNO",
+        "id": "528-29-1879",
+        "legalName": "Lopez, Novak and Lane Inc",
+        "uri": "https://www.myers.com/about.html"
       }
     ],
     "persones": [
       {
-        "title": "",
-        "name": "",
+        "title": "213321123",
+        "name": "21323213",
         "identifier": {
-          "scheme": "",
-          "id": "",
-          "uri": ""
+          "scheme": "MD-IDNO",
+          "id": "52255254-5555",
+          "uri": "uri"
         },
         "businessFunctions": [
           {
+            "id": "Middle QA",
             "type": "authority",
             "jobTitle": "Chief Executive Officer",
             "period": {
-              "startDate": ""
+              "startDate": "2018-11-10T15:45:05Z"
             },
             "documents": [
               {
-                "id": "",
-                "documentType": "regulatoryDocument",
-                "-title": "",
-                "-description": ""
+                "id": "ad900cf7-a42c-4509-a3f6-07814bd0bb0b-1542278375087",
+                "documentType": "regulatoryDocument"
               }
             ]
           }
@@ -278,34 +510,34 @@
       }
     ],
     "details": {
-      "typeOfBuyer": "",
-      "mainGeneralActivity": "",
-      "mainSectoralActivity": "",
+      "typeOfBuyer": "NATIONAL_AGENCY",
+      "mainGeneralActivity": "ENVIRONMENT",
+      "mainSectoralActivity": "WATER",
       "gpaProfile": {
         "gpaAnnex": {
-          "id": "",
-          "legalName": "",
+          "id": "LOLI",
+          "legalName": "gagagag",
           "uri": "https://e-gpa.wto.org/en/Appendix/Details?Agreement=GPA113&amp;Party=Moldova"
         },
         "gpaOrganizationType": {
-          "id": "",
-          "legalName": "",
-          "uri": ""
+          "id": "11222",
+          "legalName": "3221",
+          "uri": "uri"
         },
         "gpaThresholds": [
           {
-            "mainProcurementCategory": "",
+            "mainProcurementCatogory": "HZ",
             "value": {
-              "amount": "",
-              "currency": ""
+              "amount": "10000",
+              "currency": "MDL"
             }
           }
         ]
       },
       "bankAccounts": [
         {
-          "description": "",
-          "bankName": "",
+          "description": "666",
+          "bankName": "E-BANK",
           "address": {},
           "identifier": {
             "scheme": "MD-BANKS",
@@ -318,16 +550,16 @@
           "additionalAccountIdentifiers": [
             {
               "scheme": "MD-SETTLEMENT",
-              "id": ""
+              "id": "oooo"
             }
           ]
         }
       ],
       "legalForm": {
-        "scheme": "",
-        "id": "",
-        "description": "",
-        "uri": ""
+        "scheme": "rrtet",
+        "id": "ertertre",
+        "description": "ertetrret",
+        "uri": "ertertter"
       }
     }
   }
