@@ -63,7 +63,7 @@ public class StorageOpenDocsOfTender implements JavaDelegate {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    documents,
+                    commandMessage,
                     processService.setDocumentsOfTender(jsonData, responseData, processId));
         }
     }
