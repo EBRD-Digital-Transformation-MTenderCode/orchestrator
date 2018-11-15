@@ -109,6 +109,8 @@ public interface ProcessService {
 
     JsonNode setDocumentsOfBid(JsonNode jsonData, JsonNode documentsData, String processId);
 
+    JsonNode getDocumentsOfContractUpdate(JsonNode jsonData, String processId);
+
     JsonNode getDocumentsOfContractAwards(JsonNode jsonData, String processId);
 
     JsonNode getDocumentsOfContractPersones(JsonNode jsonData, String processId);
