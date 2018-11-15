@@ -682,21 +682,6 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public JsonNode getDocumentsOfContract(JsonNode jsonData, String processId) {
-        try {
-            final ObjectNode mainNode = jsonUtil.createObjectNode();
-            final ArrayNode documentsArray = mainNode.putArray("documents");
-            final ArrayNode docsOfContractNode = (ArrayNode) jsonData.get("contracts").get("documents");
-            if (docsOfContractNode != null && docsOfContractNode.size() > 0) {
-                documentsArray.addAll(docsOfContractNode);
-            }
-            return mainNode;
-        } catch (Exception e) {
-            terminateProcess(processId, e.getMessage());
-            return null;
-        }
-    }
-
     public JsonNode getDocumentsOfContractAwards(final JsonNode jsonData, final String processId) {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
@@ -740,20 +725,6 @@ public class ProcessServiceImpl implements ProcessService {
                 }
             }
             return mainNode;
-        } catch (Exception e) {
-            terminateProcess(processId, e.getMessage());
-            return null;
-        }
-    }
-
-    public JsonNode setDocumentsOfContract(final JsonNode jsonData, final JsonNode documentsData, final String processId) {
-        try {
-            final ObjectNode contractsNode = (ObjectNode) jsonData.get("contracts");
-            final ArrayNode documentsArray = (ArrayNode) documentsData.get("documents");
-            if (documentsArray.size() > 0) {
-                contractsNode.replace("documents", documentsArray);
-            }
-            return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
             return null;
