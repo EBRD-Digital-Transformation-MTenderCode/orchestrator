@@ -686,34 +686,27 @@ public class ProcessServiceImpl implements ProcessService {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
             final ArrayNode documentsArray = mainNode.putArray("documents");
-            final JsonNode awardNode = jsonData.get("awards").get(0);
-            if (awardNode != null) {
-                final ArrayNode docsOfAwardNode = (ArrayNode) awardNode.get("documents");
-                if (docsOfAwardNode != null && docsOfAwardNode.size() > 0) {
-                    documentsArray.addAll(docsOfAwardNode);
-                }
+
+            final ArrayNode docsOfAwardNode = (ArrayNode) jsonData.get("award").get("documents");
+            if (docsOfAwardNode != null && docsOfAwardNode.size() > 0) {
+                documentsArray.addAll(docsOfAwardNode);
             }
-            final JsonNode contractNode = jsonData.get("contracts").get(0);
-            if (contractNode != null) {
-                final ArrayNode docsOfContractNode = (ArrayNode) contractNode.get("documents");
-                if (docsOfContractNode != null && docsOfContractNode.size() > 0) {
-                    documentsArray.addAll(docsOfContractNode);
-                }
+            final ArrayNode docsOfContractNode = (ArrayNode) jsonData.get("contract").get("documents");
+            if (docsOfContractNode != null && docsOfContractNode.size() > 0) {
+                documentsArray.addAll(docsOfContractNode);
             }
-            if (awardNode != null) {
-                final ArrayNode suppliersNode = (ArrayNode) awardNode.get("suppliers");
-                if (suppliersNode != null && suppliersNode.size() > 0) {
-                    for (final JsonNode supplierNode : suppliersNode) {
-                        final ArrayNode personesNode = (ArrayNode) supplierNode.get("persones");
-                        if (personesNode != null && personesNode.size() > 0) {
-                            for (final JsonNode personNode : personesNode) {
-                                final ArrayNode bfsNode = (ArrayNode) personNode.get("businessFunctions");
-                                if (bfsNode != null && bfsNode.size() > 0) {
-                                    for (final JsonNode bfNode : bfsNode) {
-                                        final ArrayNode documentsOfBfNode = (ArrayNode) bfNode.get("documents");
-                                        if (documentsOfBfNode != null && documentsOfBfNode.size() > 0) {
-                                            documentsArray.addAll(documentsOfBfNode);
-                                        }
+            final ArrayNode suppliersNode = (ArrayNode) jsonData.get("award").get("suppliers");
+            if (suppliersNode != null && suppliersNode.size() > 0) {
+                for (final JsonNode supplierNode : suppliersNode) {
+                    final ArrayNode personesNode = (ArrayNode) supplierNode.get("persones");
+                    if (personesNode != null && personesNode.size() > 0) {
+                        for (final JsonNode personNode : personesNode) {
+                            final ArrayNode bfsNode = (ArrayNode) personNode.get("businessFunctions");
+                            if (bfsNode != null && bfsNode.size() > 0) {
+                                for (final JsonNode bfNode : bfsNode) {
+                                    final ArrayNode documentsOfBfNode = (ArrayNode) bfNode.get("documents");
+                                    if (documentsOfBfNode != null && documentsOfBfNode.size() > 0) {
+                                        documentsArray.addAll(documentsOfBfNode);
                                     }
                                 }
                             }
@@ -746,7 +739,7 @@ public class ProcessServiceImpl implements ProcessService {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
             final ArrayNode documentsArray = mainNode.putArray("documents");
-            final ArrayNode docsOfAwardNode = (ArrayNode) jsonData.get("awards").get("documents");
+            final ArrayNode docsOfAwardNode = (ArrayNode) jsonData.get("award").get("documents");
             if (docsOfAwardNode != null && docsOfAwardNode.size() > 0) {
                 documentsArray.addAll(docsOfAwardNode);
             }
@@ -761,7 +754,7 @@ public class ProcessServiceImpl implements ProcessService {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
             final ArrayNode documentsArray = mainNode.putArray("documents");
-            final ArrayNode suppliersNode = (ArrayNode) jsonData.get("awards").get("suppliers");
+            final ArrayNode suppliersNode = (ArrayNode) jsonData.get("award").get("suppliers");
             for (final JsonNode supplierNode : suppliersNode) {
                 final ArrayNode personesNode = (ArrayNode) supplierNode.get("persones");
                 for (final JsonNode personNode : personesNode) {
@@ -807,7 +800,7 @@ public class ProcessServiceImpl implements ProcessService {
 
     public JsonNode setDocumentsOfContractAwards(final JsonNode jsonData, final JsonNode documentsData, final String processId) {
         try {
-            final ObjectNode awardsNode = (ObjectNode) jsonData.get("awards");
+            final ObjectNode awardsNode = (ObjectNode) jsonData.get("award");
             final ArrayNode documentsArray = (ArrayNode) documentsData.get("documents");
             if (documentsArray.size() > 0) {
                 awardsNode.replace("documents", documentsArray);
