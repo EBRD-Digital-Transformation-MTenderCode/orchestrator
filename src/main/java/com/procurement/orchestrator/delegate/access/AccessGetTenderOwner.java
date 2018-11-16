@@ -56,6 +56,7 @@ public class AccessGetTenderOwner implements JavaDelegate {
             operationService.saveOperationStep(
                     execution,
                     entity,
+                    context,
                     commandMessage);
         }
     }
