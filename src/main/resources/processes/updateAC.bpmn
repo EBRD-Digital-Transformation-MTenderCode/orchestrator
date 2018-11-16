@@ -46,7 +46,7 @@
       <bpmn:outgoing>SequenceFlow_0iseutl</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_0iseutl" sourceRef="ContractingGetActualBudgetSourcesTask" targetRef="BudgetCheckBudgetSourcesTask" />
-    <bpmn:serviceTask id="BudgetCheckBudgetSourcesTask" name="Budget Check Budget SourcSourcese" camunda:asyncBefore="true" camunda:delegateExpression="${budgetCheckBudgetSources}">
+    <bpmn:serviceTask id="BudgetCheckBudgetSourcesTask" name="Budget Check Budget Sources" camunda:asyncBefore="true" camunda:delegateExpression="${budgetCheckBudgetSources}">
       <bpmn:incoming>SequenceFlow_0iseutl</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0xf9tf3</bpmn:outgoing>
     </bpmn:serviceTask>

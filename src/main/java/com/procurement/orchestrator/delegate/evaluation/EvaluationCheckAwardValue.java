@@ -43,7 +43,7 @@ public class EvaluationCheckAwardValue implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String taskId = execution.getCurrentActivityId();
         final String processId = execution.getProcessInstanceId();
-        final JsonNode rqData = processService.getAwardsValue(jsonData, processId);
+        final JsonNode rqData = processService.getContractAwardValue(jsonData, processId);
         if (rqData != null) {
             final JsonNode commandMessage = processService.getCommandMessage(CHECK_AWARD_VALUE, context, rqData);
             JsonNode responseData = processService.processResponse(

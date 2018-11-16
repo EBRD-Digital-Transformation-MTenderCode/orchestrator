@@ -185,7 +185,7 @@ public interface ProcessService {
 
     JsonNode addActualBudgetSource(JsonNode jsonData, JsonNode responseData, String processId);
 
-    JsonNode getAwardsValue(JsonNode jsonData, String processId);
+    JsonNode getContractAwardValue(JsonNode jsonData, String processId);
 
     JsonNode getDataForGetTerms(JsonNode jsonData, String processId);
 
@@ -194,5 +194,9 @@ public interface ProcessService {
     JsonNode setAgreedMetrics(JsonNode jsonData, JsonNode responseData, String processId);
 
     JsonNode setContractUpdateData(JsonNode jsonData, JsonNode responseData, String processId);
+
+    JsonNode getCheckBs(JsonNode jsonData, String processId);
+
+    JsonNode setCheckBs(JsonNode jsonData, JsonNode responseData, String processId);
 }
 

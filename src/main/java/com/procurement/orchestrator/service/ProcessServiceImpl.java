@@ -1268,11 +1268,11 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public JsonNode getAwardsValue(final JsonNode jsonData, final String processId) {
+    public JsonNode getContractAwardValue(final JsonNode jsonData, final String processId) {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
-            final ObjectNode awardsNode = mainNode.putObject("awards");
-            awardsNode.replace("value", jsonData.get("awards").get("value"));
+            final ObjectNode awardsNode = mainNode.putObject("award");
+            awardsNode.replace("value", jsonData.get("award").get("value"));
             return mainNode;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
@@ -1315,13 +1315,42 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    @Override
     public JsonNode setContractUpdateData(final JsonNode jsonData, final JsonNode responseData, final String processId) {
         try {
             final ObjectNode mainNode = (ObjectNode) jsonData;
             mainNode.replace("planning", responseData.get("planning"));
             mainNode.replace("award", responseData.get("award"));
             mainNode.replace("contract", responseData.get("contract"));
+            return jsonData;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    public JsonNode getCheckBs(final JsonNode jsonData, final String processId) {
+        try {
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            mainNode.replace("planning", jsonData.get("planning"));
+            mainNode.replace("buyer", jsonData.get("buyer"));
+            mainNode.replace("actualBudgetSource", jsonData.get("actualBudgetSource"));
+            return mainNode;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    public JsonNode setCheckBs(final JsonNode jsonData, final JsonNode responseData, final String processId) {
+        try {
+            final ObjectNode mainNode = (ObjectNode) jsonData;
+            mainNode.replace("treasuryBudgetSources", responseData.get("treasuryBudgetSources"));
+            mainNode.replace("funders", responseData.get("funders"));
+            mainNode.replace("payers", responseData.get("payers"));
+            mainNode.replace("addedEI", responseData.get("addedEI"));
+            mainNode.replace("excludedEI", responseData.get("excludedEI"));
+            mainNode.replace("addedFS", responseData.get("addedFS"));
+            mainNode.replace("excludedFS", responseData.get("excludedFS"));
             return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
