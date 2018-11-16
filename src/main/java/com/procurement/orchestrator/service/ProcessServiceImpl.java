@@ -686,26 +686,34 @@ public class ProcessServiceImpl implements ProcessService {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
             final ArrayNode documentsArray = mainNode.putArray("documents");
-            final ArrayNode docsOfAwardNode = (ArrayNode) jsonData.get("awards").get("documents");
-            if (docsOfAwardNode != null && docsOfAwardNode.size() > 0) {
-                documentsArray.addAll(docsOfAwardNode);
+            final JsonNode awardNode = jsonData.get("awards").get(0);
+            if (awardNode != null) {
+                final ArrayNode docsOfAwardNode = (ArrayNode) awardNode.get("documents");
+                if (docsOfAwardNode != null && docsOfAwardNode.size() > 0) {
+                    documentsArray.addAll(docsOfAwardNode);
+                }
             }
-            final ArrayNode docsOfContractNode = (ArrayNode) jsonData.get("contracts").get("documents");
-            if (docsOfContractNode != null && docsOfContractNode.size() > 0) {
-                documentsArray.addAll(docsOfContractNode);
+            final JsonNode contractNode = jsonData.get("contracts").get(0);
+            if (contractNode != null) {
+                final ArrayNode docsOfContractNode = (ArrayNode) contractNode.get("documents");
+                if (docsOfContractNode != null && docsOfContractNode.size() > 0) {
+                    documentsArray.addAll(docsOfContractNode);
+                }
             }
-            final ArrayNode suppliersNode = (ArrayNode) jsonData.get("awards").get("suppliers");
-            if (suppliersNode != null && suppliersNode.size() > 0) {
-                for (final JsonNode supplierNode : suppliersNode) {
-                    final ArrayNode personesNode = (ArrayNode) supplierNode.get("persones");
-                    if (personesNode != null && personesNode.size() > 0) {
-                        for (final JsonNode personNode : personesNode) {
-                            final ArrayNode bfsNode = (ArrayNode) personNode.get("businessFunctions");
-                            if (bfsNode != null && bfsNode.size() > 0) {
-                                for (final JsonNode bfNode : bfsNode) {
-                                    final ArrayNode documentsOfBfNode = (ArrayNode) bfNode.get("documents");
-                                    if (documentsOfBfNode != null && documentsOfBfNode.size() > 0) {
-                                        documentsArray.addAll(documentsOfBfNode);
+            if (awardNode != null) {
+                final ArrayNode suppliersNode = (ArrayNode) awardNode.get("suppliers");
+                if (suppliersNode != null && suppliersNode.size() > 0) {
+                    for (final JsonNode supplierNode : suppliersNode) {
+                        final ArrayNode personesNode = (ArrayNode) supplierNode.get("persones");
+                        if (personesNode != null && personesNode.size() > 0) {
+                            for (final JsonNode personNode : personesNode) {
+                                final ArrayNode bfsNode = (ArrayNode) personNode.get("businessFunctions");
+                                if (bfsNode != null && bfsNode.size() > 0) {
+                                    for (final JsonNode bfNode : bfsNode) {
+                                        final ArrayNode documentsOfBfNode = (ArrayNode) bfNode.get("documents");
+                                        if (documentsOfBfNode != null && documentsOfBfNode.size() > 0) {
+                                            documentsArray.addAll(documentsOfBfNode);
+                                        }
                                     }
                                 }
                             }
