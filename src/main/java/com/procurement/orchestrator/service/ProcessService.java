@@ -111,11 +111,15 @@ public interface ProcessService {
 
     JsonNode getDocumentsOfContractUpdate(JsonNode jsonData, String processId);
 
-    JsonNode getDocumentsOfContractAwards(JsonNode jsonData, String processId);
+    JsonNode getDocumentsOfContract(JsonNode jsonData, String processId);
+
+    JsonNode setDocumentsOfContract(JsonNode jsonData, JsonNode documentsData, String processId);
+
+    JsonNode getDocumentsOfContractAward(JsonNode jsonData, String processId);
 
     JsonNode getDocumentsOfContractPersones(JsonNode jsonData, String processId);
 
-    JsonNode setDocumentsOfContractAwards(JsonNode jsonData, JsonNode documentsData, String processId);
+    JsonNode setDocumentsOfContractAward(JsonNode jsonData, JsonNode documentsData, String processId);
 
     JsonNode setDocumentsOfContractPersones(JsonNode jsonData, JsonNode documentsData, String processId);
 
@@ -181,12 +185,18 @@ public interface ProcessService {
 
     JsonNode addActualBudgetSource(JsonNode jsonData, JsonNode responseData, String processId);
 
-    JsonNode getAwardsValue(JsonNode jsonData, String processId);
+    JsonNode getContractAwardValue(JsonNode jsonData, String processId);
 
     JsonNode getDataForGetTerms(JsonNode jsonData, String processId);
 
     JsonNode getAgreedMetrics(JsonNode jsonData, String processId);
 
     JsonNode setAgreedMetrics(JsonNode jsonData, JsonNode responseData, String processId);
+
+    JsonNode setContractUpdateData(JsonNode jsonData, JsonNode responseData, String processId);
+
+    JsonNode getCheckBs(JsonNode jsonData, String processId);
+
+    JsonNode setCheckBs(JsonNode jsonData, JsonNode responseData, String processId);
 }
 

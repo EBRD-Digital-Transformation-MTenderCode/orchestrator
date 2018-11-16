@@ -75,9 +75,6 @@
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_19usp1i" sourceRef="AccessTenderCancellationTask" targetRef="ExclusiveGateway_0wkmvjx" />
     <bpmn:serviceTask id="EvaluationAwardsCancellationTask" name="Evaluation&#10;Awards Cancellation" camunda:asyncBefore="true" camunda:delegateExpression="${evaluationAwardsCancellation}">
-      <bpmn:extensionElements>
-        <camunda:failedJobRetryTimeCycle>R0/PT1S</camunda:failedJobRetryTimeCycle>
-      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1c0k49f</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0u1yrus</bpmn:outgoing>
     </bpmn:serviceTask>

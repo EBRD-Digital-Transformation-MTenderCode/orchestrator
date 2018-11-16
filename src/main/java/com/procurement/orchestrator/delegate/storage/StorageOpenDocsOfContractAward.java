@@ -18,9 +18,9 @@ import java.util.Objects;
 import static com.procurement.orchestrator.domain.commands.StorageCommandType.PUBLISH;
 
 @Component
-public class StorageOpenDocsOfContractAwards implements JavaDelegate {
+public class StorageOpenDocsOfContractAward implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(StorageOpenDocsOfContractAwards.class);
+    private static final Logger LOG = LoggerFactory.getLogger(StorageOpenDocsOfContractAward.class);
 
     private final StorageRestClient storageRestClient;
 
@@ -30,10 +30,10 @@ public class StorageOpenDocsOfContractAwards implements JavaDelegate {
 
     private final JsonUtil jsonUtil;
 
-    public StorageOpenDocsOfContractAwards(final StorageRestClient storageRestClient,
-                                           final OperationService operationService,
-                                           final ProcessService processService,
-                                           final JsonUtil jsonUtil) {
+    public StorageOpenDocsOfContractAward(final StorageRestClient storageRestClient,
+                                          final OperationService operationService,
+                                          final ProcessService processService,
+                                          final JsonUtil jsonUtil) {
         this.storageRestClient = storageRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -48,7 +48,7 @@ public class StorageOpenDocsOfContractAwards implements JavaDelegate {
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode documents = processService.getDocumentsOfContractAwards(jsonData, processId);
+        final JsonNode documents = processService.getDocumentsOfContractAward(jsonData, processId);
         if (Objects.nonNull(documents)) {
             final JsonNode commandMessage = processService.getCommandMessage(PUBLISH, context, documents);
             JsonNode responseData = processService.processResponse(
@@ -62,7 +62,7 @@ public class StorageOpenDocsOfContractAwards implements JavaDelegate {
                         execution,
                         entity,
                         commandMessage,
-                        processService.setDocumentsOfContractAwards(jsonData, responseData, processId));
+                        processService.setDocumentsOfContractAward(jsonData, responseData, processId));
             }
         }
     }
