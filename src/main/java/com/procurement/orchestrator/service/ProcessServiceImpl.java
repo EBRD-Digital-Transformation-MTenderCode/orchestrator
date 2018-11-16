@@ -735,7 +735,36 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public JsonNode getDocumentsOfContractAwards(final JsonNode jsonData, final String processId) {
+    public JsonNode getDocumentsOfContract(final JsonNode jsonData, final String processId) {
+        try {
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            final ArrayNode documentsArray = mainNode.putArray("documents");
+            final ArrayNode docsOfAwardNode = (ArrayNode) jsonData.get("contract").get("documents");
+            if (docsOfAwardNode != null && docsOfAwardNode.size() > 0) {
+                documentsArray.addAll(docsOfAwardNode);
+            }
+            return mainNode;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    public JsonNode setDocumentsOfContract(final JsonNode jsonData, final JsonNode documentsData, final String processId) {
+        try {
+            final ObjectNode contractsNode = (ObjectNode) jsonData.get("contract");
+            final ArrayNode documentsArray = (ArrayNode) documentsData.get("documents");
+            if (documentsArray.size() > 0) {
+                contractsNode.replace("documents", documentsArray);
+            }
+            return jsonData;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    public JsonNode getDocumentsOfContractAward(final JsonNode jsonData, final String processId) {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
             final ArrayNode documentsArray = mainNode.putArray("documents");
@@ -744,6 +773,20 @@ public class ProcessServiceImpl implements ProcessService {
                 documentsArray.addAll(docsOfAwardNode);
             }
             return mainNode;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    public JsonNode setDocumentsOfContractAward(final JsonNode jsonData, final JsonNode documentsData, final String processId) {
+        try {
+            final ObjectNode awardsNode = (ObjectNode) jsonData.get("award");
+            final ArrayNode documentsArray = (ArrayNode) documentsData.get("documents");
+            if (documentsArray.size() > 0) {
+                awardsNode.replace("documents", documentsArray);
+            }
+            return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
             return null;
@@ -778,34 +821,6 @@ public class ProcessServiceImpl implements ProcessService {
                 }
             }
             return mainNode;
-        } catch (Exception e) {
-            terminateProcess(processId, e.getMessage());
-            return null;
-        }
-    }
-
-    public JsonNode setDocumentsOfContracts(final JsonNode jsonData, final JsonNode documentsData, final String processId) {
-        try {
-            final ObjectNode contractsNode = (ObjectNode) jsonData.get("contracts");
-            final ArrayNode documentsArray = (ArrayNode) documentsData.get("documents");
-            if (documentsArray.size() > 0) {
-                contractsNode.replace("documents", documentsArray);
-            }
-            return jsonData;
-        } catch (Exception e) {
-            terminateProcess(processId, e.getMessage());
-            return null;
-        }
-    }
-
-    public JsonNode setDocumentsOfContractAwards(final JsonNode jsonData, final JsonNode documentsData, final String processId) {
-        try {
-            final ObjectNode awardsNode = (ObjectNode) jsonData.get("award");
-            final ArrayNode documentsArray = (ArrayNode) documentsData.get("documents");
-            if (documentsArray.size() > 0) {
-                awardsNode.replace("documents", documentsArray);
-            }
-            return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
             return null;

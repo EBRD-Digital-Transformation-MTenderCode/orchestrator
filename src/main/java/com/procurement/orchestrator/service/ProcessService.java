@@ -111,11 +111,15 @@ public interface ProcessService {
 
     JsonNode getDocumentsOfContractUpdate(JsonNode jsonData, String processId);
 
-    JsonNode getDocumentsOfContractAwards(JsonNode jsonData, String processId);
+    JsonNode getDocumentsOfContract(JsonNode jsonData, String processId);
+
+    JsonNode setDocumentsOfContract(JsonNode jsonData, JsonNode documentsData, String processId);
+
+    JsonNode getDocumentsOfContractAward(JsonNode jsonData, String processId);
 
     JsonNode getDocumentsOfContractPersones(JsonNode jsonData, String processId);
 
-    JsonNode setDocumentsOfContractAwards(JsonNode jsonData, JsonNode documentsData, String processId);
+    JsonNode setDocumentsOfContractAward(JsonNode jsonData, JsonNode documentsData, String processId);
 
     JsonNode setDocumentsOfContractPersones(JsonNode jsonData, JsonNode documentsData, String processId);
 
