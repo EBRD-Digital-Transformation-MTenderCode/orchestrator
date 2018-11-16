@@ -60,9 +60,9 @@ public class ContractingUpdateContract implements JavaDelegate {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    notificationService.addContractOutcomeToContext(context, responseData, processId),
+                    context,
                     commandMessage,
-                    processService.addContracts(jsonData, responseData, processId));
+                    processService.setContractUpdateData(jsonData, responseData, processId));
         }
     }
 

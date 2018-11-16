@@ -1289,10 +1289,24 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public JsonNode setAgreedMetrics(final JsonNode jsonData, final JsonNode responseData, String processId) {
+    public JsonNode setAgreedMetrics(final JsonNode jsonData, final JsonNode responseData, final String processId) {
         try {
             final ObjectNode contractsNode = (ObjectNode) jsonData.get("contracts");
             contractsNode.replace("agreedMetrics", responseData.get("agreedMetrics"));
+            return jsonData;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public JsonNode setContractUpdateData(final JsonNode jsonData, final JsonNode responseData, final String processId) {
+        try {
+            final ObjectNode mainNode = (ObjectNode) jsonData;
+            mainNode.replace("planning", responseData.get("planning"));
+            mainNode.replace("award", responseData.get("award"));
+            mainNode.replace("contract", responseData.get("contract"));
             return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());

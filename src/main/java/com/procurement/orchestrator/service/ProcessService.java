@@ -188,5 +188,7 @@ public interface ProcessService {
     JsonNode getAgreedMetrics(JsonNode jsonData, String processId);
 
     JsonNode setAgreedMetrics(JsonNode jsonData, JsonNode responseData, String processId);
+
+    JsonNode setContractUpdateData(JsonNode jsonData, JsonNode responseData, String processId);
 }
 
