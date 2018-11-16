@@ -990,7 +990,7 @@ public class ProcessServiceImpl implements ProcessService {
     public JsonNode getContractData(final JsonNode jsonData, final String processId) {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
-            mainNode.replace("items", jsonData.get("awards").get("items"));
+            mainNode.replace("items", jsonData.get("award").get("items"));
             return mainNode;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
@@ -1000,7 +1000,7 @@ public class ProcessServiceImpl implements ProcessService {
 
     public JsonNode setContractData(final JsonNode jsonData, final JsonNode responseData, final String processId) {
         try {
-            final ObjectNode awardsNode = (ObjectNode) jsonData.get("awards");
+            final ObjectNode awardsNode = (ObjectNode) jsonData.get("award");
             awardsNode.replace("items", responseData.get("items"));
             return jsonData;
         } catch (Exception e) {
