@@ -19,25 +19,25 @@
       "description": "1111111",
       "budgetAllocation": [
         {
-          "budgetBreakdownID": "ocds-t1s2t3-MD-1542636805346-FS-1542636811929",
+          "budgetBreakdownID": "ocds-t1s2t3-MD-1542645311548-FS-1542649498398",
           "period": {
             "startDate": "2018-11-13T15:39:46Z",
             "endDate": "2019-05-12T15:39:46Z"
           },
+          "amount": 1200,
           "relatedItem": "5d743592-e75a-11e8-9363-3fbb2bac86b6"
         }
       ],
       "budgetSource": [
         {
-          "budgetBreakdownID": "ocds-t1s2t3-MD-1542636805346-FS-1542636811929",
-          "amount": 20000,
+          "budgetBreakdownID": "ocds-t1s2t3-MD-1542645311548-FS-1542649498398",
+          "amount": 1200,
           "currency": "MDL"
         }
       ]
     }
   },
-  "contracts": [
-    {
+  "contract": {
       "title": "Hello_WORLD",
       "description": "LOL_KEK_AZAZA",
       "period": {
@@ -289,11 +289,9 @@
           ]
         }
       ]
-    }
-  ],
-  "awards": [
-    {
-      "id": "5e46ea80-ec1e-11e8-928f-a9a0efcf4c9e",
+    },
+  "award": {
+      "id": "f46cc660-ec23-11e8-b684-430acc252883",
       "suppliers": [
         {
           "id": "MD-IDNO-212-45-0215",
@@ -398,7 +396,22 @@
               {
                 "description": "E-bank",
                 "bankName": "E-bank",
-                "address": {},
+                "address": {
+                  "streetAddress": "66666666",
+                  "addressDetails": {
+                    "country": {
+                      "id": "MD"
+                    },
+                    "region": {
+                      "id": "1000000"
+                    },
+                    "locality": {
+                      "scheme": "CUATM",
+                      "id": "1001000",
+                      "description": "66666"
+                    }
+                  }
+                },
                 "identifier": {
                   "scheme": "UA-MFO",
                   "id": "300711"
@@ -437,11 +450,11 @@
         "amount": 3527608104.01,
         "currency": "MDL",
         "amountNet": 3527608104.01,
-        "valueAddedTaxincluded": true
+        "valueAddedTaxIncluded": true
       },
       "items": [
         {
-          "id": "ec807b51-ec1d-11e8-9cb9-6bf876bfa65b",
+          "id": "6f1b7102-ec23-11e8-9cb9-6bf876bfa65b",
           "quantity": 1,
           "unit": {
             "value": {
@@ -470,14 +483,13 @@
           }
         }
       ]
-    }
-  ],
+    },
   "buyer": {
-    "id": "MD-IDNO-302-55-0443",
+    "id": "MD-IDNO-354-37-1072",
     "additionalIdentifiers": [
       {
         "scheme": "MD-IDNO",
-        "id": "528-29-1879",
+        "id": "354-37-1072",
         "legalName": "Lopez, Novak and Lane Inc",
         "uri": "https://www.myers.com/about.html"
       }
@@ -528,7 +540,7 @@
           {
             "mainProcurementCatogory": "HZ",
             "value": {
-              "amount": "10000",
+              "amount": 1200,
               "currency": "MDL"
             }
           }
