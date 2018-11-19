@@ -37,221 +37,219 @@
       ]
     }
   },
-  "contract": [
-    {
-      "title": "title",
-      "description": "description",
-      "period": {
-        "startDate": "2018-11-25T00:00:00Z",
-        "endDate": "2018-11-26T00:00:00Z"
+  "contract": {
+    "title": "title",
+    "description": "description",
+    "period": {
+      "startDate": "2018-11-25T00:00:00Z",
+      "endDate": "2018-11-26T00:00:00Z"
+    },
+    "milestones": [
+      {
+        "id": "approval-re1atedparties.id",
+        "type": "approval",
+        "relatedItems": [
+          "1488d883-e751-11e8-9363-3fbb2bac86b6"
+        ],
+        "additionalInformation": "дополнительная ифнормация",
+        "dueDate": "2018-11-15T00:00:00Z",
+        "title": "title",
+        "description": "description"
+      }
+    ],
+    "confirmationRequests": [
+      {
+        "id": "cs-tenderer-confirmation-on-document.id",
+        "relatedItem": "a58b5e64-e338-4b20-a2c1-3650b220489c-1542127310613",
+        "source": "tenderer"
+      }
+    ],
+    "agreedMetrics": [
+      {
+        "id": "cc-general",
+        "title": "General Responsibilities",
+        "description": "Contract conditions governing the general responsibilities related to both: CA and EO",
+        "observations": [
+          {
+            "id": "cc-general-1-1",
+            "notes": "Maximum days to inform on invoking Force Majeure",
+            "measure": 5
+          },
+          {
+            "id": "cc-general-1-2",
+            "notes": "Maximum days to inform on invoking Force Majeure",
+            "measure": 5
+          },
+          {
+            "id": "cc-general-1-3",
+            "notes": "Maximum days to inform on invoking Force Majeure",
+            "measure": 5
+          }
+        ]
       },
-      "milestones": [
-        {
-          "id": "approval-re1atedparties.id",
-          "type": "approval",
-          "relatedItems": [
-            "1488d883-e751-11e8-9363-3fbb2bac86b6"
-          ],
-          "additionalInformation": "дополнительная ифнормация",
-          "dueDate": "2018-11-15T00:00:00Z",
-          "title": "title",
-          "description": "description"
-        }
-      ],
-      "confirmationRequests": [
-        {
-          "id": "cs-tenderer-confirmation-on-document.id",
-          "relatedItem": "a58b5e64-e338-4b20-a2c1-3650b220489c-1542127310613",
-          "source": "tenderer"
-        }
-      ],
-      "agreedMetrics": [
-        {
-          "id": "cc-general",
-          "title": "General Responsibilities",
-          "description": "Contract conditions governing the general responsibilities related to both: CA and EO",
-          "observations": [
-            {
-              "id": "cc-general-1-1",
-              "notes": "Maximum days to inform on invoking Force Majeure",
-              "measure": 5
-            },
-            {
-              "id": "cc-general-1-2",
-              "notes": "Maximum days to inform on invoking Force Majeure",
-              "measure": 5
-            },
-            {
-              "id": "cc-general-1-3",
-              "notes": "Maximum days to inform on invoking Force Majeure",
-              "measure": 5
-            }
-          ]
-        },
-        {
-          "id": "cc-tenderer-1",
-          "title": "Garanție de executare",
-          "description": "Contract conditions governing the general responsibilities related to both: CA and EO",
-          "observations": [
-            {
-              "id": "cc-tenderer-1-1",
-              "notes": "Maximum days to inform on invoking Force Majeure",
-              "measure": 5
-            },
-            {
-              "id": "cc-tenderer-1-2",
-              "notes": "Maximum days to inform on invoking Force Majeure",
-              "measure": 5
-            }
-          ]
-        },
-        {
-          "id": "cc-tenderer-2",
-          "title": "General Responsibilities",
-          "description": "Contract conditions governing the general responsibilities related to both: CA and EO",
-          "observations": [
-            {
-              "id": "cc-tenerer-2-1",
-              "notes": "Maximum days to inform on invoking Force Majeure",
-              "measure": 5
-            },
-            {
-              "id": "cc-tenerer-2-2",
-              "notes": "Maximum days to inform on invoking Force Majeure",
-              "measure": 5
-            },
-            {
-              "id": "cc-tenerer-2-3",
-              "notes": "Maximum days to inform on invoking Force Majeure",
-              "measure": 5
-            },
-            {
-              "id": "cc-tenerer-2-4",
-              "notes": "Maximum days to inform on invoking Force Majeure",
-              "measure": 5
-            }
-          ]
-        },
-        {
-          "id": "cc-tenderer-3",
-          "title": "General Responsibilities",
-          "description": "Contract conditions governing the general responsibilities related to both: CA and EO",
-          "observations": [
-            {
-              "id": "cc-tenerer-3-1",
-              "notes": "Maximum days to inform on invoking Force Majeure",
-              "measure": 5
-            },
-            {
-              "id": "cc-tenerer-3-2",
-              "notes": "Maximum days to inform on invoking Force Majeure",
-              "measure": 5
-            },
-            {
-              "id": "cc-tenerer-3-3",
-              "notes": "Maximum days to inform on invoking Force Majeure",
-              "measure": 5
-            }
-          ]
-        },
-        {
-          "id": "cc-buyer-1",
-          "title": "Pelmeni",
-          "description": "Contract conditions governing the general responsibilities related to both: CA and EO",
-          "observations": [
-            {
-              "id": "cc-buyer-1-1",
-              "notes": "Maximum days to inform on invoking Force Majeure",
-              "measure": 5
-            }
-          ]
-        },
-        {
-          "id": "cc-buyer-2",
-          "title": "Pelmeni",
-          "description": "Contract conditions governing the general responsibilities related to both: CA and EO",
-          "observations": [
-            {
-              "id": "cc-buyer-2-1",
-              "notes": "Maximum days to inform on invoking Force Majeure",
-              "measure": 5
-            },
-            {
-              "id": "cc-buyer-2-2",
-              "notes": "Maximum days to inform on invoking Force Majeure",
-              "measure": 5
-            }
-          ]
-        },
-        {
-          "id": "cc-subject-cd9659b0-e751-11e8-a259-b72781a0d355-1488d880-e751-11e8-9363-3fbb2bac86b6",
-          "title": "General Responsibilities",
-          "description": "Contract conditions governing the general responsibilities related to both: CA and EO",
-          "observations": [
-            {
-              "id": "cc-subject-1",
-              "notes": "Maximum days to inform on invoking Force Majeure",
-              "measure": 5
-            },
-            {
-              "id": "cc-subject-2",
-              "notes": "Maximum days to inform on invoking Force Majeure",
-              "measure": 5
-            },
-            {
-              "id": "cc-subject-3",
-              "notes": "Maximum days to inform on invoking Force Majeure",
-              "measure": 5
-            },
-            {
-              "id": "cc-subject-4",
-              "notes": "Maximum days to inform on invoking Force Majeure",
-              "measure": 5
-            },
-            {
-              "id": "cc-subject-5",
-              "notes": "Maximum days to inform on invoking Force Majeure",
-              "measure": 5
-            }
-          ]
-        },
-        {
-          "id": "cc-subject-cd9659b0-e751-11e8-a259-b72781a0d355-1488d883-e751-11e8-9363-3fbb2bac86b6",
-          "title": "General Responsibilities",
-          "description": "Contract conditions governing the general responsibilities related to both: CA and EO",
-          "observations": [
-            {
-              "id": "cc-subject-1",
-              "notes": "productiva",
-              "measure": 5
-            },
-            {
-              "id": "cc-subject-2",
-              "notes": "Maximum days to inform on invoking Force Majeure",
-              "measure": 5
-            },
-            {
-              "id": "cc-subject-3",
-              "notes": "Maximum days to inform on invoking Force Majeure",
-              "measure": 5
-            },
-            {
-              "id": "cc-subject-4",
-              "notes": "Maximum days to inform on invoking Force Majeure",
-              "measure": 5
-            },
-            {
-              "id": "cc-subject-5",
-              "notes": "Maximum days to inform on invoking Force Majeure",
-              "measure": 5
-            }
-          ]
-        }
-      ]
-    }
-  ],
+      {
+        "id": "cc-tenderer-1",
+        "title": "Garanție de executare",
+        "description": "Contract conditions governing the general responsibilities related to both: CA and EO",
+        "observations": [
+          {
+            "id": "cc-tenderer-1-1",
+            "notes": "Maximum days to inform on invoking Force Majeure",
+            "measure": 5
+          },
+          {
+            "id": "cc-tenderer-1-2",
+            "notes": "Maximum days to inform on invoking Force Majeure",
+            "measure": 5
+          }
+        ]
+      },
+      {
+        "id": "cc-tenderer-2",
+        "title": "General Responsibilities",
+        "description": "Contract conditions governing the general responsibilities related to both: CA and EO",
+        "observations": [
+          {
+            "id": "cc-tenerer-2-1",
+            "notes": "Maximum days to inform on invoking Force Majeure",
+            "measure": 5
+          },
+          {
+            "id": "cc-tenerer-2-2",
+            "notes": "Maximum days to inform on invoking Force Majeure",
+            "measure": 5
+          },
+          {
+            "id": "cc-tenerer-2-3",
+            "notes": "Maximum days to inform on invoking Force Majeure",
+            "measure": 5
+          },
+          {
+            "id": "cc-tenerer-2-4",
+            "notes": "Maximum days to inform on invoking Force Majeure",
+            "measure": 5
+          }
+        ]
+      },
+      {
+        "id": "cc-tenderer-3",
+        "title": "General Responsibilities",
+        "description": "Contract conditions governing the general responsibilities related to both: CA and EO",
+        "observations": [
+          {
+            "id": "cc-tenerer-3-1",
+            "notes": "Maximum days to inform on invoking Force Majeure",
+            "measure": 5
+          },
+          {
+            "id": "cc-tenerer-3-2",
+            "notes": "Maximum days to inform on invoking Force Majeure",
+            "measure": 5
+          },
+          {
+            "id": "cc-tenerer-3-3",
+            "notes": "Maximum days to inform on invoking Force Majeure",
+            "measure": 5
+          }
+        ]
+      },
+      {
+        "id": "cc-buyer-1",
+        "title": "Pelmeni",
+        "description": "Contract conditions governing the general responsibilities related to both: CA and EO",
+        "observations": [
+          {
+            "id": "cc-buyer-1-1",
+            "notes": "Maximum days to inform on invoking Force Majeure",
+            "measure": 5
+          }
+        ]
+      },
+      {
+        "id": "cc-buyer-2",
+        "title": "Pelmeni",
+        "description": "Contract conditions governing the general responsibilities related to both: CA and EO",
+        "observations": [
+          {
+            "id": "cc-buyer-2-1",
+            "notes": "Maximum days to inform on invoking Force Majeure",
+            "measure": 5
+          },
+          {
+            "id": "cc-buyer-2-2",
+            "notes": "Maximum days to inform on invoking Force Majeure",
+            "measure": 5
+          }
+        ]
+      },
+      {
+        "id": "cc-subject-cd9659b0-e751-11e8-a259-b72781a0d355-1488d880-e751-11e8-9363-3fbb2bac86b6",
+        "title": "General Responsibilities",
+        "description": "Contract conditions governing the general responsibilities related to both: CA and EO",
+        "observations": [
+          {
+            "id": "cc-subject-1",
+            "notes": "Maximum days to inform on invoking Force Majeure",
+            "measure": 5
+          },
+          {
+            "id": "cc-subject-2",
+            "notes": "Maximum days to inform on invoking Force Majeure",
+            "measure": 5
+          },
+          {
+            "id": "cc-subject-3",
+            "notes": "Maximum days to inform on invoking Force Majeure",
+            "measure": 5
+          },
+          {
+            "id": "cc-subject-4",
+            "notes": "Maximum days to inform on invoking Force Majeure",
+            "measure": 5
+          },
+          {
+            "id": "cc-subject-5",
+            "notes": "Maximum days to inform on invoking Force Majeure",
+            "measure": 5
+          }
+        ]
+      },
+      {
+        "id": "cc-subject-cd9659b0-e751-11e8-a259-b72781a0d355-1488d883-e751-11e8-9363-3fbb2bac86b6",
+        "title": "General Responsibilities",
+        "description": "Contract conditions governing the general responsibilities related to both: CA and EO",
+        "observations": [
+          {
+            "id": "cc-subject-1",
+            "notes": "productiva",
+            "measure": 5
+          },
+          {
+            "id": "cc-subject-2",
+            "notes": "Maximum days to inform on invoking Force Majeure",
+            "measure": 5
+          },
+          {
+            "id": "cc-subject-3",
+            "notes": "Maximum days to inform on invoking Force Majeure",
+            "measure": 5
+          },
+          {
+            "id": "cc-subject-4",
+            "notes": "Maximum days to inform on invoking Force Majeure",
+            "measure": 5
+          },
+          {
+            "id": "cc-subject-5",
+            "notes": "Maximum days to inform on invoking Force Majeure",
+            "measure": 5
+          }
+        ]
+      }
+    ]
+  },
   "award": {
-    "id": "c091bba3-e1d5-11e8-b523-bf6a4a5a4ff3",
+    "id": "74c43281-ec1a-11e8-928f-a9a0efcf4c9e",
     "suppliers": [
       {
         "id": "MD-IDNO-550-14-6378",
@@ -371,10 +369,10 @@
       }
     ],
     "value": {
-      "amount": 150,
+      "amount": 24,
       "currency": "MDL",
-      "amountNet": 45,
-      "valueAddedTaxincluded": true
+      "amountNet": 20,
+      "valueAddedTaxIncluded": true
     },
     "items": [
       {

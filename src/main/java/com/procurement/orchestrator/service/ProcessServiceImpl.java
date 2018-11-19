@@ -1297,7 +1297,7 @@ public class ProcessServiceImpl implements ProcessService {
     public JsonNode getAgreedMetrics(final JsonNode jsonData, final String processId) {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
-            mainNode.replace("agreedMetrics", jsonData.get("contracts").get("agreedMetrics"));
+            mainNode.replace("agreedMetrics", jsonData.get("contract").get("agreedMetrics"));
             return mainNode;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
@@ -1307,7 +1307,7 @@ public class ProcessServiceImpl implements ProcessService {
 
     public JsonNode setAgreedMetrics(final JsonNode jsonData, final JsonNode responseData, final String processId) {
         try {
-            final ObjectNode contractsNode = (ObjectNode) jsonData.get("contracts");
+            final ObjectNode contractsNode = (ObjectNode) jsonData.get("contract");
             contractsNode.replace("agreedMetrics", responseData.get("agreedMetrics"));
             return jsonData;
         } catch (Exception e) {

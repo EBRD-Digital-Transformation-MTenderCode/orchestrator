@@ -45,7 +45,7 @@ public class RegulationUpdateContractTerms implements JavaDelegate {
         final String taskId = execution.getCurrentActivityId();
         final JsonNode rqData = processService.getAgreedMetrics(jsonData, processId);
         if (rqData != null) {
-            final JsonNode commandMessage = processService.getCommandMessage(UPDATE_TERMS, context, jsonData);
+            final JsonNode commandMessage = processService.getCommandMessage(UPDATE_TERMS, context, rqData);
             JsonNode responseData = processService.processResponse(
                     regulationRestClient.execute(commandMessage),
                     context,
