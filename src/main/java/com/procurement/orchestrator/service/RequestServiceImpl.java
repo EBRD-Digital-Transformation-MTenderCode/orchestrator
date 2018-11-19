@@ -214,7 +214,6 @@ public class RequestServiceImpl implements RequestService {
         final String processType = getProcessType(prevContext.getCountry(), prevContext.getPmd(), process);
         final Rule rule = checkAndGetRule(prevContext, processType);
         final Context context = new Context();
-        context.setMainProcurementCategory(prevContext.getMainProcurementCategory());
         context.setCountry(rule.getCountry());
         context.setPmd(rule.getPmd());
         context.setProcessType(processType);
@@ -229,6 +228,7 @@ public class RequestServiceImpl implements RequestService {
         context.setToken(token);
         context.setLanguage(lang);
         context.setIsAuction(prevContext.getIsAuction());
+        context.setMainProcurementCategory(prevContext.getMainProcurementCategory());
         context.setRequestId(UUIDs.timeBased().toString());
         context.setStartDate(dateUtil.nowFormatted());
         return context;
