@@ -377,6 +377,11 @@ public class NotificationServiceImpl implements NotificationService {
                 data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
                 break;
             }
+            case UPDATE_AC: {
+                data.setOcid(context.getCpid());
+                data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
+                break;
+            }
             default:
                 return null;
         }
