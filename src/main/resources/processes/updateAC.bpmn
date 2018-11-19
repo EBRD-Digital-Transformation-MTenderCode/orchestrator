@@ -80,7 +80,7 @@
       <bpmn:outgoing>SequenceFlow_0xav012</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_0xav012" sourceRef="StorageOpenDocsOfContractPersonesTask" targetRef="NoticeCreateReleaseTask" />
-    <bpmn:serviceTask id="SaveContractUpdateContextTask" name="Save Contract Update Context" camunda:delegateExpression="${SaveContractUpdateContext}">
+    <bpmn:serviceTask id="SaveContractUpdateContextTask" name="Save Contract Update Context" camunda:delegateExpression="${saveContractUpdateContext}">
       <bpmn:incoming>SequenceFlow_0a660r8</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_14oafte</bpmn:outgoing>
     </bpmn:serviceTask>
