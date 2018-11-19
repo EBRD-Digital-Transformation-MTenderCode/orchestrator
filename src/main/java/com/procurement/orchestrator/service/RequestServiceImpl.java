@@ -215,10 +215,10 @@ public class RequestServiceImpl implements RequestService {
         final Rule rule = checkAndGetRule(prevContext, processType);
         final Context context = new Context();
         context.setMainProcurementCategory(prevContext.getMainProcurementCategory());
-        context.setCountry(prevContext.getCountry());
-        context.setPmd(prevContext.getPmd());
-        context.setPrevStage(prevContext.getPrevStage());
+        context.setCountry(rule.getCountry());
+        context.setPmd(rule.getPmd());
         context.setProcessType(processType);
+        context.setPrevStage(rule.getPrevStage());
         context.setStage(rule.getNewStage());
         context.setPhase(rule.getNewPhase());
         context.setOperationType(rule.getOperationType());
