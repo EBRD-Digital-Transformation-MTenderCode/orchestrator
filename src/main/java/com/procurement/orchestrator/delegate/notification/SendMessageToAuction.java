@@ -1,8 +1,6 @@
 package com.procurement.orchestrator.delegate.notification;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.procurement.orchestrator.delegate.kafka.MessageProducer;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.dto.command.CommandMessage;
@@ -10,15 +8,12 @@ import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.service.NotificationService;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
-import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDateTime;
 
 import static com.procurement.orchestrator.domain.commands.AuctionCommandType.LAUNCH;
 
@@ -31,20 +26,17 @@ public class SendMessageToAuction implements JavaDelegate {
     private final OperationService operationService;
     private final MessageProducer messageProducer;
     private final JsonUtil jsonUtil;
-    private final DateUtil dateUtil;
 
     public SendMessageToAuction(final ProcessService processService,
                                 final NotificationService notificationService,
                                 final OperationService operationService,
                                 final MessageProducer messageProducer,
-                                final DateUtil dateUtil,
                                 final JsonUtil jsonUtil) {
         this.processService = processService;
         this.notificationService = notificationService;
         this.operationService = operationService;
         this.messageProducer = messageProducer;
         this.jsonUtil = jsonUtil;
-        this.dateUtil = dateUtil;
     }
 
     @Override
