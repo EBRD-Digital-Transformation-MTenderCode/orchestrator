@@ -1272,6 +1272,7 @@ public class ProcessServiceImpl implements ProcessService {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
             final ObjectNode awardsNode = mainNode.putObject("award");
+            awardsNode.replace("id", jsonData.get("award").get("id"));
             awardsNode.replace("value", jsonData.get("award").get("value"));
             return mainNode;
         } catch (Exception e) {

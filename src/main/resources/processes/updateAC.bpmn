@@ -41,7 +41,7 @@
       <bpmn:outgoing>SequenceFlow_0pz1akj</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_0pz1akj" sourceRef="AccessCheckBudgetSourcesTask" targetRef="ContractingGetActualBudgetSourcesTask" />
-    <bpmn:serviceTask id="ContractingGetActualBudgetSourcesTask" name="Contracting Get Actual Budget Sources" camunda:asyncBefore="true" camunda:delegateExpression="${contractingGetActualBudgetSources}">
+    <bpmn:serviceTask id="ContractingGetActualBudgetSourcesTask" name="Contracting Get Actual Budget Sources" camunda:asyncBefore="true" camunda:delegateExpression="${contractingGetBudgetSources}">
       <bpmn:incoming>SequenceFlow_0pz1akj</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0iseutl</bpmn:outgoing>
     </bpmn:serviceTask>
