@@ -49,22 +49,22 @@ public class StorageOpenDocsOfTender implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode documents = processService.getDocumentsOfTender(jsonData, processId);
-        final JsonNode commandMessage = processService.getCommandMessage(PUBLISH, context, documents);
-        JsonNode responseData = null;
         if (Objects.nonNull(documents)) {
-            responseData = processService.processResponse(
+            final JsonNode commandMessage = processService.getCommandMessage(PUBLISH, context, documents);
+            JsonNode responseData = processService.processResponse(
                     storageRestClient.execute(commandMessage),
                     context,
                     processId,
                     taskId,
                     commandMessage);
-        }
-        if (Objects.nonNull(responseData)) {
-            operationService.saveOperationStep(
-                    execution,
-                    entity,
-                    commandMessage,
-                    processService.setDocumentsOfTender(jsonData, responseData, processId));
+
+            if (Objects.nonNull(responseData)) {
+                operationService.saveOperationStep(
+                        execution,
+                        entity,
+                        commandMessage,
+                        processService.setDocumentsOfTender(jsonData, responseData, processId));
+            }
         }
     }
 }
