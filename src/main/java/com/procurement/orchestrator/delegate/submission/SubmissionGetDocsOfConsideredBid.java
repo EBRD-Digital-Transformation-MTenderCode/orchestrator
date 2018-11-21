@@ -15,10 +15,10 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.SubmissionCommandType.UPDATE_BIDS_BY_LOTS;
+import static com.procurement.orchestrator.domain.commands.SubmissionCommandType.GET_DOCS_OF_CONSIDERED_BID;
 
 @Component
-public class SubmissionUpdateBidStatus implements JavaDelegate {
+public class SubmissionGetDocsOfConsideredBid implements JavaDelegate {
 
     private static final Logger LOG = LoggerFactory.getLogger(SubmissionCopyBids.class);
 
@@ -30,10 +30,10 @@ public class SubmissionUpdateBidStatus implements JavaDelegate {
 
     private final JsonUtil jsonUtil;
 
-    public SubmissionUpdateBidStatus(final SubmissionRestClient submissionRestClient,
-                                     final OperationService operationService,
-                                     final ProcessService processService,
-                                     final JsonUtil jsonUtil) {
+    public SubmissionGetDocsOfConsideredBid(final SubmissionRestClient submissionRestClient,
+                                            final OperationService operationService,
+                                            final ProcessService processService,
+                                            final JsonUtil jsonUtil) {
         this.submissionRestClient = submissionRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -48,20 +48,22 @@ public class SubmissionUpdateBidStatus implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode rqData = processService.getDataForBidUpdateStatus(jsonData, processId);
-        final JsonNode commandMessage = processService.getCommandMessage(UPDATE_BIDS_BY_LOTS, context, rqData);
-        JsonNode responseData = processService.processResponse(
-                submissionRestClient.execute(commandMessage),
-                context,
-                processId,
-                taskId,
-                commandMessage);
-        if (Objects.nonNull(responseData)) {
-            operationService.saveOperationStep(
-                    execution,
-                    entity,
-                    commandMessage,
-                    processService.addUpdateBidsStatusData(jsonData, responseData, processId));
+        final JsonNode rqData = processService.getConsideredBidId(jsonData, processId);
+        if (rqData != null) {
+            final JsonNode commandMessage = processService.getCommandMessage(GET_DOCS_OF_CONSIDERED_BID, context, rqData);
+            JsonNode responseData = processService.processResponse(
+                    submissionRestClient.execute(commandMessage),
+                    context,
+                    processId,
+                    taskId,
+                    commandMessage);
+            if (Objects.nonNull(responseData)) {
+                operationService.saveOperationStep(
+                        execution,
+                        entity,
+                        commandMessage,
+                        processService.setConsideredBid(jsonData, responseData, processId));
+            }
         }
     }
 }

@@ -123,6 +123,10 @@ public interface ProcessService {
 
     JsonNode setDocumentsOfContractPersones(JsonNode jsonData, JsonNode documentsData, String processId);
 
+    JsonNode getDocumentsOfConsideredBid(JsonNode jsonData, String processId);
+
+    JsonNode setDocumentsOfConsideredBid(JsonNode jsonData, JsonNode responseData, String processId);
+
     JsonNode addStandstillPeriod(JsonNode jsonData, String startDate, String endDate, String processId);
 
     JsonNode setAccessData(JsonNode jsonData, JsonNode responseData, String processId);
@@ -198,5 +202,12 @@ public interface ProcessService {
     JsonNode getCheckBs(JsonNode jsonData, String processId);
 
     JsonNode setCheckBs(JsonNode jsonData, JsonNode responseData, String processId);
+
+    JsonNode getDataForBidUpdateStatus(JsonNode jsonData, String processId);
+
+    JsonNode getConsideredBidId(JsonNode jsonData, String processId);
+
+    JsonNode setConsideredBid(JsonNode jsonData, JsonNode responseData, String processId);
+
 }
 

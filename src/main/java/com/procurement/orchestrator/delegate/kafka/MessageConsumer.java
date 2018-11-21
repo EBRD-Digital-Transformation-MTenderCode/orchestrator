@@ -64,6 +64,7 @@ public class MessageConsumer {
             context.setToken(prevContext.getToken());
             context.setLanguage(prevContext.getLanguage());
             context.setIsAuction(prevContext.getIsAuction());
+            context.setAwardCriteria(prevContext.getAwardCriteria());
             context.setStartDate(dateUtil.nowFormatted());
             requestService.saveRequestAndCheckOperation(context, jsonUtil.empty());
             final Map<String, Object> variables = new HashMap<>();
@@ -107,6 +108,7 @@ public class MessageConsumer {
                             context.setToken(prevContext.getToken());
                             context.setLanguage(prevContext.getLanguage());
                             context.setIsAuction(prevContext.getIsAuction());
+                            context.setAwardCriteria(prevContext.getAwardCriteria());
                             context.setStartDate(dateUtil.nowFormatted());
                             requestService.saveRequestAndCheckOperation(context, dataNode);
                             final Map<String, Object> variables = new HashMap<>();

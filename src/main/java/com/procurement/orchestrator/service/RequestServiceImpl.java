@@ -197,6 +197,7 @@ public class RequestServiceImpl implements RequestService {
         context.setToken(token);
         context.setLanguage(lang);
         context.setIsAuction(prevContext.getIsAuction());
+        context.setAwardCriteria(prevContext.getAwardCriteria());
         context.setRequestId(UUIDs.timeBased().toString());
         context.setStartDate(dateUtil.nowFormatted());
         return context;
@@ -229,6 +230,7 @@ public class RequestServiceImpl implements RequestService {
         context.setLanguage(lang);
         context.setIsAuction(prevContext.getIsAuction());
         context.setMainProcurementCategory(prevContext.getMainProcurementCategory());
+        context.setAwardCriteria(prevContext.getAwardCriteria());
         context.setRequestId(UUIDs.timeBased().toString());
         context.setStartDate(dateUtil.nowFormatted());
         return context;

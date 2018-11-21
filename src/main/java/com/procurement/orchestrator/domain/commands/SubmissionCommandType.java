@@ -28,7 +28,8 @@ public enum SubmissionCommandType {
     BID_WITHDRAWN("bidWithdrawn"),
     BIDS_WITHDRAWN("bidsWithdrawn"),
     PREPARE_BIDS_CANCELLATION("prepareBidsCancellation"),
-    BIDS_CANCELLATION("bidsCancellation");
+    BIDS_CANCELLATION("bidsCancellation"),
+    GET_DOCS_OF_CONSIDERED_BID("getDocsOfConsideredBid");
 
     private static final Map<String, SubmissionCommandType> CONSTANTS = new HashMap<>();
     private final String value;

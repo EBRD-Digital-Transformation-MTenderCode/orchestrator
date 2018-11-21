@@ -1,9 +1,9 @@
-package com.procurement.orchestrator.delegate.access;
+package com.procurement.orchestrator.delegate.storage;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
-import com.procurement.orchestrator.rest.AccessRestClient;
+import com.procurement.orchestrator.rest.StorageRestClient;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -15,23 +15,26 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.AccessCommandType.GET_LOTS_AUCTION;
+import static com.procurement.orchestrator.domain.commands.StorageCommandType.PUBLISH;
 
 @Component
-public class AccessGetLotsAuction implements JavaDelegate {
+public class StorageOpenDocsOfConsideredBid implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AccessGetLotsAuction.class);
+    private static final Logger LOG = LoggerFactory.getLogger(StorageOpenDocsOfConsideredBid.class);
 
-    private final AccessRestClient accessRestClient;
+    private final StorageRestClient storageRestClient;
+
     private final OperationService operationService;
+
     private final ProcessService processService;
+
     private final JsonUtil jsonUtil;
 
-    public AccessGetLotsAuction(final AccessRestClient accessRestClient,
-                                final OperationService operationService,
-                                final ProcessService processService,
-                                final JsonUtil jsonUtil) {
-        this.accessRestClient = accessRestClient;
+    public StorageOpenDocsOfConsideredBid(final StorageRestClient storageRestClient,
+                                          final OperationService operationService,
+                                          final ProcessService processService,
+                                          final JsonUtil jsonUtil) {
+        this.storageRestClient = storageRestClient;
         this.operationService = operationService;
         this.processService = processService;
         this.jsonUtil = jsonUtil;
@@ -41,25 +44,27 @@ public class AccessGetLotsAuction implements JavaDelegate {
     public void execute(final DelegateExecution execution) throws Exception {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
-        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
+        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(GET_LOTS_AUCTION, context, jsonUtil.empty());
-        JsonNode responseData = processService.processResponse(
-                accessRestClient.execute(commandMessage),
-                context,
-                processId,
-                taskId,
-                commandMessage);
+        final JsonNode documents = processService.getDocumentsOfConsideredBid(jsonData, processId);
+        final JsonNode commandMessage = processService.getCommandMessage(PUBLISH, context, documents);
+        JsonNode responseData = null;
+        if (Objects.nonNull(documents)) {
+            responseData = processService.processResponse(
+                    storageRestClient.execute(commandMessage),
+                    context,
+                    processId,
+                    taskId,
+                    commandMessage);
+        }
         if (Objects.nonNull(responseData)) {
-            context.setAwardCriteria(processService.getText("awardCriteria", responseData, processId));
             operationService.saveOperationStep(
                     execution,
                     entity,
                     commandMessage,
-                    processService.setTender(jsonData, responseData, processId));
+                    processService.setDocumentsOfConsideredBid(jsonData, responseData, processId));
         }
     }
 }
-
