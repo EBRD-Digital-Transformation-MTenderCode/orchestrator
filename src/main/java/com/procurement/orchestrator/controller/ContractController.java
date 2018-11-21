@@ -48,7 +48,7 @@ public class ContractController extends DoBaseController {
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
-    @RequestMapping(value = "/contract/{cpid}/{ocid}", method = RequestMethod.POST)
+    @RequestMapping(value = "/issue/contract/{cpid}/{ocid}", method = RequestMethod.POST)
     public ResponseEntity<String> issuingAC(@RequestHeader("Authorization") final String authorization,
                                            @RequestHeader("X-OPERATION-ID") final String operationId,
                                            @RequestHeader("X-TOKEN") final String token,
