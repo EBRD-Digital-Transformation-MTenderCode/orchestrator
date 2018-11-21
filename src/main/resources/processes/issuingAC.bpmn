@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="2.0.0">
+  <bpmn:process id="issuingAC" name="issuingAC" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>SequenceFlow_1gx4xfj</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:endEvent id="EndEvent_1">
+      <bpmn:incoming>SequenceFlow_0jh8sda</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="SaveFirstOperationTask" name="Save first operation" camunda:delegateExpression="${saveFirstOperation}">
+      <bpmn:incoming>SequenceFlow_1gx4xfj</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0ipeyos</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="NoticeCreateReleaseTask" name="Notice Create Release" camunda:asyncBefore="true" camunda:delegateExpression="${noticeCreateRelease}">
+      <bpmn:incoming>SequenceFlow_0nhwjuo</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0a660r8</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1gx4xfj" sourceRef="StartEvent_1" targetRef="SaveFirstOperationTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0ipeyos" sourceRef="SaveFirstOperationTask" targetRef="ContractingIssuingContractTask" />
+    <bpmn:serviceTask id="ContractingIssuingContractTask" name="Contracting Set issued statusDetails" camunda:asyncBefore="true" camunda:delegateExpression="${contractingIssuingContract}">
+      <bpmn:incoming>SequenceFlow_0ipeyos</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0nhwjuo</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_0nhwjuo" sourceRef="ContractingIssuingContractTask" targetRef="NoticeCreateReleaseTask" />
+    <bpmn:serviceTask id="SaveContractUpdateContextTask" name="Save Contract Update Context" camunda:delegateExpression="${saveContractUpdateContext}">
+      <bpmn:incoming>SequenceFlow_0a660r8</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_14oafte</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_0a660r8" sourceRef="NoticeCreateReleaseTask" targetRef="SaveContractUpdateContextTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_14oafte" sourceRef="SaveContractUpdateContextTask" targetRef="SendMessageToPlatformTask" />
+    <bpmn:serviceTask id="SendMessageToPlatformTask" name="Send &#10;message to platform&#10;" camunda:asyncBefore="true" camunda:delegateExpression="${sendMessageToPlatform}">
+      <bpmn:incoming>SequenceFlow_14oafte</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0jh8sda</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_0jh8sda" sourceRef="SendMessageToPlatformTask" targetRef="EndEvent_1" />
+  </bpmn:process>
+  <bpmn:error id="tr_exception" name="TR_EXCEPTION" errorCode="TR_EXCEPTION" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="issuingAC">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="139" y="167" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="112" y="203" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_0wpvj65_di" bpmnElement="EndEvent_1">
+        <dc:Bounds x="1077" y="167" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="-31" y="207" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0kegmvr_di" bpmnElement="SaveFirstOperationTask">
+        <dc:Bounds x="241" y="145" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1tvffuw_di" bpmnElement="NoticeCreateReleaseTask">
+        <dc:Bounds x="591" y="145" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1gx4xfj_di" bpmnElement="SequenceFlow_1gx4xfj">
+        <di:waypoint x="175" y="185" />
+        <di:waypoint x="241" y="185" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="163" y="164" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0ipeyos_di" bpmnElement="SequenceFlow_0ipeyos">
+        <di:waypoint x="341" y="185" />
+        <di:waypoint x="426" y="185" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="338.5" y="164" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_197ov87_di" bpmnElement="ContractingIssuingContractTask">
+        <dc:Bounds x="426" y="145" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0nhwjuo_di" bpmnElement="SequenceFlow_0nhwjuo">
+        <di:waypoint x="526" y="185" />
+        <di:waypoint x="591" y="185" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="513.5" y="160" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_06wweri_di" bpmnElement="SaveContractUpdateContextTask">
+        <dc:Bounds x="760" y="145" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0a660r8_di" bpmnElement="SequenceFlow_0a660r8">
+        <di:waypoint x="691" y="185" />
+        <di:waypoint x="760" y="185" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="680.5" y="160" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_14oafte_di" bpmnElement="SequenceFlow_14oafte">
+        <di:waypoint x="860" y="185" />
+        <di:waypoint x="914" y="185" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="842" y="160" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_1mbr0bj_di" bpmnElement="SendMessageToPlatformTask">
+        <dc:Bounds x="914" y="145" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0jh8sda_di" bpmnElement="SequenceFlow_0jh8sda">
+        <di:waypoint x="1014" y="185" />
+        <di:waypoint x="1077" y="185" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1045.5" y="164" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

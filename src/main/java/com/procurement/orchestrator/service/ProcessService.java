@@ -199,6 +199,8 @@ public interface ProcessService {
 
     JsonNode setContractUpdateData(JsonNode jsonData, JsonNode responseData, String processId);
 
+    JsonNode setContractIssuedStatusDetails(JsonNode jsonData, JsonNode responseData, String processId);
+
     JsonNode getCheckBs(JsonNode jsonData, String processId);
 
     JsonNode setCheckBs(JsonNode jsonData, JsonNode responseData, String processId);

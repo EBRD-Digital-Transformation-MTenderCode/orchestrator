@@ -40,8 +40,24 @@ public class ContractController extends DoBaseController {
                                            @RequestBody final JsonNode data) {
         requestService.validate(operationId, data);
         final Context context = requestService.getContextForContractUpdate(authorization, operationId,
-                cpid, ocid, token, "updateAC");
+                                                                           cpid, ocid, token, "updateAC");
         requestService.saveRequestAndCheckOperation(context, data);
+        final Map<String, Object> variables = new HashMap<>();
+        variables.put("operationType", context.getOperationType());
+        processService.startProcess(context, variables);
+        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
+    }
+
+    @RequestMapping(value = "/issue/contract/{cpid}/{ocid}", method = RequestMethod.POST)
+    public ResponseEntity<String> issuingAC(@RequestHeader("Authorization") final String authorization,
+                                           @RequestHeader("X-OPERATION-ID") final String operationId,
+                                           @RequestHeader("X-TOKEN") final String token,
+                                           @PathVariable("cpid") final String cpid,
+                                           @PathVariable("ocid") final String ocid) {
+        requestService.validate(operationId, null);
+        final Context context = requestService.getContextForContractUpdate(authorization, operationId,
+                                                                           cpid, ocid, token, "issuingAC");
+        requestService.saveRequestAndCheckOperation(context, null);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("operationType", context.getOperationType());
         processService.startProcess(context, variables);
