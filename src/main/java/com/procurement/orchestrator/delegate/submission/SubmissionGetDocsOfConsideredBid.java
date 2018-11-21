@@ -47,7 +47,7 @@ public class SubmissionGetDocsOfConsideredBid implements JavaDelegate {
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
-        final String taskId = execution.getCurrentActivityName();
+        final String taskId = execution.getCurrentActivityId();
         final JsonNode rqData = processService.getConsideredBidId(jsonData, processId);
         if (rqData != null) {
             final JsonNode commandMessage = processService.getCommandMessage(GET_DOCS_OF_CONSIDERED_BID, context, rqData);
