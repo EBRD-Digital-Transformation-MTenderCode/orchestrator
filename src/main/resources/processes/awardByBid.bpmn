@@ -72,7 +72,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_0ib7mel" sourceRef="ExclusiveGateway_0j3ce5y" targetRef="StorageOpenDocsOfAwardTask">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${bidAwarded==false}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:serviceTask id="SubmissionGetDocsOfConsideredBidTask" name="Submission Get Docs Of Considered Bid" camunda:asyncBefore="true" camunda:delegateExpression="${submissionGetDocsOfConsideredBid}">
+    <bpmn:serviceTask id="SubmissionGetConsideredBidTask" name="Submission Get Docs Of Considered Bid" camunda:asyncBefore="true" camunda:delegateExpression="${submissionGetDocsOfConsideredBid}">
       <bpmn:incoming>SequenceFlow_1vgdvll</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1vcfucy</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -83,8 +83,8 @@
     <bpmn:sequenceFlow id="SequenceFlow_1afx8tl" sourceRef="StorageOpenDocsOfConsideredBidTask" targetRef="StorageOpenDocsOfAwardTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1lyc6d0" sourceRef="StorageOpenDocsOfAwardTask" targetRef="NoticeCreateReleaseTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0ov0xpn" sourceRef="ExclusiveGateway_0jrrnwx" targetRef="SubmissionUpdateBidStatusDetailsTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1vgdvll" sourceRef="SubmissionUpdateBidStatusDetailsTask" targetRef="SubmissionGetDocsOfConsideredBidTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1vcfucy" sourceRef="SubmissionGetDocsOfConsideredBidTask" targetRef="StorageOpenDocsOfConsideredBidTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1vgdvll" sourceRef="SubmissionUpdateBidStatusDetailsTask" targetRef="SubmissionGetConsideredBidTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1vcfucy" sourceRef="SubmissionGetConsideredBidTask" targetRef="StorageOpenDocsOfConsideredBidTask" />
   </bpmn:process>
   <bpmn:error id="tr_exception" name="TR_EXCEPTION" errorCode="TR_EXCEPTION" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -203,7 +203,7 @@
         <di:waypoint x="1451" y="148" />
         <di:waypoint x="1451" y="210" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_1i2r838_di" bpmnElement="SubmissionGetDocsOfConsideredBidTask">
+      <bpmndi:BPMNShape id="ServiceTask_1i2r838_di" bpmnElement="SubmissionGetConsideredBidTask">
         <dc:Bounds x="1125" y="210" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_0nokc1l_di" bpmnElement="StorageOpenDocsOfConsideredBidTask">
