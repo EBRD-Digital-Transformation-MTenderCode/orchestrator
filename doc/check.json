@@ -1,25 +1,25 @@
 {
   "award": {
-    "token": "a47b719d-7f96-4fb8-84f2-5004e72d1a11",
-    "id": "7a17a4f0-edba-11e8-aa18-59f5e717b684",
-    "date": "2018-11-21T18:24:47Z",
+    "token": "e9f49297-20ef-4864-8e19-708d67c55183",
+    "id": "8eff1ed0-edc3-11e8-aa18-59f5e717b684",
+    "date": "2018-11-21T19:31:15Z",
     "description": "222222222",
     "status": "pending",
-    "statusDetails": "unsuccessful",
+    "statusDetails": "active",
     "value": {
       "amount": 999.99,
       "currency": "MDL"
     },
     "relatedLots": [
-      "06172443-edba-11e8-853d-3bb34b395cf2"
+      "1c34d434-edc3-11e8-853d-3bb34b395cf2"
     ],
-    "relatedBid": "44560c30-edba-11e8-9919-2bd2517470f4",
+    "relatedBid": "5185d0d0-edc3-11e8-9294-1b89a9f88b70",
     "suppliers": [
       {
-        "id": "MD-IDNO-333",
+        "id": "MD-IDNO-335333",
         "name": "Googleh555fhfgh55g12",
         "identifier": {
-          "id": "333",
+          "id": "335333",
           "scheme": "MD-IDNO",
           "legalName": "Google Big Brother",
           "uri": null
@@ -68,26 +68,26 @@
     ]
   },
   "nextAwardForUpdate": {
-    "token": "63f6e491-5add-40e2-8e63-7a5b4640b7aa",
-    "id": "7a17a4f2-edba-11e8-aa18-59f5e717b684",
-    "date": "2018-11-21T18:24:47Z",
+    "token": "4df73d64-ba91-44d7-b435-90e4ab403860",
+    "id": "8eff1ed2-edc3-11e8-aa18-59f5e717b684",
+    "date": "2018-11-21T19:31:15Z",
     "description": "",
     "status": "pending",
-    "statusDetails": "consideration",
+    "statusDetails": "empty",
     "value": {
       "amount": 999.99,
       "currency": "MDL"
     },
     "relatedLots": [
-      "06172443-edba-11e8-853d-3bb34b395cf2"
+      "1c34d434-edc3-11e8-853d-3bb34b395cf2"
     ],
-    "relatedBid": "3c999c00-edba-11e8-9919-2bd2517470f4",
+    "relatedBid": "4cb6bc90-edc3-11e8-9294-1b89a9f88b70",
     "suppliers": [
       {
-        "id": "MD-IDNO-222",
+        "id": "MD-IDNO-33555",
         "name": "Googleh555fhfgh55g12",
         "identifier": {
-          "id": "222",
+          "id": "33555",
           "scheme": "MD-IDNO",
           "legalName": "Google Big Brother",
           "uri": null
@@ -128,138 +128,9 @@
       }
     ]
   },
-  "awardStatusDetails": "unsuccessful",
-  "bidId": "44560c30-edba-11e8-9919-2bd2517470f4",
-  "consideredBidId": "3c999c00-edba-11e8-9919-2bd2517470f4",
-  "bidAwarded": true,
-  "consideredBid": {
-    "id": "3c999c00-edba-11e8-9919-2bd2517470f4",
-    "documents": [
-      {
-        "id": "f347dda6-92bd-4778-b31f-20f4a48c497d-1542818257513",
-        "documentType": "x_commercialOffer",
-        "title": "doc1",
-        "description": null,
-        "url": "http://dev.bpe.eprocurement.systems/api/v1/storage/get/f347dda6-92bd-4778-b31f-20f4a48c497d-1542818257513",
-        "datePublished": "2018-11-21T17:08:00Z",
-        "dateModified": null,
-        "format": null,
-        "language": null,
-        "relatedLots": [
-          "06172443-edba-11e8-853d-3bb34b395cf2"
-        ]
-      },
-      {
-        "id": "db310c31-6341-4c1f-83b0-476494e622b8-1542818272469",
-        "documentType": "submissionDocuments",
-        "title": "doc1",
-        "description": null,
-        "url": "http://dev.bpe.eprocurement.systems/api/v1/storage/get/db310c31-6341-4c1f-83b0-476494e622b8-1542818272469",
-        "datePublished": "2018-11-21T17:08:00Z",
-        "dateModified": null,
-        "format": null,
-        "language": null,
-        "relatedLots": [
-          "06172443-edba-11e8-853d-3bb34b395cf2"
-        ]
-      },
-      {
-        "id": "db310c31-6341-4c1f-83b0-476494e622b8-1542818272469",
-        "documentType": "x_eligibilityDocuments",
-        "title": "doc1",
-        "description": null,
-        "url": "http://dev.bpe.eprocurement.systems/api/v1/storage/get/db310c31-6341-4c1f-83b0-476494e622b8-1542818272469",
-        "datePublished": "2018-11-21T17:08:00Z",
-        "dateModified": null,
-        "format": null,
-        "language": null,
-        "relatedLots": [
-          "06172443-edba-11e8-853d-3bb34b395cf2"
-        ]
-      }
-    ]
-  },
-  "bid": {
-    "id": "44560c30-edba-11e8-9919-2bd2517470f4",
-    "date": "2018-11-21T18:24:47Z",
-    "status": "pending",
-    "statusDetails": "disqualified",
-    "tenderers": [
-      {
-        "id": "MD-IDNO-333",
-        "name": "Googleh555fhfgh55g12",
-        "identifier": {
-          "id": "333",
-          "scheme": "MD-IDNO",
-          "legalName": "Google Big Brother"
-        },
-        "address": {
-          "streetAddress": "",
-          "postalCode": "",
-          "addressDetails": {
-            "country": {
-              "scheme": "iso-alpha2",
-              "id": "MD",
-              "description": "MOLDOVA",
-              "uri": "http://reference.iatistandard.org"
-            },
-            "region": {
-              "scheme": "CUATM",
-              "id": "1000000",
-              "description": "Anenii Noi",
-              "uri": "http://statistica.md"
-            },
-            "locality": {
-              "scheme": "CUATM",
-              "id": "1001000",
-              "description": "or.Anenii Noi",
-              "uri": "http://statistica.md"
-            }
-          }
-        },
-        "contactPoint": {
-          "name": "111",
-          "email": "222",
-          "telephone": "333",
-          "url": "444"
-        },
-        "details": {
-          "scale": "sme"
-        }
-      }
-    ],
-    "value": {
-      "amount": 999.99,
-      "currency": "MDL"
-    },
-    "documents": [
-      {
-        "id": "f347dda6-92bd-4778-b31f-20f4a48c497d-1542818257513",
-        "documentType": "x_commercialOffer",
-        "title": "doc1",
-        "relatedLots": [
-          "06172443-edba-11e8-853d-3bb34b395cf2"
-        ]
-      },
-      {
-        "id": "db310c31-6341-4c1f-83b0-476494e622b8-1542818272469",
-        "documentType": "submissionDocuments",
-        "title": "doc1",
-        "relatedLots": [
-          "06172443-edba-11e8-853d-3bb34b395cf2"
-        ]
-      },
-      {
-        "id": "db310c31-6341-4c1f-83b0-476494e622b8-1542818272469",
-        "documentType": "x_eligibilityDocuments",
-        "title": "doc1",
-        "relatedLots": [
-          "06172443-edba-11e8-853d-3bb34b395cf2"
-        ]
-      }
-    ],
-    "relatedLots": [
-      "06172443-edba-11e8-853d-3bb34b395cf2"
-    ]
-  }
+  "awardStatusDetails": "active",
+  "bidId": "5185d0d0-edc3-11e8-9294-1b89a9f88b70",
+  "lotId": "1c34d434-edc3-11e8-853d-3bb34b395cf2",
+  "lotAwarded": true,
+  "bidAwarded": true
 }

@@ -1359,10 +1359,10 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public JsonNode setContractIssuedStatusDetails(final JsonNode jsonData,final JsonNode responseData,final String processId){
+    public JsonNode setContractIssuedStatusDetails(final JsonNode jsonData, final JsonNode responseData, final String processId) {
         try {
             final ObjectNode mainNode = (ObjectNode) jsonData;
-             ObjectNode contractNode = mainNode.putObject("contract");
+            ObjectNode contractNode = mainNode.putObject("contract");
             contractNode.replace("date", jsonData.get("contract").get("date"));
             contractNode.replace("statusDetails", jsonData.get("contract").get("statusDetails"));
             return jsonData;
@@ -1418,8 +1418,12 @@ public class ProcessServiceImpl implements ProcessService {
     public JsonNode getConsideredBidId(final JsonNode jsonData, final String processId) {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
-            mainNode.replace("consideredBidId", jsonData.get("consideredBidId"));
-            return mainNode;
+            final JsonNode consideredBidIdNode = jsonData.get("consideredBidId");
+            if (consideredBidIdNode != null) {
+                mainNode.replace("consideredBidId", jsonData.get("consideredBidId"));
+                return mainNode;
+            }
+            return null;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
             return null;
