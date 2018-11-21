@@ -57,6 +57,7 @@ public class AccessGetLotsAuction implements JavaDelegate {
             operationService.saveOperationStep(
                     execution,
                     entity,
+                    context,
                     commandMessage,
                     processService.setTender(jsonData, responseData, processId));
         }

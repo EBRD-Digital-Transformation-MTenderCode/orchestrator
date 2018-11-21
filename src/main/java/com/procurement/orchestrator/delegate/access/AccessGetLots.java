@@ -57,6 +57,7 @@ public class AccessGetLots implements JavaDelegate {
             operationService.saveOperationStep(
                     execution,
                     entity,
+                    context,
                     commandMessage,
                     processService.addLotsAndAwardCriteria(jsonData, responseData, processId));
         }
