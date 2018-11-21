@@ -843,6 +843,8 @@ public class ProcessServiceImpl implements ProcessService {
 
     public JsonNode getDocumentsOfConsideredBid(final JsonNode jsonData, final String processId) {
         try {
+            final JsonNode consideredBidNode = jsonData.get("consideredBid");
+            if (consideredBidNode == null) return null;
             final JsonNode documentsNode = jsonData.get("consideredBid").findPath("documents");
             if (documentsNode.isMissingNode()) return null;
             final ObjectNode mainNode = jsonUtil.createObjectNode();
