@@ -27,8 +27,6 @@ public interface NotificationService {
 
     CommandMessage getCommandMessage(Enum command, Context context, JsonNode data);
 
-    CommandMessage getDocGeneratorCommandMessage(Enum command, Context context, JsonNode data);
-
     String getTenderUri(String cpId, String ocId);
 }
 

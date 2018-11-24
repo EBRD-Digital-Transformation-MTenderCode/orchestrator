@@ -150,7 +150,6 @@ public class NotificationServiceImpl implements NotificationService {
 
     public Context addNoticeOutcomeToContext(final Context context, final JsonNode responseData, final String processId) {
         context.setOcid(processService.getText("ocid", responseData, processId));
-        context.setReleaseId(processService.getText("releaseId", responseData, processId));
         final ArrayNode amendmentsArray = (ArrayNode) responseData.get("amendmentsIds");
         if (amendmentsArray != null) {
             Set<Outcome> outcomes;
@@ -429,16 +428,6 @@ public class NotificationServiceImpl implements NotificationService {
                 context.getOperationId(),
                 command,
                 null,
-                data,
-                CommandMessage.ApiVersion.V_0_0_1);
-    }
-
-    @Override
-    public CommandMessage getDocGeneratorCommandMessage(Enum command, Context context, JsonNode data) {
-        return new CommandMessage(
-                context.getOperationId(),
-                command,
-                context,
                 data,
                 CommandMessage.ApiVersion.V_0_0_1);
     }

@@ -51,7 +51,7 @@ public class SendMessageToDocGenerator implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final JsonNode rqData = getDocGeneratorData(context);
-        final CommandMessage commandMessage = notificationService.getDocGeneratorCommandMessage(GENERATE, context, rqData);
+        final CommandMessage commandMessage = notificationService.getCommandMessage(GENERATE, context, rqData);
         messageProducer.sendToDocGenerator(commandMessage);
         operationService.saveOperationStep(
                 execution,
@@ -63,8 +63,8 @@ public class SendMessageToDocGenerator implements JavaDelegate {
 
     private JsonNode getDocGeneratorData(Context context) {
         final ObjectNode mainNode = jsonUtil.createObjectNode();
+        mainNode.put("country", context.getCountry());
         mainNode.put("language", context.getLanguage());
-        mainNode.put("releaseID", context.getReleaseId());
         mainNode.put("cpid", context.getCpid());
         mainNode.put("ocid", context.getOcid());
         return mainNode;
