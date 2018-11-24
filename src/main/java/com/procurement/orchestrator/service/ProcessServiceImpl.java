@@ -1373,6 +1373,7 @@ public class ProcessServiceImpl implements ProcessService {
             return null;
         }
     }
+
     public JsonNode setContractFinalUpdateData(final JsonNode jsonData, final JsonNode responseData, final String processId) {
         try {
             final ObjectNode mainNode = (ObjectNode) jsonData;
@@ -1384,7 +1385,6 @@ public class ProcessServiceImpl implements ProcessService {
             return null;
         }
     }
-
 
     public JsonNode getCheckBs(final JsonNode jsonData, final String processId) {
         try {
