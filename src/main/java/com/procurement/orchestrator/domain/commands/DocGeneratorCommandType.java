@@ -10,7 +10,8 @@ import java.util.Map;
 
 public enum DocGeneratorCommandType {
 
-    GENERATE("generateACDoc");
+    GENERATE("generateACDoc"),
+    CONTRACT_FINALIZATION("contractFinalization");
 
     private static final Map<String, DocGeneratorCommandType> CONSTANTS = new HashMap<>();
     private final String value;

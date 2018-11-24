@@ -35,3 +35,14 @@
   }
 
 }
+
+{
+  "version":"1.0.0",
+  "id":"2ffdfc11-d6a7-4868-8a05-05a3fdaf4f42",
+  "command":"contractFinalization",
+  "data":{
+    "cpid":"ocds-t1s2t3-MD-1543076917965",
+    "ocid":"ocds-t1s2t3-MD-1543076917965-AC-1541460211233",
+    "documents":[{"id":"09e4c0ce-b785-4fc6-b524-dc1396445354-1543086124484"}],
+  },
+}

@@ -147,7 +147,7 @@ public class MessageConsumer {
                     context.setRequestId(uuid);
                     context.setOperationId(uuid);
                     switch (DocGeneratorCommandType.fromValue(command)) {
-                        case GENERATE: {
+                        case CONTRACT_FINALIZATION: {
                             final Rule rules = requestService.checkAndGetRule(prevContext, "finalUpdateAC");
                             context.setCountry(rules.getCountry());
                             context.setPmd(rules.getPmd());
