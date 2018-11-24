@@ -17,4 +17,8 @@ public class MessageProducerMockImpl implements MessageProducer {
     public boolean sendToAuction(CommandMessage commandMessage) {
         return true;
     }
+
+    public boolean sendToDocGenerator(final CommandMessage commandMessage) {
+        return true;
+    }
 }
