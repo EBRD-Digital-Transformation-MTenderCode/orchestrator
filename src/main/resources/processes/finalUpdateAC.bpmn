@@ -27,12 +27,12 @@
       <bpmn:outgoing>SequenceFlow_14oafte</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_0a660r8" sourceRef="NoticeCreateReleaseTask" targetRef="SaveContractUpdateContextTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_14oafte" sourceRef="SaveContractUpdateContextTask" targetRef="ServiceTask_1mbr0bj" />
-    <bpmn:serviceTask id="ServiceTask_1mbr0bj" name="Send &#10;message to platform&#10;" camunda:asyncBefore="true" camunda:delegateExpression="${sendMessageToPlatform}">
+    <bpmn:sequenceFlow id="SequenceFlow_14oafte" sourceRef="SaveContractUpdateContextTask" targetRef="SendMessageToPlatformTask" />
+    <bpmn:serviceTask id="SendMessageToPlatformTask" name="Send &#10;message to platform&#10;" camunda:asyncBefore="true" camunda:delegateExpression="${sendMessageToPlatform}">
       <bpmn:incoming>SequenceFlow_14oafte</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0jh8sda</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_0jh8sda" sourceRef="ServiceTask_1mbr0bj" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="SequenceFlow_0jh8sda" sourceRef="SendMessageToPlatformTask" targetRef="EndEvent_1" />
     <bpmn:serviceTask id="StorageOpenDocsOfContractTask" name="Storage&#10; Open Docs Of&#10; Contract&#10;" camunda:asyncBefore="true" camunda:delegateExpression="${storageOpenDocsOfContract}">
       <bpmn:incoming>SequenceFlow_0nhwjuo</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_199j6nj</bpmn:outgoing>
@@ -101,7 +101,7 @@
           <dc:Bounds x="974" y="171" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_1mbr0bj_di" bpmnElement="ServiceTask_1mbr0bj">
+      <bpmndi:BPMNShape id="ServiceTask_1mbr0bj_di" bpmnElement="SendMessageToPlatformTask">
         <dc:Bounds x="1024" y="145" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0jh8sda_di" bpmnElement="SequenceFlow_0jh8sda">
