@@ -432,4 +432,14 @@ public class NotificationServiceImpl implements NotificationService {
                 data,
                 CommandMessage.ApiVersion.V_0_0_1);
     }
+
+    @Override
+    public CommandMessage getDocGeneratorCommandMessage(Enum command, Context context, JsonNode data) {
+        return new CommandMessage(
+                context.getOperationId(),
+                command,
+                context,
+                data,
+                CommandMessage.ApiVersion.V_0_0_1);
+    }
 }

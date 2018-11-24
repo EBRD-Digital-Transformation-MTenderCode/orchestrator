@@ -52,8 +52,8 @@ public class SendMessageToDocGenerator implements JavaDelegate {
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final String processId = execution.getProcessInstanceId();
         final JsonNode rqData = getDocGeneratorData(context);
-        final CommandMessage commandMessage = notificationService.getCommandMessage(GENERATE, context, rqData);
-//        messageProducer.sendToDocGenerator(commandMessage);
+        final CommandMessage commandMessage = notificationService.getDocGeneratorCommandMessage(GENERATE, context, rqData);
+        messageProducer.sendToDocGenerator(commandMessage);
         operationService.saveOperationStep(
                 execution,
                 entity,
