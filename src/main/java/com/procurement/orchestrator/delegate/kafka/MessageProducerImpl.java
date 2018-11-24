@@ -16,6 +16,7 @@ public class MessageProducerImpl implements MessageProducer {
     private static final String CHRONOGRAPH_TOPIC = "chronograph-in";
     private static final String PLATFORM_TOPIC = "notification-kafka-channel";
     private static final String AUCTION_TOPIC = "auction-front-in";
+    private static final String DOC_GENERATOR_TOPIC = "docgenerator-in";
     private final KafkaTemplate<String, String> internalKafkaTemplate;
     private final JsonUtil jsonUtil;
 
@@ -60,6 +61,20 @@ public class MessageProducerImpl implements MessageProducer {
                     jsonUtil.toJson(commandMessage)).get();
             final RecordMetadata recordMetadata = sendResult.getRecordMetadata();
             LOG.info("Send to auction: ", recordMetadata.topic(),
+                    recordMetadata.partition(), recordMetadata.offset(), commandMessage.toString());
+            return true;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean sendToDocGenerator(final CommandMessage commandMessage) {
+        try {
+            final SendResult<String, String> sendResult = internalKafkaTemplate.send(
+                    DOC_GENERATOR_TOPIC,
+                    jsonUtil.toJson(commandMessage)).get();
+            final RecordMetadata recordMetadata = sendResult.getRecordMetadata();
+            LOG.info("Send to doc generator: ", recordMetadata.topic(),
                     recordMetadata.partition(), recordMetadata.offset(), commandMessage.toString());
             return true;
         } catch (Exception e) {

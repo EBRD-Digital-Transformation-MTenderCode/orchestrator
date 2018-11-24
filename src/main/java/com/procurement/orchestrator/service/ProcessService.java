@@ -210,6 +210,5 @@ public interface ProcessService {
     JsonNode getConsideredBidId(JsonNode jsonData, String processId);
 
     JsonNode setConsideredBid(JsonNode jsonData, JsonNode responseData, String processId);
-
 }
 
