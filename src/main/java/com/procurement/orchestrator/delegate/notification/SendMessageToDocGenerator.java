@@ -1,7 +1,6 @@
 package com.procurement.orchestrator.delegate.notification;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.procurement.orchestrator.delegate.kafka.MessageProducer;
 import com.procurement.orchestrator.domain.Context;
@@ -17,8 +16,6 @@ import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDateTime;
 
 import static com.procurement.orchestrator.domain.commands.DocGeneratorCommandType.GENERATE;
 
