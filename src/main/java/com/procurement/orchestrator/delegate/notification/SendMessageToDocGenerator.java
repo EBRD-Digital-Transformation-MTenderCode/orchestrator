@@ -60,9 +60,11 @@ public class SendMessageToDocGenerator implements JavaDelegate {
     private JsonNode getDocGeneratorData(Context context) {
         final ObjectNode mainNode = jsonUtil.createObjectNode();
         mainNode.put("country", context.getCountry());
-        mainNode.put("language", context.getLanguage());
+        mainNode.put("language", context.getLanguage().toUpperCase());
         mainNode.put("cpid", context.getCpid());
         mainNode.put("ocid", context.getOcid());
+        mainNode.put("operationId", context.getOperationId());
+        mainNode.put("startDate", context.getStartDate());
         return mainNode;
     }
 }

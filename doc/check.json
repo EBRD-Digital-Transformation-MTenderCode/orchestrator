@@ -1,136 +1,37 @@
 {
-  "award": {
-    "token": "e9f49297-20ef-4864-8e19-708d67c55183",
-    "id": "8eff1ed0-edc3-11e8-aa18-59f5e717b684",
-    "date": "2018-11-21T19:31:15Z",
-    "description": "222222222",
-    "status": "pending",
-    "statusDetails": "active",
-    "value": {
-      "amount": 999.99,
-      "currency": "MDL"
-    },
-    "relatedLots": [
-      "1c34d434-edc3-11e8-853d-3bb34b395cf2"
-    ],
-    "relatedBid": "5185d0d0-edc3-11e8-9294-1b89a9f88b70",
-    "suppliers": [
-      {
-        "id": "MD-IDNO-335333",
-        "name": "Googleh555fhfgh55g12",
-        "identifier": {
-          "id": "335333",
-          "scheme": "MD-IDNO",
-          "legalName": "Google Big Brother",
-          "uri": null
-        },
-        "address": {
-          "streetAddress": "",
-          "postalCode": "",
-          "addressDetails": {
-            "country": {
-              "scheme": "iso-alpha2",
-              "id": "MD",
-              "description": "MOLDOVA",
-              "uri": "http://reference.iatistandard.org"
-            },
-            "region": {
-              "scheme": "CUATM",
-              "id": "1000000",
-              "description": "Anenii Noi",
-              "uri": "http://statistica.md"
-            },
-            "locality": {
-              "scheme": "CUATM",
-              "id": "1001000",
-              "description": "or.Anenii Noi",
-              "uri": "http://statistica.md"
-            }
-          }
-        },
-        "contactPoint": {
-          "name": "111",
-          "email": "222",
-          "telephone": "333",
-          "url": "444"
-        },
-        "details": {
-          "scale": "sme"
-        }
-      }
-    ],
-    "documents": [
-      {
-        "id": "baa34dea-e15f-4ef6-ab91-856b1fbeed73-1542636831253",
-        "documentType": "awardNotice",
-        "description": "TEST"
-      }
-    ]
+  "id": "98d49d3c-68c6-11e8-adc0-fa7ae01b2823",
+  "command": "generateACDoc",
+  "data": {
+    "country": "MD",
+    "language": "ro",
+    "cpid": "ocds-t1s2t3-MD-1542998795428",
+    "ocid": "ocds-t1s2t3-MD-1542998795428-AC-1543865550621"
   },
-  "nextAwardForUpdate": {
-    "token": "4df73d64-ba91-44d7-b435-90e4ab403860",
-    "id": "8eff1ed2-edc3-11e8-aa18-59f5e717b684",
-    "date": "2018-11-21T19:31:15Z",
-    "description": "",
-    "status": "pending",
-    "statusDetails": "empty",
-    "value": {
-      "amount": 999.99,
-      "currency": "MDL"
-    },
-    "relatedLots": [
-      "1c34d434-edc3-11e8-853d-3bb34b395cf2"
-    ],
-    "relatedBid": "4cb6bc90-edc3-11e8-9294-1b89a9f88b70",
-    "suppliers": [
-      {
-        "id": "MD-IDNO-33555",
-        "name": "Googleh555fhfgh55g12",
-        "identifier": {
-          "id": "33555",
-          "scheme": "MD-IDNO",
-          "legalName": "Google Big Brother",
-          "uri": null
-        },
-        "address": {
-          "streetAddress": "",
-          "postalCode": "",
-          "addressDetails": {
-            "country": {
-              "scheme": "iso-alpha2",
-              "id": "MD",
-              "description": "MOLDOVA",
-              "uri": "http://reference.iatistandard.org"
-            },
-            "region": {
-              "scheme": "CUATM",
-              "id": "1000000",
-              "description": "Anenii Noi",
-              "uri": "http://statistica.md"
-            },
-            "locality": {
-              "scheme": "CUATM",
-              "id": "1001000",
-              "description": "or.Anenii Noi",
-              "uri": "http://statistica.md"
-            }
-          }
-        },
-        "contactPoint": {
-          "name": "111",
-          "email": "222",
-          "telephone": "333",
-          "url": "444"
-        },
-        "details": {
-          "scale": "sme"
-        }
-      }
-    ]
-  },
-  "awardStatusDetails": "active",
-  "bidId": "5185d0d0-edc3-11e8-9294-1b89a9f88b70",
-  "lotId": "1c34d434-edc3-11e8-853d-3bb34b395cf2",
-  "lotAwarded": true,
-  "bidAwarded": true
+  "version": "0.0.1"
+}
+
+{
+
+  "version": "0.0.1",
+
+  "id": "7058523e-8be1-4de5-83ab-75715cd85ea9",
+
+  "command": "generateACDoc",
+
+  "data": {
+
+    "country": "MD",
+
+    "language": "RO",
+
+    "cpid": "ocds-t1s2t3-MD-1542981234151",
+
+    "ocid": "ocds-t1s2t3-MD-1542981234151-AC-1542036270645",
+
+    "operationId": "838faf0e-f753-44c4-8267-8a49c27acc29",
+
+    "startDate": "2018-09-13T08:48:17Z"
+
+  }
+
 }

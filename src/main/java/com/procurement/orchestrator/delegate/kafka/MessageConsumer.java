@@ -79,7 +79,7 @@ public class MessageConsumer {
     public void onAuction(final String message, @Header(KafkaHeaders.ACKNOWLEDGMENT) final Acknowledgment ac) {
         ac.acknowledge();
         try {
-            LOG.info("Get task: " + message);
+            LOG.info("Get auction-front message: " + message);
             final JsonNode response = jsonUtil.toJsonNode(message);
 
             if (response.get("errors") != null) {
@@ -132,7 +132,7 @@ public class MessageConsumer {
     public void onDocGenerator(final String message, @Header(KafkaHeaders.ACKNOWLEDGMENT) final Acknowledgment ac) {
         ac.acknowledge();
         try {
-            LOG.info("Get task: " + message);
+            LOG.info("Get document-generator message: " + message);
             final JsonNode response = jsonUtil.toJsonNode(message);
             if (response.get("errors") != null) {
                 //TODO error processing
