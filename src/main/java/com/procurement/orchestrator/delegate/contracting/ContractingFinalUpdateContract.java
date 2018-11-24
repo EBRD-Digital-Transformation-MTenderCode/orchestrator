@@ -15,7 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import static com.procurement.orchestrator.domain.commands.ContractingCommandType.UPDATE_AC;
+import static com.procurement.orchestrator.domain.commands.ContractingCommandType.FINAL_UPDATE;
 
 @Component
 public class ContractingFinalUpdateContract implements JavaDelegate {
@@ -48,7 +48,7 @@ public class ContractingFinalUpdateContract implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(UPDATE_AC, context, jsonData);
+        final JsonNode commandMessage = processService.getCommandMessage(FINAL_UPDATE, context, jsonData);
         JsonNode responseData = processService.processResponse(
                 contractingRestClient.execute(commandMessage),
                 context,
