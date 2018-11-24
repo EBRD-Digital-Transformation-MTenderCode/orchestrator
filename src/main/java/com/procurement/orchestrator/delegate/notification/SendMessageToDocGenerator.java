@@ -8,7 +8,6 @@ import com.procurement.orchestrator.domain.dto.command.CommandMessage;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.service.NotificationService;
 import com.procurement.orchestrator.service.OperationService;
-import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
@@ -23,20 +22,17 @@ import static com.procurement.orchestrator.domain.commands.DocGeneratorCommandTy
 public class SendMessageToDocGenerator implements JavaDelegate {
     private static final Logger LOG = LoggerFactory.getLogger(SendMessageToDocGenerator.class);
 
-    private final ProcessService processService;
     private final NotificationService notificationService;
     private final OperationService operationService;
     private final MessageProducer messageProducer;
     private final JsonUtil jsonUtil;
     private final DateUtil dateUtil;
 
-    public SendMessageToDocGenerator(final ProcessService processService,
-                                     final NotificationService notificationService,
+    public SendMessageToDocGenerator(final NotificationService notificationService,
                                      final OperationService operationService,
                                      final MessageProducer messageProducer,
                                      final DateUtil dateUtil,
                                      final JsonUtil jsonUtil) {
-        this.processService = processService;
         this.notificationService = notificationService;
         this.operationService = operationService;
         this.messageProducer = messageProducer;
