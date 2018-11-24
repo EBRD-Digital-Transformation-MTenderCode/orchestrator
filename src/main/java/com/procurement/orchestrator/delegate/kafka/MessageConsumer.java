@@ -6,6 +6,7 @@ import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.Rule;
 import com.procurement.orchestrator.domain.chronograph.ChronographResponse;
 import com.procurement.orchestrator.domain.commands.AuctionCommandType;
+import com.procurement.orchestrator.domain.commands.DocGeneratorCommandType;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.service.RequestService;
 import com.procurement.orchestrator.utils.DateUtil;
@@ -126,4 +127,58 @@ public class MessageConsumer {
         } catch (Exception e) {
         }
     }
+
+    @KafkaListener(topics = "document-generator-out")
+    public void onDocGenerator(final String message, @Header(KafkaHeaders.ACKNOWLEDGMENT) final Acknowledgment ac) {
+        ac.acknowledge();
+        try {
+            LOG.info("Get task: " + message);
+            final JsonNode response = jsonUtil.toJsonNode(message);
+            if (response.get("errors") != null) {
+                //TODO error processing
+            } else {
+                final String command = response.get("command").asText();
+                final JsonNode dataNode = response.get("data");
+                if (dataNode != null) {
+                    final String cpid = dataNode.get("cpid").asText();
+                    final String ocid = dataNode.get("ocid").asText();
+                    final Context prevContext = requestService.getContext(ocid);
+                    final Context context = new Context();
+                    final String uuid = UUIDs.timeBased().toString();
+                    context.setRequestId(uuid);
+                    context.setOperationId(uuid);
+                    switch (DocGeneratorCommandType.fromValue(command)) {
+                        case GENERATE: {
+                            final Rule rules = requestService.checkAndGetRule(prevContext, "auctionPeriodEnd");
+                            context.setCountry(rules.getCountry());
+                            context.setPmd(rules.getPmd());
+                            context.setProcessType(rules.getProcessType());
+                            context.setStage(rules.getNewStage());
+                            context.setPhase(rules.getNewPhase());
+                            context.setOperationType(rules.getOperationType());
+                            context.setOwner(prevContext.getOwner());
+                            context.setCpid(prevContext.getCpid());
+                            context.setOcid(prevContext.getOcid());
+                            context.setToken(prevContext.getToken());
+                            context.setLanguage(prevContext.getLanguage());
+                            context.setIsAuction(prevContext.getIsAuction());
+                            context.setAwardCriteria(prevContext.getAwardCriteria());
+                            context.setStartDate(dateUtil.nowFormatted());
+                            requestService.saveRequestAndCheckOperation(context, dataNode);
+                            final Map<String, Object> variables = new HashMap<>();
+                            variables.put("operationType", context.getOperationType());
+                            processService.startProcess(context, variables);
+                            break;
+                        }
+                        default: {
+                            requestService.saveRequestAndCheckOperation(context, dataNode);
+                            break;
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+        }
+    }
+
 }

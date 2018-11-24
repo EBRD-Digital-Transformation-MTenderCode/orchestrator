@@ -16,7 +16,7 @@ public class MessageProducerImpl implements MessageProducer {
     private static final String CHRONOGRAPH_TOPIC = "chronograph-in";
     private static final String PLATFORM_TOPIC = "notification-kafka-channel";
     private static final String AUCTION_TOPIC = "auction-front-in";
-    private static final String DOC_GENERATOR_TOPIC = "docgenerator-in";
+    private static final String DOC_GENERATOR_TOPIC = "document-generator-in";
     private final KafkaTemplate<String, String> internalKafkaTemplate;
     private final JsonUtil jsonUtil;
 
