@@ -140,7 +140,6 @@ public class MessageConsumer {
                 final String command = response.get("command").asText();
                 final JsonNode dataNode = response.get("data");
                 if (dataNode != null) {
-                    final String cpid = dataNode.get("cpid").asText();
                     final String ocid = dataNode.get("ocid").asText();
                     final Context prevContext = requestService.getContext(ocid);
                     final Context context = new Context();
@@ -149,7 +148,7 @@ public class MessageConsumer {
                     context.setOperationId(uuid);
                     switch (DocGeneratorCommandType.fromValue(command)) {
                         case GENERATE: {
-                            final Rule rules = requestService.checkAndGetRule(prevContext, "auctionPeriodEnd");
+                            final Rule rules = requestService.checkAndGetRule(prevContext, "finalUpdateAC");
                             context.setCountry(rules.getCountry());
                             context.setPmd(rules.getPmd());
                             context.setProcessType(rules.getProcessType());

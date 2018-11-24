@@ -47,7 +47,9 @@ public enum OperationType {
     CANCEL_PLAN("cancelPlan"),
     CANCEL_STANDSTILL("cancellationStandstillPeriod"),
     UPDATE_BID_DOCS("updateBidDocs"),
-    UPDATE_AC("updateAC");
+    UPDATE_AC("updateAC"),
+    ISSUING_AC("issuingAC"),
+    FINAL_UPDATE_AC("finalUpdateAC");
 
     private static final Map<String, OperationType> CONSTANTS = new HashMap<>();
     private final String value;

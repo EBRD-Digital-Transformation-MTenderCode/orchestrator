@@ -1376,7 +1376,7 @@ public class ProcessServiceImpl implements ProcessService {
     public JsonNode setContractFinalUpdateData(final JsonNode jsonData, final JsonNode responseData, final String processId) {
         try {
             final ObjectNode mainNode = (ObjectNode) jsonData;
-            mainNode.replace("contracts", responseData.get("contracts"));
+            mainNode.replace("contract", responseData.get("contract"));
             mainNode.replace("approveBode",responseData.get("approveBody"));
             return jsonData;
         } catch (Exception e) {
