@@ -12,7 +12,7 @@
       <bpmn:outgoing>SequenceFlow_0ipeyos</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="NoticeCreateReleaseTask" name="Notice Create Release" camunda:asyncBefore="true" camunda:delegateExpression="${noticeCreateRelease}">
-      <bpmn:incoming>SequenceFlow_0nhwjuo</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_199j6nj</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0a660r8</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1gx4xfj" sourceRef="StartEvent_1" targetRef="SaveFirstOperationTask" />
@@ -21,7 +21,7 @@
       <bpmn:incoming>SequenceFlow_0ipeyos</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0nhwjuo</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_0nhwjuo" sourceRef="ContractingFinalUpdateTask" targetRef="NoticeCreateReleaseTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0nhwjuo" sourceRef="ContractingFinalUpdateTask" targetRef="StorageOpenDocsOfContract" />
     <bpmn:serviceTask id="SaveContractContextTask" name="Save Contract  Context" camunda:delegateExpression="${saveContext}">
       <bpmn:incoming>SequenceFlow_0a660r8</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_14oafte</bpmn:outgoing>
@@ -33,6 +33,11 @@
       <bpmn:outgoing>SequenceFlow_0jh8sda</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_0jh8sda" sourceRef="ServiceTask_1mbr0bj" targetRef="EndEvent_1" />
+    <bpmn:serviceTask id="StorageOpenDocsOfContract" name="StorageOpenDocsOfContract&#10;" camunda:asyncBefore="true" camunda:delegateExpression="${storageOpenDocsOfContract}">
+      <bpmn:incoming>SequenceFlow_0nhwjuo</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_199j6nj</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_199j6nj" sourceRef="StorageOpenDocsOfContract" targetRef="NoticeCreateReleaseTask" />
   </bpmn:process>
   <bpmn:error id="tr_exception" name="TR_EXCEPTION" errorCode="TR_EXCEPTION" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -44,16 +49,16 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="EndEvent_0wpvj65_di" bpmnElement="EndEvent_1">
-        <dc:Bounds x="1077" y="167" width="36" height="36" />
+        <dc:Bounds x="1335" y="159" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="-31" y="207" width="90" height="12" />
+          <dc:Bounds x="227" y="199" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_0kegmvr_di" bpmnElement="SaveFirstOperationTask">
         <dc:Bounds x="241" y="145" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_1tvffuw_di" bpmnElement="NoticeCreateReleaseTask">
-        <dc:Bounds x="591" y="145" width="100" height="80" />
+        <dc:Bounds x="719" y="145" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1gx4xfj_di" bpmnElement="SequenceFlow_1gx4xfj">
         <di:waypoint xsi:type="dc:Point" x="175" y="185" />
@@ -74,36 +79,51 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0nhwjuo_di" bpmnElement="SequenceFlow_0nhwjuo">
         <di:waypoint xsi:type="dc:Point" x="526" y="185" />
-        <di:waypoint xsi:type="dc:Point" x="591" y="185" />
+        <di:waypoint xsi:type="dc:Point" x="584" y="185" />
+        <di:waypoint xsi:type="dc:Point" x="564" y="185" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="513.5" y="160" width="90" height="20" />
+          <dc:Bounds x="510" y="160" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ServiceTask_06wweri_di" bpmnElement="SaveContractContextTask">
-        <dc:Bounds x="760" y="145" width="100" height="80" />
+        <dc:Bounds x="873" y="145" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0a660r8_di" bpmnElement="SequenceFlow_0a660r8">
-        <di:waypoint xsi:type="dc:Point" x="691" y="185" />
-        <di:waypoint xsi:type="dc:Point" x="760" y="185" />
+        <di:waypoint xsi:type="dc:Point" x="819" y="185" />
+        <di:waypoint xsi:type="dc:Point" x="873" y="185" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="680.5" y="160" width="90" height="20" />
+          <dc:Bounds x="801" y="160" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_14oafte_di" bpmnElement="SequenceFlow_14oafte">
-        <di:waypoint xsi:type="dc:Point" x="860" y="185" />
-        <di:waypoint xsi:type="dc:Point" x="914" y="185" />
+        <di:waypoint xsi:type="dc:Point" x="973" y="185" />
+        <di:waypoint xsi:type="dc:Point" x="1004" y="185" />
+        <di:waypoint xsi:type="dc:Point" x="1004" y="177" />
+        <di:waypoint xsi:type="dc:Point" x="1034" y="177" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="842" y="160" width="90" height="20" />
+          <dc:Bounds x="974" y="171" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ServiceTask_1mbr0bj_di" bpmnElement="ServiceTask_1mbr0bj">
-        <dc:Bounds x="914" y="145" width="100" height="80" />
+        <dc:Bounds x="1034" y="137" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0jh8sda_di" bpmnElement="SequenceFlow_0jh8sda">
-        <di:waypoint xsi:type="dc:Point" x="1014" y="185" />
-        <di:waypoint xsi:type="dc:Point" x="1077" y="185" />
+        <di:waypoint xsi:type="dc:Point" x="1134" y="177" />
+        <di:waypoint xsi:type="dc:Point" x="1175" y="177" />
+        <di:waypoint xsi:type="dc:Point" x="1175" y="177" />
+        <di:waypoint xsi:type="dc:Point" x="1335" y="177" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1045.5" y="164" width="0" height="12" />
+          <dc:Bounds x="1145" y="171" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_1rl3why_di" bpmnElement="StorageOpenDocsOfContract">
+        <dc:Bounds x="564" y="145" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_199j6nj_di" bpmnElement="SequenceFlow_199j6nj">
+        <di:waypoint xsi:type="dc:Point" x="664" y="185" />
+        <di:waypoint xsi:type="dc:Point" x="719" y="185" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="691.5" y="164" width="0" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
