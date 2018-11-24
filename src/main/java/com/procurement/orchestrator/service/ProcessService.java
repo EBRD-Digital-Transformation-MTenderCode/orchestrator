@@ -3,10 +3,9 @@ package com.procurement.orchestrator.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.dto.command.ResponseDto;
+import java.util.Map;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import java.util.Map;
 
 @Service
 public interface ProcessService {
@@ -200,6 +199,8 @@ public interface ProcessService {
     JsonNode setContractUpdateData(JsonNode jsonData, JsonNode responseData, String processId);
 
     JsonNode setContractIssuedStatusDetails(JsonNode jsonData, JsonNode responseData, String processId);
+
+    JsonNode setContractFinalUpdateData(JsonNode jsonData, JsonNode responseData, String processId);
 
     JsonNode getCheckBs(JsonNode jsonData, String processId);
 
