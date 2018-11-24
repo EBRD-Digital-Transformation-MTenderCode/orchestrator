@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-public class ContractController extends DoBaseController {
+public class ContractController extends IssueBaseController {
 
     private final DateUtil dateUtil;
     private final ProcessService processService;
