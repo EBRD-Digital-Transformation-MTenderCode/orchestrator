@@ -45,8 +45,8 @@ public class BudgetCheckBudgetSources implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode checkFsDto = processService.getCheckFs(jsonData, context.getStartDate(), processId);
-        final JsonNode commandMessage = processService.getCommandMessage(CHECK_BS, context, checkFsDto);
+        final JsonNode checkBsDto = processService.getCheckBs(jsonData, processId);
+        final JsonNode commandMessage = processService.getCommandMessage(CHECK_BS, context, checkBsDto);
         JsonNode responseData = processService.processResponse(
                 budgetRestClient.execute(commandMessage),
                 context,
@@ -58,7 +58,7 @@ public class BudgetCheckBudgetSources implements JavaDelegate {
                     execution,
                     entity,
                     commandMessage,
-                    processService.setCheckFs(jsonData, responseData, processId));
+                    processService.setCheckBs(jsonData, responseData, processId));
         }
     }
 }

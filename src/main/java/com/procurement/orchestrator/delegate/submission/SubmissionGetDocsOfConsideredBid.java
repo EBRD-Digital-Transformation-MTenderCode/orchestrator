@@ -1,9 +1,9 @@
-package com.procurement.orchestrator.delegate.storage;
+package com.procurement.orchestrator.delegate.submission;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
-import com.procurement.orchestrator.rest.StorageRestClient;
+import com.procurement.orchestrator.rest.SubmissionRestClient;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -15,14 +15,14 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.StorageCommandType.PUBLISH;
+import static com.procurement.orchestrator.domain.commands.SubmissionCommandType.GET_DOCS_OF_CONSIDERED_BID;
 
 @Component
-public class StorageOpenDocsOfContractAwards implements JavaDelegate {
+public class SubmissionGetDocsOfConsideredBid implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(StorageOpenDocsOfContractAwards.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SubmissionCopyBids.class);
 
-    private final StorageRestClient storageRestClient;
+    private final SubmissionRestClient submissionRestClient;
 
     private final OperationService operationService;
 
@@ -30,11 +30,11 @@ public class StorageOpenDocsOfContractAwards implements JavaDelegate {
 
     private final JsonUtil jsonUtil;
 
-    public StorageOpenDocsOfContractAwards(final StorageRestClient storageRestClient,
-                                           final OperationService operationService,
-                                           final ProcessService processService,
-                                           final JsonUtil jsonUtil) {
-        this.storageRestClient = storageRestClient;
+    public SubmissionGetDocsOfConsideredBid(final SubmissionRestClient submissionRestClient,
+                                            final OperationService operationService,
+                                            final ProcessService processService,
+                                            final JsonUtil jsonUtil) {
+        this.submissionRestClient = submissionRestClient;
         this.operationService = operationService;
         this.processService = processService;
         this.jsonUtil = jsonUtil;
@@ -44,15 +44,15 @@ public class StorageOpenDocsOfContractAwards implements JavaDelegate {
     public void execute(final DelegateExecution execution) throws Exception {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
-        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
+        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode documents = processService.getDocumentsOfContractAwards(jsonData, processId);
-        if (Objects.nonNull(documents)) {
-            final JsonNode commandMessage = processService.getCommandMessage(PUBLISH, context, documents);
+        final JsonNode rqData = processService.getConsideredBidId(jsonData, processId);
+        if (rqData != null) {
+            final JsonNode commandMessage = processService.getCommandMessage(GET_DOCS_OF_CONSIDERED_BID, context, rqData);
             JsonNode responseData = processService.processResponse(
-                    storageRestClient.execute(commandMessage),
+                    submissionRestClient.execute(commandMessage),
                     context,
                     processId,
                     taskId,
@@ -62,7 +62,7 @@ public class StorageOpenDocsOfContractAwards implements JavaDelegate {
                         execution,
                         entity,
                         commandMessage,
-                        processService.setDocumentsOfContractAwards(jsonData, responseData, processId));
+                        processService.setConsideredBid(jsonData, responseData, processId));
             }
         }
     }

@@ -1,0 +1,19 @@
+{
+  "operationId": "a1bcd000-b00d-4644-b0e6-4b75020b1302",
+  "requestId": "c22ff720-ebed-11e8-a14e-1f5f70b3c484",
+  "cpid": "ocds-t1s2t3-MD-1542622343629",
+  "ocid": "ocds-t1s2t3-MD-1542622343629-AC-1542965261745",
+  "stage": "AC",
+  "prevStage": "AC",
+  "processType": "updateAC",
+  "operationType": "updateAC",
+  "phase": "contractPreparation",
+  "owner": "445f6851-c908-407d-9b45-14b92f3e964b",
+  "country": "MD",
+  "language": "ro",
+  "pmd": "TEST_OT",
+  "token": "bf51ddcd-c8ac-4ca5-aed4-0af11efc3bfe",
+  "startDate": "2018-11-19T11:25:03Z",
+  "timeStamp": 1542626703250,
+  "isAuction": false
+}

@@ -15,19 +15,19 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.AccessCommandType.GET_LOTS_AUCTION;
+import static com.procurement.orchestrator.domain.commands.AccessCommandType.GET_TENDER_OWNER;
 
 @Component
-public class AccessGetLotsAuction implements JavaDelegate {
+public class AccessGetTenderOwner implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AccessGetLotsAuction.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AccessGetTenderOwner.class);
 
     private final AccessRestClient accessRestClient;
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public AccessGetLotsAuction(final AccessRestClient accessRestClient,
+    public AccessGetTenderOwner(final AccessRestClient accessRestClient,
                                 final OperationService operationService,
                                 final ProcessService processService,
                                 final JsonUtil jsonUtil) {
@@ -42,10 +42,9 @@ public class AccessGetLotsAuction implements JavaDelegate {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
-        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(GET_LOTS_AUCTION, context, jsonUtil.empty());
+        final JsonNode commandMessage = processService.getCommandMessage(GET_TENDER_OWNER, context, jsonUtil.empty());
         JsonNode responseData = processService.processResponse(
                 accessRestClient.execute(commandMessage),
                 context,
@@ -53,13 +52,12 @@ public class AccessGetLotsAuction implements JavaDelegate {
                 taskId,
                 commandMessage);
         if (Objects.nonNull(responseData)) {
-            context.setAwardCriteria(processService.getText("awardCriteria", responseData, processId));
+            context.setOwner(processService.getText("owner", responseData, processId));
             operationService.saveOperationStep(
                     execution,
                     entity,
                     context,
-                    commandMessage,
-                    processService.setTender(jsonData, responseData, processId));
+                    commandMessage);
         }
     }
 }

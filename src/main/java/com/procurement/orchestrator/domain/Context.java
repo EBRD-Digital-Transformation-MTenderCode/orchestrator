@@ -88,6 +88,8 @@ public class Context {
     @JsonProperty(value = "mainProcurementCategory")
     private String mainProcurementCategory;
 
+    @JsonProperty(value = "awardCriteria")
+    private String awardCriteria;
 
     public void setOperationId(final String operationId) {
         this.operationId = UUID.fromString(operationId).toString();
