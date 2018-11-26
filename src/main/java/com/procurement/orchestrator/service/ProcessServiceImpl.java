@@ -1395,7 +1395,7 @@ public class ProcessServiceImpl implements ProcessService {
         try {
             final ObjectNode mainNode = (ObjectNode) jsonData;
             mainNode.replace("contract", responseData.get("contract"));
-            mainNode.replace("approveBode",responseData.get("approveBody"));
+            mainNode.replace("approveBode", responseData.get("approveBody"));
             return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
@@ -1483,4 +1483,21 @@ public class ProcessServiceImpl implements ProcessService {
             return null;
         }
     }
+
+    @Override
+    public JsonNode getRelatedBidData(JsonNode jsonData, String processId) {
+        try {
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            mainNode.replace("relatedBid", jsonData.get("relatedBid"));
+            return mainNode;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    public JsonNode getTreasuryValidationData(final JsonNode jsonData, final String processId) {
+        return null;
+    }
+
 }

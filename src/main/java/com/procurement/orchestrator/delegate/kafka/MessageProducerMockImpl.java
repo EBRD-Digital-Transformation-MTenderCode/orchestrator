@@ -21,4 +21,8 @@ public class MessageProducerMockImpl implements MessageProducer {
     public boolean sendToDocGenerator(final CommandMessage commandMessage) {
         return true;
     }
+
+    public boolean sendToAgent(final CommandMessage commandMessage) {
+        return true;
+    }
 }
