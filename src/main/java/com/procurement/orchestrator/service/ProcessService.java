@@ -126,6 +126,8 @@ public interface ProcessService {
 
     JsonNode setDocumentsOfConsideredBid(JsonNode jsonData, JsonNode responseData, String processId);
 
+    JsonNode getDocumentsOfConfirmationResponse(JsonNode jsonData, String processId);
+
     JsonNode addStandstillPeriod(JsonNode jsonData, String startDate, String endDate, String processId);
 
     JsonNode setAccessData(JsonNode jsonData, JsonNode responseData, String processId);

@@ -872,6 +872,24 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
+    public JsonNode getDocumentsOfConfirmationResponse(JsonNode jsonData, String processId) {
+        try {
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            final ArrayNode documentsArray = mainNode.putArray("documents");
+            ObjectNode documentNode = jsonUtil.createObjectNode();
+            final ArrayNode verificationNode = (ArrayNode) jsonData.get("confirmationResponse").get("value").get("verification");
+            if (verificationNode != null && verificationNode.size() > 0) {
+                final String value = verificationNode.get(0).get("value").asText();
+                documentNode.put("id", value);
+                documentsArray.add(documentNode);
+            }
+            return mainNode;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
     public JsonNode addStandstillPeriod(final JsonNode jsonData, final String startDate, final String endDate,
                                         final String processId) {
         try {
@@ -1293,6 +1311,7 @@ public class ProcessServiceImpl implements ProcessService {
             final ObjectNode mainNode = (ObjectNode) jsonData;
             mainNode.replace("language", responseData.get("language"));
             mainNode.replace("actualBudgetSource", responseData.get("actualBudgetSource"));
+            mainNode.replace("itemsCPVs", responseData.get("itemsCPVs"));
             return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
@@ -1390,6 +1409,7 @@ public class ProcessServiceImpl implements ProcessService {
             mainNode.replace("planning", jsonData.get("planning"));
             mainNode.replace("buyer", jsonData.get("buyer"));
             mainNode.replace("actualBudgetSource", jsonData.get("actualBudgetSource"));
+            mainNode.replace("itemsCPVs", jsonData.get("itemsCPVs"));
             return mainNode;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
@@ -1452,4 +1472,5 @@ public class ProcessServiceImpl implements ProcessService {
             return null;
         }
     }
+
 }
