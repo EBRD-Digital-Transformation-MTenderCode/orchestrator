@@ -44,26 +44,26 @@ public class ContractingTreasuryResponse implements JavaDelegate {
     @Override
     public void execute(final DelegateExecution execution) throws Exception {
         LOG.info(execution.getCurrentActivityName());
-        final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
-        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
-        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
-        final String processId = execution.getProcessInstanceId();
-        final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(PROCEED_TREASURY_RESPONSE, context, jsonUtil.empty());
-        JsonNode responseData = processService.processResponse(
-                contractingRestClient.execute(commandMessage),
-                context,
-                processId,
-                taskId,
-                commandMessage);
-        if (Objects.nonNull(responseData)) {
-            operationService.saveOperationStep(
-                    execution,
-                    entity,
-                    context,
-                    commandMessage,
-                    processService.setContractIssuedStatusDetails(jsonData, responseData, processId));
-        }
+//        final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
+//        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
+//        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
+//        final String processId = execution.getProcessInstanceId();
+//        final String taskId = execution.getCurrentActivityId();
+//        final JsonNode commandMessage = processService.getCommandMessage(PROCEED_TREASURY_RESPONSE, context, jsonUtil.empty());
+//        JsonNode responseData = processService.processResponse(
+//                contractingRestClient.execute(commandMessage),
+//                context,
+//                processId,
+//                taskId,
+//                commandMessage);
+//        if (Objects.nonNull(responseData)) {
+//            operationService.saveOperationStep(
+//                    execution,
+//                    entity,
+//                    context,
+//                    commandMessage,
+//                    processService.setContractIssuedStatusDetails(jsonData, responseData, processId));
+//        }
     }
 
 }
