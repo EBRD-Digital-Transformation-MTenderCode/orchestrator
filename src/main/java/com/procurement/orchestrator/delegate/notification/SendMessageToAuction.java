@@ -55,8 +55,7 @@ public class SendMessageToAuction implements JavaDelegate {
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final String processId = execution.getProcessInstanceId();
         final JsonNode rqData = processService.getAuctionLaunchData(jsonData, processId);
-        final JsonNode testRqData = getTestAuctionLaunchData(rqData);
-        final CommandMessage commandMessage = notificationService.getCommandMessage(LAUNCH, context, testRqData);
+        final CommandMessage commandMessage = notificationService.getCommandMessage(LAUNCH, context, rqData);
         messageProducer.sendToAuction(commandMessage);
         operationService.saveOperationStep(
                 execution,
