@@ -1,9 +1,10 @@
-package com.procurement.orchestrator.delegate.access;
+package com.procurement.orchestrator.delegate.contracting;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
-import com.procurement.orchestrator.rest.AccessRestClient;
+import com.procurement.orchestrator.rest.ContractingRestClient;
+import com.procurement.orchestrator.service.NotificationService;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -15,23 +16,26 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.AccessCommandType.GET_LOTS_AUCTION;
+import static com.procurement.orchestrator.domain.commands.ContractingCommandType.GET_RELATED_BID_ID;
 
 @Component
-public class AccessGetLotsAuction implements JavaDelegate {
+public class ContractingGetRelatedBidId implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AccessGetLotsAuction.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ContractingGetRelatedBidId.class);
 
-    private final AccessRestClient accessRestClient;
+    private final ContractingRestClient contractingRestClient;
+    private final NotificationService notificationService;
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public AccessGetLotsAuction(final AccessRestClient accessRestClient,
-                                final OperationService operationService,
-                                final ProcessService processService,
-                                final JsonUtil jsonUtil) {
-        this.accessRestClient = accessRestClient;
+    public ContractingGetRelatedBidId(final ContractingRestClient contractingRestClient,
+                                      final NotificationService notificationService,
+                                      final OperationService operationService,
+                                      final ProcessService processService,
+                                      final JsonUtil jsonUtil) {
+        this.contractingRestClient = contractingRestClient;
+        this.notificationService = notificationService;
         this.operationService = operationService;
         this.processService = processService;
         this.jsonUtil = jsonUtil;
@@ -45,22 +49,20 @@ public class AccessGetLotsAuction implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(GET_LOTS_AUCTION, context, jsonUtil.empty());
+        final JsonNode commandMessage = processService.getCommandMessage(GET_RELATED_BID_ID, context, jsonUtil.empty());
         JsonNode responseData = processService.processResponse(
-                accessRestClient.execute(commandMessage),
+                contractingRestClient.execute(commandMessage),
                 context,
                 processId,
                 taskId,
                 commandMessage);
         if (Objects.nonNull(responseData)) {
-            context.setAwardCriteria(processService.getText("awardCriteria", responseData, processId));
             operationService.saveOperationStep(
                     execution,
                     entity,
                     context,
                     commandMessage,
-                    processService.setTender(jsonData, responseData, processId));
+                    processService.setAwardRelatedBidId(jsonData, responseData, processId));
         }
     }
 }
-

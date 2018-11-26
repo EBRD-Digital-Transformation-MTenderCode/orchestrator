@@ -1,6 +1,5 @@
 package com.procurement.orchestrator.controller;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.service.RequestService;
@@ -14,17 +13,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-public class ContractController extends DoBaseController {
+@RequestMapping("/issue")
+public class IssueController {
 
     private final DateUtil dateUtil;
     private final ProcessService processService;
     private final RequestService requestService;
     private final JsonUtil jsonUtil;
 
-    public ContractController(final ProcessService processService,
-                              final RequestService requestService,
-                              final JsonUtil jsonUtil,
-                              final DateUtil dateUtil) {
+    public IssueController(final ProcessService processService,
+                           final RequestService requestService,
+                           final JsonUtil jsonUtil,
+                           final DateUtil dateUtil) {
         this.dateUtil = dateUtil;
         this.jsonUtil = jsonUtil;
         this.processService = processService;
@@ -32,16 +32,15 @@ public class ContractController extends DoBaseController {
     }
 
     @RequestMapping(value = "/contract/{cpid}/{ocid}", method = RequestMethod.POST)
-    public ResponseEntity<String> updateAC(@RequestHeader("Authorization") final String authorization,
-                                           @RequestHeader("X-OPERATION-ID") final String operationId,
-                                           @RequestHeader("X-TOKEN") final String token,
-                                           @PathVariable("cpid") final String cpid,
-                                           @PathVariable("ocid") final String ocid,
-                                           @RequestBody final JsonNode data) {
-        requestService.validate(operationId, data);
+    public ResponseEntity<String> issuingAC(@RequestHeader("Authorization") final String authorization,
+                                            @RequestHeader("X-OPERATION-ID") final String operationId,
+                                            @RequestHeader("X-TOKEN") final String token,
+                                            @PathVariable("cpid") final String cpid,
+                                            @PathVariable("ocid") final String ocid) {
+        requestService.validate(operationId, null);
         final Context context = requestService.getContextForContractUpdate(authorization, operationId,
-                cpid, ocid, token, "updateAC");
-        requestService.saveRequestAndCheckOperation(context, data);
+                cpid, ocid, token, "issuingAC");
+        requestService.saveRequestAndCheckOperation(context, null);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("operationType", context.getOperationType());
         processService.startProcess(context, variables);

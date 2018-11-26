@@ -1,9 +1,9 @@
-package com.procurement.orchestrator.delegate.regulation;
+package com.procurement.orchestrator.delegate.storage;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
-import com.procurement.orchestrator.rest.RegulationRestClient;
+import com.procurement.orchestrator.rest.StorageRestClient;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -13,23 +13,28 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import static com.procurement.orchestrator.domain.commands.RegulationCommandType.UPDATE_TERMS;
+import java.util.Objects;
+
+import static com.procurement.orchestrator.domain.commands.StorageCommandType.PUBLISH;
 
 @Component
-public class RegulationUpdateContractTerms implements JavaDelegate {
+public class StorageOpenDocsOfConsideredBid implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(RegulationUpdateContractTerms.class);
+    private static final Logger LOG = LoggerFactory.getLogger(StorageOpenDocsOfConsideredBid.class);
 
-    private final RegulationRestClient regulationRestClient;
+    private final StorageRestClient storageRestClient;
+
     private final OperationService operationService;
+
     private final ProcessService processService;
+
     private final JsonUtil jsonUtil;
 
-    public RegulationUpdateContractTerms(final RegulationRestClient regulationRestClient,
-                                         final OperationService operationService,
-                                         final ProcessService processService,
-                                         final JsonUtil jsonUtil) {
-        this.regulationRestClient = regulationRestClient;
+    public StorageOpenDocsOfConsideredBid(final StorageRestClient storageRestClient,
+                                          final OperationService operationService,
+                                          final ProcessService processService,
+                                          final JsonUtil jsonUtil) {
+        this.storageRestClient = storageRestClient;
         this.operationService = operationService;
         this.processService = processService;
         this.jsonUtil = jsonUtil;
@@ -39,28 +44,27 @@ public class RegulationUpdateContractTerms implements JavaDelegate {
     public void execute(final DelegateExecution execution) throws Exception {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
-        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
+        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode rqData = processService.getAgreedMetrics(jsonData, processId);
-        if (rqData != null) {
-            final JsonNode commandMessage = processService.getCommandMessage(UPDATE_TERMS, context, rqData);
+        final JsonNode documents = processService.getDocumentsOfConsideredBid(jsonData, processId);
+        if (Objects.nonNull(documents)) {
+            final JsonNode commandMessage = processService.getCommandMessage(PUBLISH, context, documents);
             JsonNode responseData = processService.processResponse(
-                    regulationRestClient.execute(commandMessage),
+                    storageRestClient.execute(commandMessage),
                     context,
                     processId,
                     taskId,
                     commandMessage);
-            if (responseData != null) {
+
+            if (Objects.nonNull(responseData)) {
                 operationService.saveOperationStep(
                         execution,
                         entity,
-                        context,
                         commandMessage,
-                        processService.setAgreedMetrics(jsonData, responseData, processId));
+                        processService.setDocumentsOfConsideredBid(jsonData, responseData, processId));
             }
         }
     }
 }
-

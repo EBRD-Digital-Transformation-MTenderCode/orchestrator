@@ -1,9 +1,9 @@
-package com.procurement.orchestrator.delegate.regulation;
+package com.procurement.orchestrator.delegate.submission;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
-import com.procurement.orchestrator.rest.RegulationRestClient;
+import com.procurement.orchestrator.rest.SubmissionRestClient;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -13,23 +13,28 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import static com.procurement.orchestrator.domain.commands.RegulationCommandType.UPDATE_TERMS;
+import java.util.Objects;
+
+import static com.procurement.orchestrator.domain.commands.SubmissionCommandType.GET_DOCS_OF_CONSIDERED_BID;
 
 @Component
-public class RegulationUpdateContractTerms implements JavaDelegate {
+public class SubmissionGetDocsOfConsideredBid implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(RegulationUpdateContractTerms.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SubmissionCopyBids.class);
 
-    private final RegulationRestClient regulationRestClient;
+    private final SubmissionRestClient submissionRestClient;
+
     private final OperationService operationService;
+
     private final ProcessService processService;
+
     private final JsonUtil jsonUtil;
 
-    public RegulationUpdateContractTerms(final RegulationRestClient regulationRestClient,
-                                         final OperationService operationService,
-                                         final ProcessService processService,
-                                         final JsonUtil jsonUtil) {
-        this.regulationRestClient = regulationRestClient;
+    public SubmissionGetDocsOfConsideredBid(final SubmissionRestClient submissionRestClient,
+                                            final OperationService operationService,
+                                            final ProcessService processService,
+                                            final JsonUtil jsonUtil) {
+        this.submissionRestClient = submissionRestClient;
         this.operationService = operationService;
         this.processService = processService;
         this.jsonUtil = jsonUtil;
@@ -43,24 +48,22 @@ public class RegulationUpdateContractTerms implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode rqData = processService.getAgreedMetrics(jsonData, processId);
+        final JsonNode rqData = processService.getConsideredBidId(jsonData, processId);
         if (rqData != null) {
-            final JsonNode commandMessage = processService.getCommandMessage(UPDATE_TERMS, context, rqData);
+            final JsonNode commandMessage = processService.getCommandMessage(GET_DOCS_OF_CONSIDERED_BID, context, rqData);
             JsonNode responseData = processService.processResponse(
-                    regulationRestClient.execute(commandMessage),
+                    submissionRestClient.execute(commandMessage),
                     context,
                     processId,
                     taskId,
                     commandMessage);
-            if (responseData != null) {
+            if (Objects.nonNull(responseData)) {
                 operationService.saveOperationStep(
                         execution,
                         entity,
-                        context,
                         commandMessage,
-                        processService.setAgreedMetrics(jsonData, responseData, processId));
+                        processService.setConsideredBid(jsonData, responseData, processId));
             }
         }
     }
 }
-

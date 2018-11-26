@@ -48,8 +48,8 @@ public class SubmissionUpdateBidStatus implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode unsuccessfulLots = processService.getUnsuccessfulLots(jsonData, processId);
-        final JsonNode commandMessage = processService.getCommandMessage(UPDATE_BIDS_BY_LOTS, context, unsuccessfulLots);
+        final JsonNode rqData = processService.getDataForBidUpdateStatus(jsonData, processId);
+        final JsonNode commandMessage = processService.getCommandMessage(UPDATE_BIDS_BY_LOTS, context, rqData);
         JsonNode responseData = processService.processResponse(
                 submissionRestClient.execute(commandMessage),
                 context,

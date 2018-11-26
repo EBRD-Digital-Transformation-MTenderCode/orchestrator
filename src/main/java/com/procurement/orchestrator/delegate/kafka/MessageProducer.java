@@ -12,5 +12,8 @@ public interface MessageProducer {
 
     boolean sendToAuction(CommandMessage commandMessage);
 
+    boolean sendToDocGenerator(CommandMessage commandMessage);
+
+    boolean sendToAgent(CommandMessage commandMessage);
 }
 

@@ -392,6 +392,7 @@ public class ProcessServiceImpl implements ProcessService {
             mainNode.replace("awardPeriod", awardData.get("awardPeriod"));
             mainNode.replace("awards", awardData.get("awards"));
             mainNode.replace("unsuccessfulLots", awardData.get("unsuccessfulLots"));
+            mainNode.replace("firstBids", awardData.get("firstBids"));
             return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
@@ -840,6 +841,55 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
+    public JsonNode getDocumentsOfConsideredBid(final JsonNode jsonData, final String processId) {
+        try {
+            final JsonNode consideredBidNode = jsonData.get("consideredBid");
+            if (consideredBidNode == null) return null;
+            final JsonNode documentsNode = jsonData.get("consideredBid").findPath("documents");
+            if (documentsNode.isMissingNode()) return null;
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            if (documentsNode.size() > 0) {
+                mainNode.replace("documents", documentsNode);
+            }
+            return mainNode;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    public JsonNode setDocumentsOfConsideredBid(final JsonNode jsonData, final JsonNode documentsData, final String processId) {
+        try {
+            final ObjectNode bidNode = (ObjectNode) jsonData.get("consideredBid");
+            final ArrayNode documentsArray = (ArrayNode) documentsData.get("documents");
+            if (documentsArray.size() > 0) {
+                bidNode.replace("documents", documentsArray);
+            }
+            return jsonData;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    public JsonNode getDocumentsOfConfirmationResponse(JsonNode jsonData, String processId) {
+        try {
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            final ArrayNode documentsArray = mainNode.putArray("documents");
+            ObjectNode documentNode = jsonUtil.createObjectNode();
+            final ArrayNode verificationNode = (ArrayNode) jsonData.get("confirmationResponse").get("value").get("verification");
+            if (verificationNode != null && verificationNode.size() > 0) {
+                final String value = verificationNode.get(0).get("value").asText();
+                documentNode.put("id", value);
+                documentsArray.add(documentNode);
+            }
+            return mainNode;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
     public JsonNode addStandstillPeriod(final JsonNode jsonData, final String startDate, final String endDate,
                                         final String processId) {
         try {
@@ -1261,6 +1311,7 @@ public class ProcessServiceImpl implements ProcessService {
             final ObjectNode mainNode = (ObjectNode) jsonData;
             mainNode.replace("language", responseData.get("language"));
             mainNode.replace("actualBudgetSource", responseData.get("actualBudgetSource"));
+            mainNode.replace("itemsCPVs", responseData.get("itemsCPVs"));
             return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
@@ -1272,6 +1323,7 @@ public class ProcessServiceImpl implements ProcessService {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
             final ObjectNode awardsNode = mainNode.putObject("award");
+            awardsNode.replace("id", jsonData.get("award").get("id"));
             awardsNode.replace("value", jsonData.get("award").get("value"));
             return mainNode;
         } catch (Exception e) {
@@ -1296,7 +1348,7 @@ public class ProcessServiceImpl implements ProcessService {
     public JsonNode getAgreedMetrics(final JsonNode jsonData, final String processId) {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
-            mainNode.replace("agreedMetrics", jsonData.get("contracts").get("agreedMetrics"));
+            mainNode.replace("agreedMetrics", jsonData.get("contract").get("agreedMetrics"));
             return mainNode;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
@@ -1306,7 +1358,7 @@ public class ProcessServiceImpl implements ProcessService {
 
     public JsonNode setAgreedMetrics(final JsonNode jsonData, final JsonNode responseData, final String processId) {
         try {
-            final ObjectNode contractsNode = (ObjectNode) jsonData.get("contracts");
+            final ObjectNode contractsNode = (ObjectNode) jsonData.get("contract");
             contractsNode.replace("agreedMetrics", responseData.get("agreedMetrics"));
             return jsonData;
         } catch (Exception e) {
@@ -1328,12 +1380,36 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
+    public JsonNode setContractIssuedStatusDetails(final JsonNode jsonData, final JsonNode responseData, final String processId) {
+        try {
+            final ObjectNode mainNode = (ObjectNode) jsonData;
+            mainNode.replace("contract", responseData.get("contract"));
+            return jsonData;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    public JsonNode setContractFinalUpdateData(final JsonNode jsonData, final JsonNode responseData, final String processId) {
+        try {
+            final ObjectNode mainNode = (ObjectNode) jsonData;
+            mainNode.replace("contract", responseData.get("contract"));
+            mainNode.replace("approveBode", responseData.get("approveBody"));
+            return jsonData;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
     public JsonNode getCheckBs(final JsonNode jsonData, final String processId) {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
             mainNode.replace("planning", jsonData.get("planning"));
             mainNode.replace("buyer", jsonData.get("buyer"));
             mainNode.replace("actualBudgetSource", jsonData.get("actualBudgetSource"));
+            mainNode.replace("itemsCPVs", jsonData.get("itemsCPVs"));
             return mainNode;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
@@ -1345,6 +1421,7 @@ public class ProcessServiceImpl implements ProcessService {
         try {
             final ObjectNode mainNode = (ObjectNode) jsonData;
             mainNode.replace("treasuryBudgetSources", responseData.get("treasuryBudgetSources"));
+            mainNode.replace("buyer", responseData.get("buyer"));
             mainNode.replace("funders", responseData.get("funders"));
             mainNode.replace("payers", responseData.get("payers"));
             mainNode.replace("addedEI", responseData.get("addedEI"));
@@ -1357,4 +1434,70 @@ public class ProcessServiceImpl implements ProcessService {
             return null;
         }
     }
+
+    public JsonNode getDataForBidUpdateStatus(final JsonNode jsonData, final String processId) {
+        try {
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            mainNode.replace("unsuccessfulLots", jsonData.get("unsuccessfulLots"));
+            mainNode.replace("firstBids", jsonData.get("firstBids"));
+            return mainNode;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    public JsonNode getConsideredBidId(final JsonNode jsonData, final String processId) {
+        try {
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            final JsonNode consideredBidIdNode = jsonData.get("consideredBidId");
+            if (consideredBidIdNode != null) {
+                mainNode.replace("consideredBidId", jsonData.get("consideredBidId"));
+                return mainNode;
+            }
+            return null;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    public JsonNode setConsideredBid(final JsonNode jsonData, final JsonNode responseData, final String processId) {
+        try {
+            final ObjectNode mainNode = (ObjectNode) jsonData;
+            mainNode.replace("consideredBid", responseData.get("consideredBid"));
+            return jsonData;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    public JsonNode setAwardRelatedBidId(final JsonNode jsonData, final JsonNode responseData, final String processId) {
+        try {
+            final ObjectNode mainNode = (ObjectNode) jsonData;
+            mainNode.replace("relatedBid", responseData.get("relatedBid"));
+            return jsonData;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public JsonNode getRelatedBidData(JsonNode jsonData, String processId) {
+        try {
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            mainNode.replace("relatedBid", jsonData.get("relatedBid"));
+            return mainNode;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    public JsonNode getTreasuryValidationData(final JsonNode jsonData, final String processId) {
+        return null;
+    }
+
 }

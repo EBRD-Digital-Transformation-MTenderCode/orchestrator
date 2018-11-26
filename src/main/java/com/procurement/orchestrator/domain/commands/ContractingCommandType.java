@@ -14,7 +14,13 @@ public enum ContractingCommandType {
     CREATE_AC("createAC"),
     UPDATE_AC("updateAC"),
     GET_BUDGET_SOURCES("getActualBudgetSources"),
-    CHECK_STATUS_DETAILS("contractingCheckStatusDetails");
+    CHECK_STATUS_DETAILS("contractingCheckStatusDetails"),
+    SET_ISSUED_STATUS_DETAILS("setIssuedStatusDetails"),
+    FINAL_UPDATE("finalUpdateAC"),
+    GET_RELATED_BID_ID("getRelatedBidId"),
+    PROCEED_SUPPLIER_RESPONSE("proceedSupplierResponse"),
+    CONTRACT_VERIFICATION("contractVerification"),
+    PROCEED_TREASURY_RESPONSE("proceedTreasuryResponse");
 
     private static final Map<String, ContractingCommandType> CONSTANTS = new HashMap<>();
     private final String value;
