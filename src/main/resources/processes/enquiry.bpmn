@@ -22,9 +22,6 @@
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1gx4xfj" sourceRef="StartEvent_1" targetRef="SaveFirstOperationTask" />
     <bpmn:serviceTask id="ClarificationCreateEnquiryTask" name="Clarification create Enquiry" camunda:asyncBefore="true" camunda:delegateExpression="${clarificationCreateEnquiry}">
-      <bpmn:extensionElements>
-        <camunda:failedJobRetryTimeCycle>R0/PT1S</camunda:failedJobRetryTimeCycle>
-      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1gek9tl</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1dft457</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -36,9 +33,6 @@
     <bpmn:sequenceFlow id="SequenceFlow_09bp8om" sourceRef="SaveContextTask" targetRef="SendMessageToPlatformCATask" />
     <bpmn:sequenceFlow id="SequenceFlow_1360xez" sourceRef="NoticeCreateReleaseTask" targetRef="SaveContextTask" />
     <bpmn:serviceTask id="MdmValidateTenderTask" name="Mdm Validate" camunda:asyncBefore="true" camunda:delegateExpression="${mdmValidateEnquiry}">
-      <bpmn:extensionElements>
-        <camunda:failedJobRetryTimeCycle>R0/PT1S</camunda:failedJobRetryTimeCycle>
-      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0ipeyos</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_18zhhk1</bpmn:outgoing>
     </bpmn:serviceTask>

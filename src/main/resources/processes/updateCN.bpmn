@@ -177,9 +177,6 @@
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_16k19dh" sourceRef="StorageValidateDocsOfTenderTask" targetRef="ExclusiveGateway_1jdkyq3" />
     <bpmn:serviceTask id="AuctionScheduleCnOnPnTask" name="Auction Schedule" camunda:asyncBefore="true" camunda:delegateExpression="${auctionSchedule}">
-      <bpmn:extensionElements>
-        <camunda:failedJobRetryTimeCycle>R0/PT1S</camunda:failedJobRetryTimeCycle>
-      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1gc972z</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_14ae6sp</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -190,9 +187,6 @@
       <bpmn:outgoing>SequenceFlow_1i78ayg</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:serviceTask id="AuctionScheduleCnTask" name="Auction Schedule" camunda:asyncBefore="true" camunda:delegateExpression="${auctionSchedule}">
-      <bpmn:extensionElements>
-        <camunda:failedJobRetryTimeCycle>R0/PT1S</camunda:failedJobRetryTimeCycle>
-      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0fkhd9x</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1thl733</bpmn:outgoing>
     </bpmn:serviceTask>

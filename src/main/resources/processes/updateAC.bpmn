@@ -17,9 +17,6 @@
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1gx4xfj" sourceRef="StartEvent_1" targetRef="SaveFirstOperationTask" />
     <bpmn:serviceTask id="RegulationUpdateContractTermsTask" name="Regulation&#10;Update Contract Terms" camunda:asyncBefore="true" camunda:delegateExpression="${regulationUpdateContractTerms}">
-      <bpmn:extensionElements>
-        <camunda:failedJobRetryTimeCycle>R0/PT1S</camunda:failedJobRetryTimeCycle>
-      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_13n2rej</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_03624n3</bpmn:outgoing>
     </bpmn:serviceTask>

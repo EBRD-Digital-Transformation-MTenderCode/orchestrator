@@ -91,9 +91,6 @@
     <bpmn:sequenceFlow id="SequenceFlow_1lb2xgg" sourceRef="NoticeCreateReleaseTask" targetRef="SaveContextTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0j98cv1" sourceRef="ChronographRescheduleEndTenderPeriodTask" targetRef="AuctionScheduleTask" />
     <bpmn:serviceTask id="AuctionScheduleTask" name="Auction Schedule" camunda:asyncBefore="true" camunda:delegateExpression="${auctionSchedule}">
-      <bpmn:extensionElements>
-        <camunda:failedJobRetryTimeCycle>R0/PT1S</camunda:failedJobRetryTimeCycle>
-      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0j98cv1</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1xw14il</bpmn:outgoing>
     </bpmn:serviceTask>

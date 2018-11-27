@@ -22,16 +22,10 @@
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${operationType=='updateBid'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:serviceTask id="SubmissionCreateBidTask" name="Submission Create Bid" camunda:asyncBefore="true" camunda:delegateExpression="${submissionCreateBid}">
-      <bpmn:extensionElements>
-        <camunda:failedJobRetryTimeCycle>R0/PT1S</camunda:failedJobRetryTimeCycle>
-      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0ftfa22</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1et5xwd</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="SubmissionUpdateBidTask" name="Submission Update Bid" camunda:asyncBefore="true" camunda:delegateExpression="${submissionUpdateBid}">
-      <bpmn:extensionElements>
-        <camunda:failedJobRetryTimeCycle>R0/PT1S</camunda:failedJobRetryTimeCycle>
-      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1tpqzi9</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_045aoy9</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -51,17 +45,11 @@
       <bpmn:outgoing>SequenceFlow_1hgf7j5</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:serviceTask id="MdmValidateBidTask" name="Mdm Validate Bid" camunda:asyncBefore="true" camunda:delegateExpression="${mdmValidateBid}">
-      <bpmn:extensionElements>
-        <camunda:failedJobRetryTimeCycle>R0/PT1S</camunda:failedJobRetryTimeCycle>
-      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1ea9fd0</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0ftfa22</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_0ftfa22" sourceRef="MdmValidateBidTask" targetRef="SubmissionCreateBidTask" />
     <bpmn:serviceTask id="AccessCheckBidTask" name="Access Check Bid" camunda:asyncBefore="true" camunda:delegateExpression="${accessCheckBid}">
-      <bpmn:extensionElements>
-        <camunda:failedJobRetryTimeCycle>R0/PT1S</camunda:failedJobRetryTimeCycle>
-      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1llcn73</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1cvz30j</bpmn:outgoing>
     </bpmn:serviceTask>
