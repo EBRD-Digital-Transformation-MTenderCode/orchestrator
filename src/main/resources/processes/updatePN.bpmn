@@ -18,9 +18,6 @@
       <bpmn:outgoing>SequenceFlow_165gqdr</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="AccessUpdatePnTask" name="Access&#10;update PN" camunda:asyncBefore="true" camunda:delegateExpression="${accessUpdatePn}">
-      <bpmn:extensionElements>
-        <camunda:failedJobRetryTimeCycle>R0/PT1S</camunda:failedJobRetryTimeCycle>
-      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1h3lv6j</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1hezswa</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -42,9 +39,6 @@
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1ha1ne1" sourceRef="StorageOpenDocsOfTenderTask" targetRef="NoticeCreateReleaseTask" />
     <bpmn:serviceTask id="MdmValidateTenderTask" name="Mdm Validate" camunda:asyncBefore="true" camunda:delegateExpression="${mdmValidateTender}">
-      <bpmn:extensionElements>
-        <camunda:failedJobRetryTimeCycle>R0/PT1S</camunda:failedJobRetryTimeCycle>
-      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_13y5pdm</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1h3lv6j</bpmn:outgoing>
     </bpmn:serviceTask>

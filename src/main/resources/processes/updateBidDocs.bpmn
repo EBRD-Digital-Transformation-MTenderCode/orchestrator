@@ -29,9 +29,6 @@
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1llcn73" sourceRef="StorageValidateDocsOfBidsTask" targetRef="SubmissionUpdateBidDocsTask" />
     <bpmn:serviceTask id="SubmissionUpdateBidDocsTask" name="Submission Update Bid Docs" camunda:asyncBefore="true" camunda:delegateExpression="${submissionUpdateBidDocs}">
-      <bpmn:extensionElements>
-        <camunda:failedJobRetryTimeCycle>R0/PT1S</camunda:failedJobRetryTimeCycle>
-      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1llcn73</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0mv0pq3</bpmn:outgoing>
     </bpmn:serviceTask>

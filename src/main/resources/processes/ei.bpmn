@@ -22,9 +22,6 @@
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isTokenPresent==1}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:serviceTask id="BudgetCreateEiTask" name="Budget Create EI" camunda:asyncBefore="true" camunda:delegateExpression="${budgetCreateEi}">
-      <bpmn:extensionElements>
-        <camunda:failedJobRetryTimeCycle>R0/PT1S</camunda:failedJobRetryTimeCycle>
-      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0npswn9</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1lkxdhm</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -53,9 +50,6 @@
     <bpmn:sequenceFlow id="SequenceFlow_06mlb27" sourceRef="BudgetUpdateEiTask" targetRef="ExclusiveGateway_0rteoo4" />
     <bpmn:sequenceFlow id="SequenceFlow_1d7l7v0" sourceRef="ExclusiveGateway_0rteoo4" targetRef="NoticeCreateReleaseTask" />
     <bpmn:serviceTask id="MdmValidateEiTask" name="Mdm Validate Ei" camunda:asyncBefore="true" camunda:delegateExpression="${mdmValidateEi}">
-      <bpmn:extensionElements>
-        <camunda:failedJobRetryTimeCycle>R0/PT1S</camunda:failedJobRetryTimeCycle>
-      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1ea9fd0</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0npswn9</bpmn:outgoing>
     </bpmn:serviceTask>
