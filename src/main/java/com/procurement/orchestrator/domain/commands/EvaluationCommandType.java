@@ -19,7 +19,8 @@ public enum EvaluationCommandType {
     CREATE_AWARDS_BY_LOT_AUCTION("createAwardsByLotAuction"),
     CREATE_AWARDS_AUCTION("createAwardsAuction"),
     CREATE_AWARDS_AUCTION_END("createAwardsAuctionEnd"),
-    CHECK_AWARD_VALUE("checkAwardValue");
+    CHECK_AWARD_VALUE("checkAwardValue"),
+    END_AWARD_PERIOD("endAwardPeriod");
 
     private static final Map<String, EvaluationCommandType> CONSTANTS = new HashMap<>();
     private final String value;

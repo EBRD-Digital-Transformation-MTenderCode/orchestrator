@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="2.0.0">
-  <bpmn:process id="signingByBuyerAC" name="signingByBuyerAC" isExecutable="true">
+  <bpmn:process id="supplierSigningAC" name="supplierSigningAC" isExecutable="true">
     <bpmn:startEvent id="StartEvent_1">
       <bpmn:outgoing>SequenceFlow_1gx4xfj</bpmn:outgoing>
     </bpmn:startEvent>
@@ -12,12 +12,12 @@
       <bpmn:outgoing>SequenceFlow_0duazxi</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="NoticeCreateReleaseTask" name="Notice Create Release" camunda:asyncBefore="true" camunda:delegateExpression="${noticeCreateRelease}">
-      <bpmn:incoming>SequenceFlow_0jqscqx</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_00bzyqn</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1620t1r</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1gx4xfj" sourceRef="StartEvent_1" targetRef="SaveFirstOperationTask" />
-    <bpmn:serviceTask id="ContractingBuyerSigningTask" name="Contracting Buyer Signing" camunda:asyncBefore="true" camunda:delegateExpression="${contractingBuyerSigning}">
-      <bpmn:incoming>SequenceFlow_1cdqy0k</bpmn:incoming>
+    <bpmn:serviceTask id="ContractingSupplierSigningTask" name="Contracting Supplier Signing" camunda:asyncBefore="true" camunda:delegateExpression="${contractingSupplierSigning}">
+      <bpmn:incoming>SequenceFlow_0xvxnwo</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0cpuv1w</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="SaveContractUpdateContextTask" name="Save Contract  Update Context" camunda:delegateExpression="${saveContractUpdateContext}">
@@ -33,20 +33,30 @@
       <bpmn:incoming>SequenceFlow_0duazxi</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1cdqy0k</bpmn:outgoing>
     </bpmn:serviceTask>
+    <bpmn:serviceTask id="SubmissionCheckTokenOwnerTask" name="Submission Check&#10;Token and Owner" camunda:asyncBefore="true" camunda:delegateExpression="${submissionCheckTokenOwner}">
+      <bpmn:incoming>SequenceFlow_1cdqy0k</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0xvxnwo</bpmn:outgoing>
+    </bpmn:serviceTask>
     <bpmn:serviceTask id="StorageOpenDocsOfContractTask" name="Storage&#10; Open Docs Of&#10; Contract&#10;" camunda:asyncBefore="true" camunda:delegateExpression="${storageOpenDocsOfContract}">
       <bpmn:incoming>SequenceFlow_0cpuv1w</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0jqscqx</bpmn:outgoing>
     </bpmn:serviceTask>
+    <bpmn:serviceTask id="SendMessageToAgentTask" name="Send&#10;Message To Agent" camunda:asyncBefore="true" camunda:delegateExpression="${sendMessageToAgent}">
+      <bpmn:incoming>SequenceFlow_0jqscqx</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_00bzyqn</bpmn:outgoing>
+    </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_0duazxi" sourceRef="SaveFirstOperationTask" targetRef="StorageValidateConfRespTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1cdqy0k" sourceRef="StorageValidateConfRespTask" targetRef="ContractingBuyerSigningTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0cpuv1w" sourceRef="ContractingBuyerSigningTask" targetRef="StorageOpenDocsOfContractTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0jqscqx" sourceRef="StorageOpenDocsOfContractTask" targetRef="NoticeCreateReleaseTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1cdqy0k" sourceRef="StorageValidateConfRespTask" targetRef="SubmissionCheckTokenOwnerTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0xvxnwo" sourceRef="SubmissionCheckTokenOwnerTask" targetRef="ContractingSupplierSigningTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0cpuv1w" sourceRef="ContractingSupplierSigningTask" targetRef="StorageOpenDocsOfContractTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0jqscqx" sourceRef="StorageOpenDocsOfContractTask" targetRef="SendMessageToAgentTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_00bzyqn" sourceRef="SendMessageToAgentTask" targetRef="NoticeCreateReleaseTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1620t1r" sourceRef="NoticeCreateReleaseTask" targetRef="SaveContractUpdateContextTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0hgjqc6" sourceRef="SaveContractUpdateContextTask" targetRef="SendMessageToPlatformTask" />
   </bpmn:process>
   <bpmn:error id="tr_exception" name="TR_EXCEPTION" errorCode="TR_EXCEPTION" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
-    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="signingByBuyerAC">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="supplierSigningAC">
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
         <dc:Bounds x="139" y="167" width="36" height="36" />
         <bpmndi:BPMNLabel>
@@ -54,69 +64,83 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="EndEvent_0wpvj65_di" bpmnElement="EndEvent_1">
-        <dc:Bounds x="1201" y="167" width="36" height="36" />
+        <dc:Bounds x="1468" y="167" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="227" y="199" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_0kegmvr_di" bpmnElement="SaveFirstOperationTask">
-        <dc:Bounds x="212" y="145" width="100" height="80" />
+        <dc:Bounds x="210" y="145" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_1tvffuw_di" bpmnElement="NoticeCreateReleaseTask">
-        <dc:Bounds x="780" y="145" width="100" height="80" />
+        <dc:Bounds x="1050" y="145" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1gx4xfj_di" bpmnElement="SequenceFlow_1gx4xfj">
         <di:waypoint x="175" y="185" />
-        <di:waypoint x="212" y="185" />
+        <di:waypoint x="210" y="185" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="163" y="164" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_197ov87_di" bpmnElement="ContractingBuyerSigningTask">
-        <dc:Bounds x="496" y="145" width="100" height="80" />
+      <bpmndi:BPMNShape id="ServiceTask_197ov87_di" bpmnElement="ContractingSupplierSigningTask">
+        <dc:Bounds x="630" y="145" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_06wweri_di" bpmnElement="SaveContractUpdateContextTask">
-        <dc:Bounds x="922" y="145" width="100" height="80" />
+        <dc:Bounds x="1190" y="145" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_1mbr0bj_di" bpmnElement="SendMessageToPlatformTask">
-        <dc:Bounds x="1064" y="145" width="100" height="80" />
+        <dc:Bounds x="1330" y="145" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0jh8sda_di" bpmnElement="SequenceFlow_0jh8sda">
-        <di:waypoint x="1164" y="185" />
-        <di:waypoint x="1201" y="185" />
+        <di:waypoint x="1430" y="185" />
+        <di:waypoint x="1468" y="185" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1145" y="171" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ServiceTask_1rl3why_di" bpmnElement="StorageValidateConfRespTask">
-        <dc:Bounds x="354" y="145" width="100" height="80" />
+        <dc:Bounds x="350" y="145" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_03pohlp_di" bpmnElement="SubmissionCheckTokenOwnerTask">
+        <dc:Bounds x="490" y="145" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_17o55uc_di" bpmnElement="StorageOpenDocsOfContractTask">
-        <dc:Bounds x="638" y="145" width="100" height="80" />
+        <dc:Bounds x="770" y="145" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_07rfqul_di" bpmnElement="SendMessageToAgentTask">
+        <dc:Bounds x="910" y="145" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0duazxi_di" bpmnElement="SequenceFlow_0duazxi">
-        <di:waypoint x="312" y="185" />
-        <di:waypoint x="354" y="185" />
+        <di:waypoint x="310" y="185" />
+        <di:waypoint x="350" y="185" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1cdqy0k_di" bpmnElement="SequenceFlow_1cdqy0k">
-        <di:waypoint x="454" y="185" />
-        <di:waypoint x="496" y="185" />
+        <di:waypoint x="450" y="185" />
+        <di:waypoint x="490" y="185" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0xvxnwo_di" bpmnElement="SequenceFlow_0xvxnwo">
+        <di:waypoint x="590" y="185" />
+        <di:waypoint x="630" y="185" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0cpuv1w_di" bpmnElement="SequenceFlow_0cpuv1w">
-        <di:waypoint x="596" y="185" />
-        <di:waypoint x="638" y="185" />
+        <di:waypoint x="730" y="185" />
+        <di:waypoint x="770" y="185" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0jqscqx_di" bpmnElement="SequenceFlow_0jqscqx">
-        <di:waypoint x="738" y="185" />
-        <di:waypoint x="780" y="185" />
+        <di:waypoint x="870" y="185" />
+        <di:waypoint x="910" y="185" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_00bzyqn_di" bpmnElement="SequenceFlow_00bzyqn">
+        <di:waypoint x="1010" y="185" />
+        <di:waypoint x="1050" y="185" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1620t1r_di" bpmnElement="SequenceFlow_1620t1r">
-        <di:waypoint x="880" y="185" />
-        <di:waypoint x="922" y="185" />
+        <di:waypoint x="1150" y="185" />
+        <di:waypoint x="1190" y="185" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0hgjqc6_di" bpmnElement="SequenceFlow_0hgjqc6">
-        <di:waypoint x="1022" y="185" />
-        <di:waypoint x="1064" y="185" />
+        <di:waypoint x="1290" y="185" />
+        <di:waypoint x="1330" y="185" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
