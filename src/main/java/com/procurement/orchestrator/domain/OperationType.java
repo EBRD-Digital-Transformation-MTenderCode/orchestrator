@@ -49,7 +49,12 @@ public enum OperationType {
     UPDATE_BID_DOCS("updateBidDocs"),
     UPDATE_AC("updateAC"),
     ISSUING_AC("issuingAC"),
-    FINAL_UPDATE_AC("finalUpdateAC");
+    FINAL_UPDATE_AC("finalUpdateAC"),
+    BUYER_SIGNING_AC("buyerSigningAC"),
+    SUPPLIER_SIGNING_AC("supplierSigningAC"),
+    VERIFICATION_AC("verificationAC"),
+    TREASURY_APPROVING_AC("treasuryApprovingAC"),
+    ACTIVATION_AC("activationAC");
 
     private static final Map<String, OperationType> CONSTANTS = new HashMap<>();
     private final String value;
