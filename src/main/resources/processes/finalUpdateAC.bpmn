@@ -17,7 +17,7 @@
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1gx4xfj" sourceRef="StartEvent_1" targetRef="SaveFirstOperationTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0ipeyos" sourceRef="SaveFirstOperationTask" targetRef="ContractingFinalUpdateTask" />
-    <bpmn:serviceTask id="ContractingFinalUpdateTask" name="Contracting Final Update" camunda:asyncBefore="true" camunda:delegateExpression="${contractingFinalUpdateContract}">
+    <bpmn:serviceTask id="ContractingFinalUpdateTask" name="Contracting Final Update" camunda:asyncBefore="true" camunda:delegateExpression="${contractingFinalUpdate}">
       <bpmn:incoming>SequenceFlow_0ipeyos</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0nhwjuo</bpmn:outgoing>
     </bpmn:serviceTask>

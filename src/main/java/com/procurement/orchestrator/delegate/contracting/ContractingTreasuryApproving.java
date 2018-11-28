@@ -16,12 +16,12 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.ContractingCommandType.VERIFICATION_AC;
+import static com.procurement.orchestrator.domain.commands.ContractingCommandType.TREASURY_APPROVING_AC;
 
 @Component
-public class ContractContractVerification implements JavaDelegate {
+public class ContractingTreasuryApproving implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ContractContractVerification.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ContractingTreasuryApproving.class);
 
     private final ContractingRestClient contractingRestClient;
     private final NotificationService notificationService;
@@ -29,7 +29,7 @@ public class ContractContractVerification implements JavaDelegate {
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public ContractContractVerification(final ContractingRestClient contractingRestClient,
+    public ContractingTreasuryApproving(final ContractingRestClient contractingRestClient,
                                         final NotificationService notificationService,
                                         final OperationService operationService,
                                         final ProcessService processService,
@@ -44,26 +44,26 @@ public class ContractContractVerification implements JavaDelegate {
     @Override
     public void execute(final DelegateExecution execution) throws Exception {
         LOG.info(execution.getCurrentActivityName());
-//        final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
-//        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
-//        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
-//        final String processId = execution.getProcessInstanceId();
-//        final String taskId = execution.getCurrentActivityId();
-//        final JsonNode commandMessage = processService.getCommandMessage(VERIFICATION_AC, context, jsonUtil.empty());
-//        JsonNode responseData = processService.processResponse(
-//                contractingRestClient.execute(commandMessage),
-//                context,
-//                processId,
-//                taskId,
-//                commandMessage);
-//        if (Objects.nonNull(responseData)) {
-//            operationService.saveOperationStep(
-//                    execution,
-//                    entity,
-//                    context,
-//                    commandMessage,
-//                    processService.setContractIssuedStatusDetails(jsonData, responseData, processId));
-//        }
+        final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
+        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
+        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
+        final String processId = execution.getProcessInstanceId();
+        final String taskId = execution.getCurrentActivityId();
+        final JsonNode commandMessage = processService.getCommandMessage(TREASURY_APPROVING_AC, context, jsonUtil.empty());
+        JsonNode responseData = processService.processResponse(
+                contractingRestClient.execute(commandMessage),
+                context,
+                processId,
+                taskId,
+                commandMessage);
+        if (Objects.nonNull(responseData)) {
+            operationService.saveOperationStep(
+                    execution,
+                    entity,
+                    context,
+                    commandMessage,
+                    processService.setContractIssuedStatusDetails(jsonData, responseData, processId));
+        }
     }
 
 }

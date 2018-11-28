@@ -8,19 +8,20 @@ import com.procurement.orchestrator.service.NotificationService;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
-import java.util.Objects;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import static com.procurement.orchestrator.domain.commands.ContractingCommandType.SET_ISSUED_STATUS_DETAILS;
+import java.util.Objects;
+
+import static com.procurement.orchestrator.domain.commands.ContractingCommandType.UPDATE_AC;
 
 @Component
-public class ContractingIssuingContract implements JavaDelegate {
+public class ContractingUpdate implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ContractingIssuingContract.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ContractingUpdate.class);
 
     private final ContractingRestClient contractingRestClient;
     private final NotificationService notificationService;
@@ -28,11 +29,11 @@ public class ContractingIssuingContract implements JavaDelegate {
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public ContractingIssuingContract(final ContractingRestClient contractingRestClient,
-                                      final NotificationService notificationService,
-                                      final OperationService operationService,
-                                      final ProcessService processService,
-                                      final JsonUtil jsonUtil) {
+    public ContractingUpdate(final ContractingRestClient contractingRestClient,
+                             final NotificationService notificationService,
+                             final OperationService operationService,
+                             final ProcessService processService,
+                             final JsonUtil jsonUtil) {
         this.contractingRestClient = contractingRestClient;
         this.notificationService = notificationService;
         this.operationService = operationService;
@@ -48,8 +49,7 @@ public class ContractingIssuingContract implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-
-        final JsonNode commandMessage = processService.getCommandMessage(SET_ISSUED_STATUS_DETAILS, context, jsonUtil.empty());
+        final JsonNode commandMessage = processService.getCommandMessage(UPDATE_AC, context, jsonData);
         JsonNode responseData = processService.processResponse(
                 contractingRestClient.execute(commandMessage),
                 context,
@@ -62,7 +62,7 @@ public class ContractingIssuingContract implements JavaDelegate {
                     entity,
                     context,
                     commandMessage,
-                    processService.setContractIssuedStatusDetails(jsonData, responseData, processId));
+                    processService.setContractUpdateData(jsonData, responseData, processId));
         }
     }
 

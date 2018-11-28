@@ -269,7 +269,7 @@ public class TenderController extends DoBaseController {
                                                  @RequestBody final JsonNode data) {
         requestService.validate(operationId, data);
         final Context context = requestService.getContextForContractUpdate(
-                authorization, operationId,cpid, ocid, token, "signingBySupplierAС");
+                authorization, operationId, cpid, ocid, token, "signingBySupplierAС");
         context.setId(requestID);
         requestService.saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();

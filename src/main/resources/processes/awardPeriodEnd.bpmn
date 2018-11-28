@@ -52,7 +52,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_0ulvope" sourceRef="SetStandstillPeriodEvTask" targetRef="EvaluationAwardsForCansTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1645qy2" sourceRef="EvaluationAwardsForCansTask" targetRef="ContractingCreateCanTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1jf09wy" sourceRef="SaveFirstOperationTask" targetRef="AccessCheckTokenTask" />
-    <bpmn:serviceTask id="ContractingCreateContractTask" name="Contracting Create Contract" camunda:asyncBefore="true" camunda:delegateExpression="${contractingCreateContract}">
+    <bpmn:serviceTask id="ContractingCreateTask" name="Contracting Create" camunda:asyncBefore="true" camunda:delegateExpression="${contractingCreate}">
       <bpmn:incoming>SequenceFlow_1ey8wtp</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0dpgupg</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -69,14 +69,14 @@
       <bpmn:incoming>SequenceFlow_0t0kdxz</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0jy2p9p</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="SequenceFlow_0dpgupg" sourceRef="ContractingCreateContractTask" targetRef="RegulationGetContractTermsTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0dpgupg" sourceRef="ContractingCreateTask" targetRef="RegulationGetContractTermsTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0jy2p9p" sourceRef="ExclusiveGateway_1npu3t8" targetRef="NoticeCreateReleaseTask" />
     <bpmn:exclusiveGateway id="ExclusiveGateway_10yu1kv">
       <bpmn:incoming>SequenceFlow_0oin0gm</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1ey8wtp</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlow_08dhowh</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="SequenceFlow_1ey8wtp" sourceRef="ExclusiveGateway_10yu1kv" targetRef="ContractingCreateContractTask">
+    <bpmn:sequenceFlow id="SequenceFlow_1ey8wtp" sourceRef="ExclusiveGateway_10yu1kv" targetRef="ContractingCreateTask">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${operationType=='awardPeriodEndEv'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_08dhowh" sourceRef="ExclusiveGateway_10yu1kv" targetRef="ExclusiveGateway_1npu3t8">
@@ -213,7 +213,7 @@
           <dc:Bounds x="158.5" y="143" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_0xoopu9_di" bpmnElement="ContractingCreateContractTask">
+      <bpmndi:BPMNShape id="ServiceTask_0xoopu9_di" bpmnElement="ContractingCreateTask">
         <dc:Bounds x="1643" y="124" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_1f6nwxy_di" bpmnElement="AccessSetLotsUnsuccessfulEvTask">
