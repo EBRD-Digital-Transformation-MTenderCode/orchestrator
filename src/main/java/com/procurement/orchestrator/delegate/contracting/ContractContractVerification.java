@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.ContractingCommandType.CONTRACT_VERIFICATION;
+import static com.procurement.orchestrator.domain.commands.ContractingCommandType.VERIFICATION_AC;
 
 @Component
 public class ContractContractVerification implements JavaDelegate {
@@ -49,7 +49,7 @@ public class ContractContractVerification implements JavaDelegate {
 //        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
 //        final String processId = execution.getProcessInstanceId();
 //        final String taskId = execution.getCurrentActivityId();
-//        final JsonNode commandMessage = processService.getCommandMessage(CONTRACT_VERIFICATION, context, jsonUtil.empty());
+//        final JsonNode commandMessage = processService.getCommandMessage(VERIFICATION_AC, context, jsonUtil.empty());
 //        JsonNode responseData = processService.processResponse(
 //                contractingRestClient.execute(commandMessage),
 //                context,
