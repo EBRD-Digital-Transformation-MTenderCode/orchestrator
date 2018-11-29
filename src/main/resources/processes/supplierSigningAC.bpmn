@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="2.0.0">
-  <bpmn:process id="signingBySupplierAC" name="signingBySupplierAC" isExecutable="true">
+  <bpmn:process id="supplierSigningAC" name="supplierSigningAC" isExecutable="true">
     <bpmn:startEvent id="StartEvent_1">
       <bpmn:outgoing>SequenceFlow_1gx4xfj</bpmn:outgoing>
     </bpmn:startEvent>
@@ -16,7 +16,7 @@
       <bpmn:outgoing>SequenceFlow_1620t1r</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1gx4xfj" sourceRef="StartEvent_1" targetRef="SaveFirstOperationTask" />
-    <bpmn:serviceTask id="ContractingSupplierResponseTask" name="Contracting Proceed Supplier Response" camunda:asyncBefore="true" camunda:delegateExpression="${contractingProceedSupplierResponse}">
+    <bpmn:serviceTask id="ContractingSupplierSigningTask" name="Contracting Supplier Signing" camunda:asyncBefore="true" camunda:delegateExpression="${contractingSupplierSigning}">
       <bpmn:incoming>SequenceFlow_0xvxnwo</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0cpuv1w</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -47,8 +47,8 @@
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_0duazxi" sourceRef="SaveFirstOperationTask" targetRef="StorageValidateConfRespTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1cdqy0k" sourceRef="StorageValidateConfRespTask" targetRef="SubmissionCheckTokenOwnerTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0xvxnwo" sourceRef="SubmissionCheckTokenOwnerTask" targetRef="ContractingSupplierResponseTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0cpuv1w" sourceRef="ContractingSupplierResponseTask" targetRef="StorageOpenDocsOfContractTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0xvxnwo" sourceRef="SubmissionCheckTokenOwnerTask" targetRef="ContractingSupplierSigningTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0cpuv1w" sourceRef="ContractingSupplierSigningTask" targetRef="StorageOpenDocsOfContractTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0jqscqx" sourceRef="StorageOpenDocsOfContractTask" targetRef="SendMessageToAgentTask" />
     <bpmn:sequenceFlow id="SequenceFlow_00bzyqn" sourceRef="SendMessageToAgentTask" targetRef="NoticeCreateReleaseTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1620t1r" sourceRef="NoticeCreateReleaseTask" targetRef="SaveContractUpdateContextTask" />
@@ -56,7 +56,7 @@
   </bpmn:process>
   <bpmn:error id="tr_exception" name="TR_EXCEPTION" errorCode="TR_EXCEPTION" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
-    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="signingBySupplierAC">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="supplierSigningAC">
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
         <dc:Bounds x="139" y="167" width="36" height="36" />
         <bpmndi:BPMNLabel>
@@ -82,7 +82,7 @@
           <dc:Bounds x="163" y="164" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_197ov87_di" bpmnElement="ContractingSupplierResponseTask">
+      <bpmndi:BPMNShape id="ServiceTask_197ov87_di" bpmnElement="ContractingSupplierSigningTask">
         <dc:Bounds x="630" y="145" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_06wweri_di" bpmnElement="SaveContractUpdateContextTask">

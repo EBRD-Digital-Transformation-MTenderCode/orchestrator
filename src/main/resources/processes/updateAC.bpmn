@@ -44,7 +44,7 @@
       <bpmn:incoming>SequenceFlow_0xf9tf3</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1baylv8</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="ContractingUpdateContractTask" name="Contracting Update Contract" camunda:asyncBefore="true" camunda:delegateExpression="${contractingUpdateContract}">
+    <bpmn:serviceTask id="ContractingUpdateTask" name="Contracting Update" camunda:asyncBefore="true" camunda:delegateExpression="${contractingUpdate}">
       <bpmn:incoming>SequenceFlow_03624n3</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0dtt6a8</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -74,9 +74,9 @@
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_0a660r8" sourceRef="NoticeCreateReleaseTask" targetRef="SaveContractUpdateContextTask" />
     <bpmn:sequenceFlow id="SequenceFlow_14oafte" sourceRef="SaveContractUpdateContextTask" targetRef="SendMessageTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_03624n3" sourceRef="RegulationUpdateContractTermsTask" targetRef="ContractingUpdateContractTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_03624n3" sourceRef="RegulationUpdateContractTermsTask" targetRef="ContractingUpdateTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1baylv8" sourceRef="EvaluationCheckAwardValueTask" targetRef="MdmGetInfoForContractTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0dtt6a8" sourceRef="ContractingUpdateContractTask" targetRef="StorageOpenDocsOfContractTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0dtt6a8" sourceRef="ContractingUpdateTask" targetRef="StorageOpenDocsOfContractTask" />
     <bpmn:sequenceFlow id="SequenceFlow_13n2rej" sourceRef="MdmGetInfoForContractTask" targetRef="RegulationUpdateContractTermsTask" />
   </bpmn:process>
   <bpmn:error id="tr_exception" name="TR_EXCEPTION" errorCode="TR_EXCEPTION" />
@@ -144,7 +144,7 @@
       <bpmndi:BPMNShape id="ServiceTask_1ujctuu_di" bpmnElement="EvaluationCheckAwardValueTask">
         <dc:Bounds x="750" y="145" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_197ov87_di" bpmnElement="ContractingUpdateContractTask">
+      <bpmndi:BPMNShape id="ServiceTask_197ov87_di" bpmnElement="ContractingUpdateTask">
         <dc:Bounds x="1158" y="145" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_1wknq3o_di" bpmnElement="SendMessageTask">

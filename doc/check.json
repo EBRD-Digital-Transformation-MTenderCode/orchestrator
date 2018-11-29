@@ -11,38 +11,30 @@
 }
 
 {
-
   "version": "0.0.1",
-
   "id": "7058523e-8be1-4de5-83ab-75715cd85ea9",
-
   "command": "generateACDoc",
-
   "data": {
-
     "country": "MD",
-
     "language": "RO",
-
     "cpid": "ocds-t1s2t3-MD-1542981234151",
-
     "ocid": "ocds-t1s2t3-MD-1542981234151-AC-1542036270645",
-
     "operationId": "838faf0e-f753-44c4-8267-8a49c27acc29",
-
     "startDate": "2018-09-13T08:48:17Z"
-
   }
-
 }
 
 {
-  "version":"1.0.0",
-  "id":"2ffdfc11-d6a7-4868-8a05-05a3fdaf4f42",
-  "command":"contractFinalization",
-  "data":{
-    "cpid":"ocds-t1s2t3-MD-1543076917965",
-    "ocid":"ocds-t1s2t3-MD-1543076917965-AC-1541460211233",
-    "documents":[{"id":"09e4c0ce-b785-4fc6-b524-dc1396445354-1543086124484"}],
-  },
+  "version": "1.0.0",
+  "id": "2ffdfc11-d6a7-4868-8a05-05a3fdaf4f42",
+  "command": "contractFinalization",
+  "data": {
+    "cpid": "ocds-t1s2t3-MD-1543076917965",
+    "ocid": "ocds-t1s2t3-MD-1543076917965-AC-1541460211233",
+    "documents": [
+      {
+        "id": "09e4c0ce-b785-4fc6-b524-dc1396445354-1543086124484"
+      }
+    ]
+  }
 }

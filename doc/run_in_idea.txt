@@ -1,3 +1,5 @@
+<camunda:failedJobRetryTimeCycle>R0/PT1S</camunda:failedJobRetryTimeCycle>
+
 -Dspring.config.location=file:"path to file 'application.yml'"
 
 example

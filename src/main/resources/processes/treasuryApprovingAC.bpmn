@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="2.0.0">
-  <bpmn:process id="approvingByTreasuryAC" name="approvingByTreasuryAC" isExecutable="true">
+  <bpmn:process id="treasuryApprovingAC" name="treasuryApprovingAC" isExecutable="true">
     <bpmn:startEvent id="StartEvent_1">
       <bpmn:outgoing>SequenceFlow_1gx4xfj</bpmn:outgoing>
     </bpmn:startEvent>
@@ -16,12 +16,12 @@
       <bpmn:outgoing>SequenceFlow_0a660r8</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1gx4xfj" sourceRef="StartEvent_1" targetRef="SaveFirstOperationTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0ipeyos" sourceRef="SaveFirstOperationTask" targetRef="ContractingTreasuryResponseTask" />
-    <bpmn:serviceTask id="ContractingTreasuryResponseTask" name="Contracting Proceed Treasury Response" camunda:asyncBefore="true" camunda:delegateExpression="${contractingTreasuryResponse}">
+    <bpmn:sequenceFlow id="SequenceFlow_0ipeyos" sourceRef="SaveFirstOperationTask" targetRef="ContractingTreasuryApprovingTask" />
+    <bpmn:serviceTask id="ContractingTreasuryApprovingTask" name="Contracting Treasury Approving" camunda:asyncBefore="true" camunda:delegateExpression="${contractingTreasuryApproving}">
       <bpmn:incoming>SequenceFlow_0ipeyos</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0nhwjuo</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_0nhwjuo" sourceRef="ContractingTreasuryResponseTask" targetRef="StorageOpenDocsOfContractTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0nhwjuo" sourceRef="ContractingTreasuryApprovingTask" targetRef="StorageOpenDocsOfContractTask" />
     <bpmn:serviceTask id="SaveContractUpdateContextTask" name="Save Contract  Update Context" camunda:delegateExpression="${saveContractUpdateContext}">
       <bpmn:incoming>SequenceFlow_0a660r8</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_14oafte</bpmn:outgoing>
@@ -41,7 +41,7 @@
   </bpmn:process>
   <bpmn:error id="tr_exception" name="TR_EXCEPTION" errorCode="TR_EXCEPTION" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
-    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="approvingByTreasuryAC">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="treasuryApprovingAC">
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
         <dc:Bounds x="139" y="167" width="36" height="36" />
         <bpmndi:BPMNLabel>
@@ -74,7 +74,7 @@
           <dc:Bounds x="338.5" y="164" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_197ov87_di" bpmnElement="ContractingTreasuryResponseTask">
+      <bpmndi:BPMNShape id="ServiceTask_197ov87_di" bpmnElement="ContractingTreasuryApprovingTask">
         <dc:Bounds x="388" y="145" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0nhwjuo_di" bpmnElement="SequenceFlow_0nhwjuo">

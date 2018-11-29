@@ -16,12 +16,12 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.ContractingCommandType.UPDATE_AC;
+import static com.procurement.orchestrator.domain.commands.ContractingCommandType.SUPPLIER_SIGNING_AC;
 
 @Component
-public class ContractingUpdateContract implements JavaDelegate {
+public class ContractingSupplierSigning implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ContractingUpdateContract.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ContractingSupplierSigning.class);
 
     private final ContractingRestClient contractingRestClient;
     private final NotificationService notificationService;
@@ -29,11 +29,11 @@ public class ContractingUpdateContract implements JavaDelegate {
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public ContractingUpdateContract(final ContractingRestClient contractingRestClient,
-                                     final NotificationService notificationService,
-                                     final OperationService operationService,
-                                     final ProcessService processService,
-                                     final JsonUtil jsonUtil) {
+    public ContractingSupplierSigning(final ContractingRestClient contractingRestClient,
+                                      final NotificationService notificationService,
+                                      final OperationService operationService,
+                                      final ProcessService processService,
+                                      final JsonUtil jsonUtil) {
         this.contractingRestClient = contractingRestClient;
         this.notificationService = notificationService;
         this.operationService = operationService;
@@ -49,7 +49,7 @@ public class ContractingUpdateContract implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(UPDATE_AC, context, jsonData);
+        final JsonNode commandMessage = processService.getCommandMessage(SUPPLIER_SIGNING_AC, context, jsonUtil.empty());
         JsonNode responseData = processService.processResponse(
                 contractingRestClient.execute(commandMessage),
                 context,
@@ -61,9 +61,7 @@ public class ContractingUpdateContract implements JavaDelegate {
                     execution,
                     entity,
                     context,
-                    commandMessage,
-                    processService.setContractUpdateData(jsonData, responseData, processId));
+                    commandMessage);
         }
     }
-
 }
