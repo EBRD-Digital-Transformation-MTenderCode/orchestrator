@@ -24,9 +24,9 @@
         <spring-kafka.version>2.1.0.RELEASE</spring-kafka.version>
         <netty.version>4.1.17.Final</netty.version>
         <!--Docker-->
+        <docker-registry>dev.docker-registry.eprocurement.systems</docker-registry>
+        <docker-image-profile></docker-image-profile>
         <docker-maven-plugin.version>0.24.0</docker-maven-plugin.version>
-        <!--<docker-registry>docker.io/eprocurementsystems</docker-registry>-->
-        <docker-registry>docker-registry.eprocurement.systems</docker-registry>
     </properties>
 
     <dependencyManagement>
@@ -171,7 +171,6 @@
                     <include>processes/</include>
                     <include>bootstrap.yml</include>
                     <include>banner.txt</include>
-                    <include>git.properties</include>
                 </includes>
             </resource>
         </resources>
@@ -179,28 +178,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>build-info</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>pl.project13.maven</groupId>
-                <artifactId>git-commit-id-plugin</artifactId>
-                <configuration>
-                    <includeOnlyProperties>
-                        <includeOnlyProperty>^git.branch$</includeOnlyProperty>
-                        <includeOnlyProperty>^git.build.host$</includeOnlyProperty>
-                        <includeOnlyProperty>^git.build.time$</includeOnlyProperty>
-                        <includeOnlyProperty>^git.commit.id$</includeOnlyProperty>
-                        <includeOnlyProperty>^git.commit.id.abbrev$</includeOnlyProperty>
-                        <includeOnlyProperty>^git.commit.user.email$</includeOnlyProperty>
-                        <includeOnlyProperty>^git.tags$</includeOnlyProperty>
-                    </includeOnlyProperties>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>io.fabric8</groupId>
@@ -210,9 +187,7 @@
                     <images>
                         <image>
                             <registry>${docker-registry}</registry>
-                            <!--suppress UnresolvedMavenProperty -->
-                            <name>
-                                ${docker-registry}/${project.artifactId}:${project.version}.${git.commit.id.abbrev}
+                            <name>${docker-registry}/${project.artifactId}${docker-image-profile}:${project.version}
                             </name>
                             <build>
                                 <dockerFileDir>${project.basedir}/src/main</dockerFileDir>

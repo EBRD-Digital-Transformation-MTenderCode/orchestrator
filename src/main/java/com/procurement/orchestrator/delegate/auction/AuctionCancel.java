@@ -47,20 +47,22 @@ public class AuctionCancel implements JavaDelegate {
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(CANCEL, context, jsonUtil.empty());
-        context.setIsAuction(false);
-        JsonNode responseData = processService.processResponse(
-                auctionRestClient.execute(commandMessage),
-                context,
-                processId,
-                taskId,
-                commandMessage);
-        if (Objects.nonNull(responseData)) {
-            operationService.saveOperationStep(
-                    execution,
-                    entity,
+        if (context.getIsAuction()) {
+            final JsonNode commandMessage = processService.getCommandMessage(CANCEL, context, jsonUtil.empty());
+            context.setIsAuction(false);
+            JsonNode responseData = processService.processResponse(
+                    auctionRestClient.execute(commandMessage),
                     context,
+                    processId,
+                    taskId,
                     commandMessage);
+            if (Objects.nonNull(responseData)) {
+                operationService.saveOperationStep(
+                        execution,
+                        entity,
+                        context,
+                        commandMessage);
+            }
         }
     }
 }
