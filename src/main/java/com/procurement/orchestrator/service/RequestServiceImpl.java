@@ -238,6 +238,15 @@ public class RequestServiceImpl implements RequestService {
 
     private void validateStageFromOcId(final String cpid, final String ocid, final Context prevContext) {
         String currentStage = null;
+
+        if (!cpid.equals(prevContext.getCpid())) {
+            throw new OperationException("Invalid cpid.");
+        }
+
+        if (!ocid.equals(prevContext.getOcid())) {
+            throw new OperationException("Invalid ocid.");
+        }
+
         for (final Stage stage : Stage.values()) {
             if (ocid.contains(stage.value())) {
                 currentStage = stage.value();
