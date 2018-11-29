@@ -48,26 +48,24 @@ public class AuctionSchedule implements JavaDelegate {
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        if (context.getIsAuction()) {
-            final JsonNode prevData = jsonUtil.toJsonNode(entity.getResponseData());
-            final JsonNode rqData = processService.getAuctionData(prevData, processId);
-            if (rqData != null) {
-                final JsonNode commandMessage = processService.getCommandMessage(SCHEDULE, context, rqData);
-                JsonNode responseData = processService.processResponse(
-                        auctionRestClient.execute(commandMessage),
+        final JsonNode prevData = jsonUtil.toJsonNode(entity.getResponseData());
+        final JsonNode rqData = processService.getAuctionData(prevData, processId);
+        if (rqData != null) {
+            final JsonNode commandMessage = processService.getCommandMessage(SCHEDULE, context, rqData);
+            JsonNode responseData = processService.processResponse(
+                    auctionRestClient.execute(commandMessage),
+                    context,
+                    processId,
+                    taskId,
+                    commandMessage);
+            if (Objects.nonNull(responseData)) {
+                context.setIsAuction(true);
+                operationService.saveOperationStep(
+                        execution,
+                        entity,
                         context,
-                        processId,
-                        taskId,
-                        commandMessage);
-                if (Objects.nonNull(responseData)) {
-                    context.setIsAuction(true);
-                    operationService.saveOperationStep(
-                            execution,
-                            entity,
-                            context,
-                            commandMessage,
-                            processService.setAuctionData(prevData, responseData, processId));
-                }
+                        commandMessage,
+                        processService.setAuctionData(prevData, responseData, processId));
             }
         }
     }
