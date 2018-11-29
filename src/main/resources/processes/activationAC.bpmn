@@ -47,7 +47,9 @@
       <bpmn:outgoing>SequenceFlow_02scup7</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="SequenceFlow_0pbt1v1" sourceRef="ContractingActivationTask" targetRef="ExclusiveGateway_0vfhrjx" />
-    <bpmn:sequenceFlow id="SequenceFlow_099tv5h" sourceRef="ExclusiveGateway_0vfhrjx" targetRef="AccessCompleteTenderTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_099tv5h" sourceRef="ExclusiveGateway_0vfhrjx" targetRef="AccessCompleteTenderTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${operationType!=''}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
     <bpmn:exclusiveGateway id="ExclusiveGateway_16g2ell">
       <bpmn:incoming>SequenceFlow_0re2w95</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_02scup7</bpmn:incoming>
@@ -55,7 +57,9 @@
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="SequenceFlow_0re2w95" sourceRef="EvaluationEndAwardPeriodTask" targetRef="ExclusiveGateway_16g2ell" />
     <bpmn:sequenceFlow id="SequenceFlow_1oura32" sourceRef="ExclusiveGateway_16g2ell" targetRef="NoticeCreateReleaseTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_02scup7" sourceRef="ExclusiveGateway_0vfhrjx" targetRef="ExclusiveGateway_16g2ell" />
+    <bpmn:sequenceFlow id="SequenceFlow_02scup7" sourceRef="ExclusiveGateway_0vfhrjx" targetRef="ExclusiveGateway_16g2ell">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${operationType==''}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
   </bpmn:process>
   <bpmn:error id="tr_exception" name="TR_EXCEPTION" errorCode="TR_EXCEPTION" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
