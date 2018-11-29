@@ -22,12 +22,15 @@ import static com.datastax.driver.core.querybuilder.QueryBuilder.*;
 @Service
 public class CassandraDaoImpl implements CassandraDao {
 
+
+
     private static final String OPERATION_STEP_TABLE = "orchestrator_operation_step";
     private static final String PROCESS_TYPE_TABLE = "orchestrator_process_type";
     private static final String OPERATION_TABLE = "orchestrator_operation";
     private static final String REQUEST_TABLE = "orchestrator_request";
     private static final String CONTEXT_TABLE = "orchestrator_context";
     private static final String RULES_TABLE = "orchestrator_rules";
+    private static final String CHECK_TABLE = "orchestrator_check";
     private static final String REQUEST_DATE = "request_date";
     private static final String OPERATION_ID = "operation_id";
     private static final String CONTEXT = "context";
@@ -39,6 +42,7 @@ public class CassandraDaoImpl implements CassandraDao {
     private static final String STEP_DATE = "step_date";
     private static final String TASK_ID = "task_id";
     private static final String CPID = "cp_id";
+    private static final String ID = "id";
 
     private static final String OPERATION_TYPE = "operation_type";
     private static final String PROCESS_TYPE = "process_type";
@@ -55,6 +59,21 @@ public class CassandraDaoImpl implements CassandraDao {
     public CassandraDaoImpl(final Session session) {
         this.session = session;
     }
+
+    @Override
+    public Boolean saveCheckIfNotExist(final String id, final OperationStepEntity entity) {
+        final Insert insert = insertInto(CHECK_TABLE).ifNotExists();
+        insert
+                .value(ID, id)
+                .value(CONTEXT, entity.getContext());
+
+        final ResultSet resultSet = session.execute(insert);
+        if (!resultSet.wasApplied()) {
+            return resultSet.one().getString(ID).equals(ID);
+        }
+        return true;
+    }
+
 
     @Override
     public void saveRequest(final RequestEntity entity) {
