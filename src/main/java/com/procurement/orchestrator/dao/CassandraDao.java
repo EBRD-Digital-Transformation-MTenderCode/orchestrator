@@ -14,6 +14,8 @@ import java.util.Optional;
 @Service
 public interface CassandraDao {
 
+    Boolean saveCheckIfNotExist(String id, OperationStepEntity entity);
+
     void saveRequest(RequestEntity entity);
 
     Optional<RequestEntity> getRequestById(String requestId);

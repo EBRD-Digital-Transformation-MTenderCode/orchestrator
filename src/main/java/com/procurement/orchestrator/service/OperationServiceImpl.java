@@ -45,6 +45,11 @@ public class OperationServiceImpl implements OperationService {
     }
 
     @Override
+    public Boolean saveCheckIfNotExist(final String id, final OperationStepEntity operationEntity) {
+        return cassandraDao.saveCheckIfNotExist(id, operationEntity);
+    }
+
+    @Override
     public void checkOperationById(final String operationId) {
         if (cassandraDao.isOperationExist(operationId)) {
             throw new OperationException("Operation with current id already exist.");

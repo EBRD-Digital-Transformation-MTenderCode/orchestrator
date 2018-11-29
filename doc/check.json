@@ -1,40 +1,263 @@
 {
-  "id": "98d49d3c-68c6-11e8-adc0-fa7ae01b2823",
-  "command": "generateACDoc",
-  "data": {
-    "country": "MD",
-    "language": "ro",
-    "cpid": "ocds-t1s2t3-MD-1542998795428",
-    "ocid": "ocds-t1s2t3-MD-1542998795428-AC-1543865550621"
-  },
-  "version": "0.0.1"
-}
-
-{
-  "version": "0.0.1",
-  "id": "7058523e-8be1-4de5-83ab-75715cd85ea9",
-  "command": "generateACDoc",
-  "data": {
-    "country": "MD",
-    "language": "RO",
-    "cpid": "ocds-t1s2t3-MD-1542981234151",
-    "ocid": "ocds-t1s2t3-MD-1542981234151-AC-1542036270645",
-    "operationId": "838faf0e-f753-44c4-8267-8a49c27acc29",
-    "startDate": "2018-09-13T08:48:17Z"
-  }
-}
-
-{
-  "version": "1.0.0",
-  "id": "2ffdfc11-d6a7-4868-8a05-05a3fdaf4f42",
-  "command": "contractFinalization",
-  "data": {
-    "cpid": "ocds-t1s2t3-MD-1543076917965",
-    "ocid": "ocds-t1s2t3-MD-1543076917965-AC-1541460211233",
+  "tender": {
+    "id": "ocds-b3wdp1-MD-1542871097836",
+    "title": "Cutii cu bomboane ",
+    "description": "Cutii cu bomboane ",
+    "status": "active",
+    "statusDetails": "clarification",
+    "classification": {
+      "scheme": "CPV",
+      "id": "15800000-6",
+      "description": "Diverse produse alimentare"
+    },
+    "mainProcurementCategory": "goods",
+    "procurementMethod": "open",
+    "procurementMethodDetails": "Procedură de valoare mică",
+    "submissionMethod": [
+      "electronicSubmission"
+    ],
+    "submissionMethodDetails": "Lista platformelor: achizitii, ebs, licitatie, yptender",
+    "submissionMethodRationale": [
+      "Ofertele vor fi primite prin intermediul unei platforme electronice de achiziții publice"
+    ],
+    "eligibilityCriteria": "Regulile generale privind naționalitatea și originea, precum și alte criterii de eligibilitate sunt enumerate în Ghidul practic privind procedurile de contractare a acțiunilor externe ale UE (PRAG)",
+    "acceleratedProcedure": {
+      "isAcceleratedProcedure": false
+    },
+    "designContest": {
+      "serviceContractAward": false
+    },
+    "electronicWorkflows": {
+      "useOrdering": false,
+      "usePayment": false,
+      "acceptInvoicing": false
+    },
+    "jointProcurement": {
+      "isJointProcurement": false
+    },
+    "procedureOutsourcing": {
+      "procedureOutsourced": false
+    },
+    "framework": {
+      "isAFramework": false
+    },
+    "dynamicPurchasingSystem": {
+      "hasDynamicPurchasingSystem": false
+    },
+    "legalBasis": "NATIONAL_PROCUREMENT_LAW",
+    "procuringEntity": {
+      "id": "MD-IDNO-1006601004297",
+      "name": "PENITENCIARUL NR.13 - CHIŞINĂU",
+      "identifier": {
+        "id": "1006601004297",
+        "scheme": "MD-IDNO",
+        "legalName": "PENITENCIARUL NR.13 - CHIŞINĂU"
+      },
+      "address": {
+        "streetAddress": "str. Bernardazzi 3",
+        "postalCode": "MD-2001",
+        "addressDetails": {
+          "country": {
+            "scheme": "iso-alpha2",
+            "id": "MD",
+            "description": "MOLDOVA",
+            "uri": "http://reference.iatistandard.org"
+          },
+          "region": {
+            "scheme": "CUATM",
+            "id": "0101000",
+            "description": "mun.Chişinău",
+            "uri": "http://statistica.md"
+          },
+          "locality": {
+            "scheme": "other",
+            "id": "0101000",
+            "description": "locality"
+          }
+        }
+      },
+      "contactPoint": {
+        "name": "Viorel Burduja",
+        "email": "p13achizitii@anp.gov.md",
+        "telephone": "+37322274426",
+        "faxNumber": "+37322274426",
+        "url": "p13achizitii@anp.gov.md"
+      }
+    },
+    "awardCriteria": "priceOnly",
+    "requiresElectronicCatalogue": false,
+    "contractPeriod": {
+      "startDate": "2018-12-09T22:00:00Z",
+      "endDate": "2018-12-16T22:00:00Z"
+    },
+    "tenderPeriod": {
+      "startDate": "2018-11-29T07:20:00Z",
+      "endDate": "2018-12-08T07:30:00Z"
+    },
+    "enquiryPeriod": {
+      "startDate": "2018-11-22T07:29:26Z",
+      "endDate": "2018-11-29T07:20:00Z"
+    },
+    "value": {
+      "amount": 25890.00,
+      "currency": "MDL"
+    },
+    "lotGroups": [
+      {
+        "optionToCombine": false
+      }
+    ],
+    "lots": [
+      {
+        "id": "57a7d701-ee28-11e8-9848-d104af1f2f79",
+        "title": "Cutii cu bomboane ",
+        "description": "Cutii cu bomboane ",
+        "status": "active",
+        "statusDetails": "empty",
+        "value": {
+          "amount": 25890.00,
+          "currency": "MDL"
+        },
+        "options": [
+          {
+            "hasOptions": false
+          }
+        ],
+        "recurrentProcurement": [
+          {
+            "isRecurrent": false
+          }
+        ],
+        "renewals": [
+          {
+            "hasRenewals": false
+          }
+        ],
+        "variants": [
+          {
+            "hasVariants": false
+          }
+        ],
+        "contractPeriod": {
+          "startDate": "2018-12-09T22:00:00Z",
+          "endDate": "2018-12-16T22:00:00Z"
+        },
+        "placeOfPerformance": {
+          "address": {
+            "streetAddress": "mun. Chișinău, str.  Al. Bernardazzi, 3",
+            "postalCode": "MD-2001",
+            "addressDetails": {
+              "country": {
+                "scheme": "iso-alpha2",
+                "id": "MD",
+                "description": "MOLDOVA",
+                "uri": "http://reference.iatistandard.org"
+              },
+              "region": {
+                "scheme": "CUATM",
+                "id": "0101000",
+                "description": "mun.Chişinău",
+                "uri": "http://statistica.md"
+              },
+              "locality": {
+                "scheme": "other",
+                "id": "0101000",
+                "description": "mun. Chișinău, str.  Al. Bernardazzi, 3"
+              }
+            }
+          },
+          "description": "mun. Chișinău, str.  Al. Bernardazzi, 3"
+        }
+      }
+    ],
+    "items": [
+      {
+        "id": "57a7d700-ee28-11e8-9848-d104af1f2f79",
+        "description": "Cutii cu bomboane ",
+        "classification": {
+          "scheme": "CPV",
+          "id": "15800000-6",
+          "description": "Diverse produse alimentare"
+        },
+        "quantity": 210.00,
+        "unit": {
+          "id": "794",
+          "name": "Bucata"
+        },
+        "relatedLot": "57a7d701-ee28-11e8-9848-d104af1f2f79"
+      }
+    ],
     "documents": [
       {
-        "id": "09e4c0ce-b785-4fc6-b524-dc1396445354-1543086124484"
+        "id": "0c1b46a4-5304-43ec-8b2c-01586bcf0b98-1542871763220",
+        "documentType": "technicalSpecifications",
+        "title": "anunt_de_participare",
+        "description": "Anunt de participare"
+      },
+      {
+        "id": "7d9fb890-5d55-40dd-baaa-2e4c5078a949-1542871763705",
+        "documentType": "eligibilityCriteria",
+        "title": "Documentația Standard COP anexa_175",
+        "description": "Documentatia Standard"
+      },
+      {
+        "id": "dafa57db-d572-4ffa-bd09-77a1c0677ee3-1542871764842",
+        "documentType": "eligibilityCriteria",
+        "title": "duae",
+        "description": "DUAE"
       }
-    ]
+    ],
+    "procurementMethodModalities": [
+      "electronicAuction"
+    ],
+    "electronicAuctions": {
+      "details": [
+        {
+          "id": "5a03ec46-8e18-47f6-a019-7804943a2b78",
+          "relatedLot": "57a7d701-ee28-11e8-9848-d104af1f2f79",
+          "auctionPeriod": {
+            "startDate": "2018-12-10T11:00:00Z"
+          },
+          "electronicAuctionModalities": [
+            {
+              "url": "https://eauction.mtender.md/ocds-b3wdp1-MD-1542871097836/57a7d701-ee28-11e8-9848-d104af1f2f79",
+              "eligibleMinimumDifference": {
+                "amount": 258.0,
+                "currency": "MDL"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "auctionPeriod": {
+      "startDate": "2018-12-10T11:00:00Z"
+    }
+  },
+  "planning": {
+    "budget": {
+      "amount": {
+        "amount": 25890.00,
+        "currency": "MDL"
+      },
+      "isEuropeanUnionFunded": false,
+      "budgetBreakdown": [
+        {
+          "id": "ocds-b3wdp1-MD-1542870418567-FS-1542870419242",
+          "amount": {
+            "amount": 25890.00,
+            "currency": "MDL"
+          },
+          "period": {
+            "startDate": "2018-01-01T00:00:00Z",
+            "endDate": "2018-12-31T23:59:59Z"
+          },
+          "sourceParty": {
+            "id": "MD-IDNO-1006601004297",
+            "name": "PENITENCIARUL NR.13 - CHIŞINĂU"
+          }
+        }
+      ]
+    }
   }
 }

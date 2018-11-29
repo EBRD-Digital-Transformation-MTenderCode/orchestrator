@@ -30,6 +30,11 @@ CREATE TABLE IF NOT EXISTS  ocds.orchestrator_context (
     context text,
     primary key(cp_id));
 
+CREATE TABLE IF NOT EXISTS  ocds.orchestrator_check (
+    id text,
+    context text,
+    primary key(id));
+
 CREATE TABLE IF NOT EXISTS  ocds.orchestrator_rules (
     country text,
     pmd text,
