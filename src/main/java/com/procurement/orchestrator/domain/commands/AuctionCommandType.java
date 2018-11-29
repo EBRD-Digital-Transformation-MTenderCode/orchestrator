@@ -10,12 +10,12 @@ import java.util.Map;
 
 public enum AuctionCommandType {
 
-    VALIDATE("validateAuctionDetails"),
     SCHEDULE("scheduleAuctions"),
     START("auctionsStart"),
     END("auctionsEnd"),
-    CANCEL("scheduleAuctions"),
+    CANCEL("auctionsCancellation"),
     LAUNCH("auctionsLaunching");
+
 
     private static final Map<String, AuctionCommandType> CONSTANTS = new HashMap<>();
     private final String value;

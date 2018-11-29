@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.AuctionCommandType.START;
+import static com.procurement.orchestrator.domain.commands.AuctionCommandType.CANCEL;
 
 @Component
 public class AuctionCancel implements JavaDelegate {
@@ -47,8 +47,7 @@ public class AuctionCancel implements JavaDelegate {
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(START, context, jsonUtil.empty());
-        execution.setVariable("isAuctionStarted", false);
+        final JsonNode commandMessage = processService.getCommandMessage(CANCEL, context, jsonUtil.empty());
         context.setIsAuction(false);
         JsonNode responseData = processService.processResponse(
                 auctionRestClient.execute(commandMessage),
