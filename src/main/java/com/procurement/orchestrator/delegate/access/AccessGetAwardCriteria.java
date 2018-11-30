@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.AccessCommandType.GET_LOTS;
+import static com.procurement.orchestrator.domain.commands.AccessCommandType.GET_AWARD_CRITERIA;
 
 @Component
 public class AccessGetAwardCriteria implements JavaDelegate {
@@ -42,10 +42,9 @@ public class AccessGetAwardCriteria implements JavaDelegate {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
-        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(GET_LOTS, context, jsonUtil.empty());
+        final JsonNode commandMessage = processService.getCommandMessage(GET_AWARD_CRITERIA, context, jsonUtil.empty());
         JsonNode responseData = processService.processResponse(
                 accessRestClient.execute(commandMessage),
                 context,
