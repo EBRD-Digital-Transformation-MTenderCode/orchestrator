@@ -40,6 +40,7 @@ public class SaveContractContext implements JavaDelegate {
         context.setPhase("contractProject");
         for (final Outcome outcome : contextOutcomes) {
             if (outcome.getType().equals("ac")) {
+                context.setOcid(outcome.getId());
                 operationService.saveContractContext(outcome.getId(), context);
             }
         }

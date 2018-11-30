@@ -179,7 +179,7 @@ public class RequestServiceImpl implements RequestService {
                                        final String token,
                                        final String process) {
         final Context prevContext = getContext(cpid);
-        if (ocid != null) validateStageFromOcId(cpid, ocid, prevContext);
+        if (ocid != null) validateOcId(cpid, ocid, prevContext);
         final String processType = getProcessType(prevContext.getCountry(), prevContext.getPmd(), process);
         final Rule rule = checkAndGetRule(prevContext, processType);
         final Context context = new Context();
@@ -211,7 +211,7 @@ public class RequestServiceImpl implements RequestService {
                                                final String token,
                                                final String process) {
         final Context prevContext = getContext(ocid);
-        if (ocid != null) validateStageFromOcId(cpid, ocid, prevContext);
+        if (ocid != null) validateContractOcId(cpid, ocid, prevContext);
         final String processType = getProcessType(prevContext.getCountry(), prevContext.getPmd(), process);
         final Rule rule = checkAndGetRule(prevContext, processType);
         final Context context = new Context();
@@ -236,7 +236,35 @@ public class RequestServiceImpl implements RequestService {
         return context;
     }
 
-    private void validateStageFromOcId(final String cpid, final String ocid, final Context prevContext) {
+
+    private void validateContractOcId(final String cpid, final String ocid, final Context prevContext) {
+        String currentStage = null;
+
+        if (!cpid.equals(prevContext.getCpid())) {
+            throw new OperationException("Invalid cpid.");
+        }
+
+        for (final Stage stage : Stage.values()) {
+            if (ocid.contains(stage.value())) {
+                currentStage = stage.value();
+            }
+        }
+
+        final String cpidFromOcid = ocid.substring(0, ocid.indexOf("-" + currentStage + "-"));
+        if (!cpid.equals(cpidFromOcid)) {
+            throw new OperationException("Invalid ocid.");
+        }
+
+        if (currentStage == null) {
+            throw new OperationException("Invalid ocid.");
+        } else {
+            if (!currentStage.equals(prevContext.getStage())) {
+                throw new OperationException("Invalid ocid.");
+            }
+        }
+    }
+
+    private void validateOcId(final String cpid, final String ocid, final Context prevContext) {
         String currentStage = null;
 
         if (!cpid.equals(prevContext.getCpid())) {
