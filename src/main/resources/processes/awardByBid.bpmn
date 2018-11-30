@@ -85,7 +85,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_0ov0xpn" sourceRef="ExclusiveGateway_0jrrnwx" targetRef="SubmissionUpdateBidStatusDetailsTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1vgdvll" sourceRef="SubmissionUpdateBidStatusDetailsTask" targetRef="SubmissionGetConsideredBidTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1vcfucy" sourceRef="SubmissionGetConsideredBidTask" targetRef="StorageOpenDocsOfConsideredBidTask" />
-    <bpmn:serviceTask id="AccessGetAwardCriteriaTask" name="Access Get&#10;Award Criteria" camunda:asyncBefore="true" camunda:delegateExpression="${AccessGetAwardCriteria}">
+    <bpmn:serviceTask id="AccessGetAwardCriteriaTask" name="Access Get&#10;Award Criteria" camunda:asyncBefore="true" camunda:delegateExpression="${accessGetAwardCriteria}">
       <bpmn:incoming>SequenceFlow_0005ood</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0p7c7mf</bpmn:outgoing>
     </bpmn:serviceTask>
