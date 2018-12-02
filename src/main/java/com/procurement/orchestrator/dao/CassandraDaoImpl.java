@@ -23,7 +23,6 @@ import static com.datastax.driver.core.querybuilder.QueryBuilder.*;
 public class CassandraDaoImpl implements CassandraDao {
 
 
-
     private static final String OPERATION_STEP_TABLE = "orchestrator_operation_step";
     private static final String PROCESS_TYPE_TABLE = "orchestrator_process_type";
     private static final String OPERATION_TABLE = "orchestrator_operation";
