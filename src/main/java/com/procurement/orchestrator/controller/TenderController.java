@@ -259,8 +259,8 @@ public class TenderController extends DoBaseController {
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
-    @RequestMapping(value = "/confirmation/{cpid}/{ocid}/{requestID}", method = RequestMethod.POST)
-    public ResponseEntity<String> confirmationAC(@RequestHeader("Authorization") final String authorization,
+    @RequestMapping(value = "/buyer-confirmation/{cpid}/{ocid}/{requestID}", method = RequestMethod.POST)
+    public ResponseEntity<String> buyerSigningAC(@RequestHeader("Authorization") final String authorization,
                                                  @RequestHeader("X-OPERATION-ID") final String operationId,
                                                  @RequestHeader("X-TOKEN") final String token,
                                                  @PathVariable("cpid") final String cpid,
@@ -269,7 +269,7 @@ public class TenderController extends DoBaseController {
                                                  @RequestBody final JsonNode data) {
         requestService.validate(operationId, data);
         final Context context = requestService.getContextForContractUpdate(
-                authorization, operationId, cpid, ocid, token, "signingBySupplierAС");
+                authorization, operationId, cpid, ocid, token, "buyerSigningAC");
         context.setId(requestID);
         requestService.saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
@@ -278,79 +278,23 @@ public class TenderController extends DoBaseController {
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
-//    @RequestMapping(value = "/new-context/{cpid}/{ocid}", method = RequestMethod.POST)
-//    public ResponseEntity<String> newStage(@RequestHeader("Authorization") final String authorization,
-//                                           @RequestHeader("X-OPERATION-ID") final String operationId,
-//                                           @RequestHeader("X-TOKEN") final String token,
-//                                           @PathVariable("cpid") final String cpid,
-//                                           @PathVariable("ocid") final String ocid,
-//                                           @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-//                                           @RequestParam("endDate") final LocalDateTime endDate) {
-//        requestService.validate(operationId, null);
-//        final Context context = requestService.getContextForUpdate(authorization, operationId, cpid, ocid, token, "startNewStage");
-//        context.setEndDate(dateUtil.format(endDate));
-//        requestService.saveRequestAndCheckOperation(context, null);
-//        processService.startProcess(context, new HashMap<>());
-//        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
-//    }
-
-//    @RequestMapping(value = "/awardPeriodEnd/{cpid}", method = RequestMethod.POST)
-//    public ResponseEntity<String> test(@PathVariable("cpid") final String cpid,
-//                                       @RequestHeader("X-TOKEN") final String token) {
-//        final Context prevContext = requestService.getContext(cpid);
-//        final Context context = new Context();
-//        final String uuid = UUIDs.timeBased().toString();
-//        context.setRequestId(uuid);
-//        context.setOperationId(uuid);
-//        context.setProcessType("awardPeriodEnd");
-//        context.setStage("EV");
-//        context.setPrevStage("EV");
-//        context.setPhase("awardedContractPreparation");
-//        context.setOperationType("awardPeriodEndEv");
-//        context.setCountry(prevContext.getCountry());
-//        context.setPmd(prevContext.getPmd());
-//        context.setOwner(prevContext.getOwner());
-//        context.setCpid(prevContext.getCpid());
-//        context.setOcid(prevContext.getOcid());
-//        context.setToken(token);
-//        context.setLanguage(prevContext.getLanguage());
-//        context.setIsAuction(prevContext.getIsAuction());
-//        context.setStartDate(dateUtil.nowFormatted());
-//        requestService.saveRequestAndCheckOperation(context, jsonUtil.empty());
-//        final Map<String, Object> variables = new HashMap<>();
-//        variables.put("operationType", context.getOperationType());
-//        processService.startProcess(context, variables);
-//        return new ResponseEntity<>(uuid, HttpStatus.ACCEPTED);
-//    }
-
-//    @RequestMapping(value = "/auctionPeriodEnd", method = RequestMethod.POST)
-//    public ResponseEntity<String> test(@RequestBody final JsonNode response) {
-//        final JsonNode dataNode = response.get("data");
-//        final String cpid = dataNode.get("tender").get("id").asText();
-//        final Context prevContext = requestService.getContext(cpid);
-//        final Context context = new Context();
-//        final String uuid = UUIDs.timeBased().toString();
-//        context.setRequestId(uuid);
-//        context.setOperationId(uuid);
-//        context.setCountry("MD");
-//        context.setPmd("OT");
-//        context.setProcessType("auctionPeriodEnd");
-//        context.setStage("EV");
-//        context.setPhase("awarding");
-//        context.setOperationType("auctionPeriodEnd");
-//        //JSON parse error
-//        context.setOwner(prevContext.getOwner());
-//        context.setCpid(prevContext.getCpid());
-//        context.setOcid(prevContext.getOcid());
-//        context.setToken(prevContext.getToken());
-//        context.setLanguage(prevContext.getLanguage());
-//        context.setIsAuction(prevContext.getIsAuction());
-//        context.setStartDate(dateUtil.nowFormatted());
-//        requestService.saveRequestAndCheckOperation(context, dataNode);
-//        final Map<String, Object> variables = new HashMap<>();
-//        variables.put("operationType", context.getOperationType());
-//        processService.startProcess(context, variables);
-//        return new ResponseEntity<>(dataNode.toString(), HttpStatus.ACCEPTED);
-//    }
+    @RequestMapping(value = "/supplier-confirmation/{cpid}/{ocid}/{requestID}", method = RequestMethod.POST)
+    public ResponseEntity<String> supplierSigningAC(@RequestHeader("Authorization") final String authorization,
+                                                    @RequestHeader("X-OPERATION-ID") final String operationId,
+                                                    @RequestHeader("X-TOKEN") final String token,
+                                                    @PathVariable("cpid") final String cpid,
+                                                    @PathVariable("ocid") final String ocid,
+                                                    @PathVariable("requestID") final String requestID,
+                                                    @RequestBody final JsonNode data) {
+        requestService.validate(operationId, data);
+        final Context context = requestService.getContextForContractUpdate(
+                authorization, operationId, cpid, ocid, token, "supplierSigningAC");
+        context.setId(requestID);
+        requestService.saveRequestAndCheckOperation(context, data);
+        final Map<String, Object> variables = new HashMap<>();
+        variables.put("operationType", context.getOperationType());
+        processService.startProcess(context, variables);
+        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
+    }
 
 }
