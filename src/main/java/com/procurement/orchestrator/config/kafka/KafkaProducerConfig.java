@@ -29,6 +29,7 @@ public class KafkaProducerConfig {
     private Map<String, Object> internalProducerConfigs() {
         final Map<String, Object> internalProps = new HashMap<>();
         internalProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getInternalBootstrap());
+        internalProps.put(ProducerConfig.RETRIES_CONFIG, kafkaProperties.getRetries());
         internalProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         internalProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         return internalProps;
