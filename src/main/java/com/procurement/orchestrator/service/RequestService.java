@@ -46,4 +46,7 @@ public interface RequestService {
                                         String ocid,
                                         String token,
                                         String process);
+
+    Context checkRulesAndProcessContext(Context prevContext, String processType, String requestId);
+
 }

@@ -236,6 +236,30 @@ public class RequestServiceImpl implements RequestService {
         return context;
     }
 
+    @Override
+    public Context checkRulesAndProcessContext(final Context prevContext,
+                                               final String processType,
+                                               final String requestId) {
+        final Context context = new Context();
+        final Rule rules = checkAndGetRule(prevContext, processType);
+        context.setRequestId(requestId);
+        context.setOperationId(requestId);
+        context.setCountry(rules.getCountry());
+        context.setPmd(rules.getPmd());
+        context.setProcessType(rules.getProcessType());
+        context.setStage(rules.getNewStage());
+        context.setPhase(rules.getNewPhase());
+        context.setOperationType(rules.getOperationType());
+        context.setOwner(prevContext.getOwner());
+        context.setCpid(prevContext.getCpid());
+        context.setOcid(prevContext.getOcid());
+        context.setToken(prevContext.getToken());
+        context.setLanguage(prevContext.getLanguage());
+        context.setIsAuction(prevContext.getIsAuction());
+        context.setAwardCriteria(prevContext.getAwardCriteria());
+        context.setStartDate(dateUtil.nowFormatted());
+        return context;
+    }
 
     private void validateContractOcId(final String cpid, final String ocid, final Context prevContext) {
         String currentStage = null;

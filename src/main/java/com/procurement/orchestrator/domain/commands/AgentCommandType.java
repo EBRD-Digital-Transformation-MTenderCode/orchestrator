@@ -10,7 +10,8 @@ import java.util.Map;
 
 public enum AgentCommandType {
 
-    AC_VERIFICATION("AcVerification");
+    VERIFICATION("VerificationAc"),
+    TREASURY_APPROVING("treasuryApprovingAc");
 
     private static final Map<String, AgentCommandType> CONSTANTS = new HashMap<>();
     private final String value;
