@@ -49,7 +49,7 @@ public class ContractingBuyerSigning implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(BUYER_SIGNING_AC, context, jsonUtil.empty());
+        final JsonNode commandMessage = processService.getCommandMessage(BUYER_SIGNING_AC, context, jsonData);
         JsonNode responseData = processService.processResponse(
                 contractingRestClient.execute(commandMessage),
                 context,
@@ -61,7 +61,8 @@ public class ContractingBuyerSigning implements JavaDelegate {
                     execution,
                     entity,
                     context,
-                    commandMessage);
+                    commandMessage,
+                    responseData);
         }
     }
 }

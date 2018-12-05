@@ -1,469 +1,117 @@
 {
   "planning": {
-    "implementation": {
-      "transactions": [
-        {
-          "id": "144",
-          "type": "advance",
-          "value": {
-            "amount": 2000,
-            "currency": "MDL"
-          },
-          "executionPeriod": {
-            "durationInDays": "10"
-          },
-          "relatedContractMilestone": "approval-3"
-        }
-      ]
-    },
     "budget": {
-      "description": "описание",
-      "budgetAllocation": [
+      "budgetBreakdown": [
         {
-          "budgetBreakdownID": "ocds-t1s2t3-MD-1543917297687-FS-1543917367238",
-          "period": {
-            "startDate": "2018-11-30T00:00:00Z",
-            "endDate": "2018-11-30T23:00:00Z"
-          },
-          "amount": 1200,
-          "relatedItem": "401e71a1-f7ad-11e8-924d-09fdb0fd6a88"
-        }
-      ],
-      "budgetSource": [
-        {
-          "budgetBreakdownID": "ocds-t1s2t3-MD-1543917297687-FS-1543917367238",
-          "amount": 500,
-          "currency": "MDL"
+          "id": "ocds-t1s2t3-MD-1543850558633-FS-1544008297405",
+          "amount": {
+            "amount": 100.00,
+            "currency": "MDL"
+          }
         }
       ]
     }
   },
-  "contract": {
-    "title": "title",
-    "description": "description",
-    "period": {
-      "startDate": "2018-11-25T00:00:00Z",
-      "endDate": "2018-11-26T00:00:00Z"
+  "tender": {
+    "title": "TITLE",
+    "description": "dited in 20 sec",
+    "legalBasis": "NATIONAL_PROCUREMENT_LAW",
+    "tenderPeriod": {
+      "endDate": "2018-12-05T11:24:00Z"
     },
-    "milestones": [
-      {
-        "id": "approval-re1atedparties.id",
-        "type": "approval",
-        "relatedItems": [
-          "401e71a1-f7ad-11e8-924d-09fdb0fd6a88"
-        ],
-        "additionalInformation": "дополнительная информация",
-        "dueDate": "2018-12-15T00:00:00Z",
-        "title": "title",
-        "description": "description"
-      }
-    ],
-    "confirmationRequests": [
-      {
-        "id": "cs-tenderer-confirmation-on-document.id",
-        "relatedItem": "fa369197-e2f5-4180-834f-073f3e4b4821-1543921570413",
-        "source": "tenderer"
-      }
-    ],
-    "agreedMetrics": [
-      {
-        "id": "cc-general",
-        "title": "General Responsibilities",
-        "description": "Contract conditions governing the general responsibilities related to both: CA and EO",
-        "observations": [
-          {
-            "id": "cc-general-1-1",
-            "notes": "Maximum days to inform on invoking Force Majeure",
-            "measure": 5
-          },
-          {
-            "id": "cc-general-1-2",
-            "notes": "Maximum days to inform on invoking Force Majeure",
-            "measure": 5
-          },
-          {
-            "id": "cc-general-1-3",
-            "notes": "Maximum days to inform on invoking Force Majeure",
-            "measure": 5
-          }
-        ]
-      },
-      {
-        "id": "cc-tenderer-1",
-        "title": "Garanție de executare",
-        "description": "Contract conditions governing the general responsibilities related to both: CA and EO",
-        "observations": [
-          {
-            "id": "cc-tenderer-1-1",
-            "notes": "Maximum days to inform on invoking Force Majeure",
-            "measure": 5
-          },
-          {
-            "id": "cc-tenderer-1-2",
-            "notes": "Maximum days to inform on invoking Force Majeure",
-            "measure": 5
-          }
-        ]
-      },
-      {
-        "id": "cc-tenderer-2",
-        "title": "General Responsibilities",
-        "description": "Contract conditions governing the general responsibilities related to both: CA and EO",
-        "observations": [
-          {
-            "id": "cc-tenerer-2-1",
-            "notes": "Maximum days to inform on invoking Force Majeure",
-            "measure": 5
-          },
-          {
-            "id": "cc-tenerer-2-2",
-            "notes": "Maximum days to inform on invoking Force Majeure",
-            "measure": 5
-          },
-          {
-            "id": "cc-tenerer-2-3",
-            "notes": "Maximum days to inform on invoking Force Majeure",
-            "measure": 5
-          },
-          {
-            "id": "cc-tenerer-2-4",
-            "notes": "Maximum days to inform on invoking Force Majeure",
-            "measure": 5
-          }
-        ]
-      },
-      {
-        "id": "cc-tenderer-3",
-        "title": "General Responsibilities",
-        "description": "Contract conditions governing the general responsibilities related to both: CA and EO",
-        "observations": [
-          {
-            "id": "cc-tenerer-3-1",
-            "notes": "Maximum days to inform on invoking Force Majeure",
-            "measure": 5
-          },
-          {
-            "id": "cc-tenerer-3-2",
-            "notes": "Maximum days to inform on invoking Force Majeure",
-            "measure": 5
-          },
-          {
-            "id": "cc-tenerer-3-3",
-            "notes": "Maximum days to inform on invoking Force Majeure",
-            "measure": 5
-          }
-        ]
-      },
-      {
-        "id": "cc-buyer-1",
-        "title": "Pelmeni",
-        "description": "Contract conditions governing the general responsibilities related to both: CA and EO",
-        "observations": [
-          {
-            "id": "cc-buyer-1-1",
-            "notes": "Maximum days to inform on invoking Force Majeure",
-            "measure": 5
-          }
-        ]
-      },
-      {
-        "id": "cc-buyer-2",
-        "title": "Pelmeni",
-        "description": "Contract conditions governing the general responsibilities related to both: CA and EO",
-        "observations": [
-          {
-            "id": "cc-buyer-2-1",
-            "notes": "Maximum days to inform on invoking Force Majeure",
-            "measure": 5
-          },
-          {
-            "id": "cc-buyer-2-2",
-            "notes": "Maximum days to inform on invoking Force Majeure",
-            "measure": 5
-          }
-        ]
-      },
-      {
-        "id": "cc-subject-e08c8af1-f7ad-11e8-a594-5d02d1e70482-401e71a1-f7ad-11e8-924d-09fdb0fd6a88",
-        "title": "General Responsibilities",
-        "description": "Contract conditions governing the general responsibilities related to both: CA and EO",
-        "observations": [
-          {
-            "id": "cc-subject-1",
-            "notes": "productiva",
-            "measure": 5
-          },
-          {
-            "id": "cc-subject-2",
-            "notes": "Maximum days to inform on invoking Force Majeure",
-            "measure": 5
-          },
-          {
-            "id": "cc-subject-3",
-            "notes": "Maximum days to inform on invoking Force Majeure",
-            "measure": 5
-          },
-          {
-            "id": "cc-subject-4",
-            "notes": "Maximum days to inform on invoking Force Majeure",
-            "measure": 5
-          },
-          {
-            "id": "cc-subject-5",
-            "notes": "Maximum days to inform on invoking Force Majeure",
-            "measure": 5
-          }
-        ]
-      }
-    ]
-  },
-  "awards": {
-    "id": "e08c8af1-f7ad-11e8-a594-5d02d1e70482",
-    "suppliers": [
-      {
-        "id": "MD-IDNO-1-6",
-        "additionalIdentifiers": [
-          {
-            "scheme": "MD-SRJE",
-            "id": "123",
-            "legalName": "987",
-            "uri": "456"
-          }
-        ],
-        "persones": [
-          {
-            "title": "sss",
-            "name": "qwerty",
-            "identifier": {
-              "scheme": "MD-IDNO",
-              "id": "95-78-52",
-              "uri": "URL*"
-            },
-            "businessFunctions": [
-              {
-                "id": "456951",
-                "type": "authority",
-                "jobTitle": "Chief Executive Officer",
-                "period": {
-                  "startDate": "2018-12-15T00:00:00Z"
-                },
-                "documents": [
-                  {
-                    "id": "cdd3485f-6301-494f-bac0-063cabf05861-1543925453254",
-                    "documentType": "regulatoryDocument",
-                    "title": "PRIVET_MEDVED"
-                  }
-                ]
-              }
-            ]
-          }
-        ],
-        "details": {
-          "typeOfSupplier": "supplier",
-          "mainEconomicActivity": [
-            "456-95"
-          ],
-          "scale": "sme",
-          "permits": [
-            {
-              "scheme": "SRLE",
-              "id": "45621",
-              "url": "4",
-              "permit": {
-                "issuedBy": {
-                  "id": "popopo",
-                  "name": "vasia pupkin"
-                },
-                "issuedThought": {
-                  "id": "95874",
-                  "name": "name"
-                },
-                "validityPeriod": {
-                  "startDate": "2018-12-05T00:00:00Z",
-                  "endDate": "2018-12-06T00:00:00Z"
-                }
-              }
-            }
-          ],
-          "bankAccounts": [
-            {
-              "description": "description",
-              "bankName": "bankName",
-              "address": {
-                "streetAddress": "Steet",
-                "postalCode": "5",
-                "addressDetails": {
-                  "country": {
-                    "scheme": "iso",
-                    "id": "MD",
-                    "description": "",
-                    "uri": ""
-                  },
-                  "region": {
-                    "scheme": "1",
-                    "id": "0301000",
-                    "description": "1",
-                    "uri": "1"
-                  },
-                  "locality": {
-                    "scheme": "CUATM",
-                    "id": "0301000",
-                    "description": ""
-                  }
-                }
-              },
-              "identifier": {
-                "scheme": "UA-MFO",
-                "id": "300711"
-              },
-              "accountIdentification": {
-                "scheme": "IBAN",
-                "id": "2600000625637"
-              },
-              "additionalAccountIdentifiers": [
-                {
-                  "scheme": "settlement",
-                  "id": "458-9652"
-                }
-              ]
-            }
-          ],
-          "legalForm": {
-            "scheme": "MD-IDNO",
-            "id": "4592",
-            "description": "description",
-            "uri": "uri"
-          }
-        }
-      }
-    ],
-    "documents": [
-      {
-        "documentType": "contractDraft",
-        "id": "41d7e728-1b7d-42ae-bfb3-fc11e5c78e98-1543926352546"
-      }
-    ],
-    "value": {
-      "amount": 550,
-      "currency": "MDL",
-      "amountNet": 500,
-      "valueAddedTaxincluded": true
+    "enquiryPeriod": {
+      "endDate": "2018-12-05T11:18:00Z"
     },
-    "items": [
-      {
-        "id": "401e71a1-f7ad-11e8-924d-09fdb0fd6a88",
-        "quantity": 10,
-        "unit": {
-          "value": {
-            "amount": 550,
-            "amountNet": 500,
-            "valueAddedTaxIncluded": true,
-            "currency": "MDL"
-          }
-        },
-        "deliveryAddress": {
-          "streetAddress": "street",
-          "postalCode": "45900",
-          "addressDetails": {
-            "country": {
-              "id": "MD"
-            },
-            "region": {
-              "id": "0301000"
-            },
-            "locality": {
-              "scheme": "UN/LOCDE",
-              "id": "450020",
-              "description": "Dnipro"
-            }
-          }
-        }
-      }
-    ]
-  },
-  "buyer": {
-    "id": "MD-IDNO-354-37-1072",
-    "additionalIdentifiers": [
-      {
+    "procuringEntity": {
+      "name": "Name of CN pE",
+      "identifier": {
         "scheme": "MD-IDNO",
-        "id": "4569512357",
-        "legalName": "LN",
-        "uri": "uri"
-      }
-    ],
-    "persones": [
-      {
-        "title": "title",
-        "name": "name",
-        "identifier": {
-          "scheme": "MD-IDNO",
-          "id": "4569123",
-          "uri": "uri"
-        },
-        "businessFunctions": [
-          {
-            "id": "456921",
-            "type": "authority",
-            "jobTitle": "Chief Executive Officer",
-            "period": {
-              "startDate": "2018-11-20T00:00:00Z"
-            },
-            "documents": [
-              {
-                "id": "a58b5e64-e338-4b20-a2c1-3650b220489c-1542127310613",
-                "documentType": "regulatoryDocument"
-              }
-            ]
+        "id": "555-555",
+        "legalName": "legal name of pe",
+        "uri": "123"
+      },
+      "address": {
+        "streetAddress": "address of pe",
+        "addressDetails": {
+          "country": {
+            "id": "MD"
+          },
+          "region": {
+            "id": "0101000"
+          },
+          "locality": {
+            "scheme": "CUATM",
+            "id": "0101000",
+            "description": "DESCRIPTION"
           }
-        ]
+        }
+      },
+      "contactPoint": {
+        "name": "contact name",
+        "email": "email",
+        "telephone": "4521",
+        "faxNumber": "123-45-95",
+        "uri": "uriririri"
       }
-    ],
-    "details": {
-      "typeOfBuyer": "producer",
-      "mainGeneralActivity": "1",
-      "mainSectoralActivity": "2",
-      "bankAccounts": [
-        {
-          "description": "32dfgv",
-          "bankName": "MBank",
+    },
+    "lots": [
+      {
+        "id": "1",
+        "title": "lot2",
+        "description": "2",
+        "value": {
+          "amount": 70,
+          "currency": "MDL"
+        },
+        "contractPeriod": {
+          "startDate": "2018-12-30T00:01:01Z",
+          "endDate": "2019-02-01T00:00:00Z"
+        },
+        "placeOfPerformance": {
           "address": {
-            "streetAddress": "address of pe",
+            "streetAddress": "Steet",
+            "postalCode": "5",
             "addressDetails": {
               "country": {
                 "id": "MD"
               },
               "region": {
-                "id": "0101000"
+                "id": "0301000"
               },
               "locality": {
                 "scheme": "CUATM",
-                "id": "0101000",
-                "description": "DESCRIPTION"
+                "id": "0301000",
+                "description": ""
               }
             }
-          },
-          "identifier": {
-            "scheme": "MD-BANKS",
-            "id": "300711"
-          },
-          "accountIdentification": {
-            "scheme": "MD-IBAN",
-            "id": "2600000625637"
-          },
-          "additionalAccountIdentifiers": [
-            {
-              "scheme": "MD-SETTLEMENT",
-              "id": "123"
-            }
-          ]
+          }
         }
-      ],
-      "legalForm": {
-        "scheme": "MD-IDNO",
-        "id": "654",
-        "description": "ddd",
-        "uri": "ddd"
       }
-    }
+    ],
+    "items": [
+      {
+        "description": "tratata",
+        "id": "fed8e3a0-f42e-11e8-90cf-d3b5e2c379b3",
+        "classification": {
+          "scheme": "CPV",
+          "description": "4",
+          "id": "45100000-8"
+        },
+        "quantity": 150,
+        "unit": {
+          "id": "120",
+          "name": "name"
+        },
+        "relatedLot": "1"
+      }
+    ],
+    "documents": [
+      {
+        "id": "204884ca-d710-443c-8d7a-c7b7d1c95e11-1544008431011",
+        "documentType": "hearingNotice",
+        "title": "document title changed",
+        "description": "descr changed"
+      }
+    ]
   }
 }

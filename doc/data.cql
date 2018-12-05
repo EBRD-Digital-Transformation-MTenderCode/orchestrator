@@ -132,8 +132,8 @@ INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_ph
 INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','OT','updateAC','AC','contractPreparation','contractPreparation','AC','updateAC');
 INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','OT','issuingAC','AC','contractPreparation','contractIssuing','AC','issuingAC');
 INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','OT','finalUpdateAC','AC','contractIssuing','approvement','AC','finalUpdateAC');
-INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','OT','buyerSigningAC','AC','approvement','approvement','AC','buyerSigningAC');
-INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','OT','supplierSigningAC','AC','approvement','approvement','AC','supplierSigningAC');
+INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','OT','buyerSigningAC','AC','approvement','approvedContract','AC','buyerSigningAC');
+INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','OT','supplierSigningAC','AC','approvedContract','signedContract','AC','supplierSigningAC');
 
 INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','createPN','PN','planning','planning','PN','createPN');
 INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','updatePN','PN','planning','planning','PN','updatePN');
@@ -158,12 +158,18 @@ INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_ph
 INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','updateBidDocs','EV','awardedStandstill','awardedStandstill','EV','updateBidDocs');
 INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','updateBidDocs','EV','awardedContractPreparation','awardedContractPreparation','EV','updateBidDocs');
 INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','awardPeriodEnd','EV','awarding','awardedStandstill','EV','awardPeriodEndEv');
+//INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','updateAC','AC','contractProject','contractPreparation','AC','updateAC');
+//INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','updateAC','AC','contractPreparation','contractPreparation','AC','updateAC');
+//INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','issuingAC','AC','contractPreparation','contractIssuing','AC','issuingAC');
+//INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','finalUpdateAC','AC','contractIssuing','approvement','AC','finalUpdateAC');
+//INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','buyerSigningAC','AC','approvement','approvedContract','AC','buyerSigningAC');
+//INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','supplierSigningAC','AC','approvedContract','signedContract','AC','supplierSigningAC');
 INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','updateAC','AC','contractProject','contractPreparation','AC','updateAC');
 INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','updateAC','AC','contractPreparation','contractPreparation','AC','updateAC');
-INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','issuingAC','AC','contractPreparation','contractIssuing','AC','issuingAC');
-INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','finalUpdateAC','AC','contractIssuing','approvement','AC','finalUpdateAC');
-INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','buyerSigningAC','AC','approvement','approvement','AC','buyerSigningAC');
-INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','supplierSigningAC','AC','approvement','approvement','AC','supplierSigningAC');
+INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','issuingAC','AC','contractPreparation','contractPreparation','AC','issuingAC');
+INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','finalUpdateAC','AC','contractPreparation','contractPreparation','AC','finalUpdateAC');
+INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','buyerSigningAC','AC','contractPreparation','contractPreparation','AC','buyerSigningAC');
+INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OT','supplierSigningAC','AC','contractPreparation','contractPreparation','AC','supplierSigningAC');
 
 
 INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','SV','createEI','ei');
@@ -188,6 +194,8 @@ INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type)
 INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','SV','updateBidDocs','updateBidDocs');
 INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','SV','issuingAC','issuingAC');
 INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','SV','finalUpdateAC','finalUpdateAC');
+INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','SV','buyerSigningAC','buyerSigningAC');
+INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','SV','supplierSigningAC','supplierSigningAC');
 
 INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_SV','createEI','ei');
 INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_SV','updateEI','ei');
@@ -211,6 +219,8 @@ INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type)
 INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_SV','updateBidDocs','updateBidDocs');
 INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_SV','issuingAC','issuingAC');
 INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_SV','finalUpdateAC','finalUpdateAC');
+INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_SV','buyerSigningAC','buyerSigningAC');
+INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_SV','supplierSigningAC','supplierSigningAC');
 
 INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','SV','createPN','PN','planning','planning','PN','createPN');
 INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','SV','updatePN','PN','planning','planning','PN','updatePN');
@@ -239,6 +249,10 @@ INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_ph
 INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','SV','updateAC','AC','contractPreparation','contractPreparation','AC','updateAC');
 INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','SV','issuingAC','AC','contractPreparation','contractIssuing','AC','issuingAC');
 INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','SV','finalUpdateAC','AC','contractIssuing','approvement','AC','finalUpdateAC');
+INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','SV','buyerSigningAC','AC','approvement','approvedContract','AC','buyerSigningAC');
+INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','SV','supplierSigningAC','AC','approvedContract','signedContract','AC','supplierSigningAC');
+
+
 
 INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_SV','createPN','PN','planning','planning','PN','createPN');
 INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_SV','updatePN','PN','planning','planning','PN','updatePN');
@@ -267,3 +281,5 @@ INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_ph
 INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_SV','updateAC','AC','contractPreparation','contractPreparation','AC','updateAC');
 INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_SV','issuingAC','AC','contractPreparation','contractIssuing','AC','issuingAC');
 INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_SV','finalUpdateAC','AC','contractIssuing','approvement','AC','finalUpdateAC');
+INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_SV','buyerSigningAC','AC','approvement','approvedContract','AC','buyerSigningAC');
+INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_SV','supplierSigningAC','AC','approvedContract','signedContract','AC','supplierSigningAC');
