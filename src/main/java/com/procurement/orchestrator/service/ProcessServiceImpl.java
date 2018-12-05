@@ -729,7 +729,11 @@ public class ProcessServiceImpl implements ProcessService {
                     }
                 }
             }
-            return mainNode;
+            if (documentsArray.get(0).get("id") == null) {
+                return null;
+            } else {
+                return mainNode;
+            }
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
             return null;
