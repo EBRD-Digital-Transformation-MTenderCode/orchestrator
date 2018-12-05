@@ -1,117 +1,16 @@
 {
-  "planning": {
-    "budget": {
-      "budgetBreakdown": [
+  "confirmationResponse": {
+    "value": {
+      "id": "GB-GOV-12345678",
+      "date": "",
+      "relatedPerson": {
+        "id": ""
+      },
+      "verification": [
         {
-          "id": "ocds-t1s2t3-MD-1543850558633-FS-1544008297405",
-          "amount": {
-            "amount": 100.00,
-            "currency": "MDL"
-          }
+          "value": ""
         }
       ]
     }
-  },
-  "tender": {
-    "title": "TITLE",
-    "description": "dited in 20 sec",
-    "legalBasis": "NATIONAL_PROCUREMENT_LAW",
-    "tenderPeriod": {
-      "endDate": "2018-12-05T11:24:00Z"
-    },
-    "enquiryPeriod": {
-      "endDate": "2018-12-05T11:18:00Z"
-    },
-    "procuringEntity": {
-      "name": "Name of CN pE",
-      "identifier": {
-        "scheme": "MD-IDNO",
-        "id": "555-555",
-        "legalName": "legal name of pe",
-        "uri": "123"
-      },
-      "address": {
-        "streetAddress": "address of pe",
-        "addressDetails": {
-          "country": {
-            "id": "MD"
-          },
-          "region": {
-            "id": "0101000"
-          },
-          "locality": {
-            "scheme": "CUATM",
-            "id": "0101000",
-            "description": "DESCRIPTION"
-          }
-        }
-      },
-      "contactPoint": {
-        "name": "contact name",
-        "email": "email",
-        "telephone": "4521",
-        "faxNumber": "123-45-95",
-        "uri": "uriririri"
-      }
-    },
-    "lots": [
-      {
-        "id": "1",
-        "title": "lot2",
-        "description": "2",
-        "value": {
-          "amount": 70,
-          "currency": "MDL"
-        },
-        "contractPeriod": {
-          "startDate": "2018-12-30T00:01:01Z",
-          "endDate": "2019-02-01T00:00:00Z"
-        },
-        "placeOfPerformance": {
-          "address": {
-            "streetAddress": "Steet",
-            "postalCode": "5",
-            "addressDetails": {
-              "country": {
-                "id": "MD"
-              },
-              "region": {
-                "id": "0301000"
-              },
-              "locality": {
-                "scheme": "CUATM",
-                "id": "0301000",
-                "description": ""
-              }
-            }
-          }
-        }
-      }
-    ],
-    "items": [
-      {
-        "description": "tratata",
-        "id": "fed8e3a0-f42e-11e8-90cf-d3b5e2c379b3",
-        "classification": {
-          "scheme": "CPV",
-          "description": "4",
-          "id": "45100000-8"
-        },
-        "quantity": 150,
-        "unit": {
-          "id": "120",
-          "name": "name"
-        },
-        "relatedLot": "1"
-      }
-    ],
-    "documents": [
-      {
-        "id": "204884ca-d710-443c-8d7a-c7b7d1c95e11-1544008431011",
-        "documentType": "hearingNotice",
-        "title": "document title changed",
-        "description": "descr changed"
-      }
-    ]
   }
 }

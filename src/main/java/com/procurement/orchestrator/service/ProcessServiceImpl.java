@@ -880,8 +880,10 @@ public class ProcessServiceImpl implements ProcessService {
             final ArrayNode verificationNode = (ArrayNode) jsonData.get("confirmationResponse").get("value").get("verification");
             if (verificationNode != null && verificationNode.size() > 0) {
                 final String value = verificationNode.get(0).get("value").asText();
-                documentNode.put("id", value);
-                documentsArray.add(documentNode);
+                if (!value.isEmpty()) {
+                    documentNode.put("id", value);
+                    documentsArray.add(documentNode);
+                }
             }
             return mainNode;
         } catch (Exception e) {
