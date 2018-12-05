@@ -883,6 +883,8 @@ public class ProcessServiceImpl implements ProcessService {
                 if (!value.isEmpty()) {
                     documentNode.put("id", value);
                     documentsArray.add(documentNode);
+                } else {
+                    return null;
                 }
             }
             return mainNode;

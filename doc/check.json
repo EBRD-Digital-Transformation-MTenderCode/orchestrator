@@ -14,3 +14,25 @@
     }
   }
 }
+
+{
+  "operationId": "98d49d3c-68c6-11e8-adc0-fa7ae01b2949",
+  "requestId": "e8f52450-f897-11e8-8a4d-73584a5ebb93",
+  "cpid": "ocds-t1s2t3-MD-1544013778012",
+  "ocid": "ocds-t1s2t3-MD-1544013778012-AC-1542925928778",
+  "stage": "AC",
+  "prevStage": "AC",
+  "processType": "buyerSigningAC",
+  "operationType": "buyerSigningAC",
+  "phase": "contractPreparation",
+  "owner": "445f6851-c908-407d-9b45-14b92f3e964b",
+  "country": "MD",
+  "language": "ro",
+  "pmd": "TEST_OT",
+  "token": "cde7c605-847b-48c4-8029-5f0bd15b889f",
+  "startDate": "2018-12-05T14:13:16Z",
+  "id": "cs-buyer-confirmation-on-c4e90963-deed-4bf4-92cc-e43bee8cd879-1544015688695-4569123",
+  "timeStamp": 1544019196693,
+  "isAuction": false,
+  "awardCriteria": "priceOnly"
+}
