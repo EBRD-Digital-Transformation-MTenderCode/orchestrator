@@ -53,7 +53,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_00bzyqn" sourceRef="SendMessageToAgentTask" targetRef="NoticeCreateReleaseTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1620t1r" sourceRef="NoticeCreateReleaseTask" targetRef="SaveContractUpdateContextTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0hgjqc6" sourceRef="SaveContractUpdateContextTask" targetRef="SendMessageToPlatformTask" />
-    <bpmn:serviceTask id="ContractingGetBidIdTask" name="Contracting Get Bid Id" camunda:asyncBefore="true" camunda:delegateExpression="${ContractingGetRelatedBidId}">
+    <bpmn:serviceTask id="ContractingGetBidIdTask" name="Contracting Get Bid Id" camunda:asyncBefore="true" camunda:delegateExpression="${contractingGetRelatedBidId}">
       <bpmn:incoming>SequenceFlow_1cdqy0k</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1nlnb4r</bpmn:outgoing>
     </bpmn:serviceTask>
