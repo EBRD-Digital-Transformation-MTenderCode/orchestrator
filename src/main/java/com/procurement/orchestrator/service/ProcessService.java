@@ -225,8 +225,8 @@ public interface ProcessService {
 
     JsonNode getTreasuryValidationData(JsonNode jsonData, String processId);
 
-    JsonNode setActivationContract(JsonNode jsonData,JsonNode responseData,String processId);
+    JsonNode setActivationContract(JsonNode jsonData, JsonNode responseData, String processId);
 
-    JsonNode setTenderAndLot(JsonNode jsonData,JsonNode responseData,String processId);
+    JsonNode setTenderAndLot(JsonNode jsonData, JsonNode responseData, String processId);
 }
 

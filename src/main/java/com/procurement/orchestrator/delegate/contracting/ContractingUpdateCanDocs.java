@@ -8,14 +8,14 @@ import com.procurement.orchestrator.service.NotificationService;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
-import java.util.Objects;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import static com.procurement.orchestrator.domain.commands.ContractingCommandType.UPDATE_AC;
+import java.util.Objects;
+
 import static com.procurement.orchestrator.domain.commands.ContractingCommandType.UPDATE_CAN_DOCS;
 
 @Component

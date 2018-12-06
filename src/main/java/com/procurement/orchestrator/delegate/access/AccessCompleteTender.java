@@ -7,12 +7,13 @@ import com.procurement.orchestrator.rest.AccessRestClient;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
-import java.util.Objects;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+
+import java.util.Objects;
 
 import static com.procurement.orchestrator.domain.commands.AccessCommandType.COMPLETE_TENDER;
 
@@ -53,8 +54,8 @@ public class AccessCompleteTender implements JavaDelegate {
                     taskId,
                     commandMessage);
 
-                if (Objects.nonNull(responseData)) {
-                    operationService.saveOperationStep(
+            if (Objects.nonNull(responseData)) {
+                operationService.saveOperationStep(
                         execution,
                         entity,
                         commandMessage,
