@@ -748,7 +748,7 @@ public class ProcessServiceImpl implements ProcessService {
                     }
                 }
             }
-            if (documentsArray.get(0).get("id") == null) {
+            if (documentsArray.get(0) == null) {
                 return null;
             } else {
                 return mainNode;
