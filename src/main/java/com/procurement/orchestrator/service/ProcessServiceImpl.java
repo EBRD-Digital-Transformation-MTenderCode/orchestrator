@@ -729,11 +729,7 @@ public class ProcessServiceImpl implements ProcessService {
                     }
                 }
             }
-            if (documentsArray.get(0).get("id") == null) {
-                return null;
-            } else {
-                return mainNode;
-            }
+            return mainNode;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
             return null;
@@ -744,11 +740,19 @@ public class ProcessServiceImpl implements ProcessService {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
             final ArrayNode documentsArray = mainNode.putArray("documents");
-            final ArrayNode docsOfAwardNode = (ArrayNode) jsonData.get("contract").get("documents");
-            if (docsOfAwardNode != null && docsOfAwardNode.size() > 0) {
-                documentsArray.addAll(docsOfAwardNode);
+            final ArrayNode docsNode = (ArrayNode) jsonData.get("contract").get("documents");
+            if (docsNode != null && docsNode.size() > 0) {
+                for (final JsonNode docNode : docsNode) {
+                    if (docNode.get("id") != null && !docNode.get("id").asText().isEmpty()) {
+                        documentsArray.add(docNode);
+                    }
+                }
             }
-            return mainNode;
+            if (documentsArray.get(0).get("id") == null) {
+                return null;
+            } else {
+                return mainNode;
+            }
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
             return null;
