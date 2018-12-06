@@ -8,20 +8,20 @@ import com.procurement.orchestrator.service.NotificationService;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
+import java.util.Objects;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.util.Objects;
-
-import static com.procurement.orchestrator.domain.commands.ContractingCommandType.ACTIVATION_AC;
+import static com.procurement.orchestrator.domain.commands.ContractingCommandType.UPDATE_AC;
+import static com.procurement.orchestrator.domain.commands.ContractingCommandType.UPDATE_CAN_DOCS;
 
 @Component
-public class ContractingActivation implements JavaDelegate {
+public class ContractingUpdateCanDocs implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ContractingActivation.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ContractingUpdateCanDocs.class);
 
     private final ContractingRestClient contractingRestClient;
     private final NotificationService notificationService;
@@ -29,11 +29,11 @@ public class ContractingActivation implements JavaDelegate {
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public ContractingActivation(final ContractingRestClient contractingRestClient,
-                                 final NotificationService notificationService,
-                                 final OperationService operationService,
-                                 final ProcessService processService,
-                                 final JsonUtil jsonUtil) {
+    public ContractingUpdateCanDocs(final ContractingRestClient contractingRestClient,
+                                    final NotificationService notificationService,
+                                    final OperationService operationService,
+                                    final ProcessService processService,
+                                    final JsonUtil jsonUtil) {
         this.contractingRestClient = contractingRestClient;
         this.notificationService = notificationService;
         this.operationService = operationService;
@@ -49,7 +49,7 @@ public class ContractingActivation implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(ACTIVATION_AC, context, jsonUtil.empty());
+        final JsonNode commandMessage = processService.getCommandMessage(UPDATE_CAN_DOCS, context, jsonData);
         JsonNode responseData = processService.processResponse(
                 contractingRestClient.execute(commandMessage),
                 context,
@@ -62,7 +62,7 @@ public class ContractingActivation implements JavaDelegate {
                     entity,
                     context,
                     commandMessage,
-                    processService.setActivationContract(jsonData, responseData, processId));
+                    processService.setContractUpdateData(jsonData, responseData, processId));
         }
     }
 

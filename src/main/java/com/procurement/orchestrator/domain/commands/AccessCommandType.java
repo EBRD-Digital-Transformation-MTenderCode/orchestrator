@@ -18,7 +18,7 @@ public enum AccessCommandType {
     CREATE_PIN_ON_PN("createPinOnPn"),
     CREATE_CN_ON_PIN("createCnOnPin"),
     CREATE_CN_ON_PN("createCnOnPn"),
-    COMPLETE_TENDER("completeTender"),
+    COMPLETE_TENDER("completeLot"),
 
     SET_TENDER_SUSPENDED("setTenderSuspended"),
     SET_TENDER_UNSUSPENDED("setTenderUnsuspended"),

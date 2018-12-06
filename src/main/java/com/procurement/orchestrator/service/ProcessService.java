@@ -119,6 +119,10 @@ public interface ProcessService {
 
     JsonNode getDocumentsOfContractPersones(JsonNode jsonData, String processId);
 
+    JsonNode getDocumentsOfCan(JsonNode jsonData, String processId);
+
+    JsonNode setDocumentsOfCan(JsonNode jsonData, JsonNode documentsData, String processId);
+
     JsonNode setDocumentsOfContractAward(JsonNode jsonData, JsonNode documentsData, String processId);
 
     JsonNode setDocumentsOfContractPersones(JsonNode jsonData, JsonNode documentsData, String processId);
@@ -220,5 +224,9 @@ public interface ProcessService {
     JsonNode getRelatedBidData(JsonNode jsonData, String processId);
 
     JsonNode getTreasuryValidationData(JsonNode jsonData, String processId);
+
+    JsonNode setActivationContract(JsonNode jsonData,JsonNode responseData,String processId);
+
+    JsonNode setTenderAndLot(JsonNode jsonData,JsonNode responseData,String processId);
 }
 
