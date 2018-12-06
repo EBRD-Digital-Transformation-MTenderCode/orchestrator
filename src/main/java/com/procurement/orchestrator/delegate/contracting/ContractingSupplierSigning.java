@@ -61,7 +61,8 @@ public class ContractingSupplierSigning implements JavaDelegate {
                     execution,
                     entity,
                     context,
-                    commandMessage);
+                    commandMessage,
+                    responseData);
         }
     }
 }
