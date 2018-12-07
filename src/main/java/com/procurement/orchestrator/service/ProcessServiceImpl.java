@@ -1508,8 +1508,17 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public JsonNode getTreasuryValidationData(final JsonNode jsonData, final String processId) {
-        return null;
+    public JsonNode getTreasuryValidationData(final JsonNode jsonData, final Context context, final String processId) {
+        try {
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            mainNode.put("cpid", context.getCpid());
+            mainNode.put("ocid", context.getOcid());
+            mainNode.replace("contract", jsonData.get("contract"));
+            return mainNode;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
     }
 
 }

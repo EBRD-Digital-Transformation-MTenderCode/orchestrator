@@ -219,6 +219,6 @@ public interface ProcessService {
 
     JsonNode getRelatedBidData(JsonNode jsonData, String processId);
 
-    JsonNode getTreasuryValidationData(JsonNode jsonData, String processId);
+    JsonNode getTreasuryValidationData(JsonNode jsonData, Context context, String processId);
 }
 
