@@ -89,7 +89,7 @@ public class MessageProducerImpl implements MessageProducer {
                     TRANSPORT_AGENT_TOPIC,
                     jsonUtil.toJson(commandMessage)).get();
             final RecordMetadata recordMetadata = sendResult.getRecordMetadata();
-            LOG.info("Send to doc generator: ", recordMetadata.topic(),
+            LOG.info("Send to transport agent: ", recordMetadata.topic(),
                     recordMetadata.partition(), recordMetadata.offset(), commandMessage.toString());
             return true;
         } catch (Exception e) {

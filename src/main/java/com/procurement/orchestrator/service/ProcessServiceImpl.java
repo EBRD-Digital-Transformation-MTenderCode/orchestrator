@@ -1513,7 +1513,7 @@ public class ProcessServiceImpl implements ProcessService {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
             mainNode.put("cpid", context.getCpid());
             mainNode.put("ocid", context.getOcid());
-            mainNode.replace("contract", jsonData.get("contract"));
+            mainNode.replace("treasuryBudgetSources", jsonData.get("treasuryBudgetSources"));
             return mainNode;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
