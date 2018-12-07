@@ -173,7 +173,7 @@ public class MessageConsumer {
                     case TREASURY_APPROVING: {
                         final JsonNode dataNode = response.get("data");
                         if (dataNode != null) {
-                            final String ocid = dataNode.get("ocid").asText();
+                            final String ocid = dataNode.get("id_dok").asText();
                             final Context prevContext = requestService.getContext(ocid);
                             final String uuid = UUIDs.timeBased().toString();
                             final Context context = requestService.checkRulesAndProcessContext(
