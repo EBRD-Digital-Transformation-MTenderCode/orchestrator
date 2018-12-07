@@ -53,7 +53,7 @@ public class SendMessageToAgent implements JavaDelegate {
         final Boolean treasuryValidation = processService.getBoolean("treasuryValidation", jsonData, processId);
         final JsonNode rqData = processService.getTreasuryValidationData(jsonData, context, processId);
         if (treasuryValidation && rqData != null) {
-            final CommandMessage commandMessage = notificationService.getCommandMessage(VERIFICATION, context, rqData);
+            final CommandMessage commandMessage = notificationService.getAgentCommandMessage(VERIFICATION, context, rqData);
             messageProducer.sendToAgent(commandMessage);
             operationService.saveOperationStep(
                     execution,
