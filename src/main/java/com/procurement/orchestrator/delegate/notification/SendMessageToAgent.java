@@ -60,6 +60,12 @@ public class SendMessageToAgent implements JavaDelegate {
                     entity,
                     context,
                     jsonUtil.toJsonNode(commandMessage));
+        } else {
+//            context.setPhase("verified");
+//            operationService.saveOperationStep(
+//                    execution,
+//                    entity,
+//                    context);
         }
     }
 }
