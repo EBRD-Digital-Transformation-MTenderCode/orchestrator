@@ -1,6 +1,12 @@
 {
-  "command": "verificationAc",
+  "command": "treasuryApprovingAc",
   "data": {
-    "ocid": "ocds-t1s2t3-MD-1544192212722-AC-1546136903403"
+    "id_dok": "ocds-t1s2t3-MD-1544192212722-AC-1546136903403",
+    "id_hist": "",
+    "status": "",
+    "st_date": "",
+    "reg_nom": 1,
+    "reg_date": "",
+    "descr": ""
   }
 }
