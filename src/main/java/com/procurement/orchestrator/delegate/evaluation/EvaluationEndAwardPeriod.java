@@ -45,7 +45,7 @@ public class EvaluationEndAwardPeriod implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String taskId = execution.getCurrentActivityId();
         final String processId = execution.getProcessInstanceId();
-        final JsonNode commandMessage = processService.getCommandMessage(END_AWARD_PERIOD, context, jsonData);
+        final JsonNode commandMessage = processService.getCommandMessage(END_AWARD_PERIOD, context, jsonUtil.empty());
         final JsonNode responseData = processService.processResponse(
                 evaluationRestClient.execute(commandMessage),
                 context,
@@ -53,7 +53,11 @@ public class EvaluationEndAwardPeriod implements JavaDelegate {
                 taskId,
                 commandMessage);
         if (Objects.nonNull(responseData)) {
-            operationService.saveOperationStep(execution, entity, commandMessage, responseData);
+            operationService.saveOperationStep(
+                    execution,
+                    entity,
+                    commandMessage,
+                    processService.setAwardPeriod(jsonData, responseData, processId));
         }
     }
 

@@ -18,7 +18,6 @@ public enum AccessCommandType {
     CREATE_PIN_ON_PN("createPinOnPn"),
     CREATE_CN_ON_PIN("createCnOnPin"),
     CREATE_CN_ON_PN("createCnOnPn"),
-    COMPLETE_TENDER("completeTender"),
 
     SET_TENDER_SUSPENDED("setTenderSuspended"),
     SET_TENDER_UNSUSPENDED("setTenderUnsuspended"),
@@ -36,13 +35,15 @@ public enum AccessCommandType {
     SET_LOTS_SD_AWARDED("setLotsStatusDetailsAwarded"),
     SET_LOTS_UNSUCCESSFUL("setLotsStatusUnsuccessful"),
     SET_LOTS_UNSUCCESSFUL_EV("setLotsStatusUnsuccessfulEv"),
+    COMPLETE_LOT("completeLot"),
 
     CHECK_LOTS_STATUS_DETAILS("checkLotsStatusDetails"),
     CHECK_LOTS_STATUS("checkLotsStatus"),
     CHECK_BID("checkBid"),
     CHECK_ITEMS("checkItems"),
     CHECK_TOKEN("checkToken"),
-    CHECK_BUDGET_SOURCES("checkBudgetSources");
+    CHECK_BUDGET_SOURCES("checkBudgetSources"),
+    VALIDATE_OWNER_AND_TOKEN("validateOwnerAndToken");
 
     private static final Map<String, AccessCommandType> CONSTANTS = new HashMap<>();
     private final String value;

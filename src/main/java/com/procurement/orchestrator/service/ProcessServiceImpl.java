@@ -1496,7 +1496,6 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    @Override
     public JsonNode getRelatedBidData(JsonNode jsonData, String processId) {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
@@ -1519,4 +1518,26 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
+    public JsonNode setCompleteLotData(JsonNode jsonData, JsonNode responseData, String processId) {
+        try {
+            final ObjectNode mainNode = (ObjectNode) jsonData;
+            mainNode.replace("tender", responseData.get("tender"));
+            mainNode.replace("lot", responseData.get("lot"));
+            return jsonData;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    public JsonNode setAwardPeriod(JsonNode jsonData, JsonNode responseData, String processId) {
+        try {
+            final ObjectNode mainNode = (ObjectNode) jsonData;
+            mainNode.replace("awardPeriod", responseData.get("awardPeriod"));
+            return jsonData;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
 }

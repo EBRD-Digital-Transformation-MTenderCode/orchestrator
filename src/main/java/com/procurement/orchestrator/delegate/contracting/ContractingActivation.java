@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
+import static com.procurement.orchestrator.domain.OperationType.END_AWARD_PERIOD;
 import static com.procurement.orchestrator.domain.commands.ContractingCommandType.ACTIVATION_AC;
 
 @Component
@@ -46,7 +47,6 @@ public class ContractingActivation implements JavaDelegate {
         LOG.info(execution.getCurrentActivityName());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
-        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode commandMessage = processService.getCommandMessage(ACTIVATION_AC, context, jsonUtil.empty());
@@ -57,12 +57,17 @@ public class ContractingActivation implements JavaDelegate {
                 taskId,
                 commandMessage);
         if (Objects.nonNull(responseData)) {
+            final Boolean stageEnd = processService.getBoolean("stageEnd", responseData, processId);
+            execution.setVariable("stageEnd", stageEnd);
+            if (stageEnd) {
+                context.setOperationType(END_AWARD_PERIOD.value());
+            }
             operationService.saveOperationStep(
                     execution,
                     entity,
                     context,
                     commandMessage,
-                    processService.setContractIssuedStatusDetails(jsonData, responseData, processId));
+                    responseData);
         }
     }
 

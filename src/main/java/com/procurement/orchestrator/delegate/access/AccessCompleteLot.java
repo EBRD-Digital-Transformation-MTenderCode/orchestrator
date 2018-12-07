@@ -13,22 +13,22 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import static com.procurement.orchestrator.domain.commands.AccessCommandType.COMPLETE_TENDER;
+import static com.procurement.orchestrator.domain.commands.AccessCommandType.COMPLETE_LOT;
 
 @Component
-public class AccessCompleteTender implements JavaDelegate {
+public class AccessCompleteLot implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AccessCompleteTender.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AccessCompleteLot.class);
 
     private final AccessRestClient accessRestClient;
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public AccessCompleteTender(final AccessRestClient accessRestClient,
-                                final OperationService operationService,
-                                final ProcessService processService,
-                                final JsonUtil jsonUtil) {
+    public AccessCompleteLot(final AccessRestClient accessRestClient,
+                             final OperationService operationService,
+                             final ProcessService processService,
+                             final JsonUtil jsonUtil) {
         this.accessRestClient = accessRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -44,7 +44,7 @@ public class AccessCompleteTender implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         if (jsonData != null) {
-            final JsonNode commandMessage = processService.getCommandMessage(COMPLETE_TENDER, context, jsonData);
+            final JsonNode commandMessage = processService.getCommandMessage(COMPLETE_LOT, context, jsonData);
             JsonNode responseData = processService.processResponse(
                     accessRestClient.execute(commandMessage),
                     context,
@@ -52,7 +52,11 @@ public class AccessCompleteTender implements JavaDelegate {
                     taskId,
                     commandMessage);
             if (responseData != null) {
-                operationService.saveOperationStep(execution, entity, commandMessage);
+                operationService.saveOperationStep(
+                        execution,
+                        entity,
+                        commandMessage,
+                        processService.setCompleteLotData(jsonData, responseData, processId));
             }
         }
     }

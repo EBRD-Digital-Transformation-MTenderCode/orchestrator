@@ -50,9 +50,8 @@ public class SendMessageToAgent implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final String processId = execution.getProcessInstanceId();
-        final Boolean treasuryValidation = processService.getBoolean("treasuryValidation", jsonData, processId);
         final JsonNode rqData = processService.getTreasuryValidationData(jsonData, context, processId);
-        if (treasuryValidation && rqData != null) {
+        if (rqData != null) {
             final CommandMessage commandMessage = notificationService.getAgentCommandMessage(VERIFICATION, context, rqData);
             messageProducer.sendToAgent(commandMessage);
             operationService.saveOperationStep(
@@ -60,12 +59,6 @@ public class SendMessageToAgent implements JavaDelegate {
                     entity,
                     context,
                     jsonUtil.toJsonNode(commandMessage));
-        } else {
-//            context.setPhase("verified");
-//            operationService.saveOperationStep(
-//                    execution,
-//                    entity,
-//                    context);
         }
     }
 }
