@@ -57,7 +57,7 @@ public class ContractingSupplierSigning implements JavaDelegate {
                 taskId,
                 commandMessage);
         if (Objects.nonNull(responseData)) {
-            final Boolean treasuryValidation = processService.getBoolean("treasuryValidation", jsonData, processId);
+            final Boolean treasuryValidation = processService.getBoolean("treasuryValidation", responseData, processId);
             execution.setVariable("treasuryValidation", treasuryValidation);
             if (!treasuryValidation) {
                 context.setPhase("verified");
