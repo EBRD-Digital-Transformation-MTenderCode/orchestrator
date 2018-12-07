@@ -22,6 +22,8 @@ public interface NotificationService {
 
     Context addNoticeOutcomeToContext(Context context, JsonNode responseData, String processId);
 
+    String getTenderUri(String cpId, String ocId);
+
     Notification getNotificationForPlatform(Context context);
 
     Notification getNotificationForPlatformCA(Context context);
@@ -29,9 +31,6 @@ public interface NotificationService {
     CommandMessage getCommandMessage(Enum command, Context context, JsonNode data);
 
     CommandMessage getAgentCommandMessage(Enum command, Context context, JsonNode data);
-
-    String getTenderUri(String cpId, String ocId);
-
 }
 
 
