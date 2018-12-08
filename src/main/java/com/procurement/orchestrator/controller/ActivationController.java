@@ -33,10 +33,10 @@ public class ActivationController {
 
     @RequestMapping(value = "/contract/{cpid}/{ocid}", method = RequestMethod.POST)
     public ResponseEntity<String> activationAC(@RequestHeader("Authorization") final String authorization,
-                                            @RequestHeader("X-OPERATION-ID") final String operationId,
-                                            @RequestHeader("X-TOKEN") final String token,
-                                            @PathVariable("cpid") final String cpid,
-                                            @PathVariable("ocid") final String ocid) {
+                                               @RequestHeader("X-OPERATION-ID") final String operationId,
+                                               @RequestHeader("X-TOKEN") final String token,
+                                               @PathVariable("cpid") final String cpid,
+                                               @PathVariable("ocid") final String ocid) {
         requestService.validate(operationId, null);
         final Context context = requestService.getContextForContractUpdate(authorization, operationId,
                 cpid, ocid, token, "activationAC");
