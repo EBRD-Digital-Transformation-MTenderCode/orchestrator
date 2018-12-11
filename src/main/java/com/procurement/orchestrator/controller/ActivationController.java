@@ -32,7 +32,7 @@ public class ActivationController {
     }
 
     @RequestMapping(value = "/contract/{cpid}/{ocid}", method = RequestMethod.POST)
-    public ResponseEntity<String> issuingAC(@RequestHeader("Authorization") final String authorization,
+    public ResponseEntity<String> activationAC(@RequestHeader("Authorization") final String authorization,
                                             @RequestHeader("X-OPERATION-ID") final String operationId,
                                             @RequestHeader("X-TOKEN") final String token,
                                             @PathVariable("cpid") final String cpid,

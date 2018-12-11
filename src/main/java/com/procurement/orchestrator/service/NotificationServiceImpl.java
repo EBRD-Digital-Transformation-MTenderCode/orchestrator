@@ -417,6 +417,11 @@ public class NotificationServiceImpl implements NotificationService {
                 data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
                 break;
             }
+            case END_AWARD_PERIOD: {
+                data.setOcid(context.getCpid());
+                data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
+                break;
+            }
             default:
                 return null;
         }
@@ -463,6 +468,16 @@ public class NotificationServiceImpl implements NotificationService {
                 context.getOperationId(),
                 command,
                 null,
+                data,
+                CommandMessage.ApiVersion.V_0_0_1);
+    }
+
+    @Override
+    public CommandMessage getAgentCommandMessage(Enum command, Context context, JsonNode data) {
+        return new CommandMessage(
+                context.getOperationId(),
+                command,
+                context,
                 data,
                 CommandMessage.ApiVersion.V_0_0_1);
     }

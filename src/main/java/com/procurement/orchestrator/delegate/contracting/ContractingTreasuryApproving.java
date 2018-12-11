@@ -49,7 +49,7 @@ public class ContractingTreasuryApproving implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(TREASURY_APPROVING_AC, context, jsonUtil.empty());
+        final JsonNode commandMessage = processService.getCommandMessage(TREASURY_APPROVING_AC, context, jsonData);
         JsonNode responseData = processService.processResponse(
                 contractingRestClient.execute(commandMessage),
                 context,
@@ -62,7 +62,7 @@ public class ContractingTreasuryApproving implements JavaDelegate {
                     entity,
                     context,
                     commandMessage,
-                    processService.setContractIssuedStatusDetails(jsonData, responseData, processId));
+                    responseData);
         }
     }
 

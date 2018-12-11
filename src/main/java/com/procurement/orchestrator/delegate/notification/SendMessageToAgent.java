@@ -50,16 +50,15 @@ public class SendMessageToAgent implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final String processId = execution.getProcessInstanceId();
-        final JsonNode rqData = processService.getTreasuryValidationData(jsonData, processId);
+        final JsonNode rqData = processService.getTreasuryValidationData(jsonData, context, processId);
         if (rqData != null) {
-            final CommandMessage commandMessage = notificationService.getCommandMessage(VERIFICATION, context, rqData);
+            final CommandMessage commandMessage = notificationService.getAgentCommandMessage(VERIFICATION, context, rqData);
             messageProducer.sendToAgent(commandMessage);
             operationService.saveOperationStep(
                     execution,
                     entity,
                     context,
-                    jsonUtil.toJsonNode(commandMessage),
-                    jsonData);
+                    jsonUtil.toJsonNode(commandMessage));
         }
     }
 }
