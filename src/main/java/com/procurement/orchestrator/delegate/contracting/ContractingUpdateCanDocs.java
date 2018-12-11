@@ -8,13 +8,12 @@ import com.procurement.orchestrator.service.NotificationService;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
+import java.util.Objects;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
-import java.util.Objects;
 
 import static com.procurement.orchestrator.domain.commands.ContractingCommandType.UPDATE_CAN_DOCS;
 
@@ -24,7 +23,6 @@ public class ContractingUpdateCanDocs implements JavaDelegate {
     private static final Logger LOG = LoggerFactory.getLogger(ContractingUpdateCanDocs.class);
 
     private final ContractingRestClient contractingRestClient;
-    private final NotificationService notificationService;
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
@@ -35,7 +33,6 @@ public class ContractingUpdateCanDocs implements JavaDelegate {
                                     final ProcessService processService,
                                     final JsonUtil jsonUtil) {
         this.contractingRestClient = contractingRestClient;
-        this.notificationService = notificationService;
         this.operationService = operationService;
         this.processService = processService;
         this.jsonUtil = jsonUtil;
@@ -51,19 +48,18 @@ public class ContractingUpdateCanDocs implements JavaDelegate {
         final String taskId = execution.getCurrentActivityId();
         final JsonNode commandMessage = processService.getCommandMessage(UPDATE_CAN_DOCS, context, jsonData);
         JsonNode responseData = processService.processResponse(
-                contractingRestClient.execute(commandMessage),
-                context,
-                processId,
-                taskId,
-                commandMessage);
+            contractingRestClient.execute(commandMessage),
+            context,
+            processId,
+            taskId,
+            commandMessage);
         if (Objects.nonNull(responseData)) {
             operationService.saveOperationStep(
-                    execution,
-                    entity,
-                    context,
-                    commandMessage,
-                    processService.setContractUpdateData(jsonData, responseData, processId));
+                execution,
+                entity,
+                context,
+                commandMessage,
+                responseData);
         }
     }
-
 }
