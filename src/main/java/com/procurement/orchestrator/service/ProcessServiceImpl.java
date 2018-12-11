@@ -1241,6 +1241,8 @@ public class ProcessServiceImpl implements ProcessService {
             final ObjectNode tenderNode = (ObjectNode) jsonData.get("tender");
             tenderNode.replace("auctionPeriod", responseData.get("auctionPeriod"));
             tenderNode.replace("electronicAuctions", responseData.get("electronicAuctions"));
+            final ObjectNode mainNode = (ObjectNode) jsonData;
+            mainNode.put("isAuctionPeriodChanged", true);
             return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
