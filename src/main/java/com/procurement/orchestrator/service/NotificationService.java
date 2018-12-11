@@ -3,6 +3,7 @@ package com.procurement.orchestrator.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.Notification;
+import com.procurement.orchestrator.domain.commands.AgentCommandType;
 import com.procurement.orchestrator.domain.dto.command.CommandMessage;
 import org.springframework.stereotype.Service;
 
@@ -21,13 +22,15 @@ public interface NotificationService {
 
     Context addNoticeOutcomeToContext(Context context, JsonNode responseData, String processId);
 
+    String getTenderUri(String cpId, String ocId);
+
     Notification getNotificationForPlatform(Context context);
 
     Notification getNotificationForPlatformCA(Context context);
 
     CommandMessage getCommandMessage(Enum command, Context context, JsonNode data);
 
-    String getTenderUri(String cpId, String ocId);
+    CommandMessage getAgentCommandMessage(Enum command, Context context, JsonNode data);
 }
 
 
