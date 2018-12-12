@@ -49,4 +49,13 @@ public interface RequestService {
 
     Context checkRulesAndProcessContext(Context prevContext, String processType, String requestId);
 
+
+    Context getContextForDocsUpdate(String authorization,
+                                        String operationId,
+                                        String cpid,
+                                        String ocid,
+                                        String token,
+                                        String canid,
+                                        String process);
+
 }

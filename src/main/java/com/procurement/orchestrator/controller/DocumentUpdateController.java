@@ -31,10 +31,10 @@ public class DocumentUpdateController extends DoBaseController {
                                                   @RequestHeader("X-TOKEN") final String token,
                                                   @PathVariable("cpid") final String cpid,
                                                   @PathVariable("ocid") final String ocid,
-                                                  @PathVariable(value = "canid", required = false) final String canid) {
+                                                  @PathVariable("canid") final String canid) {
         requestService.validate(operationId, null);
-        final Context context = requestService.getContextForContractUpdate(authorization, operationId,
-                                                                           cpid, ocid, token, "can-docs");
+        final Context context = requestService.getContextForDocsUpdate(authorization, operationId,
+                                                                           cpid, ocid, token,canid, "can-docs");
         requestService.saveRequestAndCheckOperation(context, null);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("operationType", context.getOperationType());
