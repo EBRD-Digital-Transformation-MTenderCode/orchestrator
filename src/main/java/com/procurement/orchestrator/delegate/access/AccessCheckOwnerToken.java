@@ -43,8 +43,9 @@ public class AccessCheckOwnerToken implements JavaDelegate {
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
+        final JsonNode requestData = processService.getDocumentsOfCan(jsonData, processId);
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(VALIDATE_OWNER_AND_TOKEN, context, jsonUtil.empty());
+        final JsonNode commandMessage = processService.getCommandMessage(VALIDATE_OWNER_AND_TOKEN, context, requestData);
         final JsonNode responseData = processService.processResponse(
             accessRestClient.execute(commandMessage),
             context,
@@ -52,7 +53,7 @@ public class AccessCheckOwnerToken implements JavaDelegate {
             taskId,
             commandMessage);
         if (responseData != null) {
-            operationService.saveOperationStep(execution, entity, commandMessage,jsonData);
+            operationService.saveOperationStep(execution, entity, commandMessage);
         }
     }
 }
