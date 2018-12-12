@@ -1566,10 +1566,12 @@ public class ProcessServiceImpl implements ProcessService {
         try {
             final ObjectNode mainNode = (ObjectNode) jsonData;
             mainNode.replace("awardPeriod", responseData.get("awardPeriod"));
+
             return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
             return null;
         }
     }
+
 }
