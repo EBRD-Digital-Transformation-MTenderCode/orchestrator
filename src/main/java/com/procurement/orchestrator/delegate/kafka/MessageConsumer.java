@@ -44,19 +44,21 @@ public class MessageConsumer {
     public void onChronograph(final String message, @Header(KafkaHeaders.ACKNOWLEDGMENT) final Acknowledgment ac) {
         ac.acknowledge();
         try {
-            LOG.info("Get task: " + message);
+            LOG.info("Get chronograph message: " + message);
             final ChronographResponse response = jsonUtil.toObject(ChronographResponse.class, message);
-            final ChronographResponse.ChronographResponseData data = response.getData();
-            final Context contextChronograph = jsonUtil.toObject(Context.class, data.getMetaData());
-            final Context prevContext = requestService.getContext(contextChronograph.getCpid());
-            final Context context = requestService.checkRulesAndProcessContext(
-                    prevContext,
-                    contextChronograph.getProcessType(),
-                    contextChronograph.getRequestId());
-            requestService.saveRequestAndCheckOperation(context, jsonUtil.empty());
-            final Map<String, Object> variables = new HashMap<>();
-            variables.put("operationType", context.getOperationType());
-            processService.startProcess(context, variables);
+            if (response.getStatus().equals("NOTIFICATION")) {
+                final ChronographResponse.ChronographResponseData data = response.getData();
+                final Context contextChronograph = jsonUtil.toObject(Context.class, data.getMetaData());
+                final Context prevContext = requestService.getContext(contextChronograph.getCpid());
+                final Context context = requestService.checkRulesAndProcessContext(
+                        prevContext,
+                        contextChronograph.getProcessType(),
+                        contextChronograph.getRequestId());
+                requestService.saveRequestAndCheckOperation(context, jsonUtil.empty());
+                final Map<String, Object> variables = new HashMap<>();
+                variables.put("operationType", context.getOperationType());
+                processService.startProcess(context, variables);
+            }
         } catch (Exception e) {
             //TODO error processing
         }
