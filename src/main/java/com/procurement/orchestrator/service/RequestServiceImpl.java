@@ -237,29 +237,6 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
-    public Context getContextForDocsUpdate(String authorization,
-                                           String operationId,
-                                           String cpid,
-                                           String ocid,
-                                           String token,
-                                           String canid,
-                                           String process) {
-
-        final Context context = new Context();
-
-        context.setOperationId(operationId);
-        context.setOwner(getOwner(authorization));
-        context.setCpid(cpid);
-        context.setOcid(ocid);
-        context.setCanid(canid);
-        context.setToken(token);
-        context.setLanguage(lang);
-        context.setRequestId(UUIDs.timeBased().toString());
-        context.setStartDate(dateUtil.nowFormatted());
-        return context;
-    }
-
-    @Override
     public Context checkRulesAndProcessContext(final Context prevContext,
                                                final String processType,
                                                final String requestId) {
