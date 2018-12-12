@@ -52,7 +52,7 @@ public class AccessCheckOwnerToken implements JavaDelegate {
             taskId,
             commandMessage);
         if (responseData != null) {
-            operationService.saveOperationStep(execution, entity, commandMessage);
+            operationService.saveOperationStep(execution, entity, commandMessage,jsonData);
         }
     }
 }
