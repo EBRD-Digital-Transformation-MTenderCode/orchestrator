@@ -28,6 +28,9 @@ public class Context {
     @JsonProperty(value = "ocid")
     private String ocid;
 
+    @JsonProperty(value = "canid")
+    private String canid;
+
     @JsonProperty(value = "stage")
     private String stage;
 
