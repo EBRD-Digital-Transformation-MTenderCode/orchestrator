@@ -1,390 +1,266 @@
 {
-  "id": "22.23.24.25",
-  "command": "auctionsEnd",
-  "data": {
-    "tender": {
-      "id": "ocds-b3wdp1-MD-1542983070110",
-      "electronicAuctions": {
-        "details": [
-          {
-            "id": "22",
-            "relatedLot": "ea1b61f6-ef2d-11e8-9848-d104af1f2f79",
-            "auctionPeriod": {
-              "startDate": "2018-12-11T08:00:00+00:00",
-              "endDate": "2018-12-11T08:09:30+00:00"
-            },
-            "electronicAuctionProgress": [
-              {
-                "id": "1",
-                "period": {
-                  "startDate": "2018-12-11T08:00:30+00:00",
-                  "endDate": "2018-12-11T08:03:00+00:00"
-                },
-                "breakdown": [
-                  {
-                    "relatedBid": "c95687a0-fc4e-11e8-b745-996861c34981",
-                    "dateMet": "2018-12-11T08:03:00+00:00",
-                    "value": {
-                      "amount": 95400
-                    }
-                  },
-                  {
-                    "relatedBid": "77d10a20-fa0c-11e8-b745-996861c34981",
-                    "dateMet": "2018-12-11T08:03:00+00:00",
-                    "value": {
-                      "amount": 91000
-                    }
-                  }
-                ]
-              },
-              {
-                "id": "2",
-                "period": {
-                  "startDate": "2018-12-11T08:03:30+00:00",
-                  "endDate": "2018-12-11T08:06:00+00:00"
-                },
-                "breakdown": [
-                  {
-                    "relatedBid": "c95687a0-fc4e-11e8-b745-996861c34981",
-                    "dateMet": "2018-12-11T08:03:55+00:00",
-                    "value": {
-                      "amount": 90990
-                    }
-                  },
-                  {
-                    "relatedBid": "77d10a20-fa0c-11e8-b745-996861c34981",
-                    "dateMet": "2018-12-11T08:06:00+00:00",
-                    "value": {
-                      "amount": 91000
-                    }
-                  }
-                ]
-              },
-              {
-                "id": "3",
-                "period": {
-                  "startDate": "2018-12-11T08:06:30+00:00",
-                  "endDate": "2018-12-11T08:09:00+00:00"
-                },
-                "breakdown": [
-                  {
-                    "relatedBid": "c95687a0-fc4e-11e8-b745-996861c34981",
-                    "dateMet": "2018-12-11T08:09:00+00:00",
-                    "value": {
-                      "amount": 90990
-                    }
-                  },
-                  {
-                    "relatedBid": "77d10a20-fa0c-11e8-b745-996861c34981",
-                    "dateMet": "2018-12-11T08:09:00+00:00",
-                    "value": {
-                      "amount": 91000
-                    }
-                  }
-                ]
-              }
-            ],
-            "electronicAuctionResult": [
-              {
-                "relatedBid": "c95687a0-fc4e-11e8-b745-996861c34981",
-                "value": {
-                  "amount": 90990
-                }
-              },
-              {
-                "relatedBid": "77d10a20-fa0c-11e8-b745-996861c34981",
-                "value": {
-                  "amount": 91000
-                }
-              }
-            ]
-          },
-          {
-            "id": "23",
-            "relatedLot": "ea1b61f7-ef2d-11e8-9848-d104af1f2f79",
-            "auctionPeriod": {
-              "startDate": "2018-12-11T08:42:30+00:00",
-              "endDate": "2018-12-11T08:52:00+00:00"
-            },
-            "electronicAuctionProgress": [
-              {
-                "id": "1",
-                "period": {
-                  "startDate": "2018-12-11T08:43:00+00:00",
-                  "endDate": "2018-12-11T08:45:30+00:00"
-                },
-                "breakdown": [
-                  {
-                    "relatedBid": "18a43230-fc4f-11e8-b745-996861c34981",
-                    "dateMet": "2018-12-11T08:45:30+00:00",
-                    "value": {
-                      "amount": 10940
-                    }
-                  },
-                  {
-                    "relatedBid": "9fd18f30-fa0d-11e8-b745-996861c34981",
-                    "dateMet": "2018-12-11T08:45:30+00:00",
-                    "value": {
-                      "amount": 10000
-                    }
-                  }
-                ]
-              },
-              {
-                "id": "2",
-                "period": {
-                  "startDate": "2018-12-11T08:46:00+00:00",
-                  "endDate": "2018-12-11T08:48:30+00:00"
-                },
-                "breakdown": [
-                  {
-                    "relatedBid": "18a43230-fc4f-11e8-b745-996861c34981",
-                    "dateMet": "2018-12-11T08:46:12+00:00",
-                    "value": {
-                      "amount": 9990
-                    }
-                  },
-                  {
-                    "relatedBid": "9fd18f30-fa0d-11e8-b745-996861c34981",
-                    "dateMet": "2018-12-11T08:48:30+00:00",
-                    "value": {
-                      "amount": 10000
-                    }
-                  }
-                ]
-              },
-              {
-                "id": "3",
-                "period": {
-                  "startDate": "2018-12-11T08:49:00+00:00",
-                  "endDate": "2018-12-11T08:51:30+00:00"
-                },
-                "breakdown": [
-                  {
-                    "relatedBid": "18a43230-fc4f-11e8-b745-996861c34981",
-                    "dateMet": "2018-12-11T08:51:30+00:00",
-                    "value": {
-                      "amount": 9990
-                    }
-                  },
-                  {
-                    "relatedBid": "9fd18f30-fa0d-11e8-b745-996861c34981",
-                    "dateMet": "2018-12-11T08:51:30+00:00",
-                    "value": {
-                      "amount": 10000
-                    }
-                  }
-                ]
-              }
-            ],
-            "electronicAuctionResult": [
-              {
-                "relatedBid": "18a43230-fc4f-11e8-b745-996861c34981",
-                "value": {
-                  "amount": 9990
-                }
-              },
-              {
-                "relatedBid": "9fd18f30-fa0d-11e8-b745-996861c34981",
-                "value": {
-                  "amount": 10000
-                }
-              }
-            ]
-          },
-          {
-            "id": "24",
-            "relatedLot": "ea1b61f9-ef2d-11e8-9848-d104af1f2f79",
-            "auctionPeriod": {
-              "startDate": "2018-12-11T10:07:30+00:00",
-              "endDate": "2018-12-11T10:17:00+00:00"
-            },
-            "electronicAuctionProgress": [
-              {
-                "id": "1",
-                "period": {
-                  "startDate": "2018-12-11T10:08:00+00:00",
-                  "endDate": "2018-12-11T10:10:30+00:00"
-                },
-                "breakdown": [
-                  {
-                    "relatedBid": "709483b0-fc4e-11e8-b745-996861c34981",
-                    "dateMet": "2018-12-11T10:10:30+00:00",
-                    "value": {
-                      "amount": 2457.65000000000009094947017729282379150390625
-                    }
-                  },
-                  {
-                    "relatedBid": "5be26550-fa0e-11e8-b745-996861c34981",
-                    "dateMet": "2018-12-11T10:10:30+00:00",
-                    "value": {
-                      "amount": 2400
-                    }
-                  }
-                ]
-              },
-              {
-                "id": "2",
-                "period": {
-                  "startDate": "2018-12-11T10:11:00+00:00",
-                  "endDate": "2018-12-11T10:13:30+00:00"
-                },
-                "breakdown": [
-                  {
-                    "relatedBid": "709483b0-fc4e-11e8-b745-996861c34981",
-                    "dateMet": "2018-12-11T10:11:17+00:00",
-                    "value": {
-                      "amount": 2390
-                    }
-                  },
-                  {
-                    "relatedBid": "5be26550-fa0e-11e8-b745-996861c34981",
-                    "dateMet": "2018-12-11T10:13:30+00:00",
-                    "value": {
-                      "amount": 2400
-                    }
-                  }
-                ]
-              },
-              {
-                "id": "3",
-                "period": {
-                  "startDate": "2018-12-11T10:14:00+00:00",
-                  "endDate": "2018-12-11T10:16:30+00:00"
-                },
-                "breakdown": [
-                  {
-                    "relatedBid": "709483b0-fc4e-11e8-b745-996861c34981",
-                    "dateMet": "2018-12-11T10:16:30+00:00",
-                    "value": {
-                      "amount": 2390
-                    }
-                  },
-                  {
-                    "relatedBid": "5be26550-fa0e-11e8-b745-996861c34981",
-                    "dateMet": "2018-12-11T10:16:30+00:00",
-                    "value": {
-                      "amount": 2400
-                    }
-                  }
-                ]
-              }
-            ],
-            "electronicAuctionResult": [
-              {
-                "relatedBid": "709483b0-fc4e-11e8-b745-996861c34981",
-                "value": {
-                  "amount": 2390
-                }
-              },
-              {
-                "relatedBid": "5be26550-fa0e-11e8-b745-996861c34981",
-                "value": {
-                  "amount": 2400
-                }
-              }
-            ]
-          },
-          {
-            "id": "25",
-            "relatedLot": "ea1b61fb-ef2d-11e8-9848-d104af1f2f79",
-            "auctionPeriod": {
-              "startDate": "2018-12-11T11:32:30+00:00",
-              "endDate": "2018-12-11T11:42:00+00:00"
-            },
-            "electronicAuctionProgress": [
-              {
-                "id": "1",
-                "period": {
-                  "startDate": "2018-12-11T11:33:00+00:00",
-                  "endDate": "2018-12-11T11:35:30+00:00"
-                },
-                "breakdown": [
-                  {
-                    "relatedBid": "60e9a160-fc4f-11e8-b745-996861c34981",
-                    "dateMet": "2018-12-11T11:35:30+00:00",
-                    "value": {
-                      "amount": 22740
-                    }
-                  },
-                  {
-                    "relatedBid": "f68fde70-fa0e-11e8-b745-996861c34981",
-                    "dateMet": "2018-12-11T11:35:30+00:00",
-                    "value": {
-                      "amount": 18000
-                    }
-                  }
-                ]
-              },
-              {
-                "id": "2",
-                "period": {
-                  "startDate": "2018-12-11T11:36:00+00:00",
-                  "endDate": "2018-12-11T11:38:30+00:00"
-                },
-                "breakdown": [
-                  {
-                    "relatedBid": "60e9a160-fc4f-11e8-b745-996861c34981",
-                    "dateMet": "2018-12-11T11:38:30+00:00",
-                    "value": {
-                      "amount": 22740
-                    }
-                  },
-                  {
-                    "relatedBid": "f68fde70-fa0e-11e8-b745-996861c34981",
-                    "dateMet": "2018-12-11T11:38:30+00:00",
-                    "value": {
-                      "amount": 18000
-                    }
-                  }
-                ]
-              },
-              {
-                "id": "3",
-                "period": {
-                  "startDate": "2018-12-11T11:39:00+00:00",
-                  "endDate": "2018-12-11T11:41:30+00:00"
-                },
-                "breakdown": [
-                  {
-                    "relatedBid": "60e9a160-fc4f-11e8-b745-996861c34981",
-                    "dateMet": "2018-12-11T11:41:30+00:00",
-                    "value": {
-                      "amount": 22740
-                    }
-                  },
-                  {
-                    "relatedBid": "f68fde70-fa0e-11e8-b745-996861c34981",
-                    "dateMet": "2018-12-11T11:41:30+00:00",
-                    "value": {
-                      "amount": 18000
-                    }
-                  }
-                ]
-              }
-            ],
-            "electronicAuctionResult": [
-              {
-                "relatedBid": "60e9a160-fc4f-11e8-b745-996861c34981",
-                "value": {
-                  "amount": 22740
-                }
-              },
-              {
-                "relatedBid": "f68fde70-fa0e-11e8-b745-996861c34981",
-                "value": {
-                  "amount": 18000
-                }
-              }
-            ]
-          }
-        ]
+  "ocid": "ocds-b3wdp1-MD-1544538729123",
+  "planning": {
+    "budget": {
+      "amount": {
+        "amount": 405000.00,
+        "currency": "MDL"
       },
-      "auctionPeriod": {
-        "startDate": "2018-12-11T08:00:00+00:00",
-        "endDate": "2018-12-11T11:42:00+00:00"
-      }
+      "isEuropeanUnionFunded": false,
+      "budgetBreakdown": [
+        {
+          "id": "ocds-b3wdp1-MD-1544538400209-FS-1544538529098",
+          "amount": {
+            "amount": 405000.00,
+            "currency": "MDL"
+          },
+          "period": {
+            "startDate": "2018-12-11T04:00:00Z",
+            "endDate": "2019-12-30T00:00:00Z"
+          },
+          "sourceParty": {
+            "id": "MD-IDNO-1003600114422",
+            "name": "Grădina Zoologică"
+          }
+        }
+      ]
     }
   },
-  "version": "0.0.1"
+  "tender": {
+    "id": "ocds-b3wdp1-MD-1544538729123",
+    "title": "Combustibil pentru anul 2019",
+    "description": "Produse petroliere pentru anul 2019",
+    "status": "active",
+    "statusDetails": "clarification",
+    "classification": {
+      "scheme": "CPV",
+      "id": "09100000-0",
+      "description": "Combustibili"
+    },
+    "mainProcurementCategory": "goods",
+    "procurementMethod": "open",
+    "procurementMethodDetails": "Licitație deschisă",
+    "submissionMethod": [
+      "electronicSubmission"
+    ],
+    "submissionMethodDetails": "Lista platformelor: achizitii, ebs, licitatie, yptender",
+    "submissionMethodRationale": [
+      "Ofertele vor fi primite prin intermediul unei platforme electronice de achiziții publice"
+    ],
+    "eligibilityCriteria": "Regulile generale privind naționalitatea și originea, precum și alte criterii de eligibilitate sunt enumerate în Ghidul practic privind procedurile de contractare a acțiunilor externe ale UE (PRAG)",
+    "acceleratedProcedure": {
+      "isAcceleratedProcedure": false
+    },
+    "designContest": {
+      "serviceContractAward": false
+    },
+    "electronicWorkflows": {
+      "useOrdering": false,
+      "usePayment": false,
+      "acceptInvoicing": false
+    },
+    "jointProcurement": {
+      "isJointProcurement": false
+    },
+    "procedureOutsourcing": {
+      "procedureOutsourced": false
+    },
+    "framework": {
+      "isAFramework": false
+    },
+    "dynamicPurchasingSystem": {
+      "hasDynamicPurchasingSystem": false
+    },
+    "legalBasis": "NATIONAL_PROCUREMENT_LAW",
+    "procuringEntity": {
+      "id": "MD-IDNO-1003600114422",
+      "name": "Grădina Zoologică",
+      "identifier": {
+        "id": "1003600114422",
+        "scheme": "MD-IDNO",
+        "legalName": "Grădina Zoologică"
+      },
+      "address": {
+        "streetAddress": "bd.Dacia 50/7",
+        "postalCode": "2072",
+        "addressDetails": {
+          "country": {
+            "scheme": "iso-alpha2",
+            "id": "MD",
+            "description": "MOLDOVA",
+            "uri": "http://reference.iatistandard.org"
+          },
+          "region": {
+            "scheme": "CUATM",
+            "id": "0101000",
+            "description": "mun.Chişinău",
+            "uri": "http://statistica.md"
+          },
+          "locality": {
+            "scheme": "UN/LOCODE",
+            "id": "0101000",
+            "description": "мун.Кишинэу"
+          }
+        }
+      },
+      "contactPoint": {
+        "name": "Eduard Beziazîcinîi",
+        "email": "achizitiizoo@gmail.com",
+        "telephone": "079545773"
+      }
+    },
+    "awardCriteria": "priceOnly",
+    "requiresElectronicCatalogue": false,
+    "contractPeriod": {
+      "startDate": "2019-01-04T08:43:21Z",
+      "endDate": "2019-12-30T08:43:21Z"
+    },
+    "tenderPeriod": {
+      "startDate": "2018-12-22T08:00:00Z",
+      "endDate": "2019-01-02T08:00:00Z"
+    },
+    "enquiryPeriod": {
+      "startDate": "2018-12-12T08:47:35Z",
+      "endDate": "2018-12-22T08:00:00Z"
+    },
+    "value": {
+      "amount": 405000.00,
+      "currency": "MDL"
+    },
+    "lotGroups": [
+      {
+        "optionToCombine": false
+      }
+    ],
+    "lots": [
+      {
+        "id": "932748c3-fdea-11e8-bc94-25b0c2da1c29",
+        "title": "Combustibil",
+        "description": "Produse petroliere pentru anul 2019",
+        "status": "active",
+        "statusDetails": "empty",
+        "value": {
+          "amount": 405000.00,
+          "currency": "MDL"
+        },
+        "options": [
+          {
+            "hasOptions": false
+          }
+        ],
+        "recurrentProcurement": [
+          {
+            "isRecurrent": false
+          }
+        ],
+        "renewals": [
+          {
+            "hasRenewals": false
+          }
+        ],
+        "variants": [
+          {
+            "hasVariants": false
+          }
+        ],
+        "contractPeriod": {
+          "startDate": "2019-01-04T08:43:21Z",
+          "endDate": "2019-12-30T08:43:21Z"
+        },
+        "placeOfPerformance": {
+          "address": {
+            "streetAddress": "bd.Dacia 50/7",
+            "postalCode": "2072",
+            "addressDetails": {
+              "country": {
+                "scheme": "iso-alpha2",
+                "id": "MD",
+                "description": "MOLDOVA",
+                "uri": "http://reference.iatistandard.org"
+              },
+              "region": {
+                "scheme": "CUATM",
+                "id": "0101000",
+                "description": "mun.Chişinău",
+                "uri": "http://statistica.md"
+              },
+              "locality": {
+                "scheme": "UN/LOCODE",
+                "id": "0101000",
+                "description": "mun.Chişinău"
+              }
+            }
+          },
+          "description": ""
+        }
+      }
+    ],
+    "items": [
+      {
+        "id": "932748c0-fdea-11e8-bc94-25b0c2da1c29",
+        "description": "Benzină Regular-92",
+        "classification": {
+          "scheme": "CPV",
+          "id": "09100000-0",
+          "description": "Combustibili"
+        },
+        "quantity": 11500.00,
+        "unit": {
+          "id": "112",
+          "name": "Litru; decimetru cub"
+        },
+        "relatedLot": "932748c3-fdea-11e8-bc94-25b0c2da1c29"
+      },
+      {
+        "id": "932748c1-fdea-11e8-bc94-25b0c2da1c29",
+        "description": "Motorina EURO 5",
+        "classification": {
+          "scheme": "CPV",
+          "id": "09134200-9",
+          "description": "Motorină"
+        },
+        "quantity": 14000.00,
+        "unit": {
+          "id": "112",
+          "name": "Litru; decimetru cub"
+        },
+        "relatedLot": "932748c3-fdea-11e8-bc94-25b0c2da1c29"
+      },
+      {
+        "id": "932748c2-fdea-11e8-bc94-25b0c2da1c29",
+        "description": "Benzină Regular-95",
+        "classification": {
+          "scheme": "CPV",
+          "id": "09132000-3",
+          "description": "Benzină"
+        },
+        "quantity": 1500.00,
+        "unit": {
+          "id": "112",
+          "name": "Litru; decimetru cub"
+        },
+        "relatedLot": "932748c3-fdea-11e8-bc94-25b0c2da1c29"
+      }
+    ],
+    "documents": [
+      {
+        "id": "9db42aa2-5644-4a36-99ab-d4691d7ee8e6-1544604028752",
+        "documentType": "tenderNotice",
+        "title": "11_12_2018_anunt_086.pdf",
+        "description": ""
+      },
+      {
+        "id": "1403b160-250f-467d-bc29-806f84cebd1c-1544604041503",
+        "documentType": "biddingDocuments",
+        "title": "documentatia_standard lp 2019.docx",
+        "description": ""
+      },
+      {
+        "id": "2ce8287a-87ab-4cb4-aa9f-40de35d8d58a-1544604054207",
+        "documentType": "biddingDocuments",
+        "title": "duae.doc",
+        "description": ""
+      }
+    ]
+  }
 }
