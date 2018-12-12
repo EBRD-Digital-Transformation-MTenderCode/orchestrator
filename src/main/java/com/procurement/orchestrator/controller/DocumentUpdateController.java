@@ -25,15 +25,13 @@ public class DocumentUpdateController extends DoBaseController {
         this.requestService = requestService;
     }
 
-
-
-
-    @RequestMapping(value = "/can-docs/{cpid}/{ocid}", method = RequestMethod.POST)
+    @RequestMapping(value = "/can-docs/{cpid}/{ocid}/{canid}", method = RequestMethod.POST)
     public ResponseEntity<String> updateDocuments(@RequestHeader("Authorization") final String authorization,
-                                               @RequestHeader("X-OPERATION-ID") final String operationId,
-                                               @RequestHeader("X-TOKEN") final String token,
-                                               @PathVariable("cpid") final String cpid,
-                                               @PathVariable("ocid") final String ocid) {
+                                                  @RequestHeader("X-OPERATION-ID") final String operationId,
+                                                  @RequestHeader("X-TOKEN") final String token,
+                                                  @PathVariable("cpid") final String cpid,
+                                                  @PathVariable("ocid") final String ocid,
+                                                  @PathVariable(value = "canid", required = false) final String canid) {
         requestService.validate(operationId, null);
         final Context context = requestService.getContextForContractUpdate(authorization, operationId,
                                                                            cpid, ocid, token, "can-docs");
@@ -43,8 +41,5 @@ public class DocumentUpdateController extends DoBaseController {
         processService.startProcess(context, variables);
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
-
-
-
 }
 
