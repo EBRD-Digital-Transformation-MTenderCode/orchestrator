@@ -23,7 +23,7 @@
       <bpmn:outgoing>SequenceFlow_1j38voa</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1j38voa" sourceRef="SaveContextTask" targetRef="SendMessageTask" />
-    <bpmn:serviceTask id="AccessCheckTokenTask" name="Access Validate Owner and Token" camunda:asyncBefore="true" camunda:delegateExpression="${accessCheckToken}">
+    <bpmn:serviceTask id="AccessCheckTokenTask" name="Access Validate Owner and Token" camunda:asyncBefore="true" camunda:delegateExpression="${accessCheckOwnerToken}">
       <bpmn:incoming>SequenceFlow_1llcn73</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0mv0pq3</bpmn:outgoing>
     </bpmn:serviceTask>
