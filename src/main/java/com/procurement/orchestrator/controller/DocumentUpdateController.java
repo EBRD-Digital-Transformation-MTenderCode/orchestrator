@@ -44,7 +44,7 @@ public class DocumentUpdateController extends DoBaseController {
         requestService.validate(operationId, null);
         final Context context = requestService.getContextForUpdate(authorization, operationId,
                                                                            cpid, ocid, token, "updateCanDocs");
-        context.setCanid(canid);
+        context.setId(canid);
         requestService.saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("operationType", context.getOperationType());
