@@ -1,8 +1,12 @@
 package com.procurement.orchestrator.controller;
 
+import com.datastax.driver.core.utils.UUIDs;
 import com.procurement.orchestrator.domain.Context;
+import com.procurement.orchestrator.domain.Country;
+import com.procurement.orchestrator.domain.Stage;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.service.RequestService;
+import com.procurement.orchestrator.utils.DateUtil;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.http.HttpStatus;
@@ -20,7 +24,9 @@ public class DocumentUpdateController extends DoBaseController {
     private final RequestService requestService;
 
     public DocumentUpdateController(final ProcessService processService,
-                                    final RequestService requestService) {
+                                    final RequestService requestService
+                                    ) {
+
         this.processService = processService;
         this.requestService = requestService;
     }
@@ -35,6 +41,7 @@ public class DocumentUpdateController extends DoBaseController {
         requestService.validate(operationId, null);
         final Context context = requestService.getContextForDocsUpdate(authorization, operationId,
                                                                            cpid, ocid, token,canid, "can-docs");
+
         requestService.saveRequestAndCheckOperation(context, null);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("operationType", context.getOperationType());

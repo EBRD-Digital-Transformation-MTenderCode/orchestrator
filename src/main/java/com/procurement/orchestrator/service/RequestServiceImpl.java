@@ -244,18 +244,8 @@ public class RequestServiceImpl implements RequestService {
                                            String token,
                                            String canid,
                                            String process) {
-        final Context prevContext = getContext(ocid);
-        if (ocid != null) validateContractOcId(cpid, ocid, prevContext);
-        final String processType = getProcessType(prevContext.getCountry(), prevContext.getPmd(), process);
-        final Rule rule = checkAndGetRule(prevContext, processType);
+
         final Context context = new Context();
-        context.setCountry(rule.getCountry());
-        context.setPmd(rule.getPmd());
-        context.setProcessType(processType);
-        context.setPrevStage(rule.getPrevStage());
-        context.setStage(rule.getNewStage());
-        context.setPhase(rule.getNewPhase());
-        context.setOperationType(rule.getOperationType());
         context.setOperationId(operationId);
         context.setOwner(getOwner(authorization));
         context.setCpid(cpid);
@@ -263,9 +253,6 @@ public class RequestServiceImpl implements RequestService {
         context.setCanid(canid);
         context.setToken(token);
         context.setLanguage(lang);
-        context.setIsAuction(prevContext.getIsAuction());
-        context.setMainProcurementCategory(prevContext.getMainProcurementCategory());
-        context.setAwardCriteria(prevContext.getAwardCriteria());
         context.setRequestId(UUIDs.timeBased().toString());
         context.setStartDate(dateUtil.nowFormatted());
         return context;
