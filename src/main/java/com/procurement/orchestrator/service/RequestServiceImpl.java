@@ -246,6 +246,7 @@ public class RequestServiceImpl implements RequestService {
                                            String process) {
 
         final Context context = new Context();
+
         context.setOperationId(operationId);
         context.setOwner(getOwner(authorization));
         context.setCpid(cpid);

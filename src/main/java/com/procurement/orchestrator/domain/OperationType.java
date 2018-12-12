@@ -55,7 +55,9 @@ public enum OperationType {
     VERIFICATION_AC("verificationAC"),
     TREASURY_APPROVING_AC("treasuryApprovingAC"),
     ACTIVATION_AC("activationAC"),
-    END_AWARD_PERIOD("endAwardPeriod");
+    END_AWARD_PERIOD("endAwardPeriod"),
+    UPDATE_CAN_DOCS("updateCanDocs");
+
 
     private static final Map<String, OperationType> CONSTANTS = new HashMap<>();
     private final String value;
