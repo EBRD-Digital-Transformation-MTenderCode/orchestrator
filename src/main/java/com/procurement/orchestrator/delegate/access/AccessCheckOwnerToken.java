@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import static com.procurement.orchestrator.domain.commands.AccessCommandType.CHECK_TOKEN;
+import static com.procurement.orchestrator.domain.commands.AccessCommandType.VALIDATE_OWNER_AND_TOKEN;
 
 @Component
 public class AccessCheckOwnerToken implements JavaDelegate {
@@ -43,7 +44,7 @@ public class AccessCheckOwnerToken implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(CHECK_TOKEN, context, jsonUtil.empty());
+        final JsonNode commandMessage = processService.getCommandMessage(VALIDATE_OWNER_AND_TOKEN, context, jsonUtil.empty());
         final JsonNode responseData = processService.processResponse(
             accessRestClient.execute(commandMessage),
             context,

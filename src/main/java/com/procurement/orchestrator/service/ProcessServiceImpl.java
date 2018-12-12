@@ -586,7 +586,7 @@ public class ProcessServiceImpl implements ProcessService {
     @Override
     public JsonNode setDocumentsOfCan(JsonNode jsonData, JsonNode documentsData, String processId) {
         try {
-            final ArrayNode documentsArray = (ArrayNode) documentsData.get("documents");
+            final ArrayNode documentsArray = (ArrayNode) jsonData.get("documents");
             if (documentsArray != null) {
                 ((ObjectNode) jsonData).replace("documents", documentsArray);
             }
