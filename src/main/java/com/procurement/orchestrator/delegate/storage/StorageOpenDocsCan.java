@@ -50,7 +50,7 @@ public class StorageOpenDocsCan implements JavaDelegate {
         final String taskId = execution.getCurrentActivityId();
         final JsonNode documents = processService.getDocumentsOfCan(jsonData, processId);
         if (Objects.nonNull(documents)) {
-            final JsonNode commandMessage = processService.getCommandMessage(PUBLISH, context, documents);
+            final JsonNode commandMessage = processService.getCommandMessage(PUBLISH, context, jsonData);
             JsonNode responseData = processService.processResponse(
                     storageRestClient.execute(commandMessage),
                     context,
