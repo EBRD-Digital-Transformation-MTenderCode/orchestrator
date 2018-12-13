@@ -581,6 +581,19 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
+    public JsonNode getDocumentsOfCanStorageValidate(JsonNode jsonData, String processId) {
+        try {
+            final ArrayNode documentsArray = (ArrayNode) jsonData.get("documents");
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            mainNode.replace("documents", documentsArray);
+            return mainNode;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
     public JsonNode setDocumentsOfCan(JsonNode jsonData, JsonNode documentsData, String processId) {
         try {
             final ObjectNode contractNode = (ObjectNode) jsonData.get("contract");
