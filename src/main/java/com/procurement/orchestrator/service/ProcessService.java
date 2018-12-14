@@ -121,6 +121,8 @@ public interface ProcessService {
 
     JsonNode getDocumentsOfCan(JsonNode jsonData, String processId);
 
+    JsonNode getDocumentsOfCanStorageValidate(JsonNode jsonData, String processId);
+
     JsonNode setDocumentsOfCan(JsonNode jsonData, JsonNode documentsData, String processId);
 
     JsonNode setDocumentsOfContractAward(JsonNode jsonData, JsonNode documentsData, String processId);

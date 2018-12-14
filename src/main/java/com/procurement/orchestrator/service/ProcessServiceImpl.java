@@ -570,12 +570,22 @@ public class ProcessServiceImpl implements ProcessService {
     @Override
     public JsonNode getDocumentsOfCan(JsonNode jsonData, String processId) {
         try {
-            final JsonNode documentsNode = jsonData.findPath("documents");
-            if (documentsNode.isMissingNode()) return null;
+            final ArrayNode documentsArray = (ArrayNode) jsonData.get("contract").get("documents");
             final ObjectNode mainNode = jsonUtil.createObjectNode();
-            if (documentsNode.size() > 0) {
-                mainNode.replace("documents", documentsNode);
-            }
+            mainNode.replace("documents", documentsArray);
+            return mainNode;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public JsonNode getDocumentsOfCanStorageValidate(JsonNode jsonData, String processId) {
+        try {
+            final ArrayNode documentsArray = (ArrayNode) jsonData.get("documents");
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            mainNode.replace("documents", documentsArray);
             return mainNode;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
@@ -586,9 +596,10 @@ public class ProcessServiceImpl implements ProcessService {
     @Override
     public JsonNode setDocumentsOfCan(JsonNode jsonData, JsonNode documentsData, String processId) {
         try {
-            final ArrayNode documentsArray = (ArrayNode) jsonData.get("documents");
-            if (documentsArray != null) {
-                ((ObjectNode) jsonData).replace("documents", documentsArray);
+            final ObjectNode contractNode = (ObjectNode) jsonData.get("contract");
+            final ArrayNode documentsArray = (ArrayNode) documentsData.get("documents");
+            if (documentsArray.size() > 0) {
+                contractNode.replace("documents", documentsArray);
             }
             return jsonData;
         } catch (Exception e) {
