@@ -59,19 +59,19 @@
         </encoder>
     </appender>
 
-    <logger name="com.procurement.orchestrator" level="INFO" additivity="false">
+    <logger name="com.procurement.orchestrator" level="WARN" additivity="false">
         <appender-ref ref="FILE"/>
         <appender-ref ref="LOGSTASH"/>
         <appender-ref ref="STDOUT"/>
     </logger>
 
-    <logger name="org.springframework" level="INFO" additivity="false">
+    <logger name="org.springframework" level="WARN" additivity="false">
         <appender-ref ref="FILE"/>
         <appender-ref ref="LOGSTASH"/>
         <appender-ref ref="STDOUT"/>
     </logger>
 
-    <root level="INFO">
+    <root level="WARN">
         <appender-ref ref="STDOUT" additivity="false"/>
     </root>
 </configuration>
