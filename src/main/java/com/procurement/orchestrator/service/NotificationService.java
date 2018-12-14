@@ -3,7 +3,6 @@ package com.procurement.orchestrator.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.Notification;
-import com.procurement.orchestrator.domain.commands.AgentCommandType;
 import com.procurement.orchestrator.domain.dto.command.CommandMessage;
 import org.springframework.stereotype.Service;
 
