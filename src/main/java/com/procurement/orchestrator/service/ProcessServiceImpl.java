@@ -141,6 +141,7 @@ public class ProcessServiceImpl implements ProcessService {
         return null;
     }
 
+    @Override
     public void setEnquiryPeriodStartDate(JsonNode jsonData, String startDate, String processId) {
         try {
             final ObjectNode enquiryPeriodNode = (ObjectNode) jsonData.get("tender").get("enquiryPeriod");
@@ -150,6 +151,7 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
+    @Override
     public void setTenderPeriodStartDate(JsonNode jsonData, String startDate, String processId) {
         try {
             final ObjectNode tenderPeriodNode = (ObjectNode) jsonData.get("tender").get("tenderPeriod");
@@ -159,6 +161,7 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
+    @Override
     public JsonNode setCheckEnquiryPeriod(JsonNode jsonData, JsonNode respData, String processId) {
         try {
             final ObjectNode mainNode = (ObjectNode) jsonData;
@@ -179,6 +182,7 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
+    @Override
     public JsonNode getCheckTenderPeriod(JsonNode jsonData, String processId) {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
@@ -193,6 +197,7 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
+    @Override
     public JsonNode setCheckTenderPeriod(JsonNode jsonData, JsonNode respData, String processId) {
         try {
             final ObjectNode mainNode = (ObjectNode) jsonData;
@@ -220,6 +225,7 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
+    @Override
     public String getEnquiryPeriodEndDate(JsonNode jsonData, String processId) {
         try {
             return jsonData.get("tender").get("enquiryPeriod").get("endDate").asText();
@@ -229,6 +235,7 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
+    @Override
     public JsonNode getTenderPeriod(JsonNode jsonData, String processId) {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
@@ -240,6 +247,7 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
+    @Override
     public JsonNode getEnquiryPeriod(JsonNode jsonData, String processId) {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
@@ -287,6 +295,7 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
+    @Override
     public JsonNode addEnquiryWithAnswer(JsonNode jsonData, JsonNode enquiryData, String processId) {
         try {
             ((ObjectNode) jsonData).replace("enquiry", enquiryData.get("enquiry"));
@@ -309,6 +318,7 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
+    @Override
     public JsonNode addTenderUnsuspendData(JsonNode jsonData, JsonNode tenderData, String processId) {
         try {
             ((ObjectNode) jsonData).replace("tender", tenderData.get("tender"));
@@ -319,6 +329,7 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
+    @Override
     public JsonNode getLots(JsonNode jsonData, String processId) {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
@@ -363,6 +374,7 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
+    @Override
     public JsonNode addItems(JsonNode data, String processId) {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
@@ -522,7 +534,8 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public JsonNode setDocumentsOfTender(final JsonNode jsonData, final JsonNode documentsData, final String processId) {
+    public JsonNode setDocumentsOfTender(final JsonNode jsonData, final JsonNode documentsData,
+                                         final String processId) {
         try {
             final ObjectNode tenderNode = (ObjectNode) jsonData.get("tender");
             final ArrayNode documentsArray = (ArrayNode) documentsData.get("documents");
@@ -554,6 +567,7 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
+    @Override
     public JsonNode getDocumentsOfCan(JsonNode jsonData, String processId) {
         try {
             final ArrayNode documentsArray = (ArrayNode) jsonData.get("contract").get("documents");
@@ -566,6 +580,7 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
+    @Override
     public JsonNode getDocumentsOfCanStorageValidate(JsonNode jsonData, String processId) {
         try {
             final ArrayNode documentsArray = (ArrayNode) jsonData.get("documents");
@@ -578,44 +593,7 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public JsonNode getDocumentsOfCancelCanValidation(final JsonNode jsonData, final String processId) {
-        try {
-            final ArrayNode documentsArray = (ArrayNode) jsonData.get("contract").get("amendment").get("documents");
-            final ObjectNode mainNode = jsonUtil.createObjectNode();
-            mainNode.replace("documents", documentsArray);
-            return mainNode;
-        } catch (Exception e) {
-            terminateProcess(processId, e.getMessage());
-            return null;
-        }
-    }
-
-    public JsonNode getDocumentsOfCancelCanOpen(final JsonNode jsonData, final String processId) {
-        try {
-            final ArrayNode documentsArray = (ArrayNode) jsonData.get("can").get("contract").get("amendment").get("documents");
-            final ObjectNode mainNode = jsonUtil.createObjectNode();
-            mainNode.replace("documents", documentsArray);
-            return mainNode;
-        } catch (Exception e) {
-            terminateProcess(processId, e.getMessage());
-            return null;
-        }
-    }
-
-    public JsonNode setDocumentsOfCancelCanOpen(final JsonNode jsonData, final JsonNode documentsData, final String processId) {
-        try {
-            final ObjectNode amendmentNode = (ObjectNode) jsonData.get("can").get("contract").get("amendment");
-            final ArrayNode documentsArray = (ArrayNode) documentsData.get("documents");
-            if (documentsArray.size() > 0) {
-                amendmentNode.replace("documents", documentsArray);
-            }
-            return jsonData;
-        } catch (Exception e) {
-            terminateProcess(processId, e.getMessage());
-            return null;
-        }
-    }
-
+    @Override
     public JsonNode setDocumentsOfCan(JsonNode jsonData, JsonNode documentsData, String processId) {
         try {
             final ObjectNode contractNode = (ObjectNode) jsonData.get("contract");
@@ -1231,6 +1209,7 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
+    @Override
     public String getEnquiryId(final JsonNode jsonData, final String processId) {
         try {
             final String enquiryId = jsonData.get("enquiry").get("id").asText();
@@ -1606,13 +1585,11 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public JsonNode addCancelCan(JsonNode jsonData, JsonNode responseData, String processId) {
+    public JsonNode getCan(JsonNode jsonData, String processId) {
         try {
-            final ObjectNode mainNode = (ObjectNode) jsonData;
-            mainNode.replace("can", responseData.get("can"));
-            mainNode.replace("acCancel", responseData.get("acCancel"));
-            mainNode.replace("contract", responseData.get("contract"));
-            return jsonData;
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            mainNode.replace("can", jsonData.get("can"));
+            return mainNode;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
             return null;
