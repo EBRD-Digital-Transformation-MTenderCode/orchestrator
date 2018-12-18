@@ -1,6 +1,5 @@
 package com.procurement.orchestrator.delegate.evaluation;
 
-import com.datastax.driver.core.utils.UUIDs;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
@@ -14,9 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.util.Objects;
-
-import static com.procurement.orchestrator.domain.commands.EvaluationCommandType.SET_FINAL_STATUSES;
+import static com.procurement.orchestrator.domain.commands.EvaluationCommandType.SET_INITIAL_AWARDS_STATUS;
 
 @Component
 public class EvaluationSetInitialStatuses implements JavaDelegate {
@@ -41,24 +38,28 @@ public class EvaluationSetInitialStatuses implements JavaDelegate {
     @Override
     public void execute(final DelegateExecution execution) throws Exception {
         LOG.info(execution.getCurrentActivityName());
-//        final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
-//        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
-//        final String taskId = execution.getCurrentActivityId();
-//        final String processId = execution.getProcessInstanceId();
-//        final JsonNode commandMessage = processService.getCommandMessage(SET_FINAL_STATUSES, context, jsonUtil.empty());
-//        final JsonNode responseData = processService.processResponse(
-//                evaluationRestClient.execute(commandMessage),
-//                context,
-//                processId,
-//                taskId,
-//                commandMessage);
-//        if (Objects.nonNull(responseData)) {
-//            operationService.saveOperationStep(
-//                    execution,
-//                    entity,
-//                    context,
-//                    commandMessage,
-//                    responseData);
-//        }
+        final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
+        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
+        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
+        final String taskId = execution.getCurrentActivityId();
+        final String processId = execution.getProcessInstanceId();
+        final JsonNode rqData = processService.getCan(jsonData, processId);
+        if (rqData != null) {
+            final JsonNode commandMessage = processService.getCommandMessage(SET_INITIAL_AWARDS_STATUS, context, rqData);
+            final JsonNode responseData = processService.processResponse(
+                    evaluationRestClient.execute(commandMessage),
+                    context,
+                    processId,
+                    taskId,
+                    commandMessage);
+            if (responseData != null) {
+                operationService.saveOperationStep(
+                        execution,
+                        entity,
+                        context,
+                        commandMessage,
+                        responseData);
+            }
+        }
     }
 }

@@ -1585,4 +1585,14 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
+    public JsonNode getCan(JsonNode jsonData, String processId) {
+        try {
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            mainNode.replace("can", jsonData.get("can"));
+            return mainNode;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
 }
