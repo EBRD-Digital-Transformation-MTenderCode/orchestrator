@@ -123,6 +123,12 @@ public interface ProcessService {
 
     JsonNode getDocumentsOfCanStorageValidate(JsonNode jsonData, String processId);
 
+    JsonNode getDocumentsOfCancelCanValidation(JsonNode jsonData, String processId);
+
+    JsonNode getDocumentsOfCancelCanOpen(JsonNode jsonData, String processId);
+
+    JsonNode setDocumentsOfCancelCanOpen(JsonNode jsonData, JsonNode documentsData, String processId);
+
     JsonNode setDocumentsOfCan(JsonNode jsonData, JsonNode documentsData, String processId);
 
     JsonNode setDocumentsOfContractAward(JsonNode jsonData, JsonNode documentsData, String processId);
@@ -230,5 +236,7 @@ public interface ProcessService {
     JsonNode setCompleteLotData(JsonNode jsonData, JsonNode responseData, String processId);
 
     JsonNode setAwardPeriod(JsonNode jsonData, JsonNode responseData, String processId);
+
+    JsonNode addCancelCan(JsonNode jsonData, JsonNode responseData, String processId);
 }
 
