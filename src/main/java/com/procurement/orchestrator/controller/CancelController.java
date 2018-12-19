@@ -110,7 +110,6 @@ public class CancelController {
         requestService.validate(operationId, data);
         final Context context = requestService.getContextForUpdate(authorization, operationId, cpid, ocid, token, "cancelCan");
         context.setId(id);
-        if (!ocid.contains("PN")) throw new OperationException("Invalid ocid.");
         final Map<String, Object> variables = new HashMap<>();
         variables.put("operationType", context.getOperationType());
         requestService.saveRequestAndCheckOperation(context, data);
