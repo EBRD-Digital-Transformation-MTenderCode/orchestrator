@@ -246,5 +246,7 @@ public interface ProcessService {
     JsonNode getLotId(JsonNode jsonData, String processId);
 
     JsonNode addLot(JsonNode jsonData, JsonNode responseData, String processId);
+
+    JsonNode addInitialAwardsStatuses(JsonNode jsonData, JsonNode responseData, String processId);
 }
 

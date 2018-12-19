@@ -57,7 +57,7 @@ public class EvaluationSetInitialStatuses implements JavaDelegate {
                     entity,
                     context,
                     commandMessage,
-                    responseData);
+                    processService.addInitialAwardsStatuses(jsonData, responseData, processId));
         }
     }
 }

@@ -1,16 +1,142 @@
 {
   "contract": {
+    "id": "ocds-t1s2t3-MD-1545151279475-AC-1543019465582",
+    "status": "cancelled",
+    "statusDetails": "empty"
+  },
+  "can": {
+    "id": "1ec108d2-a47b-48b5-8b03-e7010a7d0ec5",
+    "token": "1ec108d2-a47b-48b5-8b03-e7010a7d0ec5",
+    "date": "2018-12-18T16:45:32Z",
+    "awardId": "42c6bab0-02e4-11e9-b724-ab2587186d02",
+    "status": "cancelled",
+    "statusDetails": "empty",
     "amendment": {
       "rationale": "123",
       "description": "123",
       "documents": [
         {
-          "documentType": "evaluationReports",
           "id": "0650b35c-6b6b-44ef-a31b-6df29f2921e9-1543246087156",
+          "documentType": "evaluationReports",
           "title": "123",
-          "description": "123"
+          "description": "123",
+          "url": "http://dev.bpe.eprocurement.systems/api/v1/storage/get/0650b35c-6b6b-44ef-a31b-6df29f2921e9-1543246087156",
+          "datePublished": null,
+          "dateModified": null,
+          "format": null,
+          "language": null,
+          "relatedLots": null,
+          "relatedConfirmations": null
         }
       ]
     }
+  },
+  "acCancel": true,
+  "awards": [
+    {
+      "token": "2507709e-c3cc-47bf-a0bf-33304b4b934c",
+      "id": "42c6bab0-02e4-11e9-b724-ab2587186d02",
+      "date": "2018-12-19T16:02:14Z",
+      "description": "Good",
+      "status": "pending",
+      "statusDetails": "consideration",
+      "value": {
+        "amount": 100.00,
+        "currency": "MDL"
+      },
+      "relatedLots": [
+        "bee0dc33-02e3-11e9-96c9-338973797329"
+      ],
+      "relatedBid": "081da3b0-02e4-11e9-9fcf-575bf05ac595",
+      "bidDate": "2018-12-18T16:43:22Z",
+      "suppliers": [
+        {
+          "id": "MD-IDNO-666688884",
+          "name": "Googleh555fhfgh55g12",
+          "identifier": {
+            "id": "666688884",
+            "scheme": "MD-IDNO",
+            "legalName": "Google Big Brother",
+            "uri": null
+          },
+          "address": {
+            "streetAddress": "123",
+            "postalCode": "21",
+            "addressDetails": {
+              "country": {
+                "scheme": "iso-alpha2",
+                "id": "MD",
+                "description": "MOLDOVA",
+                "uri": "http://reference.iatistandard.org"
+              },
+              "region": {
+                "scheme": "CUATM",
+                "id": "1000000",
+                "description": "Anenii Noi",
+                "uri": "http://statistica.md"
+              },
+              "locality": {
+                "scheme": "CUATM",
+                "id": "1001000",
+                "description": "or.Anenii Noi",
+                "uri": "http://statistica.md"
+              }
+            }
+          },
+          "contactPoint": {
+            "name": "111",
+            "email": "222",
+            "telephone": "333",
+            "url": "444"
+          },
+          "details": {
+            "scale": "sme"
+          }
+        }
+      ],
+      "documents": [
+        {
+          "id": "28678db4-82ef-4465-9285-95057db2ef1a-1544436376869",
+          "documentType": "awardNotice"
+        }
+      ],
+      "items": [
+        {
+          "id": "bee0dc30-02e3-11e9-96c9-338973797329",
+          "description": "Проснувшись однажды утром после беспокойного сна, Грегор Замза обнаружил, что он у себя в постели превратился в страшное насекомое. Лежа на панцирнотвердой спине, он видел, стоило ему приподнять голову, свой коричневый, выпуклый, разделенный дугообразными чешуйками живот, на верхушке которого еле держалось готовое вот-вот окончательно сползти одеяло. Его многочисленные, убого тонкие по сравнению с остальным телом ножки беспомощно копошились у него перед глазами. «Что со мной случилось?» – подумал он. Это не было сном.",
+          "classification": {
+            "scheme": "CPV",
+            "id": "45120000-4",
+            "description": "Lucrări de sondaj şi de foraj de recunoaştere"
+          },
+          "additionalClassifications": [
+            {
+              "scheme": "CPVS",
+              "id": "AB06-7",
+              "description": "Plastic"
+            }
+          ],
+          "quantity": 2.00,
+          "unit": {
+            "id": "86",
+            "name": "Milion metri patrati spatiu locativ"
+          },
+          "relatedLot": "bee0dc33-02e3-11e9-96c9-338973797329"
+        }
+      ]
+    }
+  ],
+  "lotId": "bee0dc33-02e3-11e9-96c9-338973797329",
+  "bids": [
+    {
+      "id": "081da3b0-02e4-11e9-9fcf-575bf05ac595",
+      "status": "pending",
+      "statusDetails": "empty"
+    }
+  ],
+  "lot": {
+    "id": "bee0dc33-02e3-11e9-96c9-338973797329",
+    "status": "active",
+    "statusDetails": "empty"
   }
 }
