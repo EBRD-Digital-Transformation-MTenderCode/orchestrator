@@ -13,9 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.util.Objects;
-
-import static com.procurement.orchestrator.domain.commands.SubmissionCommandType.SET_BIDS_FINAL_STATUSES;
+import static com.procurement.orchestrator.domain.commands.SubmissionCommandType.SET_INITIAL_AWARDS_STATUS;
 
 @Component
 public class SubmissionSetInitialStatuses implements JavaDelegate {
@@ -43,24 +41,25 @@ public class SubmissionSetInitialStatuses implements JavaDelegate {
     @Override
     public void execute(final DelegateExecution execution) throws Exception {
         LOG.info(execution.getCurrentActivityName());
-//        final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
-//        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
-//        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
-//        final String processId = execution.getProcessInstanceId();
-//        final String taskId = execution.getCurrentActivityId();
-//        final JsonNode commandMessage = processService.getCommandMessage(SET_BIDS_FINAL_STATUSES, context, jsonUtil.empty());
-//        JsonNode responseData = processService.processResponse(
-//                submissionRestClient.execute(commandMessage),
-//                context,
-//                processId,
-//                taskId,
-//                commandMessage);
-//        if (Objects.nonNull(responseData)) {
-//            operationService.saveOperationStep(
-//                    execution,
-//                    entity,
-//                    commandMessage,
-//                    processService.addBids(jsonData, responseData, processId));
-//        }
+        final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
+        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
+        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
+        final String processId = execution.getProcessInstanceId();
+        final String taskId = execution.getCurrentActivityId();
+        final JsonNode rqData = processService.getAwards(jsonData, processId);
+        final JsonNode commandMessage = processService.getCommandMessage(SET_INITIAL_AWARDS_STATUS, context, rqData);
+        JsonNode responseData = processService.processResponse(
+                submissionRestClient.execute(commandMessage),
+                context,
+                processId,
+                taskId,
+                commandMessage);
+        if (responseData != null) {
+            operationService.saveOperationStep(
+                    execution,
+                    entity,
+                    commandMessage,
+                    processService.addBids(jsonData, responseData, processId));
+        }
     }
 }

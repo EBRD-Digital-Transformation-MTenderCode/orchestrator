@@ -44,22 +44,20 @@ public class EvaluationSetInitialStatuses implements JavaDelegate {
         final String taskId = execution.getCurrentActivityId();
         final String processId = execution.getProcessInstanceId();
         final JsonNode rqData = processService.getCan(jsonData, processId);
-        if (rqData != null) {
-            final JsonNode commandMessage = processService.getCommandMessage(SET_INITIAL_AWARDS_STATUS, context, rqData);
-            final JsonNode responseData = processService.processResponse(
-                    evaluationRestClient.execute(commandMessage),
+        final JsonNode commandMessage = processService.getCommandMessage(SET_INITIAL_AWARDS_STATUS, context, rqData);
+        final JsonNode responseData = processService.processResponse(
+                evaluationRestClient.execute(commandMessage),
+                context,
+                processId,
+                taskId,
+                commandMessage);
+        if (responseData != null) {
+            operationService.saveOperationStep(
+                    execution,
+                    entity,
                     context,
-                    processId,
-                    taskId,
-                    commandMessage);
-            if (responseData != null) {
-                operationService.saveOperationStep(
-                        execution,
-                        entity,
-                        context,
-                        commandMessage,
-                        responseData);
-            }
+                    commandMessage,
+                    responseData);
         }
     }
 }

@@ -238,5 +238,11 @@ public interface ProcessService {
     JsonNode setAwardPeriod(JsonNode jsonData, JsonNode responseData, String processId);
 
     JsonNode getCan(JsonNode jsonData, String processId);
+
+    JsonNode getAwards(JsonNode jsonData, String processId);
+
+    JsonNode getLotId(JsonNode jsonData, String processId);
+
+    JsonNode addLot(JsonNode jsonData, JsonNode responseData, String processId);
 }
 

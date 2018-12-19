@@ -1584,7 +1584,7 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public JsonNode setCompleteLotData(JsonNode jsonData, JsonNode responseData, String processId) {
+    public JsonNode setCompleteLotData(final JsonNode jsonData, final JsonNode responseData, final String processId) {
         try {
             final ObjectNode mainNode = (ObjectNode) jsonData;
             mainNode.replace("tender", responseData.get("tender"));
@@ -1596,7 +1596,7 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public JsonNode setAwardPeriod(JsonNode jsonData, JsonNode responseData, String processId) {
+    public JsonNode setAwardPeriod(final JsonNode jsonData, final JsonNode responseData, final String processId) {
         try {
             final ObjectNode mainNode = (ObjectNode) jsonData;
             mainNode.replace("awardPeriod", responseData.get("awardPeriod"));
@@ -1608,11 +1608,44 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public JsonNode getCan(JsonNode jsonData, String processId) {
+    public JsonNode getCan(final JsonNode jsonData, final String processId) {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
             mainNode.replace("can", jsonData.get("can"));
             return mainNode;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    public JsonNode getAwards(final JsonNode jsonData, final String processId) {
+        try {
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            mainNode.replace("awards", jsonData.get("awards"));
+            return mainNode;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    public JsonNode getLotId(JsonNode jsonData, String processId) {
+        try {
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            mainNode.replace("lotId", jsonData.get("lotId"));
+            return mainNode;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    public JsonNode addLot(JsonNode jsonData, JsonNode responseData, String processId) {
+        try {
+            final ObjectNode mainNode = (ObjectNode) jsonData;
+            mainNode.replace("lot", responseData.get("lot"));
+            return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
             return null;

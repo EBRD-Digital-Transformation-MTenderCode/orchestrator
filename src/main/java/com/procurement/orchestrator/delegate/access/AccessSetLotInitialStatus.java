@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.AccessCommandType.SET_LOTS_UNSUCCESSFUL;
+import static com.procurement.orchestrator.domain.commands.AccessCommandType.SET_LOTS_INITIAL_STATUS;
 
 @Component
 public class AccessSetLotInitialStatus implements JavaDelegate {
@@ -43,28 +43,27 @@ public class AccessSetLotInitialStatus implements JavaDelegate {
     @Override
     public void execute(final DelegateExecution execution) throws Exception {
         LOG.info(execution.getCurrentActivityName());
-//        final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
-//        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
-//        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
-//        final String processId = execution.getProcessInstanceId();
-//        final String taskId = execution.getCurrentActivityId();
-//        final JsonNode unsuccessfulLots = processService.getUnsuccessfulLots(jsonData, processId);
-//        final JsonNode commandMessage = processService.getCommandMessage(SET_LOTS_UNSUCCESSFUL, context, unsuccessfulLots);
-//        JsonNode responseData = processService.processResponse(
-//                accessRestClient.execute(commandMessage),
-//                context,
-//                processId,
-//                taskId,
-//                commandMessage);
-//        if (Objects.nonNull(responseData)) {
-//            processContext(context, responseData, processId);
-//            operationService.saveOperationStep(
-//                    execution,
-//                    entity,
-//                    context,
-//                    commandMessage,
-//                    processService.addLotsUnsuccessful(jsonData, responseData, processId));
-//        }
+        final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
+        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
+        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
+        final String processId = execution.getProcessInstanceId();
+        final String taskId = execution.getCurrentActivityId();
+        final JsonNode rqData = processService.getLotId(jsonData, processId);
+        final JsonNode commandMessage = processService.getCommandMessage(SET_LOTS_INITIAL_STATUS, context, rqData);
+        JsonNode responseData = processService.processResponse(
+                accessRestClient.execute(commandMessage),
+                context,
+                processId,
+                taskId,
+                commandMessage);
+        if (Objects.nonNull(responseData)) {
+            operationService.saveOperationStep(
+                    execution,
+                    entity,
+                    context,
+                    commandMessage,
+                    processService.addLot(jsonData, responseData, processId));
+        }
     }
 
 //    private void processContext(final Context context, final JsonNode responseData, final String processId) {

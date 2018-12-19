@@ -36,6 +36,7 @@ public enum AccessCommandType {
     SET_LOTS_UNSUCCESSFUL("setLotsStatusUnsuccessful"),
     SET_LOTS_UNSUCCESSFUL_EV("setLotsStatusUnsuccessfulEv"),
     COMPLETE_LOT("completeLot"),
+    SET_LOTS_INITIAL_STATUS("setLotInitialStatus"),
 
     CHECK_LOTS_STATUS_DETAILS("checkLotsStatusDetails"),
     CHECK_LOTS_STATUS("checkLotsStatus"),
