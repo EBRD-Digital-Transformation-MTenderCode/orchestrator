@@ -5,7 +5,6 @@ import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.OperationType;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.ContractingRestClient;
-import com.procurement.orchestrator.service.NotificationService;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -56,7 +55,7 @@ public class ContractingCancelCan implements JavaDelegate {
                 commandMessage);
         if (Objects.nonNull(responseData)) {
             if (responseData.get("contract") != null) {
-                context.setOperationType(OperationType.CANCEL_CONTRACT.value());
+                context.setOperationType(OperationType.CANCEL_CAN_CONTRACT.value());
             }
             operationService.saveOperationStep(
                     execution,

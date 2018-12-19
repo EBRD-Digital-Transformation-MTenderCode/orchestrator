@@ -58,7 +58,7 @@ public enum OperationType {
     END_AWARD_PERIOD("endAwardPeriod"),
     UPDATE_CAN_DOCS("updateCanDocs"),
     CANCEL_CAN("cancelCan"),
-    CANCEL_CONTRACT("cancelContract");
+    CANCEL_CAN_CONTRACT("cancelCanContract");
 
 
     private static final Map<String, OperationType> CONSTANTS = new HashMap<>();
