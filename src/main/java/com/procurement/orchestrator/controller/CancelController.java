@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.controller;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.dto.cancellation.CancellationDto;
 import com.procurement.orchestrator.exception.OperationException;
@@ -95,6 +96,25 @@ public class CancelController {
         variables.put("operationType", pnContext.getOperationType());
         requestService.saveRequestAndCheckOperation(pnContext, jsonUtil.empty());
         processService.startProcess(pnContext, variables);
+        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
+    }
+
+    @RequestMapping(value = "/can/{cpid}/{ocid}/{id}", method = RequestMethod.POST)
+    public ResponseEntity<String> canCancellation(@RequestHeader("Authorization") final String authorization,
+                                                  @RequestHeader("X-OPERATION-ID") final String operationId,
+                                                  @RequestHeader("X-TOKEN") final String token,
+                                                  @PathVariable("cpid") final String cpid,
+                                                  @PathVariable("ocid") final String ocid,
+                                                  @PathVariable("id") final String id,
+                                                  @RequestBody final JsonNode data) {
+        requestService.validate(operationId, data);
+        final Context context = requestService.getContextForUpdate(authorization, operationId, cpid, ocid, token, "cancelCan");
+        context.setId(id);
+        if (!ocid.contains("PN")) throw new OperationException("Invalid ocid.");
+        final Map<String, Object> variables = new HashMap<>();
+        variables.put("operationType", context.getOperationType());
+        requestService.saveRequestAndCheckOperation(context, data);
+        processService.startProcess(context, variables);
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
