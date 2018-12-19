@@ -1619,6 +1619,19 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
+    public JsonNode addCancelCan(JsonNode jsonData, JsonNode responseData, String processId) {
+        try {
+            final ObjectNode mainNode = (ObjectNode) jsonData;
+            mainNode.replace("can", responseData.get("can"));
+            mainNode.replace("acCancel", responseData.get("acCancel"));
+            mainNode.replace("contract", responseData.get("contract"));
+            return jsonData;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
     public JsonNode getAwards(final JsonNode jsonData, final String processId) {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();

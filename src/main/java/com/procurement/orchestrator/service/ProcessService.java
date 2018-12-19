@@ -239,6 +239,8 @@ public interface ProcessService {
 
     JsonNode getCan(JsonNode jsonData, String processId);
 
+    JsonNode addCancelCan(JsonNode jsonData, JsonNode responseData, String processId);
+
     JsonNode getAwards(JsonNode jsonData, String processId);
 
     JsonNode getLotId(JsonNode jsonData, String processId);
