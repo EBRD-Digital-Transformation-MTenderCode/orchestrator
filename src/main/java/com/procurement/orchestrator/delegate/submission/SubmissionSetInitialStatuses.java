@@ -13,7 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import static com.procurement.orchestrator.domain.commands.SubmissionCommandType.SET_INITIAL_AWARDS_STATUS;
+import static com.procurement.orchestrator.domain.commands.SubmissionCommandType.SET_INITIAL_BIDS_STATUS;
 
 @Component
 public class SubmissionSetInitialStatuses implements JavaDelegate {
@@ -47,7 +47,7 @@ public class SubmissionSetInitialStatuses implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode rqData = processService.getAwards(jsonData, processId);
-        final JsonNode commandMessage = processService.getCommandMessage(SET_INITIAL_AWARDS_STATUS, context, rqData);
+        final JsonNode commandMessage = processService.getCommandMessage(SET_INITIAL_BIDS_STATUS, context, rqData);
         JsonNode responseData = processService.processResponse(
                 submissionRestClient.execute(commandMessage),
                 context,

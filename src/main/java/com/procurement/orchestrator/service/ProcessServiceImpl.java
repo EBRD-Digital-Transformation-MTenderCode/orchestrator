@@ -554,7 +554,6 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    @Override
     public JsonNode getDocumentsOfCan(JsonNode jsonData, String processId) {
         try {
             final ArrayNode documentsArray = (ArrayNode) jsonData.get("contract").get("documents");
@@ -567,7 +566,6 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    @Override
     public JsonNode getDocumentsOfCanStorageValidate(JsonNode jsonData, String processId) {
         try {
             final ArrayNode documentsArray = (ArrayNode) jsonData.get("documents");

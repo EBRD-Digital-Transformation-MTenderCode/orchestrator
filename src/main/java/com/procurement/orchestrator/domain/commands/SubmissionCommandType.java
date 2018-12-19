@@ -31,7 +31,7 @@ public enum SubmissionCommandType {
     PREPARE_BIDS_CANCELLATION("prepareBidsCancellation"),
     BIDS_CANCELLATION("bidsCancellation"),
     GET_DOCS_OF_CONSIDERED_BID("getDocsOfConsideredBid"),
-    SET_INITIAL_AWARDS_STATUS("setInitialAwardsStatus");
+    SET_INITIAL_BIDS_STATUS("setInitialBidsStatus");
 
     private static final Map<String, SubmissionCommandType> CONSTANTS = new HashMap<>();
     private final String value;

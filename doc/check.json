@@ -1,3 +1,16 @@
-{"status":"NOTIFICATION","data":{"ocid":"ocds-b3wdp1-MD-1543565900359","phase":"tendering","launchTime":"2018-12-16T08:30:00","metaData":"{\"operationId\":\"0c3d8670-f3e2-11e8-b0c7-83aef5f26bb9\",\"requestId\":\"0c3d8671-f3e1-11e8-b0c7-83aef5f26bb9\",\"cpid\":\"ocds-b3wdp1-MD-1543565900359\",\"processType\":\"tenderPeriodEnd\",\"isAuction\":false}"}}
-
-{"status":"ERROR","errorCode":"SCHEDULE_TASK_ERROR","data":{"requestId":4903,"ocid":"ocds-b3wdp1-MD-1543565900359","phase":"tendering","launchTime":"2018-12-17T16:00:00","metaData":"{\"cpid\":\"ocds-b3wdp1-MD-1543565900359\",\"operationId\":\"d1b41340-0103-11e9-872d-47b38aceff03\",\"requestId\":\"d1b41340-0103-11e9-872d-47b38aceff03\",\"processType\":\"tenderPeriodEnd\"}"}}
+{
+  "contract": {
+    "amendment": {
+      "rationale": "123",
+      "description": "123",
+      "documents": [
+        {
+          "documentType": "evaluationReports",
+          "id": "0650b35c-6b6b-44ef-a31b-6df29f2921e9-1543246087156",
+          "title": "123",
+          "description": "123"
+        }
+      ]
+    }
+  }
+}
