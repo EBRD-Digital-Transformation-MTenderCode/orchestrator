@@ -2,6 +2,7 @@ package com.procurement.orchestrator.delegate.contracting;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
+import com.procurement.orchestrator.domain.OperationType;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.ContractingRestClient;
 import com.procurement.orchestrator.service.NotificationService;
@@ -24,18 +25,15 @@ public class ContractingCancelCan implements JavaDelegate {
     private static final Logger LOG = LoggerFactory.getLogger(ContractingCancelCan.class);
 
     private final ContractingRestClient contractingRestClient;
-    private final NotificationService notificationService;
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
     public ContractingCancelCan(final ContractingRestClient contractingRestClient,
-                                final NotificationService notificationService,
                                 final OperationService operationService,
                                 final ProcessService processService,
                                 final JsonUtil jsonUtil) {
         this.contractingRestClient = contractingRestClient;
-        this.notificationService = notificationService;
         this.operationService = operationService;
         this.processService = processService;
         this.jsonUtil = jsonUtil;
@@ -57,6 +55,9 @@ public class ContractingCancelCan implements JavaDelegate {
                 taskId,
                 commandMessage);
         if (Objects.nonNull(responseData)) {
+            if (responseData.get("contract") != null) {
+                context.setOperationType(OperationType.CANCEL_CONTRACT.value());
+            }
             operationService.saveOperationStep(
                     execution,
                     entity,

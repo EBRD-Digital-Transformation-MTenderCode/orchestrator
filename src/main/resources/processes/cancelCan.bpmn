@@ -16,7 +16,7 @@
     <bpmn:endEvent id="EndEvent_1g4psv1">
       <bpmn:incoming>SequenceFlow_0jewtu7</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:serviceTask id="SaveContextTask" name="Save Context" camunda:delegateExpression="${saveContext}">
+    <bpmn:serviceTask id="SaveContextTask" name="Save Context" camunda:delegateExpression="${saveCancelCanContext}">
       <bpmn:incoming>SequenceFlow_118uudu</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_172i9l6</bpmn:outgoing>
     </bpmn:serviceTask>

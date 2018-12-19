@@ -426,9 +426,13 @@ public class NotificationServiceImpl implements NotificationService {
                 data.setOcid(context.getCpid());
                 data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
                 break;
-
             }
             case CANCEL_CAN: {
+                data.setOcid(context.getCpid());
+                data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
+                break;
+            }
+            case CANCEL_CONTRACT: {
                 data.setOcid(context.getCpid());
                 data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
                 break;
