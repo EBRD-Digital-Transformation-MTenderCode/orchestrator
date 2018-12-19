@@ -65,13 +65,5 @@ public class AccessSetLotInitialStatus implements JavaDelegate {
                     processService.addLot(jsonData, responseData, processId));
         }
     }
-
-//    private void processContext(final Context context, final JsonNode responseData, final String processId) {
-//        final String tenderStatus = processService.getText("tenderStatus", responseData, processId);
-//        if ("unsuccessful".equals(tenderStatus)) {
-//            context.setOperationType("tenderUnsuccessful");
-//            context.setPhase("empty");
-//        }
-//    }
 }
 
