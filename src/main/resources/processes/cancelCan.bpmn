@@ -10,15 +10,15 @@
       <bpmn:outgoing>SequenceFlow_0hpv39v</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="SendMessageTask" name="Send &#10;message to platform" camunda:asyncBefore="true" camunda:delegateExpression="${sendMessageToPlatform}">
-      <bpmn:incoming>SequenceFlow_172i9l6</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_1s476dq</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0jewtu7</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:endEvent id="EndEvent_1g4psv1">
       <bpmn:incoming>SequenceFlow_0jewtu7</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:serviceTask id="SaveContextTask" name="Save Context" camunda:delegateExpression="${saveCancelCanContext}">
-      <bpmn:incoming>SequenceFlow_118uudu</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_172i9l6</bpmn:outgoing>
+      <bpmn:incoming>SequenceFlow_0zks858</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_05iy5e7</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="AccessGetAwardCriteriaTask" name="Access Get&#10;Award Criteria" camunda:asyncBefore="true" camunda:delegateExpression="${accessGetAwardCriteria}">
       <bpmn:incoming>SequenceFlow_0q05ndh</bpmn:incoming>
@@ -29,8 +29,8 @@
       <bpmn:outgoing>SequenceFlow_0q05ndh</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="NoticeCreateReleaseTask" name="Notice Create Release" camunda:asyncBefore="true" camunda:delegateExpression="${noticeCreateRelease}">
-      <bpmn:incoming>SequenceFlow_0i00rnw</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_118uudu</bpmn:outgoing>
+      <bpmn:incoming>SequenceFlow_05iy5e7</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1s476dq</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="StorageValidateDocsOfCancelCanTask" name="Storage&#10;Validate" camunda:asyncBefore="true" camunda:delegateExpression="${storageValidateDocsOfCancelCan}">
       <bpmn:incoming>SequenceFlow_0hpv39v</bpmn:incoming>
@@ -38,7 +38,7 @@
     </bpmn:serviceTask>
     <bpmn:serviceTask id="StorageOpenDocsOfCancelCanTask" name="Storage&#10;Open access" camunda:asyncBefore="true" camunda:delegateExpression="${storageOpenDocsOfCancelCan}">
       <bpmn:incoming>SequenceFlow_13l6pk3</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_0i00rnw</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_0zks858</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="EvaluationSetInitialStatusesTask" name="Evaluation Set Initial Statuses" camunda:delegateExpression="${evaluationSetInitialStatuses}">
       <bpmn:incoming>SequenceFlow_07gr4f1</bpmn:incoming>
@@ -59,10 +59,10 @@
     <bpmn:sequenceFlow id="SequenceFlow_1jfpujt" sourceRef="EvaluationSetInitialStatusesTask" targetRef="SubmissionSetInitialStatusesTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0yqk76s" sourceRef="SubmissionSetInitialStatusesTask" targetRef="AccessSetLotInitialStatusTask" />
     <bpmn:sequenceFlow id="SequenceFlow_13l6pk3" sourceRef="AccessSetLotInitialStatusTask" targetRef="StorageOpenDocsOfCancelCanTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0i00rnw" sourceRef="StorageOpenDocsOfCancelCanTask" targetRef="NoticeCreateReleaseTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_118uudu" sourceRef="NoticeCreateReleaseTask" targetRef="SaveContextTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_172i9l6" sourceRef="SaveContextTask" targetRef="SendMessageTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0jewtu7" sourceRef="SendMessageTask" targetRef="EndEvent_1g4psv1" />
+    <bpmn:sequenceFlow id="SequenceFlow_0zks858" sourceRef="StorageOpenDocsOfCancelCanTask" targetRef="SaveContextTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_05iy5e7" sourceRef="SaveContextTask" targetRef="NoticeCreateReleaseTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1s476dq" sourceRef="NoticeCreateReleaseTask" targetRef="SendMessageTask" />
   </bpmn:process>
   <bpmn:error id="Error_1espguw" name="TR_EXCEPTION" errorCode="TR_EXCEPTION" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -93,7 +93,7 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_17recmq_di" bpmnElement="SaveContextTask">
-        <dc:Bounds x="1409" y="235" width="100" height="80" />
+        <dc:Bounds x="1270" y="235" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_1eyrp2x_di" bpmnElement="AccessGetAwardCriteriaTask">
         <dc:Bounds x="575" y="235" width="100" height="80" />
@@ -102,7 +102,7 @@
         <dc:Bounds x="436" y="235" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_1mh69v6_di" bpmnElement="NoticeCreateReleaseTask">
-        <dc:Bounds x="1270" y="235" width="100" height="80" />
+        <dc:Bounds x="1409" y="235" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_11mva5j_di" bpmnElement="StorageValidateDocsOfCancelCanTask">
         <dc:Bounds x="297" y="235" width="100" height="80" />
@@ -147,21 +147,21 @@
         <di:waypoint x="1092" y="275" />
         <di:waypoint x="1131" y="275" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_0i00rnw_di" bpmnElement="SequenceFlow_0i00rnw">
-        <di:waypoint x="1231" y="275" />
-        <di:waypoint x="1270" y="275" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_118uudu_di" bpmnElement="SequenceFlow_118uudu">
-        <di:waypoint x="1370" y="275" />
-        <di:waypoint x="1409" y="275" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_172i9l6_di" bpmnElement="SequenceFlow_172i9l6">
-        <di:waypoint x="1509" y="275" />
-        <di:waypoint x="1548" y="275" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0jewtu7_di" bpmnElement="SequenceFlow_0jewtu7">
         <di:waypoint x="1648" y="275" />
         <di:waypoint x="1676" y="275" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0zks858_di" bpmnElement="SequenceFlow_0zks858">
+        <di:waypoint x="1231" y="275" />
+        <di:waypoint x="1270" y="275" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_05iy5e7_di" bpmnElement="SequenceFlow_05iy5e7">
+        <di:waypoint x="1370" y="275" />
+        <di:waypoint x="1409" y="275" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1s476dq_di" bpmnElement="SequenceFlow_1s476dq">
+        <di:waypoint x="1509" y="275" />
+        <di:waypoint x="1548" y="275" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
