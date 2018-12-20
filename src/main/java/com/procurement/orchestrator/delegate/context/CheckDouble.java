@@ -38,14 +38,14 @@ public class CheckDouble implements JavaDelegate {
 
     @Override
     public void execute(final DelegateExecution execution) {
-        LOG.info(execution.getCurrentActivityName());
-        final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
-        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
-        final String checkId = context.getOcid() + context.getProcessType();
-        final String processId = execution.getProcessInstanceId();
-        if (!operationService.saveCheckIfNotExist(checkId, entity)) {
-            processService.terminateProcess(processId, "process: " + context.getProcessType()
-                    + " by ocid:" + context.getOcid() + " already launched.");
-        }
+//        LOG.info(execution.getCurrentActivityName());
+//        final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
+//        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
+//        final String checkId = context.getOcid() + context.getProcessType();
+//        final String processId = execution.getProcessInstanceId();
+//        if (!operationService.saveCheckIfNotExist(checkId, entity)) {
+//            processService.terminateProcess(processId, "process: " + context.getProcessType()
+//                    + " by ocid:" + context.getOcid() + " already launched.");
+//        }
     }
 }
