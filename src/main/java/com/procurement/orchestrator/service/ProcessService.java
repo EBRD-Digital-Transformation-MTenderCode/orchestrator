@@ -250,5 +250,7 @@ public interface ProcessService {
     JsonNode addInitialAwardsStatuses(JsonNode jsonData, JsonNode responseData, String processId);
 
     JsonNode addAward(JsonNode jsonData, JsonNode responseData, String processId);
+
+    JsonNode addLotId(JsonNode jsonData, JsonNode responseData, String processId);
 }
 
