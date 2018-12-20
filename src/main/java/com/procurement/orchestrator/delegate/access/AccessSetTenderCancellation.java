@@ -41,7 +41,7 @@ public class AccessSetTenderCancellation implements JavaDelegate {
 
     @Override
     public void execute(final DelegateExecution execution) throws Exception {
-        LOG.info(execution.getCurrentActivityName());
+        LOG.info(execution.getCurrentActivityId());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         if (context.getStage().equals(Stage.EV.value())) {

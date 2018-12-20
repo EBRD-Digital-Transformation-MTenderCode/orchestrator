@@ -43,7 +43,7 @@ public class AuctionEnd implements JavaDelegate {
 
     @Override
     public void execute(final DelegateExecution execution) throws Exception {
-        LOG.info(execution.getCurrentActivityName());
+        LOG.info(execution.getCurrentActivityId());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final AuctionData data = jsonUtil.toObject(AuctionData.class, jsonData);

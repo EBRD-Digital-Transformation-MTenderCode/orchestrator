@@ -42,7 +42,7 @@ public class SendMessageToDocGenerator implements JavaDelegate {
 
     @Override
     public void execute(final DelegateExecution execution) {
-        LOG.info(execution.getCurrentActivityName());
+        LOG.info(execution.getCurrentActivityId());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());

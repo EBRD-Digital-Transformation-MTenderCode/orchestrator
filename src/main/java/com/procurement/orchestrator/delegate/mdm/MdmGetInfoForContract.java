@@ -40,7 +40,7 @@ public class MdmGetInfoForContract implements JavaDelegate {
 
     @Override
     public void execute(final DelegateExecution execution) throws Exception {
-        LOG.info(execution.getCurrentActivityName());
+        LOG.info(execution.getCurrentActivityId());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final JsonNode prevData = jsonUtil.toJsonNode(entity.getResponseData());
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());

@@ -32,7 +32,7 @@ public class SaveFirstOperation implements JavaDelegate {
 
     @Override
     public void execute(final DelegateExecution execution) {
-        LOG.info(execution.getCurrentActivityName());
+        LOG.info(execution.getCurrentActivityId());
         final String requestId = (String) execution.getVariable("requestId");
         final String operationId = execution.getProcessBusinessKey();
         final String processId = execution.getProcessInstanceId();

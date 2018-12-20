@@ -34,7 +34,7 @@ public class SendMessageToPlatformCA implements JavaDelegate {
 
     @Override
     public void execute(final DelegateExecution execution) {
-        LOG.info(execution.getCurrentActivityName());
+        LOG.info(execution.getCurrentActivityId());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final Notification notificationCA = notificationService.getNotificationForPlatformCA(context);
