@@ -10,6 +10,7 @@ import java.util.Map;
 
 public enum ContractingCommandType {
 
+    CHECK_CAN("checkCan"),
     CREATE_CAN("createCAN"),
     CREATE_AC("createAC"),
     UPDATE_AC("updateAC"),

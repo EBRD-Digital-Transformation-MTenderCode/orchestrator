@@ -13,9 +13,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CheckDouble implements JavaDelegate {
+public class CreateCanCheckDouble implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(CheckDouble.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CreateCanCheckDouble.class);
 
     private final OperationService operationService;
 
@@ -26,10 +26,10 @@ public class CheckDouble implements JavaDelegate {
     private final JsonUtil jsonUtil;
 
 
-    public CheckDouble(final RequestService requestService,
-                       final OperationService operationService,
-                       final ProcessService processService,
-                       final JsonUtil jsonUtil) {
+    public CreateCanCheckDouble(final RequestService requestService,
+                                final OperationService operationService,
+                                final ProcessService processService,
+                                final JsonUtil jsonUtil) {
         this.requestService = requestService;
         this.operationService = operationService;
         this.processService = processService;
@@ -38,14 +38,14 @@ public class CheckDouble implements JavaDelegate {
 
     @Override
     public void execute(final DelegateExecution execution) {
-//        LOG.info(execution.getCurrentActivityId());
-//        final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
-//        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
-//        final String checkId = context.getOcid() + context.getProcessType();
-//        final String processId = execution.getProcessInstanceId();
-//        if (!operationService.saveCheckIfNotExist(checkId, entity)) {
-//            processService.terminateProcess(processId, "process: " + context.getProcessType()
-//                    + " by ocid:" + context.getOcid() + " already launched.");
-//        }
+        LOG.info(execution.getCurrentActivityId());
+        final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
+        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
+        final String checkId = context.getOcid() + context.getId();
+        final String processId = execution.getProcessInstanceId();
+        if (!operationService.saveCheckIfNotExist(checkId, entity)) {
+            processService.terminateProcess(processId, "process: " + context.getProcessType()
+                    + " by ocid:" + context.getOcid() + " already launched.");
+        }
     }
 }

@@ -37,7 +37,6 @@ public enum OperationType {
     AWARD_PERIOD_END("awardPeriodEnd"),
     AWARD_PERIOD_END_EV("awardPeriodEndEv"),
     STANDSTILL_PERIOD("standstillPeriod"),
-    STANDSTILL_PERIOD_EV("standstillPeriodEv"),
     CREATE_BID("createBid"),
     UPDATE_BID("updateBid"),
     BID_WITHDRAWN("bidWithdrawn"),
@@ -56,9 +55,11 @@ public enum OperationType {
     TREASURY_APPROVING_AC("treasuryApprovingAC"),
     ACTIVATION_AC("activationAC"),
     END_AWARD_PERIOD("endAwardPeriod"),
+    CREATE_CAN("createCAN"),
     UPDATE_CAN_DOCS("updateCanDocs"),
     CANCEL_CAN("cancelCan"),
-    CANCEL_CAN_CONTRACT("cancelCanContract");
+    CANCEL_CAN_CONTRACT("cancelCanContract"),
+    TENDER_EVALUATED("tenderEvaluated");
 
 
     private static final Map<String, OperationType> CONSTANTS = new HashMap<>();

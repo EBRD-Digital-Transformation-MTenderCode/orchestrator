@@ -227,14 +227,16 @@ public class TenderController extends DoBaseController {
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
-    @RequestMapping(value = "/protocol/{cpid}/{ocid}", method = RequestMethod.POST)
-    public ResponseEntity<String> endAwardPeriod(@RequestHeader("Authorization") final String authorization,
-                                                 @RequestHeader("X-OPERATION-ID") final String operationId,
-                                                 @RequestHeader("X-TOKEN") final String token,
-                                                 @PathVariable("cpid") final String cpid,
-                                                 @PathVariable("ocid") final String ocid) {
+    @RequestMapping(value = "/protocol/{cpid}/{ocid}/{id}", method = RequestMethod.POST)
+    public ResponseEntity<String> createCan(@RequestHeader("Authorization") final String authorization,
+                                            @RequestHeader("X-OPERATION-ID") final String operationId,
+                                            @RequestHeader("X-TOKEN") final String token,
+                                            @PathVariable("cpid") final String cpid,
+                                            @PathVariable("ocid") final String ocid,
+                                            @PathVariable("id") final String id) {
         requestService.validate(operationId, null);
-        final Context context = requestService.getContextForUpdate(authorization, operationId, cpid, ocid, token, "awardPeriodEnd");
+        final Context context = requestService.getContextForUpdate(authorization, operationId, cpid, ocid, token, "createCan");
+        context.setId(id);
         requestService.saveRequestAndCheckOperation(context, null);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("operationType", context.getOperationType());

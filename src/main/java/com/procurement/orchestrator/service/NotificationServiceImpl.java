@@ -128,7 +128,7 @@ public class NotificationServiceImpl implements NotificationService {
     public Context addCanOutcomeToContext(final Context context, final JsonNode responseData, final String processId) {
         Set<Outcome> outcomes;
         outcomes = new HashSet<>();
-        final ArrayNode cansNode = (ArrayNode) responseData.get("cans");
+        final ArrayNode cansNode = (ArrayNode) responseData.get("can");
         for (final JsonNode canNode : cansNode) {
             final Outcome outcome = new Outcome(canNode.get("id").asText(), canNode.get("token").asText(), "cans");
             outcomes.add(outcome);
@@ -328,12 +328,6 @@ public class NotificationServiceImpl implements NotificationService {
                 data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
                 break;
             }
-            case STANDSTILL_PERIOD_EV: {
-                data.setOcid(context.getOcid());
-                data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
-                data.setOutcomes(buildOutcomesFromContext(Collections.singletonList("cans"), context));
-                break;
-            }
             case AWARD_PERIOD_END: {
                 message.setInitiator(BPE);
                 data.setOcid(context.getOcid());
@@ -420,6 +414,12 @@ public class NotificationServiceImpl implements NotificationService {
             case END_AWARD_PERIOD: {
                 data.setOcid(context.getCpid());
                 data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
+                break;
+            }
+            case CREATE_CAN: {
+                data.setOcid(context.getOcid());
+                data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
+                data.setOutcomes(buildOutcomesFromContext(Collections.singletonList("cans"), context));
                 break;
             }
             case UPDATE_CAN_DOCS: {

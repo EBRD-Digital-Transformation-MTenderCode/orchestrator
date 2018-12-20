@@ -13,22 +13,22 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import static com.procurement.orchestrator.domain.commands.AccessCommandType.CHECK_LOTS_STATUS_DETAILS;
+import static com.procurement.orchestrator.domain.commands.AccessCommandType.CHECK_LOT_STATUS_AND_GET_ITEMS;
 
 @Component
-public class AccessCheckLotsStatusDetails implements JavaDelegate {
+public class AccessCheckLotStatusAndGetItems implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AccessCheckLotsStatusDetails.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AccessCheckLotStatusAndGetItems.class);
 
     private final AccessRestClient accessRestClient;
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public AccessCheckLotsStatusDetails(final AccessRestClient accessRestClient,
-                                        final OperationService operationService,
-                                        final ProcessService processService,
-                                        final JsonUtil jsonUtil) {
+    public AccessCheckLotStatusAndGetItems(final AccessRestClient accessRestClient,
+                                           final OperationService operationService,
+                                           final ProcessService processService,
+                                           final JsonUtil jsonUtil) {
         this.accessRestClient = accessRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -42,7 +42,7 @@ public class AccessCheckLotsStatusDetails implements JavaDelegate {
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(CHECK_LOTS_STATUS_DETAILS, context, jsonUtil.empty());
+        final JsonNode commandMessage = processService.getCommandMessage(CHECK_LOT_STATUS_AND_GET_ITEMS, context, jsonUtil.empty());
         JsonNode responseData = processService.processResponse(
                 accessRestClient.execute(commandMessage),
                 context,
@@ -54,7 +54,7 @@ public class AccessCheckLotsStatusDetails implements JavaDelegate {
                     execution,
                     entity,
                     commandMessage,
-                    processService.addItems(responseData, processId));
+                    responseData);
         }
     }
 }

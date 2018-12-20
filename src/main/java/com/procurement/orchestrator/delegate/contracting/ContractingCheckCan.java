@@ -16,12 +16,12 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.ContractingCommandType.CREATE_CAN;
+import static com.procurement.orchestrator.domain.commands.ContractingCommandType.CHECK_CAN;
 
 @Component
-public class ContractingCreateCan implements JavaDelegate {
+public class ContractingCheckCan implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ContractingCreateCan.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ContractingCheckCan.class);
 
     private final ContractingRestClient contractingRestClient;
     private final NotificationService notificationService;
@@ -29,11 +29,11 @@ public class ContractingCreateCan implements JavaDelegate {
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public ContractingCreateCan(final ContractingRestClient contractingRestClient,
-                                final NotificationService notificationService,
-                                final OperationService operationService,
-                                final ProcessService processService,
-                                final JsonUtil jsonUtil) {
+    public ContractingCheckCan(final ContractingRestClient contractingRestClient,
+                               final NotificationService notificationService,
+                               final OperationService operationService,
+                               final ProcessService processService,
+                               final JsonUtil jsonUtil) {
         this.contractingRestClient = contractingRestClient;
         this.notificationService = notificationService;
         this.operationService = operationService;
@@ -46,10 +46,9 @@ public class ContractingCreateCan implements JavaDelegate {
         LOG.info(execution.getCurrentActivityId());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
-        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(CREATE_CAN, context, jsonData);
+        final JsonNode commandMessage = processService.getCommandMessage(CHECK_CAN, context, jsonUtil.empty());
         JsonNode responseData = processService.processResponse(
                 contractingRestClient.execute(commandMessage),
                 context,
@@ -60,9 +59,7 @@ public class ContractingCreateCan implements JavaDelegate {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    notificationService.addCanOutcomeToContext(context, responseData, processId),
-                    commandMessage,
-                    processService.addCan(jsonData, responseData, processId));
+                    commandMessage);
         }
     }
 }

@@ -1,0 +1,5 @@
+
+{"action":"CANCEL","ocid":"ocds-b3wdp1-MD-1542199854044","phase":"tendering","metaData":"{\"operationId\":\"e3b99d21-f47a-12e8-b6f7-716197657fa2\",\"requestId\":\"e3b99d21-f47a-15e8-b6f7-716197657fa2\",\"cpid\":\"ocds-b3wdp1-MD-1542199854044\",\"processType\":\"tenderPeriodEnd\",\"isAuction\":false}"}
+{"action":"SCHEDULE","ocid":"ocds-b3wdp1-MD-1542199854044","phase":"tendering","launchTime":"2019-01-09T16:00:00Z","metaData":"{\"operationId\":\"e3b99d22-f47a-12e8-b6f7-716197657fa2\",\"requestId\":\"e3b99d22-f47a-15e8-b6f7-716197657fa2\",\"cpid\":\"ocds-b3wdp1-MD-1542199854044\",\"processType\":\"tenderPeriodEnd\",\"isAuction\":false}"}
+
+CANCEL

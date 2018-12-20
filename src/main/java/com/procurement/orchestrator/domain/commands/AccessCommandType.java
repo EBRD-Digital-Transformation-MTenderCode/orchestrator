@@ -38,7 +38,7 @@ public enum AccessCommandType {
     COMPLETE_LOT("completeLot"),
     SET_LOTS_INITIAL_STATUS("setLotInitialStatus"),
 
-    CHECK_LOTS_STATUS_DETAILS("checkLotsStatusDetails"),
+    CHECK_LOT_STATUS_AND_GET_ITEMS("checkLotStatusAndGetItems"),
     CHECK_LOTS_STATUS("checkLotsStatus"),
     CHECK_BID("checkBid"),
     CHECK_ITEMS("checkItems"),
