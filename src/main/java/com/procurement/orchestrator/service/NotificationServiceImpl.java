@@ -130,7 +130,7 @@ public class NotificationServiceImpl implements NotificationService {
         outcomes = new HashSet<>();
         final ArrayNode cansNode = (ArrayNode) responseData.get("cans");
         for (final JsonNode canNode : cansNode) {
-            final Outcome outcome = new Outcome(canNode.get("id").asText(), null, "contracts");
+            final Outcome outcome = new Outcome(canNode.get("id").asText(), null, "cans");
             outcomes.add(outcome);
         }
         context.setOutcomes(outcomes);
@@ -331,14 +331,14 @@ public class NotificationServiceImpl implements NotificationService {
             case STANDSTILL_PERIOD_EV: {
                 data.setOcid(context.getOcid());
                 data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
-                data.setOutcomes(buildOutcomesFromContext(Collections.singletonList("contracts"), context));
+                data.setOutcomes(buildOutcomesFromContext(Collections.singletonList("cans"), context));
                 break;
             }
             case AWARD_PERIOD_END: {
                 message.setInitiator(BPE);
                 data.setOcid(context.getOcid());
                 data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
-                data.setOutcomes(buildOutcomesFromContext(Collections.singletonList("contracts"), context));
+                data.setOutcomes(buildOutcomesFromContext(Collections.singletonList("cans"), context));
                 break;
             }
             case AWARD_PERIOD_END_EV: {
