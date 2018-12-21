@@ -18,9 +18,9 @@ import java.util.Objects;
 import static com.procurement.orchestrator.domain.commands.StorageCommandType.PUBLISH;
 
 @Component
-public class StorageOpenDocsOfAwards implements JavaDelegate {
+public class StorageOpenDocsOfAcAward implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(StorageOpenDocsOfAwards.class);
+    private static final Logger LOG = LoggerFactory.getLogger(StorageOpenDocsOfAcAward.class);
 
     private final StorageRestClient storageRestClient;
 
@@ -30,10 +30,10 @@ public class StorageOpenDocsOfAwards implements JavaDelegate {
 
     private final JsonUtil jsonUtil;
 
-    public StorageOpenDocsOfAwards(final StorageRestClient storageRestClient,
-                                   final OperationService operationService,
-                                   final ProcessService processService,
-                                   final JsonUtil jsonUtil) {
+    public StorageOpenDocsOfAcAward(final StorageRestClient storageRestClient,
+                                    final OperationService operationService,
+                                    final ProcessService processService,
+                                    final JsonUtil jsonUtil) {
         this.storageRestClient = storageRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -48,7 +48,7 @@ public class StorageOpenDocsOfAwards implements JavaDelegate {
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode documents = processService.getDocumentsOfAwards(jsonData, processId);
+        final JsonNode documents = processService.getDocumentsOfAcAward(jsonData, processId);
         if (Objects.nonNull(documents)) {
             final JsonNode commandMessage = processService.getCommandMessage(PUBLISH, context, documents);
             JsonNode responseData = processService.processResponse(
@@ -62,7 +62,7 @@ public class StorageOpenDocsOfAwards implements JavaDelegate {
                         execution,
                         entity,
                         commandMessage,
-                        processService.setDocumentsOfAwards(jsonData, responseData, processId));
+                        processService.setDocumentsOfAcAward(jsonData, responseData, processId));
             }
         }
     }

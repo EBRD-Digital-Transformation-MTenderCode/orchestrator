@@ -46,6 +46,7 @@ public enum OperationType {
     CANCEL_PLAN("cancelPlan"),
     CANCEL_STANDSTILL("cancellationStandstillPeriod"),
     UPDATE_BID_DOCS("updateBidDocs"),
+    CREATE_AC("createAC"),
     UPDATE_AC("updateAC"),
     ISSUING_AC("issuingAC"),
     FINAL_UPDATE_AC("finalUpdateAC"),

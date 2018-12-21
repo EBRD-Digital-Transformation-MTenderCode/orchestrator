@@ -95,9 +95,9 @@ public interface ProcessService {
 
     JsonNode setDocumentsOfAward(JsonNode jsonData, JsonNode documentsData, String processId);
 
-    JsonNode getDocumentsOfAwards(JsonNode jsonData, String processId);
+    JsonNode getDocumentsOfAcAward(JsonNode jsonData, String processId);
 
-    JsonNode setDocumentsOfAwards(JsonNode jsonData, JsonNode documentsData, String processId);
+    JsonNode setDocumentsOfAcAward(JsonNode jsonData, JsonNode documentsData, String processId);
 
     JsonNode getDocumentsOfBids(JsonNode jsonData, String processId);
 
@@ -197,7 +197,7 @@ public interface ProcessService {
 
     JsonNode setAuctionEndData(JsonNode jsonData, JsonNode responseData, String processId);
 
-    JsonNode addContractTerms(JsonNode jsonData, JsonNode responseData, String processId);
+    JsonNode addContractTerm(JsonNode jsonData, JsonNode responseData, String processId);
 
     JsonNode addActualBudgetSource(JsonNode jsonData, JsonNode responseData, String processId);
 

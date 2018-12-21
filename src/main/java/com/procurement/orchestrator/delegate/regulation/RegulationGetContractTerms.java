@@ -58,7 +58,7 @@ public class RegulationGetContractTerms implements JavaDelegate {
                         entity,
                         context,
                         commandMessage,
-                        processService.addContractTerms(jsonData, responseData, processId));
+                        processService.addContractTerm(jsonData, responseData, processId));
             }
         }
     }

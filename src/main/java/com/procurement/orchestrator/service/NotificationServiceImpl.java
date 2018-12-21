@@ -332,13 +332,6 @@ public class NotificationServiceImpl implements NotificationService {
                 data.setOutcomes(buildOutcomesFromContext(Collections.singletonList("cans"), context));
                 break;
             }
-            case AWARD_PERIOD_END_EV: {
-                message.setInitiator(BPE);
-                data.setOcid(context.getOcid());
-                data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
-                data.setOutcomes(buildOutcomesFromContext(Collections.singletonList("ac"), context));
-                break;
-            }
             case CANCEL_STANDSTILL: {
                 data.setOcid(context.getOcid());
                 data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
@@ -366,6 +359,13 @@ public class NotificationServiceImpl implements NotificationService {
             case UPDATE_BID_DOCS: {
                 data.setOcid(context.getCpid());
                 data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
+                break;
+            }
+            case CREATE_AC: {
+                message.setInitiator(BPE);
+                data.setOcid(context.getOcid());
+                data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
+                data.setOutcomes(buildOutcomesFromContext(Collections.singletonList("ac"), context));
                 break;
             }
             case UPDATE_AC: {
