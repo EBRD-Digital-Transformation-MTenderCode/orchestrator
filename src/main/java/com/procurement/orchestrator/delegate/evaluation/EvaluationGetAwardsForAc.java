@@ -1,9 +1,9 @@
-package com.procurement.orchestrator.delegate.contracting;
+package com.procurement.orchestrator.delegate.evaluation;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
-import com.procurement.orchestrator.rest.ContractingRestClient;
+import com.procurement.orchestrator.rest.EvaluationRestClient;
 import com.procurement.orchestrator.service.NotificationService;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
@@ -16,25 +16,25 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.ContractingCommandType.CHECK_CAN_BY_AWARD;
+import static com.procurement.orchestrator.domain.commands.EvaluationCommandType.GET_AWARDS_FOR_AC;
 
 @Component
-public class ContractingCheckCanByAward implements JavaDelegate {
+public class EvaluationGetAwardsForAc implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ContractingCheckCanByAward.class);
+    private static final Logger LOG = LoggerFactory.getLogger(EvaluationGetAwardsForAc.class);
 
-    private final ContractingRestClient contractingRestClient;
+    private final EvaluationRestClient evaluationRestClient;
     private final NotificationService notificationService;
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public ContractingCheckCanByAward(final ContractingRestClient contractingRestClient,
-                                      final NotificationService notificationService,
-                                      final OperationService operationService,
-                                      final ProcessService processService,
-                                      final JsonUtil jsonUtil) {
-        this.contractingRestClient = contractingRestClient;
+    public EvaluationGetAwardsForAc(final EvaluationRestClient evaluationRestClient,
+                                    final NotificationService notificationService,
+                                    final OperationService operationService,
+                                    final ProcessService processService,
+                                    final JsonUtil jsonUtil) {
+        this.evaluationRestClient = evaluationRestClient;
         this.notificationService = notificationService;
         this.operationService = operationService;
         this.processService = processService;
@@ -44,14 +44,14 @@ public class ContractingCheckCanByAward implements JavaDelegate {
     @Override
     public void execute(final DelegateExecution execution) throws Exception {
         LOG.info(execution.getCurrentActivityId());
+        final String processId = execution.getProcessInstanceId();
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
-        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
-        final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(CHECK_CAN_BY_AWARD, context, jsonData);
-        JsonNode responseData = processService.processResponse(
-                contractingRestClient.execute(commandMessage),
+        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
+        final JsonNode commandMessage = processService.getCommandMessage(GET_AWARDS_FOR_AC, context, jsonData);
+        final JsonNode responseData = processService.processResponse(
+                evaluationRestClient.execute(commandMessage),
                 context,
                 processId,
                 taskId,
@@ -60,7 +60,10 @@ public class ContractingCheckCanByAward implements JavaDelegate {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    commandMessage);
+                    commandMessage,
+                    processService.addAwards(jsonData, responseData, processId));
         }
     }
 }
+
+

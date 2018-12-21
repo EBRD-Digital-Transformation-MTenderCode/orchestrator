@@ -1,10 +1,9 @@
-package com.procurement.orchestrator.delegate.contracting;
+package com.procurement.orchestrator.delegate.access;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
-import com.procurement.orchestrator.rest.ContractingRestClient;
-import com.procurement.orchestrator.service.NotificationService;
+import com.procurement.orchestrator.rest.AccessRestClient;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -16,26 +15,23 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.ContractingCommandType.CHECK_CAN_BY_AWARD;
+import static com.procurement.orchestrator.domain.commands.AccessCommandType.GET_DATA_FOR_AC;
 
 @Component
-public class ContractingCheckCanByAward implements JavaDelegate {
+public class AccessGetDataForAc implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ContractingCheckCanByAward.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AccessGetDataForAc.class);
 
-    private final ContractingRestClient contractingRestClient;
-    private final NotificationService notificationService;
+    private final AccessRestClient accessRestClient;
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public ContractingCheckCanByAward(final ContractingRestClient contractingRestClient,
-                                      final NotificationService notificationService,
-                                      final OperationService operationService,
-                                      final ProcessService processService,
-                                      final JsonUtil jsonUtil) {
-        this.contractingRestClient = contractingRestClient;
-        this.notificationService = notificationService;
+    public AccessGetDataForAc(final AccessRestClient accessRestClient,
+                              final OperationService operationService,
+                              final ProcessService processService,
+                              final JsonUtil jsonUtil) {
+        this.accessRestClient = accessRestClient;
         this.operationService = operationService;
         this.processService = processService;
         this.jsonUtil = jsonUtil;
@@ -49,9 +45,9 @@ public class ContractingCheckCanByAward implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(CHECK_CAN_BY_AWARD, context, jsonData);
+        final JsonNode commandMessage = processService.getCommandMessage(GET_DATA_FOR_AC, context, jsonData);
         JsonNode responseData = processService.processResponse(
-                contractingRestClient.execute(commandMessage),
+                accessRestClient.execute(commandMessage),
                 context,
                 processId,
                 taskId,
@@ -60,7 +56,9 @@ public class ContractingCheckCanByAward implements JavaDelegate {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    commandMessage);
+                    commandMessage,
+                    processService.addContractedTender(jsonData, responseData, processId));
         }
     }
 }
+

@@ -33,18 +33,13 @@ public class SaveContractContext implements JavaDelegate {
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final Set<Outcome> contextOutcomes = context.getOutcomes();
-        context.setPhase("awardedContractPreparation");
-        operationService.saveContext(context);
-
         context.setStage(Stage.AC.value());
-        context.setPhase("contractProject");
         for (final Outcome outcome : contextOutcomes) {
             if (outcome.getType().equals("ac")) {
                 context.setOcid(outcome.getId());
                 operationService.saveContractContext(outcome.getId(), context);
             }
         }
-
         operationService.saveOperationStep(execution, entity);
     }
 }

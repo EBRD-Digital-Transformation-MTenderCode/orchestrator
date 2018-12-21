@@ -16,12 +16,12 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.ContractingCommandType.CHECK_CAN_BY_AWARD;
+import static com.procurement.orchestrator.domain.commands.ContractingCommandType.GET_AWARDS;
 
 @Component
-public class ContractingCheckCanByAward implements JavaDelegate {
+public class ContractingGetCans implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ContractingCheckCanByAward.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ContractingGetCans.class);
 
     private final ContractingRestClient contractingRestClient;
     private final NotificationService notificationService;
@@ -29,11 +29,11 @@ public class ContractingCheckCanByAward implements JavaDelegate {
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public ContractingCheckCanByAward(final ContractingRestClient contractingRestClient,
-                                      final NotificationService notificationService,
-                                      final OperationService operationService,
-                                      final ProcessService processService,
-                                      final JsonUtil jsonUtil) {
+    public ContractingGetCans(final ContractingRestClient contractingRestClient,
+                              final NotificationService notificationService,
+                              final OperationService operationService,
+                              final ProcessService processService,
+                              final JsonUtil jsonUtil) {
         this.contractingRestClient = contractingRestClient;
         this.notificationService = notificationService;
         this.operationService = operationService;
@@ -49,7 +49,7 @@ public class ContractingCheckCanByAward implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(CHECK_CAN_BY_AWARD, context, jsonData);
+        final JsonNode commandMessage = processService.getCommandMessage(GET_AWARDS, context, jsonData);
         JsonNode responseData = processService.processResponse(
                 contractingRestClient.execute(commandMessage),
                 context,
@@ -60,7 +60,8 @@ public class ContractingCheckCanByAward implements JavaDelegate {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    commandMessage);
+                    commandMessage,
+                    processService.addCans(jsonData, responseData, processId));
         }
     }
 }

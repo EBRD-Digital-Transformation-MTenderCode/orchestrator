@@ -23,6 +23,7 @@ public enum EvaluationCommandType {
     END_AWARD_PERIOD("endAwardPeriod"),
     SET_INITIAL_AWARDS_STATUS("setInitialAwardsStatus"),
     GET_AWARD_FOR_CAN("getAwardForCan"),
+    GET_AWARDS_FOR_AC("getAwardsForAc"),
     GET_LOT_FOR_CHECK("getLotForCheck");
 
     private static final Map<String, EvaluationCommandType> CONSTANTS = new HashMap<>();

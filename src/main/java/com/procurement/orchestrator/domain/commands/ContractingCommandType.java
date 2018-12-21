@@ -12,7 +12,8 @@ public enum ContractingCommandType {
 
     CHECK_CAN("checkCan"),
     CHECK_CAN_BY_AWARD("checkCanBiAwardId"),
-    CREATE_CAN("createCAN"),
+    CREATE_CAN("createCan"),
+    GET_AWARDS("getAwards"),
     CREATE_AC("createAC"),
     UPDATE_AC("updateAC"),
     GET_BUDGET_SOURCES("getActualBudgetSources"),

@@ -250,5 +250,9 @@ public interface ProcessService {
     JsonNode addLotId(JsonNode jsonData, JsonNode responseData, String processId);
 
     JsonNode addAwardId(JsonNode jsonData, JsonNode responseData, String processId);
+
+    JsonNode addCans(JsonNode jsonData, JsonNode responseData, String processId);
+
+    JsonNode addContractedTender(JsonNode jsonData, JsonNode responseData, String processId);
 }
 
