@@ -13,7 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import static com.procurement.orchestrator.domain.commands.EvaluationCommandType.CHECK_AWARD_FOR_CAN;
+import static com.procurement.orchestrator.domain.commands.EvaluationCommandType.GET_AWARD_FOR_CAN;
 
 @Component
 public class EvaluationGetAwardForCan implements JavaDelegate {
@@ -43,7 +43,7 @@ public class EvaluationGetAwardForCan implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String taskId = execution.getCurrentActivityId();
         final String processId = execution.getProcessInstanceId();
-        final JsonNode commandMessage = processService.getCommandMessage(CHECK_AWARD_FOR_CAN, context, jsonUtil.empty());
+        final JsonNode commandMessage = processService.getCommandMessage(GET_AWARD_FOR_CAN, context, jsonUtil.empty());
         JsonNode responseData = processService.processResponse(
                 evaluationRestClient.execute(commandMessage),
                 context,

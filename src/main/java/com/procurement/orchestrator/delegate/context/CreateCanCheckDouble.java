@@ -39,13 +39,13 @@ public class CreateCanCheckDouble implements JavaDelegate {
     @Override
     public void execute(final DelegateExecution execution) {
         LOG.info(execution.getCurrentActivityId());
-        final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
-        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
-        final String checkId = context.getOcid() + context.getId();
-        final String processId = execution.getProcessInstanceId();
-        if (!operationService.saveCheckIfNotExist(checkId, entity)) {
-            processService.terminateProcess(processId, "process: " + context.getProcessType()
-                    + " by ocid:" + context.getOcid() + " already launched.");
-        }
+//        final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
+//        final Context context = jsonUtil.toObject(Context.class, entity.getContext());
+//        final String checkId = context.getOcid() + context.getId();
+//        final String processId = execution.getProcessInstanceId();
+//        if (!operationService.saveCheckIfNotExist(checkId, entity)) {
+//            processService.terminateProcess(processId, "process: " + context.getProcessType()
+//                    + " by ocid:" + context.getOcid() + " already launched.");
+//        }
     }
 }

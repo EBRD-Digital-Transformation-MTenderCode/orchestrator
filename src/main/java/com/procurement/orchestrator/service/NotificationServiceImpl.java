@@ -128,11 +128,10 @@ public class NotificationServiceImpl implements NotificationService {
     public Context addCanOutcomeToContext(final Context context, final JsonNode responseData, final String processId) {
         Set<Outcome> outcomes;
         outcomes = new HashSet<>();
-        final ArrayNode cansNode = (ArrayNode) responseData.get("can");
-        for (final JsonNode canNode : cansNode) {
-            final Outcome outcome = new Outcome(canNode.get("id").asText(), canNode.get("token").asText(), "cans");
-            outcomes.add(outcome);
-        }
+        final JsonNode canNode = responseData.get("can");
+        final Outcome outcome = new Outcome(canNode.get("id").asText(), canNode.get("token").asText(), "cans");
+        outcomes.add(outcome);
+
         context.setOutcomes(outcomes);
         return context;
     }
