@@ -63,8 +63,6 @@ public interface ProcessService {
 
     JsonNode addLotsAndAwardCriteria(JsonNode jsonData, JsonNode lotsData, String processId);
 
-    JsonNode addItems(JsonNode data, String processId);
-
     JsonNode addAwardData(JsonNode jsonData, JsonNode awardData, String processId);
 
     JsonNode addAwards(JsonNode jsonData, JsonNode awardsData, String processId);
@@ -249,8 +247,8 @@ public interface ProcessService {
 
     JsonNode addInitialAwardsStatuses(JsonNode jsonData, JsonNode responseData, String processId);
 
-    JsonNode addAward(JsonNode jsonData, JsonNode responseData, String processId);
-
     JsonNode addLotId(JsonNode jsonData, JsonNode responseData, String processId);
+
+    JsonNode addAwardId(JsonNode jsonData, JsonNode responseData, String processId);
 }
 
