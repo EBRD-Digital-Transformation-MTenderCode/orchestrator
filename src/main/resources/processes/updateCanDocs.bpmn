@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="2.0.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.10.0">
   <bpmn:process id="updateCanDocs" name="updateCanDocs" isExecutable="true">
     <bpmn:startEvent id="StartEvent_1">
       <bpmn:outgoing>SequenceFlow_1bfbs0n</bpmn:outgoing>
@@ -23,26 +23,21 @@
       <bpmn:outgoing>SequenceFlow_1j38voa</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1j38voa" sourceRef="SaveContextTask" targetRef="SendMessageTask" />
-    <bpmn:serviceTask id="AccessCheckTokenTask" name="Access Validate Owner and Token" camunda:asyncBefore="true" camunda:delegateExpression="${accessCheckToken}">
-      <bpmn:incoming>SequenceFlow_1llcn73</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_0mv0pq3</bpmn:outgoing>
-    </bpmn:serviceTask>
     <bpmn:serviceTask id="ContractingUpdateCanDocs" name="Contracting Update CAN Docs" camunda:asyncBefore="true" camunda:delegateExpression="${contractingUpdateCanDocs}">
-      <bpmn:incoming>SequenceFlow_0mv0pq3</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_1llcn73</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0057xjk</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="NoticeCreateReleaseTask" name="Notice Create Release" camunda:asyncBefore="true" camunda:delegateExpression="${noticeCreateRelease}">
       <bpmn:incoming>SequenceFlow_0iamkd0</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1lcd47i</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_0mv0pq3" sourceRef="AccessCheckTokenTask" targetRef="ContractingUpdateCanDocs" />
     <bpmn:sequenceFlow id="SequenceFlow_0057xjk" sourceRef="ContractingUpdateCanDocs" targetRef="StorageOpenDocsCan" />
     <bpmn:sequenceFlow id="SequenceFlow_1lcd47i" sourceRef="NoticeCreateReleaseTask" targetRef="SaveContextTask" />
     <bpmn:serviceTask id="StorageValidateDocsOfContractTask" name="Storage&#10;Validate" camunda:asyncBefore="true" camunda:delegateExpression="${storageValidateDocsCan}">
       <bpmn:incoming>SequenceFlow_196ohf0</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1llcn73</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_1llcn73" sourceRef="StorageValidateDocsOfContractTask" targetRef="AccessCheckTokenTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1llcn73" sourceRef="StorageValidateDocsOfContractTask" targetRef="ContractingUpdateCanDocs" />
     <bpmn:serviceTask id="StorageOpenDocsCan" name="Storage&#10;Open access" camunda:asyncBefore="true" camunda:delegateExpression="${storageOpenDocsCan}">
       <bpmn:incoming>SequenceFlow_0057xjk</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0iamkd0</bpmn:outgoing>
@@ -59,8 +54,8 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1bfbs0n_di" bpmnElement="SequenceFlow_1bfbs0n">
-        <di:waypoint x="113" y="275" />
-        <di:waypoint x="144" y="275" />
+        <di:waypoint xsi:type="dc:Point" x="113" y="275" />
+        <di:waypoint xsi:type="dc:Point" x="144" y="275" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="90" y="254" width="90" height="12" />
         </bpmndi:BPMNLabel>
@@ -69,10 +64,10 @@
         <dc:Bounds x="144" y="235" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_196ohf0_di" bpmnElement="SequenceFlow_196ohf0">
-        <di:waypoint x="244" y="275" />
-        <di:waypoint x="280" y="275" />
+        <di:waypoint xsi:type="dc:Point" x="244" y="275" />
+        <di:waypoint xsi:type="dc:Point" x="354" y="275" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="237" y="254" width="90" height="12" />
+          <dc:Bounds x="254" y="254" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ServiceTask_07afguu_di" bpmnElement="SendMessageTask">
@@ -85,8 +80,8 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_062dyz9_di" bpmnElement="SequenceFlow_062dyz9">
-        <di:waypoint x="1196" y="275" />
-        <di:waypoint x="1226" y="275" />
+        <di:waypoint xsi:type="dc:Point" x="1196" y="275" />
+        <di:waypoint xsi:type="dc:Point" x="1226" y="275" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1357" y="269" width="90" height="12" />
         </bpmndi:BPMNLabel>
@@ -95,58 +90,48 @@
         <dc:Bounds x="960" y="235" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1j38voa_di" bpmnElement="SequenceFlow_1j38voa">
-        <di:waypoint x="1060" y="275" />
-        <di:waypoint x="1096" y="275" />
+        <di:waypoint xsi:type="dc:Point" x="1060" y="275" />
+        <di:waypoint xsi:type="dc:Point" x="1096" y="275" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1101" y="254" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_1eyrp2x_di" bpmnElement="AccessCheckTokenTask">
-        <dc:Bounds x="416" y="235" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_1n3hygp_di" bpmnElement="ContractingUpdateCanDocs">
         <dc:Bounds x="552" y="235" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_1mh69v6_di" bpmnElement="NoticeCreateReleaseTask">
         <dc:Bounds x="824" y="235" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="SequenceFlow_0mv0pq3_di" bpmnElement="SequenceFlow_0mv0pq3">
-        <di:waypoint x="516" y="275" />
-        <di:waypoint x="552" y="275" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="486" y="250" width="90" height="20" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0057xjk_di" bpmnElement="SequenceFlow_0057xjk">
-        <di:waypoint x="652" y="275" />
-        <di:waypoint x="688" y="275" />
+        <di:waypoint xsi:type="dc:Point" x="652" y="275" />
+        <di:waypoint xsi:type="dc:Point" x="688" y="275" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="628" y="250" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1lcd47i_di" bpmnElement="SequenceFlow_1lcd47i">
-        <di:waypoint x="924" y="275" />
-        <di:waypoint x="960" y="275" />
+        <di:waypoint xsi:type="dc:Point" x="924" y="275" />
+        <di:waypoint xsi:type="dc:Point" x="960" y="275" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="947" y="265" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ServiceTask_11mva5j_di" bpmnElement="StorageValidateDocsOfContractTask">
-        <dc:Bounds x="280" y="235" width="100" height="80" />
+        <dc:Bounds x="354" y="235" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1llcn73_di" bpmnElement="SequenceFlow_1llcn73">
-        <di:waypoint x="380" y="275" />
-        <di:waypoint x="416" y="275" />
+        <di:waypoint xsi:type="dc:Point" x="454" y="275" />
+        <di:waypoint xsi:type="dc:Point" x="552" y="275" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="350.5" y="250" width="90" height="20" />
+          <dc:Bounds x="458" y="250" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ServiceTask_1a7llvb_di" bpmnElement="StorageOpenDocsCan">
         <dc:Bounds x="688" y="235" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0iamkd0_di" bpmnElement="SequenceFlow_0iamkd0">
-        <di:waypoint x="788" y="275" />
-        <di:waypoint x="824" y="275" />
+        <di:waypoint xsi:type="dc:Point" x="788" y="275" />
+        <di:waypoint xsi:type="dc:Point" x="824" y="275" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="821.5" y="254" width="0" height="12" />
         </bpmndi:BPMNLabel>
