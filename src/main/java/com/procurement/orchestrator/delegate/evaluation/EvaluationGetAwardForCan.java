@@ -1,9 +1,9 @@
-package com.procurement.orchestrator.delegate.access;
+package com.procurement.orchestrator.delegate.evaluation;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
-import com.procurement.orchestrator.rest.AccessRestClient;
+import com.procurement.orchestrator.rest.EvaluationRestClient;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -13,23 +13,23 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import static com.procurement.orchestrator.domain.commands.AccessCommandType.CHECK_LOT_STATUS_AND_GET_ITEMS;
+import static com.procurement.orchestrator.domain.commands.EvaluationCommandType.CHECK_AWARD_FOR_CAN;
 
 @Component
-public class AccessCheckLotStatusAndGetItems implements JavaDelegate {
+public class EvaluationGetAwardForCan implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AccessCheckLotStatusAndGetItems.class);
+    private static final Logger LOG = LoggerFactory.getLogger(EvaluationGetAwardForCan.class);
 
-    private final AccessRestClient accessRestClient;
+    private final EvaluationRestClient evaluationRestClient;
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public AccessCheckLotStatusAndGetItems(final AccessRestClient accessRestClient,
-                                           final OperationService operationService,
-                                           final ProcessService processService,
-                                           final JsonUtil jsonUtil) {
-        this.accessRestClient = accessRestClient;
+    public EvaluationGetAwardForCan(final EvaluationRestClient evaluationRestClient,
+                                    final OperationService operationService,
+                                    final ProcessService processService,
+                                    final JsonUtil jsonUtil) {
+        this.evaluationRestClient = evaluationRestClient;
         this.operationService = operationService;
         this.processService = processService;
         this.jsonUtil = jsonUtil;
@@ -40,22 +40,17 @@ public class AccessCheckLotStatusAndGetItems implements JavaDelegate {
         LOG.info(execution.getCurrentActivityId());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
-        final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(CHECK_LOT_STATUS_AND_GET_ITEMS, context, jsonUtil.empty());
+        final String processId = execution.getProcessInstanceId();
+        final JsonNode commandMessage = processService.getCommandMessage(CHECK_AWARD_FOR_CAN, context, jsonUtil.empty());
         JsonNode responseData = processService.processResponse(
-                accessRestClient.execute(commandMessage),
+                evaluationRestClient.execute(commandMessage),
                 context,
                 processId,
                 taskId,
                 commandMessage);
         if (responseData != null) {
-            operationService.saveOperationStep(
-                    execution,
-                    entity,
-                    commandMessage,
-                    responseData);
+            operationService.saveOperationStep(execution, entity, commandMessage, responseData);
         }
     }
 }
-

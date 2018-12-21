@@ -1,9 +1,9 @@
-package com.procurement.orchestrator.delegate.evaluation;
+package com.procurement.orchestrator.delegate.access;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
-import com.procurement.orchestrator.rest.EvaluationRestClient;
+import com.procurement.orchestrator.rest.AccessRestClient;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -13,25 +13,23 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.util.Objects;
-
-import static com.procurement.orchestrator.domain.commands.EvaluationCommandType.UPDATE_AWARD_FOR_CAN;
+import static com.procurement.orchestrator.domain.commands.AccessCommandType.CHECK_LOT_STATUS;
 
 @Component
-public class EvaluationUpdateAwardForCan implements JavaDelegate {
+public class AccessCheckLotStatus implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(EvaluationUpdateAwardForCan.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AccessCheckLotStatus.class);
 
-    private final EvaluationRestClient evaluationRestClient;
+    private final AccessRestClient accessRestClient;
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public EvaluationUpdateAwardForCan(final EvaluationRestClient evaluationRestClient,
-                                       final OperationService operationService,
-                                       final ProcessService processService,
-                                       final JsonUtil jsonUtil) {
-        this.evaluationRestClient = evaluationRestClient;
+    public AccessCheckLotStatus(final AccessRestClient accessRestClient,
+                                final OperationService operationService,
+                                final ProcessService processService,
+                                final JsonUtil jsonUtil) {
+        this.accessRestClient = accessRestClient;
         this.operationService = operationService;
         this.processService = processService;
         this.jsonUtil = jsonUtil;
@@ -42,23 +40,21 @@ public class EvaluationUpdateAwardForCan implements JavaDelegate {
         LOG.info(execution.getCurrentActivityId());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
-        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
-        final String taskId = execution.getCurrentActivityId();
         final String processId = execution.getProcessInstanceId();
-        final JsonNode commandMessage = processService.getCommandMessage(UPDATE_AWARD_FOR_CAN, context, jsonData);
-        final JsonNode responseData = processService.processResponse(
-                evaluationRestClient.execute(commandMessage),
+        final String taskId = execution.getCurrentActivityId();
+        final JsonNode commandMessage = processService.getCommandMessage(CHECK_LOT_STATUS, context, jsonUtil.empty());
+        JsonNode responseData = processService.processResponse(
+                accessRestClient.execute(commandMessage),
                 context,
                 processId,
                 taskId,
                 commandMessage);
-        if (Objects.nonNull(responseData)) {
+        if (responseData != null) {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    context,
-                    commandMessage,
-                    processService.addAward(jsonData, responseData, processId));
+                    commandMessage);
         }
     }
 }
+

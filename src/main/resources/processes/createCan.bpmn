@@ -16,25 +16,21 @@
       <bpmn:incoming>SequenceFlow_12f5wjq</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1vxrzlr</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="AccessCheckLotStatusAndGetItemsTask" name="Access&#10;Check Lot status &#10;&#38; Get Items" camunda:asyncBefore="true" camunda:delegateExpression="${accessCheckLotStatusAndGetItems}">
+    <bpmn:serviceTask id="AccessCheckLotStatusTask" name="Access&#10;Check Lot status&#10;" camunda:asyncBefore="true" camunda:delegateExpression="${accessCheckLotStatus}">
       <bpmn:incoming>SequenceFlow_1g55amn</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_08kea5o</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="EvaluationCheckAwardForCanTask" name="Evaluation&#10;Check Award" camunda:asyncBefore="true" camunda:delegateExpression="${evaluationCheckAwardForCan}">
+    <bpmn:serviceTask id="EvaluationGetAwardForCanTask" name="Evaluation&#10;Get Award" camunda:asyncBefore="true" camunda:delegateExpression="${evaluationGetAwardForCan}">
       <bpmn:incoming>SequenceFlow_08kea5o</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1vcwuhd</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="ContractingCreateCanTask" name="Contracting Create CAN" camunda:asyncBefore="true" camunda:delegateExpression="${contractingCreateCan}">
-      <bpmn:incoming>SequenceFlow_0gqieuj</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_15izye3</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1f8vmw4</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="NoticePostEvTask" name="Notice create release" camunda:asyncBefore="true" camunda:delegateExpression="${noticeCreateRelease}">
       <bpmn:incoming>SequenceFlow_1f8vmw4</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_12f5wjq</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:serviceTask id="EvaluationUpdateAwardForCanTask" name="Evaluation&#10;Update Award" camunda:asyncBefore="true" camunda:delegateExpression="${evaluationUpdateAwardForCan}">
-      <bpmn:incoming>SequenceFlow_15izye3</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_0gqieuj</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="SendMessageTask" name="Send &#10;message to platform&#10;" camunda:asyncBefore="true" camunda:delegateExpression="${sendMessageToPlatform}">
       <bpmn:incoming>SequenceFlow_1vxrzlr</bpmn:incoming>
@@ -48,12 +44,11 @@
       <bpmn:incoming>SequenceFlow_1vcwuhd</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1njmepq</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_1g55amn" sourceRef="SaveFirstOperationTask" targetRef="AccessCheckLotStatusAndGetItemsTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_08kea5o" sourceRef="AccessCheckLotStatusAndGetItemsTask" targetRef="EvaluationCheckAwardForCanTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1vcwuhd" sourceRef="EvaluationCheckAwardForCanTask" targetRef="ContractingCheckCanTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1g55amn" sourceRef="SaveFirstOperationTask" targetRef="AccessCheckLotStatusTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_08kea5o" sourceRef="AccessCheckLotStatusTask" targetRef="EvaluationGetAwardForCanTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1vcwuhd" sourceRef="EvaluationGetAwardForCanTask" targetRef="ContractingCheckCanTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1njmepq" sourceRef="ContractingCheckCanTask" targetRef="CheckDoubleTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_15izye3" sourceRef="CheckDoubleTask" targetRef="EvaluationUpdateAwardForCanTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0gqieuj" sourceRef="EvaluationUpdateAwardForCanTask" targetRef="ContractingCreateCanTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_15izye3" sourceRef="CheckDoubleTask" targetRef="ContractingCreateCanTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1f8vmw4" sourceRef="ContractingCreateCanTask" targetRef="NoticePostEvTask" />
     <bpmn:sequenceFlow id="SequenceFlow_12f5wjq" sourceRef="NoticePostEvTask" targetRef="SaveContextTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1vxrzlr" sourceRef="SaveContextTask" targetRef="SendMessageTask" />
@@ -69,7 +64,7 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="EndEvent_0wpvj65_di" bpmnElement="EndEvent_1">
-        <dc:Bounds x="1512" y="182" width="36" height="36" />
+        <dc:Bounds x="1375" y="182" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="2306" y="186" width="90" height="12" />
         </bpmndi:BPMNLabel>
@@ -85,25 +80,22 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ServiceTask_0ql6wk4_di" bpmnElement="SaveContextTask">
-        <dc:Bounds x="1244" y="160" width="100" height="80" />
+        <dc:Bounds x="1107" y="160" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_0n9bfrx_di" bpmnElement="AccessCheckLotStatusAndGetItemsTask">
+      <bpmndi:BPMNShape id="ServiceTask_0n9bfrx_di" bpmnElement="AccessCheckLotStatusTask">
         <dc:Bounds x="292" y="160" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_126igjh_di" bpmnElement="EvaluationCheckAwardForCanTask">
+      <bpmndi:BPMNShape id="ServiceTask_126igjh_di" bpmnElement="EvaluationGetAwardForCanTask">
         <dc:Bounds x="428" y="160" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_11m400t_di" bpmnElement="ContractingCreateCanTask">
-        <dc:Bounds x="972" y="160" width="100" height="80" />
+        <dc:Bounds x="835" y="160" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_09uzmnv_di" bpmnElement="NoticePostEvTask">
-        <dc:Bounds x="1108" y="160" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_0qqyoyk_di" bpmnElement="EvaluationUpdateAwardForCanTask">
-        <dc:Bounds x="836" y="160" width="100" height="80" />
+        <dc:Bounds x="971" y="160" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_1itper0_di" bpmnElement="SendMessageTask">
-        <dc:Bounds x="1380" y="160" width="100" height="80" />
+        <dc:Bounds x="1243" y="160" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_1kru131_di" bpmnElement="CheckDoubleTask">
         <dc:Bounds x="700" y="160" width="100" height="80" />
@@ -129,27 +121,23 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_15izye3_di" bpmnElement="SequenceFlow_15izye3">
         <di:waypoint x="800" y="200" />
-        <di:waypoint x="836" y="200" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_0gqieuj_di" bpmnElement="SequenceFlow_0gqieuj">
-        <di:waypoint x="936" y="200" />
-        <di:waypoint x="972" y="200" />
+        <di:waypoint x="835" y="200" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1f8vmw4_di" bpmnElement="SequenceFlow_1f8vmw4">
-        <di:waypoint x="1072" y="200" />
-        <di:waypoint x="1108" y="200" />
+        <di:waypoint x="935" y="200" />
+        <di:waypoint x="971" y="200" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_12f5wjq_di" bpmnElement="SequenceFlow_12f5wjq">
-        <di:waypoint x="1208" y="200" />
-        <di:waypoint x="1244" y="200" />
+        <di:waypoint x="1071" y="200" />
+        <di:waypoint x="1107" y="200" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1vxrzlr_di" bpmnElement="SequenceFlow_1vxrzlr">
-        <di:waypoint x="1344" y="200" />
-        <di:waypoint x="1380" y="200" />
+        <di:waypoint x="1207" y="200" />
+        <di:waypoint x="1243" y="200" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0bdqe9i_di" bpmnElement="SequenceFlow_0bdqe9i">
-        <di:waypoint x="1480" y="200" />
-        <di:waypoint x="1512" y="200" />
+        <di:waypoint x="1343" y="200" />
+        <di:waypoint x="1375" y="200" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
