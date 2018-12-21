@@ -254,5 +254,7 @@ public interface ProcessService {
     JsonNode addCans(JsonNode jsonData, JsonNode responseData, String processId);
 
     JsonNode addContractedTender(JsonNode jsonData, JsonNode responseData, String processId);
+
+    JsonNode addCreateAcData(JsonNode jsonData, JsonNode responseData, String processId);
 }
 

@@ -139,10 +139,8 @@ public class NotificationServiceImpl implements NotificationService {
     public Context addContractOutcomeToContext(final Context context, final JsonNode responseData, final String processId) {
         Set<Outcome> outcomes;
         outcomes = new HashSet<>();
-        final ArrayNode contractsNode = (ArrayNode) responseData.get("contracts");
-        for (final JsonNode contractNode : contractsNode) {
-            outcomes.add(new Outcome(contractNode.get("id").asText(), contractNode.get("token").asText(), "ac"));
-        }
+        final JsonNode contractNode = responseData.get("contract");
+        outcomes.add(new Outcome(contractNode.get("id").asText(), contractNode.get("token").asText(), "ac"));
         context.setOutcomes(outcomes);
         return context;
     }

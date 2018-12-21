@@ -19,9 +19,9 @@ import java.util.Objects;
 import static com.procurement.orchestrator.domain.commands.ContractingCommandType.CREATE_AC;
 
 @Component
-public class ContractingCreate implements JavaDelegate {
+public class ContractingCreateAc implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ContractingCreate.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ContractingCreateAc.class);
 
     private final ContractingRestClient contractingRestClient;
     private final NotificationService notificationService;
@@ -29,11 +29,11 @@ public class ContractingCreate implements JavaDelegate {
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public ContractingCreate(final ContractingRestClient contractingRestClient,
-                             final NotificationService notificationService,
-                             final OperationService operationService,
-                             final ProcessService processService,
-                             final JsonUtil jsonUtil) {
+    public ContractingCreateAc(final ContractingRestClient contractingRestClient,
+                               final NotificationService notificationService,
+                               final OperationService operationService,
+                               final ProcessService processService,
+                               final JsonUtil jsonUtil) {
         this.contractingRestClient = contractingRestClient;
         this.notificationService = notificationService;
         this.operationService = operationService;
@@ -62,7 +62,7 @@ public class ContractingCreate implements JavaDelegate {
                     entity,
                     notificationService.addContractOutcomeToContext(context, responseData, processId),
                     commandMessage,
-                    processService.addContracts(jsonData, responseData, processId));
+                    processService.addCreateAcData(jsonData, responseData, processId));
         }
     }
 
