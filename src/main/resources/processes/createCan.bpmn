@@ -16,7 +16,7 @@
       <bpmn:incoming>SequenceFlow_12f5wjq</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1vxrzlr</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="AccessCheckLotStatusTask" name="Access&#10;Check Lot status&#10;" camunda:asyncBefore="true" camunda:delegateExpression="${accessCheckLotStatus}">
+    <bpmn:serviceTask id="AccessCheckLotStatusTask" name="Access&#10;Check Lot Status&#10;" camunda:asyncBefore="true" camunda:delegateExpression="${accessCheckLotStatus}">
       <bpmn:incoming>SequenceFlow_1g55amn</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_08kea5o</bpmn:outgoing>
     </bpmn:serviceTask>
