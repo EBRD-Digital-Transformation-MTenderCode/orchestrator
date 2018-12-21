@@ -55,7 +55,7 @@ public enum OperationType {
     TREASURY_APPROVING_AC("treasuryApprovingAC"),
     ACTIVATION_AC("activationAC"),
     END_AWARD_PERIOD("endAwardPeriod"),
-    CREATE_CAN("createCAN"),
+    CREATE_CAN("createCan"),
     UPDATE_CAN_DOCS("updateCanDocs"),
     CANCEL_CAN("cancelCan"),
     CANCEL_CAN_CONTRACT("cancelCanContract"),
