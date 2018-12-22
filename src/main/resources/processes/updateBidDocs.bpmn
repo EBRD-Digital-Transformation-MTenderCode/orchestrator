@@ -46,7 +46,7 @@
       <bpmn:incoming>SequenceFlow_0t5zb89</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1d3oxu6</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="ContractingCheckCanByAward" name="Contracting Check CAN" camunda:asyncBefore="true" camunda:delegateExpression="${ContractingCheckCanByAward}">
+    <bpmn:serviceTask id="ContractingCheckCanByAward" name="Contracting Check CAN" camunda:asyncBefore="true" camunda:delegateExpression="${contractingCheckCanByAward}">
       <bpmn:incoming>SequenceFlow_1d3oxu6</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0o5pwpb</bpmn:outgoing>
     </bpmn:serviceTask>

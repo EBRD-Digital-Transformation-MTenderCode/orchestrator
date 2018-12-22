@@ -46,9 +46,9 @@ public class ContractingCheckCanByAward implements JavaDelegate {
         LOG.info(execution.getCurrentActivityId());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
-        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
+        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final JsonNode commandMessage = processService.getCommandMessage(CHECK_CAN_BY_AWARD, context, jsonData);
         JsonNode responseData = processService.processResponse(
                 contractingRestClient.execute(commandMessage),
