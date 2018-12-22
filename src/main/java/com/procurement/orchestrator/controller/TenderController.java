@@ -245,11 +245,28 @@ public class TenderController extends DoBaseController {
     }
 
     @RequestMapping(value = "/contract/{cpid}/{ocid}", method = RequestMethod.POST)
+    public ResponseEntity<String> createAC(@RequestHeader("Authorization") final String authorization,
+                                           @RequestHeader("X-OPERATION-ID") final String operationId,
+                                           @RequestHeader("X-TOKEN") final String token,
+                                           @PathVariable("cpid") final String cpid,
+                                           @PathVariable("ocid") final String ocid,
+                                           @RequestBody final JsonNode data) {
+        requestService.validate(operationId, data);
+        final Context context = requestService.getContextForUpdate(authorization, operationId, cpid, ocid, token, "createAC");
+        requestService.saveRequestAndCheckOperation(context, data);
+        final Map<String, Object> variables = new HashMap<>();
+        variables.put("operationType", context.getOperationType());
+        processService.startProcess(context, variables);
+        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
+    }
+
+    @RequestMapping(value = "/contract/{cpid}/{ocid}/{id}", method = RequestMethod.POST)
     public ResponseEntity<String> updateAC(@RequestHeader("Authorization") final String authorization,
                                            @RequestHeader("X-OPERATION-ID") final String operationId,
                                            @RequestHeader("X-TOKEN") final String token,
                                            @PathVariable("cpid") final String cpid,
                                            @PathVariable("ocid") final String ocid,
+                                           @PathVariable("id") final String id,
                                            @RequestBody final JsonNode data) {
         requestService.validate(operationId, data);
         final Context context = requestService.getContextForContractUpdate(authorization, operationId,

@@ -24,3 +24,11 @@ select * from tasks where ocid = 'ocds-t1s2t3-MD-1534102735905'
 
 invalid:  https://eauction.mtender.md/
 valid:    https://auction.mtender.gov.md/auctions/
+
+{
+    "contracts":[
+      {
+        "id": "c2f44529-2bde-42ad-8ad8-a9e61926673d"
+      }
+    ]
+}

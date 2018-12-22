@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.ContractingCommandType.GET_AWARDS;
+import static com.procurement.orchestrator.domain.commands.ContractingCommandType.GET_CANS;
 
 @Component
 public class ContractingGetCans implements JavaDelegate {
@@ -49,7 +49,7 @@ public class ContractingGetCans implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(GET_AWARDS, context, jsonData);
+        final JsonNode commandMessage = processService.getCommandMessage(GET_CANS, context, jsonData);
         JsonNode responseData = processService.processResponse(
                 contractingRestClient.execute(commandMessage),
                 context,
