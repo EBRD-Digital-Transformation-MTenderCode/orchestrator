@@ -53,9 +53,12 @@ public class AccessGetDataForAc implements JavaDelegate {
                 taskId,
                 commandMessage);
         if (Objects.nonNull(responseData)) {
+            final String mainProcurementCategory = responseData.get("contractedTender").get("mainProcurementCategory").asText();
+            context.setMainProcurementCategory(mainProcurementCategory);
             operationService.saveOperationStep(
                     execution,
                     entity,
+                    context,
                     commandMessage,
                     processService.addContractedTender(jsonData, responseData, processId));
         }
