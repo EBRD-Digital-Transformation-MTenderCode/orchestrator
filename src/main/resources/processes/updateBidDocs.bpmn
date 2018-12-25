@@ -42,7 +42,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_0mv0pq3" sourceRef="SubmissionUpdateBidDocsTask" targetRef="StorageOpenDocsOfBidTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0057xjk" sourceRef="StorageOpenDocsOfBidTask" targetRef="NoticeCreateReleaseTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1lcd47i" sourceRef="NoticeCreateReleaseTask" targetRef="SaveContextTask" />
-    <bpmn:serviceTask id="EvaluationGetAwardIdForCheckTask" name="Evaluation&#10;Get Award Id For Check" camunda:asyncBefore="true" camunda:delegateExpression="${evaluationeGtAwardIdForCheck}">
+    <bpmn:serviceTask id="EvaluationGetAwardIdForCheckTask" name="Evaluation&#10;Get Award Id For Check" camunda:asyncBefore="true" camunda:delegateExpression="${evaluationGtAwardIdForCheck}">
       <bpmn:incoming>SequenceFlow_0t5zb89</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1d3oxu6</bpmn:outgoing>
     </bpmn:serviceTask>
