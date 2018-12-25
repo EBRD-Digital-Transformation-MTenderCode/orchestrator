@@ -1527,10 +1527,10 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public JsonNode setAwardRelatedBidId(final JsonNode jsonData, final JsonNode responseData, final String processId) {
+    public JsonNode setRelatedBidsId(final JsonNode jsonData, final JsonNode responseData, final String processId) {
         try {
             final ObjectNode mainNode = (ObjectNode) jsonData;
-            mainNode.replace("relatedBid", responseData.get("relatedBid"));
+            mainNode.replace("relatedBids", responseData.get("relatedBids"));
             return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
@@ -1538,10 +1538,10 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public JsonNode getRelatedBidData(JsonNode jsonData, String processId) {
+    public JsonNode getRelatedBidsData(JsonNode jsonData, String processId) {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
-            mainNode.replace("relatedBid", jsonData.get("relatedBid"));
+            mainNode.replace("relatedBids", jsonData.get("relatedBids"));
             return mainNode;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());

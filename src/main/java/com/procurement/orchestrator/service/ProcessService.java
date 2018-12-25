@@ -225,9 +225,9 @@ public interface ProcessService {
 
     JsonNode setConsideredBid(JsonNode jsonData, JsonNode responseData, String processId);
 
-    JsonNode setAwardRelatedBidId(JsonNode jsonData, JsonNode responseData, String processId);
+    JsonNode setRelatedBidsId(JsonNode jsonData, JsonNode responseData, String processId);
 
-    JsonNode getRelatedBidData(JsonNode jsonData, String processId);
+    JsonNode getRelatedBidsData(JsonNode jsonData, String processId);
 
     JsonNode getTreasuryValidationData(JsonNode jsonData, Context context, String processId);
 

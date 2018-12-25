@@ -19,9 +19,9 @@ import java.util.Objects;
 import static com.procurement.orchestrator.domain.commands.ContractingCommandType.GET_RELATED_BID_ID;
 
 @Component
-public class ContractingGetRelatedBidId implements JavaDelegate {
+public class ContractingGetRelatedBidsId implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ContractingGetRelatedBidId.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ContractingGetRelatedBidsId.class);
 
     private final ContractingRestClient contractingRestClient;
     private final NotificationService notificationService;
@@ -29,11 +29,11 @@ public class ContractingGetRelatedBidId implements JavaDelegate {
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public ContractingGetRelatedBidId(final ContractingRestClient contractingRestClient,
-                                      final NotificationService notificationService,
-                                      final OperationService operationService,
-                                      final ProcessService processService,
-                                      final JsonUtil jsonUtil) {
+    public ContractingGetRelatedBidsId(final ContractingRestClient contractingRestClient,
+                                       final NotificationService notificationService,
+                                       final OperationService operationService,
+                                       final ProcessService processService,
+                                       final JsonUtil jsonUtil) {
         this.contractingRestClient = contractingRestClient;
         this.notificationService = notificationService;
         this.operationService = operationService;
@@ -62,7 +62,7 @@ public class ContractingGetRelatedBidId implements JavaDelegate {
                     entity,
                     context,
                     commandMessage,
-                    processService.setAwardRelatedBidId(jsonData, responseData, processId));
+                    processService.setRelatedBidsId(jsonData, responseData, processId));
         }
     }
 }

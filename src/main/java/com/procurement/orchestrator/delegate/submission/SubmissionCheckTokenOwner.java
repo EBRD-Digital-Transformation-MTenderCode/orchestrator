@@ -45,7 +45,7 @@ public class SubmissionCheckTokenOwner implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode rqData = processService.getRelatedBidData(jsonData, processId);
+        final JsonNode rqData = processService.getRelatedBidsData(jsonData, processId);
         if (rqData != null) {
             final JsonNode commandMessage = processService.getCommandMessage(CHECK_TOKEN_OWNER, context, rqData);
             JsonNode responseData = processService.processResponse(
