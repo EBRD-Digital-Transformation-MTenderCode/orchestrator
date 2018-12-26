@@ -43,7 +43,7 @@ public class EvaluationGetAwardForCan implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String taskId = execution.getCurrentActivityId();
         final String processId = execution.getProcessInstanceId();
-        final JsonNode commandMessage = processService.getCommandMessage(GET_AWARD_FOR_CAN, context, jsonUtil.empty());
+        final JsonNode commandMessage = processService.getCommandMessage(GET_AWARD_FOR_CAN, context, jsonData);
         JsonNode responseData = processService.processResponse(
                 evaluationRestClient.execute(commandMessage),
                 context,
