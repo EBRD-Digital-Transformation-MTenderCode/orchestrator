@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.ContractingRestClient;
-import com.procurement.orchestrator.service.NotificationService;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -16,26 +15,23 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.ContractingCommandType.UPDATE_AC;
+import static com.procurement.orchestrator.domain.commands.ContractingCommandType.CONFIRMATION_CAN;
 
 @Component
-public class ContractingUpdate implements JavaDelegate {
+public class ContractingConfirmationCan implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ContractingUpdate.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ContractingConfirmationCan.class);
 
     private final ContractingRestClient contractingRestClient;
-    private final NotificationService notificationService;
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public ContractingUpdate(final ContractingRestClient contractingRestClient,
-                             final NotificationService notificationService,
-                             final OperationService operationService,
-                             final ProcessService processService,
-                             final JsonUtil jsonUtil) {
+    public ContractingConfirmationCan(final ContractingRestClient contractingRestClient,
+                                      final OperationService operationService,
+                                      final ProcessService processService,
+                                      final JsonUtil jsonUtil) {
         this.contractingRestClient = contractingRestClient;
-        this.notificationService = notificationService;
         this.operationService = operationService;
         this.processService = processService;
         this.jsonUtil = jsonUtil;
@@ -49,7 +45,7 @@ public class ContractingUpdate implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(UPDATE_AC, context, jsonData);
+        final JsonNode commandMessage = processService.getCommandMessage(CONFIRMATION_CAN, context, jsonData);
         JsonNode responseData = processService.processResponse(
                 contractingRestClient.execute(commandMessage),
                 context,
@@ -61,9 +57,7 @@ public class ContractingUpdate implements JavaDelegate {
                     execution,
                     entity,
                     context,
-                    commandMessage,
-                    processService.setContractUpdateData(jsonData, responseData, processId));
+                    commandMessage);
         }
     }
-
 }

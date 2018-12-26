@@ -46,4 +46,5 @@ public class IssueController {
         processService.startProcess(context, variables);
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
+
 }

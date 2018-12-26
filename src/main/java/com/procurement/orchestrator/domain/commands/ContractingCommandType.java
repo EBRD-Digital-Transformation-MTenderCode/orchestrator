@@ -27,7 +27,8 @@ public enum ContractingCommandType {
     TREASURY_APPROVING_AC("treasuryApprovingAC"),
     ACTIVATION_AC("activationAC"),
     UPDATE_CAN_DOCS("updateCanDocs"),
-    CANCEL_CAN("cancelCan");
+    CANCEL_CAN("cancelCan"),
+    CONFIRMATION_CAN("confirmationCan");
 
     private static final Map<String, ContractingCommandType> CONSTANTS = new HashMap<>();
     private final String value;
