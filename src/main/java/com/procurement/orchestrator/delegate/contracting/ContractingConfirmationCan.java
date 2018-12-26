@@ -57,7 +57,8 @@ public class ContractingConfirmationCan implements JavaDelegate {
                     execution,
                     entity,
                     context,
-                    commandMessage);
+                    commandMessage,
+                    responseData);
         }
     }
 }

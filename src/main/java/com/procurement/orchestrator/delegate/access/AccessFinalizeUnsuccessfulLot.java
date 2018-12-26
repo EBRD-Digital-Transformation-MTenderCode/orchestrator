@@ -48,8 +48,8 @@ public class AccessFinalizeUnsuccessfulLot implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode unsuccessfulLots = processService.getUnsuccessfulLots(jsonData, processId);
-        final JsonNode commandMessage = processService.getCommandMessage(FINALIZE_UNSUCCESSFUL_LOT, context, unsuccessfulLots);
+        final JsonNode unsuccessfulLot = processService.getLotId(jsonData, processId);
+        final JsonNode commandMessage = processService.getCommandMessage(FINALIZE_UNSUCCESSFUL_LOT, context, unsuccessfulLot);
         JsonNode responseData = processService.processResponse(
                 accessRestClient.execute(commandMessage),
                 context,

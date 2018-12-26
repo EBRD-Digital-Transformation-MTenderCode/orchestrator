@@ -51,7 +51,7 @@ public enum OperationType {
     ISSUING_AC("issuingAC"),
     FINAL_UPDATE_AC("finalUpdateAC"),
     BUYER_SIGNING_AC("buyerSigningAC"),
-    SUPPLIER_SIGNING_AC("supplierSigningAC"),
+    SUPPLIER_SIGNING_AC("tendererSigningAC"),
     VERIFICATION_AC("verificationAC"),
     TREASURY_APPROVING_AC("treasuryApprovingAC"),
     ACTIVATION_AC("activationAC"),
