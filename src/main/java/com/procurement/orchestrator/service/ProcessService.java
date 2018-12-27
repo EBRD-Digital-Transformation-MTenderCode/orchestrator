@@ -59,7 +59,9 @@ public interface ProcessService {
 
     JsonNode addLots(JsonNode jsonData, JsonNode lotsData, String processId);
 
-    JsonNode addLotsUnsuccessful(JsonNode jsonData, JsonNode lotsData, String processId);
+    JsonNode addAccessFinalStatusesData(JsonNode jsonData, JsonNode lotsData, String processId);
+
+    JsonNode addLotsUnsuccessful(JsonNode jsonData, JsonNode responseData, String processId);
 
     JsonNode addLotsAndAwardCriteria(JsonNode jsonData, JsonNode lotsData, String processId);
 
@@ -68,8 +70,6 @@ public interface ProcessService {
     JsonNode addAwards(JsonNode jsonData, JsonNode awardsData, String processId);
 
     JsonNode addCan(JsonNode jsonData, JsonNode cansData, String processId);
-
-    JsonNode addContracts(JsonNode jsonData, JsonNode data, String processId);
 
     JsonNode getUnsuccessfulLots(JsonNode jsonData, String processId);
 

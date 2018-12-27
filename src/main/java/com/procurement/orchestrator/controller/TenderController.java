@@ -64,37 +64,6 @@ public class TenderController extends DoBaseController {
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
-//    @RequestMapping(value = "/pin", method = RequestMethod.POST)
-//    public ResponseEntity<String> createPIN(@RequestHeader("Authorization") final String authorization,
-//                                            @RequestHeader("X-OPERATION-ID") final String operationId,
-//                                            @RequestParam("country") final String country,
-//                                            @RequestParam("pmd") final String pmd,
-//                                            @RequestBody final JsonNode data) {
-//        requestService.validate(operationId, data);
-//        final Context context = requestService.getContextForCreate(authorization, operationId, country, pmd, "createPIN");
-//        context.setEndDate(processService.getTenderPeriodEndDate(data, null));
-//        requestService.saveRequestAndCheckOperation(context, data);
-//        processService.startProcess(context, new HashMap<>());
-//        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
-//    }
-//
-//    @RequestMapping(value = "/pin/{cpid}/{ocid}", method = RequestMethod.POST)
-//    public ResponseEntity<String> updatePIN(@RequestHeader("Authorization") final String authorization,
-//                                            @RequestHeader("X-OPERATION-ID") final String operationId,
-//                                            @RequestHeader("X-TOKEN") final String token,
-//                                            @PathVariable("cpid") final String cpid,
-//                                            @PathVariable("ocid") final String ocid,
-//                                            @RequestBody final JsonNode data) {
-//        requestService.validate(operationId, data);
-//        final Context context = requestService.getContextForUpdate(authorization, operationId, cpid, ocid, token, "updatePIN");
-//        context.setEndDate(processService.getTenderPeriodEndDate(data, null));
-//        requestService.saveRequestAndCheckOperation(context, data);
-//        final Map<String, Object> variables = new HashMap<>();
-//        variables.put("operationType", context.getOperationType());
-//        processService.startProcess(context, variables);
-//        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
-//    }
-
     @RequestMapping(value = "/pn", method = RequestMethod.POST)
     public ResponseEntity<String> createPN(@RequestHeader("Authorization") final String authorization,
                                            @RequestHeader("X-OPERATION-ID") final String operationId,
@@ -157,25 +126,6 @@ public class TenderController extends DoBaseController {
         requestService.saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("operationType", "updateBid");
-        processService.startProcess(context, variables);
-        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
-    }
-
-    @RequestMapping(value = "/bid-docs/{cpid}/{ocid}/{id}", method = RequestMethod.POST)
-    public ResponseEntity<String> bidDocs(@RequestHeader("Authorization") final String authorization,
-                                          @RequestHeader("X-OPERATION-ID") final String operationId,
-                                          @RequestHeader("X-TOKEN") final String token,
-                                          @PathVariable("cpid") final String cpid,
-                                          @PathVariable("ocid") final String ocid,
-                                          @PathVariable("id") final String id,
-                                          @RequestBody final JsonNode data) {
-        requestService.validate(operationId, data);
-        final Context context = requestService.getContextForUpdate(authorization, operationId, cpid, ocid, token, "updateBidDocs");
-        context.setId(id);
-        context.setOperationType("updateBidDocs");
-        requestService.saveRequestAndCheckOperation(context, data);
-        final Map<String, Object> variables = new HashMap<>();
-        variables.put("operationType", "updateBidDocs");
         processService.startProcess(context, variables);
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
@@ -244,6 +194,61 @@ public class TenderController extends DoBaseController {
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
+    @RequestMapping(value = "/document/bid/{cpid}/{ocid}/{id}", method = RequestMethod.POST)
+    public ResponseEntity<String> bidDocs(@RequestHeader("Authorization") final String authorization,
+                                          @RequestHeader("X-OPERATION-ID") final String operationId,
+                                          @RequestHeader("X-TOKEN") final String token,
+                                          @PathVariable("cpid") final String cpid,
+                                          @PathVariable("ocid") final String ocid,
+                                          @PathVariable("id") final String id,
+                                          @RequestBody final JsonNode data) {
+        requestService.validate(operationId, data);
+        final Context context = requestService.getContextForUpdate(authorization, operationId, cpid, ocid, token, "updateBidDocs");
+        context.setId(id);
+        context.setOperationType("updateBidDocs");
+        requestService.saveRequestAndCheckOperation(context, data);
+        final Map<String, Object> variables = new HashMap<>();
+        variables.put("operationType", "updateBidDocs");
+        processService.startProcess(context, variables);
+        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
+    }
+
+    @RequestMapping(value = "/document/can/{cpid}/{ocid}/{canid}", method = RequestMethod.POST)
+    public ResponseEntity<String> updateDocuments(@RequestHeader("Authorization") final String authorization,
+                                                  @RequestHeader("X-OPERATION-ID") final String operationId,
+                                                  @RequestHeader("X-TOKEN") final String token,
+                                                  @PathVariable("cpid") final String cpid,
+                                                  @PathVariable("ocid") final String ocid,
+                                                  @PathVariable("canid") final String canid,
+                                                  @RequestBody final JsonNode data) {
+        requestService.validate(operationId, null);
+        final Context context = requestService.getContextForUpdate(authorization, operationId,
+                cpid, ocid, token, "updateCanDocs");
+        context.setId(canid);
+        requestService.saveRequestAndCheckOperation(context, data);
+        final Map<String, Object> variables = new HashMap<>();
+        variables.put("operationType", context.getOperationType());
+        processService.startProcess(context, variables);
+        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
+    }
+
+    @RequestMapping(value = "/confirmation/can/{cpid}/{ocid}/{id}", method = RequestMethod.POST)
+    public ResponseEntity<String> confirmationCan(@RequestHeader("Authorization") final String authorization,
+                                                  @RequestHeader("X-OPERATION-ID") final String operationId,
+                                                  @RequestHeader("X-TOKEN") final String token,
+                                                  @PathVariable("cpid") final String cpid,
+                                                  @PathVariable("ocid") final String ocid,
+                                                  @PathVariable("id") final String id) {
+        requestService.validate(operationId, null);
+        final Context context = requestService.getContextForContractUpdate(authorization, operationId, cpid, ocid, token, "confirmCan");
+        context.setId(id);
+        requestService.saveRequestAndCheckOperation(context, null);
+        final Map<String, Object> variables = new HashMap<>();
+        variables.put("operationType", context.getOperationType());
+        processService.startProcess(context, variables);
+        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
+    }
+
     @RequestMapping(value = "/contract/{cpid}/{ocid}", method = RequestMethod.POST)
     public ResponseEntity<String> createAC(@RequestHeader("Authorization") final String authorization,
                                            @RequestHeader("X-OPERATION-ID") final String operationId,
@@ -278,7 +283,7 @@ public class TenderController extends DoBaseController {
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
-    @RequestMapping(value = "/buyer-confirmation/{cpid}/{ocid}/{requestID}", method = RequestMethod.POST)
+    @RequestMapping(value = "/confirmation/buyer/{cpid}/{ocid}/{requestID}", method = RequestMethod.POST)
     public ResponseEntity<String> buyerSigningAC(@RequestHeader("Authorization") final String authorization,
                                                  @RequestHeader("X-OPERATION-ID") final String operationId,
                                                  @RequestHeader("X-TOKEN") final String token,
@@ -297,8 +302,8 @@ public class TenderController extends DoBaseController {
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
-    @RequestMapping(value = "/supplier-confirmation/{cpid}/{ocid}/{requestID}", method = RequestMethod.POST)
-    public ResponseEntity<String> supplierSigningAC(@RequestHeader("Authorization") final String authorization,
+    @RequestMapping(value = "/confirmation/tenderer/{cpid}/{ocid}/{requestID}", method = RequestMethod.POST)
+    public ResponseEntity<String> tendererSigningAC(@RequestHeader("Authorization") final String authorization,
                                                     @RequestHeader("X-OPERATION-ID") final String operationId,
                                                     @RequestHeader("X-TOKEN") final String token,
                                                     @PathVariable("cpid") final String cpid,
@@ -307,7 +312,7 @@ public class TenderController extends DoBaseController {
                                                     @RequestBody final JsonNode data) {
         requestService.validate(operationId, data);
         final Context context = requestService.getContextForContractUpdate(
-                authorization, operationId, cpid, ocid, token, "supplierSigningAC");
+                authorization, operationId, cpid, ocid, token, "tendererSigningAC");
         context.setId(requestID);
         requestService.saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();

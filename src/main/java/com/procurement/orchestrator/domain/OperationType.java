@@ -51,7 +51,7 @@ public enum OperationType {
     ISSUING_AC("issuingAC"),
     FINAL_UPDATE_AC("finalUpdateAC"),
     BUYER_SIGNING_AC("buyerSigningAC"),
-    SUPPLIER_SIGNING_AC("supplierSigningAC"),
+    SUPPLIER_SIGNING_AC("tendererSigningAC"),
     VERIFICATION_AC("verificationAC"),
     TREASURY_APPROVING_AC("treasuryApprovingAC"),
     ACTIVATION_AC("activationAC"),
@@ -59,8 +59,10 @@ public enum OperationType {
     CREATE_CAN("createCan"),
     UPDATE_CAN_DOCS("updateCanDocs"),
     CANCEL_CAN("cancelCan"),
+    CONFIRM_CAN("confirmCan"),
     CANCEL_CAN_CONTRACT("cancelCanContract"),
-    TENDER_EVALUATED("tenderEvaluated");
+    TENDER_EVALUATED("tenderEvaluated"),
+    END_CONTRACT_PROCESS("endContractingProcess");
 
 
     private static final Map<String, OperationType> CONSTANTS = new HashMap<>();
