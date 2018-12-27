@@ -340,6 +340,18 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
+    public JsonNode addAccessFinalStatusesData(final JsonNode jsonData, final JsonNode lotsData, final String processId) {
+        try {
+            ((ObjectNode) jsonData).replace("lots", lotsData.get("lots"));
+            ((ObjectNode) jsonData).replace("tender", lotsData.get("tender"));
+            return jsonData;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+
     public JsonNode addLotsUnsuccessful(final JsonNode jsonData, final JsonNode lotsData, final String processId) {
         try {
             ((ObjectNode) jsonData).replace("lots", lotsData.get("lots"));
@@ -391,18 +403,6 @@ public class ProcessServiceImpl implements ProcessService {
         try {
             final ObjectNode mainNode = (ObjectNode) jsonData;
             mainNode.replace("can", cansData.get("can"));
-            return jsonData;
-        } catch (Exception e) {
-            terminateProcess(processId, e.getMessage());
-            return null;
-        }
-    }
-
-    public JsonNode addContracts(final JsonNode jsonData, final JsonNode data, final String processId) {
-        try {
-            final ObjectNode mainNode = (ObjectNode) jsonData;
-            mainNode.replace("cans", data.get("cans"));
-            mainNode.replace("contracts", data.get("contracts"));
             return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
