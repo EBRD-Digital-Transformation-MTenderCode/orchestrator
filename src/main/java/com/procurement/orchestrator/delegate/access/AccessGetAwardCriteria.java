@@ -42,9 +42,10 @@ public class AccessGetAwardCriteria implements JavaDelegate {
         LOG.info(execution.getCurrentActivityId());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
+        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(GET_AWARD_CRITERIA, context, jsonUtil.empty());
+        final JsonNode commandMessage = processService.getCommandMessage(GET_AWARD_CRITERIA, context, jsonData);
         JsonNode responseData = processService.processResponse(
                 accessRestClient.execute(commandMessage),
                 context,
