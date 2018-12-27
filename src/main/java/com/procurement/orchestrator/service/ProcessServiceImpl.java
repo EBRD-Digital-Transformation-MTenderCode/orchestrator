@@ -637,6 +637,7 @@ public class ProcessServiceImpl implements ProcessService {
     public JsonNode getDocumentsOfAcAward(JsonNode jsonData, String processId) {
         try {
             final ArrayNode documentsArray = (ArrayNode) jsonData.get("contractedAward").get("documents");
+            if (documentsArray==null||documentsArray.size()<1) return null;
             final ObjectNode mainNode = jsonUtil.createObjectNode();
             mainNode.replace("documents", documentsArray);
             return mainNode;
