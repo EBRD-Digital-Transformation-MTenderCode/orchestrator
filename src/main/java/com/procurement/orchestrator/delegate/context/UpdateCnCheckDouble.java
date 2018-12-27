@@ -13,9 +13,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CreateCanCheckDouble implements JavaDelegate {
+public class UpdateCnCheckDouble implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(CreateCanCheckDouble.class);
+    private static final Logger LOG = LoggerFactory.getLogger(UpdateCnCheckDouble.class);
 
     private final OperationService operationService;
 
@@ -26,10 +26,10 @@ public class CreateCanCheckDouble implements JavaDelegate {
     private final JsonUtil jsonUtil;
 
 
-    public CreateCanCheckDouble(final RequestService requestService,
-                                final OperationService operationService,
-                                final ProcessService processService,
-                                final JsonUtil jsonUtil) {
+    public UpdateCnCheckDouble(final RequestService requestService,
+                               final OperationService operationService,
+                               final ProcessService processService,
+                               final JsonUtil jsonUtil) {
         this.requestService = requestService;
         this.operationService = operationService;
         this.processService = processService;
@@ -41,7 +41,7 @@ public class CreateCanCheckDouble implements JavaDelegate {
         LOG.info(execution.getCurrentActivityId());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
-        final String checkId = context.getOcid() + context.getId();
+        final String checkId = context.getCpid();
         final String processId = execution.getProcessInstanceId();
         if (!operationService.saveCheckIfNotExist(checkId, entity)) {
             processService.terminateProcess(processId, "process: " + context.getProcessType()

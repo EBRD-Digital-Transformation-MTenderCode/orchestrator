@@ -64,37 +64,6 @@ public class TenderController extends DoBaseController {
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
-//    @RequestMapping(value = "/pin", method = RequestMethod.POST)
-//    public ResponseEntity<String> createPIN(@RequestHeader("Authorization") final String authorization,
-//                                            @RequestHeader("X-OPERATION-ID") final String operationId,
-//                                            @RequestParam("country") final String country,
-//                                            @RequestParam("pmd") final String pmd,
-//                                            @RequestBody final JsonNode data) {
-//        requestService.validate(operationId, data);
-//        final Context context = requestService.getContextForCreate(authorization, operationId, country, pmd, "createPIN");
-//        context.setEndDate(processService.getTenderPeriodEndDate(data, null));
-//        requestService.saveRequestAndCheckOperation(context, data);
-//        processService.startProcess(context, new HashMap<>());
-//        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
-//    }
-//
-//    @RequestMapping(value = "/pin/{cpid}/{ocid}", method = RequestMethod.POST)
-//    public ResponseEntity<String> updatePIN(@RequestHeader("Authorization") final String authorization,
-//                                            @RequestHeader("X-OPERATION-ID") final String operationId,
-//                                            @RequestHeader("X-TOKEN") final String token,
-//                                            @PathVariable("cpid") final String cpid,
-//                                            @PathVariable("ocid") final String ocid,
-//                                            @RequestBody final JsonNode data) {
-//        requestService.validate(operationId, data);
-//        final Context context = requestService.getContextForUpdate(authorization, operationId, cpid, ocid, token, "updatePIN");
-//        context.setEndDate(processService.getTenderPeriodEndDate(data, null));
-//        requestService.saveRequestAndCheckOperation(context, data);
-//        final Map<String, Object> variables = new HashMap<>();
-//        variables.put("operationType", context.getOperationType());
-//        processService.startProcess(context, variables);
-//        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
-//    }
-
     @RequestMapping(value = "/pn", method = RequestMethod.POST)
     public ResponseEntity<String> createPN(@RequestHeader("Authorization") final String authorization,
                                            @RequestHeader("X-OPERATION-ID") final String operationId,
