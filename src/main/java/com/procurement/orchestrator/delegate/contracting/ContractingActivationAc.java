@@ -20,9 +20,9 @@ import static com.procurement.orchestrator.domain.OperationType.END_AWARD_PERIOD
 import static com.procurement.orchestrator.domain.commands.ContractingCommandType.ACTIVATION_AC;
 
 @Component
-public class ContractingActivation implements JavaDelegate {
+public class ContractingActivationAc implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ContractingActivation.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ContractingActivationAc.class);
 
     private final ContractingRestClient contractingRestClient;
     private final NotificationService notificationService;
@@ -30,11 +30,11 @@ public class ContractingActivation implements JavaDelegate {
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public ContractingActivation(final ContractingRestClient contractingRestClient,
-                                 final NotificationService notificationService,
-                                 final OperationService operationService,
-                                 final ProcessService processService,
-                                 final JsonUtil jsonUtil) {
+    public ContractingActivationAc(final ContractingRestClient contractingRestClient,
+                                   final NotificationService notificationService,
+                                   final OperationService operationService,
+                                   final ProcessService processService,
+                                   final JsonUtil jsonUtil) {
         this.contractingRestClient = contractingRestClient;
         this.notificationService = notificationService;
         this.operationService = operationService;
@@ -57,11 +57,6 @@ public class ContractingActivation implements JavaDelegate {
                 taskId,
                 commandMessage);
         if (Objects.nonNull(responseData)) {
-            final Boolean stageEnd = processService.getBoolean("stageEnd", responseData, processId);
-            execution.setVariable("stageEnd", stageEnd);
-            if (stageEnd) {
-                context.setOperationType(END_AWARD_PERIOD.value());
-            }
             operationService.saveOperationStep(
                     execution,
                     entity,

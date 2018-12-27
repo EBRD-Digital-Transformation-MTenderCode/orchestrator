@@ -231,7 +231,7 @@ public interface ProcessService {
 
     JsonNode getTreasuryValidationData(JsonNode jsonData, Context context, String processId);
 
-    JsonNode setCompleteLotData(JsonNode jsonData, JsonNode responseData, String processId);
+    JsonNode setCompleteLotsData(JsonNode jsonData, JsonNode responseData, String processId);
 
     JsonNode setAwardPeriod(JsonNode jsonData, JsonNode responseData, String processId);
 

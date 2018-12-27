@@ -1561,11 +1561,11 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public JsonNode setCompleteLotData(final JsonNode jsonData, final JsonNode responseData, final String processId) {
+    public JsonNode setCompleteLotsData(final JsonNode jsonData, final JsonNode responseData, final String processId) {
         try {
             final ObjectNode mainNode = (ObjectNode) jsonData;
             mainNode.replace("tender", responseData.get("tender"));
-            mainNode.replace("lot", responseData.get("lot"));
+            mainNode.replace("lots", responseData.get("lots"));
             return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
