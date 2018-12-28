@@ -4,7 +4,6 @@ import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
-import com.procurement.orchestrator.service.RequestService;
 import com.procurement.orchestrator.utils.JsonUtil;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
@@ -37,9 +36,9 @@ public class CreateCanSetActiveTrue implements JavaDelegate {
         LOG.info(execution.getCurrentActivityId());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
-        final String checkId = context.getOcid() + context.getId();
-        final String processId = execution.getProcessInstanceId();
+        final String checkId = "createCan" + context.getOcid() + context.getId();
         if (!operationService.setActiveTrue(checkId)) {
+            final String processId = execution.getProcessInstanceId();
             processService.terminateProcess(processId, "process: " + context.getProcessType()
                     + " by ocid:" + context.getOcid() + " already launched.");
         }

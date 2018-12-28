@@ -57,6 +57,8 @@ public class ContractingCancelCan implements JavaDelegate {
             if (responseData.get("contract") != null) {
                 context.setOperationType(OperationType.CANCEL_CAN_CONTRACT.value());
             }
+            final String lotId = processService.getText("lotId", responseData, processId);
+            context.setId(lotId);
             operationService.saveOperationStep(
                     execution,
                     entity,

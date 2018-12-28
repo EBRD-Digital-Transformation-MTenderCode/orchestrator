@@ -33,7 +33,7 @@ public class CancelCanSetActiveFalse implements JavaDelegate {
         LOG.info(execution.getCurrentActivityId());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
-        final String checkId = context.getOcid() + context.getId();
+        final String checkId = "createCan" + context.getOcid() + context.getId();
         operationService.setActiveFalse(checkId);
     }
 }
