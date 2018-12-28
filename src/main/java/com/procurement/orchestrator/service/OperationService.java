@@ -12,7 +12,7 @@ public interface OperationService {
 
     Boolean setActiveTrue(String id);
 
-    Boolean setActiveFalse(String checkId);
+    void setActiveFalse(String checkId);
 
     void checkOperationById(String operationId);
 

@@ -74,6 +74,12 @@ public class CassandraDaoImpl implements CassandraDao {
         return true;
     }
 
+    @Override
+    public void setActiveFalse(String id) {
+        final Insert insert = insertInto(CHECK_TABLE).ifNotExists();
+        insert.value(ID, id).value(ACTIVE, false);
+        session.execute(insert);
+    }
 
     @Override
     public void saveRequest(final RequestEntity entity) {

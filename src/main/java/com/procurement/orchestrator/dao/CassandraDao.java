@@ -16,6 +16,8 @@ public interface CassandraDao {
 
     Boolean setActiveTrue(String id);
 
+    void setActiveFalse(String id);
+
     void saveRequest(RequestEntity entity);
 
     Optional<RequestEntity> getRequestById(String requestId);
