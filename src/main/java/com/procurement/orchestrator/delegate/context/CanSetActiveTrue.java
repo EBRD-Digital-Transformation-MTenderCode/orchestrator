@@ -12,9 +12,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CreateCanSetActiveTrue implements JavaDelegate {
+public class CanSetActiveTrue implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(CreateCanSetActiveTrue.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CanSetActiveTrue.class);
 
     private final OperationService operationService;
 
@@ -23,9 +23,9 @@ public class CreateCanSetActiveTrue implements JavaDelegate {
     private final JsonUtil jsonUtil;
 
 
-    public CreateCanSetActiveTrue(final OperationService operationService,
-                                  final ProcessService processService,
-                                  final JsonUtil jsonUtil) {
+    public CanSetActiveTrue(final OperationService operationService,
+                            final ProcessService processService,
+                            final JsonUtil jsonUtil) {
         this.operationService = operationService;
         this.processService = processService;
         this.jsonUtil = jsonUtil;

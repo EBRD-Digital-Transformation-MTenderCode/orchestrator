@@ -36,7 +36,7 @@
       <bpmn:incoming>SequenceFlow_1vxrzlr</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0bdqe9i</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="CreateCanSetActiveTrueTask" name="Set Active True" camunda:asyncBefore="true" camunda:delegateExpression="${createCanSetActiveTrue}">
+    <bpmn:serviceTask id="CanSetActiveTrueTask" name="Set Active True" camunda:asyncBefore="true" camunda:delegateExpression="${canSetActiveTrue}">
       <bpmn:incoming>SequenceFlow_1njmepq</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_15izye3</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -47,8 +47,8 @@
     <bpmn:sequenceFlow id="SequenceFlow_1g55amn" sourceRef="SaveFirstOperationTask" targetRef="AccessCheckLotStatusTask" />
     <bpmn:sequenceFlow id="SequenceFlow_08kea5o" sourceRef="AccessCheckLotStatusTask" targetRef="EvaluationGetAwardForCanTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1vcwuhd" sourceRef="EvaluationGetAwardForCanTask" targetRef="ContractingCheckCanTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1njmepq" sourceRef="ContractingCheckCanTask" targetRef="CreateCanSetActiveTrueTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_15izye3" sourceRef="CreateCanSetActiveTrueTask" targetRef="ContractingCreateCanTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1njmepq" sourceRef="ContractingCheckCanTask" targetRef="CanSetActiveTrueTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_15izye3" sourceRef="CanSetActiveTrueTask" targetRef="ContractingCreateCanTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1f8vmw4" sourceRef="ContractingCreateCanTask" targetRef="NoticeCreateReleaseTask" />
     <bpmn:sequenceFlow id="SequenceFlow_12f5wjq" sourceRef="NoticeCreateReleaseTask" targetRef="SaveContextTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1vxrzlr" sourceRef="SaveContextTask" targetRef="SendMessageTask" />
@@ -97,7 +97,7 @@
       <bpmndi:BPMNShape id="ServiceTask_1itper0_di" bpmnElement="SendMessageTask">
         <dc:Bounds x="1243" y="160" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_1kru131_di" bpmnElement="CreateCanSetActiveTrueTask">
+      <bpmndi:BPMNShape id="ServiceTask_1kru131_di" bpmnElement="CanSetActiveTrueTask">
         <dc:Bounds x="700" y="160" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_1el4uk2_di" bpmnElement="ContractingCheckCanTask">
