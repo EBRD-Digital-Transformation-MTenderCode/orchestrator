@@ -5,6 +5,7 @@ import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
 import com.datastax.driver.core.Statement;
 import com.datastax.driver.core.querybuilder.Insert;
+import com.datastax.driver.core.querybuilder.Update;
 import com.procurement.orchestrator.domain.Rule;
 import com.procurement.orchestrator.domain.TypeOfProcess;
 import com.procurement.orchestrator.domain.entity.ContextEntity;
@@ -29,7 +30,8 @@ public class CassandraDaoImpl implements CassandraDao {
     private static final String REQUEST_TABLE = "orchestrator_request";
     private static final String CONTEXT_TABLE = "orchestrator_context";
     private static final String RULES_TABLE = "orchestrator_rules";
-    private static final String CHECK_TABLE = "orchestrator_check";
+    private static final String CHECK_TABLE = "orchestrator_check_active";
+    private static final String ACTIVE = "active";
     private static final String REQUEST_DATE = "request_date";
     private static final String OPERATION_ID = "operation_id";
     private static final String CONTEXT = "context";
@@ -60,15 +62,14 @@ public class CassandraDaoImpl implements CassandraDao {
     }
 
     @Override
-    public Boolean saveCheckIfNotExist(final String id, final OperationStepEntity entity) {
+    public Boolean setActiveTrue(final String id) {
         final Insert insert = insertInto(CHECK_TABLE).ifNotExists();
-        insert
-                .value(ID, id)
-                .value(CONTEXT, entity.getContext());
-
+        insert.value(ID, id).value(ACTIVE, true);
         final ResultSet resultSet = session.execute(insert);
         if (!resultSet.wasApplied()) {
-            return resultSet.one().getString(ID).equals(ID);
+            final Update update = update(CHECK_TABLE);
+            update.with(set(ACTIVE, true)).where(eq(ID, id)).onlyIf(eq(ACTIVE, false));
+            return session.execute(update).wasApplied();
         }
         return true;
     }

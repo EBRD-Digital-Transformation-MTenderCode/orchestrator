@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 @Service
 public interface OperationService {
 
-    Boolean saveCheckIfNotExist(String id, OperationStepEntity operationEntity);
+    Boolean setActiveTrue(String id);
+
+    Boolean setActiveFalse(String checkId);
 
     void checkOperationById(String operationId);
 

@@ -13,26 +13,18 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UpdateCnCheckDouble implements JavaDelegate {
+public class CancelCanSetActiveFalse implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(UpdateCnCheckDouble.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CancelCanSetActiveFalse.class);
 
     private final OperationService operationService;
-
-    private final ProcessService processService;
-
-    private final RequestService requestService;
 
     private final JsonUtil jsonUtil;
 
 
-    public UpdateCnCheckDouble(final RequestService requestService,
-                               final OperationService operationService,
-                               final ProcessService processService,
-                               final JsonUtil jsonUtil) {
-        this.requestService = requestService;
+    public CancelCanSetActiveFalse(final OperationService operationService,
+                                   final JsonUtil jsonUtil) {
         this.operationService = operationService;
-        this.processService = processService;
         this.jsonUtil = jsonUtil;
     }
 
@@ -41,11 +33,7 @@ public class UpdateCnCheckDouble implements JavaDelegate {
         LOG.info(execution.getCurrentActivityId());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
-        final String checkId = context.getCpid();
-        final String processId = execution.getProcessInstanceId();
-        if (!operationService.saveCheckIfNotExist(checkId, entity)) {
-            processService.terminateProcess(processId, "process: " + context.getProcessType()
-                    + " by ocid:" + context.getOcid() + " already launched.");
-        }
+        final String checkId = context.getOcid() + context.getId();
+        operationService.setActiveFalse(checkId);
     }
 }

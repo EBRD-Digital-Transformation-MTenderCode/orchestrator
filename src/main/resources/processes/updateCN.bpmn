@@ -223,7 +223,7 @@
       <bpmn:outgoing>SequenceFlow_0tf0qil</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_0tf0qil" sourceRef="AuctionCancelTask" targetRef="AuctionScheduleCnTask" />
-    <bpmn:serviceTask id="UpdateCnCheckDoubleTask" name="Check Double" camunda:asyncBefore="true" camunda:delegateExpression="${updateCnCheckDouble}">
+    <bpmn:serviceTask id="UpdateCnSetActiveTrueTask" name="Set Active True" camunda:asyncBefore="true" camunda:delegateExpression="${updateCnSetActiveTrue}">
       <bpmn:incoming>SequenceFlow_14cghtq</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0oxgyuf</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -232,8 +232,8 @@
       <bpmn:outgoing>SequenceFlow_14cghtq</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_010gxr6" sourceRef="MdmValidateTenderPnTask" targetRef="AccessCheckCnOnPn" />
-    <bpmn:sequenceFlow id="SequenceFlow_14cghtq" sourceRef="AccessCheckCnOnPn" targetRef="UpdateCnCheckDoubleTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0oxgyuf" sourceRef="UpdateCnCheckDoubleTask" targetRef="AccessCreateCnOnPnTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_14cghtq" sourceRef="AccessCheckCnOnPn" targetRef="UpdateCnSetActiveTrueTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0oxgyuf" sourceRef="UpdateCnSetActiveTrueTask" targetRef="AccessCreateCnOnPnTask" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="updateCN">
@@ -569,7 +569,7 @@
         <di:waypoint x="2063" y="582" />
         <di:waypoint x="2123" y="582" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_1014d6t_di" bpmnElement="UpdateCnCheckDoubleTask">
+      <bpmndi:BPMNShape id="ServiceTask_1014d6t_di" bpmnElement="UpdateCnSetActiveTrueTask">
         <dc:Bounds x="1149" y="162" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_1sxi07q_di" bpmnElement="AccessCheckCnOnPn">

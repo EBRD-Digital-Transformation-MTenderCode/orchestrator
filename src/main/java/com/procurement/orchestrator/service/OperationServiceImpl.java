@@ -45,8 +45,8 @@ public class OperationServiceImpl implements OperationService {
     }
 
     @Override
-    public Boolean saveCheckIfNotExist(final String id, final OperationStepEntity operationEntity) {
-        return cassandraDao.saveCheckIfNotExist(id, operationEntity);
+    public Boolean setActiveTrue(final String id) {
+        return cassandraDao.setActiveTrue(id);
     }
 
     @Override

@@ -15,6 +15,11 @@ http://bpe.eprocurement.systems/api/v1/ei
 
 home/kafka/bin/kafka-console-consumer-sasl-dev4.sh --bootstrap-server localhost:9092 --topic 2c97d565-e527-4e7d-b3e9-bf5dv76c4f5c --from-beginning --consumer.config=config/consumer-sasl-dev4.properties
 
+//set active = true
+INSERT INTO ocds.orchestrator_check_active (id, active) VALUES ('111',true) IF NOT EXISTS;
+UPDATE ocds.orchestrator_check_active SET active = true WHERE id = '111' IF active = false;
+//set active = false
+INSERT INTO ocds.orchestrator_check_active (id, active) VALUES ('111',false);
 
 select * from tasks where ocid = 'ocds-t1s2t3-MD-1534102735905'
 

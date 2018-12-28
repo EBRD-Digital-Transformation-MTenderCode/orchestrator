@@ -35,6 +35,11 @@ CREATE TABLE IF NOT EXISTS  ocds.orchestrator_check (
     context text,
     primary key(id));
 
+CREATE TABLE IF NOT EXISTS  ocds.orchestrator_check_active (
+    id text,
+    active boolean,
+    primary key(id));
+
 CREATE TABLE IF NOT EXISTS  ocds.orchestrator_rules (
     country text,
     pmd text,
@@ -54,6 +59,8 @@ CREATE TABLE IF NOT EXISTS  ocds.orchestrator_rules (
      process_type text,
      primary key((country, pmd, process))
   );
+
+
 
 INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','OT','createEI','ei');
 INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','OT','updateEI','ei');
