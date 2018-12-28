@@ -1,6 +1,7 @@
 package com.procurement.orchestrator.delegate.context;
 
 import com.procurement.orchestrator.domain.Context;
+import com.procurement.orchestrator.domain.Stage;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.RequestService;
@@ -36,6 +37,7 @@ public class SaveContractActivationContext implements JavaDelegate {
         final Boolean stageEnd = (Boolean) execution.getVariable("stageEnd");
         if (stageEnd) {
             final Context evContext = requestService.getContext(context.getCpid());
+            evContext.setStage(Stage.EV.value());
             evContext.setPhase("empty");
             operationService.saveContext(evContext);
         }

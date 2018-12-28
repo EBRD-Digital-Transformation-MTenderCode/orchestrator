@@ -58,7 +58,6 @@ public class AccessCompleteLots implements JavaDelegate {
                 execution.setVariable("stageEnd", stageEnd);
                 if (stageEnd) {
                     context.setOperationType(END_AWARD_PERIOD.value());
-                    context.setStage(Stage.EV.value());
                 }
                 operationService.saveOperationStep(
                         execution,
