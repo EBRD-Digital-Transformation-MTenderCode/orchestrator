@@ -1711,4 +1711,17 @@ public class ProcessServiceImpl implements ProcessService {
             return null;
         }
     }
+
+    @Override
+    public JsonNode addEvaluationFinalData(JsonNode jsonData, JsonNode responseData, String processId) {
+        try {
+            final ObjectNode mainNode = (ObjectNode) jsonData;
+            mainNode.replace("awards", responseData.get("awards"));
+            mainNode.replace("awardPeriod", responseData.get("awardPeriod"));
+            return jsonData;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
 }

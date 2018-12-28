@@ -1,6 +1,5 @@
 package com.procurement.orchestrator.delegate.evaluation;
 
-import com.datastax.driver.core.utils.UUIDs;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
@@ -43,11 +42,9 @@ public class EvaluationSetFinalStatuses implements JavaDelegate {
         LOG.info(execution.getCurrentActivityId());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
+        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String taskId = execution.getCurrentActivityId();
         final String processId = execution.getProcessInstanceId();
-        context.setOperationType("awardPeriodEndEv");
-        context.setRequestId(UUIDs.timeBased().toString());
-        execution.setVariable("operationType", "awardPeriodEndEv");
         final JsonNode commandMessage = processService.getCommandMessage(SET_FINAL_STATUSES, context, jsonUtil.empty());
         final JsonNode responseData = processService.processResponse(
                 evaluationRestClient.execute(commandMessage),
@@ -59,9 +56,8 @@ public class EvaluationSetFinalStatuses implements JavaDelegate {
             operationService.saveOperationStep(
                     execution,
                     entity,
-                    context,
                     commandMessage,
-                    responseData);
+                    processService.addEvaluationFinalData(jsonData, responseData, processId));
         }
     }
 }
