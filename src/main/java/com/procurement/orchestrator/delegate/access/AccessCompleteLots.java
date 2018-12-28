@@ -2,6 +2,7 @@ package com.procurement.orchestrator.delegate.access;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
+import com.procurement.orchestrator.domain.Stage;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.AccessRestClient;
 import com.procurement.orchestrator.service.OperationService;
@@ -57,10 +58,12 @@ public class AccessCompleteLots implements JavaDelegate {
                 execution.setVariable("stageEnd", stageEnd);
                 if (stageEnd) {
                     context.setOperationType(END_AWARD_PERIOD.value());
+                    context.setStage(Stage.EV.value());
                 }
                 operationService.saveOperationStep(
                         execution,
                         entity,
+                        context,
                         commandMessage,
                         processService.setCompleteLotsData(jsonData, responseData, processId));
             }
