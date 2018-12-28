@@ -83,7 +83,7 @@ public class AccessSetFinalStatuses implements JavaDelegate {
             context.setOperationType(OperationType.END_CONTRACT_PROCESS.value());
             context.setPhase("empty");
         }
-        execution.setVariable("operationType", context.getOperationType());
+        execution.setVariable("stageEnd", stageEnd);
     }
 }
 

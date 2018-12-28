@@ -1,0 +1,20 @@
+{
+  "operationId": "ef6ccdc7-d3f4-4254-8f07-b33672f51ba1",
+  "requestId": "321881a0-0ac6-11e9-b8c6-6787ab9fcd5c",
+  "cpid": "ocds-b3wdp1-MD-1543419347940",
+  "ocid": "ocds-b3wdp1-MD-1543419347940-EV-1543419840214",
+  "stage": "EV",
+  "prevStage": "EV",
+  "processType": "submitTheBid",
+  "operationType": "createBid",
+  "phase": "tendering",
+  "owner": "434aef14-9d52-4ea0-a9f7-8737a95686c9",
+  "country": "MD",
+  "language": "ro",
+  "pmd": "OT",
+  "token": "c718b04d-d671-4595-88ca-119a781d4bf8",
+  "startDate": "2018-12-28T17:29:57Z",
+  "id": "323bc110-0ac6-11e9-b745-996861c34981",
+  "timeStamp": 1546018197178,
+  "isAuction": true
+}
