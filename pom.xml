@@ -38,6 +38,7 @@
 
         <!--Plugins-->
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
+        <versions-maven-plugin.version>2.7</versions-maven-plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -194,6 +195,33 @@
         </resources>
 
         <plugins>
+            <!--Versioning-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>${maven-enforcer-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>enforce-maven</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireMavenVersion>
+                                    <version>3.5.4</version>
+                                </requireMavenVersion>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+                <version>${versions-maven-plugin.version}</version>
+            </plugin>
+
             <!--Compiler-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
