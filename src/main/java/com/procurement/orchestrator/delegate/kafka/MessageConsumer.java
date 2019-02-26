@@ -61,6 +61,7 @@ public class MessageConsumer {
             }
         } catch (Exception e) {
             //TODO error processing
+            LOG.error("Error while processing the message from the Chronograph.", e);
         }
     }
 
@@ -102,6 +103,7 @@ public class MessageConsumer {
             }
         } catch (Exception e) {
             //TODO error processing
+            LOG.error("Error while processing the message from the Auction.", e);
         }
     }
 
@@ -143,6 +145,7 @@ public class MessageConsumer {
             }
         } catch (Exception e) {
             //TODO error processing
+            LOG.error("Error while processing the message from the Document-Generator.", e);
         }
     }
 
@@ -201,6 +204,7 @@ public class MessageConsumer {
             }
         } catch (Exception e) {
             //TODO error processing
+            LOG.error("Error while processing the message from the mConnect-Bus.", e);
         }
     }
 
