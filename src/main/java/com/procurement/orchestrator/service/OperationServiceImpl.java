@@ -196,7 +196,7 @@ public class OperationServiceImpl implements OperationService {
     void processException(final String error,
                           final String processId) {
         try {
-            LOG.info("Exception in process Id: " + processId + "; message: " + error);
+            LOG.error("Exception in process Id: " + processId + "; message: " + error);
             runtimeService.suspendProcessInstanceById(processId);
         } catch (Exception ignored) {
         }
