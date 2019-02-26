@@ -42,9 +42,9 @@ public class MessageConsumer {
 
     @KafkaListener(topics = "chronograph-out")
     public void onChronograph(final String message, @Header(KafkaHeaders.ACKNOWLEDGMENT) final Acknowledgment ac) {
-        ac.acknowledge();
         try {
-            LOG.info("Get chronograph message: " + message);
+            LOG.info("Received a message from the Chronograph (" + message + ").");
+            ac.acknowledge();
             final ChronographResponse response = jsonUtil.toObject(ChronographResponse.class, message);
             if (response.getStatus().equals("NOTIFICATION")) {
                 final ChronographResponse.ChronographResponseData data = response.getData();
@@ -67,9 +67,9 @@ public class MessageConsumer {
 
     @KafkaListener(topics = "auction-front-out")
     public void onAuction(final String message, @Header(KafkaHeaders.ACKNOWLEDGMENT) final Acknowledgment ac) {
-        ac.acknowledge();
         try {
-            LOG.info("Get auction-front message: " + message);
+            LOG.info("Received a message from the Auction (" + message + ").");
+            ac.acknowledge();
             final JsonNode response = jsonUtil.toJsonNode(message);
             if (response.get("errors") == null) {
                 final String command = response.get("command").asText();
@@ -109,9 +109,9 @@ public class MessageConsumer {
 
     @KafkaListener(topics = "document-generator-out")
     public void onDocGenerator(final String message, @Header(KafkaHeaders.ACKNOWLEDGMENT) final Acknowledgment ac) {
-        ac.acknowledge();
         try {
-            LOG.info("Get document-generator message: " + message);
+            LOG.info("Received a message from the Document-Generator (" + message + ").");
+            ac.acknowledge();
             final JsonNode response = jsonUtil.toJsonNode(message);
             if (response.get("errors") == null) {
                 final String command = response.get("command").asText();
@@ -151,9 +151,9 @@ public class MessageConsumer {
 
     @KafkaListener(topics = "transport-agent-out")
     public void onAgent(final String message, @Header(KafkaHeaders.ACKNOWLEDGMENT) final Acknowledgment ac) {
-        ac.acknowledge();
         try {
-            LOG.info("Get transport-agent message: " + message);
+            LOG.info("Received a message from the mConnect-Bus (" + message + ").");
+            ac.acknowledge();
             final JsonNode response = jsonUtil.toJsonNode(message);
             if (response.get("errors") == null) {
                 final String command = response.get("command").asText();
