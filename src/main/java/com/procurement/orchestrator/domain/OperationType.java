@@ -22,6 +22,7 @@ public enum OperationType {
     CREATE_PIN_ON_PN("createPINonPN"),
     CREATE_CN_ON_PN("createCNonPN"),
     CREATE_CN_ON_PIN("createCNonPIN"),
+    CREATE_NEGOTIATION_CN_ON_PN("createNegotiationCnOnPn"),
     UPDATE_TENDER_PERIOD("updateTenderPeriod"),
     CREATE_ENQUIRY("createEnquiry"),
     ADD_ANSWER("addAnswer"),
