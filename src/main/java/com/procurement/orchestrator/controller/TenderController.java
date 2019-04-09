@@ -2,6 +2,8 @@ package com.procurement.orchestrator.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
+import com.procurement.orchestrator.domain.ProcurementMethod;
+import com.procurement.orchestrator.exception.OperationException;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.service.RequestService;
 import com.procurement.orchestrator.utils.DateUtil;
@@ -54,7 +56,8 @@ public class TenderController extends DoBaseController {
                                            @PathVariable("ocid") final String ocid,
                                            @RequestBody final JsonNode data) {
         requestService.validate(operationId, data);
-        final Context context = requestService.getContextForUpdate(authorization, operationId, cpid, ocid, token, "updateCN");
+        final String processType = getUpdateCnProcessType(cpid);
+        final Context context = requestService.getContextForUpdate(authorization, operationId, cpid, ocid, token, processType);
         processService.setEnquiryPeriodStartDate(data, context.getStartDate(), null);
         processService.setTenderPeriodStartDate(data, processService.getEnquiryPeriodEndDate(data, null), null);
         requestService.saveRequestAndCheckOperation(context, data);
@@ -62,6 +65,35 @@ public class TenderController extends DoBaseController {
         variables.put("operationType", context.getOperationType());
         processService.startProcess(context, variables);
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
+    }
+
+    private String getUpdateCnProcessType(String cpid) {
+        final Context prevContext = requestService.getContext(cpid);
+        final ProcurementMethod pmd = ProcurementMethod.valueOf(prevContext.getPmd());
+        String processType;
+        switch (pmd) {
+            case OT:
+            case TEST_OT:
+            case SV:
+            case TEST_SV:
+            case MV:
+            case TEST_MV:
+                processType = "updateCN";
+                break;
+
+            case DA:
+            case TEST_DA:
+            case NP:
+            case TEST_NP:
+            case OP:
+            case TEST_OP:
+                processType = "updateCnOp";
+                break;
+
+            default:
+                throw new OperationException("Invalid previous pmd: '" + pmd + "'");
+        }
+        return processType;
     }
 
     @RequestMapping(value = "/pn", method = RequestMethod.POST)
