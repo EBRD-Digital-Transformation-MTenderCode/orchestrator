@@ -7,6 +7,8 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.procurement.orchestrator.domain.*;
 import com.procurement.orchestrator.domain.dto.command.CommandMessage;
 import com.procurement.orchestrator.utils.JsonUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,7 @@ import java.util.*;
 
 @Service
 public class NotificationServiceImpl implements NotificationService {
+    private static final Logger LOG = LoggerFactory.getLogger(NotificationServiceImpl.class);
 
     @Value("${uri.budget}")
     private String budgetUri;
@@ -239,6 +242,12 @@ public class NotificationServiceImpl implements NotificationService {
                 data.setOutcomes(buildOutcomes(context.getStage(), context.getOcid(), null));
                 break;
             }
+            case CREATE_NEGOTIATION_CN_ON_PN: {
+                data.setOcid(context.getCpid());
+                data.setUrl(getTenderUri(context.getCpid(), null));
+                data.setOutcomes(buildOutcomes(context.getStage(), context.getOcid(), null));
+                break;
+            }
             case CREATE_CN_ON_PIN: {
                 data.setOcid(context.getCpid());
                 data.setUrl(getTenderUri(context.getCpid(), null));
@@ -445,8 +454,10 @@ public class NotificationServiceImpl implements NotificationService {
                 break;
             }
 
-            default:
+            default: {
+                LOG.warn("The notification was not generated. Not implemented for operation type: '" + operationType + "'.");
                 return null;
+            }
         }
 
         message.setOperationId(context.getOperationId());
