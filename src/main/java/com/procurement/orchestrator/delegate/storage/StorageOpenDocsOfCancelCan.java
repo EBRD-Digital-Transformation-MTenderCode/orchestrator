@@ -52,21 +52,26 @@ public class StorageOpenDocsOfCancelCan implements JavaDelegate {
         final String taskId = execution.getCurrentActivityId();
 
         final JsonNode documents = processService.getDocumentsOfCancelCanOpen(jsonData, processId);
-        LOG.debug("LOADED DATA (" + context.getOperationId() + "): " + jsonUtil.toJson(documents));
+        if (LOG.isDebugEnabled())
+            LOG.debug("LOADED DATA (" + context.getOperationId() + "): '" + jsonUtil.toJsonOrEmpty(documents) + "'.");
 
         if (Objects.nonNull(documents)) {
             final JsonNode commandMessage = processService.getCommandMessage(PUBLISH, context, documents);
-            LOG.debug("COMMAND (" + context.getOperationId() + "): " + jsonUtil.toJson(commandMessage));
+            if (LOG.isDebugEnabled())
+                LOG.debug("COMMAND (" + context.getOperationId() + "): '" + jsonUtil.toJsonOrEmpty(commandMessage) + "'.");
 
             final ResponseEntity<ResponseDto> response = storageRestClient.execute(commandMessage);
-            LOG.debug("RESPONSE FROM SERVICE (" + context.getOperationId() + "): " + response.getBody());
+            if (LOG.isDebugEnabled())
+                LOG.debug("RESPONSE FROM SERVICE (" + context.getOperationId() + "): '" + response.getBody() + "'.");
 
             final JsonNode responseData = processService.processResponse(response, context, processId, taskId, commandMessage);
-            LOG.debug("RESPONSE AFTER PROCESSING (" + context.getOperationId() + "): " + jsonUtil.toJson(responseData));
+            if (LOG.isDebugEnabled())
+                LOG.debug("RESPONSE AFTER PROCESSING (" + context.getOperationId() + "): '" + jsonUtil.toJsonOrEmpty(responseData) + "'.");
 
             if (Objects.nonNull(responseData)) {
                 final JsonNode step = processService.setDocumentsOfCancelCanOpen(jsonData, responseData, processId);
-                LOG.debug("STEP FOR SAVE (" + context.getOperationId() + "): " + jsonUtil.toJson(step));
+                if (LOG.isDebugEnabled())
+                    LOG.debug("STEP FOR SAVE (" + context.getOperationId() + "): '" + jsonUtil.toJsonOrEmpty(step) + "'.");
 
                 operationService.saveOperationStep(execution, entity, commandMessage, step);
             }

@@ -47,22 +47,28 @@ public class EvaluationSetInitialStatuses implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
 
         final JsonNode rqData = processService.getLotId(jsonData, processId);
-        LOG.debug("LOADED DATA (" + context.getOperationId() + "): " + jsonUtil.toJson(rqData));
+        if (LOG.isDebugEnabled())
+            LOG.debug("LOADED DATA (" + context.getOperationId() + "): '" + jsonUtil.toJsonOrEmpty(rqData) + "'.");
 
         final JsonNode commandMessage = processService.getCommandMessage(SET_INITIAL_AWARDS_STATUS, context, rqData);
-        LOG.debug("COMMAND (" + context.getOperationId() + "): " + jsonUtil.toJson(commandMessage));
+        if (LOG.isDebugEnabled())
+            LOG.debug("COMMAND (" + context.getOperationId() + "): '" + jsonUtil.toJsonOrEmpty(commandMessage) + "'.");
 
         final ResponseEntity<ResponseDto> response = evaluationRestClient.execute(commandMessage);
-        LOG.debug("RESPONSE FROM SERVICE (" + context.getOperationId() + "): " + response.getBody());
+        if (LOG.isDebugEnabled())
+            LOG.debug("RESPONSE FROM SERVICE (" + context.getOperationId() + "): '" + response.getBody() + "'.");
 
         final JsonNode responseData = processService.processResponse(response, context, processId, taskId, commandMessage);
-        LOG.debug("RESPONSE AFTER PROCESSING (" + context.getOperationId() + "): " + jsonUtil.toJson(responseData));
+        if (LOG.isDebugEnabled())
+            LOG.debug("RESPONSE AFTER PROCESSING (" + context.getOperationId() + "): '" + jsonUtil.toJsonOrEmpty(responseData) + "'.");
 
         if (responseData != null) {
-            LOG.debug("CONTEXT FOR SAVE (" + context.getOperationId() + "): " + jsonUtil.toJson(context));
+            if (LOG.isDebugEnabled())
+                LOG.debug("CONTEXT FOR SAVE (" + context.getOperationId() + "): '" + jsonUtil.toJsonOrEmpty(context) + "'.");
 
             final JsonNode step = processService.addInitialAwardsStatuses(jsonData, responseData, processId);
-            LOG.debug("STEP FOR SAVE (" + context.getOperationId() + "): " + jsonUtil.toJson(step));
+            if (LOG.isDebugEnabled())
+                LOG.debug("STEP FOR SAVE (" + context.getOperationId() + "): '" + jsonUtil.toJsonOrEmpty(step) + "'.");
 
             operationService.saveOperationStep(execution, entity, context, commandMessage, step);
         }

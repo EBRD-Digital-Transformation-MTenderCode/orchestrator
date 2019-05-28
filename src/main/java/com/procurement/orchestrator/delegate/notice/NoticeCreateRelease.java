@@ -54,22 +54,27 @@ public class NoticeCreateRelease implements JavaDelegate {
         final String taskId = execution.getCurrentActivityId();
 
         final JsonNode commandMessage = processService.getCommandMessage(CREATE_RELEASE, context, requestData);
-        LOG.debug("COMMAND (" + context.getOperationId() + "): " + jsonUtil.toJson(commandMessage));
+        if (LOG.isDebugEnabled())
+            LOG.debug("COMMAND (" + context.getOperationId() + "): '" + jsonUtil.toJsonOrEmpty(commandMessage) + "'.");
 
         JsonNode responseData = null;
         if (Objects.nonNull(requestData)) {
             final ResponseEntity<ResponseDto> response = noticeRestClient.execute(commandMessage);
-            LOG.debug("RESPONSE FROM SERVICE (" + context.getOperationId() + "): " + response.getBody());
+            if (LOG.isDebugEnabled())
+                LOG.debug("RESPONSE FROM SERVICE (" + context.getOperationId() + "): '" + response.getBody() + "'.");
 
             responseData = processService.processResponse(response, context, processId, taskId, commandMessage);
-            LOG.debug("RESPONSE AFTER PROCESSING (" + context.getOperationId() + "): " + jsonUtil.toJson(responseData));
+            if (LOG.isDebugEnabled())
+                LOG.debug("RESPONSE AFTER PROCESSING (" + context.getOperationId() + "): '" + jsonUtil.toJsonOrEmpty(responseData) + "'.");
         }
         if (Objects.nonNull(responseData)) {
 
             final Context modifiedContext = addDataToContext(context, responseData, processId);
-            LOG.debug("CONTEXT FOR SAVE (" + context.getOperationId() + "): " + jsonUtil.toJson(modifiedContext));
+            if (LOG.isDebugEnabled())
+                LOG.debug("CONTEXT FOR SAVE (" + context.getOperationId() + "): '" + jsonUtil.toJsonOrEmpty(modifiedContext) + "'.");
 
-            LOG.debug("STEP FOR SAVE (" + context.getOperationId() + "): " + jsonUtil.toJson(responseData));
+            if (LOG.isDebugEnabled())
+                LOG.debug("STEP FOR SAVE (" + context.getOperationId() + "): '" + jsonUtil.toJsonOrEmpty(responseData) + "'.");
             operationService.saveOperationStep(execution, entity, modifiedContext, commandMessage, responseData);
         }
     }

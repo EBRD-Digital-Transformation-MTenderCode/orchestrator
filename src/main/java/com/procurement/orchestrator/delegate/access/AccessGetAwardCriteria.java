@@ -48,17 +48,21 @@ public class AccessGetAwardCriteria implements JavaDelegate {
         final String taskId = execution.getCurrentActivityId();
 
         final JsonNode commandMessage = processService.getCommandMessage(GET_AWARD_CRITERIA, context, jsonUtil.empty());
-        LOG.debug("COMMAND (" + context.getOperationId() + "): " + jsonUtil.toJson(commandMessage));
+        if (LOG.isDebugEnabled())
+            LOG.debug("COMMAND (" + context.getOperationId() + "): '" + jsonUtil.toJsonOrEmpty(commandMessage) + "'.");
 
         final ResponseEntity<ResponseDto> response = accessRestClient.execute(commandMessage);
-        LOG.debug("RESPONSE FROM SERVICE (" + context.getOperationId() + "): " + response.getBody());
+        if (LOG.isDebugEnabled())
+            LOG.debug("RESPONSE FROM SERVICE (" + context.getOperationId() + "): '" + response.getBody() + "'.");
 
         final JsonNode responseData = processService.processResponse(response, context, processId, taskId, commandMessage);
-        LOG.debug("RESPONSE AFTER PROCESSING (" + context.getOperationId() + "): " + jsonUtil.toJson(responseData));
+        if (LOG.isDebugEnabled())
+            LOG.debug("RESPONSE AFTER PROCESSING (" + context.getOperationId() + "): '" + jsonUtil.toJsonOrEmpty(responseData) + "'.");
 
         if (Objects.nonNull(responseData)) {
             context.setAwardCriteria(processService.getText("awardCriteria", responseData, processId));
-            LOG.debug("CONTEXT FOR SAVE (" + context.getOperationId() + "): " + jsonUtil.toJson(context));
+            if (LOG.isDebugEnabled())
+                LOG.debug("CONTEXT FOR SAVE (" + context.getOperationId() + "): '" + jsonUtil.toJsonOrEmpty(context) + "'.");
 
             operationService.saveOperationStep(execution, entity, context, commandMessage);
         }

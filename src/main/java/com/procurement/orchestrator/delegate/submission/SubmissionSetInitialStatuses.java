@@ -50,20 +50,25 @@ public class SubmissionSetInitialStatuses implements JavaDelegate {
         final String taskId = execution.getCurrentActivityId();
 
         final JsonNode rqData = processService.getAwards(jsonData, processId);
-        LOG.debug("LOADED DATA (" + context.getOperationId() + "): " + jsonUtil.toJson(rqData));
+        if (LOG.isDebugEnabled())
+            LOG.debug("LOADED DATA (" + context.getOperationId() + "): '" + jsonUtil.toJsonOrEmpty(rqData) + "'.");
 
         final JsonNode commandMessage = processService.getCommandMessage(SET_INITIAL_BIDS_STATUS, context, rqData);
-        LOG.debug("COMMAND (" + context.getOperationId() + "): " + jsonUtil.toJson(commandMessage));
+        if (LOG.isDebugEnabled())
+            LOG.debug("COMMAND (" + context.getOperationId() + "): '" + jsonUtil.toJsonOrEmpty(commandMessage) + "'.");
 
         final ResponseEntity<ResponseDto> response = submissionRestClient.execute(commandMessage);
-        LOG.debug("RESPONSE FROM SERVICE (" + context.getOperationId() + "): " + response.getBody());
+        if (LOG.isDebugEnabled())
+            LOG.debug("RESPONSE FROM SERVICE (" + context.getOperationId() + "): '" + response.getBody() + "'.");
 
         final JsonNode responseData = processService.processResponse(response, context, processId, taskId, commandMessage);
-        LOG.debug("RESPONSE AFTER PROCESSING (" + context.getOperationId() + "): " + jsonUtil.toJson(responseData));
+        if (LOG.isDebugEnabled())
+            LOG.debug("RESPONSE AFTER PROCESSING (" + context.getOperationId() + "): '" + jsonUtil.toJsonOrEmpty(responseData) + "'.");
 
         if (responseData != null) {
             final JsonNode step = processService.addBids(jsonData, responseData, processId);
-            LOG.debug("STEP FOR SAVE (" + context.getOperationId() + "): " + jsonUtil.toJson(step));
+            if (LOG.isDebugEnabled())
+                LOG.debug("STEP FOR SAVE (" + context.getOperationId() + "): '" + jsonUtil.toJsonOrEmpty(step) + "'.");
 
             operationService.saveOperationStep(execution, entity, commandMessage, step);
         }

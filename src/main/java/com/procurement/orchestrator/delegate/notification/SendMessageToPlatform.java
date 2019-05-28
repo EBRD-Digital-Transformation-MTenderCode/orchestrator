@@ -42,10 +42,12 @@ public class SendMessageToPlatform implements JavaDelegate {
         if (notification != null) {
             messageProducer.sendToPlatform(notification);
 
-            LOG.debug("CONTEXT FOR SAVE (" + context.getOperationId() + "): " + jsonUtil.toJson(context));
+            if (LOG.isDebugEnabled())
+                LOG.debug("CONTEXT FOR SAVE (" + context.getOperationId() + "): '" + jsonUtil.toJsonOrEmpty(context) + "'.");
 
             final JsonNode step = jsonUtil.toJsonNode(notification);
-            LOG.debug("STEP FOR SAVE (" + context.getOperationId() + "): " + notification);
+            if (LOG.isDebugEnabled())
+                LOG.debug("STEP FOR SAVE (" + context.getOperationId() + "): '" + jsonUtil.toJsonOrEmpty(step) + "'.");
 
             operationService.saveOperationStep(execution, entity, context, step);
         }
