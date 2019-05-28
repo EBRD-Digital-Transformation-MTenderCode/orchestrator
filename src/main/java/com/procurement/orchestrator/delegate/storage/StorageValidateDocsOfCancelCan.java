@@ -2,6 +2,7 @@ package com.procurement.orchestrator.delegate.storage;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
+import com.procurement.orchestrator.domain.dto.command.ResponseDto;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.StorageRestClient;
 import com.procurement.orchestrator.service.OperationService;
@@ -11,6 +12,7 @@ import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
@@ -48,20 +50,22 @@ public class StorageValidateDocsOfCancelCan implements JavaDelegate {
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
+
         final JsonNode documents = processService.getDocumentsOfCancelCanValidation(jsonData, processId);
+        LOG.debug("LOADED DATA (" + context.getOperationId() + "): " + jsonUtil.toJson(documents));
+
         if (documents != null) {
             final JsonNode commandMessage = processService.getCommandMessage(VALIDATE, context, documents);
-            JsonNode responseData = processService.processResponse(
-                    storageRestClient.execute(commandMessage),
-                    context,
-                    processId,
-                    taskId,
-                    commandMessage);
+            LOG.debug("COMMAND (" + context.getOperationId() + "): " + jsonUtil.toJson(commandMessage));
+
+            final ResponseEntity<ResponseDto> response = storageRestClient.execute(commandMessage);
+            LOG.debug("RESPONSE FROM SERVICE (" + context.getOperationId() + "): " + response.getBody());
+
+            final JsonNode responseData = processService.processResponse(response, context, processId, taskId, commandMessage);
+            LOG.debug("RESPONSE AFTER PROCESSING (" + context.getOperationId() + "): " + jsonUtil.toJson(responseData));
+
             if (Objects.nonNull(responseData)) {
-                operationService.saveOperationStep(
-                        execution,
-                        entity,
-                        commandMessage);
+                operationService.saveOperationStep(execution, entity, commandMessage);
             }
         }
     }

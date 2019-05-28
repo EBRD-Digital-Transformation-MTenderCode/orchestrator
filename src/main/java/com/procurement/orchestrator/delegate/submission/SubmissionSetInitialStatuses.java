@@ -2,6 +2,7 @@ package com.procurement.orchestrator.delegate.submission;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
+import com.procurement.orchestrator.domain.dto.command.ResponseDto;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.SubmissionRestClient;
 import com.procurement.orchestrator.service.OperationService;
@@ -11,6 +12,7 @@ import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import static com.procurement.orchestrator.domain.commands.SubmissionCommandType.SET_INITIAL_BIDS_STATUS;
@@ -46,20 +48,24 @@ public class SubmissionSetInitialStatuses implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
+
         final JsonNode rqData = processService.getAwards(jsonData, processId);
+        LOG.debug("LOADED DATA (" + context.getOperationId() + "): " + jsonUtil.toJson(rqData));
+
         final JsonNode commandMessage = processService.getCommandMessage(SET_INITIAL_BIDS_STATUS, context, rqData);
-        JsonNode responseData = processService.processResponse(
-                submissionRestClient.execute(commandMessage),
-                context,
-                processId,
-                taskId,
-                commandMessage);
+        LOG.debug("COMMAND (" + context.getOperationId() + "): " + jsonUtil.toJson(commandMessage));
+
+        final ResponseEntity<ResponseDto> response = submissionRestClient.execute(commandMessage);
+        LOG.debug("RESPONSE FROM SERVICE (" + context.getOperationId() + "): " + response.getBody());
+
+        final JsonNode responseData = processService.processResponse(response, context, processId, taskId, commandMessage);
+        LOG.debug("RESPONSE AFTER PROCESSING (" + context.getOperationId() + "): " + jsonUtil.toJson(responseData));
+
         if (responseData != null) {
-            operationService.saveOperationStep(
-                    execution,
-                    entity,
-                    commandMessage,
-                    processService.addBids(jsonData, responseData, processId));
+            final JsonNode step = processService.addBids(jsonData, responseData, processId);
+            LOG.debug("STEP FOR SAVE (" + context.getOperationId() + "): " + jsonUtil.toJson(step));
+
+            operationService.saveOperationStep(execution, entity, commandMessage, step);
         }
     }
 }
