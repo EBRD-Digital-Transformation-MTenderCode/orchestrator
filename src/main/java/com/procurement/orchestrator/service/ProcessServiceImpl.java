@@ -580,8 +580,19 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     public JsonNode getDocumentsOfCancelCanOpen(final JsonNode jsonData, final String processId) {
+        final ArrayNode cans = findCANs(jsonData);
+        if(cans == null) {
+            terminateProcess(processId, "CANs are not found.");
+            return null;
+        }
+        final ObjectNode can = findCancelledCAN(cans);
+        if(can == null){
+            terminateProcess(processId, "Cancelled CAN is not found.");
+            return null;
+        }
+
         try {
-            final ArrayNode documentsArray = (ArrayNode) jsonData.get("can").get("amendment").get("documents");
+            final ArrayNode documentsArray = (ArrayNode) can.get("amendment").get("documents");
             final ObjectNode mainNode = jsonUtil.createObjectNode();
             mainNode.replace("documents", documentsArray);
             return mainNode;
@@ -592,8 +603,19 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     public JsonNode setDocumentsOfCancelCanOpen(final JsonNode jsonData, final JsonNode documentsData, final String processId) {
+        final ArrayNode cans = findCANs(jsonData);
+        if(cans == null) {
+            terminateProcess(processId, "CANs are not found.");
+            return null;
+        }
+        final ObjectNode can = findCancelledCAN(cans);
+        if(can == null){
+            terminateProcess(processId, "Cancelled CAN is not found.");
+            return null;
+        }
+
         try {
-            final ObjectNode amendmentNode = (ObjectNode) jsonData.get("can").get("amendment");
+            final ObjectNode amendmentNode = (ObjectNode) can.get("amendment");
             final ArrayNode documentsArray = (ArrayNode) documentsData.get("documents");
             if (documentsArray.size() > 0) {
                 amendmentNode.replace("documents", documentsArray);
@@ -603,6 +625,24 @@ public class ProcessServiceImpl implements ProcessService {
             terminateProcess(processId, e.getMessage());
             return null;
         }
+    }
+
+    private ArrayNode findCANs(final JsonNode data) {
+        final JsonNode cans = data.get("cans");
+        if(cans != null)
+            return (ArrayNode)cans;
+        else
+            return null;
+    }
+
+    private ObjectNode findCancelledCAN(final ArrayNode cans) {
+        for(JsonNode item : cans) {
+            final ObjectNode can = (ObjectNode) item;
+            final String status = can.get("status").asText();
+            if("cancelled".equals(status))
+                return can;
+        }
+        return null;
     }
 
     public JsonNode setDocumentsOfCan(JsonNode jsonData, JsonNode documentsData, String processId) {
@@ -1585,21 +1625,22 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public JsonNode getCan(final JsonNode jsonData, final String processId) {
-        try {
-            final ObjectNode mainNode = jsonUtil.createObjectNode();
-            mainNode.replace("can", jsonData.get("can"));
-            return mainNode;
-        } catch (Exception e) {
-            terminateProcess(processId, e.getMessage());
-            return null;
-        }
-    }
+//    public JsonNode getCan(final JsonNode jsonData, final String processId) {
+//        try {
+//            final ObjectNode mainNode = jsonUtil.createObjectNode();
+//            mainNode.replace("can", jsonData.get("can"));
+//            return mainNode;
+//        } catch (Exception e) {
+//            terminateProcess(processId, e.getMessage());
+//            return null;
+//        }
+//    }
 
     public JsonNode addCancelCan(JsonNode jsonData, JsonNode responseData, String processId) {
         try {
             final ObjectNode mainNode = (ObjectNode) jsonData;
-            mainNode.replace("can", responseData.get("can"));
+            mainNode.remove("can");
+            mainNode.set("cans", responseData.get("cans"));
             mainNode.replace("acCancel", responseData.get("acCancel"));
             mainNode.replace("contract", responseData.get("contract"));
             mainNode.replace("lotId", responseData.get("lotId"));
