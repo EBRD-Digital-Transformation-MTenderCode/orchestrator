@@ -1640,7 +1640,11 @@ public class ProcessServiceImpl implements ProcessService {
         try {
             final ObjectNode mainNode = (ObjectNode) jsonData;
             mainNode.remove("can");
-            mainNode.set("cans", responseData.get("cans"));
+            mainNode.set("cancelledCan", responseData.get("cancelledCan"));
+            final JsonNode relatedCans = responseData.get("relatedCans");
+            if (relatedCans != null) {
+                mainNode.set("relatedCans", relatedCans);
+            }
             mainNode.replace("acCancel", responseData.get("acCancel"));
             mainNode.replace("contract", responseData.get("contract"));
             mainNode.replace("lotId", responseData.get("lotId"));
