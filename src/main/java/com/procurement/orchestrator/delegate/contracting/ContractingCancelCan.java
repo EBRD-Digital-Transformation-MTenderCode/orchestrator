@@ -54,8 +54,11 @@ public class ContractingCancelCan implements JavaDelegate {
             LOG.debug("COMMAND (" + context.getOperationId() + "): '" + jsonUtil.toJsonOrEmpty(commandMessage) + "'.");
 
         final ResponseEntity<ResponseDto> response = contractingRestClient.execute(commandMessage);
-        if (LOG.isDebugEnabled())
-            LOG.debug("RESPONSE FROM SERVICE (" + context.getOperationId() + "): '" + response.getBody() + "'.");
+        if (LOG.isDebugEnabled()) {
+            final ResponseDto body = response.getBody();
+            final String result = jsonUtil.toJson(body);
+            LOG.debug("RESPONSE FROM SERVICE (" + context.getOperationId() + "): '" + result + "'.");
+        }
 
         final JsonNode responseData = processService.processResponse(response, context, processId, taskId, commandMessage);
         if (LOG.isDebugEnabled())
