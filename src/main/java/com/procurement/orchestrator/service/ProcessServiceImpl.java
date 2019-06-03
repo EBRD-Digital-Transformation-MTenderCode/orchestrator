@@ -580,19 +580,9 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     public JsonNode getDocumentsOfCancelCanOpen(final JsonNode jsonData, final String processId) {
-        final ArrayNode cans = findCANs(jsonData);
-        if(cans == null) {
-            terminateProcess(processId, "CANs are not found.");
-            return null;
-        }
-        final ObjectNode can = findCancelledCAN(cans);
-        if(can == null){
-            terminateProcess(processId, "Cancelled CAN is not found.");
-            return null;
-        }
-
         try {
-            final ArrayNode documentsArray = (ArrayNode) can.get("amendment").get("documents");
+            final JsonNode cancelledCan = jsonData.get("cancelledCan");
+            final ArrayNode documentsArray = (ArrayNode) cancelledCan.get("amendment").get("documents");
             final ObjectNode mainNode = jsonUtil.createObjectNode();
             mainNode.replace("documents", documentsArray);
             return mainNode;
@@ -603,19 +593,9 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     public JsonNode setDocumentsOfCancelCanOpen(final JsonNode jsonData, final JsonNode documentsData, final String processId) {
-        final ArrayNode cans = findCANs(jsonData);
-        if(cans == null) {
-            terminateProcess(processId, "CANs are not found.");
-            return null;
-        }
-        final ObjectNode can = findCancelledCAN(cans);
-        if(can == null){
-            terminateProcess(processId, "Cancelled CAN is not found.");
-            return null;
-        }
-
         try {
-            final ObjectNode amendmentNode = (ObjectNode) can.get("amendment");
+            final JsonNode cancelledCan = jsonData.get("cancelledCan");
+            final ObjectNode amendmentNode = (ObjectNode) cancelledCan.get("amendment");
             final ArrayNode documentsArray = (ArrayNode) documentsData.get("documents");
             if (documentsArray.size() > 0) {
                 amendmentNode.replace("documents", documentsArray);
@@ -625,24 +605,6 @@ public class ProcessServiceImpl implements ProcessService {
             terminateProcess(processId, e.getMessage());
             return null;
         }
-    }
-
-    private ArrayNode findCANs(final JsonNode data) {
-        final JsonNode cans = data.get("cans");
-        if(cans != null)
-            return (ArrayNode)cans;
-        else
-            return null;
-    }
-
-    private ObjectNode findCancelledCAN(final ArrayNode cans) {
-        for(JsonNode item : cans) {
-            final ObjectNode can = (ObjectNode) item;
-            final String status = can.get("status").asText();
-            if("cancelled".equals(status))
-                return can;
-        }
-        return null;
     }
 
     public JsonNode setDocumentsOfCan(JsonNode jsonData, JsonNode documentsData, String processId) {
