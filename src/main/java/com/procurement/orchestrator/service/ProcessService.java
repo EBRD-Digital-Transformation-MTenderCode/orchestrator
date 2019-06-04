@@ -235,7 +235,7 @@ public interface ProcessService {
 
     JsonNode setAwardPeriod(JsonNode jsonData, JsonNode responseData, String processId);
 
-    JsonNode getCan(JsonNode jsonData, String processId);
+    //JsonNode getCan(JsonNode jsonData, String processId);
 
     JsonNode addCancelCan(JsonNode jsonData, JsonNode responseData, String processId);
 

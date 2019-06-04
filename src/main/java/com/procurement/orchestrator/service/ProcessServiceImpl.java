@@ -581,7 +581,8 @@ public class ProcessServiceImpl implements ProcessService {
 
     public JsonNode getDocumentsOfCancelCanOpen(final JsonNode jsonData, final String processId) {
         try {
-            final ArrayNode documentsArray = (ArrayNode) jsonData.get("can").get("amendment").get("documents");
+            final JsonNode cancelledCan = jsonData.get("cancelledCan");
+            final ArrayNode documentsArray = (ArrayNode) cancelledCan.get("amendment").get("documents");
             final ObjectNode mainNode = jsonUtil.createObjectNode();
             mainNode.replace("documents", documentsArray);
             return mainNode;
@@ -593,7 +594,8 @@ public class ProcessServiceImpl implements ProcessService {
 
     public JsonNode setDocumentsOfCancelCanOpen(final JsonNode jsonData, final JsonNode documentsData, final String processId) {
         try {
-            final ObjectNode amendmentNode = (ObjectNode) jsonData.get("can").get("amendment");
+            final JsonNode cancelledCan = jsonData.get("cancelledCan");
+            final ObjectNode amendmentNode = (ObjectNode) cancelledCan.get("amendment");
             final ArrayNode documentsArray = (ArrayNode) documentsData.get("documents");
             if (documentsArray.size() > 0) {
                 amendmentNode.replace("documents", documentsArray);
@@ -1585,21 +1587,26 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public JsonNode getCan(final JsonNode jsonData, final String processId) {
-        try {
-            final ObjectNode mainNode = jsonUtil.createObjectNode();
-            mainNode.replace("can", jsonData.get("can"));
-            return mainNode;
-        } catch (Exception e) {
-            terminateProcess(processId, e.getMessage());
-            return null;
-        }
-    }
+//    public JsonNode getCan(final JsonNode jsonData, final String processId) {
+//        try {
+//            final ObjectNode mainNode = jsonUtil.createObjectNode();
+//            mainNode.replace("can", jsonData.get("can"));
+//            return mainNode;
+//        } catch (Exception e) {
+//            terminateProcess(processId, e.getMessage());
+//            return null;
+//        }
+//    }
 
     public JsonNode addCancelCan(JsonNode jsonData, JsonNode responseData, String processId) {
         try {
             final ObjectNode mainNode = (ObjectNode) jsonData;
-            mainNode.replace("can", responseData.get("can"));
+            mainNode.remove("can");
+            mainNode.set("cancelledCan", responseData.get("cancelledCan"));
+            final JsonNode relatedCans = responseData.get("relatedCans");
+            if (relatedCans != null) {
+                mainNode.set("relatedCans", relatedCans);
+            }
             mainNode.replace("acCancel", responseData.get("acCancel"));
             mainNode.replace("contract", responseData.get("contract"));
             mainNode.replace("lotId", responseData.get("lotId"));

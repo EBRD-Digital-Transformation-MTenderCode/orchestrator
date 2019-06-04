@@ -193,12 +193,12 @@ public class OperationServiceImpl implements OperationService {
         cassandraDao.saveContext(contextEntity);
     }
 
-    void processException(final String error,
-                          final String processId) {
+    void processException(final String error, final String processId) {
         try {
-            LOG.info("Exception in process Id: " + processId + "; message: " + error);
+            LOG.error("Exception in process Id: " + processId + "; message: " + error);
             runtimeService.suspendProcessInstanceById(processId);
         } catch (Exception ignored) {
+            LOG.error("Error of the suspending process: '" + processId + "'.", ignored);
         }
     }
 }

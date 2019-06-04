@@ -38,6 +38,17 @@ public class JsonUtil {
         }
     }
 
+    public <T> String toJsonOrEmpty(final T object) {
+        try {
+            if (object == null)
+                return "";
+            else
+                return mapper.writeValueAsString(object);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public <T> T toObject(final Class<T> clazz, final String json) {
         Objects.requireNonNull(json);
         try {

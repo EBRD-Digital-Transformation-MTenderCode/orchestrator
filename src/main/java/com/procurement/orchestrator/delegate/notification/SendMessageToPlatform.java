@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.delegate.notification;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.delegate.kafka.MessageProducer;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.Notification;
@@ -40,11 +41,15 @@ public class SendMessageToPlatform implements JavaDelegate {
         final Notification notification = notificationService.getNotificationForPlatform(context);
         if (notification != null) {
             messageProducer.sendToPlatform(notification);
-            operationService.saveOperationStep(
-                    execution,
-                    entity,
-                    context,
-                    jsonUtil.toJsonNode(notification));
+
+            if (LOG.isDebugEnabled())
+                LOG.debug("CONTEXT FOR SAVE (" + context.getOperationId() + "): '" + jsonUtil.toJsonOrEmpty(context) + "'.");
+
+            final JsonNode step = jsonUtil.toJsonNode(notification);
+            if (LOG.isDebugEnabled())
+                LOG.debug("STEP FOR SAVE (" + context.getOperationId() + "): '" + jsonUtil.toJsonOrEmpty(step) + "'.");
+
+            operationService.saveOperationStep(execution, entity, context, step);
         }
     }
 }

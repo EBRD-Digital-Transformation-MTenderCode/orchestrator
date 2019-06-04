@@ -2,6 +2,7 @@ package com.procurement.orchestrator.delegate.access;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
+import com.procurement.orchestrator.domain.dto.command.ResponseDto;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.AccessRestClient;
 import com.procurement.orchestrator.service.OperationService;
@@ -11,6 +12,7 @@ import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
@@ -44,20 +46,25 @@ public class AccessGetAwardCriteria implements JavaDelegate {
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
+
         final JsonNode commandMessage = processService.getCommandMessage(GET_AWARD_CRITERIA, context, jsonUtil.empty());
-        JsonNode responseData = processService.processResponse(
-                accessRestClient.execute(commandMessage),
-                context,
-                processId,
-                taskId,
-                commandMessage);
+        if (LOG.isDebugEnabled())
+            LOG.debug("COMMAND (" + context.getOperationId() + "): '" + jsonUtil.toJsonOrEmpty(commandMessage) + "'.");
+
+        final ResponseEntity<ResponseDto> response = accessRestClient.execute(commandMessage);
+        if (LOG.isDebugEnabled())
+            LOG.debug("RESPONSE FROM SERVICE (" + context.getOperationId() + "): '" + response.getBody() + "'.");
+
+        final JsonNode responseData = processService.processResponse(response, context, processId, taskId, commandMessage);
+        if (LOG.isDebugEnabled())
+            LOG.debug("RESPONSE AFTER PROCESSING (" + context.getOperationId() + "): '" + jsonUtil.toJsonOrEmpty(responseData) + "'.");
+
         if (Objects.nonNull(responseData)) {
             context.setAwardCriteria(processService.getText("awardCriteria", responseData, processId));
-            operationService.saveOperationStep(
-                    execution,
-                    entity,
-                    context,
-                    commandMessage);
+            if (LOG.isDebugEnabled())
+                LOG.debug("CONTEXT FOR SAVE (" + context.getOperationId() + "): '" + jsonUtil.toJsonOrEmpty(context) + "'.");
+
+            operationService.saveOperationStep(execution, entity, context, commandMessage);
         }
     }
 }
