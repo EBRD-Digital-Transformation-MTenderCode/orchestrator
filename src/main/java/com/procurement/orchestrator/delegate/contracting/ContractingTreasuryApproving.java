@@ -1,5 +1,7 @@
 package com.procurement.orchestrator.delegate.contracting;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
@@ -8,6 +10,7 @@ import com.procurement.orchestrator.service.NotificationService;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
+import lombok.Getter;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
@@ -46,24 +49,110 @@ public class ContractingTreasuryApproving implements JavaDelegate {
         LOG.info(execution.getCurrentActivityId());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
-        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
+        final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
+        final JsonNode commandData = generateCommandData(jsonData, processId);
+
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(TREASURY_APPROVING_AC, context, jsonData);
+        final JsonNode commandMessage = processService.getCommandMessage(TREASURY_APPROVING_AC, context, commandData);
         JsonNode responseData = processService.processResponse(
-                contractingRestClient.execute(commandMessage),
-                context,
-                processId,
-                taskId,
-                commandMessage);
+            contractingRestClient.execute(commandMessage),
+            context,
+            processId,
+            taskId,
+            commandMessage);
         if (Objects.nonNull(responseData)) {
             operationService.saveOperationStep(
-                    execution,
-                    entity,
-                    context,
-                    commandMessage,
-                    responseData);
+                execution,
+                entity,
+                context,
+                commandMessage,
+                responseData);
         }
     }
 
+    private JsonNode generateCommandData(final JsonNode jsonData, final String processId) {
+        try {
+            final JsonNode verificationNode = jsonData.get("verification");
+            final TreasureApprovingAcDTO.Verification verification = new TreasureApprovingAcDTO.Verification(
+                verificationNode.get("value").asText(),
+                verificationNode.get("rationale").asText()
+            );
+
+            final String dateMet = jsonData.get("dateMet").asText();
+
+            final TreasureApprovingAcDTO.RegData regData;
+            if (jsonData.has("regData")) {
+                final JsonNode regDataNode = jsonData.get("regData");
+                final String regNom = regDataNode.get("reg_nom").asText();
+                final String regDate = regDataNode.get("reg_date").asText();
+                regData = new TreasureApprovingAcDTO.RegData(regNom, regDate);
+            } else {
+                regData = null;
+            }
+
+            final TreasureApprovingAcDTO dto = new TreasureApprovingAcDTO(verification, dateMet, regData);
+            return jsonUtil.toJsonNode(dto);
+
+        } catch (Exception exception) {
+            processService.terminateProcess(processId, exception.getMessage());
+            return null;
+        }
+    }
+
+    @Getter
+    static class TreasureApprovingAcDTO {
+        @JsonProperty("verification")
+        private final Verification verification;
+
+        @JsonProperty("dateMet")
+        private final String dateMet;
+
+        @JsonProperty("regData")
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        private final RegData regData;
+
+        public TreasureApprovingAcDTO(final Verification verification, final String dateMet, final RegData regData) {
+            Objects.requireNonNull(verification);
+            Objects.requireNonNull(dateMet);
+
+            this.verification = verification;
+            this.dateMet = dateMet;
+            this.regData = regData;
+        }
+
+        @Getter
+        public static class Verification {
+            @JsonProperty("value")
+            private final String value;
+
+            @JsonProperty("rationale")
+            private final String rationale;
+
+            public Verification(final String value, final String rationale) {
+                Objects.requireNonNull(value);
+                Objects.requireNonNull(rationale);
+
+                this.value = value;
+                this.rationale = rationale;
+            }
+        }
+
+        @Getter
+        public static class RegData {
+            @JsonProperty("reg_nom")
+            private final String regNom;
+
+            @JsonProperty("reg_date")
+            private final String regDate;
+
+            public RegData(final String regNom, final String regDate) {
+                Objects.requireNonNull(regNom);
+                Objects.requireNonNull(regDate);
+
+                this.regNom = regNom;
+                this.regDate = regDate;
+            }
+        }
+    }
 }
