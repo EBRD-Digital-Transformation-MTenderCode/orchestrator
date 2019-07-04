@@ -149,7 +149,7 @@ public class MessageConsumer {
         }
     }
 
-    @KafkaListener(topics = "transport-agent-out")
+    @KafkaListener(topics = "mconnect-bus-out")
     public void onAgent(final String message, @Header(KafkaHeaders.ACKNOWLEDGMENT) final Acknowledgment ac) {
         try {
             LOG.info("Received a message from the mConnect-Bus (" + message + ").");
@@ -178,7 +178,7 @@ public class MessageConsumer {
                     case TREASURY_APPROVING: {
                         final JsonNode dataNode = response.get("data");
                         if (dataNode != null) {
-                            final String ocid = dataNode.get("id_dok").asText();
+                            final String ocid = dataNode.get("ocid").asText();
                             final Context prevContext = requestService.getContext(ocid);
                             final String uuid = UUIDs.timeBased().toString();
                             final Context context = requestService.checkRulesAndProcessContext(

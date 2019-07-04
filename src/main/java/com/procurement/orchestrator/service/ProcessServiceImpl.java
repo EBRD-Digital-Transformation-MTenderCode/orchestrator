@@ -582,10 +582,15 @@ public class ProcessServiceImpl implements ProcessService {
     public JsonNode getDocumentsOfCancelCanOpen(final JsonNode jsonData, final String processId) {
         try {
             final JsonNode cancelledCan = jsonData.get("cancelledCan");
-            final ArrayNode documentsArray = (ArrayNode) cancelledCan.get("amendment").get("documents");
-            final ObjectNode mainNode = jsonUtil.createObjectNode();
-            mainNode.replace("documents", documentsArray);
-            return mainNode;
+            final JsonNode amendment = cancelledCan.get("amendment");
+            final JsonNode documents = amendment.get("documents");
+            if (documents != null) {
+                final ObjectNode mainNode = jsonUtil.createObjectNode();
+                mainNode.set("documents", documents);
+                return mainNode;
+            } else {
+                return null;
+            }
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
             return null;
