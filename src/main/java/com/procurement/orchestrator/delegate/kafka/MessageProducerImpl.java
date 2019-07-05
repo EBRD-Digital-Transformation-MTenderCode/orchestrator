@@ -17,7 +17,7 @@ public class MessageProducerImpl implements MessageProducer {
     private static final String PLATFORM_TOPIC = "notification-kafka-channel";
     private static final String AUCTION_TOPIC = "auction-front-in";
     private static final String DOC_GENERATOR_TOPIC = "document-generator-in";
-    private static final String TRANSPORT_AGENT_TOPIC = "transport-agent-in";
+    private static final String MCONNECT_BUS_IN = "mconnect-bus-in";
     private final KafkaTemplate<String, String> internalKafkaTemplate;
     private final JsonUtil jsonUtil;
 
@@ -99,13 +99,12 @@ public class MessageProducerImpl implements MessageProducer {
     public boolean sendToAgent(final CommandMessage commandMessage) {
         try {
             LOG.info("Attempt to send a message to the mConnect-Bus.");
-            final SendResult<String, String> sendResult = internalKafkaTemplate.send(
-                    TRANSPORT_AGENT_TOPIC,
-                    jsonUtil.toJson(commandMessage)).get();
+            final SendResult<String, String> sendResult =
+                internalKafkaTemplate.send(MCONNECT_BUS_IN, jsonUtil.toJson(commandMessage)).get();
             final RecordMetadata recordMetadata = sendResult.getRecordMetadata();
             LOG.info(
-                    "Sent to the mConnect-Bus (topic: '{}', partition: '{}', offset: '{}', command: '{}').",
-                    recordMetadata.topic(), recordMetadata.partition(), recordMetadata.offset(), commandMessage.toString()
+                "Sent to the mConnect-Bus (topic: '{}', partition: '{}', offset: '{}', command: '{}').",
+                recordMetadata.topic(), recordMetadata.partition(), recordMetadata.offset(), commandMessage.toString()
             );
             return true;
         } catch (Exception e) {
