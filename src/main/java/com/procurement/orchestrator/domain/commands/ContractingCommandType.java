@@ -24,7 +24,7 @@ public enum ContractingCommandType {
     BUYER_SIGNING_AC("buyerSigningAC"),
     SUPPLIER_SIGNING_AC("supplierSigningAC"),
     VERIFICATION_AC("verificationAC"),
-    TREASURY_APPROVING_AC("treasuryApprovingAC"),
+    TREASURY_RESPONSE_PROCESSING("treasuryResponseProcessing"),
     ACTIVATION_AC("activationAC"),
     UPDATE_CAN_DOCS("updateCanDocs"),
     CANCEL_CAN("cancelCan"),
