@@ -158,7 +158,7 @@ public class MessageConsumer {
             if (response.get("errors") == null) {
                 final String command = response.get("command").asText();
                 switch (AgentCommandType.fromValue(command)) {
-                    case VERIFICATION: {
+                    case LAUNCH_AC_VERIFICATION: {
                         final JsonNode dataNode = response.get("data");
                         if (dataNode != null) {
                             final String ocid = dataNode.get("ocid").asText();
