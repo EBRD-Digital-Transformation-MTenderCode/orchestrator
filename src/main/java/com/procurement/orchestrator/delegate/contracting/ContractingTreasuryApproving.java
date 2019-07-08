@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.ContractingCommandType.TREASURY_APPROVING_AC;
+import static com.procurement.orchestrator.domain.commands.ContractingCommandType.TREASURY_RESPONSE_PROCESSING;
 
 @Component
 public class ContractingTreasuryApproving implements JavaDelegate {
@@ -54,7 +54,7 @@ public class ContractingTreasuryApproving implements JavaDelegate {
         final JsonNode commandData = generateCommandData(jsonData, processId);
 
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode commandMessage = processService.getCommandMessage(TREASURY_APPROVING_AC, context, commandData);
+        final JsonNode commandMessage = processService.getCommandMessage(TREASURY_RESPONSE_PROCESSING, context, commandData);
         JsonNode responseData = processService.processResponse(
             contractingRestClient.execute(commandMessage),
             context,
