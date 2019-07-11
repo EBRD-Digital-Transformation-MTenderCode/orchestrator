@@ -4,7 +4,7 @@ import com.datastax.driver.core.utils.UUIDs;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.chronograph.ChronographResponse;
-import com.procurement.orchestrator.domain.commands.AgentCommandType;
+import com.procurement.orchestrator.domain.commands.AgentResponseCommandType;
 import com.procurement.orchestrator.domain.commands.AuctionCommandType;
 import com.procurement.orchestrator.domain.commands.DocGeneratorCommandType;
 import com.procurement.orchestrator.service.ProcessService;
@@ -157,17 +157,15 @@ public class MessageConsumer {
             final JsonNode response = jsonUtil.toJsonNode(message);
             if (response.get("errors") == null) {
                 final String command = response.get("command").asText();
-                switch (AgentCommandType.fromValue(command)) {
+                switch (AgentResponseCommandType.fromValue(command)) {
                     case LAUNCH_AC_VERIFICATION: {
                         final JsonNode dataNode = response.get("data");
                         if (dataNode != null) {
                             final String ocid = dataNode.get("ocid").asText();
                             final Context prevContext = requestService.getContext(ocid);
                             final String uuid = UUIDs.timeBased().toString();
-                            final Context context = requestService.checkRulesAndProcessContext(
-                                    prevContext,
-                                    "verificationAC",
-                                    uuid);
+                            final Context context =
+                                requestService.checkRulesAndProcessContext(prevContext, "verificationAC", uuid);
                             requestService.saveRequestAndCheckOperation(context, dataNode);
                             final Map<String, Object> variables = new HashMap<>();
                             variables.put("operationType", context.getOperationType());
@@ -181,10 +179,8 @@ public class MessageConsumer {
                             final String ocid = dataNode.get("ocid").asText();
                             final Context prevContext = requestService.getContext(ocid);
                             final String uuid = UUIDs.timeBased().toString();
-                            final Context context = requestService.checkRulesAndProcessContext(
-                                    prevContext,
-                                    "treasuryApprovingAC",
-                                    uuid);
+                            final Context context =
+                                requestService.checkRulesAndProcessContext(prevContext, "treasuryApprovingAC", uuid);
                             requestService.saveRequestAndCheckOperation(context, dataNode);
                             final Map<String, Object> variables = new HashMap<>();
                             variables.put("operationType", context.getOperationType());

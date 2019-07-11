@@ -16,7 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import static com.procurement.orchestrator.domain.commands.AgentCommandType.LAUNCH_AC_VERIFICATION;
+import static com.procurement.orchestrator.domain.commands.AgentRequestCommandType.SEND_AC_FOR_VERIFICATION;
 
 @Component
 public class SendMessageToAgent implements JavaDelegate {
@@ -52,13 +52,13 @@ public class SendMessageToAgent implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         final JsonNode rqData = processService.getTreasuryValidationData(jsonData, context, processId);
         if (rqData != null) {
-            final CommandMessage commandMessage = notificationService.getAgentCommandMessage(LAUNCH_AC_VERIFICATION, context, rqData);
+            final CommandMessage commandMessage = notificationService.getAgentCommandMessage(SEND_AC_FOR_VERIFICATION, context, rqData);
             messageProducer.sendToAgent(commandMessage);
             operationService.saveOperationStep(
-                    execution,
-                    entity,
-                    context,
-                    jsonUtil.toJsonNode(commandMessage));
+                execution,
+                entity,
+                context,
+                jsonUtil.toJsonNode(commandMessage));
         }
     }
 }
