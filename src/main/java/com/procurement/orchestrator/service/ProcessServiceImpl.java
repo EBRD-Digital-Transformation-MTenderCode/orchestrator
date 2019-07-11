@@ -4,6 +4,7 @@ import com.datastax.driver.core.utils.UUIDs;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.node.TextNode;
 import com.procurement.orchestrator.delegate.kafka.MessageProducer;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.Notification;
@@ -1560,7 +1561,9 @@ public class ProcessServiceImpl implements ProcessService {
     public JsonNode getTreasuryValidationData(final JsonNode jsonData, final Context context, final String processId) {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
-            mainNode.replace("treasuryBudgetSources", jsonData.get("treasuryBudgetSources"));
+            mainNode.set("ocid",  new TextNode(context.getOcid()));
+            mainNode.set("cpid",  new TextNode(context.getCpid()));
+            mainNode.set("treasuryBudgetSources", jsonData.get("treasuryBudgetSources"));
             return mainNode;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
