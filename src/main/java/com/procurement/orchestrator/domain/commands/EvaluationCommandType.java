@@ -10,6 +10,7 @@ import java.util.Map;
 
 public enum EvaluationCommandType {
 
+    CREATE_AWARD("createAward"),
     CREATE_AWARDS("createAwards"),
     AWARD_BY_BID("awardByBid"),
     AWARDS_FOR_CANS("awardsForCans"),
