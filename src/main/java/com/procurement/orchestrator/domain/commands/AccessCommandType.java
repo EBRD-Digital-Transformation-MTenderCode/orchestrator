@@ -39,6 +39,7 @@ public enum AccessCommandType {
     SET_LOTS_INITIAL_STATUS("setLotInitialStatus"),
     SET_FINAL_STATUSES("setFinalStatuses"),
 
+    CHECK_AWARD("checkAward"),
     CHECK_LOT_STATUS("checkLotStatus"),
     CHECK_LOTS_STATUS("checkLotsStatus"),
     CHECK_BID("checkBid"),
