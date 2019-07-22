@@ -58,7 +58,7 @@ public class EvaluationCreateAward implements JavaDelegate {
             commandMessage
         );
         if (Objects.nonNull(responseData)) {
-            if(responseData.has("lotAwarded")) {
+            if (responseData.has("lotAwarded")) {
                 final JsonNode lotAwardedNode = responseData.get("lotAwarded");
                 execution.setVariable("lotAwarded", lotAwardedNode.booleanValue());
             }
@@ -66,9 +66,9 @@ public class EvaluationCreateAward implements JavaDelegate {
             operationService.saveOperationStep(
                 execution,
                 entity,
-                notificationService.addAwardOutcomeToContext(context, responseData, processId),
+                notificationService.addOneAwardOutcomeToContext(context, responseData, processId),
                 commandMessage,
-                processService.addAwardData(jsonData, responseData, processId)
+                processService.addOneAwardData(jsonData, responseData, processId)
             );
         }
     }

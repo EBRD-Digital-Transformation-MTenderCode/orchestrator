@@ -67,6 +67,8 @@ public interface ProcessService {
 
     JsonNode addAwardData(JsonNode jsonData, JsonNode awardData, String processId);
 
+    JsonNode addOneAwardData(final JsonNode jsonData, final JsonNode awardData, final String processId);
+
     JsonNode addAwards(JsonNode jsonData, JsonNode awardsData, String processId);
 
     JsonNode addCan(JsonNode jsonData, JsonNode cansData, String processId);
