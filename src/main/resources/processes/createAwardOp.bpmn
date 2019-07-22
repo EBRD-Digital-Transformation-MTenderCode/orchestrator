@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="2.2.4">
-  <bpmn:process id="Process_1" processType="None" isClosed="false" isExecutable="true">
+  <bpmn:process id="createAwardOp" processType="None" isClosed="false" isExecutable="true">
     <bpmn:startEvent id="StartEvent_1">
       <bpmn:outgoing>SequenceFlow_026fga2</bpmn:outgoing>
       <bpmn:outputSet />
@@ -88,7 +88,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_00tjy9k" sourceRef="ServiceTask_0vcebdm" targetRef="ExclusiveGateway_0kxvyig" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="Yaoqiang_Diagram-Process_1" name="Untitled Diagram" resolution="96">
-    <bpmndi:BPMNPlane bpmnElement="Process_1">
+    <bpmndi:BPMNPlane bpmnElement="createAwardOp">
       <bpmndi:BPMNShape id="Yaoqiang-StartEvent_1" bpmnElement="StartEvent_1">
         <dc:Bounds x="243" y="224" width="32" height="32" />
         <bpmndi:BPMNLabel>
