@@ -68,7 +68,7 @@ public class AddressEnricher implements JavaDelegate {
         ResponseEntity<String> response = mdmRestClient.getCountry(countryId, lang);
         final String countryData = response.getBody();
         LOG.debug("Received data of a country by id: {}, and lang: {} - '{}'.", countryId, lang, countryData);
-        return jsonUtil.toJsonNode(countryData);
+        return jsonUtil.toJsonNode(countryData).get("data");
     }
 
     private JsonNode getRegionData(final String countryId, final String regionId, final String lang) throws Exception {
@@ -79,7 +79,7 @@ public class AddressEnricher implements JavaDelegate {
             "Received data of a region by id: {} and country id: {} and lang: {} - '{}'.",
             regionId, countryId, lang, regionData
         );
-        return jsonUtil.toJsonNode(regionData);
+        return jsonUtil.toJsonNode(regionData).get("data");
     }
 
     private JsonNode getLocalityData(
@@ -98,6 +98,6 @@ public class AddressEnricher implements JavaDelegate {
             "Received data of a locality by id: {} and country id: {} and region id: {} and lang: {} - '{}'.",
             localityId, countryId, regionId, lang, localityData
         );
-        return jsonUtil.toJsonNode(localityData);
+        return jsonUtil.toJsonNode(localityData).get("data");
     }
 }
