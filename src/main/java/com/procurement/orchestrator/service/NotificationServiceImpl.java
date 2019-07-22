@@ -337,6 +337,11 @@ public class NotificationServiceImpl implements NotificationService {
                 data.setOutcomes(buildOutcomesFromContext(Collections.singletonList("awards"), context));
                 break;
             }
+            case CREATE_AWARD: {
+                data.setOcid(context.getCpid());
+                data.setOutcomes(buildOutcomes("award", context.getCpid(), context.getToken()));
+                break;
+            }
             case AWARD_BY_BID: {
                 data.setOcid(context.getOcid());
                 data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
