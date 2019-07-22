@@ -61,6 +61,6 @@ public class OrganizationSchemeReference implements JavaDelegate {
         ResponseEntity<String> response = mdmRestClient.getOrganizationSchemes(countryId);
         final String schemesData = response.getBody();
         LOG.debug("Received data of schemes by country: {} - '{}'.", countryId, schemesData);
-        return jsonUtil.toJsonNode(schemesData).get("data");
+        return jsonUtil.toJsonNode(schemesData).get("data").get("schemes");
     }
 }

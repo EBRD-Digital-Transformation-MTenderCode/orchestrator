@@ -61,6 +61,6 @@ public class OrganizationScaleReference implements JavaDelegate {
         ResponseEntity<String> response = mdmRestClient.getOrganizationScales(countryId);
         final String scalesData = response.getBody();
         LOG.debug("Received data of scales by country: {} - '{}'.", countryId, scalesData);
-        return jsonUtil.toJsonNode(scalesData).get("data");
+        return jsonUtil.toJsonNode(scalesData).get("data").get("scales");
     }
 }
