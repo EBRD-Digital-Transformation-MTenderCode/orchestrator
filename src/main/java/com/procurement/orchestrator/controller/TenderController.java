@@ -8,6 +8,8 @@ import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.service.RequestService;
 import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +19,7 @@ import java.util.Map;
 
 @RestController
 public class TenderController extends DoBaseController {
+    private static final Logger LOG = LoggerFactory.getLogger(TenderController.class);
 
     private final DateUtil dateUtil;
     private final ProcessService processService;
@@ -216,7 +219,11 @@ public class TenderController extends DoBaseController {
                                              @PathVariable("cpid") final String cpid,
                                              @PathVariable("ocid") final String ocid,
                                              @RequestParam("lotId") final String lotId,
-                                             @RequestBody final JsonNode data) {
+                                             @RequestBody final String body) {
+        if(LOG.isDebugEnabled())
+            LOG.debug("Received request to endpoint '/award/{cpid}/{ocid}?lotId' (operation id: '{}', cpid: '{}', ocid: '{}', lot id: '{}', body: '{}').", operationId, cpid, ocid, lotId, body);
+
+        final JsonNode data = jsonUtil.toJsonNode(body);
         requestService.validate(operationId, data);
         final Context context = requestService.getContextForUpdate(authorization, operationId, cpid, ocid, token, "createAward");
         context.setId(lotId);
