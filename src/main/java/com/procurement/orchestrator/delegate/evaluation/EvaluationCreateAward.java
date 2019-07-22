@@ -58,8 +58,8 @@ public class EvaluationCreateAward implements JavaDelegate {
             commandMessage
         );
         if (Objects.nonNull(responseData)) {
-            final JsonNode lotAwardedNode = responseData.get("lotAwarded");
-            if(lotAwardedNode.isBoolean()) {
+            if(responseData.has("lotAwarded")) {
+                final JsonNode lotAwardedNode = responseData.get("lotAwarded");
                 execution.setVariable("lotAwarded", lotAwardedNode.booleanValue());
             }
 
