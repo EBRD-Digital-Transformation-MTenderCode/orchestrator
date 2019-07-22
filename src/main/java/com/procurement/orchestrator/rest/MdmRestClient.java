@@ -32,4 +32,10 @@ public interface MdmRestClient {
         @PathVariable("localityId") String localityId,
         @RequestParam("lang") String lang
     ) throws Exception;
+
+    @RequestMapping(method = RequestMethod.GET, path = "/organization/schemes")
+    ResponseEntity<String> getOrganizationSchemes(@RequestParam("country") String country);
+
+    @RequestMapping(method = RequestMethod.GET, path = "/organization/scales")
+    ResponseEntity<String> getOrganizationScales(@RequestParam("country") String country);
 }
