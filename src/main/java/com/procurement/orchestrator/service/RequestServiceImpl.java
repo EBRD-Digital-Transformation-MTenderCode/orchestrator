@@ -265,7 +265,7 @@ public class RequestServiceImpl implements RequestService {
         String currentStage = null;
 
         if (!cpid.equals(prevContext.getCpid())) {
-            throw new OperationException("Invalid cpid.");
+            throw new OperationException("Invalid cpid. Current cpid: '" + cpid + "', previous cpid: '" + prevContext.getCpid() + "'.");
         }
 
         for (final Stage stage : Stage.values()) {
@@ -276,14 +276,14 @@ public class RequestServiceImpl implements RequestService {
 
         final String cpidFromOcid = ocid.substring(0, ocid.indexOf("-" + currentStage + "-"));
         if (!cpid.equals(cpidFromOcid)) {
-            throw new OperationException("Invalid ocid.");
+            throw new OperationException("Invalid ocid. Ocid: '" + ocid + "', cpid: '" + cpid + "'.");
         }
 
         if (currentStage == null) {
-            throw new OperationException("Invalid ocid.");
+            throw new OperationException("Current stage is null.");
         } else {
             if (!currentStage.equals(prevContext.getStage())) {
-                throw new OperationException("Invalid ocid.");
+                throw new OperationException("Invalid stage. Current stage: '" + currentStage + "', previous stage: '" + prevContext.getStage() + "'.");
             }
         }
     }
@@ -292,11 +292,11 @@ public class RequestServiceImpl implements RequestService {
         String currentStage = null;
 
         if (!cpid.equals(prevContext.getCpid())) {
-            throw new OperationException("Invalid cpid.");
+            throw new OperationException("Invalid cpid. Previous cpid: '" + prevContext.getCpid() + "'.");
         }
 
         if (!ocid.equals(prevContext.getOcid())) {
-            throw new OperationException("Invalid ocid.");
+            throw new OperationException("Invalid ocid. Previous ocid: '" + prevContext.getOcid() + "'.");
         }
 
         for (final Stage stage : Stage.values()) {
@@ -307,14 +307,14 @@ public class RequestServiceImpl implements RequestService {
 
         final String cpidFromOcid = ocid.substring(0, ocid.indexOf("-" + currentStage + "-"));
         if (!cpid.equals(cpidFromOcid)) {
-            throw new OperationException("Invalid ocid.");
+            throw new OperationException("Invalid ocid. Ocid: '" + ocid + "', cpid: '" + cpid + "'.");
         }
 
         if (currentStage == null) {
-            throw new OperationException("Invalid ocid.");
+            throw new OperationException("Current stage is null.");
         } else {
             if (!currentStage.equals(prevContext.getStage())) {
-                throw new OperationException("Invalid ocid.");
+                throw new OperationException("Invalid stage. Current stage: '" + currentStage + "', previous stage: '" + prevContext.getStage() + "'.");
             }
         }
     }
