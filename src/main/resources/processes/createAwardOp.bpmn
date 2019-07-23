@@ -62,8 +62,8 @@
       <bpmn:incoming>SequenceFlow_00tjy9k</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0kgbk8x</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="SequenceFlow_1t9iind" name="operationType==&#39;createAward&#39; and has lotAwarded" sourceRef="ExclusiveGateway_1h457dl" targetRef="AccessSetTenderSDTask">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${operationType=='createAward' &amp;&amp; execution.hasVariable('lotAwarded')==true}</bpmn:conditionExpression>
+    <bpmn:sequenceFlow id="SequenceFlow_1t9iind" name="operationType==&#39;startAwardPeriod&#39;" sourceRef="ExclusiveGateway_1h457dl" targetRef="AccessSetTenderSDTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${operationType=='startAwardPeriod'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_0ms93su" name="operationType==&#39;createAward&#39; and not has lotAwarded" sourceRef="ExclusiveGateway_1h457dl" targetRef="ExclusiveGateway_0kxvyig">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${operationType=='createAward' &amp;&amp; execution.hasVariable('lotAwarded')==false}</bpmn:conditionExpression>
@@ -77,12 +77,12 @@
       <bpmn:incoming>SequenceFlow_06xlrnx</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="SequenceFlow_06xlrnx" sourceRef="SendMessageTask" targetRef="EndEvent_10fhpbr" />
-    <bpmn:serviceTask id="AccessSetLotsAwardedTask" name="Access Set&#10;Lots Awarded&#10;" camunda:asyncBefore="true" camunda:delegateExpression="${accessSetLotsSDAwarded}">
+    <bpmn:serviceTask id="AccessSetLotsAwardedTask" name="Access:&#10;Set Lots Awarded&#10;" camunda:asyncBefore="true" camunda:delegateExpression="${accessSetLotsSDAwarded}">
       <bpmn:incoming>SequenceFlow_1hqddop</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_00tjy9k</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_1hqddop" name="operationType==&#39;startAwardPeriod&#39;" sourceRef="ExclusiveGateway_1h457dl" targetRef="AccessSetLotsAwardedTask">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${operationType=='startAwardPeriod'}</bpmn:conditionExpression>
+    <bpmn:sequenceFlow id="SequenceFlow_1hqddop" name="operationType==&#39;createAward&#39; and has lotAwarded" sourceRef="ExclusiveGateway_1h457dl" targetRef="AccessSetLotsAwardedTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${operationType=='createAward' &amp;&amp; execution.hasVariable('lotAwarded')==true}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_00tjy9k" sourceRef="AccessSetLotsAwardedTask" targetRef="ExclusiveGateway_0kxvyig" />
     <bpmn:serviceTask id="OrganizationSchemeReferenceTask" name="MDM:&#10;Organization scheme reference&#10;" camunda:asyncBefore="true" implementation="##WebService" camunda:delegateExpression="${organizationSchemeReference}">
@@ -198,7 +198,7 @@
         <di:waypoint x="1581" y="126" />
         <di:waypoint x="1737" y="126" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1481" y="147" width="85" height="40" />
+          <dc:Bounds x="1619" y="84" width="87" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0ms93su_di" bpmnElement="SequenceFlow_0ms93su">
@@ -237,18 +237,18 @@
         <di:waypoint x="2514" y="240" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ServiceTask_0vcebdm_di" bpmnElement="AccessSetLotsAwardedTask">
-        <dc:Bounds x="1636" y="308" width="100" height="80" />
+        <dc:Bounds x="1737" y="308" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1hqddop_di" bpmnElement="SequenceFlow_1hqddop">
         <di:waypoint x="1581" y="265" />
         <di:waypoint x="1581" y="348" />
-        <di:waypoint x="1636" y="348" />
+        <di:waypoint x="1737" y="348" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1483" y="303" width="87" height="27" />
+          <dc:Bounds x="1619" y="366" width="85" height="40" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_00tjy9k_di" bpmnElement="SequenceFlow_00tjy9k">
-        <di:waypoint x="1736" y="348" />
+        <di:waypoint x="1837" y="348" />
         <di:waypoint x="1907" y="348" />
         <di:waypoint x="1907" y="265" />
       </bpmndi:BPMNEdge>
