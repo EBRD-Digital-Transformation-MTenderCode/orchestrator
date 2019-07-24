@@ -27,6 +27,8 @@ public interface ProcessService {
 
     Boolean getBoolean(String fieldName, JsonNode jsonData, String processId);
 
+    String getString(String fieldName, JsonNode jsonData, String processId);
+
     void setEnquiryPeriodStartDate(JsonNode jsonData, String startDate, String processId);
 
     void setTenderPeriodStartDate(JsonNode jsonData, String startDate, String processId);

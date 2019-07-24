@@ -12,6 +12,7 @@ import lombok.Getter;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.camunda.bpm.engine.variable.value.BooleanValue;
+import org.camunda.bpm.engine.variable.value.StringValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -53,7 +54,7 @@ public class AccessSetLotsSDAwarded implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityName();
 
-        final String lotId = context.getId();
+        final String lotId = execution.<StringValue>getVariableTyped("lotId").getValue();
         final Boolean lotAwarded = execution.<BooleanValue>getVariableTyped("lotAwarded").getValue();
         final SetLotStatusRequest request = new SetLotStatusRequest(lotId, lotAwarded);
         final JsonNode requestData = jsonUtil.toJsonNode(request);

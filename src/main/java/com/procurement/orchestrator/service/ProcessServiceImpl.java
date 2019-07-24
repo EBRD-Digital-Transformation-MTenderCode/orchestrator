@@ -142,6 +142,20 @@ public class ProcessServiceImpl implements ProcessService {
         return null;
     }
 
+    public String getString(final String fieldName, final JsonNode jsonData, final String processId) {
+        try {
+            final JsonNode jsonNode = jsonData.get(fieldName);
+            if (jsonNode != null) {
+                return jsonNode.asText();
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            terminateProcess(processId, fieldName + " not found.");
+        }
+        return null;
+    }
+
     public void setEnquiryPeriodStartDate(JsonNode jsonData, String startDate, String processId) {
         try {
             final ObjectNode enquiryPeriodNode = (ObjectNode) jsonData.get("tender").get("enquiryPeriod");
