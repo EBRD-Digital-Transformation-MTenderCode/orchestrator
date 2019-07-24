@@ -16,14 +16,14 @@ public interface MdmRestClient {
     ResponseEntity<String> getCountry(
         @PathVariable("countryId") String countryId,
         @RequestParam("lang") String lang
-    ) throws Exception;
+    );
 
     @RequestMapping(method = RequestMethod.GET, path = "/addresses/countries/{countryId}/regions/{regionId}")
     ResponseEntity<String> getRegion(
         @PathVariable("countryId") String countryId,
         @PathVariable("regionId") String regionId,
         @RequestParam("lang") String lang
-    ) throws Exception;
+    );
 
     @RequestMapping(method = RequestMethod.GET, path = "/addresses/countries/{countryId}/regions/{regionId}/localities/{localityId}")
     ResponseEntity<String> getLocality(
@@ -31,7 +31,7 @@ public interface MdmRestClient {
         @PathVariable("regionId") String regionId,
         @PathVariable("localityId") String localityId,
         @RequestParam("lang") String lang
-    ) throws Exception;
+    );
 
     @RequestMapping(method = RequestMethod.GET, path = "/organization/schemes")
     ResponseEntity<String> getOrganizationSchemes(@RequestParam("country") String country);
