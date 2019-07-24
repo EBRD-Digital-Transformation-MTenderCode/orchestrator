@@ -64,6 +64,7 @@ public class EvaluationAwardByBid implements JavaDelegate {
         execution.setVariable("bidAwarded", bidAwarded);
         if (lotAwarded != null) {
             execution.setVariable("updateLot", true);
+            execution.setVariable("lotAwarded", lotAwarded);
         } else {
             execution.setVariable("updateLot", false);
         }
