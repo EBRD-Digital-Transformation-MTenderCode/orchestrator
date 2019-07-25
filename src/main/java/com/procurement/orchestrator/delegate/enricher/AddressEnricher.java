@@ -20,7 +20,6 @@ import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
@@ -74,6 +73,10 @@ public class AddressEnricher implements JavaDelegate {
             final String processId = execution.getProcessInstanceId();
             runtimeService.deleteProcessInstance(processId, context.getOperationId());
             sendErrorToPlatform(context);
+        } catch (Exception exception) {
+            LOG.error("Internal error", exception);
+            final String processId = execution.getProcessInstanceId();
+            runtimeService.deleteProcessInstance(processId, context.getOperationId());
         }
     }
 
@@ -101,7 +104,6 @@ public class AddressEnricher implements JavaDelegate {
     private JsonNode getCountryData(final String countryId, final String lang) {
         LOG.debug("Get data of a country by id: {}, and lang: {}.", countryId, lang);
         ResponseEntity<String> response = mdmRestClient.getCountry(countryId, lang);
-        checkResponseFromMDM(response);
         final String countryData = response.getBody();
         LOG.debug("Received data of a country by id: {}, and lang: {} - '{}'.", countryId, lang, countryData);
         return jsonUtil.toJsonNode(countryData).get("data");
@@ -110,7 +112,6 @@ public class AddressEnricher implements JavaDelegate {
     private JsonNode getRegionData(final String countryId, final String regionId, final String lang) {
         LOG.debug("Get data of a region by id: {} and country id: {} and lang: {}.", regionId, countryId, lang);
         ResponseEntity<String> response = mdmRestClient.getRegion(countryId, regionId, lang);
-        checkResponseFromMDM(response);
         final String regionData = response.getBody();
         LOG.debug(
             "Received data of a region by id: {} and country id: {} and lang: {} - '{}'.",
@@ -130,18 +131,12 @@ public class AddressEnricher implements JavaDelegate {
             localityId, countryId, regionId, lang
         );
         ResponseEntity<String> response = mdmRestClient.getLocality(countryId, regionId, localityId, lang);
-        checkResponseFromMDM(response);
         final String localityData = response.getBody();
         LOG.debug(
             "Received data of a locality by id: {} and country id: {} and region id: {} and lang: {} - '{}'.",
             localityId, countryId, regionId, lang, localityData
         );
         return jsonUtil.toJsonNode(localityData).get("data");
-    }
-
-    private void checkResponseFromMDM(ResponseEntity<String> response) {
-        if (response.getStatusCode() != HttpStatus.OK)
-            throw new MDMException(response.getBody());
     }
 
     private void sendErrorToPlatform(final Context context) {
