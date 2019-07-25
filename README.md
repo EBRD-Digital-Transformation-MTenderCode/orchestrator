@@ -1,2 +1,3 @@
-# e-bpe
+# Business Process Engine (BPE)
 
+The business processing engine (BPE) is the logical layer responsible for identifying an event, and then selecting and executing the appropriate reaction. It can also trigger a number of assertions. Processing involves tracking and analyzing streams of data from events to support better insight and decision making. With the recent explosion in data volume and diversity of data sources, this goal can be quite challenging for architects to achieve.
