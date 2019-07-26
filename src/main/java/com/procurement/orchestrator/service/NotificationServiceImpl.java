@@ -129,19 +129,19 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     public Context addOneAwardOutcomeToContext(final Context context, final JsonNode responseData, final String processId) {
+        if (!responseData.has("token") || !responseData.has("award"))
+            return null;
+
         Set<Outcome> outcomes;
         if (context.getOutcomes() != null) {
             outcomes = context.getOutcomes();
         } else {
             outcomes = new HashSet<>();
         }
-        final ObjectNode awardNode = (ObjectNode) responseData.get("award");
 
-        final String awardId = awardNode.get("id").asText();
-        if (awardNode.has("token")) {
-            outcomes.add(new Outcome(awardId, awardNode.get("token").asText(), "award"));
-        }
-
+        final String awardId = responseData.get("award").get("id").asText();
+        final String token = responseData.get("token").asText();
+        outcomes.add(new Outcome(awardId, token, "award"));
         context.setOutcomes(outcomes);
         return context;
     }

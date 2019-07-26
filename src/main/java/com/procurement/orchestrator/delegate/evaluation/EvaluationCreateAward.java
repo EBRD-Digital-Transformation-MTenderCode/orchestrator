@@ -9,6 +9,7 @@ import com.procurement.orchestrator.service.NotificationService;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
+import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
@@ -29,17 +30,20 @@ public class EvaluationCreateAward implements JavaDelegate {
     private final NotificationService notificationService;
     private final OperationService operationService;
     private final ProcessService processService;
+    private final RuntimeService runtimeService;
     private final JsonUtil jsonUtil;
 
     public EvaluationCreateAward(final EvaluationRestClient evaluationRestClient,
                                  final NotificationService notificationService,
                                  final OperationService operationService,
                                  final ProcessService processService,
+                                 final RuntimeService runtimeService,
                                  final JsonUtil jsonUtil) {
         this.evaluationRestClient = evaluationRestClient;
         this.notificationService = notificationService;
         this.operationService = operationService;
         this.processService = processService;
+        this.runtimeService = runtimeService;
         this.jsonUtil = jsonUtil;
     }
 
@@ -55,10 +59,8 @@ public class EvaluationCreateAward implements JavaDelegate {
         final JsonNode commandMessage = processService.getCommandMessage(CREATE_AWARD, context, jsonData);
         LOG.debug("COMMAND ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(commandMessage));
 
-
         final ResponseEntity<ResponseDto> response = evaluationRestClient.execute(commandMessage);
         LOG.debug("RESPONSE FROM SERVICE ({}): '{}'.", context.getOperationId(), jsonUtil.toJson(response.getBody()));
-
 
         final JsonNode responseData = processService.processResponse(response, context, processId, taskId, commandMessage);
         LOG.debug("RESPONSE AFTER PROCESSING ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(responseData));
@@ -72,7 +74,12 @@ public class EvaluationCreateAward implements JavaDelegate {
             }
 
             final Context updatedContext = notificationService.addOneAwardOutcomeToContext(context, responseData, processId);
-            LOG.debug("COMMAND ({})  UPDATED CONTEXT (added one award to outcome): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(updatedContext));
+            LOG.debug("COMMAND ({}) UPDATED CONTEXT (added one award to outcome): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(updatedContext));
+            if (updatedContext == null) {
+                LOG.error("eEvaluation do not return attributes the 'token' and the 'award'.");
+                runtimeService.deleteProcessInstance(processId, context.getOperationId());
+                return;
+            }
 
             final JsonNode step = processService.addOneAwardData(jsonData, responseData, processId);
             LOG.debug("STEP FOR SAVE ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(step));
