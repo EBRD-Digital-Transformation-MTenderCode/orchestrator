@@ -2,6 +2,7 @@ package com.procurement.orchestrator.delegate.evaluation;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
+import com.procurement.orchestrator.domain.dto.command.ResponseDto;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.EvaluationRestClient;
 import com.procurement.orchestrator.service.NotificationService;
@@ -12,6 +13,7 @@ import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
@@ -49,27 +51,33 @@ public class EvaluationCreateAward implements JavaDelegate {
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final String taskId = execution.getCurrentActivityId();
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
+
         final JsonNode commandMessage = processService.getCommandMessage(CREATE_AWARD, context, jsonData);
-        final JsonNode responseData = processService.processResponse(
-            evaluationRestClient.execute(commandMessage),
-            context,
-            processId,
-            taskId,
-            commandMessage
-        );
+        LOG.debug("COMMAND ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(commandMessage));
+
+
+        final ResponseEntity<ResponseDto> response = evaluationRestClient.execute(commandMessage);
+        LOG.debug("RESPONSE FROM SERVICE ({}): '{}'.", context.getOperationId(), jsonUtil.toJson(response.getBody()));
+
+
+        final JsonNode responseData = processService.processResponse(response, context, processId, taskId, commandMessage);
+        LOG.debug("RESPONSE AFTER PROCESSING ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(responseData));
+
         if (Objects.nonNull(responseData)) {
             if (responseData.has("lotAwarded")) {
                 final JsonNode lotAwardedNode = responseData.get("lotAwarded");
-                execution.setVariable("lotAwarded", lotAwardedNode.booleanValue());
+                final boolean lotAwarded = lotAwardedNode.booleanValue();
+                execution.setVariable("lotAwarded", lotAwarded);
+                LOG.debug("COMMAND ({}) IN CONTEXT PUT THE VARIABLE 'lotAwarded' WITH THE VALUE '{}'.", context.getOperationId(), lotAwarded);
             }
 
-            operationService.saveOperationStep(
-                execution,
-                entity,
-                notificationService.addOneAwardOutcomeToContext(context, responseData, processId),
-                commandMessage,
-                processService.addOneAwardData(jsonData, responseData, processId)
-            );
+            final Context updatedContext = notificationService.addOneAwardOutcomeToContext(context, responseData, processId);
+            LOG.debug("COMMAND ({})  UPDATED CONTEXT (added one award to outcome): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(updatedContext));
+
+            final JsonNode step = processService.addOneAwardData(jsonData, responseData, processId);
+            LOG.debug("STEP FOR SAVE ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(step));
+
+            operationService.saveOperationStep(execution, entity, updatedContext, commandMessage, step);
         }
     }
 }
