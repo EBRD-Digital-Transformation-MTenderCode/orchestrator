@@ -15,16 +15,11 @@
       <bpmn:outgoing>SequenceFlow_127gt02</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_0lgg8i8" sourceRef="SaveFirstOperationTask" targetRef="AccessCheckAwardTask" />
-    <bpmn:serviceTask id="ContractingCheckCANTask" name="eContracting&#10;Check CAN" camunda:asyncBefore="true" implementation="##WebService" camunda:delegateExpression="${contractingCheckCan}">
-      <bpmn:incoming>SequenceFlow_127gt02</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_12ne60h</bpmn:outgoing>
-    </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_127gt02" sourceRef="AccessCheckAwardTask" targetRef="ContractingCheckCANTask" />
     <bpmn:serviceTask id="AddressEnricherTask" name="Address &#10;enricher&#10;" camunda:asyncBefore="true" implementation="##WebService" camunda:delegateExpression="${addressEnricher}">
       <bpmn:incoming>SequenceFlow_12ne60h</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0s2miqc</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_12ne60h" sourceRef="ContractingCheckCANTask" targetRef="AddressEnricherTask" />
     <bpmn:serviceTask id="EvaluationCreateAwardTask" name="eEvaluation:&#10;Create Award" camunda:asyncBefore="true" implementation="##WebService" camunda:delegateExpression="${evaluationCreateAward}">
       <bpmn:incoming>SequenceFlow_05ndcai</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0i8qwlf</bpmn:outgoing>
@@ -59,14 +54,14 @@
     <bpmn:exclusiveGateway id="ExclusiveGateway_0kxvyig">
       <bpmn:incoming>SequenceFlow_0ms93su</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_0sms7bz</bpmn:incoming>
-      <bpmn:incoming>SequenceFlow_00tjy9k</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_1hqddop</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0kgbk8x</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="SequenceFlow_1t9iind" name="operationType==&#39;startAwardPeriod&#39;" sourceRef="ExclusiveGateway_1h457dl" targetRef="AccessSetTenderSDTask">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${operationType=='startAwardPeriod'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_0ms93su" name="operationType==&#39;createAward&#39; and not has lotAwarded" sourceRef="ExclusiveGateway_1h457dl" targetRef="ExclusiveGateway_0kxvyig">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${operationType=='createAward' &amp;&amp; execution.hasVariable('lotAwarded')==false}</bpmn:conditionExpression>
+    <bpmn:sequenceFlow id="SequenceFlow_0ms93su" name="operationType==&#39;createAward&#39;" sourceRef="ExclusiveGateway_1h457dl" targetRef="ExclusiveGateway_0kxvyig">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${operationType=='createAward'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_0kgbk8x" sourceRef="ExclusiveGateway_0kxvyig" targetRef="NoticeCreateReleaseTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0dc3xbf" sourceRef="NoticeCreateReleaseTask" targetRef="SaveContextTask" />
@@ -77,14 +72,9 @@
       <bpmn:incoming>SequenceFlow_06xlrnx</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="SequenceFlow_06xlrnx" sourceRef="SendMessageTask" targetRef="EndEvent_10fhpbr" />
-    <bpmn:serviceTask id="AccessSetLotsAwardedTask" name="Access:&#10;Set Lots Awarded&#10;" camunda:asyncBefore="true" camunda:delegateExpression="${accessSetLotsSDAwarded}">
-      <bpmn:incoming>SequenceFlow_1hqddop</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_00tjy9k</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_1hqddop" name="operationType==&#39;createAward&#39; and has lotAwarded" sourceRef="ExclusiveGateway_1h457dl" targetRef="AccessSetLotsAwardedTask">
+    <bpmn:sequenceFlow id="SequenceFlow_1hqddop" sourceRef="ExclusiveGateway_1h457dl" targetRef="ExclusiveGateway_0kxvyig">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${operationType=='createAward' &amp;&amp; execution.hasVariable('lotAwarded')==true}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_00tjy9k" sourceRef="AccessSetLotsAwardedTask" targetRef="ExclusiveGateway_0kxvyig" />
     <bpmn:serviceTask id="OrganizationSchemeReferenceTask" name="MDM:&#10;Organization scheme reference&#10;" camunda:asyncBefore="true" implementation="##WebService" camunda:delegateExpression="${organizationSchemeReference}">
       <bpmn:incoming>SequenceFlow_0s2miqc</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_06rfj2t</bpmn:outgoing>
@@ -96,6 +86,11 @@
     <bpmn:sequenceFlow id="SequenceFlow_0s2miqc" sourceRef="AddressEnricherTask" targetRef="OrganizationSchemeReferenceTask" />
     <bpmn:sequenceFlow id="SequenceFlow_06rfj2t" sourceRef="OrganizationSchemeReferenceTask" targetRef="OrganizationScaleReferenceTask" />
     <bpmn:sequenceFlow id="SequenceFlow_05ndcai" sourceRef="OrganizationScaleReferenceTask" targetRef="EvaluationCreateAwardTask" />
+    <bpmn:serviceTask id="ContractingCheckCANTask" name="eContracting&#10;Check CAN" camunda:asyncBefore="true" implementation="##WebService" camunda:delegateExpression="${contractingCheckCan}">
+      <bpmn:incoming>SequenceFlow_127gt02</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_12ne60h</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_12ne60h" sourceRef="ContractingCheckCANTask" targetRef="AddressEnricherTask" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="Yaoqiang_Diagram-Process_1" name="Untitled Diagram" resolution="96">
     <bpmndi:BPMNPlane bpmnElement="createAwardOp">
@@ -117,12 +112,6 @@
           <dc:Bounds x="583.5" y="105.6" width="79" height="32.8" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Yaoqiang-ServiceTask_1fr700n" bpmnElement="ContractingCheckCANTask">
-        <dc:Bounds x="707" y="199" width="100" height="80" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="793" y="105.6" width="78" height="32.8" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Yaoqiang-ServiceTask_1wpyl8e" bpmnElement="AddressEnricherTask">
         <dc:Bounds x="891" y="199" width="100" height="80" />
         <bpmndi:BPMNLabel>
@@ -136,7 +125,7 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Yaoqiang-ServiceTask_0dijswy" bpmnElement="AccessSetTenderSDTask">
-        <dc:Bounds x="1737" y="86" width="100" height="80" />
+        <dc:Bounds x="1678" y="86" width="100" height="80" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="957" y="607.6" width="86" height="46.8" />
         </bpmndi:BPMNLabel>
@@ -173,13 +162,6 @@
           <dc:Bounds x="518.35" y="110.6" width="6" height="18.8" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Yaoqiang-SequenceFlow_12ne60h" bpmnElement="SequenceFlow_12ne60h">
-        <di:waypoint x="807" y="239" />
-        <di:waypoint x="891" y="239" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="942.35" y="110.6" width="6" height="18.8" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Yaoqiang-SequenceFlow_127gt02" bpmnElement="SequenceFlow_127gt02">
         <di:waypoint x="630" y="239" />
         <di:waypoint x="707" y="239" />
@@ -196,16 +178,16 @@
       <bpmndi:BPMNEdge id="SequenceFlow_1t9iind_di" bpmnElement="SequenceFlow_1t9iind">
         <di:waypoint x="1581" y="215" />
         <di:waypoint x="1581" y="126" />
-        <di:waypoint x="1737" y="126" />
+        <di:waypoint x="1678" y="126" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1619" y="84" width="87" height="27" />
+          <dc:Bounds x="1546" y="91.00000000000004" width="87" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0ms93su_di" bpmnElement="SequenceFlow_0ms93su">
         <di:waypoint x="1606" y="240" />
         <di:waypoint x="1882" y="240" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1617" y="175" width="85" height="53" />
+          <dc:Bounds x="1703" y="255" width="85" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0kgbk8x_di" bpmnElement="SequenceFlow_0kgbk8x">
@@ -221,7 +203,7 @@
         <di:waypoint x="2353" y="240" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0sms7bz_di" bpmnElement="SequenceFlow_0sms7bz">
-        <di:waypoint x="1837" y="126" />
+        <di:waypoint x="1778" y="126" />
         <di:waypoint x="1907" y="126" />
         <di:waypoint x="1907" y="215" />
       </bpmndi:BPMNEdge>
@@ -236,21 +218,12 @@
         <di:waypoint x="2453" y="240" />
         <di:waypoint x="2514" y="240" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_0vcebdm_di" bpmnElement="AccessSetLotsAwardedTask">
-        <dc:Bounds x="1737" y="308" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1hqddop_di" bpmnElement="SequenceFlow_1hqddop">
-        <di:waypoint x="1581" y="265" />
-        <di:waypoint x="1581" y="348" />
-        <di:waypoint x="1737" y="348" />
+        <di:waypoint x="1606" y="240" />
+        <di:waypoint x="1882" y="240" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1619" y="366" width="85" height="40" />
         </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_00tjy9k_di" bpmnElement="SequenceFlow_00tjy9k">
-        <di:waypoint x="1837" y="348" />
-        <di:waypoint x="1907" y="348" />
-        <di:waypoint x="1907" y="265" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ServiceTask_098pvhh_di" bpmnElement="OrganizationSchemeReferenceTask">
         <dc:Bounds x="1044" y="200" width="100" height="80" />
@@ -269,6 +242,19 @@
       <bpmndi:BPMNEdge id="SequenceFlow_05ndcai_di" bpmnElement="SequenceFlow_05ndcai">
         <di:waypoint x="1300" y="240" />
         <di:waypoint x="1345" y="240" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Yaoqiang-ServiceTask_1fr700n" bpmnElement="ContractingCheckCANTask">
+        <dc:Bounds x="707" y="199" width="100" height="80" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="793" y="105.6" width="78" height="32.8" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Yaoqiang-SequenceFlow_12ne60h" bpmnElement="SequenceFlow_12ne60h">
+        <di:waypoint x="807" y="239" />
+        <di:waypoint x="891" y="239" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="942.35" y="110.6" width="6" height="18.8" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
