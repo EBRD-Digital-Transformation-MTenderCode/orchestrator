@@ -195,6 +195,7 @@
                     <include>processes/</include>
                     <include>bootstrap.yml</include>
                     <include>banner.txt</include>
+                    <include>git.properties</include>
                 </includes>
             </resource>
         </resources>
