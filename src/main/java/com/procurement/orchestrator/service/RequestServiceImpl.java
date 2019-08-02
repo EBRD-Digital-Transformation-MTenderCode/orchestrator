@@ -136,14 +136,16 @@ public class RequestServiceImpl implements RequestService {
     @Override
     public String getProcessType(final String country, final String pmd, final String process) {
         final Optional<TypeOfProcess> entityOptional = cassandraDao.getProcess(country, pmd, process);
-        if (!entityOptional.isPresent()) throw new OperationException("Operation impossible.");
+        if (!entityOptional.isPresent())
+            throw new OperationException("Operation impossible. Process type is not found (country: '" + country + "', pmd: '" + pmd + "', process: '" + process + "').");
         return entityOptional.get().getProcessType();
     }
 
     @Override
     public Rule getRule(final String country, final String pmd, final String processType) {
         final Optional<Rule> entityOptional = cassandraDao.getRule(country, pmd, processType);
-        if (!entityOptional.isPresent()) throw new OperationException("Operation impossible.");
+        if (!entityOptional.isPresent())
+            throw new OperationException("Operation impossible. Rules are not found (country: '" + country + "', pmd: '" + pmd + "', process type: '" + processType + "').");
         return entityOptional.get();
     }
 
