@@ -208,7 +208,6 @@ public class TenderController extends DoBaseController {
         requestService.saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("operationType", context.getOperationType());
-        variables.put("lotId", context.getId());
         processService.startProcess(context, variables);
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
@@ -232,6 +231,7 @@ public class TenderController extends DoBaseController {
 
         final Map<String, Object> variables = new HashMap<>();
         variables.put("operationType", context.getOperationType());
+        variables.put("lotId", context.getId());
         processService.startProcess(context, variables);
 
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
