@@ -203,7 +203,14 @@ public class TenderController extends DoBaseController {
                                              @PathVariable("id") final String id,
                                              @RequestBody final JsonNode data) {
         requestService.validate(operationId, data);
-        final Context context = requestService.getContextForUpdate(authorization, operationId, cpid, ocid, token, "awardByBid");
+        final Context prevContext = requestService.getContext(cpid);
+        final String process;
+        if("NP".equals(prevContext.getStage()))
+            process = "evaluateAward";
+        else
+            process = "awardByBid";
+
+        final Context context = requestService.getContextForUpdate(authorization, operationId, cpid, ocid, token, process);
         context.setId(id);
         requestService.saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
