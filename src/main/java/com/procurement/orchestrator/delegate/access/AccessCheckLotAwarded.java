@@ -49,6 +49,8 @@ public class AccessCheckLotAwarded implements JavaDelegate {
 
         final Context contextForCommand = new Context();
         final String lotId = execution.<StringValue>getVariableTyped("lotId").getValue();
+        contextForCommand.setCpid(context.getCpid());
+        contextForCommand.setStage(context.getStage());
         contextForCommand.setId(lotId);
         final JsonNode commandMessage = processService.getCommandMessage(CHECK_LOT_AWARDED, contextForCommand, jsonUtil.empty());
         if (LOG.isDebugEnabled())
