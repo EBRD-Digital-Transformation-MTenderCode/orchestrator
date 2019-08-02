@@ -11,6 +11,7 @@ import com.procurement.orchestrator.domain.PlatformError;
 import com.procurement.orchestrator.domain.PlatformMessage;
 import com.procurement.orchestrator.domain.dto.MDMErrorResponse;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
+import com.procurement.orchestrator.exception.AddressEnricherException;
 import com.procurement.orchestrator.exception.MDMException;
 import com.procurement.orchestrator.rest.MdmRestClient;
 import com.procurement.orchestrator.service.OperationService;
@@ -23,6 +24,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -64,11 +66,21 @@ public class AddressEnricher implements JavaDelegate {
             final JsonNode prevData = jsonUtil.toJsonNode(operationStepEntity.getResponseData());
             operationService.saveOperationStep(execution, operationStepEntity, prevData, updatedData);
         } catch (MDMException exception) {
+            LOG.warn("MDM exception.", exception);
             final Set<PlatformError> errors = new HashSet<>();
             final MDMErrorResponse errorResponse = jsonUtil.toObject(MDMErrorResponse.class, exception.getResponseBody());
             for (final MDMErrorResponse.Error error : errorResponse.getErrors()) {
                 errors.add(new PlatformError(error.getCode(), error.getDescription()));
             }
+            context.setErrors(errors);
+            final String processId = execution.getProcessInstanceId();
+            runtimeService.deleteProcessInstance(processId, context.getOperationId());
+            sendErrorToPlatform(context);
+        } catch (AddressEnricherException exception) {
+            LOG.warn("Address enricher exception.", exception);
+            final Set<PlatformError> errors = Collections.singleton(
+                new PlatformError(exception.getCode(), exception.getMessage())
+            );
             context.setErrors(errors);
             final String processId = execution.getProcessInstanceId();
             runtimeService.deleteProcessInstance(processId, context.getOperationId());
@@ -83,6 +95,8 @@ public class AddressEnricher implements JavaDelegate {
     private JsonNode updateData(final OperationStepEntity operationStepEntity, final String lang) {
         final JsonNode updatedData = jsonUtil.toJsonNode(operationStepEntity.getResponseData());
         final ArrayNode suppliers = (ArrayNode) (updatedData.get("award").get("suppliers"));
+        checkIds(suppliers);
+
         for (final JsonNode supplier : suppliers) {
             final ObjectNode address = (ObjectNode) (supplier.get("address").get("addressDetails"));
 
@@ -99,6 +113,23 @@ public class AddressEnricher implements JavaDelegate {
             address.set("locality", localityData);
         }
         return updatedData;
+    }
+
+    private void checkIds(final ArrayNode suppliers) {
+        for (final JsonNode supplier : suppliers) {
+            final ObjectNode address = (ObjectNode) (supplier.get("address").get("addressDetails"));
+            final String countryId = address.get("country").get("id").asText();
+            if (countryId.isEmpty())
+                throw new AddressEnricherException("Country id not received.");
+
+            final String regionId = address.get("region").get("id").asText();
+            if (regionId.isEmpty())
+                throw new AddressEnricherException("Region id not received.");
+
+            final String localityId = address.get("locality").get("id").asText();
+            if (localityId.isEmpty())
+                throw new AddressEnricherException("Locality id not received.");
+        }
     }
 
     private JsonNode getCountryData(final String countryId, final String lang) {
