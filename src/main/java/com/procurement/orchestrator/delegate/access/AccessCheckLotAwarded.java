@@ -49,6 +49,7 @@ public class AccessCheckLotAwarded implements JavaDelegate {
 
         final Context contextForCommand = new Context();
         final String lotId = execution.<StringValue>getVariableTyped("lotId").getValue();
+        contextForCommand.setRequestId(context.getRequestId());
         contextForCommand.setCpid(context.getCpid());
         contextForCommand.setStage(context.getStage());
         contextForCommand.setId(lotId);
