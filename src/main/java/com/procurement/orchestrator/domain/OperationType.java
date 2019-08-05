@@ -34,6 +34,7 @@ public enum OperationType {
     TENDER_PERIOD_END_AUCTION("tenderPeriodEndAuction"),
     AUCTION_PERIOD_END("auctionPeriodEnd"),
     CREATE_AWARD("createAward"),
+    EVALUATE_AWARD("evaluateAward"),
     START_AWARD_PERIOD("startAwardPeriod"),
     AWARD_BY_BID("awardByBid"),
     AWARD_BY_BID_EV("awardByBidEv"),
