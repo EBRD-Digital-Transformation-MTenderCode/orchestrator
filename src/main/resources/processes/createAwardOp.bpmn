@@ -81,12 +81,12 @@
       <bpmn:incoming>SequenceFlow_1nom66q</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1m6krjl</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="ServiceTask_1lcbxme" name="Access:&#10;Check Lot Awarded&#10;" camunda:asyncBefore="true" camunda:delegateExpression="${accessCheckLotAwarded}">
+    <bpmn:serviceTask id="AccessCheckLotAwardedTask" name="Access:&#10;Check Lot Awarded&#10;" camunda:asyncBefore="true" camunda:delegateExpression="${accessCheckLotAwarded}">
       <bpmn:incoming>SequenceFlow_0sann79</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_07x1um4</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_0sann79" sourceRef="SaveFirstOperationTask" targetRef="ServiceTask_1lcbxme" />
-    <bpmn:sequenceFlow id="SequenceFlow_07x1um4" sourceRef="ServiceTask_1lcbxme" targetRef="AccessCheckAwardTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0sann79" sourceRef="SaveFirstOperationTask" targetRef="AccessCheckLotAwardedTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_07x1um4" sourceRef="AccessCheckLotAwardedTask" targetRef="AccessCheckAwardTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0poxw5n" sourceRef="AccessCheckAwardTask" targetRef="AddressEnricherTask" />
     <bpmn:sequenceFlow id="SequenceFlow_09y4aed" sourceRef="AddressEnricherTask" targetRef="OrganizationSchemeReferenceTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1nom66q" sourceRef="OrganizationSchemeReferenceTask" targetRef="OrganizationScaleReferenceTask" />
@@ -217,7 +217,7 @@
       <bpmndi:BPMNShape id="ServiceTask_1dn13r0_di" bpmnElement="OrganizationScaleReferenceTask">
         <dc:Bounds x="1200" y="200" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_1lcbxme_di" bpmnElement="ServiceTask_1lcbxme">
+      <bpmndi:BPMNShape id="ServiceTask_1lcbxme_di" bpmnElement="AccessCheckLotAwardedTask">
         <dc:Bounds x="539" y="199" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0sann79_di" bpmnElement="SequenceFlow_0sann79">
