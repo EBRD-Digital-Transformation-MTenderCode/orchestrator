@@ -16,19 +16,19 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
-import static com.procurement.orchestrator.domain.commands.EvaluationCommandType.GET_AWARD_ID_FOR_CHECK;
+import static com.procurement.orchestrator.domain.commands.EvaluationCommandType.GET_EVALUATED_AWARDS;
 
 @Component
-public class EvaluationGetAwardIdForCheck implements JavaDelegate {
+public class EvaluationGetEvaluatedAwards implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(EvaluationGetAwardIdForCheck.class);
+    private static final Logger LOG = LoggerFactory.getLogger(EvaluationGetEvaluatedAwards.class);
 
     private final EvaluationRestClient evaluationRestClient;
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public EvaluationGetAwardIdForCheck(
+    public EvaluationGetEvaluatedAwards(
         final EvaluationRestClient evaluationRestClient,
         final OperationService operationService,
         final ProcessService processService,
@@ -49,7 +49,7 @@ public class EvaluationGetAwardIdForCheck implements JavaDelegate {
         final String taskId = execution.getCurrentActivityId();
         final String processId = execution.getProcessInstanceId();
 
-        final JsonNode commandMessage = processService.getCommandMessage(GET_AWARD_ID_FOR_CHECK, context, jsonUtil.empty());
+        final JsonNode commandMessage = processService.getCommandMessage(GET_EVALUATED_AWARDS, context, jsonUtil.empty());
         if (LOG.isDebugEnabled())
             LOG.debug("COMMAND ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(commandMessage));
 
@@ -62,7 +62,7 @@ public class EvaluationGetAwardIdForCheck implements JavaDelegate {
             LOG.debug("RESPONSE AFTER PROCESSING ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(responseData));
 
         if (responseData != null) {
-            final JsonNode step = addAwardId(context.getOperationId(), jsonData, responseData, processId);
+            final JsonNode step = addAwards(context.getOperationId(), jsonData, responseData, processId);
             if (LOG.isDebugEnabled())
                 LOG.debug("STEP FOR SAVE ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(step));
 
@@ -70,20 +70,18 @@ public class EvaluationGetAwardIdForCheck implements JavaDelegate {
         }
     }
 
-    private JsonNode addAwardId(
+    private JsonNode addAwards(
         final String operationId,
         final JsonNode jsonData,
         final JsonNode responseData,
         final String processId
     ) {
         try {
-            if (responseData.has("award")) {
-                final ObjectNode mainNode = (ObjectNode) jsonData;
-                mainNode.replace("awardId", responseData.get("award").get("id"));
-            }
+            final ObjectNode mainNode = (ObjectNode) jsonData;
+            mainNode.set("awards", responseData.get("awards"));
             return jsonData;
         } catch (Exception e) {
-            LOG.error("COMMAND (" + operationId + "): Could not add award id.", e);
+            LOG.error("COMMAND (" + operationId + "): Could not add awards.", e);
             processService.terminateProcess(processId, e.getMessage());
             return null;
         }

@@ -1706,18 +1706,6 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public JsonNode addAwardId(final JsonNode jsonData, final JsonNode responseData, final String processId) {
-        try {
-            final ObjectNode mainNode = (ObjectNode) jsonData;
-            mainNode.replace("awardId", responseData.get("awardId"));
-            mainNode.replace("awardingSuccess", responseData.get("awardingSuccess"));
-            return jsonData;
-        } catch (Exception e) {
-            terminateProcess(processId, e.getMessage());
-            return null;
-        }
-    }
-
     public JsonNode addCans(final JsonNode jsonData, final JsonNode responseData, final String processId) {
         try {
             final ObjectNode mainNode = (ObjectNode) jsonData;

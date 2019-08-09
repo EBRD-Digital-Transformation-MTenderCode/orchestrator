@@ -250,13 +250,14 @@ public class TenderController extends DoBaseController {
                                             @RequestHeader("X-TOKEN") final String token,
                                             @PathVariable("cpid") final String cpid,
                                             @PathVariable("ocid") final String ocid,
-                                            @PathVariable("id") final String id) {
+                                            @PathVariable("id") final String lotId) {
         requestService.validate(operationId, null);
         final Context context = requestService.getContextForUpdate(authorization, operationId, cpid, ocid, token, "createCan");
-        context.setId(id);
+        context.setId(lotId);
         requestService.saveRequestAndCheckOperation(context, null);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("operationType", context.getOperationType());
+        variables.put("lotId", context.getId());
         processService.startProcess(context, variables);
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }

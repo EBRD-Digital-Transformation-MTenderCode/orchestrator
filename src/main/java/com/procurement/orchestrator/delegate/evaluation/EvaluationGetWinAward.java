@@ -16,19 +16,19 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
-import static com.procurement.orchestrator.domain.commands.EvaluationCommandType.GET_AWARD_ID_FOR_CHECK;
+import static com.procurement.orchestrator.domain.commands.EvaluationCommandType.GET_WIN_AWARD;
 
 @Component
-public class EvaluationGetAwardIdForCheck implements JavaDelegate {
+public class EvaluationGetWinAward implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(EvaluationGetAwardIdForCheck.class);
+    private static final Logger LOG = LoggerFactory.getLogger(EvaluationGetWinAward.class);
 
     private final EvaluationRestClient evaluationRestClient;
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public EvaluationGetAwardIdForCheck(
+    public EvaluationGetWinAward(
         final EvaluationRestClient evaluationRestClient,
         final OperationService operationService,
         final ProcessService processService,
@@ -49,7 +49,7 @@ public class EvaluationGetAwardIdForCheck implements JavaDelegate {
         final String taskId = execution.getCurrentActivityId();
         final String processId = execution.getProcessInstanceId();
 
-        final JsonNode commandMessage = processService.getCommandMessage(GET_AWARD_ID_FOR_CHECK, context, jsonUtil.empty());
+        final JsonNode commandMessage = processService.getCommandMessage(GET_WIN_AWARD, context, jsonUtil.empty());
         if (LOG.isDebugEnabled())
             LOG.debug("COMMAND ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(commandMessage));
 
