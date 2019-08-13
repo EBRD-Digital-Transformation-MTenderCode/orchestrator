@@ -45,9 +45,9 @@ public class BpeAnalyzeProcurementMethod implements JavaDelegate {
         final String pmd = context.getPmd();
         final Optional<Boolean> bidStatusChange = getBidStatusChange(pmd);
         if (bidStatusChange.isPresent()) {
-            execution.setVariable("bidStatusChange", bidStatusChange);
+            execution.setVariable("bidStatusChange", bidStatusChange.get());
             if (LOG.isDebugEnabled())
-                LOG.debug("COMMAND ({}) IN CONTEXT PUT THE VARIABLE 'bidStatusChange' WITH THE VALUE '{}'.", operationId, bidStatusChange);
+                LOG.debug("COMMAND ({}) IN CONTEXT PUT THE VARIABLE 'bidStatusChange' WITH THE VALUE '{}'.", operationId, bidStatusChange.get());
         } else {
             LOG.error("COMMAND ({}): Unknown pmd: '{}'.", operationId, pmd);
             processService.terminateProcess(processId, "Unknown pmd: '" + pmd + "'.");
