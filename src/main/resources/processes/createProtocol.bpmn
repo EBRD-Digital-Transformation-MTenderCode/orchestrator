@@ -65,8 +65,8 @@
     <bpmn:sequenceFlow id="SequenceFlow_0mobjro" sourceRef="AccessSetLotsSDAwardedTask" targetRef="BpeAnalyzeProcurementMethodTask" />
     <bpmn:exclusiveGateway id="ExclusiveGateway_0ye4jrs">
       <bpmn:incoming>SequenceFlow_0jhmbux</bpmn:incoming>
-      <bpmn:outgoing>BidSatusChange</bpmn:outgoing>
-      <bpmn:outgoing>BidSatusNoChange</bpmn:outgoing>
+      <bpmn:outgoing>BidStatusChange</bpmn:outgoing>
+      <bpmn:outgoing>BidStatusNoChange</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="SequenceFlow_0jhmbux" sourceRef="BpeAnalyzeProcurementMethodTask" targetRef="ExclusiveGateway_0ye4jrs" />
     <bpmn:serviceTask id="SubmissionApplyAwardingTask" name="eSubmission&#10;Apply awarding results&#10;" camunda:asyncBefore="true" camunda:delegateExpression="${submissionApplyAwarding}">
@@ -74,21 +74,21 @@
       <bpmn:outgoing>SequenceFlow_0ome60n</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="EvaluationGetEvaluatedAwardsTask" name="eEvaluation:&#10;Get evaluated awards&#10;" camunda:asyncBefore="true" camunda:delegateExpression="${evaluationGetEvaluatedAwards}">
-      <bpmn:incoming>BidSatusChange</bpmn:incoming>
+      <bpmn:incoming>BidStatusChange</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_197k5h1</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="BidSatusChange" name="bidSatusChange == true" sourceRef="ExclusiveGateway_0ye4jrs" targetRef="EvaluationGetEvaluatedAwardsTask">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${bidSatusChange==true}</bpmn:conditionExpression>
+    <bpmn:sequenceFlow id="BidStatusChange" name="bidStatusChange == true" sourceRef="ExclusiveGateway_0ye4jrs" targetRef="EvaluationGetEvaluatedAwardsTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${bidStatusChange==true}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_197k5h1" sourceRef="EvaluationGetEvaluatedAwardsTask" targetRef="SubmissionApplyAwardingTask" />
     <bpmn:exclusiveGateway id="ExclusiveGateway_03w6jpl">
       <bpmn:incoming>SequenceFlow_0ome60n</bpmn:incoming>
-      <bpmn:incoming>BidSatusNoChange</bpmn:incoming>
+      <bpmn:incoming>BidStatusNoChange</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1ehf88s</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="SequenceFlow_0ome60n" sourceRef="SubmissionApplyAwardingTask" targetRef="ExclusiveGateway_03w6jpl" />
-    <bpmn:sequenceFlow id="BidSatusNoChange" name="bidSatusChange == false" sourceRef="ExclusiveGateway_0ye4jrs" targetRef="ExclusiveGateway_03w6jpl">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${bidSatusChange==false}</bpmn:conditionExpression>
+    <bpmn:sequenceFlow id="BidStatusNoChange" name="bidStatusChange == false" sourceRef="ExclusiveGateway_0ye4jrs" targetRef="ExclusiveGateway_03w6jpl">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${bidStatusChange==false}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_1ehf88s" sourceRef="ExclusiveGateway_03w6jpl" targetRef="NoticeCreateReleaseTask" />
     <bpmn:sequenceFlow id="SequenceFlow_17t2nvq" sourceRef="NoticeCreateReleaseTask" targetRef="SaveContextTask" />
@@ -195,11 +195,11 @@
       <bpmndi:BPMNShape id="ServiceTask_1q0kpft_di" bpmnElement="EvaluationGetEvaluatedAwardsTask">
         <dc:Bounds x="1784" y="126" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="SequenceFlow_04f5hro_di" bpmnElement="BidSatusChange">
+      <bpmndi:BPMNEdge id="SequenceFlow_04f5hro_di" bpmnElement="BidStatusChange">
         <di:waypoint x="1727" y="166" />
         <di:waypoint x="1784" y="166" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1712" y="221" width="82" height="27" />
+          <dc:Bounds x="1711" y="221" width="85" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_197k5h1_di" bpmnElement="SequenceFlow_197k5h1">
@@ -213,13 +213,13 @@
         <di:waypoint x="2069" y="166" />
         <di:waypoint x="2144" y="166" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_04cpq0z_di" bpmnElement="BidSatusNoChange">
+      <bpmndi:BPMNEdge id="SequenceFlow_04cpq0z_di" bpmnElement="BidStatusNoChange">
         <di:waypoint x="1702" y="141" />
         <di:waypoint x="1702" y="65" />
         <di:waypoint x="2169" y="65" />
         <di:waypoint x="2169" y="141" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1898" y="31" width="82" height="27" />
+          <dc:Bounds x="1897" y="31" width="85" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1ehf88s_di" bpmnElement="SequenceFlow_1ehf88s">
