@@ -79,7 +79,7 @@ public class EvaluationGetWinAward implements JavaDelegate {
         try {
             if (responseData.has("award")) {
                 final ObjectNode mainNode = (ObjectNode) jsonData;
-                mainNode.replace("awardId", responseData.get("award").get("id"));
+                mainNode.set("award", responseData.get("award"));
             }
             return jsonData;
         } catch (Exception e) {
