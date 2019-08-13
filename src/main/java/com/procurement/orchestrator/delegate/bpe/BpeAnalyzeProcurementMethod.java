@@ -1,6 +1,7 @@
 package com.procurement.orchestrator.delegate.bpe;
 
 import com.procurement.orchestrator.domain.Context;
+import com.procurement.orchestrator.domain.ProcurementMethod;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
@@ -53,21 +54,22 @@ public class BpeAnalyzeProcurementMethod implements JavaDelegate {
         }
     }
 
-    private Optional<Boolean> getBidStatusChange(final String pmd) {
+    private Optional<Boolean> getBidStatusChange(final String pmdName) {
+        final ProcurementMethod pmd = ProcurementMethod.valueOf(pmdName);
         switch (pmd) {
-            case "OT":
-            case "OT_TEST":
-            case "SV":
-            case "SV_TEST":
-            case "MV":
-            case "MV_TEST":
+            case OT:
+            case TEST_OT:
+            case SV:
+            case TEST_SV:
+            case MV:
+            case TEST_MV:
                 return Optional.of(true);
-            case "DA":
-            case "DA_TEST":
-            case "NP":
-            case "NP_TEST":
-            case "OP":
-            case "OP_TEST":
+            case DA:
+            case TEST_DA:
+            case NP:
+            case TEST_NP:
+            case OP:
+            case TEST_OP:
                 return Optional.of(false);
             default:
                 return Optional.empty();
