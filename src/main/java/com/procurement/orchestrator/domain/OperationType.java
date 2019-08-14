@@ -61,6 +61,7 @@ public enum OperationType {
     ACTIVATION_AC("activationAC"),
     END_AWARD_PERIOD("endAwardPeriod"),
     CREATE_CAN("createCan"),
+    CREATE_PROTOCOL("createProtocol"),
     UPDATE_CAN_DOCS("updateCanDocs"),
     CANCEL_CAN("cancelCan"),
     CONFIRM_CAN("confirmCan"),

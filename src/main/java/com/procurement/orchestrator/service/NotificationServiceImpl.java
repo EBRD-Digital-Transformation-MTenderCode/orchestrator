@@ -450,6 +450,12 @@ public class NotificationServiceImpl implements NotificationService {
                 data.setOutcomes(buildOutcomesFromContext(Collections.singletonList("cans"), context));
                 break;
             }
+            case CREATE_PROTOCOL: {
+                data.setOcid(context.getOcid());
+                data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
+                data.setOutcomes(buildOutcomesFromContext(Collections.singletonList("cans"), context));
+                break;
+            }
             case UPDATE_CAN_DOCS: {
                 data.setOcid(context.getCpid());
                 data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
