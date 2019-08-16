@@ -33,6 +33,12 @@ public interface MdmRestClient {
         @RequestParam("lang") String lang
     );
 
+    @RequestMapping(method = RequestMethod.GET, path = "/addresses/countries/{countryId}/regions/{regionId}/localities/attributes/schemes")
+    ResponseEntity<String> getSchemesLocalities(
+        @PathVariable("countryId") String countryId,
+        @PathVariable("regionId") String regionId
+    );
+
     @RequestMapping(method = RequestMethod.GET, path = "/organization/schemes")
     ResponseEntity<String> getOrganizationSchemes(@RequestParam("country") String country);
 

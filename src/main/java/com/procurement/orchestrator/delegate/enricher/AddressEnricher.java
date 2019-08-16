@@ -108,6 +108,14 @@ public class AddressEnricher implements JavaDelegate {
             final JsonNode regionData = getRegionData(countryId, regionId, lang);
             address.set("region", regionData);
 
+            final ObjectNode locality = (ObjectNode) address.get("locality");
+            if (locality.has("scheme")) {
+                final String schemeOfLocality = locality.get("scheme").asText();
+                final Set<String> allSchemesForLocalities = getSchemesLocalities(countryId, regionId);
+                if (!allSchemesForLocalities.contains(schemeOfLocality)) {
+                    continue;
+                }
+            }
             final String localityId = address.get("locality").get("id").asText();
             final JsonNode localityData = getLocalityData(countryId, regionId, localityId, lang);
             address.set("locality", localityData);
@@ -168,6 +176,19 @@ public class AddressEnricher implements JavaDelegate {
             localityId, countryId, regionId, lang, localityData
         );
         return jsonUtil.toJsonNode(localityData).get("data");
+    }
+
+    private Set<String> getSchemesLocalities(final String countryId, final String regionId) {
+        LOG.debug("Get schemes of localities by country id: {} and region id: {}.", countryId, regionId);
+        ResponseEntity<String> response = mdmRestClient.getSchemesLocalities(countryId, regionId);
+        final String localityData = response.getBody();
+        LOG.debug("Received schemes of localities by country id: {} and region id: {} - '{}'.", countryId, regionId, localityData);
+        final ArrayNode schemes = (ArrayNode) jsonUtil.toJsonNode(localityData).get("data").get("schemes");
+        final Set<String> result = new HashSet<>();
+        for (final JsonNode scheme : schemes) {
+            result.add(scheme.asText());
+        }
+        return result;
     }
 
     private void sendErrorToPlatform(final Context context) {
