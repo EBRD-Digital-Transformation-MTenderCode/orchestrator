@@ -17,8 +17,6 @@ public interface NotificationService {
 
     Context addOneAwardOutcomeToContext(final Context context, final JsonNode responseData, final String processId);
 
-    Context addContractOutcomeToContext(Context context, JsonNode responseData, String processId);
-
     Context addNoticeOutcomeToContext(Context context, JsonNode responseData, String processId);
 
     String getTenderUri(String cpId, String ocId);
