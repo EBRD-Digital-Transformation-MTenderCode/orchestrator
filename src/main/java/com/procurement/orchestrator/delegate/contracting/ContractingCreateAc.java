@@ -78,9 +78,9 @@ public class ContractingCreateAc implements JavaDelegate {
     }
 
     private Context addContractOutcomeToContext(final Context context, final JsonNode responseData, final String processId) {
+        final String token = responseData.get("token").asText();
         final JsonNode contractNode = responseData.get("contract");
         final String id = contractNode.get("id").asText();
-        final String token = contractNode.get("token").asText();
 
         final Set<Outcome> outcomes;
         if (context.getOutcomes() != null) {
