@@ -77,9 +77,9 @@ public class EvaluationGetAwardIdForCheck implements JavaDelegate {
         final String processId
     ) {
         try {
-            if (responseData.has("award")) {
+            if (responseData.has("awardId")) {
                 final ObjectNode mainNode = (ObjectNode) jsonData;
-                mainNode.set("awardId", responseData.get("award").get("id"));
+                mainNode.set("awardId", responseData.get("awardId"));
             }
             return jsonData;
         } catch (Exception e) {
