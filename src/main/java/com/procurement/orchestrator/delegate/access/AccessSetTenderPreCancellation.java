@@ -48,7 +48,7 @@ public class AccessSetTenderPreCancellation implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
 
-        final JsonNode commandMessage = processService.getCommandMessage(SET_TENDER_PRECANCELLATION, context, jsonUtil.empty());
+        final JsonNode commandMessage = processService.getCommandMessage(SET_TENDER_PRECANCELLATION, context, jsonData);
         if (LOG.isDebugEnabled())
             LOG.debug("COMMAND ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(commandMessage));
 
