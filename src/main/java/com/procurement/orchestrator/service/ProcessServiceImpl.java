@@ -541,11 +541,7 @@ public class ProcessServiceImpl implements ProcessService {
 
     public JsonNode getDocumentsOfAmendmentsOfTender(final JsonNode jsonData, final String processId) {
         try {
-            final JsonNode tender = jsonData.get("tender");
-            if (!tender.has("amendments"))
-                return null;
-
-            final ArrayNode amendments = (ArrayNode) tender.get("amendments");
+            final ArrayNode amendments = (ArrayNode) jsonData.get("amendments");
             final ArrayNode documents = jsonUtil.createArrayNode();
             for (JsonNode amendment : amendments) {
                 if (amendment.has("documents")) {
