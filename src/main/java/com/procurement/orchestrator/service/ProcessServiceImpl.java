@@ -533,6 +533,7 @@ public class ProcessServiceImpl implements ProcessService {
             mainNode.replace("documents", documentsNode);
             return mainNode;
         } catch (Exception e) {
+            LOG.error("Error getting documents of tender.", e);
             terminateProcess(processId, e.getMessage());
             return null;
         }
@@ -560,6 +561,7 @@ public class ProcessServiceImpl implements ProcessService {
             mainNode.set("documents", documents);
             return mainNode;
         } catch (Exception e) {
+            LOG.error("Error getting documents of amendments of tender.", e);
             terminateProcess(processId, e.getMessage());
             return null;
         }
