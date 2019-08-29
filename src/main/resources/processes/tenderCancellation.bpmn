@@ -52,7 +52,7 @@
       <bpmn:outgoing>SequenceFlow_117ktgd</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="SequenceFlow_1jf09wy" sourceRef="SaveFirstOperationTask" targetRef="ExclusiveGateway_0ow3sqh" />
-    <bpmn:sequenceFlow id="SequenceFlow_0vae4uq" sourceRef="ExclusiveGateway_0ow3sqh" targetRef="StorageValidateDocsOfTenderTask">
+    <bpmn:sequenceFlow id="SequenceFlow_0vae4uq" sourceRef="ExclusiveGateway_0ow3sqh" targetRef="StorageValidateDocsOfAmendmentOfTenderTask">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${operationType=='cancellationStandstillPeriod'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:exclusiveGateway id="ExclusiveGateway_1npu3t8">
@@ -97,11 +97,11 @@
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_1wz1mlp" sourceRef="SetStandstillPeriodTask" targetRef="ExclusiveGateway_1f8xez3" />
     <bpmn:sequenceFlow id="SequenceFlow_0nd711d" sourceRef="AccessTenderCancellationTask" targetRef="EvaluationAwardsCancellationTask" />
-    <bpmn:serviceTask id="StorageValidateDocsOfTenderTask" name="Storage:&#10;Validate" camunda:asyncBefore="true" camunda:delegateExpression="${storageValidateDocsOfTender}">
+    <bpmn:serviceTask id="StorageValidateDocsOfAmendmentOfTenderTask" name="Storage:&#10;Validate Docs of Amendment of Tender" camunda:asyncBefore="true" camunda:delegateExpression="${storageValidateDocsOfAmendmentOfTender}">
       <bpmn:incoming>SequenceFlow_0vae4uq</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0osw2jz</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_0osw2jz" sourceRef="StorageValidateDocsOfTenderTask" targetRef="AccessPrepareCancellationTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0osw2jz" sourceRef="StorageValidateDocsOfAmendmentOfTenderTask" targetRef="AccessPrepareCancellationTask" />
     <bpmn:serviceTask id="StorageOpenDocsOfAmendmentOfTenderTask" name="Storage:&#10;Open documents of Amendment of Tender&#10;" camunda:asyncBefore="true" camunda:delegateExpression="${storageOpenDocsOfAmendmentOfTender}">
       <bpmn:incoming>SequenceFlow_0jov9rc</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_13jq0xo</bpmn:outgoing>
@@ -306,7 +306,7 @@
         <di:waypoint x="1684" y="264" />
         <di:waypoint x="1745" y="264" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_1bgl5xm_di" bpmnElement="StorageValidateDocsOfTenderTask">
+      <bpmndi:BPMNShape id="ServiceTask_1bgl5xm_di" bpmnElement="StorageValidateDocsOfAmendmentOfTenderTask">
         <dc:Bounds x="420" y="224" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0osw2jz_di" bpmnElement="SequenceFlow_0osw2jz">
