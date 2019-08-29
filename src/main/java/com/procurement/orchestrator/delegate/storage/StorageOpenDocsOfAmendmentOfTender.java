@@ -51,7 +51,7 @@ public class StorageOpenDocsOfAmendmentOfTender implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
 
-        final JsonNode documents = processService.getDocumentsOfAmendmentOfTender(jsonData, processId);
+        final JsonNode documents = processService.getDocumentsOfAmendmentsOfTender(jsonData, processId);
         if (documents != null) {
             final JsonNode commandMessage = processService.getCommandMessage(PUBLISH, context, documents);
             if (LOG.isDebugEnabled())
