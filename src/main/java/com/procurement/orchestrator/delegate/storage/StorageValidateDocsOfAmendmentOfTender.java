@@ -68,6 +68,10 @@ public class StorageValidateDocsOfAmendmentOfTender implements JavaDelegate {
             if (responseData != null) {
                 operationService.saveOperationStep(execution, entity, commandMessage);
             }
+        } else {
+            if (LOG.isDebugEnabled())
+                LOG.debug("No documents for validation.");
+            operationService.saveOperationStep(execution, entity, context);
         }
     }
 }
