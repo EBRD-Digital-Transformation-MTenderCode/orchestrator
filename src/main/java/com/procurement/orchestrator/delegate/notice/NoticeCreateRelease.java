@@ -61,7 +61,7 @@ public class NoticeCreateRelease implements JavaDelegate {
         if (Objects.nonNull(requestData)) {
             final ResponseEntity<ResponseDto> response = noticeRestClient.execute(commandMessage);
             if (LOG.isDebugEnabled())
-                LOG.debug("RESPONSE FROM SERVICE (" + context.getOperationId() + "): '" + response.getBody() + "'.");
+                LOG.debug("RESPONSE FROM SERVICE (" + context.getOperationId() + "): '" + jsonUtil.toJson(response.getBody()) + "'.");
 
             responseData = processService.processResponse(response, context, processId, taskId, commandMessage);
             if (LOG.isDebugEnabled())
