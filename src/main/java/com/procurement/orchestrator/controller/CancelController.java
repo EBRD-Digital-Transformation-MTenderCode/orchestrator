@@ -55,11 +55,11 @@ public class CancelController {
                                                  @RequestHeader("X-TOKEN") final String token,
                                                  @PathVariable("cpid") final String cpid,
                                                  @PathVariable("ocid") final String ocid,
-                                                 @RequestBody @Valid final CancellationDto data) {
+                                                 @RequestBody final JsonNode data) {
         requestService.validate(operationId, null);
         final Context context = requestService.getContextForUpdate(authorization, operationId, cpid, ocid, token, "cnCancellation");
         if (ocid.contains("PN") || ocid.contains("PIN")) throw new OperationException("Invalid ocid.");
-        requestService.saveRequestAndCheckOperation(context, jsonUtil.toJsonNode(data));
+        requestService.saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("operationType", context.getOperationType());
         variables.put("phase", context.getPhase());
