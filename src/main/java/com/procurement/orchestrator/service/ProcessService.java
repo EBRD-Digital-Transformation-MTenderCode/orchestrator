@@ -95,6 +95,8 @@ public interface ProcessService {
 
     JsonNode getDocumentsOfAmendmentsOfTender(final JsonNode jsonData, final String processId);
 
+    JsonNode setDocumentsOfAmendmentsOfTender(final JsonNode jsonData, final JsonNode documentsData, final String processId);
+
     JsonNode setDocumentsOfTender(JsonNode jsonData, JsonNode documentsData, String processId);
 
     JsonNode getDocumentsOfAward(JsonNode jsonData, String processId);

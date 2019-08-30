@@ -563,6 +563,22 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
+    public JsonNode setDocumentsOfAmendmentsOfTender(final JsonNode jsonData, final JsonNode documentsData, final String processId) {
+        try {
+            if (documentsData.has("documents")) {
+                final ArrayNode documents = (ArrayNode) documentsData.get("documents");
+                if (documents.size() > 0) {
+                    final ObjectNode amendment = (ObjectNode) ((ArrayNode) jsonData.get("amendments")).get(0);
+                    amendment.set("documents", documents);
+                }
+            }
+            return jsonData;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
     public JsonNode setDocumentsOfTender(final JsonNode jsonData, final JsonNode documentsData, final String processId) {
         try {
             final ObjectNode tenderNode = (ObjectNode) jsonData.get("tender");

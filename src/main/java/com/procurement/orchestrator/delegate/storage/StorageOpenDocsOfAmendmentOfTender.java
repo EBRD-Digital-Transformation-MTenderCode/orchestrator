@@ -66,7 +66,7 @@ public class StorageOpenDocsOfAmendmentOfTender implements JavaDelegate {
                 LOG.debug("RESPONSE AFTER PROCESSING ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(responseData));
 
             if (responseData != null) {
-                final JsonNode step = processService.setDocumentsOfTender(jsonData, responseData, processId);
+                final JsonNode step = processService.setDocumentsOfAmendmentsOfTender(jsonData, responseData, processId);
                 if (LOG.isDebugEnabled())
                     LOG.debug("STEP FOR SAVE ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(step));
 
