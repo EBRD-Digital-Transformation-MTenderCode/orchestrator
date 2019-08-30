@@ -12,6 +12,8 @@ import com.procurement.orchestrator.domain.entity.ContextEntity;
 import com.procurement.orchestrator.domain.entity.OperationEntity;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.domain.entity.RequestEntity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,7 +24,7 @@ import static com.datastax.driver.core.querybuilder.QueryBuilder.*;
 
 @Service
 public class CassandraDaoImpl implements CassandraDao {
-
+    private static final Logger logger = LoggerFactory.getLogger(CassandraDao.class);
 
     private static final String OPERATION_STEP_TABLE = "orchestrator_operation_step";
     private static final String PROCESS_TYPE_TABLE = "orchestrator_process_type";
@@ -83,13 +85,22 @@ public class CassandraDaoImpl implements CassandraDao {
 
     @Override
     public void saveRequest(final RequestEntity entity) {
+        if (logger.isDebugEnabled())
+            logger.debug(
+                "Saving request [id: '{}', date: '{}', operation id: '{}', context: '{}'] '{}'",
+                entity.getRequestId(),
+                entity.getRequestDate(),
+                entity.getOperationId(),
+                entity.getContext(),
+                entity.getJsonData()
+            );
         final Insert insert = insertInto(REQUEST_TABLE);
         insert
-                .value(REQUEST_ID, entity.getRequestId())
-                .value(REQUEST_DATE, entity.getRequestDate())
-                .value(OPERATION_ID, entity.getOperationId())
-                .value(JSON_DATA, entity.getJsonData())
-                .value(CONTEXT, entity.getContext());
+            .value(REQUEST_ID, entity.getRequestId())
+            .value(REQUEST_DATE, entity.getRequestDate())
+            .value(OPERATION_ID, entity.getOperationId())
+            .value(JSON_DATA, entity.getJsonData())
+            .value(CONTEXT, entity.getContext());
         session.execute(insert);
     }
 
