@@ -16,8 +16,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
-import java.util.Objects;
-
 import static com.procurement.orchestrator.domain.commands.NoticeCommandType.CREATE_RELEASE;
 
 @Component
@@ -25,18 +23,19 @@ public class NoticeCreateRelease implements JavaDelegate {
 
     private static final Logger LOG = LoggerFactory.getLogger(NoticeCreateRelease.class);
 
-
     private final NotificationService notificationService;
     private final NoticeRestClient noticeRestClient;
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public NoticeCreateRelease(final NotificationService notificationService,
-                               final NoticeRestClient noticeRestClient,
-                               final OperationService operationService,
-                               final ProcessService processService,
-                               final JsonUtil jsonUtil) {
+    public NoticeCreateRelease(
+        final NotificationService notificationService,
+        final NoticeRestClient noticeRestClient,
+        final OperationService operationService,
+        final ProcessService processService,
+        final JsonUtil jsonUtil
+    ) {
         this.notificationService = notificationService;
         this.noticeRestClient = noticeRestClient;
         this.operationService = operationService;
@@ -53,29 +52,31 @@ public class NoticeCreateRelease implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
 
-        final JsonNode commandMessage = processService.getCommandMessage(CREATE_RELEASE, context, requestData);
-        if (LOG.isDebugEnabled())
-            LOG.debug("COMMAND (" + context.getOperationId() + "): '" + jsonUtil.toJsonOrEmpty(commandMessage) + "'.");
+        if (requestData != null) {
+            final JsonNode commandMessage = processService.getCommandMessage(CREATE_RELEASE, context, requestData);
+            if (LOG.isDebugEnabled())
+                LOG.debug("COMMAND (" + context.getOperationId() + "): '" + jsonUtil.toJsonOrEmpty(commandMessage) + "'.");
 
-        JsonNode responseData = null;
-        if (Objects.nonNull(requestData)) {
             final ResponseEntity<ResponseDto> response = noticeRestClient.execute(commandMessage);
             if (LOG.isDebugEnabled())
                 LOG.debug("RESPONSE FROM SERVICE (" + context.getOperationId() + "): '" + jsonUtil.toJson(response.getBody()) + "'.");
 
-            responseData = processService.processResponse(response, context, processId, taskId, commandMessage);
+            final JsonNode responseData = processService.processResponse(response, context, processId, taskId, commandMessage);
             if (LOG.isDebugEnabled())
                 LOG.debug("RESPONSE AFTER PROCESSING (" + context.getOperationId() + "): '" + jsonUtil.toJsonOrEmpty(responseData) + "'.");
-        }
-        if (Objects.nonNull(responseData)) {
 
-            final Context modifiedContext = addDataToContext(context, responseData, processId);
-            if (LOG.isDebugEnabled())
-                LOG.debug("CONTEXT FOR SAVE (" + context.getOperationId() + "): '" + jsonUtil.toJsonOrEmpty(modifiedContext) + "'.");
+            if (responseData != null) {
+                final Context modifiedContext = addDataToContext(context, responseData, processId);
+                if (LOG.isDebugEnabled())
+                    LOG.debug("CONTEXT FOR SAVE (" + context.getOperationId() + "): '" + jsonUtil.toJsonOrEmpty(modifiedContext) + "'.");
 
+                if (LOG.isDebugEnabled())
+                    LOG.debug("STEP FOR SAVE (" + context.getOperationId() + "): '" + jsonUtil.toJsonOrEmpty(responseData) + "'.");
+                operationService.saveOperationStep(execution, entity, modifiedContext, commandMessage, responseData);
+            }
+        } else {
             if (LOG.isDebugEnabled())
-                LOG.debug("STEP FOR SAVE (" + context.getOperationId() + "): '" + jsonUtil.toJsonOrEmpty(responseData) + "'.");
-            operationService.saveOperationStep(execution, entity, modifiedContext, commandMessage, responseData);
+                LOG.debug("Request data is missing. The Notice service for creating release was not called.");
         }
     }
 
