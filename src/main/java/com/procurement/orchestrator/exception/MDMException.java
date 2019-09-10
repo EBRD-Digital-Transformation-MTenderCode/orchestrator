@@ -15,7 +15,12 @@ public class MDMException extends RuntimeException {
         final Request request = response.request();
         final String requestMethod = request.method().toUpperCase();
         final String requestUrl = response.request().url();
-        final String requestBody = new String(response.request().body());
+        final byte[] body = response.request().body();
+        final String requestBody;
+        if (body == null)
+            requestBody = "None";
+        else
+            requestBody = new String(body);
 
         final int responseStatus = response.status();
         final String responseBody = getResponseBody(response.body());
