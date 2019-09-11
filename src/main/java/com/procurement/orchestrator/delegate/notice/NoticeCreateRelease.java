@@ -1,11 +1,12 @@
 package com.procurement.orchestrator.delegate.notice;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.procurement.orchestrator.domain.Context;
+import com.procurement.orchestrator.domain.Outcome;
 import com.procurement.orchestrator.domain.dto.command.ResponseDto;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.NoticeRestClient;
-import com.procurement.orchestrator.service.NotificationService;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -16,6 +17,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import static com.procurement.orchestrator.domain.commands.NoticeCommandType.CREATE_RELEASE;
 
 @Component
@@ -23,20 +27,17 @@ public class NoticeCreateRelease implements JavaDelegate {
 
     private static final Logger LOG = LoggerFactory.getLogger(NoticeCreateRelease.class);
 
-    private final NotificationService notificationService;
     private final NoticeRestClient noticeRestClient;
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
     public NoticeCreateRelease(
-        final NotificationService notificationService,
         final NoticeRestClient noticeRestClient,
         final OperationService operationService,
         final ProcessService processService,
         final JsonUtil jsonUtil
     ) {
-        this.notificationService = notificationService;
         this.noticeRestClient = noticeRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -81,6 +82,42 @@ public class NoticeCreateRelease implements JavaDelegate {
     }
 
     private Context addDataToContext(final Context context, final JsonNode responseData, final String processId) {
-        return notificationService.addNoticeOutcomeToContext(context, responseData, processId);
+        context.setOcid(processService.getText("ocid", responseData, processId));
+        final Context contextWithAmendmentsIds = addAmendmentsIds(context, responseData);
+        return addAwardsIds(contextWithAmendmentsIds, responseData);
+    }
+
+    private Context addAmendmentsIds(final Context context, final JsonNode responseData) {
+        final ArrayNode amendments = (ArrayNode) responseData.get("amendmentsIds");
+        if (amendments != null) {
+            Set<Outcome> outcomes;
+            if (context.getOutcomes() != null) {
+                outcomes = context.getOutcomes();
+            } else {
+                outcomes = new HashSet<>();
+            }
+            for (final JsonNode amendment : amendments) {
+                outcomes.add(new Outcome(amendment.asText(), null, "amendments"));
+            }
+            context.setOutcomes(outcomes);
+        }
+        return context;
+    }
+
+    private Context addAwardsIds(final Context context, final JsonNode responseData) {
+        final ArrayNode awards = (ArrayNode) responseData.get("awardsIds");
+        if (awards != null) {
+            Set<Outcome> outcomes;
+            if (context.getOutcomes() != null) {
+                outcomes = context.getOutcomes();
+            } else {
+                outcomes = new HashSet<>();
+            }
+            for (final JsonNode award : awards) {
+                outcomes.add(new Outcome(award.asText(), null, "awards"));
+            }
+            context.setOutcomes(outcomes);
+        }
+        return context;
     }
 }
