@@ -15,6 +15,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 import static com.procurement.orchestrator.domain.commands.StorageCommandType.VALIDATE;
 
 @Component
@@ -50,28 +52,31 @@ public class StorageValidateDocsOfAmendmentOfTender implements JavaDelegate {
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode documents = processService.getDocumentsOfAmendmentsOfTender(jsonData, processId);
 
-        if (documents != null) {
-            final JsonNode commandMessage = processService.getCommandMessage(VALIDATE, context, documents);
-            if (LOG.isDebugEnabled())
-                LOG.debug("COMMAND ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(commandMessage));
+        final Optional<JsonNode> result = processService.getDocumentsOfAmendmentsOfTender(jsonData, processId);
+        if (result.isPresent()) {
+            final JsonNode documents = result.get();
+            if (!documents.isNull()) {
+                final JsonNode commandMessage = processService.getCommandMessage(VALIDATE, context, documents);
+                if (LOG.isDebugEnabled())
+                    LOG.debug("COMMAND ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(commandMessage));
 
-            final ResponseEntity<ResponseDto> response = storageRestClient.execute(commandMessage);
-            if (LOG.isDebugEnabled())
-                LOG.debug("RESPONSE FROM SERVICE ({}): '{}'.", context.getOperationId(), jsonUtil.toJson(response.getBody()));
+                final ResponseEntity<ResponseDto> response = storageRestClient.execute(commandMessage);
+                if (LOG.isDebugEnabled())
+                    LOG.debug("RESPONSE FROM SERVICE ({}): '{}'.", context.getOperationId(), jsonUtil.toJson(response.getBody()));
 
-            final JsonNode responseData = processService.processResponse(response, context, processId, taskId, commandMessage);
-            if (LOG.isDebugEnabled())
-                LOG.debug("RESPONSE AFTER PROCESSING ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(responseData));
+                final JsonNode responseData = processService.processResponse(response, context, processId, taskId, commandMessage);
+                if (LOG.isDebugEnabled())
+                    LOG.debug("RESPONSE AFTER PROCESSING ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(responseData));
 
-            if (responseData != null) {
-                operationService.saveOperationStep(execution, entity, commandMessage);
+                if (responseData != null) {
+                    operationService.saveOperationStep(execution, entity, commandMessage);
+                }
+            } else {
+                if (LOG.isDebugEnabled())
+                    LOG.debug("No documents for validation.");
+                operationService.saveOperationStep(execution, entity, context);
             }
-        } else {
-            if (LOG.isDebugEnabled())
-                LOG.debug("No documents for validation.");
-            operationService.saveOperationStep(execution, entity, context);
         }
     }
 }

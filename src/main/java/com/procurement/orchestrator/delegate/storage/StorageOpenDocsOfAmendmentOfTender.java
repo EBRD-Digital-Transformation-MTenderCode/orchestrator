@@ -15,6 +15,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 import static com.procurement.orchestrator.domain.commands.StorageCommandType.PUBLISH;
 
 @Component
@@ -51,26 +53,33 @@ public class StorageOpenDocsOfAmendmentOfTender implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
 
-        final JsonNode documents = processService.getDocumentsOfAmendmentsOfTender(jsonData, processId);
-        if (documents != null) {
-            final JsonNode commandMessage = processService.getCommandMessage(PUBLISH, context, documents);
-            if (LOG.isDebugEnabled())
-                LOG.debug("COMMAND ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(commandMessage));
-
-            final ResponseEntity<ResponseDto> response = storageRestClient.execute(commandMessage);
-            if (LOG.isDebugEnabled())
-                LOG.debug("RESPONSE FROM SERVICE ({}): '{}'.", context.getOperationId(), jsonUtil.toJson(response.getBody()));
-
-            final JsonNode responseData = processService.processResponse(response, context, processId, taskId, commandMessage);
-            if (LOG.isDebugEnabled())
-                LOG.debug("RESPONSE AFTER PROCESSING ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(responseData));
-
-            if (responseData != null) {
-                final JsonNode step = processService.setDocumentsOfAmendmentsOfTender(jsonData, responseData, processId);
+        final Optional<JsonNode> result = processService.getDocumentsOfAmendmentsOfTender(jsonData, processId);
+        if (result.isPresent()) {
+            final JsonNode documents = result.get();
+            if (!documents.isNull()) {
+                final JsonNode commandMessage = processService.getCommandMessage(PUBLISH, context, documents);
                 if (LOG.isDebugEnabled())
-                    LOG.debug("STEP FOR SAVE ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(step));
+                    LOG.debug("COMMAND ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(commandMessage));
 
-                operationService.saveOperationStep(execution, entity, commandMessage, step);
+                final ResponseEntity<ResponseDto> response = storageRestClient.execute(commandMessage);
+                if (LOG.isDebugEnabled())
+                    LOG.debug("RESPONSE FROM SERVICE ({}): '{}'.", context.getOperationId(), jsonUtil.toJson(response.getBody()));
+
+                final JsonNode responseData = processService.processResponse(response, context, processId, taskId, commandMessage);
+                if (LOG.isDebugEnabled())
+                    LOG.debug("RESPONSE AFTER PROCESSING ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(responseData));
+
+                if (responseData != null) {
+                    final JsonNode step = processService.setDocumentsOfAmendmentsOfTender(jsonData, responseData, processId);
+                    if (LOG.isDebugEnabled())
+                        LOG.debug("STEP FOR SAVE ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(step));
+
+                    operationService.saveOperationStep(execution, entity, commandMessage, step);
+                }
+            } else {
+                if (LOG.isDebugEnabled())
+                    LOG.debug("No documents for opening.");
+                operationService.saveOperationStep(execution, entity, context);
             }
         }
     }

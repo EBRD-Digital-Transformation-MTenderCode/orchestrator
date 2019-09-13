@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public interface ProcessService {
@@ -93,7 +94,7 @@ public interface ProcessService {
 
     JsonNode getDocumentsOfTender(JsonNode jsonData, String processId);
 
-    JsonNode getDocumentsOfAmendmentsOfTender(final JsonNode jsonData, final String processId);
+    Optional<JsonNode> getDocumentsOfAmendmentsOfTender(final JsonNode jsonData, final String processId);
 
     JsonNode setDocumentsOfAmendmentsOfTender(final JsonNode jsonData, final JsonNode documentsData, final String processId);
 

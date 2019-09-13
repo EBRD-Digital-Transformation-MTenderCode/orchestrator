@@ -3,6 +3,7 @@ package com.procurement.orchestrator.service;
 import com.datastax.driver.core.utils.UUIDs;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.NullNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.TextNode;
 import com.procurement.orchestrator.delegate.kafka.MessageProducer;
@@ -73,20 +74,20 @@ public class ProcessServiceImpl implements ProcessService {
         message.setErrors(context.getErrors());
 
         final Notification notification = new Notification(
-                UUID.fromString(context.getOwner()),
-                UUID.fromString(context.getOperationId()),
-                jsonUtil.toJson(message)
+            UUID.fromString(context.getOwner()),
+            UUID.fromString(context.getOperationId()),
+            jsonUtil.toJson(message)
         );
         messageProducer.sendToPlatform(notification);
     }
 
     public JsonNode getCommandMessage(final Enum command, final Context context, final JsonNode data) {
         final CommandMessage commandMessage = new CommandMessage(
-                context.getRequestId(),
-                command,
-                context,
-                data,
-                CommandMessage.ApiVersion.V_0_0_1);
+            context.getRequestId(),
+            command,
+            context,
+            data,
+            CommandMessage.ApiVersion.V_0_0_1);
         return jsonUtil.toJsonNode(commandMessage);
     }
 
@@ -539,7 +540,7 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public JsonNode getDocumentsOfAmendmentsOfTender(final JsonNode jsonData, final String processId) {
+    public Optional<JsonNode> getDocumentsOfAmendmentsOfTender(final JsonNode jsonData, final String processId) {
         try {
             final ArrayNode amendments = (ArrayNode) jsonData.get("amendments");
             final ArrayNode documents = jsonUtil.createArrayNode();
@@ -551,15 +552,15 @@ public class ProcessServiceImpl implements ProcessService {
             }
 
             if (documents.size() == 0)
-                return null;
+                return Optional.of(NullNode.getInstance());
 
             final ObjectNode mainNode = jsonUtil.createObjectNode();
             mainNode.set("documents", documents);
-            return mainNode;
+            return Optional.of(mainNode);
         } catch (Exception e) {
             LOG.error("Error getting documents of amendments of tender.", e);
             terminateProcess(processId, e.getMessage());
-            return null;
+            return Optional.empty();
         }
     }
 
@@ -712,7 +713,7 @@ public class ProcessServiceImpl implements ProcessService {
     public JsonNode getDocumentsOfAcAward(JsonNode jsonData, String processId) {
         try {
             final ArrayNode documentsArray = (ArrayNode) jsonData.get("contractedAward").get("documents");
-            if (documentsArray==null||documentsArray.size()<1) return null;
+            if (documentsArray == null || documentsArray.size() < 1) return null;
             final ObjectNode mainNode = jsonUtil.createObjectNode();
             mainNode.replace("documents", documentsArray);
             return mainNode;
@@ -1023,8 +1024,8 @@ public class ProcessServiceImpl implements ProcessService {
                                         final String processId) {
         try {
             ((ObjectNode) jsonData).putObject("standstillPeriod")
-                    .put("startDate", startDate)
-                    .put("endDate", endDate);
+                .put("startDate", startDate)
+                .put("endDate", endDate);
             return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
@@ -1628,8 +1629,8 @@ public class ProcessServiceImpl implements ProcessService {
     public JsonNode getTreasuryValidationData(final JsonNode jsonData, final Context context, final String processId) {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
-            mainNode.set("ocid",  new TextNode(context.getOcid()));
-            mainNode.set("cpid",  new TextNode(context.getCpid()));
+            mainNode.set("ocid", new TextNode(context.getOcid()));
+            mainNode.set("cpid", new TextNode(context.getCpid()));
             mainNode.set("treasuryBudgetSources", jsonData.get("treasuryBudgetSources"));
             return mainNode;
         } catch (Exception e) {
