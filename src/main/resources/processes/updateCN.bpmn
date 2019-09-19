@@ -11,7 +11,7 @@
     </bpmn:serviceTask>
     <bpmn:serviceTask id="AccessCreateCnOnPnTask" name="Access &#10;Create Cn on Pn" camunda:asyncBefore="true" camunda:delegateExpression="${accessCreateCnOnPn}">
       <bpmn:incoming>SequenceFlow_0oxgyuf</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_18a8n3u</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_0fertxd</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="SubmissionValidatePeriodTask" name="Submission Validate Period" camunda:asyncBefore="true" camunda:delegateExpression="${submissionValidatePeriod}">
       <bpmn:incoming>SequenceFlow_1dye7ma</bpmn:incoming>
@@ -227,7 +227,7 @@
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_1tbwwl9" sourceRef="MdmValidateTenderPnTask" targetRef="ExclusiveGateway_0vdvvax" />
     <bpmn:exclusiveGateway id="ExclusiveGateway_1262cfq">
-      <bpmn:incoming>SequenceFlow_18a8n3u</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_1q5luha</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0lb4zve</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlow_1rxkc4q</bpmn:outgoing>
     </bpmn:exclusiveGateway>
@@ -236,7 +236,6 @@
       <bpmn:incoming>SequenceFlow_0w19nzz</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_10t6fbl</bpmn:outgoing>
     </bpmn:inclusiveGateway>
-    <bpmn:sequenceFlow id="SequenceFlow_18a8n3u" sourceRef="AccessCreateCnOnPnTask" targetRef="ExclusiveGateway_1262cfq" />
     <bpmn:sequenceFlow id="SequenceFlow_0lb4zve" sourceRef="ExclusiveGateway_1262cfq" targetRef="AuctionScheduleCnOnPnTask">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isAuction==true}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
@@ -251,6 +250,12 @@
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_0bm4lgl" sourceRef="ExclusiveGateway_0vdvvax" targetRef="ProcurerCheckCriteriaTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0mbkjr5" sourceRef="ProcurerCheckCriteriaTask" targetRef="AccessCheckCnOnPn" />
+    <bpmn:serviceTask id="ProcurerCreateCriteriaTask" name="eProcurer:&#10;Create Criteria" camunda:asyncBefore="true" camunda:delegateExpression="${procurerCreateCriteria}">
+      <bpmn:incoming>SequenceFlow_0fertxd</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1q5luha</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_0fertxd" sourceRef="AccessCreateCnOnPnTask" targetRef="ProcurerCreateCriteriaTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1q5luha" sourceRef="ProcurerCreateCriteriaTask" targetRef="ExclusiveGateway_1262cfq" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="updateCN">
@@ -270,7 +275,7 @@
         <dc:Bounds x="218" y="377" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_07x4zvz_di" bpmnElement="AccessCreateCnOnPnTask">
-        <dc:Bounds x="1690" y="187" width="100" height="80" />
+        <dc:Bounds x="1710" y="187" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_15bcibh_di" bpmnElement="SubmissionValidatePeriodTask">
         <dc:Bounds x="676" y="187" width="100" height="80" />
@@ -541,18 +546,18 @@
         <di:waypoint x="2233" y="512" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ServiceTask_1014d6t_di" bpmnElement="UpdateCnSetActiveTrueTask">
-        <dc:Bounds x="1564" y="187" width="100" height="80" />
+        <dc:Bounds x="1584" y="187" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_1sxi07q_di" bpmnElement="AccessCheckCnOnPn">
-        <dc:Bounds x="1434" y="187" width="100" height="80" />
+        <dc:Bounds x="1454" y="187" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_14cghtq_di" bpmnElement="SequenceFlow_14cghtq">
-        <di:waypoint x="1534" y="227" />
-        <di:waypoint x="1564" y="227" />
+        <di:waypoint x="1554" y="227" />
+        <di:waypoint x="1584" y="227" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0oxgyuf_di" bpmnElement="SequenceFlow_0oxgyuf">
-        <di:waypoint x="1664" y="227" />
-        <di:waypoint x="1690" y="227" />
+        <di:waypoint x="1684" y="227" />
+        <di:waypoint x="1710" y="227" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ExclusiveGateway_1dk50w6_di" bpmnElement="ExclusiveGateway_1dk50w6" isMarkerVisible="true">
         <dc:Bounds x="975" y="202" width="50" height="50" />
@@ -580,10 +585,6 @@
       <bpmndi:BPMNShape id="InclusiveGateway_1ekely4_di" bpmnElement="ExclusiveGateway_1ada3gn">
         <dc:Bounds x="2348" y="202" width="50" height="50" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="SequenceFlow_18a8n3u_di" bpmnElement="SequenceFlow_18a8n3u">
-        <di:waypoint x="1790" y="227" />
-        <di:waypoint x="2068" y="227" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0lb4zve_di" bpmnElement="SequenceFlow_0lb4zve">
         <di:waypoint x="2093" y="202" />
         <di:waypoint x="2093" y="120" />
@@ -611,7 +612,18 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0mbkjr5_di" bpmnElement="SequenceFlow_0mbkjr5">
         <di:waypoint x="1380" y="227" />
-        <di:waypoint x="1434" y="227" />
+        <di:waypoint x="1454" y="227" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_0t4el6y_di" bpmnElement="ProcurerCreateCriteriaTask">
+        <dc:Bounds x="1890" y="187" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0fertxd_di" bpmnElement="SequenceFlow_0fertxd">
+        <di:waypoint x="1810" y="227" />
+        <di:waypoint x="1890" y="227" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1q5luha_di" bpmnElement="SequenceFlow_1q5luha">
+        <di:waypoint x="1990" y="227" />
+        <di:waypoint x="2068" y="227" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
