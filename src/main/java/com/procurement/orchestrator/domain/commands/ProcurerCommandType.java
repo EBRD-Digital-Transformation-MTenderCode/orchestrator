@@ -10,7 +10,8 @@ import java.util.Map;
 
 public enum ProcurerCommandType {
 
-    CHECK_CRITERIA("checkCriteria");
+    CHECK_CRITERIA("checkCriteria"),
+    CREATE_CRITERIA("createCriteria");
 
     private static final Map<String, ProcurerCommandType> CONSTANTS = new HashMap<>();
     private final String value;
