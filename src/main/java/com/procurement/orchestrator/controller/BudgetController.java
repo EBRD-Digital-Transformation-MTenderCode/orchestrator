@@ -37,6 +37,7 @@ public class BudgetController extends DoBaseController {
     public ResponseEntity<String> createEI(@RequestHeader("Authorization") final String authorization,
                                            @RequestHeader("X-OPERATION-ID") final String operationId,
                                            @RequestParam("country") final String country,
+                                           @RequestParam(value = "testMode", defaultValue = "false") final boolean testMode,
                                            @RequestBody final JsonNode data) {
         requestService.validate(operationId, data);
         final Context context = new Context();
@@ -49,6 +50,7 @@ public class BudgetController extends DoBaseController {
         context.setOperationType("createEI");
         context.setRequestId(UUIDs.timeBased().toString());
         context.setStartDate(dateUtil.nowFormatted());
+        context.setTestMode(testMode);
         requestService.saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("isTokenPresent", 0);
