@@ -31,7 +31,8 @@ public interface RequestService {
                                 String operationId,
                                 String country,
                                 String pmd,
-                                String process);
+                                String process,
+                                boolean testMode);
 
     Context getContextForUpdate(String authorization,
                                 String operationId,

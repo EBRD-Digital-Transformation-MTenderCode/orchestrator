@@ -41,9 +41,10 @@ public class TenderController extends DoBaseController {
                                            @RequestHeader("X-OPERATION-ID") final String operationId,
                                            @RequestParam("country") final String country,
                                            @RequestParam("pmd") final String pmd,
+                                           @RequestParam(value = "testMode", defaultValue = "false") final boolean testMode,
                                            @RequestBody final JsonNode data) {
         requestService.validate(operationId, data);
-        final Context context = requestService.getContextForCreate(authorization, operationId, country, pmd, "createCN");
+        final Context context = requestService.getContextForCreate(authorization, operationId, country, pmd, "createCN", testMode);
         processService.setEnquiryPeriodStartDate(data, context.getStartDate(), null);
         processService.setTenderPeriodStartDate(data, processService.getEnquiryPeriodEndDate(data, null), null);
         requestService.saveRequestAndCheckOperation(context, data);
@@ -104,9 +105,10 @@ public class TenderController extends DoBaseController {
                                            @RequestHeader("X-OPERATION-ID") final String operationId,
                                            @RequestParam("country") final String country,
                                            @RequestParam("pmd") final String pmd,
+                                           @RequestParam(value = "testMode", defaultValue = "false") final boolean testMode,
                                            @RequestBody final JsonNode data) {
         requestService.validate(operationId, data);
-        final Context context = requestService.getContextForCreate(authorization, operationId, country, pmd, "createPN");
+        final Context context = requestService.getContextForCreate(authorization, operationId, country, pmd, "createPN", testMode);
         context.setEndDate(processService.getTenderPeriodEndDate(data, null));
         requestService.saveRequestAndCheckOperation(context, data);
         processService.startProcess(context, new HashMap<>());
