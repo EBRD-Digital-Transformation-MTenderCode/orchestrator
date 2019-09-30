@@ -312,6 +312,7 @@ public class NotificationServiceImpl implements NotificationService {
             }
             case START_AWARD_PERIOD: {
                 data.setOcid(context.getCpid());
+                data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
                 data.setOutcomes(buildOutcomesFromContext(Collections.singletonList("award"), context));
                 break;
             }
