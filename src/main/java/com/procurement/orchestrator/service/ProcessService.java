@@ -242,7 +242,7 @@ public interface ProcessService {
 
     JsonNode setCompleteLotsData(JsonNode jsonData, JsonNode responseData, String processId);
 
-    JsonNode setAwardPeriod(JsonNode jsonData, JsonNode responseData, String processId);
+    //JsonNode setAwardPeriod(JsonNode jsonData, JsonNode responseData, String processId);
 
     //JsonNode getCan(JsonNode jsonData, String processId);
 

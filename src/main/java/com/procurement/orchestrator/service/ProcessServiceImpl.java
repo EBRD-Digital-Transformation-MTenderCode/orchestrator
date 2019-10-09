@@ -1651,17 +1651,17 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public JsonNode setAwardPeriod(final JsonNode jsonData, final JsonNode responseData, final String processId) {
-        try {
-            final ObjectNode mainNode = (ObjectNode) jsonData;
-            mainNode.replace("awardPeriod", responseData.get("awardPeriod"));
-
-            return jsonData;
-        } catch (Exception e) {
-            terminateProcess(processId, e.getMessage());
-            return null;
-        }
-    }
+//    public JsonNode setAwardPeriod(final JsonNode jsonData, final JsonNode responseData, final String processId) {
+//        try {
+//            final ObjectNode mainNode = (ObjectNode) jsonData;
+//            mainNode.replace("awardPeriod", responseData.get("awardPeriod"));
+//
+//            return jsonData;
+//        } catch (Exception e) {
+//            terminateProcess(processId, e.getMessage());
+//            return null;
+//        }
+//    }
 
 //    public JsonNode getCan(final JsonNode jsonData, final String processId) {
 //        try {
