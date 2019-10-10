@@ -59,11 +59,6 @@
     <bpmn:sequenceFlow id="BidStatusChange" name="bidStatusChange == true" sourceRef="ExclusiveGateway_11c5l4v" targetRef="SubmissionFinalBidsStatusByLotsTask">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${bidStatusChange==true}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:exclusiveGateway id="ExclusiveGateway_124wi7a">
-      <bpmn:incoming>BidStatusNoChange</bpmn:incoming>
-      <bpmn:incoming>SequenceFlow_0pjc9ky</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_17rlthv</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="BidStatusNoChange" name="bidStatusChange == false" sourceRef="ExclusiveGateway_11c5l4v" targetRef="ExclusiveGateway_124wi7a">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${bidStatusChange==false}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
@@ -81,17 +76,22 @@
     <bpmn:sequenceFlow id="SequenceFlow_1kfqroh" sourceRef="ExclusiveGateway_0nihdvo" targetRef="evaluationEndAwardPeriodTask">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${operationType=='endAwardPeriod' || operationType=='endContractingProcess'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:exclusiveGateway id="ExclusiveGateway_1jopbad">
-      <bpmn:incoming>SequenceFlow_0gn8clj</bpmn:incoming>
-      <bpmn:incoming>SequenceFlow_0p010tw</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_0jcw9ya</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="SequenceFlow_0gn8clj" sourceRef="ExclusiveGateway_0nihdvo" targetRef="ExclusiveGateway_1jopbad">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${operationType=='confirmCan'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_0p010tw" sourceRef="evaluationEndAwardPeriodTask" targetRef="ExclusiveGateway_1jopbad" />
     <bpmn:sequenceFlow id="SequenceFlow_0jcw9ya" sourceRef="ExclusiveGateway_1jopbad" targetRef="NoticeCreateReleaseTask" />
     <bpmn:sequenceFlow id="SequenceFlow_11521kh" sourceRef="AccessSetFinalStatusesTask" targetRef="EvaluationFinalAwardsStatusByLotsTask" />
+    <bpmn:inclusiveGateway id="ExclusiveGateway_124wi7a" camunda:asyncBefore="true">
+      <bpmn:incoming>BidStatusNoChange</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_0pjc9ky</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_17rlthv</bpmn:outgoing>
+    </bpmn:inclusiveGateway>
+    <bpmn:inclusiveGateway id="ExclusiveGateway_1jopbad" camunda:asyncBefore="true">
+      <bpmn:incoming>SequenceFlow_0gn8clj</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_0p010tw</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0jcw9ya</bpmn:outgoing>
+    </bpmn:inclusiveGateway>
   </bpmn:process>
   <bpmn:error id="tr_exception" name="TR_EXCEPTION" errorCode="TR_EXCEPTION" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -177,9 +177,6 @@
           <dc:Bounds x="1137" y="301" width="85" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ExclusiveGateway_124wi7a_di" bpmnElement="ExclusiveGateway_124wi7a" isMarkerVisible="true">
-        <dc:Bounds x="1410" y="240" width="50" height="50" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0fgn1ug_di" bpmnElement="BidStatusNoChange">
         <di:waypoint x="1115" y="240" />
         <di:waypoint x="1115" y="155" />
@@ -207,9 +204,6 @@
         <di:waypoint x="1570" y="265" />
         <di:waypoint x="1663" y="265" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ExclusiveGateway_1jopbad_di" bpmnElement="ExclusiveGateway_1jopbad" isMarkerVisible="true">
-        <dc:Bounds x="1856" y="240" width="50" height="50" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0gn8clj_di" bpmnElement="SequenceFlow_0gn8clj">
         <di:waypoint x="1545" y="240" />
         <di:waypoint x="1545" y="159" />
@@ -228,6 +222,12 @@
         <di:waypoint x="686" y="265" />
         <di:waypoint x="744" y="265" />
       </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="InclusiveGateway_1qmrqif_di" bpmnElement="ExclusiveGateway_124wi7a">
+        <dc:Bounds x="1410" y="240" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="InclusiveGateway_05qc36m_di" bpmnElement="ExclusiveGateway_1jopbad">
+        <dc:Bounds x="1856" y="240" width="50" height="50" />
+      </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn:definitions>
