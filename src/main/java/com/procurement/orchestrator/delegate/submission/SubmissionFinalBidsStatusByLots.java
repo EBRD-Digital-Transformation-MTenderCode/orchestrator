@@ -62,6 +62,8 @@ public class SubmissionFinalBidsStatusByLots implements JavaDelegate {
         final String taskId = execution.getCurrentActivityId();
 
         final JsonNode commandData = generateCommandData(jsonData, processId);
+        if (commandData == null) return;
+
         final JsonNode commandMessage = processService.getCommandMessage(FINAL_BIDS_STATUS_BY_LOTS, context, commandData);
         if (LOG.isDebugEnabled())
             LOG.debug("COMMAND ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(commandMessage));
@@ -76,6 +78,7 @@ public class SubmissionFinalBidsStatusByLots implements JavaDelegate {
 
         if (responseData != null) {
             final JsonNode step = updateAwardsStatuses(jsonData, responseData, processId);
+            if (step == null) return;
             if (LOG.isDebugEnabled())
                 LOG.debug("STEP FOR SAVE ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(step));
 
@@ -97,6 +100,7 @@ public class SubmissionFinalBidsStatusByLots implements JavaDelegate {
             final FinalBidsStatusByLotsRequest request = new FinalBidsStatusByLotsRequest(lots);
             return jsonUtil.toJsonNode(request);
         } catch (Exception exception) {
+            LOG.error("Error building data section of '" + FINAL_BIDS_STATUS_BY_LOTS.value() + "' command.", exception);
             processService.terminateProcess(processId, exception.getMessage());
             return null;
         }
@@ -123,6 +127,7 @@ public class SubmissionFinalBidsStatusByLots implements JavaDelegate {
                 );
             return jsonData;
         } catch (Exception exception) {
+            LOG.error("Error processing response for '" + FINAL_BIDS_STATUS_BY_LOTS.value() + "' command.", exception);
             processService.terminateProcess(processId, exception.getMessage());
             return null;
         }
