@@ -63,6 +63,7 @@ public class EvaluationEndAwardPeriod implements JavaDelegate {
 
         if (responseData != null) {
             final JsonNode step = setAwardPeriod(jsonData, responseData, processId);
+            if (step == null) return;
             if (LOG.isDebugEnabled())
                 LOG.debug("STEP FOR SAVE ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(step));
             operationService.saveOperationStep(execution, entity, commandMessage, step);
@@ -74,8 +75,9 @@ public class EvaluationEndAwardPeriod implements JavaDelegate {
             final ObjectNode mainNode = (ObjectNode) jsonData;
             mainNode.set("awardPeriod", responseData.get("awardPeriod"));
             return jsonData;
-        } catch (Exception e) {
-            processService.terminateProcess(processId, e.getMessage());
+        } catch (Exception exception) {
+            LOG.error("Error processing response for '" + END_AWARD_PERIOD.value() + "' command.", exception);
+            processService.terminateProcess(processId, exception.getMessage());
             return null;
         }
     }
