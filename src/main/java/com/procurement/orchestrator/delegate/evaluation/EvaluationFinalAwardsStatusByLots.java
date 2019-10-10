@@ -27,6 +27,7 @@ import java.util.Objects;
 import java.util.function.Function;
 
 import static com.procurement.orchestrator.domain.commands.EvaluationCommandType.FINAL_AWARDS_STATUS_BY_LOTS;
+import static com.procurement.orchestrator.domain.commands.SubmissionCommandType.FINAL_BIDS_STATUS_BY_LOTS;
 import static java.util.stream.Collectors.toMap;
 
 @Component
@@ -61,6 +62,8 @@ public class EvaluationFinalAwardsStatusByLots implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
 
         final JsonNode commandData = generateCommandData(jsonData, processId);
+        if (commandData == null) return;
+
         final JsonNode commandMessage = processService.getCommandMessage(FINAL_AWARDS_STATUS_BY_LOTS, context, commandData);
         if (LOG.isDebugEnabled())
             LOG.debug("COMMAND ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(commandMessage));
@@ -75,6 +78,7 @@ public class EvaluationFinalAwardsStatusByLots implements JavaDelegate {
 
         if (responseData != null) {
             final JsonNode step = updateAwardsStatuses(jsonData, responseData, processId);
+            if (step == null) return;
             if (LOG.isDebugEnabled())
                 LOG.debug("STEP FOR SAVE ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(step));
 
@@ -96,6 +100,7 @@ public class EvaluationFinalAwardsStatusByLots implements JavaDelegate {
             final FinalAwardsStatusByLotsRequest request = new FinalAwardsStatusByLotsRequest(lots);
             return jsonUtil.toJsonNode(request);
         } catch (Exception exception) {
+            LOG.error("Error building data section of '" + FINAL_AWARDS_STATUS_BY_LOTS.value() + "' command.", exception);
             processService.terminateProcess(processId, exception.getMessage());
             return null;
         }
@@ -122,6 +127,7 @@ public class EvaluationFinalAwardsStatusByLots implements JavaDelegate {
                 );
             return jsonData;
         } catch (Exception exception) {
+            LOG.error("Error processing response for '" + FINAL_BIDS_STATUS_BY_LOTS.value() + "' command.", exception);
             processService.terminateProcess(processId, exception.getMessage());
             return null;
         }
