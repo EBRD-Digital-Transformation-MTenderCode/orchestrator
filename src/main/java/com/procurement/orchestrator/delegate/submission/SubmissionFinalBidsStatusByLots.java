@@ -1,10 +1,8 @@
 package com.procurement.orchestrator.delegate.submission;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.fasterxml.jackson.databind.node.TextNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.dto.command.ResponseDto;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
@@ -22,12 +20,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
-import java.util.function.Function;
 
 import static com.procurement.orchestrator.domain.commands.SubmissionCommandType.FINAL_BIDS_STATUS_BY_LOTS;
-import static java.util.stream.Collectors.toMap;
 
 @Component
 public class SubmissionFinalBidsStatusByLots implements JavaDelegate {
@@ -107,23 +102,7 @@ public class SubmissionFinalBidsStatusByLots implements JavaDelegate {
 
     private JsonNode updateAwardsStatuses(final JsonNode jsonData, final JsonNode responseData, final String processId) {
         try {
-            final FinalBidsStatusByLotsResponse response =
-                jsonUtil.toObject(FinalBidsStatusByLotsResponse.class, responseData);
-            final Map<String, FinalBidsStatusByLotsResponse.Bid> bidsByIds = response.bids
-                .stream()
-                .collect(toMap(FinalBidsStatusByLotsResponse.Bid::getId, Function.identity()));
-
-            jsonData.get("bids")
-                .forEach(bid -> {
-                        final String id = bid.get("id").asText();
-                        final FinalBidsStatusByLotsResponse.Bid responseBid = bidsByIds.get(id);
-                        if (responseBid != null) {
-                            final ObjectNode updatedBid = ((ObjectNode) bid);
-                            updatedBid.set("status", new TextNode(responseBid.status));
-                            updatedBid.set("statusDetails", new TextNode(responseBid.statusDetails));
-                        }
-                    }
-                );
+            ((ObjectNode) jsonData).set("bids", responseData.get("bids"));
             return jsonData;
         } catch (Exception exception) {
             LOG.error("Error processing response for '" + FINAL_BIDS_STATUS_BY_LOTS.value() + "' command.", exception);
@@ -151,44 +130,6 @@ public class SubmissionFinalBidsStatusByLots implements JavaDelegate {
             Lot(final String id) {
                 Objects.requireNonNull(id);
                 this.id = id;
-            }
-        }
-    }
-
-    @Getter
-    static class FinalBidsStatusByLotsResponse {
-        @JsonProperty("bids")
-        private final List<Bid> bids;
-
-        @JsonCreator
-        FinalBidsStatusByLotsResponse(@JsonProperty("bids") final List<Bid> bids) {
-            Objects.requireNonNull(bids);
-            this.bids = bids;
-        }
-
-        @Getter
-        static class Bid {
-            @JsonProperty("id")
-            private final String id;
-
-            @JsonProperty("status")
-            private final String status;
-
-            @JsonProperty("statusDetails")
-            private final String statusDetails;
-
-            @JsonCreator
-            Bid(
-                @JsonProperty("id") final String id,
-                @JsonProperty("status") final String status,
-                @JsonProperty("statusDetails") final String statusDetails
-            ) {
-                Objects.requireNonNull(id);
-                Objects.requireNonNull(status);
-                Objects.requireNonNull(statusDetails);
-                this.id = id;
-                this.status = status;
-                this.statusDetails = statusDetails;
             }
         }
     }

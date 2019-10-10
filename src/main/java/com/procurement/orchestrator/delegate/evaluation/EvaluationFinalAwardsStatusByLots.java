@@ -1,10 +1,8 @@
 package com.procurement.orchestrator.delegate.evaluation;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.fasterxml.jackson.databind.node.TextNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.dto.command.ResponseDto;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
@@ -22,13 +20,10 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
-import java.util.function.Function;
 
 import static com.procurement.orchestrator.domain.commands.EvaluationCommandType.FINAL_AWARDS_STATUS_BY_LOTS;
 import static com.procurement.orchestrator.domain.commands.SubmissionCommandType.FINAL_BIDS_STATUS_BY_LOTS;
-import static java.util.stream.Collectors.toMap;
 
 @Component
 public class EvaluationFinalAwardsStatusByLots implements JavaDelegate {
@@ -107,23 +102,7 @@ public class EvaluationFinalAwardsStatusByLots implements JavaDelegate {
 
     private JsonNode updateAwardsStatuses(final JsonNode jsonData, final JsonNode responseData, final String processId) {
         try {
-            final FinalAwardsStatusByLotsResponse response =
-                jsonUtil.toObject(FinalAwardsStatusByLotsResponse.class, responseData);
-            final Map<String, FinalAwardsStatusByLotsResponse.Award> awardsByIds = response.awards
-                .stream()
-                .collect(toMap(FinalAwardsStatusByLotsResponse.Award::getId, Function.identity()));
-
-            jsonData.get("awards")
-                .forEach(award -> {
-                        final String id = award.get("id").asText();
-                        final FinalAwardsStatusByLotsResponse.Award responseAward = awardsByIds.get(id);
-                        if (responseAward != null) {
-                            final ObjectNode updatedAward = ((ObjectNode) award);
-                            updatedAward.set("status", new TextNode(responseAward.status));
-                            updatedAward.set("statusDetails", new TextNode(responseAward.statusDetails));
-                        }
-                    }
-                );
+            ((ObjectNode) jsonData).set("awards", responseData.get("awards"));
             return jsonData;
         } catch (Exception exception) {
             LOG.error("Error processing response for '" + FINAL_BIDS_STATUS_BY_LOTS.value() + "' command.", exception);
@@ -151,44 +130,6 @@ public class EvaluationFinalAwardsStatusByLots implements JavaDelegate {
             Lot(final String id) {
                 Objects.requireNonNull(id);
                 this.id = id;
-            }
-        }
-    }
-
-    @Getter
-    static class FinalAwardsStatusByLotsResponse {
-        @JsonProperty("awards")
-        private final List<Award> awards;
-
-        @JsonCreator
-        FinalAwardsStatusByLotsResponse(@JsonProperty("awards") final List<Award> awards) {
-            Objects.requireNonNull(awards);
-            this.awards = awards;
-        }
-
-        @Getter
-        static class Award {
-            @JsonProperty("id")
-            private final String id;
-
-            @JsonProperty("status")
-            private final String status;
-
-            @JsonProperty("statusDetails")
-            private final String statusDetails;
-
-            @JsonCreator
-            Award(
-                @JsonProperty("id") final String id,
-                @JsonProperty("status") final String status,
-                @JsonProperty("statusDetails") final String statusDetails
-            ) {
-                Objects.requireNonNull(id);
-                Objects.requireNonNull(status);
-                Objects.requireNonNull(statusDetails);
-                this.id = id;
-                this.status = status;
-                this.statusDetails = statusDetails;
             }
         }
     }
