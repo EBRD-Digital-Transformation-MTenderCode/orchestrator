@@ -89,8 +89,7 @@ public class SubmissionFinalBidsStatusByLots implements JavaDelegate {
     private JsonNode generateCommandData(final JsonNode jsonData, final String processId) {
         try {
             final List<FinalBidsStatusByLotsRequest.Lot> lots = new ArrayList<>();
-            jsonData.get("tender")
-                .get("lots")
+            jsonData.get("lots")
                 .forEach(lot -> {
                         final String id = lot.get("id").asText();
                         lots.add(new FinalBidsStatusByLotsRequest.Lot(id));
