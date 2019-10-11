@@ -72,6 +72,7 @@ public class AccessCompleteLots implements JavaDelegate {
                     final String prevOperationType = context.getOperationType();
                     final String newOperationType = END_AWARD_PERIOD.value();
                     context.setOperationType(newOperationType);
+                    execution.setVariable("operationType", newOperationType);
                     if (LOG.isDebugEnabled())
                         LOG.debug("COMMAND ({}) IN CONTEXT CHANGED THE OPERATION TYPE FROM '{}' TO '{}'.", context.getOperationId(), prevOperationType, newOperationType);
                 }
