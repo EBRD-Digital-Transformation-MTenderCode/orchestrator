@@ -91,6 +91,9 @@ public class Context {
     @JsonProperty(value = "awardCriteria")
     private String awardCriteria;
 
+    @JsonProperty(value = "testMode")
+    private Boolean testMode;
+
     public void setOperationId(final String operationId) {
         this.operationId = UUID.fromString(operationId).toString();
     }

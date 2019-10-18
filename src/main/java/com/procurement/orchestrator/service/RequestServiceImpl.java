@@ -154,7 +154,8 @@ public class RequestServiceImpl implements RequestService {
                                        final String operationId,
                                        final String country,
                                        final String pmd,
-                                       final String process) {
+                                       final String process,
+                                       boolean testMode) {
         final Context context = new Context();
         final String processType = getProcessType(country, pmd, process);
         final Rule rules = getRule(country, pmd, processType);
@@ -170,6 +171,7 @@ public class RequestServiceImpl implements RequestService {
         context.setLanguage(lang);
         context.setRequestId(UUIDs.timeBased().toString());
         context.setStartDate(dateUtil.nowFormatted());
+        context.setTestMode(testMode);
         return context;
     }
 
