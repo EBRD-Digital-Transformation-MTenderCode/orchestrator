@@ -37,7 +37,6 @@ public class SaveContractActivationContext implements JavaDelegate {
         final Boolean stageEnd = (Boolean) execution.getVariable("stageEnd");
         if (stageEnd) {
             final Context evContext = requestService.getContext(context.getCpid());
-            evContext.setStage(Stage.EV.value());
             evContext.setPhase("empty");
             operationService.saveContext(evContext);
         }

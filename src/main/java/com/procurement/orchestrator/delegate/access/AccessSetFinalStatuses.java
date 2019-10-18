@@ -74,14 +74,24 @@ public class AccessSetFinalStatuses implements JavaDelegate {
                                      final String processId) {
         final Boolean stageEnd = processService.getBoolean("stageEnd", responseData, processId);
         final Boolean cpSuccess = processService.getBoolean("cpSuccess", responseData, processId);
-        if (!stageEnd && cpSuccess) {
-            context.setOperationType(OperationType.CONFIRM_CAN.value());
-        } else if (stageEnd && cpSuccess) {
-            context.setOperationType(OperationType.END_AWARD_PERIOD.value());
-            context.setPhase("empty");
-        } else if (stageEnd && !cpSuccess) {
-            context.setOperationType(OperationType.END_CONTRACT_PROCESS.value());
-            context.setPhase("empty");
+        if(stageEnd) {
+            if(cpSuccess) {
+                final String operationType = OperationType.END_AWARD_PERIOD.value();
+                execution.setVariable("operationType", operationType);
+                context.setOperationType(operationType);
+                context.setPhase("empty");
+            } else {
+                final String operationType = OperationType.END_CONTRACT_PROCESS.value();
+                execution.setVariable("operationType", operationType);
+                context.setOperationType(operationType);
+                context.setPhase("empty");
+            }
+        } else {
+            if(cpSuccess) {
+                final String operationType = OperationType.CONFIRM_CAN.value();
+                execution.setVariable("operationType", operationType);
+                context.setOperationType(operationType);
+            }
         }
         execution.setVariable("stageEnd", stageEnd);
     }
