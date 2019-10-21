@@ -28,6 +28,7 @@ public enum AccessCommandType {
     GET_TENDER_OWNER("getTenderOwner"),
     START_NEW_STAGE("startNewStage"),
 
+    GET_ITEMS_BY_LOT("getItemsByLot"),
     GET_LOTS("getLots"),
     GET_LOTS_AUCTION("getLotsAuction"),
     GET_AWARD_CRITERIA("getAwardCriteria"),
@@ -41,6 +42,7 @@ public enum AccessCommandType {
 
     CHECK_AWARD("checkAward"),
     CHECK_LOT_STATUS("checkLotStatus"),
+    CHECK_LOT_ACTIVE("checkLotActive"),
     CHECK_LOTS_STATUS("checkLotsStatus"),
     CHECK_LOT_AWARDED("checkLotAwarded"),
     CHECK_BID("checkBid"),
