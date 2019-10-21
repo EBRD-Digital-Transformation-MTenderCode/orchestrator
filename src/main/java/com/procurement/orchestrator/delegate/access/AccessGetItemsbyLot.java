@@ -1,6 +1,7 @@
 package com.procurement.orchestrator.delegate.access;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.dto.command.ResponseDto;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
@@ -54,19 +55,27 @@ public class AccessGetItemsbyLot implements JavaDelegate {
         if (LOG.isDebugEnabled())
             LOG.debug("RESPONSE FROM SERVICE (" + context.getOperationId() + "): '" + jsonUtil.toJson(response.getBody()) + "'.");
 
-        JsonNode responseData = processService.processResponse(
-                response,
-                context,
-                processId,
-                taskId,
-                commandMessage);
+        final JsonNode responseData = processService.processResponse(response, context, processId, taskId, commandMessage);
+        if (LOG.isDebugEnabled())
+            LOG.debug("RESPONSE AFTER PROCESSING (" + context.getOperationId() + "): '" + jsonUtil.toJsonOrEmpty(responseData) + "'.");
+
         if (responseData != null) {
-            operationService.saveOperationStep(
-                    execution,
-                    entity,
-                    context,
-                    commandMessage,
-                    processService.addItems(jsonData, responseData, processId));
+            final JsonNode step = addItems(jsonData, responseData, processId);
+            if (LOG.isDebugEnabled())
+                LOG.debug("STEP FOR SAVE (" + context.getOperationId() + "): '" + jsonUtil.toJsonOrEmpty(step) + "'.");
+
+            operationService.saveOperationStep(execution, entity, context, commandMessage, step);
+        }
+    }
+
+
+    private JsonNode addItems(final JsonNode jsonData, final JsonNode itemsData, final String processId) {
+        try {
+            ((ObjectNode) jsonData).replace("items", itemsData.get("items"));
+            return jsonData;
+        } catch (Exception e) {
+            processService.terminateProcess(processId, e.getMessage());
+            return null;
         }
     }
 }
