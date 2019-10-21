@@ -53,16 +53,13 @@ public class AccessCheckLotActive implements JavaDelegate {
         if (LOG.isDebugEnabled())
             LOG.debug("RESPONSE FROM SERVICE (" + context.getOperationId() + "): '" + jsonUtil.toJson(response.getBody()) + "'.");
 
-        JsonNode responseData = processService.processResponse(
-                response,
-                context,
-                processId,
-                taskId,
-                commandMessage);
+        final JsonNode responseData = processService.processResponse(response, context, processId, taskId, commandMessage);
+        if (LOG.isDebugEnabled())
+            LOG.debug("RESPONSE AFTER PROCESSING (" + context.getOperationId() + "): '" + jsonUtil.toJsonOrEmpty(responseData) + "'.");
+
         if (responseData != null) {
             operationService.saveOperationStep(execution, entity, commandMessage);
         }
-
     }
 }
 
