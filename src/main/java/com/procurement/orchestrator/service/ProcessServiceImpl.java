@@ -1216,20 +1216,6 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public JsonNode setCheckItems(final JsonNode jsonData, final JsonNode responseData, final String processId) {
-        try {
-            final ObjectNode tenderNode = (ObjectNode) jsonData.get("tender");
-            final JsonNode tenderResponseNode = responseData.get("tender");
-            if (tenderResponseNode != null) {
-                tenderNode.replace("classification", tenderResponseNode.get("classification"));
-            }
-            return jsonData;
-        } catch (Exception e) {
-            terminateProcess(processId, e.getMessage());
-            return null;
-        }
-    }
-
     public JsonNode getCheckFs(final JsonNode jsonData, final String startDate, final String processId) {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
