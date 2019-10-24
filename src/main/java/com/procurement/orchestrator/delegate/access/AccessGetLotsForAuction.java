@@ -82,7 +82,8 @@ public class AccessGetLotsForAuction implements JavaDelegate {
     private JsonNode generateCommandData(final JsonNode jsonData, final String processId) {
         try {
             final List<GetLotsForAuctionRequest.Lot> lots = new ArrayList<>();
-            jsonData.get("lots")
+            jsonData.get("tender")
+                .get("lots")
                 .forEach(lot -> {
                         final String id = lot.get("id").asText();
                         final ObjectNode valueNode = (ObjectNode) lot.get("value");
