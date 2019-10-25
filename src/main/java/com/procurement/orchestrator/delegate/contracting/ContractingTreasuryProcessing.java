@@ -84,9 +84,9 @@ public class ContractingTreasuryProcessing implements JavaDelegate {
             final TreasureApprovingAcDTO.RegData regData;
             if (jsonData.has("regData")) {
                 final JsonNode regDataNode = jsonData.get("regData");
-                final String regNom = regDataNode.get("reg_nom").asText();
-                final String regDate = regDataNode.get("reg_date").asText();
-                regData = new TreasureApprovingAcDTO.RegData(regNom, regDate);
+                final String externalRegId = regDataNode.get("externalRegId").asText();
+                final String regDate = regDataNode.get("regDate").asText();
+                regData = new TreasureApprovingAcDTO.RegData(externalRegId, regDate);
             } else {
                 regData = null;
             }
@@ -140,17 +140,17 @@ public class ContractingTreasuryProcessing implements JavaDelegate {
 
         @Getter
         public static class RegData {
-            @JsonProperty("reg_nom")
-            private final String regNom;
+            @JsonProperty("externalRegId")
+            private final String externalRegId;
 
-            @JsonProperty("reg_date")
+            @JsonProperty("regDate")
             private final String regDate;
 
-            public RegData(final String regNom, final String regDate) {
-                Objects.requireNonNull(regNom);
+            public RegData(final String externalRegId, final String regDate) {
+                Objects.requireNonNull(externalRegId);
                 Objects.requireNonNull(regDate);
 
-                this.regNom = regNom;
+                this.externalRegId = externalRegId;
                 this.regDate = regDate;
             }
         }
