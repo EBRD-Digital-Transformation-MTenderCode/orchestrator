@@ -22,9 +22,9 @@ import java.util.Objects;
 import static com.procurement.orchestrator.domain.commands.ContractingCommandType.TREASURY_RESPONSE_PROCESSING;
 
 @Component
-public class ContractingTreasuryApproving implements JavaDelegate {
+public class ContractingTreasuryProcessing implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ContractingTreasuryApproving.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ContractingTreasuryProcessing.class);
 
     private final ContractingRestClient contractingRestClient;
     private final NotificationService notificationService;
@@ -32,11 +32,11 @@ public class ContractingTreasuryApproving implements JavaDelegate {
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public ContractingTreasuryApproving(final ContractingRestClient contractingRestClient,
-                                        final NotificationService notificationService,
-                                        final OperationService operationService,
-                                        final ProcessService processService,
-                                        final JsonUtil jsonUtil) {
+    public ContractingTreasuryProcessing(final ContractingRestClient contractingRestClient,
+                                         final NotificationService notificationService,
+                                         final OperationService operationService,
+                                         final ProcessService processService,
+                                         final JsonUtil jsonUtil) {
         this.contractingRestClient = contractingRestClient;
         this.notificationService = notificationService;
         this.operationService = operationService;
