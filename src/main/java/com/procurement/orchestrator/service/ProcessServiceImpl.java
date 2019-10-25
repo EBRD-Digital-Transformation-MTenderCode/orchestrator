@@ -528,10 +528,11 @@ public class ProcessServiceImpl implements ProcessService {
     public JsonNode getDocumentsOfTender(final JsonNode jsonData, final String processId) {
         try {
             final JsonNode tenderNode = jsonData.get("tender");
-            final JsonNode documentsNode = tenderNode.findPath("documents");
-            if (documentsNode.isMissingNode()) return null;
+            if(!tenderNode.has("documents")) return null;
+
+            final JsonNode documentsNode = tenderNode.get("documents");
             final ObjectNode mainNode = jsonUtil.createObjectNode();
-            mainNode.replace("documents", documentsNode);
+            mainNode.set("documents", documentsNode);
             return mainNode;
         } catch (Exception e) {
             LOG.error("Error getting documents of tender.", e);
