@@ -96,7 +96,7 @@ public class AccessCheckItems implements JavaDelegate {
             if (mainProcurementCategory != null) data.put("mainProcurementCategory", mainProcurementCategory.asText());
 
             final JsonNode items = responseData.get("items");
-            if (mainProcurementCategory != null) data.putArray("items").addAll((ArrayNode) responseData.get("items"));;
+            if (items != null) data.putArray("items").addAll((ArrayNode) items);;
 
             data.put("mdmValidation", responseData.get("mdmValidation").asBoolean());
             data.put("itemsAdd", responseData.get("itemsAdd").asBoolean());
