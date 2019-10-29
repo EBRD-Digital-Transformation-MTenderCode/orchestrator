@@ -78,9 +78,12 @@ public class ProcurerCreateCriteria implements JavaDelegate {
 
     private JsonNode addCreateCriteriaData(final JsonNode jsonData, final JsonNode responseData, final String processId) {
         try {
-            final ObjectNode mainNode = (ObjectNode) jsonData;
-            mainNode.replace("criteria", responseData.get("criteria"));
-            mainNode.replace("conversions", responseData.get("conversions"));
+            final ObjectNode tenderNode = (ObjectNode) jsonData.get("tender");
+
+            tenderNode.replace("criteria", responseData.get("criteria"));
+            tenderNode.replace("conversions", responseData.get("conversions"));
+            tenderNode.replace("awardCriteriaDetails", responseData.get("awardCriteriaDetails"));
+
             return jsonData;
         } catch (Exception e) {
             processService.terminateProcess(processId, e.getMessage());

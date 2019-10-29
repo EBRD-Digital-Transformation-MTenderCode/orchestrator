@@ -22,9 +22,9 @@ import java.util.Objects;
 import static com.procurement.orchestrator.domain.commands.ContractingCommandType.TREASURY_RESPONSE_PROCESSING;
 
 @Component
-public class ContractingTreasuryApproving implements JavaDelegate {
+public class ContractingTreasuryProcessing implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ContractingTreasuryApproving.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ContractingTreasuryProcessing.class);
 
     private final ContractingRestClient contractingRestClient;
     private final NotificationService notificationService;
@@ -32,11 +32,11 @@ public class ContractingTreasuryApproving implements JavaDelegate {
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public ContractingTreasuryApproving(final ContractingRestClient contractingRestClient,
-                                        final NotificationService notificationService,
-                                        final OperationService operationService,
-                                        final ProcessService processService,
-                                        final JsonUtil jsonUtil) {
+    public ContractingTreasuryProcessing(final ContractingRestClient contractingRestClient,
+                                         final NotificationService notificationService,
+                                         final OperationService operationService,
+                                         final ProcessService processService,
+                                         final JsonUtil jsonUtil) {
         this.contractingRestClient = contractingRestClient;
         this.notificationService = notificationService;
         this.operationService = operationService;
@@ -84,9 +84,9 @@ public class ContractingTreasuryApproving implements JavaDelegate {
             final TreasureApprovingAcDTO.RegData regData;
             if (jsonData.has("regData")) {
                 final JsonNode regDataNode = jsonData.get("regData");
-                final String regNom = regDataNode.get("reg_nom").asText();
-                final String regDate = regDataNode.get("reg_date").asText();
-                regData = new TreasureApprovingAcDTO.RegData(regNom, regDate);
+                final String externalRegId = regDataNode.get("externalRegId").asText();
+                final String regDate = regDataNode.get("regDate").asText();
+                regData = new TreasureApprovingAcDTO.RegData(externalRegId, regDate);
             } else {
                 regData = null;
             }
@@ -140,17 +140,17 @@ public class ContractingTreasuryApproving implements JavaDelegate {
 
         @Getter
         public static class RegData {
-            @JsonProperty("reg_nom")
-            private final String regNom;
+            @JsonProperty("externalRegId")
+            private final String externalRegId;
 
-            @JsonProperty("reg_date")
+            @JsonProperty("regDate")
             private final String regDate;
 
-            public RegData(final String regNom, final String regDate) {
-                Objects.requireNonNull(regNom);
+            public RegData(final String externalRegId, final String regDate) {
+                Objects.requireNonNull(externalRegId);
                 Objects.requireNonNull(regDate);
 
-                this.regNom = regNom;
+                this.externalRegId = externalRegId;
                 this.regDate = regDate;
             }
         }

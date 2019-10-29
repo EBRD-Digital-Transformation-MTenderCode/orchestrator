@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum AuctionCommandType {
-
+    VALIDATE("validateAuctionsDetails"),
     SCHEDULE("scheduleAuctions"),
     START("auctionsStart"),
     END("auctionsEnd"),

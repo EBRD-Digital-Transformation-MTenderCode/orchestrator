@@ -31,6 +31,7 @@ public enum AccessCommandType {
     GET_ITEMS_BY_LOT("getItemsByLot"),
     GET_LOTS("getLots"),
     GET_LOTS_AUCTION("getLotsAuction"),
+    GET_LOTS_FOR_AUCTION("getLotsForAuction"),
     GET_AWARD_CRITERIA("getAwardCriteria"),
     GET_DATA_FOR_AC("getDataForAc"),
     SET_LOTS_SD_UNSUCCESSFUL("setLotsStatusDetailsUnsuccessful"),
