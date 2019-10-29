@@ -19,16 +19,16 @@ import org.springframework.stereotype.Component;
 import static com.procurement.orchestrator.domain.commands.AccessCommandType.GET_ITEMS_BY_LOT;
 
 @Component
-public class AccessGetItemsbyLot implements JavaDelegate {
+public class AccessGetItemsByLot implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AccessGetItemsbyLot.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AccessGetItemsByLot.class);
 
     private final AccessRestClient accessRestClient;
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public AccessGetItemsbyLot(final AccessRestClient accessRestClient,
+    public AccessGetItemsByLot(final AccessRestClient accessRestClient,
                                final OperationService operationService,
                                final ProcessService processService,
                                final JsonUtil jsonUtil) {
