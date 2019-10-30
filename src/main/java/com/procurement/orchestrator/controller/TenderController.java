@@ -1,6 +1,8 @@
 package com.procurement.orchestrator.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.ProcurementMethod;
 import com.procurement.orchestrator.exception.OperationException;
@@ -144,6 +146,9 @@ public class TenderController extends DoBaseController {
         requestService.saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("operationType", "createBid");
+        final ObjectNode bidNode = (ObjectNode) data.get("bid");
+        final String relatedLotId = ((ArrayNode) bidNode.get("relatedLots")).get(0).asText();
+        variables.put("lotId", relatedLotId);
         processService.startProcess(context, variables);
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }

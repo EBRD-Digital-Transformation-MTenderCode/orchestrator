@@ -59,7 +59,7 @@
       <bpmn:outgoing>SequenceFlow_07hq8cb</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1hgf7j5" sourceRef="ExclusiveGateway_0rteoo4" targetRef="SaveContextTask" />
-    <bpmn:serviceTask id="AccessCheckLotStatusTask" name="eAccess:&#10;Check Lot Status" camunda:asyncBefore="true" camunda:delegateExpression="${accessCheckLotActive}">
+    <bpmn:serviceTask id="AccessCheckLotStatusTask" name="eAccess:&#10;Check Lot Active" camunda:asyncBefore="true" camunda:delegateExpression="${accessCheckLotActive}">
       <bpmn:incoming>SequenceFlow_07hq8cb</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_09anc55</bpmn:outgoing>
     </bpmn:serviceTask>

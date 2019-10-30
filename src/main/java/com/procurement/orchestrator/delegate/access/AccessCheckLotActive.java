@@ -10,6 +10,7 @@ import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
+import org.camunda.bpm.engine.variable.value.StringValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -40,10 +41,15 @@ public class AccessCheckLotActive implements JavaDelegate {
     @Override
     public void execute(final DelegateExecution execution) throws Exception {
         LOG.info(execution.getCurrentActivityId());
+
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
+
+        final String lotId = execution.<StringValue>getVariableTyped("lotId").getValue();
+        final String oldId = context.getId();
+        context.setId(lotId);
 
         final JsonNode commandMessage = processService.getCommandMessage(CHECK_LOT_ACTIVE, context, jsonUtil.empty());
         if (LOG.isDebugEnabled())
@@ -58,6 +64,7 @@ public class AccessCheckLotActive implements JavaDelegate {
             LOG.debug("RESPONSE AFTER PROCESSING (" + context.getOperationId() + "): '" + jsonUtil.toJsonOrEmpty(responseData) + "'.");
 
         if (responseData != null) {
+            context.setId(oldId);
             operationService.saveOperationStep(execution, entity, commandMessage);
         }
     }

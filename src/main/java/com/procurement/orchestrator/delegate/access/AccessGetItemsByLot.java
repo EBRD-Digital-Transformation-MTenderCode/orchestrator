@@ -11,6 +11,7 @@ import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
+import org.camunda.bpm.engine.variable.value.StringValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -19,16 +20,16 @@ import org.springframework.stereotype.Component;
 import static com.procurement.orchestrator.domain.commands.AccessCommandType.GET_ITEMS_BY_LOT;
 
 @Component
-public class AccessGetItemsbyLot implements JavaDelegate {
+public class AccessGetItemsByLot implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AccessGetItemsbyLot.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AccessGetItemsByLot.class);
 
     private final AccessRestClient accessRestClient;
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public AccessGetItemsbyLot(final AccessRestClient accessRestClient,
+    public AccessGetItemsByLot(final AccessRestClient accessRestClient,
                                final OperationService operationService,
                                final ProcessService processService,
                                final JsonUtil jsonUtil) {
@@ -47,6 +48,10 @@ public class AccessGetItemsbyLot implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
 
+        final String lotId = execution.<StringValue>getVariableTyped("lotId").getValue();
+        final String oldId = context.getId();
+        context.setId(lotId);
+
         final JsonNode commandMessage = processService.getCommandMessage(GET_ITEMS_BY_LOT, context, jsonUtil.empty());
         if (LOG.isDebugEnabled())
             LOG.debug("COMMAND (" + context.getOperationId() + "): '" + jsonUtil.toJsonOrEmpty(commandMessage) + "'.");
@@ -60,6 +65,7 @@ public class AccessGetItemsbyLot implements JavaDelegate {
             LOG.debug("RESPONSE AFTER PROCESSING (" + context.getOperationId() + "): '" + jsonUtil.toJsonOrEmpty(responseData) + "'.");
 
         if (responseData != null) {
+            context.setId(oldId);
             final JsonNode step = addItems(jsonData, responseData, processId);
             if (LOG.isDebugEnabled())
                 LOG.debug("STEP FOR SAVE (" + context.getOperationId() + "): '" + jsonUtil.toJsonOrEmpty(step) + "'.");
