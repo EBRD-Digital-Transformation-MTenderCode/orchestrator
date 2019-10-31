@@ -100,8 +100,9 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     public Context addBidOutcomeToContext(final Context context, final JsonNode responseData, final String processId) {
-        final String id = processService.getText("bidId", responseData, processId);
-        final String token = processService.getText("token", responseData, processId);
+        final JsonNode bid = responseData.get("bid");
+        final String id = processService.getText("id", bid, processId);
+        final String token = processService.getText("token", bid, processId);
         context.setId(id);
         context.setToken(token);
         return context;
