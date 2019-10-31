@@ -188,6 +188,21 @@ public class MessageConsumer {
                         }
                         break;
                     }
+                    case TREASURY_CLARIFICATION: {
+                        final JsonNode dataNode = response.get("data");
+                        if (dataNode != null) {
+                            final String ocid = dataNode.get("ocid").asText();
+                            final Context prevContext = requestService.getContext(ocid);
+                            final String uuid = UUIDs.timeBased().toString();
+                            final Context context =
+                                    requestService.checkRulesAndProcessContext(prevContext, "acClarification", uuid);
+                            requestService.saveRequestAndCheckOperation(context, dataNode);
+                            final Map<String, Object> variables = new HashMap<>();
+                            variables.put("operationType", context.getOperationType());
+                            processService.startProcess(context, variables);
+                        }
+                        break;
+                    }
                     default: {
                         final String uuid = UUIDs.timeBased().toString();
                         requestService.saveRequest(uuid, uuid, null, response.get("data"));
