@@ -67,7 +67,8 @@ public enum OperationType {
     CONFIRM_CAN("confirmCan"),
     CANCEL_CAN_CONTRACT("cancelCanContract"),
     TENDER_EVALUATED("tenderEvaluated"),
-    END_CONTRACT_PROCESS("endContractingProcess");
+    END_CONTRACT_PROCESS("endContractingProcess"),
+    PROCESS_AC_CLARIFICATION("processAcClarification");
 
 
     private static final Map<String, OperationType> CONSTANTS = new HashMap<>();
