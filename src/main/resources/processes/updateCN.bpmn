@@ -322,13 +322,13 @@
       <bpmn:outgoing>SequenceFlow_0qd4jrx</bpmn:outgoing>
     </bpmn:inclusiveGateway>
     <bpmn:sequenceFlow id="SequenceFlow_1i78ayg" sourceRef="ExclusiveGateway_1y5gh88" targetRef="ExclusiveGateway_0rwu30a" />
-    <bpmn:serviceTask id="StorageValidateDocsOfBusinessFunctionTask" name="Storage&#10;Validate documents of business functions" camunda:asyncBefore="true" camunda:delegateExpression="${StorageValidateDocsOfBusinessFunction}">
+    <bpmn:serviceTask id="StorageValidateDocsOfBusinessFunctionTask" name="Storage&#10;Validate documents of business functions" camunda:asyncBefore="true" camunda:delegateExpression="${storageValidateDocsOfBusinessFunction}">
       <bpmn:incoming>SequenceFlow_05iz5y3</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0mjemoh</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_05iz5y3" sourceRef="StorageValidateDocsOfTenderTask" targetRef="StorageValidateDocsOfBusinessFunctionTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0mjemoh" sourceRef="StorageValidateDocsOfBusinessFunctionTask" targetRef="AccessCheckOwnerTokenTask" />
-    <bpmn:serviceTask id="StorageOpenDocsOfBusinessFunctionTask" name="Storage&#10;Open documents of business functions&#10;" camunda:asyncBefore="true" camunda:delegateExpression="${StorageOpenDocsOfBusinessFunction}">
+    <bpmn:serviceTask id="StorageOpenDocsOfBusinessFunctionTask" name="Storage&#10;Open documents of business functions&#10;" camunda:asyncBefore="true" camunda:delegateExpression="${storageOpenDocsOfBusinessFunction}">
       <bpmn:incoming>SequenceFlow_00vu013</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0g6vjpn</bpmn:outgoing>
     </bpmn:serviceTask>
