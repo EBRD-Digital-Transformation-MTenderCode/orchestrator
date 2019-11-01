@@ -76,7 +76,7 @@ public class StorageValidateDocsOfBusinessFunction implements JavaDelegate {
             if (!tenderNode.has("procuringEntity")) return null;
             final JsonNode procuringEntityNode = tenderNode.get("procuringEntity");
 
-            if (!tenderNode.has("persones")) return null;
+            if (!procuringEntityNode.has("persones")) return null;
             final ArrayNode personsArray = (ArrayNode) procuringEntityNode.get("persones");
 
             final ArrayNode documentsNode = jsonUtil.createArrayNode();
