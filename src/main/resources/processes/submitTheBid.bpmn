@@ -74,12 +74,12 @@
     <bpmn:sequenceFlow id="SequenceFlow_07hq8cb" sourceRef="StorageValidateDocsOfBidsTask" targetRef="AccessCheckLotStatusTask" />
     <bpmn:sequenceFlow id="SequenceFlow_09anc55" sourceRef="AccessCheckLotStatusTask" targetRef="AccessGetItemsByLotTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0dfqhnx" sourceRef="AccessGetItemsByLotTask" targetRef="ProcurerCheckResponsesTask" />
-    <bpmn:serviceTask id="Task_1qh3iy8" name="eAccess:&#10;Get Lot" camunda:asyncBefore="true" camunda:delegateExpression="${accessGetLot}">
+    <bpmn:serviceTask id="AccessGetLotTask" name="eAccess:&#10;Get Lot" camunda:asyncBefore="true" camunda:delegateExpression="${accessGetLot}">
       <bpmn:incoming>SequenceFlow_0hh9ug0</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1lkndpk</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_0hh9ug0" sourceRef="ProcurerCheckResponsesTask" targetRef="Task_1qh3iy8" />
-    <bpmn:sequenceFlow id="SequenceFlow_1lkndpk" sourceRef="Task_1qh3iy8" targetRef="ExclusiveGateway" />
+    <bpmn:sequenceFlow id="SequenceFlow_0hh9ug0" sourceRef="ProcurerCheckResponsesTask" targetRef="AccessGetLotTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1lkndpk" sourceRef="AccessGetLotTask" targetRef="ExclusiveGateway" />
   </bpmn:process>
   <bpmn:error id="Error_1espguw" name="TR_EXCEPTION" errorCode="TR_EXCEPTION" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -221,7 +221,7 @@
         <di:waypoint x="790" y="195" />
         <di:waypoint x="840" y="195" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_0l6q3na_di" bpmnElement="Task_1qh3iy8">
+      <bpmndi:BPMNShape id="ServiceTask_0l6q3na_di" bpmnElement="AccessGetLotTask">
         <dc:Bounds x="1000" y="155" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0hh9ug0_di" bpmnElement="SequenceFlow_0hh9ug0">

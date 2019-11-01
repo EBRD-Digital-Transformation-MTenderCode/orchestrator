@@ -79,7 +79,8 @@ public class AccessGetLot implements JavaDelegate {
 
     private JsonNode addLot(final JsonNode jsonData, final JsonNode lotData, final String processId) {
         try {
-            final JsonNode lot = lotData.get("lot");
+            final JsonNode value = lotData.get("value");
+            final JsonNode lot = jsonUtil.createObjectNode().set("value", value);
             ((ObjectNode) jsonData).set("lot", lot);
             return jsonData;
         } catch (Exception e) {
