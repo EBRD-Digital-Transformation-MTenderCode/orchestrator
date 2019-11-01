@@ -168,6 +168,9 @@ public class TenderController extends DoBaseController {
         requestService.saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("operationType", "updateBid");
+        final ObjectNode bidNode = (ObjectNode) data.get("bid");
+        final String relatedLotId = ((ArrayNode) bidNode.get("relatedLots")).get(0).asText();
+        variables.put("lotId", relatedLotId);
         processService.startProcess(context, variables);
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
