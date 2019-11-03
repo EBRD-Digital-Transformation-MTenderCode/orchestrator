@@ -21,6 +21,7 @@ import static com.procurement.orchestrator.domain.commands.AccessCommandType.UPD
 public class AccessUpdateCn implements JavaDelegate {
 
     private static final Logger LOG = LoggerFactory.getLogger(AccessUpdateCn.class);
+    private static final String ATTRIBUTE_NAME = "lotsChanged";
     private static final String VARIABLE_NAME = "isLotsChanged";
 
     private final AccessRestClient accessRestClient;
@@ -66,7 +67,7 @@ public class AccessUpdateCn implements JavaDelegate {
             LOG.debug("RESPONSE AFTER PROCESSING ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(responseData));
 
         if (responseData != null) {
-            final Boolean isLotsChanged = processService.getBoolean(VARIABLE_NAME, responseData, processId);
+            final Boolean isLotsChanged = processService.getBoolean(ATTRIBUTE_NAME, responseData, processId);
             execution.setVariable(VARIABLE_NAME, isLotsChanged);
             LOG.debug("COMMAND ({}) IN CONTEXT PUT THE VARIABLE '{}' WITH THE VALUE '{}'.", context.getOperationId(), VARIABLE_NAME, isLotsChanged);
 
