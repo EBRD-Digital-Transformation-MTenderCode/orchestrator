@@ -16,6 +16,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.procurement.orchestrator.domain.commands.StorageCommandType.PUBLISH;
 
@@ -114,17 +117,15 @@ public class StorageOpenDocsOfBusinessFunction implements JavaDelegate {
         }
     }
 
-    private JsonNode setDocumentsOfBusinessFunctions(final JsonNode jsonData, final JsonNode documentsData, final String processId) {
+    private JsonNode setDocumentsOfBusinessFunctions(final JsonNode jsonData, final JsonNode updatedDocumentsData, final String processId) {
         try {
-            final ObjectNode tenderNode = (ObjectNode) jsonData.get("tender");
-            final ArrayNode documentsArray = (ArrayNode) documentsData.get("documents");
+            final Map<String, JsonNode> updatedDocumentsByIds = updatedDocumentsByIds(updatedDocumentsData);
+            if (updatedDocumentsByIds.isEmpty())
+                return jsonData;
 
-            if (!tenderNode.has("procuringEntity")) return null;
+            final JsonNode tenderNode = jsonData.get("tender");
             final JsonNode procuringEntityNode = tenderNode.get("procuringEntity");
-
-            if (!tenderNode.has("persones")) return null;
             final ArrayNode personsArray = (ArrayNode) procuringEntityNode.get("persones");
-
             for (final JsonNode person : personsArray) {
                 if (person.has("businessFunctions")) {
                     final ArrayNode businessFunctionsArray = (ArrayNode) person.get("businessFunctions");
@@ -134,12 +135,10 @@ public class StorageOpenDocsOfBusinessFunction implements JavaDelegate {
                             final ArrayNode oldDocumentsArray = (ArrayNode) businessFunction.get("documents");
                             for (final JsonNode oldDocument : oldDocumentsArray) {
                                 final String oldId = oldDocument.get("id").asText();
-                                for (JsonNode newDocument: documentsArray) {
-                                    String newId = newDocument.get("id").asText();
-                                    if (newId.equals(oldId)) documentsNode.add(newDocument);
-                                }
+                                final JsonNode updatedDocument = updatedDocumentsByIds.get(oldId);
+                                documentsNode.add(updatedDocument);
                             }
-                            ((ObjectNode) businessFunction).replace("documents", documentsNode);
+                            ((ObjectNode) businessFunction).set("documents", documentsNode);
                         }
                     }
                 }
@@ -151,4 +150,16 @@ public class StorageOpenDocsOfBusinessFunction implements JavaDelegate {
         }
     }
 
+    private Map<String, JsonNode> updatedDocumentsByIds(final JsonNode updatedDocumentsData) {
+        if (!updatedDocumentsData.has("documents"))
+            return Collections.emptyMap();
+
+        final Map<String, JsonNode> updatedDocumentsByIds = new HashMap<>();
+        final ArrayNode responseDocuments = (ArrayNode) updatedDocumentsData.get("documents");
+        for (final JsonNode updatedDocument : responseDocuments) {
+            final String updatedDocumentId = updatedDocument.get("id").asText();
+            updatedDocumentsByIds.put(updatedDocumentId, updatedDocument);
+        }
+        return updatedDocumentsByIds;
+    }
 }
