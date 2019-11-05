@@ -68,7 +68,7 @@ public class StorageOpenDocsOfBusinessFunction implements JavaDelegate {
                 LOG.debug("RESPONSE AFTER PROCESSING ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(responseData));
 
             if (responseData != null) {
-                final JsonNode step = processService.setDocumentsOfTender(jsonData, responseData, processId);
+                final JsonNode step = setDocumentsOfBusinessFunctions(jsonData, responseData, processId);
                 if (LOG.isDebugEnabled())
                     LOG.debug("STEP FOR SAVE ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(step));
 
@@ -113,4 +113,42 @@ public class StorageOpenDocsOfBusinessFunction implements JavaDelegate {
             return null;
         }
     }
+
+    private JsonNode setDocumentsOfBusinessFunctions(final JsonNode jsonData, final JsonNode documentsData, final String processId) {
+        try {
+            final ObjectNode tenderNode = (ObjectNode) jsonData.get("tender");
+            final ArrayNode documentsArray = (ArrayNode) documentsData.get("documents");
+
+            if (!tenderNode.has("procuringEntity")) return null;
+            final JsonNode procuringEntityNode = tenderNode.get("procuringEntity");
+
+            if (!tenderNode.has("persones")) return null;
+            final ArrayNode personsArray = (ArrayNode) procuringEntityNode.get("persones");
+
+            for (final JsonNode person : personsArray) {
+                if (person.has("businessFunctions")) {
+                    final ArrayNode businessFunctionsArray = (ArrayNode) person.get("businessFunctions");
+                    for (final JsonNode businessFunction : businessFunctionsArray) {
+                        if (businessFunction.has("documents")) {
+                            final ArrayNode documentsNode = jsonUtil.createArrayNode();
+                            final ArrayNode oldDocumentsArray = (ArrayNode) businessFunction.get("documents");
+                            for (final JsonNode oldDocument : oldDocumentsArray) {
+                                final String oldId = oldDocument.get("id").asText();
+                                for (JsonNode newDocument: documentsArray) {
+                                    String newId = newDocument.get("id").asText();
+                                    if (newId.equals(oldId)) documentsNode.add(newDocument);
+                                }
+                            }
+                            ((ObjectNode) businessFunction).replace("documents", documentsNode);
+                        }
+                    }
+                }
+            }
+            return jsonData;
+        } catch (Exception e) {
+            processService.terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
 }
