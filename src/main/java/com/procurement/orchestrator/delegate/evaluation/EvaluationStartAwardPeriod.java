@@ -63,9 +63,9 @@ public class EvaluationStartAwardPeriod implements JavaDelegate {
 
         if (responseData != null) {
             final JsonNode step = setAwardPeriod(jsonData, responseData, processId);
-
             if (LOG.isDebugEnabled())
                 LOG.debug("STEP FOR SAVE ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(step));
+
             operationService.saveOperationStep(execution, entity, commandMessage, step);
         }
     }
