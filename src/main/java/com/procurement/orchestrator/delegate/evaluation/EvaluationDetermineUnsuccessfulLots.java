@@ -1,6 +1,7 @@
 package com.procurement.orchestrator.delegate.evaluation;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.dto.command.ResponseDto;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
@@ -62,12 +63,26 @@ public class EvaluationDetermineUnsuccessfulLots implements JavaDelegate {
             final boolean hasUnsuccessfulLots = hasUnsuccessfulLots(responseData);
             execution.setVariable("availabilityOfUnsuccessfulLots", hasUnsuccessfulLots);
 
-            operationService.saveOperationStep(execution, entity, context, commandMessage, jsonData);
+            final JsonNode step = addUnsuccessfulLots(jsonData, responseData, processId);
+            if (LOG.isDebugEnabled())
+                LOG.debug("STEP FOR SAVE ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(step));
+
+            operationService.saveOperationStep(execution, entity, context, commandMessage, step);
         }
     }
 
     private boolean hasUnsuccessfulLots(final JsonNode lotsData) {
         return !lotsData.has("unsuccessfulLots") || (lotsData.get("unsuccessfulLots")).size() == 0;
+    }
+
+    private JsonNode addUnsuccessfulLots(final JsonNode jsonData, final JsonNode lotsData, final String processId) {
+        try {
+            ((ObjectNode) jsonData).replace("unsuccessfulLots", lotsData.get("unsuccessfulLots"));
+            return jsonData;
+        } catch (Exception e) {
+            processService.terminateProcess(processId, e.getMessage());
+            return null;
+        }
     }
 
 }
