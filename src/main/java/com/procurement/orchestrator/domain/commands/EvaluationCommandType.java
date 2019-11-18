@@ -31,7 +31,8 @@ public enum EvaluationCommandType {
     GET_LOT_FOR_CHECK("getLotForCheck"),
     GET_AWARD_ID_FOR_CHECK("getAwardIdForCheck"),
     FINAL_AWARDS_STATUS_BY_LOTS("finalAwardsStatusByLots"),
-    GET_UNSUCCSESS_LOTS("getUnsuccsessLots");
+    GET_UNSUCCSESS_LOTS("getUnsuccsessLots"),
+    SET_AWARD_FOR_EVALUATION("setAwardForEvaluation");
 
 
     private static final Map<String, EvaluationCommandType> CONSTANTS = new HashMap<>();
