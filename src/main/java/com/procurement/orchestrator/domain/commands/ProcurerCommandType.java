@@ -13,7 +13,8 @@ public enum ProcurerCommandType {
     CHECK_CRITERIA("checkCriteria"),
     CREATE_CRITERIA("createCriteria"),
     CHECK_RESPONSES("checkResponses"),
-    GET_CRITERIA("getCriteria");
+    GET_CRITERIA("getCriteria"),
+    CREATE_REQUESTS_FOR_EV_PANELS("createRequestsForEvPanels");
 
     private static final Map<String, ProcurerCommandType> CONSTANTS = new HashMap<>();
     private final String value;
