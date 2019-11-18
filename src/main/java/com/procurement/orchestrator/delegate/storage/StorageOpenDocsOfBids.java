@@ -2,6 +2,7 @@ package com.procurement.orchestrator.delegate.storage;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
+import com.procurement.orchestrator.domain.dto.command.ResponseDto;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.StorageRestClient;
 import com.procurement.orchestrator.service.OperationService;
@@ -11,6 +12,7 @@ import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
@@ -51,19 +53,23 @@ public class StorageOpenDocsOfBids implements JavaDelegate {
         final JsonNode documents = processService.getDocumentsOfBids(jsonData, processId);
         if (Objects.nonNull(documents)) {
             final JsonNode commandMessage = processService.getCommandMessage(PUBLISH, context, documents);
-            JsonNode responseData = processService.processResponse(
-                    storageRestClient.execute(commandMessage),
-                    context,
-                    processId,
-                    taskId,
-                    commandMessage);
+            if (LOG.isDebugEnabled())
+                LOG.debug("COMMAND ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(commandMessage));
+
+            final ResponseEntity<ResponseDto> response = storageRestClient.execute(commandMessage);
+            if (LOG.isDebugEnabled())
+                LOG.debug("RESPONSE FROM SERVICE ({}): '{}'.", context.getOperationId(), jsonUtil.toJson(response.getBody()));
+
+            JsonNode responseData = processService.processResponse(response, context, processId, taskId, commandMessage);
+            if (LOG.isDebugEnabled())
+                LOG.debug("RESPONSE AFTER PROCESSING ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(responseData));
 
             if (Objects.nonNull(responseData)) {
-                operationService.saveOperationStep(
-                        execution,
-                        entity,
-                        commandMessage,
-                        processService.setDocumentsOfBids(jsonData, responseData, processId));
+                final JsonNode step = processService.setDocumentsOfBids(jsonData, responseData, processId);
+                if (LOG.isDebugEnabled())
+                    LOG.debug("STEP FOR SAVE ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(step));
+
+                operationService.saveOperationStep(execution, entity, commandMessage, step);
             }
         }
     }
