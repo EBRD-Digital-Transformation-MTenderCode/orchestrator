@@ -63,6 +63,9 @@ public class ProcurerGetCriteriaDetails implements JavaDelegate {
                 LOG.debug("RESPONSE AFTER PROCESSING ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(responseData));
 
             if (responseData != null) {
+                final boolean isAwardCriteriaAvailable = isAwardCriteriaAvailable(responseData);
+                execution.setVariable("availabilityOfAwardCriteria", isAwardCriteriaAvailable);
+
                 final JsonNode step = addCriteriaDetails(requestData, responseData, processId);
                 if (LOG.isDebugEnabled())
                     LOG.debug("STEP FOR SAVE ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(step));
@@ -88,5 +91,8 @@ public class ProcurerGetCriteriaDetails implements JavaDelegate {
         }
     }
 
+    private boolean isAwardCriteriaAvailable(final JsonNode criteriaData) {
+        return criteriaData.has("awardCriteria") && criteriaData.has("awardCriteriaDetails");
+    }
 
 }
