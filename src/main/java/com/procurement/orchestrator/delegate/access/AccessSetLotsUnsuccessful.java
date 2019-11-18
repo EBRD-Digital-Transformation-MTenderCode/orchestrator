@@ -2,6 +2,7 @@ package com.procurement.orchestrator.delegate.access;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
+import com.procurement.orchestrator.domain.dto.command.ResponseDto;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.AccessRestClient;
 import com.procurement.orchestrator.service.OperationService;
@@ -11,6 +12,7 @@ import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
@@ -49,21 +51,29 @@ public class AccessSetLotsUnsuccessful implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
         final JsonNode unsuccessfulLots = processService.getUnsuccessfulLots(jsonData, processId);
+
         final JsonNode commandMessage = processService.getCommandMessage(SET_LOTS_UNSUCCESSFUL, context, unsuccessfulLots);
-        JsonNode responseData = processService.processResponse(
-                accessRestClient.execute(commandMessage),
-                context,
-                processId,
-                taskId,
-                commandMessage);
+        if (LOG.isDebugEnabled())
+            LOG.debug("COMMAND ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(commandMessage));
+
+        final ResponseEntity<ResponseDto> response = accessRestClient.execute(commandMessage);
+        if (LOG.isDebugEnabled())
+            LOG.debug("RESPONSE FROM SERVICE ({}): '{}'.", context.getOperationId(), jsonUtil.toJson(response.getBody()));
+
+        JsonNode responseData = processService.processResponse(response, context, processId, taskId, commandMessage);
+        if (LOG.isDebugEnabled())
+            LOG.debug("RESPONSE AFTER PROCESSING ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(responseData));
+
         if (Objects.nonNull(responseData)) {
             processContext(context, responseData, processId);
-            operationService.saveOperationStep(
-                    execution,
-                    entity,
-                    context,
-                    commandMessage,
-                    processService.addLotsUnsuccessful(jsonData, responseData, processId));
+            if (LOG.isDebugEnabled())
+                LOG.debug("CONTEXT FOR SAVE ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(context));
+
+            final JsonNode step = processService.addLotsUnsuccessful(jsonData, responseData, processId);
+            if (LOG.isDebugEnabled())
+                LOG.debug("STEP FOR SAVE ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(step));
+
+            operationService.saveOperationStep(execution, entity, context, commandMessage, step);
         }
     }
 
