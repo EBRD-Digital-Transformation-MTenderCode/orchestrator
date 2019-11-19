@@ -67,6 +67,13 @@ public class SubmissionGetBidsForEvaluation implements JavaDelegate {
             final boolean isBidsEmpty = isBidsEmpty(responseData);
             execution.setVariable("availabilityOfBidsForOpening", isBidsEmpty);
 
+            if (isBidsEmpty) {
+                context.setOperationType("tenderUnsuccessful");
+                context.setPhase("empty");
+            }
+            if (LOG.isDebugEnabled())
+                LOG.debug("CONTEXT FOR SAVE ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(context));
+
             final JsonNode step = addBidsToData(jsonData, responseData, processId);
             if (LOG.isDebugEnabled())
                 LOG.debug("STEP FOR SAVE ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(step));
