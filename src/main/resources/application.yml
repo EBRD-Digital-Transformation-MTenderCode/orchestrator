@@ -76,6 +76,9 @@ e-regulation:
 e-mdm:
   ribbon:
     listOfServers: http://10.0.20.125:9161
+e-procurer:
+  ribbon:
+    listOfServers: http://10.0.20.125:9042
 
 logging:
   ##  level:
