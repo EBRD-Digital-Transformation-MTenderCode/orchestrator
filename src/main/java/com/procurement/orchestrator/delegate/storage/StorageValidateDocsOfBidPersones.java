@@ -71,25 +71,23 @@ public class StorageValidateDocsOfBidPersones implements JavaDelegate {
 
     private JsonNode getDocumentsOfBusinessFunctions(final JsonNode jsonData, final String processId) {
         try {
-            final ArrayNode bidsNode = (ArrayNode) jsonData.get("bid");
+            final JsonNode bidNode = jsonData.get("bid");
 
             final ArrayNode documentsNode = jsonUtil.createArrayNode();
 
-            for (final JsonNode bidNode: bidsNode) {
-                if (bidNode.has("tenderers")) {
-                    final ArrayNode tenderers = (ArrayNode) bidNode.get("tenderers");
-                    for (final JsonNode tenderer: tenderers) {
-                        if (tenderer.has("persones")) {
-                            final ArrayNode persones = (ArrayNode) tenderer.get("persones");
-                            for (final JsonNode person : persones) {
-                                if (person.has("businessFunctions")) {
-                                    final ArrayNode businessFunctionsArray = (ArrayNode) person.get("businessFunctions");
-                                    for (final JsonNode businessFunction : businessFunctionsArray) {
-                                        if (businessFunction.has("documents")) {
-                                            final ArrayNode documentsArray = (ArrayNode) businessFunction.get("documents");
-                                            for (final JsonNode document : documentsArray) {
-                                                documentsNode.add(document);
-                                            }
+            if (bidNode.has("tenderers")) {
+                final ArrayNode tenderers = (ArrayNode) bidNode.get("tenderers");
+                for (final JsonNode tenderer : tenderers) {
+                    if (tenderer.has("persones")) {
+                        final ArrayNode persones = (ArrayNode) tenderer.get("persones");
+                        for (final JsonNode person : persones) {
+                            if (person.has("businessFunctions")) {
+                                final ArrayNode businessFunctionsArray = (ArrayNode) person.get("businessFunctions");
+                                for (final JsonNode businessFunction : businessFunctionsArray) {
+                                    if (businessFunction.has("documents")) {
+                                        final ArrayNode documentsArray = (ArrayNode) businessFunction.get("documents");
+                                        for (final JsonNode document : documentsArray) {
+                                            documentsNode.add(document);
                                         }
                                     }
                                 }
@@ -98,7 +96,6 @@ public class StorageValidateDocsOfBidPersones implements JavaDelegate {
                     }
                 }
             }
-
 
             if (documentsNode.size() == 0)
                 return null;
