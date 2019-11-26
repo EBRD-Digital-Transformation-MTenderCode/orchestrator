@@ -62,7 +62,7 @@
       <bpmn:incoming>SequenceFlow_06a16tv</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0yeu2fw</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_0oqpftm" sourceRef="AccessSetTenderUnsuccessfulTask" targetRef="EvaluationAwardsCancellationTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0oqpftm" sourceRef="AccessSetTenderUnsuccessfulTask" targetRef="EvaluationCreateUnsuccessfulAwardsTask2" />
     <bpmn:sequenceFlow id="SequenceFlow_1366kgx" sourceRef="ChronographUpdatePeriodTask" targetRef="EndEvent_1" />
     <bpmn:sequenceFlow id="SequenceFlow_1vmk2lo" sourceRef="ExclusiveGateway_0hg3tz9" targetRef="ChronographUpdatePeriodTask">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isTenderPeriodExpired==false}</bpmn:conditionExpression>
@@ -79,11 +79,11 @@
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1rgtoi2" sourceRef="SubmissionCheckEndDateTask" targetRef="ExclusiveGateway_0hg3tz9" />
     <bpmn:sequenceFlow id="SequenceFlow_1almqeo" sourceRef="SaveContextTask" targetRef="SendMessageTask" />
-    <bpmn:serviceTask id="EvaluationAwardsCancellationTask" name="Evaluation&#10;Awards Cancellation" camunda:asyncBefore="true" camunda:delegateExpression="${evaluationAwardsCancellation}">
+    <bpmn:serviceTask id="EvaluationCreateUnsuccessfulAwardsTask2" name="Evaluation&#10;Create Unsuccessful Awards&#10;" camunda:asyncBefore="true" camunda:delegateExpression="${evaluationCreateUnsuccessfulAwards}">
       <bpmn:incoming>SequenceFlow_0oqpftm</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0zusbis</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_0zusbis" sourceRef="EvaluationAwardsCancellationTask" targetRef="ExclusiveGateway_0nlemhh" />
+    <bpmn:sequenceFlow id="SequenceFlow_0zusbis" sourceRef="EvaluationCreateUnsuccessfulAwardsTask2" targetRef="ExclusiveGateway_0nlemhh" />
     <bpmn:serviceTask id="AccessGetTenderOwnerTask" name="Access Get Tender Owner" camunda:asyncBefore="true" camunda:delegateExpression="${accessGetTenderOwner}">
       <bpmn:incoming>SequenceFlow_1qc0r88</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0xmu07e</bpmn:outgoing>
@@ -109,7 +109,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_0mf5tay" sourceRef="ExclusiveGateway_13vgi9x" targetRef="AccessSetLotsUnsuccessfulTask">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${availabilityOfUnsuccessfulLots==true}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:serviceTask id="EvaluationCreateUnsuccessfulAwardsTask" name="Evaluation:&#10;Create Unsuccessful Awards" camunda:asyncBefore="true" camunda:delegateExpression="${evaluationAwardsCancellation}">
+    <bpmn:serviceTask id="EvaluationCreateUnsuccessfulAwardsTask" name="Evaluation:&#10;Create Unsuccessful Awards" camunda:asyncBefore="true" camunda:delegateExpression="${evaluationCreateUnsuccessfulAwards}">
       <bpmn:incoming>SequenceFlow_0m9scwu</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1qugb81</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -337,7 +337,7 @@
         <di:waypoint x="4296" y="471" />
         <di:waypoint x="4340" y="471" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_1vqqfsm_di" bpmnElement="EvaluationAwardsCancellationTask">
+      <bpmndi:BPMNShape id="ServiceTask_1vqqfsm_di" bpmnElement="EvaluationCreateUnsuccessfulAwardsTask2">
         <dc:Bounds x="1144" y="180" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0zusbis_di" bpmnElement="SequenceFlow_0zusbis">
