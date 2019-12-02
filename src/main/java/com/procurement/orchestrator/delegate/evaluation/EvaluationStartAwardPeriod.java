@@ -1,11 +1,11 @@
 package com.procurement.orchestrator.delegate.evaluation;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.dto.command.ResponseDto;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.EvaluationRestClient;
-import com.procurement.orchestrator.service.NotificationService;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -16,28 +16,25 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
-import java.util.Objects;
-
-import static com.procurement.orchestrator.domain.commands.EvaluationCommandType.CREATE_AWARDS;
+import static com.procurement.orchestrator.domain.commands.EvaluationCommandType.START_AWARD_PERIOD;
 
 @Component
-public class EvaluationCreateAwards implements JavaDelegate {
+public class EvaluationStartAwardPeriod implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(EvaluationCreateAwards.class);
+    private static final Logger LOG = LoggerFactory.getLogger(EvaluationStartAwardPeriod.class);
 
     private final EvaluationRestClient evaluationRestClient;
-    private final NotificationService notificationService;
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public EvaluationCreateAwards(final EvaluationRestClient evaluationRestClient,
-                                  final NotificationService notificationService,
-                                  final OperationService operationService,
-                                  final ProcessService processService,
-                                  final JsonUtil jsonUtil) {
+    public EvaluationStartAwardPeriod(
+        final EvaluationRestClient evaluationRestClient,
+        final OperationService operationService,
+        final ProcessService processService,
+        final JsonUtil jsonUtil
+    ) {
         this.evaluationRestClient = evaluationRestClient;
-        this.notificationService = notificationService;
         this.operationService = operationService;
         this.processService = processService;
         this.jsonUtil = jsonUtil;
@@ -46,13 +43,13 @@ public class EvaluationCreateAwards implements JavaDelegate {
     @Override
     public void execute(final DelegateExecution execution) throws Exception {
         LOG.info(execution.getCurrentActivityId());
-        final String processId = execution.getProcessInstanceId();
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
-        final String taskId = execution.getCurrentActivityId();
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
+        final String taskId = execution.getCurrentActivityId();
+        final String processId = execution.getProcessInstanceId();
 
-        final JsonNode commandMessage = processService.getCommandMessage(CREATE_AWARDS, context, jsonData);
+        final JsonNode commandMessage = processService.getCommandMessage(START_AWARD_PERIOD, context, jsonUtil.empty());
         if (LOG.isDebugEnabled())
             LOG.debug("COMMAND ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(commandMessage));
 
@@ -64,18 +61,24 @@ public class EvaluationCreateAwards implements JavaDelegate {
         if (LOG.isDebugEnabled())
             LOG.debug("RESPONSE AFTER PROCESSING ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(responseData));
 
-        if (Objects.nonNull(responseData)) {
-            final Context modifiedContext = notificationService.addAwardOutcomeToContext(context, responseData, processId);
-            if (LOG.isDebugEnabled())
-                LOG.debug("CONTEXT FOR SAVE ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(context));
-
-            final JsonNode step = processService.addAwardData(jsonData, responseData, processId);
+        if (responseData != null) {
+            final JsonNode step = setAwardPeriod(jsonData, responseData, processId);
             if (LOG.isDebugEnabled())
                 LOG.debug("STEP FOR SAVE ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(step));
 
-            operationService.saveOperationStep(execution, entity, modifiedContext, commandMessage, step);
+            operationService.saveOperationStep(execution, entity, commandMessage, step);
+        }
+    }
+
+    private JsonNode setAwardPeriod(final JsonNode jsonData, final JsonNode responseData, final String processId) {
+        try {
+            final ObjectNode mainNode = (ObjectNode) jsonData;
+            mainNode.set("awardPeriod", responseData.get("awardPeriod"));
+            return jsonData;
+        } catch (Exception exception) {
+            LOG.error("Error processing response for '" + START_AWARD_PERIOD.value() + "' command.", exception);
+            processService.terminateProcess(processId, exception.getMessage());
+            return null;
         }
     }
 }
-
-
