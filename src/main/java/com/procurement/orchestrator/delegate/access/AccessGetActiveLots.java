@@ -21,19 +21,19 @@ import java.util.Objects;
 import static com.procurement.orchestrator.domain.commands.AccessCommandType.GET_LOTS;
 
 @Component
-public class AccessGetLots implements JavaDelegate {
+public class AccessGetActiveLots implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AccessGetLots.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AccessGetActiveLots.class);
 
     private final AccessRestClient accessRestClient;
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public AccessGetLots(final AccessRestClient accessRestClient,
-                         final OperationService operationService,
-                         final ProcessService processService,
-                         final JsonUtil jsonUtil) {
+    public AccessGetActiveLots(final AccessRestClient accessRestClient,
+                               final OperationService operationService,
+                               final ProcessService processService,
+                               final JsonUtil jsonUtil) {
         this.accessRestClient = accessRestClient;
         this.operationService = operationService;
         this.processService = processService;
