@@ -77,7 +77,6 @@ public class AccessGetLots implements JavaDelegate {
     private JsonNode addLotsAndAwardCriteria(final JsonNode jsonData, final JsonNode lotsData, final String processId) {
         try {
             ((ObjectNode) jsonData).replace("lots", lotsData.get("lots"));
-            ((ObjectNode) jsonData).replace("awardCriteria", lotsData.get("awardCriteria"));
             return jsonData;
         } catch (Exception e) {
             processService.terminateProcess(processId, e.getMessage());
