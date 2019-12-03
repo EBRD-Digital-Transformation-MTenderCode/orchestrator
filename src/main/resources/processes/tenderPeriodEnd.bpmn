@@ -210,9 +210,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_0al3wih" sourceRef="StorageOpenDocsOfBidPersonesTask" targetRef="ExclusiveGateway_0nlemhh" />
     <bpmn:sequenceFlow id="SequenceFlow_0s2ifti" sourceRef="ExclusiveGateway_0nlemhh" targetRef="NoticeCreateReleaseTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0zua4gv" sourceRef="NoticeCreateReleaseTask" targetRef="SaveContextTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0obwqq3" sourceRef="ExclusiveGateway_1b1ms1j" targetRef="AccessGetLotsAgainTask">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${availabilityOfTender==false}</bpmn:conditionExpression>
-    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_0obwqq3" sourceRef="ExclusiveGateway_1b1ms1j" targetRef="AccessGetLotsAgainTask" />
   </bpmn:process>
   <bpmn:error id="tr_exception" name="TR_EXCEPTION" errorCode="TR_EXCEPTION" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
