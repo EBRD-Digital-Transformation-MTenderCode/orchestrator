@@ -13,7 +13,7 @@
       <bpmn:outgoing>SequenceFlow_1je78pv</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1je78pv" sourceRef="SendMessageTask" targetRef="EndEvent_1" />
-    <bpmn:serviceTask id="AccessGetLotsTask" name="Access Get Lots" camunda:asyncBefore="true" camunda:delegateExpression="${accessGetLots}">
+    <bpmn:serviceTask id="AccessGetActiveLotsTask" name="Access Get Active Lots" camunda:asyncBefore="true" camunda:delegateExpression="${accessGetActiveLots}">
       <bpmn:incoming>SequenceFlow_1jqr2l5</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1ul6dlj</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -88,10 +88,10 @@
       <bpmn:incoming>SequenceFlow_1qc0r88</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0xmu07e</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_1jqr2l5" sourceRef="ExclusiveGateway_0hg3tz9" targetRef="AccessGetLotsTask">
+    <bpmn:sequenceFlow id="SequenceFlow_1jqr2l5" sourceRef="ExclusiveGateway_0hg3tz9" targetRef="AccessGetActiveLotsTask">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isTenderPeriodExpired==true}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_1ul6dlj" sourceRef="AccessGetLotsTask" targetRef="SubmissionGetBidsForEvaluationTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1ul6dlj" sourceRef="AccessGetActiveLotsTask" targetRef="SubmissionGetBidsForEvaluationTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1n2sly8" sourceRef="SubmissionGetBidsForEvaluationTask" targetRef="ExclusiveGateway_0dq76qu" />
     <bpmn:serviceTask id="EvaluationDetermineUnsuccessfulLotsTask" name="Evaluation:&#10;Determine Unsuccessful Lots" camunda:asyncBefore="true" camunda:delegateExpression="${evaluationDetermineUnsuccessfulLots}">
       <bpmn:incoming>SequenceFlow_0j7ijut</bpmn:incoming>
@@ -124,7 +124,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_0gjiw80" sourceRef="ExclusiveGateway_13vgi9x" targetRef="ExclusiveGateway_1b1ms1j">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${availabilityOfUnsuccessfulLots==false}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:serviceTask id="AccessGetLotsAgainTask" name="Access Get Lots" camunda:asyncBefore="true" camunda:delegateExpression="${accessGetLots}">
+    <bpmn:serviceTask id="AccessGetActiveLotsAgainTask" name="Access Get Active Lots" camunda:asyncBefore="true" camunda:delegateExpression="${accessGetActiveLots}">
       <bpmn:incoming>SequenceFlow_0obwqq3</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1qc0r88</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -137,7 +137,7 @@
       <bpmn:outgoing>SequenceFlow_0xlvp32</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlow_1o06rcg</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="SequenceFlow_1qc0r88" sourceRef="AccessGetLotsAgainTask" targetRef="AccessGetTenderOwnerTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1qc0r88" sourceRef="AccessGetActiveLotsAgainTask" targetRef="AccessGetTenderOwnerTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0xmu07e" sourceRef="AccessGetTenderOwnerTask" targetRef="ProcurerGetCriteriaDetailsTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1m6tuf3" sourceRef="ProcurerGetCriteriaDetailsTask" targetRef="ExclusiveGateway_0c1qj5j" />
     <bpmn:serviceTask id="AccessGetAwardCriteriaTask" name="eAccess:&#10;Get Award Criteria" camunda:asyncBefore="true" camunda:delegateExpression="${accessGetAwardCriteria}">
@@ -210,7 +210,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_0al3wih" sourceRef="StorageOpenDocsOfBidPersonesTask" targetRef="ExclusiveGateway_0nlemhh" />
     <bpmn:sequenceFlow id="SequenceFlow_0s2ifti" sourceRef="ExclusiveGateway_0nlemhh" targetRef="NoticeCreateReleaseTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0zua4gv" sourceRef="NoticeCreateReleaseTask" targetRef="SaveContextTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0obwqq3" sourceRef="ExclusiveGateway_1b1ms1j" targetRef="AccessGetLotsAgainTask">
+    <bpmn:sequenceFlow id="SequenceFlow_0obwqq3" sourceRef="ExclusiveGateway_1b1ms1j" targetRef="AccessGetActiveLotsAgainTask">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${availabilityOfTender==false}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
   </bpmn:process>
@@ -239,7 +239,7 @@
           <dc:Bounds x="2250.5" y="131" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_1wbucmz_di" bpmnElement="AccessGetLotsTask">
+      <bpmndi:BPMNShape id="ServiceTask_1wbucmz_di" bpmnElement="AccessGetActiveLotsTask">
         <dc:Bounds x="610" y="431" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_0tz60l8_di" bpmnElement="AccessSetLotsUnsuccessfulTask">
@@ -398,7 +398,7 @@
         <di:waypoint x="1175" y="471" />
         <di:waypoint x="1525" y="471" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_08p7305_di" bpmnElement="AccessGetLotsAgainTask">
+      <bpmndi:BPMNShape id="ServiceTask_08p7305_di" bpmnElement="AccessGetActiveLotsAgainTask">
         <dc:Bounds x="1630" y="431" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_0qsfsov_di" bpmnElement="ProcurerGetCriteriaDetailsTask">
