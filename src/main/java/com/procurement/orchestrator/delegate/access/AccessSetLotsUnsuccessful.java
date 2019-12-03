@@ -88,7 +88,7 @@ public class AccessSetLotsUnsuccessful implements JavaDelegate {
         if (responseData.has("tender")) {
             final JsonNode tenderNode = responseData.get("tender");
             if (tenderNode.has("status")) {
-                final JsonNode tenderStatus = responseData.get("status");
+                final JsonNode tenderStatus = tenderNode.get("status");
                 if ("unsuccessful".equals(tenderStatus.asText())) {
                     context.setOperationType("tenderUnsuccessful");
                     context.setPhase("empty");
