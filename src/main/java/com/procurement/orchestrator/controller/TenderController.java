@@ -399,4 +399,42 @@ public class TenderController extends DoBaseController {
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
+    @RequestMapping(value = "/consideration/{cpid}/{ocid}/{awardId}", method = RequestMethod.POST)
+    public ResponseEntity<String> consideration(@RequestHeader("Authorization") final String authorization,
+                                                @RequestHeader("X-OPERATION-ID") final String operationId,
+                                                @RequestHeader("X-TOKEN") final String token,
+                                                @PathVariable("cpid") final String cpid,
+                                                @PathVariable("ocid") final String ocid,
+                                                @PathVariable("awardId") final String awardId,
+                                                @RequestBody final JsonNode data) {
+        requestService.validate(operationId, data);
+        final String process = getConsiderationProcessType(cpid);
+        final Context context = requestService.getContextForUpdate(authorization, operationId, cpid, ocid, token, process);
+        context.setId(awardId);
+        requestService.saveRequestAndCheckOperation(context, data);
+        final Map<String, Object> variables = new HashMap<>();
+        variables.put("operationType", context.getOperationType());
+        processService.startProcess(context, variables);
+        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
+    }
+
+    private String getConsiderationProcessType(String cpid) {
+        final Context prevContext = requestService.getContext(cpid);
+        final ProcurementMethod pmd = ProcurementMethod.valueOf(prevContext.getPmd());
+        String processType;
+        switch (pmd) {
+            case OT:
+            case TEST_OT:
+            case SV:
+            case TEST_SV:
+            case MV:
+            case TEST_MV:
+                processType = "startConsiderByAward";
+                break;
+
+            default:
+                throw new OperationException("Invalid previous pmd: '" + pmd + "'");
+        }
+        return processType;
+    }
 }
