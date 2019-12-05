@@ -729,7 +729,7 @@ public class ProcessServiceImpl implements ProcessService {
     public JsonNode getDocumentsOfBids(final JsonNode jsonData, final String processId) {
         try {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
-            final ArrayNode documentsArray = jsonUtil.createArrayNode();
+            final ArrayNode documentsArray = mainNode.putArray("documents");
             final ArrayNode bidsNode = (ArrayNode) jsonData.get("bids");
             for (final JsonNode bidNode : bidsNode) {
                 final JsonNode documentsNode = bidNode.get("documents");
@@ -739,7 +739,6 @@ public class ProcessServiceImpl implements ProcessService {
                     }
                 }
             }
-            if (documentsArray.size() > 0) mainNode.putArray("documents").addAll(documentsArray);
             return mainNode;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());

@@ -1,6 +1,8 @@
 package com.procurement.orchestrator.delegate.storage;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.dto.command.ResponseDto;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
@@ -65,7 +67,7 @@ public class StorageOpenDocsOfBids implements JavaDelegate {
                 LOG.debug("RESPONSE AFTER PROCESSING ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(responseData));
 
             if (Objects.nonNull(responseData)) {
-                final JsonNode step = processService.setDocumentsOfBids(jsonData, responseData, processId);
+                final JsonNode step = setDocumentsOfBids(jsonData, responseData, processId);
                 if (LOG.isDebugEnabled())
                     LOG.debug("STEP FOR SAVE ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(step));
 
@@ -73,4 +75,18 @@ public class StorageOpenDocsOfBids implements JavaDelegate {
             }
         }
     }
+
+    private JsonNode setDocumentsOfBids(final JsonNode jsonData, final JsonNode documentsData, final String processId) {
+        try {
+            final ArrayNode documentsArray = (ArrayNode) documentsData.get("documents");
+            if (documentsArray.size() > 0) {
+                ((ObjectNode) jsonData).replace("documents", documentsArray);
+            }
+            return jsonData;
+        } catch (Exception e) {
+            processService.terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
 }
