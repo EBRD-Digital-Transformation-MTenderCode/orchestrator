@@ -68,7 +68,7 @@ public class SubmissionOpenBidsForPublishing implements JavaDelegate {
             if (LOG.isDebugEnabled())
                 LOG.debug("STEP FOR SAVE ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(step));
 
-            operationService.saveOperationStep(execution, entity, context, commandMessage, responseData);
+            operationService.saveOperationStep(execution, entity, context, commandMessage, step);
         }
     }
 

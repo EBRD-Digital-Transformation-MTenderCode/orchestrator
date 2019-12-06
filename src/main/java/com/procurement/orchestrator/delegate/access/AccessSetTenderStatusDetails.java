@@ -1,6 +1,7 @@
 package com.procurement.orchestrator.delegate.access;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.dto.command.ResponseDto;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
@@ -64,11 +65,32 @@ public class AccessSetTenderStatusDetails implements JavaDelegate {
             LOG.debug("RESPONSE AFTER PROCESSING ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(responseData));
 
         if (Objects.nonNull(responseData)) {
-            final JsonNode step = processService.addTenderStatus(jsonData, responseData, processId);
+            final JsonNode step = addTenderStatusDetailsToData(jsonData, responseData, processId);
             if (LOG.isDebugEnabled())
                 LOG.debug("STEP FOR SAVE ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(step));
 
             operationService.saveOperationStep(execution, entity, context, commandMessage, step);
         }
     }
+
+    private JsonNode addTenderStatusDetailsToData(final JsonNode jsonData, final JsonNode responseData, final String processId) {
+        try {
+            final JsonNode status = responseData.get("status");
+            final JsonNode statusDetails = responseData.get("statusDetails");
+
+            if (jsonData.has("tender")) {
+                final JsonNode tenderNode = jsonData.get("tender");
+                ((ObjectNode) tenderNode).replace("status", status);
+                ((ObjectNode) tenderNode).replace("statusDetails", statusDetails);
+            } else {
+                ((ObjectNode) jsonData).putObject("tender");
+                ((ObjectNode) jsonData).replace("tender", responseData);
+            }
+            return jsonData;
+        } catch (Exception e) {
+            processService.terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
 }
