@@ -1,6 +1,7 @@
 package com.procurement.orchestrator.delegate.access;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.dto.command.ResponseDto;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
@@ -69,11 +70,29 @@ public class AccessSetLotsUnsuccessful implements JavaDelegate {
             if (LOG.isDebugEnabled())
                 LOG.debug("CONTEXT FOR SAVE ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(context));
 
-            final JsonNode step = processService.addLotsUnsuccessful(jsonData, responseData, processId);
+            final JsonNode step = addLotsUnsuccessful(jsonData, responseData, processId);
             if (LOG.isDebugEnabled())
                 LOG.debug("STEP FOR SAVE ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(step));
 
             operationService.saveOperationStep(execution, entity, context, commandMessage, step);
+        }
+    }
+
+    private JsonNode addLotsUnsuccessful(final JsonNode jsonData, final JsonNode lotsData, final String processId) {
+        try {
+            if (lotsData.has("unsuccessfulLots")) {
+                ((ObjectNode) jsonData).replace("unsuccessfulLots", lotsData.get("unsuccessfulLots"));
+            }
+            if (lotsData.has("tenderStatus")) {
+                ((ObjectNode) jsonData).replace("tenderStatus", lotsData.get("tenderStatus"));
+            }
+            if (lotsData.has("tenderStatusDetails")) {
+                ((ObjectNode) jsonData).replace("tenderStatusDetails", lotsData.get("tenderStatusDetails"));
+            }
+            return jsonData;
+        } catch (Exception e) {
+            processService.terminateProcess(processId, e.getMessage());
+            return null;
         }
     }
 
