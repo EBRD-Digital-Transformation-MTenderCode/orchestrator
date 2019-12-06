@@ -76,7 +76,10 @@ public class EvaluationDetermineUnsuccessfulLots implements JavaDelegate {
 
     private JsonNode addUnsuccessfulLots(final JsonNode jsonData, final JsonNode lotsData, final String processId) {
         try {
-            ((ObjectNode) jsonData).replace("unsuccessfulLots", lotsData.get("unsuccessfulLots"));
+            final JsonNode unsuccessfulLots = lotsData.get("unsuccessfulLots");
+            if (unsuccessfulLots != null) {
+                ((ObjectNode) jsonData).replace("unsuccessfulLots", unsuccessfulLots);
+            }
             return jsonData;
         } catch (Exception e) {
             processService.terminateProcess(processId, e.getMessage());
