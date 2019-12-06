@@ -65,7 +65,7 @@ public class SubmissionGetBidsForEvaluation implements JavaDelegate {
 
         if (Objects.nonNull(responseData)) {
             final boolean isBidsEmpty = isBidsEmpty(responseData);
-            execution.setVariable("availabilityOfBidsForOpening", isBidsEmpty);
+            execution.setVariable("availabilityOfBidsForOpening", !isBidsEmpty);
 
             if (isBidsEmpty) {
                 context.setOperationType("tenderUnsuccessful");
@@ -78,7 +78,7 @@ public class SubmissionGetBidsForEvaluation implements JavaDelegate {
             if (LOG.isDebugEnabled())
                 LOG.debug("STEP FOR SAVE ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(step));
 
-            operationService.saveOperationStep(execution, entity, context, commandMessage, responseData);
+            operationService.saveOperationStep(execution, entity, context, commandMessage, step);
         }
     }
 

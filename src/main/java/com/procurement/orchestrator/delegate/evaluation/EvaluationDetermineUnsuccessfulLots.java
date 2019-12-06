@@ -16,7 +16,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
-import static com.procurement.orchestrator.domain.commands.EvaluationCommandType.AWARDS_CANCELLATION;
 import static com.procurement.orchestrator.domain.commands.EvaluationCommandType.GET_UNSUCCSESS_LOTS;
 
 @Component
@@ -72,12 +71,15 @@ public class EvaluationDetermineUnsuccessfulLots implements JavaDelegate {
     }
 
     private boolean hasUnsuccessfulLots(final JsonNode lotsData) {
-        return !lotsData.has("unsuccessfulLots") || (lotsData.get("unsuccessfulLots")).size() == 0;
+        return lotsData.has("unsuccessfulLots") && (lotsData.get("unsuccessfulLots")).size() != 0;
     }
 
     private JsonNode addUnsuccessfulLots(final JsonNode jsonData, final JsonNode lotsData, final String processId) {
         try {
-            ((ObjectNode) jsonData).replace("unsuccessfulLots", lotsData.get("unsuccessfulLots"));
+            final JsonNode unsuccessfulLots = lotsData.get("unsuccessfulLots");
+            if (unsuccessfulLots != null) {
+                ((ObjectNode) jsonData).replace("unsuccessfulLots", unsuccessfulLots);
+            }
             return jsonData;
         } catch (Exception e) {
             processService.terminateProcess(processId, e.getMessage());

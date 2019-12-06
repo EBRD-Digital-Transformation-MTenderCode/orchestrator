@@ -65,10 +65,7 @@ public class AccessSetLotsUnsuccessful implements JavaDelegate {
             LOG.debug("RESPONSE AFTER PROCESSING ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(responseData));
 
         if (Objects.nonNull(responseData)) {
-            final boolean hasTender = hasTender(responseData);
-            execution.setVariable("availabilityOfTender", hasTender);
-
-            processContext(context, responseData);
+            processContext(context, responseData, execution);
             if (LOG.isDebugEnabled())
                 LOG.debug("CONTEXT FOR SAVE ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(context));
 
@@ -80,18 +77,16 @@ public class AccessSetLotsUnsuccessful implements JavaDelegate {
         }
     }
 
-    private boolean hasTender(final JsonNode responseData) {
-        return responseData.has("tender");
-    }
-
-    private void processContext(final Context context, final JsonNode responseData) {
+    private void processContext(final Context context, final JsonNode responseData, final DelegateExecution execution) {
         if (responseData.has("tender")) {
             final JsonNode tenderNode = responseData.get("tender");
             if (tenderNode.has("status")) {
-                final JsonNode tenderStatus = responseData.get("status");
+                final JsonNode tenderStatus = tenderNode.get("status");
                 if ("unsuccessful".equals(tenderStatus.asText())) {
                     context.setOperationType("tenderUnsuccessful");
                     context.setPhase("empty");
+
+                    execution.setVariable("isTenderUnsuccessful", true);
                 }
             }
         }
