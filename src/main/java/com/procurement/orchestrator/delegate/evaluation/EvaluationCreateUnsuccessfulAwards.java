@@ -6,6 +6,7 @@ import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.dto.command.ResponseDto;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.EvaluationRestClient;
+import com.procurement.orchestrator.service.NotificationService;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -26,17 +27,20 @@ public class EvaluationCreateUnsuccessfulAwards implements JavaDelegate {
     private static final Logger LOG = LoggerFactory.getLogger(EvaluationCreateUnsuccessfulAwards.class);
 
     private final EvaluationRestClient evaluationRestClient;
+    private final NotificationService notificationService;
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
     public EvaluationCreateUnsuccessfulAwards(
         final EvaluationRestClient evaluationRestClient,
+        final NotificationService notificationService,
         final OperationService operationService,
         final ProcessService processService,
         final JsonUtil jsonUtil
     ) {
         this.evaluationRestClient = evaluationRestClient;
+        this.notificationService = notificationService;
         this.operationService = operationService;
         this.processService = processService;
         this.jsonUtil = jsonUtil;
@@ -62,6 +66,10 @@ public class EvaluationCreateUnsuccessfulAwards implements JavaDelegate {
         LOG.debug("RESPONSE AFTER PROCESSING ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(responseData));
 
         if (responseData != null) {
+            final Context updatedContext = notificationService.addAwardOutcomeToContext(context, responseData, processId);
+            if (LOG.isDebugEnabled())
+                LOG.debug("CONTEXT FOR SAVE ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(updatedContext));
+
             final JsonNode step = processService.addAwards(jsonData, responseData, processId);
             LOG.debug("STEP FOR SAVE ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(step));
 
