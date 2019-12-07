@@ -78,17 +78,13 @@ public class AccessSetLotsUnsuccessful implements JavaDelegate {
         }
     }
 
-    private JsonNode addLotsUnsuccessful(final JsonNode jsonData, final JsonNode lotsData, final String processId) {
+    private JsonNode addLotsUnsuccessful(final JsonNode jsonData, final JsonNode responseData, final String processId) {
         try {
-            if (lotsData.has("unsuccessfulLots")) {
-                ((ObjectNode) jsonData).replace("unsuccessfulLots", lotsData.get("unsuccessfulLots"));
-            }
-            if (lotsData.has("tenderStatus")) {
-                ((ObjectNode) jsonData).replace("tenderStatus", lotsData.get("tenderStatus"));
-            }
-            if (lotsData.has("tenderStatusDetails")) {
-                ((ObjectNode) jsonData).replace("tenderStatusDetails", lotsData.get("tenderStatusDetails"));
-            }
+            ((ObjectNode) jsonData).set("unsuccessfulLots", responseData.get("unsuccessfulLots"));
+
+            final ObjectNode tender = (ObjectNode) responseData.get("tender");
+            ((ObjectNode) jsonData).set("tenderStatus", tender.get("status"));
+            ((ObjectNode) jsonData).set("tenderStatusDetails", tender.get("statusDetails"));
             return jsonData;
         } catch (Exception e) {
             processService.terminateProcess(processId, e.getMessage());
