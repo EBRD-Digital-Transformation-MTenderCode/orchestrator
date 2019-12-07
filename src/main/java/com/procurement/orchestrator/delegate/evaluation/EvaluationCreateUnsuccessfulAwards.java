@@ -1,6 +1,7 @@
 package com.procurement.orchestrator.delegate.evaluation;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.dto.command.ResponseDto;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
@@ -15,6 +16,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
+
 import static com.procurement.orchestrator.domain.commands.EvaluationCommandType.CREATE_UNSUCCESSFUL_AWARDS;
 
 @Component
@@ -28,10 +31,10 @@ public class EvaluationCreateUnsuccessfulAwards implements JavaDelegate {
     private final JsonUtil jsonUtil;
 
     public EvaluationCreateUnsuccessfulAwards(
-            final EvaluationRestClient evaluationRestClient,
-            final OperationService operationService,
-            final ProcessService processService,
-            final JsonUtil jsonUtil
+        final EvaluationRestClient evaluationRestClient,
+        final OperationService operationService,
+        final ProcessService processService,
+        final JsonUtil jsonUtil
     ) {
         this.evaluationRestClient = evaluationRestClient;
         this.operationService = operationService;
@@ -47,7 +50,7 @@ public class EvaluationCreateUnsuccessfulAwards implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode lots = processService.getLots(jsonData, processId);
+        final JsonNode lots = getLots(jsonData, processId);
 
         final JsonNode commandMessage = processService.getCommandMessage(CREATE_UNSUCCESSFUL_AWARDS, context, lots);
         LOG.debug("COMMAND ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(commandMessage));
@@ -63,6 +66,18 @@ public class EvaluationCreateUnsuccessfulAwards implements JavaDelegate {
             LOG.debug("STEP FOR SAVE ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(step));
 
             operationService.saveOperationStep(execution, entity, context, commandMessage, step);
+        }
+    }
+
+    private JsonNode getLots(JsonNode jsonData, String processId) {
+        try {
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            mainNode.replace("lots", jsonData.get("unsuccessfulLots"));
+            return mainNode;
+        } catch (Exception e) {
+            if (Objects.nonNull(processId))
+                processService.terminateProcess(processId, e.getMessage());
+            return null;
         }
     }
 }
