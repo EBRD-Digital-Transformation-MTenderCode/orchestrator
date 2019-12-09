@@ -420,7 +420,7 @@ public class TenderController extends DoBaseController {
     private String getConsiderationProcessType(String cpid) {
         final Context prevContext = requestService.getContext(cpid);
         final ProcurementMethod pmd = ProcurementMethod.valueOf(prevContext.getPmd());
-        String processType;
+        final String process;
         switch (pmd) {
             case OT:
             case TEST_OT:
@@ -428,12 +428,12 @@ public class TenderController extends DoBaseController {
             case TEST_SV:
             case MV:
             case TEST_MV:
-                processType = "startConsiderByAward";
+                process = "startConsiderByAward";
                 break;
 
             default:
                 throw new OperationException("Invalid previous pmd: '" + pmd + "'");
         }
-        return processType;
+        return process;
     }
 }
