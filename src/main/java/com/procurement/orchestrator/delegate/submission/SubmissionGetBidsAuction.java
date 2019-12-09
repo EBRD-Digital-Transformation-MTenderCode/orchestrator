@@ -1,6 +1,7 @@
 package com.procurement.orchestrator.delegate.submission;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.dto.command.ResponseDto;
@@ -49,7 +50,8 @@ public class SubmissionGetBidsAuction implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
 
-        final JsonNode commandMessage = processService.getCommandMessage(GET_BIDS_AUCTION, context, jsonUtil.empty());
+        final JsonNode lotsData = getLots(jsonData, jsonUtil.createObjectNode(), processId);
+        final JsonNode commandMessage = processService.getCommandMessage(GET_BIDS_AUCTION, context, lotsData);
         LOG.debug("COMMAND ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(commandMessage));
 
         final ResponseEntity<ResponseDto> response = submissionRestClient.execute(commandMessage);
@@ -86,6 +88,18 @@ public class SubmissionGetBidsAuction implements JavaDelegate {
                 ((ObjectNode) jsonData).replace("bidsData", bidsData.get("bidsData"));
             }
             return jsonData;
+        } catch (Exception e) {
+            processService.terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    private JsonNode getLots(final JsonNode jsonData, final ObjectNode targetNode, final String processId) {
+        try {
+            final JsonNode tenderNode = jsonData.get("tender");
+            final ArrayNode lots = (ArrayNode) tenderNode.get("lots");
+            targetNode.putArray("lots").addAll(lots);
+            return targetNode;
         } catch (Exception e) {
             processService.terminateProcess(processId, e.getMessage());
             return null;
