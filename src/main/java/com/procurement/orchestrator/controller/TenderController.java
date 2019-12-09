@@ -405,13 +405,12 @@ public class TenderController extends DoBaseController {
                                                 @RequestHeader("X-TOKEN") final String token,
                                                 @PathVariable("cpid") final String cpid,
                                                 @PathVariable("ocid") final String ocid,
-                                                @PathVariable("awardId") final String awardId,
-                                                @RequestBody final JsonNode data) {
-        requestService.validate(operationId, data);
+                                                @PathVariable("awardId") final String awardId) {
+        requestService.validate(operationId, null);
         final String process = getConsiderationProcessType(cpid);
         final Context context = requestService.getContextForUpdate(authorization, operationId, cpid, ocid, token, process);
         context.setId(awardId);
-        requestService.saveRequestAndCheckOperation(context, data);
+        requestService.saveRequestAndCheckOperation(context, null);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("operationType", context.getOperationType());
         processService.startProcess(context, variables);
