@@ -35,7 +35,8 @@ public enum EvaluationCommandType {
     GET_UNSUCCSESS_LOTS("getUnsuccessfulLots"),
     SET_AWARD_FOR_EVALUATION("setAwardForEvaluation"),
     START_AWARD_PERIOD("startAwardPeriod"),
-    START_CONSIDERATION("startConsideration");
+    START_CONSIDERATION("startConsideration"),
+    CREATE_UNSUCCESSFUL_AWARDS("createUnsuccessfulAwards");
 
 
     private static final Map<String, EvaluationCommandType> CONSTANTS = new HashMap<>();

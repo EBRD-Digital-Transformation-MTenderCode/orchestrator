@@ -67,7 +67,7 @@ public class NotificationServiceImpl implements NotificationService {
 
     private JsonNode buildOutcomesFromContext(final List<String> outcomeTypes, final Context context) {
         final Set<Outcome> contextOutcomes = context.getOutcomes();
-        if (contextOutcomes == null && contextOutcomes.isEmpty()) return null;
+        if (contextOutcomes == null || contextOutcomes.isEmpty()) return null;
         final ObjectNode outcomes = jsonUtil.createObjectNode();
         for (final String outcomeType : outcomeTypes) {
             final ArrayNode outcomeArray = jsonUtil.createArrayNode();

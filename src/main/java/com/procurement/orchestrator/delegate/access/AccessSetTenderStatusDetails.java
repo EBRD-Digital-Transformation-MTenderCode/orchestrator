@@ -1,6 +1,7 @@
 package com.procurement.orchestrator.delegate.access;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.dto.command.ResponseDto;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
@@ -71,4 +72,5 @@ public class AccessSetTenderStatusDetails implements JavaDelegate {
             operationService.saveOperationStep(execution, entity, context, commandMessage, step);
         }
     }
+
 }

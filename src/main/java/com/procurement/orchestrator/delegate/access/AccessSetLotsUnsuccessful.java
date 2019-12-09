@@ -1,6 +1,7 @@
 package com.procurement.orchestrator.delegate.access;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.dto.command.ResponseDto;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
@@ -69,11 +70,25 @@ public class AccessSetLotsUnsuccessful implements JavaDelegate {
             if (LOG.isDebugEnabled())
                 LOG.debug("CONTEXT FOR SAVE ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(context));
 
-            final JsonNode step = processService.addLotsUnsuccessful(jsonData, responseData, processId);
+            final JsonNode step = addLotsUnsuccessful(jsonData, responseData, processId);
             if (LOG.isDebugEnabled())
                 LOG.debug("STEP FOR SAVE ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(step));
 
             operationService.saveOperationStep(execution, entity, context, commandMessage, step);
+        }
+    }
+
+    private JsonNode addLotsUnsuccessful(final JsonNode jsonData, final JsonNode responseData, final String processId) {
+        try {
+            ((ObjectNode) jsonData).set("unsuccessfulLots", responseData.get("unsuccessfulLots"));
+
+            final ObjectNode tender = (ObjectNode) responseData.get("tender");
+            ((ObjectNode) jsonData).set("tenderStatus", tender.get("status"));
+            ((ObjectNode) jsonData).set("tenderStatusDetails", tender.get("statusDetails"));
+            return jsonData;
+        } catch (Exception e) {
+            processService.terminateProcess(processId, e.getMessage());
+            return null;
         }
     }
 
@@ -87,9 +102,18 @@ public class AccessSetLotsUnsuccessful implements JavaDelegate {
                     context.setPhase("empty");
 
                     execution.setVariable("isTenderUnsuccessful", true);
+                } else {
+                    if (execution.hasVariable("isAuctionStarted")) {
+                        final boolean isAuctionStarted = (Boolean) execution.getVariable("isAuctionStarted");
+                        if (!isAuctionStarted) {
+                            context.setOperationType("tenderPeriodEndEv");
+                            context.setPhase("awarding");
+                        }
+                    }
                 }
             }
         }
+
     }
 }
 

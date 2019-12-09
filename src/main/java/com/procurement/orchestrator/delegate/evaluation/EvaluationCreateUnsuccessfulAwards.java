@@ -1,11 +1,12 @@
-package com.procurement.orchestrator.delegate.submission;
+package com.procurement.orchestrator.delegate.evaluation;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.dto.command.ResponseDto;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
-import com.procurement.orchestrator.rest.SubmissionRestClient;
+import com.procurement.orchestrator.rest.EvaluationRestClient;
+import com.procurement.orchestrator.service.NotificationService;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -18,23 +19,28 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.SubmissionCommandType.GET_BIDS_AUCTION;
+import static com.procurement.orchestrator.domain.commands.EvaluationCommandType.CREATE_UNSUCCESSFUL_AWARDS;
 
 @Component
-public class SubmissionGetBidsAuction implements JavaDelegate {
+public class EvaluationCreateUnsuccessfulAwards implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SubmissionGetBidsAuction.class);
+    private static final Logger LOG = LoggerFactory.getLogger(EvaluationCreateUnsuccessfulAwards.class);
 
-    private final SubmissionRestClient submissionRestClient;
+    private final EvaluationRestClient evaluationRestClient;
+    private final NotificationService notificationService;
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public SubmissionGetBidsAuction(final SubmissionRestClient submissionRestClient,
-                                    final OperationService operationService,
-                                    final ProcessService processService,
-                                    final JsonUtil jsonUtil) {
-        this.submissionRestClient = submissionRestClient;
+    public EvaluationCreateUnsuccessfulAwards(
+        final EvaluationRestClient evaluationRestClient,
+        final NotificationService notificationService,
+        final OperationService operationService,
+        final ProcessService processService,
+        final JsonUtil jsonUtil
+    ) {
+        this.evaluationRestClient = evaluationRestClient;
+        this.notificationService = notificationService;
         this.operationService = operationService;
         this.processService = processService;
         this.jsonUtil = jsonUtil;
@@ -48,48 +54,38 @@ public class SubmissionGetBidsAuction implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
+        final JsonNode lots = getLots(jsonData, processId);
 
-        final JsonNode commandMessage = processService.getCommandMessage(GET_BIDS_AUCTION, context, jsonUtil.empty());
+        final JsonNode commandMessage = processService.getCommandMessage(CREATE_UNSUCCESSFUL_AWARDS, context, lots);
         LOG.debug("COMMAND ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(commandMessage));
 
-        final ResponseEntity<ResponseDto> response = submissionRestClient.execute(commandMessage);
+        final ResponseEntity<ResponseDto> response = evaluationRestClient.execute(commandMessage);
         LOG.debug("RESPONSE FROM SERVICE ({}): '{}'.", context.getOperationId(), jsonUtil.toJson(response.getBody()));
 
-        JsonNode responseData = processService.processResponse(response, context, processId, taskId, commandMessage);
+        final JsonNode responseData = processService.processResponse(response, context, processId, taskId, commandMessage);
         LOG.debug("RESPONSE AFTER PROCESSING ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(responseData));
 
-        if (Objects.nonNull(responseData)) {
-            final boolean isBidsDataEmpty = isBidsDataEmpty(responseData);
-            execution.setVariable("availabilityOfBidsForOpening", isBidsDataEmpty);
+        if (responseData != null) {
+            final Context updatedContext = notificationService.addAwardOutcomeToContext(context, responseData, processId);
+            if (LOG.isDebugEnabled())
+                LOG.debug("CONTEXT FOR SAVE ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(updatedContext));
 
-            if (isBidsDataEmpty) {
-                context.setOperationType("tenderUnsuccessful");
-                context.setPhase("empty");
-                execution.setVariable("operationType", "tenderUnsuccessful");
-                execution.setVariable("isAuctionStarted", false);
-            }
-
-            final JsonNode step = addBidsToData(jsonData, responseData, processId);
+            final JsonNode step = processService.addAwards(jsonData, responseData, processId);
             LOG.debug("STEP FOR SAVE ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(step));
 
             operationService.saveOperationStep(execution, entity, context, commandMessage, step);
         }
     }
 
-    private boolean isBidsDataEmpty(final JsonNode bidsData) {
-        return !bidsData.has("bidsData") || (bidsData.get("bidsData")).size() == 0;
-    }
-
-    private JsonNode addBidsToData(final JsonNode jsonData, final JsonNode bidsData, final String processId) {
+    private JsonNode getLots(JsonNode jsonData, String processId) {
         try {
-            if (bidsData.has("bidsData")) {
-                ((ObjectNode) jsonData).replace("bidsData", bidsData.get("bidsData"));
-            }
-            return jsonData;
+            final ObjectNode mainNode = jsonUtil.createObjectNode();
+            mainNode.replace("lots", jsonData.get("unsuccessfulLots"));
+            return mainNode;
         } catch (Exception e) {
-            processService.terminateProcess(processId, e.getMessage());
+            if (Objects.nonNull(processId))
+                processService.terminateProcess(processId, e.getMessage());
             return null;
         }
     }
 }
-

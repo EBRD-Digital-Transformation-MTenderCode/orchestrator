@@ -18,22 +18,22 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.AccessCommandType.GET_LOTS;
+import static com.procurement.orchestrator.domain.commands.AccessCommandType.GET_ACTIVE_LOTS;
 
 @Component
-public class AccessGetLots implements JavaDelegate {
+public class AccessGetActiveLots implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AccessGetLots.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AccessGetActiveLots.class);
 
     private final AccessRestClient accessRestClient;
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public AccessGetLots(final AccessRestClient accessRestClient,
-                         final OperationService operationService,
-                         final ProcessService processService,
-                         final JsonUtil jsonUtil) {
+    public AccessGetActiveLots(final AccessRestClient accessRestClient,
+                               final OperationService operationService,
+                               final ProcessService processService,
+                               final JsonUtil jsonUtil) {
         this.accessRestClient = accessRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -49,7 +49,7 @@ public class AccessGetLots implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
 
-        final JsonNode commandMessage = processService.getCommandMessage(GET_LOTS, context, jsonUtil.empty());
+        final JsonNode commandMessage = processService.getCommandMessage(GET_ACTIVE_LOTS, context, jsonUtil.empty());
         if (LOG.isDebugEnabled())
             LOG.debug("COMMAND ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(commandMessage));
 
@@ -77,7 +77,6 @@ public class AccessGetLots implements JavaDelegate {
     private JsonNode addLotsAndAwardCriteria(final JsonNode jsonData, final JsonNode lotsData, final String processId) {
         try {
             ((ObjectNode) jsonData).replace("lots", lotsData.get("lots"));
-            ((ObjectNode) jsonData).replace("awardCriteria", lotsData.get("awardCriteria"));
             return jsonData;
         } catch (Exception e) {
             processService.terminateProcess(processId, e.getMessage());
