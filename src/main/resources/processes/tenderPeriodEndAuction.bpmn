@@ -12,7 +12,7 @@
       <bpmn:incoming>SequenceFlow_03c2kny</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_18bitdu</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="AccessGetLotsAuctionTask" name="Access Get Lots Auction" camunda:asyncBefore="true" camunda:delegateExpression="${accessGetLotsAuction}">
+    <bpmn:serviceTask id="AccessGetActiveLotsTask" name="Access Get Active Lots" camunda:asyncBefore="true" camunda:delegateExpression="${accessGetActiveLots}">
       <bpmn:incoming>SequenceFlow_1qgjgbf</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1fspsus</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -162,7 +162,7 @@
       <bpmn:incoming>SequenceFlow_1fspsus</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0qnd1s5</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_1qgjgbf" name="false" sourceRef="ExclusiveGateway_0uw07gg" targetRef="AccessGetLotsAuctionTask">
+    <bpmn:sequenceFlow id="SequenceFlow_1qgjgbf" name="false" sourceRef="ExclusiveGateway_0uw07gg" targetRef="AccessGetActiveLotsTask">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isAuctionStarted==false}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:serviceTask id="AccessGetLotsTask" name="Access Get Lots Auction" camunda:asyncBefore="true" camunda:delegateExpression="${accessGetLotsAuction}">
@@ -178,7 +178,7 @@
       <bpmn:incoming>SequenceFlow_0qnd1s5</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_18spa27</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_1fspsus" sourceRef="AccessGetLotsAuctionTask" targetRef="AccessGetTenderOwnerTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1fspsus" sourceRef="AccessGetActiveLotsTask" targetRef="AccessGetTenderOwnerTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0qnd1s5" sourceRef="AccessGetTenderOwnerTask" targetRef="ProcurerGetCriteriaDetailsTask" />
     <bpmn:exclusiveGateway id="ExclusiveGateway_05526kh" name="is there are award criteria">
       <bpmn:incoming>SequenceFlow_18spa27</bpmn:incoming>
@@ -288,7 +288,7 @@
       <bpmndi:BPMNShape id="ServiceTask_02g673z_di" bpmnElement="SendMessageTask">
         <dc:Bounds x="4641" y="220" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_1wbucmz_di" bpmnElement="AccessGetLotsAuctionTask">
+      <bpmndi:BPMNShape id="ServiceTask_1wbucmz_di" bpmnElement="AccessGetActiveLotsTask">
         <dc:Bounds x="1820" y="161" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_1tvffuw_di" bpmnElement="NoticeCreateReleaseTask">
