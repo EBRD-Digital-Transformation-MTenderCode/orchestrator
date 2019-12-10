@@ -71,7 +71,8 @@ public class SubmissionGetBidsAuction implements JavaDelegate {
                 execution.setVariable("isAuctionStarted", false);
             }
 
-            final JsonNode step = addBidsToData(jsonData, responseData, processId);
+            final JsonNode payloadWithBidsData = addBidsData(jsonData, responseData, processId);
+            final JsonNode step = addBidsFromBidsData(payloadWithBidsData, responseData, processId);
             LOG.debug("STEP FOR SAVE ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(step));
 
             operationService.saveOperationStep(execution, entity, context, commandMessage, step);
@@ -82,7 +83,7 @@ public class SubmissionGetBidsAuction implements JavaDelegate {
         return !bidsData.has("bidsData") || (bidsData.get("bidsData")).size() == 0;
     }
 
-    private JsonNode addBidsToData(final JsonNode jsonData, final JsonNode bidsData, final String processId) {
+    private JsonNode addBidsData(final JsonNode jsonData, final JsonNode bidsData, final String processId) {
         try {
             if (bidsData.has("bidsData")) {
                 ((ObjectNode) jsonData).replace("bidsData", bidsData.get("bidsData"));
@@ -105,5 +106,22 @@ public class SubmissionGetBidsAuction implements JavaDelegate {
             return null;
         }
     }
-}
 
+    private JsonNode addBidsFromBidsData(final JsonNode jsonData, final JsonNode response, final String processId) {
+        try {
+            final ArrayNode bidsNode = jsonUtil.createArrayNode();
+            if (response.has("bidsData")) {
+                final ArrayNode bidsData = (ArrayNode) response.get("bidsData");
+                for (JsonNode bidData : bidsData) {
+                    final ArrayNode bids = (ArrayNode) bidData.get("bids");
+                    bidsNode.addAll(bids);
+                }
+            }
+            ((ObjectNode) jsonData).putArray("bids").addAll(bidsNode);
+            return jsonData;
+        } catch (Exception e) {
+            processService.terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+}
