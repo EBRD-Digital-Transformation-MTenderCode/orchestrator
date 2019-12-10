@@ -1330,24 +1330,6 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public JsonNode getAuctionStartData(final JsonNode prevData, final String processId) {
-        try {
-            final ObjectNode mainNode = jsonUtil.createObjectNode();
-            final JsonNode tenderNode = prevData.get("tender");
-            final JsonNode bidsDataNode = prevData.get("bidsData");
-            if (tenderNode != null && bidsDataNode != null) {
-                mainNode.replace("tender", tenderNode);
-                mainNode.replace("bidsData", bidsDataNode);
-            } else {
-                return null;
-            }
-            return mainNode;
-        } catch (Exception e) {
-            terminateProcess(processId, e.getMessage());
-            return null;
-        }
-    }
-
     public JsonNode setAuctionStartData(final JsonNode jsonData, final JsonNode responseData, final String processId) {
         try {
             final ObjectNode mainNode = (ObjectNode) jsonData;
