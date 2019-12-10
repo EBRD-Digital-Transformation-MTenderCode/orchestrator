@@ -462,6 +462,11 @@ public class NotificationServiceImpl implements NotificationService {
                 data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
                 break;
             }
+            case DO_AWARD_CONSIDERATION: {
+                data.setOcid(context.getCpid());
+                data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
+                break;
+            }
             default: {
                 LOG.warn("The notification was not generated. Not implemented for operation type: '" + operationType + "'.");
                 return null;
