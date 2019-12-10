@@ -7,10 +7,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class BpeAddLotAwardedAsTrue implements JavaDelegate {
+public class BpeAddLotAwardedAsFalse implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(BpeAddLotAwardedAsTrue.class);
-    private static final boolean lotAwarded = true;
+    private static final Logger LOG = LoggerFactory.getLogger(BpeAddLotAwardedAsFalse.class);
+    private static final boolean lotAwarded = false;
     private static final String LOT_AWARDED = "lotAwarded";
 
     @Override
