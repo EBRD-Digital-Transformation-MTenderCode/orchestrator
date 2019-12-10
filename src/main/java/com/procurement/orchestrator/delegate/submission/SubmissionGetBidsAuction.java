@@ -97,8 +97,7 @@ public class SubmissionGetBidsAuction implements JavaDelegate {
 
     private JsonNode getLots(final JsonNode jsonData, final ObjectNode targetNode, final String processId) {
         try {
-            final JsonNode tenderNode = jsonData.get("tender");
-            final ArrayNode lots = (ArrayNode) tenderNode.get("lots");
+            final ArrayNode lots = (ArrayNode) jsonData.get("lots");
             targetNode.putArray("lots").addAll(lots);
             return targetNode;
         } catch (Exception e) {
