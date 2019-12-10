@@ -62,7 +62,7 @@ public class SubmissionGetBidsAuction implements JavaDelegate {
 
         if (Objects.nonNull(responseData)) {
             final boolean isBidsDataEmpty = isBidsDataEmpty(responseData);
-            execution.setVariable("availabilityOfBidsForOpening", isBidsDataEmpty);
+            execution.setVariable("availabilityOfBidsForOpening", !isBidsDataEmpty);
 
             if (isBidsDataEmpty) {
                 context.setOperationType("tenderUnsuccessful");
