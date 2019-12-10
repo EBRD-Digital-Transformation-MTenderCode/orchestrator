@@ -11,11 +11,12 @@ public class BpeAddLotAwardedAsTrue implements JavaDelegate {
 
     private static final Logger LOG = LoggerFactory.getLogger(BpeAddLotAwardedAsTrue.class);
     private static final boolean lotAwarded = true;
+    private static final String LOT_AWARDED = "lotAwarded";
 
     @Override
     public void execute(final DelegateExecution execution) throws Exception {
         final String activityId = execution.getCurrentActivityId();
-        execution.setVariable("lotAwarded", lotAwarded);
-        LOG.debug("ACTIVITY ({}) IN CONTEXT PUT THE VARIABLE 'lotAwarded' WITH THE VALUE '{}'.", activityId, lotAwarded);
+        execution.setVariable(LOT_AWARDED, lotAwarded);
+        LOG.debug("ACTIVITY ({}) IN CONTEXT PUT THE VARIABLE '{}' WITH THE VALUE '{}'.", activityId, LOT_AWARDED, lotAwarded);
     }
 }
