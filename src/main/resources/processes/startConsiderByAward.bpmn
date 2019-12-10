@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="2.2.4">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.3.4">
   <bpmn:process id="startConsiderByAward" name="startConsiderByAward" isExecutable="true">
     <bpmn:startEvent id="StartEvent_1">
       <bpmn:outgoing>SequenceFlow_1gx4xfj</bpmn:outgoing>
@@ -20,7 +20,7 @@
       <bpmn:outgoing>SequenceFlow_1o4x929</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1gx4xfj" sourceRef="StartEvent_1" targetRef="SaveFirstOperationTask" />
-    <bpmn:serviceTask id="SaveContractContextTask" name="Save Contract Context" camunda:delegateExpression="${saveContractContext}">
+    <bpmn:serviceTask id="SaveContextTask" name="Save Context" camunda:delegateExpression="${saveContext}">
       <bpmn:incoming>SequenceFlow_1o4x929</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0ijfkdv</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -30,8 +30,8 @@
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_0zwyl6h" sourceRef="SaveFirstOperationTask" targetRef="EvaluationCheckAwardStatusTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0yl8pxn" sourceRef="EvaluationStartConsiderationTask" targetRef="NoticeCreateReleaseTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1o4x929" sourceRef="NoticeCreateReleaseTask" targetRef="SaveContractContextTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0ijfkdv" sourceRef="SaveContractContextTask" targetRef="SendMessageTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1o4x929" sourceRef="NoticeCreateReleaseTask" targetRef="SaveContextTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0ijfkdv" sourceRef="SaveContextTask" targetRef="SendMessageTask" />
     <bpmn:sequenceFlow id="SequenceFlow_17n2wxz" sourceRef="SendMessageTask" targetRef="EndEvent_1" />
     <bpmn:serviceTask id="EvaluationCheckAwardStatusTask" name="eEvaluation:&#10;Check award status&#10;" camunda:asyncBefore="true" camunda:delegateExpression="${evaluationCheckAwardStatus}">
       <bpmn:incoming>SequenceFlow_0zwyl6h</bpmn:incoming>
@@ -70,7 +70,7 @@
           <dc:Bounds x="26" y="143" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_0ql6wk4_di" bpmnElement="SaveContractContextTask">
+      <bpmndi:BPMNShape id="ServiceTask_0ql6wk4_di" bpmnElement="SaveContextTask">
         <dc:Bounds x="788" y="124" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_1f6nwxy_di" bpmnElement="EvaluationStartConsiderationTask">
