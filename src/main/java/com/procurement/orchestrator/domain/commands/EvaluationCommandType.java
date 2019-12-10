@@ -22,6 +22,7 @@ public enum EvaluationCommandType {
     CREATE_AWARDS_AUCTION("createAwardsAuction"),
     CREATE_AWARDS_AUCTION_END("createAwardsAuctionEnd"),
     CHECK_AWARD_VALUE("checkAwardValue"),
+    CHECK_AWARD_STATUS("checkAwardStatus"),
     END_AWARD_PERIOD("endAwardPeriod"),
     SET_INITIAL_AWARDS_STATUS("setInitialAwardsStatus"),
     GET_WIN_AWARD("getWinAward"),
@@ -34,6 +35,7 @@ public enum EvaluationCommandType {
     GET_UNSUCCSESS_LOTS("getUnsuccessfulLots"),
     SET_AWARD_FOR_EVALUATION("setAwardForEvaluation"),
     START_AWARD_PERIOD("startAwardPeriod"),
+    START_CONSIDERATION("startConsideration"),
     CREATE_UNSUCCESSFUL_AWARDS("createUnsuccessfulAwards"),
     GET_NEXT_AWARD("getNextAward");
 
