@@ -258,7 +258,7 @@ public class TenderController extends DoBaseController {
                                             @PathVariable("ocid") final String ocid,
                                             @PathVariable("id") final String lotId) {
         requestService.validate(operationId, null);
-        final Context context = requestService.getContextForUpdate(authorization, operationId, cpid, ocid, token, "createCan");
+        final Context context = requestService.getContextForUpdate(authorization, operationId, cpid, ocid, token, "protocol");
         context.setId(lotId);
         requestService.saveRequestAndCheckOperation(context, null);
         final Map<String, Object> variables = new HashMap<>();
