@@ -246,9 +246,7 @@
       <bpmn:outgoing>SequenceFlow_0ee1sxg</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="SequenceFlow_1y3up4j" sourceRef="AccessSetTenderStatusDetailsTask" targetRef="ExclusiveGateway_1pgdrw5" />
-    <bpmn:sequenceFlow id="SequenceFlow_1dn36w0" name="false" sourceRef="ExclusiveGateway_1pgdrw5" targetRef="StorageOpenDocsOfBidsTask">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${operationType != 'tenderPeriodEndAuction'}</bpmn:conditionExpression>
-    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_1dn36w0" name="false" sourceRef="ExclusiveGateway_1pgdrw5" targetRef="StorageOpenDocsOfBidsTask" />
     <bpmn:serviceTask id="StorageOpenDocsOfBidPersonesTask" name="Storage:&#10;Open Docs of Persones" camunda:asyncBefore="true" camunda:delegateExpression="${storageOpenDocsOfBidPersones}">
       <bpmn:incoming>SequenceFlow_1g8fyro</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_196wxy6</bpmn:outgoing>
