@@ -212,17 +212,17 @@
       <bpmn:incoming>SequenceFlow_0p0816t</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0xryzge</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="ServiceTask_1j9zjb0" name="eProcurer:&#10;Create Request for Evaluation Panels" camunda:asyncBefore="true" camunda:delegateExpression="${procurerCreateRequestForEvaluationPanels}">
+    <bpmn:serviceTask id="ProcurerCreateRequestForEvaluationPanelsTask" name="eProcurer:&#10;Create Request for Evaluation Panels" camunda:asyncBefore="true" camunda:delegateExpression="${procurerCreateRequestForEvaluationPanels}">
       <bpmn:incoming>SequenceFlow_0xryzge</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_03duro1</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="ServiceTask_1bfzqqj" name="eEvaluation:&#10;Start Award Period" camunda:asyncBefore="true" camunda:delegateExpression="${evaluationStartAwardPeriod}">
+    <bpmn:serviceTask id="EvaluationStartAwardPeriodTask" name="eEvaluation:&#10;Start Award Period" camunda:asyncBefore="true" camunda:delegateExpression="${evaluationStartAwardPeriod}">
       <bpmn:incoming>SequenceFlow_03duro1</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0kby0y3</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_0p0816t" sourceRef="EvaluationCreateAwardsTask" targetRef="EvaluationSetAwardForEvaluationTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0xryzge" sourceRef="EvaluationSetAwardForEvaluationTask" targetRef="ServiceTask_1j9zjb0" />
-    <bpmn:sequenceFlow id="SequenceFlow_03duro1" sourceRef="ServiceTask_1j9zjb0" targetRef="ServiceTask_1bfzqqj" />
+    <bpmn:sequenceFlow id="SequenceFlow_0xryzge" sourceRef="EvaluationSetAwardForEvaluationTask" targetRef="ProcurerCreateRequestForEvaluationPanelsTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_03duro1" sourceRef="ProcurerCreateRequestForEvaluationPanelsTask" targetRef="EvaluationStartAwardPeriodTask" />
     <bpmn:serviceTask id="SubmissionOpenBidsForPublishingTask" name="eSubmission:&#10;Open Bids for Publishing" camunda:asyncBefore="true" camunda:delegateExpression="${submissionOpenBidsForPublishing}">
       <bpmn:incoming>SequenceFlow_0kby0y3</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1o6eg5g</bpmn:outgoing>
@@ -234,18 +234,18 @@
     </bpmn:inclusiveGateway>
     <bpmn:sequenceFlow id="SequenceFlow_1o6eg5g" sourceRef="SubmissionOpenBidsForPublishingTask" targetRef="ExclusiveGateway_0ka4dbc" />
     <bpmn:sequenceFlow id="SequenceFlow_0usrxzf" sourceRef="SendMessageToAuctionTask" targetRef="ExclusiveGateway_0ka4dbc" />
-    <bpmn:serviceTask id="ServiceTask_0ugl5tf" name="eAccess:&#10;Set Tender Status Details" camunda:asyncBefore="true" camunda:delegateExpression="${accessSetTenderStatusDetails}">
+    <bpmn:serviceTask id="AccessSetTenderStatusDetailsTask" name="eAccess:&#10;Set Tender Status Details" camunda:asyncBefore="true" camunda:delegateExpression="${accessSetTenderStatusDetails}">
       <bpmn:incoming>SequenceFlow_0k01atv</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1y3up4j</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_0k01atv" sourceRef="ExclusiveGateway_0ka4dbc" targetRef="ServiceTask_0ugl5tf" />
+    <bpmn:sequenceFlow id="SequenceFlow_0k01atv" sourceRef="ExclusiveGateway_0ka4dbc" targetRef="AccessSetTenderStatusDetailsTask" />
     <bpmn:exclusiveGateway id="ExclusiveGateway_1pgdrw5" name="is operationType == &#39;TenderPeriodEndAuction&#39;">
       <bpmn:incoming>SequenceFlow_1y3up4j</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_1ne4rkm</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1dn36w0</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlow_0ee1sxg</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="SequenceFlow_1y3up4j" sourceRef="ServiceTask_0ugl5tf" targetRef="ExclusiveGateway_1pgdrw5" />
+    <bpmn:sequenceFlow id="SequenceFlow_1y3up4j" sourceRef="AccessSetTenderStatusDetailsTask" targetRef="ExclusiveGateway_1pgdrw5" />
     <bpmn:sequenceFlow id="SequenceFlow_1dn36w0" name="false" sourceRef="ExclusiveGateway_1pgdrw5" targetRef="StorageOpenDocsOfBidsTask">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${operationType != 'tenderPeriodEndAuction'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
@@ -268,7 +268,7 @@
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${execution.hasVariable('isTenderUnsuccessful')==true}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_06jv8xw" sourceRef="ExclusiveGateway_1z07sd1" targetRef="NoticeCreateReleaseTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0kby0y3" sourceRef="ServiceTask_1bfzqqj" targetRef="SubmissionOpenBidsForPublishingTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0kby0y3" sourceRef="EvaluationStartAwardPeriodTask" targetRef="SubmissionOpenBidsForPublishingTask" />
   </bpmn:process>
   <bpmn:error id="tr_exception" name="TR_EXCEPTION" errorCode="TR_EXCEPTION" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -604,10 +604,10 @@
       <bpmndi:BPMNShape id="ServiceTask_0k298n7_di" bpmnElement="EvaluationSetAwardForEvaluationTask">
         <dc:Bounds x="2920" y="161" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_1j9zjb0_di" bpmnElement="ServiceTask_1j9zjb0">
+      <bpmndi:BPMNShape id="ServiceTask_1j9zjb0_di" bpmnElement="ProcurerCreateRequestForEvaluationPanelsTask">
         <dc:Bounds x="3070" y="161" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_1bfzqqj_di" bpmnElement="ServiceTask_1bfzqqj">
+      <bpmndi:BPMNShape id="ServiceTask_1bfzqqj_di" bpmnElement="EvaluationStartAwardPeriodTask">
         <dc:Bounds x="3220" y="161" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0p0816t_di" bpmnElement="SequenceFlow_0p0816t">
@@ -637,7 +637,7 @@
         <di:waypoint x="1920" y="321" />
         <di:waypoint x="3515" y="321" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_0ugl5tf_di" bpmnElement="ServiceTask_0ugl5tf">
+      <bpmndi:BPMNShape id="ServiceTask_0ugl5tf_di" bpmnElement="AccessSetTenderStatusDetailsTask">
         <dc:Bounds x="3610" y="281" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0k01atv_di" bpmnElement="SequenceFlow_0k01atv">
