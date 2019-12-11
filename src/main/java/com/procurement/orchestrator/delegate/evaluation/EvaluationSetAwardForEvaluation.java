@@ -1,6 +1,7 @@
 package com.procurement.orchestrator.delegate.evaluation;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.dto.command.ResponseDto;
@@ -16,6 +17,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import static com.procurement.orchestrator.domain.commands.EvaluationCommandType.SET_AWARD_FOR_EVALUATION;
 
@@ -86,7 +93,21 @@ public class EvaluationSetAwardForEvaluation implements JavaDelegate {
     ) {
         try {
             final ObjectNode mainNode = (ObjectNode) jsonData;
-            mainNode.set("awards", responseData.get("awards"));
+            if (mainNode.has("awards")) {
+                final ArrayNode awardsNode = (ArrayNode) mainNode.get("awards");
+                final Set<String> currentAwardIds = StreamSupport.stream(awardsNode.spliterator(), false)
+                        .map(item -> item.get("id").asText())
+                        .collect(Collectors.toSet());
+                final ArrayNode createdAwards = (ArrayNode) responseData.get("awards");
+                for (JsonNode createdAward: createdAwards) {
+                    final String awardId = createdAward.get("id").asText();
+                    if (!currentAwardIds.contains(awardId)) {
+                        awardsNode.add(createdAward);
+                    }
+                }
+            } else {
+                mainNode.set("awards", responseData.get("awards"));
+            }
             return jsonData;
         } catch (Exception e) {
             LOG.error("COMMAND (" + operationId + "): Could not add awards.", e);
