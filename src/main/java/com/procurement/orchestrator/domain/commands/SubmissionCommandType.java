@@ -35,7 +35,8 @@ public enum SubmissionCommandType {
     FINAL_BIDS_STATUS_BY_LOTS("finalBidsStatusByLots"),
     GET_BIDS_FOR_EVALUATION("getBidsForEvaluation"),
     OPEN_BIDS_FOR_PUBLISHING("openBidsForPublishing"),
-    OPEN_BID_DOCS("openBidDocs");
+    OPEN_BID_DOCS("openBidDocs"),
+    GET_BIDS_BY_LOTS("getBidsByLots");
 
     private static final Map<String, SubmissionCommandType> CONSTANTS = new HashMap<>();
     private final String value;
