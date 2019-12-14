@@ -5,7 +5,6 @@ import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.dto.command.ResponseDto;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.EvaluationRestClient;
-import com.procurement.orchestrator.service.NotificationService;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -16,8 +15,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
-import java.util.Objects;
-
 import static com.procurement.orchestrator.domain.commands.EvaluationCommandType.CREATE_AWARDS_AUCTION_END;
 
 @Component
@@ -26,18 +23,17 @@ public class EvaluationCreateAwardsAuctionEnd implements JavaDelegate {
     private static final Logger LOG = LoggerFactory.getLogger(EvaluationCreateAwardsAuctionEnd.class);
 
     private final EvaluationRestClient evaluationRestClient;
-    private final NotificationService notificationService;
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public EvaluationCreateAwardsAuctionEnd(final EvaluationRestClient evaluationRestClient,
-                                            final NotificationService notificationService,
-                                            final OperationService operationService,
-                                            final ProcessService processService,
-                                            final JsonUtil jsonUtil) {
+    public EvaluationCreateAwardsAuctionEnd(
+        final EvaluationRestClient evaluationRestClient,
+        final OperationService operationService,
+        final ProcessService processService,
+        final JsonUtil jsonUtil
+    ) {
         this.evaluationRestClient = evaluationRestClient;
-        this.notificationService = notificationService;
         this.operationService = operationService;
         this.processService = processService;
         this.jsonUtil = jsonUtil;
@@ -53,21 +49,16 @@ public class EvaluationCreateAwardsAuctionEnd implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
 
         final JsonNode commandMessage = processService.getCommandMessage(CREATE_AWARDS_AUCTION_END, context, jsonData);
-        if (LOG.isDebugEnabled())
         LOG.debug("COMMAND ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(commandMessage));
 
         final ResponseEntity<ResponseDto> response = evaluationRestClient.execute(commandMessage);
-        if (LOG.isDebugEnabled())
-            LOG.debug("RESPONSE FROM SERVICE ({}): '{}'.", context.getOperationId(), jsonUtil.toJson(response.getBody()));
+        LOG.debug("RESPONSE FROM SERVICE ({}): '{}'.", context.getOperationId(), jsonUtil.toJson(response.getBody()));
 
         final JsonNode responseData = processService.processResponse(response, context, processId, taskId, commandMessage);
-        if (LOG.isDebugEnabled())
-            LOG.debug("RESPONSE AFTER PROCESSING ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(responseData));
+        LOG.debug("RESPONSE AFTER PROCESSING ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(responseData));
 
-        if (Objects.nonNull(responseData)) {
+        if (responseData != null) {
             operationService.saveOperationStep(execution, entity, context, commandMessage);
         }
     }
 }
-
-
