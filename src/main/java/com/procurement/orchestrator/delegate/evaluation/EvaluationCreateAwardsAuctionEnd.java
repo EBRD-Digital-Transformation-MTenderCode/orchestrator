@@ -2,6 +2,7 @@ package com.procurement.orchestrator.delegate.evaluation;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.Outcome;
 import com.procurement.orchestrator.domain.dto.command.ResponseDto;
@@ -53,7 +54,8 @@ public class EvaluationCreateAwardsAuctionEnd implements JavaDelegate {
         final String taskId = execution.getCurrentActivityId();
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
 
-        final JsonNode commandMessage = processService.getCommandMessage(CREATE_AWARDS_AUCTION_END, context, jsonData);
+        final JsonNode preparedData = setElectronicAuctionsToData(jsonData, processId);
+        final JsonNode commandMessage = processService.getCommandMessage(CREATE_AWARDS_AUCTION_END, context, preparedData);
         LOG.debug("COMMAND ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(commandMessage));
 
         final ResponseEntity<ResponseDto> response = evaluationRestClient.execute(commandMessage);
@@ -96,4 +98,17 @@ public class EvaluationCreateAwardsAuctionEnd implements JavaDelegate {
             return null;
         }
     }
+
+    private JsonNode setElectronicAuctionsToData(final JsonNode jsonData, final String processId) {
+        try {
+            final JsonNode tenderNode = jsonData.get("tender");
+            final JsonNode electronicAuctions = tenderNode.get("electronicAuctions");
+            ((ObjectNode) jsonData).set("electronicAuctions", electronicAuctions);
+            return jsonData;
+        } catch (Exception e) {
+            processService.terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
 }
