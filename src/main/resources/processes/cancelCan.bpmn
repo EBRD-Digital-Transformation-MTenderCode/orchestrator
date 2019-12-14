@@ -94,12 +94,120 @@
     <bpmn:sequenceFlow id="SequenceFlow_10n7kz4" sourceRef="AccessGetAwardCriteriaTask" targetRef="BpeSetAwardCriteriaDetailsTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0xkoe2m" sourceRef="BpeSetAwardCriteriaDetailsTask" targetRef="ExclusiveGateway_0qhizdb" />
     <bpmn:sequenceFlow id="SequenceFlow_0cd2qjw" sourceRef="ExclusiveGateway_0qhizdb" targetRef="EvaluationSetInitialStatusesTask" />
-    <bpmn:serviceTask id="EvaluationGetNextAwardForEvaluationTask" name="eEvaluation:&#10;Get Next For Evaluation" camunda:asyncBefore="true" camunda:delegateExpression="${evaluationGetNextAwardForEvaluation}">
+    <bpmn:serviceTask id="EvaluationSetAwardForEvaluationTask" name="eEvaluation:&#10;Set award for evaluation" camunda:asyncBefore="true" camunda:delegateExpression="${evaluationSetAwardForEvaluation}">
       <bpmn:incoming>SequenceFlow_08nth9e</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0cn9b0v</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_08nth9e" sourceRef="EvaluationSetInitialStatusesTask" targetRef="EvaluationGetNextAwardForEvaluationTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0cn9b0v" sourceRef="EvaluationGetNextAwardForEvaluationTask" targetRef="SubmissionSetInitialStatusesTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_08nth9e" sourceRef="EvaluationSetInitialStatusesTask" targetRef="EvaluationSetAwardForEvaluationTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0cn9b0v" sourceRef="EvaluationSetAwardForEvaluationTask" targetRef="SubmissionSetInitialStatusesTask" />
+    <bpmn:textAnnotation id="TextAnnotation_1j01m9y">
+      <bpmn:text>RS:
+data:
+ - lotId -&gt; context.id + data.lotId
+ - cancelledCan -&gt; data.cancelledCan
+ - relatedCans -&gt; data.relatedCans
+ - acCancel -&gt; data.acCancel
+ - contract -&gt; data.contract
+
+</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1or9dgf" sourceRef="ContractingCancelCanTask" targetRef="TextAnnotation_1j01m9y" />
+    <bpmn:textAnnotation id="TextAnnotation_14esbq9">
+      <bpmn:text>RQ:
+command: CancelCan
+context:
+- cpid
+- token
+- owner
+- id (can Id)
+data:
+
+</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0auezvh" sourceRef="ContractingCancelCanTask" targetRef="TextAnnotation_14esbq9" />
+    <bpmn:textAnnotation id="TextAnnotation_1gqc1zb">
+      <bpmn:text>RQ:
+command: getCriteria
+context:
+- cpid
+</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1xiqj1a" sourceRef="ProcurerGetCriteriaDetailsTask" targetRef="TextAnnotation_1gqc1zb" />
+    <bpmn:textAnnotation id="TextAnnotation_1fluqor">
+      <bpmn:text>RS:
+data:
+ - awardCriteria -&gt; data.awardCriteria
+ - awardCriteriaDetails -&gt; data.awardCriteriaDetails
+ - conversions -&gt; data.conversions
+ - criteria -&gt; ?
+
+Camunda:
+- availabilityOfAwardCriteria by awardCriteria &amp; awardCriteriaDetails
+</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0oodsvy" sourceRef="ProcurerGetCriteriaDetailsTask" targetRef="TextAnnotation_1fluqor" />
+    <bpmn:textAnnotation id="TextAnnotation_1tnqxeb">
+      <bpmn:text>RQ:
+command: getAwardCriteria
+context:
+ - cpid
+ - stage
+</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_10845db" sourceRef="AccessGetAwardCriteriaTask" targetRef="TextAnnotation_1tnqxeb" />
+    <bpmn:textAnnotation id="TextAnnotation_08v62l8">
+      <bpmn:text>RS:
+data:
+ - awardCriteria -&gt; data.awardCriteria
+</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1yvdgpf" sourceRef="AccessGetAwardCriteriaTask" targetRef="TextAnnotation_08v62l8" />
+    <bpmn:textAnnotation id="TextAnnotation_079vgo0">
+      <bpmn:text>RQ:
+command: setInitialAwardsStatus
+context:
+ - cpid
+ - stage
+ - startDate
+data:
+ - lotId &lt;= data.lotId
+
+</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0ueas2g" sourceRef="EvaluationSetInitialStatusesTask" targetRef="TextAnnotation_079vgo0" />
+    <bpmn:textAnnotation id="TextAnnotation_0flw3o6">
+      <bpmn:text>RS:
+data:
+ - awards -&gt; data.awards
+</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_14prpwe" sourceRef="EvaluationSetInitialStatusesTask" targetRef="TextAnnotation_0flw3o6" />
+    <bpmn:textAnnotation id="TextAnnotation_0ai8h05">
+      <bpmn:text>RQ:
+command: setAwardForEvaluation
+context:
+ - cpid
+ - ocid
+ - stage
+data:
+ - awardCriteria &lt;= data.awardCriteria
+ - awardCriteriaDetails &lt;= data.awardCriteriaDetails
+</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1ryjisv" sourceRef="EvaluationSetAwardForEvaluationTask" targetRef="TextAnnotation_0ai8h05" />
+    <bpmn:textAnnotation id="TextAnnotation_0z3zo4n">
+      <bpmn:text>RS:
+data:
+ - awards -&gt; data.awards
+outcomes:
+ - token (if statue != unsuccessful)
+ - id
+
+
+ 
+</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1yatg5g" sourceRef="EvaluationSetAwardForEvaluationTask" targetRef="TextAnnotation_0z3zo4n" />
   </bpmn:process>
   <bpmn:error id="Error_1espguw" name="TR_EXCEPTION" errorCode="TR_EXCEPTION" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -246,7 +354,7 @@
         <di:waypoint x="1175" y="275" />
         <di:waypoint x="1207" y="275" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_0oyap8g_di" bpmnElement="EvaluationGetNextAwardForEvaluationTask">
+      <bpmndi:BPMNShape id="ServiceTask_0oyap8g_di" bpmnElement="EvaluationSetAwardForEvaluationTask">
         <dc:Bounds x="1353" y="235" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_08nth9e_di" bpmnElement="SequenceFlow_08nth9e">
@@ -256,6 +364,76 @@
       <bpmndi:BPMNEdge id="SequenceFlow_0cn9b0v_di" bpmnElement="SequenceFlow_0cn9b0v">
         <di:waypoint x="1453" y="275" />
         <di:waypoint x="1502" y="275" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_1j01m9y_di" bpmnElement="TextAnnotation_1j01m9y">
+        <dc:Bounds x="324" y="552" width="216" height="114" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_1or9dgf_di" bpmnElement="Association_1or9dgf">
+        <di:waypoint x="509" y="315" />
+        <di:waypoint x="447" y="552" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_14esbq9_di" bpmnElement="TextAnnotation_14esbq9">
+        <dc:Bounds x="330" y="379" width="185" height="128" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_0auezvh_di" bpmnElement="Association_0auezvh">
+        <di:waypoint x="496" y="315" />
+        <di:waypoint x="460" y="379" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_1gqc1zb_di" bpmnElement="TextAnnotation_1gqc1zb">
+        <dc:Bounds x="536" y="644" width="181" height="88" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_1xiqj1a_di" bpmnElement="Association_1xiqj1a">
+        <di:waypoint x="658" y="315" />
+        <di:waypoint x="631" y="644" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_1fluqor_di" bpmnElement="TextAnnotation_1fluqor">
+        <dc:Bounds x="539" y="752" width="446" height="154" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_0oodsvy_di" bpmnElement="Association_0oodsvy">
+        <di:waypoint x="668" y="315" />
+        <di:waypoint x="749" y="752" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_1tnqxeb_di" bpmnElement="TextAnnotation_1tnqxeb">
+        <dc:Bounds x="810" y="-79" width="169" height="84" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_10845db_di" bpmnElement="Association_10845db">
+        <di:waypoint x="879" y="99" />
+        <di:waypoint x="890" y="5" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_08v62l8_di" bpmnElement="TextAnnotation_08v62l8">
+        <dc:Bounds x="810" y="20" width="219" height="55" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_1yvdgpf_di" bpmnElement="Association_1yvdgpf">
+        <di:waypoint x="894" y="99" />
+        <di:waypoint x="906" y="75" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_079vgo0_di" bpmnElement="TextAnnotation_079vgo0">
+        <dc:Bounds x="1207" y="364" width="205" height="125" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_0ueas2g_di" bpmnElement="Association_0ueas2g">
+        <di:waypoint x="1271" y="315" />
+        <di:waypoint x="1288" y="364" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_0flw3o6_di" bpmnElement="TextAnnotation_0flw3o6">
+        <dc:Bounds x="1206" y="510" width="151" height="59" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_14prpwe_di" bpmnElement="Association_14prpwe">
+        <di:waypoint x="1261" y="315" />
+        <di:waypoint x="1279" y="510" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_0ai8h05_di" bpmnElement="TextAnnotation_0ai8h05">
+        <dc:Bounds x="1353" y="-150" width="299" height="144" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_1ryjisv_di" bpmnElement="Association_1ryjisv">
+        <di:waypoint x="1415" y="235" />
+        <di:waypoint x="1484" y="-6" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_0z3zo4n_di" bpmnElement="TextAnnotation_0z3zo4n">
+        <dc:Bounds x="1351" y="13" width="195" height="98" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_1yatg5g_di" bpmnElement="Association_1yatg5g">
+        <di:waypoint x="1412" y="235" />
+        <di:waypoint x="1439" y="111" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
