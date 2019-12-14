@@ -16,8 +16,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
-import java.util.Objects;
-
 import static com.procurement.orchestrator.domain.commands.SubmissionCommandType.GET_BIDS_BY_LOTS;
 
 @Component
@@ -30,10 +28,12 @@ public class SubmissionGetBidsByLots implements JavaDelegate {
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public SubmissionGetBidsByLots(final SubmissionRestClient submissionRestClient,
-                                   final OperationService operationService,
-                                   final ProcessService processService,
-                                   final JsonUtil jsonUtil) {
+    public SubmissionGetBidsByLots(
+        final SubmissionRestClient submissionRestClient,
+        final OperationService operationService,
+        final ProcessService processService,
+        final JsonUtil jsonUtil
+    ) {
         this.submissionRestClient = submissionRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -50,26 +50,17 @@ public class SubmissionGetBidsByLots implements JavaDelegate {
         final String taskId = execution.getCurrentActivityId();
 
         final JsonNode commandMessage = processService.getCommandMessage(GET_BIDS_BY_LOTS, context, jsonData);
-        if (LOG.isDebugEnabled())
-            LOG.debug("COMMAND ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(commandMessage));
-
+        LOG.debug("COMMAND ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(commandMessage));
 
         final ResponseEntity<ResponseDto> response = submissionRestClient.execute(commandMessage);
-        if (LOG.isDebugEnabled())
-            LOG.debug("RESPONSE FROM SERVICE ({}): '{}'.", context.getOperationId(), jsonUtil.toJson(response.getBody()));
+        LOG.debug("RESPONSE FROM SERVICE ({}): '{}'.", context.getOperationId(), jsonUtil.toJson(response.getBody()));
 
+        final JsonNode responseData = processService.processResponse(response, context, processId, taskId, commandMessage);
+        LOG.debug("RESPONSE AFTER PROCESSING ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(responseData));
 
-        JsonNode responseData = processService.processResponse(response, context, processId, taskId, commandMessage);
-        if (LOG.isDebugEnabled())
-            LOG.debug("RESPONSE AFTER PROCESSING ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(responseData));
-
-        if (Objects.nonNull(responseData)) {
-            if (LOG.isDebugEnabled())
-                LOG.debug("CONTEXT FOR SAVE ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(context));
-
+        if (responseData != null) {
             final JsonNode step = addBidsToData(jsonData, responseData, processId);
-            if (LOG.isDebugEnabled())
-                LOG.debug("STEP FOR SAVE ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(step));
+            LOG.debug("STEP FOR SAVE ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(step));
 
             operationService.saveOperationStep(execution, entity, context, commandMessage, step);
         }
@@ -85,4 +76,3 @@ public class SubmissionGetBidsByLots implements JavaDelegate {
         }
     }
 }
-
