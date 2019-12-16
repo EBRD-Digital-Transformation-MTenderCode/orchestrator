@@ -35,16 +35,11 @@
       <bpmn:incoming>SequenceFlow_0osw2jz</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_128xj8w</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="EvaluationPrepareCancellationTask" name="Evaluation Prepare Cancellation" camunda:asyncBefore="true" camunda:delegateExpression="${evaluationPrepareCancellation}">
-      <bpmn:incoming>SequenceFlow_02lc1qa</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1uupj1y</bpmn:outgoing>
-    </bpmn:serviceTask>
     <bpmn:serviceTask id="NoticeStandstillTask" name="Notice create release" camunda:asyncBefore="true" camunda:delegateExpression="${noticeCreateRelease}">
       <bpmn:incoming>SequenceFlow_13jq0xo</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1jrbhue</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_128xj8w" sourceRef="AccessPrepareCancellationTask" targetRef="SetStandstillPeriodTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1uupj1y" sourceRef="EvaluationPrepareCancellationTask" targetRef="ExclusiveGateway_1cl5qj2" />
     <bpmn:sequenceFlow id="SequenceFlow_1jrbhue" sourceRef="NoticeStandstillTask" targetRef="AccessTenderCancellationTask" />
     <bpmn:exclusiveGateway id="ExclusiveGateway_0ow3sqh">
       <bpmn:incoming>SequenceFlow_1jf09wy</bpmn:incoming>
@@ -78,24 +73,6 @@
       <bpmn:incoming>SequenceFlow_128xj8w</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1wz1mlp</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:exclusiveGateway id="ExclusiveGateway_1cl5qj2">
-      <bpmn:incoming>SequenceFlow_1uupj1y</bpmn:incoming>
-      <bpmn:incoming>SequenceFlow_0pnr9nc</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_0jov9rc</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="SequenceFlow_0jov9rc" sourceRef="ExclusiveGateway_1cl5qj2" targetRef="StorageOpenDocsOfAmendmentOfTenderTask" />
-    <bpmn:exclusiveGateway id="ExclusiveGateway_1f8xez3">
-      <bpmn:incoming>SequenceFlow_1wz1mlp</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_02lc1qa</bpmn:outgoing>
-      <bpmn:outgoing>SequenceFlow_0pnr9nc</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="SequenceFlow_02lc1qa" sourceRef="ExclusiveGateway_1f8xez3" targetRef="EvaluationPrepareCancellationTask">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${phase == 'awarding'}</bpmn:conditionExpression>
-    </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_0pnr9nc" sourceRef="ExclusiveGateway_1f8xez3" targetRef="ExclusiveGateway_1cl5qj2">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${phase == 'clarification' || phase == 'tendering' || phase == 'negotiation'}</bpmn:conditionExpression>
-    </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_1wz1mlp" sourceRef="SetStandstillPeriodTask" targetRef="ExclusiveGateway_1f8xez3" />
     <bpmn:sequenceFlow id="SequenceFlow_0nd711d" sourceRef="AccessTenderCancellationTask" targetRef="EvaluationAwardsCancellationTask" />
     <bpmn:serviceTask id="StorageValidateDocsOfAmendmentOfTenderTask" name="Storage:&#10;Validate Docs of Amendment of Tender" camunda:asyncBefore="true" camunda:delegateExpression="${storageValidateDocsOfAmendmentOfTender}">
       <bpmn:incoming>SequenceFlow_0vae4uq</bpmn:incoming>
@@ -103,10 +80,11 @@
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_0osw2jz" sourceRef="StorageValidateDocsOfAmendmentOfTenderTask" targetRef="AccessPrepareCancellationTask" />
     <bpmn:serviceTask id="StorageOpenDocsOfAmendmentOfTenderTask" name="Storage:&#10;Open documents of Amendment of Tender&#10;" camunda:asyncBefore="true" camunda:delegateExpression="${storageOpenDocsOfAmendmentOfTender}">
-      <bpmn:incoming>SequenceFlow_0jov9rc</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_1wz1mlp</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_13jq0xo</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_13jq0xo" sourceRef="StorageOpenDocsOfAmendmentOfTenderTask" targetRef="NoticeStandstillTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1wz1mlp" sourceRef="SetStandstillPeriodTask" targetRef="StorageOpenDocsOfAmendmentOfTenderTask" />
   </bpmn:process>
   <bpmn:error id="tr_exception" name="TR_EXCEPTION" errorCode="TR_EXCEPTION" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -169,9 +147,6 @@
       <bpmndi:BPMNShape id="ServiceTask_0n9bfrx_di" bpmnElement="AccessPrepareCancellationTask">
         <dc:Bounds x="612" y="224" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_11m400t_di" bpmnElement="EvaluationPrepareCancellationTask">
-        <dc:Bounds x="1006" y="144" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_09uzmnv_di" bpmnElement="NoticeStandstillTask">
         <dc:Bounds x="1432" y="224" width="100" height="80" />
       </bpmndi:BPMNShape>
@@ -180,14 +155,6 @@
         <di:waypoint x="787" y="264" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="447.5" y="243" width="90" height="12" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_1uupj1y_di" bpmnElement="SequenceFlow_1uupj1y">
-        <di:waypoint x="1106" y="184" />
-        <di:waypoint x="1142" y="184" />
-        <di:waypoint x="1142" y="239" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="974" y="164" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1jrbhue_di" bpmnElement="SequenceFlow_1jrbhue">
@@ -264,44 +231,6 @@
       <bpmndi:BPMNShape id="ServiceTask_0530asz_di" bpmnElement="SetStandstillPeriodTask">
         <dc:Bounds x="787" y="224" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ExclusiveGateway_1cl5qj2_di" bpmnElement="ExclusiveGateway_1cl5qj2" isMarkerVisible="true">
-        <dc:Bounds x="1117" y="239" width="50" height="50" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1007" y="293" width="90" height="12" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="SequenceFlow_0jov9rc_di" bpmnElement="SequenceFlow_0jov9rc">
-        <di:waypoint x="1167" y="264" />
-        <di:waypoint x="1259" y="264" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1052.5" y="243" width="90" height="12" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ExclusiveGateway_1f8xez3_di" bpmnElement="ExclusiveGateway_1f8xez3" isMarkerVisible="true">
-        <dc:Bounds x="945" y="239" width="50" height="50" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="775" y="293" width="90" height="12" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="SequenceFlow_02lc1qa_di" bpmnElement="SequenceFlow_02lc1qa">
-        <di:waypoint x="970" y="239" />
-        <di:waypoint x="970" y="184" />
-        <di:waypoint x="1006" y="184" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="790" y="206" width="90" height="12" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_0pnr9nc_di" bpmnElement="SequenceFlow_0pnr9nc">
-        <di:waypoint x="995" y="264" />
-        <di:waypoint x="1117" y="264" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="891" y="243" width="90" height="12" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_1wz1mlp_di" bpmnElement="SequenceFlow_1wz1mlp">
-        <di:waypoint x="887" y="264" />
-        <di:waypoint x="945" y="264" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0nd711d_di" bpmnElement="SequenceFlow_0nd711d">
         <di:waypoint x="1684" y="264" />
         <di:waypoint x="1745" y="264" />
@@ -319,6 +248,10 @@
       <bpmndi:BPMNEdge id="SequenceFlow_13jq0xo_di" bpmnElement="SequenceFlow_13jq0xo">
         <di:waypoint x="1359" y="264" />
         <di:waypoint x="1432" y="264" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1wz1mlp_di" bpmnElement="SequenceFlow_1wz1mlp">
+        <di:waypoint x="887" y="264" />
+        <di:waypoint x="1259" y="264" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
