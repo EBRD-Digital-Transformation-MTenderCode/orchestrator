@@ -16,7 +16,6 @@ public enum EvaluationCommandType {
     AWARD_BY_BID("awardByBid"),
     AWARDS_FOR_CANS("awardsForCans"),
     SET_FINAL_STATUSES("setFinalStatuses"),
-    PREPARE_CANCELLATION("prepareCancellation"),
     AWARDS_CANCELLATION("awardsCancellation"),
     CREATE_AWARDS_BY_LOT_AUCTION("createAwardsByLotAuction"),
     CREATE_AWARDS_AUCTION("createAwardsAuction"),
