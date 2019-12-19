@@ -102,14 +102,6 @@ public class AccessSetLotsUnsuccessful implements JavaDelegate {
                     context.setPhase("empty");
 
                     execution.setVariable("isTenderUnsuccessful", true);
-                } else {
-                    if (execution.hasVariable("isAuctionStarted")) {
-                        final boolean isAuctionStarted = (Boolean) execution.getVariable("isAuctionStarted");
-                        if (!isAuctionStarted) {
-                            context.setOperationType("tenderPeriodEndEv");
-                            context.setPhase("awarding");
-                        }
-                    }
                 }
             }
         }

@@ -71,6 +71,7 @@ public class AuctionStart implements JavaDelegate {
                 final Boolean isAuctionStarted = processService.getBoolean("isAuctionStarted", responseData, processId);
                 execution.setVariable("isAuctionStarted", isAuctionStarted);
                 if (isAuctionStarted) {
+                    context.setOperationType("tenderPeriodEndAuction");
                     final ArrayNode auctionLinksNode = (ArrayNode) responseData.get("auctionsLinks");
                     if (auctionLinksNode.size() > 0) {
                         Set<AuctionLinks> auctionLinks = new HashSet<>();
@@ -79,6 +80,9 @@ public class AuctionStart implements JavaDelegate {
                         }
                         context.setAuctionLinks(auctionLinks);
                     }
+                } else {
+                    context.setOperationType("tenderPeriodEndEv");
+                    context.setPhase("awarding");
                 }
 
                 final JsonNode step = processService.setAuctionStartData(jsonData, responseData, processId);
