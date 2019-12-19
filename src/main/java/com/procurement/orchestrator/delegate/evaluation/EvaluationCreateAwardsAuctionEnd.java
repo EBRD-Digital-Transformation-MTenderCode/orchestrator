@@ -1,8 +1,10 @@
 package com.procurement.orchestrator.delegate.evaluation;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.procurement.orchestrator.domain.Context;
+import com.procurement.orchestrator.domain.Outcome;
 import com.procurement.orchestrator.domain.dto.command.ResponseDto;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.EvaluationRestClient;
@@ -15,6 +17,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import static com.procurement.orchestrator.domain.commands.EvaluationCommandType.CREATE_AWARDS_AUCTION_END;
 
@@ -60,7 +65,37 @@ public class EvaluationCreateAwardsAuctionEnd implements JavaDelegate {
         LOG.debug("RESPONSE AFTER PROCESSING ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(responseData));
 
         if (responseData != null) {
-            operationService.saveOperationStep(execution, entity, context, commandMessage);
+            final Context modifiedContext = addAwardOutcomeToContext(context, responseData, processId);
+            if (LOG.isDebugEnabled())
+                LOG.debug("CONTEXT FOR SAVE ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(modifiedContext));
+
+            operationService.saveOperationStep(execution, entity, modifiedContext, commandMessage);
+        }
+    }
+
+    private Context addAwardOutcomeToContext(final Context context, final JsonNode responseData, final String processId) {
+        try {
+            final Set<Outcome> outcomes;
+            if (context.getOutcomes() != null) {
+                outcomes = context.getOutcomes();
+            } else {
+                outcomes = new HashSet<>();
+            }
+
+            final ArrayNode awardsNode = (ArrayNode) responseData.get("awards");
+            for (final JsonNode awardNode : awardsNode) {
+                if (awardNode.has("token")) {
+                    final String token = awardNode.get("token").asText();
+                    final String id = awardNode.get("id").asText();
+                    outcomes.add(new Outcome(id, token, "awards"));
+                }
+            }
+
+            context.setOutcomes(outcomes);
+            return context;
+        } catch (Exception e) {
+            processService.terminateProcess(processId, e.getMessage());
+            return null;
         }
     }
 

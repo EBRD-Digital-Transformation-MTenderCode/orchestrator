@@ -7,7 +7,6 @@ import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.dto.command.ResponseDto;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.EvaluationRestClient;
-import com.procurement.orchestrator.service.NotificationService;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -18,11 +17,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
+import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 import static com.procurement.orchestrator.domain.commands.EvaluationCommandType.SET_AWARD_FOR_EVALUATION;
 
@@ -33,20 +30,17 @@ public class EvaluationSetAwardForEvaluation implements JavaDelegate {
 
     private final EvaluationRestClient evaluationRestClient;
     private final OperationService operationService;
-    private final NotificationService notificationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
     public EvaluationSetAwardForEvaluation(
         final EvaluationRestClient evaluationRestClient,
         final OperationService operationService,
-        final NotificationService notificationService,
         final ProcessService processService,
         final JsonUtil jsonUtil
     ) {
         this.evaluationRestClient = evaluationRestClient;
         this.operationService = operationService;
-        this.notificationService = notificationService;
         this.processService = processService;
         this.jsonUtil = jsonUtil;
     }
@@ -73,19 +67,15 @@ public class EvaluationSetAwardForEvaluation implements JavaDelegate {
             LOG.debug("RESPONSE AFTER PROCESSING ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(responseData));
 
         if (responseData != null) {
-            final Context modifiedContext = notificationService.addAwardOutcomeToContext(context, responseData, processId);
-            if (LOG.isDebugEnabled())
-                LOG.debug("CONTEXT FOR SAVE ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(modifiedContext));
-
-            final JsonNode step = addAwards(context.getOperationId(), jsonData, responseData, processId);
+            final JsonNode step = updateAwards(context.getOperationId(), jsonData, responseData, processId);
             if (LOG.isDebugEnabled())
                 LOG.debug("STEP FOR SAVE ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(step));
 
-            operationService.saveOperationStep(execution, entity, modifiedContext, commandMessage, step);
+            operationService.saveOperationStep(execution, entity, context, commandMessage, step);
         }
     }
 
-    private JsonNode addAwards(
+    private JsonNode updateAwards(
         final String operationId,
         final JsonNode jsonData,
         final JsonNode responseData,
@@ -95,16 +85,15 @@ public class EvaluationSetAwardForEvaluation implements JavaDelegate {
             final ObjectNode mainNode = (ObjectNode) jsonData;
             if (mainNode.has("awards")) {
                 final ArrayNode awardsNode = (ArrayNode) mainNode.get("awards");
-                final Set<String> currentAwardIds = StreamSupport.stream(awardsNode.spliterator(), false)
-                        .map(item -> item.get("id").asText())
-                        .collect(Collectors.toSet());
+                final Map<String, JsonNode> awardsByIds = groupingAwardsByIds(awardsNode);
+
                 final ArrayNode createdAwards = (ArrayNode) responseData.get("awards");
-                for (JsonNode createdAward: createdAwards) {
-                    final String awardId = createdAward.get("id").asText();
-                    if (!currentAwardIds.contains(awardId)) {
-                        awardsNode.add(createdAward);
-                    }
-                }
+                final Collection<JsonNode> updatedAwards = replaceAwards(awardsByIds, createdAwards);
+
+                final ArrayNode updatedAwardsNode = jsonUtil.createArrayNode();
+                updatedAwardsNode.addAll(updatedAwards);
+
+                mainNode.set("awards", updatedAwardsNode);
             } else {
                 mainNode.set("awards", responseData.get("awards"));
             }
@@ -114,5 +103,23 @@ public class EvaluationSetAwardForEvaluation implements JavaDelegate {
             processService.terminateProcess(processId, e.getMessage());
             return null;
         }
+    }
+
+    private Map<String, JsonNode> groupingAwardsByIds(final ArrayNode awardsNode) {
+        final LinkedHashMap<String, JsonNode> awardsByIds = new LinkedHashMap<>(awardsNode.size());
+        for (JsonNode awardNode : awardsNode) {
+            final String awardId = awardNode.get("id").asText();
+            awardsByIds.put(awardId, awardNode);
+        }
+        return awardsByIds;
+    }
+
+    private Collection<JsonNode> replaceAwards(final Map<String, JsonNode> awardsByIds, final ArrayNode createdAwards) {
+        final LinkedHashMap<String, JsonNode> updatedAwardsByIds = new LinkedHashMap<>(awardsByIds);
+        for (JsonNode createdAward : createdAwards) {
+            final String idCreatedAward = createdAward.get("id").asText();
+            updatedAwardsByIds.put(idCreatedAward, createdAward);
+        }
+        return updatedAwardsByIds.values();
     }
 }
