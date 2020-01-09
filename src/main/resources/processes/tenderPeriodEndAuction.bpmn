@@ -239,7 +239,7 @@
       <bpmn:outgoing>SequenceFlow_1y3up4j</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_0k01atv" sourceRef="ExclusiveGateway_0ka4dbc" targetRef="AccessSetTenderStatusDetailsTask" />
-    <bpmn:exclusiveGateway id="ExclusiveGateway_1pgdrw5" name="is operationType == &#39;TenderPeriodEndAuction&#39;">
+    <bpmn:exclusiveGateway id="ExclusiveGateway_1pgdrw5" name="is operationType == &#39;TenderPeriodEndAuction&#39;" default="SequenceFlow_1dn36w0">
       <bpmn:incoming>SequenceFlow_1y3up4j</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_1ne4rkm</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1dn36w0</bpmn:outgoing>
