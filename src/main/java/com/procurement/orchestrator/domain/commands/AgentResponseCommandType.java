@@ -11,7 +11,8 @@ import java.util.Map;
 public enum AgentResponseCommandType {
     LAUNCH_AC_VERIFICATION("launchAcVerification"),
     TREASURY_APPROVING("treasuryApprovingAc"),
-    TREASURY_CLARIFICATION("requestForAcClarification");
+    TREASURY_CLARIFICATION("requestForAcClarification"),
+    PROCESS_AC_REJECTION("processAcRejection");
 
     private static final Map<String, AgentResponseCommandType> CONSTANTS =
         new HashMap<String, AgentResponseCommandType>() {{
