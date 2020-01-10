@@ -82,6 +82,7 @@ public class AuctionStart implements JavaDelegate {
                     }
                 } else {
                     context.setOperationType("tenderPeriodEndEv");
+                    execution.setVariable("operationType", "tenderPeriodEndEv");
                     context.setPhase("awarding");
                 }
 
