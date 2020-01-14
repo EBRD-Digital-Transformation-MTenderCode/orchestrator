@@ -74,24 +74,24 @@ public class ContractingTreasuryProcessing implements JavaDelegate {
     private JsonNode generateCommandData(final JsonNode jsonData, final String processId) {
         try {
             final JsonNode verificationNode = jsonData.get("verification");
-            final TreasureApprovingAcDTO.Verification verification = new TreasureApprovingAcDTO.Verification(
+            final TreasureAcDTO.Verification verification = new TreasureAcDTO.Verification(
                 verificationNode.get("value").asText(),
                 verificationNode.get("rationale").asText()
             );
 
             final String dateMet = jsonData.get("dateMet").asText();
 
-            final TreasureApprovingAcDTO.RegData regData;
+            final TreasureAcDTO.RegData regData;
             if (jsonData.has("regData")) {
                 final JsonNode regDataNode = jsonData.get("regData");
                 final String externalRegId = regDataNode.get("externalRegId").asText();
                 final String regDate = regDataNode.get("regDate").asText();
-                regData = new TreasureApprovingAcDTO.RegData(externalRegId, regDate);
+                regData = new TreasureAcDTO.RegData(externalRegId, regDate);
             } else {
                 regData = null;
             }
 
-            final TreasureApprovingAcDTO dto = new TreasureApprovingAcDTO(verification, dateMet, regData);
+            final TreasureAcDTO dto = new TreasureAcDTO(verification, dateMet, regData);
             return jsonUtil.toJsonNode(dto);
 
         } catch (Exception exception) {
@@ -101,7 +101,7 @@ public class ContractingTreasuryProcessing implements JavaDelegate {
     }
 
     @Getter
-    static class TreasureApprovingAcDTO {
+    static class TreasureAcDTO {
         @JsonProperty("verification")
         private final Verification verification;
 
@@ -112,7 +112,7 @@ public class ContractingTreasuryProcessing implements JavaDelegate {
         @JsonInclude(JsonInclude.Include.NON_NULL)
         private final RegData regData;
 
-        public TreasureApprovingAcDTO(final Verification verification, final String dateMet, final RegData regData) {
+        public TreasureAcDTO(final Verification verification, final String dateMet, final RegData regData) {
             Objects.requireNonNull(verification);
             Objects.requireNonNull(dateMet);
 
