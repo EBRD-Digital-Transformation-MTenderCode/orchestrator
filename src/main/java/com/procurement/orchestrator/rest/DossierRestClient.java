@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-@FeignClient(name = "e-procurer")
-public interface ProcurerRestClient {
+@FeignClient(name = "e-dossier")
+public interface DossierRestClient {
 
     @RequestMapping(method = RequestMethod.POST, value = "/command")
     ResponseEntity<ResponseDto> execute(@RequestBody JsonNode commandMessage) throws Exception;

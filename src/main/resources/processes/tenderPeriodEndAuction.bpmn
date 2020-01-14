@@ -174,18 +174,18 @@
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_13ys26q" sourceRef="AccessGetLotsTask" targetRef="SubmissionGetBidsAuctionTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1wl7vva" sourceRef="SubmissionGetBidsAuctionTask" targetRef="ExclusiveGateway_0dq76qu" />
-    <bpmn:serviceTask id="ProcurerGetCriteriaDetailsTask" name="eProcurer:&#10;Get Criteria Details" camunda:asyncBefore="true" camunda:delegateExpression="${procurerGetCriteriaDetails}">
+    <bpmn:serviceTask id="DossierGetCriteriaDetailsTask" name="eDossier:&#10;Get Criteria Details" camunda:asyncBefore="true" camunda:delegateExpression="${dossierGetCriteriaDetails}">
       <bpmn:incoming>SequenceFlow_0qnd1s5</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_18spa27</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1fspsus" sourceRef="AccessGetActiveLotsTask" targetRef="AccessGetTenderOwnerTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0qnd1s5" sourceRef="AccessGetTenderOwnerTask" targetRef="ProcurerGetCriteriaDetailsTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0qnd1s5" sourceRef="AccessGetTenderOwnerTask" targetRef="DossierGetCriteriaDetailsTask" />
     <bpmn:exclusiveGateway id="ExclusiveGateway_05526kh" name="is there are award criteria">
       <bpmn:incoming>SequenceFlow_18spa27</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_12lfhbg</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlow_1nkyomu</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="SequenceFlow_18spa27" sourceRef="ProcurerGetCriteriaDetailsTask" targetRef="ExclusiveGateway_05526kh" />
+    <bpmn:sequenceFlow id="SequenceFlow_18spa27" sourceRef="DossierGetCriteriaDetailsTask" targetRef="ExclusiveGateway_05526kh" />
     <bpmn:serviceTask id="AccessGetAwardCriteriaTask" name="eAccess:&#10;Get Award Criteria" camunda:asyncBefore="true" camunda:delegateExpression="${accessGetAwardCriteria}">
       <bpmn:incoming>SequenceFlow_12lfhbg</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0fv56q5</bpmn:outgoing>
@@ -212,7 +212,7 @@
       <bpmn:incoming>SequenceFlow_0p0816t</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0xryzge</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="ProcurerCreateRequestForEvaluationPanelsTask" name="eProcurer:&#10;Create Request for Evaluation Panels" camunda:asyncBefore="true" camunda:delegateExpression="${procurerCreateRequestForEvaluationPanels}">
+    <bpmn:serviceTask id="DossierCreateRequestForEvaluationPanelsTask" name="eDossier:&#10;Create Request for Evaluation Panels" camunda:asyncBefore="true" camunda:delegateExpression="${dossierCreateRequestForEvaluationPanels}">
       <bpmn:incoming>SequenceFlow_0xryzge</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_03duro1</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -221,8 +221,8 @@
       <bpmn:outgoing>SequenceFlow_0kby0y3</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_0p0816t" sourceRef="EvaluationCreateAwardsTask" targetRef="EvaluationSetAwardForEvaluationTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0xryzge" sourceRef="EvaluationSetAwardForEvaluationTask" targetRef="ProcurerCreateRequestForEvaluationPanelsTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_03duro1" sourceRef="ProcurerCreateRequestForEvaluationPanelsTask" targetRef="EvaluationStartAwardPeriodTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0xryzge" sourceRef="EvaluationSetAwardForEvaluationTask" targetRef="DossierCreateRequestForEvaluationPanelsTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_03duro1" sourceRef="DossierCreateRequestForEvaluationPanelsTask" targetRef="EvaluationStartAwardPeriodTask" />
     <bpmn:serviceTask id="SubmissionOpenBidsForPublishingTask" name="eSubmission:&#10;Open Bids for Publishing" camunda:asyncBefore="true" camunda:delegateExpression="${submissionOpenBidsForPublishing}">
       <bpmn:incoming>SequenceFlow_0kby0y3</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1o6eg5g</bpmn:outgoing>
@@ -541,7 +541,7 @@
         <di:waypoint x="820" y="321" />
         <di:waypoint x="849" y="321" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_146mj7z_di" bpmnElement="ProcurerGetCriteriaDetailsTask">
+      <bpmndi:BPMNShape id="ServiceTask_146mj7z_di" bpmnElement="DossierGetCriteriaDetailsTask">
         <dc:Bounds x="2130" y="161" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1fspsus_di" bpmnElement="SequenceFlow_1fspsus">
@@ -602,7 +602,7 @@
       <bpmndi:BPMNShape id="ServiceTask_0k298n7_di" bpmnElement="EvaluationSetAwardForEvaluationTask">
         <dc:Bounds x="2920" y="161" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_1j9zjb0_di" bpmnElement="ProcurerCreateRequestForEvaluationPanelsTask">
+      <bpmndi:BPMNShape id="ServiceTask_1j9zjb0_di" bpmnElement="DossierCreateRequestForEvaluationPanelsTask">
         <dc:Bounds x="3070" y="161" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_1bfzqqj_di" bpmnElement="EvaluationStartAwardPeriodTask">
