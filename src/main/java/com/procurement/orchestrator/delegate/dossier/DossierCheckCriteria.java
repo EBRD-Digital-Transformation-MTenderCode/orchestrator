@@ -1,10 +1,10 @@
-package com.procurement.orchestrator.delegate.procurer;
+package com.procurement.orchestrator.delegate.dossier;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.dto.command.ResponseDto;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
-import com.procurement.orchestrator.rest.ProcurerRestClient;
+import com.procurement.orchestrator.rest.DossierRestClient;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -15,25 +15,25 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
-import static com.procurement.orchestrator.domain.commands.ProcurerCommandType.CHECK_RESPONSES;
+import static com.procurement.orchestrator.domain.commands.DossierCommandType.CHECK_CRITERIA;
 
 @Component
-public class ProcurerCheckResponses implements JavaDelegate {
+public class DossierCheckCriteria implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ProcurerCheckResponses.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DossierCheckCriteria.class);
 
-    private final ProcurerRestClient procurerRestClient;
+    private final DossierRestClient dossierRestClient;
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public ProcurerCheckResponses(
-            final ProcurerRestClient procurerRestClient,
+    public DossierCheckCriteria(
+            final DossierRestClient dossierRestClient,
             final OperationService operationService,
             final ProcessService processService,
             final JsonUtil jsonUtil
     ) {
-        this.procurerRestClient = procurerRestClient;
+        this.dossierRestClient = dossierRestClient;
         this.operationService = operationService;
         this.processService = processService;
         this.jsonUtil = jsonUtil;
@@ -49,11 +49,11 @@ public class ProcurerCheckResponses implements JavaDelegate {
         final String taskId = execution.getCurrentActivityId();
 
         if (requestData != null) {
-            final JsonNode commandMessage = processService.getCommandMessage(CHECK_RESPONSES, context, requestData);
+            final JsonNode commandMessage = processService.getCommandMessage(CHECK_CRITERIA, context, requestData);
             if (LOG.isDebugEnabled())
                 LOG.debug("COMMAND (" + context.getOperationId() + "): '" + jsonUtil.toJsonOrEmpty(commandMessage) + "'.");
 
-            final ResponseEntity<ResponseDto> response = procurerRestClient.execute(commandMessage);
+            final ResponseEntity<ResponseDto> response = dossierRestClient.execute(commandMessage);
             if (LOG.isDebugEnabled())
                 LOG.debug("RESPONSE FROM SERVICE (" + context.getOperationId() + "): '" + jsonUtil.toJson(response.getBody()) + "'.");
 
@@ -66,7 +66,7 @@ public class ProcurerCheckResponses implements JavaDelegate {
             }
         } else {
             if (LOG.isDebugEnabled())
-                LOG.debug("Request data is missing. The Procurer service for checking responses was not called.");
+                LOG.debug("Request data is missing. The Dossier service for checking criteria was not called.");
         }
 
     }

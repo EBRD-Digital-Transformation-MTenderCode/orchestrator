@@ -1,11 +1,10 @@
-package com.procurement.orchestrator.delegate.procurer;
+package com.procurement.orchestrator.delegate.dossier;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.dto.command.ResponseDto;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
-import com.procurement.orchestrator.rest.ProcurerRestClient;
+import com.procurement.orchestrator.rest.DossierRestClient;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -16,25 +15,25 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
-import static com.procurement.orchestrator.domain.commands.ProcurerCommandType.CREATE_CRITERIA;
+import static com.procurement.orchestrator.domain.commands.DossierCommandType.CHECK_RESPONSES;
 
 @Component
-public class ProcurerCreateCriteria implements JavaDelegate {
+public class DossierCheckResponses implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ProcurerCreateCriteria.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DossierCheckResponses.class);
 
-    private final ProcurerRestClient procurerRestClient;
+    private final DossierRestClient dossierRestClient;
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public ProcurerCreateCriteria(
-            final ProcurerRestClient procurerRestClient,
+    public DossierCheckResponses(
+            final DossierRestClient dossierRestClient,
             final OperationService operationService,
             final ProcessService processService,
             final JsonUtil jsonUtil
     ) {
-        this.procurerRestClient = procurerRestClient;
+        this.dossierRestClient = dossierRestClient;
         this.operationService = operationService;
         this.processService = processService;
         this.jsonUtil = jsonUtil;
@@ -50,11 +49,11 @@ public class ProcurerCreateCriteria implements JavaDelegate {
         final String taskId = execution.getCurrentActivityId();
 
         if (requestData != null) {
-            final JsonNode commandMessage = processService.getCommandMessage(CREATE_CRITERIA, context, requestData);
+            final JsonNode commandMessage = processService.getCommandMessage(CHECK_RESPONSES, context, requestData);
             if (LOG.isDebugEnabled())
                 LOG.debug("COMMAND (" + context.getOperationId() + "): '" + jsonUtil.toJsonOrEmpty(commandMessage) + "'.");
 
-            final ResponseEntity<ResponseDto> response = procurerRestClient.execute(commandMessage);
+            final ResponseEntity<ResponseDto> response = dossierRestClient.execute(commandMessage);
             if (LOG.isDebugEnabled())
                 LOG.debug("RESPONSE FROM SERVICE (" + context.getOperationId() + "): '" + jsonUtil.toJson(response.getBody()) + "'.");
 
@@ -63,32 +62,14 @@ public class ProcurerCreateCriteria implements JavaDelegate {
                 LOG.debug("RESPONSE AFTER PROCESSING (" + context.getOperationId() + "): '" + jsonUtil.toJsonOrEmpty(responseData) + "'.");
 
             if (responseData != null) {
-                final JsonNode step = addCreateCriteriaData(requestData, responseData, processId);
-                if (LOG.isDebugEnabled())
-                    LOG.debug("STEP FOR SAVE (" + context.getOperationId() + "): '" + jsonUtil.toJsonOrEmpty(step) + "'.");
-
-                operationService.saveOperationStep(execution, entity, context, commandMessage, step);
+                operationService.saveOperationStep(execution, entity, context, commandMessage);
             }
         } else {
             if (LOG.isDebugEnabled())
-                LOG.debug("Request data is missing. The Procurer service for creating criteria was not called.");
+                LOG.debug("Request data is missing. The Dossier service for checking responses was not called.");
         }
 
     }
 
-    private JsonNode addCreateCriteriaData(final JsonNode jsonData, final JsonNode responseData, final String processId) {
-        try {
-            final ObjectNode tenderNode = (ObjectNode) jsonData.get("tender");
-
-            tenderNode.replace("criteria", responseData.get("criteria"));
-            tenderNode.replace("conversions", responseData.get("conversions"));
-            tenderNode.replace("awardCriteriaDetails", responseData.get("awardCriteriaDetails"));
-
-            return jsonData;
-        } catch (Exception e) {
-            processService.terminateProcess(processId, e.getMessage());
-            return null;
-        }
-    }
 
 }

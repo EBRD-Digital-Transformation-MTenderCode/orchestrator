@@ -77,11 +77,11 @@
       <bpmn:incoming>SequenceFlow_0csn9g8</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0wb46zp</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="ProcurerGetCriteriaDetailsTask" name="eProcurer:&#10;Get Award Criteria Details" camunda:asyncBefore="true" camunda:delegateExpression="${procurerGetCriteriaDetails}">
+    <bpmn:serviceTask id="DossierGetCriteriaDetailsTask" name="eDossier:&#10;Get Award Criteria Details" camunda:asyncBefore="true" camunda:delegateExpression="${dossierGetCriteriaDetails}">
       <bpmn:incoming>SequenceFlow_0wb46zp</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0yoc7yq</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_0wb46zp" sourceRef="EvaluationGetNextAwardForEvaluationTask" targetRef="ProcurerGetCriteriaDetailsTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0wb46zp" sourceRef="EvaluationGetNextAwardForEvaluationTask" targetRef="DossierGetCriteriaDetailsTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0csn9g8" name="false" sourceRef="ExclusiveGateway_06ut64a" targetRef="EvaluationGetNextAwardForEvaluationTask">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${stage == 'EV'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
@@ -90,7 +90,7 @@
       <bpmn:outgoing>SequenceFlow_1w06n37</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlow_1816gnw</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="SequenceFlow_0yoc7yq" sourceRef="ProcurerGetCriteriaDetailsTask" targetRef="ExclusiveGateway_145a28a" />
+    <bpmn:sequenceFlow id="SequenceFlow_0yoc7yq" sourceRef="DossierGetCriteriaDetailsTask" targetRef="ExclusiveGateway_145a28a" />
     <bpmn:inclusiveGateway id="ExclusiveGateway_0cu7p8h">
       <bpmn:incoming>SequenceFlow_15rt4jv</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_025i2i2</bpmn:incoming>
@@ -274,7 +274,7 @@
       <bpmndi:BPMNShape id="ServiceTask_0hk9hb1_di" bpmnElement="EvaluationGetNextAwardForEvaluationTask">
         <dc:Bounds x="1670" y="280" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_0z41hzl_di" bpmnElement="ProcurerGetCriteriaDetailsTask">
+      <bpmndi:BPMNShape id="ServiceTask_0z41hzl_di" bpmnElement="DossierGetCriteriaDetailsTask">
         <dc:Bounds x="1840" y="280" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0wb46zp_di" bpmnElement="SequenceFlow_0wb46zp">

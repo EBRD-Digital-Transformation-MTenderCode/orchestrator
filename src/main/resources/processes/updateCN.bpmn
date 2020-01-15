@@ -220,13 +220,13 @@
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_10t6fbl" sourceRef="ExclusiveGateway_1ada3gn" targetRef="ClarificationSavePeriodPnTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0w19nzz" sourceRef="AuctionScheduleCnOnPnTask" targetRef="ExclusiveGateway_1ada3gn" />
-    <bpmn:serviceTask id="ProcurerCheckCriteriaTask" name="eProcurer:&#10;Check Criteria" camunda:asyncBefore="true" camunda:delegateExpression="${procurerCheckCriteria}">
+    <bpmn:serviceTask id="DossierCheckCriteriaTask" name="eDossier:&#10;Check Criteria" camunda:asyncBefore="true" camunda:delegateExpression="${dossierCheckCriteria}">
       <bpmn:incoming>SequenceFlow_0bm4lgl</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0mbkjr5</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_0bm4lgl" sourceRef="ExclusiveGateway_0vdvvax" targetRef="ProcurerCheckCriteriaTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0mbkjr5" sourceRef="ProcurerCheckCriteriaTask" targetRef="AccessCheckCnOnPn" />
-    <bpmn:serviceTask id="ProcurerCreateCriteriaTask" name="eProcurer:&#10;Create Criteria" camunda:asyncBefore="true" camunda:delegateExpression="${procurerCreateCriteria}">
+    <bpmn:sequenceFlow id="SequenceFlow_0bm4lgl" sourceRef="ExclusiveGateway_0vdvvax" targetRef="DossierCheckCriteriaTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0mbkjr5" sourceRef="DossierCheckCriteriaTask" targetRef="AccessCheckCnOnPn" />
+    <bpmn:serviceTask id="DossierCreateCriteriaTask" name="eDossier:&#10;Create Criteria" camunda:asyncBefore="true" camunda:delegateExpression="${dossierCreateCriteria}">
       <bpmn:incoming>SequenceFlow_1q3sbt9</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_04z3hvq</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -282,8 +282,8 @@
     </bpmn:inclusiveGateway>
     <bpmn:sequenceFlow id="SequenceFlow_0dbmvfb" sourceRef="ExclusiveGateway_01rtatc" targetRef="UpdateCnSetActiveTrueTask" />
     <bpmn:sequenceFlow id="SequenceFlow_138etsr" sourceRef="UpdateCnSetActiveTrueTask" targetRef="AccessCreateCnOnPnTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1q3sbt9" sourceRef="AccessCreateCnOnPnTask" targetRef="ProcurerCreateCriteriaTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_04z3hvq" sourceRef="ProcurerCreateCriteriaTask" targetRef="ExclusiveGateway_1262cfq" />
+    <bpmn:sequenceFlow id="SequenceFlow_1q3sbt9" sourceRef="AccessCreateCnOnPnTask" targetRef="DossierCreateCriteriaTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_04z3hvq" sourceRef="DossierCreateCriteriaTask" targetRef="ExclusiveGateway_1262cfq" />
     <bpmn:sequenceFlow id="SequenceFlow_1cblblq" sourceRef="SubmissionValidatePeriodTask" targetRef="ExclusiveGateway_1dk50w6" />
     <bpmn:serviceTask id="BpeSetIsAuctionTask" name="BPE:&#10;Set isAuction&#10;" camunda:asyncBefore="true" camunda:delegateExpression="${bpeSetIsAuction}">
       <bpmn:incoming>SequenceFlow_1a9d5nj</bpmn:incoming>
@@ -657,7 +657,7 @@
         <di:waypoint x="3367" y="145" />
         <di:waypoint x="3367" y="227" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_0e21enn_di" bpmnElement="ProcurerCheckCriteriaTask">
+      <bpmndi:BPMNShape id="ServiceTask_0e21enn_di" bpmnElement="DossierCheckCriteriaTask">
         <dc:Bounds x="1825" y="212" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0bm4lgl_di" bpmnElement="SequenceFlow_0bm4lgl">
@@ -668,7 +668,7 @@
         <di:waypoint x="1925" y="252" />
         <di:waypoint x="1988" y="252" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_0t4el6y_di" bpmnElement="ProcurerCreateCriteriaTask">
+      <bpmndi:BPMNShape id="ServiceTask_0t4el6y_di" bpmnElement="DossierCreateCriteriaTask">
         <dc:Bounds x="2948" y="212" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_09okwtf_di" bpmnElement="AccessCheckOwnerTokenTask">

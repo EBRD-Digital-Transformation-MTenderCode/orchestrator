@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public enum ProcurerCommandType {
+public enum DossierCommandType {
 
     CHECK_CRITERIA("checkCriteria"),
     CREATE_CRITERIA("createCriteria"),
@@ -16,24 +16,24 @@ public enum ProcurerCommandType {
     GET_CRITERIA("getCriteria"),
     CREATE_REQUESTS_FOR_EV_PANELS("createRequestsForEvPanels");
 
-    private static final Map<String, ProcurerCommandType> CONSTANTS = new HashMap<>();
+    private static final Map<String, DossierCommandType> CONSTANTS = new HashMap<>();
     private final String value;
 
     static {
-        for (final ProcurerCommandType c : values()) {
+        for (final DossierCommandType c : values()) {
             CONSTANTS.put(c.value, c);
         }
     }
 
-    ProcurerCommandType(final String value) {
+    DossierCommandType(final String value) {
         this.value = value;
     }
 
     @JsonCreator
-    public static ProcurerCommandType fromValue(final String value) {
-        final ProcurerCommandType constant = CONSTANTS.get(value);
+    public static DossierCommandType fromValue(final String value) {
+        final DossierCommandType constant = CONSTANTS.get(value);
         if (constant == null) {
-            throw new EnumException(ProcurerCommandType.class.getName(), value, Arrays.toString(values()));
+            throw new EnumException(DossierCommandType.class.getName(), value, Arrays.toString(values()));
         }
         return constant;
     }
