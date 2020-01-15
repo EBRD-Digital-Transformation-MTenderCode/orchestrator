@@ -1628,7 +1628,6 @@ public class ProcessServiceImpl implements ProcessService {
             if (relatedCans != null) {
                 mainNode.set("relatedCans", relatedCans);
             }
-            mainNode.replace("acCancel", responseData.get("acCancel"));
             mainNode.replace("contract", responseData.get("contract"));
             mainNode.replace("lotId", responseData.get("lotId"));
             return jsonData;
