@@ -613,15 +613,20 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public JsonNode getDocumentsOfCancelCanValidation(final JsonNode jsonData, final String processId) {
+    public Optional<JsonNode> getDocumentsOfCancelCanValidation(final JsonNode jsonData, final String processId) {
         try {
-            final ArrayNode documentsArray = (ArrayNode) jsonData.get("contract").get("amendment").get("documents");
-            final ObjectNode mainNode = jsonUtil.createObjectNode();
-            mainNode.replace("documents", documentsArray);
-            return mainNode;
+            final ObjectNode amendment = (ObjectNode) jsonData.get("contract").get("amendment");
+            if (amendment.has("documents")) {
+                final ObjectNode mainNode = jsonUtil.createObjectNode();
+                final ArrayNode documents = (ArrayNode) amendment.get("documents");
+                mainNode.replace("documents", documents);
+                return Optional.of(mainNode);
+            } else {
+                return Optional.empty();
+            }
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
-            return null;
+            return Optional.empty();
         }
     }
 
