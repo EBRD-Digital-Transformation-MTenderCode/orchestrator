@@ -15,14 +15,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 @Component
-public class OrganizationSchemeReference implements JavaDelegate {
-    private static final Logger LOG = LoggerFactory.getLogger(OrganizationSchemeReference.class);
+public class OrganizationSchemeForSupplier implements JavaDelegate {
+    private static final Logger LOG = LoggerFactory.getLogger(OrganizationSchemeForSupplier.class);
 
     private final MdmRestClient mdmRestClient;
     private final OperationService operationService;
     private final JsonUtil jsonUtil;
 
-    public OrganizationSchemeReference(
+    public OrganizationSchemeForSupplier(
         final MdmRestClient mdmRestClient,
         final OperationService operationService,
         final JsonUtil jsonUtil
