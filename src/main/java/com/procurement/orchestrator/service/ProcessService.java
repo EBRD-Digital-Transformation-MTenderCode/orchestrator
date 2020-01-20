@@ -126,7 +126,7 @@ public interface ProcessService {
 
     JsonNode getDocumentsOfCanStorageValidate(JsonNode jsonData, String processId);
 
-    JsonNode getDocumentsOfCancelCanValidation(JsonNode jsonData, String processId);
+    Optional<JsonNode> getDocumentsOfCancelCanValidation(JsonNode jsonData, String processId);
 
     JsonNode getDocumentsOfCancelCanOpen(JsonNode jsonData, String processId);
 

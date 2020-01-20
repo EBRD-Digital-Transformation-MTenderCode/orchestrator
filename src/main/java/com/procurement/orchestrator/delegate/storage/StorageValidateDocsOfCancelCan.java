@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
+import java.util.Optional;
 
 import static com.procurement.orchestrator.domain.commands.StorageCommandType.VALIDATE;
 
@@ -51,12 +52,12 @@ public class StorageValidateDocsOfCancelCan implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
 
-        final JsonNode documents = processService.getDocumentsOfCancelCanValidation(jsonData, processId);
+        final Optional<JsonNode> documents = processService.getDocumentsOfCancelCanValidation(jsonData, processId);
         if (LOG.isDebugEnabled())
             LOG.debug("LOADED DATA (" + context.getOperationId() + "): '" + jsonUtil.toJsonOrEmpty(documents) + "'.");
 
-        if (documents != null) {
-            final JsonNode commandMessage = processService.getCommandMessage(VALIDATE, context, documents);
+        if (documents.isPresent()) {
+            final JsonNode commandMessage = processService.getCommandMessage(VALIDATE, context, documents.get());
             if (LOG.isDebugEnabled())
                 LOG.debug("COMMAND (" + context.getOperationId() + "): '" + jsonUtil.toJsonOrEmpty(commandMessage) + "'.");
 
