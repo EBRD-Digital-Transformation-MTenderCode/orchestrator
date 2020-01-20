@@ -1,6 +1,7 @@
 package com.procurement.orchestrator.rest;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.procurement.orchestrator.delegate.reference.OrganizationSchemeForSupplier;
 import com.procurement.orchestrator.domain.dto.command.ResponseDto;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.http.ResponseEntity;
@@ -39,8 +40,8 @@ public interface MdmRestClient {
         @PathVariable("regionId") String regionId
     );
 
-    @RequestMapping(method = RequestMethod.GET, path = "/organization/schemes")
-    ResponseEntity<String> getOrganizationSchemes(@RequestParam("country") String country);
+    @RequestMapping(method = RequestMethod.POST, path = "/organization/schemes")
+    ResponseEntity<String> getOrganizationSchemes(@RequestBody OrganizationSchemeForSupplier.Countries countries);
 
     @RequestMapping(method = RequestMethod.GET, path = "/organization/scales")
     ResponseEntity<String> getOrganizationScales(@RequestParam("country") String country);
