@@ -49,7 +49,9 @@ public class SubmissionOpenBidDocsForEvaluation implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
 
-        final JsonNode commandMessage = processService.getCommandMessage(OPEN_BID_DOCS, context, jsonData);
+        final JsonNode payload = generatePayload(jsonData);
+
+        final JsonNode commandMessage = processService.getCommandMessage(OPEN_BID_DOCS, context, payload);
         LOG.debug("COMMAND ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(commandMessage));
 
         final ResponseEntity<ResponseDto> response = submissionRestClient.execute(commandMessage);
@@ -76,6 +78,12 @@ public class SubmissionOpenBidDocsForEvaluation implements JavaDelegate {
             processService.terminateProcess(processId, e.getMessage());
             return null;
         }
+    }
+
+    private JsonNode generatePayload(final JsonNode jsonData) {
+        final JsonNode relatedBid = jsonData.get("award").get("relatedBid");
+        final ObjectNode payload = jsonUtil.createObjectNode();
+        return payload.set("bidId", relatedBid);
     }
 
 }
