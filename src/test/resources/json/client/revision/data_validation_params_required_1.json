@@ -1,0 +1,15 @@
+{
+  "cpid": "ocds-b3wdp1-MD-1580458690892",
+  "ocid": "ocds-b3wdp1-MD-1580458690892-EV-1580458791896",
+  "operationType": "tenderCancellation",
+  "amendment": {
+    "id": "bbf51c6d-478f-4a96-8bd2-503e5218d4fa",
+    "documents": [
+      {
+        "id": "document-1",
+        "documentType": "awardNotice",
+        "title": "document-title"
+      }
+    ]
+  }
+}

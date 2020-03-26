@@ -1,0 +1,16 @@
+{
+  "id": "bbf51c6d-478f-4a96-8bd2-503e5218d4fa",
+  "token": "31c55802-8aa0-431d-9e2b-5f9bf91b9a08",
+  "type": "cancellation",
+  "status": "active",
+  "relatesTo": "lot",
+  "relatedItem": "317675d5-859a-4d46-bed1-35913beb916d",
+  "date": "2020-03-26T12:36:20Z",
+  "documents": [
+    {
+      "id": "document-1",
+      "documentType": "awardNotice",
+      "title": "document-title"
+    }
+  ]
+}
