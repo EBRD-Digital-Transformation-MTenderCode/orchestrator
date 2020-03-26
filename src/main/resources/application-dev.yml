@@ -37,6 +37,31 @@ feign:
         connectTimeout: 10000
         readTimeout: 10000
 
+notification:
+  incident:
+    bootstrap-servers: 10.0.20.107:9092,10.0.20.108:9092,10.0.20.109:9092
+    retries: 5
+    topic: incidents
+
+  platform:
+    bootstrap-servers: 10.0.20.107:9092,10.0.20.108:9092,10.0.20.109:9092
+    retries: 5
+    topic: notification-kafka-channel
+
+components:
+  eAccess:
+    host: 10.0.20.125
+    port: 9031
+  eRevision:
+    host: 10.0.20.125
+    port: 9351
+  storage:
+    host: 10.0.20.125
+    port: 9131
+  eNotice:
+    host: 10.0.20.125
+    port: 9041
+
 ribbon:
   eureka:
     enabled: false

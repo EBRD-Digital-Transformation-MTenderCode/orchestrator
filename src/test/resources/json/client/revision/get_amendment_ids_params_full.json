@@ -1,0 +1,10 @@
+{
+  "cpid": "ocds-b3wdp1-MD-1580458690892",
+  "ocid": "ocds-b3wdp1-MD-1580458690892-EV-1580458791896",
+  "type": "cancellation",
+  "status": "active",
+  "relatesTo": "tender",
+  "relatedItems": [
+    "317675d5-859a-4d46-bed1-35913beb916d"
+  ]
+}
