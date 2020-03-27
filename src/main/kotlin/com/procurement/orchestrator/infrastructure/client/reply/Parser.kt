@@ -2,6 +2,7 @@ package com.procurement.orchestrator.infrastructure.client.reply
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.procurement.orchestrator.application.service.Transform
+import com.procurement.orchestrator.domain.EnumElementProvider.Companion.keysAsStrings
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.fail.error.DataValidationErrors
 import com.procurement.orchestrator.domain.functional.Result
@@ -210,7 +211,7 @@ private fun getLevel(text: String): Result<Reply.Result.Incident.Level, DataVali
         ?: failure(
             DataValidationErrors.UnknownValue(
                 name = "level",
-                expectedValues = Reply.Result.Incident.Level.allowedValues,
+                expectedValues = Reply.Result.Incident.Level.allowedElements.keysAsStrings(),
                 actualValue = text
             )
         )

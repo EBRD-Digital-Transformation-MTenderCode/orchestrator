@@ -9,6 +9,7 @@ import com.procurement.orchestrator.application.model.process.LatestProcessConte
 import com.procurement.orchestrator.application.repository.RuleRepository
 import com.procurement.orchestrator.application.service.ProcessService
 import com.procurement.orchestrator.application.service.Transform
+import com.procurement.orchestrator.domain.EnumElementProvider.Companion.keysAsStrings
 import com.procurement.orchestrator.domain.extension.date.nowDefaultUTC
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.fail.error.DataValidationErrors
@@ -134,7 +135,7 @@ class CancellationServiceImpl(
                                                 ?: return MaybeFail.fail(
                                                     DataValidationErrors.UnknownValue(
                                                         name = "amendment.documents[id:${document.id}].documentType",
-                                                        expectedValues = DocumentType.allowedValues,
+                                                        expectedValues = DocumentType.allowedElements.keysAsStrings(),
                                                         actualValue = document.documentType
                                                     )
                                                 ),
@@ -244,7 +245,7 @@ class CancellationServiceImpl(
                                                 ?: return MaybeFail.fail(
                                                     DataValidationErrors.UnknownValue(
                                                         name = "amendment.documents[id:${document.id}].documentType",
-                                                        expectedValues = DocumentType.allowedValues,
+                                                        expectedValues = DocumentType.allowedElements.keysAsStrings(),
                                                         actualValue = document.documentType
                                                     )
                                                 ),

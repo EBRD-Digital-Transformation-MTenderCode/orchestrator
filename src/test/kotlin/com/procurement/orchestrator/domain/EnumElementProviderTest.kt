@@ -1,6 +1,7 @@
 package com.procurement.orchestrator.domain
 
 import com.fasterxml.jackson.annotation.JsonValue
+import com.procurement.orchestrator.domain.EnumElementProvider.Companion.keysAsStrings
 import com.procurement.orchestrator.exceptions.EnumElementProviderException
 import com.procurement.orchestrator.extension.junit.assertFailure
 import com.procurement.orchestrator.extension.junit.assertSuccess
@@ -16,7 +17,7 @@ class EnumElementProviderTest {
     @Test
     fun testAnnotations() {
         val allowedValuesExpected = "element-1 (Deprecated), element-3"
-        val allowedValuesActual = ABC.allowedValues.joinToString()
+        val allowedValuesActual = ABC.allowedElements.keysAsStrings().joinToString()
         assertEquals(allowedValuesExpected, allowedValuesActual)
     }
 

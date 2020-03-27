@@ -4,6 +4,7 @@ import com.procurement.orchestrator.application.client.RevisionClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
+import com.procurement.orchestrator.domain.EnumElementProvider.Companion.keysAsStrings
 import com.procurement.orchestrator.domain.extension.amendmentIds
 import com.procurement.orchestrator.domain.extension.union
 import com.procurement.orchestrator.domain.fail.Fail
@@ -45,7 +46,7 @@ class RevisionGetAmendmentIdsDelegate(
                     ?: return failure(
                         Fail.Incident.Bpmn.Parameter.UnknownValue(
                             name = "type",
-                            expectedValues = AmendmentType.allowedValues,
+                            expectedValues = AmendmentType.allowedElements.keysAsStrings(),
                             actualValue = it
                         )
                     )
@@ -59,7 +60,7 @@ class RevisionGetAmendmentIdsDelegate(
                     ?: return failure(
                         Fail.Incident.Bpmn.Parameter.UnknownValue(
                             name = "status",
-                            expectedValues = AmendmentType.allowedValues,
+                            expectedValues = AmendmentType.allowedElements.keysAsStrings(),
                             actualValue = it
                         )
                     )
@@ -73,7 +74,7 @@ class RevisionGetAmendmentIdsDelegate(
                     ?: return failure(
                         Fail.Incident.Bpmn.Parameter.UnknownValue(
                             name = "relatesTo",
-                            expectedValues = AmendmentType.allowedValues,
+                            expectedValues = AmendmentType.allowedElements.keysAsStrings(),
                             actualValue = it
                         )
                     )

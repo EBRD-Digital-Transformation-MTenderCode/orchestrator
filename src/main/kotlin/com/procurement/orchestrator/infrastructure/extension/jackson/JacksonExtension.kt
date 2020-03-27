@@ -3,6 +3,7 @@ package com.procurement.orchestrator.infrastructure.extension.jackson
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.node.JsonNodeType
 import com.procurement.orchestrator.domain.EnumElementProvider
+import com.procurement.orchestrator.domain.EnumElementProvider.Companion.keysAsStrings
 import com.procurement.orchestrator.domain.fail.error.DataValidationErrors
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.failure
@@ -47,14 +48,14 @@ fun JsonNode.tryGetBigDecimalAttribute(name: String): Result<BigDecimal, DataVal
 
 fun <T> JsonNode.tryGetAttributeAsEnum(name: String, enumProvider: EnumElementProvider<T>):
     Result<T, DataValidationErrors> where T : Enum<T>,
-                                                                                                            T : EnumElementProvider.Key = this.tryGetTextAttribute(name)
+                                          T : EnumElementProvider.Key = this.tryGetTextAttribute(name)
     .bind { text ->
         enumProvider.orNull(text)
             ?.asSuccess<T, DataValidationErrors>()
             ?: failure(
                 DataValidationErrors.UnknownValue(
                     name = name,
-                    expectedValues = enumProvider.allowedValues,
+                    expectedValues = enumProvider.allowedElements.keysAsStrings(),
                     actualValue = text
                 )
             )

@@ -3,6 +3,7 @@ package com.procurement.orchestrator.infrastructure.extension.http
 import com.procurement.orchestrator.application.model.OperationId
 import com.procurement.orchestrator.application.model.PlatformId
 import com.procurement.orchestrator.application.model.Token
+import com.procurement.orchestrator.domain.EnumElementProvider.Companion.keysAsStrings
 import com.procurement.orchestrator.domain.fail.error.RequestErrors
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.failure
@@ -23,7 +24,6 @@ private const val QUERY_PARAM_PMD = "pmd"
 
 private const val AUTH_TOKEN_TYPE = "Bearer"
 private const val START_AUTH_TOKEN_POSITION = AUTH_TOKEN_TYPE.length + 1
-
 
 fun HttpServletRequest.getPlatformId(): Result<PlatformId, RequestErrors.Header> {
     val header: String = this.getRequiredHeader(HEADER_AUTHORIZATION)
@@ -112,7 +112,7 @@ fun HttpServletRequest.getPmd(): Result<ProcurementMethod, RequestErrors.QueryPa
         ?.let { success(it) }
         ?: RequestErrors.QueryParameter.UnknownValue(
             name = QUERY_PARAM_PMD,
-            expectedValues = ProcurementMethod.allowedValues,
+            expectedValues = ProcurementMethod.allowedElements.keysAsStrings(),
             actualValue = param
         )
             .asFailure()

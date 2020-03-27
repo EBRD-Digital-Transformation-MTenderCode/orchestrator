@@ -6,6 +6,7 @@ import com.procurement.orchestrator.application.model.process.OperationTypeProce
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.EnumElementProvider
+import com.procurement.orchestrator.domain.EnumElementProvider.Companion.keysAsStrings
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
@@ -40,7 +41,7 @@ class StorageCheckRegistrationDelegate(
                     ?: return failure(
                         Fail.Incident.Bpmn.Parameter.UnknownValue(
                             name = "entities",
-                            expectedValues = OperationTypeProcess.allowedValues,
+                            expectedValues = OperationTypeProcess.allowedElements.keysAsStrings(),
                             actualValue = it
                         )
                     )
