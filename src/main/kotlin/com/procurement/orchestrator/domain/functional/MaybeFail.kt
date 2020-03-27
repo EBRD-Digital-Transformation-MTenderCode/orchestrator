@@ -19,7 +19,7 @@ sealed class MaybeFail<out E> {
         is None -> this
     }
 
-    fun <R> bind(function: (E) -> MaybeFail<R>): MaybeFail<R> = when (this) {
+    fun <R> recovery(function: (E) -> MaybeFail<R>): MaybeFail<R> = when (this) {
         is Fail -> function(this.error)
         is None -> this
     }

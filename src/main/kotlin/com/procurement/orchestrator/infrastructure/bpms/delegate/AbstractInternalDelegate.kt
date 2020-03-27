@@ -21,6 +21,7 @@ import kotlinx.coroutines.runBlocking
 import org.camunda.bpm.engine.delegate.DelegateExecution
 import org.camunda.bpm.engine.delegate.JavaDelegate
 import org.camunda.bpm.engine.impl.pvm.PvmException
+import kotlin.coroutines.CoroutineContext
 
 abstract class AbstractInternalDelegate<P, R : Any>(
     private val logger: Logger,
@@ -33,36 +34,29 @@ abstract class AbstractInternalDelegate<P, R : Any>(
         val parameters = parameters(ParameterContainer(execution))
             .doOnError { fail -> fail.throwBpmnIncident() }
             .get
-        val context = CamundaGlobalContext(propertyContainer = execution.asPropertyContainer())
+        val globalContext = CamundaGlobalContext(propertyContainer = execution.asPropertyContainer())
 
         val resultContext = ResultContext()
         val scope = GlobalScope + resultContext
         val result = runBlocking(context = scope.coroutineContext) {
-            execute(context, parameters)
+            execute(globalContext, parameters)
                 .also { data ->
                     if (execution.isUpdateGlobalContext) {
-                        val resultUpdate =
-                            updateGlobalContext(context = context, parameters = parameters, data = data)
-                        when (resultUpdate) {
-                            is MaybeFail.None ->
-                                when (val resultSerialization = context.serialize(transform)) {
-                                    is Result.Success -> {
-                                        val ctx = coroutineContext[ResultContext.Key]!!
-                                        ctx.globalContext(resultSerialization.get)
-                                    }
-                                    is Result.Failure -> return@runBlocking failure(resultSerialization.error)
-                                }
-
-                            is MaybeFail.Fail -> return@runBlocking failure(resultUpdate.error)
-                        }
+                        updateGlobalContext(context = globalContext, parameters = parameters, data = data)
+                            .doOnFail { return@runBlocking failure(it) }
+                        appendContextForSave(globalContext, coroutineContext)
+                            .doOnFail { return@runBlocking failure(it) }
+                    } else {
+                        appendContextForSave(globalContext, coroutineContext)
+                            .doOnFail { return@runBlocking failure(it) }
                     }
                 }
         }
             .doOnError { fail -> fail.throwBpmnIncident() }
             .get
 
-        val requestInfo = context.requestInfo
-        val processInfo = context.processInfo
+        val requestInfo = globalContext.requestInfo
+        val processInfo = globalContext.processInfo
 
         val processId = execution.processInstanceId
         val taskId = execution.currentActivityId
@@ -102,6 +96,19 @@ abstract class AbstractInternalDelegate<P, R : Any>(
         parameters: P,
         data: R
     ): MaybeFail<Fail.Incident.Bpmn>
+
+    private fun appendContextForSave(
+        globalContext: CamundaGlobalContext,
+        coroutineContext: CoroutineContext
+    ): MaybeFail<Fail.Incident> = when (
+        val resultSerialization = globalContext.serialize(transform)) {
+        is Result.Success -> {
+            val ctx = coroutineContext[ResultContext.Key]!!
+            ctx.globalContext(resultSerialization.get)
+            MaybeFail.none()
+        }
+        is Result.Failure -> MaybeFail.fail(resultSerialization.error)
+    }
 
     private fun Fail.Incident.throwBpmnIncident(): Nothing {
         logging(logger)
