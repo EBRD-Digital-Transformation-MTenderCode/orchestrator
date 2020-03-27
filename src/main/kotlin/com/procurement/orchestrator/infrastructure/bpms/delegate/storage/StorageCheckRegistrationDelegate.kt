@@ -73,6 +73,9 @@ class StorageCheckRegistrationDelegate(
             }
             .toList()
 
+        if (documentIds.isEmpty())
+            return success(Reply.None)
+
         return client.checkRegistration(params = CheckRegistrationAction.Params(documentIds))
     }
 
