@@ -16,6 +16,7 @@ import com.procurement.orchestrator.domain.model.tender.Tender
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
+import com.procurement.orchestrator.infrastructure.client.reply.EMPTY_REPLY_ID
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.storage.action.OpenAccessAction
 import org.springframework.stereotype.Component
@@ -75,6 +76,16 @@ class StorageOpenAccessDelegate(
             }
             .toList()
 
+        if (documentIds.isEmpty())
+            return success(
+                Reply(
+                    id = EMPTY_REPLY_ID,
+                    version = "",
+                    status = Reply.Status.SUCCESS,
+                    result = Reply.Result.Success(OpenAccessAction.Result(emptyList()))
+                )
+            )
+
         return client.openAccess(params = OpenAccessAction.Params(documentIds))
     }
 
@@ -83,6 +94,10 @@ class StorageOpenAccessDelegate(
         parameters: Parameters,
         data: OpenAccessAction.Result
     ): MaybeFail<Fail.Incident.Bpmn> {
+
+        if(data.isEmpty())
+            return MaybeFail.none()
+
         val tender = context.tender
             ?: Fail.Incident.Bpe(description = "The global context does not contain a 'Tender' object.")
                 .throwIncident()
