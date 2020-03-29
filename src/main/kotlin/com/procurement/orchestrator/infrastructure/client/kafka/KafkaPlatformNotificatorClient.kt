@@ -18,7 +18,7 @@ class KafkaPlatformNotificatorClient(
     override val retryInfo = RetryInfo(
         attempts = notificationProperties.platform.retries
             ?.let { Attempts.Limited(residue = it) }
-            ?: Attempts.Limited()
+            ?: Attempts.Unlimited
     )
 
     override val producer: KafkaProducer<String, String> = KafkaProducer(
