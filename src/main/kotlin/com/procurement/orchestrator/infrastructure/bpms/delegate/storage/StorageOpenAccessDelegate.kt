@@ -58,8 +58,7 @@ class StorageOpenAccessDelegate(
     ): Result<Reply<OpenAccessAction.Result>, Fail.Incident> {
 
         val tender = context.tender
-            ?: Fail.Incident.Bpe(description = "The global context does not contain a 'Tender' object.")
-                .throwIncident()
+            ?: return failure(Fail.Incident.Bpe(description = "The global context does not contain a 'Tender' object."))
 
         val documentIds: List<DocumentId> = parameters.entities
             .asSequence()
@@ -94,14 +93,15 @@ class StorageOpenAccessDelegate(
         context: CamundaGlobalContext,
         parameters: Parameters,
         data: OpenAccessAction.Result
-    ): MaybeFail<Fail.Incident.Bpmn> {
+    ): MaybeFail<Fail.Incident> {
 
         if (data.isEmpty())
             return MaybeFail.none()
 
         val tender = context.tender
-            ?: Fail.Incident.Bpe(description = "The global context does not contain a 'Tender' object.")
-                .throwIncident()
+            ?: return MaybeFail.fail(
+                Fail.Incident.Bpe(description = "The global context does not contain a 'Tender' object.")
+            )
 
         val documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document> = data.associateBy { it.id }
 

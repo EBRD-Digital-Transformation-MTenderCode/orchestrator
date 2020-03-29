@@ -110,8 +110,7 @@ class RevisionGetAmendmentIdsDelegate(
                 AmendmentRelatesTo.TENDER -> listOf(ocid.toString())
                 AmendmentRelatesTo.LOT -> {
                     val tender = context.tender
-                        ?: Fail.Incident.Bpe(description = "The global context does not contain a 'Tender' object.")
-                            .throwIncident()
+                        ?: return failure(Fail.Incident.Bpe(description = "The global context does not contain a 'Tender' object."))
 
                     if (tender.lots.isEmpty())
                         return failure(Fail.Incident.Bpmn.Context.Empty(name = "tender.lots"))
@@ -143,10 +142,11 @@ class RevisionGetAmendmentIdsDelegate(
         context: CamundaGlobalContext,
         parameters: Parameters,
         data: List<AmendmentId>
-    ): MaybeFail<Fail.Incident.Bpmn> {
+    ): MaybeFail<Fail.Incident> {
         val tender = context.tender
-            ?: Fail.Incident.Bpe(description = "The global context does not contain a 'Tender' object.")
-                .throwIncident()
+            ?: return MaybeFail.fail(
+                Fail.Incident.Bpe(description = "The global context does not contain a 'Tender' object.")
+            )
 
         val knowAmendmentIds = tender.amendmentIds()
         val receivedAmendmentIds = data.toSet()

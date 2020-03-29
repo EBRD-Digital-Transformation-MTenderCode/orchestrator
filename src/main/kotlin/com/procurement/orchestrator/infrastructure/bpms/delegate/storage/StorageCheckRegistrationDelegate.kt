@@ -55,8 +55,7 @@ class StorageCheckRegistrationDelegate(
         parameters: Parameters
     ): Result<Reply<Unit>, Fail.Incident> {
         val tender = context.tender
-            ?: Fail.Incident.Bpe(description = "The global context does not contain a 'Tender' object.")
-                .throwIncident()
+            ?: return failure(Fail.Incident.Bpe(description = "The global context does not contain a 'Tender' object."))
 
         val documentIds: List<DocumentId> = parameters.entities
             .asSequence()

@@ -107,10 +107,11 @@ class AccessGetLotIdsDelegate(
         context: CamundaGlobalContext,
         parameters: Parameters,
         data: List<LotId>
-    ): MaybeFail<Fail.Incident.Bpmn> {
+    ): MaybeFail<Fail.Incident> {
         val tender = context.tender
-            ?: Fail.Incident.Bpe(description = "The global context does not contain a 'Tender' object.")
-                .throwIncident()
+            ?: return MaybeFail.fail(
+                Fail.Incident.Bpe(description = "The global context does not contain a 'Tender' object.")
+            )
 
         val knowLotIds = tender.lotIds()
         val receivedLotIds = data.toSet()

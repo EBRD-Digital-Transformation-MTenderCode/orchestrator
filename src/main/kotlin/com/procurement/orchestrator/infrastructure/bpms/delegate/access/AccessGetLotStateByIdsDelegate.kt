@@ -8,6 +8,7 @@ import com.procurement.orchestrator.domain.extension.lotIds
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
+import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.model.lot.Lot
 import com.procurement.orchestrator.domain.model.lot.LotId
@@ -40,8 +41,8 @@ class AccessGetLotStateByIdsDelegate(
     ): Result<Reply<GetLotStateByIdsAction.Result>, Fail.Incident> {
 
         val tender = context.tender
-            ?: Fail.Incident.Bpe(description = "The global context does not contain a 'Tender' object.")
-                .throwIncident()
+            ?: return failure(Fail.Incident.Bpe(description = "The global context does not contain a 'Tender' object."))
+
         val processInfo = context.processInfo
         return accessClient.getLotStateByIds(
             params = GetLotStateByIdsAction.Params(
@@ -57,10 +58,11 @@ class AccessGetLotStateByIdsDelegate(
         context: CamundaGlobalContext,
         parameters: Unit,
         data: GetLotStateByIdsAction.Result
-    ): MaybeFail<Fail.Incident.Bpmn> {
+    ): MaybeFail<Fail.Incident> {
         val tender = context.tender
-            ?: Fail.Incident.Bpe(description = "The global context does not contain a 'Tender' object.")
-                .throwIncident()
+            ?: return MaybeFail.fail(
+                Fail.Incident.Bpe(description = "The global context does not contain a 'Tender' object.")
+            )
 
         val receivedLotByIds: Map<LotId, GetLotStateByIdsAction.Result.Lot> = data.associateBy { it.id }
         val receivedLotIds = receivedLotByIds.keys

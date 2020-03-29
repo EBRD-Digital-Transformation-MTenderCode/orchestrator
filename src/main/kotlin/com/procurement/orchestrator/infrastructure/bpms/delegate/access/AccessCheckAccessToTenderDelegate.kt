@@ -9,6 +9,7 @@ import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
+import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
@@ -45,8 +46,8 @@ class AccessCheckAccessToTenderDelegate(
         val ocid: Ocid = processInfo.ocid
 
         val tender: Tender = context.tender
-            ?: Fail.Incident.Bpe(description = "The global context does not contain a 'Tender' object.")
-                .throwIncident()
+            ?: return failure(Fail.Incident.Bpe(description = "The global context does not contain a 'Tender' object."))
+
         val token: Token = tender.token
         val owner: Owner = tender.owner
 

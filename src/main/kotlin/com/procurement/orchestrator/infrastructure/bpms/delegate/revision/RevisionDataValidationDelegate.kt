@@ -38,8 +38,7 @@ class RevisionDataValidationDelegate(
     ): Result<Reply<Unit>, Fail.Incident> {
 
         val tender = context.tender
-            ?: Fail.Incident.Bpe(description = "The global context does not contain a 'Tender' object.")
-                .throwIncident()
+            ?: return failure(Fail.Incident.Bpe(description = "The global context does not contain a 'Tender' object."))
 
         if (tender.amendments.size != 1)
             return failure(

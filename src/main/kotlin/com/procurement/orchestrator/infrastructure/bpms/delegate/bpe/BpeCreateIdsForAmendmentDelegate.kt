@@ -6,6 +6,7 @@ import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
+import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.model.amendment.AmendmentId
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
@@ -30,13 +31,14 @@ class BpeCreateIdsForAmendmentDelegate(
 
     override suspend fun execute(context: CamundaGlobalContext, parameters: Unit): Result<Reply<Unit>, Fail.Incident> {
         val tender = context.tender
-            ?: Fail.Incident.Bpe(description = "The global context does not contain a 'Tender' object.")
-                .throwIncident()
+            ?: return failure(Fail.Incident.Bpe(description = "The global context does not contain a 'Tender' object."))
 
         val amendments = tender.amendments
             .takeIf { it.isNotEmpty() }
-            ?: Fail.Incident.Bpe(description = "The global context does not contain 'Tender.Amendments' object.")
-                .throwIncident()
+            ?: return failure(
+                Fail.Incident.Bpe(description = "The global context does not contain 'Tender.Amendments' object.")
+            )
+
 
         context.tender = tender.copy(
             amendments = amendments.map { amendment ->
