@@ -1,6 +1,7 @@
 package com.procurement.orchestrator.infrastructure.client.kafka
 
 import com.procurement.orchestrator.application.model.context.members.Incident
+import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.infrastructure.client.retry.Attempts
 import com.procurement.orchestrator.infrastructure.client.retry.RetryInfo
@@ -9,9 +10,10 @@ import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.common.serialization.StringSerializer
 
 class KafkaIncidentNotificatorClient(
+    logger: Logger,
     notificationProperties: NotificationProperties,
     transform: Transform
-) : AbstractKafkaNotificatorClient<Incident>(transform) {
+) : AbstractKafkaNotificatorClient<Incident>(logger, transform) {
 
     override val topic: String = notificationProperties.incident.topic!!
 

@@ -1,8 +1,8 @@
 package com.procurement.orchestrator.infrastructure.configuration
 
 import com.procurement.orchestrator.application.client.NotificatorClient
+import com.procurement.orchestrator.application.model.context.members.Incident
 import com.procurement.orchestrator.application.service.Transform
-import com.procurement.orchestrator.infrastructure.bpms.delegate.BpeIncident
 import com.procurement.orchestrator.infrastructure.bpms.delegate.notifier.PlatformNotification
 import com.procurement.orchestrator.infrastructure.client.kafka.KafkaIncidentNotificatorClient
 import com.procurement.orchestrator.infrastructure.client.kafka.KafkaPlatformNotificatorClient
@@ -13,18 +13,20 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 @EnableConfigurationProperties(
-    NotificationProperties::class
+    NotificationProperties::class,
+    LoggerConfiguration::class
 )
 class NotificatorConfiguration(
     private val notificationProperties: NotificationProperties,
-    private val transform: Transform
+    private val transform: Transform,
+    private val loggerConfiguration: LoggerConfiguration
 ) {
 
     @Bean
-    fun incidentNotificatorClient(): NotificatorClient<BpeIncident> =
-        KafkaIncidentNotificatorClient(notificationProperties, transform)
+    fun incidentNotificatorClient(): NotificatorClient<Incident> =
+        KafkaIncidentNotificatorClient(loggerConfiguration.logger(), notificationProperties, transform)
 
     @Bean
     fun platformNotificatorClient(): NotificatorClient<PlatformNotification.MessageEnvelop> =
-        KafkaPlatformNotificatorClient(notificationProperties, transform)
+        KafkaPlatformNotificatorClient(loggerConfiguration.logger(), notificationProperties, transform)
 }

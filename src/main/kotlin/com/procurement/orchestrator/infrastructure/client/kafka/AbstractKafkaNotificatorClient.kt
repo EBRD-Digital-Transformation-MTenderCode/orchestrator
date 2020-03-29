@@ -1,6 +1,7 @@
 package com.procurement.orchestrator.infrastructure.client.kafka
 
 import com.procurement.orchestrator.application.client.NotificatorClient
+import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
@@ -14,12 +15,14 @@ import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.kafka.clients.producer.RecordMetadata
 import kotlin.coroutines.coroutineContext
 
-abstract class AbstractKafkaNotificatorClient<T>(private val transform: Transform) : NotificatorClient<T> {
+abstract class AbstractKafkaNotificatorClient<T>(
+    private val logger: Logger,
+    private val transform: Transform
+) : NotificatorClient<T> {
 
     abstract val topic: String
     abstract val retryInfo: RetryInfo
     abstract val producer: KafkaProducer<String, String>
-
 
     final override suspend fun send(message: T): MaybeFail<Fail.Incident> {
         val value = transform.trySerialization(message)
@@ -40,6 +43,8 @@ abstract class AbstractKafkaNotificatorClient<T>(private val transform: Transfor
         when (val result = producer.trySend(record)) {
             is Result.Success -> result
             is Result.Failure -> {
+                result.error.logging(logger = logger)
+
                 if (retryInfo.attempts.nonNext)
                     result
                 else {

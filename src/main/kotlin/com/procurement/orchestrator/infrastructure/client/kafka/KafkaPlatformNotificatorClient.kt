@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.infrastructure.client.kafka
 
+import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.infrastructure.bpms.delegate.notifier.PlatformNotification
 import com.procurement.orchestrator.infrastructure.client.retry.Attempts
@@ -9,9 +10,10 @@ import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.common.serialization.StringSerializer
 
 class KafkaPlatformNotificatorClient(
+    logger: Logger,
     notificationProperties: NotificationProperties,
     transform: Transform
-) : AbstractKafkaNotificatorClient<PlatformNotification.MessageEnvelop>(transform) {
+) : AbstractKafkaNotificatorClient<PlatformNotification.MessageEnvelop>(logger, transform) {
 
     override val topic: String = notificationProperties.platform.topic!!
 
