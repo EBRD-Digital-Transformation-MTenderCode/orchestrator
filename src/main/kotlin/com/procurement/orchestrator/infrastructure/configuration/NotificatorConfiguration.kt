@@ -10,10 +10,13 @@ import com.procurement.orchestrator.infrastructure.configuration.property.Notifi
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Import
 
 @Configuration
 @EnableConfigurationProperties(
-    NotificationProperties::class,
+    NotificationProperties::class
+)
+@Import(
     LoggerConfiguration::class
 )
 class NotificatorConfiguration(
