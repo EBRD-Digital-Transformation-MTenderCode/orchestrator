@@ -33,7 +33,10 @@ data class RequirementResponse(
     @field:JsonProperty("requirement") @param:JsonProperty("requirement") val requirement: RequirementReference? = null,
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
-    @field:JsonProperty("relatedTenderer") @param:JsonProperty("relatedTenderer") val relatedTenderer: OrganizationReference? = null
+    @field:JsonProperty("relatedTenderer") @param:JsonProperty("relatedTenderer") val relatedTenderer: OrganizationReference? = null,
+
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonProperty("responder") @param:JsonProperty("responder") val responder: Responder?
 ) : Serializable {
 
     override fun equals(other: Any?): Boolean = if (this === other)

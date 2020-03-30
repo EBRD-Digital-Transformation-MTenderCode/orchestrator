@@ -6,6 +6,7 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.WebClient
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckAccessToTenderAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckPersonsStructureAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotStateByIdsAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
@@ -34,5 +35,11 @@ class HttpAccessClient(private val webClient: WebClient, properties: ComponentPr
         webClient.call(
             url = url,
             command = AccessCommands.CheckAccessToTender.build(params = params)
+        )
+
+    override suspend fun checkPersonsStructure(params: CheckPersonsStructureAction.Params): Result<Reply<Unit>, Fail.Incident> =
+        webClient.call(
+            url = url,
+            command = AccessCommands.CheckPersonsStructure.build(params = params)
         )
 }
