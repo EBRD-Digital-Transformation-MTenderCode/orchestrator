@@ -65,6 +65,8 @@ class RevisionCreateAmendmentDelegate(
                     )
                 tender.lots[0].id.toString()
             }
+            OperationTypeProcess.DECLARE_OF_NON_CONFLICT_OF_INTEREST ->
+                return failure(Fail.Incident.Bpe(description = "Operation type: '${processInfo.operationType.key}' in this delegate do not implemented."))
         }
 
         val amendment = tender.amendments[0]
