@@ -43,6 +43,7 @@
         <logstash.logback.encoder.version>4.11</logstash.logback.encoder.version>
 
         <!--Libs-->
+        <camunda-starter.version>2.3.0</camunda-starter.version>
         <java-jwt.version>3.3.0</java-jwt.version>
         <netty.version>4.1.17.Final</netty.version>
         <httpok.version>4.4.0</httpok.version>
@@ -88,7 +89,12 @@
         <dependency>
             <groupId>org.camunda.bpm.springboot</groupId>
             <artifactId>camunda-bpm-spring-boot-starter</artifactId>
-            <version>2.3.0</version>
+            <version>${camunda-starter.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.camunda.bpm.springboot</groupId>
+            <artifactId>camunda-bpm-spring-boot-starter-webapp</artifactId>
+            <version>${camunda-starter.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

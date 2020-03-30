@@ -27,6 +27,9 @@ camunda:
   bpm:
     auto-deployment-enabled: true
     history-level: none
+    admin-user:
+      id: demo
+      password: demo123
 
 feign:
   hystrix:
