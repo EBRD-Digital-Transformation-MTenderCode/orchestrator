@@ -9,6 +9,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Chec
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckPersonsStructureAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotStateByIdsAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.ResponderProcessingAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
 import java.net.URL
 
@@ -41,5 +42,12 @@ class HttpAccessClient(private val webClient: WebClient, properties: ComponentPr
         webClient.call(
             url = url,
             command = AccessCommands.CheckPersonsStructure.build(params = params)
+        )
+
+    override suspend fun responderProcessing(params: ResponderProcessingAction.Params): Result<Reply<ResponderProcessingAction.Result>, Fail.Incident> =
+        webClient.call(
+            url = url,
+            command = AccessCommands.ResponderProcessing.build(params = params),
+            target = AccessCommands.ResponderProcessing.target
         )
 }

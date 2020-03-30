@@ -14,6 +14,7 @@ import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.model.award.Award
 import com.procurement.orchestrator.domain.model.bid.Bids
+import com.procurement.orchestrator.domain.model.organization.Organization
 import com.procurement.orchestrator.domain.model.tender.Tender
 
 class CamundaGlobalContext(propertyContainer: PropertyContainer) : GlobalContext {
@@ -33,6 +34,8 @@ class CamundaGlobalContext(propertyContainer: PropertyContainer) : GlobalContext
     override var bids: Bids? by nullablePropertyDelegate(propertyContainer)
 
     override var awards: List<Award> by collectionPropertyDelegate(propertyContainer) { emptyList<Award>() }
+
+    override var parties: List<Organization> by collectionPropertyDelegate(propertyContainer) { emptyList<Organization>() }
 }
 
 fun CamundaGlobalContext.serialize(transform: Transform): Result<String, Fail.Incident.Transform.Serialization> =
@@ -45,6 +48,7 @@ fun CamundaGlobalContext.serialize(transform: Transform): Result<String, Fail.In
         override var tender: Tender? = this@serialize.tender
         override var bids: Bids? = this@serialize.bids
         override var awards: List<Award> = this@serialize.awards
+        override var parties: List<Organization> = this@serialize.parties
     }.let { context ->
         transform.trySerialization(context)
     }
