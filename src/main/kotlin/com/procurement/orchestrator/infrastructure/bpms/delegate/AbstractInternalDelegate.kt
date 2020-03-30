@@ -1,26 +1,30 @@
 package com.procurement.orchestrator.infrastructure.bpms.delegate
 
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
+import com.procurement.orchestrator.application.model.context.members.Incident
 import com.procurement.orchestrator.application.model.context.serialize
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
+import com.procurement.orchestrator.domain.extension.date.format
 import com.procurement.orchestrator.domain.extension.date.nowDefaultUTC
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.infrastructure.bpms.extension.asPropertyContainer
+import com.procurement.orchestrator.infrastructure.bpms.extension.incident
 import com.procurement.orchestrator.infrastructure.bpms.extension.isUpdateGlobalContext
 import com.procurement.orchestrator.infrastructure.bpms.extension.setResult
 import com.procurement.orchestrator.infrastructure.bpms.model.ResultContext
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStep
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
+import com.procurement.orchestrator.infrastructure.configuration.property.GlobalProperties
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.plus
 import kotlinx.coroutines.runBlocking
+import org.camunda.bpm.engine.delegate.BpmnError
 import org.camunda.bpm.engine.delegate.DelegateExecution
 import org.camunda.bpm.engine.delegate.JavaDelegate
-import org.camunda.bpm.engine.impl.pvm.PvmException
 import kotlin.coroutines.CoroutineContext
 
 abstract class AbstractInternalDelegate<P, R : Any>(
@@ -29,10 +33,14 @@ abstract class AbstractInternalDelegate<P, R : Any>(
     private val operationStepRepository: OperationStepRepository
 ) : JavaDelegate {
 
+    companion object {
+        private const val INTERNAL_INCIDENT_CODE = "InternalIncident"
+    }
+
     final override fun execute(execution: DelegateExecution) {
 
         val parameters = parameters(ParameterContainer(execution))
-            .doOnError { fail -> fail.throwBpmnIncident() }
+            .doOnError { fail -> execution.throwInternalIncident(fail) }
             .get
         val globalContext = CamundaGlobalContext(propertyContainer = execution.asPropertyContainer())
 
@@ -52,7 +60,7 @@ abstract class AbstractInternalDelegate<P, R : Any>(
                     }
                 }
         }
-            .doOnError { fail -> fail.throwBpmnIncident() }
+            .doOnError { fail -> execution.throwInternalIncident(fail) }
             .get
 
         val requestInfo = globalContext.requestInfo
@@ -79,7 +87,7 @@ abstract class AbstractInternalDelegate<P, R : Any>(
                     context = updatedContext
                 )
             )
-            .doOnError { fail -> fail.throwBpmnIncident() }
+            .doOnError { fail -> execution.throwInternalIncident(fail) }
 
         execution.setResult(value = result)
     }
@@ -110,13 +118,29 @@ abstract class AbstractInternalDelegate<P, R : Any>(
         is Result.Failure -> MaybeFail.fail(resultSerialization.error)
     }
 
-    private fun Fail.Incident.throwBpmnIncident(): Nothing {
-        logging(logger)
-        throw PvmException("${this.level.name} INCIDENT: '${this.description}'")
-    }
-
-    fun Fail.Incident.Bpe.throwIncident(): Nothing {
-        logging(logger)
-        throw PvmException("${this.level.name} INCIDENT: '${this.description}'")
+    private fun DelegateExecution.throwInternalIncident(incident: Fail.Incident): Nothing {
+        incident.logging(logger)
+        incident(
+            Incident(
+                id = this.processInstanceId,
+                date = nowDefaultUTC().format(),
+                level = incident.level.key,
+                service = GlobalProperties.service
+                    .let { service ->
+                        Incident.Service(
+                            id = service.id,
+                            name = service.name,
+                            version = service.version
+                        )
+                    },
+                details = listOf(
+                    Incident.Detail(
+                        code = incident.code,
+                        description = incident.description
+                    )
+                )
+            )
+        )
+        throw BpmnError(INTERNAL_INCIDENT_CODE, this.currentActivityId)
     }
 }

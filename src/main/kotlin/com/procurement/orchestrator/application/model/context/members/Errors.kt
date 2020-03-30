@@ -6,6 +6,9 @@ import java.io.Serializable
 
 class Errors(values: List<Error>) : List<Errors.Error> by values, Serializable {
 
+    operator fun plus(other: Errors): Errors = Errors(this as List<Error> + other as List<Error>)
+    operator fun plus(others: List<Error>): Errors = Errors(this as List<Error> + others)
+
     data class Error(
         @field:JsonProperty("code") @param:JsonProperty("code") val code: String,
 

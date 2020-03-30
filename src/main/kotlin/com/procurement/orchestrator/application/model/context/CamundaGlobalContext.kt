@@ -2,6 +2,7 @@ package com.procurement.orchestrator.application.model.context
 
 import com.procurement.orchestrator.application.model.context.container.PropertyContainer
 import com.procurement.orchestrator.application.model.context.members.Errors
+import com.procurement.orchestrator.application.model.context.members.Incident
 import com.procurement.orchestrator.application.model.context.members.Outcomes
 import com.procurement.orchestrator.application.model.context.members.ProcessInfo
 import com.procurement.orchestrator.application.model.context.members.RequestInfo
@@ -25,6 +26,8 @@ class CamundaGlobalContext(propertyContainer: PropertyContainer) : GlobalContext
 
     override var errors: Errors? by nullablePropertyDelegate(propertyContainer)
 
+    override var incident: Incident? by nullablePropertyDelegate(propertyContainer)
+
     override var tender: Tender? by nullablePropertyDelegate(propertyContainer)
 
     override var bids: Bids? by nullablePropertyDelegate(propertyContainer)
@@ -38,6 +41,7 @@ fun CamundaGlobalContext.serialize(transform: Transform): Result<String, Fail.In
         override var processInfo: ProcessInfo = this@serialize.processInfo
         override var outcomes: Outcomes? = this@serialize.outcomes
         override var errors: Errors? = this@serialize.errors
+        override var incident: Incident? = this@serialize.incident
         override var tender: Tender? = this@serialize.tender
         override var bids: Bids? = this@serialize.bids
         override var awards: List<Award> = this@serialize.awards
