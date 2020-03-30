@@ -1,0 +1,62 @@
+<form role="form" name="form">
+    <label for="Incident-group">Incident</label>
+    <div id="Incident-group" class="form-group">
+        <div class="form-group">
+            <label for="IncidentId-field">Id</label>
+            <input required
+                   id="IncidentId-field"
+                   cam-variable-name="IncidentId"
+                   cam-variable-type="String"
+                   class="form-control"/>
+        </div>
+
+        <div class="form-group">
+            <label for="IncidentDate-field">Date</label>
+            <input required
+                   id="IncidentDate-field"
+                   cam-variable-name="IncidentDate"
+                   cam-variable-type="String"
+                   class="form-control"/>
+        </div>
+
+        <div class="form-group">
+            <label for="IncidentLevel-field">Level</label>
+            <input required
+                   id="IncidentLevel-field"
+                   cam-variable-name="IncidentLevel"
+                   cam-variable-type="String"
+                   class="form-control"/>
+        </div>
+    </div>
+
+
+    <label for="Service-group">Service</label>
+    <div id="Service-group" class="form-group">
+
+        <div class="form-group">
+            <label for="ServiceId-field">Id</label>
+            <input required
+                   id="ServiceId-field"
+                   cam-variable-name="ServiceId"
+                   cam-variable-type="String"
+                   class="form-control"/>
+        </div>
+        <div class="form-group">
+            <label for="ServiceVersion-field">Version</label>
+            <input required
+                   id="ServiceVersion-field"
+                   cam-variable-name="ServiceVersion"
+                   cam-variable-type="String"
+                   class="form-control"/>
+        </div>
+        <div class="form-group">
+            <label for="ServiceName-field">Name</label>
+            <input required
+                   id="ServiceName-field"
+                   cam-variable-name="ServiceName"
+                   cam-variable-type="String"
+                   class="form-control"/>
+        </div>
+    </div>
+<!--    embedded:app:forms/INCIDENT_FORM.html-->
+</form>
