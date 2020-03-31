@@ -119,7 +119,7 @@ class AccessCheckPersonsStructureDelegate(
                     title = responder.title,
                     name = responder.name,
                     identifier = responder.identifier
-                        ?.let { identifier ->
+                        .let { identifier ->
                             CheckPersonsStructureAction.Params.Person.Identifier(
                                 scheme = identifier.scheme,
                                 id = identifier.id,

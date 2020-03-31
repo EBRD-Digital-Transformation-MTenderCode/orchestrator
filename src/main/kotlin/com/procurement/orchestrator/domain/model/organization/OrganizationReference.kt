@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.procurement.orchestrator.domain.model.address.Address
 import com.procurement.orchestrator.domain.model.identifier.Identifier
 import com.procurement.orchestrator.domain.model.organization.datail.Details
-import com.procurement.orchestrator.domain.model.organization.person.Person
+import com.procurement.orchestrator.domain.model.person.Person
 import java.io.Serializable
 
 data class OrganizationReference(

@@ -1,8 +1,9 @@
-package com.procurement.orchestrator.domain.model.organization.person
+package com.procurement.orchestrator.domain.model.person
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.procurement.orchestrator.domain.model.identifier.Identifier
+import com.procurement.orchestrator.domain.model.organization.person.BusinessFunction
 import java.io.Serializable
 
 data class Person(

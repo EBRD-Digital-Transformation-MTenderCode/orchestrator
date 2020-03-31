@@ -14,10 +14,10 @@ import com.procurement.orchestrator.domain.model.Ocid
 import com.procurement.orchestrator.domain.model.award.Award
 import com.procurement.orchestrator.domain.model.document.Document
 import com.procurement.orchestrator.domain.model.identifier.Identifier
-import com.procurement.orchestrator.domain.model.organization.Organization
 import com.procurement.orchestrator.domain.model.organization.person.BusinessFunction
-import com.procurement.orchestrator.domain.model.organization.person.Person
+import com.procurement.orchestrator.domain.model.party.Party
 import com.procurement.orchestrator.domain.model.period.Period
+import com.procurement.orchestrator.domain.model.person.Person
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
@@ -69,7 +69,7 @@ class AccessResponderProcessingDelegate(
         parameters: Unit,
         data: ResponderProcessingAction.Result
     ): MaybeFail<Fail.Incident> {
-        val party = Organization(
+        val party = Party(
             id = data.id,
             name = data.name,
             identifier = data.identifier
@@ -144,7 +144,7 @@ class AccessResponderProcessingDelegate(
                     title = responder.title,
                     name = responder.name,
                     identifier = responder.identifier
-                        ?.let { identifier ->
+                        .let { identifier ->
                             ResponderProcessingAction.Params.Responder.Identifier(
                                 scheme = identifier.scheme,
                                 id = identifier.id,

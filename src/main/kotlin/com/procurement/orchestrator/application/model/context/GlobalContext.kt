@@ -9,7 +9,7 @@ import com.procurement.orchestrator.application.model.context.members.ProcessInf
 import com.procurement.orchestrator.application.model.context.members.RequestInfo
 import com.procurement.orchestrator.domain.model.award.Award
 import com.procurement.orchestrator.domain.model.bid.Bids
-import com.procurement.orchestrator.domain.model.organization.Organization
+import com.procurement.orchestrator.domain.model.party.Party
 import com.procurement.orchestrator.domain.model.tender.Tender
 
 interface GlobalContext {
@@ -46,5 +46,5 @@ interface GlobalContext {
 
     @get:JsonInclude(JsonInclude.Include.NON_EMPTY)
     @get:JsonProperty("parties")
-    var parties: List<Organization>
+    var parties: List<Party>
 }

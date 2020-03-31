@@ -1,4 +1,4 @@
-package com.procurement.orchestrator.domain.model.organization
+package com.procurement.orchestrator.domain.model.party
 
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonValue
