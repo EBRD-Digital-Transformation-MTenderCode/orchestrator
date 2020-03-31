@@ -9,7 +9,7 @@ data class RequirementReference(
     @field:JsonProperty("id") @param:JsonProperty("id") val id: RequirementResponseId,
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
-    @field:JsonProperty("title") @param:JsonProperty("title") val title: String?
+    @field:JsonProperty("title") @param:JsonProperty("title") val title: String? = null
 ) : Serializable {
 
     override fun equals(other: Any?): Boolean = if (this === other)
