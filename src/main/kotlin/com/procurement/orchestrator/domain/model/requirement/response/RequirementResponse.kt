@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.procurement.orchestrator.domain.model.organization.OrganizationReference
 import com.procurement.orchestrator.domain.model.period.Period
+import com.procurement.orchestrator.domain.model.person.Person
 import com.procurement.orchestrator.domain.model.requirement.RequirementReference
 import com.procurement.orchestrator.domain.model.requirement.RequirementResponseValue
 import com.procurement.orchestrator.infrastructure.bind.criteria.requirement.value.RequirementValueDeserializer
@@ -36,7 +37,7 @@ data class RequirementResponse(
     @field:JsonProperty("relatedTenderer") @param:JsonProperty("relatedTenderer") val relatedTenderer: OrganizationReference? = null,
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
-    @field:JsonProperty("responder") @param:JsonProperty("responder") val responder: Responder?
+    @field:JsonProperty("responder") @param:JsonProperty("responder") val responder: Person?
 ) : Serializable {
 
     override fun equals(other: Any?): Boolean = if (this === other)
