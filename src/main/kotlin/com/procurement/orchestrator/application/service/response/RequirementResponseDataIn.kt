@@ -10,6 +10,7 @@ import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
 import com.procurement.orchestrator.domain.model.award.AwardId
 import com.procurement.orchestrator.domain.model.requirement.RequirementResponseValue
+import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponseId
 import com.procurement.orchestrator.infrastructure.bind.criteria.requirement.value.RequirementValueDeserializer
 import com.procurement.orchestrator.infrastructure.bind.criteria.requirement.value.RequirementValueSerializer
 
@@ -36,7 +37,8 @@ object RequirementResponseDataIn {
 
         data class RequirementResponse(
 
-            @field:JsonProperty("id") @param:JsonProperty("id") val id: String,
+            @field:JsonProperty("id") @param:JsonProperty("id") val id: RequirementResponseId.Temporal,
+
             @JsonDeserialize(using = RequirementValueDeserializer::class)
             @JsonSerialize(using = RequirementValueSerializer::class)
             @field:JsonProperty("value") @param:JsonProperty("value") val value: RequirementResponseValue,
