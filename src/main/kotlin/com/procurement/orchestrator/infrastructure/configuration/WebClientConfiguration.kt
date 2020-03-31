@@ -1,6 +1,7 @@
 package com.procurement.orchestrator.infrastructure.configuration
 
 import com.procurement.orchestrator.application.client.AccessClient
+import com.procurement.orchestrator.application.client.DossierClient
 import com.procurement.orchestrator.application.client.MdmClient
 import com.procurement.orchestrator.application.client.NoticeClient
 import com.procurement.orchestrator.application.client.RevisionClient
@@ -9,6 +10,7 @@ import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.infrastructure.client.web.OkHttpWebClient
 import com.procurement.orchestrator.infrastructure.client.web.WebClient
 import com.procurement.orchestrator.infrastructure.client.web.access.HttpAccessClient
+import com.procurement.orchestrator.infrastructure.client.web.dossier.HttpDossierClient
 import com.procurement.orchestrator.infrastructure.client.web.mdm.HttpMdmClient
 import com.procurement.orchestrator.infrastructure.client.web.notice.HttpNoticeClient
 import com.procurement.orchestrator.infrastructure.client.web.revision.HttpRevisionClient
@@ -53,4 +55,7 @@ class WebClientConfiguration(
 
     @Bean
     fun mdmClient(): MdmClient = HttpMdmClient(repositoryConfiguration.errorDescriptionRepository())
+
+    @Bean
+    fun dossierClient(): DossierClient = HttpDossierClient(webClient = webClient(), properties = componentProperties["eDossier"])
 }

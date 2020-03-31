@@ -64,6 +64,9 @@ components:
   eNotice:
     host: 10.0.20.125
     port: 9041
+  eDossier:
+    host: 10.0.20.125
+    port: 9251
 
 ribbon:
   eureka:
