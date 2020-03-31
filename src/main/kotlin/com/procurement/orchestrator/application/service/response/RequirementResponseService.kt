@@ -30,6 +30,7 @@ import com.procurement.orchestrator.domain.model.period.Period
 import com.procurement.orchestrator.domain.model.person.Person
 import com.procurement.orchestrator.domain.model.requirement.RequirementReference
 import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponse
+import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponseId
 import com.procurement.orchestrator.infrastructure.bpms.repository.RequestRecord
 import com.procurement.orchestrator.infrastructure.bpms.repository.RequestRepository
 
@@ -129,7 +130,7 @@ class RequirementResponseServiceImpl(
                             payload.requirementResponse
                                 .let { requirementResponse ->
                                     RequirementResponse(
-                                        id = requirementResponse.id,
+                                        id = RequirementResponseId.Temporal.create(requirementResponse.id),
                                         value = requirementResponse.value,
                                         relatedTenderer = OrganizationReference(
                                             id = requirementResponse.relatedTenderer.id
