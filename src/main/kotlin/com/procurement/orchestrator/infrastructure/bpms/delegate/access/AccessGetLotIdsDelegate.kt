@@ -11,8 +11,8 @@ import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
-import com.procurement.orchestrator.domain.model.Cpid
-import com.procurement.orchestrator.domain.model.Ocid
+import com.procurement.orchestrator.domain.functional.asSuccess
+import com.procurement.orchestrator.domain.model.State
 import com.procurement.orchestrator.domain.model.lot.Lot
 import com.procurement.orchestrator.domain.model.lot.LotId
 import com.procurement.orchestrator.domain.model.lot.LotStatus
@@ -20,6 +20,7 @@ import com.procurement.orchestrator.domain.model.lot.LotStatusDetails
 import com.procurement.orchestrator.domain.util.extension.getNewElements
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
+import com.procurement.orchestrator.infrastructure.bpms.delegate.parameter.StateParameter
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotIdsAction
@@ -39,38 +40,39 @@ class AccessGetLotIdsDelegate(
 ) {
 
     companion object {
-        private const val STATUS = "status"
-        private const val STATUS_DETAILS = "statusDetails"
 
-        private val patternStatus =
-            """[,]*[ ]*(status[ ]*=[ ]*(?<$STATUS>[a-zA-Z]*))?[ ]*[,]*""".toRegex()
-        private val patternStatusDetails =
-            """[,]*[ ]*(statusDetails[ ]*=[ ]*(?<$STATUS_DETAILS>[a-zA-Z]*))?[ ]*[,]*""".toRegex()
+        private const val NAME_PARAMETER_OF_STATES = "states"
 
-        fun parseState(value: String): Result<Pair<LotStatus?, LotStatusDetails?>, String> {
-            val status = patternStatus.matchEntire(value)
-                ?.let { result ->
-                    val groups = result.groups as MatchNamedGroupCollection
-                    LotStatus.tryOf(groups[STATUS]!!.value)
-                        .doOnError { return failure(it) }
-                        .get
-                }
-
-            val statusDetails = patternStatusDetails.matchEntire(value)
-                ?.let { result ->
-                    val groups = result.groups as MatchNamedGroupCollection
-                    LotStatusDetails.tryOf(groups[STATUS_DETAILS]!!.value)
-                        .doOnError { return failure(it) }
-                        .get
-                }
-            return success(status to statusDetails)
-        }
+        fun parseState(value: String): Result<State<LotStatus, LotStatusDetails>, String> = StateParameter.parse(value)
+            .let { result ->
+                State(
+                    status = result.status
+                        ?.let { status ->
+                            LotStatus.tryOf(status)
+                                .doOnError { return failure(it) }
+                                .get
+                        },
+                    statusDetails = result.statusDetails
+                        ?.let { statusDetails ->
+                            LotStatusDetails.tryOf(statusDetails)
+                                .doOnError { return failure(it) }
+                                .get
+                        }
+                )
+            }
+            .asSuccess()
     }
 
     override fun parameters(parameterContainer: ParameterContainer): Result<Parameters, Fail.Incident.Bpmn.Parameter> {
-        val states = parameterContainer.getListString("states")
+        val states = parameterContainer.getListString(NAME_PARAMETER_OF_STATES)
             .doOnError { return failure(it) }
             .get
+            .map { state ->
+                when (val result = parseState(state)) {
+                    is Result.Success -> result.get
+                    is Result.Failure -> throw BpmnError(result.error)
+                }
+            }
         return success(Parameters(states = states))
     }
 
@@ -78,27 +80,19 @@ class AccessGetLotIdsDelegate(
         context: CamundaGlobalContext,
         parameters: Parameters
     ): Result<Reply<List<LotId>>, Fail.Incident> {
-        val states = parameters.states
-            .map { state ->
-                when (val result = parseState(state)) {
-                    is Result.Success -> result.get
-                    is Result.Failure -> throw BpmnError(result.error)
-                }
-            }
 
         val processInfo = context.processInfo
-        val cpid: Cpid = processInfo.cpid
-        val ocid: Ocid = processInfo.ocid
         return accessClient.getLotIds(
             params = GetLotIdsAction.Params(
-                cpid = cpid,
-                ocid = ocid,
-                states = states.map {
-                    GetLotIdsAction.Params.State(
-                        status = it.first,
-                        statusDetails = it.second
-                    )
-                }
+                cpid = processInfo.cpid,
+                ocid = processInfo.ocid,
+                states = parameters.states
+                    .map { state ->
+                        GetLotIdsAction.Params.State(
+                            status = state.status,
+                            statusDetails = state.statusDetails
+                        )
+                    }
             )
         )
     }
@@ -126,5 +120,5 @@ class AccessGetLotIdsDelegate(
         return MaybeFail.none()
     }
 
-    class Parameters(val states: List<String>)
+    class Parameters(val states: List<State<LotStatus, LotStatusDetails>>)
 }
