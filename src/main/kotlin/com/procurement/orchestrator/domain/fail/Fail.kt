@@ -79,11 +79,20 @@ sealed class Fail(prefix: String, number: String) {
                     }
                 }
 
-                class Missing(name: String) :
-                    Context(number = "1", description = "Missing required attribute '$name' in context.")
+                class Missing(name: String, path: String) :
+                    Context(
+                        number = "2",
+                        description = "The global context does not contain the '$name' attribute by the path '$path'."
+                    )
 
-                class Empty(name: String) :
-                    Context(number = "2", description = "Attribute '$name' is empty in context.")
+                class NotFoundElement(id: String, path: String) :
+                    Context(
+                        number = "3",
+                        description = "The element with id '${id}' by the path '$path' is not found in global context."
+                    )
+
+                class Empty(path: String) :
+                    Context(number = "4", description = "Attribute by the path '$path' is empty in global context.")
             }
         }
 

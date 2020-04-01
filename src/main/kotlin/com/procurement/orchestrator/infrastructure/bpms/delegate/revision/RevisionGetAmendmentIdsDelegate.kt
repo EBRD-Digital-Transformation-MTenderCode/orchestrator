@@ -113,7 +113,7 @@ class RevisionGetAmendmentIdsDelegate(
                         ?: return failure(Fail.Incident.Bpe(description = "The global context does not contain a 'Tender' object."))
 
                     if (tender.lots.isEmpty())
-                        return failure(Fail.Incident.Bpmn.Context.Empty(name = "tender.lots"))
+                        return failure(Fail.Incident.Bpmn.Context.Empty(path = "tender.lots"))
 
                     tender.lots.map { it.id.toString() }
                 }
