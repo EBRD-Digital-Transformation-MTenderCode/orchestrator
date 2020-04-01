@@ -31,10 +31,10 @@ data class Award(
     @field:JsonProperty("description") @param:JsonProperty("description") val description: String? = null,
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
-    @field:JsonProperty("status") @param:JsonProperty("status") val status: String? = null,
+    @field:JsonProperty("status") @param:JsonProperty("status") val status: AwardStatus? = null,
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
-    @field:JsonProperty("statusDetails") @param:JsonProperty("statusDetails") val statusDetails: String? = null,
+    @field:JsonProperty("statusDetails") @param:JsonProperty("statusDetails") val statusDetails: AwardStatusDetails? = null,
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonProperty("date") @param:JsonProperty("date") val date: LocalDateTime? = null,
