@@ -2,6 +2,7 @@ package com.procurement.orchestrator.infrastructure.client.web.evaluate
 
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CheckAccessToAwardAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CheckRelatedTendererAction
+import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CreateRequirementResponseAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.GetAwardStateByIdsAction
 import com.procurement.orchestrator.json.testingBindingAndMapping
 import org.junit.jupiter.api.Nested
@@ -49,6 +50,42 @@ class EvaluateActionsTest {
             @Test
             fun fully() {
                 testingBindingAndMapping<CheckRelatedTendererAction.Params>("json/client/evaluate/check_related_tenderer_params_full.json")
+            }
+        }
+    }
+
+    @Nested
+    inner class CreateRequirementResponse {
+
+        @Nested
+        inner class Params {
+
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CreateRequirementResponseAction.Params>("json/client/evaluate/create_requirement_response_params_full.json")
+            }
+
+            @Test
+            fun required1() {
+                testingBindingAndMapping<CreateRequirementResponseAction.Params>("json/client/evaluate/create_requirement_response_params_required_1.json")
+            }
+
+            @Test
+            fun required2() {
+                testingBindingAndMapping<CreateRequirementResponseAction.Params>("json/client/evaluate/create_requirement_response_params_required_2.json")
+            }
+
+            @Test
+            fun required3() {
+                testingBindingAndMapping<CreateRequirementResponseAction.Params>("json/client/evaluate/create_requirement_response_params_required_3.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CreateRequirementResponseAction.Result>("json/client/evaluate/create_requirement_response_result_full.json")
             }
         }
     }
