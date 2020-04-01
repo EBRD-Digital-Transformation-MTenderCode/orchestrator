@@ -100,7 +100,7 @@ class AccessCheckPersonsStructureDelegate(
 
         if (awards.size != 1) return failure(
             Fail.Incident.Bpmn.Context.UnConsistency(
-                name = "tender.lots",
+                name = "awards",
                 description = "It was expected that the attribute 'awards' would have only one value. In fact, the attribute has ${awards.size} meanings"
             )
         )
@@ -108,7 +108,7 @@ class AccessCheckPersonsStructureDelegate(
         val award = awards[0]
         if (award.requirementResponses.size != 1) return failure(
             Fail.Incident.Bpmn.Context.UnConsistency(
-                name = "tender.lots",
+                name = "award.requirementResponses",
                 description = "It was expected that the attribute 'award.requirementResponses' would have only one value. In fact, the attribute has ${award.requirementResponses.size} meanings"
             )
         )
