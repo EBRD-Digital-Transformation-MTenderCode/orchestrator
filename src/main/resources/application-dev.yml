@@ -67,6 +67,9 @@ components:
   eDossier:
     host: 10.0.20.125
     port: 9251
+  eEvaluation:
+    host: 10.0.20.125
+    port: 9081
 
 ribbon:
   eureka:
