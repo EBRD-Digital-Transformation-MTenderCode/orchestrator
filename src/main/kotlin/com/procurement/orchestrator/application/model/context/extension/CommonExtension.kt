@@ -4,6 +4,7 @@ import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
+import com.procurement.orchestrator.domain.functional.asSuccess
 
 fun <T> List<T>.getElementIfOnlyOne(path: String): Result<T, Fail.Incident.Bpmn.Context> {
     if (this.isEmpty())
@@ -19,3 +20,9 @@ fun <T> List<T>.getElementIfOnlyOne(path: String): Result<T, Fail.Incident.Bpmn.
     else
         success(this[0])
 }
+
+fun <T> List<T>.getElementIfNotEmpty(path: String): Result<List<T>, Fail.Incident.Bpmn.Context> =
+    if (this.isEmpty())
+        failure(Fail.Incident.Bpmn.Context.Empty(path = path))
+    else
+        this.asSuccess()
