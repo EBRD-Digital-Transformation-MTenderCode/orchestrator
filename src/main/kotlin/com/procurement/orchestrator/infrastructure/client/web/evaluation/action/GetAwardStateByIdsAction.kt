@@ -20,7 +20,7 @@ abstract class GetAwardStateByIdsAction :
     class Params(
         @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid,
         @field:JsonProperty("ocid") @param:JsonProperty("ocid") val ocid: Ocid,
-        @field:JsonProperty("awardIds") @param:JsonProperty("awardIds") val awardIds: List<AwardId>
+        @field:JsonProperty("awardIds") @param:JsonProperty("awardIds") val ids: List<AwardId>
     )
 
     class Result(values: List<Lot>) : List<Result.Lot> by values, Serializable {
