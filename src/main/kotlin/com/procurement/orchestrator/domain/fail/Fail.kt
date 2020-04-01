@@ -79,10 +79,10 @@ sealed class Fail(prefix: String, number: String) {
                     }
                 }
 
-                class Missing(name: String, path: String) :
+                class Missing(name: String, path: String? = null) :
                     Context(
                         number = "2",
-                        description = "The global context does not contain the '$name' attribute by the path '$path'."
+                        description = "The global context does not contain the '$name' attribute ${if (path != null) "by the path '$path'." else "at the top-level."}"
                     )
 
                 class NotFoundElement(id: String, path: String) :
