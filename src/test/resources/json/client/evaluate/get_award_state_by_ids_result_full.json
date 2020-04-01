@@ -1,0 +1,12 @@
+[
+  {
+    "id": "7ea95288-989e-4fb6-816a-2f3be890357c",
+    "status": "active",
+    "statusDetails": "awaiting"
+  },
+  {
+    "id": "4573b7c6-7401-475c-a68b-45d1a003c766",
+    "status": "pending",
+    "statusDetails": "pending"
+  }
+]
