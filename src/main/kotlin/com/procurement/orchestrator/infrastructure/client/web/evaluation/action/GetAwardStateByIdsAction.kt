@@ -15,7 +15,7 @@ abstract class GetAwardStateByIdsAction :
     override val version: String = "2.0.0"
     override val name: String = "getAwardStatesByIds"
     override val target: Target<Result> =
-        Target.Plural(typeRef = Result::class.java, defaultResult = { Result(emptyList<Result.Lot>()) })
+        Target.Plural(typeRef = Result::class.java, defaultResult = { Result(emptyList<Result.Award>()) })
 
     class Params(
         @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid,
@@ -23,8 +23,8 @@ abstract class GetAwardStateByIdsAction :
         @field:JsonProperty("awardIds") @param:JsonProperty("awardIds") val ids: List<AwardId>
     )
 
-    class Result(values: List<Lot>) : List<Result.Lot> by values, Serializable {
-        class Lot(
+    class Result(values: List<Award>) : List<Result.Award> by values, Serializable {
+        class Award(
             @field:JsonProperty("id") @param:JsonProperty("id") val id: AwardId,
             @field:JsonProperty("status") @param:JsonProperty("status") val status: AwardStatus,
             @field:JsonProperty("statusDetails") @param:JsonProperty("statusDetails") val statusDetails: AwardStatusDetails
