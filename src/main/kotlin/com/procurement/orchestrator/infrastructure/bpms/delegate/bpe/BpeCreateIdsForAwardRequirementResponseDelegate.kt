@@ -1,6 +1,7 @@
 package com.procurement.orchestrator.infrastructure.bpms.delegate.bpe
 
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
+import com.procurement.orchestrator.application.model.context.extension.getAwardsIfNotEmpty
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
@@ -29,9 +30,9 @@ class BpeCreateIdsForAwardRequirementResponseDelegate(
         success(Unit)
 
     override suspend fun execute(context: CamundaGlobalContext, parameters: Unit): Result<Unit, Fail.Incident> {
-        val awards = context.awards
-            .takeIf { it.isNotEmpty() }
-            ?: return failure(Fail.Incident.Bpe(description = "The global context does not contain a 'Awards' object."))
+        val awards = context.getAwardsIfNotEmpty()
+            .doOnError { return failure(it) }
+            .get
 
         val updatedAwards = awards.map { award ->
             val updatedRequirementResponses = award.requirementResponses

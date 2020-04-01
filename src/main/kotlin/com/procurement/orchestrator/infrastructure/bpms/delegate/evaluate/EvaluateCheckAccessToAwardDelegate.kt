@@ -2,6 +2,7 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.evaluate
 
 import com.procurement.orchestrator.application.client.EvaluateClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
+import com.procurement.orchestrator.application.model.context.extension.getAwardIfOnlyOne
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
@@ -46,18 +47,10 @@ class EvaluateCheckAccessToAwardDelegate(
         val tender: Tender = context.tender
             ?: return failure(Fail.Incident.Bpmn.Context.Missing(name = "tender"))
 
-        val awards = context.awards
-            .takeIf { it.isNotEmpty() }
-            ?: return failure(Fail.Incident.Bpe(description = "The global context does not contain a 'Awards' object."))
-        if (awards.size != 1)
-            return failure(
-                Fail.Incident.Bpmn.Context.UnConsistency(
-                    name = "awards",
-                    description = "It was expected that the attribute 'awards' would have only one value. In fact, the attribute has ${awards.size} meanings."
-                )
-            )
+        val award = context.awards.getAwardIfOnlyOne()
+            .doOnError { return failure(it) }
+            .get
 
-        val award = awards[0]
         return evaluateClient.checkAccessToAward(
             params = CheckAccessToAwardAction.Params(
                 cpid = cpid,

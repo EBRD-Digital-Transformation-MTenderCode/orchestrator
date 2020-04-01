@@ -2,6 +2,7 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.evaluate
 
 import com.procurement.orchestrator.application.client.EvaluateClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
+import com.procurement.orchestrator.application.model.context.extension.getAwardsIfNotEmpty
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
@@ -40,9 +41,9 @@ class EvaluateGetAwardStateByIdsDelegate(
         parameters: Unit
     ): Result<Reply<GetAwardStateByIdsAction.Result>, Fail.Incident> {
 
-        val awards = context.awards
-            .takeIf { it.isNotEmpty() }
-            ?: return failure(Fail.Incident.Bpe(description = "The global context does not contain a 'Awards' object."))
+        val awards = context.getAwardsIfNotEmpty()
+            .doOnError { return failure(it) }
+            .get
 
         val processInfo = context.processInfo
         return evaluateClient.getAwardStateByIds(
@@ -59,11 +60,9 @@ class EvaluateGetAwardStateByIdsDelegate(
         parameters: Unit,
         data: GetAwardStateByIdsAction.Result
     ): MaybeFail<Fail.Incident> {
-        val awards = context.awards
-            .takeIf { it.isNotEmpty() }
-            ?: return MaybeFail.fail(
-                Fail.Incident.Bpe(description = "The global context does not contain a 'Awards' object.")
-            )
+        val awards = context.getAwardsIfNotEmpty()
+            .doOnError { return MaybeFail.fail(it) }
+            .get
 
         val receivedAwardByIds: Map<AwardId, GetAwardStateByIdsAction.Result.Award> = data.associateBy { it.id }
         val receivedAwardIds = receivedAwardByIds.keys

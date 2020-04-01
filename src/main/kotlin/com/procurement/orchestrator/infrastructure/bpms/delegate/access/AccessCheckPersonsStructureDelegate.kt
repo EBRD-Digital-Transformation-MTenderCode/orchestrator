@@ -2,6 +2,8 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.access
 
 import com.procurement.orchestrator.application.client.AccessClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
+import com.procurement.orchestrator.application.model.context.extension.getAwardIfOnlyOne
+import com.procurement.orchestrator.application.model.context.extension.getRequirementResponseIfOnlyOne
 import com.procurement.orchestrator.application.model.process.OperationTypeProcess
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
@@ -14,7 +16,6 @@ import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
-import com.procurement.orchestrator.domain.model.award.Award
 import com.procurement.orchestrator.domain.util.extension.asList
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
@@ -94,26 +95,16 @@ class AccessCheckPersonsStructureDelegate(
     ): MaybeFail<Fail.Incident.Bpmn> = MaybeFail.none()
 
     private fun buildPersonsForAward(context: CamundaGlobalContext): Result<List<CheckPersonsStructureAction.Params.Person>, Fail.Incident> {
-        val awards: List<Award> = context.awards
-            .takeIf { it.isNotEmpty() }
-            ?: return failure(Fail.Incident.Bpe(description = "The global context does not contain a 'Awards' object."))
+        val award = context.awards.getAwardIfOnlyOne()
+            .doOnError { return failure(it) }
+            .get
 
-        if (awards.size != 1) return failure(
-            Fail.Incident.Bpmn.Context.UnConsistency(
-                name = "awards",
-                description = "It was expected that the attribute 'awards' would have only one value. In fact, the attribute has ${awards.size} meanings"
-            )
-        )
+        val requirementResponse = award.requirementResponses
+            .getRequirementResponseIfOnlyOne()
+            .doOnError { return failure(it) }
+            .get
 
-        val award = awards[0]
-        if (award.requirementResponses.size != 1) return failure(
-            Fail.Incident.Bpmn.Context.UnConsistency(
-                name = "award.requirementResponses",
-                description = "It was expected that the attribute 'award.requirementResponses' would have only one value. In fact, the attribute has ${award.requirementResponses.size} meanings"
-            )
-        )
-        val persons = award.requirementResponses[0]
-            .responder
+        val persons = requirementResponse.responder
             ?.let { responder ->
                 CheckPersonsStructureAction.Params.Person(
                     title = responder.title,

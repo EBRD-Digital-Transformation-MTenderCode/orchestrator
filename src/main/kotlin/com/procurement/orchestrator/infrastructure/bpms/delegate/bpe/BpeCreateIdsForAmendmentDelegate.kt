@@ -1,6 +1,7 @@
 package com.procurement.orchestrator.infrastructure.bpms.delegate.bpe
 
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
+import com.procurement.orchestrator.application.model.context.extension.getAmendmentsIfNotEmpty
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
@@ -25,7 +26,7 @@ class BpeCreateIdsForAmendmentDelegate(
     transform = transform,
     operationStepRepository = operationStepRepository
 ) {
-//TODO
+
     override fun parameters(parameterContainer: ParameterContainer): Result<Unit, Fail.Incident.Bpmn.Parameter> =
         success(Unit)
 
@@ -33,12 +34,9 @@ class BpeCreateIdsForAmendmentDelegate(
         val tender = context.tender
             ?: return failure(Fail.Incident.Bpmn.Context.Missing(name = "tender"))
 
-        val amendments = tender.amendments
-            .takeIf { it.isNotEmpty() }
-            ?: return failure(
-                Fail.Incident.Bpe(description = "The global context does not contain 'Tender.Amendments' object.")
-            )
-
+        val amendments = tender.getAmendmentsIfNotEmpty()
+            .doOnError { return failure(it) }
+            .get
 
         context.tender = tender.copy(
             amendments = amendments.map { amendment ->

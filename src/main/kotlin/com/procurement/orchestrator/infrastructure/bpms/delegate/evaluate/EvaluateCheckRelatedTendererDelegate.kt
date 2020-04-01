@@ -2,6 +2,8 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.evaluate
 
 import com.procurement.orchestrator.application.client.EvaluateClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
+import com.procurement.orchestrator.application.model.context.extension.getAwardIfOnlyOne
+import com.procurement.orchestrator.application.model.context.extension.getRequirementResponseIfOnlyOne
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
@@ -36,25 +38,15 @@ class EvaluateCheckRelatedTendererDelegate(
         parameters: Unit
     ): Result<Reply<Unit>, Fail.Incident> {
 
-        val awards = context.awards
-            .takeIf { it.isNotEmpty() }
-            ?: return failure(Fail.Incident.Bpe(description = "The global context does not contain a 'Awards' object."))
-        if (awards.size != 1)
-            return failure(
-                Fail.Incident.Bpmn.Context.UnConsistency(
-                    name = "awards",
-                    description = "It was expected that the attribute 'awards' would have only one value. In fact, the attribute has ${awards.size} meanings."
-                )
-            )
-        val award = awards[0]
+        val award = context.awards.getAwardIfOnlyOne()
+            .doOnError { return failure(it) }
+            .get
 
-        if (award.requirementResponses.size != 1) return failure(
-            Fail.Incident.Bpmn.Context.UnConsistency(
-                name = "award.requirementResponses",
-                description = "It was expected that the attribute 'award.requirementResponses' would have only one value. In fact, the attribute has ${award.requirementResponses.size} meanings"
-            )
-        )
-        val requirementResponse = award.requirementResponses[0]
+        val requirementResponse = award.requirementResponses
+            .getRequirementResponseIfOnlyOne()
+            .doOnError { return failure(it) }
+            .get
+
         val relatedTendererId = requirementResponse.relatedTenderer?.id
         val requirementId = requirementResponse.requirement?.id
 
