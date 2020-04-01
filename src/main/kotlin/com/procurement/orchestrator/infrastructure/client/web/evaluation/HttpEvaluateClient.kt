@@ -6,6 +6,7 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.WebClient
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CheckAccessToAwardAction
+import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.GetAwardStateByIdsAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
 import java.net.URL
 
@@ -18,5 +19,12 @@ class HttpEvaluateClient(private val webClient: WebClient, properties: Component
         webClient.call(
             url = url,
             command = EvaluateCommands.CheckAccessToAward.build(params = params)
+        )
+
+    override suspend fun getAwardStateByIds(params: GetAwardStateByIdsAction.Params): Result<Reply<GetAwardStateByIdsAction.Result>, Fail.Incident> =
+        webClient.call(
+            url = url,
+            command = EvaluateCommands.GetAwardStateByIds.build(params = params),
+            target = EvaluateCommands.GetAwardStateByIds.target
         )
 }
