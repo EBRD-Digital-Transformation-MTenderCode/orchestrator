@@ -47,7 +47,7 @@ class EvaluateCheckAccessToAwardDelegate(
         val tender: Tender = context.tender
             ?: return failure(Fail.Incident.Bpmn.Context.Missing(name = "tender"))
 
-        val award = context.awards.getAwardIfOnlyOne()
+        val award = context.getAwardIfOnlyOne()
             .doOnError { return failure(it) }
             .get
 

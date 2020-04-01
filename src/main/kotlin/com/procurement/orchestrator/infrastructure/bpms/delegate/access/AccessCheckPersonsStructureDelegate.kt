@@ -95,12 +95,11 @@ class AccessCheckPersonsStructureDelegate(
     ): MaybeFail<Fail.Incident.Bpmn> = MaybeFail.none()
 
     private fun buildPersonsForAward(context: CamundaGlobalContext): Result<List<CheckPersonsStructureAction.Params.Person>, Fail.Incident> {
-        val award = context.awards.getAwardIfOnlyOne()
+        val award = context.getAwardIfOnlyOne()
             .doOnError { return failure(it) }
             .get
 
-        val requirementResponse = award.requirementResponses
-            .getRequirementResponseIfOnlyOne()
+        val requirementResponse = award.getRequirementResponseIfOnlyOne()
             .doOnError { return failure(it) }
             .get
 

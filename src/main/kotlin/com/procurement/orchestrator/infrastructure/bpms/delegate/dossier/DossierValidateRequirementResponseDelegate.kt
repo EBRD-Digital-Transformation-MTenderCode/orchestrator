@@ -45,12 +45,11 @@ class DossierValidateRequirementResponseDelegate(
         val cpid: Cpid = processInfo.cpid
         val ocid: Ocid = processInfo.ocid
 
-        val award = context.awards.getAwardIfOnlyOne()
+        val award = context.getAwardIfOnlyOne()
             .doOnError { return failure(it) }
             .get
 
-        val requirementResponse = award.requirementResponses
-            .getRequirementResponseIfOnlyOne()
+        val requirementResponse = award.getRequirementResponseIfOnlyOne()
             .doOnError { return failure(it) }
             .get
 

@@ -120,12 +120,11 @@ class AccessResponderProcessingDelegate(
     }
 
     private fun buildResponder(context: CamundaGlobalContext): Result<ResponderProcessingAction.Params.Responder, Fail.Incident> {
-        val award = context.awards.getAwardIfOnlyOne()
+        val award = context.getAwardIfOnlyOne()
             .doOnError { return failure(it) }
             .get
 
-        val requirementResponse = award.requirementResponses
-            .getRequirementResponseIfOnlyOne()
+        val requirementResponse = award.getRequirementResponseIfOnlyOne()
             .doOnError { return failure(it) }
             .get
 

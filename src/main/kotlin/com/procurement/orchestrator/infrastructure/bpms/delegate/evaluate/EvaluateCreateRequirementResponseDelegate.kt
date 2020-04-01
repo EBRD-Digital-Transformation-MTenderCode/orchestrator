@@ -42,15 +42,15 @@ class EvaluateCreateRequirementResponseDelegate(
         parameters: Unit
     ): Result<Reply<CreateRequirementResponseAction.Result>, Fail.Incident> {
 
-        val award = context.awards.getAwardIfOnlyOne()
+        val award = context.getAwardIfOnlyOne()
             .doOnError { return failure(it) }
             .get
 
-        val requirementResponse = award.requirementResponses.getRequirementResponseIfOnlyOne()
+        val requirementResponse = award.getRequirementResponseIfOnlyOne()
             .doOnError { return failure(it) }
             .get
 
-        val party = context.parties.getPartyIfOnlyOne()
+        val party = context.getPartyIfOnlyOne()
             .doOnError { return failure(it) }
             .get
 
@@ -96,13 +96,11 @@ class EvaluateCreateRequirementResponseDelegate(
         data: CreateRequirementResponseAction.Result
     ): MaybeFail<Fail.Incident> {
 
-        val award = context.awards
-            .findAwardById(id = data.award.id)
+        val award = context.findAwardById(id = data.award.id)
             .doOnError { return MaybeFail.fail(it) }
             .get
 
-        val requirementResponse = award.requirementResponses
-            .findRequirementResponseById(id = data.award.requirementResponse.id)
+        val requirementResponse = award.findRequirementResponseById(id = data.award.requirementResponse.id)
             .doOnError { return MaybeFail.fail(it) }
             .get
 
