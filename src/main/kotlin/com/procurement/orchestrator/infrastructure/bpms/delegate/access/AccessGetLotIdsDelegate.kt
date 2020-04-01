@@ -103,9 +103,7 @@ class AccessGetLotIdsDelegate(
         data: List<LotId>
     ): MaybeFail<Fail.Incident> {
         val tender = context.tender
-            ?: return MaybeFail.fail(
-                Fail.Incident.Bpe(description = "The global context does not contain a 'Tender' object.")
-            )
+            ?: return MaybeFail.fail(Fail.Incident.Bpmn.Context.Missing(name = "tender"))
 
         val knowLotIds = tender.lotIds()
         val receivedLotIds = data.toSet()

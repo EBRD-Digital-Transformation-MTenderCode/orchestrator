@@ -46,7 +46,7 @@ class AccessCheckAccessToTenderDelegate(
         val ocid: Ocid = processInfo.ocid
 
         val tender: Tender = context.tender
-            ?: return failure(Fail.Incident.Bpe(description = "The global context does not contain a 'Tender' object."))
+            ?: return failure(Fail.Incident.Bpmn.Context.Missing(name = "Tender"))
 
         val token: Token = tender.token
         val owner: Owner = tender.owner

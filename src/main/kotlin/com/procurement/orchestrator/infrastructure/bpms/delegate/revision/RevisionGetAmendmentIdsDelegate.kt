@@ -110,7 +110,7 @@ class RevisionGetAmendmentIdsDelegate(
                 AmendmentRelatesTo.TENDER -> listOf(ocid.toString())
                 AmendmentRelatesTo.LOT -> {
                     val tender = context.tender
-                        ?: return failure(Fail.Incident.Bpe(description = "The global context does not contain a 'Tender' object."))
+                        ?: return failure(Fail.Incident.Bpmn.Context.Missing(name = "tender"))
 
                     if (tender.lots.isEmpty())
                         return failure(Fail.Incident.Bpmn.Context.Empty(path = "tender.lots"))
@@ -144,9 +144,7 @@ class RevisionGetAmendmentIdsDelegate(
         data: List<AmendmentId>
     ): MaybeFail<Fail.Incident> {
         val tender = context.tender
-            ?: return MaybeFail.fail(
-                Fail.Incident.Bpe(description = "The global context does not contain a 'Tender' object.")
-            )
+            ?: return MaybeFail.fail(Fail.Incident.Bpmn.Context.Missing(name = "tender"))
 
         val knowAmendmentIds = tender.amendmentIds()
         val receivedAmendmentIds = data.toSet()

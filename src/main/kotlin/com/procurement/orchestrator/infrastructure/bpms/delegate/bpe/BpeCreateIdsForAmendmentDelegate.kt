@@ -31,7 +31,7 @@ class BpeCreateIdsForAmendmentDelegate(
 
     override suspend fun execute(context: CamundaGlobalContext, parameters: Unit): Result<Reply<Unit>, Fail.Incident> {
         val tender = context.tender
-            ?: return failure(Fail.Incident.Bpe(description = "The global context does not contain a 'Tender' object."))
+            ?: return failure(Fail.Incident.Bpmn.Context.Missing(name = "tender"))
 
         val amendments = tender.amendments
             .takeIf { it.isNotEmpty() }

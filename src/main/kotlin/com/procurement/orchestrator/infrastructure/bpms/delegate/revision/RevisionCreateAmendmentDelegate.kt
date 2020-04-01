@@ -41,8 +41,7 @@ class RevisionCreateAmendmentDelegate(
     ): Result<Reply<CreateAmendmentAction.Result>, Fail.Incident> {
 
         val tender = context.tender
-            ?: return failure(Fail.Incident.Bpe(description = "The global context does not contain a 'Tender' object."))
-
+            ?: return failure(Fail.Incident.Bpmn.Context.Missing(name = "tender"))
 
         if (tender.amendments.size != 1)
             return failure(
@@ -106,9 +105,7 @@ class RevisionCreateAmendmentDelegate(
     ): MaybeFail<Fail.Incident> {
 
         val tender = context.tender
-            ?: return MaybeFail.fail(
-                Fail.Incident.Bpe(description = "The global context does not contain a 'Tender' object.")
-            )
+            ?: return MaybeFail.fail(Fail.Incident.Bpmn.Context.Missing(name = "tender"))
 
         val updatedAmendment = tender.amendments[0]
             .copy(

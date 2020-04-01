@@ -41,7 +41,7 @@ class AccessGetLotStateByIdsDelegate(
     ): Result<Reply<GetLotStateByIdsAction.Result>, Fail.Incident> {
 
         val tender = context.tender
-            ?: return failure(Fail.Incident.Bpe(description = "The global context does not contain a 'Tender' object."))
+            ?: return failure(Fail.Incident.Bpmn.Context.Missing(name = "tender"))
 
         val processInfo = context.processInfo
         return accessClient.getLotStateByIds(
@@ -60,9 +60,7 @@ class AccessGetLotStateByIdsDelegate(
         data: GetLotStateByIdsAction.Result
     ): MaybeFail<Fail.Incident> {
         val tender = context.tender
-            ?: return MaybeFail.fail(
-                Fail.Incident.Bpe(description = "The global context does not contain a 'Tender' object.")
-            )
+            ?: return MaybeFail.fail(Fail.Incident.Bpmn.Context.Missing(name = "tender"))
 
         val receivedLotByIds: Map<LotId, GetLotStateByIdsAction.Result.Lot> = data.associateBy { it.id }
         val receivedLotIds = receivedLotByIds.keys

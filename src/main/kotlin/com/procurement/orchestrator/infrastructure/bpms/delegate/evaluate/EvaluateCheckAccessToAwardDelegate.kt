@@ -44,7 +44,7 @@ class EvaluateCheckAccessToAwardDelegate(
         val ocid: Ocid = processInfo.ocid
 
         val tender: Tender = context.tender
-            ?: return failure(Fail.Incident.Bpe(description = "The global context does not contain a 'Tender' object."))
+            ?: return failure(Fail.Incident.Bpmn.Context.Missing(name = "tender"))
 
         val awards = context.awards
             .takeIf { it.isNotEmpty() }

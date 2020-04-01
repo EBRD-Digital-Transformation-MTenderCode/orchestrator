@@ -58,7 +58,7 @@ class StorageOpenAccessDelegate(
     ): Result<Reply<OpenAccessAction.Result>, Fail.Incident> {
 
         val tender = context.tender
-            ?: return failure(Fail.Incident.Bpe(description = "The global context does not contain a 'Tender' object."))
+            ?: return failure(Fail.Incident.Bpmn.Context.Missing(name = "tender"))
 
         val documentIds: List<DocumentId> = parameters.entities
             .asSequence()
@@ -99,9 +99,7 @@ class StorageOpenAccessDelegate(
             return MaybeFail.none()
 
         val tender = context.tender
-            ?: return MaybeFail.fail(
-                Fail.Incident.Bpe(description = "The global context does not contain a 'Tender' object.")
-            )
+            ?: return MaybeFail.fail(Fail.Incident.Bpmn.Context.Missing(name = "tender"))
 
         val documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document> = data.associateBy { it.id }
 
