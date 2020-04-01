@@ -7,6 +7,7 @@ import com.procurement.orchestrator.domain.model.identifier.Identifier
 import com.procurement.orchestrator.domain.model.organization.ContactPoint
 import com.procurement.orchestrator.domain.model.organization.datail.Details
 import com.procurement.orchestrator.domain.model.person.Person
+import java.io.Serializable
 
 class Party(
     @field:JsonProperty("id") @param:JsonProperty("id") val id: PartyId,
@@ -34,4 +35,13 @@ class Party(
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonProperty("details ") @param:JsonProperty("details") val details: Details? = null
-)
+) : Serializable {
+
+    override fun equals(other: Any?): Boolean = if (this === other)
+        true
+    else
+        other is Party
+            && this.id == other.id
+
+    override fun hashCode(): Int = id.hashCode()
+}
