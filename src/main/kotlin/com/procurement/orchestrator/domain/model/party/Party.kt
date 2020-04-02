@@ -22,19 +22,19 @@ class Party(
     @field:JsonProperty("additionalIdentifier") @param:JsonProperty("additionalIdentifier") val additionalIdentifiers: List<Identifier> = emptyList(),
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
-    @field:JsonProperty("address ") @param:JsonProperty("address") val address: Address? = null,
+    @field:JsonProperty("address") @param:JsonProperty("address") val address: Address? = null,
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
-    @field:JsonProperty("contactPoint ") @param:JsonProperty("contactPoint") val contactPoint: ContactPoint? = null,
+    @field:JsonProperty("contactPoint") @param:JsonProperty("contactPoint") val contactPoint: ContactPoint? = null,
 
     @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
-    @field:JsonProperty("persons ") @param:JsonProperty("persons") val persons: List<Person> = emptyList(),
+    @field:JsonProperty("persons") @param:JsonProperty("persons") val persons: List<Person> = emptyList(),
 
     @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
-    @field:JsonProperty("roles ") @param:JsonProperty("roles") val roles: List<PartyRole> = emptyList(),
+    @field:JsonProperty("roles") @param:JsonProperty("roles") val roles: List<PartyRole> = emptyList(),
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
-    @field:JsonProperty("details ") @param:JsonProperty("details") val details: Details? = null
+    @field:JsonProperty("details") @param:JsonProperty("details") val details: Details? = null
 ) : Serializable {
 
     override fun equals(other: Any?): Boolean = if (this === other)
