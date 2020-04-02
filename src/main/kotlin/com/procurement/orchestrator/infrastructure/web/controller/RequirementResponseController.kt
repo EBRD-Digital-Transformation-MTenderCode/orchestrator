@@ -85,7 +85,7 @@ class RequirementResponseController(
                 )
             )
 
-        val verifiedAwardId = AwardId.tryCreateOrNull(ocid)
+        val verifiedAwardId = AwardId.tryCreateOrNull(awardId)
             ?: return Result.failure(
                 RequestErrors.Common.DataFormatMismatch(
                     name = "awardId",
