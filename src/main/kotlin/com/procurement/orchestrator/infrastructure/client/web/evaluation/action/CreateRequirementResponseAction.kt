@@ -16,6 +16,7 @@ import com.procurement.orchestrator.domain.model.requirement.response.Requiremen
 import com.procurement.orchestrator.infrastructure.bind.criteria.requirement.value.RequirementValueDeserializer
 import com.procurement.orchestrator.infrastructure.bind.criteria.requirement.value.RequirementValueSerializer
 import com.procurement.orchestrator.infrastructure.client.web.Target
+import java.io.Serializable
 
 abstract class CreateRequirementResponseAction :
     FunctionalAction<CreateRequirementResponseAction.Params, CreateRequirementResponseAction.Result> {
@@ -75,11 +76,12 @@ abstract class CreateRequirementResponseAction :
 
     class Result(
         @field:JsonProperty("award") @param:JsonProperty("award") val award: Award
-    ) {
+    ) : Serializable {
+
         class Award(
             @field:JsonProperty("id") @param:JsonProperty("id") val id: AwardId,
             @field:JsonProperty("requirementResponse") @param:JsonProperty("requirementResponse") val requirementResponse: RequirementResponse
-        ) {
+        ) : Serializable {
 
             class RequirementResponse(
                 @field:JsonProperty("id") @param:JsonProperty("id") val id: RequirementResponseId.Permanent,
@@ -91,21 +93,20 @@ abstract class CreateRequirementResponseAction :
                 @field:JsonProperty("relatedTenderer") @param:JsonProperty("relatedTenderer") val relatedTenderer: RelatedTenderer,
                 @field:JsonProperty("requirement") @param:JsonProperty("requirement") val requirement: Requirement,
                 @field:JsonProperty("responderer") @param:JsonProperty("responderer") val responderer: Responder
-
-            ) {
+            ) : Serializable {
 
                 class RelatedTenderer(
                     @field:JsonProperty("id") @param:JsonProperty("id") val id: OrganizationId
-                )
+                ) : Serializable
 
                 class Requirement(
                     @field:JsonProperty("id") @param:JsonProperty("id") val id: RequirementId
-                )
+                ) : Serializable
 
                 class Responder(
                     @field:JsonProperty("id") @param:JsonProperty("id") val id: PartyId,
                     @field:JsonProperty("name") @param:JsonProperty("name") val name: String
-                )
+                ) : Serializable
             }
         }
     }
