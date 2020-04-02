@@ -80,7 +80,7 @@ class AccessCheckPersonsStructureDelegate(
                 ocid = ocid,
                 operationType = processInfo.operationType
                     .takeIf {
-                        it != OperationTypeProcess.DECLARE_OF_NON_CONFLICT_OF_INTEREST
+                        it != OperationTypeProcess.DECLARE_NON_CONFLICT_OF_INTEREST
                     },
                 locationOfPersons = parameters.location.key,
                 persons = persons

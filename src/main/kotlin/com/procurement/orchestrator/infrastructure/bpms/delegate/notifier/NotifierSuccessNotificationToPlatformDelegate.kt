@@ -118,6 +118,6 @@ class NotifierSuccessNotificationToPlatformDelegate(
         when (operationType) {
             OperationTypeProcess.TENDER_CANCELLATION -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.LOT_CANCELLATION -> "$tenderUri/$cpid/$ocid"
-            OperationTypeProcess.DECLARE_OF_NON_CONFLICT_OF_INTEREST -> "$tenderUri/$cpid/$ocid"
+            OperationTypeProcess.DECLARE_NON_CONFLICT_OF_INTEREST -> "$tenderUri/$cpid/$ocid"
         }
 }
