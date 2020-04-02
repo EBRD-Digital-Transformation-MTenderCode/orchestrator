@@ -58,7 +58,7 @@ class StorageOpenAccessDelegate(
     ): Result<Reply<OpenAccessAction.Result>, Fail.Incident> {
 
         val tender = context.tender
-            ?: return failure(Fail.Incident.Bpmn.Context.Missing(name = "tender"))
+            ?: return failure(Fail.Incident.Bpms.Context.Missing(name = "tender"))
 
         val documentIds: List<DocumentId> = parameters.entities
             .asSequence()
@@ -99,7 +99,7 @@ class StorageOpenAccessDelegate(
             return MaybeFail.none()
 
         val tender = context.tender
-            ?: return MaybeFail.fail(Fail.Incident.Bpmn.Context.Missing(name = "tender"))
+            ?: return MaybeFail.fail(Fail.Incident.Bpms.Context.Missing(name = "tender"))
 
         val documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document> = data.associateBy { it.id }
 
@@ -117,7 +117,7 @@ class StorageOpenAccessDelegate(
         entities: Set<Entity>,
         tender: Tender,
         documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document>
-    ): Result<Tender, Fail.Incident.Bpmn> {
+    ): Result<Tender, Fail.Incident> {
         if (entities.isEmpty())
             return success(tender)
 
@@ -132,7 +132,7 @@ class StorageOpenAccessDelegate(
         return updateDocuments(entities = entities - entity, tender = updatedTender, documentsByIds = documentsByIds)
     }
 
-    private fun Tender.updateAmendmentDocuments(documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document>): Result<Tender, Fail.Incident.Bpmn> {
+    private fun Tender.updateAmendmentDocuments(documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document>): Result<Tender, Fail.Incident.Bpms> {
         val updatedAmendments = this.amendments
             .map { amendment ->
                 val updatedDocuments = amendment.documents
@@ -145,9 +145,10 @@ class StorageOpenAccessDelegate(
                                 )
                             }
                             ?: return failure(
-                                Fail.Incident.Bpmn.Context.UnConsistency(
-                                    name = "tender.amendments[id:${amendment.id}].documents[id:${document.id}]",
-                                    description = "Document '${document.id}' for update is not found."
+                                Fail.Incident.Bpms.Context.UnConsistency.Update(
+                                    name = "document",
+                                    path = "tender.amendments[id:${amendment.id}].documents[id:${document.id}]",
+                                    id = document.id.toString()
                                 )
                             )
                     }
@@ -157,7 +158,7 @@ class StorageOpenAccessDelegate(
         return success(this.copy(amendments = updatedAmendments))
     }
 
-    private fun Tender.updateTenderDocuments(documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document>): Result<Tender, Fail.Incident.Bpmn> {
+    private fun Tender.updateTenderDocuments(documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document>): Result<Tender, Fail.Incident.Bpms> {
         val updatedDocuments = this.documents
             .map { document ->
                 documentsByIds[document.id]
@@ -168,9 +169,10 @@ class StorageOpenAccessDelegate(
                         )
                     }
                     ?: return failure(
-                        Fail.Incident.Bpmn.Context.UnConsistency(
-                            name = "tender.documents[id:${document.id}]",
-                            description = "Document '${document.id}' for update is not found."
+                        Fail.Incident.Bpms.Context.UnConsistency.Update(
+                            name = "document",
+                            path = "tender.documents[id:${document.id}]",
+                            id = document.id.toString()
                         )
                     )
             }

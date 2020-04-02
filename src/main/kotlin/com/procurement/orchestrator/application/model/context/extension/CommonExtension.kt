@@ -6,23 +6,25 @@ import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.functional.asSuccess
 
-fun <T> List<T>.getElementIfOnlyOne(path: String): Result<T, Fail.Incident.Bpmn.Context> {
+fun <T> List<T>.getElementIfOnlyOne(name: String, path: String? = null): Result<T, Fail.Incident.Bpms.Context> {
     if (this.isEmpty())
-        return failure(Fail.Incident.Bpmn.Context.Empty(path = path))
+        return failure(Fail.Incident.Bpms.Context.Empty(name = name, path = path))
 
     return if (this.size != 1)
         failure(
-            Fail.Incident.Bpmn.Context.UnConsistency(
-                name = path,
-                description = "The attribute by the path '$path' should have only one element. Actually the attribute has ${this.size} elements."
+            Fail.Incident.Bpms.Context.ExpectedNumber(
+                name = name,
+                path = path,
+                expected = 1,
+                actual = this.size
             )
         )
     else
         success(this[0])
 }
 
-fun <T> List<T>.getIfNotEmpty(path: String): Result<List<T>, Fail.Incident.Bpmn.Context> =
+fun <T> List<T>.getIfNotEmpty(name: String, path: String? = null): Result<List<T>, Fail.Incident.Bpms.Context> =
     if (this.isEmpty())
-        failure(Fail.Incident.Bpmn.Context.Empty(path = path))
+        failure(Fail.Incident.Bpms.Context.Empty(name = name, path = path))
     else
         this.asSuccess()

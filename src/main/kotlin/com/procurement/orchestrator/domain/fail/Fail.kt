@@ -9,6 +9,8 @@ import com.procurement.orchestrator.infrastructure.configuration.property.Global
 sealed class Fail(prefix: String, number: String) {
     companion object {
         const val ATTRIBUTE_NAME_KEY = "attributeName"
+        const val ATTRIBUTE_PATH_KEY = "attributePath"
+        const val ATTRIBUTE_ID_KEY = "attributeId"
         const val REQUEST_HEADER_NAME = "headerName"
         const val REQUEST_QUERY_PARAMETER_NAME = "queryParameterName"
         const val REQUEST_PAYLOAD = "payload"
@@ -44,8 +46,90 @@ sealed class Fail(prefix: String, number: String) {
             }
         }
 
-        sealed class Bpmn(number: String, description: String) :
+        sealed class Bpms(number: String, description: String) :
             Incident(level = Level.ERROR, number = "2.$number", description = description) {
+
+            sealed class Context(number: String, val name: String, val path: String?, description: String) :
+                Bpms(number = "1.$number", description = description) {
+
+                companion object {
+                    private const val TOP_LEVEL_PATH = "at the top-level"
+                }
+
+                override fun logging(logger: Logger) {
+                    val mdc = mutableMapOf<String, String>()
+                        .apply {
+                            put(ATTRIBUTE_NAME_KEY, name)
+                            put(ATTRIBUTE_PATH_KEY, path ?: TOP_LEVEL_PATH)
+
+                        }
+                    logger.error(message, mdc = mdc)
+                }
+
+                sealed class UnConsistency(
+                    number: String,
+                    name: String,
+                    path: String?,
+                    val id: String? = null,
+                    description: String
+                ) : Context(number = "1.$number", name = name, path = path, description = description) {
+
+                    override fun logging(logger: Logger) {
+                        val mdc = mutableMapOf<String, String>()
+                            .apply {
+                                put(ATTRIBUTE_NAME_KEY, name)
+                                put(ATTRIBUTE_PATH_KEY, path ?: TOP_LEVEL_PATH)
+                                if (id != null) put(ATTRIBUTE_ID_KEY, id)
+                            }
+                        logger.error(message, mdc = mdc)
+                    }
+
+                    class Update(name: String, path: String? = null, id: String? = null) :
+                        UnConsistency(
+                            number = "1",
+                            name = name,
+                            path = path,
+                            id = id,
+                            description = "${name.capitalize()} ${id ?: ""}by the path '${path ?: TOP_LEVEL_PATH}' for an update is not found."
+                        )
+                }
+
+                class Missing(name: String, path: String? = null) :
+                    Context(
+                        number = "2",
+                        name = name,
+                        path = path,
+                        description = "The global context does not contain the '$name' attribute by the path '${path ?: TOP_LEVEL_PATH}'."
+                    )
+
+                class NotFoundElement(id: String, name: String, path: String? = null) :
+                    Context(
+                        number = "3",
+                        name = name,
+                        path = path,
+                        description = "The element with id '${id}' in an attribute '$name' by the path '${path ?: TOP_LEVEL_PATH}' is not found in global context."
+                    )
+
+                class Empty(name: String, path: String? = null) :
+                    Context(
+                        number = "4",
+                        name = name,
+                        path = path,
+                        description = "The Attribute '$name' by the path '${path ?: TOP_LEVEL_PATH}' is empty in global context."
+                    )
+
+                class ExpectedNumber(name: String, path: String? = null, expected: Int, actual: Int) :
+                    Context(
+                        number = "5",
+                        name = name,
+                        path = path,
+                        description = "The attribute '$name' by the path '${path ?: TOP_LEVEL_PATH}' should have $expected element(s) in global context. Actually the attribute has $actual element(s)."
+                    )
+            }
+        }
+
+        sealed class Bpmn(number: String, description: String) :
+            Incident(level = Level.ERROR, number = "3.$number", description = description) {
 
             sealed class Parameter(number: String, description: String) :
                 Bpmn(number = "1.$number", description = description) {
@@ -67,37 +151,10 @@ sealed class Fail(prefix: String, number: String) {
                         description = "Data type a property '$name' is a mismatch. Expected data type: '$expectedType', actual data type: '$actualType'."
                     )
             }
-
-            sealed class Context(number: String, description: String) :
-                Bpmn(number = "2.$number", description = description) {
-
-                class UnConsistency(val name: String, description: String) :
-                    Context(number = "1", description = description) {
-
-                    override fun logging(logger: Logger) {
-                        logger.error(message, mdc = mapOf(ATTRIBUTE_NAME_KEY to name))
-                    }
-                }
-
-                class Missing(name: String, path: String? = null) :
-                    Context(
-                        number = "2",
-                        description = "The global context does not contain the '$name' attribute ${if (path != null) "by the path '$path'." else "at the top-level."}"
-                    )
-
-                class NotFoundElement(id: String, path: String) :
-                    Context(
-                        number = "3",
-                        description = "The element with id '${id}' by the path '$path' is not found in global context."
-                    )
-
-                class Empty(path: String) :
-                    Context(number = "4", description = "Attribute by the path '$path' is empty in global context.")
-            }
         }
 
         sealed class Transform(number: String, description: String, val exception: Exception) :
-            Incident(level = Level.ERROR, number = "3.$number", description = description) {
+            Incident(level = Level.ERROR, number = "4.$number", description = description) {
 
             override fun logging(logger: Logger) {
                 logger.error(message = message, exception = exception)
@@ -117,10 +174,10 @@ sealed class Fail(prefix: String, number: String) {
         }
 
         class NetworkError(description: String) :
-            Incident(level = Level.ERROR, number = "4", description = description)
+            Incident(level = Level.ERROR, number = "5", description = description)
 
         class BadResponse(description: String, val exception: Exception? = null, val body: String) :
-            Incident(level = Level.ERROR, number = "5", description = description) {
+            Incident(level = Level.ERROR, number = "6", description = description) {
 
             override fun logging(logger: Logger) {
                 logger.error("$message Body: '$body'.")
@@ -128,10 +185,10 @@ sealed class Fail(prefix: String, number: String) {
         }
 
         class ResponseError(description: String) :
-            Incident(level = Level.ERROR, number = "6", description = description)
+            Incident(level = Level.ERROR, number = "7", description = description)
 
         sealed class Database(number: String, description: String) :
-            Incident(level = Level.ERROR, number = "7.$number", description = description) {
+            Incident(level = Level.ERROR, number = "8.$number", description = description) {
 
             class Access(description: String, val exception: Exception) :
                 Database(number = "1", description = description) {
@@ -147,7 +204,7 @@ sealed class Fail(prefix: String, number: String) {
         }
 
         sealed class Bus(number: String, description: String) :
-            Incident(level = Level.ERROR, number = "8.$number", description = description) {
+            Incident(level = Level.ERROR, number = "9.$number", description = description) {
 
             class Producer(description: String, val exception: Exception) :
                 Bus(number = "1", description = description) {

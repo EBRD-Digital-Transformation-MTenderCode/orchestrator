@@ -46,7 +46,7 @@ class AccessCheckAccessToTenderDelegate(
         val ocid: Ocid = processInfo.ocid
 
         val tender: Tender = context.tender
-            ?: return failure(Fail.Incident.Bpmn.Context.Missing(name = "Tender"))
+            ?: return failure(Fail.Incident.Bpms.Context.Missing(name = "tender"))
 
         val token: Token = tender.token
         val owner: Owner = tender.owner

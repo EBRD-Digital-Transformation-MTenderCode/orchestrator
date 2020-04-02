@@ -3,6 +3,7 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.revision
 import com.procurement.orchestrator.application.client.RevisionClient
 import com.procurement.orchestrator.application.model.Owner
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
+import com.procurement.orchestrator.application.model.context.extension.getLotIfOnlyOne
 import com.procurement.orchestrator.application.model.context.members.Outcomes
 import com.procurement.orchestrator.application.model.process.OperationTypeProcess
 import com.procurement.orchestrator.application.service.Logger
@@ -41,29 +42,28 @@ class RevisionCreateAmendmentDelegate(
     ): Result<Reply<CreateAmendmentAction.Result>, Fail.Incident> {
 
         val tender = context.tender
-            ?: return failure(Fail.Incident.Bpmn.Context.Missing(name = "tender"))
+            ?: return failure(Fail.Incident.Bpms.Context.Missing(name = "tender"))
 
         if (tender.amendments.size != 1)
             return failure(
-                Fail.Incident.Bpmn.Context.UnConsistency(
-                    name = "tender.amendments",
-                    description = "It was expected that the attribute 'tender.amendments' would have only one value. In fact, the attribute has ${tender.amendments.size} meanings"
+                Fail.Incident.Bpms.Context.ExpectedNumber(
+                    name = "tender",
+                    path = "amendments",
+                    expected = 1,
+                    actual = tender.amendments.size
                 )
             )
 
         val processInfo = context.processInfo
         val relatedEntityId: String = when (processInfo.operationType) {
             OperationTypeProcess.TENDER_CANCELLATION -> processInfo.ocid.toString()
-            OperationTypeProcess.LOT_CANCELLATION -> {
-                if (tender.lots.size != 1)
-                    return failure(
-                        Fail.Incident.Bpmn.Context.UnConsistency(
-                            name = "tender.lots",
-                            description = "It was expected that the attribute 'tender.lots' would have only one value. In fact, the attribute has ${tender.lots.size} meanings"
-                        )
-                    )
-                tender.lots[0].id.toString()
-            }
+
+            OperationTypeProcess.LOT_CANCELLATION -> tender.getLotIfOnlyOne()
+                .doOnError { return failure(it) }
+                .get
+                .id
+                .toString()
+
             OperationTypeProcess.DECLARE_OF_NON_CONFLICT_OF_INTEREST ->
                 return failure(Fail.Incident.Bpe(description = "Operation type: '${processInfo.operationType.key}' in this delegate do not implemented."))
         }
@@ -105,7 +105,7 @@ class RevisionCreateAmendmentDelegate(
     ): MaybeFail<Fail.Incident> {
 
         val tender = context.tender
-            ?: return MaybeFail.fail(Fail.Incident.Bpmn.Context.Missing(name = "tender"))
+            ?: return MaybeFail.fail(Fail.Incident.Bpms.Context.Missing(name = "tender"))
 
         val updatedAmendment = tender.amendments[0]
             .copy(

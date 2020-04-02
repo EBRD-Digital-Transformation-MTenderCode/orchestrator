@@ -168,10 +168,7 @@ class AccessResponderProcessingDelegate(
                 )
             }
             ?: return failure(
-                Fail.Incident.Bpmn.Context.UnConsistency(
-                    name = "award.requirementResponses.responder",
-                    description = "It was expected that the attribute 'award.requirementResponses.responder' would have only one value. In fact, the attribute without."
-                )
+                Fail.Incident.Bpms.Context.Missing(name = "responder", path = "award.requirementResponses")
             )
 
         return success(responder)

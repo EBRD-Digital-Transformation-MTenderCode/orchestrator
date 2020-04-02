@@ -110,10 +110,10 @@ class RevisionGetAmendmentIdsDelegate(
                 AmendmentRelatesTo.TENDER -> listOf(ocid.toString())
                 AmendmentRelatesTo.LOT -> {
                     val tender = context.tender
-                        ?: return failure(Fail.Incident.Bpmn.Context.Missing(name = "tender"))
+                        ?: return failure(Fail.Incident.Bpms.Context.Missing(name = "tender"))
 
                     if (tender.lots.isEmpty())
-                        return failure(Fail.Incident.Bpmn.Context.Empty(path = "tender.lots"))
+                        return failure(Fail.Incident.Bpms.Context.Empty(name = "lots", path = "tender"))
 
                     tender.lots.map { it.id.toString() }
                 }
@@ -144,7 +144,7 @@ class RevisionGetAmendmentIdsDelegate(
         data: List<AmendmentId>
     ): MaybeFail<Fail.Incident> {
         val tender = context.tender
-            ?: return MaybeFail.fail(Fail.Incident.Bpmn.Context.Missing(name = "tender"))
+            ?: return MaybeFail.fail(Fail.Incident.Bpms.Context.Missing(name = "tender"))
 
         val knowAmendmentIds = tender.amendmentIds()
         val receivedAmendmentIds = data.toSet()

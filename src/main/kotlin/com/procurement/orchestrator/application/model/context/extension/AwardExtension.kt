@@ -8,15 +8,15 @@ import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.domain.model.award.Award
 import com.procurement.orchestrator.domain.model.award.AwardId
 
-private const val PATH = "awards"
+private const val NAME = "awards"
 
-fun GlobalContext.getAwardIfOnlyOne(): Result<Award, Fail.Incident.Bpmn.Context> =
-    this.awards.getElementIfOnlyOne(path = PATH)
+fun GlobalContext.getAwardIfOnlyOne(): Result<Award, Fail.Incident.Bpms.Context> =
+    this.awards.getElementIfOnlyOne(name = NAME)
 
-fun GlobalContext.getAwardsIfNotEmpty(): Result<List<Award>, Fail.Incident.Bpmn.Context> =
-    this.awards.getIfNotEmpty(path = PATH)
+fun GlobalContext.getAwardsIfNotEmpty(): Result<List<Award>, Fail.Incident.Bpms.Context> =
+    this.awards.getIfNotEmpty(name = NAME)
 
-fun GlobalContext.findAwardById(id: AwardId): Result<Award, Fail.Incident.Bpmn.Context.NotFoundElement> = this.awards
+fun GlobalContext.findAwardById(id: AwardId): Result<Award, Fail.Incident.Bpms.Context.NotFoundElement> = this.awards
     .find { it.id == id }
     ?.asSuccess()
-    ?: failure(Fail.Incident.Bpmn.Context.NotFoundElement(id = id.toString(), path = PATH))
+    ?: failure(Fail.Incident.Bpms.Context.NotFoundElement(id = id.toString(), name = NAME))

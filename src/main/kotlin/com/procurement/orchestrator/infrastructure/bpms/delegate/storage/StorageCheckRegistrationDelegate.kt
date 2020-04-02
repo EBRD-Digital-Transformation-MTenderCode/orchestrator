@@ -55,7 +55,7 @@ class StorageCheckRegistrationDelegate(
         parameters: Parameters
     ): Result<Reply<Unit>, Fail.Incident> {
         val tender = context.tender
-            ?: return failure(Fail.Incident.Bpmn.Context.Missing(name = "tender"))
+            ?: return failure(Fail.Incident.Bpms.Context.Missing(name = "tender"))
 
         val documentIds: List<DocumentId> = parameters.entities
             .asSequence()

@@ -38,13 +38,15 @@ class RevisionDataValidationDelegate(
     ): Result<Reply<Unit>, Fail.Incident> {
 
         val tender = context.tender
-            ?: return failure(Fail.Incident.Bpmn.Context.Missing(name = "tender"))
+            ?: return failure(Fail.Incident.Bpms.Context.Missing(name = "tender"))
 
         if (tender.amendments.size != 1)
             return failure(
-                Fail.Incident.Bpmn.Context.UnConsistency(
-                    name = "tender.amendments",
-                    description = "It was expected that the attribute 'tender.amendments' would have only one value. In fact, the attribute has ${tender.amendments.size} meanings"
+                Fail.Incident.Bpms.Context.ExpectedNumber(
+                    name = "amendments",
+                    path = "tender",
+                    expected = 1,
+                    actual = tender.amendments.size
                 )
             )
 
