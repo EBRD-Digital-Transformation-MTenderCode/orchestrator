@@ -3,6 +3,7 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.revision
 import com.procurement.orchestrator.application.client.RevisionClient
 import com.procurement.orchestrator.application.model.Owner
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
+import com.procurement.orchestrator.application.model.context.extension.getAmendmentIfOnlyOne
 import com.procurement.orchestrator.application.model.context.extension.getLotIfOnlyOne
 import com.procurement.orchestrator.application.model.context.members.Outcomes
 import com.procurement.orchestrator.application.model.process.OperationTypeProcess
@@ -44,15 +45,9 @@ class RevisionCreateAmendmentDelegate(
         val tender = context.tender
             ?: return failure(Fail.Incident.Bpms.Context.Missing(name = "tender"))
 
-        if (tender.amendments.size != 1)
-            return failure(
-                Fail.Incident.Bpms.Context.ExpectedNumber(
-                    name = "tender",
-                    path = "amendments",
-                    expected = 1,
-                    actual = tender.amendments.size
-                )
-            )
+        val amendment = tender.getAmendmentIfOnlyOne()
+            .doOnError { return failure(it) }
+            .get
 
         val processInfo = context.processInfo
         val relatedEntityId: String = when (processInfo.operationType) {
@@ -68,7 +63,6 @@ class RevisionCreateAmendmentDelegate(
                 return failure(Fail.Incident.Bpe(description = "Operation type: '${processInfo.operationType.key}' in this delegate do not implemented."))
         }
 
-        val amendment = tender.amendments[0]
         val owner: Owner = tender.owner
 
         val requestInfo = context.requestInfo
@@ -106,8 +100,9 @@ class RevisionCreateAmendmentDelegate(
 
         val tender = context.tender
             ?: return MaybeFail.fail(Fail.Incident.Bpms.Context.Missing(name = "tender"))
-
-        val updatedAmendment = tender.amendments[0]
+        val updatedAmendment = tender.getAmendmentIfOnlyOne()
+            .doOnError { return MaybeFail.fail(it) }
+            .get
             .copy(
                 token = data.token,
                 type = data.type,

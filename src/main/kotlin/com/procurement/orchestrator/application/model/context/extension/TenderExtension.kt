@@ -8,6 +8,9 @@ import com.procurement.orchestrator.domain.model.tender.Tender
 
 private const val PATH = "tender"
 
+fun Tender.getAmendmentIfOnlyOne(): Result<Amendment, Fail.Incident.Bpms.Context> =
+    this.amendments.getElementIfOnlyOne(name = "amendments", path = PATH)
+
 fun Tender.getAmendmentsIfNotEmpty(): Result<List<Amendment>, Fail.Incident.Bpms.Context> =
     this.amendments.getIfNotEmpty(name = "amendments", path = PATH)
 
