@@ -10,6 +10,7 @@ import com.procurement.orchestrator.domain.model.document.DocumentType
 import com.procurement.orchestrator.domain.model.organization.person.BusinessFunctionId
 import com.procurement.orchestrator.domain.model.organization.person.BusinessFunctionType
 import com.procurement.orchestrator.infrastructure.client.web.Target
+import java.io.Serializable
 import java.time.LocalDateTime
 
 abstract class ResponderProcessingAction :
@@ -87,7 +88,7 @@ abstract class ResponderProcessingAction :
         @field:JsonProperty("name") @param:JsonProperty("name") val name: String,
         @field:JsonProperty("identifier") @param:JsonProperty("identifier") val identifier: Identifier,
         @field:JsonProperty("persons") @param:JsonProperty("persons") val persons: List<Person>
-    ) {
+    ) : Serializable {
 
         data class Identifier(
             @field:JsonProperty("scheme") @param:JsonProperty("scheme") val scheme: String,
@@ -95,21 +96,21 @@ abstract class ResponderProcessingAction :
 
             @JsonInclude(JsonInclude.Include.NON_NULL)
             @field:JsonProperty("uri") @param:JsonProperty("uri") val uri: String?
-        )
+        ) : Serializable
 
         data class Person(
             @field:JsonProperty("title") @param:JsonProperty("title") val title: String,
             @field:JsonProperty("name") @param:JsonProperty("name") val name: String,
             @field:JsonProperty("identifier") @param:JsonProperty("identifier") val identifier: Identifier,
             @field:JsonProperty("businessFunctions") @param:JsonProperty("businessFunctions") val businessFunctions: List<BusinessFunction>
-        ) {
+        ) : Serializable {
             data class Identifier(
                 @field:JsonProperty("scheme") @param:JsonProperty("scheme") val scheme: String,
                 @field:JsonProperty("id") @param:JsonProperty("id") val id: String,
 
                 @JsonInclude(JsonInclude.Include.NON_NULL)
                 @field:JsonProperty("uri") @param:JsonProperty("uri") val uri: String?
-            )
+            ) : Serializable
 
             data class BusinessFunction(
                 @field:JsonProperty("id") @param:JsonProperty("id") val id: BusinessFunctionId,
@@ -120,11 +121,11 @@ abstract class ResponderProcessingAction :
                 @JsonInclude(JsonInclude.Include.NON_EMPTY)
                 @field:JsonProperty("documents") @param:JsonProperty("documents") val documents: List<Document> = emptyList()
 
-            ) {
+            ) : Serializable {
 
                 data class Period(
                     @field:JsonProperty("startDate") @param:JsonProperty("startDate") val startDate: LocalDateTime
-                )
+                ) : Serializable
 
                 data class Document(
                     @field:JsonProperty("documentType") @param:JsonProperty("documentType") val documentType: DocumentType,
@@ -133,7 +134,7 @@ abstract class ResponderProcessingAction :
 
                     @JsonInclude(JsonInclude.Include.NON_NULL)
                     @field:JsonProperty("description") @param:JsonProperty("description") val description: String?
-                )
+                ) : Serializable
             }
         }
     }
