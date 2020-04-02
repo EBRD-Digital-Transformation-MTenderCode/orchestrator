@@ -3,7 +3,6 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.evaluation
 import com.procurement.orchestrator.application.client.EvaluationClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.getAwardIfOnlyOne
-import com.procurement.orchestrator.application.model.context.extension.tryGetTender
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
@@ -44,10 +43,6 @@ class EvaluationCheckAccessToAwardDelegate(
         val cpid: Cpid = processInfo.cpid
         val ocid: Ocid = processInfo.ocid
 
-        val tender = context.tryGetTender()
-            .doOnError { return failure(it) }
-            .get
-
         val award = context.getAwardIfOnlyOne()
             .doOnError { return failure(it) }
             .get
@@ -57,8 +52,14 @@ class EvaluationCheckAccessToAwardDelegate(
                 cpid = cpid,
                 ocid = ocid,
                 awardId = award.id,
-                token = tender.token,
-                owner = tender.owner
+                token = award.token
+                    ?: return failure(
+                        Fail.Incident.Bpms.Context.Missing(name = "token", path = "awards[id:${award.id}]")
+                    ),
+                owner = award.owner
+                    ?: return failure(
+                        Fail.Incident.Bpms.Context.Missing(name = "owner", path = "awards[id:${award.id}]")
+                    )
             )
         )
     }
