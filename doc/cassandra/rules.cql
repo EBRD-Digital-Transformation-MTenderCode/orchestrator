@@ -787,3 +787,10 @@ INSERT INTO orchestrator.rules (country, pmd, process_definition_key, stage_from
 VALUES ('MD', 'TEST_OT', 'cancelLot', 'EV', 'EV', 'tendering', 'tendering', 'lotCancellation');
 INSERT INTO orchestrator.rules (country, pmd, process_definition_key, stage_from, stage_to, phase_from, phase_to, operation_type)
 VALUES ('MD', 'TEST_OT', 'cancelLot', 'EV', 'EV', 'awarding', 'awarding', 'lotCancellation');
+
+INSERT INTO orchestrator.rules (country, pmd, process_definition_key, stage_from, stage_to, phase_from, phase_to, operation_type)
+VALUES ('MD', 'TEST_OT', 'declareNonConflictOfInterest', 'EV', 'EV', 'awarding', 'awarding', 'declareNonConflictOfInterest');
+INSERT INTO orchestrator.rules (country, pmd, process_definition_key, stage_from, stage_to, phase_from, phase_to, operation_type)
+VALUES ('MD', 'TEST_SV', 'declareNonConflictOfInterest', 'EV', 'EV', 'awarding', 'awarding', 'declareNonConflictOfInterest');
+INSERT INTO orchestrator.rules (country, pmd, process_definition_key, stage_from, stage_to, phase_from, phase_to, operation_type)
+VALUES ('MD', 'TEST_MV', 'declareNonConflictOfInterest', 'EV', 'EV', 'awarding', 'awarding', 'declareNonConflictOfInterest');

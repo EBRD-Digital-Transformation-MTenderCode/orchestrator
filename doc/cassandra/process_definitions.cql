@@ -614,3 +614,16 @@ INSERT INTO orchestrator.process_definitions (country, pmd, process_name, proces
 INSERT INTO orchestrator.process_definitions (country, pmd, process_name, process_definition_key) VALUES ('MD', 'TEST_DA', 'cancelLot', 'cancelLot');
 INSERT INTO orchestrator.process_definitions (country, pmd, process_name, process_definition_key) VALUES ('MD', 'TEST_NP', 'cancelLot', 'cancelLot');
 INSERT INTO orchestrator.process_definitions (country, pmd, process_name, process_definition_key) VALUES ('MD', 'TEST_OP', 'cancelLot', 'cancelLot');
+
+INSERT INTO orchestrator.process_definitions (country, pmd, process_name, process_definition_key) VALUES ('MD', 'OT', 'declareNonConflictOfInterest', 'declareNonConflictOfInterest');
+INSERT INTO orchestrator.process_definitions (country, pmd, process_name, process_definition_key) VALUES ('MD', 'SV', 'declareNonConflictOfInterest', 'declareNonConflictOfInterest');
+INSERT INTO orchestrator.process_definitions (country, pmd, process_name, process_definition_key) VALUES ('MD', 'MV', 'declareNonConflictOfInterest', 'declareNonConflictOfInterest');
+INSERT INTO orchestrator.process_definitions (country, pmd, process_name, process_definition_key) VALUES ('MD', 'DA', 'declareNonConflictOfInterest', 'declareNonConflictOfInterest');
+INSERT INTO orchestrator.process_definitions (country, pmd, process_name, process_definition_key) VALUES ('MD', 'NP', 'declareNonConflictOfInterest', 'declareNonConflictOfInterest');
+INSERT INTO orchestrator.process_definitions (country, pmd, process_name, process_definition_key) VALUES ('MD', 'OP', 'declareNonConflictOfInterest', 'declareNonConflictOfInterest');
+INSERT INTO orchestrator.process_definitions (country, pmd, process_name, process_definition_key) VALUES ('MD', 'TEST_OT', 'declareNonConflictOfInterest', 'declareNonConflictOfInterest');
+INSERT INTO orchestrator.process_definitions (country, pmd, process_name, process_definition_key) VALUES ('MD', 'TEST_SV', 'declareNonConflictOfInterest', 'declareNonConflictOfInterest');
+INSERT INTO orchestrator.process_definitions (country, pmd, process_name, process_definition_key) VALUES ('MD', 'TEST_MV', 'declareNonConflictOfInterest', 'declareNonConflictOfInterest');
+INSERT INTO orchestrator.process_definitions (country, pmd, process_name, process_definition_key) VALUES ('MD', 'TEST_DA', 'declareNonConflictOfInterest', 'declareNonConflictOfInterest');
+INSERT INTO orchestrator.process_definitions (country, pmd, process_name, process_definition_key) VALUES ('MD', 'TEST_NP', 'declareNonConflictOfInterest', 'declareNonConflictOfInterest');
+INSERT INTO orchestrator.process_definitions (country, pmd, process_name, process_definition_key) VALUES ('MD', 'TEST_OP', 'declareNonConflictOfInterest', 'declareNonConflictOfInterest');
