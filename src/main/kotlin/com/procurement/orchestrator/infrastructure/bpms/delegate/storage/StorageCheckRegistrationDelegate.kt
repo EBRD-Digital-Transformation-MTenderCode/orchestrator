@@ -2,7 +2,6 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.storage
 
 import com.procurement.orchestrator.application.client.StorageClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
-import com.procurement.orchestrator.application.model.context.extension.tryGetTender
 import com.procurement.orchestrator.application.model.process.OperationTypeProcess
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
@@ -55,25 +54,46 @@ class StorageCheckRegistrationDelegate(
         parameters: Parameters
     ): Result<Reply<Unit>, Fail.Incident> {
 
-        val tender = context.tryGetTender()
-            .orReturnFail { return failure(it) }
+        val entities = parameters.entities.toSet()
 
-        val documentIds: List<DocumentId> = parameters.entities
-            .asSequence()
-            .flatMap { entity ->
-                when (entity) {
-                    Entity.AMENDMENT -> tender.amendments
-                        .asSequence()
-                        .flatMap { amendment -> amendment.documents.asSequence() }
-                        .map { document -> document.id }
+        val tender = context.tender
+        val tenderDocuments: List<DocumentId> = if (Entity.TENDER in entities)
+            tender?.documents
+                ?.asSequence()
+                ?.map { document -> document.id }
+                ?.toList()
+                .orEmpty()
+        else
+            emptyList()
 
-                    Entity.TENDER -> tender.documents
-                        .asSequence()
-                        .map { document -> document.id }
+        val amendmentDocuments: List<DocumentId> = if (Entity.AMENDMENT in entities)
+            tender?.amendments
+                ?.asSequence()
+                ?.flatMap { amendment -> amendment.documents.asSequence() }
+                ?.map { document -> document.id }
+                ?.toList()
+                .orEmpty()
+        else
+            emptyList()
+
+        val awardRequirementResponseDocuments: List<DocumentId> = if (Entity.AWARD_REQUIREMENT_RESPONSE in entities)
+            context.awards
+                .asSequence()
+                .flatMap { award ->
+                    award.requirementResponses.asSequence()
                 }
-            }
-            .toList()
+                .flatMap { requirementResponse ->
+                    requirementResponse.responder?.businessFunctions?.asSequence() ?: emptySequence()
+                }
+                .flatMap { businessFunction ->
+                    businessFunction.documents.asSequence()
+                }
+                .map { document -> document.id }
+                .toList()
+        else
+            emptyList()
 
+        val documentIds: List<DocumentId> = tenderDocuments + amendmentDocuments + awardRequirementResponseDocuments
         if (documentIds.isEmpty())
             return success(Reply.None)
 
@@ -93,6 +113,7 @@ class StorageCheckRegistrationDelegate(
     enum class Entity(override val key: String) : EnumElementProvider.Key {
 
         AMENDMENT("amendment"),
+        AWARD_REQUIREMENT_RESPONSE("award.requirementResponse"),
         TENDER("tender");
 
         override fun toString(): String = key
