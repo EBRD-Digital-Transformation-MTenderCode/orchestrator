@@ -191,6 +191,7 @@ abstract class AbstractExternalDelegate<P, R : Any>(
                 details = error.details
                     .map { detail ->
                         Errors.Error.Detail(
+                            id = detail.id,
                             name = detail.name
                         )
                     }

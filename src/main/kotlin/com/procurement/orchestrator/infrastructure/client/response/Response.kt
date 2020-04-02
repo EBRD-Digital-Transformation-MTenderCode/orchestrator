@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.infrastructure.client.response
 
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.JsonNode
 
@@ -9,10 +10,17 @@ sealed class Response {
         class Error(
             @field:JsonProperty("code") @param:JsonProperty("code") val code: String,
             @field:JsonProperty("description") @param:JsonProperty("description") val description: String,
-            @field:JsonProperty("details") @param:JsonProperty("details") val details: List<Detail>?
+
+            @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
+            @field:JsonProperty("details") @param:JsonProperty("details") val details: List<Detail> = emptyList()
         ) {
             class Detail(
-                @field:JsonProperty("name") @param:JsonProperty("name") val name: String
+
+                @field:JsonInclude(JsonInclude.Include.NON_NULL)
+                @field:JsonProperty("id") @param:JsonProperty("id") val id: String?,
+
+                @field:JsonInclude(JsonInclude.Include.NON_NULL)
+                @field:JsonProperty("name") @param:JsonProperty("name") val name: String?
             )
         }
     }

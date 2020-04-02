@@ -49,7 +49,7 @@ class Reply<out T>(val id: ReplyId, val version: String, val status: Status, val
         class Errors(values: List<Error>) : List<Errors.Error> by values, Result<Nothing>() {
 
             class Error(val code: String, val description: String, val details: List<Detail>) {
-                class Detail(val name: String)
+                class Detail(val id: String?, val name: String?)
             }
         }
 

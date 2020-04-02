@@ -67,8 +67,9 @@ fun <R> String.parse(transform: Transform, target: Target<R>): Result<Reply<R>, 
                         code = fail.code,
                         description = fail.description,
                         details = fail.details
-                            ?.map { detail -> Reply.Result.Errors.Error.Detail(name = detail.name) }
-                            .orEmpty()
+                            .map { detail ->
+                                Reply.Result.Errors.Error.Detail(id = detail.id, name = detail.name)
+                            }
                     )
                 }
 
@@ -123,8 +124,9 @@ fun String.parse(transform: Transform): Result<Reply<Unit>, Fail.Incident> {
                         code = fail.code,
                         description = fail.description,
                         details = fail.details
-                            ?.map { detail -> Reply.Result.Errors.Error.Detail(name = detail.name) }
-                            .orEmpty()
+                            .map { detail ->
+                                Reply.Result.Errors.Error.Detail(id = detail.id, name = detail.name)
+                            }
                     )
                 }
 
