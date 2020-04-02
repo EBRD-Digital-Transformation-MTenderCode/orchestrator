@@ -2,6 +2,7 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.storage
 
 import com.procurement.orchestrator.application.client.StorageClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
+import com.procurement.orchestrator.application.model.context.extension.tryGetTender
 import com.procurement.orchestrator.application.model.process.OperationTypeProcess
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
@@ -57,8 +58,9 @@ class StorageOpenAccessDelegate(
         parameters: Parameters
     ): Result<Reply<OpenAccessAction.Result>, Fail.Incident> {
 
-        val tender = context.tender
-            ?: return failure(Fail.Incident.Bpms.Context.Missing(name = "tender"))
+        val tender = context.tryGetTender()
+            .doOnError { return failure(it) }
+            .get
 
         val documentIds: List<DocumentId> = parameters.entities
             .asSequence()
@@ -98,8 +100,9 @@ class StorageOpenAccessDelegate(
         if (data.isEmpty())
             return MaybeFail.none()
 
-        val tender = context.tender
-            ?: return MaybeFail.fail(Fail.Incident.Bpms.Context.Missing(name = "tender"))
+        val tender = context.tryGetTender()
+            .doOnError { return MaybeFail.fail(it) }
+            .get
 
         val documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document> = data.associateBy { it.id }
 

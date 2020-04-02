@@ -1,12 +1,20 @@
 package com.procurement.orchestrator.application.model.context.extension
 
+import com.procurement.orchestrator.application.model.context.GlobalContext
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
+import com.procurement.orchestrator.domain.functional.Result.Companion.failure
+import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.domain.model.amendment.Amendment
 import com.procurement.orchestrator.domain.model.lot.Lot
 import com.procurement.orchestrator.domain.model.tender.Tender
 
 private const val PATH = "tender"
+
+fun GlobalContext.tryGetTender(): Result<Tender, Fail.Incident.Bpms.Context> =
+    this.tender
+        ?.asSuccess()
+        ?: failure(Fail.Incident.Bpms.Context.Missing(name = "tender"))
 
 fun Tender.getAmendmentIfOnlyOne(): Result<Amendment, Fail.Incident.Bpms.Context> =
     this.amendments.getElementIfOnlyOne(name = "amendments", path = PATH)
@@ -16,3 +24,6 @@ fun Tender.getAmendmentsIfNotEmpty(): Result<List<Amendment>, Fail.Incident.Bpms
 
 fun Tender.getLotIfOnlyOne(): Result<Lot, Fail.Incident.Bpms.Context> =
     this.lots.getElementIfOnlyOne(name = "lots", path = PATH)
+
+fun Tender.getLotsIfNotEmpty(): Result<List<Lot>, Fail.Incident.Bpms.Context> =
+    this.lots.getIfNotEmpty(name = "lots", path = PATH)

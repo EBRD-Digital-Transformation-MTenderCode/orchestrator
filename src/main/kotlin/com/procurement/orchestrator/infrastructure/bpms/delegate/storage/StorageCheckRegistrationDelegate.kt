@@ -2,6 +2,7 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.storage
 
 import com.procurement.orchestrator.application.client.StorageClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
+import com.procurement.orchestrator.application.model.context.extension.tryGetTender
 import com.procurement.orchestrator.application.model.process.OperationTypeProcess
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
@@ -54,8 +55,10 @@ class StorageCheckRegistrationDelegate(
         context: CamundaGlobalContext,
         parameters: Parameters
     ): Result<Reply<Unit>, Fail.Incident> {
-        val tender = context.tender
-            ?: return failure(Fail.Incident.Bpms.Context.Missing(name = "tender"))
+
+        val tender = context.tryGetTender()
+            .doOnError { return failure(it) }
+            .get
 
         val documentIds: List<DocumentId> = parameters.entities
             .asSequence()

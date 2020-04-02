@@ -2,6 +2,7 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.access
 
 import com.procurement.orchestrator.application.client.AccessClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
+import com.procurement.orchestrator.application.model.context.extension.tryGetTender
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.extension.lotIds
@@ -102,8 +103,9 @@ class AccessGetLotIdsDelegate(
         parameters: Parameters,
         data: List<LotId>
     ): MaybeFail<Fail.Incident> {
-        val tender = context.tender
-            ?: return MaybeFail.fail(Fail.Incident.Bpms.Context.Missing(name = "tender"))
+        val tender = context.tryGetTender()
+            .doOnError { return MaybeFail.fail(it) }
+            .get
 
         val knowLotIds = tender.lotIds()
         val receivedLotIds = data.toSet()

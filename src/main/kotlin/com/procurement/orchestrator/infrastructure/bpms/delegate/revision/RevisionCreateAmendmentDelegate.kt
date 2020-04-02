@@ -5,6 +5,7 @@ import com.procurement.orchestrator.application.model.Owner
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.getAmendmentIfOnlyOne
 import com.procurement.orchestrator.application.model.context.extension.getLotIfOnlyOne
+import com.procurement.orchestrator.application.model.context.extension.tryGetTender
 import com.procurement.orchestrator.application.model.context.members.Outcomes
 import com.procurement.orchestrator.application.model.process.OperationTypeProcess
 import com.procurement.orchestrator.application.service.Logger
@@ -42,8 +43,9 @@ class RevisionCreateAmendmentDelegate(
         parameters: Unit
     ): Result<Reply<CreateAmendmentAction.Result>, Fail.Incident> {
 
-        val tender = context.tender
-            ?: return failure(Fail.Incident.Bpms.Context.Missing(name = "tender"))
+        val tender = context.tryGetTender()
+            .doOnError { return failure(it) }
+            .get
 
         val amendment = tender.getAmendmentIfOnlyOne()
             .doOnError { return failure(it) }
@@ -98,8 +100,10 @@ class RevisionCreateAmendmentDelegate(
         data: CreateAmendmentAction.Result
     ): MaybeFail<Fail.Incident> {
 
-        val tender = context.tender
-            ?: return MaybeFail.fail(Fail.Incident.Bpms.Context.Missing(name = "tender"))
+        val tender = context.tryGetTender()
+            .doOnError { return MaybeFail.fail(it) }
+            .get
+
         val updatedAmendment = tender.getAmendmentIfOnlyOne()
             .doOnError { return MaybeFail.fail(it) }
             .get

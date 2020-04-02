@@ -2,6 +2,7 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.access
 
 import com.procurement.orchestrator.application.client.AccessClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
+import com.procurement.orchestrator.application.model.context.extension.tryGetTender
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.extension.lotIds
@@ -40,8 +41,9 @@ class AccessGetLotStateByIdsDelegate(
         parameters: Unit
     ): Result<Reply<GetLotStateByIdsAction.Result>, Fail.Incident> {
 
-        val tender = context.tender
-            ?: return failure(Fail.Incident.Bpms.Context.Missing(name = "tender"))
+        val tender = context.tryGetTender()
+            .doOnError { return failure(it) }
+            .get
 
         val processInfo = context.processInfo
         return accessClient.getLotStateByIds(
@@ -59,8 +61,10 @@ class AccessGetLotStateByIdsDelegate(
         parameters: Unit,
         data: GetLotStateByIdsAction.Result
     ): MaybeFail<Fail.Incident> {
-        val tender = context.tender
-            ?: return MaybeFail.fail(Fail.Incident.Bpms.Context.Missing(name = "tender"))
+
+        val tender = context.tryGetTender()
+            .doOnError { return MaybeFail.fail(it) }
+            .get
 
         val receivedLotByIds: Map<LotId, GetLotStateByIdsAction.Result.Lot> = data.associateBy { it.id }
         val receivedLotIds = receivedLotByIds.keys

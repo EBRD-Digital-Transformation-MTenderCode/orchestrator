@@ -3,6 +3,7 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.revision
 import com.procurement.orchestrator.application.client.RevisionClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.getAmendmentIfOnlyOne
+import com.procurement.orchestrator.application.model.context.extension.tryGetTender
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
@@ -38,8 +39,9 @@ class RevisionDataValidationDelegate(
         parameters: Unit
     ): Result<Reply<Unit>, Fail.Incident> {
 
-        val tender = context.tender
-            ?: return failure(Fail.Incident.Bpms.Context.Missing(name = "tender"))
+        val tender = context.tryGetTender()
+            .doOnError { return failure(it) }
+            .get
 
         val amendment = tender.getAmendmentIfOnlyOne()
             .doOnError { return failure(it) }

@@ -2,6 +2,7 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.bpe
 
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.getAmendmentsIfNotEmpty
+import com.procurement.orchestrator.application.model.context.extension.tryGetTender
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
@@ -31,8 +32,9 @@ class BpeCreateIdsForAmendmentDelegate(
         success(Unit)
 
     override suspend fun execute(context: CamundaGlobalContext, parameters: Unit): Result<Reply<Unit>, Fail.Incident> {
-        val tender = context.tender
-            ?: return failure(Fail.Incident.Bpms.Context.Missing(name = "tender"))
+        val tender = context.tryGetTender()
+            .doOnError { return failure(it) }
+            .get
 
         val amendments = tender.getAmendmentsIfNotEmpty()
             .doOnError { return failure(it) }

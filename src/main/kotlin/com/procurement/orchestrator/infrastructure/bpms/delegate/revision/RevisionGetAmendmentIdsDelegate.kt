@@ -2,6 +2,8 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.revision
 
 import com.procurement.orchestrator.application.client.RevisionClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
+import com.procurement.orchestrator.application.model.context.extension.getLotsIfNotEmpty
+import com.procurement.orchestrator.application.model.context.extension.tryGetTender
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.EnumElementProvider.Companion.keysAsStrings
@@ -109,13 +111,14 @@ class RevisionGetAmendmentIdsDelegate(
             when (parameters.relatesTo) {
                 AmendmentRelatesTo.TENDER -> listOf(ocid.toString())
                 AmendmentRelatesTo.LOT -> {
-                    val tender = context.tender
-                        ?: return failure(Fail.Incident.Bpms.Context.Missing(name = "tender"))
+                    val tender = context.tryGetTender()
+                        .doOnError { return failure(it) }
+                        .get
 
-                    if (tender.lots.isEmpty())
-                        return failure(Fail.Incident.Bpms.Context.Empty(name = "lots", path = "tender"))
-
-                    tender.lots.map { it.id.toString() }
+                    tender.getLotsIfNotEmpty()
+                        .doOnError { return failure(it) }
+                        .get
+                        .map { it.id.toString() }
                 }
                 null -> return failure(
                     Fail.Incident.Bpmn.Parameter.UnConsistency(
@@ -143,8 +146,10 @@ class RevisionGetAmendmentIdsDelegate(
         parameters: Parameters,
         data: List<AmendmentId>
     ): MaybeFail<Fail.Incident> {
-        val tender = context.tender
-            ?: return MaybeFail.fail(Fail.Incident.Bpms.Context.Missing(name = "tender"))
+
+        val tender = context.tryGetTender()
+            .doOnError { return MaybeFail.fail(it) }
+            .get
 
         val knowAmendmentIds = tender.amendmentIds()
         val receivedAmendmentIds = data.toSet()
