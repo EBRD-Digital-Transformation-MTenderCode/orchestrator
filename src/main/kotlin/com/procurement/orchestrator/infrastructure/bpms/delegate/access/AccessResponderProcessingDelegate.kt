@@ -4,6 +4,7 @@ import com.procurement.orchestrator.application.client.AccessClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.getAwardIfOnlyOne
 import com.procurement.orchestrator.application.model.context.extension.getRequirementResponseIfOnlyOne
+import com.procurement.orchestrator.application.model.context.members.Parties
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
@@ -115,7 +116,7 @@ class AccessResponderProcessingDelegate(
                     )
                 }
         )
-        context.parties = listOf(party)
+        context.parties = Parties(party)
         return MaybeFail.none()
     }
 
