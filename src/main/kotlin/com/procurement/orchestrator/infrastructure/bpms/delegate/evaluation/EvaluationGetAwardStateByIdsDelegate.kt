@@ -1,6 +1,6 @@
-package com.procurement.orchestrator.infrastructure.bpms.delegate.evaluate
+package com.procurement.orchestrator.infrastructure.bpms.delegate.evaluation
 
-import com.procurement.orchestrator.application.client.EvaluateClient
+import com.procurement.orchestrator.application.client.EvaluationClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.getAwardsIfNotEmpty
 import com.procurement.orchestrator.application.model.context.members.Awards
@@ -23,9 +23,9 @@ import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.
 import org.springframework.stereotype.Component
 
 @Component
-class EvaluateGetAwardStateByIdsDelegate(
+class EvaluationGetAwardStateByIdsDelegate(
     logger: Logger,
-    private val evaluateClient: EvaluateClient,
+    private val evaluationClient: EvaluationClient,
     operationStepRepository: OperationStepRepository,
     transform: Transform
 ) : AbstractExternalDelegate<Unit, GetAwardStateByIdsAction.Result>(
@@ -47,7 +47,7 @@ class EvaluateGetAwardStateByIdsDelegate(
             .get
 
         val processInfo = context.processInfo
-        return evaluateClient.getAwardStateByIds(
+        return evaluationClient.getAwardStateByIds(
             params = GetAwardStateByIdsAction.Params(
                 cpid = processInfo.cpid,
                 ocid = processInfo.ocid,

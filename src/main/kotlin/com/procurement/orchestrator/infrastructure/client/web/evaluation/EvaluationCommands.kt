@@ -5,7 +5,7 @@ import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CreateRequirementResponseAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.GetAwardStateByIdsAction
 
-object EvaluateCommands {
+object EvaluationCommands {
 
     object CheckAccessToAward : CheckAccessToAwardAction()
 

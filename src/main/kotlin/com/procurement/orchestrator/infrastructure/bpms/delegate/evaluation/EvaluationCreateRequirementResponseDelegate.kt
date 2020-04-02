@@ -1,6 +1,6 @@
-package com.procurement.orchestrator.infrastructure.bpms.delegate.evaluate
+package com.procurement.orchestrator.infrastructure.bpms.delegate.evaluation
 
-import com.procurement.orchestrator.application.client.EvaluateClient
+import com.procurement.orchestrator.application.client.EvaluationClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.findAwardById
 import com.procurement.orchestrator.application.model.context.extension.findRequirementResponseById
@@ -24,9 +24,9 @@ import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.
 import org.springframework.stereotype.Component
 
 @Component
-class EvaluateCreateRequirementResponseDelegate(
+class EvaluationCreateRequirementResponseDelegate(
     logger: Logger,
-    private val evaluateClient: EvaluateClient,
+    private val evaluationClient: EvaluationClient,
     operationStepRepository: OperationStepRepository,
     transform: Transform
 ) : AbstractExternalDelegate<Unit, CreateRequirementResponseAction.Result>(
@@ -56,7 +56,7 @@ class EvaluateCreateRequirementResponseDelegate(
             .get
 
         val processInfo = context.processInfo
-        return evaluateClient.createRequirementResponse(
+        return evaluationClient.createRequirementResponse(
             params = CreateRequirementResponseAction.Params(
                 cpid = processInfo.cpid,
                 ocid = processInfo.ocid,

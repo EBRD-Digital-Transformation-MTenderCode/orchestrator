@@ -1,6 +1,6 @@
 package com.procurement.orchestrator.infrastructure.client.web.evaluation
 
-import com.procurement.orchestrator.application.client.EvaluateClient
+import com.procurement.orchestrator.application.client.EvaluationClient
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
@@ -12,34 +12,34 @@ import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
 import java.net.URL
 
-class HttpEvaluateClient(private val webClient: WebClient, properties: ComponentProperties.Component) :
-    EvaluateClient {
+class HttpEvaluationClient(private val webClient: WebClient, properties: ComponentProperties.Component) :
+    EvaluationClient {
 
     private val url: URL = URL(properties.url + "/command2")
 
     override suspend fun checkAccessToAward(params: CheckAccessToAwardAction.Params): Result<Reply<Unit>, Fail.Incident> =
         webClient.call(
             url = url,
-            command = EvaluateCommands.CheckAccessToAward.build(params = params)
+            command = EvaluationCommands.CheckAccessToAward.build(params = params)
         )
 
     override suspend fun checkRelatedTenderer(params: CheckRelatedTendererAction.Params): Result<Reply<Unit>, Fail.Incident> =
         webClient.call(
             url = url,
-            command = EvaluateCommands.CheckRelatedTenderer.build(params = params)
+            command = EvaluationCommands.CheckRelatedTenderer.build(params = params)
         )
 
     override suspend fun createRequirementResponse(params: CreateRequirementResponseAction.Params): Result<Reply<CreateRequirementResponseAction.Result>, Fail.Incident> =
         webClient.call(
             url = url,
-            command = EvaluateCommands.CreateRequirementResponse.build(params = params),
-            target = EvaluateCommands.CreateRequirementResponse.target
+            command = EvaluationCommands.CreateRequirementResponse.build(params = params),
+            target = EvaluationCommands.CreateRequirementResponse.target
         )
 
     override suspend fun getAwardStateByIds(params: GetAwardStateByIdsAction.Params): Result<Reply<GetAwardStateByIdsAction.Result>, Fail.Incident> =
         webClient.call(
             url = url,
-            command = EvaluateCommands.GetAwardStateByIds.build(params = params),
-            target = EvaluateCommands.GetAwardStateByIds.target
+            command = EvaluationCommands.GetAwardStateByIds.build(params = params),
+            target = EvaluationCommands.GetAwardStateByIds.target
         )
 }
