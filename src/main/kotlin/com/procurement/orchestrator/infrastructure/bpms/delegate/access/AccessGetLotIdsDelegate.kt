@@ -50,14 +50,12 @@ class AccessGetLotIdsDelegate(
                     status = result.status
                         ?.let { status ->
                             LotStatus.tryOf(status)
-                                .doOnError { return failure(it) }
-                                .get
+                                .orReturnFail { return failure(it) }
                         },
                     statusDetails = result.statusDetails
                         ?.let { statusDetails ->
                             LotStatusDetails.tryOf(statusDetails)
-                                .doOnError { return failure(it) }
-                                .get
+                                .orReturnFail { return failure(it) }
                         }
                 )
             }
@@ -66,8 +64,7 @@ class AccessGetLotIdsDelegate(
 
     override fun parameters(parameterContainer: ParameterContainer): Result<Parameters, Fail.Incident.Bpmn.Parameter> {
         val states = parameterContainer.getListString(NAME_PARAMETER_OF_STATES)
-            .doOnError { return failure(it) }
-            .get
+            .orReturnFail { return failure(it) }
             .map { state ->
                 when (val result = parseState(state)) {
                     is Result.Success -> result.get
@@ -104,8 +101,7 @@ class AccessGetLotIdsDelegate(
         data: List<LotId>
     ): MaybeFail<Fail.Incident> {
         val tender = context.tryGetTender()
-            .doOnError { return MaybeFail.fail(it) }
-            .get
+            .orReturnFail { return MaybeFail.fail(it) }
 
         val knowLotIds = tender.lotIds()
         val receivedLotIds = data.toSet()

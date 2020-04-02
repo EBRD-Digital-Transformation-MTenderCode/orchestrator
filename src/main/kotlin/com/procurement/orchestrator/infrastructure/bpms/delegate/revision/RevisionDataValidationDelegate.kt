@@ -40,12 +40,10 @@ class RevisionDataValidationDelegate(
     ): Result<Reply<Unit>, Fail.Incident> {
 
         val tender = context.tryGetTender()
-            .doOnError { return failure(it) }
-            .get
+            .orReturnFail { return failure(it) }
 
         val amendment = tender.getAmendmentIfOnlyOne()
-            .doOnError { return failure(it) }
-            .get
+            .orReturnFail { return failure(it) }
 
         val processInfo = context.processInfo
 

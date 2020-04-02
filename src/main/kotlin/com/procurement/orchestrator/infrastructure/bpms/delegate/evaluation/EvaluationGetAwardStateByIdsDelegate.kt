@@ -43,8 +43,7 @@ class EvaluationGetAwardStateByIdsDelegate(
     ): Result<Reply<GetAwardStateByIdsAction.Result>, Fail.Incident> {
 
         val awards = context.getAwardsIfNotEmpty()
-            .doOnError { return failure(it) }
-            .get
+            .orReturnFail { return failure(it) }
 
         val processInfo = context.processInfo
         return evaluationClient.getAwardStateByIds(
@@ -61,9 +60,9 @@ class EvaluationGetAwardStateByIdsDelegate(
         parameters: Unit,
         data: GetAwardStateByIdsAction.Result
     ): MaybeFail<Fail.Incident> {
+
         val awards = context.getAwardsIfNotEmpty()
-            .doOnError { return MaybeFail.fail(it) }
-            .get
+            .orReturnFail { return MaybeFail.fail(it) }
 
         val receivedAwardByIds: Map<AwardId, GetAwardStateByIdsAction.Result.Award> = data.associateBy { it.id }
         val receivedAwardIds = receivedAwardByIds.keys

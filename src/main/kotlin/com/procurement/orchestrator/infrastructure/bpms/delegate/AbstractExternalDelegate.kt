@@ -45,8 +45,7 @@ abstract class AbstractExternalDelegate<P, R : Any>(
     final override fun execute(execution: DelegateExecution) {
 
         val parameters = parameters(ParameterContainer(execution))
-            .doOnError { fail -> execution.throwInternalIncident(fail) }
-            .get
+            .orReturnFail { fail -> execution.throwInternalIncident(fail) }
         val globalContext = CamundaGlobalContext(propertyContainer = execution.asPropertyContainer())
 
         val resultContext = ResultContext()
@@ -67,8 +66,7 @@ abstract class AbstractExternalDelegate<P, R : Any>(
                     }
                 }
         }
-            .doOnError { fail -> execution.throwInternalIncident(fail) }
-            .get
+            .orReturnFail { fail -> execution.throwInternalIncident(fail) }
 
         val requestInfo = globalContext.requestInfo
         val operationId = requestInfo.operationId

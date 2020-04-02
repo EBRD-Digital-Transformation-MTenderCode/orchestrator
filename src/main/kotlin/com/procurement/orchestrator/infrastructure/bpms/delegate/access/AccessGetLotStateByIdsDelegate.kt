@@ -42,8 +42,7 @@ class AccessGetLotStateByIdsDelegate(
     ): Result<Reply<GetLotStateByIdsAction.Result>, Fail.Incident> {
 
         val tender = context.tryGetTender()
-            .doOnError { return failure(it) }
-            .get
+            .orReturnFail { return failure(it) }
 
         val processInfo = context.processInfo
         return accessClient.getLotStateByIds(
@@ -63,8 +62,7 @@ class AccessGetLotStateByIdsDelegate(
     ): MaybeFail<Fail.Incident> {
 
         val tender = context.tryGetTender()
-            .doOnError { return MaybeFail.fail(it) }
-            .get
+            .orReturnFail { return MaybeFail.fail(it) }
 
         val receivedLotByIds: Map<LotId, GetLotStateByIdsAction.Result.Lot> = data.associateBy { it.id }
         val receivedLotIds = receivedLotByIds.keys

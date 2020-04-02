@@ -82,8 +82,7 @@ class BpeSaveContextDelegate(
         )
 
         val serializedContext = transform.trySerialization(processContext)
-            .doOnError { return MaybeFail.fail(it) }
-            .get
+            .orReturnFail { return MaybeFail.fail(it) }
 
         processContextRepository
             .save(
@@ -122,8 +121,7 @@ class BpeSaveContextDelegate(
         )
 
         val serializedContext = transform.trySerialization(oldProcessContext)
-            .doOnError { return MaybeFail.fail(it) }
-            .get
+            .orReturnFail { return MaybeFail.fail(it) }
 
         oldProcessContextRepository.save(cpid = processInfo.cpid, context = serializedContext)
             .doOnError { return MaybeFail.fail(it) }

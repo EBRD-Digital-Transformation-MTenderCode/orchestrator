@@ -18,8 +18,7 @@ class HttpMdmClient(
     ): Result<Reply<GetErrorDescriptionsAction.Result>, Fail.Incident> =
 
         errorDescriptionRepository.load(codes = params.codes, language = params.language.toUpperCase())
-            .doOnError { return Result.failure(it) }
-            .get
+            .orReturnFail { return Result.failure(it) }
             .map { error ->
                 GetErrorDescriptionsAction.Result.Error(
                     code = error.code,

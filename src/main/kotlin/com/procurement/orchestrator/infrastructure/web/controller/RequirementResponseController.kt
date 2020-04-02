@@ -39,11 +39,10 @@ class RequirementResponseController(
     ): ResponseEntity<String> {
 
         val request = parseRequest(servlet, cpid = cpid, ocid = ocid, awardId = awardId)
-            .doOnError { fail ->
+            .orReturnFail { fail ->
                 fail.logging(logger)
                 return ResponseEntity(fail.message, HttpStatus.BAD_REQUEST)
             }
-            .get
 
         return when (val result: MaybeFail<Fail> = requirementResponseService.declareNoConflictOfInterest(request)) {
             is MaybeFail.Fail -> when (val error = result.error) {
@@ -94,20 +93,16 @@ class RequirementResponseController(
                 )
             )
         val platformId = servlet.getPlatformId()
-            .doOnError { return Result.failure(it) }
-            .get
+            .orReturnFail { return Result.failure(it) }
 
         val operationId: OperationId = servlet.getOperationId()
-            .doOnError { return Result.failure(it) }
-            .get
+            .orReturnFail { return Result.failure(it) }
 
         val token = servlet.getToken()
-            .doOnError { return Result.failure(it) }
-            .get
+            .orReturnFail { return Result.failure(it) }
 
         val payload = servlet.getPayload()
-            .doOnError { return Result.failure(it) }
-            .get
+            .orReturnFail { return Result.failure(it) }
 
         return RequirementResponseDataIn
             .Request(

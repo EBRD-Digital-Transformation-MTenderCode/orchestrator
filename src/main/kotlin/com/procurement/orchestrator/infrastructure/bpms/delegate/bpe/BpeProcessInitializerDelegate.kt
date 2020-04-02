@@ -33,8 +33,7 @@ class BpeProcessInitializerDelegate(
         val stepDate = nowDefaultUTC()
 
         val serializedContext = context.serialize(transform)
-            .doOnError { fail -> fail.throwBpmnIncident() }
-            .get
+            .orReturnFail { fail -> fail.throwBpmnIncident() }
 
         operationStepRepository
             .save(
@@ -58,8 +57,7 @@ class BpeProcessInitializerDelegate(
                 processId = execution.processInstanceId,
                 cpid = processInfo.cpid
             )
-            .doOnError { fail -> fail.throwBpmnIncident() }
-            .get
+            .orReturnFail { fail -> fail.throwBpmnIncident() }
 
         if (!launchedProcessInfo.wasLaunched && launchedProcessInfo.processId != execution.processInstanceId) {
             throw BpmnError("Attention starting duplicate process.") //TODO BpmnCodeError

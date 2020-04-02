@@ -52,22 +52,18 @@ class RequirementResponseServiceImpl(
 
     override fun declareNoConflictOfInterest(request: RequirementResponseDataIn.Request): MaybeFail<Fail> {
         val savedRequest: RequestRecord = saveRequest(request)
-            .doOnError { return MaybeFail.fail(it) }
-            .get
+            .orReturnFail { return MaybeFail.fail(it) }
 
         val isLaunched = processService.isLaunchedProcess(operationId = request.operationId)
-            .doOnError { return MaybeFail.fail(it) }
-            .get
+            .orReturnFail { return MaybeFail.fail(it) }
         if (isLaunched)
             return MaybeFail.fail(RequestErrors.Common.Repeated())
 
         val payload = deserializationPayload<RequirementResponseDataIn.Payload>(request.payload)
-            .doOnError { return MaybeFail.fail(it) }
-            .get
+            .orReturnFail { return MaybeFail.fail(it) }
 
         val prevProcessContext: LatestProcessContext = processService.getProcessContext(cpid = request.context.cpid)
-            .doOnError { return MaybeFail.fail(it) }
-            .get
+            .orReturnFail { return MaybeFail.fail(it) }
             ?: return MaybeFail.fail(Fail.Incident.Bpe(description = "The process context by cpid '${request.context.cpid}' does not found."))
 
         val countryId = prevProcessContext.country
@@ -75,8 +71,7 @@ class RequirementResponseServiceImpl(
 
         val processDefinitionKey = processService
             .getProcessDefinitionKey(countryId = countryId, pmd = pmd, processName = DECLARE_NON_CONFLICT_OF_INTEREST)
-            .doOnError { return MaybeFail.fail(it) }
-            .get
+            .orReturnFail { return MaybeFail.fail(it) }
 
         val prevStage = prevProcessContext.stage
         val prevPhase = prevProcessContext.phase
@@ -88,8 +83,7 @@ class RequirementResponseServiceImpl(
                 stageFrom = prevStage,
                 phaseFrom = prevPhase
             )
-            .doOnError { return MaybeFail.fail(it) }
-            .get
+            .orReturnFail { return MaybeFail.fail(it) }
             ?: return MaybeFail.fail(
                 Fail.Incident.Bpe(
                     description = "Operation by country: '$countryId', pmd: '$pmd', process definition key: '$processDefinitionKey', stage: '$prevStage', phase: '$prevPhase' is impossible."
@@ -165,7 +159,7 @@ class RequirementResponseServiceImpl(
                                                                 period = businessFunction.period
                                                                     .let { period ->
                                                                         Period(startDate = period.startDate.tryParseLocalDateTime()
-                                                                            .doOnError { fail ->
+                                                                            .orReturnFail { fail ->
                                                                                 return MaybeFail.fail(
                                                                                     DataValidationErrors.DataFormatMismatch(
                                                                                         name = "awards[id:${request.context.awardId}].businessFunctions[id:${businessFunction.id}].period.startDate",
@@ -174,7 +168,6 @@ class RequirementResponseServiceImpl(
                                                                                     )
                                                                                 )
                                                                             }
-                                                                            .get
                                                                         )
                                                                     },
                                                                 documents = businessFunction.documents
@@ -224,8 +217,7 @@ class RequirementResponseServiceImpl(
 
     private fun saveRequest(request: RequirementResponseDataIn.Request): Result<RequestRecord, Fail.Incident> {
         val record = request.asRecord()
-            .doOnError { return Result.failure(it) }
-            .get
+            .orReturnFail { return Result.failure(it) }
         requestRepository.save(record)
             .doOnError { return Result.failure(it) }
         return Result.success(record)
@@ -233,8 +225,7 @@ class RequirementResponseServiceImpl(
 
     private fun RequirementResponseDataIn.Request.asRecord(): Result<RequestRecord, Fail.Incident> {
         val serializedContext: String = transform.trySerialization(this.context)
-            .doOnError { return Result.failure(it) }
-            .get
+            .orReturnFail { return Result.failure(it) }
         return RequestRecord(
             operationId = this.operationId,
             timestamp = nowDefaultUTC(),

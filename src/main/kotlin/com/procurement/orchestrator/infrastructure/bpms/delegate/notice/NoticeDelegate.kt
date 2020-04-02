@@ -41,16 +41,14 @@ class NoticeDelegate(
         val operationId = requestInfo.operationId
 
         val tasks: List<NoticeTask> = noticeQueueRepository.load(operationId = operationId)
-            .doOnError { return failure(it) }
-            .get
+            .orReturnFail { return failure(it) }
 
         tasks.forEach { task ->
             when (task.action) {
                 NoticeTask.Action.UPDATE_RECORD -> {
                     val params = UpdateRecordAction.Params(startDate = requestInfo.timestamp, data = task.data)
                     val reply = noticeClient.updateRecord(params)
-                        .doOnError { return failure(it) }
-                        .get
+                        .orReturnFail { return failure(it) }
 
                     when (reply.result) {
                         is Reply.Result.Success -> Unit
@@ -61,8 +59,7 @@ class NoticeDelegate(
                 NoticeTask.Action.CREATE_RECORD -> {
                     val params = CreateRecordAction.Params(startDate = requestInfo.timestamp, data = task.data)
                     val reply = noticeClient.createRecord(params)
-                        .doOnError { return failure(it) }
-                        .get
+                        .orReturnFail { return failure(it) }
 
                     when (reply.result) {
                         is Reply.Result.Success -> Unit

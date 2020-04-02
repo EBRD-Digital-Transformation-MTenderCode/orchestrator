@@ -33,12 +33,10 @@ class BpeCreateIdsForAmendmentDelegate(
 
     override suspend fun execute(context: CamundaGlobalContext, parameters: Unit): Result<Reply<Unit>, Fail.Incident> {
         val tender = context.tryGetTender()
-            .doOnError { return failure(it) }
-            .get
+            .orReturnFail { return failure(it) }
 
         val amendments = tender.getAmendmentsIfNotEmpty()
-            .doOnError { return failure(it) }
-            .get
+            .orReturnFail { return failure(it) }
 
         context.tender = tender.copy(
             amendments = amendments.map { amendment ->

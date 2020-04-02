@@ -46,8 +46,7 @@ class AccessCheckAccessToTenderDelegate(
         val ocid: Ocid = processInfo.ocid
 
         val tender = context.tryGetTender()
-            .doOnError { return failure(it) }
-            .get
+            .orReturnFail { return failure(it) }
 
         val token: Token = tender.token
         val owner: Owner = tender.owner

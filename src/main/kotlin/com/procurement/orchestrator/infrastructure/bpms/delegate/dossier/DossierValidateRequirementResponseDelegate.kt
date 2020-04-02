@@ -46,12 +46,10 @@ class DossierValidateRequirementResponseDelegate(
         val ocid: Ocid = processInfo.ocid
 
         val award = context.getAwardIfOnlyOne()
-            .doOnError { return failure(it) }
-            .get
+            .orReturnFail { return failure(it) }
 
         val requirementResponse = award.getRequirementResponseIfOnlyOne()
-            .doOnError { return failure(it) }
-            .get
+            .orReturnFail { return failure(it) }
 
         return dossierClient.validateRequirementResponse(
             params = ValidateRequirementResponseAction.Params(

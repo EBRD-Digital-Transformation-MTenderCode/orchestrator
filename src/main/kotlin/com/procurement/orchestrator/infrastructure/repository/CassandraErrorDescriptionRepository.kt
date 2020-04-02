@@ -39,8 +39,7 @@ class CassandraErrorDescriptionRepository(private val session: Session) : ErrorD
                 setString(columnLanguage, language)
             }
             .tryExecute(session)
-            .doOnError { return failure(it) }
-            .get
+            .orReturnFail { return failure(it) }
             .map { row ->
                 GetErrorDescriptionsAction.Result.Error(
                     code = row.getString(columnCode),

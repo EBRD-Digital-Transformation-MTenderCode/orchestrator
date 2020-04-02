@@ -44,20 +44,17 @@ class RevisionCreateAmendmentDelegate(
     ): Result<Reply<CreateAmendmentAction.Result>, Fail.Incident> {
 
         val tender = context.tryGetTender()
-            .doOnError { return failure(it) }
-            .get
+            .orReturnFail { return failure(it) }
 
         val amendment = tender.getAmendmentIfOnlyOne()
-            .doOnError { return failure(it) }
-            .get
+            .orReturnFail { return failure(it) }
 
         val processInfo = context.processInfo
         val relatedEntityId: String = when (processInfo.operationType) {
             OperationTypeProcess.TENDER_CANCELLATION -> processInfo.ocid.toString()
 
             OperationTypeProcess.LOT_CANCELLATION -> tender.getLotIfOnlyOne()
-                .doOnError { return failure(it) }
-                .get
+                .orReturnFail { return failure(it) }
                 .id
                 .toString()
 
@@ -101,12 +98,10 @@ class RevisionCreateAmendmentDelegate(
     ): MaybeFail<Fail.Incident> {
 
         val tender = context.tryGetTender()
-            .doOnError { return MaybeFail.fail(it) }
-            .get
+            .orReturnFail { return MaybeFail.fail(it) }
 
         val updatedAmendment = tender.getAmendmentIfOnlyOne()
-            .doOnError { return MaybeFail.fail(it) }
-            .get
+            .orReturnFail { return MaybeFail.fail(it) }
             .copy(
                 token = data.token,
                 type = data.type,

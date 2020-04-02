@@ -35,8 +35,7 @@ class StorageCheckRegistrationDelegate(
 
     override fun parameters(parameterContainer: ParameterContainer): Result<Parameters, Fail.Incident.Bpmn.Parameter> {
         val entities: List<Entity> = parameterContainer.getListString("entities")
-            .doOnError { return failure(it) }
-            .get
+            .orReturnFail { return failure(it) }
             .map {
                 Entity.orNull(it)
                     ?: return failure(
@@ -57,8 +56,7 @@ class StorageCheckRegistrationDelegate(
     ): Result<Reply<Unit>, Fail.Incident> {
 
         val tender = context.tryGetTender()
-            .doOnError { return failure(it) }
-            .get
+            .orReturnFail { return failure(it) }
 
         val documentIds: List<DocumentId> = parameters.entities
             .asSequence()

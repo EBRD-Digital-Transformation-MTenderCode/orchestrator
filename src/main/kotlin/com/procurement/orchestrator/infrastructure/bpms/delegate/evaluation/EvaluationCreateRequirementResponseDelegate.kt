@@ -44,16 +44,13 @@ class EvaluationCreateRequirementResponseDelegate(
     ): Result<Reply<CreateRequirementResponseAction.Result>, Fail.Incident> {
 
         val award = context.getAwardIfOnlyOne()
-            .doOnError { return failure(it) }
-            .get
+            .orReturnFail { return failure(it) }
 
         val requirementResponse = award.getRequirementResponseIfOnlyOne()
-            .doOnError { return failure(it) }
-            .get
+            .orReturnFail { return failure(it) }
 
         val party = context.getPartyIfOnlyOne()
-            .doOnError { return failure(it) }
-            .get
+            .orReturnFail { return failure(it) }
 
         val processInfo = context.processInfo
         return evaluationClient.createRequirementResponse(
@@ -98,12 +95,10 @@ class EvaluationCreateRequirementResponseDelegate(
     ): MaybeFail<Fail.Incident> {
 
         val award = context.findAwardById(id = data.award.id)
-            .doOnError { return MaybeFail.fail(it) }
-            .get
+            .orReturnFail { return MaybeFail.fail(it) }
 
         val requirementResponse = award.findRequirementResponseById(id = data.award.requirementResponse.id)
-            .doOnError { return MaybeFail.fail(it) }
-            .get
+            .orReturnFail { return MaybeFail.fail(it) }
 
         val updatedAward = award.copy(
             requirementResponses = award.requirementResponses

@@ -39,12 +39,10 @@ class EvaluationCheckRelatedTendererDelegate(
     ): Result<Reply<Unit>, Fail.Incident> {
 
         val award = context.getAwardIfOnlyOne()
-            .doOnError { return failure(it) }
-            .get
+            .orReturnFail { return failure(it) }
 
         val requirementResponse = award.getRequirementResponseIfOnlyOne()
-            .doOnError { return failure(it) }
-            .get
+            .orReturnFail { return failure(it) }
 
         val relatedTendererId = requirementResponse.relatedTenderer?.id
         val requirementId = requirementResponse.requirement?.id

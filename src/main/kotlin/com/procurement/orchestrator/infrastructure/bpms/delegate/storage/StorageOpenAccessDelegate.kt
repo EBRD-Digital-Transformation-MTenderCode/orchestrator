@@ -37,8 +37,7 @@ class StorageOpenAccessDelegate(
 
     override fun parameters(parameterContainer: ParameterContainer): Result<Parameters, Fail.Incident.Bpmn.Parameter> {
         val entities: List<Entity> = parameterContainer.getListString("entities")
-            .doOnError { return failure(it) }
-            .get
+            .orReturnFail { return failure(it) }
             .map {
                 Entity.orNull(it)
                     ?: return failure(
@@ -59,8 +58,7 @@ class StorageOpenAccessDelegate(
     ): Result<Reply<OpenAccessAction.Result>, Fail.Incident> {
 
         val tender = context.tryGetTender()
-            .doOnError { return failure(it) }
-            .get
+            .orReturnFail { return failure(it) }
 
         val documentIds: List<DocumentId> = parameters.entities
             .asSequence()
@@ -101,15 +99,13 @@ class StorageOpenAccessDelegate(
             return MaybeFail.none()
 
         val tender = context.tryGetTender()
-            .doOnError { return MaybeFail.fail(it) }
-            .get
+            .orReturnFail { return MaybeFail.fail(it) }
 
         val documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document> = data.associateBy { it.id }
 
         val updatedTender: Tender =
             updateDocuments(entities = parameters.entities.toSet(), tender = tender, documentsByIds = documentsByIds)
-                .doOnError { return MaybeFail.fail(it) }
-                .get
+                .orReturnFail { return MaybeFail.fail(it) }
 
         context.tender = updatedTender
 
@@ -128,9 +124,7 @@ class StorageOpenAccessDelegate(
         val updatedTender = when (entity) {
             Entity.AMENDMENT -> tender.updateAmendmentDocuments(documentsByIds)
             Entity.TENDER -> tender.updateTenderDocuments(documentsByIds)
-        }
-            .doOnError { return failure(it) }
-            .get
+        }.orReturnFail { return failure(it) }
 
         return updateDocuments(entities = entities - entity, tender = updatedTender, documentsByIds = documentsByIds)
     }

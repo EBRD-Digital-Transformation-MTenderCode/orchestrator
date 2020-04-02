@@ -33,8 +33,7 @@ class BpeErrorAppenderDelegate(
     override fun parameters(parameterContainer: ParameterContainer): Result<Parameters, Fail.Incident.Bpmn.Parameter> =
         Parameters(
             errorCode = parameterContainer.getString(NAME_PARAMETER_OF_ERROR_CODE)
-                .doOnError { return failure(it) }
-                .get
+                .orReturnFail { return failure(it) }
         ).asSuccess()
 
     override suspend fun execute(

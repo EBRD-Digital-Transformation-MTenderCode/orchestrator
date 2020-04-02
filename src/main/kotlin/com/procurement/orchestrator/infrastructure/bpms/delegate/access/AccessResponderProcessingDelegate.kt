@@ -48,8 +48,7 @@ class AccessResponderProcessingDelegate(
     ): Result<Reply<ResponderProcessingAction.Result>, Fail.Incident> {
 
         val responder = buildResponder(context)
-            .doOnError { return failure(it) }
-            .get
+            .orReturnFail { return failure(it) }
 
         val processInfo = context.processInfo
         val cpid: Cpid = processInfo.cpid
@@ -122,12 +121,10 @@ class AccessResponderProcessingDelegate(
 
     private fun buildResponder(context: CamundaGlobalContext): Result<ResponderProcessingAction.Params.Responder, Fail.Incident> {
         val award = context.getAwardIfOnlyOne()
-            .doOnError { return failure(it) }
-            .get
+            .orReturnFail { return failure(it) }
 
         val requirementResponse = award.getRequirementResponseIfOnlyOne()
-            .doOnError { return failure(it) }
-            .get
+            .orReturnFail { return failure(it) }
 
         val responder = requirementResponse.responder
             ?.let { responder ->

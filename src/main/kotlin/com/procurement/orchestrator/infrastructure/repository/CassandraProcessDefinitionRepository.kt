@@ -43,8 +43,7 @@ class CassandraProcessDefinitionRepository(private val session: Session) : Proce
             setString(columnProcessName, processName)
         }
         .tryExecute(session)
-        .doOnError { return failure(it) }
-        .get
+        .orReturnFail { return failure(it) }
         .one()
         ?.let { row -> ProcessDefinitionKey(row.getString(columnProcessDefinitionKey)) }
         .asSuccess()

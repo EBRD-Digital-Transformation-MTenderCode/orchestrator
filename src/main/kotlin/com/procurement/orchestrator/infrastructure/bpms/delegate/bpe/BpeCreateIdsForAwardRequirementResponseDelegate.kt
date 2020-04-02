@@ -32,8 +32,7 @@ class BpeCreateIdsForAwardRequirementResponseDelegate(
 
     override suspend fun execute(context: CamundaGlobalContext, parameters: Unit): Result<Unit, Fail.Incident> {
         val awards = context.getAwardsIfNotEmpty()
-            .doOnError { return failure(it) }
-            .get
+            .orReturnFail { return failure(it) }
 
         val updatedAwards = Awards(
             values = awards.map { award ->

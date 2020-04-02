@@ -26,8 +26,7 @@ abstract class AbstractKafkaNotificatorClient<T>(
 
     final override suspend fun send(message: T): MaybeFail<Fail.Incident> {
         val value = transform.trySerialization(message)
-            .doOnError { return MaybeFail.fail(it) }
-            .get
+            .orReturnFail { return MaybeFail.fail(it) }
 
         val ctx = coroutineContext[ResultContext.Key]!!
         ctx.request(value)

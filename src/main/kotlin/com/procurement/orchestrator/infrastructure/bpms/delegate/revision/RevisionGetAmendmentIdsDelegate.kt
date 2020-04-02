@@ -41,8 +41,7 @@ class RevisionGetAmendmentIdsDelegate(
 
     override fun parameters(parameterContainer: ParameterContainer): Result<Parameters, Fail.Incident.Bpmn.Parameter> {
         val type: AmendmentType? = parameterContainer.getStringOrNull("type")
-            .doOnError { return failure(it) }
-            .get
+            .orReturnFail { return failure(it) }
             ?.let {
                 AmendmentType.orNull(it)
                     ?: return failure(
@@ -55,8 +54,7 @@ class RevisionGetAmendmentIdsDelegate(
             }
 
         val status: AmendmentStatus? = parameterContainer.getStringOrNull("status")
-            .doOnError { return failure(it) }
-            .get
+            .orReturnFail { return failure(it) }
             ?.let {
                 AmendmentStatus.orNull(it)
                     ?: return failure(
@@ -69,8 +67,7 @@ class RevisionGetAmendmentIdsDelegate(
             }
 
         val relatesTo: AmendmentRelatesTo? = parameterContainer.getStringOrNull("relatesTo")
-            .doOnError { return failure(it) }
-            .get
+            .orReturnFail { return failure(it) }
             ?.let {
                 AmendmentRelatesTo.orNull(it)
                     ?: return failure(
@@ -83,8 +80,7 @@ class RevisionGetAmendmentIdsDelegate(
             }
 
         val sendRelatedItem = parameterContainer.getStringOrNull("sendRelatedItem")
-            .doOnError { return failure(it) }
-            .get
+            .orReturnFail { return failure(it) }
             ?.toBoolean()
             ?: false
 
@@ -112,12 +108,10 @@ class RevisionGetAmendmentIdsDelegate(
                 AmendmentRelatesTo.TENDER -> listOf(ocid.toString())
                 AmendmentRelatesTo.LOT -> {
                     val tender = context.tryGetTender()
-                        .doOnError { return failure(it) }
-                        .get
+                        .orReturnFail { return failure(it) }
 
                     tender.getLotsIfNotEmpty()
-                        .doOnError { return failure(it) }
-                        .get
+                        .orReturnFail { return failure(it) }
                         .map { it.id.toString() }
                 }
                 null -> return failure(
@@ -148,8 +142,7 @@ class RevisionGetAmendmentIdsDelegate(
     ): MaybeFail<Fail.Incident> {
 
         val tender = context.tryGetTender()
-            .doOnError { return MaybeFail.fail(it) }
-            .get
+            .orReturnFail { return MaybeFail.fail(it) }
 
         val knowAmendmentIds = tender.amendmentIds()
         val receivedAmendmentIds = data.toSet()
