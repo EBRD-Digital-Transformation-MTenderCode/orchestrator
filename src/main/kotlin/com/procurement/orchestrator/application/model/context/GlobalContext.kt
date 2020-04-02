@@ -2,12 +2,12 @@ package com.procurement.orchestrator.application.model.context
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.procurement.orchestrator.application.model.context.members.Awards
 import com.procurement.orchestrator.application.model.context.members.Errors
 import com.procurement.orchestrator.application.model.context.members.Incident
 import com.procurement.orchestrator.application.model.context.members.Outcomes
 import com.procurement.orchestrator.application.model.context.members.ProcessInfo
 import com.procurement.orchestrator.application.model.context.members.RequestInfo
-import com.procurement.orchestrator.domain.model.award.Award
 import com.procurement.orchestrator.domain.model.bid.Bids
 import com.procurement.orchestrator.domain.model.party.Party
 import com.procurement.orchestrator.domain.model.tender.Tender
@@ -42,7 +42,7 @@ interface GlobalContext {
 
     @get:JsonInclude(JsonInclude.Include.NON_EMPTY)
     @get:JsonProperty("awards")
-    var awards: List<Award>
+    var awards: Awards
 
     @get:JsonInclude(JsonInclude.Include.NON_EMPTY)
     @get:JsonProperty("parties")

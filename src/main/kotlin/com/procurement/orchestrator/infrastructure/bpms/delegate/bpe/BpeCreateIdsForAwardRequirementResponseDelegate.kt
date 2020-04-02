@@ -2,6 +2,7 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.bpe
 
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.getAwardsIfNotEmpty
+import com.procurement.orchestrator.application.model.context.members.Awards
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
@@ -34,18 +35,19 @@ class BpeCreateIdsForAwardRequirementResponseDelegate(
             .doOnError { return failure(it) }
             .get
 
-        val updatedAwards = awards.map { award ->
-            val updatedRequirementResponses = award.requirementResponses
-                .map { requirementResponse ->
-                    requirementResponse.copy(
-                        id = RequirementResponseId.Permanent.generate()
-                    )
-                }
-            award.copy(
-                requirementResponses = updatedRequirementResponses
-            )
-        }
-
+        val updatedAwards = Awards(
+            values = awards.map { award ->
+                val updatedRequirementResponses = award.requirementResponses
+                    .map { requirementResponse ->
+                        requirementResponse.copy(
+                            id = RequirementResponseId.Permanent.generate()
+                        )
+                    }
+                award.copy(
+                    requirementResponses = updatedRequirementResponses
+                )
+            }
+        )
         context.awards = updatedAwards
 
         return success(Unit)

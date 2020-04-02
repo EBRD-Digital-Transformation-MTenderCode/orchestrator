@@ -7,6 +7,7 @@ import com.procurement.orchestrator.application.model.context.extension.findRequ
 import com.procurement.orchestrator.application.model.context.extension.getAwardIfOnlyOne
 import com.procurement.orchestrator.application.model.context.extension.getPartyIfOnlyOne
 import com.procurement.orchestrator.application.model.context.extension.getRequirementResponseIfOnlyOne
+import com.procurement.orchestrator.application.model.context.members.Awards
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
@@ -114,15 +115,15 @@ class EvaluateCreateRequirementResponseDelegate(
                 }
         )
 
-        val updatedAwards = context.awards
-            .map {
-                if (it.id == data.award.id)
-                    updatedAward
-                else
-                    award
-            }
-
-        context.awards = updatedAwards
+        context.awards = Awards(
+            values = context.awards
+                .map {
+                    if (it.id == data.award.id)
+                        updatedAward
+                    else
+                        award
+                }
+        )
         return MaybeFail.none()
     }
 }

@@ -3,6 +3,7 @@ package com.procurement.orchestrator.application.service.response
 import com.procurement.orchestrator.application.model.RequestId
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.container.DefaultPropertyContainer
+import com.procurement.orchestrator.application.model.context.members.Awards
 import com.procurement.orchestrator.application.model.context.members.ProcessInfo
 import com.procurement.orchestrator.application.model.context.members.RequestInfo
 import com.procurement.orchestrator.application.model.process.LatestProcessContext
@@ -121,7 +122,7 @@ class RequirementResponseServiceImpl(
                     awardCriteria = prevProcessContext.awardCriteria
                 )
 
-                awards = listOf(
+                awards = Awards(
                     Award(
                         id = request.context.awardId,
                         owner = request.platformId,

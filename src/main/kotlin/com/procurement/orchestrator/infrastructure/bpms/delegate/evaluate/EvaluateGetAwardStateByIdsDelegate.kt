@@ -3,6 +3,7 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.evaluate
 import com.procurement.orchestrator.application.client.EvaluateClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.getAwardsIfNotEmpty
+import com.procurement.orchestrator.application.model.context.members.Awards
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
@@ -84,7 +85,7 @@ class EvaluateGetAwardStateByIdsDelegate(
                     }
             }
 
-        context.awards = updatedAwards + newAwards
+        context.awards = Awards(updatedAwards + newAwards)
 
         return MaybeFail.none()
     }
