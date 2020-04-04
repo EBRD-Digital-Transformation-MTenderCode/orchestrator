@@ -5,11 +5,11 @@ import com.procurement.orchestrator.application.service.FunctionalAction
 import com.procurement.orchestrator.infrastructure.client.web.Target
 import java.io.Serializable
 
-abstract class GetErrorDescriptionsAction : FunctionalAction<GetErrorDescriptionsAction.Params, GetErrorDescriptionsAction.Result> {
+abstract class GetErrorDescriptionsAction :
+    FunctionalAction<GetErrorDescriptionsAction.Params, GetErrorDescriptionsAction.Result> {
     override val version: String = "2.0.0"
     override val name: String = "getErrorDescription"
-    override val target: Target<Result> =
-        Target.Plural(typeRef = Result::class.java, defaultResult = { Result(emptyList<Result.Error>()) })
+    override val target: Target<Result> = Target.plural()
 
     class Params(
         @field:JsonProperty("language") @param:JsonProperty("language") val language: String,

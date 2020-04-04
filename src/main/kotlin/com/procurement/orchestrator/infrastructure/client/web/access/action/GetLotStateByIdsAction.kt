@@ -13,8 +13,7 @@ import java.io.Serializable
 abstract class GetLotStateByIdsAction : FunctionalAction<GetLotStateByIdsAction.Params, GetLotStateByIdsAction.Result> {
     override val version: String = "2.0.0"
     override val name: String = "getLotStateByIds"
-    override val target: Target<Result> =
-        Target.Plural(typeRef = Result::class.java, defaultResult = { Result(emptyList<Result.Lot>()) })
+    override val target: Target<Result> = Target.plural()
 
     class Params(
         @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid,

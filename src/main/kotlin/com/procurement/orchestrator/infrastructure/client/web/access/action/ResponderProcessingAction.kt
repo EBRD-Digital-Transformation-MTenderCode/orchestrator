@@ -17,7 +17,7 @@ abstract class ResponderProcessingAction :
     FunctionalAction<ResponderProcessingAction.Params, ResponderProcessingAction.Result> {
     override val version: String = "2.0.0"
     override val name: String = "responderProcessing"
-    override val target: Target<Result> = Target.Single(typeRef = Result::class.java)
+    override val target: Target<Result> = Target.single()
 
     class Params(
         @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid,

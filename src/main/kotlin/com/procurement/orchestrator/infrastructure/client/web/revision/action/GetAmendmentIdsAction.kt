@@ -15,8 +15,7 @@ import java.io.Serializable
 abstract class GetAmendmentIdsAction : FunctionalAction<GetAmendmentIdsAction.Params, GetAmendmentIdsAction.Result> {
     override val version: String = "2.0.0"
     override val name: String = "getAmendmentIds"
-    override val target: Target<Result> =
-        Target.Plural(typeRef = Result::class.java, defaultResult = { Result(emptyList<AmendmentId.Permanent>()) })
+    override val target: Target<Result> = Target.plural()
 
     class Params(
         @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid,

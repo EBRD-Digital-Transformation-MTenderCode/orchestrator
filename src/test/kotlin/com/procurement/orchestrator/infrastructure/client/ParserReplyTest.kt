@@ -27,7 +27,7 @@ class ParserReplyTest {
             }
         )
 
-        private val TARGET = Target.Single(typeRef = Result::class.java)
+        private val TARGET: Target<Result> = Target.single()
 
         private val REPLY_ID = ReplyId.fromString("43edc9e9-f899-4843-8afc-e97d7af5d2e7")
         private const val REPLY_VERSION = "2.0.0"

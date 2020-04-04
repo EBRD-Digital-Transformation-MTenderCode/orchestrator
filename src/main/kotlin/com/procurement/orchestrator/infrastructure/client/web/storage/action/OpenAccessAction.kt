@@ -10,8 +10,7 @@ import java.time.LocalDateTime
 abstract class OpenAccessAction : FunctionalAction<OpenAccessAction.Params, OpenAccessAction.Result> {
     override val version: String = "2.0.0"
     override val name: String = "openAccess"
-    override val target: Target<Result> =
-        Target.Plural(typeRef = Result::class.java, defaultResult = { Result(emptyList<Result.Document>()) })
+    override val target: Target<Result> = Target.plural()
 
     class Params(
         @field:JsonProperty("documentIds") @param:JsonProperty("documentIds") val ids: List<DocumentId>

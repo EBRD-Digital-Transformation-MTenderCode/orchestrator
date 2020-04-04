@@ -22,7 +22,7 @@ abstract class CreateRequirementResponseAction :
     FunctionalAction<CreateRequirementResponseAction.Params, CreateRequirementResponseAction.Result> {
     override val version: String = "2.0.0"
     override val name: String = "createRequirementResponse"
-    override val target: Target<Result> = Target.Single(typeRef = Result::class.java)
+    override val target: Target<Result> = Target.single()
 
     class Params(
         @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid,

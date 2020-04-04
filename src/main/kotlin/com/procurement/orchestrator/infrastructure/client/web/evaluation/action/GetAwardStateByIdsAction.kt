@@ -14,8 +14,7 @@ abstract class GetAwardStateByIdsAction :
     FunctionalAction<GetAwardStateByIdsAction.Params, GetAwardStateByIdsAction.Result> {
     override val version: String = "2.0.0"
     override val name: String = "getAwardStateByIds"
-    override val target: Target<Result> =
-        Target.Plural(typeRef = Result::class.java, defaultResult = { Result(emptyList<Result.Award>()) })
+    override val target: Target<Result> = Target.plural()
 
     class Params(
         @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid,
