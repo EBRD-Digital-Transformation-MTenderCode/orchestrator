@@ -2,6 +2,7 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.bpe
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
@@ -39,7 +40,11 @@ class BpeAddUpdateRecordTaskInQueueDelegate(
     override fun parameters(parameterContainer: ParameterContainer): Result<Unit, Fail.Incident.Bpmn.Parameter> =
         success(Unit)
 
-    override suspend fun execute(context: CamundaGlobalContext, parameters: Unit): Result<Reply<Unit>, Fail.Incident> {
+    override suspend fun execute(
+        commandId: CommandId,
+        context: CamundaGlobalContext,
+        parameters: Unit
+    ): Result<Reply<Unit>, Fail.Incident> {
 
         val processInfo = context.processInfo
         val cpid = processInfo.cpid

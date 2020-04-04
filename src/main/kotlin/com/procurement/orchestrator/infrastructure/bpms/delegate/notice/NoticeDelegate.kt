@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.infrastructure.bpms.delegate.notice
 
+import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.NoticeClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.service.Logger
@@ -35,7 +36,11 @@ class NoticeDelegate(
     override fun parameters(parameterContainer: ParameterContainer): Result<Unit, Fail.Incident.Bpmn.Parameter> =
         success(Unit)
 
-    override suspend fun execute(context: CamundaGlobalContext, parameters: Unit): Result<Reply<Unit>, Fail.Incident> {
+    override suspend fun execute(
+        commandId: CommandId,
+        context: CamundaGlobalContext,
+        parameters: Unit
+    ): Result<Reply<Unit>, Fail.Incident> {
 
         val requestInfo = context.requestInfo
         val operationId = requestInfo.operationId
@@ -44,10 +49,12 @@ class NoticeDelegate(
             .orReturnFail { return failure(it) }
 
         tasks.forEach { task ->
+            val salt = task.ocid.toString()
+            val commandIdWithSalt = commandId + salt
             when (task.action) {
                 NoticeTask.Action.UPDATE_RECORD -> {
                     val params = UpdateRecordAction.Params(startDate = requestInfo.timestamp, data = task.data)
-                    val reply = noticeClient.updateRecord(params)
+                    val reply = noticeClient.updateRecord(id = commandIdWithSalt, params = params)
                         .orReturnFail { return failure(it) }
 
                     when (reply) {
@@ -58,7 +65,7 @@ class NoticeDelegate(
                 }
                 NoticeTask.Action.CREATE_RECORD -> {
                     val params = CreateRecordAction.Params(startDate = requestInfo.timestamp, data = task.data)
-                    val reply = noticeClient.createRecord(params)
+                    val reply = noticeClient.createRecord(id = commandIdWithSalt, params = params)
                         .orReturnFail { return failure(it) }
 
                     when (reply) {

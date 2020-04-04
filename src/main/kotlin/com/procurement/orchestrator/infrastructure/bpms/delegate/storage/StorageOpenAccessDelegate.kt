@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.infrastructure.bpms.delegate.storage
 
+import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.StorageClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.tryGetTender
@@ -57,6 +58,7 @@ class StorageOpenAccessDelegate(
     }
 
     override suspend fun execute(
+        commandId: CommandId,
         context: CamundaGlobalContext,
         parameters: Parameters
     ): Result<Reply<OpenAccessAction.Result>, Fail.Incident> {
@@ -96,7 +98,7 @@ class StorageOpenAccessDelegate(
         if (documentIds.isEmpty())
             return success(Reply.None)
 
-        return client.openAccess(params = OpenAccessAction.Params(documentIds))
+        return client.openAccess(id = commandId, params = OpenAccessAction.Params(documentIds))
     }
 
     override fun updateGlobalContext(

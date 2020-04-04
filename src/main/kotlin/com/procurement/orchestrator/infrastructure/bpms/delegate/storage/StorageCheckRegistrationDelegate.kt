@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.infrastructure.bpms.delegate.storage
 
+import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.StorageClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.process.OperationTypeProcess
@@ -50,6 +51,7 @@ class StorageCheckRegistrationDelegate(
     }
 
     override suspend fun execute(
+        commandId: CommandId,
         context: CamundaGlobalContext,
         parameters: Parameters
     ): Result<Reply<Unit>, Fail.Incident> {
@@ -97,7 +99,7 @@ class StorageCheckRegistrationDelegate(
         if (documentIds.isEmpty())
             return success(Reply.None)
 
-        return client.checkRegistration(params = CheckRegistrationAction.Params(documentIds))
+        return client.checkRegistration(id = commandId, params = CheckRegistrationAction.Params(documentIds))
     }
 
     override fun updateGlobalContext(

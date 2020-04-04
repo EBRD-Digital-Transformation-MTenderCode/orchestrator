@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.infrastructure.bpms.delegate.evaluation
 
+import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.EvaluationClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.findAwardById
@@ -39,6 +40,7 @@ class EvaluationCreateRequirementResponseDelegate(
         success(Unit)
 
     override suspend fun execute(
+        commandId: CommandId,
         context: CamundaGlobalContext,
         parameters: Unit
     ): Result<Reply<CreateRequirementResponseAction.Result>, Fail.Incident> {
@@ -54,6 +56,7 @@ class EvaluationCreateRequirementResponseDelegate(
 
         val processInfo = context.processInfo
         return evaluationClient.createRequirementResponse(
+            id = commandId,
             params = CreateRequirementResponseAction.Params(
                 cpid = processInfo.cpid,
                 ocid = processInfo.ocid,

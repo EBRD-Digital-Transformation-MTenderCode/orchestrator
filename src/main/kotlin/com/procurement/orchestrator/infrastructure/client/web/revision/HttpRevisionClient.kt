@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.infrastructure.client.web.revision
 
+import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.RevisionClient
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
@@ -16,23 +17,29 @@ class HttpRevisionClient(private val webClient: WebClient, properties: Component
 
     private val url: URL = URL(properties.url + "/command")
 
-    override suspend fun getAmendmentIds(params: GetAmendmentIdsAction.Params): Result<Reply<GetAmendmentIdsAction.Result>, Fail.Incident> =
-        webClient.call(
-            url = url,
-            command = RevisionCommands.GetAmendmentIds.build(params = params),
-            target = RevisionCommands.GetAmendmentIds.target
-        )
+    override suspend fun getAmendmentIds(
+        id: CommandId,
+        params: GetAmendmentIdsAction.Params
+    ): Result<Reply<GetAmendmentIdsAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = RevisionCommands.GetAmendmentIds.build(id = id, params = params),
+        target = RevisionCommands.GetAmendmentIds.target
+    )
 
-    override suspend fun createAmendment(params: CreateAmendmentAction.Params): Result<Reply<CreateAmendmentAction.Result>, Fail.Incident> =
-        webClient.call(
-            url = url,
-            command = RevisionCommands.CreateAmendment.build(params = params),
-            target = RevisionCommands.CreateAmendment.target
-        )
+    override suspend fun createAmendment(
+        id: CommandId,
+        params: CreateAmendmentAction.Params
+    ): Result<Reply<CreateAmendmentAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = RevisionCommands.CreateAmendment.build(id = id, params = params),
+        target = RevisionCommands.CreateAmendment.target
+    )
 
-    override suspend fun dataValidation(params: DataValidationAction.Params): Result<Reply<Unit>, Fail.Incident> =
-        webClient.call(
-            url = url,
-            command = RevisionCommands.DataValidation.build(params = params)
-        )
+    override suspend fun dataValidation(
+        id: CommandId,
+        params: DataValidationAction.Params
+    ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
+        url = url,
+        command = RevisionCommands.DataValidation.build(id = id, params = params)
+    )
 }

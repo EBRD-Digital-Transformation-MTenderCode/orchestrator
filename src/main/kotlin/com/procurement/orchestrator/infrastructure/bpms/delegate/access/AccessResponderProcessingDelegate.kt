@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.infrastructure.bpms.delegate.access
 
+import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.AccessClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.getAwardIfOnlyOne
@@ -43,6 +44,7 @@ class AccessResponderProcessingDelegate(
         success(Unit)
 
     override suspend fun execute(
+        commandId: CommandId,
         context: CamundaGlobalContext,
         parameters: Unit
     ): Result<Reply<ResponderProcessingAction.Result>, Fail.Incident> {
@@ -56,6 +58,7 @@ class AccessResponderProcessingDelegate(
 
         val requestInfo = context.requestInfo
         return accessClient.responderProcessing(
+            id = commandId,
             params = ResponderProcessingAction.Params(
                 cpid = cpid,
                 ocid = ocid,

@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.infrastructure.client.web.dossier
 
+import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.DossierClient
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
@@ -14,9 +15,11 @@ class HttpDossierClient(private val webClient: WebClient, properties: ComponentP
 
     private val url: URL = URL(properties.url + "/command2")
 
-    override suspend fun validateRequirementResponse(params: ValidateRequirementResponseAction.Params): Result<Reply<Unit>, Fail.Incident> =
-        webClient.call(
-            url = url,
-            command = DossierCommands.ValidateRequirementResponse.build(params = params)
-        )
+    override suspend fun validateRequirementResponse(
+        id: CommandId,
+        params: ValidateRequirementResponseAction.Params
+    ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
+        url = url,
+        command = DossierCommands.ValidateRequirementResponse.build(id = id, params = params)
+    )
 }

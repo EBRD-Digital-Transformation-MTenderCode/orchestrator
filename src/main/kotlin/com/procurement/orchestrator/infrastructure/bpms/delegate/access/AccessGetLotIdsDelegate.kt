@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.infrastructure.bpms.delegate.access
 
+import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.AccessClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.tryGetTender
@@ -75,12 +76,14 @@ class AccessGetLotIdsDelegate(
     }
 
     override suspend fun execute(
+        commandId: CommandId,
         context: CamundaGlobalContext,
         parameters: Parameters
     ): Result<Reply<List<LotId>>, Fail.Incident> {
 
         val processInfo = context.processInfo
         return accessClient.getLotIds(
+            id = commandId,
             params = GetLotIdsAction.Params(
                 cpid = processInfo.cpid,
                 ocid = processInfo.ocid,

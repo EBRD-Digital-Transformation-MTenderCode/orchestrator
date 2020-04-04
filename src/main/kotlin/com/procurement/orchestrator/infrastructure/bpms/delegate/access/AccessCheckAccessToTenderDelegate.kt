@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.infrastructure.bpms.delegate.access
 
+import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.AccessClient
 import com.procurement.orchestrator.application.model.Owner
 import com.procurement.orchestrator.application.model.Token
@@ -37,10 +38,10 @@ class AccessCheckAccessToTenderDelegate(
         success(Unit)
 
     override suspend fun execute(
+        commandId: CommandId,
         context: CamundaGlobalContext,
         parameters: Unit
     ): Result<Reply<Unit>, Fail.Incident> {
-
         val processInfo = context.processInfo
         val cpid: Cpid = processInfo.cpid
         val ocid: Ocid = processInfo.ocid
@@ -52,6 +53,7 @@ class AccessCheckAccessToTenderDelegate(
         val owner: Owner = tender.owner
 
         return accessClient.checkAccessToTender(
+            id = commandId,
             params = CheckAccessToTenderAction.Params(
                 cpid = cpid, ocid = ocid, token = token, owner = owner
             )

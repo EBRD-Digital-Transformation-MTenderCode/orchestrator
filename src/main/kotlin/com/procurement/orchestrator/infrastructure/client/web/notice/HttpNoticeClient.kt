@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.infrastructure.client.web.notice
 
+import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.NoticeClient
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
@@ -15,15 +16,19 @@ class HttpNoticeClient(private val webClient: WebClient, properties: ComponentPr
 
     private val url: URL = URL(properties.url + "/command2")
 
-    override suspend fun updateRecord(params: UpdateRecordAction.Params): Result<Reply<Unit>, Fail.Incident> =
-        webClient.call(
-            url = url,
-            command = NoticeCommands.UpdateRecord.build(params = params)
-        )
+    override suspend fun updateRecord(
+        id: CommandId,
+        params: UpdateRecordAction.Params
+    ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
+        url = url,
+        command = NoticeCommands.UpdateRecord.build(id = id, params = params)
+    )
 
-    override suspend fun createRecord(params: CreateRecordAction.Params): Result<Reply<Unit>, Fail.Incident> =
-        webClient.call(
-            url = url,
-            command = NoticeCommands.CreateRecord.build(params = params)
-        )
+    override suspend fun createRecord(
+        id: CommandId,
+        params: CreateRecordAction.Params
+    ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
+        url = url,
+        command = NoticeCommands.CreateRecord.build(id = id, params = params)
+    )
 }

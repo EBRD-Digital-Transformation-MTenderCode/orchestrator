@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.infrastructure.client.web.mdm
 
+import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.MdmClient
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Option
@@ -16,6 +17,7 @@ class HttpMdmClient(
 ) : MdmClient {
 
     override suspend fun getErrorDescription(
+        id: CommandId,
         params: GetErrorDescriptionsAction.Params
     ): Result<Reply<GetErrorDescriptionsAction.Result>, Fail.Incident> =
 

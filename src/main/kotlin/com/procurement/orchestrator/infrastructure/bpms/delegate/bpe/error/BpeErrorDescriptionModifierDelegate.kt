@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.infrastructure.bpms.delegate.bpe.error
 
+import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.MdmClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.members.Errors
@@ -32,6 +33,7 @@ class BpeErrorDescriptionModifierDelegate(
         success(Unit)
 
     override suspend fun execute(
+        commandId: CommandId,
         context: CamundaGlobalContext,
         parameters: Unit
     ): Result<Reply<GetErrorDescriptionsAction.Result>, Fail.Incident> {
@@ -43,7 +45,7 @@ class BpeErrorDescriptionModifierDelegate(
             codes = errors.map { it.code },
             language = requestInfo.language
         )
-        return mdmClient.getErrorDescription(params = params)
+        return mdmClient.getErrorDescription(id = commandId, params = params)
     }
 
     override fun updateGlobalContext(

@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.infrastructure.bpms.delegate.revision
 
+import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.RevisionClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.getLotsIfNotEmpty
@@ -95,6 +96,7 @@ class RevisionGetAmendmentIdsDelegate(
     }
 
     override suspend fun execute(
+        commandId: CommandId,
         context: CamundaGlobalContext,
         parameters: Parameters
     ): Result<Reply<List<AmendmentId>>, Fail.Incident> {
@@ -124,6 +126,7 @@ class RevisionGetAmendmentIdsDelegate(
             emptyList()
 
         return client.getAmendmentIds(
+            id = commandId,
             params = GetAmendmentIdsAction.Params(
                 cpid = cpid,
                 ocid = ocid,

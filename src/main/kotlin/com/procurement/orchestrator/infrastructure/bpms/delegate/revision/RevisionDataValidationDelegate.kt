@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.infrastructure.bpms.delegate.revision
 
+import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.RevisionClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.getAmendmentIfOnlyOne
@@ -35,6 +36,7 @@ class RevisionDataValidationDelegate(
         success(Unit)
 
     override suspend fun execute(
+        commandId: CommandId,
         context: CamundaGlobalContext,
         parameters: Unit
     ): Result<Reply<Unit>, Fail.Incident> {
@@ -48,6 +50,7 @@ class RevisionDataValidationDelegate(
         val processInfo = context.processInfo
 
         return client.dataValidation(
+            id = commandId,
             params = DataValidationAction.Params(
                 cpid = processInfo.cpid,
                 ocid = processInfo.ocid,

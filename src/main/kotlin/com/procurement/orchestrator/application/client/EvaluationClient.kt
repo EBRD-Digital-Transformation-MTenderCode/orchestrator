@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.application.client
 
+import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
@@ -10,11 +11,23 @@ import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.
 
 interface EvaluationClient {
 
-    suspend fun checkAccessToAward(params: CheckAccessToAwardAction.Params): Result<Reply<Unit>, Fail.Incident>
+    suspend fun checkAccessToAward(
+        id: CommandId,
+        params: CheckAccessToAwardAction.Params
+    ): Result<Reply<Unit>, Fail.Incident>
 
-    suspend fun checkRelatedTenderer(params: CheckRelatedTendererAction.Params): Result<Reply<Unit>, Fail.Incident>
+    suspend fun checkRelatedTenderer(
+        id: CommandId,
+        params: CheckRelatedTendererAction.Params
+    ): Result<Reply<Unit>, Fail.Incident>
 
-    suspend fun createRequirementResponse(params: CreateRequirementResponseAction.Params): Result<Reply<CreateRequirementResponseAction.Result>, Fail.Incident>
+    suspend fun createRequirementResponse(
+        id: CommandId,
+        params: CreateRequirementResponseAction.Params
+    ): Result<Reply<CreateRequirementResponseAction.Result>, Fail.Incident>
 
-    suspend fun getAwardStateByIds(params: GetAwardStateByIdsAction.Params): Result<Reply<GetAwardStateByIdsAction.Result>, Fail.Incident>
+    suspend fun getAwardStateByIds(
+        id: CommandId,
+        params: GetAwardStateByIdsAction.Params
+    ): Result<Reply<GetAwardStateByIdsAction.Result>, Fail.Incident>
 }

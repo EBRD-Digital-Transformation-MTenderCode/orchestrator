@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.infrastructure.bpms.delegate
 
+import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.members.Errors
 import com.procurement.orchestrator.application.model.context.members.Incident
@@ -49,7 +50,11 @@ abstract class AbstractExternalDelegate<P, R : Any>(
 
         val resultContext = ResultContext()
         val scope = GlobalScope + resultContext
-        val reply = runBlocking(context = scope.coroutineContext) { execute(globalContext, parameters) }
+        val commandId = CommandId.generate(
+            processId = execution.processInstanceId,
+            activityId = execution.currentActivityId
+        )
+        val reply = runBlocking(context = scope.coroutineContext) { execute(commandId, globalContext, parameters) }
             .orReturnFail { fail -> execution.throwIncident(fail) }
             .also { data ->
                 if (execution.isUpdateGlobalContext && data.isDefined) {
@@ -72,6 +77,7 @@ abstract class AbstractExternalDelegate<P, R : Any>(
     protected abstract fun parameters(parameterContainer: ParameterContainer): Result<P, Fail.Incident.Bpmn.Parameter>
 
     protected abstract suspend fun execute(
+        commandId: CommandId,
         context: CamundaGlobalContext,
         parameters: P
     ): Result<Reply<R>, Fail.Incident>
@@ -156,7 +162,7 @@ abstract class AbstractExternalDelegate<P, R : Any>(
                     Incident.Detail(
                         code = detail.code,
                         description = detail.description,
-                        metadata = detail.metadata ?: ""
+                        metadata = detail.metadata
                     )
                 }
         )

@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.infrastructure.bpms.delegate.access
 
+import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.AccessClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.getAwardIfOnlyOne
@@ -58,6 +59,7 @@ class AccessCheckPersonsStructureDelegate(
     }
 
     override suspend fun execute(
+        commandId: CommandId,
         context: CamundaGlobalContext,
         parameters: Parameters
     ): Result<Reply<Unit>, Fail.Incident> {
@@ -73,6 +75,7 @@ class AccessCheckPersonsStructureDelegate(
             .orReturnFail { return failure(it) }
 
         return accessClient.checkPersonsStructure(
+            id = commandId,
             params = CheckPersonsStructureAction.Params(
                 cpid = cpid,
                 ocid = ocid,

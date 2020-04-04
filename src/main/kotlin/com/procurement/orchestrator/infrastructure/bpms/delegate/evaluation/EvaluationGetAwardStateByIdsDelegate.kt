@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.infrastructure.bpms.delegate.evaluation
 
+import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.EvaluationClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.getAwardsIfNotEmpty
@@ -38,6 +39,7 @@ class EvaluationGetAwardStateByIdsDelegate(
         success(Unit)
 
     override suspend fun execute(
+        commandId: CommandId,
         context: CamundaGlobalContext,
         parameters: Unit
     ): Result<Reply<GetAwardStateByIdsAction.Result>, Fail.Incident> {
@@ -47,6 +49,7 @@ class EvaluationGetAwardStateByIdsDelegate(
 
         val processInfo = context.processInfo
         return evaluationClient.getAwardStateByIds(
+            id = commandId,
             params = GetAwardStateByIdsAction.Params(
                 cpid = processInfo.cpid,
                 ocid = processInfo.ocid,

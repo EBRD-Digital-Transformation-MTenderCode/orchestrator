@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.infrastructure.bpms.delegate.evaluation
 
+import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.EvaluationClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.getAwardIfOnlyOne
@@ -35,6 +36,7 @@ class EvaluationCheckAccessToAwardDelegate(
         success(Unit)
 
     override suspend fun execute(
+        commandId: CommandId,
         context: CamundaGlobalContext,
         parameters: Unit
     ): Result<Reply<Unit>, Fail.Incident> {
@@ -47,6 +49,7 @@ class EvaluationCheckAccessToAwardDelegate(
             .orReturnFail { return failure(it) }
 
         return evaluationClient.checkAccessToAward(
+            id = commandId,
             params = CheckAccessToAwardAction.Params(
                 cpid = cpid,
                 ocid = ocid,

@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.infrastructure.bpms.delegate.dossier
 
+import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.DossierClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.getAwardIfOnlyOne
@@ -37,6 +38,7 @@ class DossierValidateRequirementResponseDelegate(
         success(Unit)
 
     override suspend fun execute(
+        commandId: CommandId,
         context: CamundaGlobalContext,
         parameters: Unit
     ): Result<Reply<Unit>, Fail.Incident> {
@@ -52,6 +54,7 @@ class DossierValidateRequirementResponseDelegate(
             .orReturnFail { return failure(it) }
 
         return dossierClient.validateRequirementResponse(
+            id = commandId,
             params = ValidateRequirementResponseAction.Params(
                 cpid = cpid,
                 ocid = ocid,

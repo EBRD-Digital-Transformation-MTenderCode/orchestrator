@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.application.client
 
+import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
@@ -11,13 +12,28 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Resp
 
 interface AccessClient {
 
-    suspend fun checkAccessToTender(params: CheckAccessToTenderAction.Params): Result<Reply<Unit>, Fail.Incident>
+    suspend fun checkAccessToTender(
+        id: CommandId,
+        params: CheckAccessToTenderAction.Params
+    ): Result<Reply<Unit>, Fail.Incident>
 
-    suspend fun checkPersonsStructure(params: CheckPersonsStructureAction.Params): Result<Reply<Unit>, Fail.Incident>
+    suspend fun checkPersonsStructure(
+        id: CommandId,
+        params: CheckPersonsStructureAction.Params
+    ): Result<Reply<Unit>, Fail.Incident>
 
-    suspend fun getLotIds(params: GetLotIdsAction.Params): Result<Reply<GetLotIdsAction.Result>, Fail.Incident>
+    suspend fun getLotIds(
+        id: CommandId,
+        params: GetLotIdsAction.Params
+    ): Result<Reply<GetLotIdsAction.Result>, Fail.Incident>
 
-    suspend fun getLotStateByIds(params: GetLotStateByIdsAction.Params): Result<Reply<GetLotStateByIdsAction.Result>, Fail.Incident>
+    suspend fun getLotStateByIds(
+        id: CommandId,
+        params: GetLotStateByIdsAction.Params
+    ): Result<Reply<GetLotStateByIdsAction.Result>, Fail.Incident>
 
-    suspend fun responderProcessing(params: ResponderProcessingAction.Params): Result<Reply<ResponderProcessingAction.Result>, Fail.Incident>
+    suspend fun responderProcessing(
+        id: CommandId,
+        params: ResponderProcessingAction.Params
+    ): Result<Reply<ResponderProcessingAction.Result>, Fail.Incident>
 }
