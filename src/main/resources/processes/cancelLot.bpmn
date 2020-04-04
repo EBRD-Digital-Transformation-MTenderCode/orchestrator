@@ -212,20 +212,25 @@
         <bpmn:outgoing>SequenceFlow_0qu9fq9</bpmn:outgoing>
         <bpmn:errorEventDefinition id="ErrorEventDefinition_1v1i6o0" errorRef="Error_0k7qyu7" camunda:errorCodeVariable="errorCode" camunda:errorMessageVariable="errorMessage" />
       </bpmn:startEvent>
-      <bpmn:serviceTask id="BpeValidationErrorDescriptionModifierTask" name="Add description" camunda:asyncBefore="true" camunda:delegateExpression="${bpeErrorDescriptionModifierDelegate}">
+      <bpmn:serviceTask id="BpeValidationErrorDescriptionModifierTask" name="Add description" camunda:asyncBefore="true"
+                        camunda:delegateExpression="${bpeErrorDescriptionModifierDelegate}">
         <bpmn:incoming>SequenceFlow_0qu9fq9</bpmn:incoming>
         <bpmn:outgoing>SequenceFlow_1mgoxz0</bpmn:outgoing>
       </bpmn:serviceTask>
-      <bpmn:serviceTask id="NotifierValidationErrorNotificationToPlatformTask" name="iNotifier Kafka:&#10;Validation Error Notification To Platform" camunda:asyncBefore="true" camunda:delegateExpression="${notifierErrorNotificationToPlatformDelegate}">
+      <bpmn:serviceTask id="NotifierValidationErrorNotificationToPlatformTask"
+                        name="iNotifier Kafka:&#10;Validation Error Notification To Platform" camunda:asyncBefore="true"
+                        camunda:delegateExpression="${notifierErrorNotificationToPlatformDelegate}">
         <bpmn:incoming>SequenceFlow_1mgoxz0</bpmn:incoming>
         <bpmn:outgoing>SequenceFlow_0t5bck1</bpmn:outgoing>
       </bpmn:serviceTask>
     </bpmn:subProcess>
-    <bpmn:sequenceFlow id="SequenceFlow_09rtkfj" name="result.size()&#62;0" sourceRef="RevisionGetAmendmentIdsForTenderrTask" targetRef="BpeAddErrorBPR-10.0.3.2.2Task">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${result.size()&gt;0}</bpmn:conditionExpression>
+    <bpmn:sequenceFlow id="SequenceFlow_09rtkfj" name="result != null" sourceRef="RevisionGetAmendmentIdsForTenderrTask"
+                       targetRef="BpeAddErrorBPR-10.0.3.2.2Task">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${result != null}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_0xbvkgs" name="result.size()&#62;0" sourceRef="RevisionGetAmendmentIdsForLotsTask" targetRef="BpeAddErrorBPR-10.0.3.2.3Task">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${result.size()&gt;0}</bpmn:conditionExpression>
+    <bpmn:sequenceFlow id="SequenceFlow_0xbvkgs" name="result != null" sourceRef="RevisionGetAmendmentIdsForLotsTask"
+                       targetRef="BpeAddErrorBPR-10.0.3.2.3Task">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${result != null}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:subProcess id="SubProcess_1m2xgg2" triggeredByEvent="true">
       <bpmn:startEvent id="InternalIncidentStartEvent" name="Internal Incident">
@@ -235,7 +240,8 @@
           </camunda:executionListener>
         </bpmn:extensionElements>
         <bpmn:outgoing>SequenceFlow_0ihuxri</bpmn:outgoing>
-        <bpmn:errorEventDefinition id="ErrorEventDefinition_0rmskjw" errorRef="Error_15lgooj" camunda:errorMessageVariable="errorTaskId" />
+        <bpmn:errorEventDefinition id="ErrorEventDefinition_0rmskjw" errorRef="Error_15lgooj"
+                                   camunda:errorMessageVariable="errorTaskId"/>
       </bpmn:startEvent>
       <bpmn:serviceTask id="ServiceTask_0v6unld" name="Return to last task" camunda:asyncAfter="true" camunda:delegateExpression="${recoveryDelegate}">
         <bpmn:incoming>SequenceFlow_0w0v5j6</bpmn:incoming>
@@ -607,14 +613,14 @@ lotCancellation</bpmn:text>
         <di:waypoint x="1110" y="278" />
         <di:waypoint x="1110" y="330" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1115" y="301" width="70" height="14" />
+          <dc:Bounds x="1120" y="301" width="60" height="14"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0xbvkgs_di" bpmnElement="SequenceFlow_0xbvkgs">
         <di:waypoint x="1260" y="278" />
         <di:waypoint x="1260" y="330" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1265" y="301" width="70" height="14" />
+          <dc:Bounds x="1270" y="301" width="60" height="14"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="SubProcess_1m2xgg2_di" bpmnElement="SubProcess_1m2xgg2" isExpanded="true">

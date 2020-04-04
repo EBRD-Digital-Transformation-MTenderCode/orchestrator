@@ -15,34 +15,51 @@
     <bpmn:sequenceFlow id="SequenceFlow_04n6349" sourceRef="BpeCreateIdsForAmendmentTask" targetRef="RevisionCreateAmendmentTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0zjq3p8" sourceRef="RevisionCreateAmendmentTask" targetRef="StorageOpenAccessToAmendmentDocumentsTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1bc2fsz" sourceRef="BpeAddUpdateRecordTaskInQueueTask" targetRef="NoticeTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0wznrfb" sourceRef="NoticeTask" targetRef="BpeSaveContextTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0rcjzou" sourceRef="StorageOpenAccessToAmendmentDocumentsTask" targetRef="BpeAddUpdateRecordTaskInQueueTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1wy0jmm" sourceRef="RevisionGetAmendmentIdsForLotsTask" targetRef="RevisionDataValidationTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1e1vjft" sourceRef="RevisionDataValidationTask" targetRef="StorageCheckRegistrationTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0weylk0" sourceRef="StorageCheckRegistrationTask" targetRef="BpeCreateIdsForAmendmentTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1ro0vfu" sourceRef="AccessCheckAccessToTenderTask" targetRef="AccessGetLotIdsTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0c3ydpa" sourceRef="BpeProcessInitializerDelegate" targetRef="AccessCheckAccessToTenderTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_00sv0vb" sourceRef="StartEvent_0c1t817" targetRef="BpeProcessInitializerDelegate" />
-    <bpmn:sequenceFlow id="SequenceFlow_1c1fp9b" sourceRef="NotifierErrorNotificationToPlatformTask" targetRef="EndEvent_1gout0d" />
-    <bpmn:sequenceFlow id="SequenceFlow_0jf3z63" sourceRef="BpeBpmnErrorDescriptionModifierTask" targetRef="NotifierErrorNotificationToPlatformTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_11fj60f" name="result.size()&#62;0" sourceRef="AccessGetLotIdsTask" targetRef="BpeAddErrorBPR-10.0.3.1.1Task">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${result.size()&gt;0}</bpmn:conditionExpression>
-    </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_1w81ref" name="result.size()&#62;0" sourceRef="RevisionGetAmendmentIdsForTenderTask" targetRef="BpeAddErrorBPR-10.0.3.1.2Task">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${result.size()&gt;0}</bpmn:conditionExpression>
-    </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_0lvbu68" name="result.size()&#62;0" sourceRef="RevisionGetAmendmentIdsForLotsTask" targetRef="BpeAddErrorBPR-10.0.3.1.3Task">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${result.size()&gt;0}</bpmn:conditionExpression>
-    </bpmn:sequenceFlow>
-    <bpmn:serviceTask id="RevisionDataValidationTask" name="eRevision: &#10;Data validation" camunda:asyncBefore="true" camunda:delegateExpression="${revisionDataValidationDelegate}">
-      <bpmn:incoming>SequenceFlow_1wy0jmm</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1e1vjft</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:subProcess id="ValidationSubProcessTask" name="When delegate receives a message with error status&#10;code = Validation" triggeredByEvent="true">
-      <bpmn:startEvent id="StartEvent_0odnoqk">
-        <bpmn:outgoing>SequenceFlow_01e05vz</bpmn:outgoing>
-        <bpmn:errorEventDefinition id="ErrorEventDefinition_0dt2nlw" errorRef="Error_1xdouut" camunda:errorCodeVariable="errorCode" camunda:errorMessageVariable="errorMessage" />
-      </bpmn:startEvent>
+      <bpmn:sequenceFlow id="SequenceFlow_0wznrfb" sourceRef="NoticeTask" targetRef="BpeSaveContextTask"/>
+      <bpmn:sequenceFlow id="SequenceFlow_0rcjzou" sourceRef="StorageOpenAccessToAmendmentDocumentsTask"
+                         targetRef="BpeAddUpdateRecordTaskInQueueTask"/>
+      <bpmn:sequenceFlow id="SequenceFlow_1wy0jmm" sourceRef="RevisionGetAmendmentIdsForLotsTask"
+                         targetRef="RevisionDataValidationTask"/>
+      <bpmn:sequenceFlow id="SequenceFlow_1e1vjft" sourceRef="RevisionDataValidationTask"
+                         targetRef="StorageCheckRegistrationTask"/>
+      <bpmn:sequenceFlow id="SequenceFlow_0weylk0" sourceRef="StorageCheckRegistrationTask"
+                         targetRef="BpeCreateIdsForAmendmentTask"/>
+      <bpmn:sequenceFlow id="SequenceFlow_1ro0vfu" sourceRef="AccessCheckAccessToTenderTask"
+                         targetRef="AccessGetLotIdsTask"/>
+      <bpmn:sequenceFlow id="SequenceFlow_0c3ydpa" sourceRef="BpeProcessInitializerDelegate"
+                         targetRef="AccessCheckAccessToTenderTask"/>
+      <bpmn:sequenceFlow id="SequenceFlow_00sv0vb" sourceRef="StartEvent_0c1t817"
+                         targetRef="BpeProcessInitializerDelegate"/>
+      <bpmn:sequenceFlow id="SequenceFlow_1c1fp9b" sourceRef="NotifierErrorNotificationToPlatformTask"
+                         targetRef="EndEvent_1gout0d"/>
+      <bpmn:sequenceFlow id="SequenceFlow_0jf3z63" sourceRef="BpeBpmnErrorDescriptionModifierTask"
+                         targetRef="NotifierErrorNotificationToPlatformTask"/>
+      <bpmn:sequenceFlow id="SequenceFlow_11fj60f" name="result != null" sourceRef="AccessGetLotIdsTask"
+                         targetRef="BpeAddErrorBPR-10.0.3.1.1Task">
+          <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${result != null}</bpmn:conditionExpression>
+      </bpmn:sequenceFlow>
+      <bpmn:sequenceFlow id="SequenceFlow_1w81ref" name="result != null"
+                         sourceRef="RevisionGetAmendmentIdsForTenderTask" targetRef="BpeAddErrorBPR-10.0.3.1.2Task">
+          <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${result != null}</bpmn:conditionExpression>
+      </bpmn:sequenceFlow>
+      <bpmn:sequenceFlow id="SequenceFlow_0lvbu68" name="result != null" sourceRef="RevisionGetAmendmentIdsForLotsTask"
+                         targetRef="BpeAddErrorBPR-10.0.3.1.3Task">
+          <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${result != null}</bpmn:conditionExpression>
+      </bpmn:sequenceFlow>
+      <bpmn:serviceTask id="RevisionDataValidationTask" name="eRevision: &#10;Data validation"
+                        camunda:asyncBefore="true" camunda:delegateExpression="${revisionDataValidationDelegate}">
+          <bpmn:incoming>SequenceFlow_1wy0jmm</bpmn:incoming>
+          <bpmn:outgoing>SequenceFlow_1e1vjft</bpmn:outgoing>
+      </bpmn:serviceTask>
+      <bpmn:subProcess id="ValidationSubProcessTask"
+                       name="When delegate receives a message with error status&#10;code = Validation"
+                       triggeredByEvent="true">
+          <bpmn:startEvent id="StartEvent_0odnoqk">
+              <bpmn:outgoing>SequenceFlow_01e05vz</bpmn:outgoing>
+              <bpmn:errorEventDefinition id="ErrorEventDefinition_0dt2nlw" errorRef="Error_1xdouut"
+                                         camunda:errorCodeVariable="errorCode"
+                                         camunda:errorMessageVariable="errorMessage"/>
+          </bpmn:startEvent>
       <bpmn:serviceTask id="NotifierValidationErrorNotificationToPlatformTask" name="iNotifier Kafka:&#10;Validation Error Notification To Platform" camunda:asyncBefore="true" camunda:delegateExpression="${notifierErrorNotificationToPlatformDelegate}">
         <bpmn:incoming>SequenceFlow_15bu7l7</bpmn:incoming>
         <bpmn:outgoing>SequenceFlow_1xhvle5</bpmn:outgoing>
@@ -543,21 +560,21 @@ tenderCancellation</bpmn:text>
         <di:waypoint x="632" y="180" />
         <di:waypoint x="632" y="245" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="635" y="203" width="70" height="14" />
+            <dc:Bounds x="640" y="203" width="60" height="14"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1w81ref_di" bpmnElement="SequenceFlow_1w81ref">
         <di:waypoint x="809" y="180" />
         <di:waypoint x="809" y="245" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="815" y="203" width="70" height="14" />
+            <dc:Bounds x="820" y="203" width="60" height="14"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0lvbu68_di" bpmnElement="SequenceFlow_0lvbu68">
         <di:waypoint x="977" y="180" />
         <di:waypoint x="977" y="245" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="985" y="203" width="70" height="14" />
+            <dc:Bounds x="990" y="203" width="60" height="14"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="SubProcess_1khbvxx_di" bpmnElement="SubProcess_1khbvxx" isExpanded="true">
