@@ -11,6 +11,7 @@ import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.reply.ReplyId
 import com.procurement.orchestrator.infrastructure.client.reply.parse
 import com.procurement.orchestrator.infrastructure.client.web.Target
+import com.procurement.orchestrator.infrastructure.model.Version
 import com.procurement.orchestrator.infrastructure.service.JacksonJsonTransform
 import com.procurement.orchestrator.json.loadJson
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -30,7 +31,7 @@ class ParserReplyTest {
         private val TARGET: Target<Result> = Target.single()
 
         private val REPLY_ID = ReplyId.fromString("43edc9e9-f899-4843-8afc-e97d7af5d2e7")
-        private const val REPLY_VERSION = "2.0.0"
+        private val REPLY_VERSION = Version.parse("2.0.0")
         private const val USER_ID = 1
         private const val USER_NAME = "John"
 

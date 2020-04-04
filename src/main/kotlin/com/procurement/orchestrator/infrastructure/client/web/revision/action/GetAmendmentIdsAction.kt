@@ -10,10 +10,11 @@ import com.procurement.orchestrator.domain.model.amendment.AmendmentRelatesTo
 import com.procurement.orchestrator.domain.model.amendment.AmendmentStatus
 import com.procurement.orchestrator.domain.model.amendment.AmendmentType
 import com.procurement.orchestrator.infrastructure.client.web.Target
+import com.procurement.orchestrator.infrastructure.model.Version
 import java.io.Serializable
 
 abstract class GetAmendmentIdsAction : FunctionalAction<GetAmendmentIdsAction.Params, GetAmendmentIdsAction.Result> {
-    override val version: String = "2.0.0"
+    override val version: Version = Version.parse("2.0.0")
     override val name: String = "getAmendmentIds"
     override val target: Target<Result> = Target.plural()
 

@@ -2,6 +2,7 @@ package com.procurement.orchestrator.infrastructure.client.reply
 
 import com.procurement.orchestrator.domain.EnumElementProvider
 import com.procurement.orchestrator.domain.functional.Option
+import com.procurement.orchestrator.infrastructure.model.Version
 
 sealed class Reply<out T> {
 
@@ -23,9 +24,9 @@ sealed class Reply<out T> {
 
     object None : Reply<Nothing>()
 
-    class Success<T>(val id: ReplyId, val version: String, val result: Option<T>) : Reply<T>()
+    class Success<T>(val id: ReplyId, val version: Version, val result: Option<T>) : Reply<T>()
 
-    class Errors(val id: ReplyId, val version: String, val result: Result) : Reply<Nothing>() {
+    class Errors(val id: ReplyId, val version: Version, val result: Result) : Reply<Nothing>() {
 
         class Result(values: List<Error>) : List<Result.Error> by values {
 
@@ -36,7 +37,7 @@ sealed class Reply<out T> {
         }
     }
 
-    class Incident(val id: ReplyId, val version: String, val result: Result) : Reply<Nothing>() {
+    class Incident(val id: ReplyId, val version: Version, val result: Result) : Reply<Nothing>() {
 
         class Result(
             val id: String,

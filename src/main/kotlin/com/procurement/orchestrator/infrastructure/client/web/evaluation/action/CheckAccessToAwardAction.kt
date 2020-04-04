@@ -7,9 +7,10 @@ import com.procurement.orchestrator.application.service.ProceduralAction
 import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
 import com.procurement.orchestrator.domain.model.award.AwardId
+import com.procurement.orchestrator.infrastructure.model.Version
 
 abstract class CheckAccessToAwardAction : ProceduralAction<CheckAccessToAwardAction.Params> {
-    override val version: String = "2.0.0"
+    override val version: Version = Version.parse("2.0.0")
     override val name: String = "checkAccessToAward"
 
     class Params(

@@ -10,12 +10,13 @@ import com.procurement.orchestrator.domain.model.document.DocumentType
 import com.procurement.orchestrator.domain.model.organization.person.BusinessFunctionId
 import com.procurement.orchestrator.domain.model.organization.person.BusinessFunctionType
 import com.procurement.orchestrator.infrastructure.client.web.Target
+import com.procurement.orchestrator.infrastructure.model.Version
 import java.io.Serializable
 import java.time.LocalDateTime
 
 abstract class ResponderProcessingAction :
     FunctionalAction<ResponderProcessingAction.Params, ResponderProcessingAction.Result> {
-    override val version: String = "2.0.0"
+    override val version: Version = Version.parse("2.0.0")
     override val name: String = "responderProcessing"
     override val target: Target<Result> = Target.single()
 
@@ -104,6 +105,7 @@ abstract class ResponderProcessingAction :
             @field:JsonProperty("identifier") @param:JsonProperty("identifier") val identifier: Identifier,
             @field:JsonProperty("businessFunctions") @param:JsonProperty("businessFunctions") val businessFunctions: List<BusinessFunction>
         ) : Serializable {
+
             data class Identifier(
                 @field:JsonProperty("scheme") @param:JsonProperty("scheme") val scheme: String,
                 @field:JsonProperty("id") @param:JsonProperty("id") val id: String,

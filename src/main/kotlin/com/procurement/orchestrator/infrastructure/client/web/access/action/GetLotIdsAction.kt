@@ -9,10 +9,11 @@ import com.procurement.orchestrator.domain.model.lot.LotId
 import com.procurement.orchestrator.domain.model.lot.LotStatus
 import com.procurement.orchestrator.domain.model.lot.LotStatusDetails
 import com.procurement.orchestrator.infrastructure.client.web.Target
+import com.procurement.orchestrator.infrastructure.model.Version
 import java.io.Serializable
 
 abstract class GetLotIdsAction : FunctionalAction<GetLotIdsAction.Params, GetLotIdsAction.Result> {
-    override val version: String = "2.0.0"
+    override val version: Version = Version.parse("2.0.0")
     override val name: String = "getLotIds"
     override val target: Target<Result> = Target.plural()
 

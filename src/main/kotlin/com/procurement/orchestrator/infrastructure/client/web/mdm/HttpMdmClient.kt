@@ -9,6 +9,7 @@ import com.procurement.orchestrator.infrastructure.bpms.repository.ErrorDescript
 import com.procurement.orchestrator.infrastructure.client.reply.EMPTY_REPLY_ID
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetErrorDescriptionsAction
+import com.procurement.orchestrator.infrastructure.model.Version
 
 class HttpMdmClient(
     private val errorDescriptionRepository: ErrorDescriptionRepository
@@ -29,7 +30,7 @@ class HttpMdmClient(
             .let { errors ->
                 Reply.Success(
                     id = EMPTY_REPLY_ID,
-                    version = "",
+                    version = Version.parse("2.0.0"),
                     result = Option.pure(GetErrorDescriptionsAction.Result(errors))
                 )
             }

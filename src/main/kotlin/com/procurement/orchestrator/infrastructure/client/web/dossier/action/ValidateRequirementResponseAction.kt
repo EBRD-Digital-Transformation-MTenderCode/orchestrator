@@ -12,15 +12,15 @@ import com.procurement.orchestrator.domain.model.requirement.RequirementResponse
 import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponseId
 import com.procurement.orchestrator.infrastructure.bind.criteria.requirement.value.RequirementValueDeserializer
 import com.procurement.orchestrator.infrastructure.bind.criteria.requirement.value.RequirementValueSerializer
+import com.procurement.orchestrator.infrastructure.model.Version
 
 abstract class ValidateRequirementResponseAction : ProceduralAction<ValidateRequirementResponseAction.Params> {
-    override val version: String = "2.0.0"
+    override val version: Version = Version.parse("2.0.0")
     override val name: String = "validateRequirementResponse"
 
     class Params(
         @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid,
         @field:JsonProperty("ocid") @param:JsonProperty("ocid") val ocid: Ocid,
-
         @field:JsonProperty("requirementResponse") @param:JsonProperty("requirementResponse") val requirementResponse: RequirementResponse
     ) {
 
@@ -35,6 +35,7 @@ abstract class ValidateRequirementResponseAction : ProceduralAction<ValidateRequ
             @field:JsonInclude(JsonInclude.Include.NON_NULL)
             @field:JsonProperty("requirement") @param:JsonProperty("requirement") val requirement: Requirement? = null
         ) {
+
             class Requirement(
                 @field:JsonProperty("id") @param:JsonProperty("id") val id: RequirementId
             )

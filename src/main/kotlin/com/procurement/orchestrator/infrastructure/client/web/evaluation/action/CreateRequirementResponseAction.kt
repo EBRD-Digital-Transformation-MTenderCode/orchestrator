@@ -16,11 +16,12 @@ import com.procurement.orchestrator.domain.model.requirement.response.Requiremen
 import com.procurement.orchestrator.infrastructure.bind.criteria.requirement.value.RequirementValueDeserializer
 import com.procurement.orchestrator.infrastructure.bind.criteria.requirement.value.RequirementValueSerializer
 import com.procurement.orchestrator.infrastructure.client.web.Target
+import com.procurement.orchestrator.infrastructure.model.Version
 import java.io.Serializable
 
 abstract class CreateRequirementResponseAction :
     FunctionalAction<CreateRequirementResponseAction.Params, CreateRequirementResponseAction.Result> {
-    override val version: String = "2.0.0"
+    override val version: Version = Version.parse("2.0.0")
     override val name: String = "createRequirementResponse"
     override val target: Target<Result> = Target.single()
 

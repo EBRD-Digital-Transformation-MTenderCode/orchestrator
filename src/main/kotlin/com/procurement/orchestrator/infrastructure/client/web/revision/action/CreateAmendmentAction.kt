@@ -15,11 +15,12 @@ import com.procurement.orchestrator.domain.model.amendment.AmendmentType
 import com.procurement.orchestrator.domain.model.document.DocumentId
 import com.procurement.orchestrator.domain.model.document.DocumentType
 import com.procurement.orchestrator.infrastructure.client.web.Target
+import com.procurement.orchestrator.infrastructure.model.Version
 import java.io.Serializable
 import java.time.LocalDateTime
 
 abstract class CreateAmendmentAction : FunctionalAction<CreateAmendmentAction.Params, CreateAmendmentAction.Result> {
-    override val version: String = "2.0.0"
+    override val version: Version = Version.parse("2.0.0")
     override val name: String = "createAmendment"
     override val target: Target<Result> = Target.single()
 
@@ -32,6 +33,7 @@ abstract class CreateAmendmentAction : FunctionalAction<CreateAmendmentAction.Pa
         @field:JsonProperty("relatedEntityId") @param:JsonProperty("relatedEntityId") val relatedEntityId: String,
         @field:JsonProperty("amendment") @param:JsonProperty("amendment") val amendment: Amendment
     ) {
+
         class Amendment(
             @field:JsonProperty("id") @param:JsonProperty("id") val id: AmendmentId.Permanent,
 
@@ -44,6 +46,7 @@ abstract class CreateAmendmentAction : FunctionalAction<CreateAmendmentAction.Pa
             @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
             @field:JsonProperty("documents") @param:JsonProperty("documents") val documents: List<Document> = emptyList()
         ) {
+
             data class Document(
                 @field:JsonProperty("id") @param:JsonProperty("id") val id: DocumentId,
                 @field:JsonProperty("documentType") @param:JsonProperty("documentType") val documentType: DocumentType,
@@ -74,6 +77,7 @@ abstract class CreateAmendmentAction : FunctionalAction<CreateAmendmentAction.Pa
         @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
         @field:JsonProperty("documents") @param:JsonProperty("documents") val documents: List<Document> = emptyList()
     ) : Serializable {
+
         data class Document(
             @field:JsonProperty("id") @param:JsonProperty("id") val id: DocumentId,
             @field:JsonProperty("documentType") @param:JsonProperty("documentType") val documentType: DocumentType,

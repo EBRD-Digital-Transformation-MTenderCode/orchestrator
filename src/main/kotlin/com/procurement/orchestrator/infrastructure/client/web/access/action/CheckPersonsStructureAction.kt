@@ -10,15 +10,17 @@ import com.procurement.orchestrator.domain.model.document.DocumentId
 import com.procurement.orchestrator.domain.model.document.DocumentType
 import com.procurement.orchestrator.domain.model.organization.person.BusinessFunctionId
 import com.procurement.orchestrator.domain.model.organization.person.BusinessFunctionType
+import com.procurement.orchestrator.infrastructure.model.Version
 import java.time.LocalDateTime
 
 abstract class CheckPersonsStructureAction : ProceduralAction<CheckPersonsStructureAction.Params> {
-    override val version: String = "2.0.0"
+    override val version: Version = Version.parse("2.0.0")
     override val name: String = "checkPersonsStructure"
 
     class Params(
         @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid,
         @field:JsonProperty("ocid") @param:JsonProperty("ocid") val ocid: Ocid,
+
         @JsonInclude(JsonInclude.Include.NON_NULL)
         @field:JsonProperty("operationType") @param:JsonProperty("operationType") val operationType: OperationTypeProcess?,
 

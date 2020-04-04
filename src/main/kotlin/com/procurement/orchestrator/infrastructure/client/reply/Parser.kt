@@ -8,6 +8,7 @@ import com.procurement.orchestrator.domain.fail.error.DataValidationErrors
 import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.failure
+import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.functional.asOption
 import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.domain.functional.bind
@@ -17,6 +18,7 @@ import com.procurement.orchestrator.infrastructure.extension.jackson.getOrNull
 import com.procurement.orchestrator.infrastructure.extension.jackson.tryGetAttribute
 import com.procurement.orchestrator.infrastructure.extension.jackson.tryGetAttributeAsEnum
 import com.procurement.orchestrator.infrastructure.extension.jackson.tryGetTextAttribute
+import com.procurement.orchestrator.infrastructure.model.Version
 
 fun <R> String.parse(transform: Transform, target: Target<R>? = null): Result<Reply<R>, Fail.Incident> {
 
@@ -73,7 +75,18 @@ private fun JsonNode.getId(): Result<ReplyId, DataValidationErrors> = this.tryGe
             )
     }
 
-private fun JsonNode.getVersion(): Result<String, DataValidationErrors> = this.tryGetTextAttribute("version")
+private fun JsonNode.getVersion(): Result<Version, DataValidationErrors> = this.tryGetTextAttribute("version")
+    .bind { value ->
+        Version.tryCreateOrNull(value)
+            ?.let { success(it) }
+            ?: failure(
+                DataValidationErrors.DataFormatMismatch(
+                    name = "version",
+                    expectedFormat = Version.pattern,
+                    actualValue = value
+                )
+            )
+    }
 
 private fun JsonNode.getStatus(): Result<Reply.Status, DataValidationErrors> =
     this.tryGetAttributeAsEnum(name = "status", enumProvider = Reply.Status)

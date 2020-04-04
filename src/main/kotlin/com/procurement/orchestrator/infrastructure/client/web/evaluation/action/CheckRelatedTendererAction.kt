@@ -7,9 +7,10 @@ import com.procurement.orchestrator.domain.model.Ocid
 import com.procurement.orchestrator.domain.model.award.AwardId
 import com.procurement.orchestrator.domain.model.organization.OrganizationId
 import com.procurement.orchestrator.domain.model.requirement.RequirementId
+import com.procurement.orchestrator.infrastructure.model.Version
 
 abstract class CheckRelatedTendererAction : ProceduralAction<CheckRelatedTendererAction.Params> {
-    override val version: String = "2.0.0"
+    override val version: Version = Version.parse("2.0.0")
     override val name: String = "checkRelatedTenderer"
 
     class Params(
