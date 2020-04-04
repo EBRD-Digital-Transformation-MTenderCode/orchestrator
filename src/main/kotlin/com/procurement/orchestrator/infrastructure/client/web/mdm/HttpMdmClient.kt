@@ -2,6 +2,7 @@ package com.procurement.orchestrator.infrastructure.client.web.mdm
 
 import com.procurement.orchestrator.application.client.MdmClient
 import com.procurement.orchestrator.domain.fail.Fail
+import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.infrastructure.bpms.repository.ErrorDescriptionRepository
@@ -26,11 +27,10 @@ class HttpMdmClient(
                 )
             }
             .let { errors ->
-                Reply(
+                Reply.Success(
                     id = EMPTY_REPLY_ID,
                     version = "",
-                    status = Reply.Status.SUCCESS,
-                    result = Reply.Result.Success(GetErrorDescriptionsAction.Result(errors))
+                    result = Option.pure(GetErrorDescriptionsAction.Result(errors))
                 )
             }
             .asSuccess()

@@ -50,10 +50,10 @@ class NoticeDelegate(
                     val reply = noticeClient.updateRecord(params)
                         .orReturnFail { return failure(it) }
 
-                    when (reply.result) {
-                        is Reply.Result.Success -> Unit
-                        is Reply.Result.Errors -> return success(reply)
-                        is Reply.Result.Incident -> return success(reply)
+                    when (reply) {
+                        is Reply.Success -> Unit
+                        is Reply.Errors -> return success(reply)
+                        is Reply.Incident -> return success(reply)
                     }
                 }
                 NoticeTask.Action.CREATE_RECORD -> {
@@ -61,10 +61,10 @@ class NoticeDelegate(
                     val reply = noticeClient.createRecord(params)
                         .orReturnFail { return failure(it) }
 
-                    when (reply.result) {
-                        is Reply.Result.Success -> Unit
-                        is Reply.Result.Errors -> return success(reply)
-                        is Reply.Result.Incident -> return success(reply)
+                    when (reply) {
+                        is Reply.Success -> Unit
+                        is Reply.Errors -> return success(reply)
+                        is Reply.Incident -> return success(reply)
                     }
                 }
             }

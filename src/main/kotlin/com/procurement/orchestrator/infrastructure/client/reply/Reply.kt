@@ -1,67 +1,53 @@
 package com.procurement.orchestrator.infrastructure.client.reply
 
 import com.procurement.orchestrator.domain.EnumElementProvider
+import com.procurement.orchestrator.domain.functional.Option
 
-class Reply<out T>(val id: ReplyId, val version: String, val status: Status, val result: Result<T>) {
+sealed class Reply<out T> {
 
-    companion object {
-        val None: Reply<Unit>
-            get() = Reply(
-                id = EMPTY_REPLY_ID,
-                version = "",
-                status = Status.SUCCESS,
-                result = Result.Success(Unit)
-            )
-    }
-
-    fun apply(function: T.() -> Unit): Reply<T> {
-        result.apply(function)
+    inline fun apply(function: Option<T>.() -> Unit): Reply<T> {
+        when (this) {
+            is Success -> result.function()
+            else -> Unit
+        }
         return this
     }
 
-    fun also(function: (T) -> Unit): Reply<T> {
-        result.also(function)
+    inline fun also(function: (Option<T>) -> Unit): Reply<T> {
+        when (this) {
+            is Success -> function(result)
+            else -> Unit
+        }
         return this
     }
 
-    sealed class Result<out T> {
+    object None : Reply<Nothing>()
 
-        inline fun apply(function: T.() -> Unit): Result<T> {
-            when (this) {
-                is Success -> value.function()
-                is Errors -> Unit
-                is Incident -> Unit
-            }
-            return this
-        }
+    class Success<T>(val id: ReplyId, val version: String, val result: Option<T>) : Reply<T>()
 
-        inline fun also(function: (T) -> Unit): Result<T> {
-            when (this) {
-                is Success -> function(value)
-                is Errors -> Unit
-                is Incident -> Unit
-            }
-            return this
-        }
+    class Errors(val id: ReplyId, val version: String, val result: Result) : Reply<Nothing>() {
 
-        class Success<T>(val value: T) : Result<T>()
-
-        class Errors(values: List<Error>) : List<Errors.Error> by values, Result<Nothing>() {
+        class Result(values: List<Error>) : List<Result.Error> by values {
 
             class Error(val code: String, val description: String, val details: List<Detail>) {
+
                 class Detail(val id: String?, val name: String?)
             }
         }
+    }
 
-        class Incident(
+    class Incident(val id: ReplyId, val version: String, val result: Result) : Reply<Nothing>() {
+
+        class Result(
             val id: String,
             val date: String,
             val level: Level,
             val service: Service,
             val details: List<Detail>
-        ) : Result<Nothing>() {
+        ) {
 
             data class Service(val id: String, val name: String, val version: String)
+
             data class Detail(val code: String, val description: String, val metadata: String)
 
             enum class Level(override val key: String) : EnumElementProvider.Key {

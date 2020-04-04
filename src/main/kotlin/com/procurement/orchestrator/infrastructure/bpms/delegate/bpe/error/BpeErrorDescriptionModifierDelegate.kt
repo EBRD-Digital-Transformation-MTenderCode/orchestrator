@@ -12,7 +12,6 @@ import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
-import com.procurement.orchestrator.infrastructure.client.reply.EMPTY_REPLY_ID
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetErrorDescriptionsAction
 import org.springframework.stereotype.Component
@@ -38,14 +37,7 @@ class BpeErrorDescriptionModifierDelegate(
     ): Result<Reply<GetErrorDescriptionsAction.Result>, Fail.Incident> {
 
         val errors = context.errors
-            ?: return success(
-                Reply(
-                    id = EMPTY_REPLY_ID,
-                    version = "",
-                    status = Reply.Status.SUCCESS,
-                    result = Reply.Result.Success(GetErrorDescriptionsAction.Result(emptyList()))
-                )
-            )
+            ?: return success(Reply.None)
         val requestInfo = context.requestInfo
         val params = GetErrorDescriptionsAction.Params(
             codes = errors.map { it.code },
