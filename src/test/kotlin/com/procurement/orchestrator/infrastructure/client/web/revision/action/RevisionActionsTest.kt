@@ -7,6 +7,58 @@ import org.junit.jupiter.api.Test
 class RevisionActionsTest {
 
     @Nested
+    inner class CheckAccessToAmendment {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CheckAccessToAmendmentAction.Params>("json/client/revision/check_access_to_amendment_params_full.json")
+            }
+        }
+    }
+
+    @Nested
+    inner class CreateAmendment {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CreateAmendmentAction.Params>("json/client/revision/create_amendment_params_full.json")
+            }
+
+            @Test
+            fun required1() {
+                testingBindingAndMapping<CreateAmendmentAction.Params>("json/client/revision/create_amendment_params_required_1.json")
+            }
+
+            @Test
+            fun required2() {
+                testingBindingAndMapping<CreateAmendmentAction.Params>("json/client/revision/create_amendment_params_required_2.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CreateAmendmentAction.Result>("json/client/revision/create_amendment_result_full.json")
+            }
+
+            @Test
+            fun required1() {
+                testingBindingAndMapping<CreateAmendmentAction.Result>("json/client/revision/create_amendment_result_required_1.json")
+            }
+
+            @Test
+            fun required2() {
+                testingBindingAndMapping<CreateAmendmentAction.Result>("json/client/revision/create_amendment_result_required_2.json")
+            }
+        }
+    }
+
+    @Nested
     inner class DataValidation {
 
         @Nested
@@ -49,46 +101,6 @@ class RevisionActionsTest {
             @Test
             fun fully() {
                 testingBindingAndMapping<GetAmendmentIdsAction.Result>("json/client/revision/get_amendment_ids_result_full.json")
-            }
-        }
-    }
-
-    @Nested
-    inner class CreateAmendment {
-
-        @Nested
-        inner class Params {
-            @Test
-            fun fully() {
-                testingBindingAndMapping<CreateAmendmentAction.Params>("json/client/revision/create_amendment_params_full.json")
-            }
-
-            @Test
-            fun required1() {
-                testingBindingAndMapping<CreateAmendmentAction.Params>("json/client/revision/create_amendment_params_required_1.json")
-            }
-
-            @Test
-            fun required2() {
-                testingBindingAndMapping<CreateAmendmentAction.Params>("json/client/revision/create_amendment_params_required_2.json")
-            }
-        }
-
-        @Nested
-        inner class Result {
-            @Test
-            fun fully() {
-                testingBindingAndMapping<CreateAmendmentAction.Result>("json/client/revision/create_amendment_result_full.json")
-            }
-
-            @Test
-            fun required1() {
-                testingBindingAndMapping<CreateAmendmentAction.Result>("json/client/revision/create_amendment_result_required_1.json")
-            }
-
-            @Test
-            fun required2() {
-                testingBindingAndMapping<CreateAmendmentAction.Result>("json/client/revision/create_amendment_result_required_2.json")
             }
         }
     }
