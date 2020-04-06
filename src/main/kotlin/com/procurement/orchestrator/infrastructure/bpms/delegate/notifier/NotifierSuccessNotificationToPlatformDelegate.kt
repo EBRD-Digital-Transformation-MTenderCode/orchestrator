@@ -9,6 +9,7 @@ import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
+import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
@@ -53,7 +54,7 @@ class NotifierSuccessNotificationToPlatformDelegate(
     override fun parameters(parameterContainer: ParameterContainer): Result<Unit, Fail.Incident.Bpmn.Parameter> =
         success(Unit)
 
-    override suspend fun execute(context: CamundaGlobalContext, parameters: Unit): Result<Unit, Fail.Incident> {
+    override suspend fun execute(context: CamundaGlobalContext, parameters: Unit): Result<Option<Unit>, Fail.Incident> {
         buildMessages(context)
             .orReturnFail { return failure(it) }
             .forEach { message ->
@@ -61,7 +62,7 @@ class NotifierSuccessNotificationToPlatformDelegate(
                     .doOnFail { return failure(it) }
             }
 
-        return success(Unit)
+        return success(Option.none())
     }
 
     override fun updateGlobalContext(

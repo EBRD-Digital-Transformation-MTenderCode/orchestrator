@@ -65,7 +65,7 @@ abstract class AbstractInternalDelegate<P, R : Any>(
     protected abstract suspend fun execute(
         context: CamundaGlobalContext,
         parameters: P
-    ): Result<R, Fail.Incident>
+    ): Result<Option<R>, Fail.Incident>
 
     protected abstract fun updateGlobalContext(
         context: CamundaGlobalContext,

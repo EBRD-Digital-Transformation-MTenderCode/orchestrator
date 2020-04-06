@@ -6,9 +6,10 @@ import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
+import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.failure
-import com.procurement.orchestrator.domain.functional.Result.Companion.success
+import com.procurement.orchestrator.domain.functional.asOption
 import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractInternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
@@ -39,8 +40,9 @@ class BpeErrorAppenderDelegate(
     override suspend fun execute(
         context: CamundaGlobalContext,
         parameters: Parameters
-    ): Result<Errors.Error, Fail.Incident> = success(Errors.Error(code = parameters.errorCode))
-
+    ): Result<Option<Errors.Error>, Fail.Incident> = Errors.Error(code = parameters.errorCode)
+        .asOption()
+        .asSuccess()
 
     override fun updateGlobalContext(
         context: CamundaGlobalContext,
