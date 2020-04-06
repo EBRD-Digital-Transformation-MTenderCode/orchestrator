@@ -104,4 +104,24 @@ class RevisionActionsTest {
             }
         }
     }
+
+    @Nested
+    inner class GetMainPartOfAmendmentByIds {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetMainPartOfAmendmentByIdsAction.Params>("json/client/revision/get_main_part_of_amendment_by_ids_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetMainPartOfAmendmentByIdsAction.Result>("json/client/revision/get_main_part_of_amendment_by_ids_result_full.json")
+            }
+        }
+    }
 }
