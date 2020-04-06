@@ -6,6 +6,7 @@ import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.WebClient
+import com.procurement.orchestrator.infrastructure.client.web.revision.action.CheckAccessToAmendmentAction
 import com.procurement.orchestrator.infrastructure.client.web.revision.action.CreateAmendmentAction
 import com.procurement.orchestrator.infrastructure.client.web.revision.action.DataValidationAction
 import com.procurement.orchestrator.infrastructure.client.web.revision.action.GetAmendmentIdsAction
@@ -17,13 +18,12 @@ class HttpRevisionClient(private val webClient: WebClient, properties: Component
 
     private val url: URL = URL(properties.url + "/command")
 
-    override suspend fun getAmendmentIds(
+    override suspend fun checkAccessToAmendment(
         id: CommandId,
-        params: GetAmendmentIdsAction.Params
-    ): Result<Reply<GetAmendmentIdsAction.Result>, Fail.Incident> = webClient.call(
+        params: CheckAccessToAmendmentAction.Params
+    ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
         url = url,
-        command = RevisionCommands.GetAmendmentIds.build(id = id, params = params),
-        target = RevisionCommands.GetAmendmentIds.target
+        command = RevisionCommands.CheckAccessToAmendment.build(id = id, params = params)
     )
 
     override suspend fun createAmendment(
@@ -41,5 +41,14 @@ class HttpRevisionClient(private val webClient: WebClient, properties: Component
     ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
         url = url,
         command = RevisionCommands.DataValidation.build(id = id, params = params)
+    )
+
+    override suspend fun getAmendmentIds(
+        id: CommandId,
+        params: GetAmendmentIdsAction.Params
+    ): Result<Reply<GetAmendmentIdsAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = RevisionCommands.GetAmendmentIds.build(id = id, params = params),
+        target = RevisionCommands.GetAmendmentIds.target
     )
 }
