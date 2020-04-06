@@ -10,6 +10,7 @@ import com.procurement.orchestrator.infrastructure.client.web.revision.action.Ch
 import com.procurement.orchestrator.infrastructure.client.web.revision.action.CreateAmendmentAction
 import com.procurement.orchestrator.infrastructure.client.web.revision.action.DataValidationAction
 import com.procurement.orchestrator.infrastructure.client.web.revision.action.GetAmendmentIdsAction
+import com.procurement.orchestrator.infrastructure.client.web.revision.action.GetMainPartOfAmendmentByIdsAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
 import java.net.URL
 
@@ -50,5 +51,14 @@ class HttpRevisionClient(private val webClient: WebClient, properties: Component
         url = url,
         command = RevisionCommands.GetAmendmentIds.build(id = id, params = params),
         target = RevisionCommands.GetAmendmentIds.target
+    )
+
+    override suspend fun getMainPartOfAmendmentByIds(
+        id: CommandId,
+        params: GetMainPartOfAmendmentByIdsAction.Params
+    ): Result<Reply<GetMainPartOfAmendmentByIdsAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = RevisionCommands.GetMainPartOfAmendmentByIds.build(id = id, params = params),
+        target = RevisionCommands.GetMainPartOfAmendmentByIds.target
     )
 }

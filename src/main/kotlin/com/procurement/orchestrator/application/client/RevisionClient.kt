@@ -8,6 +8,7 @@ import com.procurement.orchestrator.infrastructure.client.web.revision.action.Ch
 import com.procurement.orchestrator.infrastructure.client.web.revision.action.CreateAmendmentAction
 import com.procurement.orchestrator.infrastructure.client.web.revision.action.DataValidationAction
 import com.procurement.orchestrator.infrastructure.client.web.revision.action.GetAmendmentIdsAction
+import com.procurement.orchestrator.infrastructure.client.web.revision.action.GetMainPartOfAmendmentByIdsAction
 
 interface RevisionClient {
 
@@ -27,4 +28,9 @@ interface RevisionClient {
         id: CommandId,
         params: GetAmendmentIdsAction.Params
     ): Result<Reply<GetAmendmentIdsAction.Result>, Fail.Incident>
+
+    suspend fun getMainPartOfAmendmentByIds(
+        id: CommandId,
+        params: GetMainPartOfAmendmentByIdsAction.Params
+    ): Result<Reply<GetMainPartOfAmendmentByIdsAction.Result>, Fail.Incident>
 }
