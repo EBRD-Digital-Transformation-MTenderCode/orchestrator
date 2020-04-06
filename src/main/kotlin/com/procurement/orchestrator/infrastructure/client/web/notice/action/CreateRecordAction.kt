@@ -10,7 +10,7 @@ abstract class CreateRecordAction : ProceduralAction<CreateRecordAction.Params> 
     override val name: String = "createRecord"
 
     class Params(
-        @field:JsonProperty("startDate") @param:JsonProperty("startDate") val startDate: LocalDateTime,
+        @field:JsonProperty("date") @param:JsonProperty("date") val date: LocalDateTime,
         @field:JsonProperty("data") @param:JsonProperty("data") val data: String
     )
 }

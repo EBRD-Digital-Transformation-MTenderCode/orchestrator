@@ -64,7 +64,7 @@ class NoticeDelegate(
                     }
                 }
                 NoticeTask.Action.CREATE_RECORD -> {
-                    val params = CreateRecordAction.Params(startDate = requestInfo.timestamp, data = task.data)
+                    val params = CreateRecordAction.Params(date = requestInfo.timestamp, data = task.data)
                     val reply = noticeClient.createRecord(id = commandIdWithSalt, params = params)
                         .orReturnFail { return failure(it) }
 
