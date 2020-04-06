@@ -7,6 +7,8 @@ import com.procurement.orchestrator.application.model.context.extension.getAmend
 import com.procurement.orchestrator.application.model.context.extension.tryGetTender
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
+import com.procurement.orchestrator.domain.EnumElementProvider
+import com.procurement.orchestrator.domain.EnumElementProvider.Companion.keysAsStrings
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
@@ -28,19 +30,38 @@ class RevisionCheckAccessToAmendmentDelegate(
     private val revisionClient: RevisionClient,
     operationStepRepository: OperationStepRepository,
     transform: Transform
-) : AbstractExternalDelegate<Unit, Unit>(
+) : AbstractExternalDelegate<RevisionCheckAccessToAmendmentDelegate.Parameters, Unit>(
     logger = logger,
     transform = transform,
     operationStepRepository = operationStepRepository
 ) {
 
-    override fun parameters(parameterContainer: ParameterContainer): Result<Unit, Fail.Incident.Bpmn.Parameter> =
-        success(Unit)
+    companion object {
+        private const val PARAMETER_NAME_LOCATION = "location"
+    }
+
+    override fun parameters(parameterContainer: ParameterContainer): Result<Parameters, Fail.Incident.Bpmn.Parameter> {
+        val location: Location = parameterContainer
+            .getString(PARAMETER_NAME_LOCATION)
+            .orReturnFail { return failure(it) }
+            .let {
+                Location.orNull(it)
+                    ?: return failure(
+                        Fail.Incident.Bpmn.Parameter.UnknownValue(
+                            name = PARAMETER_NAME_LOCATION,
+                            expectedValues = Location.allowedElements.keysAsStrings(),
+                            actualValue = it
+                        )
+                    )
+            }
+
+        return success(Parameters(location = location))
+    }
 
     override suspend fun execute(
         commandId: CommandId,
         context: CamundaGlobalContext,
-        parameters: Unit
+        parameters: Parameters
     ): Result<Reply<Unit>, Fail.Incident> {
 
         val processInfo = context.processInfo
@@ -50,8 +71,11 @@ class RevisionCheckAccessToAmendmentDelegate(
         val tender = context.tryGetTender()
             .orReturnFail { return failure(it) }
 
-        val amendment = tender.getAmendmentIfOnlyOne()
-            .orReturnFail { return failure(it) }
+        val id = when (parameters.location) {
+            Location.TENDER -> tender.getAmendmentIfOnlyOne()
+                .orReturnFail { return failure(it) }
+                .id as AmendmentId.Permanent
+        }
 
         return revisionClient.checkAccessToAmendment(
             id = commandId,
@@ -60,14 +84,27 @@ class RevisionCheckAccessToAmendmentDelegate(
                 ocid = ocid,
                 token = tender.token,
                 owner = tender.owner,
-                id = amendment.id as AmendmentId.Permanent
+                id = id
             )
         )
     }
 
     override fun updateGlobalContext(
         context: CamundaGlobalContext,
-        parameters: Unit,
+        parameters: Parameters,
         data: Unit
-    ): MaybeFail<Fail.Incident.Bpmn> = MaybeFail.none()
+    ): MaybeFail<Fail.Incident> = MaybeFail.none()
+
+    class Parameters(
+        val location: Location
+    )
+
+    enum class Location(override val key: String) : EnumElementProvider.Key {
+
+        TENDER("tender");
+
+        override fun toString(): String = key
+
+        companion object : EnumElementProvider<Location>(info = info())
+    }
 }
