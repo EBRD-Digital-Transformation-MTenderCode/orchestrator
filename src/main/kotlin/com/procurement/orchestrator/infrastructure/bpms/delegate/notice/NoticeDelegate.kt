@@ -53,7 +53,7 @@ class NoticeDelegate(
             val commandIdWithSalt = commandId + salt
             when (task.action) {
                 NoticeTask.Action.UPDATE_RECORD -> {
-                    val params = UpdateRecordAction.Params(startDate = requestInfo.timestamp, data = task.data)
+                    val params = UpdateRecordAction.Params(date = requestInfo.timestamp, data = task.data)
                     val reply = noticeClient.updateRecord(id = commandIdWithSalt, params = params)
                         .orReturnFail { return failure(it) }
 

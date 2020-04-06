@@ -10,7 +10,7 @@ abstract class UpdateRecordAction : ProceduralAction<UpdateRecordAction.Params> 
     override val name: String = "updateRecord"
 
     class Params(
-        @field:JsonProperty("startDate") @param:JsonProperty("startDate") val startDate: LocalDateTime,
+        @field:JsonProperty("date") @param:JsonProperty("date") val date: LocalDateTime,
         @field:JsonProperty("data") @param:JsonProperty("data") val data: String
     )
 }
