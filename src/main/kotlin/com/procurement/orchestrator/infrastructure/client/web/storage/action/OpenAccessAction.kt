@@ -14,6 +14,7 @@ abstract class OpenAccessAction : FunctionalAction<OpenAccessAction.Params, Open
     override val target: Target<Result> = Target.plural()
 
     class Params(
+        @field:JsonProperty("datePublished") @param:JsonProperty("datePublished") val datePublished: LocalDateTime,
         @field:JsonProperty("documentIds") @param:JsonProperty("documentIds") val ids: List<DocumentId>
     )
 

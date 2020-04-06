@@ -98,7 +98,14 @@ class StorageOpenAccessDelegate(
         if (documentIds.isEmpty())
             return success(Reply.None)
 
-        return client.openAccess(id = commandId, params = OpenAccessAction.Params(documentIds))
+        val requestInfo = context.requestInfo
+        return client.openAccess(
+            id = commandId,
+            params = OpenAccessAction.Params(
+                datePublished = requestInfo.timestamp,
+                ids = documentIds
+            )
+        )
     }
 
     override fun updateGlobalContext(
