@@ -57,7 +57,7 @@ abstract class AbstractInternalDelegate<P, R : Any>(
         saveStep(globalContext, resultContext, execution)
             .doOnError { fail -> execution.throwIncident(fail) }
 
-        execution.setResult(value = Option.pure(result))
+        execution.setResult(value = result)
     }
 
     protected abstract fun parameters(parameterContainer: ParameterContainer): Result<P, Fail.Incident.Bpmn.Parameter>
