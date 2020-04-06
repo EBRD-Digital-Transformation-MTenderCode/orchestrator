@@ -99,7 +99,14 @@ class StorageCheckRegistrationDelegate(
         if (documentIds.isEmpty())
             return success(Reply.None)
 
-        return client.checkRegistration(id = commandId, params = CheckRegistrationAction.Params(documentIds))
+        val requestInfo = context.requestInfo
+        return client.checkRegistration(
+            id = commandId,
+            params = CheckRegistrationAction.Params(
+                datePublished = requestInfo.timestamp,
+                ids = documentIds
+            )
+        )
     }
 
     override fun updateGlobalContext(
