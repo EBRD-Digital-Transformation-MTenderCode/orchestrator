@@ -2,6 +2,8 @@ package com.procurement.orchestrator.domain.model.award
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.procurement.orchestrator.application.model.Owner
+import com.procurement.orchestrator.application.model.Token
 import com.procurement.orchestrator.domain.model.amendment.Amendment
 import com.procurement.orchestrator.domain.model.document.Document
 import com.procurement.orchestrator.domain.model.item.Item
@@ -17,16 +19,22 @@ data class Award(
     @field:JsonProperty("id") @param:JsonProperty("id") val id: AwardId,
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonProperty("owner") @param:JsonProperty("owner") val owner: Owner? = null,
+
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonProperty("token") @param:JsonProperty("token") val token: Token? = null,
+
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonProperty("title") @param:JsonProperty("title") val title: String? = null,
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonProperty("description") @param:JsonProperty("description") val description: String? = null,
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
-    @field:JsonProperty("status") @param:JsonProperty("status") val status: String? = null,
+    @field:JsonProperty("status") @param:JsonProperty("status") val status: AwardStatus? = null,
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
-    @field:JsonProperty("statusDetails") @param:JsonProperty("statusDetails") val statusDetails: String? = null,
+    @field:JsonProperty("statusDetails") @param:JsonProperty("statusDetails") val statusDetails: AwardStatusDetails? = null,
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonProperty("date") @param:JsonProperty("date") val date: LocalDateTime? = null,

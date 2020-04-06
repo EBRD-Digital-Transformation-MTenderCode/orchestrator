@@ -3,18 +3,14 @@ package com.procurement.orchestrator.application.service
 import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.infrastructure.client.Command
 import com.procurement.orchestrator.infrastructure.client.web.Target
-import java.util.*
+import com.procurement.orchestrator.infrastructure.model.Version
 
 interface ProceduralAction<P> {
-    val version: String
+    val version: Version
     val name: String
 
-    fun build(id: CommandId = generateId(), params: P): Command<P> =
+    fun build(id: CommandId, params: P): Command<P> =
         Command(id = id, version = version, action = name, params = params)
-
-    companion object {
-        fun generateId(): CommandId = UUID.randomUUID().toString()
-    }
 }
 
 interface FunctionalAction<P, R> : ProceduralAction<P> {

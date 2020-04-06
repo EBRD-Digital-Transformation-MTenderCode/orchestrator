@@ -1,7 +1,10 @@
 package com.procurement.orchestrator.infrastructure.bpms.delegate.revision
 
+import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.RevisionClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
+import com.procurement.orchestrator.application.model.context.extension.getAmendmentIfOnlyOne
+import com.procurement.orchestrator.application.model.context.extension.tryGetTender
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
@@ -33,25 +36,21 @@ class RevisionDataValidationDelegate(
         success(Unit)
 
     override suspend fun execute(
+        commandId: CommandId,
         context: CamundaGlobalContext,
         parameters: Unit
     ): Result<Reply<Unit>, Fail.Incident> {
 
-        val tender = context.tender
-            ?: return failure(Fail.Incident.Bpe(description = "The global context does not contain a 'Tender' object."))
+        val tender = context.tryGetTender()
+            .orReturnFail { return failure(it) }
 
-        if (tender.amendments.size != 1)
-            return failure(
-                Fail.Incident.Bpmn.Context.UnConsistency(
-                    name = "tender.amendments",
-                    description = "It was expected that the attribute 'tender.amendments' would have only one value. In fact, the attribute has ${tender.amendments.size} meanings"
-                )
-            )
+        val amendment = tender.getAmendmentIfOnlyOne()
+            .orReturnFail { return failure(it) }
 
-        val amendment = tender.amendments[0]
         val processInfo = context.processInfo
 
         return client.dataValidation(
+            id = commandId,
             params = DataValidationAction.Params(
                 cpid = processInfo.cpid,
                 ocid = processInfo.ocid,

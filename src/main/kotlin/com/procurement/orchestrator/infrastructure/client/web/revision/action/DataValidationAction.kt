@@ -9,9 +9,10 @@ import com.procurement.orchestrator.domain.model.Ocid
 import com.procurement.orchestrator.domain.model.amendment.AmendmentId
 import com.procurement.orchestrator.domain.model.document.DocumentId
 import com.procurement.orchestrator.domain.model.document.DocumentType
+import com.procurement.orchestrator.infrastructure.model.Version
 
 abstract class DataValidationAction : ProceduralAction<DataValidationAction.Params> {
-    override val version: String = "2.0.0"
+    override val version: Version = Version.parse("2.0.0")
     override val name: String = "dataValidation"
 
     class Params(
@@ -20,6 +21,7 @@ abstract class DataValidationAction : ProceduralAction<DataValidationAction.Para
         @field:JsonProperty("operationType") @param:JsonProperty("operationType") val operationType: OperationTypeProcess,
         @field:JsonProperty("amendment") @param:JsonProperty("amendment") val amendment: Amendment
     ) {
+
         class Amendment(
             @field:JsonProperty("id") @param:JsonProperty("id") val id: AmendmentId.Temporal,
 
@@ -32,6 +34,7 @@ abstract class DataValidationAction : ProceduralAction<DataValidationAction.Para
             @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
             @field:JsonProperty("documents") @param:JsonProperty("documents") val documents: List<Document> = emptyList()
         ) {
+
             data class Document(
                 @field:JsonProperty("id") @param:JsonProperty("id") val id: DocumentId,
                 @field:JsonProperty("documentType") @param:JsonProperty("documentType") val documentType: DocumentType,

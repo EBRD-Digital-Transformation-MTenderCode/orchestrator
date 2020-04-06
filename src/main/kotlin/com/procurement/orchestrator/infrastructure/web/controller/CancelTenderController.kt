@@ -39,11 +39,10 @@ class CancelTenderController(
     ): ResponseEntity<String> {
 
         val request = parseRequest(servlet, cpid = cpid, ocid = ocid)
-            .doOnError { fail ->
+            .orReturnFail { fail ->
                 fail.logging(logger)
                 return ResponseEntity(fail.message, HttpStatus.BAD_REQUEST)
             }
-            .get
 
         return when (val result: MaybeFail<Fail> = cancellationService.cancelTender(request)) {
             is MaybeFail.Fail -> when (val error = result.error) {
@@ -85,20 +84,16 @@ class CancelTenderController(
             )
 
         val platformId = servlet.getPlatformId()
-            .doOnError { return failure(it) }
-            .get
+            .orReturnFail { return failure(it) }
 
         val operationId: OperationId = servlet.getOperationId()
-            .doOnError { return failure(it) }
-            .get
+            .orReturnFail { return failure(it) }
 
         val token = servlet.getToken()
-            .doOnError { return failure(it) }
-            .get
+            .orReturnFail { return failure(it) }
 
         val payload = servlet.getPayload()
-            .doOnError { return failure(it) }
-            .get
+            .orReturnFail { return failure(it) }
 
         return CancellationTender
             .Request(

@@ -33,16 +33,15 @@ class NotifierErrorNotificationToPlatformDelegate(
     override fun parameters(parameterContainer: ParameterContainer): Result<Unit, Fail.Incident.Bpmn.Parameter> =
         success(Unit)
 
-    override suspend fun execute(context: CamundaGlobalContext, parameters: Unit): Result<Unit, Fail.Incident> {
+    override suspend fun execute(context: CamundaGlobalContext, parameters: Unit): Result<Option<Unit>, Fail.Incident> {
         buildMessages(context)
-            .doOnError { return failure(it) }
-            .get
+            .orReturnFail { return failure(it) }
             .also { message ->
                 platformNotificatorClient.send(message)
                     .doOnFail { return failure(it) }
             }
 
-        return success(Unit)
+        return success(Option.none())
     }
 
     override fun updateGlobalContext(
@@ -74,8 +73,7 @@ class NotifierErrorNotificationToPlatformDelegate(
             platformId = requestInfo.platformId,
             operationId = requestInfo.operationId,
             message = transform.trySerialization(message)
-                .doOnError { return failure(it) }
-                .get
+                .orReturnFail { return failure(it) }
         )
             .asOption()
             .asSuccess<Option<PlatformNotification.MessageEnvelop>, Fail.Incident>()

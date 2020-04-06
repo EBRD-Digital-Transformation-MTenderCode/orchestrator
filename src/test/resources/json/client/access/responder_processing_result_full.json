@@ -1,0 +1,38 @@
+{
+  "id": "string",
+  "name": "string",
+  "identifier": {
+    "id": "string",
+    "scheme": "string",
+    "uri": "string"
+  },
+  "persons": [
+    {
+      "title": "string",
+      "name": "string",
+      "identifier": {
+        "scheme": "string",
+        "id": "string",
+        "uri": "string"
+      },
+      "businessFunctions": [
+        {
+          "id": "string",
+          "type": "contactPoint",
+          "jobTitle": "string",
+          "period": {
+            "startDate": "2020-02-12T12:14:12Z"
+          },
+          "documents": [
+            {
+              "id": "string",
+              "documentType": "regulatoryDocument",
+              "title": "string",
+              "description": "string"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

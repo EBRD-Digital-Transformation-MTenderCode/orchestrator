@@ -6,8 +6,9 @@ import com.procurement.orchestrator.domain.EnumElementProvider
 
 enum class OperationTypeProcess(@JsonValue override val key: String) : EnumElementProvider.Key {
 
-    TENDER_CANCELLATION("tenderCancellation"),
-    LOT_CANCELLATION("lotCancellation");
+    DECLARE_NON_CONFLICT_OF_INTEREST("declareNonConflictOfInterest"),
+    LOT_CANCELLATION("lotCancellation"),
+    TENDER_CANCELLATION("tenderCancellation");
 
     override fun toString(): String = key
 

@@ -28,14 +28,12 @@ inline fun <reified T> propertyDelegate(
     override fun getValue(thisRef: Any?, property: KProperty<*>): T = propertyContainer[property.name]
         ?.let { value ->
             transform.tryDeserialization(value = value.toString(), target = T::class.java)
-                .doOnError { fail -> throw IllegalStateException(fail.description, fail.exception) }
-                .get
+                .orReturnFail { fail -> throw IllegalStateException(fail.description, fail.exception) }
         }
         ?: initializer(property.name)
 
     override fun setValue(thisRef: Any?, property: KProperty<*>, value: T) {
         propertyContainer[property.name] = transform.trySerialization(value)
-            .doOnError { fail -> throw IllegalStateException(fail.description, fail.exception) }
-            .get
+            .orReturnFail { fail -> throw IllegalStateException(fail.description, fail.exception) }
     }
 }

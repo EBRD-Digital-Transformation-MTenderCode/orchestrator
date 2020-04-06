@@ -1,7 +1,9 @@
 package com.procurement.orchestrator.infrastructure.bpms.delegate.access
 
+import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.AccessClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
+import com.procurement.orchestrator.application.model.context.extension.tryGetTender
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.extension.lotIds
@@ -49,14 +51,12 @@ class AccessGetLotIdsDelegate(
                     status = result.status
                         ?.let { status ->
                             LotStatus.tryOf(status)
-                                .doOnError { return failure(it) }
-                                .get
+                                .orReturnFail { return failure(it) }
                         },
                     statusDetails = result.statusDetails
                         ?.let { statusDetails ->
                             LotStatusDetails.tryOf(statusDetails)
-                                .doOnError { return failure(it) }
-                                .get
+                                .orReturnFail { return failure(it) }
                         }
                 )
             }
@@ -65,8 +65,7 @@ class AccessGetLotIdsDelegate(
 
     override fun parameters(parameterContainer: ParameterContainer): Result<Parameters, Fail.Incident.Bpmn.Parameter> {
         val states = parameterContainer.getListString(NAME_PARAMETER_OF_STATES)
-            .doOnError { return failure(it) }
-            .get
+            .orReturnFail { return failure(it) }
             .map { state ->
                 when (val result = parseState(state)) {
                     is Result.Success -> result.get
@@ -77,12 +76,14 @@ class AccessGetLotIdsDelegate(
     }
 
     override suspend fun execute(
+        commandId: CommandId,
         context: CamundaGlobalContext,
         parameters: Parameters
     ): Result<Reply<List<LotId>>, Fail.Incident> {
 
         val processInfo = context.processInfo
         return accessClient.getLotIds(
+            id = commandId,
             params = GetLotIdsAction.Params(
                 cpid = processInfo.cpid,
                 ocid = processInfo.ocid,
@@ -102,10 +103,8 @@ class AccessGetLotIdsDelegate(
         parameters: Parameters,
         data: List<LotId>
     ): MaybeFail<Fail.Incident> {
-        val tender = context.tender
-            ?: return MaybeFail.fail(
-                Fail.Incident.Bpe(description = "The global context does not contain a 'Tender' object.")
-            )
+        val tender = context.tryGetTender()
+            .orReturnFail { return MaybeFail.fail(it) }
 
         val knowLotIds = tender.lotIds()
         val receivedLotIds = data.toSet()

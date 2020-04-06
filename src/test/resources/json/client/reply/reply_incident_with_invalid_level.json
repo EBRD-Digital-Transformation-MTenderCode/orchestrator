@@ -1,0 +1,21 @@
+{
+  "id": "43edc9e9-f899-4843-8afc-e97d7af5d2e7",
+  "version": "2.0.0",
+  "status": "incident",
+  "result": {
+    "id": "1f8e227b-2486-45ff-92af-1a2a0290a1c5",
+    "date": "2020-04-04T13:49:57Z",
+    "level": "unknown",
+    "service": {
+      "id": "8e17c14f-71b2-4619-a484-e6934a36bd6b",
+      "name": "eTest",
+      "version": "36bd6b"
+    },
+    "details": [
+      {
+        "code": "incident.details.code",
+        "description": "incident.details.name"
+      }
+    ]
+  }
+}

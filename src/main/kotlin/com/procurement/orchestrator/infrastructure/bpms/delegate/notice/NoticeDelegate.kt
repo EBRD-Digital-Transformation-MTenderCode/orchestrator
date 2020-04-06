@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.infrastructure.bpms.delegate.notice
 
+import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.NoticeClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.service.Logger
@@ -35,39 +36,42 @@ class NoticeDelegate(
     override fun parameters(parameterContainer: ParameterContainer): Result<Unit, Fail.Incident.Bpmn.Parameter> =
         success(Unit)
 
-    override suspend fun execute(context: CamundaGlobalContext, parameters: Unit): Result<Reply<Unit>, Fail.Incident> {
+    override suspend fun execute(
+        commandId: CommandId,
+        context: CamundaGlobalContext,
+        parameters: Unit
+    ): Result<Reply<Unit>, Fail.Incident> {
 
         val requestInfo = context.requestInfo
         val operationId = requestInfo.operationId
 
         val tasks: List<NoticeTask> = noticeQueueRepository.load(operationId = operationId)
-            .doOnError { return failure(it) }
-            .get
+            .orReturnFail { return failure(it) }
 
         tasks.forEach { task ->
+            val salt = task.ocid.toString()
+            val commandIdWithSalt = commandId + salt
             when (task.action) {
                 NoticeTask.Action.UPDATE_RECORD -> {
                     val params = UpdateRecordAction.Params(startDate = requestInfo.timestamp, data = task.data)
-                    val reply = noticeClient.updateRecord(params)
-                        .doOnError { return failure(it) }
-                        .get
+                    val reply = noticeClient.updateRecord(id = commandIdWithSalt, params = params)
+                        .orReturnFail { return failure(it) }
 
-                    when (reply.result) {
-                        is Reply.Result.Success -> Unit
-                        is Reply.Result.Errors -> return success(reply)
-                        is Reply.Result.Incident -> return success(reply)
+                    when (reply) {
+                        is Reply.Success -> Unit
+                        is Reply.Errors -> return success(reply)
+                        is Reply.Incident -> return success(reply)
                     }
                 }
                 NoticeTask.Action.CREATE_RECORD -> {
                     val params = CreateRecordAction.Params(startDate = requestInfo.timestamp, data = task.data)
-                    val reply = noticeClient.createRecord(params)
-                        .doOnError { return failure(it) }
-                        .get
+                    val reply = noticeClient.createRecord(id = commandIdWithSalt, params = params)
+                        .orReturnFail { return failure(it) }
 
-                    when (reply.result) {
-                        is Reply.Result.Success -> Unit
-                        is Reply.Result.Errors -> return success(reply)
-                        is Reply.Result.Incident -> return success(reply)
+                    when (reply) {
+                        is Reply.Success -> Unit
+                        is Reply.Errors -> return success(reply)
+                        is Reply.Incident -> return success(reply)
                     }
                 }
             }

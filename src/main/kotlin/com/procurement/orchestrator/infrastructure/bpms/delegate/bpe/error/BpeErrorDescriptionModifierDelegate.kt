@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.infrastructure.bpms.delegate.bpe.error
 
+import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.MdmClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.members.Errors
@@ -12,7 +13,6 @@ import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
-import com.procurement.orchestrator.infrastructure.client.reply.EMPTY_REPLY_ID
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetErrorDescriptionsAction
 import org.springframework.stereotype.Component
@@ -33,25 +33,19 @@ class BpeErrorDescriptionModifierDelegate(
         success(Unit)
 
     override suspend fun execute(
+        commandId: CommandId,
         context: CamundaGlobalContext,
         parameters: Unit
     ): Result<Reply<GetErrorDescriptionsAction.Result>, Fail.Incident> {
 
         val errors = context.errors
-            ?: return success(
-                Reply(
-                    id = EMPTY_REPLY_ID,
-                    version = "",
-                    status = Reply.Status.SUCCESS,
-                    result = Reply.Result.Success(GetErrorDescriptionsAction.Result(emptyList()))
-                )
-            )
+            ?: return success(Reply.None)
         val requestInfo = context.requestInfo
         val params = GetErrorDescriptionsAction.Params(
             codes = errors.map { it.code },
             language = requestInfo.language
         )
-        return mdmClient.getErrorDescription(params = params)
+        return mdmClient.getErrorDescription(id = commandId, params = params)
     }
 
     override fun updateGlobalContext(

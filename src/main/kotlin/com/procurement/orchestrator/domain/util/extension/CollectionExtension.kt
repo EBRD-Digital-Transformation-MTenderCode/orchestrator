@@ -21,6 +21,8 @@ inline fun <T, V> Collection<T>.toSetBy(selector: (T) -> V): Set<V> {
     return collections
 }
 
+inline fun <reified T> T.asList() = listOf(this)
+
 inline fun <T, R, E> List<T>.mapToResult(transform: (T) -> Result<R, E>): Result<List<R>, E> = mutableListOf<R>()
     .apply {
         for (element in this@mapToResult) {

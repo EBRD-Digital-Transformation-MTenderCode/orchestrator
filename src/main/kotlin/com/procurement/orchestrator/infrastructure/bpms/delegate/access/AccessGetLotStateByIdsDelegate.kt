@@ -1,7 +1,9 @@
 package com.procurement.orchestrator.infrastructure.bpms.delegate.access
 
+import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.AccessClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
+import com.procurement.orchestrator.application.model.context.extension.tryGetTender
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.extension.lotIds
@@ -36,15 +38,17 @@ class AccessGetLotStateByIdsDelegate(
         success(Unit)
 
     override suspend fun execute(
+        commandId: CommandId,
         context: CamundaGlobalContext,
         parameters: Unit
     ): Result<Reply<GetLotStateByIdsAction.Result>, Fail.Incident> {
 
-        val tender = context.tender
-            ?: return failure(Fail.Incident.Bpe(description = "The global context does not contain a 'Tender' object."))
+        val tender = context.tryGetTender()
+            .orReturnFail { return failure(it) }
 
         val processInfo = context.processInfo
         return accessClient.getLotStateByIds(
+            id = commandId,
             params = GetLotStateByIdsAction.Params(
                 cpid = processInfo.cpid,
                 ocid = processInfo.ocid,
@@ -59,10 +63,9 @@ class AccessGetLotStateByIdsDelegate(
         parameters: Unit,
         data: GetLotStateByIdsAction.Result
     ): MaybeFail<Fail.Incident> {
-        val tender = context.tender
-            ?: return MaybeFail.fail(
-                Fail.Incident.Bpe(description = "The global context does not contain a 'Tender' object.")
-            )
+
+        val tender = context.tryGetTender()
+            .orReturnFail { return MaybeFail.fail(it) }
 
         val receivedLotByIds: Map<LotId, GetLotStateByIdsAction.Result.Lot> = data.associateBy { it.id }
         val receivedLotIds = receivedLotByIds.keys

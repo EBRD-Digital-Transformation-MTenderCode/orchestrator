@@ -1,8 +1,12 @@
 package com.procurement.orchestrator.infrastructure.bpms.delegate.revision
 
+import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.RevisionClient
 import com.procurement.orchestrator.application.model.Owner
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
+import com.procurement.orchestrator.application.model.context.extension.getAmendmentIfOnlyOne
+import com.procurement.orchestrator.application.model.context.extension.getLotIfOnlyOne
+import com.procurement.orchestrator.application.model.context.extension.tryGetTender
 import com.procurement.orchestrator.application.model.context.members.Outcomes
 import com.procurement.orchestrator.application.model.process.OperationTypeProcess
 import com.procurement.orchestrator.application.service.Logger
@@ -36,42 +40,35 @@ class RevisionCreateAmendmentDelegate(
         success(Unit)
 
     override suspend fun execute(
+        commandId: CommandId,
         context: CamundaGlobalContext,
         parameters: Unit
     ): Result<Reply<CreateAmendmentAction.Result>, Fail.Incident> {
 
-        val tender = context.tender
-            ?: return failure(Fail.Incident.Bpe(description = "The global context does not contain a 'Tender' object."))
+        val tender = context.tryGetTender()
+            .orReturnFail { return failure(it) }
 
-
-        if (tender.amendments.size != 1)
-            return failure(
-                Fail.Incident.Bpmn.Context.UnConsistency(
-                    name = "tender.amendments",
-                    description = "It was expected that the attribute 'tender.amendments' would have only one value. In fact, the attribute has ${tender.amendments.size} meanings"
-                )
-            )
+        val amendment = tender.getAmendmentIfOnlyOne()
+            .orReturnFail { return failure(it) }
 
         val processInfo = context.processInfo
         val relatedEntityId: String = when (processInfo.operationType) {
             OperationTypeProcess.TENDER_CANCELLATION -> processInfo.ocid.toString()
-            OperationTypeProcess.LOT_CANCELLATION -> {
-                if (tender.lots.size != 1)
-                    return failure(
-                        Fail.Incident.Bpmn.Context.UnConsistency(
-                            name = "tender.lots",
-                            description = "It was expected that the attribute 'tender.lots' would have only one value. In fact, the attribute has ${tender.lots.size} meanings"
-                        )
-                    )
-                tender.lots[0].id.toString()
-            }
+
+            OperationTypeProcess.LOT_CANCELLATION -> tender.getLotIfOnlyOne()
+                .orReturnFail { return failure(it) }
+                .id
+                .toString()
+
+            OperationTypeProcess.DECLARE_NON_CONFLICT_OF_INTEREST ->
+                return failure(Fail.Incident.Bpe(description = "Operation type: '${processInfo.operationType.key}' in this delegate do not implemented."))
         }
 
-        val amendment = tender.amendments[0]
         val owner: Owner = tender.owner
 
         val requestInfo = context.requestInfo
         return client.createAmendment(
+            id = commandId,
             params = CreateAmendmentAction.Params(
                 cpid = processInfo.cpid,
                 ocid = processInfo.ocid,
@@ -103,12 +100,11 @@ class RevisionCreateAmendmentDelegate(
         data: CreateAmendmentAction.Result
     ): MaybeFail<Fail.Incident> {
 
-        val tender = context.tender
-            ?: return MaybeFail.fail(
-                Fail.Incident.Bpe(description = "The global context does not contain a 'Tender' object.")
-            )
+        val tender = context.tryGetTender()
+            .orReturnFail { return MaybeFail.fail(it) }
 
-        val updatedAmendment = tender.amendments[0]
+        val updatedAmendment = tender.getAmendmentIfOnlyOne()
+            .orReturnFail { return MaybeFail.fail(it) }
             .copy(
                 token = data.token,
                 type = data.type,

@@ -10,7 +10,6 @@ class ResultContext : AbstractCoroutineContextElement(ResultContext) {
 
     private val rqDefer = CompletableDeferred<String>()
     private val rsDefer = CompletableDeferred<String>()
-    private val ctxDefer = CompletableDeferred<String>()
 
     fun request(value: String) {
         rqDefer.complete(value)
@@ -31,14 +30,4 @@ class ResultContext : AbstractCoroutineContextElement(ResultContext) {
 
     val hasResponse: Boolean
         get() = rsDefer.isCompleted
-
-    fun globalContext(value: String) {
-        ctxDefer.complete(value)
-    }
-
-    val hasGlobalContext: Boolean
-        get() = ctxDefer.isCompleted
-
-    @ExperimentalCoroutinesApi
-    fun globalContext(): String = ctxDefer.getCompleted()
 }

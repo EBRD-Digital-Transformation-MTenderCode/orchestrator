@@ -71,8 +71,7 @@ class CassandraNoticeQueueRepository(private val session: Session) : NoticeQueue
                 setString(columnOperationId, operationId.toString())
             }
             .tryExecute(session)
-            .doOnError { return failure(it) }
-            .get
+            .orReturnFail { return failure(it) }
             .map { row ->
                 NoticeTask(
                     operationId = operationId,

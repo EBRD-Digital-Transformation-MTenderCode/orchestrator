@@ -29,15 +29,13 @@ inline fun <reified T> optionPropertyDelegate(
     override fun getValue(thisRef: Any?, property: KProperty<*>): Option<T> = propertyContainer[property.name]
         ?.let { value ->
             transform.tryDeserialization(value = value.toString(), target = T::class.java)
-                .doOnError { fail -> throw IllegalStateException(fail.description, fail.exception) }
-                .get
+                .orReturnFail { fail -> throw IllegalStateException(fail.description, fail.exception) }
         }
         .asOption()
 
     override fun setValue(thisRef: Any?, property: KProperty<*>, value: Option<T>) {
         if (value.isDefined)
             propertyContainer[property.name] = transform.trySerialization(value.get)
-                .doOnError { fail -> throw IllegalStateException(fail.description, fail.exception) }
-                .get
+                .orReturnFail { fail -> throw IllegalStateException(fail.description, fail.exception) }
     }
 }

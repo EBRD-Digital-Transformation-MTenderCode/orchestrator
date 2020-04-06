@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.infrastructure.bpms.delegate.bpe
 
+import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.members.ProcessInfo
 import com.procurement.orchestrator.application.model.context.members.RequestInfo
@@ -38,7 +39,11 @@ class BpeSaveContextDelegate(
     override fun parameters(parameterContainer: ParameterContainer): Result<Unit, Fail.Incident.Bpmn.Parameter> =
         success(Unit)
 
-    override suspend fun execute(context: CamundaGlobalContext, parameters: Unit): Result<Reply<Unit>, Fail.Incident> {
+    override suspend fun execute(
+        commandId: CommandId,
+        context: CamundaGlobalContext,
+        parameters: Unit
+    ): Result<Reply<Unit>, Fail.Incident> {
         val requestInfo = context.requestInfo
         val processInfo = context.processInfo
 
@@ -82,8 +87,7 @@ class BpeSaveContextDelegate(
         )
 
         val serializedContext = transform.trySerialization(processContext)
-            .doOnError { return MaybeFail.fail(it) }
-            .get
+            .orReturnFail { return MaybeFail.fail(it) }
 
         processContextRepository
             .save(
@@ -122,8 +126,7 @@ class BpeSaveContextDelegate(
         )
 
         val serializedContext = transform.trySerialization(oldProcessContext)
-            .doOnError { return MaybeFail.fail(it) }
-            .get
+            .orReturnFail { return MaybeFail.fail(it) }
 
         oldProcessContextRepository.save(cpid = processInfo.cpid, context = serializedContext)
             .doOnError { return MaybeFail.fail(it) }

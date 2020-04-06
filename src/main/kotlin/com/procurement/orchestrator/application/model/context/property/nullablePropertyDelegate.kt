@@ -26,14 +26,12 @@ inline fun <reified T> nullablePropertyDelegate(
     override fun getValue(thisRef: Any?, property: KProperty<*>): T? = propertyContainer[property.name]
         ?.let { value ->
             transform.tryDeserialization(value = value.toString(), target = T::class.java)
-                .doOnError { fail -> throw IllegalStateException(fail.description, fail.exception) }
-                .get
+                .orReturnFail { fail -> throw IllegalStateException(fail.description, fail.exception) }
         }
 
     override fun setValue(thisRef: Any?, property: KProperty<*>, value: T?) {
         if (value != null)
             propertyContainer[property.name] = transform.trySerialization(value)
-                .doOnError { fail -> throw IllegalStateException(fail.description, fail.exception) }
-                .get
+                .orReturnFail { fail -> throw IllegalStateException(fail.description, fail.exception) }
     }
 }

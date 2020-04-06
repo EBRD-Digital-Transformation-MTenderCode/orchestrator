@@ -45,8 +45,7 @@ class OkHttpWebClient(
         target: Target<R>
     ): Result<Reply<R>, Fail.Incident> =
         execute(url, command)
-            .doOnError { return failure(it) }
-            .get
+            .orReturnFail { return failure(it) }
             .also { response ->
                 if (logger.isDebugEnabled)
                     logger.debug(response)
@@ -55,8 +54,7 @@ class OkHttpWebClient(
 
     override suspend fun <T> call(url: URL, command: Command<T>): Result<Reply<Unit>, Fail.Incident> =
         execute(url, command)
-            .doOnError { return failure(it) }
-            .get
+            .orReturnFail { return failure(it) }
             .also { response ->
                 if (logger.isDebugEnabled)
                     logger.debug(response)
@@ -65,8 +63,7 @@ class OkHttpWebClient(
 
     private suspend fun <T> execute(url: URL, command: Command<T>): Result<String, Fail.Incident> {
         val payload = transform.trySerialization(command)
-            .doOnError { return failure(it) }
-            .get
+            .orReturnFail { return failure(it) }
 
         if (logger.isDebugEnabled)
             logger.debug(payload)
@@ -77,7 +74,7 @@ class OkHttpWebClient(
         val request = buildRequest(url, payload)
         val call = httpClient.newCall(request)
         val response = execute(call = call, retryInfo = retryInfo)
-            .doOnError { webClientFail ->
+            .orReturnFail { webClientFail ->
                 return when (webClientFail) {
                     is WebClientFail.NetworkError -> failure(
                         Fail.Incident.NetworkError(description = webClientFail.toString())
@@ -87,7 +84,6 @@ class OkHttpWebClient(
                     )
                 }
             }
-            .get
             .content
 
         ctx.response(response)

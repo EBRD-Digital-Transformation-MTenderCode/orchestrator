@@ -1,7 +1,10 @@
 package com.procurement.orchestrator.infrastructure.bpms.delegate.storage
 
+import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.StorageClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
+import com.procurement.orchestrator.application.model.context.extension.tryGetTender
+import com.procurement.orchestrator.application.model.context.members.Awards
 import com.procurement.orchestrator.application.model.process.OperationTypeProcess
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
@@ -12,12 +15,15 @@ import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
+import com.procurement.orchestrator.domain.functional.asSuccess
+import com.procurement.orchestrator.domain.functional.bind
+import com.procurement.orchestrator.domain.model.amendment.Amendment
+import com.procurement.orchestrator.domain.model.document.Document
 import com.procurement.orchestrator.domain.model.document.DocumentId
 import com.procurement.orchestrator.domain.model.tender.Tender
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
-import com.procurement.orchestrator.infrastructure.client.reply.EMPTY_REPLY_ID
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.storage.action.OpenAccessAction
 import org.springframework.stereotype.Component
@@ -36,8 +42,7 @@ class StorageOpenAccessDelegate(
 
     override fun parameters(parameterContainer: ParameterContainer): Result<Parameters, Fail.Incident.Bpmn.Parameter> {
         val entities: List<Entity> = parameterContainer.getListString("entities")
-            .doOnError { return failure(it) }
-            .get
+            .orReturnFail { return failure(it) }
             .map {
                 Entity.orNull(it)
                     ?: return failure(
@@ -53,12 +58,13 @@ class StorageOpenAccessDelegate(
     }
 
     override suspend fun execute(
+        commandId: CommandId,
         context: CamundaGlobalContext,
         parameters: Parameters
     ): Result<Reply<OpenAccessAction.Result>, Fail.Incident> {
 
-        val tender = context.tender
-            ?: return failure(Fail.Incident.Bpe(description = "The global context does not contain a 'Tender' object."))
+        val tender = context.tryGetTender()
+            .orReturnFail { return failure(it) }
 
         val documentIds: List<DocumentId> = parameters.entities
             .asSequence()
@@ -69,6 +75,19 @@ class StorageOpenAccessDelegate(
                         .flatMap { amendment -> amendment.documents.asSequence() }
                         .map { document -> document.id }
 
+                    Entity.AWARD_REQUIREMENT_RESPONSE -> context.awards
+                        .asSequence()
+                        .flatMap { award ->
+                            award.requirementResponses.asSequence()
+                        }
+                        .flatMap { requirementResponse ->
+                            requirementResponse.responder?.businessFunctions?.asSequence() ?: emptySequence()
+                        }
+                        .flatMap { businessFunction ->
+                            businessFunction.documents.asSequence()
+                        }
+                        .map { document -> document.id }
+
                     Entity.TENDER -> tender.documents
                         .asSequence()
                         .map { document -> document.id }
@@ -77,16 +96,9 @@ class StorageOpenAccessDelegate(
             .toList()
 
         if (documentIds.isEmpty())
-            return success(
-                Reply(
-                    id = EMPTY_REPLY_ID,
-                    version = "",
-                    status = Reply.Status.SUCCESS,
-                    result = Reply.Result.Success(OpenAccessAction.Result(emptyList()))
-                )
-            )
+            return success(Reply.None)
 
-        return client.openAccess(params = OpenAccessAction.Params(documentIds))
+        return client.openAccess(id = commandId, params = OpenAccessAction.Params(documentIds))
     }
 
     override fun updateGlobalContext(
@@ -98,44 +110,48 @@ class StorageOpenAccessDelegate(
         if (data.isEmpty())
             return MaybeFail.none()
 
+        val documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document> = data.associateBy { it.id }
+        val entities = parameters.entities.toSet()
         val tender = context.tender
-            ?: return MaybeFail.fail(
-                Fail.Incident.Bpe(description = "The global context does not contain a 'Tender' object.")
+
+        val updatedAmendments = if (Entity.AMENDMENT in entities)
+            tender
+                ?.updateAmendmentDocuments(documentsByIds)
+                ?.orReturnFail { return MaybeFail.fail(it) }
+                .orEmpty()
+        else
+            tender?.amendments.orEmpty()
+
+        val updatedTenderDocuments = if (Entity.TENDER in entities)
+            tender
+                ?.updateTenderDocuments(documentsByIds)
+                ?.orReturnFail { return MaybeFail.fail(it) }
+                .orEmpty()
+        else
+            tender?.documents.orEmpty()
+
+        if (tender != null)
+            context.tender = tender.copy(
+                documents = updatedTenderDocuments,
+                amendments = updatedAmendments
             )
 
-        val documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document> = data.associateBy { it.id }
+        val updatedAwards: Awards = success(context.awards)
+            .bind {
+                if (Entity.AWARD_REQUIREMENT_RESPONSE in entities)
+                    it.updateDocuments(documentsByIds)
+                else
+                    success(it)
+            }
+            .orReturnFail { return MaybeFail.fail(it) }
 
-        val updatedTender: Tender =
-            updateDocuments(entities = parameters.entities.toSet(), tender = tender, documentsByIds = documentsByIds)
-                .doOnError { return MaybeFail.fail(it) }
-                .get
-
-        context.tender = updatedTender
+        context.awards = updatedAwards
 
         return MaybeFail.none()
     }
 
-    private tailrec fun updateDocuments(
-        entities: Set<Entity>,
-        tender: Tender,
-        documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document>
-    ): Result<Tender, Fail.Incident.Bpmn> {
-        if (entities.isEmpty())
-            return success(tender)
-
-        val entity = entities.first()
-        val updatedTender = when (entity) {
-            Entity.AMENDMENT -> tender.updateAmendmentDocuments(documentsByIds)
-            Entity.TENDER -> tender.updateTenderDocuments(documentsByIds)
-        }
-            .doOnError { return failure(it) }
-            .get
-
-        return updateDocuments(entities = entities - entity, tender = updatedTender, documentsByIds = documentsByIds)
-    }
-
-    private fun Tender.updateAmendmentDocuments(documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document>): Result<Tender, Fail.Incident.Bpmn> {
-        val updatedAmendments = this.amendments
+    private fun Tender.updateAmendmentDocuments(documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document>): Result<List<Amendment>, Fail.Incident.Bpms> =
+        this.amendments
             .map { amendment ->
                 val updatedDocuments = amendment.documents
                     .map { document ->
@@ -147,20 +163,19 @@ class StorageOpenAccessDelegate(
                                 )
                             }
                             ?: return failure(
-                                Fail.Incident.Bpmn.Context.UnConsistency(
-                                    name = "tender.amendments[id:${amendment.id}].documents[id:${document.id}]",
-                                    description = "Document '${document.id}' for update is not found."
+                                Fail.Incident.Bpms.Context.UnConsistency.Update(
+                                    name = "document",
+                                    path = "tender.amendments[id:${amendment.id}].documents[id:${document.id}]",
+                                    id = document.id.toString()
                                 )
                             )
                     }
                 amendment.copy(documents = updatedDocuments)
             }
+            .asSuccess<List<Amendment>, Fail.Incident.Bpms>()
 
-        return success(this.copy(amendments = updatedAmendments))
-    }
-
-    private fun Tender.updateTenderDocuments(documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document>): Result<Tender, Fail.Incident.Bpmn> {
-        val updatedDocuments = this.documents
+    private fun Tender.updateTenderDocuments(documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document>): Result<List<Document>, Fail.Incident.Bpms> =
+        this.documents
             .map { document ->
                 documentsByIds[document.id]
                     ?.let {
@@ -170,13 +185,49 @@ class StorageOpenAccessDelegate(
                         )
                     }
                     ?: return failure(
-                        Fail.Incident.Bpmn.Context.UnConsistency(
-                            name = "tender.documents[id:${document.id}]",
-                            description = "Document '${document.id}' for update is not found."
+                        Fail.Incident.Bpms.Context.UnConsistency.Update(
+                            name = "document",
+                            path = "tender.documents[id:${document.id}]",
+                            id = document.id.toString()
                         )
                     )
             }
-        return success(this.copy(documents = updatedDocuments))
+            .asSuccess<List<Document>, Fail.Incident.Bpms>()
+
+    private fun Awards.updateDocuments(documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document>): Result<Awards, Fail.Incident.Bpms> {
+        val updatedAwards = this.map { award ->
+            val updatedRequirementResponses = award.requirementResponses
+                .map { requirementResponse ->
+                    val responder = requirementResponse.responder
+                    if (responder != null) {
+                        val updatedResponder = responder.let { person ->
+                            val updatedBusinessFunctions = person.businessFunctions
+                                .map { businessFunction ->
+                                    val updatedDocuments = businessFunction.documents
+                                        .map { document ->
+                                            documentsByIds[document.id]
+                                                ?.let {
+                                                    document.copy(datePublished = it.datePublished, url = it.uri)
+                                                }
+                                                ?: return failure(
+                                                    Fail.Incident.Bpms.Context.UnConsistency.Update(
+                                                        name = "document",
+                                                        path = "awards[id:$award.id].requirementResponse[id:${requirementResponse.id}].responder.businessFunctions[id:${businessFunction.id}]",
+                                                        id = document.id.toString()
+                                                    )
+                                                )
+                                        }
+                                    businessFunction.copy(documents = updatedDocuments)
+                                }
+                            person.copy(businessFunctions = updatedBusinessFunctions)
+                        }
+                        requirementResponse.copy(responder = updatedResponder)
+                    } else
+                        requirementResponse
+                }
+            award.copy(requirementResponses = updatedRequirementResponses)
+        }
+        return success(Awards(updatedAwards))
     }
 
     class Parameters(
@@ -186,6 +237,7 @@ class StorageOpenAccessDelegate(
     enum class Entity(override val key: String) : EnumElementProvider.Key {
 
         AMENDMENT("amendment"),
+        AWARD_REQUIREMENT_RESPONSE("award.requirementResponse"),
         TENDER("tender");
 
         override fun toString(): String = key

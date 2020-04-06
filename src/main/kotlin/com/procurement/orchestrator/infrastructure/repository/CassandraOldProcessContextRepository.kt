@@ -49,8 +49,7 @@ class CassandraOldProcessContextRepository(private val session: Session) : OldPr
             setString(columnCpid, cpid.toString())
         }
         .tryExecute(session)
-        .doOnError { return failure(it) }
-        .get
+        .orReturnFail { return failure(it) }
         .one()
         ?.getString(columnContext)
         .asSuccess()

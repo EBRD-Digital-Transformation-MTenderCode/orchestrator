@@ -1,9 +1,11 @@
 package com.procurement.orchestrator.infrastructure.bpms.delegate.access
 
+import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.AccessClient
 import com.procurement.orchestrator.application.model.Owner
 import com.procurement.orchestrator.application.model.Token
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
+import com.procurement.orchestrator.application.model.context.extension.tryGetTender
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
@@ -13,7 +15,6 @@ import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
-import com.procurement.orchestrator.domain.model.tender.Tender
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
@@ -37,21 +38,22 @@ class AccessCheckAccessToTenderDelegate(
         success(Unit)
 
     override suspend fun execute(
+        commandId: CommandId,
         context: CamundaGlobalContext,
         parameters: Unit
     ): Result<Reply<Unit>, Fail.Incident> {
-
         val processInfo = context.processInfo
         val cpid: Cpid = processInfo.cpid
         val ocid: Ocid = processInfo.ocid
 
-        val tender: Tender = context.tender
-            ?: return failure(Fail.Incident.Bpe(description = "The global context does not contain a 'Tender' object."))
+        val tender = context.tryGetTender()
+            .orReturnFail { return failure(it) }
 
         val token: Token = tender.token
         val owner: Owner = tender.owner
 
         return accessClient.checkAccessToTender(
+            id = commandId,
             params = CheckAccessToTenderAction.Params(
                 cpid = cpid, ocid = ocid, token = token, owner = owner
             )

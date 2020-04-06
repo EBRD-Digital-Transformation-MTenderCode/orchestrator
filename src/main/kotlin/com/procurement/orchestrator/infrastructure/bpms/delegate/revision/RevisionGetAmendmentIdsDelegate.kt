@@ -1,7 +1,10 @@
 package com.procurement.orchestrator.infrastructure.bpms.delegate.revision
 
+import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.RevisionClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
+import com.procurement.orchestrator.application.model.context.extension.getLotsIfNotEmpty
+import com.procurement.orchestrator.application.model.context.extension.tryGetTender
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.EnumElementProvider.Companion.keysAsStrings
@@ -39,8 +42,7 @@ class RevisionGetAmendmentIdsDelegate(
 
     override fun parameters(parameterContainer: ParameterContainer): Result<Parameters, Fail.Incident.Bpmn.Parameter> {
         val type: AmendmentType? = parameterContainer.getStringOrNull("type")
-            .doOnError { return failure(it) }
-            .get
+            .orReturnFail { return failure(it) }
             ?.let {
                 AmendmentType.orNull(it)
                     ?: return failure(
@@ -53,8 +55,7 @@ class RevisionGetAmendmentIdsDelegate(
             }
 
         val status: AmendmentStatus? = parameterContainer.getStringOrNull("status")
-            .doOnError { return failure(it) }
-            .get
+            .orReturnFail { return failure(it) }
             ?.let {
                 AmendmentStatus.orNull(it)
                     ?: return failure(
@@ -67,8 +68,7 @@ class RevisionGetAmendmentIdsDelegate(
             }
 
         val relatesTo: AmendmentRelatesTo? = parameterContainer.getStringOrNull("relatesTo")
-            .doOnError { return failure(it) }
-            .get
+            .orReturnFail { return failure(it) }
             ?.let {
                 AmendmentRelatesTo.orNull(it)
                     ?: return failure(
@@ -81,8 +81,7 @@ class RevisionGetAmendmentIdsDelegate(
             }
 
         val sendRelatedItem = parameterContainer.getStringOrNull("sendRelatedItem")
-            .doOnError { return failure(it) }
-            .get
+            .orReturnFail { return failure(it) }
             ?.toBoolean()
             ?: false
 
@@ -97,6 +96,7 @@ class RevisionGetAmendmentIdsDelegate(
     }
 
     override suspend fun execute(
+        commandId: CommandId,
         context: CamundaGlobalContext,
         parameters: Parameters
     ): Result<Reply<List<AmendmentId>>, Fail.Incident> {
@@ -109,13 +109,12 @@ class RevisionGetAmendmentIdsDelegate(
             when (parameters.relatesTo) {
                 AmendmentRelatesTo.TENDER -> listOf(ocid.toString())
                 AmendmentRelatesTo.LOT -> {
-                    val tender = context.tender
-                        ?: return failure(Fail.Incident.Bpe(description = "The global context does not contain a 'Tender' object."))
+                    val tender = context.tryGetTender()
+                        .orReturnFail { return failure(it) }
 
-                    if (tender.lots.isEmpty())
-                        return failure(Fail.Incident.Bpmn.Context.Empty(name = "tender.lots"))
-
-                    tender.lots.map { it.id.toString() }
+                    tender.getLotsIfNotEmpty()
+                        .orReturnFail { return failure(it) }
+                        .map { it.id.toString() }
                 }
                 null -> return failure(
                     Fail.Incident.Bpmn.Parameter.UnConsistency(
@@ -127,6 +126,7 @@ class RevisionGetAmendmentIdsDelegate(
             emptyList()
 
         return client.getAmendmentIds(
+            id = commandId,
             params = GetAmendmentIdsAction.Params(
                 cpid = cpid,
                 ocid = ocid,
@@ -143,10 +143,9 @@ class RevisionGetAmendmentIdsDelegate(
         parameters: Parameters,
         data: List<AmendmentId>
     ): MaybeFail<Fail.Incident> {
-        val tender = context.tender
-            ?: return MaybeFail.fail(
-                Fail.Incident.Bpe(description = "The global context does not contain a 'Tender' object.")
-            )
+
+        val tender = context.tryGetTender()
+            .orReturnFail { return MaybeFail.fail(it) }
 
         val knowAmendmentIds = tender.amendmentIds()
         val receivedAmendmentIds = data.toSet()

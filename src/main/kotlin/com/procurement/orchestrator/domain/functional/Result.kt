@@ -34,6 +34,11 @@ sealed class Result<out T, out E> {
         return this
     }
 
+    inline fun orReturnFail(error: (E) -> Nothing): T = when (this) {
+        is Success -> this.get
+        else -> error(this.error)
+    }
+
     val orNull: T?
         get() = when (this) {
             is Success -> get

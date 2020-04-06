@@ -48,22 +48,18 @@ class CancellationServiceImpl(
 
     override fun cancelTender(request: CancellationTender.Request): MaybeFail<Fail> {
         val savedRequest: RequestRecord = saveRequest(request)
-            .doOnError { return MaybeFail.fail(it) }
-            .get
+            .orReturnFail { return MaybeFail.fail(it) }
 
         val isLaunched = processService.isLaunchedProcess(operationId = request.operationId)
-            .doOnError { return MaybeFail.fail(it) }
-            .get
+            .orReturnFail { return MaybeFail.fail(it) }
         if (isLaunched)
             return MaybeFail.fail(RequestErrors.Common.Repeated())
 
         val payload = parsePayload<CancellationTender.Payload>(request.payload)
-            .doOnError { return MaybeFail.fail(it) }
-            .get
+            .orReturnFail { return MaybeFail.fail(it) }
 
         val prevProcessContext: LatestProcessContext = processService.getProcessContext(cpid = request.context.cpid)
-            .doOnError { return MaybeFail.fail(it) }
-            .get
+            .orReturnFail { return MaybeFail.fail(it) }
             ?: return MaybeFail.fail(Fail.Incident.Bpe(description = "The process context by cpid '${request.context.cpid}' does not found."))
 
         val countryId = prevProcessContext.country
@@ -71,8 +67,7 @@ class CancellationServiceImpl(
 
         val processDefinitionKey = processService
             .getProcessDefinitionKey(countryId = countryId, pmd = pmd, processName = CANCEL_TENDER_PROCESS)
-            .doOnError { return MaybeFail.fail(it) }
-            .get
+            .orReturnFail { return MaybeFail.fail(it) }
 
         val prevStage = prevProcessContext.stage
         val prevPhase = prevProcessContext.phase
@@ -84,8 +79,7 @@ class CancellationServiceImpl(
                 stageFrom = prevStage,
                 phaseFrom = prevPhase
             )
-            .doOnError { return MaybeFail.fail(it) }
-            .get
+            .orReturnFail { return MaybeFail.fail(it) }
             ?: return MaybeFail.fail(
                 Fail.Incident.Bpe(
                     description = "Operation by country: '$countryId', pmd: '$pmd', process definition key: '$processDefinitionKey', stage: '$prevStage', phase: '$prevPhase' is impossible."
@@ -155,22 +149,18 @@ class CancellationServiceImpl(
 
     override fun cancelLot(request: CancellationLot.Request): MaybeFail<Fail> {
         val savedRequest: RequestRecord = saveRequest(request)
-            .doOnError { return MaybeFail.fail(it) }
-            .get
+            .orReturnFail { return MaybeFail.fail(it) }
 
         val isLaunched = processService.isLaunchedProcess(operationId = request.operationId)
-            .doOnError { return MaybeFail.fail(it) }
-            .get
+            .orReturnFail { return MaybeFail.fail(it) }
         if (isLaunched)
             return MaybeFail.fail(RequestErrors.Common.Repeated())
 
         val payload = parsePayload<CancellationLot.Payload>(request.payload)
-            .doOnError { return MaybeFail.fail(it) }
-            .get
+            .orReturnFail { return MaybeFail.fail(it) }
 
         val prevProcessContext: LatestProcessContext = processService.getProcessContext(cpid = request.context.cpid)
-            .doOnError { return MaybeFail.fail(it) }
-            .get
+            .orReturnFail { return MaybeFail.fail(it) }
             ?: return MaybeFail.fail(Fail.Incident.Bpe(description = "The process context by cpid '${request.context.cpid}' does not found."))
 
         val countryId = prevProcessContext.country
@@ -178,8 +168,7 @@ class CancellationServiceImpl(
 
         val processDefinitionKey = processService
             .getProcessDefinitionKey(countryId = countryId, pmd = pmd, processName = CANCEL_LOT_PROCESS)
-            .doOnError { return MaybeFail.fail(it) }
-            .get
+            .orReturnFail { return MaybeFail.fail(it) }
 
         val prevStage = prevProcessContext.stage
         val prevPhase = prevProcessContext.phase
@@ -191,8 +180,7 @@ class CancellationServiceImpl(
                 stageFrom = prevStage,
                 phaseFrom = prevPhase
             )
-            .doOnError { return MaybeFail.fail(it) }
-            .get
+            .orReturnFail { return MaybeFail.fail(it) }
             ?: return MaybeFail.fail(
                 Fail.Incident.Bpe(
                     description = "Operation by country: '$countryId', pmd: '$pmd', process definition key: '$processDefinitionKey', stage: '$prevStage', phase: '$prevPhase' is impossible."
@@ -275,8 +263,7 @@ class CancellationServiceImpl(
 
     private fun saveRequest(request: CancellationTender.Request): Result<RequestRecord, Fail.Incident> {
         val record = request.asRecord()
-            .doOnError { return failure(it) }
-            .get
+            .orReturnFail { return failure(it) }
         requestRepository.save(record)
             .doOnError { return failure(it) }
         return success(record)
@@ -284,8 +271,7 @@ class CancellationServiceImpl(
 
     private fun CancellationTender.Request.asRecord(): Result<RequestRecord, Fail.Incident> {
         val serializedContext: String = transform.trySerialization(this.context)
-            .doOnError { return failure(it) }
-            .get
+            .orReturnFail { return failure(it) }
         return RequestRecord(
             operationId = this.operationId,
             timestamp = nowDefaultUTC(),
@@ -298,8 +284,7 @@ class CancellationServiceImpl(
 
     private fun saveRequest(request: CancellationLot.Request): Result<RequestRecord, Fail.Incident> {
         val record = request.asRecord()
-            .doOnError { return failure(it) }
-            .get
+            .orReturnFail { return failure(it) }
         requestRepository.save(record)
             .doOnError { return failure(it) }
         return success(record)
@@ -307,8 +292,7 @@ class CancellationServiceImpl(
 
     private fun CancellationLot.Request.asRecord(): Result<RequestRecord, Fail.Incident> {
         val serializedContext: String = transform.trySerialization(this.context)
-            .doOnError { return failure(it) }
-            .get
+            .orReturnFail { return failure(it) }
         return RequestRecord(
             operationId = this.operationId,
             timestamp = nowDefaultUTC(),
