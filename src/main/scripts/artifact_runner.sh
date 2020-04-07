@@ -1,7 +1,7 @@
 #!/bin/sh
 if [ -n "$1" ]
 then
-  command="java -Xmx512m -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=1089 -Dcom.sun.management.jmxremote.rmi.port=1089 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dlogging.config=/maven/config/logback.xml"
+  command="java -Xmx512m -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=1089 -Dcom.sun.management.jmxremote.rmi.port=1089 -Dcom.sun.management.jmxremote.local.only=false -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dlogging.config=/maven/config/logback.xml"
 
   for param in `printenv | awk '/^__PROP_/{print $0}'`
   do
