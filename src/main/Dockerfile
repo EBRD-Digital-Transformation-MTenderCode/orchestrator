@@ -6,5 +6,6 @@ COPY /scripts/artifact_runner.sh maven/
 COPY /resources/logback.xml maven/config/
 
 EXPOSE ${project.service.port}
+EXPOSE 1089
 
 CMD cd /maven && ./artifact_runner.sh ${final-artifact-name}.jar
