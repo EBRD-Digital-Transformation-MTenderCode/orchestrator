@@ -26,12 +26,12 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Chec
 import org.springframework.stereotype.Component
 
 @Component
-class AccessCheckPersonsStructureDelegate(
+class AccessCheckPersonesStructureDelegate(
     logger: Logger,
     private val accessClient: AccessClient,
     operationStepRepository: OperationStepRepository,
     transform: Transform
-) : AbstractExternalDelegate<AccessCheckPersonsStructureDelegate.Parameters, Unit>(
+) : AbstractExternalDelegate<AccessCheckPersonesStructureDelegate.Parameters, Unit>(
     logger = logger,
     transform = transform,
     operationStepRepository = operationStepRepository
