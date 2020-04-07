@@ -6,7 +6,7 @@
     "scheme": "string",
     "uri": "string"
   },
-  "persons": [
+  "persones": [
     {
       "title": "string",
       "name": "string",

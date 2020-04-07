@@ -28,7 +28,7 @@ class Party(
     @field:JsonProperty("contactPoint") @param:JsonProperty("contactPoint") val contactPoint: ContactPoint? = null,
 
     @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
-    @field:JsonProperty("persons") @param:JsonProperty("persons") val persons: List<Person> = emptyList(),
+    @field:JsonProperty("persones") @param:JsonProperty("persones") val persons: List<Person> = emptyList(),
 
     @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
     @field:JsonProperty("roles") @param:JsonProperty("roles") val roles: List<PartyRole> = emptyList(),
