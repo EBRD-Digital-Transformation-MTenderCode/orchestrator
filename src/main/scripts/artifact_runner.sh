@@ -1,7 +1,7 @@
 #!/bin/sh
 if [ -n "$1" ]
 then
-  command="java -Xmx512m $JAVA_OPTS -Dlogging.config=/maven/config/logback.xml"
+  command="java $JAVA_OPTS -Dlogging.config=/maven/config/logback.xml"
 
   for param in `printenv | awk '/^__PROP_/{print $0}'`
   do
