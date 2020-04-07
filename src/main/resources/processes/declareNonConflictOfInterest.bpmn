@@ -29,7 +29,7 @@
       <bpmn:incoming>SequenceFlow_0zo1ljd</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0pk5qir</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="AccessCheckResponderStructureTask" name="eAccess&#10;Check responder structure" camunda:asyncBefore="true" camunda:delegateExpression="${accessCheckPersonsStructureDelegate}">
+    <bpmn:serviceTask id="AccessCheckResponderStructureTask" name="eAccess&#10;Check responder structure" camunda:asyncBefore="true" camunda:delegateExpression="${accessCheckPersonesStructureDelegate}">
       <bpmn:extensionElements>
         <camunda:inputOutput>
           <camunda:inputParameter name="location">award</camunda:inputParameter>
