@@ -9,6 +9,7 @@ import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
+import com.procurement.orchestrator.domain.model.tender.Tender
 import com.procurement.orchestrator.domain.model.tender.TenderStatus
 import com.procurement.orchestrator.domain.model.tender.TenderStatusDetails
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
@@ -80,8 +81,7 @@ class AccessSetStateForTenderDelegate(
         parameters: Parameters,
         data: SetStateForTenderAction.Result
     ): MaybeFail<Fail.Incident> {
-        val tender = context.tryGetTender()
-            .orReturnFail { return MaybeFail.fail(it) }
+        val tender = context.tender ?: Tender(token = null, owner = null)
 
         val updatedTender = tender.copy(
             status = data.status,
