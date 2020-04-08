@@ -2,6 +2,8 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.revision
 
 import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.RevisionClient
+import com.procurement.orchestrator.application.model.Owner
+import com.procurement.orchestrator.application.model.Token
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.getAmendmentIfOnlyOne
 import com.procurement.orchestrator.application.model.context.extension.tryGetTender
@@ -71,20 +73,24 @@ class RevisionCheckAccessToAmendmentDelegate(
         val tender = context.tryGetTender()
             .orReturnFail { return failure(it) }
 
-        val id = when (parameters.location) {
+        val amendment = when (parameters.location) {
             Location.TENDER -> tender.getAmendmentIfOnlyOne()
                 .orReturnFail { return failure(it) }
-                .id as AmendmentId.Permanent
         }
+
+        val token: Token = amendment.token
+            ?: return failure(Fail.Incident.Bpms.Context.Missing(name = "token", path = "tender.amendment"))
+        val owner: Owner = amendment.owner
+            ?: return failure(Fail.Incident.Bpms.Context.Missing(name = "owner", path = "tender.amendment"))
 
         return revisionClient.checkAccessToAmendment(
             id = commandId,
             params = CheckAccessToAmendmentAction.Params(
                 cpid = cpid,
                 ocid = ocid,
-                token = tender.token,
-                owner = tender.owner,
-                id = id
+                token = token,
+                owner = owner,
+                id = amendment.id as AmendmentId.Permanent
             )
         )
     }

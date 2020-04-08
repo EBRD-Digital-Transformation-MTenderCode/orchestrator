@@ -50,7 +50,9 @@ class AccessCheckAccessToTenderDelegate(
             .orReturnFail { return failure(it) }
 
         val token: Token = tender.token
+            ?: return failure(Fail.Incident.Bpms.Context.Missing(name = "token", path = "tender"))
         val owner: Owner = tender.owner
+            ?: return failure(Fail.Incident.Bpms.Context.Missing(name = "owner", path = "tender"))
 
         return accessClient.checkAccessToTender(
             id = commandId,
