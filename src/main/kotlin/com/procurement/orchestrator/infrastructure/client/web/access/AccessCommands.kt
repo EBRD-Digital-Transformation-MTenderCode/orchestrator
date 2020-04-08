@@ -4,6 +4,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Chec
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckPersonsStructureAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotStateByIdsAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.GetTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ResponderProcessingAction
 import com.procurement.orchestrator.infrastructure.client.web.revision.action.SetStateForTenderAction
 
@@ -20,4 +21,6 @@ object AccessCommands {
     object ResponderProcessing : ResponderProcessingAction()
 
     object SetStateForTender : SetStateForTenderAction()
+
+    object GetTenderState : GetTenderStateAction()
 }
