@@ -2,6 +2,7 @@ package com.procurement.orchestrator.infrastructure.client.web.evaluation
 
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CheckAccessToAwardAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CheckRelatedTendererAction
+import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CloseAwardPeriodAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CreateRequirementResponseAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CreateUnsuccessfulAwardsAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.GetAwardStateByIdsAction
@@ -17,4 +18,6 @@ object EvaluationCommands {
     object GetAwardStateByIds : GetAwardStateByIdsAction()
 
     object CreateUnsuccessfulAwards : CreateUnsuccessfulAwardsAction()
+
+    object CloseAwardPeriod : CloseAwardPeriodAction()
 }

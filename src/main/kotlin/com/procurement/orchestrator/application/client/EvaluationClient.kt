@@ -6,6 +6,7 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CheckAccessToAwardAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CheckRelatedTendererAction
+import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CloseAwardPeriodAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CreateRequirementResponseAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CreateUnsuccessfulAwardsAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.GetAwardStateByIdsAction
@@ -36,4 +37,9 @@ interface EvaluationClient {
         id: CommandId,
         params: CreateUnsuccessfulAwardsAction.Params
     ): Result<Reply<CreateUnsuccessfulAwardsAction.Result>, Fail.Incident>
+
+    suspend fun closeAwardPeriod(
+        id: CommandId,
+        params: CloseAwardPeriodAction.Params
+    ): Result<Reply<CloseAwardPeriodAction.Result>, Fail.Incident>
 }
