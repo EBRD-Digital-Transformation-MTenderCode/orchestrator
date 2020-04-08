@@ -124,4 +124,24 @@ class RevisionActionsTest {
             }
         }
     }
+
+    @Nested
+    inner class SetStateForAmendment {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<SetStateForAmendmentAction.Params>("json/client/revision/set_state_for_amendment_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<SetStateForAmendmentAction.Result>("json/client/revision/set_state_for_amendment_result_full.json")
+            }
+        }
+    }
 }
