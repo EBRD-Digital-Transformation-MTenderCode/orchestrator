@@ -11,6 +11,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Chec
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotStateByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ResponderProcessingAction
+import com.procurement.orchestrator.infrastructure.client.web.revision.action.SetStateForTenderAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
 import java.net.URL
 
@@ -60,5 +61,14 @@ class HttpAccessClient(private val webClient: WebClient, properties: ComponentPr
         url = url,
         command = AccessCommands.ResponderProcessing.build(id = id, params = params),
         target = AccessCommands.ResponderProcessing.target
+    )
+
+    override suspend fun setStateForTender(
+        id: CommandId,
+        params: SetStateForTenderAction.Params
+    ): Result<Reply<SetStateForTenderAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = AccessCommands.SetStateForTender.build(id = id, params = params),
+        target = AccessCommands.SetStateForTender.target
     )
 }
