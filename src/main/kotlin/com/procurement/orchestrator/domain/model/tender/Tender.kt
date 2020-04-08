@@ -17,8 +17,11 @@ import java.io.Serializable
 
 data class Tender(
 
-    @field:JsonProperty("token") @param:JsonProperty("token") val token: Token,
-    @field:JsonProperty("owner") @param:JsonProperty("owner") val owner: Owner,
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonProperty("token") @param:JsonProperty("token") val token: Token?,
+
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonProperty("owner") @param:JsonProperty("owner") val owner: Owner?,
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonProperty("id") @param:JsonProperty("id") val id: TenderId? = null,

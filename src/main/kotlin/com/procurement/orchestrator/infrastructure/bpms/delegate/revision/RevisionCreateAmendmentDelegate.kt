@@ -65,6 +65,7 @@ class RevisionCreateAmendmentDelegate(
         }
 
         val owner: Owner = tender.owner
+            ?: return failure(Fail.Incident.Bpms.Context.Missing(name = "owner", path = "tender"))
 
         val requestInfo = context.requestInfo
         return client.createAmendment(
