@@ -11,6 +11,7 @@ import com.procurement.orchestrator.infrastructure.client.web.revision.action.Cr
 import com.procurement.orchestrator.infrastructure.client.web.revision.action.DataValidationAction
 import com.procurement.orchestrator.infrastructure.client.web.revision.action.GetAmendmentIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.revision.action.GetMainPartOfAmendmentByIdsAction
+import com.procurement.orchestrator.infrastructure.client.web.revision.action.SetStateForAmendmentAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
 import java.net.URL
 
@@ -60,5 +61,14 @@ class HttpRevisionClient(private val webClient: WebClient, properties: Component
         url = url,
         command = RevisionCommands.GetMainPartOfAmendmentByIds.build(id = id, params = params),
         target = RevisionCommands.GetMainPartOfAmendmentByIds.target
+    )
+
+    override suspend fun setStateForAmendment(
+        id: CommandId,
+        params: SetStateForAmendmentAction.Params
+    ): Result<Reply<SetStateForAmendmentAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = RevisionCommands.SetStateForAmendment.build(id = id, params = params),
+        target = RevisionCommands.SetStateForAmendment.target
     )
 }
