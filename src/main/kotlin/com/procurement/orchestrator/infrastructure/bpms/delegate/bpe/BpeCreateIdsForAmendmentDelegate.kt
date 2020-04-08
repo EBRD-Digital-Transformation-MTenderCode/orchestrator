@@ -1,6 +1,5 @@
 package com.procurement.orchestrator.infrastructure.bpms.delegate.bpe
 
-import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.getAmendmentsIfNotEmpty
 import com.procurement.orchestrator.application.model.context.extension.tryGetTender
@@ -8,14 +7,14 @@ import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
+import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.model.amendment.AmendmentId
-import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
+import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractInternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
-import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import org.springframework.stereotype.Component
 
 @Component
@@ -23,7 +22,7 @@ class BpeCreateIdsForAmendmentDelegate(
     logger: Logger,
     operationStepRepository: OperationStepRepository,
     transform: Transform
-) : AbstractExternalDelegate<Unit, Unit>(
+) : AbstractInternalDelegate<Unit, Unit>(
     logger = logger,
     transform = transform,
     operationStepRepository = operationStepRepository
@@ -33,10 +32,9 @@ class BpeCreateIdsForAmendmentDelegate(
         success(Unit)
 
     override suspend fun execute(
-        commandId: CommandId,
         context: CamundaGlobalContext,
         parameters: Unit
-    ): Result<Reply<Unit>, Fail.Incident> {
+    ): Result<Option<Unit>, Fail.Incident> {
         val tender = context.tryGetTender()
             .orReturnFail { return failure(it) }
 
@@ -51,7 +49,7 @@ class BpeCreateIdsForAmendmentDelegate(
             }
         )
 
-        return success(Reply.None)
+        return success(Option.none())
     }
 
     override fun updateGlobalContext(
