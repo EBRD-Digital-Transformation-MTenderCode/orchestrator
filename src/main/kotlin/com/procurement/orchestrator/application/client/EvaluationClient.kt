@@ -7,6 +7,7 @@ import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CheckAccessToAwardAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CheckRelatedTendererAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CreateRequirementResponseAction
+import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CreateUnsuccessfulAwardsAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.GetAwardStateByIdsAction
 
 interface EvaluationClient {
@@ -30,4 +31,9 @@ interface EvaluationClient {
         id: CommandId,
         params: GetAwardStateByIdsAction.Params
     ): Result<Reply<GetAwardStateByIdsAction.Result>, Fail.Incident>
+
+    suspend fun createUnsuccessfulAwards(
+        id: CommandId,
+        params: CreateUnsuccessfulAwardsAction.Params
+    ): Result<Reply<CreateUnsuccessfulAwardsAction.Result>, Fail.Incident>
 }

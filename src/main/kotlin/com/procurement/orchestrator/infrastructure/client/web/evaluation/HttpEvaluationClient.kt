@@ -9,6 +9,7 @@ import com.procurement.orchestrator.infrastructure.client.web.WebClient
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CheckAccessToAwardAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CheckRelatedTendererAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CreateRequirementResponseAction
+import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CreateUnsuccessfulAwardsAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.GetAwardStateByIdsAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
 import java.net.URL
@@ -50,5 +51,14 @@ class HttpEvaluationClient(private val webClient: WebClient, properties: Compone
         url = url,
         command = EvaluationCommands.GetAwardStateByIds.build(id = id, params = params),
         target = EvaluationCommands.GetAwardStateByIds.target
+    )
+
+    override suspend fun createUnsuccessfulAwards(
+        id: CommandId,
+        params: CreateUnsuccessfulAwardsAction.Params
+    ): Result<Reply<CreateUnsuccessfulAwardsAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = EvaluationCommands.CreateUnsuccessfulAwards.build(id = id, params = params),
+        target = EvaluationCommands.CreateUnsuccessfulAwards.target
     )
 }
