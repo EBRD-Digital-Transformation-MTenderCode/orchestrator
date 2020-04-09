@@ -24,6 +24,14 @@ sealed class MaybeFail<out E> {
         is None -> this
     }
 
+    inline fun also(function: (E) -> Unit): MaybeFail<E> {
+        when (this) {
+            is Fail -> function(error)
+            is None -> Unit
+        }
+        return this
+    }
+
     class Fail<out E>(override val error: E) : MaybeFail<E>() {
         override val isFail: Boolean = true
     }
