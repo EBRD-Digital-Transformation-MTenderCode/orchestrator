@@ -96,7 +96,7 @@ sealed class RequestErrors(number: String, override val description: String) :
 
         class UnknownValue(name: String, expectedValues: Collection<String>, actualValue: String) : QueryParameter(
             number = "3",
-            description = "Attribute value mismatch of '$name' with one of enum expected values. Expected values: '${expectedValues.joinToString()}', actual value: '$actualValue'.",
+            description = "Value of header '$name' mismatch with one of expected values. Expected values: '${expectedValues.joinToString()}', actual value: '$actualValue'.",
             name = name
         )
 

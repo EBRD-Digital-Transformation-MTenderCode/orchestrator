@@ -4,7 +4,6 @@ import com.procurement.orchestrator.application.model.OperationId
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.cancellation.CancellationService
 import com.procurement.orchestrator.application.service.cancellation.CancellationTender
-import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.fail.error.RequestErrors
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
@@ -16,7 +15,7 @@ import com.procurement.orchestrator.infrastructure.extension.http.getOperationId
 import com.procurement.orchestrator.infrastructure.extension.http.getPayload
 import com.procurement.orchestrator.infrastructure.extension.http.getPlatformId
 import com.procurement.orchestrator.infrastructure.extension.http.getToken
-import org.springframework.http.HttpStatus
+import com.procurement.orchestrator.infrastructure.web.extension.buildResponse
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -36,28 +35,21 @@ class CancelTenderController(
         servlet: HttpServletRequest,
         @PathVariable cpid: String,
         @PathVariable ocid: String
-    ): ResponseEntity<String> {
-
-        val request = parseRequest(servlet, cpid = cpid, ocid = ocid)
-            .orReturnFail { fail ->
-                fail.logging(logger)
-                return ResponseEntity(fail.message, HttpStatus.BAD_REQUEST)
+    ): ResponseEntity<String> = run {
+        val request = parseRequest(servlet = servlet, cpid = cpid, ocid = ocid)
+            .orReturnFail { return@run MaybeFail.fail(it) }
+            .also { request ->
+                if (logger.isDebugEnabled)
+                    logger.debug("Request: platform '${request.platformId}', operation-id '${request.operationId}', uri '/cancel/tender$cpid/$ocid', payload '${request.payload}'.")
             }
-
-        return when (val result: MaybeFail<Fail> = cancellationService.cancelTender(request)) {
-            is MaybeFail.Fail -> when (val error = result.error) {
-                is Fail.Error -> {
-                    error.logging(logger)
-                    ResponseEntity(error.message, HttpStatus.BAD_REQUEST)
-                }
-                is Fail.Incident -> {
-                    error.logging(logger)
-                    ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
-                }
-            }
-            is MaybeFail.None -> ResponseEntity("ok", HttpStatus.ACCEPTED)
-        }
+        cancellationService.cancelTender(request)
     }
+        .also { fail -> fail.logging(logger) }
+        .buildResponse()
+        .also { response ->
+            if (logger.isDebugEnabled)
+                logger.debug("Response: status '${response.statusCode}', body '${response.body}'.")
+        }
 
     private fun parseRequest(
         servlet: HttpServletRequest,
