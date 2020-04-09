@@ -36,7 +36,7 @@ abstract class CreateUnsuccessfulAwardsAction :
             @field:JsonProperty("description") @param:JsonProperty("description") val description: String,
             @field:JsonProperty("status") @param:JsonProperty("status") val status: AwardStatus,
             @field:JsonProperty("statusDetails") @param:JsonProperty("statusDetails") val statusDetails: AwardStatusDetails,
-            @field:JsonProperty("relatedLots") @param:JsonProperty("relatedLots") val relatedLots: List<LotId>
+            @field:JsonProperty("relatedLots") @param:JsonProperty("relatedLots") val relatedLots: List<LotId.Permanent>
         ) : Serializable
     }
 }
