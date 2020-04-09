@@ -1,4 +1,4 @@
-package com.procurement.orchestrator.infrastructure.client.web.revision.action
+package com.procurement.orchestrator.infrastructure.client.web.access.action
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.procurement.orchestrator.application.service.FunctionalAction

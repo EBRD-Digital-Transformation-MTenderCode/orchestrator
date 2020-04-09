@@ -7,7 +7,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.GetL
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ResponderProcessingAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForLotsAction
-import com.procurement.orchestrator.infrastructure.client.web.revision.action.SetStateForTenderAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForTenderAction
 
 object AccessCommands {
 
