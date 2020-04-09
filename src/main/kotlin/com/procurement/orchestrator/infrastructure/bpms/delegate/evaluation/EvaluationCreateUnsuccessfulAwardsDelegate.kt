@@ -77,7 +77,7 @@ class EvaluationCreateUnsuccessfulAwardsDelegate(
 
         val awards = context.awards
 
-        val availableAwardsById = context.awards.associateBy { it.id }
+        val availableAwardsById = awards.associateBy { it.id }
         val receivedAwardByIds = data.associateBy { it.id }
         val receivedAwardIds = receivedAwardByIds.keys
         val knownAwardIds = availableAwardsById.keys
