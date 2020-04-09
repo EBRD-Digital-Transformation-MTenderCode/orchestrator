@@ -23,7 +23,7 @@ abstract class ResponderProcessingAction :
     class Params(
         @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid,
         @field:JsonProperty("ocid") @param:JsonProperty("ocid") val ocid: Ocid,
-        @field:JsonProperty("startDate") @param:JsonProperty("startDate") val startDate: LocalDateTime,
+        @field:JsonProperty("date") @param:JsonProperty("date") val date: LocalDateTime,
         @field:JsonProperty("responder") @param:JsonProperty("responder") val responder: Responder
     ) {
 

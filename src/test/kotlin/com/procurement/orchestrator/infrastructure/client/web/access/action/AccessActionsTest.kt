@@ -25,17 +25,17 @@ class AccessActionsTest {
         inner class Params {
             @Test
             fun fully() {
-                testingBindingAndMapping<CheckPersonsStructureAction.Params>("json/client/access/check_persons_structure_params_full.json")
+                testingBindingAndMapping<CheckPersonesStructureAction.Params>("json/client/access/check_persons_structure_params_full.json")
             }
 
             @Test
             fun required1() {
-                testingBindingAndMapping<CheckPersonsStructureAction.Params>("json/client/access/check_persons_structure_params_required_1.json")
+                testingBindingAndMapping<CheckPersonesStructureAction.Params>("json/client/access/check_persons_structure_params_required_1.json")
             }
 
             @Test
             fun required2() {
-                testingBindingAndMapping<CheckPersonsStructureAction.Params>("json/client/access/check_persons_structure_params_required_2.json")
+                testingBindingAndMapping<CheckPersonesStructureAction.Params>("json/client/access/check_persons_structure_params_required_2.json")
             }
         }
     }
