@@ -60,11 +60,13 @@ class EvaluationCloseAwardPeriodDelegate(
         val tender = context.tryGetTender()
             .orReturnFail { return MaybeFail.fail(it) }
 
-        tender.awardPeriod
+        val updatedAwardPeriod = tender.awardPeriod
             ?.let { awardPeriod ->
                 awardPeriod.copy(endDate = data.awardPeriod.endDate)
             }
             ?: Period(endDate = data.awardPeriod.endDate)
+
+        tender.copy(awardPeriod = updatedAwardPeriod)
 
         return MaybeFail.none()
     }
