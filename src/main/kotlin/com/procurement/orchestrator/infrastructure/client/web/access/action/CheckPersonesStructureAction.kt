@@ -24,7 +24,7 @@ abstract class CheckPersonesStructureAction : ProceduralAction<CheckPersonesStru
         @JsonInclude(JsonInclude.Include.NON_NULL)
         @field:JsonProperty("operationType") @param:JsonProperty("operationType") val operationType: OperationTypeProcess?,
 
-        @field:JsonProperty("locationOfPersons") @param:JsonProperty("locationOfPersons") val locationOfPersons: String,
+        @field:JsonProperty("locationOfPersones") @param:JsonProperty("locationOfPersones") val locationOfPersons: String,
 
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
         @field:JsonProperty("persones") @param:JsonProperty("persones") val persons: List<Person>
