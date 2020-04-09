@@ -3,7 +3,11 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.storage
 import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.StorageClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
-import com.procurement.orchestrator.application.model.context.extension.tryGetTender
+import com.procurement.orchestrator.application.model.context.extension.getAmendmentsIfNotEmpty
+import com.procurement.orchestrator.application.model.context.extension.getAwardsIfNotEmpty
+import com.procurement.orchestrator.application.model.context.extension.getBusinessFunctionsIfNotEmpty
+import com.procurement.orchestrator.application.model.context.extension.getRequirementResponseIfNotEmpty
+import com.procurement.orchestrator.application.model.context.extension.getResponder
 import com.procurement.orchestrator.application.model.context.members.Awards
 import com.procurement.orchestrator.application.model.process.OperationTypeProcess
 import com.procurement.orchestrator.application.service.Logger
@@ -63,37 +67,49 @@ class StorageOpenAccessDelegate(
         parameters: Parameters
     ): Result<Reply<OpenAccessAction.Result>, Fail.Incident> {
 
-        val tender = context.tryGetTender()
-            .orReturnFail { return failure(it) }
+        val tender = context.tender
+        val entities = parameters.entities.toSet()
 
-        val documentIds: List<DocumentId> = parameters.entities
-            .asSequence()
-            .flatMap { entity ->
-                when (entity) {
-                    Entity.AMENDMENT -> tender.amendments
-                        .asSequence()
-                        .flatMap { amendment -> amendment.documents.asSequence() }
-                        .map { document -> document.id }
+        val documentOfAmendmentsOfTender: List<DocumentId> = if (Entity.AMENDMENT in entities) {
+            if (tender == null)
+                return failure(Fail.Incident.Bpms.Context.Missing(name = "tender"))
+            tender.getAmendmentsIfNotEmpty()
+                .orReturnFail { return failure(it) }
+                .asSequence()
+                .flatMap { amendment -> amendment.documents.asSequence() }
+                .map { document -> document.id }
+                .toList()
+        } else
+            emptyList()
 
-                    Entity.AWARD_REQUIREMENT_RESPONSE -> context.awards
-                        .asSequence()
-                        .flatMap { award ->
-                            award.requirementResponses.asSequence()
-                        }
-                        .flatMap { requirementResponse ->
-                            requirementResponse.responder?.businessFunctions?.asSequence() ?: emptySequence()
-                        }
-                        .flatMap { businessFunction ->
-                            businessFunction.documents.asSequence()
-                        }
-                        .map { document -> document.id }
+        val documentOfTender: List<DocumentId> = if (Entity.TENDER in entities) {
+            if (tender == null)
+                return failure(Fail.Incident.Bpms.Context.Missing(name = "tender"))
+            tender.documents
+                .map { document -> document.id }
+        } else
+            emptyList()
 
-                    Entity.TENDER -> tender.documents
-                        .asSequence()
-                        .map { document -> document.id }
+        val documentOfAwards: List<DocumentId> = if (Entity.AWARD_REQUIREMENT_RESPONSE in entities)
+            context.getAwardsIfNotEmpty()
+                .orReturnFail { return failure(it) }
+                .flatMap { award ->
+                    award.getRequirementResponseIfNotEmpty()
+                        .orReturnFail { return failure(it) }
                 }
-            }
-            .toList()
+                .flatMap { requirementResponse ->
+                    requirementResponse.getResponder()
+                        .orReturnFail { return failure(it) }
+                        .getBusinessFunctionsIfNotEmpty(path = "awards.requirementResponses.responder")
+                        .orReturnFail { return failure(it) }
+                }
+                .flatMap { businessFunction ->
+                    businessFunction.documents.map { document -> document.id }
+                }
+        else
+            emptyList()
+
+        val documentIds = documentOfAmendmentsOfTender + documentOfTender + documentOfAwards
 
         if (documentIds.isEmpty())
             return success(Reply.None)
