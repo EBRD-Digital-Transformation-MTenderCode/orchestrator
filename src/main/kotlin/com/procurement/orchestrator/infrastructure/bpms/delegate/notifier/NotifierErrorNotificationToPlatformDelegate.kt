@@ -64,7 +64,14 @@ class NotifierErrorNotificationToPlatformDelegate(
                 items = errors.map { error ->
                     PlatformNotification.Message.Body.Errors.Error(
                         code = error.code,
-                        description = error.description
+                        description = error.description,
+                        details = error.details
+                            .map { detail ->
+                                PlatformNotification.Message.Body.Errors.Error.Detail(
+                                    id = detail.id,
+                                    name = detail.name
+                                )
+                            }
                     )
                 }
             )
