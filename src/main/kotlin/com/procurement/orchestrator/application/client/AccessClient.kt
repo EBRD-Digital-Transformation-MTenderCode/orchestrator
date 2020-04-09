@@ -10,6 +10,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.GetL
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotStateByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ResponderProcessingAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForLotsAction
 import com.procurement.orchestrator.infrastructure.client.web.revision.action.SetStateForTenderAction
 
 interface AccessClient {
@@ -48,4 +49,9 @@ interface AccessClient {
         id: CommandId,
         params: GetTenderStateAction.Params
     ): Result<Reply<GetTenderStateAction.Result>, Fail.Incident>
+
+    suspend fun setStateForLots(
+        id: CommandId,
+        params: SetStateForLotsAction.Params
+    ): Result<Reply<SetStateForLotsAction.Result>, Fail.Incident>
 }
