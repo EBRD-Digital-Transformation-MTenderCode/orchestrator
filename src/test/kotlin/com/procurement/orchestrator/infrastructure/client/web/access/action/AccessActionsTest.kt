@@ -120,4 +120,61 @@ class AccessActionsTest {
             }
         }
     }
+
+    @Nested
+    inner class SetStateForTender {
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<SetStateForTenderAction.Params>("json/client/access/set_state_for_tender_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<SetStateForTenderAction.Result>("json/client/access/set_state_for_tender_result_full.json")
+            }
+        }
+    }
+
+    @Nested
+    inner class SetStateForLots {
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<SetStateForLotsAction.Params>("json/client/access/set_state_for_lots_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<SetStateForLotsAction.Result>("json/client/access/set_state_for_lots_result_full.json")
+            }
+        }
+    }
+
+    @Nested
+    inner class GetTenderState {
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetTenderStateAction.Params>("json/client/access/get_tender_state_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetTenderStateAction.Result>("json/client/access/get_tender_state_result_full.json")
+            }
+        }
+    }
 }
