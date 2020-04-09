@@ -13,9 +13,9 @@ import com.procurement.orchestrator.domain.model.organization.person.BusinessFun
 import com.procurement.orchestrator.infrastructure.model.Version
 import java.time.LocalDateTime
 
-abstract class CheckPersonsStructureAction : ProceduralAction<CheckPersonsStructureAction.Params> {
+abstract class CheckPersonesStructureAction : ProceduralAction<CheckPersonesStructureAction.Params> {
     override val version: Version = Version.parse("2.0.0")
-    override val name: String = "checkPersonsStructure"
+    override val name: String = "checkPersonesStructure"
 
     class Params(
         @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid,
