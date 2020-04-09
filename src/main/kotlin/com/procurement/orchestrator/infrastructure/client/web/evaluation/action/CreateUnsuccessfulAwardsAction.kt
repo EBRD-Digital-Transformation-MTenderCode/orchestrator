@@ -23,7 +23,7 @@ abstract class CreateUnsuccessfulAwardsAction :
     data class Params(
         @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid,
         @field:JsonProperty("ocid") @param:JsonProperty("ocid") val ocid: Ocid,
-        @field:JsonProperty("lotIds") @param:JsonProperty("lotIds") val lotIds: List<LotId>,
+        @field:JsonProperty("lotIds") @param:JsonProperty("lotIds") val lotIds: List<LotId.Permanent>,
         @field:JsonProperty("date") @param:JsonProperty("date") val date: LocalDateTime,
         @field:JsonProperty("owner") @param:JsonProperty("owner") val owner: Owner
     )
