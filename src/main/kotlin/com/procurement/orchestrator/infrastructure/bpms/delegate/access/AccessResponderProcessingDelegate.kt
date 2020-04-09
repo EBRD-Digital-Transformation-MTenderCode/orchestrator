@@ -62,7 +62,7 @@ class AccessResponderProcessingDelegate(
             params = ResponderProcessingAction.Params(
                 cpid = cpid,
                 ocid = ocid,
-                startDate = requestInfo.timestamp,
+                date = requestInfo.timestamp,
                 responder = responder
             )
         )
