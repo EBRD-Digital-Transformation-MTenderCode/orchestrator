@@ -22,7 +22,7 @@ import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExterna
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
-import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckPersonsStructureAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckPersonesStructureAction
 import org.springframework.stereotype.Component
 
 @Component
@@ -76,7 +76,7 @@ class AccessCheckPersonesStructureDelegate(
 
         return accessClient.checkPersonsStructure(
             id = commandId,
-            params = CheckPersonsStructureAction.Params(
+            params = CheckPersonesStructureAction.Params(
                 cpid = cpid,
                 ocid = ocid,
                 operationType = processInfo.operationType
@@ -95,7 +95,7 @@ class AccessCheckPersonesStructureDelegate(
         data: Unit
     ): MaybeFail<Fail.Incident.Bpmn> = MaybeFail.none()
 
-    private fun buildPersonsForAward(context: CamundaGlobalContext): Result<List<CheckPersonsStructureAction.Params.Person>, Fail.Incident> {
+    private fun buildPersonsForAward(context: CamundaGlobalContext): Result<List<CheckPersonesStructureAction.Params.Person>, Fail.Incident> {
         val award = context.getAwardIfOnlyOne()
             .orReturnFail { return failure(it) }
 
@@ -104,12 +104,12 @@ class AccessCheckPersonesStructureDelegate(
 
         val persons = requirementResponse.responder
             ?.let { responder ->
-                CheckPersonsStructureAction.Params.Person(
+                CheckPersonesStructureAction.Params.Person(
                     title = responder.title,
                     name = responder.name,
                     identifier = responder.identifier
                         .let { identifier ->
-                            CheckPersonsStructureAction.Params.Person.Identifier(
+                            CheckPersonesStructureAction.Params.Person.Identifier(
                                 scheme = identifier.scheme,
                                 id = identifier.id,
                                 uri = identifier.uri
@@ -117,19 +117,19 @@ class AccessCheckPersonesStructureDelegate(
                         },
                     businessFunctions = responder.businessFunctions
                         .map { businessFunction ->
-                            CheckPersonsStructureAction.Params.Person.BusinessFunction(
+                            CheckPersonesStructureAction.Params.Person.BusinessFunction(
                                 id = businessFunction.id,
                                 type = businessFunction.type,
                                 jobTitle = businessFunction.jobTitle,
                                 period = businessFunction.period
                                     ?.let { period ->
-                                        CheckPersonsStructureAction.Params.Person.BusinessFunction.Period(
+                                        CheckPersonesStructureAction.Params.Person.BusinessFunction.Period(
                                             startDate = period.startDate
                                         )
                                     },
                                 documents = businessFunction.documents
                                     .map { document ->
-                                        CheckPersonsStructureAction.Params.Person.BusinessFunction.Document(
+                                        CheckPersonesStructureAction.Params.Person.BusinessFunction.Document(
                                             documentType = document.documentType,
                                             id = document.id,
                                             title = document.title,
