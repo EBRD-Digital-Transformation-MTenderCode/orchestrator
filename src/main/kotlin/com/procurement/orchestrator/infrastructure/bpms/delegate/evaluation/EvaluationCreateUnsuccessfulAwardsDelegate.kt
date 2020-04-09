@@ -4,7 +4,6 @@ import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.EvaluationClient
 import com.procurement.orchestrator.application.model.Owner
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
-import com.procurement.orchestrator.application.model.context.extension.getAwardsIfNotEmpty
 import com.procurement.orchestrator.application.model.context.extension.getLotsIfNotEmpty
 import com.procurement.orchestrator.application.model.context.extension.tryGetTender
 import com.procurement.orchestrator.application.model.context.members.Awards
@@ -76,8 +75,7 @@ class EvaluationCreateUnsuccessfulAwardsDelegate(
         data: CreateUnsuccessfulAwardsAction.Result
     ): MaybeFail<Fail.Incident> {
 
-        val awards = context.getAwardsIfNotEmpty()
-            .orReturnFail { return MaybeFail.fail(it) }
+        val awards = context.awards
 
         val availableAwardsById = context.awards.associateBy { it.id }
         val receivedAwardByIds = data.associateBy { it.id }
