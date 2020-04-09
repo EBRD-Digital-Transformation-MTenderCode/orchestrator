@@ -66,7 +66,7 @@ class EvaluationCloseAwardPeriodDelegate(
             }
             ?: Period(endDate = data.awardPeriod.endDate)
 
-        tender.copy(awardPeriod = updatedAwardPeriod)
+        context.tender = tender.copy(awardPeriod = updatedAwardPeriod)
 
         return MaybeFail.none()
     }
