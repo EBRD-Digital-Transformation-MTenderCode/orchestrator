@@ -17,6 +17,7 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.model.award.Award
+import com.procurement.orchestrator.domain.model.lot.LotId
 import com.procurement.orchestrator.domain.util.extension.getNewElements
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
@@ -63,7 +64,7 @@ class EvaluationCreateUnsuccessfulAwardsDelegate(
                 cpid = processInfo.cpid,
                 ocid = processInfo.ocid,
                 date = requestInfo.timestamp,
-                lotIds = lots.map { it.id },
+                lotIds = lots.map { it.id as LotId.Permanent },
                 owner = owner
             )
         )
