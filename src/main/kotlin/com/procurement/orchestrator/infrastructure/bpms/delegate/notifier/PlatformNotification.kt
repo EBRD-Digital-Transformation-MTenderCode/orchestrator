@@ -40,8 +40,20 @@ object PlatformNotification {
 
                 data class Error(
                     @field:JsonProperty("code") @param:JsonProperty("code") val code: String,
-                    @field:JsonProperty("description") @param:JsonProperty("description") val description: String
-                )
+                    @field:JsonProperty("description") @param:JsonProperty("description") val description: String,
+
+                    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+                    @field:JsonProperty("details") @param:JsonProperty("details") val details: List<Detail>
+                ) {
+
+                    class Detail(
+                        @JsonInclude(JsonInclude.Include.NON_NULL)
+                        @field:JsonProperty("id") @param:JsonProperty("id") val id: String?,
+
+                        @JsonInclude(JsonInclude.Include.NON_NULL)
+                        @field:JsonProperty("name") @param:JsonProperty("name") val name: String?
+                    )
+                }
             }
         }
     }
