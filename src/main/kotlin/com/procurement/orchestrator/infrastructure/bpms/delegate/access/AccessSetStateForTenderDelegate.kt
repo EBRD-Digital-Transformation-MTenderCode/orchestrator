@@ -5,6 +5,7 @@ import com.procurement.orchestrator.application.client.AccessClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
+import com.procurement.orchestrator.domain.EnumElementProvider.Companion.keysAsStrings
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
@@ -16,7 +17,6 @@ import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContai
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForTenderAction
-import org.camunda.bpm.engine.delegate.BpmnError
 import org.springframework.stereotype.Component
 
 @Component
@@ -41,7 +41,13 @@ class AccessSetStateForTenderDelegate(
             .let { status ->
                 when (val result = TenderStatus.tryOf(status)) {
                     is Result.Success -> result.get
-                    is Result.Failure -> throw BpmnError(result.error)
+                    is Result.Failure -> return Result.failure(
+                        Fail.Incident.Bpmn.Parameter.UnknownValue(
+                            name = "status",
+                            actualValue = status,
+                            expectedValues = TenderStatus.allowedElements.keysAsStrings()
+                        )
+                    )
                 }
             }
         val statusDetails = parameterContainer.getString(PARAMETER_NAME_STATUS_DETAILS)
@@ -49,7 +55,13 @@ class AccessSetStateForTenderDelegate(
             .let { statusDetails ->
                 when (val result = TenderStatusDetails.tryOf(statusDetails)) {
                     is Result.Success -> result.get
-                    is Result.Failure -> throw BpmnError(result.error)
+                    is Result.Failure -> return Result.failure(
+                        Fail.Incident.Bpmn.Parameter.UnknownValue(
+                            name = "statusDetails",
+                            actualValue = statusDetails,
+                            expectedValues = TenderStatusDetails.allowedElements.keysAsStrings()
+                        )
+                    )
                 }
             }
 
