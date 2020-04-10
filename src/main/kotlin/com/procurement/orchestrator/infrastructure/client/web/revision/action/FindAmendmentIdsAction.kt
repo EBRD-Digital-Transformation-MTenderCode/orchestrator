@@ -13,9 +13,9 @@ import com.procurement.orchestrator.infrastructure.client.web.Target
 import com.procurement.orchestrator.infrastructure.model.Version
 import java.io.Serializable
 
-abstract class GetAmendmentIdsAction : FunctionalAction<GetAmendmentIdsAction.Params, GetAmendmentIdsAction.Result> {
+abstract class FindAmendmentIdsAction : FunctionalAction<FindAmendmentIdsAction.Params, FindAmendmentIdsAction.Result> {
     override val version: Version = Version.parse("2.0.0")
-    override val name: String = "getAmendmentIds"
+    override val name: String = "findAmendmentIds"
     override val target: Target<Result> = Target.plural()
 
     class Params(
