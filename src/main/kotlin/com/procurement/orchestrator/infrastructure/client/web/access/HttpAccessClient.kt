@@ -8,7 +8,7 @@ import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.WebClient
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckAccessToTenderAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckPersonesStructureAction
-import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotIdsAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.FindLotIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotStateByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ResponderProcessingAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
@@ -21,11 +21,11 @@ class HttpAccessClient(private val webClient: WebClient, properties: ComponentPr
 
     override suspend fun getLotIds(
         id: CommandId,
-        params: GetLotIdsAction.Params
-    ): Result<Reply<GetLotIdsAction.Result>, Fail.Incident> = webClient.call(
+        params: FindLotIdsAction.Params
+    ): Result<Reply<FindLotIdsAction.Result>, Fail.Incident> = webClient.call(
         url = url,
-        command = AccessCommands.GetLotByIds.build(id = id, params = params),
-        target = AccessCommands.GetLotByIds.target
+        command = AccessCommands.FindLotByIds.build(id = id, params = params),
+        target = AccessCommands.FindLotByIds.target
     )
 
     override suspend fun getLotStateByIds(

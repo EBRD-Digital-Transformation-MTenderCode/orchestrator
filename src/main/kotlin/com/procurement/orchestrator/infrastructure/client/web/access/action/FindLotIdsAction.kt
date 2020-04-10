@@ -12,9 +12,9 @@ import com.procurement.orchestrator.infrastructure.client.web.Target
 import com.procurement.orchestrator.infrastructure.model.Version
 import java.io.Serializable
 
-abstract class GetLotIdsAction : FunctionalAction<GetLotIdsAction.Params, GetLotIdsAction.Result> {
+abstract class FindLotIdsAction : FunctionalAction<FindLotIdsAction.Params, FindLotIdsAction.Result> {
     override val version: Version = Version.parse("2.0.0")
-    override val name: String = "getLotIds"
+    override val name: String = "findLotIds"
     override val target: Target<Result> = Target.plural()
 
     class Params(
