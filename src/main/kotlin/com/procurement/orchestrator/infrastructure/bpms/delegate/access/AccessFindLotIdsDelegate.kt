@@ -82,7 +82,7 @@ class AccessFindLotIdsDelegate(
     ): Result<Reply<List<LotId>>, Fail.Incident> {
 
         val processInfo = context.processInfo
-        return accessClient.getLotIds(
+        return accessClient.findLotIds(
             id = commandId,
             params = FindLotIdsAction.Params(
                 cpid = processInfo.cpid,

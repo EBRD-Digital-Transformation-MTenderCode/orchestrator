@@ -19,7 +19,7 @@ class HttpAccessClient(private val webClient: WebClient, properties: ComponentPr
 
     private val url: URL = URL(properties.url + "/command2")
 
-    override suspend fun getLotIds(
+    override suspend fun findLotIds(
         id: CommandId,
         params: FindLotIdsAction.Params
     ): Result<Reply<FindLotIdsAction.Result>, Fail.Incident> = webClient.call(

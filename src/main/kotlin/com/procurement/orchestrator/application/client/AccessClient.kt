@@ -6,7 +6,7 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckAccessToTenderAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckPersonesStructureAction
-import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotIdsAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.FindLotIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotStateByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ResponderProcessingAction
 
@@ -22,10 +22,10 @@ interface AccessClient {
         params: CheckPersonesStructureAction.Params
     ): Result<Reply<Unit>, Fail.Incident>
 
-    suspend fun getLotIds(
+    suspend fun findLotIds(
         id: CommandId,
-        params: GetLotIdsAction.Params
-    ): Result<Reply<GetLotIdsAction.Result>, Fail.Incident>
+        params: FindLotIdsAction.Params
+    ): Result<Reply<FindLotIdsAction.Result>, Fail.Incident>
 
     suspend fun getLotStateByIds(
         id: CommandId,
