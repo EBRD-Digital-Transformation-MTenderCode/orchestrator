@@ -25,17 +25,17 @@ import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContai
 import com.procurement.orchestrator.infrastructure.bpms.delegate.parameter.StateParameter
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
-import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotIdsAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.FindLotIdsAction
 import org.camunda.bpm.engine.delegate.BpmnError
 import org.springframework.stereotype.Component
 
 @Component
-class AccessGetLotIdsDelegate(
+class AccessFindLotIdsDelegate(
     logger: Logger,
     private val accessClient: AccessClient,
     operationStepRepository: OperationStepRepository,
     transform: Transform
-) : AbstractExternalDelegate<AccessGetLotIdsDelegate.Parameters, List<LotId>>(
+) : AbstractExternalDelegate<AccessFindLotIdsDelegate.Parameters, List<LotId>>(
     logger = logger,
     transform = transform,
     operationStepRepository = operationStepRepository
@@ -82,14 +82,14 @@ class AccessGetLotIdsDelegate(
     ): Result<Reply<List<LotId>>, Fail.Incident> {
 
         val processInfo = context.processInfo
-        return accessClient.getLotIds(
+        return accessClient.findLotIds(
             id = commandId,
-            params = GetLotIdsAction.Params(
+            params = FindLotIdsAction.Params(
                 cpid = processInfo.cpid,
                 ocid = processInfo.ocid,
                 states = parameters.states
                     .map { state ->
-                        GetLotIdsAction.Params.State(
+                        FindLotIdsAction.Params.State(
                             status = state.status,
                             statusDetails = state.statusDetails
                         )
