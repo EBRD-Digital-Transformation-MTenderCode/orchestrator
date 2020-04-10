@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.infrastructure.client.web.access.action
 
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.procurement.orchestrator.application.service.FunctionalAction
 import com.procurement.orchestrator.domain.model.Cpid
@@ -20,6 +21,7 @@ abstract class SetStateForLotsAction :
     class Params(
         @param:JsonProperty("cpid") @field:JsonProperty("cpid") val cpid: Cpid,
         @param:JsonProperty("ocid") @field:JsonProperty("ocid") val ocid: Ocid,
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
         @param:JsonProperty("lots") @field:JsonProperty("lots") val lots: List<Lot>
     ) {
         data class Lot(
