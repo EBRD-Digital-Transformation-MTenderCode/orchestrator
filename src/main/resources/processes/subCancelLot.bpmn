@@ -8,6 +8,11 @@
       <bpmn:outgoing>SequenceFlow_0jjraus</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:serviceTask id="AccessGetTenderStateTask" name="eAccess:&#10;Get tender state" default="SequenceFlow_0gzk5d7" camunda:asyncBefore="true" camunda:delegateExpression="${accessGetTenderStateDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="UGC">false</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_13sysas</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0gzk5d7</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlow_05qn9us</bpmn:outgoing>
