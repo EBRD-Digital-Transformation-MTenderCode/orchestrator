@@ -30,12 +30,12 @@ import org.camunda.bpm.engine.delegate.BpmnError
 import org.springframework.stereotype.Component
 
 @Component
-class AccessGetLotIdsDelegate(
+class AccessFindLotIdsDelegate(
     logger: Logger,
     private val accessClient: AccessClient,
     operationStepRepository: OperationStepRepository,
     transform: Transform
-) : AbstractExternalDelegate<AccessGetLotIdsDelegate.Parameters, List<LotId>>(
+) : AbstractExternalDelegate<AccessFindLotIdsDelegate.Parameters, List<LotId>>(
     logger = logger,
     transform = transform,
     operationStepRepository = operationStepRepository
