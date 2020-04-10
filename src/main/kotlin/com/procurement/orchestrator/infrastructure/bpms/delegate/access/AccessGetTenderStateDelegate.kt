@@ -3,6 +3,7 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.access
 import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.AccessClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
+import com.procurement.orchestrator.application.model.context.extension.tryGetTender
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
@@ -50,5 +51,17 @@ class AccessGetTenderStateDelegate(
         context: CamundaGlobalContext,
         parameters: Unit,
         data: GetTenderStateAction.Result
-    ): MaybeFail<Fail.Incident.Bpmn> = MaybeFail.none()
+    ): MaybeFail<Fail.Incident>{
+
+        val tender = context.tryGetTender()
+            .orReturnFail { return MaybeFail.fail(it) }
+
+        val updatedTender = tender.copy(
+            status = data.status,
+            statusDetails = data.statusDetails
+        )
+        context.tender = updatedTender
+
+        return MaybeFail.none()
+    }
 }
