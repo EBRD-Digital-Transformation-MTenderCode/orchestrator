@@ -25,16 +25,16 @@ import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExterna
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
-import com.procurement.orchestrator.infrastructure.client.web.revision.action.GetAmendmentIdsAction
+import com.procurement.orchestrator.infrastructure.client.web.revision.action.FindAmendmentIdsAction
 import org.springframework.stereotype.Component
 
 @Component
-class RevisionGetAmendmentIdsDelegate(
+class RevisionFindAmendmentIdsDelegate(
     logger: Logger,
     private val client: RevisionClient,
     operationStepRepository: OperationStepRepository,
     transform: Transform
-) : AbstractExternalDelegate<RevisionGetAmendmentIdsDelegate.Parameters, List<AmendmentId>>(
+) : AbstractExternalDelegate<RevisionFindAmendmentIdsDelegate.Parameters, List<AmendmentId>>(
     logger = logger,
     transform = transform,
     operationStepRepository = operationStepRepository
@@ -125,9 +125,9 @@ class RevisionGetAmendmentIdsDelegate(
         else
             emptyList()
 
-        return client.getAmendmentIds(
+        return client.findAmendmentIds(
             id = commandId,
-            params = GetAmendmentIdsAction.Params(
+            params = FindAmendmentIdsAction.Params(
                 cpid = cpid,
                 ocid = ocid,
                 type = parameters.type,
