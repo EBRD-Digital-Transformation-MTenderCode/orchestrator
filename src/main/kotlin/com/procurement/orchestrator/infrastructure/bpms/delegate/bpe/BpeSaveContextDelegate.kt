@@ -1,6 +1,5 @@
 package com.procurement.orchestrator.infrastructure.bpms.delegate.bpe
 
-import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.members.ProcessInfo
 import com.procurement.orchestrator.application.model.context.members.RequestInfo
@@ -13,13 +12,13 @@ import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.extension.date.format
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
+import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
-import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
+import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractInternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
-import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import org.springframework.stereotype.Component
 import java.time.ZoneOffset
 
@@ -30,7 +29,7 @@ class BpeSaveContextDelegate(
     private val processContextRepository: ProcessContextRepository,
     private val oldProcessContextRepository: OldProcessContextRepository,
     private val transform: Transform
-) : AbstractExternalDelegate<Unit, Unit>(
+) : AbstractInternalDelegate<Unit, Unit>(
     logger = logger,
     transform = transform,
     operationStepRepository = operationStepRepository
@@ -40,10 +39,9 @@ class BpeSaveContextDelegate(
         success(Unit)
 
     override suspend fun execute(
-        commandId: CommandId,
         context: CamundaGlobalContext,
         parameters: Unit
-    ): Result<Reply<Unit>, Fail.Incident> {
+    ): Result<Option<Unit>, Fail.Incident> {
         val requestInfo = context.requestInfo
         val processInfo = context.processInfo
 
@@ -53,7 +51,7 @@ class BpeSaveContextDelegate(
         saveOldProcessContextRepository(requestInfo, processInfo)
             .doOnFail { return failure(it) }
 
-        return success(Reply.None)
+        return success(Option.none())
     }
 
     override fun updateGlobalContext(

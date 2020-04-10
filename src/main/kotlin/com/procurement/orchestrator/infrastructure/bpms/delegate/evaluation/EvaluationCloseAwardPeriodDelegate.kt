@@ -1,9 +1,7 @@
-package com.procurement.orchestrator.infrastructure.bpms.delegate.access
+package com.procurement.orchestrator.infrastructure.bpms.delegate.evaluation
 
 import com.procurement.orchestrator.application.CommandId
-import com.procurement.orchestrator.application.client.AccessClient
-import com.procurement.orchestrator.application.model.Owner
-import com.procurement.orchestrator.application.model.Token
+import com.procurement.orchestrator.application.client.EvaluationClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.tryGetTender
 import com.procurement.orchestrator.application.service.Logger
@@ -11,24 +9,22 @@ import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
-import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
-import com.procurement.orchestrator.domain.model.Cpid
-import com.procurement.orchestrator.domain.model.Ocid
+import com.procurement.orchestrator.domain.model.period.Period
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
-import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckAccessToTenderAction
+import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CloseAwardPeriodAction
 import org.springframework.stereotype.Component
 
 @Component
-class AccessCheckAccessToTenderDelegate(
+class EvaluationCloseAwardPeriodDelegate(
     logger: Logger,
-    private val accessClient: AccessClient,
+    private val evaluationClient: EvaluationClient,
     operationStepRepository: OperationStepRepository,
     transform: Transform
-) : AbstractExternalDelegate<Unit, Unit>(
+) : AbstractExternalDelegate<Unit, CloseAwardPeriodAction.Result>(
     logger = logger,
     transform = transform,
     operationStepRepository = operationStepRepository
@@ -41,23 +37,16 @@ class AccessCheckAccessToTenderDelegate(
         commandId: CommandId,
         context: CamundaGlobalContext,
         parameters: Unit
-    ): Result<Reply<Unit>, Fail.Incident> {
+    ): Result<Reply<CloseAwardPeriodAction.Result>, Fail.Incident> {
+
         val processInfo = context.processInfo
-        val cpid: Cpid = processInfo.cpid
-        val ocid: Ocid = processInfo.ocid
-
-        val tender = context.tryGetTender()
-            .orReturnFail { return failure(it) }
-
-        val token: Token = tender.token
-            ?: return failure(Fail.Incident.Bpms.Context.Missing(name = "token", path = "tender"))
-        val owner: Owner = tender.owner
-            ?: return failure(Fail.Incident.Bpms.Context.Missing(name = "owner", path = "tender"))
-
-        return accessClient.checkAccessToTender(
+        val requestInfo = context.requestInfo
+        return evaluationClient.closeAwardPeriod(
             id = commandId,
-            params = CheckAccessToTenderAction.Params(
-                cpid = cpid, ocid = ocid, token = token, owner = owner
+            params = CloseAwardPeriodAction.Params(
+                cpid = processInfo.cpid,
+                ocid = processInfo.ocid,
+                endDate = requestInfo.timestamp
             )
         )
     }
@@ -65,6 +54,20 @@ class AccessCheckAccessToTenderDelegate(
     override fun updateGlobalContext(
         context: CamundaGlobalContext,
         parameters: Unit,
-        data: Unit
-    ): MaybeFail<Fail.Incident.Bpmn> = MaybeFail.none()
+        data: CloseAwardPeriodAction.Result
+    ): MaybeFail<Fail.Incident> {
+
+        val tender = context.tryGetTender()
+            .orReturnFail { return MaybeFail.fail(it) }
+
+        val updatedAwardPeriod = tender.awardPeriod
+            ?.let { awardPeriod ->
+                awardPeriod.copy(endDate = data.awardPeriod.endDate)
+            }
+            ?: Period(endDate = data.awardPeriod.endDate)
+
+        context.tender = tender.copy(awardPeriod = updatedAwardPeriod)
+
+        return MaybeFail.none()
+    }
 }

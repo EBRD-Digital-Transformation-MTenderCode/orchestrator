@@ -2,62 +2,47 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.access
 
 import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.AccessClient
-import com.procurement.orchestrator.application.model.Owner
-import com.procurement.orchestrator.application.model.Token
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
-import com.procurement.orchestrator.application.model.context.extension.tryGetTender
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
-import com.procurement.orchestrator.domain.functional.Result.Companion.failure
-import com.procurement.orchestrator.domain.functional.Result.Companion.success
-import com.procurement.orchestrator.domain.model.Cpid
-import com.procurement.orchestrator.domain.model.Ocid
+import com.procurement.orchestrator.domain.model.tender.Tender
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
-import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckAccessToTenderAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.GetTenderStateAction
 import org.springframework.stereotype.Component
 
 @Component
-class AccessCheckAccessToTenderDelegate(
+class AccessGetTenderStateDelegate(
     logger: Logger,
     private val accessClient: AccessClient,
     operationStepRepository: OperationStepRepository,
     transform: Transform
-) : AbstractExternalDelegate<Unit, Unit>(
+) : AbstractExternalDelegate<Unit, GetTenderStateAction.Result>(
     logger = logger,
     transform = transform,
     operationStepRepository = operationStepRepository
 ) {
 
     override fun parameters(parameterContainer: ParameterContainer): Result<Unit, Fail.Incident.Bpmn.Parameter> =
-        success(Unit)
+        Result.success(Unit)
 
     override suspend fun execute(
         commandId: CommandId,
         context: CamundaGlobalContext,
         parameters: Unit
-    ): Result<Reply<Unit>, Fail.Incident> {
+    ): Result<Reply<GetTenderStateAction.Result>, Fail.Incident> {
+
         val processInfo = context.processInfo
-        val cpid: Cpid = processInfo.cpid
-        val ocid: Ocid = processInfo.ocid
-
-        val tender = context.tryGetTender()
-            .orReturnFail { return failure(it) }
-
-        val token: Token = tender.token
-            ?: return failure(Fail.Incident.Bpms.Context.Missing(name = "token", path = "tender"))
-        val owner: Owner = tender.owner
-            ?: return failure(Fail.Incident.Bpms.Context.Missing(name = "owner", path = "tender"))
-
-        return accessClient.checkAccessToTender(
+        return accessClient.getTenderState(
             id = commandId,
-            params = CheckAccessToTenderAction.Params(
-                cpid = cpid, ocid = ocid, token = token, owner = owner
+            params = GetTenderStateAction.Params(
+                cpid = processInfo.cpid,
+                ocid = processInfo.ocid
             )
         )
     }
@@ -65,6 +50,18 @@ class AccessCheckAccessToTenderDelegate(
     override fun updateGlobalContext(
         context: CamundaGlobalContext,
         parameters: Unit,
-        data: Unit
-    ): MaybeFail<Fail.Incident.Bpmn> = MaybeFail.none()
+        data: GetTenderStateAction.Result
+    ): MaybeFail<Fail.Incident> {
+        context.tender = context.tender
+            ?.copy(
+                status = data.status,
+                statusDetails = data.statusDetails
+            )
+            ?: Tender(
+                status = data.status,
+                statusDetails = data.statusDetails
+            )
+
+        return MaybeFail.none()
+    }
 }

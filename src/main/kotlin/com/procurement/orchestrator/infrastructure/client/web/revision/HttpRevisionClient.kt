@@ -6,9 +6,12 @@ import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.WebClient
+import com.procurement.orchestrator.infrastructure.client.web.revision.action.CheckAccessToAmendmentAction
 import com.procurement.orchestrator.infrastructure.client.web.revision.action.CreateAmendmentAction
 import com.procurement.orchestrator.infrastructure.client.web.revision.action.DataValidationAction
-import com.procurement.orchestrator.infrastructure.client.web.revision.action.GetAmendmentIdsAction
+import com.procurement.orchestrator.infrastructure.client.web.revision.action.FindAmendmentIdsAction
+import com.procurement.orchestrator.infrastructure.client.web.revision.action.GetMainPartOfAmendmentByIdsAction
+import com.procurement.orchestrator.infrastructure.client.web.revision.action.SetStateForAmendmentAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
 import java.net.URL
 
@@ -17,13 +20,12 @@ class HttpRevisionClient(private val webClient: WebClient, properties: Component
 
     private val url: URL = URL(properties.url + "/command")
 
-    override suspend fun getAmendmentIds(
+    override suspend fun checkAccessToAmendment(
         id: CommandId,
-        params: GetAmendmentIdsAction.Params
-    ): Result<Reply<GetAmendmentIdsAction.Result>, Fail.Incident> = webClient.call(
+        params: CheckAccessToAmendmentAction.Params
+    ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
         url = url,
-        command = RevisionCommands.GetAmendmentIds.build(id = id, params = params),
-        target = RevisionCommands.GetAmendmentIds.target
+        command = RevisionCommands.CheckAccessToAmendment.build(id = id, params = params)
     )
 
     override suspend fun createAmendment(
@@ -41,5 +43,32 @@ class HttpRevisionClient(private val webClient: WebClient, properties: Component
     ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
         url = url,
         command = RevisionCommands.DataValidation.build(id = id, params = params)
+    )
+
+    override suspend fun findAmendmentIds(
+        id: CommandId,
+        params: FindAmendmentIdsAction.Params
+    ): Result<Reply<FindAmendmentIdsAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = RevisionCommands.FindAmendmentIds.build(id = id, params = params),
+        target = RevisionCommands.FindAmendmentIds.target
+    )
+
+    override suspend fun getMainPartOfAmendmentByIds(
+        id: CommandId,
+        params: GetMainPartOfAmendmentByIdsAction.Params
+    ): Result<Reply<GetMainPartOfAmendmentByIdsAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = RevisionCommands.GetMainPartOfAmendmentByIds.build(id = id, params = params),
+        target = RevisionCommands.GetMainPartOfAmendmentByIds.target
+    )
+
+    override suspend fun setStateForAmendment(
+        id: CommandId,
+        params: SetStateForAmendmentAction.Params
+    ): Result<Reply<SetStateForAmendmentAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = RevisionCommands.SetStateForAmendment.build(id = id, params = params),
+        target = RevisionCommands.SetStateForAmendment.target
     )
 }

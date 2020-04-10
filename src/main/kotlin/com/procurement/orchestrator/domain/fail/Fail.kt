@@ -222,6 +222,43 @@ sealed class Fail(prefix: String, number: String) {
 
             companion object : EnumElementProvider<Level>(info = info())
         }
+
+        sealed class Response(
+            number: String,
+            description: String,
+            val exception: Exception? = null
+        ) : Incident(level = Level.ERROR, number = "10.$number", description = description) {
+
+            sealed class Validation(
+                number: String,
+                description: String,
+                exception: Exception? = null,
+                val id: String,
+                val name: String
+            ) : Response("1.$number", description, exception) {
+
+                class DuplicateEntity(id: String, name: String) : Validation(
+                    number = "1",
+                    description = "$name '$id' is duplicated.",
+                    id = id,
+                    name = name
+                )
+
+                class MissingExpectedEntity(id: String, name: String): Validation(
+                    number = "2",
+                    description = "$name '$id' is missing in received response.",
+                    id = id,
+                    name = name
+                )
+
+                class UnknownEntity(id: String, name: String): Validation(
+                    number = "3",
+                    description = "Received $name '$id' is unknown.",
+                    id = id,
+                    name = name
+                )
+            }
+        }
     }
 }
 

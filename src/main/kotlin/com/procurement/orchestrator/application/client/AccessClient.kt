@@ -8,7 +8,10 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Chec
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckPersonesStructureAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindLotIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotStateByIdsAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.GetTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ResponderProcessingAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForLotsAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForTenderAction
 
 interface AccessClient {
 
@@ -36,4 +39,19 @@ interface AccessClient {
         id: CommandId,
         params: ResponderProcessingAction.Params
     ): Result<Reply<ResponderProcessingAction.Result>, Fail.Incident>
+
+    suspend fun setStateForTender(
+        id: CommandId,
+        params: SetStateForTenderAction.Params
+    ): Result<Reply<SetStateForTenderAction.Result>, Fail.Incident>
+
+    suspend fun getTenderState(
+        id: CommandId,
+        params: GetTenderStateAction.Params
+    ): Result<Reply<GetTenderStateAction.Result>, Fail.Incident>
+
+    suspend fun setStateForLots(
+        id: CommandId,
+        params: SetStateForLotsAction.Params
+    ): Result<Reply<SetStateForLotsAction.Result>, Fail.Incident>
 }
