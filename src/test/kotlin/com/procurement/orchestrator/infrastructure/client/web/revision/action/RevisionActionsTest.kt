@@ -87,12 +87,12 @@ class RevisionActionsTest {
         inner class Params {
             @Test
             fun fully() {
-                testingBindingAndMapping<FindAmendmentIdsAction.Params>("json/client/revision/get_amendment_ids_params_full.json")
+                testingBindingAndMapping<FindAmendmentIdsAction.Params>("json/client/revision/find_amendment_ids_params_full.json")
             }
 
             @Test
             fun required1() {
-                testingBindingAndMapping<FindAmendmentIdsAction.Params>("json/client/revision/get_amendment_ids_params_required_1.json")
+                testingBindingAndMapping<FindAmendmentIdsAction.Params>("json/client/revision/find_amendment_ids_params_required_1.json")
             }
         }
 
@@ -100,7 +100,7 @@ class RevisionActionsTest {
         inner class Result {
             @Test
             fun fully() {
-                testingBindingAndMapping<FindAmendmentIdsAction.Result>("json/client/revision/get_amendment_ids_result_full.json")
+                testingBindingAndMapping<FindAmendmentIdsAction.Result>("json/client/revision/find_amendment_ids_result_full.json")
             }
         }
     }
