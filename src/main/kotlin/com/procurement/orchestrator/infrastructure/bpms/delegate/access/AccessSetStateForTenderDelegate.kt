@@ -92,13 +92,15 @@ class AccessSetStateForTenderDelegate(
         parameters: Parameters,
         data: SetStateForTenderAction.Result
     ): MaybeFail<Fail.Incident> {
-        val tender = context.tender ?: Tender()
-
-        val updatedTender = tender.copy(
-            status = data.status,
-            statusDetails = data.statusDetails
-        )
-        context.tender = updatedTender
+        context.tender = context.tender
+            ?.copy(
+                status = data.status,
+                statusDetails = data.statusDetails
+            )
+            ?: Tender(
+                status = data.status,
+                statusDetails = data.statusDetails
+            )
 
         return MaybeFail.none()
     }
