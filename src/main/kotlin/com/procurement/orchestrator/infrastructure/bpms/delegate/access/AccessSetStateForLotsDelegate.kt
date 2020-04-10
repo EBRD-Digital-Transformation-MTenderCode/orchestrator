@@ -7,16 +7,13 @@ import com.procurement.orchestrator.application.model.context.extension.tryGetTe
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.EnumElementProvider.Companion.keysAsStrings
-import com.procurement.orchestrator.domain.extension.lotIds
-import com.procurement.orchestrator.domain.extension.merge
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
-import com.procurement.orchestrator.domain.model.lot.Lot
 import com.procurement.orchestrator.domain.model.lot.LotId
 import com.procurement.orchestrator.domain.model.lot.LotStatus
 import com.procurement.orchestrator.domain.model.lot.LotStatusDetails
-import com.procurement.orchestrator.domain.util.extension.getNewElements
+import com.procurement.orchestrator.domain.util.extension.toSetBy
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
@@ -38,6 +35,7 @@ class AccessSetStateForLotsDelegate(
     companion object {
         private const val PARAMETER_NAME_STATUS = "status"
         private const val PARAMETER_NAME_STATUS_DETAILS = "statusDetails"
+        private const val LOT = "lot"
     }
 
     override fun parameters(parameterContainer: ParameterContainer): Result<Parameters, Fail.Incident.Bpmn.Parameter> {
@@ -105,33 +103,50 @@ class AccessSetStateForLotsDelegate(
         parameters: Parameters,
         data: SetStateForLotsAction.Result
     ): MaybeFail<Fail.Incident> {
-
         val tender = context.tryGetTender()
             .orReturnFail { return MaybeFail.fail(it) }
 
+        val duplicates = data.groupingBy { it.id }
+            .eachCount()
+            .filter { it.value > 1 }
+
+        if (duplicates.isNotEmpty())
+            return MaybeFail.fail(
+                Fail.Incident.Response.Validation.DuplicateEntity(
+                    id = duplicates.keys.joinToString(), name = LOT
+                )
+            )
+
         val receivedLotByIds: Map<LotId, SetStateForLotsAction.Result.Lot> = data.associateBy { it.id }
+        val receivedLotsIds = receivedLotByIds.keys
+        val tenderLotsIds = tender.lots.toSetBy { it.id }
+
+        val unknownLots = receivedLotsIds.minus(tenderLotsIds)
+        if (unknownLots.isNotEmpty())
+            return MaybeFail.fail(
+                Fail.Incident.Response.Validation.UnknownEntity(
+                    id = unknownLots.joinToString(), name = LOT
+                )
+            )
+        val missingLots = tenderLotsIds.minus(receivedLotsIds)
+        if (missingLots.isNotEmpty())
+            return MaybeFail.fail(
+                Fail.Incident.Response.Validation.MissingExpectedEntity(
+                    id = missingLots.joinToString(), name = LOT
+                )
+            )
 
         val updatedLots = tender.lots
             .map { lot ->
-                receivedLotByIds[lot.id]
-                    ?.let { receivedLot ->
+                receivedLotByIds.getValue(lot.id)
+                    .let { receivedLot ->
                         lot.copy(status = receivedLot.status, statusDetails = receivedLot.statusDetails)
                     }
-                    ?: lot
-            }
 
-        val receivedLotIds = receivedLotByIds.keys
-        val knowLotIds = tender.lotIds()
-
-        val newLots = getNewElements(received = receivedLotIds, known = knowLotIds)
-            .map { id ->
-                receivedLotByIds.getValue(id).let { lot ->
-                    Lot(id = lot.id, status = lot.status, statusDetails = lot.statusDetails)
-                }
             }
 
         val updatedTender = tender.copy(
-            lots = updatedLots.merge(newLots)
+            lots = updatedLots
         )
         context.tender = updatedTender
 
