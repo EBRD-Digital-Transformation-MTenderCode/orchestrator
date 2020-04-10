@@ -3,12 +3,12 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.access
 import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.AccessClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
-import com.procurement.orchestrator.application.model.context.extension.tryGetTender
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
+import com.procurement.orchestrator.domain.model.tender.Tender
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
@@ -51,16 +51,16 @@ class AccessGetTenderStateDelegate(
         context: CamundaGlobalContext,
         parameters: Unit,
         data: GetTenderStateAction.Result
-    ): MaybeFail<Fail.Incident>{
-
-        val tender = context.tryGetTender()
-            .orReturnFail { return MaybeFail.fail(it) }
-
-        val updatedTender = tender.copy(
-            status = data.status,
-            statusDetails = data.statusDetails
-        )
-        context.tender = updatedTender
+    ): MaybeFail<Fail.Incident> {
+        context.tender = context.tender
+            ?.copy(
+                status = data.status,
+                statusDetails = data.statusDetails
+            )
+            ?: Tender(
+                status = data.status,
+                statusDetails = data.statusDetails
+            )
 
         return MaybeFail.none()
     }
