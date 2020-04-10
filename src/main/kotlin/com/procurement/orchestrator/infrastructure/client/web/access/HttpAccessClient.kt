@@ -10,7 +10,10 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Chec
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckPersonsStructureAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotStateByIdsAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.GetTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ResponderProcessingAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForLotsAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForTenderAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
 import java.net.URL
 
@@ -60,5 +63,32 @@ class HttpAccessClient(private val webClient: WebClient, properties: ComponentPr
         url = url,
         command = AccessCommands.ResponderProcessing.build(id = id, params = params),
         target = AccessCommands.ResponderProcessing.target
+    )
+
+    override suspend fun setStateForTender(
+        id: CommandId,
+        params: SetStateForTenderAction.Params
+    ): Result<Reply<SetStateForTenderAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = AccessCommands.SetStateForTender.build(id = id, params = params),
+        target = AccessCommands.SetStateForTender.target
+    )
+
+    override suspend fun getTenderState(
+        id: CommandId,
+        params: GetTenderStateAction.Params
+    ): Result<Reply<GetTenderStateAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = AccessCommands.GetTenderState.build(id = id, params = params),
+        target = AccessCommands.GetTenderState.target
+    )
+
+    override suspend fun setStateForLots(
+        id: CommandId,
+        params: SetStateForLotsAction.Params
+    ): Result<Reply<SetStateForLotsAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = AccessCommands.SetStateForLots.build(id = id, params = params),
+        target = AccessCommands.SetStateForLots.target
     )
 }
