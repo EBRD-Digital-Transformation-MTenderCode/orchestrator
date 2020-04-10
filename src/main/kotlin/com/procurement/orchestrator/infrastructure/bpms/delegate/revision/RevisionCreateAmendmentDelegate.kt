@@ -75,7 +75,7 @@ class RevisionCreateAmendmentDelegate(
                 ocid = processInfo.ocid,
                 owner = owner,
                 operationType = processInfo.operationType,
-                startDate = requestInfo.timestamp,
+                date = requestInfo.timestamp,
                 relatedEntityId = relatedEntityId,
                 amendment = CreateAmendmentAction.Params.Amendment(
                     id = amendment.id as AmendmentId.Permanent,

@@ -29,7 +29,7 @@ abstract class CreateAmendmentAction : FunctionalAction<CreateAmendmentAction.Pa
         @field:JsonProperty("ocid") @param:JsonProperty("ocid") val ocid: Ocid,
         @field:JsonProperty("owner") @param:JsonProperty("owner") val owner: Owner,
         @field:JsonProperty("operationType") @param:JsonProperty("operationType") val operationType: OperationTypeProcess,
-        @field:JsonProperty("startDate") @param:JsonProperty("startDate") val startDate: LocalDateTime,
+        @field:JsonProperty("date") @param:JsonProperty("date") val date: LocalDateTime,
         @field:JsonProperty("relatedEntityId") @param:JsonProperty("relatedEntityId") val relatedEntityId: String,
         @field:JsonProperty("amendment") @param:JsonProperty("amendment") val amendment: Amendment
     ) {
