@@ -6,6 +6,7 @@ import com.procurement.orchestrator.application.model.context.CamundaGlobalConte
 import com.procurement.orchestrator.application.model.context.extension.tryGetTender
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
+import com.procurement.orchestrator.domain.EnumElementProvider.Companion.keysAsStrings
 import com.procurement.orchestrator.domain.extension.lotIds
 import com.procurement.orchestrator.domain.extension.merge
 import com.procurement.orchestrator.domain.fail.Fail
@@ -21,7 +22,6 @@ import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContai
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForLotsAction
-import org.camunda.bpm.engine.delegate.BpmnError
 import org.springframework.stereotype.Component
 
 @Component
@@ -46,7 +46,13 @@ class AccessSetStateForLotsDelegate(
             .let { status ->
                 when (val result = LotStatus.tryOf(status)) {
                     is Result.Success -> result.get
-                    is Result.Failure -> throw BpmnError(result.error)
+                    is Result.Failure -> return Result.failure(
+                        Fail.Incident.Bpmn.Parameter.UnknownValue(
+                            name = "status",
+                            actualValue = status,
+                            expectedValues = LotStatus.allowedElements.keysAsStrings()
+                        )
+                    )
                 }
             }
         val statusDetails = parameterContainer.getString(PARAMETER_NAME_STATUS_DETAILS)
@@ -54,7 +60,13 @@ class AccessSetStateForLotsDelegate(
             .let { statusDetails ->
                 when (val result = LotStatusDetails.tryOf(statusDetails)) {
                     is Result.Success -> result.get
-                    is Result.Failure -> throw BpmnError(result.error)
+                    is Result.Failure -> return Result.failure(
+                        Fail.Incident.Bpmn.Parameter.UnknownValue(
+                            name = "statusDetails",
+                            actualValue = statusDetails,
+                            expectedValues = LotStatusDetails.allowedElements.keysAsStrings()
+                        )
+                    )
                 }
             }
 
