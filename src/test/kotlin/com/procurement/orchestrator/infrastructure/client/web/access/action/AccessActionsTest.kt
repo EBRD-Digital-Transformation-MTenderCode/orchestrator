@@ -67,7 +67,7 @@ class AccessActionsTest {
         inner class Params {
             @Test
             fun fully() {
-                testingBindingAndMapping<FindLotIdsAction.Params>("json/client/access/get_lot_ids_params_full.json")
+                testingBindingAndMapping<FindLotIdsAction.Params>("json/client/access/find_lot_ids_params_full.json")
             }
         }
 
@@ -75,7 +75,7 @@ class AccessActionsTest {
         inner class Result {
             @Test
             fun fully() {
-                testingBindingAndMapping<FindLotIdsAction.Result>("json/client/access/get_lot_ids_result_full.json")
+                testingBindingAndMapping<FindLotIdsAction.Result>("json/client/access/find_lot_ids_result_full.json")
             }
         }
     }
