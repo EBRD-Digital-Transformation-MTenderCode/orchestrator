@@ -11,6 +11,7 @@ import com.procurement.orchestrator.domain.extension.date.format
 import com.procurement.orchestrator.domain.extension.date.nowDefaultUTC
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
+import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.infrastructure.bpms.extension.asPropertyContainer
@@ -70,7 +71,7 @@ abstract class AbstractExternalDelegate<P, R : Any>(
             is Reply.Success<R> -> execution.setResult(value = reply.result)
             is Reply.Errors -> execution.throwError(errors = reply.result)
             is Reply.Incident -> execution.throwIncident(result = reply.result)
-            is Reply.None -> Unit
+            is Reply.None -> execution.setResult(value = Option.none<R>())
         }
     }
 
