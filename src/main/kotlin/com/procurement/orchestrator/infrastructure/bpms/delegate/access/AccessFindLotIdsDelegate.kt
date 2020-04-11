@@ -6,11 +6,13 @@ import com.procurement.orchestrator.application.model.context.CamundaGlobalConte
 import com.procurement.orchestrator.application.model.context.extension.tryGetTender
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
+import com.procurement.orchestrator.domain.EnumElementProvider.Companion.keysAsStrings
 import com.procurement.orchestrator.domain.extension.lotIds
 import com.procurement.orchestrator.domain.extension.merge
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
+import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.domain.model.State
@@ -25,7 +27,6 @@ import com.procurement.orchestrator.infrastructure.bpms.delegate.parameter.State
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindLotIdsAction
-import org.camunda.bpm.engine.delegate.BpmnError
 import org.springframework.stereotype.Component
 
 @Component
@@ -43,33 +44,46 @@ class AccessFindLotIdsDelegate(
     companion object {
 
         private const val NAME_PARAMETER_OF_STATES = "states"
+        private const val NAME_PARAMETER_OF_STATUS = "status"
+        private const val NAME_PARAMETER_OF_STATUS_DETAILS = "statusDetails"
 
-        fun parseState(value: String): Result<State<LotStatus, LotStatusDetails>, String> = StateParameter.parse(value)
-            .let { result ->
-                State(
-                    status = result.status
-                        ?.let { status ->
-                            LotStatus.tryOf(status)
-                                .orForwardFail { fail -> return fail }
-                        },
-                    statusDetails = result.statusDetails
-                        ?.let { statusDetails ->
-                            LotStatusDetails.tryOf(statusDetails)
-                                .orForwardFail { fail -> return fail }
-                        }
-                )
-            }
-            .asSuccess()
+        fun parseState(value: String): Result<State<LotStatus, LotStatusDetails>, Fail.Incident.Bpmn.Parameter> =
+            StateParameter.parse(value)
+                .let { result ->
+                    State(
+                        status = result.status
+                            ?.let { status ->
+                                LotStatus.orNull(status)
+                                    ?: return failure(
+                                        Fail.Incident.Bpmn.Parameter.UnknownValue(
+                                            name = NAME_PARAMETER_OF_STATUS,
+                                            expectedValues = LotStatus.allowedElements.keysAsStrings(),
+                                            actualValue = status
+                                        )
+                                    )
+                            },
+                        statusDetails = result.statusDetails
+                            ?.let { statusDetails ->
+                                LotStatusDetails.orNull(statusDetails)
+                                    ?: return failure(
+                                        Fail.Incident.Bpmn.Parameter.UnknownValue(
+                                            name = NAME_PARAMETER_OF_STATUS_DETAILS,
+                                            expectedValues = LotStatus.allowedElements.keysAsStrings(),
+                                            actualValue = statusDetails
+                                        )
+                                    )
+                            }
+                    )
+                }
+                .asSuccess()
     }
 
     override fun parameters(parameterContainer: ParameterContainer): Result<Parameters, Fail.Incident.Bpmn.Parameter> {
         val states = parameterContainer.getListString(NAME_PARAMETER_OF_STATES)
             .orForwardFail { fail -> return fail }
             .map { state ->
-                when (val result = parseState(state)) {
-                    is Result.Success -> result.get
-                    is Result.Failure -> throw BpmnError(result.error)
-                }
+                parseState(state)
+                    .orForwardFail { fail -> return fail }
             }
         return success(Parameters(states = states))
     }
