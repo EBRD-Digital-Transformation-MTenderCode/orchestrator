@@ -11,7 +11,6 @@ import com.procurement.orchestrator.domain.extension.merge
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
-import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.domain.model.State
@@ -51,12 +50,12 @@ class AccessFindLotIdsDelegate(
                     status = result.status
                         ?.let { status ->
                             LotStatus.tryOf(status)
-                                .orReturnFail { return failure(it) }
+                                .orForwardFail { fail -> return fail }
                         },
                     statusDetails = result.statusDetails
                         ?.let { statusDetails ->
                             LotStatusDetails.tryOf(statusDetails)
-                                .orReturnFail { return failure(it) }
+                                .orForwardFail { fail -> return fail }
                         }
                 )
             }
@@ -65,7 +64,7 @@ class AccessFindLotIdsDelegate(
 
     override fun parameters(parameterContainer: ParameterContainer): Result<Parameters, Fail.Incident.Bpmn.Parameter> {
         val states = parameterContainer.getListString(NAME_PARAMETER_OF_STATES)
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
             .map { state ->
                 when (val result = parseState(state)) {
                     is Result.Success -> result.get

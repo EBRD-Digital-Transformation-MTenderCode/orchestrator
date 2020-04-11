@@ -10,7 +10,6 @@ import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
-import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
@@ -41,10 +40,10 @@ class EvaluationCheckRelatedTendererDelegate(
     ): Result<Reply<Unit>, Fail.Incident> {
 
         val award = context.getAwardIfOnlyOne()
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
 
         val requirementResponse = award.getRequirementResponseIfOnlyOne()
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
 
         val relatedTendererId = requirementResponse.relatedTenderer?.id
         val requirementId = requirementResponse.requirement?.id

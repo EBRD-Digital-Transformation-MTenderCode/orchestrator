@@ -45,7 +45,7 @@ class RevisionCheckAccessToAmendmentDelegate(
     override fun parameters(parameterContainer: ParameterContainer): Result<Parameters, Fail.Incident.Bpmn.Parameter> {
         val location: Location = parameterContainer
             .getString(PARAMETER_NAME_LOCATION)
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
             .let {
                 Location.orNull(it)
                     ?: return failure(
@@ -71,11 +71,11 @@ class RevisionCheckAccessToAmendmentDelegate(
         val ocid: Ocid = processInfo.ocid
 
         val tender = context.tryGetTender()
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
 
         val amendment = when (parameters.location) {
             Location.TENDER -> tender.getAmendmentIfOnlyOne()
-                .orReturnFail { return failure(it) }
+                .orForwardFail { fail -> return fail }
         }
 
         val token: Token = amendment.token

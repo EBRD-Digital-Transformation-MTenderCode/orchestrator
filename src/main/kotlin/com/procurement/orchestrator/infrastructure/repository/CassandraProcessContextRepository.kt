@@ -5,7 +5,6 @@ import com.procurement.orchestrator.application.model.OperationId
 import com.procurement.orchestrator.application.repository.ProcessContextRepository
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
-import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.infrastructure.extension.cassandra.toCassandraTimestamp
@@ -64,7 +63,7 @@ class CassandraProcessContextRepository(private val session: Session) : ProcessC
             setString(columnCpid, cpid.toString())
         }
         .tryExecute(session)
-        .orReturnFail { return failure(it) }
+        .orForwardFail { fail -> return fail }
         .one()
         ?.getString(columnContext)
         .asSuccess()

@@ -42,7 +42,7 @@ class RevisionGetMainPartOfAmendmentByIdsDelegate(
             .getString(
                 PARAMETER_NAME_LOCATION
             )
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
             .let {
                 Location.orNull(it)
                     ?: return failure(
@@ -69,7 +69,7 @@ class RevisionGetMainPartOfAmendmentByIdsDelegate(
 
         val ids: List<AmendmentId.Permanent> = when (parameters.location) {
             Location.TENDER -> context.tryGetTender()
-                .orReturnFail { return failure(it) }
+                .orForwardFail { fail -> return fail }
                 .amendments
                 .map { it.id as AmendmentId.Permanent }
         }

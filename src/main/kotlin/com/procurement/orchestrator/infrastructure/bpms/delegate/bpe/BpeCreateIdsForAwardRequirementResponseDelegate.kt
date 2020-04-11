@@ -9,7 +9,6 @@ import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
-import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.functional.asOption
 import com.procurement.orchestrator.domain.functional.asSuccess
@@ -38,7 +37,7 @@ class BpeCreateIdsForAwardRequirementResponseDelegate(
         parameters: Unit
     ): Result<Option<Map<RequirementResponseId.Temporal, RequirementResponseId.Permanent>>, Fail.Incident> {
         val awards = context.getAwardsIfNotEmpty()
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
 
         return awards.asSequence()
             .flatMap { award ->

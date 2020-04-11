@@ -35,7 +35,7 @@ class NotifierErrorNotificationToPlatformDelegate(
 
     override suspend fun execute(context: CamundaGlobalContext, parameters: Unit): Result<Option<Unit>, Fail.Incident> {
         buildMessages(context)
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
             .also { message ->
                 platformNotificatorClient.send(message)
                     .doOnFail { return failure(it) }
@@ -80,7 +80,7 @@ class NotifierErrorNotificationToPlatformDelegate(
             platformId = requestInfo.platformId,
             operationId = requestInfo.operationId,
             message = transform.trySerialization(message)
-                .orReturnFail { return failure(it) }
+                .orForwardFail { fail -> return fail }
         )
             .asOption()
             .asSuccess<Option<PlatformNotification.MessageEnvelop>, Fail.Incident>()

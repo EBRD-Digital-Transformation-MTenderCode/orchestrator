@@ -4,7 +4,6 @@ import com.datastax.driver.core.Session
 import com.procurement.orchestrator.application.repository.OldProcessContextRepository
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
-import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.infrastructure.extension.cassandra.tryExecute
@@ -49,7 +48,7 @@ class CassandraOldProcessContextRepository(private val session: Session) : OldPr
             setString(columnCpid, cpid.toString())
         }
         .tryExecute(session)
-        .orReturnFail { return failure(it) }
+        .orForwardFail { fail -> return fail }
         .one()
         ?.getString(columnContext)
         .asSuccess()

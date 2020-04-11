@@ -45,7 +45,7 @@ class OkHttpWebClient(
         target: Target<R>
     ): Result<Reply<R>, Fail.Incident> =
         execute(url, command)
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
             .also { response ->
                 if (logger.isDebugEnabled)
                     logger.debug(response)
@@ -54,7 +54,7 @@ class OkHttpWebClient(
 
     override suspend fun <T> call(url: URL, command: Command<T>): Result<Reply<Unit>, Fail.Incident> =
         execute(url, command)
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
             .also { response ->
                 if (logger.isDebugEnabled)
                     logger.debug(response)
@@ -63,7 +63,7 @@ class OkHttpWebClient(
 
     private suspend fun <T> execute(url: URL, command: Command<T>): Result<String, Fail.Incident> {
         val payload = transform.trySerialization(command)
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
 
         if (logger.isDebugEnabled)
             logger.debug(payload)

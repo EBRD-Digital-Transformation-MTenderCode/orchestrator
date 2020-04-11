@@ -14,7 +14,6 @@ import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
-import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponseId
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
@@ -46,13 +45,13 @@ class EvaluationCreateRequirementResponseDelegate(
     ): Result<Reply<CreateRequirementResponseAction.Result>, Fail.Incident> {
 
         val award = context.getAwardIfOnlyOne()
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
 
         val requirementResponse = award.getRequirementResponseIfOnlyOne()
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
 
         val party = context.getPartyIfOnlyOne()
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
 
         val processInfo = context.processInfo
         return evaluationClient.createRequirementResponse(

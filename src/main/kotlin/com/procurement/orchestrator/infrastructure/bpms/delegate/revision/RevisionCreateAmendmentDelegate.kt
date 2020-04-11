@@ -46,17 +46,17 @@ class RevisionCreateAmendmentDelegate(
     ): Result<Reply<CreateAmendmentAction.Result>, Fail.Incident> {
 
         val tender = context.tryGetTender()
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
 
         val amendment = tender.getAmendmentIfOnlyOne()
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
 
         val processInfo = context.processInfo
         val relatedEntityId: String = when (processInfo.operationType) {
             OperationTypeProcess.TENDER_CANCELLATION -> processInfo.ocid.toString()
 
             OperationTypeProcess.LOT_CANCELLATION -> tender.getLotIfOnlyOne()
-                .orReturnFail { return failure(it) }
+                .orForwardFail { fail -> return fail }
                 .id
                 .toString()
 

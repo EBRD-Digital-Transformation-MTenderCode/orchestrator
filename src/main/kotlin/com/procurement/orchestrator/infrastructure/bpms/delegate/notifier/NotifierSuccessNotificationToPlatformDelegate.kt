@@ -56,7 +56,7 @@ class NotifierSuccessNotificationToPlatformDelegate(
 
     override suspend fun execute(context: CamundaGlobalContext, parameters: Unit): Result<Option<Unit>, Fail.Incident> {
         buildMessages(context)
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
             .forEach { message ->
                 platformNotificatorClient.send(message)
                     .doOnFail { return failure(it) }
@@ -92,7 +92,7 @@ class NotifierSuccessNotificationToPlatformDelegate(
             )
 
             val serializedMessage = transform.trySerialization(message)
-                .orReturnFail { return failure(it) }
+                .orForwardFail { fail -> return fail }
 
             PlatformNotification.MessageEnvelop(
                 platformId = platformId,

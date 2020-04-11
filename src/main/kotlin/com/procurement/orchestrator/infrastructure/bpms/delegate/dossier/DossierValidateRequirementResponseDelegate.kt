@@ -10,7 +10,6 @@ import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
-import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
@@ -48,10 +47,10 @@ class DossierValidateRequirementResponseDelegate(
         val ocid: Ocid = processInfo.ocid
 
         val award = context.getAwardIfOnlyOne()
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
 
         val requirementResponse = award.getRequirementResponseIfOnlyOne()
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
 
         return dossierClient.validateRequirementResponse(
             id = commandId,

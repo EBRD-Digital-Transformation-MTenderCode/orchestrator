@@ -68,7 +68,7 @@ class CassandraRuleRepository(private val session: Session) : RuleRepository {
             setString(columnProcessDefinitionKey, processDefinitionKey.toString())
         }
         .tryExecute(session)
-        .orReturnFail { return failure(it) }
+        .orForwardFail { fail -> return fail }
         .map { row ->
             Rule(
                 countryId = countryId,
@@ -111,7 +111,7 @@ class CassandraRuleRepository(private val session: Session) : RuleRepository {
             setString(columnPhaseFrom, phaseFrom?.toString() ?: "")
         }
         .tryExecute(session)
-        .orReturnFail { return failure(it) }
+        .orForwardFail { fail -> return fail }
         .one()
         ?.let { row ->
             Rule(

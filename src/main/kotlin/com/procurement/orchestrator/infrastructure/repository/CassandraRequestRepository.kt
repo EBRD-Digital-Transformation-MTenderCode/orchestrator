@@ -78,7 +78,7 @@ class CassandraRequestRepository(private val session: Session) : RequestReposito
                 setString(columnRequestId, requestId.toString())
             }
             .tryExecute(session)
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
             .one()
             ?.let { row ->
                 RequestRecord(

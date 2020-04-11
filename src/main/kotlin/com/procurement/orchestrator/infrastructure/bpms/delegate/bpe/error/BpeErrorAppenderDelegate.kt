@@ -8,7 +8,6 @@ import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
-import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.asOption
 import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractInternalDelegate
@@ -34,7 +33,7 @@ class BpeErrorAppenderDelegate(
     override fun parameters(parameterContainer: ParameterContainer): Result<Parameters, Fail.Incident.Bpmn.Parameter> =
         Parameters(
             errorCode = parameterContainer.getString(NAME_PARAMETER_OF_ERROR_CODE)
-                .orReturnFail { return failure(it) }
+                .orForwardFail { fail -> return fail }
         ).asSuccess()
 
     override suspend fun execute(

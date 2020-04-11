@@ -57,7 +57,7 @@ class BpeAddUpdateRecordTaskInQueueDelegate(
                     awards = context.awards
                 )
             )
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
 
         val requestInfo = context.requestInfo
         noticeQueueRepository

@@ -42,7 +42,7 @@ class RevisionSetStateForAmendmentDelegate(
     override fun parameters(parameterContainer: ParameterContainer): Result<Parameters, Fail.Incident.Bpmn.Parameter> {
         val location: Location = parameterContainer
             .getString(PARAMETER_NAME_LOCATION)
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
             .let {
                 Location.orNull(it)
                     ?: return failure(
@@ -56,7 +56,7 @@ class RevisionSetStateForAmendmentDelegate(
 
         val status: AmendmentStatus = parameterContainer
             .getString(PARAMETER_NAME_STATUS)
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
             .let {
                 AmendmentStatus.orNull(it)
                     ?: return failure(
@@ -79,9 +79,9 @@ class RevisionSetStateForAmendmentDelegate(
 
         val id: AmendmentId.Permanent = when (parameters.location) {
             Location.TENDER -> context.tryGetTender()
-                .orReturnFail { return failure(it) }
+                .orForwardFail { fail -> return fail }
                 .getAmendmentIfOnlyOne()
-                .orReturnFail { return failure(it) }
+                .orForwardFail { fail -> return fail }
                 .id as AmendmentId.Permanent
         }
 

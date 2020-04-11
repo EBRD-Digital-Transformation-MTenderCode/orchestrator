@@ -34,6 +34,11 @@ sealed class Result<out T, out E> {
         return this
     }
 
+    inline fun orForwardFail(failure: (Failure<E>) -> Nothing): T = when (this) {
+        is Success -> this.get
+        is Failure -> failure(this)
+    }
+
     inline fun orReturnFail(error: (E) -> Nothing): T = when (this) {
         is Success -> this.get
         else -> error(this.error)

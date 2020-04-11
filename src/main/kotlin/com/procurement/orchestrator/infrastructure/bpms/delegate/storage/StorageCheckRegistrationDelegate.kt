@@ -35,7 +35,7 @@ class StorageCheckRegistrationDelegate(
 
     override fun parameters(parameterContainer: ParameterContainer): Result<Parameters, Fail.Incident.Bpmn.Parameter> {
         val entities: List<Entity> = parameterContainer.getListString("entities")
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
             .map {
                 Entity.orNull(it)
                     ?: return failure(

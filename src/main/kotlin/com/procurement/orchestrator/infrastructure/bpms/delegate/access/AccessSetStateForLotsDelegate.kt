@@ -40,7 +40,7 @@ class AccessSetStateForLotsDelegate(
 
     override fun parameters(parameterContainer: ParameterContainer): Result<Parameters, Fail.Incident.Bpmn.Parameter> {
         val status = parameterContainer.getString(PARAMETER_NAME_STATUS)
-            .orReturnFail { return Result.failure(it) }
+            .orForwardFail { fail -> return fail }
             .let { status ->
                 when (val result = LotStatus.tryOf(status)) {
                     is Result.Success -> result.get
@@ -54,7 +54,7 @@ class AccessSetStateForLotsDelegate(
                 }
             }
         val statusDetails = parameterContainer.getString(PARAMETER_NAME_STATUS_DETAILS)
-            .orReturnFail { return Result.failure(it) }
+            .orForwardFail { fail -> return fail }
             .let { statusDetails ->
                 when (val result = LotStatusDetails.tryOf(statusDetails)) {
                     is Result.Success -> result.get
@@ -79,7 +79,7 @@ class AccessSetStateForLotsDelegate(
         val processInfo = context.processInfo
 
         val tender = context.tryGetTender()
-            .orReturnFail { return Result.failure(it) }
+            .orForwardFail { fail -> return fail }
 
         return accessClient.setStateForLots(
             id = commandId,

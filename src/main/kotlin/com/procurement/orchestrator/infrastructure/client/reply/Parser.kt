@@ -25,7 +25,7 @@ fun <R> String.parse(transform: Transform, target: Target<R>? = null): Result<Re
     val response = this
 
     val node: JsonNode = transform.tryParse(this)
-        .orReturnFail { return failure(it) }
+        .orForwardFail { fail -> return fail }
 
     val id = node.getId()
         .orReturnFail { fail -> return badResponse(error = fail, body = response) }
@@ -60,7 +60,7 @@ fun <R> String.parse(transform: Transform, target: Target<R>? = null): Result<Re
             val resultNode = node.getResultNode()
                 .orReturnFail { fail -> return badResponse(error = fail, body = response) }
             val result = resultNode.parseIncident(response = this, transform = transform)
-                .orReturnFail { return failure(it) }
+                .orForwardFail { fail -> return fail }
             Reply.Incident(id = id, version = version, result = result)
         }
     }.asSuccess()

@@ -217,7 +217,7 @@ class RequirementResponseServiceImpl(
 
     private fun saveRequest(request: RequirementResponseDataIn.Request): Result<RequestRecord, Fail.Incident> {
         val record = request.asRecord()
-            .orReturnFail { return Result.failure(it) }
+            .orForwardFail { fail -> return fail }
         requestRepository.save(record)
             .doOnError { return Result.failure(it) }
         return Result.success(record)
@@ -225,7 +225,7 @@ class RequirementResponseServiceImpl(
 
     private fun RequirementResponseDataIn.Request.asRecord(): Result<RequestRecord, Fail.Incident> {
         val serializedContext: String = transform.trySerialization(this.context)
-            .orReturnFail { return Result.failure(it) }
+            .orForwardFail { fail -> return fail }
         return RequestRecord(
             operationId = this.operationId,
             timestamp = nowDefaultUTC(),

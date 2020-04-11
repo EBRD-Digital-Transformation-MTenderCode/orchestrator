@@ -47,7 +47,7 @@ class AccessCheckAccessToTenderDelegate(
         val ocid: Ocid = processInfo.ocid
 
         val tender = context.tryGetTender()
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
 
         val token: Token = tender.token
             ?: return failure(Fail.Incident.Bpms.Context.Missing(name = "token", path = "tender"))

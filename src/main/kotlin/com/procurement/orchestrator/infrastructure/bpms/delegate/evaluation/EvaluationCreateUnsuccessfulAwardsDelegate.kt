@@ -47,10 +47,10 @@ class EvaluationCreateUnsuccessfulAwardsDelegate(
     ): Result<Reply<CreateUnsuccessfulAwardsAction.Result>, Fail.Incident> {
 
         val tender = context.tryGetTender()
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
 
         val lots = tender.getLotsIfNotEmpty()
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
 
         val owner: Owner = tender.owner
             ?: return failure(Fail.Incident.Bpms.Context.Missing(name = "owner", path = "tender"))

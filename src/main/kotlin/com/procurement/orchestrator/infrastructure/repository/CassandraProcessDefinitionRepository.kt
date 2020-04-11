@@ -5,7 +5,6 @@ import com.procurement.orchestrator.application.model.process.ProcessDefinitionK
 import com.procurement.orchestrator.application.repository.ProcessDefinitionRepository
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
-import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.domain.model.ProcurementMethod
 import com.procurement.orchestrator.domain.model.address.country.CountryId
@@ -43,7 +42,7 @@ class CassandraProcessDefinitionRepository(private val session: Session) : Proce
             setString(columnProcessName, processName)
         }
         .tryExecute(session)
-        .orReturnFail { return failure(it) }
+        .orForwardFail { fail -> return fail }
         .one()
         ?.let { row -> ProcessDefinitionKey(row.getString(columnProcessDefinitionKey)) }
         .asSuccess()

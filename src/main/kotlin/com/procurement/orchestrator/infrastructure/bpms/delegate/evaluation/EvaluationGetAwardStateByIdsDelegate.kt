@@ -10,7 +10,6 @@ import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
-import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.model.award.Award
 import com.procurement.orchestrator.domain.model.award.AwardId
@@ -45,7 +44,7 @@ class EvaluationGetAwardStateByIdsDelegate(
     ): Result<Reply<GetAwardStateByIdsAction.Result>, Fail.Incident> {
 
         val awards = context.getAwardsIfNotEmpty()
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
 
         val processInfo = context.processInfo
         return evaluationClient.getAwardStateByIds(

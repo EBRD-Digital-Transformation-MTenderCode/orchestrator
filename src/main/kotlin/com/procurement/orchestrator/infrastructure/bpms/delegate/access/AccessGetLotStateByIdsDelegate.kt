@@ -10,7 +10,6 @@ import com.procurement.orchestrator.domain.extension.lotIds
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
-import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.model.lot.Lot
 import com.procurement.orchestrator.domain.model.lot.LotId
@@ -44,7 +43,7 @@ class AccessGetLotStateByIdsDelegate(
     ): Result<Reply<GetLotStateByIdsAction.Result>, Fail.Incident> {
 
         val tender = context.tryGetTender()
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
 
         val processInfo = context.processInfo
         return accessClient.getLotStateByIds(

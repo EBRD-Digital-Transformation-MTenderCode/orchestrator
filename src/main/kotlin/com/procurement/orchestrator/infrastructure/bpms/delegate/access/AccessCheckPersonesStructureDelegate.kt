@@ -43,7 +43,7 @@ class AccessCheckPersonesStructureDelegate(
 
     override fun parameters(parameterContainer: ParameterContainer): Result<Parameters, Fail.Incident.Bpmn.Parameter> {
         val location: Location = parameterContainer.getString(PARAMETER_NAME_LOCATION)
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
             .let {
                 Location.orNull(it)
                     ?: return failure(
@@ -72,7 +72,7 @@ class AccessCheckPersonesStructureDelegate(
             Location.AWARD -> buildPersonsForAward(context)
             else -> failure(Fail.Incident.Bpe(description = "Parameter location: '${parameters.location}' of delegate do not implemented."))
         }
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
 
         return accessClient.checkPersonsStructure(
             id = commandId,
@@ -97,10 +97,10 @@ class AccessCheckPersonesStructureDelegate(
 
     private fun buildPersonsForAward(context: CamundaGlobalContext): Result<List<CheckPersonesStructureAction.Params.Person>, Fail.Incident> {
         val award = context.getAwardIfOnlyOne()
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
 
         val requirementResponse = award.getRequirementResponseIfOnlyOne()
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
 
         val persons = requirementResponse.responder
             ?.let { responder ->

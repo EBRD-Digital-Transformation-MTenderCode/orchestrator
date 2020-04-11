@@ -46,7 +46,7 @@ class EvaluationCheckAccessToAwardDelegate(
         val ocid: Ocid = processInfo.ocid
 
         val award = context.getAwardIfOnlyOne()
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
 
         return evaluationClient.checkAccessToAward(
             id = commandId,

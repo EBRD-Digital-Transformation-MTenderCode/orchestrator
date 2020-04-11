@@ -3,7 +3,6 @@ package com.procurement.orchestrator.infrastructure.repository
 import com.datastax.driver.core.Session
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
-import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.infrastructure.bpms.repository.ErrorDescriptionRepository
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetErrorDescriptionsAction
@@ -39,7 +38,7 @@ class CassandraErrorDescriptionRepository(private val session: Session) : ErrorD
                 setString(columnLanguage, language)
             }
             .tryExecute(session)
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
             .map { row ->
                 GetErrorDescriptionsAction.Result.Error(
                     code = row.getString(columnCode),

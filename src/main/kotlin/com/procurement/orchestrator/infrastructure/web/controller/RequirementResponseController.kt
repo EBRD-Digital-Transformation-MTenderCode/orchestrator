@@ -85,16 +85,16 @@ class RequirementResponseController(
                 )
             )
         val platformId = servlet.getPlatformId()
-            .orReturnFail { return Result.failure(it) }
+            .orForwardFail { fail -> return fail }
 
         val operationId: OperationId = servlet.getOperationId()
-            .orReturnFail { return Result.failure(it) }
+            .orForwardFail { fail -> return fail }
 
         val token = servlet.getToken()
-            .orReturnFail { return Result.failure(it) }
+            .orForwardFail { fail -> return fail }
 
         val payload = servlet.getPayload()
-            .orReturnFail { return Result.failure(it) }
+            .orForwardFail { fail -> return fail }
 
         return RequirementResponseDataIn
             .Request(

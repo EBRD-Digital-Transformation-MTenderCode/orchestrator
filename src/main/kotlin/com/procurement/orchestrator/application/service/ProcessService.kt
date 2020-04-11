@@ -55,7 +55,7 @@ class ProcessServiceImpl(
         processName: String
     ): Result<ProcessDefinitionKey, Fail.Incident> =
         processDefinitionRepository.getProcessDefinitionKey(countryId = countryId, pmd = pmd, processName = processName)
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
             ?.asSuccess()
             ?: failure(
                 Fail.Incident.Bpe(
@@ -65,14 +65,13 @@ class ProcessServiceImpl(
 
     override fun getProcessContext(cpid: Cpid): Result<LatestProcessContext?, Fail.Incident> =
         loadProcessContext(cpid = cpid)
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
             ?.convert()
             ?: loadOldProcessContext(cpid = cpid)
-                .orReturnFail { return failure(it) }
+                .orForwardFail { fail -> return fail }
                 ?.convert()
-                ?.orReturnFail { return failure(it) }
+                ?.orForwardFail { fail -> return fail }
                 .asSuccess()
-
 
     override fun launchProcess(
         processDefinitionKey: ProcessDefinitionKey,
@@ -87,19 +86,19 @@ class ProcessServiceImpl(
 
     private fun loadProcessContext(cpid: Cpid): Result<ProcessContext?, Fail.Incident> =
         processContextRepository.load(cpid = cpid)
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
             ?.let { value ->
                 transform.tryDeserialization(value, ProcessContext::class.java)
-                    .orReturnFail { return failure(it) }
+                    .orForwardFail { fail -> return fail }
             }
             .asSuccess()
 
     private fun loadOldProcessContext(cpid: Cpid): Result<OldProcessContext?, Fail.Incident> =
         oldProcessContextRepository.load(cpid = cpid)
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
             ?.let { value ->
                 transform.tryDeserialization(value, OldProcessContext::class.java)
-                    .orReturnFail { return failure(it) }
+                    .orForwardFail { fail -> return fail }
             }
             .asSuccess()
 

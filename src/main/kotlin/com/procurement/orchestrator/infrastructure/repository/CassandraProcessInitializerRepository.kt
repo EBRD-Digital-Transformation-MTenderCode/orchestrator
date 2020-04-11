@@ -61,7 +61,7 @@ class CassandraProcessInitializerRepository(private val session: Session) : Proc
                 setString(columnCpid, cpid.toString())
             }
             .tryExecute(session)
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
 
         val launchedProcessInfo = if (resultSet.wasApplied()) {
             LaunchedProcessInfo(
@@ -95,7 +95,7 @@ class CassandraProcessInitializerRepository(private val session: Session) : Proc
                 setString(columnOperationId, operationId.toString())
             }
             .tryExecute(session)
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
             .one()
 
         return success(row != null)

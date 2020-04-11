@@ -8,7 +8,6 @@ import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
-import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
@@ -46,7 +45,7 @@ class NoticeDelegate(
         val operationId = requestInfo.operationId
 
         val tasks: List<NoticeTask> = noticeQueueRepository.load(operationId = operationId)
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
 
         tasks.forEach { task ->
             val salt = task.ocid.toString()
@@ -55,7 +54,7 @@ class NoticeDelegate(
                 NoticeTask.Action.UPDATE_RECORD -> {
                     val params = UpdateRecordAction.Params(date = requestInfo.timestamp, data = task.data)
                     val reply = noticeClient.updateRecord(id = commandIdWithSalt, params = params)
-                        .orReturnFail { return failure(it) }
+                        .orForwardFail { fail -> return fail }
 
                     when (reply) {
                         is Reply.Success -> Unit
@@ -66,7 +65,7 @@ class NoticeDelegate(
                 NoticeTask.Action.CREATE_RECORD -> {
                     val params = CreateRecordAction.Params(date = requestInfo.timestamp, data = task.data)
                     val reply = noticeClient.createRecord(id = commandIdWithSalt, params = params)
-                        .orReturnFail { return failure(it) }
+                        .orForwardFail { fail -> return fail }
 
                     when (reply) {
                         is Reply.Success -> Unit

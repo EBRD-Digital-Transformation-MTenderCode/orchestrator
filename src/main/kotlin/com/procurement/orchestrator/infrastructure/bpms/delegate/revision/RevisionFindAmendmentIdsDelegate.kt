@@ -42,7 +42,7 @@ class RevisionFindAmendmentIdsDelegate(
 
     override fun parameters(parameterContainer: ParameterContainer): Result<Parameters, Fail.Incident.Bpmn.Parameter> {
         val type: AmendmentType? = parameterContainer.getStringOrNull("type")
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
             ?.let {
                 AmendmentType.orNull(it)
                     ?: return failure(
@@ -55,7 +55,7 @@ class RevisionFindAmendmentIdsDelegate(
             }
 
         val status: AmendmentStatus? = parameterContainer.getStringOrNull("status")
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
             ?.let {
                 AmendmentStatus.orNull(it)
                     ?: return failure(
@@ -68,7 +68,7 @@ class RevisionFindAmendmentIdsDelegate(
             }
 
         val relatesTo: AmendmentRelatesTo? = parameterContainer.getStringOrNull("relatesTo")
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
             ?.let {
                 AmendmentRelatesTo.orNull(it)
                     ?: return failure(
@@ -81,7 +81,7 @@ class RevisionFindAmendmentIdsDelegate(
             }
 
         val sendRelatedItem = parameterContainer.getStringOrNull("sendRelatedItem")
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
             ?.toBoolean()
             ?: false
 
@@ -110,10 +110,10 @@ class RevisionFindAmendmentIdsDelegate(
                 AmendmentRelatesTo.TENDER -> listOf(ocid.toString())
                 AmendmentRelatesTo.LOT -> {
                     val tender = context.tryGetTender()
-                        .orReturnFail { return failure(it) }
+                        .orForwardFail { fail -> return fail }
 
                     tender.getLotsIfNotEmpty()
-                        .orReturnFail { return failure(it) }
+                        .orForwardFail { fail -> return fail }
                         .map { it.id.toString() }
                 }
                 null -> return failure(

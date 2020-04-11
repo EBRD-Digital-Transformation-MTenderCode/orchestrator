@@ -46,7 +46,7 @@ class StorageOpenAccessDelegate(
 
     override fun parameters(parameterContainer: ParameterContainer): Result<Parameters, Fail.Incident.Bpmn.Parameter> {
         val entities: List<Entity> = parameterContainer.getListString("entities")
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
             .map {
                 Entity.orNull(it)
                     ?: return failure(
@@ -74,7 +74,7 @@ class StorageOpenAccessDelegate(
             if (tender == null)
                 return failure(Fail.Incident.Bpms.Context.Missing(name = "tender"))
             tender.getAmendmentsIfNotEmpty()
-                .orReturnFail { return failure(it) }
+                .orForwardFail { fail -> return fail }
                 .asSequence()
                 .flatMap { amendment -> amendment.documents.asSequence() }
                 .map { document -> document.id }
@@ -92,16 +92,16 @@ class StorageOpenAccessDelegate(
 
         val documentOfAwards: List<DocumentId> = if (Entity.AWARD_REQUIREMENT_RESPONSE in entities)
             context.getAwardsIfNotEmpty()
-                .orReturnFail { return failure(it) }
+                .orForwardFail { fail -> return fail }
                 .flatMap { award ->
                     award.getRequirementResponseIfNotEmpty()
-                        .orReturnFail { return failure(it) }
+                        .orForwardFail { fail -> return fail }
                 }
                 .flatMap { requirementResponse ->
                     requirementResponse.getResponder()
-                        .orReturnFail { return failure(it) }
+                        .orForwardFail { fail -> return fail }
                         .getBusinessFunctionsIfNotEmpty(path = "awards.requirementResponses.responder")
-                        .orReturnFail { return failure(it) }
+                        .orForwardFail { fail -> return fail }
                 }
                 .flatMap { businessFunction ->
                     businessFunction.documents.map { document -> document.id }

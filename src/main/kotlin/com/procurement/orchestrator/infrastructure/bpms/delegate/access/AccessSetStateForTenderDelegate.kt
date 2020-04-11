@@ -37,7 +37,7 @@ class AccessSetStateForTenderDelegate(
 
     override fun parameters(parameterContainer: ParameterContainer): Result<Parameters, Fail.Incident.Bpmn.Parameter> {
         val status = parameterContainer.getString(PARAMETER_NAME_STATUS)
-            .orReturnFail { return Result.failure(it) }
+            .orForwardFail { fail -> return fail }
             .let { status ->
                 when (val result = TenderStatus.tryOf(status)) {
                     is Result.Success -> result.get
@@ -51,7 +51,7 @@ class AccessSetStateForTenderDelegate(
                 }
             }
         val statusDetails = parameterContainer.getString(PARAMETER_NAME_STATUS_DETAILS)
-            .orReturnFail { return Result.failure(it) }
+            .orForwardFail { fail -> return fail }
             .let { statusDetails ->
                 when (val result = TenderStatusDetails.tryOf(statusDetails)) {
                     is Result.Success -> result.get

@@ -22,7 +22,7 @@ class HttpMdmClient(
     ): Result<Reply<GetErrorDescriptionsAction.Result>, Fail.Incident> =
 
         errorDescriptionRepository.load(codes = params.codes, language = params.language.toUpperCase())
-            .orReturnFail { return Result.failure(it) }
+            .orForwardFail { fail -> return fail }
             .map { error ->
                 GetErrorDescriptionsAction.Result.Error(
                     code = error.code,

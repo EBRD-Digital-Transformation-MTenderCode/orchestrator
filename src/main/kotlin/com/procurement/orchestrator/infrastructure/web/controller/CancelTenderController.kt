@@ -76,16 +76,16 @@ class CancelTenderController(
             )
 
         val platformId = servlet.getPlatformId()
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
 
         val operationId: OperationId = servlet.getOperationId()
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
 
         val token = servlet.getToken()
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
 
         val payload = servlet.getPayload()
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
 
         return CancellationTender
             .Request(

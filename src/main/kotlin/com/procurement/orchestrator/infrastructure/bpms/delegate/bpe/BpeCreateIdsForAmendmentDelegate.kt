@@ -9,7 +9,6 @@ import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
-import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.model.amendment.AmendmentId
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractInternalDelegate
@@ -36,10 +35,10 @@ class BpeCreateIdsForAmendmentDelegate(
         parameters: Unit
     ): Result<Option<Unit>, Fail.Incident> {
         val tender = context.tryGetTender()
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
 
         val amendments = tender.getAmendmentsIfNotEmpty()
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
 
         context.tender = tender.copy(
             amendments = amendments.map { amendment ->

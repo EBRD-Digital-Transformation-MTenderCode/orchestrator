@@ -11,7 +11,6 @@ import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
-import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.infrastructure.bpms.extension.asPropertyContainer
 import com.procurement.orchestrator.infrastructure.bpms.extension.isUpdateGlobalContext
 import com.procurement.orchestrator.infrastructure.bpms.extension.setResult
@@ -88,7 +87,7 @@ abstract class AbstractInternalDelegate<P, R : Any>(
         val request = if (resultContext.hasRequest) resultContext.request() else ""
         val response = if (resultContext.hasResponse) resultContext.response() else ""
         val serializedContext = globalContext.serialize(transform)
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
 
         return operationStepRepository.save(
             step = OperationStep(

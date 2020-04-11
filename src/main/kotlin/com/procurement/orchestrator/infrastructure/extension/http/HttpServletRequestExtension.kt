@@ -27,7 +27,7 @@ private const val START_AUTH_TOKEN_POSITION = AUTH_TOKEN_TYPE.length + 1
 
 fun HttpServletRequest.getPlatformId(): Result<PlatformId, RequestErrors.Header> {
     val header: String = this.getRequiredHeader(HEADER_AUTHORIZATION)
-        .orReturnFail { return failure(it) }
+        .orForwardFail { fail -> return fail }
         .let {
             if (it.startsWith(AUTH_TOKEN_TYPE))
                 it.substring(START_AUTH_TOKEN_POSITION)
@@ -74,7 +74,7 @@ fun HttpServletRequest.getPlatformId(): Result<PlatformId, RequestErrors.Header>
 
 fun HttpServletRequest.getOperationId(): Result<OperationId, RequestErrors.Header> {
     val header: String = this.getRequiredHeader(HEADER_OPERATION_ID)
-        .orReturnFail { return failure(it) }
+        .orForwardFail { fail -> return fail }
 
     return OperationId.tryCreateOrNull(header)
         ?.let { operationId -> success(operationId) }
@@ -88,7 +88,7 @@ fun HttpServletRequest.getOperationId(): Result<OperationId, RequestErrors.Heade
 
 fun HttpServletRequest.getToken(): Result<Token, RequestErrors.Header> {
     val header: String = this.getRequiredHeader(HEADER_TOKEN)
-        .orReturnFail { return failure(it) }
+        .orForwardFail { fail -> return fail }
 
     return Token.tryCreateOrNull(header)
         ?.let { operationId -> success(operationId) }
@@ -101,7 +101,7 @@ fun HttpServletRequest.getCountry(): Result<CountryId, RequestErrors.QueryParame
 
 fun HttpServletRequest.getPmd(): Result<ProcurementMethod, RequestErrors.QueryParameter> {
     val param: String = this.getRequiredQueryParam(QUERY_PARAM_PMD)
-        .orReturnFail { return failure(it) }
+        .orForwardFail { fail -> return fail }
 
     return ProcurementMethod.orNull(param)
         ?.let { success(it) }

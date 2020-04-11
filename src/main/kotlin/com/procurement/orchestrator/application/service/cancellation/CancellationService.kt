@@ -263,7 +263,7 @@ class CancellationServiceImpl(
 
     private fun saveRequest(request: CancellationTender.Request): Result<RequestRecord, Fail.Incident> {
         val record = request.asRecord()
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
         requestRepository.save(record)
             .doOnError { return failure(it) }
         return success(record)
@@ -271,7 +271,7 @@ class CancellationServiceImpl(
 
     private fun CancellationTender.Request.asRecord(): Result<RequestRecord, Fail.Incident> {
         val serializedContext: String = transform.trySerialization(this.context)
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
         return RequestRecord(
             operationId = this.operationId,
             timestamp = nowDefaultUTC(),
@@ -284,7 +284,7 @@ class CancellationServiceImpl(
 
     private fun saveRequest(request: CancellationLot.Request): Result<RequestRecord, Fail.Incident> {
         val record = request.asRecord()
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
         requestRepository.save(record)
             .doOnError { return failure(it) }
         return success(record)
@@ -292,7 +292,7 @@ class CancellationServiceImpl(
 
     private fun CancellationLot.Request.asRecord(): Result<RequestRecord, Fail.Incident> {
         val serializedContext: String = transform.trySerialization(this.context)
-            .orReturnFail { return failure(it) }
+            .orForwardFail { fail -> return fail }
         return RequestRecord(
             operationId = this.operationId,
             timestamp = nowDefaultUTC(),
