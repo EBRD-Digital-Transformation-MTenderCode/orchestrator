@@ -39,30 +39,26 @@ class AccessSetStateForTenderDelegate(
         val status = parameterContainer.getString(PARAMETER_NAME_STATUS)
             .orForwardFail { fail -> return fail }
             .let { status ->
-                when (val result = TenderStatus.tryOf(status)) {
-                    is Result.Success -> result.get
-                    is Result.Failure -> return Result.failure(
+                TenderStatus.orNull(status)
+                    ?: return Result.failure(
                         Fail.Incident.Bpmn.Parameter.UnknownValue(
-                            name = "status",
+                            name = PARAMETER_NAME_STATUS,
                             actualValue = status,
                             expectedValues = TenderStatus.allowedElements.keysAsStrings()
                         )
                     )
-                }
             }
         val statusDetails = parameterContainer.getString(PARAMETER_NAME_STATUS_DETAILS)
             .orForwardFail { fail -> return fail }
             .let { statusDetails ->
-                when (val result = TenderStatusDetails.tryOf(statusDetails)) {
-                    is Result.Success -> result.get
-                    is Result.Failure -> return Result.failure(
+                TenderStatusDetails.orNull(statusDetails)
+                    ?: return Result.failure(
                         Fail.Incident.Bpmn.Parameter.UnknownValue(
-                            name = "statusDetails",
+                            name = PARAMETER_NAME_STATUS_DETAILS,
                             actualValue = statusDetails,
                             expectedValues = TenderStatusDetails.allowedElements.keysAsStrings()
                         )
                     )
-                }
             }
 
         return Result.success(Parameters(status = status, statusDetails = statusDetails))

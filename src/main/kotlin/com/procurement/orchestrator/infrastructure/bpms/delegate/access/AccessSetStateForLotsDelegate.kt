@@ -10,6 +10,7 @@ import com.procurement.orchestrator.domain.EnumElementProvider.Companion.keysAsS
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
+import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.model.lot.LotId
 import com.procurement.orchestrator.domain.model.lot.LotStatus
 import com.procurement.orchestrator.domain.model.lot.LotStatusDetails
@@ -39,33 +40,29 @@ class AccessSetStateForLotsDelegate(
     }
 
     override fun parameters(parameterContainer: ParameterContainer): Result<Parameters, Fail.Incident.Bpmn.Parameter> {
-        val status = parameterContainer.getString(PARAMETER_NAME_STATUS)
+        val status: LotStatus = parameterContainer.getString(PARAMETER_NAME_STATUS)
             .orForwardFail { fail -> return fail }
             .let { status ->
-                when (val result = LotStatus.tryOf(status)) {
-                    is Result.Success -> result.get
-                    is Result.Failure -> return Result.failure(
+                LotStatus.orNull(status)
+                    ?: return failure(
                         Fail.Incident.Bpmn.Parameter.UnknownValue(
-                            name = "status",
+                            name = PARAMETER_NAME_STATUS,
                             actualValue = status,
                             expectedValues = LotStatus.allowedElements.keysAsStrings()
                         )
                     )
-                }
             }
-        val statusDetails = parameterContainer.getString(PARAMETER_NAME_STATUS_DETAILS)
+        val statusDetails: LotStatusDetails = parameterContainer.getString(PARAMETER_NAME_STATUS_DETAILS)
             .orForwardFail { fail -> return fail }
             .let { statusDetails ->
-                when (val result = LotStatusDetails.tryOf(statusDetails)) {
-                    is Result.Success -> result.get
-                    is Result.Failure -> return Result.failure(
+                LotStatusDetails.orNull(statusDetails)
+                    ?: return failure(
                         Fail.Incident.Bpmn.Parameter.UnknownValue(
-                            name = "statusDetails",
+                            name = PARAMETER_NAME_STATUS_DETAILS,
                             actualValue = statusDetails,
                             expectedValues = LotStatusDetails.allowedElements.keysAsStrings()
                         )
                     )
-                }
             }
 
         return Result.success(Parameters(status = status, statusDetails = statusDetails))
