@@ -26,7 +26,6 @@
         </camunda:inputOutput>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0trdd9x</bpmn:incoming>
-      <bpmn:incoming>SequenceFlow_0zo1ljd</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0pk5qir</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="AccessCheckResponderStructureTask" name="eAccess&#10;Check responder structure" camunda:asyncBefore="true" camunda:delegateExpression="${accessCheckPersonesStructureDelegate}">
@@ -43,7 +42,6 @@
     <bpmn:sequenceFlow id="SequenceFlow_0czs06m" sourceRef="DossierValidateRequirementResponseTask" targetRef="AccessCheckResponderStructureTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1qzo9zz" sourceRef="BpeCreateIdsForRequirementResponseTask" targetRef="EvaluationCreateRequirementResponseTask" />
     <bpmn:sequenceFlow id="SequenceFlow_09xvapc" sourceRef="StorageCheckRegistrationTask" targetRef="AccessResponderProcessingTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0zo1ljd" sourceRef="EvaluationCreateRequirementResponseTask" targetRef="StorageOpenAccessToDocumentsTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0trdd9x" sourceRef="EvaluationCreateRequirementResponseTask" targetRef="StorageOpenAccessToDocumentsTask" />
     <bpmn:sequenceFlow id="SequenceFlow_07qebmu" sourceRef="NoticeTask" targetRef="BpeSaveContextTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0asepmc" sourceRef="BpeAddUpdateRecordTaskInQueueTask" targetRef="NoticeTask" />
@@ -107,7 +105,6 @@
     <bpmn:serviceTask id="EvaluationCreateRequirementResponseTask" name="eEvaluation:&#10;Create requirement response" camunda:asyncBefore="true" camunda:delegateExpression="${evaluationCreateRequirementResponseDelegate}">
       <bpmn:incoming>SequenceFlow_1qzo9zz</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0trdd9x</bpmn:outgoing>
-      <bpmn:outgoing>SequenceFlow_0zo1ljd</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="BpeAddUpdateRecordTaskInQueueTask" name="BPE:&#10;Add update record task to queue" camunda:asyncBefore="true" camunda:delegateExpression="${bpeAddUpdateRecordTaskInQueueDelegate}">
       <bpmn:incoming>SequenceFlow_0pk5qir</bpmn:incoming>
@@ -356,10 +353,6 @@ declareNonConflictOfInterest</bpmn:text>
         <di:waypoint x="2340" y="270" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0trdd9x_di" bpmnElement="SequenceFlow_0trdd9x">
-        <di:waypoint x="1900" y="270" />
-        <di:waypoint x="1940" y="270" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_0zo1ljd_di" bpmnElement="SequenceFlow_0zo1ljd">
         <di:waypoint x="1900" y="270" />
         <di:waypoint x="1940" y="270" />
       </bpmndi:BPMNEdge>
