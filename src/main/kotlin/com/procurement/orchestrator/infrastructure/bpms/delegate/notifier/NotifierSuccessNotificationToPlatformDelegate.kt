@@ -1,9 +1,12 @@
 package com.procurement.orchestrator.infrastructure.bpms.delegate.notifier
 
 import com.procurement.orchestrator.application.client.NotificatorClient
+import com.procurement.orchestrator.application.model.PlatformId
 import com.procurement.orchestrator.application.model.ResponseId
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.members.Outcomes
+import com.procurement.orchestrator.application.model.context.members.ProcessInfo
+import com.procurement.orchestrator.application.model.context.members.RequestInfo
 import com.procurement.orchestrator.application.model.process.OperationTypeProcess
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
@@ -72,35 +75,49 @@ class NotifierSuccessNotificationToPlatformDelegate(
     ): MaybeFail<Fail.Incident.Bpmn> = MaybeFail.none()
 
     private fun buildMessages(context: CamundaGlobalContext): Result<List<PlatformNotification.MessageEnvelop>, Fail.Incident> {
-        val outcomes = context.outcomes
-            ?: return success(emptyList())
-
         val requestInfo = context.requestInfo
         val processInfo = context.processInfo
+        val outcomes = context.outcomes
+        val platformIds: Set<PlatformId> = (outcomes?.keys ?: emptySet<PlatformId>()) + requestInfo.platformId
 
-        return outcomes.map { (platformId, detail) ->
-            val message = PlatformNotification.Message(
-                responseId = ResponseId.generate(),
-                operationId = requestInfo.operationId,
-                initiator = initiator(processInfo.operationType),
-                body = PlatformNotification.Message.Body.Success(
-                    ocid = processInfo.ocid,
-                    url = generateUrl(processInfo.operationType, cpid = processInfo.cpid, ocid = processInfo.ocid),
-                    operationDate = requestInfo.timestamp,
-                    outcomes = buildOutcomes(detail)
-                )
-            )
-
-            val serializedMessage = transform.trySerialization(message)
-                .orForwardFail { fail -> return fail }
-
-            PlatformNotification.MessageEnvelop(
-                platformId = platformId,
-                operationId = requestInfo.operationId,
-                message = serializedMessage
-            )
-        }
+        return platformIds
+            .map { platformId ->
+                buildMessage(
+                    platformId = platformId,
+                    processInfo = processInfo,
+                    requestInfo = requestInfo,
+                    outcomeDetails = outcomes?.get(platformId)
+                ).orForwardFail { fail -> return fail }
+            }
             .asSuccess<List<PlatformNotification.MessageEnvelop>, Fail.Incident>()
+    }
+
+    private fun buildMessage(
+        platformId: PlatformId,
+        processInfo: ProcessInfo,
+        requestInfo: RequestInfo,
+        outcomeDetails: Outcomes.Details?
+    ): Result<PlatformNotification.MessageEnvelop, Fail.Incident> {
+        val message = PlatformNotification.Message(
+            responseId = ResponseId.generate(),
+            operationId = requestInfo.operationId,
+            initiator = initiator(processInfo.operationType),
+            body = PlatformNotification.Message.Body.Success(
+                ocid = processInfo.ocid,
+                url = generateUrl(processInfo.operationType, cpid = processInfo.cpid, ocid = processInfo.ocid),
+                operationDate = requestInfo.timestamp,
+                outcomes = outcomeDetails?.let { buildOutcomes(it) }
+            )
+        ).let {
+            transform.trySerialization(it)
+                .orForwardFail { fail -> return fail }
+        }
+
+        return PlatformNotification.MessageEnvelop(
+            platformId = platformId,
+            operationId = requestInfo.operationId,
+            message = message
+        ).asSuccess()
     }
 
     private fun buildOutcomes(details: Outcomes.Details) = PlatformNotification.Outcomes(
