@@ -23,6 +23,10 @@ public class DossierCreateCriteria implements JavaDelegate {
 
     private static final Logger LOG = LoggerFactory.getLogger(DossierCreateCriteria.class);
 
+    private static final String ATTRIBUTE_CRITERIA = "criteria";
+    private static final String ATTRIBUTE_CONVERSIONS = "conversions";
+    private static final String ATTRIBUTE_AWARD_CRITERIA_DETAILS = "awardCriteriaDetails";
+
     private final DossierRestClient dossierRestClient;
     private final OperationService operationService;
     private final ProcessService processService;
@@ -80,9 +84,14 @@ public class DossierCreateCriteria implements JavaDelegate {
         try {
             final ObjectNode tenderNode = (ObjectNode) jsonData.get("tender");
 
-            tenderNode.replace("criteria", responseData.get("criteria"));
-            tenderNode.replace("conversions", responseData.get("conversions"));
-            tenderNode.replace("awardCriteriaDetails", responseData.get("awardCriteriaDetails"));
+            if (responseData.has(ATTRIBUTE_CRITERIA))
+                tenderNode.set(ATTRIBUTE_CRITERIA, responseData.get(ATTRIBUTE_CRITERIA));
+
+            if (responseData.has(ATTRIBUTE_CONVERSIONS))
+                tenderNode.set(ATTRIBUTE_CONVERSIONS, responseData.get(ATTRIBUTE_CONVERSIONS));
+
+            if (responseData.has(ATTRIBUTE_AWARD_CRITERIA_DETAILS))
+                tenderNode.set(ATTRIBUTE_AWARD_CRITERIA_DETAILS, responseData.get(ATTRIBUTE_AWARD_CRITERIA_DETAILS));
 
             return jsonData;
         } catch (Exception e) {
