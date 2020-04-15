@@ -84,7 +84,7 @@
       <bpmn:incoming>SequenceFlow_0vjgg8f</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1ca12w2</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:callActivity id="SubCancelLotInCancelLotLineTask" name="cancelLot" calledElement="subCancelLot" camunda:variableMappingDelegateExpression="${cancelLotMappingContextDelegate}">
+    <bpmn:callActivity id="SubCancelLotInCancelLotLineTask" name="cancelLot" calledElement="subCancelLot" camunda:variableMappingDelegateExpression="${transferLotIdDelegate}">
       <bpmn:extensionElements>
         <camunda:in source="processInfo" target="processInfo" />
         <camunda:in source="requestInfo" target="requestInfo" />
