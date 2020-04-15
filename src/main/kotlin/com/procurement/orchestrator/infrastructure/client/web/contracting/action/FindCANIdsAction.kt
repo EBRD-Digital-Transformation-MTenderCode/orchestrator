@@ -19,7 +19,7 @@ abstract class FindCANIdsAction : FunctionalAction<FindCANIdsAction.Params, Find
 
     override val version: Version = Version.parse("2.0.0")
     override val name: String = "findCANIds"
-    override val target: Target<Result> = Target.single()
+    override val target: Target<Result> = Target.plural()
 
     data class Params(
         @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid,
@@ -29,7 +29,7 @@ abstract class FindCANIdsAction : FunctionalAction<FindCANIdsAction.Params, Find
         @field:JsonProperty("states") @param:JsonProperty("states") val states: List<State>,
 
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
-        @field:JsonProperty("lotIds") @param:JsonProperty("lotIds") val lotIds: List<LotId.Permanent>?
+        @field:JsonProperty("lotIds") @param:JsonProperty("lotIds") val lotIds: List<LotId.Permanent>
 
     ) {
         data class State(

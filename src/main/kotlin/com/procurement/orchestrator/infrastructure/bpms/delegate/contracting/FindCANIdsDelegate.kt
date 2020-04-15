@@ -48,7 +48,7 @@ class FindCANIdsDelegate(
         private const val NAME_PARAMETER_OF_STATUS = "status"
         private const val NAME_PARAMETER_OF_STATUS_DETAILS = "statusDetails"
         private const val NAME_PARAMETER_OF_STATES = "states"
-        private const val LOT = "lot"
+        private const val LOCATION_OF_LOTS = "locationOfLots"
     }
 
     fun parseState(value: String): Result<State<CanStatus, CanStatusDetails>, Fail.Incident.Bpmn.Parameter> =
@@ -90,7 +90,7 @@ class FindCANIdsDelegate(
                     .orForwardFail { fail -> return fail }
             }
 
-        val locationOfLots = parameterContainer.getStringOrNull("locationOfLots")
+        val locationOfLots = parameterContainer.getStringOrNull(LOCATION_OF_LOTS)
             .orForwardFail { fail -> return fail }
             ?.let { value ->
                 LocationOfLots.orNull(key = value)
@@ -127,7 +127,11 @@ class FindCANIdsDelegate(
                     LocationOfLots.AMENDMENT_RELATED_ITEM -> {
                         val amendment = tender.getAmendmentIfOnlyOne()
                             .orForwardFail { incident -> return incident }
-                        val lotId = LotId.Permanent.tryCreateOrNull(amendment.relatedItem!!)!!
+
+                        val relatedItem = amendment.relatedItem
+                            ?: return Result.failure(Fail.Incident.Bpms.Context.Missing(name = "relatedItem"))
+
+                        val lotId = LotId.Permanent.tryCreateOrNull(relatedItem)!!
                         listOf(lotId as LotId.Permanent)
                     }
                 }
@@ -158,38 +162,6 @@ class FindCANIdsDelegate(
         data: FindCANIdsAction.Result
     ): MaybeFail<Fail.Incident> {
 
-        val tender = context.tryGetTender()
-            .orReturnFail { incident -> return MaybeFail.fail(incident) }
-
-        val receivedLotsIds = data.canIds
-            .asSequence()
-            .map { canId -> LotId.Permanent.tryCreateOrNull(canId.toString())!! }
-            .toSet()
-
-        when (parameters.locationOfLots) {
-            LocationOfLots.TENDER_LOTS -> {
-                val tenderLotsIds = tender.lots
-                    .toSetBy { it.id }
-
-                checkOnUnknownLots(receivedLotsIds = receivedLotsIds, dbLotsIds = tenderLotsIds)
-                    .orReturnFail { error -> return MaybeFail.fail(error) }
-
-                checkOnMissingLots(receivedLotsIds = tenderLotsIds, dbLotsIds = receivedLotsIds)
-                    .orReturnFail { error -> return MaybeFail.fail(error) }
-            }
-            LocationOfLots.AMENDMENT_RELATED_ITEM -> {
-                val amendment = tender.getAmendmentIfOnlyOne()
-                    .orReturnFail { incident -> return MaybeFail.fail(incident) }
-                val relatedItem = setOf(LotId.Permanent.tryCreateOrNull(amendment.relatedItem!!)!!)
-
-                checkOnUnknownLots(receivedLotsIds = receivedLotsIds, dbLotsIds = relatedItem)
-                    .orReturnFail { error -> return MaybeFail.fail(error) }
-
-                checkOnMissingLots(receivedLotsIds = relatedItem, dbLotsIds = receivedLotsIds)
-                    .orReturnFail { error -> return MaybeFail.fail(error) }
-            }
-        }
-
         val contextContracts = context.contracts
 
         val requestContracts = data.canIds.map {
@@ -199,30 +171,6 @@ class FindCANIdsDelegate(
         context.contracts = contextContracts.plus(Contracts(requestContracts))
 
         return MaybeFail.none()
-    }
-
-    private fun checkOnUnknownLots(
-        receivedLotsIds: Set<LotId>,
-        dbLotsIds: Set<LotId>
-    ): ValidationResult<Fail.Incident.Response.Validation.UnknownEntity> {
-        val unknownLots = receivedLotsIds.minus(dbLotsIds)
-        if (unknownLots.isNotEmpty())
-            return ValidationResult.error(
-                Fail.Incident.Response.Validation.UnknownEntity(id = unknownLots.joinToString(), name = LOT)
-            )
-        return ValidationResult.ok()
-    }
-
-    private fun checkOnMissingLots(
-        receivedLotsIds: Set<LotId>,
-        dbLotsIds: Set<LotId>
-    ): ValidationResult<Fail.Incident.Response.Validation.MissingExpectedEntity> {
-        val missingLots = dbLotsIds.minus(receivedLotsIds)
-        if (missingLots.isNotEmpty())
-            return ValidationResult.error(
-                Fail.Incident.Response.Validation.MissingExpectedEntity(id = missingLots.joinToString(), name = LOT)
-            )
-        return ValidationResult.ok()
     }
 
     class Parameters(val states: List<State<CanStatus, CanStatusDetails>>, val locationOfLots: LocationOfLots?)
