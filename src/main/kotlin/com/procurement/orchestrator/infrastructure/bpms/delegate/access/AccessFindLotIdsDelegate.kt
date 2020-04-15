@@ -68,7 +68,7 @@ class AccessFindLotIdsDelegate(
                                     ?: return failure(
                                         Fail.Incident.Bpmn.Parameter.UnknownValue(
                                             name = NAME_PARAMETER_OF_STATUS_DETAILS,
-                                            expectedValues = LotStatus.allowedElements.keysAsStrings(),
+                                            expectedValues = LotStatusDetails.allowedElements.keysAsStrings(),
                                             actualValue = statusDetails
                                         )
                                     )
