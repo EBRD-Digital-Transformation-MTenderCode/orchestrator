@@ -70,6 +70,9 @@ components:
   eEvaluation:
     host: 10.0.20.125
     port: 9081
+  eContracting:
+    host: 10.0.20.125
+    port: 9151
 
 ribbon:
   eureka:

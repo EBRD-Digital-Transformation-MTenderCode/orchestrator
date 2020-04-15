@@ -1,6 +1,7 @@
 package com.procurement.orchestrator.infrastructure.configuration
 
 import com.procurement.orchestrator.application.client.AccessClient
+import com.procurement.orchestrator.application.client.ContractingClient
 import com.procurement.orchestrator.application.client.DossierClient
 import com.procurement.orchestrator.application.client.EvaluationClient
 import com.procurement.orchestrator.application.client.MdmClient
@@ -11,6 +12,7 @@ import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.infrastructure.client.web.OkHttpWebClient
 import com.procurement.orchestrator.infrastructure.client.web.WebClient
 import com.procurement.orchestrator.infrastructure.client.web.access.HttpAccessClient
+import com.procurement.orchestrator.infrastructure.client.web.contracting.HttpContractingClient
 import com.procurement.orchestrator.infrastructure.client.web.dossier.HttpDossierClient
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.HttpEvaluationClient
 import com.procurement.orchestrator.infrastructure.client.web.mdm.HttpMdmClient
@@ -65,4 +67,8 @@ class WebClientConfiguration(
     @Bean
     fun evaluationClient(): EvaluationClient =
         HttpEvaluationClient(webClient = webClient(), properties = componentProperties["eEvaluation"])
+
+    @Bean
+    fun contractingClient(): ContractingClient =
+        HttpContractingClient(webClient = webClient(), properties = componentProperties["eContracting"])
 }
