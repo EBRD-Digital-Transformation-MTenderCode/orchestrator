@@ -3,6 +3,11 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.storage
 import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.StorageClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
+import com.procurement.orchestrator.application.model.context.extension.getAmendmentIfOnlyOne
+import com.procurement.orchestrator.application.model.context.extension.getAwardIfOnlyOne
+import com.procurement.orchestrator.application.model.context.extension.getBusinessFunctionsIfNotEmpty
+import com.procurement.orchestrator.application.model.context.extension.getRequirementResponseIfOnlyOne
+import com.procurement.orchestrator.application.model.context.extension.getResponder
 import com.procurement.orchestrator.application.model.process.OperationTypeProcess
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
@@ -13,7 +18,9 @@ import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
+import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.domain.model.document.DocumentId
+import com.procurement.orchestrator.domain.model.tender.Tender
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
@@ -32,6 +39,10 @@ class StorageCheckRegistrationDelegate(
     transform = transform,
     operationStepRepository = operationStepRepository
 ) {
+    companion object {
+        private const val TENDER_NAME = "tender"
+        private const val BUSINESS_FUNCTIONS_PATH = "awards.requirementResponses.responder.businessFunctions"
+    }
 
     override fun parameters(parameterContainer: ParameterContainer): Result<Parameters, Fail.Incident.Bpmn.Parameter> {
         val entities: List<Entity> = parameterContainer.getListString("entities")
@@ -59,41 +70,15 @@ class StorageCheckRegistrationDelegate(
         val entities = parameters.entities.toSet()
 
         val tender = context.tender
-        val tenderDocuments: List<DocumentId> = if (Entity.TENDER in entities)
-            tender?.documents
-                ?.asSequence()
-                ?.map { document -> document.id }
-                ?.toList()
-                .orEmpty()
-        else
-            emptyList()
+        val tenderDocuments: List<DocumentId> = getTenderDocumentsIds(tender, entities)
+            .orForwardFail { fail -> return fail }
 
-        val amendmentDocuments: List<DocumentId> = if (Entity.AMENDMENT in entities)
-            tender?.amendments
-                ?.asSequence()
-                ?.flatMap { amendment -> amendment.documents.asSequence() }
-                ?.map { document -> document.id }
-                ?.toList()
-                .orEmpty()
-        else
-            emptyList()
+        val amendmentDocuments: List<DocumentId> = getAmendmentDocumentsIds(tender, entities)
+            .orForwardFail { fail -> return fail }
 
-        val awardRequirementResponseDocuments: List<DocumentId> = if (Entity.AWARD_REQUIREMENT_RESPONSE in entities)
-            context.awards
-                .asSequence()
-                .flatMap { award ->
-                    award.requirementResponses.asSequence()
-                }
-                .flatMap { requirementResponse ->
-                    requirementResponse.responder?.businessFunctions?.asSequence() ?: emptySequence()
-                }
-                .flatMap { businessFunction ->
-                    businessFunction.documents.asSequence()
-                }
-                .map { document -> document.id }
-                .toList()
-        else
-            emptyList()
+        val awardRequirementResponseDocuments: List<DocumentId> =
+            getAwardRequirementResponseDocumentsIds(context, entities)
+                .orForwardFail { fail -> return fail }
 
         val documentIds: List<DocumentId> = tenderDocuments + amendmentDocuments + awardRequirementResponseDocuments
         if (documentIds.isEmpty())
@@ -107,6 +92,59 @@ class StorageCheckRegistrationDelegate(
                 ids = documentIds
             )
         )
+    }
+
+    private fun getTenderDocumentsIds(tender: Tender?, entities: Set<Entity>): Result<List<DocumentId>, Fail.Incident> {
+        return if (Entity.TENDER in entities) {
+            if (tender == null)
+                return failure(Fail.Incident.Bpms.Context.Missing(name = TENDER_NAME))
+
+            tender.documents
+                .map { document -> document.id }
+                .asSuccess()
+        } else
+            emptyList<DocumentId>().asSuccess()
+    }
+
+    private fun getAmendmentDocumentsIds(
+        tender: Tender?, entities: Set<Entity>
+    ): Result<List<DocumentId>, Fail.Incident> {
+
+        return if (Entity.AMENDMENT in entities) {
+            if (tender == null)
+                return failure(Fail.Incident.Bpms.Context.Missing(name = TENDER_NAME))
+
+            tender.getAmendmentIfOnlyOne()
+                .orForwardFail { fail -> return fail }
+                .documents
+                .map { document -> document.id }
+                .asSuccess()
+        } else
+            emptyList<DocumentId>().asSuccess()
+    }
+
+    private fun getAwardRequirementResponseDocumentsIds(
+        context: CamundaGlobalContext, entities: Set<Entity>
+    ): Result<List<DocumentId>, Fail.Incident> {
+
+        return if (Entity.AWARD_REQUIREMENT_RESPONSE in entities) {
+            context.getAwardIfOnlyOne()
+                .orForwardFail { fail -> return fail }
+                .getRequirementResponseIfOnlyOne()
+                .orForwardFail { fail -> return fail }
+                .getResponder()
+                .orForwardFail { fail -> return fail }
+                .getBusinessFunctionsIfNotEmpty(path = BUSINESS_FUNCTIONS_PATH)
+                .orForwardFail { fail -> return fail }
+                .asSequence()
+                .flatMap { businessFunction ->
+                    businessFunction.documents.asSequence()
+                }
+                .map { document -> document.id }
+                .toList()
+                .asSuccess()
+        } else
+            emptyList<DocumentId>().asSuccess()
     }
 
     override fun updateGlobalContext(
