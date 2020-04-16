@@ -3,10 +3,10 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.storage
 import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.StorageClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
-import com.procurement.orchestrator.application.model.context.extension.getAmendmentsIfNotEmpty
-import com.procurement.orchestrator.application.model.context.extension.getAwardsIfNotEmpty
+import com.procurement.orchestrator.application.model.context.extension.getAmendmentIfOnlyOne
+import com.procurement.orchestrator.application.model.context.extension.getAwardIfOnlyOne
 import com.procurement.orchestrator.application.model.context.extension.getBusinessFunctionsIfNotEmpty
-import com.procurement.orchestrator.application.model.context.extension.getRequirementResponseIfNotEmpty
+import com.procurement.orchestrator.application.model.context.extension.getRequirementResponseIfOnlyOne
 import com.procurement.orchestrator.application.model.context.extension.getResponder
 import com.procurement.orchestrator.application.model.context.members.Awards
 import com.procurement.orchestrator.application.model.process.OperationTypeProcess
@@ -73,12 +73,10 @@ class StorageOpenAccessDelegate(
         val documentOfAmendmentsOfTender: List<DocumentId> = if (Entity.AMENDMENT in entities) {
             if (tender == null)
                 return failure(Fail.Incident.Bpms.Context.Missing(name = "tender"))
-            tender.getAmendmentsIfNotEmpty()
+            tender.getAmendmentIfOnlyOne()
                 .orForwardFail { fail -> return fail }
-                .asSequence()
-                .flatMap { amendment -> amendment.documents.asSequence() }
+                .documents
                 .map { document -> document.id }
-                .toList()
         } else
             emptyList()
 
@@ -91,18 +89,14 @@ class StorageOpenAccessDelegate(
             emptyList()
 
         val documentOfAwards: List<DocumentId> = if (Entity.AWARD_REQUIREMENT_RESPONSE in entities)
-            context.getAwardsIfNotEmpty()
+            context.getAwardIfOnlyOne()
                 .orForwardFail { fail -> return fail }
-                .flatMap { award ->
-                    award.getRequirementResponseIfNotEmpty()
-                        .orForwardFail { fail -> return fail }
-                }
-                .flatMap { requirementResponse ->
-                    requirementResponse.getResponder()
-                        .orForwardFail { fail -> return fail }
-                        .getBusinessFunctionsIfNotEmpty(path = "awards.requirementResponses.responder")
-                        .orForwardFail { fail -> return fail }
-                }
+                .getRequirementResponseIfOnlyOne()
+                .orForwardFail { fail -> return fail }
+                .getResponder()
+                .orForwardFail { fail -> return fail }
+                .getBusinessFunctionsIfNotEmpty(path = "awards.requirementResponses.responder")
+                .orForwardFail { fail -> return fail }
                 .flatMap { businessFunction ->
                     businessFunction.documents.map { document -> document.id }
                 }
