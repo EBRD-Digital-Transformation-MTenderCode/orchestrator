@@ -145,8 +145,11 @@ class FindCANIdsDelegate(
                             listOf(lotId as LotId.Permanent)
                         } else {
                             return Result.failure(
-                                Fail.Incident.Bpmn.Parameter.UnConsistency(
-                                    description = "Attribute 'relatesTo' must be 'lot', but actual has '${relatesTo.key}' value."
+                                Fail.Incident.Bpms.Context.UnexpectedRelatedEntity(
+                                    path = "tender.amendment.relatesTo",
+                                    name = "relatesTo",
+                                    actual = relatesTo.key,
+                                    expected = AmendmentRelatesTo.LOT.key
                                 )
                             )
                         }

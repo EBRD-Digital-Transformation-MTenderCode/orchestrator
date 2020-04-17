@@ -126,12 +126,25 @@ sealed class Fail(prefix: String, number: String) {
                         description = "The attribute '$name' by the path '${path ?: TOP_LEVEL_PATH}' should have $expected element(s) in global context. Actually the attribute has $actual element(s)."
                     )
 
-                class DataFormatMismatch(name: String, expectedFormat: String, actualValue: String, path: String? = null) :
+                class DataFormatMismatch(
+                    name: String,
+                    expectedFormat: String,
+                    actualValue: String,
+                    path: String? = null
+                ) :
                     Context(
                         number = "6",
                         description = "Data format mismatch of '$name'. Expected data format: '$expectedFormat', actual value: '$actualValue'.",
                         name = name,
                         path = path
+                    )
+
+                class UnexpectedRelatedEntity(name: String, path: String? = null, expected: String, actual: String) :
+                    Context(
+                        number = "7",
+                        description = "Unexpected related entity in parameter $name by path $path. Expected: $expected, actual: $actual.",
+                        path = path,
+                        name = name
                     )
             }
         }
