@@ -7,7 +7,9 @@ import com.procurement.orchestrator.domain.EnumElementProvider
 enum class CanStatus(@JsonValue override val key: String) : EnumElementProvider.Key {
 
     PENDING("pending"),
-    ACTIVE("active");
+    ACTIVE("active"),
+    UNSUCCESSFUL("unsuccessful"),
+    CANCELLED("cancelled");
 
     override fun toString(): String = key
 
