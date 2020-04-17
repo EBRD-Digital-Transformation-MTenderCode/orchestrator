@@ -7,7 +7,6 @@ import com.procurement.orchestrator.application.client.ContractingClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.getAmendmentIfOnlyOne
 import com.procurement.orchestrator.application.model.context.extension.tryGetTender
-import com.procurement.orchestrator.application.model.context.members.Contracts
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.EnumElementProvider
@@ -21,6 +20,7 @@ import com.procurement.orchestrator.domain.model.can.CanStatus
 import com.procurement.orchestrator.domain.model.can.CanStatusDetails
 import com.procurement.orchestrator.domain.model.contract.Contract
 import com.procurement.orchestrator.domain.model.lot.LotId
+import com.procurement.orchestrator.domain.util.extension.getNewElements
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.delegate.parameter.StateParameter
@@ -169,11 +169,13 @@ class FindCANIdsDelegate(
 
         val contextContracts = context.contracts
 
-        val requestContracts = data.map {
-            Contract(id = it.toString())
-        }
+        val knownContractsIds = contextContracts.map { it.id }
+        val receivedCansIds = data.map { it.toString() }
 
-        context.contracts = contextContracts.plus(Contracts(requestContracts))
+        val newContracts = getNewElements(received = receivedCansIds, known = knownContractsIds)
+            .map { Contract(id = it) }
+
+        context.contracts = contextContracts.plus(newContracts)
 
         return MaybeFail.none()
     }
