@@ -16,6 +16,7 @@ import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.domain.model.State
+import com.procurement.orchestrator.domain.model.amendment.AmendmentRelatesTo
 import com.procurement.orchestrator.domain.model.can.CanStatus
 import com.procurement.orchestrator.domain.model.can.CanStatusDetails
 import com.procurement.orchestrator.domain.model.contract.Contract
@@ -128,16 +129,27 @@ class FindCANIdsDelegate(
                         val relatedItem = amendment.relatedItem
                             ?: return Result.failure(Fail.Incident.Bpms.Context.Missing(name = "relatedItem"))
 
-                        val lotId = LotId.Permanent.tryCreateOrNull(relatedItem)
-                            ?: return Result.failure(
-                                Fail.Incident.Bpms.Context.DataFormatMismatch(
-                                    name = "relatedItem",
-                                    path = "tender.amendment.relatedItem",
-                                    actualValue = relatedItem,
-                                    expectedFormat = LotId.Permanent.pattern
+                        val relatesTo = amendment.relatesTo
+                            ?: return Result.failure(Fail.Incident.Bpms.Context.Missing(name = "relatesTo"))
+
+                        if (relatesTo == AmendmentRelatesTo.LOT) {
+                            val lotId = LotId.Permanent.tryCreateOrNull(relatedItem)
+                                ?: return Result.failure(
+                                    Fail.Incident.Bpms.Context.DataFormatMismatch(
+                                        name = "relatedItem",
+                                        path = "tender.amendment.relatedItem",
+                                        actualValue = relatedItem,
+                                        expectedFormat = LotId.Permanent.pattern
+                                    )
+                                )
+                            listOf(lotId as LotId.Permanent)
+                        } else {
+                            return Result.failure(
+                                Fail.Incident.Bpmn.Parameter.UnConsistency(
+                                    description = "Attribute 'relatesTo' must be 'lot', but actual has '${relatesTo.key}' value."
                                 )
                             )
-                        listOf(lotId as LotId.Permanent)
+                        }
                     }
                 }
             } else
