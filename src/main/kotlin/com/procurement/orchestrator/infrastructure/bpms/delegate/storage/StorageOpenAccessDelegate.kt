@@ -27,6 +27,7 @@ import com.procurement.orchestrator.domain.model.amendment.Amendment
 import com.procurement.orchestrator.domain.model.document.Document
 import com.procurement.orchestrator.domain.model.document.DocumentId
 import com.procurement.orchestrator.domain.model.tender.Tender
+import com.procurement.orchestrator.domain.util.extension.asList
 import com.procurement.orchestrator.domain.util.extension.toSetBy
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
@@ -116,9 +117,8 @@ class StorageOpenAccessDelegate(
         val updatedAmendments = if (Entity.AMENDMENT in entities) {
             if (tender == null)
                 return MaybeFail.fail(Fail.Incident.Bpms.Context.Missing(name = TENDER_PATH))
-            listOf(tender.updateAmendmentDocuments(documentsByIds)
-                       .orReturnFail { return MaybeFail.fail(it) }
-            )
+            tender.updateAmendmentDocuments(documentsByIds)
+                .orReturnFail { return MaybeFail.fail(it) }
         } else
             tender?.amendments.orEmpty()
 
@@ -169,7 +169,7 @@ class StorageOpenAccessDelegate(
         return ValidationResult.ok()
     }
 
-    private fun Tender.updateAmendmentDocuments(documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document>): Result<Amendment, Fail.Incident.Bpms> =
+    private fun Tender.updateAmendmentDocuments(documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document>): Result<List<Amendment>, Fail.Incident.Bpms> =
         this.amendments
             .getElementIfOnlyOne(AMENDMENTS_PATH)
             .orForwardFail { fail -> return fail }
@@ -193,6 +193,7 @@ class StorageOpenAccessDelegate(
                     }
                 amendment.copy(documents = updatedDocuments)
             }
+            .asList()
             .asSuccess()
 
     private fun Tender.updateTenderDocuments(documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document>): Result<List<Document>, Fail.Incident.Bpms> =
