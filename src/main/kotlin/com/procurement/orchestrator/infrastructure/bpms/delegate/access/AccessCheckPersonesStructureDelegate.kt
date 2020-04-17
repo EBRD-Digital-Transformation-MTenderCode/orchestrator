@@ -5,7 +5,6 @@ import com.procurement.orchestrator.application.client.AccessClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.getAwardIfOnlyOne
 import com.procurement.orchestrator.application.model.context.extension.getRequirementResponseIfOnlyOne
-import com.procurement.orchestrator.application.model.process.OperationTypeProcess
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.EnumElementProvider
@@ -79,10 +78,6 @@ class AccessCheckPersonesStructureDelegate(
             params = CheckPersonesStructureAction.Params(
                 cpid = cpid,
                 ocid = ocid,
-                operationType = processInfo.operationType
-                    .takeIf {
-                        it != OperationTypeProcess.DECLARE_NON_CONFLICT_OF_INTEREST
-                    },
                 locationOfPersons = parameters.location.key,
                 persons = persons
             )
