@@ -26,7 +26,7 @@ interface EvaluationClient {
     suspend fun addRequirementResponse(
         id: CommandId,
         params: AddRequirementResponseAction.Params
-    ): Result<Reply<AddRequirementResponseAction.Result>, Fail.Incident>
+    ): Result<Reply<Unit>, Fail.Incident>
 
     suspend fun getAwardStateByIds(
         id: CommandId,

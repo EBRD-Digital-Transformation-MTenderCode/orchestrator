@@ -39,10 +39,9 @@ class HttpEvaluationClient(private val webClient: WebClient, properties: Compone
     override suspend fun addRequirementResponse(
         id: CommandId,
         params: AddRequirementResponseAction.Params
-    ): Result<Reply<AddRequirementResponseAction.Result>, Fail.Incident> = webClient.call(
+    ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
         url = url,
-        command = EvaluationCommands.AddRequirementResponse.build(id = id, params = params),
-        target = EvaluationCommands.AddRequirementResponse.target
+        command = EvaluationCommands.AddRequirementResponse.build(id = id, params = params)
     )
 
     override suspend fun getAwardStateByIds(

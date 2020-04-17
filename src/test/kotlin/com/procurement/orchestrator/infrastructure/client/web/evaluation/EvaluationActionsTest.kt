@@ -66,29 +66,6 @@ class EvaluationActionsTest {
             fun fully() {
                 testingBindingAndMapping<AddRequirementResponseAction.Params>("json/client/evaluation/add_requirement_response_params_full.json")
             }
-
-            @Test
-            fun required1() {
-                testingBindingAndMapping<AddRequirementResponseAction.Params>("json/client/evaluation/add_requirement_response_params_required_1.json")
-            }
-
-            @Test
-            fun required2() {
-                testingBindingAndMapping<AddRequirementResponseAction.Params>("json/client/evaluation/add_requirement_response_params_required_2.json")
-            }
-
-            @Test
-            fun required3() {
-                testingBindingAndMapping<AddRequirementResponseAction.Params>("json/client/evaluation/add_requirement_response_params_required_3.json")
-            }
-        }
-
-        @Nested
-        inner class Result {
-            @Test
-            fun fully() {
-                testingBindingAndMapping<AddRequirementResponseAction.Result>("json/client/evaluation/add_requirement_response_result_full.json")
-            }
         }
     }
 
