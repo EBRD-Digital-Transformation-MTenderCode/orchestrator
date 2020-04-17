@@ -26,20 +26,20 @@ abstract class FindCANIdsAction : FunctionalAction<FindCANIdsAction.Params, Find
         @field:JsonProperty("ocid") @param:JsonProperty("ocid") val ocid: Ocid,
 
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
-        @field:JsonProperty("states") @param:JsonProperty("states") val states: List<State>,
+        @field:JsonProperty("states") @param:JsonProperty("states") val states: List<State>?,
 
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
-        @field:JsonProperty("lotIds") @param:JsonProperty("lotIds") val lotIds: List<LotId.Permanent>
+        @field:JsonProperty("lotIds") @param:JsonProperty("lotIds") val lotIds: List<LotId.Permanent>?
 
     ) {
         data class State(
             @JsonInclude(JsonInclude.Include.NON_NULL)
-            @field:JsonProperty("status") @param:JsonProperty("status")val status: CanStatus? = null,
+            @field:JsonProperty("status") @param:JsonProperty("status") val status: CanStatus? = null,
 
             @JsonInclude(JsonInclude.Include.NON_NULL)
-            @field:JsonProperty("statusDetails") @param:JsonProperty("statusDetails")val statusDetails: CanStatusDetails? = null
+            @field:JsonProperty("statusDetails") @param:JsonProperty("statusDetails") val statusDetails: CanStatusDetails? = null
         )
     }
 
-    class Result(val canIds: List<CanId>) : Serializable
+    class Result(canIds: List<CanId>) : List<CanId> by canIds, Serializable
 }

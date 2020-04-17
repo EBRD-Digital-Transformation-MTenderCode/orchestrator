@@ -15,15 +15,12 @@ import com.procurement.orchestrator.domain.EnumElementProvider.Companion.keysAsS
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
-import com.procurement.orchestrator.domain.functional.ValidationResult
 import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.domain.model.State
 import com.procurement.orchestrator.domain.model.can.CanStatus
 import com.procurement.orchestrator.domain.model.can.CanStatusDetails
 import com.procurement.orchestrator.domain.model.contract.Contract
-import com.procurement.orchestrator.domain.model.contract.ContractId
 import com.procurement.orchestrator.domain.model.lot.LotId
-import com.procurement.orchestrator.domain.util.extension.toSetBy
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.delegate.parameter.StateParameter
@@ -131,7 +128,15 @@ class FindCANIdsDelegate(
                         val relatedItem = amendment.relatedItem
                             ?: return Result.failure(Fail.Incident.Bpms.Context.Missing(name = "relatedItem"))
 
-                        val lotId = LotId.Permanent.tryCreateOrNull(relatedItem)!!
+                        val lotId = LotId.Permanent.tryCreateOrNull(relatedItem)
+                            ?: return Result.failure(
+                                Fail.Incident.Bpms.Context.DataFormatMismatch(
+                                    name = "relatedItem",
+                                    path = "tender.amendment.relatedItem",
+                                    actualValue = relatedItem,
+                                    expectedFormat = LotId.Permanent.pattern
+                                )
+                            )
                         listOf(lotId as LotId.Permanent)
                     }
                 }
@@ -164,7 +169,7 @@ class FindCANIdsDelegate(
 
         val contextContracts = context.contracts
 
-        val requestContracts = data.canIds.map {
+        val requestContracts = data.map {
             Contract(id = it.toString())
         }
 
