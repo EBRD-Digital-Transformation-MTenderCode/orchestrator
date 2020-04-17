@@ -27,12 +27,6 @@ sealed class ValidationResult<out E> {
         is Fail -> function(this.error)
     }
 
-    inline fun orReturnFail(error: (E) -> Nothing): Unit =
-        when (this) {
-            is Ok -> Unit
-            is Fail -> error(this.error)
-        }
-
     object Ok : ValidationResult<Nothing>() {
         override val error: Nothing
             get() = throw NoSuchElementException("Validation result does not contain error.")
