@@ -36,7 +36,7 @@ class HttpEvaluationClient(private val webClient: WebClient, properties: Compone
         command = EvaluationCommands.CheckRelatedTenderer.build(id = id, params = params)
     )
 
-    override suspend fun createRequirementResponse(
+    override suspend fun addRequirementResponse(
         id: CommandId,
         params: AddRequirementResponseAction.Params
     ): Result<Reply<AddRequirementResponseAction.Result>, Fail.Incident> = webClient.call(

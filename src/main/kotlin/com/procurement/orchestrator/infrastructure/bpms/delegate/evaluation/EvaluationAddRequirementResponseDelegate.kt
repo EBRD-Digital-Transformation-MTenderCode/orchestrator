@@ -54,7 +54,7 @@ class EvaluationAddRequirementResponseDelegate(
             .orForwardFail { fail -> return fail }
 
         val processInfo = context.processInfo
-        return evaluationClient.createRequirementResponse(
+        return evaluationClient.addRequirementResponse(
             id = commandId,
             params = AddRequirementResponseAction.Params(
                 cpid = processInfo.cpid,
