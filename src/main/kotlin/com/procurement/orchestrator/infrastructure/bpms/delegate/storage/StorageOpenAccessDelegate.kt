@@ -52,6 +52,7 @@ class StorageOpenAccessDelegate(
     companion object {
         private const val TENDER_PATH = "tender"
         private const val AWARDS_PATH = "awards"
+        private const val AMENDMENTS_PATH = "tender.amendments"
         private const val BUSINESS_FUNCTIONS_PATH = "awards.requirementResponses.responder"
         private const val DOCUMENT_ID_PATH = "document.id"
     }
@@ -115,9 +116,10 @@ class StorageOpenAccessDelegate(
         val updatedAmendments = if (Entity.AMENDMENT in entities) {
             if (tender == null)
                 return MaybeFail.fail(Fail.Incident.Bpms.Context.Missing(name = TENDER_PATH))
-            tender
+            listOf(tender
                 .updateAmendmentDocuments(documentsByIds)
                 .orReturnFail { return MaybeFail.fail(it) }
+            )
         } else
             tender?.amendments.orEmpty()
 
@@ -168,9 +170,11 @@ class StorageOpenAccessDelegate(
         return ValidationResult.ok()
     }
 
-    private fun Tender.updateAmendmentDocuments(documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document>): Result<List<Amendment>, Fail.Incident.Bpms> =
+    private fun Tender.updateAmendmentDocuments(documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document>): Result<Amendment, Fail.Incident.Bpms> =
         this.amendments
-            .map { amendment ->
+            .getElementIfOnlyOne(AMENDMENTS_PATH)
+            .orForwardFail { fail -> return fail }
+            .let { amendment ->
                 val updatedDocuments = amendment.documents
                     .map { document ->
                         documentsByIds[document.id]
