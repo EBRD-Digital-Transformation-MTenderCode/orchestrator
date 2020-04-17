@@ -4,8 +4,8 @@ import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.StorageClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.getAmendmentIfOnlyOne
-import com.procurement.orchestrator.application.model.context.extension.getAwardIfOnlyOne
 import com.procurement.orchestrator.application.model.context.extension.getBusinessFunctionsIfNotEmpty
+import com.procurement.orchestrator.application.model.context.extension.getElementIfOnlyOne
 import com.procurement.orchestrator.application.model.context.extension.getRequirementResponseIfOnlyOne
 import com.procurement.orchestrator.application.model.context.extension.getResponder
 import com.procurement.orchestrator.application.model.context.members.Awards
@@ -20,15 +20,19 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.functional.ValidationResult
-import com.procurement.orchestrator.domain.functional.ValidationRule
 import com.procurement.orchestrator.domain.functional.asSuccess
+import com.procurement.orchestrator.domain.functional.bind
 import com.procurement.orchestrator.domain.functional.validate
 import com.procurement.orchestrator.domain.model.amendment.Amendment
 import com.procurement.orchestrator.domain.model.document.Document
 import com.procurement.orchestrator.domain.model.document.DocumentId
 import com.procurement.orchestrator.domain.model.tender.Tender
+import com.procurement.orchestrator.domain.util.extension.toSetBy
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
+import com.procurement.orchestrator.infrastructure.bpms.delegate.rule.duplicatesRule
+import com.procurement.orchestrator.infrastructure.bpms.delegate.rule.missingEntityRule
+import com.procurement.orchestrator.infrastructure.bpms.delegate.rule.unknownEntityRule
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.storage.action.OpenAccessAction
@@ -47,6 +51,7 @@ class StorageOpenAccessDelegate(
 ) {
     companion object {
         private const val TENDER_PATH = "tender"
+        private const val AWARDS_PATH = "awards"
         private const val BUSINESS_FUNCTIONS_PATH = "awards.requirementResponses.responder"
         private const val DOCUMENT_ID_PATH = "document.id"
     }
@@ -74,7 +79,8 @@ class StorageOpenAccessDelegate(
         parameters: Parameters
     ): Result<Reply<OpenAccessAction.Result>, Fail.Incident> {
 
-        val documentIds = getAllDocuments(context, parameters).orForwardFail { fail -> return fail }
+        val documentIds = getAllDocuments(context.tender, context.awards, parameters)
+            .orForwardFail { fail -> return fail }
 
         if (documentIds.isEmpty())
             return success(Reply.None)
@@ -98,97 +104,69 @@ class StorageOpenAccessDelegate(
         if (data.isEmpty())
             return MaybeFail.none()
 
-        val receivedDocumentsByIds: Map<DocumentId, OpenAccessAction.Result.Document> = data.associateBy { it.id }
-        val receivedDocumentsIds = receivedDocumentsByIds.keys
-        val contextDocumentIds = getAllDocuments(context, parameters)
+        val tender = context.tender
+        val awards = context.awards
+        validateData(data = data, tender = tender, awards = awards, parameters = parameters)
+            .doOnError { return MaybeFail.fail(it) }
+
+        val entities = parameters.entities.toSet()
+        val documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document> = data.associateBy { it.id }
+
+        val updatedAmendments = if (Entity.AMENDMENT in entities) {
+            if (tender == null)
+                return MaybeFail.fail(Fail.Incident.Bpms.Context.Missing(name = TENDER_PATH))
+            tender
+                .updateAmendmentDocuments(documentsByIds)
+                .orReturnFail { return MaybeFail.fail(it) }
+        } else
+            tender?.amendments.orEmpty()
+
+        val updatedTenderDocuments = if (Entity.TENDER in entities) {
+            if (tender == null)
+                return MaybeFail.fail(Fail.Incident.Bpms.Context.Missing(name = TENDER_PATH))
+            tender
+                .updateTenderDocuments(documentsByIds)
+                .orReturnFail { return MaybeFail.fail(it) }
+        } else
+            tender?.documents.orEmpty()
+
+        if (tender != null)
+            context.tender = tender.copy(
+                documents = updatedTenderDocuments,
+                amendments = updatedAmendments
+            )
+
+        val updatedAwards: Awards = success(awards)
+            .bind {
+                if (Entity.AWARD_REQUIREMENT_RESPONSE in entities)
+                    it.updateDocuments(documentsByIds)
+                else
+                    success(it)
+            }
             .orReturnFail { return MaybeFail.fail(it) }
-            .toSet()
 
-        data.validate(duplicatesRule())
-            .validate(unknownEntityRule(receivedDocIds = receivedDocumentsIds, contextDocIds = contextDocumentIds))
-            .validate(missingEntityRule(receivedDocIds = receivedDocumentsIds, contextDocIds = contextDocumentIds))
-            .orReturnFail { return MaybeFail.fail(it) }
+        context.awards = updatedAwards
 
-        /* val entities = parameters.entities.toSet()
-         val tender = context.tender
-
-         val updatedAmendments = if (Entity.AMENDMENT in entities)
-             tender
-                 ?.updateAmendmentDocuments(documentsByIds)
-                 ?.orReturnFail { return MaybeFail.fail(it) }
-                 .orEmpty()
-         else
-             tender?.amendments.orEmpty()
-
-         val updatedTenderDocuments = if (Entity.TENDER in entities)
-             tender
-                 ?.updateTenderDocuments(documentsByIds)
-                 ?.orReturnFail { return MaybeFail.fail(it) }
-                 .orEmpty()
-         else
-             tender?.documents.orEmpty()
-
-         if (tender != null)
-             context.tender = tender.copy(
-                 documents = updatedTenderDocuments,
-                 amendments = updatedAmendments
-             )
-
-         val updatedAwards: Awards = success(context.awards)
-             .bind {
-                 if (Entity.AWARD_REQUIREMENT_RESPONSE in entities)
-                     it.updateDocuments(documentsByIds)
-                 else
-                     success(it)
-             }
-             .orReturnFail { return MaybeFail.fail(it) }
-
-         context.awards = updatedAwards
- */
         return MaybeFail.none()
     }
 
-    private fun duplicatesRule() =
-        ValidationRule { data: OpenAccessAction.Result ->
-            val duplicates = data.groupingBy { it.id }
-                .eachCount()
-                .filter { it.value > 1 }
+    private fun validateData(
+        tender: Tender?, awards: Awards, parameters: Parameters, data: OpenAccessAction.Result
+    ): ValidationResult<Fail.Incident> {
 
-            if (duplicates.isNotEmpty())
-                ValidationResult.error(
-                    Fail.Incident.Response.Validation.DuplicateEntity(
-                        id = duplicates.keys.joinToString(), name = DOCUMENT_ID_PATH
-                    )
-                )
-            else
-                ValidationResult.ok()
-        }
+        val contextDocumentIds = getAllDocuments(tender, awards, parameters)
+            .orReturnFail { return ValidationResult.error(it) }
+            .toSet()
 
-    private fun unknownEntityRule(receivedDocIds: Set<DocumentId>, contextDocIds: Set<DocumentId>) =
-        ValidationRule { data: OpenAccessAction.Result ->
-            val unknownDocuments = receivedDocIds.minus(contextDocIds)
-            if (unknownDocuments.isNotEmpty())
-                ValidationResult.error(
-                    Fail.Incident.Response.Validation.UnknownEntity(
-                        id = unknownDocuments.joinToString(), name = DOCUMENT_ID_PATH
-                    )
-                )
-            else
-                ValidationResult.ok()
-        }
+        data.validate(duplicatesRule(DOCUMENT_ID_PATH))
+            .orReturnFail { return ValidationResult.error(it) }
+            .toSetBy { it.id }
+            .validate(missingEntityRule(contextDocumentIds, DOCUMENT_ID_PATH))
+            .validate(unknownEntityRule(contextDocumentIds, DOCUMENT_ID_PATH))
+            .doOnError { return ValidationResult.error(it) }
 
-    private fun missingEntityRule(receivedDocIds: Set<DocumentId>, contextDocIds: Set<DocumentId>) =
-        ValidationRule { data: OpenAccessAction.Result ->
-            val missingDocuments = contextDocIds.minus(receivedDocIds)
-            if (missingDocuments.isNotEmpty())
-                ValidationResult.error(
-                    Fail.Incident.Response.Validation.MissingExpectedEntity(
-                        id = missingDocuments.joinToString(), name = DOCUMENT_ID_PATH
-                    )
-                )
-            else
-                ValidationResult.ok()
-        }
+        return ValidationResult.ok()
+    }
 
     private fun Tender.updateAmendmentDocuments(documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document>): Result<List<Amendment>, Fail.Incident.Bpms> =
         this.amendments
@@ -300,11 +278,11 @@ class StorageOpenAccessDelegate(
     }
 
     private fun getAwardRequirementResponseDocumentsIds(
-        context: CamundaGlobalContext, entities: Set<Entity>
+        awards: Awards, entities: Set<Entity>
     ): Result<List<DocumentId>, Fail.Incident> {
 
         return if (Entity.AWARD_REQUIREMENT_RESPONSE in entities) {
-            context.getAwardIfOnlyOne()
+            awards.getElementIfOnlyOne(name = AWARDS_PATH)
                 .orForwardFail { fail -> return fail }
                 .getRequirementResponseIfOnlyOne()
                 .orForwardFail { fail -> return fail }
@@ -321,9 +299,8 @@ class StorageOpenAccessDelegate(
     }
 
     private fun getAllDocuments(
-        context: CamundaGlobalContext, parameters: Parameters
+        tender: Tender?, awards: Awards, parameters: Parameters
     ): Result<List<DocumentId>, Fail.Incident> {
-        val tender = context.tender
         val entities = parameters.entities.toSet()
 
         val documentOfAmendmentsOfTender: List<DocumentId> = getAmendmentDocumentsIds(tender, entities)
@@ -332,7 +309,7 @@ class StorageOpenAccessDelegate(
         val documentOfTender: List<DocumentId> = getTenderDocumentsIds(tender, entities)
             .orForwardFail { fail -> return fail }
 
-        val documentOfAwards: List<DocumentId> = getAwardRequirementResponseDocumentsIds(context, entities)
+        val documentOfAwards: List<DocumentId> = getAwardRequirementResponseDocumentsIds(awards, entities)
             .orForwardFail { fail -> return fail }
 
         return documentOfAmendmentsOfTender
