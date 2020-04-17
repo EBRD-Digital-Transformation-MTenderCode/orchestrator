@@ -17,4 +17,13 @@ data class Person(
 
     @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
     @field:JsonProperty("businessFunctions") @param:JsonProperty("businessFunctions") val businessFunctions: List<BusinessFunction> = emptyList()
-) : Serializable
+) : Serializable {
+
+    override fun equals(other: Any?): Boolean = if (this === other)
+        true
+    else
+        other is Person
+            && this.identifier == other.identifier
+
+    override fun hashCode(): Int = identifier.hashCode()
+}
