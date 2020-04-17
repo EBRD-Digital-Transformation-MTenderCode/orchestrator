@@ -20,7 +20,7 @@ import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExterna
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
-import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CreateRequirementResponseAction
+import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.AddRequirementResponseAction
 import org.springframework.stereotype.Component
 
 @Component
@@ -29,7 +29,7 @@ class EvaluationAddRequirementResponseDelegate(
     private val evaluationClient: EvaluationClient,
     operationStepRepository: OperationStepRepository,
     transform: Transform
-) : AbstractExternalDelegate<Unit, CreateRequirementResponseAction.Result>(
+) : AbstractExternalDelegate<Unit, AddRequirementResponseAction.Result>(
     logger = logger,
     transform = transform,
     operationStepRepository = operationStepRepository
@@ -42,7 +42,7 @@ class EvaluationAddRequirementResponseDelegate(
         commandId: CommandId,
         context: CamundaGlobalContext,
         parameters: Unit
-    ): Result<Reply<CreateRequirementResponseAction.Result>, Fail.Incident> {
+    ): Result<Reply<AddRequirementResponseAction.Result>, Fail.Incident> {
 
         val award = context.getAwardIfOnlyOne()
             .orForwardFail { fail -> return fail }
@@ -56,29 +56,29 @@ class EvaluationAddRequirementResponseDelegate(
         val processInfo = context.processInfo
         return evaluationClient.createRequirementResponse(
             id = commandId,
-            params = CreateRequirementResponseAction.Params(
+            params = AddRequirementResponseAction.Params(
                 cpid = processInfo.cpid,
                 ocid = processInfo.ocid,
-                award = CreateRequirementResponseAction.Params.Award(
+                award = AddRequirementResponseAction.Params.Award(
                     id = award.id,
-                    requirementResponse = CreateRequirementResponseAction.Params.Award.RequirementResponse(
+                    requirementResponse = AddRequirementResponseAction.Params.Award.RequirementResponse(
                         id = requirementResponse.id as RequirementResponseId.Permanent,
                         value = requirementResponse.value,
                         relatedTenderer = requirementResponse.relatedTenderer
                             ?.let { relatedTenderer ->
-                                CreateRequirementResponseAction.Params.Award.RequirementResponse.RelatedTenderer(
+                                AddRequirementResponseAction.Params.Award.RequirementResponse.RelatedTenderer(
                                     id = relatedTenderer.id
                                 )
                             },
                         requirement = requirementResponse.requirement
                             ?.let { requirement ->
-                                CreateRequirementResponseAction.Params.Award.RequirementResponse.Requirement(
+                                AddRequirementResponseAction.Params.Award.RequirementResponse.Requirement(
                                     id = requirement.id
                                 )
                             },
                         responderer = requirementResponse.responder
                             ?.let {
-                                CreateRequirementResponseAction.Params.Award.RequirementResponse.Responder(
+                                AddRequirementResponseAction.Params.Award.RequirementResponse.Responder(
                                     id = party.id,
                                     name = party.name
                                 )
@@ -93,7 +93,7 @@ class EvaluationAddRequirementResponseDelegate(
     override fun updateGlobalContext(
         context: CamundaGlobalContext,
         parameters: Unit,
-        data: CreateRequirementResponseAction.Result
+        data: AddRequirementResponseAction.Result
     ): MaybeFail<Fail.Incident> {
 
         val award = context.findAwardById(id = data.award.id)

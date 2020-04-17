@@ -19,10 +19,10 @@ import com.procurement.orchestrator.infrastructure.client.web.Target
 import com.procurement.orchestrator.infrastructure.model.Version
 import java.io.Serializable
 
-abstract class CreateRequirementResponseAction :
-    FunctionalAction<CreateRequirementResponseAction.Params, CreateRequirementResponseAction.Result> {
+abstract class AddRequirementResponseAction :
+    FunctionalAction<AddRequirementResponseAction.Params, AddRequirementResponseAction.Result> {
     override val version: Version = Version.parse("2.0.0")
-    override val name: String = "createRequirementResponse"
+    override val name: String = "addRequirementResponse"
     override val target: Target<Result> = Target.single()
 
     class Params(

@@ -1,9 +1,9 @@
 package com.procurement.orchestrator.infrastructure.client.web.evaluation
 
+import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.AddRequirementResponseAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CheckAccessToAwardAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CheckRelatedTendererAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CloseAwardPeriodAction
-import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CreateRequirementResponseAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CreateUnsuccessfulAwardsAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.GetAwardStateByIdsAction
 import com.procurement.orchestrator.json.testingBindingAndMapping
@@ -57,29 +57,29 @@ class EvaluationActionsTest {
     }
 
     @Nested
-    inner class CreateRequirementResponse {
+    inner class AddRequirementResponse {
 
         @Nested
         inner class Params {
 
             @Test
             fun fully() {
-                testingBindingAndMapping<CreateRequirementResponseAction.Params>("json/client/evaluation/create_requirement_response_params_full.json")
+                testingBindingAndMapping<AddRequirementResponseAction.Params>("json/client/evaluation/add_requirement_response_params_full.json")
             }
 
             @Test
             fun required1() {
-                testingBindingAndMapping<CreateRequirementResponseAction.Params>("json/client/evaluation/create_requirement_response_params_required_1.json")
+                testingBindingAndMapping<AddRequirementResponseAction.Params>("json/client/evaluation/add_requirement_response_params_required_1.json")
             }
 
             @Test
             fun required2() {
-                testingBindingAndMapping<CreateRequirementResponseAction.Params>("json/client/evaluation/create_requirement_response_params_required_2.json")
+                testingBindingAndMapping<AddRequirementResponseAction.Params>("json/client/evaluation/add_requirement_response_params_required_2.json")
             }
 
             @Test
             fun required3() {
-                testingBindingAndMapping<CreateRequirementResponseAction.Params>("json/client/evaluation/create_requirement_response_params_required_3.json")
+                testingBindingAndMapping<AddRequirementResponseAction.Params>("json/client/evaluation/add_requirement_response_params_required_3.json")
             }
         }
 
@@ -87,7 +87,7 @@ class EvaluationActionsTest {
         inner class Result {
             @Test
             fun fully() {
-                testingBindingAndMapping<CreateRequirementResponseAction.Result>("json/client/evaluation/create_requirement_response_result_full.json")
+                testingBindingAndMapping<AddRequirementResponseAction.Result>("json/client/evaluation/add_requirement_response_result_full.json")
             }
         }
     }
@@ -112,7 +112,6 @@ class EvaluationActionsTest {
         }
     }
 
-
     @Nested
     inner class CloseAwardPeriod {
 
@@ -132,6 +131,5 @@ class EvaluationActionsTest {
             }
         }
     }
-
 }
 
