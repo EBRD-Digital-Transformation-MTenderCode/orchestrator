@@ -24,7 +24,7 @@ import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.
 import org.springframework.stereotype.Component
 
 @Component
-class EvaluationCreateRequirementResponseDelegate(
+class EvaluationAddRequirementResponseDelegate(
     logger: Logger,
     private val evaluationClient: EvaluationClient,
     operationStepRepository: OperationStepRepository,
