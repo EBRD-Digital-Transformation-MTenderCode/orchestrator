@@ -4,10 +4,10 @@ import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
+import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.AddRequirementResponseAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CheckAccessToAwardAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CheckRelatedTendererAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CloseAwardPeriodAction
-import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CreateRequirementResponseAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CreateUnsuccessfulAwardsAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.GetAwardStateByIdsAction
 
@@ -23,10 +23,10 @@ interface EvaluationClient {
         params: CheckRelatedTendererAction.Params
     ): Result<Reply<Unit>, Fail.Incident>
 
-    suspend fun createRequirementResponse(
+    suspend fun addRequirementResponse(
         id: CommandId,
-        params: CreateRequirementResponseAction.Params
-    ): Result<Reply<CreateRequirementResponseAction.Result>, Fail.Incident>
+        params: AddRequirementResponseAction.Params
+    ): Result<Reply<Unit>, Fail.Incident>
 
     suspend fun getAwardStateByIds(
         id: CommandId,
