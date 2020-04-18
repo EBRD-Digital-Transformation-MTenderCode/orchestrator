@@ -31,12 +31,12 @@ import com.procurement.orchestrator.infrastructure.client.web.contracting.action
 import org.springframework.stereotype.Component
 
 @Component
-class FindCANIdsDelegate(
+class ContractingFindCANIdsDelegate(
     logger: Logger,
     private val contractingClient: ContractingClient,
     operationStepRepository: OperationStepRepository,
     transform: Transform
-) : AbstractExternalDelegate<FindCANIdsDelegate.Parameters, FindCANIdsAction.Result>(
+) : AbstractExternalDelegate<ContractingFindCANIdsDelegate.Parameters, FindCANIdsAction.Result>(
     logger = logger,
     transform = transform,
     operationStepRepository = operationStepRepository
