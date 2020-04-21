@@ -18,6 +18,7 @@ import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
+import com.procurement.orchestrator.domain.functional.asFailure
 import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.domain.model.document.DocumentId
 import com.procurement.orchestrator.domain.model.tender.Tender
@@ -76,7 +77,7 @@ class StorageCheckRegistrationDelegate(
         parameters: Parameters
     ): Result<Reply<Unit>, Fail.Incident> {
 
-        val entities = parameters.entities.keys.toSet()
+        val entities = parameters.entities
 
         val tender = context.tender
         val tenderDocuments: List<DocumentId> = getTenderDocumentsIds(tender, entities)
@@ -105,64 +106,121 @@ class StorageCheckRegistrationDelegate(
 
     private fun getTenderDocumentsIds(
         tender: Tender?,
-        entities: Set<EntityKey>
+        entities: Map<EntityKey, EntityValue>
     ): Result<List<DocumentId>, Fail.Incident> {
-        return if (EntityKey.TENDER in entities) {
-            if (tender == null)
-                return failure(Fail.Incident.Bpms.Context.Missing(name = TENDER_PATH))
-
-            tender.getDocumentsIfNotEmpty()
-                .orForwardFail { fail -> return fail }
-                .map { document -> document.id }
-                .asSuccess()
+        val tenderKey = EntityKey.TENDER
+        return if (tenderKey in entities.keys) {
+            when (entities.getValue(tenderKey)) {
+                EntityValue.OPTIONAL -> getTenderDocumentsIdsOptional(tender)
+                EntityValue.REQUIRED -> getTenderDocumentsIdsRequired(tender)
+                    .doOnError { error -> return error.asFailure() }
+            }
         } else
             emptyList<DocumentId>().asSuccess()
+    }
+
+    private fun getTenderDocumentsIdsOptional(tender: Tender?): Result<List<DocumentId>, Fail.Incident> =
+        tender?.documents
+            ?.asSequence()
+            ?.map { document -> document.id }
+            ?.toList()
+            .orEmpty()
+            .asSuccess()
+
+    private fun getTenderDocumentsIdsRequired(tender: Tender?): Result<List<DocumentId>, Fail.Incident> {
+        if (tender == null)
+            return failure(Fail.Incident.Bpms.Context.Missing(name = TENDER_PATH))
+
+        return tender.getDocumentsIfNotEmpty()
+            .orForwardFail { fail -> return fail }
+            .map { document -> document.id }
+            .asSuccess()
     }
 
     private fun getAmendmentDocumentsIds(
-        tender: Tender?, entities: Set<EntityKey>
+        tender: Tender?, entities: Map<EntityKey, EntityValue>
     ): Result<List<DocumentId>, Fail.Incident> {
-
-        return if (EntityKey.AMENDMENT in entities) {
-            if (tender == null)
-                return failure(Fail.Incident.Bpms.Context.Missing(name = TENDER_PATH))
-
-            tender.getAmendmentsIfNotEmpty()
-                .orForwardFail { fail -> return fail }
-                .flatMap { amendment ->
-                    amendment.getDocumentsIfNotEmpty()
-                        .orForwardFail { fail -> return fail }
-                }
-                .map { document -> document.id }
-                .asSuccess()
+        val amendmentKey = EntityKey.AMENDMENT
+        return if (amendmentKey in entities) {
+            when (entities.getValue(amendmentKey)) {
+                EntityValue.OPTIONAL -> getAmendmentDocumentsIdsOptional(tender)
+                EntityValue.REQUIRED -> getAmendmentDocumentsIdsRequired(tender)
+                    .doOnError { error -> return error.asFailure() }
+            }
         } else
             emptyList<DocumentId>().asSuccess()
+    }
+
+    private fun getAmendmentDocumentsIdsOptional(tender: Tender?): Result<List<DocumentId>, Fail.Incident> =
+        tender?.amendments
+            ?.asSequence()
+            ?.flatMap { amendment -> amendment.documents.asSequence() }
+            ?.map { document -> document.id }
+            ?.toList()
+            .orEmpty()
+            .asSuccess()
+
+    private fun getAmendmentDocumentsIdsRequired(tender: Tender?): Result<List<DocumentId>, Fail.Incident> {
+        if (tender == null)
+            return failure(Fail.Incident.Bpms.Context.Missing(name = TENDER_PATH))
+
+        return tender.getAmendmentsIfNotEmpty()
+            .orForwardFail { fail -> return fail }
+            .flatMap { amendment ->
+                amendment.getDocumentsIfNotEmpty()
+                    .orForwardFail { fail -> return fail }
+            }
+            .map { document -> document.id }
+            .asSuccess()
     }
 
     private fun getAwardRequirementResponseDocumentsIds(
-        context: CamundaGlobalContext, entities: Set<EntityKey>
+        context: CamundaGlobalContext, entities: Map<EntityKey, EntityValue>
     ): Result<List<DocumentId>, Fail.Incident> {
-
-        return if (EntityKey.AWARD_REQUIREMENT_RESPONSE in entities) {
-            context.getAwardsIfNotEmpty()
-                .orForwardFail { fail -> return fail }
-                .flatMap { award ->
-                    award.getRequirementResponseIfOnlyOne()
-                        .orForwardFail { fail -> return fail }
-                        .getResponder()
-                        .orForwardFail { fail -> return fail }
-                        .getBusinessFunctionsIfNotEmpty(path = BUSINESS_FUNCTIONS_PATH)
-                        .orForwardFail { fail -> return fail }
-                        .flatMap { businessFunction ->
-                            businessFunction.getDocumentsIfNotEmpty()
-                                .orForwardFail { fail -> return fail }
-                        }
-                }
-                .map { document -> document.id }
-                .asSuccess()
+        val awardKey = EntityKey.AWARD_REQUIREMENT_RESPONSE
+        return if (awardKey in entities) {
+            when (entities.getValue(awardKey)) {
+                EntityValue.OPTIONAL -> getAwardDocumentsIdsOptional(context)
+                EntityValue.REQUIRED -> getAwardDocumentsIdsRequired(context)
+                    .doOnError { error -> return error.asFailure() }
+            }
         } else
             emptyList<DocumentId>().asSuccess()
     }
+
+    private fun getAwardDocumentsIdsOptional(context: CamundaGlobalContext): Result<List<DocumentId>, Fail.Incident> =
+        context.awards
+            .asSequence()
+            .map { award ->
+                award.requirementResponses.getOrNull(0)
+            }
+            .flatMap { requirementResponse ->
+                requirementResponse?.responder?.businessFunctions?.asSequence() ?: emptySequence()
+            }
+            .flatMap { businessFunction ->
+                businessFunction.documents.asSequence()
+            }
+            .map { document -> document.id }
+            .toList()
+            .asSuccess()
+
+    private fun getAwardDocumentsIdsRequired(context: CamundaGlobalContext): Result<List<DocumentId>, Fail.Incident> =
+        context.getAwardsIfNotEmpty()
+            .orForwardFail { fail -> return fail }
+            .flatMap { award ->
+                award.getRequirementResponseIfOnlyOne()
+                    .orForwardFail { fail -> return fail }
+                    .getResponder()
+                    .orForwardFail { fail -> return fail }
+                    .getBusinessFunctionsIfNotEmpty(path = BUSINESS_FUNCTIONS_PATH)
+                    .orForwardFail { fail -> return fail }
+                    .flatMap { businessFunction ->
+                        businessFunction.getDocumentsIfNotEmpty()
+                            .orForwardFail { fail -> return fail }
+                    }
+            }
+            .map { document -> document.id }
+            .asSuccess()
 
     override fun updateGlobalContext(
         context: CamundaGlobalContext,
