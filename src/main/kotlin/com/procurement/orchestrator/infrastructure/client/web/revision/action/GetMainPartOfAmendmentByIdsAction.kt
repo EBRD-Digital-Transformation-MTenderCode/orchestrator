@@ -15,7 +15,7 @@ import java.io.Serializable
 abstract class GetMainPartOfAmendmentByIdsAction :
     FunctionalAction<GetMainPartOfAmendmentByIdsAction.Params, GetMainPartOfAmendmentByIdsAction.Result> {
     override val version: Version = Version.parse("2.0.0")
-    override val name: String = "getMainPartOfAmendmentByIds"
+    override val name: String = "getAmendmentByIds"
     override val target: Target<Result> = Target.plural()
 
     class Params(
