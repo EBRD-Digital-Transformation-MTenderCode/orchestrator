@@ -3,9 +3,10 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.storage
 import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.StorageClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
-import com.procurement.orchestrator.application.model.context.extension.getAmendmentIfOnlyOne
-import com.procurement.orchestrator.application.model.context.extension.getAwardIfOnlyOne
+import com.procurement.orchestrator.application.model.context.extension.getAmendmentsIfNotEmpty
+import com.procurement.orchestrator.application.model.context.extension.getAwardsIfNotEmpty
 import com.procurement.orchestrator.application.model.context.extension.getBusinessFunctionsIfNotEmpty
+import com.procurement.orchestrator.application.model.context.extension.getDocumentsIfNotEmpty
 import com.procurement.orchestrator.application.model.context.extension.getRequirementResponseIfOnlyOne
 import com.procurement.orchestrator.application.model.context.extension.getResponder
 import com.procurement.orchestrator.application.service.Logger
@@ -110,7 +111,8 @@ class StorageCheckRegistrationDelegate(
             if (tender == null)
                 return failure(Fail.Incident.Bpms.Context.Missing(name = TENDER_PATH))
 
-            tender.documents
+            tender.getDocumentsIfNotEmpty()
+                .orForwardFail { fail -> return fail }
                 .map { document -> document.id }
                 .asSuccess()
         } else
@@ -125,9 +127,12 @@ class StorageCheckRegistrationDelegate(
             if (tender == null)
                 return failure(Fail.Incident.Bpms.Context.Missing(name = TENDER_PATH))
 
-            tender.getAmendmentIfOnlyOne()
+            tender.getAmendmentsIfNotEmpty()
                 .orForwardFail { fail -> return fail }
-                .documents
+                .flatMap { amendment ->
+                    amendment.getDocumentsIfNotEmpty()
+                        .orForwardFail { fail -> return fail }
+                }
                 .map { document -> document.id }
                 .asSuccess()
         } else
@@ -139,20 +144,21 @@ class StorageCheckRegistrationDelegate(
     ): Result<List<DocumentId>, Fail.Incident> {
 
         return if (EntityKey.AWARD_REQUIREMENT_RESPONSE in entities) {
-            context.getAwardIfOnlyOne()
+            context.getAwardsIfNotEmpty()
                 .orForwardFail { fail -> return fail }
-                .getRequirementResponseIfOnlyOne()
-                .orForwardFail { fail -> return fail }
-                .getResponder()
-                .orForwardFail { fail -> return fail }
-                .getBusinessFunctionsIfNotEmpty(path = BUSINESS_FUNCTIONS_PATH)
-                .orForwardFail { fail -> return fail }
-                .asSequence()
-                .flatMap { businessFunction ->
-                    businessFunction.documents.asSequence()
+                .flatMap { award ->
+                    award.getRequirementResponseIfOnlyOne()
+                        .orForwardFail { fail -> return fail }
+                        .getResponder()
+                        .orForwardFail { fail -> return fail }
+                        .getBusinessFunctionsIfNotEmpty(path = BUSINESS_FUNCTIONS_PATH)
+                        .orForwardFail { fail -> return fail }
+                        .flatMap { businessFunction ->
+                            businessFunction.getDocumentsIfNotEmpty()
+                                .orForwardFail { fail -> return fail }
+                        }
                 }
                 .map { document -> document.id }
-                .toList()
                 .asSuccess()
         } else
             emptyList<DocumentId>().asSuccess()
