@@ -56,4 +56,22 @@ class ParameterContainer(private val execution: DelegateExecution) {
             }
             ?: success(emptyList())
     }
+
+    fun getMapString(name: String): Result<Map<String, String>, Fail.Incident.Bpmn.Parameter.DataTypeMismatch> {
+        return execution.getVariable(name)
+            ?.let { value ->
+                if (value !is Map<*, *>)
+                    return failure(
+                        Fail.Incident.Bpmn.Parameter.DataTypeMismatch(
+                            name = name,
+                            expectedType = Map::class.qualifiedName!!,
+                            actualType = value::class.qualifiedName!!
+                        )
+                    )
+                success(value.map { (key, value) ->
+                    key!!.toString() to value!!.toString()
+                }.toMap())
+            }
+            ?: success(emptyMap())
+    }
 }
