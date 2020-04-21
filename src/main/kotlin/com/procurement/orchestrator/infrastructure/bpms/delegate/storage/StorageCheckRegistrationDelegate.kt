@@ -99,11 +99,9 @@ class StorageCheckRegistrationDelegate(
         if (documentIds.isEmpty())
             return success(Reply.None)
 
-        val requestInfo = context.requestInfo
         return client.checkRegistration(
             id = commandId,
             params = CheckRegistrationAction.Params(
-                datePublished = requestInfo.timestamp,
                 ids = documentIds
             )
         )

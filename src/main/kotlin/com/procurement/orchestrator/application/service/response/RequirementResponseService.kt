@@ -14,6 +14,7 @@ import com.procurement.orchestrator.domain.EnumElementProvider.Companion.keysAsS
 import com.procurement.orchestrator.domain.extension.date.nowDefaultUTC
 import com.procurement.orchestrator.domain.extension.date.tryParseLocalDateTime
 import com.procurement.orchestrator.domain.fail.Fail
+import com.procurement.orchestrator.domain.fail.error.BpeErrors
 import com.procurement.orchestrator.domain.fail.error.DataValidationErrors
 import com.procurement.orchestrator.domain.fail.error.RequestErrors
 import com.procurement.orchestrator.domain.functional.MaybeFail
@@ -85,7 +86,7 @@ class RequirementResponseServiceImpl(
             )
             .orReturnFail { return MaybeFail.fail(it) }
             ?: return MaybeFail.fail(
-                Fail.Incident.Bpe(
+                BpeErrors.Process(
                     description = "Operation by country: '$countryId', pmd: '$pmd', process definition key: '$processDefinitionKey', stage: '$prevStage', phase: '$prevPhase' is impossible."
                 )
             )
