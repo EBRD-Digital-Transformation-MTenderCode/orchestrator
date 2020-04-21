@@ -12,6 +12,7 @@ import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.EnumElementProvider.Companion.keysAsStrings
 import com.procurement.orchestrator.domain.extension.date.nowDefaultUTC
 import com.procurement.orchestrator.domain.fail.Fail
+import com.procurement.orchestrator.domain.fail.error.BpeErrors
 import com.procurement.orchestrator.domain.fail.error.DataValidationErrors
 import com.procurement.orchestrator.domain.fail.error.RequestErrors
 import com.procurement.orchestrator.domain.functional.MaybeFail
@@ -81,7 +82,7 @@ class CancellationServiceImpl(
             )
             .orReturnFail { return MaybeFail.fail(it) }
             ?: return MaybeFail.fail(
-                Fail.Incident.Bpe(
+                BpeErrors.Process(
                     description = "Operation by country: '$countryId', pmd: '$pmd', process definition key: '$processDefinitionKey', stage: '$prevStage', phase: '$prevPhase' is impossible."
                 )
             )
@@ -182,7 +183,7 @@ class CancellationServiceImpl(
             )
             .orReturnFail { return MaybeFail.fail(it) }
             ?: return MaybeFail.fail(
-                Fail.Incident.Bpe(
+                BpeErrors.Process(
                     description = "Operation by country: '$countryId', pmd: '$pmd', process definition key: '$processDefinitionKey', stage: '$prevStage', phase: '$prevPhase' is impossible."
                 )
             )
