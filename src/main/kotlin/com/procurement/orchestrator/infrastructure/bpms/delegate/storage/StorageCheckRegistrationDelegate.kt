@@ -8,7 +8,6 @@ import com.procurement.orchestrator.application.model.context.extension.getAward
 import com.procurement.orchestrator.application.model.context.extension.getBusinessFunctionsIfNotEmpty
 import com.procurement.orchestrator.application.model.context.extension.getRequirementResponseIfOnlyOne
 import com.procurement.orchestrator.application.model.context.extension.getResponder
-import com.procurement.orchestrator.application.model.process.OperationTypeProcess
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.EnumElementProvider
@@ -45,18 +44,27 @@ class StorageCheckRegistrationDelegate(
     }
 
     override fun parameters(parameterContainer: ParameterContainer): Result<Parameters, Fail.Incident.Bpmn.Parameter> {
-        val entities: List<Entity> = parameterContainer.getListString("entities")
+        val entities: Map<EntityKey, EntityValue> = parameterContainer.getMapString("entities")
             .orForwardFail { fail -> return fail }
-            .map {
-                Entity.orNull(it)
+            .map { (key, value) ->
+                val keyParsed = EntityKey.orNull(key)
                     ?: return failure(
                         Fail.Incident.Bpmn.Parameter.UnknownValue(
                             name = "entities",
-                            expectedValues = OperationTypeProcess.allowedElements.keysAsStrings(),
-                            actualValue = it
+                            expectedValues = EntityKey.allowedElements.keysAsStrings(),
+                            actualValue = key
                         )
                     )
-            }
+                val valueParsed = EntityValue.orNull(value)
+                    ?: return failure(
+                        Fail.Incident.Bpmn.Parameter.UnknownValue(
+                            name = "entities",
+                            expectedValues = EntityValue.allowedElements.keysAsStrings(),
+                            actualValue = value
+                        )
+                    )
+                keyParsed to valueParsed
+            }.toMap()
 
         return success(Parameters(entities = entities))
     }
@@ -67,7 +75,7 @@ class StorageCheckRegistrationDelegate(
         parameters: Parameters
     ): Result<Reply<Unit>, Fail.Incident> {
 
-        val entities = parameters.entities.toSet()
+        val entities = parameters.entities.keys.toSet()
 
         val tender = context.tender
         val tenderDocuments: List<DocumentId> = getTenderDocumentsIds(tender, entities)
@@ -94,8 +102,11 @@ class StorageCheckRegistrationDelegate(
         )
     }
 
-    private fun getTenderDocumentsIds(tender: Tender?, entities: Set<Entity>): Result<List<DocumentId>, Fail.Incident> {
-        return if (Entity.TENDER in entities) {
+    private fun getTenderDocumentsIds(
+        tender: Tender?,
+        entities: Set<EntityKey>
+    ): Result<List<DocumentId>, Fail.Incident> {
+        return if (EntityKey.TENDER in entities) {
             if (tender == null)
                 return failure(Fail.Incident.Bpms.Context.Missing(name = TENDER_PATH))
 
@@ -107,10 +118,10 @@ class StorageCheckRegistrationDelegate(
     }
 
     private fun getAmendmentDocumentsIds(
-        tender: Tender?, entities: Set<Entity>
+        tender: Tender?, entities: Set<EntityKey>
     ): Result<List<DocumentId>, Fail.Incident> {
 
-        return if (Entity.AMENDMENT in entities) {
+        return if (EntityKey.AMENDMENT in entities) {
             if (tender == null)
                 return failure(Fail.Incident.Bpms.Context.Missing(name = TENDER_PATH))
 
@@ -124,10 +135,10 @@ class StorageCheckRegistrationDelegate(
     }
 
     private fun getAwardRequirementResponseDocumentsIds(
-        context: CamundaGlobalContext, entities: Set<Entity>
+        context: CamundaGlobalContext, entities: Set<EntityKey>
     ): Result<List<DocumentId>, Fail.Incident> {
 
-        return if (Entity.AWARD_REQUIREMENT_RESPONSE in entities) {
+        return if (EntityKey.AWARD_REQUIREMENT_RESPONSE in entities) {
             context.getAwardIfOnlyOne()
                 .orForwardFail { fail -> return fail }
                 .getRequirementResponseIfOnlyOne()
@@ -154,10 +165,10 @@ class StorageCheckRegistrationDelegate(
     ): MaybeFail<Fail.Incident.Bpmn> = MaybeFail.none()
 
     class Parameters(
-        val entities: List<Entity>
+        val entities: Map<EntityKey, EntityValue>
     )
 
-    enum class Entity(override val key: String) : EnumElementProvider.Key {
+    enum class EntityKey(override val key: String) : EnumElementProvider.Key {
 
         AMENDMENT("amendment"),
         AWARD_REQUIREMENT_RESPONSE("award.requirementResponse"),
@@ -165,6 +176,16 @@ class StorageCheckRegistrationDelegate(
 
         override fun toString(): String = key
 
-        companion object : EnumElementProvider<Entity>(info = info())
+        companion object : EnumElementProvider<EntityKey>(info = info())
+    }
+
+    enum class EntityValue(override val key: String) : EnumElementProvider.Key {
+
+        REQUIRED("required"),
+        OPTIONAL("optional");
+
+        override fun toString(): String = key
+
+        companion object : EnumElementProvider<EntityValue>(info = info())
     }
 }
