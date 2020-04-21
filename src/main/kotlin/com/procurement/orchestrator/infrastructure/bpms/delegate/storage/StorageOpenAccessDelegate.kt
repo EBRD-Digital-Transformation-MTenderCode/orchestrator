@@ -3,13 +3,14 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.storage
 import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.StorageClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
-import com.procurement.orchestrator.application.model.context.extension.getAmendmentIfOnlyOne
+import com.procurement.orchestrator.application.model.context.extension.getAmendmentsIfNotEmpty
 import com.procurement.orchestrator.application.model.context.extension.getBusinessFunctionsIfNotEmpty
+import com.procurement.orchestrator.application.model.context.extension.getDocumentsIfNotEmpty
 import com.procurement.orchestrator.application.model.context.extension.getElementIfOnlyOne
+import com.procurement.orchestrator.application.model.context.extension.getIfNotEmpty
 import com.procurement.orchestrator.application.model.context.extension.getRequirementResponseIfOnlyOne
 import com.procurement.orchestrator.application.model.context.extension.getResponder
 import com.procurement.orchestrator.application.model.context.members.Awards
-import com.procurement.orchestrator.application.model.process.OperationTypeProcess
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.EnumElementProvider
@@ -20,6 +21,7 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.functional.ValidationResult
+import com.procurement.orchestrator.domain.functional.asFailure
 import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.domain.functional.bind
 import com.procurement.orchestrator.domain.functional.validate
@@ -59,18 +61,27 @@ class StorageOpenAccessDelegate(
     }
 
     override fun parameters(parameterContainer: ParameterContainer): Result<Parameters, Fail.Incident.Bpmn.Parameter> {
-        val entities: List<Entity> = parameterContainer.getListString("entities")
+        val entities: Map<EntityKey, EntityValue> = parameterContainer.getMapString("entities")
             .orForwardFail { fail -> return fail }
-            .map {
-                Entity.orNull(it)
+            .map { (key, value) ->
+                val keyParsed = EntityKey.orNull(key)
                     ?: return failure(
                         Fail.Incident.Bpmn.Parameter.UnknownValue(
                             name = "entities",
-                            expectedValues = OperationTypeProcess.allowedElements.keysAsStrings(),
-                            actualValue = it
+                            expectedValues = EntityKey.allowedElements.keysAsStrings(),
+                            actualValue = key
                         )
                     )
-            }
+                val valueParsed = EntityValue.orNull(value)
+                    ?: return failure(
+                        Fail.Incident.Bpmn.Parameter.UnknownValue(
+                            name = "entities",
+                            expectedValues = EntityValue.allowedElements.keysAsStrings(),
+                            actualValue = value
+                        )
+                    )
+                keyParsed to valueParsed
+            }.toMap()
 
         return success(Parameters(entities = entities))
     }
@@ -111,10 +122,10 @@ class StorageOpenAccessDelegate(
         validateData(data = data, tender = tender, awards = awards, parameters = parameters)
             .doOnError { return MaybeFail.fail(it) }
 
-        val entities = parameters.entities.toSet()
+        val entities = parameters.entities
         val documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document> = data.associateBy { it.id }
 
-        val updatedAmendments = if (Entity.AMENDMENT in entities) {
+        val updatedAmendments = if (EntityKey.AMENDMENT in entities) {
             if (tender == null)
                 return MaybeFail.fail(Fail.Incident.Bpms.Context.Missing(name = TENDER_PATH))
             tender.updateAmendmentDocuments(documentsByIds)
@@ -122,7 +133,7 @@ class StorageOpenAccessDelegate(
         } else
             tender?.amendments.orEmpty()
 
-        val updatedTenderDocuments = if (Entity.TENDER in entities) {
+        val updatedTenderDocuments = if (EntityKey.TENDER in entities) {
             if (tender == null)
                 return MaybeFail.fail(Fail.Incident.Bpms.Context.Missing(name = TENDER_PATH))
             tender
@@ -139,7 +150,7 @@ class StorageOpenAccessDelegate(
 
         val updatedAwards: Awards = success(awards)
             .bind {
-                if (Entity.AWARD_REQUIREMENT_RESPONSE in entities)
+                if (EntityKey.AWARD_REQUIREMENT_RESPONSE in entities)
                     it.updateDocuments(documentsByIds)
                 else
                     success(it)
@@ -255,60 +266,127 @@ class StorageOpenAccessDelegate(
         return success(Awards(updatedAwards))
     }
 
-    private fun getTenderDocumentsIds(tender: Tender?, entities: Set<Entity>): Result<List<DocumentId>, Fail.Incident> {
-        return if (Entity.TENDER in entities) {
-            if (tender == null)
-                return failure(Fail.Incident.Bpms.Context.Missing(name = TENDER_PATH))
-
-            tender.documents
-                .map { document -> document.id }
-                .asSuccess()
+    private fun getTenderDocumentsIds(
+        tender: Tender?,
+        entities: Map<EntityKey, EntityValue>
+    ): Result<List<DocumentId>, Fail.Incident> {
+        val tenderKey = EntityKey.TENDER
+        return if (tenderKey in entities.keys) {
+            when (entities.getValue(tenderKey)) {
+                EntityValue.OPTIONAL -> getTenderDocumentsIdsOptional(tender)
+                EntityValue.REQUIRED -> getTenderDocumentsIdsRequired(tender)
+                    .doOnError { error -> return error.asFailure() }
+            }
         } else
             emptyList<DocumentId>().asSuccess()
+    }
+
+    private fun getTenderDocumentsIdsOptional(tender: Tender?): Result<List<DocumentId>, Fail.Incident> =
+        tender?.documents
+            ?.asSequence()
+            ?.map { document -> document.id }
+            ?.toList()
+            .orEmpty()
+            .asSuccess()
+
+    private fun getTenderDocumentsIdsRequired(tender: Tender?): Result<List<DocumentId>, Fail.Incident> {
+        if (tender == null)
+            return failure(Fail.Incident.Bpms.Context.Missing(name = TENDER_PATH))
+
+        return tender.getDocumentsIfNotEmpty()
+            .orForwardFail { fail -> return fail }
+            .map { document -> document.id }
+            .asSuccess()
     }
 
     private fun getAmendmentDocumentsIds(
-        tender: Tender?, entities: Set<Entity>
+        tender: Tender?, entities: Map<EntityKey, EntityValue>
     ): Result<List<DocumentId>, Fail.Incident> {
-
-        return if (Entity.AMENDMENT in entities) {
-            if (tender == null)
-                return failure(Fail.Incident.Bpms.Context.Missing(name = TENDER_PATH))
-
-            tender.getAmendmentIfOnlyOne()
-                .orForwardFail { fail -> return fail }
-                .documents
-                .map { document -> document.id }
-                .asSuccess()
+        val amendmentKey = EntityKey.AMENDMENT
+        return if (amendmentKey in entities) {
+            when (entities.getValue(amendmentKey)) {
+                EntityValue.OPTIONAL -> getAmendmentDocumentsIdsOptional(tender)
+                EntityValue.REQUIRED -> getAmendmentDocumentsIdsRequired(tender)
+                    .doOnError { error -> return error.asFailure() }
+            }
         } else
             emptyList<DocumentId>().asSuccess()
+    }
+
+    private fun getAmendmentDocumentsIdsOptional(tender: Tender?): Result<List<DocumentId>, Fail.Incident> =
+        tender?.amendments
+            ?.asSequence()
+            ?.flatMap { amendment -> amendment.documents.asSequence() }
+            ?.map { document -> document.id }
+            ?.toList()
+            .orEmpty()
+            .asSuccess()
+
+    private fun getAmendmentDocumentsIdsRequired(tender: Tender?): Result<List<DocumentId>, Fail.Incident> {
+        if (tender == null)
+            return failure(Fail.Incident.Bpms.Context.Missing(name = TENDER_PATH))
+
+        return tender.getAmendmentsIfNotEmpty()
+            .orForwardFail { fail -> return fail }
+            .flatMap { amendment ->
+                amendment.getDocumentsIfNotEmpty()
+                    .orForwardFail { fail -> return fail }
+            }
+            .map { document -> document.id }
+            .asSuccess()
     }
 
     private fun getAwardRequirementResponseDocumentsIds(
-        awards: Awards, entities: Set<Entity>
+        awards: Awards, entities: Map<EntityKey, EntityValue>
     ): Result<List<DocumentId>, Fail.Incident> {
-
-        return if (Entity.AWARD_REQUIREMENT_RESPONSE in entities) {
-            awards.getElementIfOnlyOne(name = AWARDS_PATH)
-                .orForwardFail { fail -> return fail }
-                .getRequirementResponseIfOnlyOne()
-                .orForwardFail { fail -> return fail }
-                .getResponder()
-                .orForwardFail { fail -> return fail }
-                .getBusinessFunctionsIfNotEmpty(path = BUSINESS_FUNCTIONS_PATH)
-                .orForwardFail { fail -> return fail }
-                .flatMap { businessFunction ->
-                    businessFunction.documents.map { document -> document.id }
-                }
-                .asSuccess()
+        val awardKey = EntityKey.AWARD_REQUIREMENT_RESPONSE
+        return if (awardKey in entities) {
+            when (entities.getValue(awardKey)) {
+                EntityValue.OPTIONAL -> getAwardDocumentsIdsOptional(awards)
+                EntityValue.REQUIRED -> getAwardDocumentsIdsRequired(awards)
+                    .doOnError { error -> return error.asFailure() }
+            }
         } else
             emptyList<DocumentId>().asSuccess()
     }
+
+    private fun getAwardDocumentsIdsOptional(awards: Awards): Result<List<DocumentId>, Fail.Incident> =
+        awards.asSequence()
+            .map { award ->
+                award.requirementResponses.getOrNull(0)
+            }
+            .flatMap { requirementResponse ->
+                requirementResponse?.responder?.businessFunctions?.asSequence() ?: emptySequence()
+            }
+            .flatMap { businessFunction ->
+                businessFunction.documents.asSequence()
+            }
+            .map { document -> document.id }
+            .toList()
+            .asSuccess()
+
+    private fun getAwardDocumentsIdsRequired(awards: Awards): Result<List<DocumentId>, Fail.Incident> =
+        awards.getIfNotEmpty(name = AWARDS_PATH)
+            .orForwardFail { fail -> return fail }
+            .flatMap { award ->
+                award.getRequirementResponseIfOnlyOne()
+                    .orForwardFail { fail -> return fail }
+                    .getResponder()
+                    .orForwardFail { fail -> return fail }
+                    .getBusinessFunctionsIfNotEmpty(path = BUSINESS_FUNCTIONS_PATH)
+                    .orForwardFail { fail -> return fail }
+                    .flatMap { businessFunction ->
+                        businessFunction.getDocumentsIfNotEmpty()
+                            .orForwardFail { fail -> return fail }
+                    }
+            }
+            .map { document -> document.id }
+            .asSuccess()
 
     private fun getAllDocuments(
         tender: Tender?, awards: Awards, parameters: Parameters
     ): Result<List<DocumentId>, Fail.Incident> {
-        val entities = parameters.entities.toSet()
+        val entities = parameters.entities
 
         val documentOfAmendmentsOfTender: List<DocumentId> = getAmendmentDocumentsIds(tender, entities)
             .orForwardFail { fail -> return fail }
@@ -326,10 +404,10 @@ class StorageOpenAccessDelegate(
     }
 
     class Parameters(
-        val entities: List<Entity>
+        val entities: Map<EntityKey, EntityValue>
     )
 
-    enum class Entity(override val key: String) : EnumElementProvider.Key {
+    enum class EntityKey(override val key: String) : EnumElementProvider.Key {
 
         AMENDMENT("amendment"),
         AWARD_REQUIREMENT_RESPONSE("award.requirementResponse"),
@@ -337,6 +415,16 @@ class StorageOpenAccessDelegate(
 
         override fun toString(): String = key
 
-        companion object : EnumElementProvider<Entity>(info = info())
+        companion object : EnumElementProvider<EntityKey>(info = info())
+    }
+
+    enum class EntityValue(override val key: String) : EnumElementProvider.Key {
+
+        REQUIRED("required"),
+        OPTIONAL("optional");
+
+        override fun toString(): String = key
+
+        companion object : EnumElementProvider<EntityValue>(info = info())
     }
 }
