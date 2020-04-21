@@ -6,7 +6,6 @@ import com.procurement.orchestrator.application.model.context.CamundaGlobalConte
 import com.procurement.orchestrator.application.model.context.extension.getAmendmentsIfNotEmpty
 import com.procurement.orchestrator.application.model.context.extension.getBusinessFunctionsIfNotEmpty
 import com.procurement.orchestrator.application.model.context.extension.getDocumentsIfNotEmpty
-import com.procurement.orchestrator.application.model.context.extension.getElementIfOnlyOne
 import com.procurement.orchestrator.application.model.context.extension.getIfNotEmpty
 import com.procurement.orchestrator.application.model.context.extension.getRequirementResponseIfOnlyOne
 import com.procurement.orchestrator.application.model.context.extension.getResponder
@@ -29,7 +28,6 @@ import com.procurement.orchestrator.domain.model.amendment.Amendment
 import com.procurement.orchestrator.domain.model.document.Document
 import com.procurement.orchestrator.domain.model.document.DocumentId
 import com.procurement.orchestrator.domain.model.tender.Tender
-import com.procurement.orchestrator.domain.util.extension.asList
 import com.procurement.orchestrator.domain.util.extension.toSetBy
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
@@ -55,7 +53,6 @@ class StorageOpenAccessDelegate(
     companion object {
         private const val TENDER_PATH = "tender"
         private const val AWARDS_PATH = "awards"
-        private const val AMENDMENTS_PATH = "tender.amendments"
         private const val BUSINESS_FUNCTIONS_PATH = "awards.requirementResponses.responder"
         private const val DOCUMENT_ID_PATH = "document.id"
     }
@@ -126,19 +123,16 @@ class StorageOpenAccessDelegate(
         val documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document> = data.associateBy { it.id }
 
         val updatedAmendments = if (EntityKey.AMENDMENT in entities) {
-            if (tender == null)
-                return MaybeFail.fail(Fail.Incident.Bpms.Context.Missing(name = TENDER_PATH))
-            tender.updateAmendmentDocuments(documentsByIds)
-                .orReturnFail { return MaybeFail.fail(it) }
+            tender?.updateAmendmentDocuments(documentsByIds)
+                ?.orReturnFail { return MaybeFail.fail(it) }
+                .orEmpty()
         } else
             tender?.amendments.orEmpty()
 
         val updatedTenderDocuments = if (EntityKey.TENDER in entities) {
-            if (tender == null)
-                return MaybeFail.fail(Fail.Incident.Bpms.Context.Missing(name = TENDER_PATH))
-            tender
-                .updateTenderDocuments(documentsByIds)
-                .orReturnFail { return MaybeFail.fail(it) }
+            tender?.updateTenderDocuments(documentsByIds)
+                ?.orReturnFail { return MaybeFail.fail(it) }
+                .orEmpty()
         } else
             tender?.documents.orEmpty()
 
@@ -182,9 +176,7 @@ class StorageOpenAccessDelegate(
 
     private fun Tender.updateAmendmentDocuments(documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document>): Result<List<Amendment>, Fail.Incident.Bpms> =
         this.amendments
-            .getElementIfOnlyOne(AMENDMENTS_PATH)
-            .orForwardFail { fail -> return fail }
-            .let { amendment ->
+            .map { amendment ->
                 val updatedDocuments = amendment.documents
                     .map { document ->
                         documentsByIds[document.id]
@@ -204,7 +196,6 @@ class StorageOpenAccessDelegate(
                     }
                 amendment.copy(documents = updatedDocuments)
             }
-            .asList()
             .asSuccess()
 
     private fun Tender.updateTenderDocuments(documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document>): Result<List<Document>, Fail.Incident.Bpms> =
@@ -228,41 +219,40 @@ class StorageOpenAccessDelegate(
             .asSuccess()
 
     private fun Awards.updateDocuments(documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document>): Result<Awards, Fail.Incident.Bpms> {
-        val updatedAwards = this
-            .getElementIfOnlyOne(AWARDS_PATH)
-            .orForwardFail { fail -> return fail }
-            .let { award ->
-                val updatedRequirementResponses = award.getRequirementResponseIfOnlyOne()
-                    .orForwardFail { fail -> return fail }
-                    .let { requirementResponse ->
-                        val updatedResponder = requirementResponse.getResponder()
-                            .orForwardFail { fail -> return fail }
-                            .let { person ->
-                                val updatedBusinessFunctions = person.getBusinessFunctionsIfNotEmpty(path = BUSINESS_FUNCTIONS_PATH)
-                                    .orForwardFail { fail -> return fail }
-                                    .map { businessFunction ->
-                                        val updatedDocuments = businessFunction.documents
-                                            .map { document ->
-                                                documentsByIds[document.id]
-                                                    ?.let {
-                                                        document.copy(datePublished = it.datePublished, url = it.uri)
-                                                    }
-                                                    ?: return failure(
-                                                        Fail.Incident.Bpms.Context.UnConsistency.Update(
-                                                            name = "document",
-                                                            path = "awards[id:$award.id].requirementResponse[id:${requirementResponse.id}].responder.businessFunctions[id:${businessFunction.id}]",
-                                                            id = document.id.toString()
-                                                        )
+        val updatedAwards = this.map { award ->
+            val requirementResponse = award.requirementResponses.getOrNull(0)
+            if (requirementResponse != null) {
+                val updatedRequirementResponses = requirementResponse.let { requirementRs ->
+                    val responder = requirementRs.responder
+                    if (responder != null) {
+                        val updatedResponder = responder.let { person ->
+                            val updatedBusinessFunctions = person.businessFunctions
+                                .map { businessFunction ->
+                                    val updatedDocuments = businessFunction.documents
+                                        .map { document ->
+                                            documentsByIds[document.id]
+                                                ?.let {
+                                                    document.copy(datePublished = it.datePublished, url = it.uri)
+                                                }
+                                                ?: return failure(
+                                                    Fail.Incident.Bpms.Context.UnConsistency.Update(
+                                                        name = "document",
+                                                        path = "awards[id:$award.id].requirementResponse[id:${requirementRs.id}].responder.businessFunctions[id:${businessFunction.id}]",
+                                                        id = document.id.toString()
                                                     )
-                                            }
-                                        businessFunction.copy(documents = updatedDocuments)
-                                    }
-                                person.copy(businessFunctions = updatedBusinessFunctions)
-                            }
-                        requirementResponse.copy(responder = updatedResponder)
-                    }
+                                                )
+                                        }
+                                    businessFunction.copy(documents = updatedDocuments)
+                                }
+                            person.copy(businessFunctions = updatedBusinessFunctions)
+                        }
+                        requirementRs.copy(responder = updatedResponder)
+                    } else
+                        requirementRs
+                }
                 award.copy(requirementResponses = listOf(updatedRequirementResponses))
-            }
+            } else award
+        }
         return success(Awards(updatedAwards))
     }
 
