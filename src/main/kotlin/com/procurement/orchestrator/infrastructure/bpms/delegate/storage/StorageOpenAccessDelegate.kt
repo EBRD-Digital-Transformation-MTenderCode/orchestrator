@@ -109,12 +109,9 @@ class StorageOpenAccessDelegate(
         parameters: Parameters,
         data: OpenAccessAction.Result
     ): MaybeFail<Fail.Incident> {
-
-        if (data.isEmpty())
-            return MaybeFail.none()
-
         val tender = context.tender
         val awards = context.awards
+
         validateData(data = data, tender = tender, awards = awards, parameters = parameters)
             .doOnError { return MaybeFail.fail(it) }
 
