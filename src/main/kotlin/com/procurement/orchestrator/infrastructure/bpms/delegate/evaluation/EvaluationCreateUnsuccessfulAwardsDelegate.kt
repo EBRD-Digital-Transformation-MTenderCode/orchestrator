@@ -17,6 +17,7 @@ import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.model.award.Award
 import com.procurement.orchestrator.domain.model.lot.LotId
+import com.procurement.orchestrator.domain.model.lot.RelatedLots
 import com.procurement.orchestrator.domain.util.extension.getNewElements
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
@@ -92,7 +93,7 @@ class EvaluationCreateUnsuccessfulAwardsDelegate(
                             description = receivedUnsuccessfulAward.description,
                             status = receivedUnsuccessfulAward.status,
                             statusDetails = receivedUnsuccessfulAward.statusDetails,
-                            relatedLots = receivedUnsuccessfulAward.relatedLots
+                            relatedLots = RelatedLots(receivedUnsuccessfulAward.relatedLots)
                         )
                     }
                     ?: award
@@ -108,7 +109,7 @@ class EvaluationCreateUnsuccessfulAwardsDelegate(
                             description = unsuccessfulAward.description,
                             status = unsuccessfulAward.status,
                             statusDetails = unsuccessfulAward.statusDetails,
-                            relatedLots = unsuccessfulAward.relatedLots
+                            relatedLots = RelatedLots(unsuccessfulAward.relatedLots)
                         )
                     }
 

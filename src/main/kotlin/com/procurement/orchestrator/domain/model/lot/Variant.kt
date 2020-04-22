@@ -2,6 +2,8 @@ package com.procurement.orchestrator.domain.model.lot
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.procurement.orchestrator.domain.model.ComplexObject
+import com.procurement.orchestrator.domain.model.or
 import java.io.Serializable
 
 data class Variant(
@@ -10,4 +12,10 @@ data class Variant(
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonProperty("variantDetails") @param:JsonProperty("variantDetails") val variantDetails: String? = null
-) : Serializable
+) : ComplexObject<Variant>, Serializable {
+
+    override fun updateBy(src: Variant) = Variant(
+        hasVariants = src.hasVariants or hasVariants,
+        variantDetails = src.variantDetails or variantDetails
+    )
+}

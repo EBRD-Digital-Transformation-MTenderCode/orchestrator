@@ -8,8 +8,8 @@ import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
+import com.procurement.orchestrator.infrastructure.bpms.model.queue.QueueNoticeTask
 import com.procurement.orchestrator.infrastructure.bpms.repository.NoticeQueueRepository
-import com.procurement.orchestrator.infrastructure.bpms.repository.NoticeTask
 import com.procurement.orchestrator.infrastructure.extension.cassandra.toCassandraTimestamp
 import com.procurement.orchestrator.infrastructure.extension.cassandra.toLocalDateTime
 import com.procurement.orchestrator.infrastructure.extension.cassandra.tryExecute
@@ -53,19 +53,20 @@ class CassandraNoticeQueueRepository(private val session: Session) : NoticeQueue
     private val preparedSaveCQL = session.prepare(SAVE_CQL)
     private val preparedLoadCQL = session.prepare(LOAD_CQL)
 
-    override fun save(task: NoticeTask): Result<Boolean, Fail.Incident.Database.Access> = preparedSaveCQL.bind()
-        .apply {
-            setString(columnOperationId, task.operationId.toString())
-            setTimestamp(columnTimestamp, task.timestamp.toCassandraTimestamp())
-            setString(columnCpid, task.cpid.toString())
-            setString(columnOcid, task.ocid.toString())
-            setString(columnAction, task.action.key)
-            setString(columnData, task.data)
-        }
-        .tryExecute(session)
-        .map { it.wasApplied() }
+    override fun save(operationId: OperationId, task: QueueNoticeTask): Result<Boolean, Fail.Incident.Database.Access> =
+        preparedSaveCQL.bind()
+            .apply {
+                setString(columnOperationId, operationId.toString())
+                setTimestamp(columnTimestamp, task.timestamp.toCassandraTimestamp())
+                setString(columnCpid, task.id.cpid.toString())
+                setString(columnOcid, task.id.ocid.toString())
+                setString(columnAction, task.id.action.key)
+                setString(columnData, task.data)
+            }
+            .tryExecute(session)
+            .map { it.wasApplied() }
 
-    override fun load(operationId: OperationId): Result<List<NoticeTask>, Fail.Incident.Database> =
+    override fun load(operationId: OperationId): Result<List<QueueNoticeTask>, Fail.Incident.Database> =
         preparedLoadCQL.bind()
             .apply {
                 setString(columnOperationId, operationId.toString())
@@ -73,24 +74,25 @@ class CassandraNoticeQueueRepository(private val session: Session) : NoticeQueue
             .tryExecute(session)
             .orForwardFail { fail -> return fail }
             .map { row ->
-                NoticeTask(
-                    operationId = operationId,
+                QueueNoticeTask(
+                    id = QueueNoticeTask.Id(
+                        cpid = row.getString(columnCpid)
+                            .let { value ->
+                                Cpid.tryCreateOrNull(value)
+                                    ?: return failure(Fail.Incident.Database.Data(description = "Error of converting loaded cpid '$value' to object Cpid."))
+                            },
+                        ocid = row.getString(columnOcid)
+                            .let { value ->
+                                Ocid.tryCreateOrNull(value)
+                                    ?: return failure(Fail.Incident.Database.Data(description = "Error of converting loaded ocid '$value' to object Ocid."))
+                            },
+                        action = row.getString(columnAction)
+                            .let { value ->
+                                QueueNoticeTask.Action.orNull(value)
+                                    ?: return failure(Fail.Incident.Database.Data(description = "Error of converting loaded name of task action '$value' to enum item."))
+                            }
+                    ),
                     timestamp = row.getTimestamp(columnTimestamp).toLocalDateTime(),
-                    cpid = row.getString(columnCpid)
-                        .let { value ->
-                            Cpid.tryCreateOrNull(value)
-                                ?: return failure(Fail.Incident.Database.Data(description = "Error of converting loaded cpid '$value' to object Cpid."))
-                        },
-                    ocid = row.getString(columnOcid)
-                        .let { value ->
-                            Ocid.tryCreateOrNull(value)
-                                ?: return failure(Fail.Incident.Database.Data(description = "Error of converting loaded ocid '$value' to object Ocid."))
-                        },
-                    action = row.getString(columnAction)
-                        .let { value ->
-                            NoticeTask.Action.orNull(value)
-                                ?: return failure(Fail.Incident.Database.Data(description = "Error of converting loaded name of task action '$value' to enum item."))
-                        },
                     data = row.getString(columnData)
                 )
             }

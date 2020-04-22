@@ -4,8 +4,10 @@ import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.procurement.orchestrator.application.model.Owner
 import com.procurement.orchestrator.application.model.Token
-import com.procurement.orchestrator.domain.model.document.Document
-import com.procurement.orchestrator.domain.model.lot.LotId
+import com.procurement.orchestrator.domain.model.IdentifiableObject
+import com.procurement.orchestrator.domain.model.document.Documents
+import com.procurement.orchestrator.domain.model.lot.RelatedLots
+import com.procurement.orchestrator.domain.model.or
 import java.io.Serializable
 import java.time.LocalDateTime
 
@@ -47,14 +49,14 @@ data class Amendment(
 
     @Deprecated("Use 'relatesTo' & 'relatedItem' instead of this.")
     @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
-    @field:JsonProperty("relatedLots") @param:JsonProperty("relatedLots") val relatedLots: List<LotId> = emptyList(),
+    @field:JsonProperty("relatedLots") @param:JsonProperty("relatedLots") val relatedLots: RelatedLots = RelatedLots(),
 
     @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
-    @field:JsonProperty("changes") @param:JsonProperty("changes") val changes: List<Change> = emptyList(),
+    @field:JsonProperty("changes") @param:JsonProperty("changes") val changes: Changes = Changes(),
 
     @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
-    @field:JsonProperty("documents") @param:JsonProperty("documents") val documents: List<Document> = emptyList()
-) : Serializable {
+    @field:JsonProperty("documents") @param:JsonProperty("documents") val documents: Documents = Documents()
+) : IdentifiableObject<Amendment>, Serializable {
 
     override fun equals(other: Any?): Boolean = if (this === other)
         true
@@ -63,4 +65,22 @@ data class Amendment(
             && this.id == other.id
 
     override fun hashCode(): Int = id.hashCode()
+
+    override fun updateBy(src: Amendment) = Amendment(
+        id = id,
+        owner = owner,
+        token = token,
+        type = src.type or type,
+        status = src.status or status,
+        relatesTo = relatesTo,
+        relatedItem = relatedItem,
+        date = src.date or date,
+        releaseID = src.releaseID or releaseID,
+        amendsReleaseID = src.amendsReleaseID or amendsReleaseID,
+        description = src.description or description,
+        rationale = src.rationale or rationale,
+        relatedLots = relatedLots combineBy src.relatedLots,
+        changes = changes combineBy src.changes,
+        documents = documents updateBy src.documents
+    )
 }

@@ -2,6 +2,9 @@ package com.procurement.orchestrator.domain.model.organization.datail.permit
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.procurement.orchestrator.domain.model.IdentifiableObject
+import com.procurement.orchestrator.domain.model.or
+import com.procurement.orchestrator.domain.model.updateBy
 import java.io.Serializable
 
 data class Permit(
@@ -14,7 +17,7 @@ data class Permit(
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonProperty("permitDetails") @param:JsonProperty("permitDetails") val permitDetails: PermitDetails? = null
-) : Serializable {
+) : IdentifiableObject<Permit>, Serializable {
 
     override fun equals(other: Any?): Boolean = if (this === other)
         true
@@ -28,4 +31,11 @@ data class Permit(
         result = 31 * result + id.hashCode()
         return result
     }
+
+    override fun updateBy(src: Permit) = Permit(
+        scheme = scheme,
+        id = id,
+        url = src.url or url,
+        permitDetails = permitDetails updateBy src.permitDetails
+    )
 }

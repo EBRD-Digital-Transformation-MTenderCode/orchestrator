@@ -13,6 +13,7 @@ import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.functional.asOption
 import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponseId
+import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponses
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractInternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
@@ -70,7 +71,7 @@ class BpeCreateIdsForAwardRequirementResponseDelegate(
                             )
                         }
                     award.copy(
-                        requirementResponses = updatedRequirementResponses
+                        requirementResponses = RequirementResponses(updatedRequirementResponses)
                     )
                 }
         )
