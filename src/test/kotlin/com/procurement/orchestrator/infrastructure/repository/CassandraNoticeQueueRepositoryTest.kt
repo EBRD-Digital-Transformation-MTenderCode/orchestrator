@@ -18,8 +18,8 @@ import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
 import com.procurement.orchestrator.extension.junit.assertFailure
 import com.procurement.orchestrator.extension.junit.assertSuccess
+import com.procurement.orchestrator.infrastructure.bpms.model.queue.QueueNoticeTask
 import com.procurement.orchestrator.infrastructure.bpms.repository.NoticeQueueRepository
-import com.procurement.orchestrator.infrastructure.bpms.repository.NoticeTask
 import com.procurement.orchestrator.infrastructure.extension.cassandra.toCassandraTimestamp
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -50,7 +50,7 @@ class CassandraNoticeQueueRepositoryIT {
         private val TIMESTAMP: LocalDateTime = LocalDateTime.now()
         private val CPID: Cpid = Cpid.generate(prefix = "ocds-t1t2t3", country = "MD", timestamp = TIMESTAMP)
         private val OCID: Ocid = Ocid.generate(cpid = CPID, stage = Stage.AC, timestamp = TIMESTAMP)
-        private val ACTION: NoticeTask.Action = NoticeTask.Action.UPDATE_RECORD
+        private val ACTION: QueueNoticeTask.Action = QueueNoticeTask.Action.UPDATE_RECORD
         private const val TASK_DATA: String = "Task Data"
     }
 
@@ -87,9 +87,9 @@ class CassandraNoticeQueueRepositoryIT {
 
     @Test
     fun savingTask() {
-        val task = task(operationId = OPERATION_ID)
+        val task = task()
         assertSuccess {
-            repository.save(task)
+            repository.save(operationId = OPERATION_ID, task = task)
         }
 
         val tasks = assertSuccess {
@@ -102,9 +102,9 @@ class CassandraNoticeQueueRepositoryIT {
 
     @Test
     fun savingDuplicateTask() {
-        val task = task(operationId = OPERATION_ID)
+        val task = task()
         assertSuccess {
-            repository.save(task)
+            repository.save(operationId = OPERATION_ID, task = task)
         }
 
         val tasks = assertSuccess {
@@ -115,7 +115,7 @@ class CassandraNoticeQueueRepositoryIT {
         assertEquals(task, tasks[0])
 
         val dupSave = assertSuccess {
-            repository.save(task)
+            repository.save(operationId = OPERATION_ID, task = task)
         }
 
         assertFalse(dupSave)
@@ -128,7 +128,7 @@ class CassandraNoticeQueueRepositoryIT {
             .execute(any<BoundStatement>())
 
         val fail: Fail.Incident.Database.Access = assertFailure {
-            repository.save(task())
+            repository.save(operationId = OPERATION_ID, task = task())
         }
 
         assertEquals("Error accessing to database.", fail.description)
@@ -190,18 +190,18 @@ class CassandraNoticeQueueRepositoryIT {
     }
 
     private fun task(
-        operationId: OperationId = OPERATION_ID,
         cpid: Cpid = CPID,
         ocid: Ocid = OCID,
         timestamp: LocalDateTime = TIMESTAMP,
-        action: NoticeTask.Action = ACTION,
+        action: QueueNoticeTask.Action = ACTION,
         taskData: String = TASK_DATA
-    ) = NoticeTask(
-        operationId = operationId,
+    ) = QueueNoticeTask(
+        id = QueueNoticeTask.Id(
+            cpid = cpid,
+            ocid = ocid,
+            action = action
+        ),
         timestamp = timestamp,
-        cpid = cpid,
-        ocid = ocid,
-        action = action,
         data = taskData
     )
 }

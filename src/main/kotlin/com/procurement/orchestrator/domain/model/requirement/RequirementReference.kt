@@ -2,6 +2,9 @@ package com.procurement.orchestrator.domain.model.requirement
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.procurement.orchestrator.domain.model.IdentifiableObject
+import com.procurement.orchestrator.domain.model.or
+
 import java.io.Serializable
 
 data class RequirementReference(
@@ -9,7 +12,7 @@ data class RequirementReference(
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonProperty("title") @param:JsonProperty("title") val title: String? = null
-) : Serializable {
+) : IdentifiableObject<RequirementReference>, Serializable {
 
     override fun equals(other: Any?): Boolean = if (this === other)
         true
@@ -18,4 +21,9 @@ data class RequirementReference(
             && this.id == other.id
 
     override fun hashCode(): Int = id.hashCode()
+
+    override fun updateBy(src: RequirementReference) = RequirementReference(
+        id = id,
+        title = src.title or title
+    )
 }

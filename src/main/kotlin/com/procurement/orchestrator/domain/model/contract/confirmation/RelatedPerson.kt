@@ -2,6 +2,9 @@ package com.procurement.orchestrator.domain.model.contract.confirmation
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.procurement.orchestrator.domain.model.IdentifiableObject
+import com.procurement.orchestrator.domain.model.or
+
 import java.io.Serializable
 
 data class RelatedPerson(
@@ -9,7 +12,7 @@ data class RelatedPerson(
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonProperty("name") @param:JsonProperty("name") val name: String? = null
-) : Serializable {
+) : IdentifiableObject<RelatedPerson>, Serializable {
 
     override fun equals(other: Any?): Boolean = if (this === other)
         true
@@ -18,4 +21,9 @@ data class RelatedPerson(
             && this.id == other.id
 
     override fun hashCode(): Int = id.hashCode()
+
+    override fun updateBy(src: RelatedPerson) = RelatedPerson(
+        id = id,
+        name = src.name or name
+    )
 }

@@ -7,7 +7,6 @@ import com.procurement.orchestrator.domain.model.isUUID
 import java.io.Serializable
 import java.util.*
 
-
 sealed class RequirementResponseId(private val value: String) : Serializable {
 
     override fun equals(other: Any?): Boolean {

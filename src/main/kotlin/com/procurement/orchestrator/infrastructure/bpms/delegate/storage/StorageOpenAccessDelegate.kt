@@ -22,8 +22,12 @@ import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.domain.functional.bind
 import com.procurement.orchestrator.domain.model.amendment.Amendment
+import com.procurement.orchestrator.domain.model.amendment.Amendments
 import com.procurement.orchestrator.domain.model.document.Document
 import com.procurement.orchestrator.domain.model.document.DocumentId
+import com.procurement.orchestrator.domain.model.document.Documents
+import com.procurement.orchestrator.domain.model.organization.person.BusinessFunctions
+import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponses
 import com.procurement.orchestrator.domain.model.tender.Tender
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
@@ -155,8 +159,8 @@ class StorageOpenAccessDelegate(
 
         if (tender != null)
             context.tender = tender.copy(
-                documents = updatedTenderDocuments,
-                amendments = updatedAmendments
+                documents = Documents(updatedTenderDocuments),
+                amendments = Amendments(updatedAmendments)
             )
 
         val updatedAwards: Awards = success(context.awards)
@@ -193,7 +197,7 @@ class StorageOpenAccessDelegate(
                                 )
                             )
                     }
-                amendment.copy(documents = updatedDocuments)
+                amendment.copy(documents = Documents(updatedDocuments))
             }
             .asSuccess<List<Amendment>, Fail.Incident.Bpms>()
 
@@ -240,15 +244,15 @@ class StorageOpenAccessDelegate(
                                                     )
                                                 )
                                         }
-                                    businessFunction.copy(documents = updatedDocuments)
+                                    businessFunction.copy(documents = Documents(updatedDocuments))
                                 }
-                            person.copy(businessFunctions = updatedBusinessFunctions)
+                            person.copy(businessFunctions = BusinessFunctions(updatedBusinessFunctions))
                         }
                         requirementResponse.copy(responder = updatedResponder)
                     } else
                         requirementResponse
                 }
-            award.copy(requirementResponses = updatedRequirementResponses)
+            award.copy(requirementResponses = RequirementResponses(updatedRequirementResponses))
         }
         return success(Awards(updatedAwards))
     }

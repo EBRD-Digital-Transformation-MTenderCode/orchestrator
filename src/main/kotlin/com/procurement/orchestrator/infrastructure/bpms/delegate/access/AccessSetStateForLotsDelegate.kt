@@ -14,6 +14,7 @@ import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.model.lot.LotId
 import com.procurement.orchestrator.domain.model.lot.LotStatus
 import com.procurement.orchestrator.domain.model.lot.LotStatusDetails
+import com.procurement.orchestrator.domain.model.lot.Lots
 import com.procurement.orchestrator.domain.util.extension.toSetBy
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
@@ -143,7 +144,7 @@ class AccessSetStateForLotsDelegate(
             }
 
         val updatedTender = tender.copy(
-            lots = updatedLots
+            lots = Lots(updatedLots)
         )
         context.tender = updatedTender
 

@@ -1,24 +1,11 @@
 package com.procurement.orchestrator.domain.model.award
 
-import com.fasterxml.jackson.annotation.JsonInclude
-import com.fasterxml.jackson.annotation.JsonProperty
-import java.io.Serializable
+import com.procurement.orchestrator.domain.model.IdentifiableObjects
+import com.procurement.orchestrator.domain.model.IdentifiableObjects.Companion.update
 
-data class LegalProceedings(
-    @field:JsonProperty("id") @param:JsonProperty("id") val id: LegalProceedId,
+class LegalProceedings(
+    values: List<LegalProceeding> = emptyList()
+) : List<LegalProceeding> by values, IdentifiableObjects<LegalProceeding, LegalProceedings> {
 
-    @field:JsonInclude(JsonInclude.Include.NON_NULL)
-    @field:JsonProperty("title") @param:JsonProperty("title") val title: String? = null,
-
-    @field:JsonInclude(JsonInclude.Include.NON_NULL)
-    @field:JsonProperty("uri") @param:JsonProperty("uri") val uri: String? = null
-) : Serializable {
-
-    override fun equals(other: Any?): Boolean = if (this === other)
-        true
-    else
-        other is LegalProceedings
-            && this.id == other.id
-
-    override fun hashCode(): Int = id.hashCode()
+    override fun updateBy(src: LegalProceedings) = LegalProceedings(update(dst = this, src = src))
 }
