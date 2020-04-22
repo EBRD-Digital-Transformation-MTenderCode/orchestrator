@@ -49,7 +49,7 @@ class CassandraNoticeQueueRepositoryIT {
         private val OPERATION_ID: OperationId = OperationId.tryCreateOrNull("8025d29c-f0e0-4a31-92c3-1a4a65065fc0")!!
         private val TIMESTAMP: LocalDateTime = LocalDateTime.now()
         private val CPID: Cpid = Cpid.generate(prefix = "ocds-t1t2t3", country = "MD", timestamp = TIMESTAMP)
-        private val OCID: Ocid = Ocid.generate(cpid = CPID, stage = Stage.AC, timestamp = TIMESTAMP)
+        private val OCID: Ocid = Ocid.SingleStage.generate(cpid = CPID, stage = Stage.AC, timestamp = TIMESTAMP)
         private val ACTION: QueueNoticeTask.Action = QueueNoticeTask.Action.UPDATE_RECORD
         private const val TASK_DATA: String = "Task Data"
     }
