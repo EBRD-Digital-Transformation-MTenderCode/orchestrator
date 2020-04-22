@@ -378,18 +378,18 @@ class StorageOpenAccessDelegate(
     ): Result<List<DocumentId>, Fail.Incident> {
         val entities = parameters.entities
 
-        val documentOfAmendmentsOfTender: List<DocumentId> = getAmendmentDocumentsIds(tender, entities)
+        val amendmentDocuments: List<DocumentId> = getAmendmentDocumentsIds(tender, entities)
             .orForwardFail { fail -> return fail }
 
-        val documentOfTender: List<DocumentId> = getTenderDocumentsIds(tender, entities)
+        val tenderDocuments: List<DocumentId> = getTenderDocumentsIds(tender, entities)
             .orForwardFail { fail -> return fail }
 
-        val documentOfAwards: List<DocumentId> = getAwardRequirementResponseDocumentsIds(awards, entities)
+        val awardRequirementResponseDocuments: List<DocumentId> = getAwardRequirementResponseDocumentsIds(awards, entities)
             .orForwardFail { fail -> return fail }
 
-        return documentOfAmendmentsOfTender
-            .plus(documentOfTender)
-            .plus(documentOfAwards)
+        return amendmentDocuments
+            .plus(tenderDocuments)
+            .plus(awardRequirementResponseDocuments)
             .asSuccess()
     }
 
