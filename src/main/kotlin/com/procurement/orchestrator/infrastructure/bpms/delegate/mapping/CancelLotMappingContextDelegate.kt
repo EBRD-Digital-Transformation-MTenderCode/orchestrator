@@ -1,6 +1,7 @@
 package com.procurement.orchestrator.infrastructure.bpms.delegate.mapping
 
 import com.procurement.orchestrator.domain.model.lot.Lot
+import com.procurement.orchestrator.domain.model.lot.Lots
 import com.procurement.orchestrator.domain.model.tender.Tender
 import com.procurement.orchestrator.domain.util.extension.getNewElements
 import com.procurement.orchestrator.domain.util.extension.toSetBy
@@ -30,7 +31,7 @@ class CancelLotMappingContextDelegate : DelegateVariableMapping {
         val updatedLots: List<Lot> = tender.lots
             .map { lot ->
                 subLotsById[lot.id]
-                    ?.let { subLot -> lot.update(subLot) }
+                    ?.let { subLot -> lot.updateSates(subLot) }
                     ?: lot
             }
 
@@ -39,7 +40,7 @@ class CancelLotMappingContextDelegate : DelegateVariableMapping {
         val newLots: List<Lot> = getNewElements(received = subLotsIds, known = existLotIds)
             .map { id -> subLotsById.getValue(id).create() }
 
-        val updatedTender = tender.copy(lots = updatedLots + newLots)
+        val updatedTender = tender.copy(lots = Lots(updatedLots + newLots))
         superExecution.setVariable(VARIABLE_NAME, updatedTender)
     }
 
@@ -49,7 +50,7 @@ class CancelLotMappingContextDelegate : DelegateVariableMapping {
         statusDetails = statusDetails
     )
 
-    private fun Lot.update(lot: Lot): Lot = this.copy(
+    private fun Lot.updateSates(lot: Lot): Lot = this.copy(
         status = lot.status,
         statusDetails = lot.statusDetails
     )

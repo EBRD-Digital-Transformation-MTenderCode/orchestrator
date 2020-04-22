@@ -2,7 +2,6 @@ package com.procurement.orchestrator.infrastructure.client.web.access.action
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.procurement.orchestrator.application.model.process.OperationTypeProcess
 import com.procurement.orchestrator.application.service.ProceduralAction
 import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
@@ -20,10 +19,6 @@ abstract class CheckPersonesStructureAction : ProceduralAction<CheckPersonesStru
     class Params(
         @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid,
         @field:JsonProperty("ocid") @param:JsonProperty("ocid") val ocid: Ocid,
-
-        @JsonInclude(JsonInclude.Include.NON_NULL)
-        @field:JsonProperty("operationType") @param:JsonProperty("operationType") val operationType: OperationTypeProcess?,
-
         @field:JsonProperty("locationOfPersones") @param:JsonProperty("locationOfPersones") val locationOfPersons: String,
 
         @JsonInclude(JsonInclude.Include.NON_EMPTY)

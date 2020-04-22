@@ -25,8 +25,12 @@ import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.domain.functional.bind
 import com.procurement.orchestrator.domain.functional.validate
 import com.procurement.orchestrator.domain.model.amendment.Amendment
+import com.procurement.orchestrator.domain.model.amendment.Amendments
 import com.procurement.orchestrator.domain.model.document.Document
 import com.procurement.orchestrator.domain.model.document.DocumentId
+import com.procurement.orchestrator.domain.model.document.Documents
+import com.procurement.orchestrator.domain.model.organization.person.BusinessFunctions
+import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponses
 import com.procurement.orchestrator.domain.model.tender.Tender
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
@@ -134,8 +138,8 @@ class StorageOpenAccessDelegate(
 
         if (tender != null)
             context.tender = tender.copy(
-                documents = updatedTenderDocuments,
-                amendments = updatedAmendments
+                documents = Documents(updatedTenderDocuments),
+                amendments = Amendments(updatedAmendments)
             )
 
         val updatedAwards: Awards = success(awards)
@@ -188,7 +192,7 @@ class StorageOpenAccessDelegate(
                                 )
                             )
                     }
-                amendment.copy(documents = updatedDocuments)
+                amendment.copy(documents = Documents(updatedDocuments))
             }
             .asSuccess()
 
@@ -216,7 +220,7 @@ class StorageOpenAccessDelegate(
         val updatedAwards = this.map { award ->
             val requirementResponse = award.requirementResponses.getOrNull(0)
             if (requirementResponse != null) {
-                val updatedRequirementResponses = requirementResponse.let { requirementRs ->
+                val updatedRequirementResponse = requirementResponse.let { requirementRs ->
                     val responder = requirementRs.responder
                     if (responder != null) {
                         val updatedResponder = responder.let { person ->
@@ -236,15 +240,15 @@ class StorageOpenAccessDelegate(
                                                     )
                                                 )
                                         }
-                                    businessFunction.copy(documents = updatedDocuments)
+                                    businessFunction.copy(documents = Documents(updatedDocuments))
                                 }
-                            person.copy(businessFunctions = updatedBusinessFunctions)
+                            person.copy(businessFunctions = BusinessFunctions(updatedBusinessFunctions))
                         }
                         requirementRs.copy(responder = updatedResponder)
                     } else
                         requirementRs
                 }
-                award.copy(requirementResponses = listOf(updatedRequirementResponses))
+                award.copy(requirementResponses = RequirementResponses(listOf(updatedRequirementResponse)))
             } else award
         }
         return success(Awards(updatedAwards))

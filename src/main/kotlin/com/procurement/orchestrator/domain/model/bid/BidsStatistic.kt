@@ -2,7 +2,10 @@ package com.procurement.orchestrator.domain.model.bid
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.procurement.orchestrator.domain.model.IdentifiableObject
+
 import com.procurement.orchestrator.domain.model.lot.LotId
+import com.procurement.orchestrator.domain.model.or
 import java.io.Serializable
 import java.time.LocalDateTime
 
@@ -15,6 +18,7 @@ data class BidsStatistic(
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonProperty("date") @param:JsonProperty("date") val date: LocalDateTime? = null,
 
+    //TODO
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonProperty("value") @param:JsonProperty("value") val value: Double? = null,
 
@@ -23,7 +27,7 @@ data class BidsStatistic(
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonProperty("relatedLot") @param:JsonProperty("relatedLot") val relatedLot: LotId? = null
-) : Serializable {
+) : IdentifiableObject<BidsStatistic>, Serializable {
 
     override fun equals(other: Any?): Boolean = if (this === other)
         true
@@ -32,4 +36,13 @@ data class BidsStatistic(
             && this.id == other.id
 
     override fun hashCode(): Int = id.hashCode()
+
+    override fun updateBy(src: BidsStatistic) = BidsStatistic(
+        id = id,
+        measure = src.measure or measure,
+        date = src.date or date,
+        value = src.value or value,
+        notes = src.notes or notes,
+        relatedLot = src.relatedLot or relatedLot
+    )
 }

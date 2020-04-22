@@ -3,6 +3,7 @@ package com.procurement.orchestrator.application.model.context
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.procurement.orchestrator.application.model.context.members.Awards
+import com.procurement.orchestrator.application.model.context.members.Contracts
 import com.procurement.orchestrator.application.model.context.members.Errors
 import com.procurement.orchestrator.application.model.context.members.Incident
 import com.procurement.orchestrator.application.model.context.members.Outcomes
@@ -47,4 +48,8 @@ interface GlobalContext {
     @get:JsonInclude(JsonInclude.Include.NON_EMPTY)
     @get:JsonProperty("parties")
     var parties: Parties
+
+    @get:JsonInclude(JsonInclude.Include.NON_EMPTY)
+    @get:JsonProperty("contracts")
+    var contracts: Contracts
 }

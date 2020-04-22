@@ -85,59 +85,13 @@ abstract class ResponderProcessingAction :
     }
 
     class Result(
-        @field:JsonProperty("id") @param:JsonProperty("id") val id: String,
         @field:JsonProperty("name") @param:JsonProperty("name") val name: String,
-        @field:JsonProperty("identifier") @param:JsonProperty("identifier") val identifier: Identifier,
-        @field:JsonProperty("persones") @param:JsonProperty("persones") val persons: List<Person>
+        @field:JsonProperty("identifier") @param:JsonProperty("identifier") val identifier: Identifier
     ) : Serializable {
 
         data class Identifier(
             @field:JsonProperty("scheme") @param:JsonProperty("scheme") val scheme: String,
-            @field:JsonProperty("id") @param:JsonProperty("id") val id: String,
-
-            @JsonInclude(JsonInclude.Include.NON_NULL)
-            @field:JsonProperty("uri") @param:JsonProperty("uri") val uri: String?
+            @field:JsonProperty("id") @param:JsonProperty("id") val id: String
         ) : Serializable
-
-        data class Person(
-            @field:JsonProperty("title") @param:JsonProperty("title") val title: String,
-            @field:JsonProperty("name") @param:JsonProperty("name") val name: String,
-            @field:JsonProperty("identifier") @param:JsonProperty("identifier") val identifier: Identifier,
-            @field:JsonProperty("businessFunctions") @param:JsonProperty("businessFunctions") val businessFunctions: List<BusinessFunction>
-        ) : Serializable {
-
-            data class Identifier(
-                @field:JsonProperty("scheme") @param:JsonProperty("scheme") val scheme: String,
-                @field:JsonProperty("id") @param:JsonProperty("id") val id: String,
-
-                @JsonInclude(JsonInclude.Include.NON_NULL)
-                @field:JsonProperty("uri") @param:JsonProperty("uri") val uri: String?
-            ) : Serializable
-
-            data class BusinessFunction(
-                @field:JsonProperty("id") @param:JsonProperty("id") val id: BusinessFunctionId,
-                @field:JsonProperty("type") @param:JsonProperty("type") val type: BusinessFunctionType,
-                @field:JsonProperty("jobTitle") @param:JsonProperty("jobTitle") val jobTitle: String,
-                @field:JsonProperty("period") @param:JsonProperty("period") val period: Period,
-
-                @JsonInclude(JsonInclude.Include.NON_EMPTY)
-                @field:JsonProperty("documents") @param:JsonProperty("documents") val documents: List<Document> = emptyList()
-
-            ) : Serializable {
-
-                data class Period(
-                    @field:JsonProperty("startDate") @param:JsonProperty("startDate") val startDate: LocalDateTime
-                ) : Serializable
-
-                data class Document(
-                    @field:JsonProperty("documentType") @param:JsonProperty("documentType") val documentType: DocumentType,
-                    @field:JsonProperty("id") @param:JsonProperty("id") val id: DocumentId,
-                    @field:JsonProperty("title") @param:JsonProperty("title") val title: String,
-
-                    @JsonInclude(JsonInclude.Include.NON_NULL)
-                    @field:JsonProperty("description") @param:JsonProperty("description") val description: String?
-                ) : Serializable
-            }
-        }
     }
 }

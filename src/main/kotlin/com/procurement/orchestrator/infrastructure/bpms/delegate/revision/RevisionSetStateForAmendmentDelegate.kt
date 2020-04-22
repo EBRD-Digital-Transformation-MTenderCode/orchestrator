@@ -15,6 +15,7 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.model.amendment.AmendmentId
 import com.procurement.orchestrator.domain.model.amendment.AmendmentStatus
+import com.procurement.orchestrator.domain.model.amendment.Amendments
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
@@ -123,7 +124,7 @@ class RevisionSetStateForAmendmentDelegate(
                     )
 
                 val updatedTender = tender.copy(
-                    amendments = listOf(updatedAmendment)
+                    amendments = Amendments(updatedAmendment)
                 )
                 context.tender = updatedTender
             }

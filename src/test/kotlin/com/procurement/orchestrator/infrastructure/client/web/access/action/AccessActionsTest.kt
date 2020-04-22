@@ -108,16 +108,6 @@ class AccessActionsTest {
             fun fully() {
                 testingBindingAndMapping<ResponderProcessingAction.Result>("json/client/access/responder_processing_result_full.json")
             }
-
-            @Test
-            fun required1() {
-                testingBindingAndMapping<ResponderProcessingAction.Result>("json/client/access/responder_processing_result_required_1.json")
-            }
-
-            @Test
-            fun required2() {
-                testingBindingAndMapping<ResponderProcessingAction.Result>("json/client/access/responder_processing_result_required_2.json")
-            }
         }
     }
 

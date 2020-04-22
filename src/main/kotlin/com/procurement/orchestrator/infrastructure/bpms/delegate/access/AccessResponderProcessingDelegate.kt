@@ -5,7 +5,7 @@ import com.procurement.orchestrator.application.client.AccessClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.getAwardIfOnlyOne
 import com.procurement.orchestrator.application.model.context.extension.getRequirementResponseIfOnlyOne
-import com.procurement.orchestrator.application.model.context.members.Parties
+import com.procurement.orchestrator.application.model.context.members.Awards
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
@@ -15,12 +15,9 @@ import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
-import com.procurement.orchestrator.domain.model.document.Document
 import com.procurement.orchestrator.domain.model.identifier.Identifier
-import com.procurement.orchestrator.domain.model.organization.person.BusinessFunction
-import com.procurement.orchestrator.domain.model.party.Party
-import com.procurement.orchestrator.domain.model.period.Period
 import com.procurement.orchestrator.domain.model.person.Person
+import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponses
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
@@ -73,52 +70,30 @@ class AccessResponderProcessingDelegate(
         parameters: Unit,
         data: ResponderProcessingAction.Result
     ): MaybeFail<Fail.Incident> {
-        val party = Party(
-            id = data.id,
-            name = data.name,
-            identifier = data.identifier
-                .let { identifier ->
-                    Identifier(
-                        scheme = identifier.scheme,
-                        id = identifier.id,
-                        uri = identifier.uri
-                    )
-                },
-            persons = data.persons
-                .map { person ->
-                    Person(
-                        title = person.title,
-                        name = person.name,
-                        identifier = person.identifier
-                            .let { identifier ->
-                                Identifier(
-                                    scheme = identifier.scheme,
-                                    id = identifier.id,
-                                    uri = identifier.uri
-                                )
-                            },
-                        businessFunctions = person.businessFunctions
-                            .map { businessFunction ->
-                                BusinessFunction(
-                                    id = businessFunction.id,
-                                    type = businessFunction.type,
-                                    jobTitle = businessFunction.jobTitle,
-                                    period = Period(startDate = businessFunction.period.startDate),
-                                    documents = businessFunction.documents
-                                        .map { document ->
-                                            Document(
-                                                documentType = document.documentType,
-                                                id = document.id,
-                                                title = document.title,
-                                                description = document.description
-                                            )
-                                        }
-                                )
-                            }
-                    )
-                }
+
+        val award = context.getAwardIfOnlyOne()
+            .orReturnFail { return MaybeFail.fail(it) }
+
+        val requirementResponse = award.getRequirementResponseIfOnlyOne()
+            .orReturnFail { return MaybeFail.fail(it) }
+
+        val updatedRequirementResponse = requirementResponse.copy(
+            responder = Person(
+                identifier = data.identifier
+                    .let { identifier ->
+                        Identifier(
+                            scheme = identifier.scheme,
+                            id = identifier.id
+                        )
+                    },
+                name = data.name
+            )
         )
-        context.parties = Parties(party)
+        val updatedAward = award.copy(
+            requirementResponses = RequirementResponses(updatedRequirementResponse)
+        )
+        context.awards = Awards(updatedAward)
+
         return MaybeFail.none()
     }
 

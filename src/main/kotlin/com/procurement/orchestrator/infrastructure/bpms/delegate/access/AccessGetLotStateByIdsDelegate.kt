@@ -13,6 +13,7 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.model.lot.Lot
 import com.procurement.orchestrator.domain.model.lot.LotId
+import com.procurement.orchestrator.domain.model.lot.Lots
 import com.procurement.orchestrator.domain.util.extension.getNewElements
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
@@ -86,7 +87,7 @@ class AccessGetLotStateByIdsDelegate(
             }
 
         val updatedTender = tender.copy(
-            lots = updatedLots + newLots
+            lots = Lots(updatedLots + newLots)
         )
         context.tender = updatedTender
 

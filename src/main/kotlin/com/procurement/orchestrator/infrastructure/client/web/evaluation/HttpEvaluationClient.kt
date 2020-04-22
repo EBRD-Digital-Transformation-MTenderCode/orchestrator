@@ -6,10 +6,10 @@ import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.WebClient
+import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.AddRequirementResponseAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CheckAccessToAwardAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CheckRelatedTendererAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CloseAwardPeriodAction
-import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CreateRequirementResponseAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CreateUnsuccessfulAwardsAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.GetAwardStateByIdsAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
@@ -36,13 +36,12 @@ class HttpEvaluationClient(private val webClient: WebClient, properties: Compone
         command = EvaluationCommands.CheckRelatedTenderer.build(id = id, params = params)
     )
 
-    override suspend fun createRequirementResponse(
+    override suspend fun addRequirementResponse(
         id: CommandId,
-        params: CreateRequirementResponseAction.Params
-    ): Result<Reply<CreateRequirementResponseAction.Result>, Fail.Incident> = webClient.call(
+        params: AddRequirementResponseAction.Params
+    ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
         url = url,
-        command = EvaluationCommands.CreateRequirementResponse.build(id = id, params = params),
-        target = EvaluationCommands.CreateRequirementResponse.target
+        command = EvaluationCommands.AddRequirementResponse.build(id = id, params = params)
     )
 
     override suspend fun getAwardStateByIds(

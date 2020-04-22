@@ -125,6 +125,27 @@ sealed class Fail(prefix: String, number: String) {
                         path = path,
                         description = "The attribute '$name' by the path '${path ?: TOP_LEVEL_PATH}' should have $expected element(s) in global context. Actually the attribute has $actual element(s)."
                     )
+
+                class DataFormatMismatch(
+                    name: String,
+                    expectedFormat: String,
+                    actualValue: String,
+                    path: String? = null
+                ) :
+                    Context(
+                        number = "6",
+                        description = "Data format mismatch of '$name'. Expected data format: '$expectedFormat', actual value: '$actualValue'.",
+                        name = name,
+                        path = path
+                    )
+
+                class UnexpectedRelatedEntity(name: String, path: String? = null, expected: String, actual: String) :
+                    Context(
+                        number = "7",
+                        description = "Unexpected related entity in parameter $name by path $path. Expected: $expected, actual: $actual.",
+                        path = path,
+                        name = name
+                    )
             }
         }
 
@@ -244,14 +265,14 @@ sealed class Fail(prefix: String, number: String) {
                     name = name
                 )
 
-                class MissingExpectedEntity(id: String, name: String): Validation(
+                class MissingExpectedEntity(id: String, name: String) : Validation(
                     number = "2",
                     description = "$name '$id' is missing in received response.",
                     id = id,
                     name = name
                 )
 
-                class UnknownEntity(id: String, name: String): Validation(
+                class UnknownEntity(id: String, name: String) : Validation(
                     number = "3",
                     description = "Received $name '$id' is unknown.",
                     id = id,

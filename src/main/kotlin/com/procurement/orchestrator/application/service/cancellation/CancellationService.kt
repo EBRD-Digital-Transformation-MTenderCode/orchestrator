@@ -12,6 +12,7 @@ import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.EnumElementProvider.Companion.keysAsStrings
 import com.procurement.orchestrator.domain.extension.date.nowDefaultUTC
 import com.procurement.orchestrator.domain.fail.Fail
+import com.procurement.orchestrator.domain.fail.error.BpeErrors
 import com.procurement.orchestrator.domain.fail.error.DataValidationErrors
 import com.procurement.orchestrator.domain.fail.error.RequestErrors
 import com.procurement.orchestrator.domain.functional.MaybeFail
@@ -21,10 +22,13 @@ import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.domain.model.amendment.Amendment
 import com.procurement.orchestrator.domain.model.amendment.AmendmentId
+import com.procurement.orchestrator.domain.model.amendment.Amendments
 import com.procurement.orchestrator.domain.model.document.Document
 import com.procurement.orchestrator.domain.model.document.DocumentId
 import com.procurement.orchestrator.domain.model.document.DocumentType
+import com.procurement.orchestrator.domain.model.document.Documents
 import com.procurement.orchestrator.domain.model.lot.Lot
+import com.procurement.orchestrator.domain.model.lot.Lots
 import com.procurement.orchestrator.domain.model.tender.Tender
 import com.procurement.orchestrator.infrastructure.bpms.repository.RequestRecord
 import com.procurement.orchestrator.infrastructure.bpms.repository.RequestRepository
@@ -81,7 +85,7 @@ class CancellationServiceImpl(
             )
             .orReturnFail { return MaybeFail.fail(it) }
             ?: return MaybeFail.fail(
-                Fail.Incident.Bpe(
+                BpeErrors.Process(
                     description = "Operation by country: '$countryId', pmd: '$pmd', process definition key: '$processDefinitionKey', stage: '$prevStage', phase: '$prevPhase' is impossible."
                 )
             )
@@ -137,8 +141,10 @@ class CancellationServiceImpl(
                                             description = document.description
                                         )
                                     }
+                                    .let { Documents(it) }
                             )
                         }
+                        .let { Amendments(it) }
                 )
             }
 
@@ -182,7 +188,7 @@ class CancellationServiceImpl(
             )
             .orReturnFail { return MaybeFail.fail(it) }
             ?: return MaybeFail.fail(
-                Fail.Incident.Bpe(
+                BpeErrors.Process(
                     description = "Operation by country: '$countryId', pmd: '$pmd', process definition key: '$processDefinitionKey', stage: '$prevStage', phase: '$prevPhase' is impossible."
                 )
             )
@@ -216,7 +222,7 @@ class CancellationServiceImpl(
                 tender = Tender(
                     token = request.context.token,
                     owner = request.platformId,
-                    lots = listOf(
+                    lots = Lots(
                         Lot(id = request.context.lotId)
                     ),
                     amendments = payload.amendments
@@ -241,8 +247,10 @@ class CancellationServiceImpl(
                                             description = document.description
                                         )
                                     }
+                                    .let { Documents(it) }
                             )
                         }
+                        .let { Amendments(it) }
                 )
             }
 
