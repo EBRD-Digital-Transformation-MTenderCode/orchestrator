@@ -28,7 +28,6 @@ import com.procurement.orchestrator.domain.model.amendment.Amendment
 import com.procurement.orchestrator.domain.model.document.Document
 import com.procurement.orchestrator.domain.model.document.DocumentId
 import com.procurement.orchestrator.domain.model.tender.Tender
-import com.procurement.orchestrator.domain.util.extension.toSetBy
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.delegate.rule.duplicatesRule
@@ -51,8 +50,8 @@ class StorageOpenAccessDelegate(
     operationStepRepository = operationStepRepository
 ) {
     companion object {
-        private const val TENDER_PATH = "tender"
-        private const val AWARDS_PATH = "awards"
+        private const val TENDER_ATTRIBUTE_NAME = "tender"
+        private const val AWARDS_ATTRIBUTE_NAME = "awards"
         private const val BUSINESS_FUNCTIONS_PATH = "awards.requirementResponses.responder"
         private const val DOCUMENT_ID_PATH = "document.id"
     }
@@ -162,11 +161,9 @@ class StorageOpenAccessDelegate(
 
         val contextDocumentIds = getAllDocuments(tender, awards, parameters)
             .orReturnFail { return ValidationResult.error(it) }
-            .toSet()
 
-        data.validate(duplicatesRule(DOCUMENT_ID_PATH))
-            .orReturnFail { return ValidationResult.error(it) }
-            .toSetBy { it.id }
+        data.map { it.id }
+            .validate(duplicatesRule(DOCUMENT_ID_PATH))
             .validate(missingEntityRule(contextDocumentIds, DOCUMENT_ID_PATH))
             .validate(unknownEntityRule(contextDocumentIds, DOCUMENT_ID_PATH))
             .doOnError { return ValidationResult.error(it) }
@@ -281,7 +278,7 @@ class StorageOpenAccessDelegate(
 
     private fun getTenderDocumentsIdsRequired(tender: Tender?): Result<List<DocumentId>, Fail.Incident> {
         if (tender == null)
-            return failure(Fail.Incident.Bpms.Context.Missing(name = TENDER_PATH))
+            return failure(Fail.Incident.Bpms.Context.Missing(name = TENDER_ATTRIBUTE_NAME))
 
         return tender.getDocumentsIfNotEmpty()
             .orForwardFail { fail -> return fail }
@@ -314,7 +311,7 @@ class StorageOpenAccessDelegate(
 
     private fun getAmendmentDocumentsIdsRequired(tender: Tender?): Result<List<DocumentId>, Fail.Incident> {
         if (tender == null)
-            return failure(Fail.Incident.Bpms.Context.Missing(name = TENDER_PATH))
+            return failure(Fail.Incident.Bpms.Context.Missing(name = TENDER_ATTRIBUTE_NAME))
 
         return tender.getAmendmentsIfNotEmpty()
             .orForwardFail { fail -> return fail }
@@ -356,7 +353,7 @@ class StorageOpenAccessDelegate(
             .asSuccess()
 
     private fun getAwardDocumentsIdsRequired(awards: Awards): Result<List<DocumentId>, Fail.Incident> =
-        awards.getIfNotEmpty(name = AWARDS_PATH)
+        awards.getIfNotEmpty(name = AWARDS_ATTRIBUTE_NAME)
             .orForwardFail { fail -> return fail }
             .flatMap { award ->
                 award.getRequirementResponseIfOnlyOne()
@@ -384,7 +381,7 @@ class StorageOpenAccessDelegate(
         val tenderDocuments: List<DocumentId> = getTenderDocumentsIds(tender, entities)
             .orForwardFail { fail -> return fail }
 
-        val awardRequirementResponseDocuments: List<DocumentId> = getAwardRequirementResponseDocumentsIds(awards, entities)
+        val awardRequirementResponseDocuments = getAwardRequirementResponseDocumentsIds(awards, entities)
             .orForwardFail { fail -> return fail }
 
         return amendmentDocuments
