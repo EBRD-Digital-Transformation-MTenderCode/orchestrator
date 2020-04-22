@@ -256,17 +256,13 @@ class StorageOpenAccessDelegate(
     private fun getTenderDocumentsIds(
         tender: Tender?,
         entities: Map<EntityKey, EntityValue>
-    ): Result<List<DocumentId>, Fail.Incident> {
-        val tenderKey = EntityKey.TENDER
-        return if (tenderKey in entities.keys) {
-            when (entities.getValue(tenderKey)) {
-                EntityValue.OPTIONAL -> getTenderDocumentsIdsOptional(tender)
-                EntityValue.REQUIRED -> getTenderDocumentsIdsRequired(tender)
-                    .doOnError { error -> return error.asFailure() }
-            }
-        } else
-            emptyList<DocumentId>().asSuccess()
-    }
+    ): Result<List<DocumentId>, Fail.Incident> =
+        when (entities[EntityKey.TENDER]) {
+            EntityValue.OPTIONAL -> getTenderDocumentsIdsOptional(tender)
+            EntityValue.REQUIRED -> getTenderDocumentsIdsRequired(tender)
+                .doOnError { error -> return error.asFailure() }
+            null -> emptyList<DocumentId>().asSuccess()
+        }
 
     private fun getTenderDocumentsIdsOptional(tender: Tender?): Result<List<DocumentId>, Fail.Incident> =
         tender?.documents
@@ -288,17 +284,13 @@ class StorageOpenAccessDelegate(
 
     private fun getAmendmentDocumentsIds(
         tender: Tender?, entities: Map<EntityKey, EntityValue>
-    ): Result<List<DocumentId>, Fail.Incident> {
-        val amendmentKey = EntityKey.AMENDMENT
-        return if (amendmentKey in entities) {
-            when (entities.getValue(amendmentKey)) {
-                EntityValue.OPTIONAL -> getAmendmentDocumentsIdsOptional(tender)
-                EntityValue.REQUIRED -> getAmendmentDocumentsIdsRequired(tender)
-                    .doOnError { error -> return error.asFailure() }
-            }
-        } else
-            emptyList<DocumentId>().asSuccess()
-    }
+    ): Result<List<DocumentId>, Fail.Incident> =
+        when (entities[EntityKey.AMENDMENT]) {
+            EntityValue.OPTIONAL -> getAmendmentDocumentsIdsOptional(tender)
+            EntityValue.REQUIRED -> getAmendmentDocumentsIdsRequired(tender)
+                .doOnError { error -> return error.asFailure() }
+            null -> emptyList<DocumentId>().asSuccess()
+        }
 
     private fun getAmendmentDocumentsIdsOptional(tender: Tender?): Result<List<DocumentId>, Fail.Incident> =
         tender?.amendments
@@ -325,17 +317,13 @@ class StorageOpenAccessDelegate(
 
     private fun getAwardRequirementResponseDocumentsIds(
         awards: Awards, entities: Map<EntityKey, EntityValue>
-    ): Result<List<DocumentId>, Fail.Incident> {
-        val awardKey = EntityKey.AWARD_REQUIREMENT_RESPONSE
-        return if (awardKey in entities) {
-            when (entities.getValue(awardKey)) {
-                EntityValue.OPTIONAL -> getAwardDocumentsIdsOptional(awards)
-                EntityValue.REQUIRED -> getAwardDocumentsIdsRequired(awards)
-                    .doOnError { error -> return error.asFailure() }
-            }
-        } else
-            emptyList<DocumentId>().asSuccess()
-    }
+    ): Result<List<DocumentId>, Fail.Incident> =
+        when (entities[EntityKey.AWARD_REQUIREMENT_RESPONSE]) {
+            EntityValue.OPTIONAL -> getAwardDocumentsIdsOptional(awards)
+            EntityValue.REQUIRED -> getAwardDocumentsIdsRequired(awards)
+                .doOnError { error -> return error.asFailure() }
+            null -> emptyList<DocumentId>().asSuccess()
+        }
 
     private fun getAwardDocumentsIdsOptional(awards: Awards): Result<List<DocumentId>, Fail.Incident> =
         awards.asSequence()
