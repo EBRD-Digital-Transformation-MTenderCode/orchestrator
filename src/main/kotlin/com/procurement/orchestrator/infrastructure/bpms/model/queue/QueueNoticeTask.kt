@@ -2,7 +2,6 @@ package com.procurement.orchestrator.infrastructure.bpms.model.queue
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.procurement.orchestrator.application.model.Stage
 import com.procurement.orchestrator.application.model.context.members.Awards
 import com.procurement.orchestrator.application.model.context.members.Contracts
 import com.procurement.orchestrator.application.model.context.members.Parties
@@ -69,7 +68,7 @@ class QueueNoticeTask(
 
         override fun compareTo(other: Id): Int {
             var result = cpid.compareTo(other.cpid)
-            result = if (result != 0) result else Stage.compare(current = ocid.stage, other = other.ocid.stage)
+            result = if (result != 0) result else ocid.compareTo(other.ocid)
             result = if (result != 0) result else Action.compare(current = action, other = other.action)
             return result
         }

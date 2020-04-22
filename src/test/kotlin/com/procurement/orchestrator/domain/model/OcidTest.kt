@@ -23,20 +23,20 @@ class OcidTest {
     @EnumSource(value = Stage::class)
     fun generate(stage: Stage) {
         val cpid = Cpid.generate(prefix = PREFIX, country = COUNTRY, timestamp = TIMESTAMP_1)
-        val ocid = Ocid.generate(cpid = cpid, stage = stage, timestamp = TIMESTAMP_2)
+        val ocid = Ocid.SingleStage.generate(cpid = cpid, stage = stage, timestamp = TIMESTAMP_2)
 
         assertEquals("$CPID_TEXT-${stage.key.toUpperCase()}-$MILLISECONDS_2", ocid.toString())
-        assertEquals(stage, ocid.stage)
+        assertEquals(stage, (ocid as Ocid.SingleStage).stage)
     }
 
     @ParameterizedTest
     @EnumSource(value = Stage::class)
     fun tryCreateOrNull(stage: Stage) {
         val expectedValue = "$CPID_TEXT-${stage.key.toUpperCase()}-$MILLISECONDS_2"
-        val ocid = Ocid.tryCreateOrNull(expectedValue)
+        val ocid = Ocid.SingleStage.tryCreateOrNull(expectedValue)
 
         assertNotNull(ocid)
         assertEquals(expectedValue, ocid!!.toString())
-        assertEquals(stage, ocid.stage)
+        assertEquals(stage, (ocid as Ocid.SingleStage).stage)
     }
 }

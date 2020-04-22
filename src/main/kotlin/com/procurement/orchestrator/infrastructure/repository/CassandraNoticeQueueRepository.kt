@@ -83,7 +83,8 @@ class CassandraNoticeQueueRepository(private val session: Session) : NoticeQueue
                             },
                         ocid = row.getString(columnOcid)
                             .let { value ->
-                                Ocid.tryCreateOrNull(value)
+                                Ocid.SingleStage.tryCreateOrNull(value)
+                                    ?: Ocid.MultiStage.tryCreateOrNull(value)
                                     ?: return failure(Fail.Incident.Database.Data(description = "Error of converting loaded ocid '$value' to object Ocid."))
                             },
                         action = row.getString(columnAction)
