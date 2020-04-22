@@ -41,7 +41,7 @@ class StorageCheckRegistrationDelegate(
     operationStepRepository = operationStepRepository
 ) {
     companion object {
-        private const val TENDER_PATH = "tender"
+        private const val TENDER_ATTRIBUTE_NAME = "tender"
         private const val BUSINESS_FUNCTIONS_PATH = "awards.requirementResponses.responder"
     }
 
@@ -129,7 +129,7 @@ class StorageCheckRegistrationDelegate(
 
     private fun getTenderDocumentsIdsRequired(tender: Tender?): Result<List<DocumentId>, Fail.Incident> {
         if (tender == null)
-            return failure(Fail.Incident.Bpms.Context.Missing(name = TENDER_PATH))
+            return failure(Fail.Incident.Bpms.Context.Missing(name = TENDER_ATTRIBUTE_NAME))
 
         return tender.getDocumentsIfNotEmpty()
             .orForwardFail { fail -> return fail }
@@ -162,7 +162,7 @@ class StorageCheckRegistrationDelegate(
 
     private fun getAmendmentDocumentsIdsRequired(tender: Tender?): Result<List<DocumentId>, Fail.Incident> {
         if (tender == null)
-            return failure(Fail.Incident.Bpms.Context.Missing(name = TENDER_PATH))
+            return failure(Fail.Incident.Bpms.Context.Missing(name = TENDER_ATTRIBUTE_NAME))
 
         return tender.getAmendmentsIfNotEmpty()
             .orForwardFail { fail -> return fail }
