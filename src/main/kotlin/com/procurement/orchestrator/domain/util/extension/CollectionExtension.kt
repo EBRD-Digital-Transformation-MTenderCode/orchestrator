@@ -13,6 +13,14 @@ inline fun <T, V> Collection<T>.isUnique(selector: (T) -> V): Boolean {
     return true
 }
 
+inline fun <T, V> Collection<T>.getDuplicate(selector: (T) -> V): T? {
+    val unique = HashSet<V>()
+    forEach { item ->
+        if (!unique.add(selector(item))) return item
+    }
+    return null
+}
+
 inline fun <T, V> Collection<T>.toSetBy(selector: (T) -> V): Set<V> {
     val collections = LinkedHashSet<V>()
     forEach {
@@ -42,6 +50,9 @@ inline fun <T, R, E> List<T>?.mapToOptionalResult(transform: (T) -> Result<R, E>
     ?.mapToResult(transform)
     ?.map { Option.pure(it) }
     ?: success(Option.none())
+
+fun <T> getMissingElements(received: Iterable<T>, known: Iterable<T>): Set<T> =
+    known.asSet().subtract(received.asSet())
 
 fun <T> getUnknownElements(received: Iterable<T>, known: Iterable<T>) =
     getNewElements(received = received, known = known)
