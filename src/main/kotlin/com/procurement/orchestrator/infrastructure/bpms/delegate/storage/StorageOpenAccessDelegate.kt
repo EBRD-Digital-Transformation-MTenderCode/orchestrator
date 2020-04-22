@@ -235,7 +235,7 @@ class StorageOpenAccessDelegate(
                                                 ?: return failure(
                                                     Fail.Incident.Bpms.Context.UnConsistency.Update(
                                                         name = "document",
-                                                        path = "awards[id:$award.id].requirementResponse[id:${requirementRs.id}].responder.businessFunctions[id:${businessFunction.id}]",
+                                                        path = "awards[id:${award.id}].requirementResponse[id:${requirementRs.id}].responder.businessFunctions[id:${businessFunction.id}]",
                                                         id = document.id.toString()
                                                     )
                                                 )
