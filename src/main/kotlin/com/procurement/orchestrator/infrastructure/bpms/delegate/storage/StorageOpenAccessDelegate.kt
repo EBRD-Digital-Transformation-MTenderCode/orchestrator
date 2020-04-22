@@ -267,9 +267,7 @@ class StorageOpenAccessDelegate(
 
     private fun getTenderDocumentsIdsOptional(tender: Tender?): Result<List<DocumentId>, Fail.Incident> =
         tender?.documents
-            ?.asSequence()
             ?.map { document -> document.id }
-            ?.toList()
             .orEmpty()
             .asSuccess()
 
