@@ -7,8 +7,8 @@ import com.procurement.orchestrator.domain.model.or
 import com.procurement.orchestrator.domain.model.tender.criteria.requirement.RequirementGroups
 import java.io.Serializable
 
-data class Criteria(
-    @field:JsonProperty("id") @param:JsonProperty("id") val id: CriteriaId,
+data class Criterion(
+    @field:JsonProperty("id") @param:JsonProperty("id") val id: CriterionId,
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonProperty("title") @param:JsonProperty("title") val title: String? = null,
@@ -27,17 +27,18 @@ data class Criteria(
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonProperty("relatedItem") @param:JsonProperty("relatedItem") val relatedItem: String? = null
-) : IdentifiableObject<Criteria>, Serializable {
+) : IdentifiableObject<Criterion>,
+    Serializable {
 
     override fun equals(other: Any?): Boolean = if (this === other)
         true
     else
-        other is Criteria
+        other is Criterion
             && this.id == other.id
 
     override fun hashCode(): Int = id.hashCode()
 
-    override fun updateBy(src: Criteria) = Criteria(
+    override fun updateBy(src: Criterion) = Criterion(
         id = id,
         title = src.title or title,
         source = src.source or source,
