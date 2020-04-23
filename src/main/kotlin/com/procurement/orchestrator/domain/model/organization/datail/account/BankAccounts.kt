@@ -8,5 +8,12 @@ class BankAccounts(values: List<BankAccount> = emptyList()) : List<BankAccount> 
                                                               ComplexObjects<BankAccount, BankAccounts>,
                                                               Serializable {
 
+    constructor(value: BankAccount) : this(listOf(value))
+
+    override operator fun plus(other: BankAccounts) =
+        BankAccounts(this as List<BankAccount> + other as List<BankAccount>)
+
+    override operator fun plus(others: List<BankAccount>) = BankAccounts(this as List<BankAccount> + others)
+
     override fun combineBy(src: BankAccounts) = BankAccounts(merge(dst = this, src = src))
 }

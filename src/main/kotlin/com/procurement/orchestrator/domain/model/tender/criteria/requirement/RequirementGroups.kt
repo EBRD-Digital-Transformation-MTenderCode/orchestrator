@@ -10,5 +10,13 @@ class RequirementGroups(
     IdentifiableObjects<RequirementGroup, RequirementGroups>,
     Serializable {
 
+    constructor(value: RequirementGroup) : this(listOf(value))
+
+    override operator fun plus(other: RequirementGroups) =
+        RequirementGroups(this as List<RequirementGroup> + other as List<RequirementGroup>)
+
+    override operator fun plus(others: List<RequirementGroup>) =
+        RequirementGroups(this as List<RequirementGroup> + others)
+
     override fun updateBy(src: RequirementGroups) = RequirementGroups(update(dst = this, src = src))
 }

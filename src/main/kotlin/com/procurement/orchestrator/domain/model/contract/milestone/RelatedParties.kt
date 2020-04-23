@@ -8,5 +8,12 @@ class RelatedParties(values: List<RelatedParty> = emptyList()) : List<RelatedPar
                                                                  IdentifiableObjects<RelatedParty, RelatedParties>,
                                                                  Serializable {
 
+    constructor(value: RelatedParty) : this(listOf(value))
+
+    override operator fun plus(other: RelatedParties) =
+        RelatedParties(this as List<RelatedParty> + other as List<RelatedParty>)
+
+    override operator fun plus(others: List<RelatedParty>) = RelatedParties(this as List<RelatedParty> + others)
+
     override fun updateBy(src: RelatedParties) = RelatedParties(update(dst = this, src = src))
 }

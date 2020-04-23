@@ -10,5 +10,13 @@ class ConfirmationRequests(
     IdentifiableObjects<ConfirmationRequest, ConfirmationRequests>,
     Serializable {
 
+    constructor(value: ConfirmationRequest) : this(listOf(value))
+
+    override operator fun plus(other: ConfirmationRequests) =
+        ConfirmationRequests(this as List<ConfirmationRequest> + other as List<ConfirmationRequest>)
+
+    override operator fun plus(others: List<ConfirmationRequest>) =
+        ConfirmationRequests(this as List<ConfirmationRequest> + others)
+
     override fun updateBy(src: ConfirmationRequests) = ConfirmationRequests(update(dst = this, src = src))
 }

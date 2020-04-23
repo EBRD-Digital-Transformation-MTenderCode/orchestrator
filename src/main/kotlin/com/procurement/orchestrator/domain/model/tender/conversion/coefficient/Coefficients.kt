@@ -10,5 +10,12 @@ class Coefficients(
     IdentifiableObjects<Coefficient, Coefficients>,
     Serializable {
 
+    constructor(value: Coefficient) : this(listOf(value))
+
+    override operator fun plus(other: Coefficients) =
+        Coefficients(this as List<Coefficient> + other as List<Coefficient>)
+
+    override operator fun plus(others: List<Coefficient>) = Coefficients(this as List<Coefficient> + others)
+
     override fun updateBy(src: Coefficients) = Coefficients(update(dst = this, src = src))
 }

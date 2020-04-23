@@ -10,9 +10,9 @@ class Lots(values: List<Lot> = emptyList()) : List<Lot> by values,
 
     constructor(lot: Lot) : this(listOf(lot))
 
-    operator fun plus(other: Lots) = Lots(this as List<Lot> + other as List<Lot>)
+    override operator fun plus(other: Lots) = Lots(this as List<Lot> + other as List<Lot>)
 
-    operator fun plus(others: List<Lot>) = Lots(this as List<Lot> + others)
+    override operator fun plus(others: List<Lot>) = Lots(this as List<Lot> + others)
 
     override fun updateBy(src: Lots) = Lots(update(dst = this, src = src))
 }

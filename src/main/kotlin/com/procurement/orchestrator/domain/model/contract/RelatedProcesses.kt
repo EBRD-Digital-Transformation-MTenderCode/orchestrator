@@ -10,5 +10,12 @@ class RelatedProcesses(
     IdentifiableObjects<RelatedProcess, RelatedProcesses>,
     Serializable {
 
+    constructor(value: RelatedProcess) : this(listOf(value))
+
+    override operator fun plus(other: RelatedProcesses) =
+        RelatedProcesses(this as List<RelatedProcess> + other as List<RelatedProcess>)
+
+    override operator fun plus(others: List<RelatedProcess>) = RelatedProcesses(this as List<RelatedProcess> + others)
+
     override fun updateBy(src: RelatedProcesses) = RelatedProcesses(update(dst = this, src = src))
 }

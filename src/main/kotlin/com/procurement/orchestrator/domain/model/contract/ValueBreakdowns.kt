@@ -10,5 +10,12 @@ class ValueBreakdowns(
     IdentifiableObjects<ValueBreakdown, ValueBreakdowns>,
     Serializable {
 
+    constructor(value: ValueBreakdown) : this(listOf(value))
+
+    override operator fun plus(other: ValueBreakdowns) =
+        ValueBreakdowns(this as List<ValueBreakdown> + other as List<ValueBreakdown>)
+
+    override operator fun plus(others: List<ValueBreakdown>) = ValueBreakdowns(this as List<ValueBreakdown> + others)
+
     override fun updateBy(src: ValueBreakdowns) = ValueBreakdowns(update(dst = this, src = src))
 }

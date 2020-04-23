@@ -9,5 +9,13 @@ class RelatedConfirmations(
     ComplexObjects<RelatedConfirmation, RelatedConfirmations>,
     Serializable {
 
+    constructor(value: RelatedConfirmation) : this(listOf(value))
+
+    override operator fun plus(other: RelatedConfirmations) =
+        RelatedConfirmations(this as List<RelatedConfirmation> + other as List<RelatedConfirmation>)
+
+    override operator fun plus(others: List<RelatedConfirmation>) =
+        RelatedConfirmations(this as List<RelatedConfirmation> + others)
+
     override fun combineBy(src: RelatedConfirmations) = RelatedConfirmations()
 }

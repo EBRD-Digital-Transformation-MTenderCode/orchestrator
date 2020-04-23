@@ -10,5 +10,12 @@ class Classifications(
     IdentifiableObjects<Classification, Classifications>,
     Serializable {
 
+    constructor(value: Classification) : this(listOf(value))
+
+    override operator fun plus(other: Classifications) =
+        Classifications(this as List<Classification> + other as List<Classification>)
+
+    override operator fun plus(others: List<Classification>) = Classifications(this as List<Classification> + others)
+
     override fun updateBy(src: Classifications) = Classifications(update(dst = this, src = src))
 }

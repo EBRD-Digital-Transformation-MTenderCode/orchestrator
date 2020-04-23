@@ -8,11 +8,11 @@ class Amendments(values: List<Amendment> = emptyList()) : List<Amendment> by val
                                                           IdentifiableObjects<Amendment, Amendments>,
                                                           Serializable {
 
-    constructor(amendment: Amendment) : this(listOf(amendment))
+    constructor(value: Amendment) : this(listOf(value))
 
-    operator fun plus(values: Amendments) = Amendments(this as List<Amendment> + values as List<Amendment>)
+    override fun plus(other: Amendments) = Amendments(this as List<Amendment> + other as List<Amendment>)
 
-    operator fun plus(values: List<Amendment>) = Amendments(this as List<Amendment> + values)
+    override operator fun plus(others: List<Amendment>) = Amendments(this as List<Amendment> + others)
 
     override fun updateBy(src: Amendments) = Amendments(update(dst = this, src = src))
 }

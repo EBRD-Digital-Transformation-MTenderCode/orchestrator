@@ -10,5 +10,13 @@ class RelatedProcessTypes(
     ComplexObjects<RelatedProcessType, RelatedProcessTypes>,
     Serializable {
 
+    constructor(value: RelatedProcessType) : this(listOf(value))
+
+    override operator fun plus(other: RelatedProcessTypes) =
+        RelatedProcessTypes(this as List<RelatedProcessType> + other as List<RelatedProcessType>)
+
+    override operator fun plus(others: List<RelatedProcessType>) =
+        RelatedProcessTypes(this as List<RelatedProcessType> + others)
+
     override fun combineBy(src: RelatedProcessTypes) = RelatedProcessTypes(merge(dst = this, src = src))
 }

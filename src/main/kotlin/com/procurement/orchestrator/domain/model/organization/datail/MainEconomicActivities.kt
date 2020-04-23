@@ -10,5 +10,13 @@ class MainEconomicActivities(
     ComplexObjects<MainEconomicActivity, MainEconomicActivities>,
     Serializable {
 
+    constructor(value: MainEconomicActivity) : this(listOf(value))
+
+    override operator fun plus(other: MainEconomicActivities) =
+        MainEconomicActivities(this as List<MainEconomicActivity> + other as List<MainEconomicActivity>)
+
+    override operator fun plus(others: List<MainEconomicActivity>) =
+        MainEconomicActivities(this as List<MainEconomicActivity> + others)
+
     override fun combineBy(src: MainEconomicActivities) = MainEconomicActivities(merge(dst = this, src = src))
 }

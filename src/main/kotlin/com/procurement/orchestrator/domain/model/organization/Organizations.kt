@@ -10,5 +10,12 @@ class Organizations(
     IdentifiableObjects<Organization, Organizations>,
     Serializable {
 
+    constructor(value: Organization) : this(listOf(value))
+
+    override operator fun plus(other: Organizations) =
+        Organizations(this as List<Organization> + other as List<Organization>)
+
+    override operator fun plus(others: List<Organization>) = Organizations(this as List<Organization> + others)
+
     override fun updateBy(src: Organizations) = Organizations(update(dst = this, src = src))
 }

@@ -10,7 +10,13 @@ class RequirementResponses(
     IdentifiableObjects<RequirementResponse, RequirementResponses>,
     Serializable {
 
-    constructor(requirementResponse: RequirementResponse) : this(listOf(requirementResponse))
+    constructor(value: RequirementResponse) : this(listOf(value))
+
+    override operator fun plus(other: RequirementResponses) =
+        RequirementResponses(this as List<RequirementResponse> + other as List<RequirementResponse>)
+
+    override operator fun plus(others: List<RequirementResponse>) =
+        RequirementResponses(this as List<RequirementResponse> + others)
 
     override fun updateBy(src: RequirementResponses) = RequirementResponses(update(dst = this, src = src))
 }

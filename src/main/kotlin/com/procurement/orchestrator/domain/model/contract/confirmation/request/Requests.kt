@@ -8,5 +8,11 @@ class Requests(values: List<Request> = emptyList()) : List<Request> by values,
                                                       IdentifiableObjects<Request, Requests>,
                                                       Serializable {
 
+    constructor(value: Request) : this(listOf(value))
+
+    override operator fun plus(other: Requests) = Requests(this as List<Request> + other as List<Request>)
+
+    override operator fun plus(others: List<Request>) = Requests(this as List<Request> + others)
+
     override fun updateBy(src: Requests) = Requests(update(dst = this, src = src))
 }

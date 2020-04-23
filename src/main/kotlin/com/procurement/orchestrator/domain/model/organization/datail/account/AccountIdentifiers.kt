@@ -10,6 +10,14 @@ class AccountIdentifiers(
     IdentifiableObjects<AccountIdentifier, AccountIdentifiers>,
     Serializable {
 
+    constructor(value: AccountIdentifier) : this(listOf(value))
+
+    override operator fun plus(other: AccountIdentifiers) =
+        AccountIdentifiers(this as List<AccountIdentifier> + other as List<AccountIdentifier>)
+
+    override operator fun plus(others: List<AccountIdentifier>) =
+        AccountIdentifiers(this as List<AccountIdentifier> + others)
+
     override fun updateBy(src: AccountIdentifiers) = AccountIdentifiers(update(dst = this, src = src))
 }
 

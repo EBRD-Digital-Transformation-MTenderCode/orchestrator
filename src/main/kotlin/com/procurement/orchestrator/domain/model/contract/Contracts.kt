@@ -11,9 +11,10 @@ class Contracts(values: List<Contract> = emptyList()) : List<Contract> by values
 
     constructor(contract: Contract) : this(listOf(contract))
 
-    operator fun plus(other: Contracts): Contracts = Contracts(this as List<Contract> + other as List<Contract>)
+    override operator fun plus(other: Contracts): Contracts =
+        Contracts(this as List<Contract> + other as List<Contract>)
 
-    operator fun plus(others: List<Contract>): Contracts = Contracts(this as List<Contract> + others)
+    override operator fun plus(others: List<Contract>): Contracts = Contracts(this as List<Contract> + others)
 
     override fun updateBy(src: Contracts) = Contracts(update(dst = this, src = src))
 }

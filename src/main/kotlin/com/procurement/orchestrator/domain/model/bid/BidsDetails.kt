@@ -8,5 +8,11 @@ class BidsDetails(values: List<Bid> = emptyList()) : List<Bid> by values,
                                                      IdentifiableObjects<Bid, BidsDetails>,
                                                      Serializable {
 
+    constructor(value: Bid) : this(listOf(value))
+
+    override operator fun plus(other: BidsDetails) = BidsDetails(this as List<Bid> + other as List<Bid>)
+
+    override operator fun plus(others: List<Bid>) = BidsDetails(this as List<Bid> + others)
+
     override fun updateBy(src: BidsDetails) = BidsDetails(update(dst = this, src = src))
 }

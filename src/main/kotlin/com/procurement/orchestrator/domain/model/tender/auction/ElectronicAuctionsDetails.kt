@@ -10,5 +10,13 @@ class ElectronicAuctionsDetails(
     IdentifiableObjects<ElectronicAuctionsDetail, ElectronicAuctionsDetails>,
     Serializable {
 
+    constructor(value: ElectronicAuctionsDetail) : this(listOf(value))
+
+    override operator fun plus(other: ElectronicAuctionsDetails) =
+        ElectronicAuctionsDetails(this as List<ElectronicAuctionsDetail> + other as List<ElectronicAuctionsDetail>)
+
+    override operator fun plus(others: List<ElectronicAuctionsDetail>) =
+        ElectronicAuctionsDetails(this as List<ElectronicAuctionsDetail> + others)
+
     override fun updateBy(src: ElectronicAuctionsDetails) = ElectronicAuctionsDetails(update(dst = this, src = src))
 }

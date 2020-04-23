@@ -8,5 +8,12 @@ class BudgetSources(values: List<BudgetSource> = emptyList()) : List<BudgetSourc
                                                                 IdentifiableObjects<BudgetSource, BudgetSources>,
                                                                 Serializable {
 
+    constructor(value: BudgetSource) : this(listOf(value))
+
+    override operator fun plus(other: BudgetSources) =
+        BudgetSources(this as List<BudgetSource> + other as List<BudgetSource>)
+
+    override operator fun plus(others: List<BudgetSource>) = BudgetSources(this as List<BudgetSource> + others)
+
     override fun updateBy(src: BudgetSources) = BudgetSources(update(dst = this, src = src))
 }

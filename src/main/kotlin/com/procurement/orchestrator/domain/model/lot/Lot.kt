@@ -31,7 +31,7 @@ data class Lot(
     @field:JsonProperty("value") @param:JsonProperty("value") val value: Value? = null,
 
     @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
-    @field:JsonProperty("options") @param:JsonProperty("options") val options: Options = Options(emptyList()),
+    @field:JsonProperty("options") @param:JsonProperty("options") val options: Options = Options(),
 
     @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
     @field:JsonProperty("recurrentProcurement") @param:JsonProperty("recurrentProcurement") val recurrentProcurement: RecurrentProcurements = RecurrentProcurements(),

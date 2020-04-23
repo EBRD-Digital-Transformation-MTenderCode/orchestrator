@@ -10,5 +10,13 @@ class ValueBreakdownTypes(
     ComplexObjects<ValueBreakdownType, ValueBreakdownTypes>,
     Serializable {
 
+    constructor(value: ValueBreakdownType) : this(listOf(value))
+
+    override operator fun plus(other: ValueBreakdownTypes) =
+        ValueBreakdownTypes(this as List<ValueBreakdownType> + other as List<ValueBreakdownType>)
+
+    override operator fun plus(others: List<ValueBreakdownType>) =
+        ValueBreakdownTypes(this as List<ValueBreakdownType> + others)
+
     override fun combineBy(src: ValueBreakdownTypes) = ValueBreakdownTypes(merge(dst = this, src = src))
 }

@@ -8,5 +8,12 @@ class RequestGroups(values: List<RequestGroup> = emptyList()) : List<RequestGrou
                                                                 IdentifiableObjects<RequestGroup, RequestGroups>,
                                                                 Serializable {
 
+    constructor(value: RequestGroup) : this(listOf(value))
+
+    override operator fun plus(other: RequestGroups) =
+        RequestGroups(this as List<RequestGroup> + other as List<RequestGroup>)
+
+    override operator fun plus(others: List<RequestGroup>) = RequestGroups(this as List<RequestGroup> + others)
+
     override fun updateBy(src: RequestGroups) = RequestGroups(update(dst = this, src = src))
 }
