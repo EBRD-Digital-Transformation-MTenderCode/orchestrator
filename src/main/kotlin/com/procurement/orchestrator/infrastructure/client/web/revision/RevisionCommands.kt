@@ -4,7 +4,7 @@ import com.procurement.orchestrator.infrastructure.client.web.revision.action.Ch
 import com.procurement.orchestrator.infrastructure.client.web.revision.action.CreateAmendmentAction
 import com.procurement.orchestrator.infrastructure.client.web.revision.action.DataValidationAction
 import com.procurement.orchestrator.infrastructure.client.web.revision.action.FindAmendmentIdsAction
-import com.procurement.orchestrator.infrastructure.client.web.revision.action.GetMainPartOfAmendmentByIdsAction
+import com.procurement.orchestrator.infrastructure.client.web.revision.action.GetAmendmentByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.revision.action.SetStateForAmendmentAction
 
 object RevisionCommands {
@@ -17,7 +17,7 @@ object RevisionCommands {
 
     object FindAmendmentIds : FindAmendmentIdsAction()
 
-    object GetMainPartOfAmendmentByIds : GetMainPartOfAmendmentByIdsAction()
+    object GetAmendmentByIds : GetAmendmentByIdsAction()
 
     object SetStateForAmendment : SetStateForAmendmentAction()
 }
