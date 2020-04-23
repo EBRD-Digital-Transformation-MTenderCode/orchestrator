@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonValue
 import com.procurement.orchestrator.domain.model.UUID_PATTERN
 import com.procurement.orchestrator.domain.model.isUUID
 import java.io.Serializable
+import java.util.*
 
 class OperationId private constructor(private val value: String) : Serializable {
 
@@ -27,5 +28,7 @@ class OperationId private constructor(private val value: String) : Serializable 
         fun validation(text: String): Boolean = text.isUUID()
 
         fun tryCreateOrNull(text: String): OperationId? = if (validation(text)) OperationId(text) else null
+
+        fun generate(): OperationId = OperationId(UUID.randomUUID().toString())
     }
 }

@@ -103,7 +103,8 @@ class RequirementResponseServiceImpl(
                     requestId = savedRequest.requestId,
                     platformId = savedRequest.platformId,
                     country = countryId,
-                    language = prevProcessContext.language
+                    language = prevProcessContext.language,
+                    parentOperationId = null
                 )
 
                 processInfo = ProcessInfo(
