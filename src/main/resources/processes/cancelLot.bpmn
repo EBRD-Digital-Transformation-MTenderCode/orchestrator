@@ -56,9 +56,9 @@
       <bpmn:extensionElements>
         <camunda:inputOutput>
           <camunda:inputParameter name="entities">
-            <camunda:list>
-              <camunda:value>amendment</camunda:value>
-            </camunda:list>
+            <camunda:map>
+              <camunda:entry key="amendment">optional</camunda:entry>
+            </camunda:map>
           </camunda:inputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>
@@ -77,9 +77,9 @@
       <bpmn:extensionElements>
         <camunda:inputOutput>
           <camunda:inputParameter name="entities">
-            <camunda:list>
-              <camunda:value>amendment</camunda:value>
-            </camunda:list>
+            <camunda:map>
+              <camunda:entry key="amendment">optional</camunda:entry>
+            </camunda:map>
           </camunda:inputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>

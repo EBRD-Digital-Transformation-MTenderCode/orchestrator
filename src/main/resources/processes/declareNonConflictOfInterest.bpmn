@@ -196,9 +196,9 @@
       <bpmn:extensionElements>
         <camunda:inputOutput>
           <camunda:inputParameter name="entities">
-            <camunda:list>
-              <camunda:value>award.requirementResponse</camunda:value>
-            </camunda:list>
+            <camunda:map>
+              <camunda:entry key="award.requirementResponse">optional</camunda:entry>
+            </camunda:map>
           </camunda:inputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>
@@ -241,9 +241,9 @@
       <bpmn:extensionElements>
         <camunda:inputOutput>
           <camunda:inputParameter name="entities">
-            <camunda:list>
-              <camunda:value>award.requirementResponse</camunda:value>
-            </camunda:list>
+            <camunda:map>
+              <camunda:entry key="award.requirementResponse">optional</camunda:entry>
+            </camunda:map>
           </camunda:inputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>
@@ -251,6 +251,16 @@
       <bpmn:outgoing>SequenceFlow_10631qk</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="EvaluationCreateRequirementResponseTask" name="eEvaluation:&#10;Create requirement response" camunda:asyncBefore="true" camunda:delegateExpression="${evaluationCreateRequirementResponseDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="Input_0kc80bl">
+            <camunda:map>
+              <camunda:entry key="tender">required</camunda:entry>
+              <camunda:entry key="amendemnt">optional</camunda:entry>
+            </camunda:map>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1ar5qqv</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_04xofpb</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -260,7 +270,7 @@
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_10631qk" sourceRef="StorageOpenAccessToDocumentsTask" targetRef="AccessResponderProcessingTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1ar5qqv" sourceRef="AccessResponderProcessingTask" targetRef="EvaluationCreateRequirementResponseTask" />
-    <bpmn:callActivity id="SubUpdateMSTask" name="updateMS" camunda:asyncBefore="true" calledElement="subUpdateMS" camunda:variableMappingDelegateExpression="${MovePartiesBetweenContextsDelegate}">
+    <bpmn:callActivity id="SubUpdateMSTask" name="updateMS" camunda:asyncBefore="true" calledElement="subUpdateMS" camunda:variableMappingDelegateExpression="${prepareStartProcessDataDelegate}">
       <bpmn:extensionElements>
         <camunda:out source="errors" target="errors" />
         <camunda:inputOutput>
