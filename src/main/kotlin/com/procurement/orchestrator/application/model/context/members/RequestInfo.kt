@@ -12,7 +12,7 @@ import java.time.LocalDateTime
  */
 data class RequestInfo(
     @field:JsonProperty("operationId") @param:JsonProperty("operationId") val operationId: OperationId,
-    @field:JsonProperty("parentOperationId") @param:JsonProperty("parentOperationId") val parentOperationId: OperationId?,
+    @field:JsonProperty("parentOperationId") @param:JsonProperty("parentOperationId") val parentOperationId: OperationId? = null,
     @field:JsonProperty("timestamp") @param:JsonProperty("timestamp") val timestamp: LocalDateTime,
     @field:JsonProperty("requestId") @param:JsonProperty("requestId") val requestId: RequestId,
     @field:JsonProperty("platformId") @param:JsonProperty("platformId") val platformId: PlatformId,
