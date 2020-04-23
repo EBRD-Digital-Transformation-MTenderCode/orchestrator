@@ -1,8 +1,7 @@
-package com.procurement.orchestrator.application.model.context.members
+package com.procurement.orchestrator.domain.model.party
 
-import com.procurement.orchestrator.domain.model.ComplexObjects
+import com.procurement.orchestrator.domain.model.ComplexObjects.Companion.merge
 import com.procurement.orchestrator.domain.model.IdentifiableObjects
-import com.procurement.orchestrator.domain.model.party.Party
 import java.io.Serializable
 
 class Parties(values: List<Party> = emptyList()) : List<Party> by values,
@@ -15,5 +14,5 @@ class Parties(values: List<Party> = emptyList()) : List<Party> by values,
 
     override operator fun plus(others: List<Party>): Parties = Parties(this as List<Party> + others)
 
-    override fun updateBy(src: Parties) = Parties(ComplexObjects.merge(dst = this, src = src))
+    override fun updateBy(src: Parties) = Parties(merge(dst = this, src = src))
 }
