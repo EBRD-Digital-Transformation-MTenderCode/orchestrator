@@ -111,8 +111,17 @@ class AccessSetStateForLotsDelegate(
                                 path = "tender.amendments[${amendment.id}].relatedItem"
                             )
                         )
+                    val lotId = LotId.Permanent.tryCreateOrNull(entityId)
+                        ?: return failure(
+                            Fail.Incident.Bpms.Context.DataFormatMismatch(
+                                name = "relatedItem",
+                                path = "tender.amendments[${amendment.id}].relatedItem",
+                                actualValue = entityId,
+                                expectedFormat = LotId.Permanent.pattern
+                            )
+                        )
                     SetStateForLotsAction.Params.Lot(
-                        id = entityId,
+                        id = lotId.toString(),
                         status = parameters.status,
                         statusDetails = parameters.statusDetails
                     )
