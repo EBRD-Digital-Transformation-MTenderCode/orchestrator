@@ -69,11 +69,11 @@ class CancelLotController(
                 )
             )
 
-        val verifiedOcid = Ocid.tryCreateOrNull(ocid)
+        val verifiedOcid = Ocid.SingleStage.tryCreateOrNull(ocid)
             ?: return failure(
                 RequestErrors.Common.DataFormatMismatch(
                     name = "ocid",
-                    expectedFormat = Ocid.pattern,
+                    expectedFormat = Ocid.SingleStage.pattern,
                     actualValue = ocid
                 )
             )

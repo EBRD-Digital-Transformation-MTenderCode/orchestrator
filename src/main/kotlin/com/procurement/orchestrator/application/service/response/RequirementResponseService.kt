@@ -24,15 +24,18 @@ import com.procurement.orchestrator.domain.model.award.Award
 import com.procurement.orchestrator.domain.model.document.Document
 import com.procurement.orchestrator.domain.model.document.DocumentId
 import com.procurement.orchestrator.domain.model.document.DocumentType
+import com.procurement.orchestrator.domain.model.document.Documents
 import com.procurement.orchestrator.domain.model.identifier.Identifier
 import com.procurement.orchestrator.domain.model.organization.OrganizationReference
 import com.procurement.orchestrator.domain.model.organization.person.BusinessFunction
 import com.procurement.orchestrator.domain.model.organization.person.BusinessFunctionType
+import com.procurement.orchestrator.domain.model.organization.person.BusinessFunctions
 import com.procurement.orchestrator.domain.model.period.Period
 import com.procurement.orchestrator.domain.model.person.Person
 import com.procurement.orchestrator.domain.model.requirement.RequirementReference
 import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponse
 import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponseId
+import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponses
 import com.procurement.orchestrator.infrastructure.bpms.repository.RequestRecord
 import com.procurement.orchestrator.infrastructure.bpms.repository.RequestRepository
 
@@ -122,81 +125,82 @@ class RequirementResponseServiceImpl(
                         id = request.context.awardId,
                         owner = request.platformId,
                         token = request.context.token,
-                        requirementResponses = listOf(
-                            payload.requirementResponse
-                                .let { requirementResponse ->
-                                    RequirementResponse(
-                                        id = RequirementResponseId.Temporal.create(requirementResponse.id),
-                                        value = requirementResponse.value,
-                                        relatedTenderer = OrganizationReference(
-                                            id = requirementResponse.relatedTenderer.id
-                                        ),
-                                        responder = requirementResponse.responder
-                                            .let { responder ->
-                                                Person(
-                                                    title = responder.title,
-                                                    name = responder.name,
-                                                    identifier = responder.identifier
-                                                        .let { identifier ->
-                                                            Identifier(
-                                                                scheme = identifier.scheme,
-                                                                id = identifier.id,
-                                                                uri = identifier.uri
-                                                            )
-                                                        },
-                                                    businessFunctions = responder.businessFunctions
-                                                        .map { businessFunction ->
-                                                            BusinessFunction(
-                                                                id = businessFunction.id,
-                                                                type = BusinessFunctionType.orNull(businessFunction.type)
-                                                                    ?: return MaybeFail.fail(
-                                                                        DataValidationErrors.UnknownValue(
-                                                                            name = "awards[id:${request.context.awardId}].businessFunctions[id:${businessFunction.id}].type",
-                                                                            expectedValues = BusinessFunctionType.allowedElements.keysAsStrings(),
-                                                                            actualValue = businessFunction.type
-                                                                        )
-                                                                    ),
-                                                                jobTitle = businessFunction.jobTitle,
-                                                                period = businessFunction.period
-                                                                    .let { period ->
-                                                                        Period(startDate = period.startDate.tryParseLocalDateTime()
-                                                                            .orReturnFail { fail ->
-                                                                                return MaybeFail.fail(
-                                                                                    DataValidationErrors.DataFormatMismatch(
-                                                                                        name = "awards[id:${request.context.awardId}].businessFunctions[id:${businessFunction.id}].period.startDate",
-                                                                                        expectedFormat = fail,
-                                                                                        actualValue = period.startDate
-                                                                                    )
+                        requirementResponses = payload.requirementResponse
+                            .let { requirementResponse ->
+                                RequirementResponse(
+                                    id = RequirementResponseId.Temporal.create(requirementResponse.id),
+                                    value = requirementResponse.value,
+                                    relatedTenderer = OrganizationReference(
+                                        id = requirementResponse.relatedTenderer.id
+                                    ),
+                                    responder = requirementResponse.responder
+                                        .let { responder ->
+                                            Person(
+                                                title = responder.title,
+                                                name = responder.name,
+                                                identifier = responder.identifier
+                                                    .let { identifier ->
+                                                        Identifier(
+                                                            scheme = identifier.scheme,
+                                                            id = identifier.id,
+                                                            uri = identifier.uri
+                                                        )
+                                                    },
+                                                businessFunctions = responder.businessFunctions
+                                                    .map { businessFunction ->
+                                                        BusinessFunction(
+                                                            id = businessFunction.id,
+                                                            type = BusinessFunctionType.orNull(businessFunction.type)
+                                                                ?: return MaybeFail.fail(
+                                                                    DataValidationErrors.UnknownValue(
+                                                                        name = "awards[id:${request.context.awardId}].businessFunctions[id:${businessFunction.id}].type",
+                                                                        expectedValues = BusinessFunctionType.allowedElements.keysAsStrings(),
+                                                                        actualValue = businessFunction.type
+                                                                    )
+                                                                ),
+                                                            jobTitle = businessFunction.jobTitle,
+                                                            period = businessFunction.period
+                                                                .let { period ->
+                                                                    Period(startDate = period.startDate.tryParseLocalDateTime()
+                                                                        .orReturnFail { fail ->
+                                                                            return MaybeFail.fail(
+                                                                                DataValidationErrors.DataFormatMismatch(
+                                                                                    name = "awards[id:${request.context.awardId}].businessFunctions[id:${businessFunction.id}].period.startDate",
+                                                                                    expectedFormat = fail,
+                                                                                    actualValue = period.startDate
                                                                                 )
-                                                                            }
-                                                                        )
-                                                                    },
-                                                                documents = businessFunction.documents
-                                                                    .map { document ->
-                                                                        Document(
-                                                                            id = DocumentId.create(document.id),
-                                                                            documentType = DocumentType.orNull(document.documentType)
-                                                                                ?: return MaybeFail.fail(
-                                                                                    DataValidationErrors.UnknownValue(
-                                                                                        name = "awards[id:${request.context.awardId}].businessFunctions[id:${businessFunction.id}].documents[id:${document.id}].documentType",
-                                                                                        expectedValues = DocumentType.allowedElements.keysAsStrings(),
-                                                                                        actualValue = document.documentType
-                                                                                    )
-                                                                                ),
-                                                                            title = document.title,
-                                                                            description = document.description
-                                                                        )
-                                                                    }
-                                                            )
-                                                        }
-                                                )
-                                            },
-                                        requirement = RequirementReference(
-                                            id = requirementResponse.requirement.id
-                                        )
+                                                                            )
+                                                                        }
+                                                                    )
+                                                                },
+                                                            documents = businessFunction.documents
+                                                                .map { document ->
+                                                                    Document(
+                                                                        id = DocumentId.create(document.id),
+                                                                        documentType = DocumentType.orNull(document.documentType)
+                                                                            ?: return MaybeFail.fail(
+                                                                                DataValidationErrors.UnknownValue(
+                                                                                    name = "awards[id:${request.context.awardId}].businessFunctions[id:${businessFunction.id}].documents[id:${document.id}].documentType",
+                                                                                    expectedValues = DocumentType.allowedElements.keysAsStrings(),
+                                                                                    actualValue = document.documentType
+                                                                                )
+                                                                            ),
+                                                                        title = document.title,
+                                                                        description = document.description
+                                                                    )
+                                                                }
+                                                                .let { Documents(it) }
+                                                        )
+                                                    }
+                                                    .let { BusinessFunctions(it) }
+                                            )
+                                        },
+                                    requirement = RequirementReference(
+                                        id = requirementResponse.requirement.id
                                     )
-                                }
-                        )
+                                )
+                            }
+                            .let { RequirementResponses(it) }
                     )
                 )
             }

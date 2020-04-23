@@ -8,6 +8,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Chec
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckPersonesStructureAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindLotIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotStateByIdsAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.GetOrganizationAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ResponderProcessingAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForLotsAction
@@ -54,4 +55,9 @@ interface AccessClient {
         id: CommandId,
         params: SetStateForLotsAction.Params
     ): Result<Reply<SetStateForLotsAction.Result>, Fail.Incident>
+
+    suspend fun getOrganization(
+        id: CommandId,
+        params: GetOrganizationAction.Params
+    ): Result<Reply<GetOrganizationAction.Result>, Fail.Incident>
 }

@@ -40,28 +40,3 @@ sealed class AmendmentId(private val value: String) : Serializable {
         }
     }
 }
-
-/*class AmendmentId private constructor(private val value: String) : Serializable {
-
-    override fun equals(other: Any?): Boolean {
-        return if (this !== other)
-            other is AmendmentId
-                && this.value == other.value
-        else
-            true
-    }
-
-    override fun hashCode(): Int = value.hashCode()
-
-    @JsonValue
-    override fun toString(): String = value
-
-    companion object {
-
-        @JvmStatic
-        @JsonCreator
-        fun tryCreate(text: String): AmendmentId = AmendmentId(text)
-
-        fun generate(): AmendmentId = AmendmentId(value = UUID.randomUUID().toString())
-    }
-}*/

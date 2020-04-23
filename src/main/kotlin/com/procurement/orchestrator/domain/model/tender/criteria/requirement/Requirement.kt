@@ -1,5 +1,10 @@
 package com.procurement.orchestrator.domain.model.tender.criteria.requirement
 
+import com.procurement.orchestrator.domain.model.ComplexObject
+import com.procurement.orchestrator.domain.model.IdentifiableObject
+import com.procurement.orchestrator.domain.model.or
+import com.procurement.orchestrator.domain.model.updateBy
+import java.io.Serializable
 import java.math.BigDecimal
 import java.time.LocalDateTime
 
@@ -10,11 +15,27 @@ class Requirement(
     val period: Period?,
     val dataType: RequirementDataType,
     val value: RequirementValue
-) {
+) : IdentifiableObject<Requirement>, Serializable {
+
+    override fun updateBy(src: Requirement) = Requirement(
+        id = id,
+        title = src.title,
+        description = src.description or description,
+        period = period updateBy src.period,
+        dataType = src.dataType,
+        value = src.value
+    )
+
     data class Period(
         val startDate: LocalDateTime,
         val endDate: LocalDateTime
-    )
+    ) : ComplexObject<Period>, Serializable {
+
+        override fun updateBy(src: Period) = Period(
+            startDate = src.startDate,
+            endDate = src.endDate
+        )
+    }
 }
 
 sealed class RequirementValue

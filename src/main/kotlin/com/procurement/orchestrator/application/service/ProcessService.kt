@@ -110,7 +110,7 @@ class ProcessServiceImpl(
             }
         val ocid: Ocid = this.ocid
             .let { value ->
-                Ocid.tryCreateOrNull(value)
+                Ocid.SingleStage.tryCreateOrNull(value)
                     ?: return failure(Fail.Incident.Bpe(description = "The process context contain unknown value '${value}' of the 'ocid' attribute."))
             }
         val stage: Stage = this.stage
@@ -163,7 +163,7 @@ class ProcessServiceImpl(
             }
         val ocid: Ocid = this.ocid
             .let { value ->
-                Ocid.tryCreateOrNull(value)
+                Ocid.SingleStage.tryCreateOrNull(value)
                     ?: return failure(Fail.Incident.Bpe(description = "The old process context contain unknown value '${value}' of the 'ocid' attribute."))
             }
         val stage: Stage = this.stage

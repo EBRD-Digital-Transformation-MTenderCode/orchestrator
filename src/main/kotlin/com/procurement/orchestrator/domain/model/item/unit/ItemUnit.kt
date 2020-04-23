@@ -2,6 +2,8 @@ package com.procurement.orchestrator.domain.model.item.unit
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.procurement.orchestrator.domain.model.IdentifiableObject
+import com.procurement.orchestrator.domain.model.or
 import com.procurement.orchestrator.domain.model.value.Value
 import java.io.Serializable
 
@@ -17,7 +19,7 @@ data class ItemUnit(
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonProperty("uri") @param:JsonProperty("uri") val uri: String? = null
-) : Serializable {
+) : IdentifiableObject<ItemUnit>, Serializable {
 
     override fun equals(other: Any?): Boolean = if (this === other)
         true
@@ -31,4 +33,12 @@ data class ItemUnit(
         result = 31 * result + id.hashCode()
         return result
     }
+
+    override fun updateBy(src: ItemUnit) = ItemUnit(
+        scheme = scheme,
+        id = id,
+        name = src.name or name,
+        value = src.value or value,
+        uri = src.uri or uri
+    )
 }

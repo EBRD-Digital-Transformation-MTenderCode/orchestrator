@@ -4,15 +4,18 @@ import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.procurement.orchestrator.application.model.Owner
 import com.procurement.orchestrator.application.model.Token
-import com.procurement.orchestrator.domain.model.amendment.Amendment
-import com.procurement.orchestrator.domain.model.document.Document
-import com.procurement.orchestrator.domain.model.enquiry.Enquiry
-import com.procurement.orchestrator.domain.model.item.Item
-import com.procurement.orchestrator.domain.model.lot.Lot
+import com.procurement.orchestrator.domain.model.IdentifiableObject
+import com.procurement.orchestrator.domain.model.amendment.Amendments
+import com.procurement.orchestrator.domain.model.document.Documents
+import com.procurement.orchestrator.domain.model.enquiry.Enquiries
+import com.procurement.orchestrator.domain.model.item.Items
+import com.procurement.orchestrator.domain.model.lot.Lots
+import com.procurement.orchestrator.domain.model.or
 import com.procurement.orchestrator.domain.model.period.Period
 import com.procurement.orchestrator.domain.model.tender.auction.ElectronicAuctions
-import com.procurement.orchestrator.domain.model.tender.conversion.Conversion
-import com.procurement.orchestrator.domain.model.tender.criteria.Criteria
+import com.procurement.orchestrator.domain.model.tender.conversion.Conversions
+import com.procurement.orchestrator.domain.model.tender.criteria.Criterias
+import com.procurement.orchestrator.domain.model.updateBy
 import java.io.Serializable
 
 data class Tender(
@@ -39,19 +42,19 @@ data class Tender(
     @field:JsonProperty("statusDetails") @param:JsonProperty("statusDetails") val statusDetails: TenderStatusDetails? = null,
 
     @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
-    @field:JsonProperty("criteria") @param:JsonProperty("criteria") val criteria: List<Criteria> = emptyList(),
+    @field:JsonProperty("criteria") @param:JsonProperty("criteria") val criteria: Criterias = Criterias(),
 
     @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
-    @field:JsonProperty("conversions") @param:JsonProperty("conversions") val conversions: List<Conversion> = emptyList(),
+    @field:JsonProperty("conversions") @param:JsonProperty("conversions") val conversions: Conversions = Conversions(),
 
     @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
-    @field:JsonProperty("items") @param:JsonProperty("items") val items: List<Item> = emptyList(),
+    @field:JsonProperty("items") @param:JsonProperty("items") val items: Items = Items(),
 
     @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
-    @field:JsonProperty("lots") @param:JsonProperty("lots") val lots: List<Lot> = emptyList(),
+    @field:JsonProperty("lots") @param:JsonProperty("lots") val lots: Lots = Lots(),
 
     @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
-    @field:JsonProperty("lotGroups") @param:JsonProperty("lotGroups") val lotGroups: List<LotGroup> = emptyList(),
+    @field:JsonProperty("lotGroups") @param:JsonProperty("lotGroups") val lotGroups: LotGroups = LotGroups(),
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonProperty("tenderPeriod") @param:JsonProperty("tenderPeriod") val tenderPeriod: Period? = null,
@@ -72,13 +75,13 @@ data class Tender(
     @get:JsonProperty("hasEnquiries") @param:JsonProperty("hasEnquiries") val hasEnquiries: Boolean? = false,
 
     @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
-    @field:JsonProperty("enquiries") @param:JsonProperty("enquiries") val enquiries: List<Enquiry> = emptyList(),
+    @field:JsonProperty("enquiries") @param:JsonProperty("enquiries") val enquiries: Enquiries = Enquiries(),
 
     @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
-    @field:JsonProperty("amendments") @param:JsonProperty("amendments") val amendments: List<Amendment> = emptyList(),
+    @field:JsonProperty("amendments") @param:JsonProperty("amendments") val amendments: Amendments = Amendments(),
 
     @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
-    @field:JsonProperty("documents") @param:JsonProperty("documents") val documents: List<Document> = emptyList(),
+    @field:JsonProperty("documents") @param:JsonProperty("documents") val documents: Documents = Documents(),
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonProperty("awardCriteria") @param:JsonProperty("awardCriteria") val awardCriteria: AwardCriteria? = null,
@@ -87,20 +90,53 @@ data class Tender(
     @field:JsonProperty("awardCriteriaDetails") @param:JsonProperty("awardCriteriaDetails") val awardCriteriaDetails: AwardCriteriaDetails? = null,
 
     @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
-    @field:JsonProperty("submissionMethod") @param:JsonProperty("submissionMethod") val submissionMethod: List<String> = emptyList(),
+    @field:JsonProperty("submissionMethod") @param:JsonProperty("submissionMethod") val submissionMethod: SubmissionMethods = SubmissionMethods(),
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonProperty("submissionMethodDetails") @param:JsonProperty("submissionMethodDetails") val submissionMethodDetails: String? = null,
 
     @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
-    @field:JsonProperty("submissionMethodRationale") @param:JsonProperty("submissionMethodRationale") val submissionMethodRationale: List<String> = emptyList(),
+    @field:JsonProperty("submissionMethodRationale") @param:JsonProperty("submissionMethodRationale") val submissionMethodRationales: SubmissionMethodRationales = SubmissionMethodRationales(),
 
     @get:JsonInclude(JsonInclude.Include.NON_NULL)
     @get:JsonProperty("requiresElectronicCatalogue") @param:JsonProperty("requiresElectronicCatalogue") val requiresElectronicCatalogue: Boolean? = null,
 
     @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
-    @field:JsonProperty("procurementMethodModalities") @param:JsonProperty("procurementMethodModalities") val procurementMethodModalities: List<String> = emptyList(),
+    @field:JsonProperty("procurementMethodModalities") @param:JsonProperty("procurementMethodModalities") val procurementMethodModalities: ProcurementMethodModalities = ProcurementMethodModalities(),
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonProperty("electronicAuctions") @param:JsonProperty("electronicAuctions") val electronicAuctions: ElectronicAuctions? = null
-) : Serializable
+) : IdentifiableObject<Tender>, Serializable {
+
+    override fun updateBy(src: Tender): Tender = Tender(
+        token = src.token or token,
+        owner = src.owner or owner,
+        id = src.id or id,
+        title = src.title or title,
+        description = src.description or description,
+        status = src.status or status,
+        statusDetails = src.statusDetails or statusDetails,
+        criteria = criteria updateBy src.criteria,
+        conversions = conversions updateBy src.conversions,
+        items = items updateBy src.items,
+        lots = lots updateBy src.lots,
+        lotGroups = lotGroups updateBy src.lotGroups,
+        tenderPeriod = tenderPeriod updateBy src.tenderPeriod,
+        enquiryPeriod = enquiryPeriod updateBy src.enquiryPeriod,
+        standstillPeriod = standstillPeriod updateBy src.standstillPeriod,
+        awardPeriod = awardPeriod updateBy src.awardPeriod,
+        auctionPeriod = auctionPeriod updateBy src.auctionPeriod,
+        hasEnquiries = src.hasEnquiries or hasEnquiries,
+        enquiries = enquiries updateBy src.enquiries,
+        amendments = amendments updateBy src.amendments,
+        documents = documents updateBy src.documents,
+        awardCriteria = src.awardCriteria or awardCriteria,
+        awardCriteriaDetails = src.awardCriteriaDetails or awardCriteriaDetails,
+        submissionMethod = submissionMethod combineBy src.submissionMethod,
+        submissionMethodDetails = src.submissionMethodDetails or submissionMethodDetails,
+        submissionMethodRationales = submissionMethodRationales combineBy src.submissionMethodRationales,
+        requiresElectronicCatalogue = src.requiresElectronicCatalogue or requiresElectronicCatalogue,
+        procurementMethodModalities = procurementMethodModalities combineBy src.procurementMethodModalities,
+        electronicAuctions = electronicAuctions updateBy src.electronicAuctions
+    )
+}

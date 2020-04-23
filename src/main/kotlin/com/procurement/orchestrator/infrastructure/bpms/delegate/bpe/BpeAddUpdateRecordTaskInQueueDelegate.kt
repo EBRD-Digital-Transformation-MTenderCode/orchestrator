@@ -1,7 +1,5 @@
 package com.procurement.orchestrator.infrastructure.bpms.delegate.bpe
 
-import com.fasterxml.jackson.annotation.JsonInclude
-import com.fasterxml.jackson.annotation.JsonProperty
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
@@ -12,15 +10,10 @@ import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
-import com.procurement.orchestrator.domain.model.Cpid
-import com.procurement.orchestrator.domain.model.Ocid
-import com.procurement.orchestrator.domain.model.award.Award
-import com.procurement.orchestrator.domain.model.bid.Bids
-import com.procurement.orchestrator.domain.model.tender.Tender
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractInternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
+import com.procurement.orchestrator.infrastructure.bpms.model.queue.QueueNoticeTask
 import com.procurement.orchestrator.infrastructure.bpms.repository.NoticeQueueRepository
-import com.procurement.orchestrator.infrastructure.bpms.repository.NoticeTask
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import org.springframework.stereotype.Component
 
@@ -49,12 +42,14 @@ class BpeAddUpdateRecordTaskInQueueDelegate(
         val ocid = processInfo.ocid
         val data = transform
             .trySerialization(
-                TaskData(
+                QueueNoticeTask.Data(
                     cpid = cpid,
                     ocid = ocid,
                     tender = context.tender,
                     bids = context.bids,
-                    awards = context.awards
+                    awards = context.awards,
+                    parties = context.parties,
+                    contracts = context.contracts
                 )
             )
             .orForwardFail { fail -> return fail }
@@ -62,12 +57,14 @@ class BpeAddUpdateRecordTaskInQueueDelegate(
         val requestInfo = context.requestInfo
         noticeQueueRepository
             .save(
-                task = NoticeTask(
-                    operationId = requestInfo.operationId,
+                operationId = requestInfo.operationId,
+                task = QueueNoticeTask(
+                    id = QueueNoticeTask.Id(
+                        cpid = cpid,
+                        ocid = ocid,
+                        action = QueueNoticeTask.Action.UPDATE_RECORD
+                    ),
                     timestamp = nowDefaultUTC(),
-                    cpid = cpid,
-                    ocid = ocid,
-                    action = NoticeTask.Action.UPDATE_RECORD,
                     data = data
                 )
             )
@@ -81,18 +78,4 @@ class BpeAddUpdateRecordTaskInQueueDelegate(
         parameters: Unit,
         data: Unit
     ): MaybeFail<Fail.Incident.Bpmn> = MaybeFail.none()
-
-    data class TaskData(
-        @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid,
-        @field:JsonProperty("ocid") @param:JsonProperty("ocid") val ocid: Ocid,
-
-        @JsonInclude(JsonInclude.Include.NON_NULL)
-        @field:JsonProperty("tender") @param:JsonProperty("tender") val tender: Tender?,
-
-        @JsonInclude(JsonInclude.Include.NON_NULL)
-        @field:JsonProperty("bids") @param:JsonProperty("bids") val bids: Bids?,
-
-        @JsonInclude(JsonInclude.Include.NON_EMPTY)
-        @field:JsonProperty("awards") @param:JsonProperty("awards") val awards: List<Award>
-    )
 }
