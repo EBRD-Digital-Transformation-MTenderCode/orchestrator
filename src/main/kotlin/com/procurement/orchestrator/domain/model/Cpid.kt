@@ -7,7 +7,7 @@ import com.procurement.orchestrator.domain.model.address.country.CountryId
 import java.io.Serializable
 import java.time.LocalDateTime
 
-class Cpid private constructor(private val value: String) : Serializable {
+class Cpid private constructor(private val value: String) : Comparable<Cpid>, Serializable {
 
     override fun equals(other: Any?): Boolean {
         return if (this !== other)
@@ -21,6 +21,8 @@ class Cpid private constructor(private val value: String) : Serializable {
 
     @JsonValue
     override fun toString(): String = value
+
+    override fun compareTo(other: Cpid): Int = value.compareTo(other.value)
 
     companion object {
         private val regex = "^[a-z]{4}-[a-z0-9]{6}-[A-Z]{2}-[0-9]{13}\$".toRegex()

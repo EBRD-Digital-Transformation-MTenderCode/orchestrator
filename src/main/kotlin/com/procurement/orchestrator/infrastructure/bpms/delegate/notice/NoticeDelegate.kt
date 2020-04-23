@@ -11,8 +11,10 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
+import com.procurement.orchestrator.infrastructure.bpms.model.queue.QueueNoticeTask
+import com.procurement.orchestrator.infrastructure.bpms.model.queue.grouping
+import com.procurement.orchestrator.infrastructure.bpms.model.queue.merge
 import com.procurement.orchestrator.infrastructure.bpms.repository.NoticeQueueRepository
-import com.procurement.orchestrator.infrastructure.bpms.repository.NoticeTask
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.notice.action.CreateRecordAction
@@ -25,7 +27,7 @@ class NoticeDelegate(
     private val noticeClient: NoticeClient,
     operationStepRepository: OperationStepRepository,
     private val noticeQueueRepository: NoticeQueueRepository,
-    transform: Transform
+    private val transform: Transform
 ) : AbstractExternalDelegate<Unit, Unit>(
     logger = logger,
     transform = transform,
@@ -44,15 +46,18 @@ class NoticeDelegate(
         val requestInfo = context.requestInfo
         val operationId = requestInfo.operationId
 
-        val tasks: List<NoticeTask> = noticeQueueRepository.load(operationId = operationId)
+        val groupedTask = noticeQueueRepository.load(operationId = operationId)
             .orForwardFail { fail -> return fail }
+            .grouping()
 
-        tasks.forEach { task ->
-            val salt = task.ocid.toString()
+        groupedTask.forEach { (id, tasks) ->
+            val salt = id.ocid.toString()
             val commandIdWithSalt = commandId + salt
-            when (task.action) {
-                NoticeTask.Action.UPDATE_RECORD -> {
-                    val params = UpdateRecordAction.Params(date = requestInfo.timestamp, data = task.data)
+            when (id.action) {
+                QueueNoticeTask.Action.UPDATE_RECORD -> {
+                    val data = tasks.merge(transform)
+                        .orForwardFail { fail -> return fail }
+                    val params = UpdateRecordAction.Params(date = requestInfo.timestamp, data = data)
                     val reply = noticeClient.updateRecord(id = commandIdWithSalt, params = params)
                         .orForwardFail { fail -> return fail }
 
@@ -62,8 +67,10 @@ class NoticeDelegate(
                         is Reply.Incident -> return success(reply)
                     }
                 }
-                NoticeTask.Action.CREATE_RECORD -> {
-                    val params = CreateRecordAction.Params(date = requestInfo.timestamp, data = task.data)
+                QueueNoticeTask.Action.CREATE_RECORD -> {
+                    val data = tasks.merge(transform)
+                        .orForwardFail { fail -> return fail }
+                    val params = CreateRecordAction.Params(date = requestInfo.timestamp, data = data)
                     val reply = noticeClient.createRecord(id = commandIdWithSalt, params = params)
                         .orForwardFail { fail -> return fail }
 

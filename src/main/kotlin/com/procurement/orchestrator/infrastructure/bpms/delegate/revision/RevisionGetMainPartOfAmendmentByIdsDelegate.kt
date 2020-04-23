@@ -14,11 +14,12 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.model.amendment.AmendmentId
+import com.procurement.orchestrator.domain.model.amendment.Amendments
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
-import com.procurement.orchestrator.infrastructure.client.web.revision.action.GetMainPartOfAmendmentByIdsAction
+import com.procurement.orchestrator.infrastructure.client.web.revision.action.GetAmendmentByIdsAction
 import org.springframework.stereotype.Component
 
 @Component
@@ -27,7 +28,7 @@ class RevisionGetMainPartOfAmendmentByIdsDelegate(
     private val client: RevisionClient,
     operationStepRepository: OperationStepRepository,
     transform: Transform
-) : AbstractExternalDelegate<RevisionGetMainPartOfAmendmentByIdsDelegate.Parameters, GetMainPartOfAmendmentByIdsAction.Result>(
+) : AbstractExternalDelegate<RevisionGetMainPartOfAmendmentByIdsDelegate.Parameters, GetAmendmentByIdsAction.Result>(
     logger = logger,
     transform = transform,
     operationStepRepository = operationStepRepository
@@ -61,7 +62,7 @@ class RevisionGetMainPartOfAmendmentByIdsDelegate(
         commandId: CommandId,
         context: CamundaGlobalContext,
         parameters: Parameters
-    ): Result<Reply<GetMainPartOfAmendmentByIdsAction.Result>, Fail.Incident> {
+    ): Result<Reply<GetAmendmentByIdsAction.Result>, Fail.Incident> {
 
         val processInfo = context.processInfo
         val cpid = processInfo.cpid
@@ -74,16 +75,16 @@ class RevisionGetMainPartOfAmendmentByIdsDelegate(
                 .map { it.id as AmendmentId.Permanent }
         }
 
-        return client.getMainPartOfAmendmentByIds(
+        return client.getAmendmentByIds(
             id = commandId,
-            params = GetMainPartOfAmendmentByIdsAction.Params(cpid = cpid, ocid = ocid, ids = ids)
+            params = GetAmendmentByIdsAction.Params(cpid = cpid, ocid = ocid, ids = ids)
         )
     }
 
     override fun updateGlobalContext(
         context: CamundaGlobalContext,
         parameters: Parameters,
-        data: GetMainPartOfAmendmentByIdsAction.Result
+        data: GetAmendmentByIdsAction.Result
     ): MaybeFail<Fail.Incident> {
 
         when (parameters.location) {
@@ -106,7 +107,7 @@ class RevisionGetMainPartOfAmendmentByIdsDelegate(
                             ?: amendment
                     }
                 val updatedTender = tender.copy(
-                    amendments = updatedAmendments
+                    amendments = Amendments(updatedAmendments)
                 )
                 context.tender = updatedTender
             }

@@ -11,6 +11,7 @@ import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.model.amendment.AmendmentId
+import com.procurement.orchestrator.domain.model.amendment.Amendments
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractInternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
@@ -41,11 +42,13 @@ class BpeCreateIdsForAmendmentDelegate(
             .orForwardFail { fail -> return fail }
 
         context.tender = tender.copy(
-            amendments = amendments.map { amendment ->
-                amendment.copy(
-                    id = AmendmentId.Permanent.generate()
-                )
-            }
+            amendments = amendments
+                .map { amendment ->
+                    amendment.copy(
+                        id = AmendmentId.Permanent.generate()
+                    )
+                }
+                .let { Amendments(it) }
         )
 
         return success(Option.none())

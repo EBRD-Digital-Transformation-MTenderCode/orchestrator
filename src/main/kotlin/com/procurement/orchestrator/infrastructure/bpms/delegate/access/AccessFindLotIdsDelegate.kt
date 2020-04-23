@@ -8,7 +8,6 @@ import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.EnumElementProvider.Companion.keysAsStrings
 import com.procurement.orchestrator.domain.extension.lotIds
-import com.procurement.orchestrator.domain.extension.merge
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
@@ -125,7 +124,7 @@ class AccessFindLotIdsDelegate(
             .map { id -> Lot(id = id) }
 
         val updatedTender = tender.copy(
-            lots = tender.lots.merge(newLots)
+            lots = tender.lots + newLots
         )
         context.tender = updatedTender
 

@@ -17,6 +17,7 @@ import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
 import com.procurement.orchestrator.domain.model.identifier.Identifier
 import com.procurement.orchestrator.domain.model.person.Person
+import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponses
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
@@ -89,7 +90,7 @@ class AccessResponderProcessingDelegate(
             )
         )
         val updatedAward = award.copy(
-            requirementResponses = listOf(updatedRequirementResponse)
+            requirementResponses = RequirementResponses(updatedRequirementResponse)
         )
         context.awards = Awards(updatedAward)
 

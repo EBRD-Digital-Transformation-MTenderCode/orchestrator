@@ -2,6 +2,8 @@ package com.procurement.orchestrator.domain.model.organization
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.procurement.orchestrator.domain.model.ComplexObject
+import com.procurement.orchestrator.domain.model.or
 import java.io.Serializable
 
 data class ContactPoint(
@@ -19,4 +21,13 @@ data class ContactPoint(
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonProperty("url") @param:JsonProperty("url") val url: String? = null
-) : Serializable
+) : ComplexObject<ContactPoint>, Serializable {
+
+    override fun updateBy(src: ContactPoint) = ContactPoint(
+        name = src.name or name,
+        email = src.email or email,
+        telephone = src.telephone or telephone,
+        faxNumber = src.faxNumber or faxNumber,
+        url = src.url or url
+    )
+}

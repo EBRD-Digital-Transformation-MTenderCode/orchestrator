@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.procurement.orchestrator.domain.model.IdentifiableObject
+import com.procurement.orchestrator.domain.model.or
+
 import com.procurement.orchestrator.infrastructure.bind.conversion.coefficient.rate.CoefficientRateDeserializer
 import com.procurement.orchestrator.infrastructure.bind.conversion.coefficient.rate.CoefficientRateSerializer
 import com.procurement.orchestrator.infrastructure.bind.conversion.coefficient.value.CoefficientValueDeserializer
@@ -22,7 +25,7 @@ data class Coefficient(
     @JsonSerialize(using = CoefficientRateSerializer::class)
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonProperty("coefficient") @param:JsonProperty("coefficient") val coefficient: CoefficientRate? = null
-) : Serializable {
+) : IdentifiableObject<Coefficient>, Serializable {
 
     override fun equals(other: Any?): Boolean = if (this === other)
         true
@@ -31,4 +34,10 @@ data class Coefficient(
             && this.id == other.id
 
     override fun hashCode(): Int = id.hashCode()
+
+    override fun updateBy(src: Coefficient) = Coefficient(
+        id = id,
+        value = src.value or value,
+        coefficient = src.coefficient or coefficient
+    )
 }

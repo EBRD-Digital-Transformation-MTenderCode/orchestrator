@@ -9,7 +9,6 @@ import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.EnumElementProvider.Companion.keysAsStrings
 import com.procurement.orchestrator.domain.extension.amendmentIds
-import com.procurement.orchestrator.domain.extension.union
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
@@ -153,7 +152,7 @@ class RevisionFindAmendmentIdsDelegate(
             .map { id -> Amendment(id = id) }
 
         val updatedTender = tender.copy(
-            amendments = tender.amendments.union(newAmendments)
+            amendments = tender.amendments + newAmendments
         )
         context.tender = updatedTender
 
