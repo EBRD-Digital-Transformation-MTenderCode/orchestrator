@@ -248,7 +248,7 @@ class StorageOpenAccessDelegate(
                     } else
                         requirementRs
                 }
-                award.copy(requirementResponses = RequirementResponses(listOf(updatedRequirementResponse)))
+                award.copy(requirementResponses = RequirementResponses(updatedRequirementResponse))
             } else award
         }
         return success(Awards(updatedAwards))

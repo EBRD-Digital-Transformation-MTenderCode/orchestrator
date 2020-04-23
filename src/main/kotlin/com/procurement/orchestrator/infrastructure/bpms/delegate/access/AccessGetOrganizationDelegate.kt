@@ -104,7 +104,7 @@ class AccessGetOrganizationDelegate(
     private fun buildParty(data: GetOrganizationAction.Result, parameters: Parameters) = Party(
         id = data.id,
         name = data.name,
-        roles = PartyRoles(listOf(parameters.role)),
+        roles = PartyRoles(parameters.role),
         details = null,
         address = data.address
             .let { address ->
