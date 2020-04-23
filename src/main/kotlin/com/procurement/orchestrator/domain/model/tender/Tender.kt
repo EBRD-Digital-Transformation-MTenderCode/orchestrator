@@ -14,7 +14,7 @@ import com.procurement.orchestrator.domain.model.or
 import com.procurement.orchestrator.domain.model.period.Period
 import com.procurement.orchestrator.domain.model.tender.auction.ElectronicAuctions
 import com.procurement.orchestrator.domain.model.tender.conversion.Conversions
-import com.procurement.orchestrator.domain.model.tender.criteria.Criterias
+import com.procurement.orchestrator.domain.model.tender.criteria.Criteria
 import com.procurement.orchestrator.domain.model.updateBy
 import java.io.Serializable
 
@@ -42,7 +42,7 @@ data class Tender(
     @field:JsonProperty("statusDetails") @param:JsonProperty("statusDetails") val statusDetails: TenderStatusDetails? = null,
 
     @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
-    @field:JsonProperty("criteria") @param:JsonProperty("criteria") val criteria: Criterias = Criterias(),
+    @field:JsonProperty("criteria") @param:JsonProperty("criteria") val criteria: Criteria = Criteria(),
 
     @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
     @field:JsonProperty("conversions") @param:JsonProperty("conversions") val conversions: Conversions = Conversions(),
