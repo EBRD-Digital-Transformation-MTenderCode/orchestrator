@@ -15,7 +15,6 @@ import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractInterna
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import org.springframework.stereotype.Component
-import java.time.LocalDateTime
 
 @Component
 class BpeCreateOcidForMsDelegate(
@@ -45,9 +44,7 @@ class BpeCreateOcidForMsDelegate(
 
         val cpid = processInfo.cpid
 
-        val stage = processInfo.stage
-
-        val updatedOcid = Ocid.generate(cpid = cpid, stage = stage, timestamp = LocalDateTime.now())
+        val updatedOcid = Ocid.MultiStage.generate(cpid = cpid)
 
         val updatedProcessInfo = processInfo.copy(ocid = updatedOcid)
 
