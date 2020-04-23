@@ -3,7 +3,6 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.access
 import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.AccessClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
-import com.procurement.orchestrator.application.model.context.members.Parties
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.EnumElementProvider.Companion.keysAsStrings
@@ -25,6 +24,7 @@ import com.procurement.orchestrator.domain.model.lot.RelatedLots
 import com.procurement.orchestrator.domain.model.organization.ContactPoint
 import com.procurement.orchestrator.domain.model.organization.person.BusinessFunction
 import com.procurement.orchestrator.domain.model.organization.person.BusinessFunctions
+import com.procurement.orchestrator.domain.model.party.Parties
 import com.procurement.orchestrator.domain.model.party.Party
 import com.procurement.orchestrator.domain.model.party.PartyRole
 import com.procurement.orchestrator.domain.model.party.PartyRoles
@@ -104,7 +104,7 @@ class AccessGetOrganizationDelegate(
     private fun buildParty(data: GetOrganizationAction.Result, parameters: Parameters) = Party(
         id = data.id,
         name = data.name,
-        roles = PartyRoles(listOf(parameters.role)),
+        roles = PartyRoles(parameters.role),
         details = null,
         address = data.address
             .let { address ->

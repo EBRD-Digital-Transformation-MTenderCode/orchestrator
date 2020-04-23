@@ -9,7 +9,6 @@ import com.procurement.orchestrator.application.model.context.extension.getDocum
 import com.procurement.orchestrator.application.model.context.extension.getIfNotEmpty
 import com.procurement.orchestrator.application.model.context.extension.getRequirementResponseIfOnlyOne
 import com.procurement.orchestrator.application.model.context.extension.getResponder
-import com.procurement.orchestrator.application.model.context.members.Awards
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.EnumElementProvider
@@ -26,6 +25,7 @@ import com.procurement.orchestrator.domain.functional.bind
 import com.procurement.orchestrator.domain.functional.validate
 import com.procurement.orchestrator.domain.model.amendment.Amendment
 import com.procurement.orchestrator.domain.model.amendment.Amendments
+import com.procurement.orchestrator.domain.model.award.Awards
 import com.procurement.orchestrator.domain.model.document.Document
 import com.procurement.orchestrator.domain.model.document.DocumentId
 import com.procurement.orchestrator.domain.model.document.Documents
@@ -248,7 +248,7 @@ class StorageOpenAccessDelegate(
                     } else
                         requirementRs
                 }
-                award.copy(requirementResponses = RequirementResponses(listOf(updatedRequirementResponse)))
+                award.copy(requirementResponses = RequirementResponses(updatedRequirementResponse))
             } else award
         }
         return success(Awards(updatedAwards))

@@ -2,15 +2,15 @@ package com.procurement.orchestrator.application.model.context
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.procurement.orchestrator.application.model.context.members.Awards
-import com.procurement.orchestrator.application.model.context.members.Contracts
 import com.procurement.orchestrator.application.model.context.members.Errors
 import com.procurement.orchestrator.application.model.context.members.Incident
 import com.procurement.orchestrator.application.model.context.members.Outcomes
-import com.procurement.orchestrator.application.model.context.members.Parties
 import com.procurement.orchestrator.application.model.context.members.ProcessInfo
 import com.procurement.orchestrator.application.model.context.members.RequestInfo
+import com.procurement.orchestrator.domain.model.award.Awards
 import com.procurement.orchestrator.domain.model.bid.Bids
+import com.procurement.orchestrator.domain.model.contract.Contracts
+import com.procurement.orchestrator.domain.model.party.Parties
 import com.procurement.orchestrator.domain.model.tender.Tender
 
 interface GlobalContext {

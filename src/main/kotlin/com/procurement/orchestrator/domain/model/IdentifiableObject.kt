@@ -15,6 +15,10 @@ interface IdentifiableObject<T> {
 
 interface IdentifiableObjects<E : IdentifiableObject<E>, T : IdentifiableObjects<E, T>> : List<E> {
 
+    operator fun plus(other: T): T
+
+    operator fun plus(others: List<E>): T
+
     infix fun updateBy(src: T): T
 
     companion object {

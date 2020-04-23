@@ -19,6 +19,10 @@ interface ComplexObject<T> {
 
 interface ComplexObjects<E, T : ComplexObjects<E, T>> : List<E> {
 
+    operator fun plus(other: T): T
+
+    operator fun plus(others: List<E>): T
+
     infix fun combineBy(src: T): T
 
     companion object {
