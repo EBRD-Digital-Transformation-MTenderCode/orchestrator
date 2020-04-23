@@ -36,6 +36,7 @@ import com.procurement.orchestrator.infrastructure.bpms.repository.RequestReposi
 interface CancellationService {
     fun cancelTender(request: CancellationTender.Request): MaybeFail<Fail>
     fun cancelLot(request: CancellationLot.Request): MaybeFail<Fail>
+    fun cancelAmendment(request: CancellationAmendment.Request): MaybeFail<Fail>
 }
 
 class CancellationServiceImpl(
@@ -48,6 +49,7 @@ class CancellationServiceImpl(
     companion object {
         private const val CANCEL_TENDER_PROCESS = "cancelTender"
         private const val CANCEL_LOT_PROCESS = "cancelLot"
+        private const val CANCEL_AMENDMENT_PROCESS = "tenderOrLotAmendmentCancellation"
     }
 
     override fun cancelTender(request: CancellationTender.Request): MaybeFail<Fail> {
@@ -259,6 +261,85 @@ class CancellationServiceImpl(
         return MaybeFail.none()
     }
 
+    override fun cancelAmendment(request: CancellationAmendment.Request): MaybeFail<Fail> {
+        val savedRequest: RequestRecord = saveRequest(request)
+            .orReturnFail { return MaybeFail.fail(it) }
+
+        val isLaunched = processService.isLaunchedProcess(operationId = request.operationId)
+            .orReturnFail { return MaybeFail.fail(it) }
+        if (isLaunched)
+            return MaybeFail.fail(RequestErrors.Common.Repeated())
+
+        val prevProcessContext: LatestProcessContext = processService.getProcessContext(cpid = request.context.cpid)
+            .orReturnFail { return MaybeFail.fail(it) }
+            ?: return MaybeFail.fail(Fail.Incident.Bpe(description = "The process context by cpid '${request.context.cpid}' does not found."))
+
+        val countryId = prevProcessContext.country
+        val pmd = prevProcessContext.pmd
+
+        val processDefinitionKey = processService
+            .getProcessDefinitionKey(countryId = countryId, pmd = pmd, processName = CANCEL_AMENDMENT_PROCESS)
+            .orReturnFail { return MaybeFail.fail(it) }
+
+        val prevStage = prevProcessContext.stage
+        val prevPhase = prevProcessContext.phase
+        val rule = ruleRepository
+            .load(
+                countryId = countryId,
+                pmd = pmd,
+                processDefinitionKey = processDefinitionKey,
+                stageFrom = prevStage,
+                phaseFrom = prevPhase
+            )
+            .orReturnFail { return MaybeFail.fail(it) }
+            ?: return MaybeFail.fail(
+                BpeErrors.Process(
+                    description = "Operation by country: '$countryId', pmd: '$pmd', process definition key: '$processDefinitionKey', stage: '$prevStage', phase: '$prevPhase' is impossible."
+                )
+            )
+
+        val propertyContainer = DefaultPropertyContainer()
+        CamundaGlobalContext(propertyContainer)
+            .apply {
+                requestInfo = RequestInfo(
+                    operationId = savedRequest.operationId,
+                    timestamp = savedRequest.timestamp,
+                    requestId = savedRequest.requestId,
+                    platformId = savedRequest.platformId,
+                    country = countryId,
+                    language = prevProcessContext.language
+                )
+
+                processInfo = ProcessInfo(
+                    ocid = request.context.ocid,
+                    cpid = request.context.cpid,
+                    pmd = pmd,
+                    operationType = rule.operationType,
+                    stage = rule.stageTo,
+                    prevStage = prevStage,
+                    processDefinitionKey = processDefinitionKey,
+                    phase = rule.phaseTo,
+                    isAuction = prevProcessContext.isAuction,
+                    mainProcurementCategory = prevProcessContext.mainProcurementCategory,
+                    awardCriteria = prevProcessContext.awardCriteria
+                )
+
+                tender = Tender(
+                    amendments = Amendments(
+                        Amendment(
+                            id = request.context.amendmentId,
+                            token = request.context.token,
+                            owner = request.context.owner
+                        )
+                    )
+                )
+            }
+
+        val variables = propertyContainer.toMap()
+        processService.launchProcess(processDefinitionKey, request.operationId, variables)
+        return MaybeFail.none()
+    }
+
     private inline fun <reified T> parsePayload(payload: String): Result<T, RequestErrors.Payload> =
         transform.tryDeserialization(value = payload, target = T::class.java)
             .mapError { fail ->
@@ -308,6 +389,27 @@ class CancellationServiceImpl(
             platformId = this.platformId,
             context = serializedContext,
             payload = this.payload
+        ).asSuccess()
+    }
+
+    private fun saveRequest(request: CancellationAmendment.Request): Result<RequestRecord, Fail.Incident> {
+        val record = request.asRecord()
+            .orForwardFail { fail -> return fail }
+        requestRepository.save(record)
+            .doOnError { return failure(it) }
+        return success(record)
+    }
+
+    private fun CancellationAmendment.Request.asRecord(): Result<RequestRecord, Fail.Incident> {
+        val serializedContext: String = transform.trySerialization(this.context)
+            .orForwardFail { fail -> return fail }
+        return RequestRecord(
+            operationId = this.operationId,
+            timestamp = nowDefaultUTC(),
+            requestId = RequestId.generate(),
+            platformId = this.platformId,
+            context = serializedContext,
+            payload = ""
         ).asSuccess()
     }
 }
