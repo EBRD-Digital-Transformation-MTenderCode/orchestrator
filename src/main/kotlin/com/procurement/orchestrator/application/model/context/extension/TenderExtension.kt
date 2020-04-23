@@ -6,6 +6,7 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.domain.model.amendment.Amendment
+import com.procurement.orchestrator.domain.model.document.Document
 import com.procurement.orchestrator.domain.model.lot.Lot
 import com.procurement.orchestrator.domain.model.tender.Tender
 
@@ -27,3 +28,6 @@ fun Tender.getLotIfOnlyOne(): Result<Lot, Fail.Incident.Bpms.Context> =
 
 fun Tender.getLotsIfNotEmpty(): Result<List<Lot>, Fail.Incident.Bpms.Context> =
     this.lots.getIfNotEmpty(name = "lots", path = PATH)
+
+fun Tender.getDocumentsIfNotEmpty(): Result<List<Document>, Fail.Incident.Bpms.Context> =
+    this.documents.getIfNotEmpty(name = "documents", path = PATH)
