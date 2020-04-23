@@ -4,7 +4,9 @@ import com.procurement.orchestrator.domain.model.IdentifiableObjects
 import com.procurement.orchestrator.domain.model.IdentifiableObjects.Companion.update
 import java.io.Serializable
 
-class Awards(values: List<Award>) : List<Award> by values, IdentifiableObjects<Award, Awards>, Serializable {
+class Awards(values: List<Award> = emptyList()) : List<Award> by values,
+                                                  IdentifiableObjects<Award, Awards>,
+                                                  Serializable {
 
     constructor(award: Award) : this(listOf(award))
 

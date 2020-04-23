@@ -5,7 +5,9 @@ import com.procurement.orchestrator.domain.model.IdentifiableObjects
 import com.procurement.orchestrator.domain.model.party.Party
 import java.io.Serializable
 
-class Parties(values: List<Party>) : List<Party> by values, IdentifiableObjects<Party, Parties>, Serializable {
+class Parties(values: List<Party> = emptyList()) : List<Party> by values,
+                                                   IdentifiableObjects<Party, Parties>,
+                                                   Serializable {
 
     constructor(party: Party) : this(listOf(party))
 
