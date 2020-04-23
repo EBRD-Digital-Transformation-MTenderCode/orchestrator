@@ -68,7 +68,7 @@ class AccessSetStateForLotsDelegate(
                     )
             }
 
-        val location: Location = parameterContainer.getString(PARAMETER_NAME_STATUS)
+        val location: Location = parameterContainer.getString(PARAMETER_NAME_LOCATION)
             .orForwardFail { fail -> return fail }
             .let { location ->
                 Location.orNull(location)
