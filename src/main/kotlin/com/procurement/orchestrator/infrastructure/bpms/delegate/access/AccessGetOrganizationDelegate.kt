@@ -86,7 +86,7 @@ class AccessGetOrganizationDelegate(
         data: GetOrganizationAction.Result
     ): MaybeFail<Fail.Incident> {
 
-        val party = buildParty(data)
+        val party = buildParty(data, parameters)
         context.parties = Parties(party.asList())
 
         return MaybeFail.none()
@@ -94,10 +94,10 @@ class AccessGetOrganizationDelegate(
 
     class Parameters(val role: PartyRole)
 
-    private fun buildParty(data: GetOrganizationAction.Result) = Party(
+    private fun buildParty(data: GetOrganizationAction.Result, parameters: Parameters) = Party(
         id = data.id,
         name = data.name,
-        roles = emptyList(),
+        roles = listOf(parameters.role),
         details = null,
         address = data.address
             .let { address ->
