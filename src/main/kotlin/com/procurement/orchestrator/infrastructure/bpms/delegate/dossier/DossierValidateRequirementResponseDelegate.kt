@@ -12,7 +12,6 @@ import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.model.Cpid
-import com.procurement.orchestrator.domain.model.Ocid
 import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponseId
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
@@ -44,7 +43,6 @@ class DossierValidateRequirementResponseDelegate(
 
         val processInfo = context.processInfo
         val cpid: Cpid = processInfo.cpid
-        val ocid: Ocid = processInfo.ocid
 
         val award = context.getAwardIfOnlyOne()
             .orForwardFail { fail -> return fail }
@@ -56,7 +54,6 @@ class DossierValidateRequirementResponseDelegate(
             id = commandId,
             params = ValidateRequirementResponseAction.Params(
                 cpid = cpid,
-                ocid = ocid,
                 requirementResponse = ValidateRequirementResponseAction.Params.RequirementResponse(
                     id = requirementResponse.id as RequirementResponseId.Temporal,
                     value = requirementResponse.value,

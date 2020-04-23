@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.procurement.orchestrator.application.service.ProceduralAction
 import com.procurement.orchestrator.domain.model.Cpid
-import com.procurement.orchestrator.domain.model.Ocid
 import com.procurement.orchestrator.domain.model.requirement.RequirementId
 import com.procurement.orchestrator.domain.model.requirement.RequirementResponseValue
 import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponseId
@@ -20,7 +19,6 @@ abstract class ValidateRequirementResponseAction : ProceduralAction<ValidateRequ
 
     class Params(
         @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid,
-        @field:JsonProperty("ocid") @param:JsonProperty("ocid") val ocid: Ocid,
         @field:JsonProperty("requirementResponse") @param:JsonProperty("requirementResponse") val requirementResponse: RequirementResponse
     ) {
 
