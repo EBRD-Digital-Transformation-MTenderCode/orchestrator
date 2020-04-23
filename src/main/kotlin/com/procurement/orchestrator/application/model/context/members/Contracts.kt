@@ -6,8 +6,9 @@ import com.procurement.orchestrator.domain.model.contract.Contract
 
 import java.io.Serializable
 
-class Contracts(values: List<Contract>) : List<Contract> by values, IdentifiableObjects<Contract, Contracts>,
-    Serializable {
+class Contracts(values: List<Contract>) : List<Contract> by values,
+                                          IdentifiableObjects<Contract, Contracts>,
+                                          Serializable {
 
     constructor(contract: Contract) : this(listOf(contract))
 

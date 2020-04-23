@@ -5,7 +5,6 @@ import com.procurement.orchestrator.application.client.AccessClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.getAwardIfOnlyOne
 import com.procurement.orchestrator.application.model.context.extension.getRequirementResponseIfOnlyOne
-import com.procurement.orchestrator.application.model.context.members.Awards
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
@@ -15,6 +14,7 @@ import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
+import com.procurement.orchestrator.domain.model.award.Awards
 import com.procurement.orchestrator.domain.model.identifier.Identifier
 import com.procurement.orchestrator.domain.model.person.Person
 import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponses

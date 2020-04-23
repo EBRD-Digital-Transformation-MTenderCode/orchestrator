@@ -1,8 +1,7 @@
-package com.procurement.orchestrator.application.model.context.members
+package com.procurement.orchestrator.domain.model.award
 
 import com.procurement.orchestrator.domain.model.IdentifiableObjects
 import com.procurement.orchestrator.domain.model.IdentifiableObjects.Companion.update
-import com.procurement.orchestrator.domain.model.award.Award
 import java.io.Serializable
 
 class Awards(values: List<Award>) : List<Award> by values, IdentifiableObjects<Award, Awards>, Serializable {

@@ -2,7 +2,6 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.bpe
 
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.getAwardsIfNotEmpty
-import com.procurement.orchestrator.application.model.context.members.Awards
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
@@ -12,6 +11,7 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.functional.asOption
 import com.procurement.orchestrator.domain.functional.asSuccess
+import com.procurement.orchestrator.domain.model.award.Awards
 import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponseId
 import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponses
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractInternalDelegate

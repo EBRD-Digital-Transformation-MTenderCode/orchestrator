@@ -3,7 +3,6 @@ package com.procurement.orchestrator.application.service.response
 import com.procurement.orchestrator.application.model.RequestId
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.container.DefaultPropertyContainer
-import com.procurement.orchestrator.application.model.context.members.Awards
 import com.procurement.orchestrator.application.model.context.members.ProcessInfo
 import com.procurement.orchestrator.application.model.context.members.RequestInfo
 import com.procurement.orchestrator.application.model.process.LatestProcessContext
@@ -21,6 +20,7 @@ import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.domain.model.award.Award
+import com.procurement.orchestrator.domain.model.award.Awards
 import com.procurement.orchestrator.domain.model.document.Document
 import com.procurement.orchestrator.domain.model.document.DocumentId
 import com.procurement.orchestrator.domain.model.document.DocumentType

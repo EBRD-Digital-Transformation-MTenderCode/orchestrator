@@ -2,7 +2,6 @@ package com.procurement.orchestrator.infrastructure.bpms.model.queue
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.procurement.orchestrator.application.model.context.members.Awards
 import com.procurement.orchestrator.application.model.context.members.Contracts
 import com.procurement.orchestrator.application.model.context.members.Parties
 import com.procurement.orchestrator.application.service.Transform
@@ -12,6 +11,7 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.bind
 import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
+import com.procurement.orchestrator.domain.model.award.Awards
 import com.procurement.orchestrator.domain.model.bid.Bids
 import com.procurement.orchestrator.domain.model.tender.Tender
 import com.procurement.orchestrator.domain.model.updateBy
