@@ -25,7 +25,7 @@ abstract class SetStateForLotsAction :
         @param:JsonProperty("lots") @field:JsonProperty("lots") val lots: List<Lot>
     ) {
         data class Lot(
-            @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
+            @param:JsonProperty("id") @field:JsonProperty("id") val id: LotId.Permanent,
             @param:JsonProperty("status") @field:JsonProperty("status") val status: LotStatus,
             @param:JsonProperty("statusDetails") @field:JsonProperty("statusDetails") val statusDetails: LotStatusDetails
         )

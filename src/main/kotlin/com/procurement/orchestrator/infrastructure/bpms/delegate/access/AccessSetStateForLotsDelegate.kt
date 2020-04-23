@@ -97,7 +97,7 @@ class AccessSetStateForLotsDelegate(
             Location.TENDER           -> tender.lots
                 .map { lot ->
                     SetStateForLotsAction.Params.Lot(
-                        id = lot.id.toString(),
+                        id = lot.id as LotId.Permanent,
                         status = parameters.status,
                         statusDetails = parameters.statusDetails
                     )
@@ -121,7 +121,7 @@ class AccessSetStateForLotsDelegate(
                             )
                         )
                     SetStateForLotsAction.Params.Lot(
-                        id = lotId.toString(),
+                        id = lotId as LotId.Permanent,
                         status = parameters.status,
                         statusDetails = parameters.statusDetails
                     )
