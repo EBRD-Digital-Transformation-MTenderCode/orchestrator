@@ -76,6 +76,6 @@ sealed class Ocid(protected val value: String) : Comparable<Ocid>, Serializable 
 
         @JvmStatic
         @JsonCreator
-        fun parse(value: String): Ocid? = SingleStage.tryCreateOrNull(value) ?: SingleStage.tryCreateOrNull(value)
+        fun parse(value: String): Ocid? = SingleStage.tryCreateOrNull(value) ?: MultiStage.tryCreateOrNull(value)
     }
 }
