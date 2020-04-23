@@ -32,7 +32,7 @@ class TransferLotIdDelegate : DelegateVariableMapping {
 
         val tender = superExecution.getVariable(VARIABLE_TENDER) as Tender
         val subTender = Tender(
-            lots = Lots(listOf(Lot(id = tender.lots[0].id)))
+            lots = Lots(Lot(id = tender.lots[0].id))
         )
 
         subVariables.putValue(VARIABLE_PROCESS_INFO, processInfo)
