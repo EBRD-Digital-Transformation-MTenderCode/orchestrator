@@ -2,10 +2,11 @@ package com.procurement.orchestrator.domain.model.enquiry
 
 import com.procurement.orchestrator.domain.model.IdentifiableObjects
 import com.procurement.orchestrator.domain.model.IdentifiableObjects.Companion.update
+import java.io.Serializable
 
-class Enquiries(
-    values: List<Enquiry> = emptyList()
-) : List<Enquiry> by values, IdentifiableObjects<Enquiry, Enquiries> {
+class Enquiries(values: List<Enquiry> = emptyList()) : List<Enquiry> by values,
+                                                       IdentifiableObjects<Enquiry, Enquiries>,
+                                                       Serializable {
 
     override fun updateBy(src: Enquiries) = Enquiries(update(dst = this, src = src))
 }

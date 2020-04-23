@@ -2,9 +2,13 @@ package com.procurement.orchestrator.domain.model.contract
 
 import com.procurement.orchestrator.domain.model.ComplexObjects
 import com.procurement.orchestrator.domain.model.ComplexObjects.Companion.merge
+import java.io.Serializable
 
-class RelatedProcessTypes(values: List<RelatedProcessType> = emptyList()) : List<RelatedProcessType> by values,
-    ComplexObjects<RelatedProcessType, RelatedProcessTypes> {
+class RelatedProcessTypes(
+    values: List<RelatedProcessType> = emptyList()
+) : List<RelatedProcessType> by values,
+    ComplexObjects<RelatedProcessType, RelatedProcessTypes>,
+    Serializable {
 
     override fun combineBy(src: RelatedProcessTypes) = RelatedProcessTypes(merge(dst = this, src = src))
 }

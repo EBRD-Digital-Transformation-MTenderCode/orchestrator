@@ -2,8 +2,11 @@ package com.procurement.orchestrator.domain.model.lot
 
 import com.procurement.orchestrator.domain.model.IdentifiableObjects
 import com.procurement.orchestrator.domain.model.IdentifiableObjects.Companion.update
+import java.io.Serializable
 
-class Lots(values: List<Lot> = emptyList()) : List<Lot> by values, IdentifiableObjects<Lot, Lots> {
+class Lots(values: List<Lot> = emptyList()) : List<Lot> by values,
+                                              IdentifiableObjects<Lot, Lots>,
+                                              Serializable {
 
     constructor(lot: Lot) : this(listOf(lot))
 
