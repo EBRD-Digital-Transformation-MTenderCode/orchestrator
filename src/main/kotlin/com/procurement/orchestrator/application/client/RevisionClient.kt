@@ -28,7 +28,7 @@ interface RevisionClient {
         params: FindAmendmentIdsAction.Params
     ): Result<Reply<FindAmendmentIdsAction.Result>, Fail.Incident>
 
-    suspend fun getMainPartOfAmendmentByIds(
+    suspend fun getAmendmentByIds(
         id: CommandId,
         params: GetAmendmentByIdsAction.Params
     ): Result<Reply<GetAmendmentByIdsAction.Result>, Fail.Incident>

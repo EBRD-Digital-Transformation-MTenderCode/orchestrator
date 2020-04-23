@@ -74,7 +74,7 @@ class RevisionGetMainPartOfAmendmentByIdsDelegate(
                 .map { it.id as AmendmentId.Permanent }
         }
 
-        return client.getMainPartOfAmendmentByIds(
+        return client.getAmendmentByIds(
             id = commandId,
             params = GetAmendmentByIdsAction.Params(cpid = cpid, ocid = ocid, ids = ids)
         )

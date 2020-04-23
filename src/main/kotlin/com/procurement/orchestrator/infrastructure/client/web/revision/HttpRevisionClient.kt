@@ -54,7 +54,7 @@ class HttpRevisionClient(private val webClient: WebClient, properties: Component
         target = RevisionCommands.FindAmendmentIds.target
     )
 
-    override suspend fun getMainPartOfAmendmentByIds(
+    override suspend fun getAmendmentByIds(
         id: CommandId,
         params: GetAmendmentByIdsAction.Params
     ): Result<Reply<GetAmendmentByIdsAction.Result>, Fail.Incident> = webClient.call(
