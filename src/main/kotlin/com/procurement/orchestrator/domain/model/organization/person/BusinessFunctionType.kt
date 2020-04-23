@@ -6,6 +6,7 @@ import com.procurement.orchestrator.domain.EnumElementProvider
 
 enum class BusinessFunctionType(@JsonValue override val key: String) : EnumElementProvider.Key {
 
+    CHAIRMAN("chairman"),
     AUTHORITY("authority"),
     CONTACT_POINT("contactPoint"),
     PRICE_EVALUATOR("priceEvaluator"),
