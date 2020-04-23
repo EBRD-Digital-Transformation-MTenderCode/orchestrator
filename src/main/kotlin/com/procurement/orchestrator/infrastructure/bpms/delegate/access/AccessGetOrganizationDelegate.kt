@@ -17,13 +17,20 @@ import com.procurement.orchestrator.domain.model.address.country.CountryDetails
 import com.procurement.orchestrator.domain.model.address.locality.LocalityDetails
 import com.procurement.orchestrator.domain.model.address.region.RegionDetails
 import com.procurement.orchestrator.domain.model.document.Document
+import com.procurement.orchestrator.domain.model.document.Documents
+import com.procurement.orchestrator.domain.model.document.RelatedConfirmations
 import com.procurement.orchestrator.domain.model.identifier.Identifier
+import com.procurement.orchestrator.domain.model.identifier.Identifiers
+import com.procurement.orchestrator.domain.model.lot.RelatedLots
 import com.procurement.orchestrator.domain.model.organization.ContactPoint
 import com.procurement.orchestrator.domain.model.organization.person.BusinessFunction
+import com.procurement.orchestrator.domain.model.organization.person.BusinessFunctions
 import com.procurement.orchestrator.domain.model.party.Party
 import com.procurement.orchestrator.domain.model.party.PartyRole
+import com.procurement.orchestrator.domain.model.party.PartyRoles
 import com.procurement.orchestrator.domain.model.period.Period
 import com.procurement.orchestrator.domain.model.person.Person
+import com.procurement.orchestrator.domain.model.person.Persons
 import com.procurement.orchestrator.domain.util.extension.asList
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
@@ -97,7 +104,7 @@ class AccessGetOrganizationDelegate(
     private fun buildParty(data: GetOrganizationAction.Result, parameters: Parameters) = Party(
         id = data.id,
         name = data.name,
-        roles = listOf(parameters.role),
+        roles = PartyRoles(listOf(parameters.role)),
         details = null,
         address = data.address
             .let { address ->
@@ -147,16 +154,18 @@ class AccessGetOrganizationDelegate(
                     uri = identifier.uri
                 )
             },
-        additionalIdentifiers = data.additionalIdentifiers
-            ?.map { additionalIdentifier ->
-                Identifier(
-                    id = additionalIdentifier.id,
-                    legalName = additionalIdentifier.legalName,
-                    scheme = additionalIdentifier.scheme,
-                    uri = additionalIdentifier.uri
-                )
-            }
-            .orEmpty(),
+        additionalIdentifiers = Identifiers(
+            data.additionalIdentifiers
+                ?.map { additionalIdentifier ->
+                    Identifier(
+                        id = additionalIdentifier.id,
+                        legalName = additionalIdentifier.legalName,
+                        scheme = additionalIdentifier.scheme,
+                        uri = additionalIdentifier.uri
+                    )
+                }
+                .orEmpty()
+        ),
         contactPoint = data.contactPoint
             .let { contactPoint ->
                 ContactPoint(
@@ -167,56 +176,62 @@ class AccessGetOrganizationDelegate(
                     url = contactPoint.url
                 )
             },
-        persons = data.persons
-            ?.map { person ->
-                Person(
-                    title = person.title,
-                    name = person.name,
-                    identifier = person.identifier
-                        .let { identifier ->
-                            Identifier(
-                                id = identifier.id,
-                                legalName = null,
-                                scheme = identifier.scheme,
-                                uri = identifier.uri
-                            )
-                        },
-                    businessFunctions = person.businessFunctions
-                        .map { businessFunction ->
-                            BusinessFunction(
-                                id = businessFunction.id,
-                                type = businessFunction.type,
-                                jobTitle = businessFunction.jobTitle,
-                                period = businessFunction.period
-                                    .let { period ->
-                                        Period(
-                                            startDate = period.startDate,
-                                            endDate = null,
-                                            durationInDays = null,
-                                            maxExtentDate = null
+        persons = Persons(
+            data.persons
+                ?.map { person ->
+                    Person(
+                        title = person.title,
+                        name = person.name,
+                        identifier = person.identifier
+                            .let { identifier ->
+                                Identifier(
+                                    id = identifier.id,
+                                    legalName = null,
+                                    scheme = identifier.scheme,
+                                    uri = identifier.uri
+                                )
+                            },
+                        businessFunctions = BusinessFunctions(
+                            person.businessFunctions
+                                .map { businessFunction ->
+                                    BusinessFunction(
+                                        id = businessFunction.id,
+                                        type = businessFunction.type,
+                                        jobTitle = businessFunction.jobTitle,
+                                        period = businessFunction.period
+                                            .let { period ->
+                                                Period(
+                                                    startDate = period.startDate,
+                                                    endDate = null,
+                                                    durationInDays = null,
+                                                    maxExtentDate = null
+                                                )
+                                            },
+                                        documents = Documents(
+                                            businessFunction.documents
+                                                ?.map { document ->
+                                                    Document(
+                                                        id = document.id,
+                                                        title = document.title,
+                                                        url = null,
+                                                        description = document.description,
+                                                        documentType = document.documentType,
+                                                        relatedLots = RelatedLots(),
+                                                        datePublished = null,
+                                                        dateModified = null,
+                                                        relatedConfirmations = RelatedConfirmations(),
+                                                        format = null,
+                                                        language = null
+                                                    )
+                                                }
+                                                .orEmpty()
                                         )
-                                    },
-                                documents = businessFunction.documents
-                                    ?.map { document ->
-                                        Document(
-                                            id = document.id,
-                                            title = document.title,
-                                            url = null,
-                                            description = document.description,
-                                            documentType = document.documentType,
-                                            relatedLots = emptyList(),
-                                            datePublished = null,
-                                            dateModified = null,
-                                            relatedConfirmations = emptyList(),
-                                            format = null,
-                                            language = null
-                                        )
-                                    }
-                                    .orEmpty()
-                            )
-                        }
-                )
-            }
-            .orEmpty()
+                                    )
+                                }
+                        )
+                    )
+                }
+                .orEmpty()
+        )
     )
 }
