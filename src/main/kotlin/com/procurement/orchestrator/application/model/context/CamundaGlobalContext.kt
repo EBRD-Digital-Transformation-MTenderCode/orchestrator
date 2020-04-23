@@ -1,7 +1,6 @@
 package com.procurement.orchestrator.application.model.context
 
 import com.procurement.orchestrator.application.model.context.container.PropertyContainer
-import com.procurement.orchestrator.application.model.context.members.Contracts
 import com.procurement.orchestrator.application.model.context.members.Errors
 import com.procurement.orchestrator.application.model.context.members.Incident
 import com.procurement.orchestrator.application.model.context.members.Outcomes
@@ -18,6 +17,7 @@ import com.procurement.orchestrator.domain.model.award.Award
 import com.procurement.orchestrator.domain.model.award.Awards
 import com.procurement.orchestrator.domain.model.bid.Bids
 import com.procurement.orchestrator.domain.model.contract.Contract
+import com.procurement.orchestrator.domain.model.contract.Contracts
 import com.procurement.orchestrator.domain.model.party.Party
 import com.procurement.orchestrator.domain.model.tender.Tender
 

@@ -1,8 +1,7 @@
-package com.procurement.orchestrator.application.model.context.members
+package com.procurement.orchestrator.domain.model.contract
 
 import com.procurement.orchestrator.domain.model.IdentifiableObjects
 import com.procurement.orchestrator.domain.model.IdentifiableObjects.Companion.update
-import com.procurement.orchestrator.domain.model.contract.Contract
 
 import java.io.Serializable
 
