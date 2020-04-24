@@ -91,7 +91,7 @@ class QueueNoticeTask(
         @field:JsonProperty("parties") @param:JsonProperty("parties") val parties: Parties,
 
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
-        @field:JsonProperty("parties") @param:JsonProperty("parties") val contracts: Contracts
+        @field:JsonProperty("contracts") @param:JsonProperty("contracts") val contracts: Contracts
     )
 
     enum class Action(override val key: String, private val weight: Int) : EnumElementProvider.Key {
