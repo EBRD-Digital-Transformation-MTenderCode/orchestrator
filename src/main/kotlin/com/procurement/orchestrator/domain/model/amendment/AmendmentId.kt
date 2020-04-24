@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.domain.model.amendment
 
+import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonValue
 import com.procurement.orchestrator.domain.model.UUID_PATTERN
 import com.procurement.orchestrator.domain.model.isUUID
@@ -7,6 +8,13 @@ import java.io.Serializable
 import java.util.*
 
 sealed class AmendmentId(private val value: String) : Serializable {
+
+    companion object {
+
+        @JvmStatic
+        @JsonCreator
+        fun parse(text: String): AmendmentId? = Permanent.tryCreateOrNull(text)
+    }
 
     override fun equals(other: Any?): Boolean {
         return if (this !== other)

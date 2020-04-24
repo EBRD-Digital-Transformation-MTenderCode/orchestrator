@@ -9,6 +9,13 @@ import java.util.*
 
 sealed class RequirementResponseId(private val value: String) : Serializable {
 
+    companion object {
+
+        @JvmStatic
+        @JsonCreator
+        fun parse(text: String): RequirementResponseId? = Permanent.tryCreateOrNull(text)
+    }
+
     override fun equals(other: Any?): Boolean {
         return if (this !== other)
             other is RequirementResponseId
@@ -35,8 +42,6 @@ sealed class RequirementResponseId(private val value: String) : Serializable {
 
             fun validation(text: String): Boolean = text.isUUID()
 
-            @JvmStatic
-            @JsonCreator
             fun tryCreateOrNull(text: String): RequirementResponseId? = if (validation(text)) Permanent(text) else null
 
             fun generate(): RequirementResponseId = Permanent(UUID.randomUUID().toString())

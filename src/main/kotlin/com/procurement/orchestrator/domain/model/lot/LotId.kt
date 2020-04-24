@@ -9,6 +9,13 @@ import java.util.*
 
 sealed class LotId(private val value: String) : Serializable {
 
+    companion object {
+
+        @JvmStatic
+        @JsonCreator
+        fun parse(text: String): LotId? = Permanent.tryCreateOrNull(text)
+    }
+
     override fun equals(other: Any?): Boolean {
         return if (this !== other)
             other is LotId
@@ -35,8 +42,6 @@ sealed class LotId(private val value: String) : Serializable {
 
             fun validation(text: String): Boolean = text.isUUID()
 
-            @JvmStatic
-            @JsonCreator
             fun tryCreateOrNull(text: String): LotId? = if (validation(text)) Permanent(text) else null
 
             fun generate(): LotId = Permanent(UUID.randomUUID().toString())
