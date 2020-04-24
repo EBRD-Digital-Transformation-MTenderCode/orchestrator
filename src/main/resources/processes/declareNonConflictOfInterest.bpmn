@@ -250,17 +250,7 @@
       <bpmn:incoming>SequenceFlow_117xrjb</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_10631qk</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="EvaluationCreateRequirementResponseTask" name="eEvaluation:&#10;Create requirement response" camunda:asyncBefore="true" camunda:delegateExpression="${evaluationCreateRequirementResponseDelegate}">
-      <bpmn:extensionElements>
-        <camunda:inputOutput>
-          <camunda:inputParameter name="Input_0kc80bl">
-            <camunda:map>
-              <camunda:entry key="tender">required</camunda:entry>
-              <camunda:entry key="amendemnt">optional</camunda:entry>
-            </camunda:map>
-          </camunda:inputParameter>
-        </camunda:inputOutput>
-      </bpmn:extensionElements>
+    <bpmn:serviceTask id="EvaluationAddRequirementResponseTask" name="eEvaluation:&#10;Add requirement response" camunda:asyncBefore="true" camunda:delegateExpression="${evaluationAddRequirementResponseDelegate}">
       <bpmn:incoming>SequenceFlow_1ar5qqv</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_04xofpb</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -269,7 +259,7 @@
       <bpmn:outgoing>SequenceFlow_1ar5qqv</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_10631qk" sourceRef="StorageOpenAccessToDocumentsTask" targetRef="AccessResponderProcessingTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1ar5qqv" sourceRef="AccessResponderProcessingTask" targetRef="EvaluationCreateRequirementResponseTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1ar5qqv" sourceRef="AccessResponderProcessingTask" targetRef="EvaluationAddRequirementResponseTask" />
     <bpmn:callActivity id="SubUpdateMSTask" name="updateMS" camunda:asyncBefore="true" calledElement="subUpdateMS" camunda:variableMappingDelegateExpression="${prepareStartProcessDataDelegate}">
       <bpmn:extensionElements>
         <camunda:out source="errors" target="errors" />
@@ -280,7 +270,7 @@
       <bpmn:incoming>SequenceFlow_04xofpb</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1npiqfq</bpmn:outgoing>
     </bpmn:callActivity>
-    <bpmn:sequenceFlow id="SequenceFlow_04xofpb" sourceRef="EvaluationCreateRequirementResponseTask" targetRef="SubUpdateMSTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_04xofpb" sourceRef="EvaluationAddRequirementResponseTask" targetRef="SubUpdateMSTask" />
     <bpmn:serviceTask id="BpeAddUpdateRecordTaskInQueueTask" name="BPE:&#10;Add update record task to queue" camunda:asyncBefore="true" camunda:delegateExpression="${bpeAddUpdateRecordTaskInQueueDelegate}">
       <bpmn:incoming>SequenceFlow_1npiqfq</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0asepmc</bpmn:outgoing>
@@ -399,7 +389,7 @@ declareNonConflictOfInterest</bpmn:text>
       <bpmndi:BPMNShape id="ServiceTask_012nfyu_di" bpmnElement="BpeCreateIdsForRequirementResponseTask" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="1340" y="180" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_0bzrxom_di" bpmnElement="EvaluationCreateRequirementResponseTask" bioc:stroke="black" bioc:fill="white">
+      <bpmndi:BPMNShape id="ServiceTask_0bzrxom_di" bpmnElement="EvaluationAddRequirementResponseTask" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="1730" y="180" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_0pczl3k_di" bpmnElement="BpeAddUpdateRecordTaskInQueueTask">
