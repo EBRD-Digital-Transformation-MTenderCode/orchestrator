@@ -18,7 +18,7 @@ import com.procurement.orchestrator.infrastructure.model.Version
 
 abstract class AddRequirementResponseAction : ProceduralAction<AddRequirementResponseAction.Params> {
     override val version: Version = Version.parse("2.0.0")
-    override val name: String = "createRequirementResponse"
+    override val name: String = "addRequirementResponse"
 
     class Params(
         @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid,
