@@ -6,7 +6,7 @@
   <bpmn:error id="Error_15lgooj" name="Internal Incident" errorCode="InternalIncident" />
   <bpmn:error id="Error_0kv316y" name="External Incident" errorCode="ExternalIncident" />
   <bpmn:error id="Error_0k7qyu7" name="Validation error from service" errorCode="ValidationError" camunda:errorMessage="ValidationError" />
-  <bpmn:process id="subUpdateMS" isExecutable="false">
+  <bpmn:process id="subUpdateMS" isExecutable="true">
     <bpmn:subProcess id="SubProcess_1823y69" triggeredByEvent="true">
       <bpmn:startEvent id="StartEvent_0s89yeu" name="Internal Incident">
         <bpmn:extensionElements>
@@ -15,7 +15,8 @@
           </camunda:executionListener>
         </bpmn:extensionElements>
         <bpmn:outgoing>SequenceFlow_0de14rv</bpmn:outgoing>
-        <bpmn:errorEventDefinition id="ErrorEventDefinition_1uulgg7" errorRef="Error_15lgooj" camunda:errorMessageVariable="errorTaskId" />
+        <bpmn:errorEventDefinition id="ErrorEventDefinition_1uulgg7" errorRef="Error_15lgooj"
+                                   camunda:errorMessageVariable="errorTaskId"/>
       </bpmn:startEvent>
       <bpmn:serviceTask id="NotifierBpeIncidentTask" name="Send incident to special Kafka topic" camunda:asyncBefore="true" camunda:delegateExpression="${notifierBpeIncidentDelegate}">
         <bpmn:incoming>SequenceFlow_0de14rv</bpmn:incoming>

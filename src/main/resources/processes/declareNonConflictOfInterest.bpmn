@@ -263,9 +263,6 @@
     <bpmn:callActivity id="SubUpdateMSTask" name="updateMS" camunda:asyncBefore="true" calledElement="subUpdateMS" camunda:variableMappingDelegateExpression="${prepareStartProcessDataDelegate}">
       <bpmn:extensionElements>
         <camunda:out source="errors" target="errors" />
-        <camunda:inputOutput>
-          <camunda:inputParameter name="Input_1jai0as" />
-        </camunda:inputOutput>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_04xofpb</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1npiqfq</bpmn:outgoing>

@@ -3,7 +3,7 @@
   <bpmn:collaboration id="Collaboration_18cgj4j">
     <bpmn:participant id="Participant_0vnpgl6" name="SubModifyLots" processRef="SubModifyLots" />
   </bpmn:collaboration>
-  <bpmn:process id="SubModifyLots" isExecutable="false">
+  <bpmn:process id="SubModifyLots" isExecutable="true">
     <bpmn:subProcess id="SubProcess_0s8osww" triggeredByEvent="true">
       <bpmn:startEvent id="StartEvent_1qloljb" name="Internal Incident">
         <bpmn:extensionElements>
@@ -12,7 +12,8 @@
           </camunda:executionListener>
         </bpmn:extensionElements>
         <bpmn:outgoing>SequenceFlow_1ya4n43</bpmn:outgoing>
-        <bpmn:errorEventDefinition id="ErrorEventDefinition_0krhqdu" errorRef="Error_15lgooj" camunda:errorMessageVariable="errorTaskId" />
+        <bpmn:errorEventDefinition id="ErrorEventDefinition_0krhqdu" errorRef="Error_15lgooj"
+                                   camunda:errorMessageVariable="errorTaskId"/>
       </bpmn:startEvent>
       <bpmn:serviceTask id="NotifierBpeIncidentTask" name="Send incident to special Kafka topic" camunda:asyncBefore="true" camunda:delegateExpression="${notifierBpeIncidentDelegate}">
         <bpmn:incoming>SequenceFlow_1ya4n43</bpmn:incoming>
