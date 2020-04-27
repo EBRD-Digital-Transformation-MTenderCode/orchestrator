@@ -8,7 +8,8 @@ enum class OperationTypeProcess(@JsonValue override val key: String) : EnumEleme
 
     DECLARE_NON_CONFLICT_OF_INTEREST("declareNonConflictOfInterest"),
     LOT_CANCELLATION("lotCancellation"),
-    TENDER_CANCELLATION("tenderCancellation");
+    TENDER_CANCELLATION("tenderCancellation"),
+    TENDER_OR_LOT_AMENDMENT_CANCELLATION("tenderOrLotAmendmentCancellation");
 
     override fun toString(): String = key
 
