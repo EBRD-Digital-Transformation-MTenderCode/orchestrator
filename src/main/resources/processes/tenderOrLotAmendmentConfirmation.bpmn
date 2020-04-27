@@ -288,13 +288,13 @@
       <bpmn:sequenceFlow id="SequenceFlow_1b8nivi" sourceRef="ContractingFindCANIdsForLotTask" targetRef="EndEvent_17ts4ix" />
       <bpmn:sequenceFlow id="SequenceFlow_1lwlt44" sourceRef="ContractingFindCANIdsForTenderTask" targetRef="EndEvent_1i225y9" />
       <bpmn:sequenceFlow id="SequenceFlow_0j5n6cv" name="tender" sourceRef="ExclusiveGateway_12f3g28" targetRef="ContractingFindCANIdsForTenderTask">
-        <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${amendments[0].relatesTo == 'TENDER'}</bpmn:conditionExpression>
+        <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${tender.amendments[0].relatesTo == 'TENDER'}</bpmn:conditionExpression>
       </bpmn:sequenceFlow>
       <bpmn:sequenceFlow id="SequenceFlow_0lobfl8" name="lot" sourceRef="ExclusiveGateway_12f3g28" targetRef="ContractingFindCANIdsForLotTask">
-        <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${amendments[0].relatesTo == 'LOT'}</bpmn:conditionExpression>
+        <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${tender.amendments[0].relatesTo == 'LOT'}</bpmn:conditionExpression>
       </bpmn:sequenceFlow>
       <bpmn:sequenceFlow id="SequenceFlow_15edk26" name="yes" sourceRef="ExclusiveGateway_1f5mur7" targetRef="ExclusiveGateway_12f3g28">
-        <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${amendments[0].status == 'PENDING'}</bpmn:conditionExpression>
+        <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${tender.amendments[0].status == 'PENDING'}</bpmn:conditionExpression>
       </bpmn:sequenceFlow>
       <bpmn:sequenceFlow id="SequenceFlow_0jc1txs" name="no" sourceRef="ExclusiveGateway_1f5mur7" targetRef="EndEvent_0zwk8t4" />
       <bpmn:sequenceFlow id="SequenceFlow_0ttmgr9" sourceRef="StartEvent_1g05q0b" targetRef="ExclusiveGateway_1f5mur7" />
