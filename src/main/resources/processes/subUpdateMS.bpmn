@@ -15,8 +15,7 @@
           </camunda:executionListener>
         </bpmn:extensionElements>
         <bpmn:outgoing>SequenceFlow_0de14rv</bpmn:outgoing>
-        <bpmn:errorEventDefinition id="ErrorEventDefinition_1uulgg7" errorRef="Error_15lgooj"
-                                   camunda:errorMessageVariable="errorTaskId"/>
+        <bpmn:errorEventDefinition id="ErrorEventDefinition_1uulgg7" errorRef="Error_15lgooj" camunda:errorMessageVariable="errorTaskId" />
       </bpmn:startEvent>
       <bpmn:serviceTask id="NotifierBpeIncidentTask" name="Send incident to special Kafka topic" camunda:asyncBefore="true" camunda:delegateExpression="${notifierBpeIncidentDelegate}">
         <bpmn:incoming>SequenceFlow_0de14rv</bpmn:incoming>
@@ -162,10 +161,10 @@
     <bpmn:sequenceFlow id="SequenceFlow_0312mmz" sourceRef="AccessGetOrganizationTask" targetRef="ExclusiveGateway_1eapp1e" />
     <bpmn:sequenceFlow id="SequenceFlow_11sgjhx" sourceRef="ExclusiveGateway_1eapp1e" targetRef="BpeCreateOcidForMsTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0mpj8pk" name="DeclareNon&#10;ConflictOfInterest" sourceRef="ExclusiveGateway_1pbk6lp" targetRef="AccessGetOrganizationTask">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${processInfo.operationType == 'declareNonConflictOfInterest'}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${processInfo.operationType == 'DECLARE_NON_CONFLICT_OF_INTEREST'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_18s7bzu" name="Amendment&#10;Confirmation" sourceRef="ExclusiveGateway_1pbk6lp" targetRef="AccessGetTenderStateTask">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${processInfo.operationType == 'tenderOrLotAmendmentConfirmation'}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${processInfo.operationType == 'TENDER_OR_LOT_AMENDMENT_CONFIRMATION'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:exclusiveGateway id="ExclusiveGateway_1eapp1e">
       <bpmn:incoming>SequenceFlow_0312mmz</bpmn:incoming>

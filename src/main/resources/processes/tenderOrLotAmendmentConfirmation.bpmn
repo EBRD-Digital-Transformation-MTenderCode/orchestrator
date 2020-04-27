@@ -81,13 +81,6 @@
       <bpmn:incoming>SequenceFlow_0pmgd43</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1jgteyp</bpmn:outgoing>
     </bpmn:callActivity>
-    <bpmn:callActivity id="SubCancelTenderTask" name="modify tender" camunda:asyncBefore="true" calledElement="subModifyTender" camunda:variableMappingDelegateExpression="${prepareStartProcessDataDelegate}">
-      <bpmn:extensionElements>
-        <camunda:out source="errors" target="errors" />
-      </bpmn:extensionElements>
-      <bpmn:incoming>SequenceFlow_0klotg3</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_0xxoztp</bpmn:outgoing>
-    </bpmn:callActivity>
     <bpmn:exclusiveGateway id="ExclusiveGateway_0aexk3t">
       <bpmn:incoming>SequenceFlow_1jgteyp</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_0xxoztp</bpmn:incoming>
@@ -506,7 +499,6 @@
     <bpmn:sequenceFlow id="SequenceFlow_1kzzzgw" sourceRef="ExclusiveGateway_0aexk3t" targetRef="SubUpdateMSTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0b3utcl" sourceRef="SubUpdateMSTask" targetRef="ExclusiveGateway_1fpwzww" />
     <bpmn:sequenceFlow id="SequenceFlow_0f99p0b" sourceRef="BpeAddUpdateRecordTaskInQueueTask" targetRef="NoticeTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0xuuzch" sourceRef="BpeSaveContextTask" targetRef="NotifierSuccessNotificationToPlatformTask" />
     <bpmn:sequenceFlow id="SequenceFlow_186xarr" sourceRef="NotifierSuccessNotificationToPlatformTask" targetRef="EndEvent_0z3jqg8" />
     <bpmn:sequenceFlow id="SequenceFlow_1a0eurs" sourceRef="SubModifyLotsFromCancelTenderLineTask" targetRef="ExclusiveGateway_0kqw9cg" />
     <bpmn:sequenceFlow id="SequenceFlow_1rmne3j" sourceRef="SubModifyLotsTask" targetRef="AccessFindActiveLotIdsInLotLineTask" />
@@ -519,11 +511,7 @@
       <bpmn:incoming>SequenceFlow_1jssco6</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0tuegz6</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_0rki6dh" sourceRef="NoticeTask" targetRef="BpeSaveContextTask" />
-    <bpmn:serviceTask id="BpeSaveContextTask" name="BPE:&#10;Save context" camunda:asyncBefore="true" camunda:delegateExpression="${bpeSaveContextDelegate}">
-      <bpmn:incoming>SequenceFlow_0rki6dh</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_0xuuzch</bpmn:outgoing>
-    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_0rki6dh" sourceRef="NoticeTask" targetRef="NotifierSuccessNotificationToPlatformTask" />
     <bpmn:serviceTask id="AccessFindActiveLotIdsInLotLineTask" name="eAccess:&#10;Find &#39;active&#39; lot ids" default="SequenceFlow_0f8bcye" camunda:asyncBefore="true" camunda:delegateExpression="${accessFindLotIdsDelegate}">
       <bpmn:extensionElements>
         <camunda:inputOutput>
@@ -546,12 +534,20 @@
       <bpmn:outgoing>SequenceFlow_0b3utcl</bpmn:outgoing>
     </bpmn:callActivity>
     <bpmn:serviceTask id="NotifierSuccessNotificationToPlatformTask" name="iNotifier Kafka:&#10;Success Notification To Platform" camunda:asyncBefore="true" camunda:delegateExpression="${notifierSuccessNotificationToPlatformDelegate}">
-      <bpmn:incoming>SequenceFlow_0xuuzch</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_0rki6dh</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_186xarr</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:endEvent id="EndEvent_0z3jqg8">
       <bpmn:incoming>SequenceFlow_186xarr</bpmn:incoming>
     </bpmn:endEvent>
+    <bpmn:callActivity id="SubCancelTenderTask" name="modify tender" camunda:asyncBefore="true" calledElement="subModifyTender" camunda:variableMappingDelegateExpression="${prepareStartProcessDataDelegate}">
+      <bpmn:extensionElements>
+        <camunda:out source="errors" target="errors" />
+        <camunda:executionListener expression="" event="start" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0klotg3</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0xxoztp</bpmn:outgoing>
+    </bpmn:callActivity>
     <bpmn:textAnnotation id="TextAnnotation_0ed50w6">
       <bpmn:text>operationType:
 TenderOrLotAmendmentConfirmation</bpmn:text>
@@ -561,7 +557,7 @@ TenderOrLotAmendmentConfirmation</bpmn:text>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1yczcgp">
       <bpmndi:BPMNShape id="Participant_1i02lxq_di" bpmnElement="Participant_1i02lxq" isHorizontal="true">
-        <dc:Bounds x="160" y="80" width="3040" height="860" />
+        <dc:Bounds x="160" y="80" width="3000" height="860" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Group_0s2ici0_di" bpmnElement="Group_0s2ici0">
         <dc:Bounds x="420" y="210" width="890" height="492" />
@@ -582,9 +578,9 @@ TenderOrLotAmendmentConfirmation</bpmn:text>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Group_1k2adbz_di" bpmnElement="Group_1k2adbz">
-        <dc:Bounds x="2550" y="340" width="610" height="210" />
+        <dc:Bounds x="2550" y="340" width="480" height="210" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="2838" y="313" width="34" height="14" />
+          <dc:Bounds x="2773" y="313" width="34" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_1a44wcx_di" bpmnElement="AccessFindCompleteLotIdsTask" bioc:stroke="black" bioc:fill="white">
@@ -620,14 +616,11 @@ TenderOrLotAmendmentConfirmation</bpmn:text>
       <bpmndi:BPMNShape id="ServiceTask_1kfzy6x_di" bpmnElement="NoticeTask" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="2700" y="410" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_00tt9j8_di" bpmnElement="BpeSaveContextTask" bioc:stroke="black" bioc:fill="white">
+      <bpmndi:BPMNShape id="ServiceTask_0cbkua1_di" bpmnElement="NotifierSuccessNotificationToPlatformTask" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="2830" y="410" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_0cbkua1_di" bpmnElement="NotifierSuccessNotificationToPlatformTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="2960" y="410" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="EndEvent_0z3jqg8_di" bpmnElement="EndEvent_0z3jqg8">
-        <dc:Bounds x="3092" y="432" width="36" height="36" />
+        <dc:Bounds x="2962" y="432" width="36" height="36" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_16rxyc6_di" bpmnElement="BpeAddUpdateRecordTaskInQueueTask" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="2570" y="410" width="100" height="80" />
@@ -862,13 +855,9 @@ TenderOrLotAmendmentConfirmation</bpmn:text>
         <di:waypoint x="2670" y="450" />
         <di:waypoint x="2700" y="450" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_0xuuzch_di" bpmnElement="SequenceFlow_0xuuzch">
-        <di:waypoint x="2930" y="450" />
-        <di:waypoint x="2960" y="450" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_186xarr_di" bpmnElement="SequenceFlow_186xarr">
-        <di:waypoint x="3060" y="450" />
-        <di:waypoint x="3092" y="450" />
+        <di:waypoint x="2930" y="450" />
+        <di:waypoint x="2962" y="450" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1a0eurs_di" bpmnElement="SequenceFlow_1a0eurs">
         <di:waypoint x="1980" y="603" />
