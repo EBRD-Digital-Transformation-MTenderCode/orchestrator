@@ -519,21 +519,24 @@ public class ProcessServiceImpl implements ProcessService {
 
     public Optional<JsonNode> getDocumentsOfAmendmentsOfTender(final JsonNode jsonData, final String processId) {
         try {
-            final ArrayNode amendments = (ArrayNode) jsonData.get("amendments");
-            final ArrayNode documents = jsonUtil.createArrayNode();
-            for (JsonNode amendment : amendments) {
-                if (amendment.has("documents")) {
-                    ((ArrayNode) amendment.get("documents"))
-                        .forEach(documents::add);
+            if (jsonData.has("amendments")) {
+                final ArrayNode amendments = (ArrayNode) jsonData.get("amendments");
+                final ArrayNode documents = jsonUtil.createArrayNode();
+                for (JsonNode amendment : amendments) {
+                    if (amendment.has("documents")) {
+                        ((ArrayNode) amendment.get("documents"))
+                                .forEach(documents::add);
+                    }
                 }
-            }
 
-            if (documents.size() == 0)
-                return Optional.of(NullNode.getInstance());
+                if (documents.size() == 0)
+                    return Optional.of(NullNode.getInstance());
 
-            final ObjectNode mainNode = jsonUtil.createObjectNode();
-            mainNode.set("documents", documents);
-            return Optional.of(mainNode);
+                final ObjectNode mainNode = jsonUtil.createObjectNode();
+                mainNode.set("documents", documents);
+                return Optional.of(mainNode);
+            } else return Optional.empty();
+
         } catch (Exception e) {
             LOG.error("Error getting documents of amendments of tender.", e);
             terminateProcess(processId, e.getMessage());
