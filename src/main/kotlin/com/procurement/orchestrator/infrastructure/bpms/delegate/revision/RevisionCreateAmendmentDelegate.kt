@@ -61,7 +61,9 @@ class RevisionCreateAmendmentDelegate(
                 .id
                 .toString()
 
-            OperationTypeProcess.DECLARE_NON_CONFLICT_OF_INTEREST ->
+            OperationTypeProcess.DECLARE_NON_CONFLICT_OF_INTEREST,
+            OperationTypeProcess.TENDER_OR_LOT_AMENDMENT_CANCELLATION,
+            OperationTypeProcess.TENDER_OR_LOT_AMENDMENT_CONFIRMATION ->
                 return failure(Fail.Incident.Bpe(description = "Operation type: '${processInfo.operationType.key}' in this delegate do not implemented."))
         }
 

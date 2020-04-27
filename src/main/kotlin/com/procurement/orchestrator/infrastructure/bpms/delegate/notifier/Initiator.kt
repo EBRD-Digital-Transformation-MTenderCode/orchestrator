@@ -23,5 +23,7 @@ enum class Initiator(@JsonValue override val key: String) : EnumElementProvider.
 fun initiator(operationType: OperationTypeProcess): Initiator = when (operationType) {
     OperationTypeProcess.TENDER_CANCELLATION -> Initiator.PLATFORM
     OperationTypeProcess.LOT_CANCELLATION -> Initiator.PLATFORM
-    OperationTypeProcess.DECLARE_NON_CONFLICT_OF_INTEREST -> Initiator.PLATFORM
+    OperationTypeProcess.DECLARE_NON_CONFLICT_OF_INTEREST,
+    OperationTypeProcess.TENDER_OR_LOT_AMENDMENT_CANCELLATION,
+    OperationTypeProcess.TENDER_OR_LOT_AMENDMENT_CONFIRMATION -> Initiator.PLATFORM
 }
