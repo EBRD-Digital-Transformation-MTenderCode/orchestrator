@@ -5,6 +5,8 @@ import com.procurement.orchestrator.application.service.ProcessServiceImpl
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.application.service.cancellation.CancellationService
 import com.procurement.orchestrator.application.service.cancellation.CancellationServiceImpl
+import com.procurement.orchestrator.application.service.confirmation.ConfirmationService
+import com.procurement.orchestrator.application.service.confirmation.ConfirmationServiceImpl
 import com.procurement.orchestrator.application.service.response.RequirementResponseService
 import com.procurement.orchestrator.application.service.response.RequirementResponseServiceImpl
 import com.procurement.orchestrator.infrastructure.configuration.property.UriProperties
@@ -38,6 +40,15 @@ class ServiceConfiguration(
     @Bean
     fun cancellationService(): CancellationService =
         CancellationServiceImpl(
+            transform = transform,
+            processService = processService(),
+            requestRepository = repositoryConfiguration.requestRepository(),
+            ruleRepository = repositoryConfiguration.ruleRepository()
+        )
+
+    @Bean
+    fun confirmationService(): ConfirmationService =
+        ConfirmationServiceImpl(
             transform = transform,
             processService = processService(),
             requestRepository = repositoryConfiguration.requestRepository(),
