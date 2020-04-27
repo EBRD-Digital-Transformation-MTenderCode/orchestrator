@@ -175,7 +175,7 @@
       <bpmn:incoming>SequenceFlow_0q8iuzf</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0v23d60</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="BpeCreateOcidForMsTask" name="BPE:&#10;Create ocid for MS" camunda:asyncBefore="true" camunda:delegateExpression="${BpeCreateOcidForMsDelegate}">
+    <bpmn:serviceTask id="BpeCreateOcidForMsTask" name="BPE:&#10;Create ocid for MS" camunda:asyncBefore="true" camunda:delegateExpression="${bpeCreateOcidForMsDelegate}">
       <bpmn:incoming>SequenceFlow_11sgjhx</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0q8iuzf</bpmn:outgoing>
     </bpmn:serviceTask>
