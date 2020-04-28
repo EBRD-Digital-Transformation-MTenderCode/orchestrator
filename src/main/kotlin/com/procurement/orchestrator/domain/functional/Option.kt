@@ -1,6 +1,7 @@
 package com.procurement.orchestrator.domain.functional
 
 fun <T> T?.asOption(): Option<T> = Option.fromNullable(this)
+fun <T, C : Collection<T>> C.asOption(): Option<C> = Option.fromCollection(this)
 
 sealed class Option<out T> {
 
@@ -8,6 +9,8 @@ sealed class Option<out T> {
         fun <T> pure(value: T): Option<T> = Some(value)
         fun <T> none(): Option<T> = None
         fun <T> fromNullable(value: T?): Option<T> = if (value != null) Some(value) else None
+        fun <T, C : Collection<T>> fromCollection(values: C): Option<C> =
+            if (values.isNotEmpty()) pure(values) else none()
     }
 
     abstract val get: T
