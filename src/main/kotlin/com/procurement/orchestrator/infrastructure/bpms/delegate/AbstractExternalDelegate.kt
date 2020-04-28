@@ -56,18 +56,19 @@ abstract class AbstractExternalDelegate<P, R : Any>(
         )
         val reply = runBlocking(context = scope.coroutineContext) { execute(commandId, globalContext, parameters) }
             .orReturnFail { fail -> execution.throwIncident(fail) }
-            .also { data ->
-                if (execution.isUpdateGlobalContext && data.isDefined) {
-                    updateGlobalContext(context = globalContext, parameters = parameters, data = data.get)
-                        .doOnFail { fail -> execution.throwIncident(fail) }
-                }
-            }
 
         saveStep(globalContext, resultContext, execution)
             .doOnError { fail -> execution.throwIncident(fail) }
 
         when (reply) {
-            is Reply.Success<R> -> execution.setResult(value = reply.result)
+            is Reply.Success<R> -> {
+                val result = reply.result
+                execution.setResult(value = result)
+                if (execution.isUpdateGlobalContext && result.isDefined) {
+                    updateGlobalContext(context = globalContext, parameters = parameters, data = result.get)
+                        .doOnFail { fail -> execution.throwIncident(fail) }
+                }
+            }
             is Reply.Errors -> execution.throwError(errors = reply.result)
             is Reply.Incident -> execution.throwIncident(result = reply.result)
             is Reply.None -> execution.setResult(value = Option.none<R>())
