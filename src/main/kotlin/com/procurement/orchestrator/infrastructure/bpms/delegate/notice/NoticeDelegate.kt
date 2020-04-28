@@ -54,7 +54,7 @@ class NoticeDelegate(
                     .let { data ->
                         Task(
                             action = id.action,
-                            salt = id.cpid.toString() + id.ocid.toString() + id.action.toString(),
+                            salt = "${id.cpid}:${id.ocid}:${id.action}",
                             date = requestInfo.timestamp,
                             data = data
                         )
