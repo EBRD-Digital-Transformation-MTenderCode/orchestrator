@@ -124,7 +124,7 @@
       <bpmn:outgoing>SequenceFlow_041vcns</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlow_1ixauae</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:businessRuleTask id="DMNChoosingProcessForStart" name="Choosing process for start" camunda:asyncBefore="true" camunda:resultVariable="line" camunda:decisionRef="tenderOrLotAmendmentConfirmation" camunda:mapDecisionResult="singleResult">
+    <bpmn:businessRuleTask id="DMNChoosingProcessForStart" name="Choosing process for start" camunda:asyncBefore="true" camunda:resultVariable="line" camunda:decisionRef="DecisionByAmendmentTask" camunda:mapDecisionResult="singleResult">
       <bpmn:extensionElements>
         <camunda:properties>
           <camunda:property />
