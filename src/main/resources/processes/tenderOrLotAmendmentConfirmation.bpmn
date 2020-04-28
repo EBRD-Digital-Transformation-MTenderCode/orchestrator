@@ -157,7 +157,7 @@
       <bpmn:incoming>SequenceFlow_1gkmwrx</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0w8427f</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="AddErrorBPR-10.0.3.4.1Task" name="Add Error BPR-10.0.3.4.1" camunda:asyncBefore="true" camunda:delegateExpression="${ErrorAppenderDelegate}">
+    <bpmn:serviceTask id="AddErrorBPR-10.0.3.4.1Task" name="Add Error BPR-10.0.3.4.1" camunda:asyncBefore="true" camunda:delegateExpression="${bpeErrorAppenderDelegate}">
       <bpmn:extensionElements>
         <camunda:inputOutput>
           <camunda:inputParameter name="errorCode">BPR-10.0.3.4.1</camunda:inputParameter>
@@ -166,7 +166,7 @@
       <bpmn:incoming>SequenceFlow_0dx7tok</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0mrr5dz</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="AddErrorBPR-10.0.3.4.2Task" name="Add Error BPR-10.0.3.4.2" camunda:asyncBefore="true" camunda:delegateExpression="${ErrorAppenderDelegate}">
+    <bpmn:serviceTask id="AddErrorBPR-10.0.3.4.2Task" name="Add Error BPR-10.0.3.4.2" camunda:asyncBefore="true" camunda:delegateExpression="${bpeErrorAppenderDelegate}">
       <bpmn:extensionElements>
         <camunda:inputOutput>
           <camunda:inputParameter name="errorCode">BPR-10.0.3.4.2</camunda:inputParameter>
@@ -175,7 +175,7 @@
       <bpmn:incoming>SequenceFlow_0ipuj96</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1ykcdgr</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="AddErrorBPR-10.0.3.4.3Task" name="Add Error BPR-10.0.3.4.3" camunda:asyncBefore="true" camunda:delegateExpression="${ErrorAppenderDelegate}">
+    <bpmn:serviceTask id="AddErrorBPR-10.0.3.4.3Task" name="Add Error BPR-10.0.3.4.3" camunda:asyncBefore="true" camunda:delegateExpression="${bpeErrorAppenderDelegate}">
       <bpmn:extensionElements>
         <camunda:inputOutput>
           <camunda:inputParameter name="errorCode">BPR-10.0.3.4.3</camunda:inputParameter>
@@ -189,7 +189,7 @@
       <bpmn:incoming>SequenceFlow_1pcar9d</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0vsuy8m</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:serviceTask id="AddErrorBPR-10.0.3.4.4Task" name="Add Error BPR-10.0.3.4.4" camunda:asyncBefore="true" camunda:delegateExpression="${ErrorAppenderDelegate}">
+    <bpmn:serviceTask id="AddErrorBPR-10.0.3.4.4Task" name="Add Error BPR-10.0.3.4.4" camunda:asyncBefore="true" camunda:delegateExpression="${bpeErrorAppenderDelegate}">
       <bpmn:extensionElements>
         <camunda:inputOutput>
           <camunda:inputParameter name="errorCode">BPR-10.0.3.4.4</camunda:inputParameter>

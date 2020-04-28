@@ -9,7 +9,7 @@
     <bpmn:endEvent id="Event_198nyso">
       <bpmn:incoming>Flow_1qolu3k</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:serviceTask id="AddErrorBPR-10.0.3.5.1Task" name="Add Error BPR-10.0.3.5.1" camunda:asyncBefore="true" camunda:delegateExpression="${ErrorAppenderDelegate}">
+    <bpmn:serviceTask id="AddErrorBPR-10.0.3.5.1Task" name="Add Error BPR-10.0.3.5.1" camunda:asyncBefore="true" camunda:delegateExpression="${bpeErrorAppenderDelegate}">
       <bpmn:extensionElements>
         <camunda:inputOutput>
           <camunda:inputParameter name="errorCode">BPR-10.0.3.5.1</camunda:inputParameter>
