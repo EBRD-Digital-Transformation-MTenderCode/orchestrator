@@ -13,6 +13,7 @@ import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
+import com.procurement.orchestrator.domain.functional.asOption
 import com.procurement.orchestrator.infrastructure.bpms.extension.asPropertyContainer
 import com.procurement.orchestrator.infrastructure.bpms.extension.isUpdateGlobalContext
 import com.procurement.orchestrator.infrastructure.bpms.extension.readErrors
@@ -31,7 +32,7 @@ import org.camunda.bpm.engine.delegate.BpmnError
 import org.camunda.bpm.engine.delegate.DelegateExecution
 import org.camunda.bpm.engine.delegate.JavaDelegate
 
-abstract class AbstractExternalDelegate<P, R : Any>(
+abstract class AbstractSeqExternalDelegate<P, T, R : Any>(
     private val logger: Logger,
     private val transform: Transform,
     private val operationStepRepository: OperationStepRepository
@@ -42,52 +43,61 @@ abstract class AbstractExternalDelegate<P, R : Any>(
         private const val EXTERNAL_INCIDENT_CODE = "ExternalIncident"
     }
 
-    final override fun execute(execution: DelegateExecution) {
+    override fun execute(execution: DelegateExecution) {
 
-        val parameters = parameters(ParameterContainer(execution))
+        val parameters = prepareParameters(ParameterContainer(execution))
             .orReturnFail { fail -> execution.throwIncident(fail) }
         val globalContext = CamundaGlobalContext(propertyContainer = execution.asPropertyContainer())
 
-        val resultContext = ResultContext()
-        val scope = GlobalScope + resultContext
-        val commandId = CommandId.generate(
+        val baseCommandId = CommandId.generate(
             processId = execution.processInstanceId,
             activityId = execution.currentActivityId
         )
-        val reply = runBlocking(context = scope.coroutineContext) { execute(commandId, globalContext, parameters) }
+
+        val results = mutableListOf<R>()
+        prepareSeq(context = globalContext, parameters = parameters)
             .orReturnFail { fail -> execution.throwIncident(fail) }
+            .forEach { task ->
+                val resultContext = ResultContext()
+                val scope = GlobalScope + resultContext
+                val reply: Reply<R> = runBlocking(context = scope.coroutineContext) { call(baseCommandId, task) }
+                    .orReturnFail { fail -> execution.throwIncident(fail) }
 
-        saveStep(globalContext, resultContext, execution)
-            .doOnError { fail -> execution.throwIncident(fail) }
+                saveStep(globalContext, resultContext, execution)
+                    .doOnError { fail -> execution.throwIncident(fail) }
 
-        when (reply) {
-            is Reply.Success<R> -> {
-                val result = reply.result
-                execution.setResult(value = result)
-                if (execution.isUpdateGlobalContext && result.isDefined) {
-                    updateGlobalContext(context = globalContext, parameters = parameters, data = result.get)
-                        .doOnFail { fail -> execution.throwIncident(fail) }
+                when (reply) {
+                    is Reply.Success<R> -> {
+                        val result = reply.result
+                        if (result.isDefined) results.add(result.get)
+                    }
+                    is Reply.None -> Option.none<R>()
+                    is Reply.Errors -> execution.throwError(errors = reply.result)
+                    is Reply.Incident -> execution.throwIncident(result = reply.result)
                 }
             }
-            is Reply.Errors -> execution.throwError(errors = reply.result)
-            is Reply.Incident -> execution.throwIncident(result = reply.result)
-            is Reply.None -> execution.setResult(value = Option.none<R>())
+
+        execution.setResult(results.asOption())
+
+        if (execution.isUpdateGlobalContext) {
+            results.forEach { result ->
+                updateGlobalContext(context = globalContext, parameters = parameters, data = result)
+                    .doOnFail { fail -> execution.throwIncident(fail) }
+            }
         }
     }
 
-    protected abstract fun parameters(parameterContainer: ParameterContainer): Result<P, Fail.Incident.Bpmn.Parameter>
+    protected abstract fun prepareParameters(parameterContainer: ParameterContainer): Result<P, Fail.Incident.Bpmn.Parameter>
 
-    protected abstract suspend fun execute(
-        commandId: CommandId,
-        context: CamundaGlobalContext,
-        parameters: P
-    ): Result<Reply<R>, Fail.Incident>
+    protected abstract fun prepareSeq(context: CamundaGlobalContext, parameters: P): Result<List<T>, Fail.Incident>
 
-    protected abstract fun updateGlobalContext(
+    protected abstract suspend fun call(baseCommandId: CommandId, element: T): Result<Reply<R>, Fail.Incident>
+
+    protected open fun updateGlobalContext(
         context: CamundaGlobalContext,
         parameters: P,
         data: R
-    ): MaybeFail<Fail.Incident>
+    ): MaybeFail<Fail.Incident> = MaybeFail.none()
 
     private fun saveStep(
         globalContext: CamundaGlobalContext,
