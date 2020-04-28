@@ -12,10 +12,12 @@ import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractInternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
+import com.procurement.orchestrator.infrastructure.bpms.model.ResultContext
 import com.procurement.orchestrator.infrastructure.bpms.model.queue.QueueNoticeTask
 import com.procurement.orchestrator.infrastructure.bpms.repository.NoticeQueueRepository
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import org.springframework.stereotype.Component
+import kotlin.coroutines.coroutineContext
 
 @Component
 class BpeAddUpdateRecordTaskInQueueDelegate(
@@ -57,7 +59,7 @@ class BpeAddUpdateRecordTaskInQueueDelegate(
         val requestInfo = context.requestInfo
         noticeQueueRepository
             .save(
-                operationId = requestInfo.operationId,
+                operationId = requestInfo.parentOperationId ?: requestInfo.operationId,
                 task = QueueNoticeTask(
                     id = QueueNoticeTask.Id(
                         cpid = cpid,
@@ -69,6 +71,12 @@ class BpeAddUpdateRecordTaskInQueueDelegate(
                 )
             )
             .doOnError { return failure(it) }
+
+        coroutineContext[ResultContext.Key]!!
+            .apply {
+                request(data)
+            }
+
 
         return success(Option.none())
     }
