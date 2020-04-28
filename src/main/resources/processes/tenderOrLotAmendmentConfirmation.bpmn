@@ -124,7 +124,7 @@
       <bpmn:outgoing>SequenceFlow_041vcns</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlow_1ixauae</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:businessRuleTask id="DMNChoosingProcessForStart" name="Choosing process for start" camunda:asyncBefore="true" camunda:resultVariable="line" camunda:decisionRef="DecisionByAmendmentTask" camunda:mapDecisionResult="singleResult">
+    <bpmn:businessRuleTask id="DMNChoosingProcessForStart" name="Choosing process for start" camunda:asyncBefore="true" camunda:resultVariable="way" camunda:decisionRef="DecisionByAmendmentTask" camunda:mapDecisionResult="singleResult">
       <bpmn:extensionElements>
         <camunda:properties>
           <camunda:property />
@@ -485,14 +485,14 @@
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${result != null}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_16r331x" sourceRef="AccessFindCompleteLotIdsTask" targetRef="ExclusiveGateway_0kqw9cg" />
-    <bpmn:sequenceFlow id="SequenceFlow_041vcns" name="cancelTender&#10;&#10;" sourceRef="ExclusiveGateway_1smymms" targetRef="AccessFindActiveLotIdsInTenderLineTask">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${line == cancelTender}</bpmn:conditionExpression>
+    <bpmn:sequenceFlow id="SequenceFlow_041vcns" name="cancelTender" sourceRef="ExclusiveGateway_1smymms" targetRef="AccessFindActiveLotIdsInTenderLineTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${way == CANCEL_TENDER}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_0fqtbzc" sourceRef="AccessFindActiveLotIdsInTenderLineTask" targetRef="SubModifyLotsFromCancelTenderLineTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0klotg3" sourceRef="ExclusiveGateway_0kqw9cg" targetRef="SubCancelTenderTask" />
     <bpmn:sequenceFlow id="SequenceFlow_01sbx01" sourceRef="DMNChoosingProcessForStart" targetRef="ExclusiveGateway_1smymms" />
     <bpmn:sequenceFlow id="SequenceFlow_1ixauae" name="cancelLot" sourceRef="ExclusiveGateway_1smymms" targetRef="SubModifyLotsTask">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${line == cancelLot}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${way == CANCEL_LOT}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_1jgteyp" sourceRef="SubCompleteRecordTask" targetRef="ExclusiveGateway_0aexk3t" />
     <bpmn:sequenceFlow id="SequenceFlow_0xxoztp" sourceRef="SubCancelTenderTask" targetRef="ExclusiveGateway_0aexk3t" />
@@ -810,7 +810,7 @@ TenderOrLotAmendmentConfirmation</bpmn:text>
         <di:waypoint x="1740" y="643" />
         <di:waypoint x="1780" y="643" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1666" y="630" width="67" height="40" />
+          <dc:Bounds x="1666" y="630" width="67" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0fqtbzc_di" bpmnElement="SequenceFlow_0fqtbzc">
