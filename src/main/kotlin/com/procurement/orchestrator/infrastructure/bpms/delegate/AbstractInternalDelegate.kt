@@ -46,18 +46,17 @@ abstract class AbstractInternalDelegate<P, R : Any>(
         val scope = GlobalScope + resultContext
         val result = runBlocking(context = scope.coroutineContext) { execute(globalContext, parameters) }
             .orReturnFail { fail -> execution.throwIncident(fail) }
+            .also { data ->
+                if (execution.isUpdateGlobalContext) {
+                    updateGlobalContext(context = globalContext, parameters = parameters, data = data)
+                        .doOnFail { fail -> execution.throwIncident(fail) }
+                }
+            }
 
         saveStep(globalContext, resultContext, execution)
             .doOnError { fail -> execution.throwIncident(fail) }
 
         execution.setResult(value = result)
-
-        result.also { data ->
-            if (execution.isUpdateGlobalContext) {
-                updateGlobalContext(context = globalContext, parameters = parameters, data = data)
-                    .doOnFail { fail -> execution.throwIncident(fail) }
-            }
-        }
     }
 
     protected abstract fun parameters(parameterContainer: ParameterContainer): Result<P, Fail.Incident.Bpmn.Parameter>

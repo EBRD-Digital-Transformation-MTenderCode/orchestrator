@@ -63,6 +63,13 @@ abstract class AbstractSeqExternalDelegate<P, T, R : Any>(
                 val reply: Reply<R> = runBlocking(context = scope.coroutineContext) { call(baseCommandId, task) }
                     .orReturnFail { fail -> execution.throwIncident(fail) }
 
+                if (execution.isUpdateGlobalContext) {
+                    results.forEach { result ->
+                        updateGlobalContext(context = globalContext, parameters = parameters, data = result)
+                            .doOnFail { fail -> execution.throwIncident(fail) }
+                    }
+                }
+
                 saveStep(globalContext, resultContext, execution)
                     .doOnError { fail -> execution.throwIncident(fail) }
 
@@ -78,13 +85,6 @@ abstract class AbstractSeqExternalDelegate<P, T, R : Any>(
             }
 
         execution.setResult(results.asOption())
-
-        if (execution.isUpdateGlobalContext) {
-            results.forEach { result ->
-                updateGlobalContext(context = globalContext, parameters = parameters, data = result)
-                    .doOnFail { fail -> execution.throwIncident(fail) }
-            }
-        }
     }
 
     protected abstract fun prepareParameters(parameterContainer: ParameterContainer): Result<P, Fail.Incident.Bpmn.Parameter>
