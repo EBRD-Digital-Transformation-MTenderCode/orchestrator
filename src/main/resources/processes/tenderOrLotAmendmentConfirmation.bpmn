@@ -124,16 +124,19 @@
       <bpmn:outgoing>SequenceFlow_041vcns</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlow_1ixauae</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:businessRuleTask id="DMNChoosingProcessForStart" name="Choosing process for start" camunda:asyncBefore="true" camunda:resultVariable="way" camunda:decisionRef="DecisionByAmendmentTask" camunda:mapDecisionResult="singleResult">
+    <bpmn:businessRuleTask id="DMNChoosingProcessForStart" name="Choosing process for start" camunda:asyncBefore="true"
+                           camunda:resultVariable="way" camunda:decisionRef="DecisionByAmendmentTask"
+                           camunda:mapDecisionResult="singleEntry">
       <bpmn:extensionElements>
         <camunda:properties>
-          <camunda:property />
+          <camunda:property/>
         </camunda:properties>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_17od1yq</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_01sbx01</bpmn:outgoing>
     </bpmn:businessRuleTask>
-    <bpmn:serviceTask id="BpeProcessInitializerTask" name="BPE:&#10;Process Initializer" camunda:asyncBefore="true" camunda:delegateExpression="${bpeProcessInitializerDelegate}">
+    <bpmn:serviceTask id="BpeProcessInitializerTask" name="BPE:
+&#10;Process Initializer" camunda:asyncBefore="true" camunda:delegateExpression="${bpeProcessInitializerDelegate}">
       <bpmn:incoming>SequenceFlow_0jgeubz</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0ewcvtb</bpmn:outgoing>
     </bpmn:serviceTask>
