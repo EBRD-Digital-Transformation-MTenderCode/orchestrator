@@ -15,6 +15,7 @@ public enum QualificationCommandType {
     SET_FINAL_STATUSES("setFinalStatuses"),
     PREPARE_CANCELLATION("prepareCancellation"),
     AWARDS_CANCELLATION("awardsCancellation"),
+    SAVE_PERIOD("savePeriod"),
     VALIDATE_PERIOD("validatePeriod");
 
     private static final Map<String, QualificationCommandType> CONSTANTS = new HashMap<>();
