@@ -1,13 +1,12 @@
 package com.procurement.orchestrator.service;
 
+import java.util.Map;
+import java.util.Optional;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.dto.command.ResponseDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import java.util.Map;
-import java.util.Optional;
 
 @Service
 public interface ProcessService {
@@ -29,6 +28,8 @@ public interface ProcessService {
     Boolean getBoolean(String fieldName, JsonNode jsonData, String processId);
 
     String getString(String fieldName, JsonNode jsonData, String processId);
+
+    void setPreQualificationPeriodStartDate(JsonNode jsonData, String startDate, String processId);
 
     void setEnquiryPeriodStartDate(JsonNode jsonData, String startDate, String processId);
 
@@ -92,7 +93,9 @@ public interface ProcessService {
 
     Optional<JsonNode> getDocumentsOfAmendmentsOfTender(final JsonNode jsonData, final String processId);
 
-    JsonNode setDocumentsOfAmendmentsOfTender(final JsonNode jsonData, final JsonNode documentsData, final String processId);
+    JsonNode setDocumentsOfAmendmentsOfTender(final JsonNode jsonData,
+                                              final JsonNode documentsData,
+                                              final String processId);
 
     JsonNode setDocumentsOfTender(JsonNode jsonData, JsonNode documentsData, String processId);
 

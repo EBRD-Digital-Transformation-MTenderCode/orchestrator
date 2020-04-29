@@ -1,5 +1,12 @@
 package com.procurement.orchestrator.service;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
 import com.datastax.driver.core.utils.UUIDs;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -21,8 +28,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import java.util.*;
 
 @Service
 public class ProcessServiceImpl implements ProcessService {
@@ -155,6 +160,15 @@ public class ProcessServiceImpl implements ProcessService {
             terminateProcess(processId, fieldName + " not found.");
         }
         return null;
+    }
+
+    public void setPreQualificationPeriodStartDate(JsonNode jsonData, String startDate, String processId) {
+        try {
+            final ObjectNode enquiryPeriodNode = (ObjectNode) jsonData.get("preQualification").get("period");
+            enquiryPeriodNode.put("startDate", startDate);
+        } catch (Exception e) {
+            if (Objects.nonNull(processId)) terminateProcess(processId, e.getMessage());
+        }
     }
 
     public void setEnquiryPeriodStartDate(JsonNode jsonData, String startDate, String processId) {
