@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.application.service.response
 
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
@@ -61,7 +62,9 @@ object RequirementResponseDataIn {
                 data class Identifier(
                     @field:JsonProperty("scheme") @param:JsonProperty("scheme") val scheme: String,
                     @field:JsonProperty("id") @param:JsonProperty("id") val id: String,
-                    @field:JsonProperty("uri") @param:JsonProperty("uri") val uri: String
+
+                    @JsonInclude(JsonInclude.Include.NON_NULL)
+                    @field:JsonProperty("uri") @param:JsonProperty("uri") val uri: String?
                 )
 
                 data class BusinessFunction(
@@ -69,7 +72,9 @@ object RequirementResponseDataIn {
                     @field:JsonProperty("type") @param:JsonProperty("type") val type: String,
                     @field:JsonProperty("jobTitle") @param:JsonProperty("jobTitle") val jobTitle: String,
                     @field:JsonProperty("period") @param:JsonProperty("period") val period: Period,
-                    @field:JsonProperty("documents") @param:JsonProperty("documents") val documents: List<Document>
+
+                    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+                    @field:JsonProperty("documents") @param:JsonProperty("documents") val documents: List<Document> = emptyList()
                 ) {
 
                     data class Period(
@@ -80,7 +85,9 @@ object RequirementResponseDataIn {
                         @field:JsonProperty("id") @param:JsonProperty("id") val id: String,
                         @field:JsonProperty("documentType") @param:JsonProperty("documentType") val documentType: String,
                         @field:JsonProperty("title") @param:JsonProperty("title") val title: String,
-                        @field:JsonProperty("description") @param:JsonProperty("description") val description: String
+
+                        @JsonInclude(JsonInclude.Include.NON_NULL)
+                        @field:JsonProperty("description") @param:JsonProperty("description") val description: String? = null
                     )
                 }
             }
