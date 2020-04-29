@@ -72,7 +72,7 @@ data class Tender(
     @field:JsonProperty("auctionPeriod") @param:JsonProperty("auctionPeriod") val auctionPeriod: Period? = null,
 
     @get:JsonInclude(JsonInclude.Include.NON_NULL)
-    @get:JsonProperty("hasEnquiries") @param:JsonProperty("hasEnquiries") val hasEnquiries: Boolean? = false,
+    @get:JsonProperty("hasEnquiries") @param:JsonProperty("hasEnquiries") val hasEnquiries: Boolean? = null,
 
     @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
     @field:JsonProperty("enquiries") @param:JsonProperty("enquiries") val enquiries: Enquiries = Enquiries(),
