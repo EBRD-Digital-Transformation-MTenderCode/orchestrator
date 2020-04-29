@@ -1,0 +1,37 @@
+{
+  "requirementResponse": {
+    "id": "2477b67e-b8db-4c30-b7b3-5a5279a064f9",
+    "value": 100.000,
+    "relatedTenderer": {
+      "id": "ca608bed-2b42-4451-838a-fb5fa21aacc2"
+    },
+    "responder": {
+      "title": "requirementResponse.responder.title",
+      "name": "requirementResponse.responder.name",
+      "identifier": {
+        "scheme": "requirementResponse.responder.identifier.scheme",
+        "id": "c983dbac-655d-46c8-9c82-85b24c846826"
+      },
+      "businessFunctions": [
+        {
+          "id": "c2120c9f-7102-41bc-b458-515ac57fcafa",
+          "type": "businessFunctions[0].type",
+          "jobTitle": "businessFunctions[0].jobTitle",
+          "period": {
+            "startDate": "2020-02-12T12:14:12Z"
+          },
+          "documents": [
+            {
+              "id": "document-id-1",
+              "documentType": "",
+              "title": "documents[0].title"
+            }
+          ]
+        }
+      ]
+    },
+    "requirement": {
+      "id": "33e890a6-f71f-4bdc-8cc7-55d82669eb37"
+    }
+  }
+}
