@@ -50,7 +50,7 @@ public class ChronographScheduleEndQualificationPeriod implements JavaDelegate {
         final Context contextChronograph = new Context();
         final String uuid = UUIDs.timeBased().toString();
         contextChronograph.setCpid(context.getCpid());
-        contextChronograph.setProcessType("preQualificationPeriodEnd");
+        contextChronograph.setProcessType("submissionPeriodEnd");
         contextChronograph.setOperationId(uuid);
         contextChronograph.setRequestId(uuid);
 
