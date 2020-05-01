@@ -57,7 +57,7 @@ public class ChronographScheduleEndQualificationPeriod implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final LocalDateTime launchTime = dateUtil.stringToLocal(
-            processService.getEnquiryPeriodEndDate(jsonData, processId));
+            processService.getSubmissionPeriodEndDate(jsonData, processId));
 
         final ScheduleTask task = new ScheduleTask(
             ActionType.SCHEDULE,

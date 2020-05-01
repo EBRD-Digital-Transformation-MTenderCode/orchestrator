@@ -45,6 +45,8 @@ public interface ProcessService {
 
     String getEnquiryPeriodEndDate(JsonNode jsonData, String processId);
 
+    String getSubmissionPeriodEndDate(JsonNode jsonData, String processId);
+
     JsonNode getTenderPeriod(JsonNode jsonData, String processId);
 
     JsonNode getEnquiryPeriod(JsonNode jsonData, String processId);
