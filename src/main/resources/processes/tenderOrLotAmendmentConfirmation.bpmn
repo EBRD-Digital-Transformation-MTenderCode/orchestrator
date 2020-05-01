@@ -133,8 +133,7 @@
       <bpmn:incoming>SequenceFlow_17od1yq</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_01sbx01</bpmn:outgoing>
     </bpmn:businessRuleTask>
-    <bpmn:serviceTask id="BpeProcessInitializerTask" name="BPE:
-&#10;Process Initializer" camunda:asyncBefore="true" camunda:delegateExpression="${bpeProcessInitializerDelegate}">
+    <bpmn:serviceTask id="BpeProcessInitializerTask" name="BPE:&#10;Process Initializer" camunda:asyncBefore="true" camunda:delegateExpression="${bpeProcessInitializerDelegate}">
       <bpmn:incoming>SequenceFlow_0jgeubz</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0ewcvtb</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -493,7 +492,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_0klotg3" sourceRef="ExclusiveGateway_0kqw9cg" targetRef="SubCancelTenderTask" />
     <bpmn:sequenceFlow id="SequenceFlow_01sbx01" sourceRef="DMNChoosingProcessForStart" targetRef="ExclusiveGateway_1smymms" />
     <bpmn:sequenceFlow id="SequenceFlow_1ixauae" name="cancelLot" sourceRef="ExclusiveGateway_1smymms" targetRef="SubModifyLotsTask">
-        <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${way == 'cancelLot'}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${way == 'cancelLot'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_1jgteyp" sourceRef="SubCompleteRecordTask" targetRef="ExclusiveGateway_0aexk3t" />
     <bpmn:sequenceFlow id="SequenceFlow_0xxoztp" sourceRef="SubCancelTenderTask" targetRef="ExclusiveGateway_0aexk3t" />
