@@ -15,24 +15,24 @@
       <output id="output_1" typeRef="string" />
       <rule id="DecisionRule_0b34aut">
         <inputEntry id="UnaryTests_1m6exb2">
-          <text>'CANCELLATION'</text>
+          <text>'cancellation'</text>
         </inputEntry>
         <inputEntry id="UnaryTests_0hv5yx5">
-          <text>'LOT'</text>
+          <text>'lot'</text>
         </inputEntry>
         <outputEntry id="LiteralExpression_135yn6o">
-          <text>'CANCEL_LOT'</text>
+          <text>'cancelLot'</text>
         </outputEntry>
       </rule>
       <rule id="DecisionRule_12rfnkt">
         <inputEntry id="UnaryTests_0iwcg51">
-          <text>'CANCELLATION'</text>
+          <text>'cancellation'</text>
         </inputEntry>
         <inputEntry id="UnaryTests_0u5nbss">
-          <text>'TENDER'</text>
+          <text>'tender'</text>
         </inputEntry>
         <outputEntry id="LiteralExpression_0i5mzqk">
-          <text>'CANCEL_TENDER'</text>
+          <text>'cancelTender'</text>
         </outputEntry>
       </rule>
     </decisionTable>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0h72vmh" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.6.0">
   <bpmn:collaboration id="Collaboration_18cgj4j">
-    <bpmn:participant id="Participant_0vnpgl6" name="SubModifyLots" processRef="SubModifyLots" />
+    <bpmn:participant id="Participant_0vnpgl6" name="SubModifyLots" processRef="subModifyLots"/>
   </bpmn:collaboration>
-  <bpmn:process id="SubModifyLots" isExecutable="true">
+  <bpmn:process id="subModifyLots" isExecutable="true">
     <bpmn:subProcess id="SubProcess_0s8osww" triggeredByEvent="true">
       <bpmn:startEvent id="StartEvent_1qloljb" name="Internal Incident">
         <bpmn:extensionElements>
@@ -12,7 +12,8 @@
           </camunda:executionListener>
         </bpmn:extensionElements>
         <bpmn:outgoing>SequenceFlow_1ya4n43</bpmn:outgoing>
-        <bpmn:errorEventDefinition id="ErrorEventDefinition_0krhqdu" errorRef="Error_15lgooj" camunda:errorMessageVariable="errorTaskId" />
+        <bpmn:errorEventDefinition id="ErrorEventDefinition_0krhqdu" errorRef="Error_15lgooj"
+                                   camunda:errorMessageVariable="errorTaskId"/>
       </bpmn:startEvent>
       <bpmn:serviceTask id="NotifierBpeIncidentTask" name="Send incident to special Kafka topic" camunda:asyncBefore="true" camunda:delegateExpression="${notifierBpeIncidentDelegate}">
         <bpmn:incoming>SequenceFlow_1ya4n43</bpmn:incoming>
