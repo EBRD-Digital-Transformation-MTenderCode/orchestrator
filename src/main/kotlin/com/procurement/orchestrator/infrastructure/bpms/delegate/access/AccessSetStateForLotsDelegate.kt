@@ -10,14 +10,17 @@ import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.EnumElementProvider
 import com.procurement.orchestrator.domain.EnumElementProvider.Companion.keysAsStrings
+import com.procurement.orchestrator.domain.extension.lotIds
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.failure
+import com.procurement.orchestrator.domain.model.lot.Lot
 import com.procurement.orchestrator.domain.model.lot.LotId
 import com.procurement.orchestrator.domain.model.lot.LotStatus
 import com.procurement.orchestrator.domain.model.lot.LotStatusDetails
 import com.procurement.orchestrator.domain.model.lot.Lots
+import com.procurement.orchestrator.domain.util.extension.getNewElements
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
@@ -94,7 +97,7 @@ class AccessSetStateForLotsDelegate(
             .orForwardFail { fail -> return fail }
 
         val lots = when (parameters.location) {
-            Location.TENDER           -> tender.lots
+            Location.TENDER -> tender.lots
                 .map { lot ->
                     SetStateForLotsAction.Params.Lot(
                         id = lot.id as LotId.Permanent,
@@ -143,22 +146,32 @@ class AccessSetStateForLotsDelegate(
         parameters: Parameters,
         data: SetStateForLotsAction.Result
     ): MaybeFail<Fail.Incident> {
+
         val tender = context.tryGetTender()
             .orReturnFail { return MaybeFail.fail(it) }
 
         val receivedLotByIds: Map<LotId, SetStateForLotsAction.Result.Lot> = data.associateBy { it.id }
-
         val updatedLots = tender.lots
             .map { lot ->
-                receivedLotByIds.getValue(lot.id)
-                    .let { receivedLot ->
+                receivedLotByIds[lot.id]
+                    ?.let { receivedLot ->
                         lot.copy(status = receivedLot.status, statusDetails = receivedLot.statusDetails)
                     }
+                    ?: lot
+            }
 
+        val receivedLotIds = receivedLotByIds.keys
+        val knowLotIds = tender.lotIds()
+        val newLots = getNewElements(received = receivedLotIds, known = knowLotIds)
+            .map { id ->
+                receivedLotByIds.getValue(id)
+                    .let { lot ->
+                        Lot(id = lot.id, status = lot.status, statusDetails = lot.statusDetails)
+                    }
             }
 
         val updatedTender = tender.copy(
-            lots = Lots(updatedLots)
+            lots = Lots(updatedLots + newLots)
         )
         context.tender = updatedTender
 
