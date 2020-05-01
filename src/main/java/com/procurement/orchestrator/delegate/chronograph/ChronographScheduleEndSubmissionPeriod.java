@@ -19,9 +19,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ChronographScheduleEndQualificationPeriod implements JavaDelegate {
+public class ChronographScheduleEndSubmissionPeriod implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ChronographScheduleEndQualificationPeriod.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ChronographScheduleEndSubmissionPeriod.class);
 
     private final MessageProducer messageProducer;
     private final OperationService operationService;
@@ -29,11 +29,11 @@ public class ChronographScheduleEndQualificationPeriod implements JavaDelegate {
     private final JsonUtil jsonUtil;
     private final DateUtil dateUtil;
 
-    public ChronographScheduleEndQualificationPeriod(final MessageProducer messageProducer,
-                                                     final OperationService operationService,
-                                                     final ProcessService processService,
-                                                     final JsonUtil jsonUtil,
-                                                     final DateUtil dateUtil) {
+    public ChronographScheduleEndSubmissionPeriod(final MessageProducer messageProducer,
+                                                  final OperationService operationService,
+                                                  final ProcessService processService,
+                                                  final JsonUtil jsonUtil,
+                                                  final DateUtil dateUtil) {
         this.messageProducer = messageProducer;
         this.operationService = operationService;
         this.processService = processService;
