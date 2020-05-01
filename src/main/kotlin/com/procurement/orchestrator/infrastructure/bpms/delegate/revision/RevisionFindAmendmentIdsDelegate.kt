@@ -19,6 +19,8 @@ import com.procurement.orchestrator.domain.model.amendment.AmendmentId
 import com.procurement.orchestrator.domain.model.amendment.AmendmentRelatesTo
 import com.procurement.orchestrator.domain.model.amendment.AmendmentStatus
 import com.procurement.orchestrator.domain.model.amendment.AmendmentType
+import com.procurement.orchestrator.domain.model.amendment.Amendments
+import com.procurement.orchestrator.domain.model.tender.Tender
 import com.procurement.orchestrator.domain.util.extension.getNewElements
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
@@ -143,17 +145,26 @@ class RevisionFindAmendmentIdsDelegate(
         data: List<AmendmentId>
     ): MaybeFail<Fail.Incident> {
 
-        val tender = context.tryGetTender()
-            .orReturnFail { return MaybeFail.fail(it) }
+        val tender = context.tender
+        val updatedTender = if (tender == null) {
+            Tender(
+                amendments = Amendments(
+                    data.map { id ->
+                        Amendment(id = id)
+                    }
+                )
+            )
+        } else {
+            val knowAmendmentIds = tender.amendmentIds()
+            val receivedAmendmentIds = data.toSet()
+            val newAmendments = getNewElements(received = receivedAmendmentIds, known = knowAmendmentIds)
+                .map { id -> Amendment(id = id) }
 
-        val knowAmendmentIds = tender.amendmentIds()
-        val receivedAmendmentIds = data.toSet()
-        val newAmendments = getNewElements(received = receivedAmendmentIds, known = knowAmendmentIds)
-            .map { id -> Amendment(id = id) }
+            tender.copy(
+                amendments = tender.amendments + newAmendments
+            )
+        }
 
-        val updatedTender = tender.copy(
-            amendments = tender.amendments + newAmendments
-        )
         context.tender = updatedTender
 
         return MaybeFail.none()
