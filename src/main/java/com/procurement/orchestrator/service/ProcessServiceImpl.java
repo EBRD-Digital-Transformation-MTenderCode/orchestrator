@@ -162,6 +162,41 @@ public class ProcessServiceImpl implements ProcessService {
         return null;
     }
 
+    @Override
+    public JsonNode getPreQualificationPeriod(final JsonNode jsonData, final String processId) {
+        try {
+            return jsonData.get("preQualification").get("period");
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public String getPreQualificationPeriodEndDate(final JsonNode jsonData, final String processId) {
+        try {
+            return jsonData.get("preQualification").get("period").get("endDate").asText();
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public JsonNode setPreQualificationPeriod(final JsonNode jsonData, final JsonNode respData, final String processId) {
+        try {
+            final ObjectNode srcPeriod = (ObjectNode) respData.get("preQualification").get("period");
+            final ObjectNode dstPeriod = (ObjectNode) jsonData.get("preQualification").get("period");
+            dstPeriod.replace("startDate", srcPeriod.get("startDate"));
+            dstPeriod.replace("endDate", srcPeriod.get("endDate"));
+            return jsonData;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
     public void setPreQualificationPeriodStartDate(final JsonNode jsonData, final String startDate, final String processId) {
         try {
             final ObjectNode enquiryPeriodNode = (ObjectNode) jsonData.get("preQualification").get("period");
@@ -259,23 +294,11 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public JsonNode getSubmissionPeriod(final JsonNode jsonData, final String processId) {
-        try {
-            return jsonData.get("preQualification").get("period");
-        } catch (Exception e) {
-            if (Objects.nonNull(processId)) terminateProcess(processId, e.getMessage());
-            return null;
-        }
-    }
 
-    public String getSubmissionPeriodEndDate(final JsonNode jsonData, final String processId) {
-        try {
-            return jsonData.get("preQualification").get("period").get("endDate").asText();
-        } catch (Exception e) {
-            if (Objects.nonNull(processId)) terminateProcess(processId, e.getMessage());
-            return null;
-        }
-    }
+
+
+
+
 
     public JsonNode getTenderPeriod(JsonNode jsonData, String processId) {
         try {

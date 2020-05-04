@@ -22,6 +22,8 @@ import static com.procurement.orchestrator.domain.commands.QualificationCommandT
 public class QualificationCheckPeriod implements JavaDelegate {
 
     private static final Logger LOG = LoggerFactory.getLogger(ClarificationCheckPeriod.class);
+    private static final String ATTRIBUTE_NAME = "isPreQualificationPeriodChanged";
+    private static final String VARIABLE_NAME = "isPreQualificationPeriodChanged";
 
     private final QualificationRestClient qualificationRestClient;
     private final OperationService operationService;
@@ -49,7 +51,7 @@ public class QualificationCheckPeriod implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
 
-        final JsonNode period = processService.getSubmissionPeriod(jsonData, processId);
+        final JsonNode period = processService.getPreQualificationPeriod(jsonData, processId);
         final JsonNode commandMessage = processService.getCommandMessage(CHECK_PERIOD, context, period);
         if (LOG.isDebugEnabled()) {
             LOG.debug("COMMAND ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(commandMessage));
@@ -66,7 +68,16 @@ public class QualificationCheckPeriod implements JavaDelegate {
         }
 
         if (responseData != null) {
-            operationService.saveOperationStep(execution, entity, commandMessage, responseData);
+            final Boolean isPreQualificationPeriodChanged = processService.getBoolean(ATTRIBUTE_NAME, responseData, processId);
+            execution.setVariable(VARIABLE_NAME, isPreQualificationPeriodChanged);
+            if (LOG.isDebugEnabled())
+                LOG.debug("COMMAND ({}) IN CONTEXT PUT THE VARIABLE '{}' WITH THE VALUE '{}'.", context.getOperationId(), VARIABLE_NAME, isPreQualificationPeriodChanged);
+
+            final JsonNode step = processService.setPreQualificationPeriod(jsonData, responseData, processId);
+            if (LOG.isDebugEnabled())
+                LOG.debug("STEP FOR SAVE ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(step));
+
+            operationService.saveOperationStep(execution, entity, commandMessage, step);
         }
     }
 }

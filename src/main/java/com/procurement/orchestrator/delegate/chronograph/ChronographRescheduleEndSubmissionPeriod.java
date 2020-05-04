@@ -59,7 +59,7 @@ public class ChronographRescheduleEndSubmissionPeriod implements JavaDelegate {
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final LocalDateTime newLaunchTime = dateUtil.stringToLocal(
-            processService.getSubmissionPeriodEndDate(jsonData, processId));
+            processService.getPreQualificationPeriodEndDate(jsonData, processId));
 
         final ScheduleTask cancelTask = new ScheduleTask(
             ActionType.CANCEL,

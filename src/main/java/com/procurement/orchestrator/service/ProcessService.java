@@ -29,6 +29,12 @@ public interface ProcessService {
 
     String getString(String fieldName, JsonNode jsonData, String processId);
 
+    JsonNode getPreQualificationPeriod(JsonNode jsonData, String processId);
+
+    String getPreQualificationPeriodEndDate(JsonNode jsonData, String processId);
+
+    JsonNode setPreQualificationPeriod(JsonNode jsonData, JsonNode respData, String processId);
+
     void setPreQualificationPeriodStartDate(JsonNode jsonData, String startDate, String processId);
 
     void setEnquiryPeriodStartDate(JsonNode jsonData, String startDate, String processId);
@@ -44,10 +50,6 @@ public interface ProcessService {
     String getTenderPeriodEndDate(JsonNode jsonData, String processId);
 
     String getEnquiryPeriodEndDate(JsonNode jsonData, String processId);
-
-    JsonNode getSubmissionPeriod(JsonNode jsonData, String processId);
-
-    String getSubmissionPeriodEndDate(JsonNode jsonData, String processId);
 
     JsonNode getTenderPeriod(JsonNode jsonData, String processId);
 
