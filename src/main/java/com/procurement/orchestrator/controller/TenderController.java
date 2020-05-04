@@ -134,7 +134,6 @@ public class TenderController extends DoBaseController {
             case GPA:
             case TEST_GPA:
                 processService.setPreQualificationPeriodStartDate(data, startDate, null);
-                processService.setEnquiryPeriodStartDate(data, startDate, null);
                 break;
 
             default:
