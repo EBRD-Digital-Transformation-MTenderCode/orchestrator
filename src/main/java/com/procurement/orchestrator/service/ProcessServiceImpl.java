@@ -259,6 +259,15 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
+    public JsonNode getSubmissionPeriod(final JsonNode jsonData, final String processId) {
+        try {
+            return jsonData.get("preQualification").get("period");
+        } catch (Exception e) {
+            if (Objects.nonNull(processId)) terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
     public String getSubmissionPeriodEndDate(final JsonNode jsonData, final String processId) {
         try {
             return jsonData.get("preQualification").get("period").get("endDate").asText();

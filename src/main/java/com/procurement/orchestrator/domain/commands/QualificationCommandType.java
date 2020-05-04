@@ -12,6 +12,7 @@ public enum QualificationCommandType {
     CREATE_AWARDS("createAwards"),
     AWARD_BY_BID("awardByBid"),
     CHECK_AWARDED("checkAwarded"),
+    CHECK_PERIOD("checkPeriod"),
     SET_FINAL_STATUSES("setFinalStatuses"),
     PREPARE_CANCELLATION("prepareCancellation"),
     AWARDS_CANCELLATION("awardsCancellation"),
