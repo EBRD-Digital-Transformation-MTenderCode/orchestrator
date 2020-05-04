@@ -4,6 +4,79 @@
     <bpmn:participant id="Participant_0etycj9" name="SubCreateUnsuccessfulAwards" processRef="subCreateUnsuccessfulAwards" />
   </bpmn:collaboration>
   <bpmn:process id="subCreateUnsuccessfulAwards" isExecutable="true">
+    <bpmn:subProcess id="SubProcess_1se3jny" triggeredByEvent="true">
+      <bpmn:startEvent id="StartEvent_1m3d8xl" name="External Incident">
+        <bpmn:extensionElements>
+          <camunda:executionListener event="end">
+            <camunda:script scriptFormat="javascript">execution.removeVariable("suspend")</camunda:script>
+          </camunda:executionListener>
+        </bpmn:extensionElements>
+        <bpmn:outgoing>SequenceFlow_0c0h6ld</bpmn:outgoing>
+        <bpmn:errorEventDefinition id="ErrorEventDefinition_1kcgigw" errorRef="Error_0kv316y" camunda:errorMessageVariable="errorTaskId" />
+      </bpmn:startEvent>
+      <bpmn:userTask id="UserTask_0t1h385" name="Fix external incident" camunda:formKey="embedded:/INCIDENT_FORM.html">
+        <bpmn:extensionElements>
+          <camunda:formData>
+            <camunda:formField id="IncidentLevel" label="level" type="string" defaultValue="${incident.level}">
+              <camunda:validation>
+                <camunda:constraint name="readonly" />
+              </camunda:validation>
+            </camunda:formField>
+            <camunda:formField id="ServiceVersion" label="service version" type="string" defaultValue="${incident.service.version}">
+              <camunda:validation>
+                <camunda:constraint name="readonly" />
+              </camunda:validation>
+            </camunda:formField>
+            <camunda:formField id="ServiceId" label="service id" type="string" defaultValue="${incident.service.id}">
+              <camunda:validation>
+                <camunda:constraint name="readonly" />
+              </camunda:validation>
+            </camunda:formField>
+            <camunda:formField id="ServiceName" label="service name" type="string" defaultValue="${incident.service.name}">
+              <camunda:validation>
+                <camunda:constraint name="readonly" />
+              </camunda:validation>
+            </camunda:formField>
+            <camunda:formField id="IncidentId" label="id" type="string" defaultValue="${incident.id}">
+              <camunda:validation>
+                <camunda:constraint name="readonly" />
+              </camunda:validation>
+            </camunda:formField>
+            <camunda:formField id="IncidentDate" label="date" type="string" defaultValue="${incident.date}">
+              <camunda:validation>
+                <camunda:constraint name="readonly" />
+              </camunda:validation>
+            </camunda:formField>
+          </camunda:formData>
+        </bpmn:extensionElements>
+        <bpmn:incoming>SequenceFlow_0c0h6ld</bpmn:incoming>
+        <bpmn:outgoing>SequenceFlow_177ramh</bpmn:outgoing>
+      </bpmn:userTask>
+      <bpmn:serviceTask id="ServiceTask_1wn7um8" name="Return to last task" camunda:asyncAfter="true" camunda:delegateExpression="${recoveryDelegate}">
+        <bpmn:incoming>SequenceFlow_177ramh</bpmn:incoming>
+        <bpmn:outgoing>SequenceFlow_0fsv285</bpmn:outgoing>
+      </bpmn:serviceTask>
+      <bpmn:endEvent id="EndEvent_0ygsb06">
+        <bpmn:incoming>SequenceFlow_0fsv285</bpmn:incoming>
+      </bpmn:endEvent>
+      <bpmn:sequenceFlow id="SequenceFlow_177ramh" sourceRef="UserTask_0t1h385" targetRef="ServiceTask_1wn7um8" />
+      <bpmn:sequenceFlow id="SequenceFlow_0fsv285" sourceRef="ServiceTask_1wn7um8" targetRef="EndEvent_0ygsb06" />
+      <bpmn:sequenceFlow id="SequenceFlow_0c0h6ld" sourceRef="StartEvent_1m3d8xl" targetRef="UserTask_0t1h385" />
+    </bpmn:subProcess>
+    <bpmn:endEvent id="EndEvent_19hdi5m">
+      <bpmn:incoming>SequenceFlow_1eby0r8</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="BpeAddUpdateRecordTaskInQueueTask" name="BPE:&#10;Add update record task to queue" camunda:asyncBefore="true" camunda:delegateExpression="${bpeAddUpdateRecordTaskInQueueDelegate}">
+      <bpmn:incoming>SequenceFlow_0rgn7nr</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1eby0r8</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="EvaluationCreateUnsuccessfulAwardsTask" name="Evaluation:&#10;Create unsuccessful awards" camunda:asyncBefore="true" camunda:delegateExpression="${evaluationCreateUnsuccessfulAwardsDelegate}">
+      <bpmn:incoming>SequenceFlow_1603sqm</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0rgn7nr</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1603sqm" sourceRef="StartEvent_0s0irmq" targetRef="EvaluationCreateUnsuccessfulAwardsTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1eby0r8" sourceRef="BpeAddUpdateRecordTaskInQueueTask" targetRef="EndEvent_19hdi5m" />
+    <bpmn:sequenceFlow id="SequenceFlow_0rgn7nr" sourceRef="EvaluationCreateUnsuccessfulAwardsTask" targetRef="BpeAddUpdateRecordTaskInQueueTask" />
     <bpmn:subProcess id="SubProcess_0yujrnu" triggeredByEvent="true">
       <bpmn:startEvent id="StartEvent_18382cv" name="Internal Incident">
         <bpmn:extensionElements>
@@ -68,82 +141,9 @@
       <bpmn:sequenceFlow id="SequenceFlow_1xsf455" sourceRef="ServiceTask_1sifdna" targetRef="EndEvent_0kw2r7a" />
       <bpmn:sequenceFlow id="SequenceFlow_0l86iqw" sourceRef="StartEvent_18382cv" targetRef="ServiceTask_12xy8hz" />
     </bpmn:subProcess>
-    <bpmn:subProcess id="SubProcess_1se3jny" triggeredByEvent="true">
-      <bpmn:startEvent id="StartEvent_1m3d8xl" name="External Incident">
-        <bpmn:extensionElements>
-          <camunda:executionListener event="end">
-            <camunda:script scriptFormat="javascript">execution.removeVariable("suspend")</camunda:script>
-          </camunda:executionListener>
-        </bpmn:extensionElements>
-        <bpmn:outgoing>SequenceFlow_0c0h6ld</bpmn:outgoing>
-        <bpmn:errorEventDefinition id="ErrorEventDefinition_1kcgigw" errorRef="Error_0kv316y" camunda:errorMessageVariable="errorTaskId" />
-      </bpmn:startEvent>
-      <bpmn:userTask id="UserTask_0t1h385" name="Fix external incident" camunda:formKey="embedded:/INCIDENT_FORM.html">
-        <bpmn:extensionElements>
-          <camunda:formData>
-            <camunda:formField id="IncidentLevel" label="level" type="string" defaultValue="${incident.level}">
-              <camunda:validation>
-                <camunda:constraint name="readonly" />
-              </camunda:validation>
-            </camunda:formField>
-            <camunda:formField id="ServiceVersion" label="service version" type="string" defaultValue="${incident.service.version}">
-              <camunda:validation>
-                <camunda:constraint name="readonly" />
-              </camunda:validation>
-            </camunda:formField>
-            <camunda:formField id="ServiceId" label="service id" type="string" defaultValue="${incident.service.id}">
-              <camunda:validation>
-                <camunda:constraint name="readonly" />
-              </camunda:validation>
-            </camunda:formField>
-            <camunda:formField id="ServiceName" label="service name" type="string" defaultValue="${incident.service.name}">
-              <camunda:validation>
-                <camunda:constraint name="readonly" />
-              </camunda:validation>
-            </camunda:formField>
-            <camunda:formField id="IncidentId" label="id" type="string" defaultValue="${incident.id}">
-              <camunda:validation>
-                <camunda:constraint name="readonly" />
-              </camunda:validation>
-            </camunda:formField>
-            <camunda:formField id="IncidentDate" label="date" type="string" defaultValue="${incident.date}">
-              <camunda:validation>
-                <camunda:constraint name="readonly" />
-              </camunda:validation>
-            </camunda:formField>
-          </camunda:formData>
-        </bpmn:extensionElements>
-        <bpmn:incoming>SequenceFlow_0c0h6ld</bpmn:incoming>
-        <bpmn:outgoing>SequenceFlow_177ramh</bpmn:outgoing>
-      </bpmn:userTask>
-      <bpmn:serviceTask id="ServiceTask_1wn7um8" name="Return to last task" camunda:asyncAfter="true" camunda:delegateExpression="${recoveryDelegate}">
-        <bpmn:incoming>SequenceFlow_177ramh</bpmn:incoming>
-        <bpmn:outgoing>SequenceFlow_0fsv285</bpmn:outgoing>
-      </bpmn:serviceTask>
-      <bpmn:endEvent id="EndEvent_0ygsb06">
-        <bpmn:incoming>SequenceFlow_0fsv285</bpmn:incoming>
-      </bpmn:endEvent>
-      <bpmn:sequenceFlow id="SequenceFlow_177ramh" sourceRef="UserTask_0t1h385" targetRef="ServiceTask_1wn7um8" />
-      <bpmn:sequenceFlow id="SequenceFlow_0fsv285" sourceRef="ServiceTask_1wn7um8" targetRef="EndEvent_0ygsb06" />
-      <bpmn:sequenceFlow id="SequenceFlow_0c0h6ld" sourceRef="StartEvent_1m3d8xl" targetRef="UserTask_0t1h385" />
-    </bpmn:subProcess>
     <bpmn:startEvent id="StartEvent_0s0irmq">
       <bpmn:outgoing>SequenceFlow_1603sqm</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:endEvent id="EndEvent_19hdi5m">
-      <bpmn:incoming>SequenceFlow_1eby0r8</bpmn:incoming>
-    </bpmn:endEvent>
-    <bpmn:serviceTask id="BpeAddUpdateRecordTaskInQueueTask" name="BPE:&#10;Add update record task to queue" camunda:asyncBefore="true" camunda:delegateExpression="${bpeAddUpdateRecordTaskInQueueDelegate}">
-      <bpmn:incoming>SequenceFlow_0rgn7nr</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1eby0r8</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:serviceTask id="EvaluationCreateUnsuccessfulAwardsTask" name="Evaluation:&#10;Create unsuccessful awards" camunda:asyncBefore="true" camunda:delegateExpression="${evaluationCreateUnsuccessfulAwardsDelegate}">
-      <bpmn:incoming>SequenceFlow_1603sqm</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_0rgn7nr</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_1603sqm" sourceRef="StartEvent_0s0irmq" targetRef="EvaluationCreateUnsuccessfulAwardsTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1eby0r8" sourceRef="BpeAddUpdateRecordTaskInQueueTask" targetRef="EndEvent_19hdi5m" />
-    <bpmn:sequenceFlow id="SequenceFlow_0rgn7nr" sourceRef="EvaluationCreateUnsuccessfulAwardsTask" targetRef="BpeAddUpdateRecordTaskInQueueTask" />
   </bpmn:process>
   <bpmn:error id="Error_15lgooj" name="Internal Incident" errorCode="InternalIncident" />
   <bpmn:error id="Error_0kv316y" name="External Incident" errorCode="ExternalIncident" />

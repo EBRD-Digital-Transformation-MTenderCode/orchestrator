@@ -149,7 +149,7 @@
     <bpmn:serviceTask id="BpeSetPhaseTask" name="BPE:&#10;Set &#39;empty&#39; phase" camunda:asyncBefore="true" camunda:delegateExpression="${bpeSetPhaseDelegate}">
       <bpmn:extensionElements>
         <camunda:inputOutput>
-          <camunda:inputParameter name="value">empty</camunda:inputParameter>
+          <camunda:inputParameter name="value">EMPTY</camunda:inputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_04h9j7n</bpmn:incoming>

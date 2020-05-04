@@ -26,7 +26,7 @@ class BpeSetPhaseDelegate(
 ) {
 
     companion object {
-        private const val PARAMETER_NAME_PHASE = "phase"
+        private const val PARAMETER_NAME_PHASE = "value"
     }
 
     override fun parameters(parameterContainer: ParameterContainer): Result<Parameters, Fail.Incident.Bpmn.Parameter> {
