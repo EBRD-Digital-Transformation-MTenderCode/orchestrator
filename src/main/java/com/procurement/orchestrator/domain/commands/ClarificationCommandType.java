@@ -1,12 +1,11 @@
 package com.procurement.orchestrator.domain.commands;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
-import com.procurement.orchestrator.exception.EnumException;
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.procurement.orchestrator.exception.EnumException;
 
 public enum ClarificationCommandType {
 
@@ -15,6 +14,7 @@ public enum ClarificationCommandType {
     CHECK_ANSWER("checkAnswer"),
     CHECK_ENQUIRIES("checkEnquiries"),
     CHECK_PERIOD("checkPeriod"),
+    CREATE_PERIOD("createPeriod"),
     GET_PERIOD("getPeriod"),
     SAVE_PERIOD("savePeriod"),
     SAVE_NEW_PERIOD("saveNewPeriod"),

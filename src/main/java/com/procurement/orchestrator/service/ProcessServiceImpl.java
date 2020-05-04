@@ -162,7 +162,7 @@ public class ProcessServiceImpl implements ProcessService {
         return null;
     }
 
-    public void setPreQualificationPeriodStartDate(JsonNode jsonData, String startDate, String processId) {
+    public void setPreQualificationPeriodStartDate(final JsonNode jsonData, final String startDate, final String processId) {
         try {
             final ObjectNode enquiryPeriodNode = (ObjectNode) jsonData.get("preQualification").get("period");
             enquiryPeriodNode.put("startDate", startDate);
@@ -259,7 +259,7 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
-    public String getSubmissionPeriodEndDate(JsonNode jsonData, String processId) {
+    public String getSubmissionPeriodEndDate(final JsonNode jsonData, final String processId) {
         try {
             return jsonData.get("preQualification").get("period").get("endDate").asText();
         } catch (Exception e) {
