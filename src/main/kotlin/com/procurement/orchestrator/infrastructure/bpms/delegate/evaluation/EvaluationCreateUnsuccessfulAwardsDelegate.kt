@@ -2,7 +2,6 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.evaluation
 
 import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.EvaluationClient
-import com.procurement.orchestrator.application.model.Owner
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.getLotsIfNotEmpty
 import com.procurement.orchestrator.application.model.context.extension.tryGetTender
@@ -12,7 +11,6 @@ import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
-import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.model.award.Award
 import com.procurement.orchestrator.domain.model.award.Awards
@@ -53,9 +51,6 @@ class EvaluationCreateUnsuccessfulAwardsDelegate(
         val lots = tender.getLotsIfNotEmpty()
             .orForwardFail { fail -> return fail }
 
-        val owner: Owner = tender.owner
-            ?: return failure(Fail.Incident.Bpms.Context.Missing(name = "owner", path = "tender"))
-
         val processInfo = context.processInfo
         val requestInfo = context.requestInfo
         return evaluationClient.createUnsuccessfulAwards(
@@ -64,8 +59,7 @@ class EvaluationCreateUnsuccessfulAwardsDelegate(
                 cpid = processInfo.cpid,
                 ocid = processInfo.ocid,
                 date = requestInfo.timestamp,
-                lotIds = lots.map { it.id as LotId.Permanent },
-                owner = owner
+                lotIds = lots.map { it.id as LotId.Permanent }
             )
         )
     }
