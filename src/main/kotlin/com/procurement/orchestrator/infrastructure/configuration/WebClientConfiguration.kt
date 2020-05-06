@@ -6,6 +6,7 @@ import com.procurement.orchestrator.application.client.DossierClient
 import com.procurement.orchestrator.application.client.EvaluationClient
 import com.procurement.orchestrator.application.client.MdmClient
 import com.procurement.orchestrator.application.client.NoticeClient
+import com.procurement.orchestrator.application.client.QualificationClient
 import com.procurement.orchestrator.application.client.RevisionClient
 import com.procurement.orchestrator.application.client.StorageClient
 import com.procurement.orchestrator.application.service.Transform
@@ -17,6 +18,7 @@ import com.procurement.orchestrator.infrastructure.client.web.dossier.HttpDossie
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.HttpEvaluationClient
 import com.procurement.orchestrator.infrastructure.client.web.mdm.HttpMdmClient
 import com.procurement.orchestrator.infrastructure.client.web.notice.HttpNoticeClient
+import com.procurement.orchestrator.infrastructure.client.web.qualification.HttpQualificationClient
 import com.procurement.orchestrator.infrastructure.client.web.revision.HttpRevisionClient
 import com.procurement.orchestrator.infrastructure.client.web.storage.HttpStorageClient
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
@@ -71,4 +73,8 @@ class WebClientConfiguration(
     @Bean
     fun contractingClient(): ContractingClient =
         HttpContractingClient(webClient = webClient(), properties = componentProperties["eContracting"])
+
+    @Bean
+    fun qualificationClient(): QualificationClient =
+        HttpQualificationClient(webClient = webClient(),properties = componentProperties["eQualification"])
 }

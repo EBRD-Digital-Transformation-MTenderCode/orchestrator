@@ -73,6 +73,9 @@ components:
   eContracting:
     host: 10.0.20.125
     port: 9151
+  eQualification:
+    host: 10.0.20.125
+    port: 9091
 
 ribbon:
   eureka:
