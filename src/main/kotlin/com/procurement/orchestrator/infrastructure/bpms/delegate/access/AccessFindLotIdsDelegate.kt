@@ -3,7 +3,6 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.access
 import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.AccessClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
-import com.procurement.orchestrator.application.model.context.extension.tryGetTender
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.EnumElementProvider.Companion.keysAsStrings
@@ -19,6 +18,8 @@ import com.procurement.orchestrator.domain.model.lot.Lot
 import com.procurement.orchestrator.domain.model.lot.LotId
 import com.procurement.orchestrator.domain.model.lot.LotStatus
 import com.procurement.orchestrator.domain.model.lot.LotStatusDetails
+import com.procurement.orchestrator.domain.model.lot.Lots
+import com.procurement.orchestrator.domain.model.tender.Tender
 import com.procurement.orchestrator.domain.util.extension.getNewElements
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
@@ -115,17 +116,25 @@ class AccessFindLotIdsDelegate(
         parameters: Parameters,
         data: List<LotId>
     ): MaybeFail<Fail.Incident> {
-        val tender = context.tryGetTender()
-            .orReturnFail { return MaybeFail.fail(it) }
 
-        val knowLotIds = tender.lotIds()
-        val receivedLotIds = data.toSet()
-        val newLots = getNewElements(received = receivedLotIds, known = knowLotIds)
-            .map { id -> Lot(id = id) }
+        val tender = context.tender
+        val updatedTender = if (tender == null) {
+            Tender(
+                lots = data
+                    .map { id -> Lot(id = id) }
+                    .let { Lots(it) }
+            )
+        } else {
+            val knowLotIds = tender.lotIds()
+            val receivedLotIds = data.toSet()
+            val newLots = getNewElements(received = receivedLotIds, known = knowLotIds)
+                .map { id -> Lot(id = id) }
 
-        val updatedTender = tender.copy(
-            lots = tender.lots + newLots
-        )
+            tender.copy(
+                lots = tender.lots + newLots
+            )
+        }
+
         context.tender = updatedTender
 
         return MaybeFail.none()
