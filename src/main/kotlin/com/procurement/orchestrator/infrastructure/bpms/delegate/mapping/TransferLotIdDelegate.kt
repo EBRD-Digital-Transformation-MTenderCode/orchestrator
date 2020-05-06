@@ -26,7 +26,7 @@ class TransferLotIdsDelegate : DelegateVariableMapping {
         val requestInfo = superExecution.getVariable(VARIABLE_REQUEST_INFO) as RequestInfo
 
         val updatedRequestInfo = requestInfo.copy(
-            parentOperationId = requestInfo.operationId,
+            parentOperationId = requestInfo.parentOperationId ?: requestInfo.operationId,
             operationId = OperationId.generate()
         )
 
