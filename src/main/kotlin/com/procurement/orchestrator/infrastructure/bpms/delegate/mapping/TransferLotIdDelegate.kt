@@ -13,7 +13,7 @@ import org.camunda.bpm.engine.variable.VariableMap
 import org.springframework.stereotype.Component
 
 @Component
-class TransferLotIdDelegate : DelegateVariableMapping {
+class TransferLotIdsDelegate : DelegateVariableMapping {
 
     companion object {
         private const val VARIABLE_TENDER = "tender"
@@ -26,13 +26,15 @@ class TransferLotIdDelegate : DelegateVariableMapping {
         val requestInfo = superExecution.getVariable(VARIABLE_REQUEST_INFO) as RequestInfo
 
         val updatedRequestInfo = requestInfo.copy(
-            parentOperationId = requestInfo.operationId,
+            parentOperationId = requestInfo.parentOperationId ?: requestInfo.operationId,
             operationId = OperationId.generate()
         )
 
         val tender = superExecution.getVariable(VARIABLE_TENDER) as Tender
         val subTender = Tender(
-            lots = Lots(Lot(id = tender.lots[0].id))
+            lots = tender.lots
+                .map { lot -> Lot(id = lot.id) }
+                .let { Lots(it) }
         )
 
         subVariables.putValue(VARIABLE_PROCESS_INFO, processInfo)
