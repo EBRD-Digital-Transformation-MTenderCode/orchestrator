@@ -13,7 +13,7 @@ import org.camunda.bpm.engine.variable.VariableMap
 import org.springframework.stereotype.Component
 
 @Component
-class TransferLotIdDelegate : DelegateVariableMapping {
+class TransferLotIdsDelegate : DelegateVariableMapping {
 
     companion object {
         private const val VARIABLE_TENDER = "tender"
