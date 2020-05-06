@@ -9,6 +9,7 @@ public enum ProcurementMethod {
     NP,
     FA,
     OP,
+    GPA,
     TEST_OT,
     TEST_SV,
     TEST_RT,
@@ -16,5 +17,6 @@ public enum ProcurementMethod {
     TEST_DA,
     TEST_NP,
     TEST_FA,
-    TEST_OP
+    TEST_OP,
+    TEST_GPA
 }

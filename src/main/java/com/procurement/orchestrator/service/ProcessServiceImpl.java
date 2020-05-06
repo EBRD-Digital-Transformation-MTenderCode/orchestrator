@@ -1,5 +1,12 @@
 package com.procurement.orchestrator.service;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
 import com.datastax.driver.core.utils.UUIDs;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -21,8 +28,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import java.util.*;
 
 @Service
 public class ProcessServiceImpl implements ProcessService {
@@ -157,6 +162,50 @@ public class ProcessServiceImpl implements ProcessService {
         return null;
     }
 
+    @Override
+    public JsonNode getPreQualificationPeriod(final JsonNode jsonData, final String processId) {
+        try {
+            return jsonData.get("preQualification").get("period");
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public String getPreQualificationPeriodEndDate(final JsonNode jsonData, final String processId) {
+        try {
+            return jsonData.get("preQualification").get("period").get("endDate").asText();
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public JsonNode setPreQualificationPeriod(final JsonNode jsonData, final JsonNode respData, final String processId) {
+        try {
+            final ObjectNode srcPeriod = (ObjectNode) respData.get("preQualification").get("period");
+            final ObjectNode dstPeriod = (ObjectNode) jsonData.get("preQualification").get("period");
+            dstPeriod.replace("startDate", srcPeriod.get("startDate"));
+            dstPeriod.replace("endDate", srcPeriod.get("endDate"));
+            return jsonData;
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public void setPreQualificationPeriodStartDate(final JsonNode jsonData, final String startDate, final String processId) {
+        try {
+            final ObjectNode enquiryPeriodNode = (ObjectNode) jsonData.get("preQualification").get("period");
+            enquiryPeriodNode.put("startDate", startDate);
+        } catch (Exception e) {
+            if (Objects.nonNull(processId)) terminateProcess(processId, e.getMessage());
+        }
+    }
+
     public void setEnquiryPeriodStartDate(JsonNode jsonData, String startDate, String processId) {
         try {
             final ObjectNode enquiryPeriodNode = (ObjectNode) jsonData.get("tender").get("enquiryPeriod");
@@ -244,6 +293,12 @@ public class ProcessServiceImpl implements ProcessService {
             return null;
         }
     }
+
+
+
+
+
+
 
     public JsonNode getTenderPeriod(JsonNode jsonData, String processId) {
         try {

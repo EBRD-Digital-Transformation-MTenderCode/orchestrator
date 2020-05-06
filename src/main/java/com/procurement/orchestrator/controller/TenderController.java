@@ -1,5 +1,7 @@
 package com.procurement.orchestrator.controller;
 
+import java.util.HashMap;
+import java.util.Map;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -14,10 +16,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
-import java.util.Map;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class TenderController extends DoBaseController {
@@ -62,10 +67,12 @@ public class TenderController extends DoBaseController {
                                            @PathVariable("ocid") final String ocid,
                                            @RequestBody final JsonNode data) {
         requestService.validate(operationId, data);
-        final String processType = getUpdateCnProcessType(cpid);
-        final Context context = requestService.getContextForUpdate(authorization, operationId, cpid, ocid, token, processType);
-        processService.setEnquiryPeriodStartDate(data, context.getStartDate(), null);
-        processService.setTenderPeriodStartDate(data, processService.getEnquiryPeriodEndDate(data, null), null);
+        final Context prevContext = requestService.getContext(cpid);
+        final ProcurementMethod pmd = ProcurementMethod.valueOf(prevContext.getPmd());
+        final String processType = getUpdateCnProcessType(pmd);
+        final Context context =
+            requestService.getContextForUpdate(authorization, operationId, cpid, ocid, token, processType);
+        setStartPeriod(pmd, data, context.getStartDate());
         requestService.saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("operationType", context.getOperationType());
@@ -73,9 +80,7 @@ public class TenderController extends DoBaseController {
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
-    private String getUpdateCnProcessType(String cpid) {
-        final Context prevContext = requestService.getContext(cpid);
-        final ProcurementMethod pmd = ProcurementMethod.valueOf(prevContext.getPmd());
+    private String getUpdateCnProcessType(final ProcurementMethod pmd) {
         String processType;
         switch (pmd) {
             case OT:
@@ -96,10 +101,44 @@ public class TenderController extends DoBaseController {
                 processType = "updateCnOp";
                 break;
 
+            case GPA:
+            case TEST_GPA:
+                processType = "updateCnSp";
+                break;
+
             default:
                 throw new OperationException("Invalid previous pmd: '" + pmd + "'");
         }
         return processType;
+    }
+
+    private void setStartPeriod(final ProcurementMethod pmd, JsonNode data, String startDate) {
+        switch (pmd) {
+            case OT:
+            case TEST_OT:
+            case SV:
+            case TEST_SV:
+            case MV:
+            case TEST_MV:
+                processService.setEnquiryPeriodStartDate(data, startDate, null);
+                processService.setTenderPeriodStartDate(data, processService.getEnquiryPeriodEndDate(data, null), null);
+
+            case DA:
+            case TEST_DA:
+            case NP:
+            case TEST_NP:
+            case OP:
+            case TEST_OP:
+                break;
+
+            case GPA:
+            case TEST_GPA:
+                processService.setPreQualificationPeriodStartDate(data, startDate, null);
+                break;
+
+            default:
+                throw new OperationException("Invalid previous pmd: '" + pmd + "'");
+        }
     }
 
     @RequestMapping(value = "/pn", method = RequestMethod.POST)
@@ -107,10 +146,17 @@ public class TenderController extends DoBaseController {
                                            @RequestHeader("X-OPERATION-ID") final String operationId,
                                            @RequestParam("country") final String country,
                                            @RequestParam("pmd") final String pmd,
-                                           @RequestParam(value = "testMode", defaultValue = "false") final boolean testMode,
+                                           @RequestParam(value = "testMode",
+                                                         defaultValue = "false") final boolean testMode,
                                            @RequestBody final JsonNode data) {
         requestService.validate(operationId, data);
-        final Context context = requestService.getContextForCreate(authorization, operationId, country, pmd, "createPN", testMode);
+        final Context context = requestService.getContextForCreate(authorization,
+                                                                   operationId,
+                                                                   country,
+                                                                   pmd,
+                                                                   "createPN",
+                                                                   testMode
+        );
         context.setEndDate(processService.getTenderPeriodEndDate(data, null));
         requestService.saveRequestAndCheckOperation(context, data);
         processService.startProcess(context, new HashMap<>());
