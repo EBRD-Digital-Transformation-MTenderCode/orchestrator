@@ -16,6 +16,7 @@ import com.procurement.orchestrator.domain.model.award.Awards
 import com.procurement.orchestrator.domain.model.bid.Bids
 import com.procurement.orchestrator.domain.model.contract.Contracts
 import com.procurement.orchestrator.domain.model.party.Parties
+import com.procurement.orchestrator.domain.model.submission.Submissions
 import com.procurement.orchestrator.domain.model.tender.Tender
 
 class CamundaGlobalContext(propertyContainer: PropertyContainer) : GlobalContext {
@@ -39,6 +40,8 @@ class CamundaGlobalContext(propertyContainer: PropertyContainer) : GlobalContext
     override var parties: Parties by collectionPropertyDelegate(propertyContainer) { Parties() }
 
     override var contracts: Contracts by collectionPropertyDelegate(propertyContainer) { Contracts() }
+
+    override var submissions: Submissions by propertyDelegate(propertyContainer) { Submissions() }
 }
 
 fun CamundaGlobalContext.serialize(transform: Transform): Result<String, Fail.Incident.Transform.Serialization> =
@@ -53,6 +56,7 @@ fun CamundaGlobalContext.serialize(transform: Transform): Result<String, Fail.In
         override var awards: Awards = this@serialize.awards
         override var parties: Parties = this@serialize.parties
         override var contracts: Contracts = this@serialize.contracts
+        override var submissions: Submissions = this@serialize.submissions
     }.let { context ->
         transform.trySerialization(context)
     }
