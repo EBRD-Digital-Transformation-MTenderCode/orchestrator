@@ -4,13 +4,13 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 
-
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class OldProcessContext(
     @field:JsonProperty("cpid") @param:JsonProperty("cpid") var cpid: String,
     @field:JsonProperty("ocid") @param:JsonProperty("ocid") var ocid: String,
     @field:JsonProperty("operationId") @param:JsonProperty("operationId") var operationId: String,
     @field:JsonProperty("requestId") @param:JsonProperty("requestId") var requestId: String,
+    @field:JsonProperty("owner") @param:JsonProperty("owner") var owner: String,
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonProperty("stage") @param:JsonProperty("stage") var stage: String?,

@@ -2,8 +2,6 @@ package com.procurement.orchestrator.domain.model.amendment
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.procurement.orchestrator.application.model.Owner
-import com.procurement.orchestrator.application.model.Token
 import com.procurement.orchestrator.domain.model.IdentifiableObject
 import com.procurement.orchestrator.domain.model.document.Documents
 import com.procurement.orchestrator.domain.model.lot.RelatedLots
@@ -13,12 +11,6 @@ import java.time.LocalDateTime
 
 data class Amendment(
     @field:JsonProperty("id") @param:JsonProperty("id") val id: AmendmentId,
-
-    @field:JsonInclude(JsonInclude.Include.NON_NULL)
-    @field:JsonProperty("owner") @param:JsonProperty("owner") val owner: Owner? = null,
-
-    @field:JsonInclude(JsonInclude.Include.NON_NULL)
-    @field:JsonProperty("token") @param:JsonProperty("token") val token: Token? = null,
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonProperty("type") @param:JsonProperty("type") val type: AmendmentType? = null,
@@ -68,8 +60,6 @@ data class Amendment(
 
     override fun updateBy(src: Amendment) = Amendment(
         id = id,
-        owner = owner,
-        token = token,
         type = src.type or type,
         status = src.status or status,
         relatesTo = relatesTo,

@@ -85,7 +85,9 @@ class ConfirmationServiceImpl(
                     requestId = savedRequest.requestId,
                     platformId = savedRequest.platformId,
                     country = countryId,
-                    language = prevProcessContext.language
+                    language = prevProcessContext.language,
+                    token = request.context.token,
+                    owner = request.context.owner
                 )
 
                 processInfo = ProcessInfo(
@@ -105,9 +107,7 @@ class ConfirmationServiceImpl(
                 tender = Tender(
                     amendments = Amendments(
                         Amendment(
-                            id = request.context.amendmentId,
-                            token = request.context.token,
-                            owner = request.context.owner
+                            id = request.context.amendmentId
                         )
                     )
                 )

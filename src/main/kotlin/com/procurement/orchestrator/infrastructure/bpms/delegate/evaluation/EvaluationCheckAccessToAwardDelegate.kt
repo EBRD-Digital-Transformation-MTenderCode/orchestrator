@@ -2,6 +2,8 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.evaluation
 
 import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.EvaluationClient
+import com.procurement.orchestrator.application.model.Owner
+import com.procurement.orchestrator.application.model.Token
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.getAwardIfOnlyOne
 import com.procurement.orchestrator.application.service.Logger
@@ -48,20 +50,19 @@ class EvaluationCheckAccessToAwardDelegate(
         val award = context.getAwardIfOnlyOne()
             .orForwardFail { fail -> return fail }
 
+        val requestInfo = context.requestInfo
+        val token: Token = requestInfo.token
+            ?: return failure(Fail.Incident.Bpms.Context.Missing(name = "token", path = "requestInfo"))
+        val owner: Owner = requestInfo.owner
+
         return evaluationClient.checkAccessToAward(
             id = commandId,
             params = CheckAccessToAwardAction.Params(
                 cpid = cpid,
                 ocid = ocid,
                 awardId = award.id,
-                token = award.token
-                    ?: return failure(
-                        Fail.Incident.Bpms.Context.Missing(name = "token", path = "awards[id:${award.id}]")
-                    ),
-                owner = award.owner
-                    ?: return failure(
-                        Fail.Incident.Bpms.Context.Missing(name = "owner", path = "awards[id:${award.id}]")
-                    )
+                token = token,
+                owner = owner
             )
         )
     }

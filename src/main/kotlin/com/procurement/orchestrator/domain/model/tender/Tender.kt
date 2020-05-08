@@ -2,8 +2,6 @@ package com.procurement.orchestrator.domain.model.tender
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.procurement.orchestrator.application.model.Owner
-import com.procurement.orchestrator.application.model.Token
 import com.procurement.orchestrator.domain.model.IdentifiableObject
 import com.procurement.orchestrator.domain.model.amendment.Amendments
 import com.procurement.orchestrator.domain.model.document.Documents
@@ -19,12 +17,6 @@ import com.procurement.orchestrator.domain.model.updateBy
 import java.io.Serializable
 
 data class Tender(
-
-    @field:JsonInclude(JsonInclude.Include.NON_NULL)
-    @field:JsonProperty("token") @param:JsonProperty("token") val token: Token? = null,
-
-    @field:JsonInclude(JsonInclude.Include.NON_NULL)
-    @field:JsonProperty("owner") @param:JsonProperty("owner") val owner: Owner? = null,
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonProperty("id") @param:JsonProperty("id") val id: TenderId? = null,
@@ -109,8 +101,6 @@ data class Tender(
 ) : IdentifiableObject<Tender>, Serializable {
 
     override fun updateBy(src: Tender): Tender = Tender(
-        token = src.token or token,
-        owner = src.owner or owner,
         id = src.id or id,
         title = src.title or title,
         description = src.description or description,

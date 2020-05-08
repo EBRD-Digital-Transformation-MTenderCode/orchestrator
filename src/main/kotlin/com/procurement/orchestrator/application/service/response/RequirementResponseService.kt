@@ -103,7 +103,9 @@ class RequirementResponseServiceImpl(
                     requestId = savedRequest.requestId,
                     platformId = savedRequest.platformId,
                     country = countryId,
-                    language = prevProcessContext.language
+                    language = prevProcessContext.language,
+                    owner = request.platformId,
+                    token = request.context.token
                 )
 
                 processInfo = ProcessInfo(
@@ -123,8 +125,6 @@ class RequirementResponseServiceImpl(
                 awards = Awards(
                     Award(
                         id = request.context.awardId,
-                        owner = request.platformId,
-                        token = request.context.token,
                         requirementResponses = payload.requirementResponse
                             .let { requirementResponse ->
                                 RequirementResponse(

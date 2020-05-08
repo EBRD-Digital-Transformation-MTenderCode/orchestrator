@@ -67,10 +67,8 @@ class RevisionCreateAmendmentDelegate(
                 return failure(Fail.Incident.Bpe(description = "Operation type: '${processInfo.operationType.key}' in this delegate do not implemented."))
         }
 
-        val owner: Owner = tender.owner
-            ?: return failure(Fail.Incident.Bpms.Context.Missing(name = "owner", path = "tender"))
-
         val requestInfo = context.requestInfo
+        val owner: Owner = requestInfo.owner
         return client.createAmendment(
             id = commandId,
             params = CreateAmendmentAction.Params(
@@ -110,7 +108,6 @@ class RevisionCreateAmendmentDelegate(
         val updatedAmendment = tender.getAmendmentIfOnlyOne()
             .orReturnFail { return MaybeFail.fail(it) }
             .copy(
-                token = data.token,
                 type = data.type,
                 status = data.status,
                 relatesTo = data.relatesTo,

@@ -101,7 +101,9 @@ class CancellationServiceImpl(
                     requestId = savedRequest.requestId,
                     platformId = savedRequest.platformId,
                     country = countryId,
-                    language = prevProcessContext.language
+                    language = prevProcessContext.language,
+                    token = request.context.token,
+                    owner = request.platformId
                 )
 
                 processInfo = ProcessInfo(
@@ -119,8 +121,6 @@ class CancellationServiceImpl(
                 )
 
                 tender = Tender(
-                    token = request.context.token,
-                    owner = request.platformId,
                     amendments = payload.amendments
                         .map { amendment ->
                             Amendment(
@@ -204,7 +204,9 @@ class CancellationServiceImpl(
                     requestId = savedRequest.requestId,
                     platformId = savedRequest.platformId,
                     country = countryId,
-                    language = prevProcessContext.language
+                    language = prevProcessContext.language,
+                    token = request.context.token,
+                    owner = request.platformId
                 )
 
                 processInfo = ProcessInfo(
@@ -222,8 +224,6 @@ class CancellationServiceImpl(
                 )
 
                 tender = Tender(
-                    token = request.context.token,
-                    owner = request.platformId,
                     lots = Lots(
                         Lot(id = request.context.lotId)
                     ),
@@ -307,7 +307,9 @@ class CancellationServiceImpl(
                     requestId = savedRequest.requestId,
                     platformId = savedRequest.platformId,
                     country = countryId,
-                    language = prevProcessContext.language
+                    language = prevProcessContext.language,
+                    token = request.context.token,
+                    owner = request.context.owner
                 )
 
                 processInfo = ProcessInfo(
@@ -327,9 +329,7 @@ class CancellationServiceImpl(
                 tender = Tender(
                     amendments = Amendments(
                         Amendment(
-                            id = request.context.amendmentId,
-                            token = request.context.token,
-                            owner = request.context.owner
+                            id = request.context.amendmentId
                         )
                     )
                 )

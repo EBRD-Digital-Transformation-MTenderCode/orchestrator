@@ -78,10 +78,10 @@ class RevisionCheckAccessToAmendmentDelegate(
                 .orForwardFail { fail -> return fail }
         }
 
-        val token: Token = amendment.token
-            ?: return failure(Fail.Incident.Bpms.Context.Missing(name = "token", path = "tender.amendment"))
-        val owner: Owner = amendment.owner
-            ?: return failure(Fail.Incident.Bpms.Context.Missing(name = "owner", path = "tender.amendment"))
+        val requestInfo = context.requestInfo
+        val token: Token = requestInfo.token
+            ?: return failure(Fail.Incident.Bpms.Context.Missing(name = "token", path = "requestInfo"))
+        val owner: Owner = requestInfo.owner
 
         return revisionClient.checkAccessToAmendment(
             id = commandId,

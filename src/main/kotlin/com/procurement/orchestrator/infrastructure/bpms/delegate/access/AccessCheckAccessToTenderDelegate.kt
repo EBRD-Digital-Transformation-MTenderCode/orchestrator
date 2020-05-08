@@ -5,7 +5,6 @@ import com.procurement.orchestrator.application.client.AccessClient
 import com.procurement.orchestrator.application.model.Owner
 import com.procurement.orchestrator.application.model.Token
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
-import com.procurement.orchestrator.application.model.context.extension.tryGetTender
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
@@ -46,13 +45,10 @@ class AccessCheckAccessToTenderDelegate(
         val cpid: Cpid = processInfo.cpid
         val ocid: Ocid = processInfo.ocid
 
-        val tender = context.tryGetTender()
-            .orForwardFail { fail -> return fail }
-
-        val token: Token = tender.token
-            ?: return failure(Fail.Incident.Bpms.Context.Missing(name = "token", path = "tender"))
-        val owner: Owner = tender.owner
-            ?: return failure(Fail.Incident.Bpms.Context.Missing(name = "owner", path = "tender"))
+        val requestInfo = context.requestInfo
+        val token: Token = requestInfo.token
+            ?: return failure(Fail.Incident.Bpms.Context.Missing(name = "token", path = "requestInfo"))
+        val owner: Owner = requestInfo.owner
 
         return accessClient.checkAccessToTender(
             id = commandId,

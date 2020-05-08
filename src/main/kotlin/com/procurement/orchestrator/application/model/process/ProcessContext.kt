@@ -9,6 +9,7 @@ class ProcessContext(
     @field:JsonProperty("ocid") @param:JsonProperty("ocid") var ocid: String,
     @field:JsonProperty("operationId") @param:JsonProperty("operationId") val operationId: String,
     @field:JsonProperty("requestId") @param:JsonProperty("requestId") val requestId: String,
+    @field:JsonProperty("owner") @param:JsonProperty("owner") var owner: String,
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonProperty("stage") @param:JsonProperty("stage") val stage: String? = null,
