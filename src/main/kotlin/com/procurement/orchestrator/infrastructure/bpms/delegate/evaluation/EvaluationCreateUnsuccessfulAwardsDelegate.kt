@@ -5,7 +5,6 @@ import com.procurement.orchestrator.application.client.EvaluationClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.getLotsIfNotEmpty
 import com.procurement.orchestrator.application.model.context.extension.tryGetTender
-import com.procurement.orchestrator.application.model.context.members.Outcomes
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
@@ -111,28 +110,7 @@ class EvaluationCreateUnsuccessfulAwardsDelegate(
 
         context.awards = Awards(values = updatedAwards + newAwards)
 
-        updateOutcomes(context = context, data = data)
-
         return MaybeFail.none()
     }
 
-    private fun updateOutcomes(
-        context: CamundaGlobalContext,
-        data: CreateUnsuccessfulAwardsAction.Result
-    ) {
-        val platformId = context.requestInfo.platformId
-        val outcomes = context.outcomes ?: Outcomes()
-        val details = outcomes[platformId] ?: Outcomes.Details()
-
-        val newOutcomes = data
-            .map { unsuccessfulAward ->
-                Outcomes.Details.Award(id = unsuccessfulAward.id)
-            }
-
-        val updatedDetails = details.copy(
-            awards = details.awards + newOutcomes
-        )
-        outcomes[platformId] = updatedDetails
-        context.outcomes = outcomes
-    }
 }
