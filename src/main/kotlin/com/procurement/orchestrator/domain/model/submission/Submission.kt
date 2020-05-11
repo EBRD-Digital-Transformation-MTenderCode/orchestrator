@@ -12,7 +12,7 @@ import com.procurement.orchestrator.domain.model.requirement.response.Requiremen
 import java.io.Serializable
 
 data class Submission(
-    @field:JsonProperty("id") @param:JsonProperty("id") val id: SubmissionId,
+    @field:JsonProperty("id") @param:JsonProperty("id") val id: SubmissionId.Permanent,
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonProperty("owner") @param:JsonProperty("owner") val owner: Owner? = null,
