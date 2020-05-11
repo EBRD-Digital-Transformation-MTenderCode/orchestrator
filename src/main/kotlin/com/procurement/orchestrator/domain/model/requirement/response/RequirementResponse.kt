@@ -40,6 +40,9 @@ data class RequirementResponse(
     @field:JsonProperty("relatedTenderer") @param:JsonProperty("relatedTenderer") val relatedTenderer: OrganizationReference? = null,
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonProperty("relatedCandidate") @param:JsonProperty("relatedCandidate") val relatedCandidate: OrganizationReference? = null,
+
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonProperty("responder") @param:JsonProperty("responder") val responder: Person? = null
 ) : IdentifiableObject<RequirementResponse>, Serializable {
 
@@ -59,6 +62,7 @@ data class RequirementResponse(
         period = period updateBy src.period,
         requirement = requirement updateBy src.requirement,
         relatedTenderer = relatedTenderer updateBy src.relatedTenderer,
-        responder = responder updateBy src.responder
+        responder = responder updateBy src.responder,
+        relatedCandidate = relatedCandidate updateBy src.relatedCandidate
     )
 }

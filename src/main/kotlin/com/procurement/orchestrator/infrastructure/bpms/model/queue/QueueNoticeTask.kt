@@ -13,6 +13,7 @@ import com.procurement.orchestrator.domain.model.award.Awards
 import com.procurement.orchestrator.domain.model.bid.Bids
 import com.procurement.orchestrator.domain.model.contract.Contracts
 import com.procurement.orchestrator.domain.model.party.Parties
+import com.procurement.orchestrator.domain.model.submission.Submissions
 import com.procurement.orchestrator.domain.model.tender.Tender
 import com.procurement.orchestrator.domain.model.updateBy
 import java.time.LocalDateTime
@@ -91,7 +92,10 @@ class QueueNoticeTask(
         @field:JsonProperty("parties") @param:JsonProperty("parties") val parties: Parties = Parties(),
 
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
-        @field:JsonProperty("contracts") @param:JsonProperty("contracts") val contracts: Contracts = Contracts()
+        @field:JsonProperty("contracts") @param:JsonProperty("contracts") val contracts: Contracts = Contracts(),
+
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        @field:JsonProperty("submissions") @param:JsonProperty("submissions") val submissions: Submissions = Submissions()
     )
 
     enum class Action(override val key: String, private val weight: Int) : EnumElementProvider.Key {

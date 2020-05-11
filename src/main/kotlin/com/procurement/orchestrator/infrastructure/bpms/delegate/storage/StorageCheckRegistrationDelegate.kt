@@ -6,7 +6,11 @@ import com.procurement.orchestrator.application.model.context.CamundaGlobalConte
 import com.procurement.orchestrator.application.model.context.extension.getAmendmentsIfNotEmpty
 import com.procurement.orchestrator.application.model.context.extension.getAwardsIfNotEmpty
 import com.procurement.orchestrator.application.model.context.extension.getBusinessFunctionsIfNotEmpty
+import com.procurement.orchestrator.application.model.context.extension.getCandidatesIfNotEmpty
+import com.procurement.orchestrator.application.model.context.extension.getDetailsIfNotEmpty
+import com.procurement.orchestrator.application.model.context.extension.getDetailsIfOnlyOne
 import com.procurement.orchestrator.application.model.context.extension.getDocumentsIfNotEmpty
+import com.procurement.orchestrator.application.model.context.extension.getPersonesIfNotEmpty
 import com.procurement.orchestrator.application.model.context.extension.getRequirementResponseIfOnlyOne
 import com.procurement.orchestrator.application.model.context.extension.getResponder
 import com.procurement.orchestrator.application.service.Logger
@@ -42,7 +46,8 @@ class StorageCheckRegistrationDelegate(
 ) {
     companion object {
         private const val TENDER_ATTRIBUTE_NAME = "tender"
-        private const val BUSINESS_FUNCTIONS_PATH = "awards.requirementResponses.responder"
+        private const val AWARDS_BUSINESS_FUNCTIONS_PATH = "awards.requirementResponses.responder"
+        private const val SUBMISSIONS_BUSINESS_FUNCTIONS_PATH = "submissions.details.candidates.persones"
     }
 
     override fun parameters(parameterContainer: ParameterContainer): Result<Parameters, Fail.Incident.Bpmn.Parameter> {
@@ -90,7 +95,19 @@ class StorageCheckRegistrationDelegate(
             getAwardRequirementResponseDocumentsIds(context, entities)
                 .orForwardFail { fail -> return fail }
 
-        val documentIds: List<DocumentId> = tenderDocuments + amendmentDocuments + awardRequirementResponseDocuments
+        val submissionsDocuments: List<DocumentId> =
+            getSubmissionsDocumentsIds(context, entities)
+                .orForwardFail { fail -> return fail }
+
+        val submissionCandidateDocuments: List<DocumentId> =
+            getSubmissionsCandidateDocumentsIds(context, entities)
+                .orForwardFail { fail -> return fail }
+
+        val documentIds: List<DocumentId> = tenderDocuments.plus(amendmentDocuments)
+            .plus(awardRequirementResponseDocuments)
+            .plus(submissionsDocuments)
+            .plus(submissionCandidateDocuments)
+
         if (documentIds.isEmpty())
             return success(Reply.None)
 
@@ -172,6 +189,79 @@ class StorageCheckRegistrationDelegate(
             null -> emptyList<DocumentId>().asSuccess()
         }
 
+    private fun getSubmissionsDocumentsIds(
+        context: CamundaGlobalContext, entities: Map<EntityKey, EntityValue>
+    ): Result<List<DocumentId>, Fail.Incident> =
+        when (entities[EntityKey.SUBMISSION]) {
+            EntityValue.OPTIONAL -> getSubmissionsDocumentsIdsOptional(context)
+            EntityValue.REQUIRED -> getSubmissionsDocumentsIdsRequired(context)
+                .doOnError { error -> return error.asFailure() }
+            null -> emptyList<DocumentId>().asSuccess()
+        }
+
+    private fun getSubmissionsDocumentsIdsOptional(context: CamundaGlobalContext): Result<List<DocumentId>, Fail.Incident> =
+        context.submissions.details
+            .getOrNull(0)
+            ?.documents
+            ?.map { document -> document.id }
+            .orEmpty()
+            .asSuccess()
+
+
+    private fun getSubmissionsDocumentsIdsRequired(context: CamundaGlobalContext): Result<List<DocumentId>, Fail.Incident> =
+        context.submissions.getDetailsIfOnlyOne()
+            .orForwardFail { fail -> return fail }
+            .getDocumentsIfNotEmpty()
+            .orForwardFail { fail -> return fail }
+            .map { document -> document.id }
+            .asSuccess()
+
+    private fun getSubmissionsCandidateDocumentsIds(
+        context: CamundaGlobalContext, entities: Map<EntityKey, EntityValue>
+    ): Result<List<DocumentId>, Fail.Incident> =
+        when (entities[EntityKey.SUBMISSION_CANDIDATE]) {
+            EntityValue.OPTIONAL -> getSubmissionsCandidateDocumentsIdsOptional(context)
+            EntityValue.REQUIRED -> getSubmissionsCandidateDocumentsIdsRequired(context)
+                .doOnError { error -> return error.asFailure() }
+            null -> emptyList<DocumentId>().asSuccess()
+        }
+
+    private fun getSubmissionsCandidateDocumentsIdsOptional(context: CamundaGlobalContext): Result<List<DocumentId>, Fail.Incident> =
+        context.submissions.details
+            .getOrNull(0)
+            ?.candidates
+            ?.asSequence()
+            ?.flatMap { candidate -> candidate.persons.asSequence() }
+            ?.flatMap { persone -> persone.businessFunctions.asSequence() }
+            ?.flatMap { businessFunction -> businessFunction.documents.asSequence() }
+            ?.map { document -> document.id }
+            ?.toList()
+            .orEmpty()
+            .asSuccess()
+
+    private fun getSubmissionsCandidateDocumentsIdsRequired(context: CamundaGlobalContext): Result<List<DocumentId>, Fail.Incident> =
+        context.submissions.getDetailsIfNotEmpty()
+            .orForwardFail { fail -> return fail }
+            .flatMap { submission ->
+                submission.getCandidatesIfNotEmpty()
+                    .orForwardFail { fail -> return fail }
+            }
+            .flatMap { candidate ->
+                candidate.getPersonesIfNotEmpty()
+                    .orForwardFail { fail -> return fail }
+            }
+            .flatMap { persone ->
+                persone.getBusinessFunctionsIfNotEmpty(path = SUBMISSIONS_BUSINESS_FUNCTIONS_PATH)
+                    .orForwardFail { fail -> return fail }
+            }
+            .flatMap { businessFunction ->
+                businessFunction.getDocumentsIfNotEmpty()
+                    .orForwardFail { fail -> return fail }
+            }
+            .map { document -> document.id }
+            .toList()
+            .asSuccess()
+
     private fun getAwardDocumentsIdsOptional(context: CamundaGlobalContext): Result<List<DocumentId>, Fail.Incident> =
         context.awards
             .asSequence()
@@ -196,7 +286,7 @@ class StorageCheckRegistrationDelegate(
                     .orForwardFail { fail -> return fail }
                     .getResponder()
                     .orForwardFail { fail -> return fail }
-                    .getBusinessFunctionsIfNotEmpty(path = BUSINESS_FUNCTIONS_PATH)
+                    .getBusinessFunctionsIfNotEmpty(path = AWARDS_BUSINESS_FUNCTIONS_PATH)
                     .orForwardFail { fail -> return fail }
                     .flatMap { businessFunction ->
                         businessFunction.getDocumentsIfNotEmpty()
@@ -220,7 +310,9 @@ class StorageCheckRegistrationDelegate(
 
         AMENDMENT("amendment"),
         AWARD_REQUIREMENT_RESPONSE("award.requirementResponse"),
-        TENDER("tender");
+        TENDER("tender"),
+        SUBMISSION("submission"),
+        SUBMISSION_CANDIDATE("submission.candidate");
 
         override fun toString(): String = key
 
