@@ -31,7 +31,6 @@ class ServiceConfiguration(
     fun processService(): ProcessService = ProcessServiceImpl(
         transform = transform,
         processDefinitionRepository = repositoryConfiguration.processDefinitionRepository(),
-        processContextRepository = repositoryConfiguration.processContextRepository(),
         oldProcessContextRepository = repositoryConfiguration.oldProcessContextRepository(),
         processInitializerRepository = repositoryConfiguration.processInitializerRepository(),
         runtimeService = runtimeService
