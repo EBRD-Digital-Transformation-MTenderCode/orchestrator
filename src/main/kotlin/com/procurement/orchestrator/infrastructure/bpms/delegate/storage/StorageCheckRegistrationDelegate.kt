@@ -47,7 +47,7 @@ class StorageCheckRegistrationDelegate(
     companion object {
         private const val TENDER_ATTRIBUTE_NAME = "tender"
         private const val AWARDS_BUSINESS_FUNCTIONS_PATH = "awards.requirementResponses.responder"
-        private const val SUBMISSIONS_BUSINESS_FUNCTIONS_PATH = "submissions.details[*].candidates[*].persones[*]"
+        private const val SUBMISSIONS_BUSINESS_FUNCTIONS_PATH = "submissions.details.candidates.persones"
     }
 
     override fun parameters(parameterContainer: ParameterContainer): Result<Parameters, Fail.Incident.Bpmn.Parameter> {
