@@ -10,6 +10,7 @@ import com.procurement.orchestrator.domain.model.document.Documents
 import com.procurement.orchestrator.domain.model.or
 import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponses
 import java.io.Serializable
+import java.time.LocalDateTime
 
 data class Submission(
     @field:JsonProperty("id") @param:JsonProperty("id") val id: SubmissionId.Permanent,
@@ -19,6 +20,12 @@ data class Submission(
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonProperty("token") @param:JsonProperty("token") val token: Token? = null,
+
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonProperty("date") @param:JsonProperty("date") val date: LocalDateTime? = null,
+
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonProperty("status") @param:JsonProperty("status") val status: SubmissionStatus? = null,
 
     @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
     @field:JsonProperty("requirementResponses") @param:JsonProperty("requirementResponses") val requirementResponses: RequirementResponses = RequirementResponses(),
