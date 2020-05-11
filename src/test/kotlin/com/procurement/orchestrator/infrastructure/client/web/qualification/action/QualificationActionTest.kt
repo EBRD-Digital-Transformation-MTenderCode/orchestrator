@@ -7,6 +7,26 @@ import org.junit.jupiter.api.Test
 class QualificationActionTest {
 
     @Nested
+    inner class CreateSubmission {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CreateSubmissionAction.Params>("json/client/qualification/create_submission_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CreateSubmissionAction.Result>("json/client/qualification/create_submission_result_full.json")
+            }
+        }
+    }
+
+    @Nested
     inner class CheckPeriod {
 
         @Nested
