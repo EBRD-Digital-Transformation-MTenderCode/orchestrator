@@ -2,7 +2,6 @@ package com.procurement.orchestrator.infrastructure.configuration
 
 import com.datastax.driver.core.Session
 import com.procurement.orchestrator.application.repository.OldProcessContextRepository
-import com.procurement.orchestrator.application.repository.ProcessContextRepository
 import com.procurement.orchestrator.application.repository.ProcessDefinitionRepository
 import com.procurement.orchestrator.application.repository.ProcessInitializerRepository
 import com.procurement.orchestrator.application.repository.RuleRepository
@@ -15,7 +14,6 @@ import com.procurement.orchestrator.infrastructure.repository.CassandraErrorDesc
 import com.procurement.orchestrator.infrastructure.repository.CassandraNoticeQueueRepository
 import com.procurement.orchestrator.infrastructure.repository.CassandraOldProcessContextRepository
 import com.procurement.orchestrator.infrastructure.repository.CassandraOperationStepRepository
-import com.procurement.orchestrator.infrastructure.repository.CassandraProcessContextRepository
 import com.procurement.orchestrator.infrastructure.repository.CassandraProcessDefinitionRepository
 import com.procurement.orchestrator.infrastructure.repository.CassandraProcessInitializerRepository
 import com.procurement.orchestrator.infrastructure.repository.CassandraRequestRepository
@@ -47,9 +45,6 @@ class RepositoryConfiguration(private val session: Session) {
     @Bean
     fun processInitializerRepository(): ProcessInitializerRepository =
         CassandraProcessInitializerRepository(session = session)
-
-    @Bean
-    fun processContextRepository(): ProcessContextRepository = CassandraProcessContextRepository(session = session)
 
     @Bean
     fun oldProcessContextRepository(): OldProcessContextRepository =

@@ -60,14 +60,6 @@ CREATE TABLE IF NOT EXISTS orchestrator.launched_processes (
     PRIMARY KEY (operation_id)
 );
 
-CREATE TABLE IF NOT EXISTS orchestrator.process_context (
-    cpid         TEXT,
-    timestamp    TIMESTAMP,
-    operation_id TEXT,
-    context      TEXT,
-    PRIMARY KEY (cpid, timestamp, operation_id)
-) WITH CLUSTERING ORDER BY (timestamp DESC);
-
 CREATE TABLE IF NOT EXISTS orchestrator.error_descriptions (
     code        TEXT,
     language    TEXT,
