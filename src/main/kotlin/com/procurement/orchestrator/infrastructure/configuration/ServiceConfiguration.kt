@@ -1,5 +1,7 @@
 package com.procurement.orchestrator.infrastructure.configuration
 
+import com.procurement.orchestrator.application.service.ProcessLauncher
+import com.procurement.orchestrator.application.service.ProcessLauncherImpl
 import com.procurement.orchestrator.application.service.ProcessService
 import com.procurement.orchestrator.application.service.ProcessServiceImpl
 import com.procurement.orchestrator.application.service.Transform
@@ -56,6 +58,14 @@ class ServiceConfiguration(
 
     @Bean
     fun requirementResponseService(): RequirementResponseService = RequirementResponseServiceImpl(
+        transform = transform,
+        processService = processService(),
+        requestRepository = repositoryConfiguration.requestRepository(),
+        ruleRepository = repositoryConfiguration.ruleRepository()
+    )
+
+    @Bean
+    fun processLauncher(): ProcessLauncher = ProcessLauncherImpl(
         transform = transform,
         processService = processService(),
         requestRepository = repositoryConfiguration.requestRepository(),
