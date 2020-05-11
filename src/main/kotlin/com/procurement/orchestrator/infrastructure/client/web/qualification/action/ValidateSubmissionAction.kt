@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.infrastructure.client.web.qualification.action
 
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.procurement.orchestrator.application.service.ProceduralAction
 import com.procurement.orchestrator.domain.model.Cpid
@@ -18,6 +19,8 @@ abstract class ValidateSubmissionAction : ProceduralAction<ValidateSubmissionAct
         @field:JsonProperty("ocid") @param:JsonProperty("ocid") val ocid: Ocid,
         @field:JsonProperty("id") @param:JsonProperty("id") val id: SubmissionId.Permanent,
         @field:JsonProperty("candidates") @param:JsonProperty("candidates") val candidates: Candidates,
-        @field:JsonProperty("documents") @param:JsonProperty("documents") val documents: Documents
+
+        @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
+        @field:JsonProperty("documents") @param:JsonProperty("documents") val documents: Documents = Documents()
     )
 }
