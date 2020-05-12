@@ -114,7 +114,7 @@ class QualificationCreateSubmissionDelegate(
         val details = outcomes[platformId] ?: Outcomes.Details()
 
         val newOutcomes = data
-            .let { submission -> Outcomes.Details.Submissions(id = submission.id, token = submission.token) }
+            .let { submission -> Outcomes.Details.Submission(id = submission.id, token = submission.token) }
             .asList()
 
         val updatedDetails = details.copy(submissions = newOutcomes)

@@ -20,7 +20,7 @@ class Outcomes(values: MutableMap<PlatformId, Details> = mutableMapOf()) :
         @field:JsonProperty("awards") @param:JsonProperty("awards") val awards: List<Award> = emptyList(),
 
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
-        @field:JsonProperty("submissions") @param:JsonProperty("submissions") val submissions: List<Submissions> = emptyList()
+        @field:JsonProperty("submissions") @param:JsonProperty("submissions") val submissions: List<Submission> = emptyList()
 
     ) : Serializable {
 
@@ -35,7 +35,7 @@ class Outcomes(values: MutableMap<PlatformId, Details> = mutableMapOf()) :
             @field:JsonProperty("id") @param:JsonProperty("id") val id: AwardId
         ) : Serializable
 
-        data class Submissions(
+        data class Submission(
             @field:JsonProperty("id") @param:JsonProperty("id") val id: SubmissionId.Permanent,
             @field:JsonProperty("token") @param:JsonProperty("token") val token: Token
         ) : Serializable
