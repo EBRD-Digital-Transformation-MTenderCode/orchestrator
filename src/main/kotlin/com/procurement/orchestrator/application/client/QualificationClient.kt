@@ -5,6 +5,7 @@ import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckPeriodAction
+import com.procurement.orchestrator.infrastructure.client.web.qualification.action.GetSubmissionStateByIdsAction
 
 interface QualificationClient {
 
@@ -13,4 +14,8 @@ interface QualificationClient {
         params: CheckPeriodAction.Params
     ): Result<Reply<Unit>, Fail.Incident>
 
+    suspend fun getSubmissionStateByIds(
+        id: CommandId,
+        params: GetSubmissionStateByIdsAction.Params
+    ): Result<Reply<GetSubmissionStateByIdsAction.Result>, Fail.Incident>
 }
