@@ -1,0 +1,48 @@
+{
+  "cpid": "ocds-b3wdp1-MD-1580458690892",
+  "ocid": "ocds-b3wdp1-MD-1580458690892-EV-1580458791896",
+  "id": "509f04c0-d5d1-11e8-85b1-337a681d86a2",
+  "candidates": [
+    {
+      "id": "string",
+      "name": "string",
+      "identifier": {
+        "id": "string",
+        "legalName": "string",
+        "scheme": "string",
+        "uri": "string"
+      },
+      "address": {
+        "streetAddress": "string",
+        "postalCode": "string",
+        "addressDetails": {
+          "country": {
+            "id": "string",
+            "description": "string",
+            "scheme": "string"
+          },
+          "region": {
+            "id": "string",
+            "description": "string",
+            "scheme": "string"
+          },
+          "locality": {
+            "id": "string",
+            "description": "string",
+            "scheme": "string"
+          }
+        }
+      },
+      "contactPoint": {
+        "name": "string",
+        "email": "string",
+        "telephone": "string",
+        "faxNumber": "string",
+        "url": "string"
+      },
+      "details": {
+        "scale": "micro"
+      }
+    }
+  ]
+}
