@@ -90,13 +90,14 @@ class QualificationCreateSubmissionDelegate(
 
         context.submissions = Submissions(details = Details(updatedSubmission))
 
-        val parties = data.candidates.map { reference ->
-            Party(
-                id = reference.id,
-                name = reference.name,
-                roles = PartyRoles(PartyRole.CANDIDATE)
-            )
-        }
+        val parties = data.candidates
+            .map { reference ->
+                Party(
+                    id = reference.id,
+                    name = reference.name,
+                    roles = PartyRoles(PartyRole.CANDIDATE)
+                )
+            }
 
         context.parties = Parties(parties)
 
