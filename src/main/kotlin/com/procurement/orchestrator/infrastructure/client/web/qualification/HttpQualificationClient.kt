@@ -8,6 +8,7 @@ import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.WebClient
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckPeriodAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.GetSubmissionStateByIdsAction
+import com.procurement.orchestrator.infrastructure.client.web.qualification.action.ValidateSubmissionAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
 import java.net.URL
 
@@ -31,5 +32,13 @@ class HttpQualificationClient(private val webClient: WebClient, properties: Comp
         url = url,
         command = QualificationCommands.GetSubmissionStateByIds.build(id = id, params = params),
         target = QualificationCommands.GetSubmissionStateByIds.target
+    )
+
+    override suspend fun validateSubmission(
+        id: CommandId,
+        params: ValidateSubmissionAction.Params
+    ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
+        url = url,
+        command = QualificationCommands.ValidateSubmission.build(id = id, params = params)
     )
 }
