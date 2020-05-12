@@ -69,8 +69,9 @@ class QualificationGetSubmissionStateByIdsDelegate(
             .map { submission ->
                 receivedSubmissionsByIds[submission.id]
                     ?.let {
-                        submission.copy()
-                    } ?: submission
+                        submission.copy(status = it.status)
+                    }
+                    ?: submission
             }
 
         context.submissions = Submissions(details = Details(values = updatedSubmission))

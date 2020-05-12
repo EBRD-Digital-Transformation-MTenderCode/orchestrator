@@ -5,6 +5,7 @@ import com.procurement.orchestrator.application.service.FunctionalAction
 import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
 import com.procurement.orchestrator.domain.model.submission.SubmissionId
+import com.procurement.orchestrator.domain.model.submission.SubmissionStatus
 import com.procurement.orchestrator.infrastructure.client.web.Target
 import com.procurement.orchestrator.infrastructure.model.Version
 import java.io.Serializable
@@ -23,8 +24,8 @@ abstract class GetSubmissionStateByIdsAction : FunctionalAction<GetSubmissionSta
     class Result(submissions: List<Submission>) : List<Result.Submission> by submissions, Serializable {
 
         class Submission(
-            @field:JsonProperty("id") @param:JsonProperty("id") val id: SubmissionId
-//        @field:JsonProperty("status") @param:JsonProperty("status") val status: SubmissionStatus
+            @field:JsonProperty("id") @param:JsonProperty("id") val id: SubmissionId,
+            @field:JsonProperty("status") @param:JsonProperty("status") val status: SubmissionStatus
         ) : Serializable
     }
 }
