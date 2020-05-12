@@ -1,0 +1,34 @@
+{
+  "id": "8674b569-5bb9-4d3f-8a5a-dc8d9c9c1592",
+  "date": "2020-03-26T12:36:20Z",
+  "owner": "8674b569-5bb9-4d3f-8a5a-dc8d9c9c1592",
+  "token": "8674b569-5bb9-4d3f-8a5a-dc8d9c9c1592",
+  "status": "pending",
+  "requirementResponses": [
+    {
+      "id": "8674b569-5bb9-4d3f-8a5a-dc8d9c9c1592",
+      "value": "Unknown Type: string,number,integer,boolean",
+      "requirement": {
+        "id": "string"
+      },
+      "relatedCandidate": {
+        "id": "string",
+        "name": "string"
+      }
+    }
+  ],
+  "candidates": [
+    {
+      "id": "string",
+      "name": "string"
+    }
+  ],
+  "documents": [
+    {
+      "documentType": "illustration",
+      "id": "string",
+      "title": "string",
+      "description": "string"
+    }
+  ]
+}
