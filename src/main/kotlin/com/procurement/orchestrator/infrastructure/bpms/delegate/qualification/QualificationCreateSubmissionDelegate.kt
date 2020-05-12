@@ -80,8 +80,6 @@ class QualificationCreateSubmissionDelegate(
 
         val updatedSubmission = submission.copy(
             id = data.id,
-            owner = data.owner,
-            token = data.token,
             date = data.date,
             status = data.status,
             documents = data.documents,
