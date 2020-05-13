@@ -2,8 +2,8 @@ package com.procurement.orchestrator.infrastructure.web.controller
 
 import com.procurement.orchestrator.application.model.OperationId
 import com.procurement.orchestrator.application.service.Logger
-import com.procurement.orchestrator.application.service.response.RequirementResponseDataIn
-import com.procurement.orchestrator.application.service.response.RequirementResponseService
+import com.procurement.orchestrator.application.service.declaration.DeclarationDataIn
+import com.procurement.orchestrator.application.service.declaration.DeclarationService
 import com.procurement.orchestrator.domain.fail.error.RequestErrors
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
@@ -24,10 +24,10 @@ import org.springframework.web.bind.annotation.RestController
 import javax.servlet.http.HttpServletRequest
 
 @RestController
-@RequestMapping("/do/response")
-class RequirementResponseController(
+@RequestMapping("/do/declaration")
+class DeclarationController(
     private val logger: Logger,
-    private val requirementResponseService: RequirementResponseService
+    private val declarationService: DeclarationService
 ) {
     @PostMapping("/{cpid}/{ocid}/{awardId}")
     fun cancelTender(
@@ -40,9 +40,9 @@ class RequirementResponseController(
             .orReturnFail { return@run MaybeFail.fail(it) }
             .also { request ->
                 if (logger.isDebugEnabled)
-                    logger.debug("Request: platform '${request.platformId}', operation-id '${request.operationId}', uri '/do/response/$cpid/$ocid/$awardId', payload '${request.payload}'.")
+                    logger.debug("Request: platform '${request.platformId}', operation-id '${request.operationId}', uri '${servlet.requestURI}', payload '${request.payload}'.")
             }
-        requirementResponseService.declareNoConflictOfInterest(request)
+        declarationService.declareNoConflictOfInterest(request)
     }
         .also { fail -> fail.logging(logger) }
         .buildResponse()
@@ -56,7 +56,7 @@ class RequirementResponseController(
         cpid: String,
         ocid: String,
         awardId: String
-    ): Result<RequirementResponseDataIn.Request, RequestErrors> {
+    ): Result<DeclarationDataIn.Request, RequestErrors> {
 
         val verifiedCpid = Cpid.tryCreateOrNull(cpid)
             ?: return Result.failure(
@@ -96,11 +96,11 @@ class RequirementResponseController(
         val payload = servlet.getPayload()
             .orForwardFail { fail -> return fail }
 
-        return RequirementResponseDataIn
+        return DeclarationDataIn
             .Request(
                 operationId = operationId,
                 platformId = platformId,
-                context = RequirementResponseDataIn.Request.Context(
+                context = DeclarationDataIn.Request.Context(
                     cpid = verifiedCpid,
                     ocid = verifiedOcid,
                     awardId = verifiedAwardId,
