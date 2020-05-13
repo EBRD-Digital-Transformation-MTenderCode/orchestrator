@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController
 import javax.servlet.http.HttpServletRequest
 
 @RestController
-@RequestMapping("/do/response")
+@RequestMapping("/do/declaration")
 class RequirementResponseController(
     private val logger: Logger,
     private val requirementResponseService: RequirementResponseService
