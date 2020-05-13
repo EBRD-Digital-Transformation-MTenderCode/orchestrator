@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController
 import javax.servlet.http.HttpServletRequest
 
 @RestController
-class SubmissionController(
+class CreateSubmissionController(
     private val logger: Logger,
     private val processLauncher: ProcessLauncher
 ) {
