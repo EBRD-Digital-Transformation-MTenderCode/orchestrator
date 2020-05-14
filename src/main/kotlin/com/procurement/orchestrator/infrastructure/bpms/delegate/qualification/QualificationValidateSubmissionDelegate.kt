@@ -14,7 +14,6 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.model.candidate.Candidates
 import com.procurement.orchestrator.domain.model.document.Documents
-import com.procurement.orchestrator.domain.model.submission.SubmissionId
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
@@ -48,8 +47,6 @@ class QualificationValidateSubmissionDelegate(
         val submission = submissions.getDetailsIfOnlyOne()
             .orForwardFail { fail -> return fail }
 
-        val submissionId: SubmissionId.Permanent = submission.id
-
         val submissionCandidates = submission.getCandidatesIfNotEmpty()
             .orForwardFail { fail -> return fail }
 
@@ -63,7 +60,7 @@ class QualificationValidateSubmissionDelegate(
             params = ValidateSubmissionAction.Params(
                 cpid = processInfo.cpid,
                 ocid = processInfo.ocid,
-                id = submissionId,
+                id = submission.id,
                 candidates = Candidates(submissionCandidates),
                 documents = Documents(submissionDocuments)
             )
