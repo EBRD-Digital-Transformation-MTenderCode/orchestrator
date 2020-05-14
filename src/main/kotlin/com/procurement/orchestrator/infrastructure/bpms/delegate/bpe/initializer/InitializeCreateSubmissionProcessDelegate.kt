@@ -2,14 +2,11 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.bpe.initialize
 
 import com.procurement.orchestrator.application.model.context.CamundaContext
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
-import com.procurement.orchestrator.application.model.context.container.PropertyContainer
-import com.procurement.orchestrator.application.model.context.serialize
 import com.procurement.orchestrator.application.repository.ProcessInitializerRepository
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
-import com.procurement.orchestrator.domain.extension.date.nowDefaultUTC
 import com.procurement.orchestrator.domain.fail.Fail
-import com.procurement.orchestrator.domain.functional.Result
+import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.model.address.Address
 import com.procurement.orchestrator.domain.model.address.AddressDetails
 import com.procurement.orchestrator.domain.model.address.country.CountryDetails
@@ -41,71 +38,29 @@ import com.procurement.orchestrator.domain.model.requirement.response.Requiremen
 import com.procurement.orchestrator.domain.model.submission.Details
 import com.procurement.orchestrator.domain.model.submission.Submission
 import com.procurement.orchestrator.domain.model.submission.Submissions
-import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStep
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
-import org.camunda.bpm.engine.delegate.BpmnError
-import org.camunda.bpm.engine.delegate.DelegateExecution
-import org.camunda.bpm.engine.delegate.JavaDelegate
-import org.camunda.bpm.engine.impl.pvm.PvmException
 import org.springframework.stereotype.Component
 
 @Component
 class InitializeCreateSubmissionProcessDelegate(
-    private val logger: Logger,
+    val logger: Logger,
     private val transform: Transform,
-    private val operationStepRepository: OperationStepRepository,
-    private val processInitializerRepository: ProcessInitializerRepository
-) : JavaDelegate {
+    operationStepRepository: OperationStepRepository,
+    processInitializerRepository: ProcessInitializerRepository
+) : AbstractInitializeProcessDelegate(logger, transform, operationStepRepository, processInitializerRepository) {
 
-    override fun execute(execution: DelegateExecution) {
-        val camundaContext = CamundaContext(propertyContainer = propertyContainer(execution))
-        val payload: CreateSubmission.Request.Payload = parsePayload(camundaContext.request.payload)
-            .doOnError { throw BpmnError("Error parsing payload") }
-            .get
+    override fun updateGlobalContext(
+        camundaContext: CamundaContext,
+        globalContext: CamundaGlobalContext
+    ): MaybeFail<Fail.Incident> {
+        val payload: CreateSubmission.Request.Payload =
+            transform.tryDeserialization(camundaContext.request.payload, CreateSubmission.Request.Payload::class.java)
+                .orReturnFail { return MaybeFail.fail(it) }
 
-        val globalContext = CamundaGlobalContext(propertyContainer = propertyContainer(execution))
         globalContext.submissions = buildSubmissions(payload)
 
-        val serializedContext = globalContext.serialize(transform)
-            .orReturnFail { fail -> fail.throwBpmnIncident() }
-
-        val requestInfo = globalContext.requestInfo
-        val processInfo = globalContext.processInfo
-        val processId = execution.processInstanceId
-        val taskId = execution.currentActivityId
-        val stepDate = nowDefaultUTC()
-
-        operationStepRepository
-            .save(
-                step = OperationStep(
-                    cpid = processInfo.cpid,
-                    operationId = requestInfo.operationId,
-                    processId = processId,
-                    taskId = taskId,
-                    stepDate = stepDate,
-                    request = "",
-                    response = "",
-                    context = serializedContext
-                )
-            )
-            .doOnError { fail -> fail.throwBpmnIncident() }
-
-        val launchedProcessInfo = processInitializerRepository
-            .launchProcess(
-                operationId = requestInfo.operationId,
-                timestamp = nowDefaultUTC(),
-                processId = execution.processInstanceId,
-                cpid = processInfo.cpid
-            )
-            .orReturnFail { fail -> fail.throwBpmnIncident() }
-
-        if (!launchedProcessInfo.wasLaunched && launchedProcessInfo.processId != execution.processInstanceId) {
-            throw BpmnError("Attention starting duplicate process.") //TODO BpmnCodeError
-        }
+        return MaybeFail.none()
     }
-
-    private fun parsePayload(payload: String): Result<CreateSubmission.Request.Payload, Fail> =
-        transform.tryDeserialization(payload, CreateSubmission.Request.Payload::class.java)
 
     private fun buildSubmissions(payload: CreateSubmission.Request.Payload): Submissions = Submissions(
         details = Details(
@@ -360,18 +315,4 @@ class InitializeCreateSubmissionProcessDelegate(
                 }
         )
     )
-
-    private fun propertyContainer(execution: DelegateExecution) = object :
-        PropertyContainer {
-        override fun get(name: String): Any? = execution.getVariable(name)
-
-        override fun set(name: String, value: Any) {
-            execution.setVariable(name, value)
-        }
-    }
-
-    private fun Fail.Incident.throwBpmnIncident(): Nothing {
-        logging(logger)
-        throw PvmException("${this.level.name} INCIDENT: '${this.description}'")
-    }
 }
