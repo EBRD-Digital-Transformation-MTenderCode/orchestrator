@@ -3,6 +3,7 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.bpe.initialize
 import com.procurement.orchestrator.application.model.context.CamundaContext
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.container.PropertyContainer
+import com.procurement.orchestrator.application.model.context.members.Errors
 import com.procurement.orchestrator.application.model.context.members.Incident
 import com.procurement.orchestrator.application.model.context.serialize
 import com.procurement.orchestrator.application.repository.ProcessInitializerRepository
@@ -12,6 +13,8 @@ import com.procurement.orchestrator.domain.extension.date.format
 import com.procurement.orchestrator.domain.extension.date.nowDefaultUTC
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
+import com.procurement.orchestrator.infrastructure.bpms.extension.readErrors
+import com.procurement.orchestrator.infrastructure.bpms.extension.writeErrors
 import com.procurement.orchestrator.infrastructure.bpms.extension.writeIncident
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStep
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
@@ -30,6 +33,7 @@ abstract class AbstractInitializeProcessDelegate(
 ) : JavaDelegate {
 
     companion object {
+        private const val VALIDATION_ERROR_CODE = "ValidationError"
         private const val INTERNAL_INCIDENT_CODE = "InternalIncident"
     }
 
@@ -37,13 +41,19 @@ abstract class AbstractInitializeProcessDelegate(
         val camundaContext = CamundaContext(propertyContainer = propertyContainer(execution))
         val globalContext = CamundaGlobalContext(propertyContainer = propertyContainer(execution))
         updateGlobalContext(camundaContext, globalContext)
-            .doOnFail { fail -> execution.throwIncident(fail) }
+            .doOnFail { fail ->
+                when (fail) {
+                    is Fail.Incident.Transform -> throwValidationError(execution = execution, incident = fail)
+                    else -> throwIncident(execution = execution, incident = fail)
+                }
+            }
 
         val serializedContext = globalContext.serialize(transform)
-            .doOnError { fail -> execution.throwIncident(fail) }
+            .doOnError { fail -> throwIncident(execution = execution, incident = fail) }
             .get
         val requestInfo = globalContext.requestInfo
         val processInfo = globalContext.processInfo
+        val timestamp = nowDefaultUTC()
         operationStepRepository
             .save(
                 step = OperationStep(
@@ -51,22 +61,22 @@ abstract class AbstractInitializeProcessDelegate(
                     operationId = requestInfo.operationId,
                     processId = execution.processInstanceId,
                     taskId = execution.currentActivityId,
-                    stepDate = nowDefaultUTC(),
+                    stepDate = timestamp,
                     request = "",
                     response = "",
                     context = serializedContext
                 )
             )
-            .doOnError { fail -> execution.throwIncident(fail) }
+            .doOnError { fail -> throwIncident(execution = execution, incident = fail) }
 
         val launchedProcessInfo = processInitializerRepository
             .launchProcess(
                 operationId = requestInfo.operationId,
-                timestamp = nowDefaultUTC(),
+                timestamp = timestamp,
                 processId = execution.processInstanceId,
                 cpid = processInfo.cpid
             )
-            .orReturnFail { fail -> execution.throwIncident(fail) }
+            .orReturnFail { fail -> throwIncident(execution = execution, incident = fail) }
 
         if (!launchedProcessInfo.wasLaunched && launchedProcessInfo.processId != execution.processInstanceId) {
             throw BpmnError("Attention starting duplicate process.") //TODO BpmnCodeError
@@ -78,8 +88,7 @@ abstract class AbstractInitializeProcessDelegate(
         globalContext: CamundaGlobalContext
     ): MaybeFail<Fail.Incident>
 
-    private fun propertyContainer(execution: DelegateExecution) = object :
-        PropertyContainer {
+    private fun propertyContainer(execution: DelegateExecution) = object : PropertyContainer {
         override fun get(name: String): Any? = execution.getVariable(name)
 
         override fun set(name: String, value: Any) {
@@ -87,11 +96,11 @@ abstract class AbstractInitializeProcessDelegate(
         }
     }
 
-    private fun DelegateExecution.throwIncident(incident: Fail.Incident): Nothing {
+    private fun throwIncident(execution: DelegateExecution, incident: Fail.Incident): Nothing {
         incident.logging(logger)
-        writeIncident(
+        execution.writeIncident(
             Incident(
-                id = this.processInstanceId,
+                id = execution.processInstanceId,
                 date = nowDefaultUTC().format(),
                 level = incident.level.key,
                 service = GlobalProperties.service
@@ -110,6 +119,19 @@ abstract class AbstractInitializeProcessDelegate(
                 )
             )
         )
-        throw BpmnError(INTERNAL_INCIDENT_CODE, this.currentActivityId)
+        throw BpmnError(INTERNAL_INCIDENT_CODE, execution.currentActivityId)
+    }
+
+    private fun throwValidationError(execution: DelegateExecution, incident: Fail.Incident.Transform): Nothing {
+        incident.logging(logger)
+        val newErrors = listOf(
+            Errors.Error(
+                code = incident.code,
+                description = incident.description,
+                details = listOf()
+            )
+        )
+        execution.writeErrors(execution.readErrors() + newErrors)
+        throw BpmnError(VALIDATION_ERROR_CODE)
     }
 }
