@@ -10,7 +10,7 @@ import java.io.Serializable
 import java.time.LocalDateTime
 
 data class Submission(
-    @field:JsonProperty("id") @param:JsonProperty("id") val id: SubmissionId.Permanent,
+    @field:JsonProperty("id") @param:JsonProperty("id") val id: SubmissionId,
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonProperty("date") @param:JsonProperty("date") val date: LocalDateTime? = null,
