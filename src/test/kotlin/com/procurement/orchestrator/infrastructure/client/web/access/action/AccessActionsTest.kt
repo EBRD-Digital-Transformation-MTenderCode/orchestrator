@@ -19,23 +19,23 @@ class AccessActionsTest {
     }
 
     @Nested
-    inner class CheckPersonsStructure {
+    inner class VerifyRequirementResponse {
 
         @Nested
         inner class Params {
             @Test
             fun fully() {
-                testingBindingAndMapping<CheckPersonesStructureAction.Params>("json/client/access/check_persons_structure_params_full.json")
+                testingBindingAndMapping<VerifyRequirementResponseAction.Params>("json/client/access/verify_requirement_response_params_full.json")
             }
 
             @Test
             fun required1() {
-                testingBindingAndMapping<CheckPersonesStructureAction.Params>("json/client/access/check_persons_structure_params_required_1.json")
+                testingBindingAndMapping<VerifyRequirementResponseAction.Params>("json/client/access/verify_requirement_response_params_required_1.json")
             }
 
             @Test
             fun required2() {
-                testingBindingAndMapping<CheckPersonesStructureAction.Params>("json/client/access/check_persons_structure_params_required_2.json")
+                testingBindingAndMapping<VerifyRequirementResponseAction.Params>("json/client/access/verify_requirement_response_params_required_2.json")
             }
         }
     }
