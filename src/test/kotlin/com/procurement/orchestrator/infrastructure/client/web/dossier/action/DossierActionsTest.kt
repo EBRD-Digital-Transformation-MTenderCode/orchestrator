@@ -59,4 +59,16 @@ class DossierActionsTest {
             }
         }
     }
+
+    @Nested
+    inner class CheckPeriod {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CheckPeriodAction.Params>("json/client/dossier/check_period_params_full.json")
+            }
+        }
+    }
 }
