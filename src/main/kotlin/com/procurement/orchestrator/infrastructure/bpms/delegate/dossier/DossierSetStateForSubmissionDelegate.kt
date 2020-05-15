@@ -1,7 +1,7 @@
-package com.procurement.orchestrator.infrastructure.bpms.delegate.qualification
+package com.procurement.orchestrator.infrastructure.bpms.delegate.dossier
 
 import com.procurement.orchestrator.application.CommandId
-import com.procurement.orchestrator.application.client.QualificationClient
+import com.procurement.orchestrator.application.client.DossierClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.getDetailsIfOnlyOne
 import com.procurement.orchestrator.application.service.Logger
@@ -18,16 +18,16 @@ import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExterna
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
-import com.procurement.orchestrator.infrastructure.client.web.qualification.action.SetStateForSubmissionAction
+import com.procurement.orchestrator.infrastructure.client.web.dossier.action.SetStateForSubmissionAction
 import org.springframework.stereotype.Component
 
 @Component
-class QualificationSetStateForSubmissionDelegate(
+class DossierSetStateForSubmissionDelegate(
     logger: Logger,
-    private val qualificationClient: QualificationClient,
+    private val dossierClient: DossierClient,
     operationStepRepository: OperationStepRepository,
     transform: Transform
-) : AbstractExternalDelegate<QualificationSetStateForSubmissionDelegate.Parameters, SetStateForSubmissionAction.Result>(
+) : AbstractExternalDelegate<DossierSetStateForSubmissionDelegate.Parameters, SetStateForSubmissionAction.Result>(
     logger = logger,
     transform = transform,
     operationStepRepository = operationStepRepository
@@ -50,7 +50,9 @@ class QualificationSetStateForSubmissionDelegate(
                         )
                     )
             }
-        return Parameters(status = status)
+        return Parameters(
+            status = status
+        )
             .asSuccess()
     }
 
@@ -66,7 +68,7 @@ class QualificationSetStateForSubmissionDelegate(
             .getDetailsIfOnlyOne()
             .orForwardFail { fail -> return fail }
 
-        return qualificationClient.setStateForSubmission(
+        return dossierClient.setStateForSubmission(
             id = commandId,
             params = SetStateForSubmissionAction.Params(
                 cpid = processInfo.cpid,

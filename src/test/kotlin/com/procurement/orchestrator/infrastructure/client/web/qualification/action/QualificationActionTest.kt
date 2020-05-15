@@ -70,24 +70,4 @@ class QualificationActionTest {
         }
     }
 
-    @Nested
-    inner class SetStateForSubmission {
-
-        @Nested
-        inner class Params {
-            @Test
-            fun fully() {
-                testingBindingAndMapping<SetStateForSubmissionAction.Params>("json/client/qualification/set_state_for_submission_params_full.json")
-            }
-        }
-
-        @Nested
-        inner class Result {
-            @Test
-            fun fully() {
-                testingBindingAndMapping<SetStateForSubmissionAction.Result>("json/client/qualification/set_state_for_submission_result_full.json")
-            }
-        }
-    }
-
 }
