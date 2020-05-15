@@ -2,6 +2,8 @@ package com.procurement.orchestrator.infrastructure.client.web.access.action
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.procurement.orchestrator.application.service.ProceduralAction
 import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
@@ -9,20 +11,29 @@ import com.procurement.orchestrator.domain.model.document.DocumentId
 import com.procurement.orchestrator.domain.model.document.DocumentType
 import com.procurement.orchestrator.domain.model.organization.person.BusinessFunctionId
 import com.procurement.orchestrator.domain.model.organization.person.BusinessFunctionType
+import com.procurement.orchestrator.domain.model.requirement.RequirementId
+import com.procurement.orchestrator.domain.model.requirement.RequirementResponseValue
+import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponseId
+import com.procurement.orchestrator.infrastructure.bind.criteria.requirement.value.RequirementValueDeserializer
+import com.procurement.orchestrator.infrastructure.bind.criteria.requirement.value.RequirementValueSerializer
 import com.procurement.orchestrator.infrastructure.model.Version
 import java.time.LocalDateTime
 
-abstract class CheckPersonesStructureAction : ProceduralAction<CheckPersonesStructureAction.Params> {
+abstract class VerifyRequirementResponseAction : ProceduralAction<VerifyRequirementResponseAction.Params> {
     override val version: Version = Version.parse("2.0.0")
-    override val name: String = "checkPersonesStructure"
+    override val name: String = "verifyRequirementResponse"
 
     class Params(
         @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid,
         @field:JsonProperty("ocid") @param:JsonProperty("ocid") val ocid: Ocid,
-        @field:JsonProperty("locationOfPersones") @param:JsonProperty("locationOfPersones") val locationOfPersons: String,
+        @field:JsonProperty("requirementResponseId") @param:JsonProperty("requirementResponseId") val requirementResponseId: RequirementResponseId,
+        @field:JsonProperty("requirementId") @param:JsonProperty("requirementId") val requirementId: RequirementId,
 
-        @JsonInclude(JsonInclude.Include.NON_EMPTY)
-        @field:JsonProperty("persones") @param:JsonProperty("persones") val persons: List<Person>
+        @JsonDeserialize(using = RequirementValueDeserializer::class)
+        @JsonSerialize(using = RequirementValueSerializer::class)
+        @field:JsonProperty("value") @param:JsonProperty("value") val value: RequirementResponseValue,
+
+        @field:JsonProperty("responder") @param:JsonProperty("responder") val responder: Person
     ) {
 
         class Person(

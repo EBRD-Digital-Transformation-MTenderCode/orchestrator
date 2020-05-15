@@ -7,7 +7,6 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.WebClient
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckAccessToTenderAction
-import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckPersonesStructureAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindLotIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotStateByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetOrganizationAction
@@ -15,6 +14,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.GetT
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ResponderProcessingAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForLotsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForTenderAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.VerifyRequirementResponseAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
 import java.net.URL
 
@@ -49,12 +49,12 @@ class HttpAccessClient(private val webClient: WebClient, properties: ComponentPr
         command = AccessCommands.CheckAccessToTender.build(id = id, params = params)
     )
 
-    override suspend fun checkPersonsStructure(
+    override suspend fun verifyRequirementResponse(
         id: CommandId,
-        params: CheckPersonesStructureAction.Params
+        params: VerifyRequirementResponseAction.Params
     ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
         url = url,
-        command = AccessCommands.CheckPersonesStructure.build(id = id, params = params)
+        command = AccessCommands.VerifyRequirementResponse.build(id = id, params = params)
     )
 
     override suspend fun responderProcessing(

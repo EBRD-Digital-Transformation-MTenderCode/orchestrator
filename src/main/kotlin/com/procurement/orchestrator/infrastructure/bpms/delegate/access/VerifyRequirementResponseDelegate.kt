@@ -5,106 +5,88 @@ import com.procurement.orchestrator.application.client.AccessClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.getAwardIfOnlyOne
 import com.procurement.orchestrator.application.model.context.extension.getRequirementResponseIfOnlyOne
+import com.procurement.orchestrator.application.model.context.extension.getResponder
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
-import com.procurement.orchestrator.domain.EnumElementProvider
-import com.procurement.orchestrator.domain.EnumElementProvider.Companion.keysAsStrings
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
-import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
-import com.procurement.orchestrator.domain.util.extension.asList
+import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponse
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
-import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckPersonesStructureAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.VerifyRequirementResponseAction
 import org.springframework.stereotype.Component
 
 @Component
-class AccessCheckPersonesStructureDelegate(
+class VerifyRequirementResponseDelegate(
     logger: Logger,
     private val accessClient: AccessClient,
     operationStepRepository: OperationStepRepository,
     transform: Transform
-) : AbstractExternalDelegate<AccessCheckPersonesStructureDelegate.Parameters, Unit>(
+) : AbstractExternalDelegate<Unit, Unit>(
     logger = logger,
     transform = transform,
     operationStepRepository = operationStepRepository
 ) {
 
-    companion object {
-        private const val PARAMETER_NAME_LOCATION = "location"
-    }
-
-    override fun parameters(parameterContainer: ParameterContainer): Result<Parameters, Fail.Incident.Bpmn.Parameter> {
-        val location: Location = parameterContainer.getString(PARAMETER_NAME_LOCATION)
-            .orForwardFail { fail -> return fail }
-            .let {
-                Location.orNull(it)
-                    ?: return failure(
-                        Fail.Incident.Bpmn.Parameter.UnknownValue(
-                            name = PARAMETER_NAME_LOCATION,
-                            expectedValues = Location.allowedElements.keysAsStrings(),
-                            actualValue = it
-                        )
-                    )
-            }
-
-        return success(Parameters(location = location))
-    }
+    override fun parameters(parameterContainer: ParameterContainer): Result<Unit, Fail.Incident.Bpmn.Parameter> =
+        success(Unit)
 
     override suspend fun execute(
         commandId: CommandId,
         context: CamundaGlobalContext,
-        parameters: Parameters
+        parameters: Unit
     ): Result<Reply<Unit>, Fail.Incident> {
 
         val processInfo = context.processInfo
         val cpid: Cpid = processInfo.cpid
         val ocid: Ocid = processInfo.ocid
 
-        val persons = when (parameters.location) {
-            Location.AWARD -> buildPersonsForAward(context)
-            else -> failure(Fail.Incident.Bpe(description = "Parameter location: '${parameters.location}' of delegate do not implemented."))
-        }
-            .orForwardFail { fail -> return fail }
+        val award = context.getAwardIfOnlyOne()
+            .orForwardFail { error -> return error }
 
-        return accessClient.checkPersonsStructure(
+        val requirementResponse = award.getRequirementResponseIfOnlyOne()
+            .orForwardFail { error -> return error }
+
+        val responder = convertResponder(requirementResponse)
+            .orForwardFail { error -> return error }
+
+        return accessClient.verifyRequirementResponse(
             id = commandId,
-            params = CheckPersonesStructureAction.Params(
+            params = VerifyRequirementResponseAction.Params(
                 cpid = cpid,
                 ocid = ocid,
-                locationOfPersons = parameters.location.key,
-                persons = persons
+                requirementResponseId = requirementResponse.id,
+                value = requirementResponse.value!!,
+                responder = responder,
+                requirementId = requirementResponse.requirement!!.id
             )
         )
     }
 
     override fun updateGlobalContext(
         context: CamundaGlobalContext,
-        parameters: Parameters,
+        parameters: Unit,
         data: Unit
     ): MaybeFail<Fail.Incident.Bpmn> = MaybeFail.none()
 
-    private fun buildPersonsForAward(context: CamundaGlobalContext): Result<List<CheckPersonesStructureAction.Params.Person>, Fail.Incident> {
-        val award = context.getAwardIfOnlyOne()
-            .orForwardFail { fail -> return fail }
+    private fun convertResponder(requirementResponse: RequirementResponse)
+        : Result<VerifyRequirementResponseAction.Params.Person, Fail.Incident> {
 
-        val requirementResponse = award.getRequirementResponseIfOnlyOne()
-            .orForwardFail { fail -> return fail }
-
-        val persons = requirementResponse.responder
-            ?.let { responder ->
-                CheckPersonesStructureAction.Params.Person(
+        val responder = requirementResponse.getResponder()
+            .orForwardFail { error -> return error }
+            .let { responder ->
+                VerifyRequirementResponseAction.Params.Person(
                     title = responder.title,
                     name = responder.name,
                     identifier = responder.identifier
                         .let { identifier ->
-                            CheckPersonesStructureAction.Params.Person.Identifier(
+                            VerifyRequirementResponseAction.Params.Person.Identifier(
                                 scheme = identifier.scheme,
                                 id = identifier.id,
                                 uri = identifier.uri
@@ -112,19 +94,19 @@ class AccessCheckPersonesStructureDelegate(
                         },
                     businessFunctions = responder.businessFunctions
                         .map { businessFunction ->
-                            CheckPersonesStructureAction.Params.Person.BusinessFunction(
+                            VerifyRequirementResponseAction.Params.Person.BusinessFunction(
                                 id = businessFunction.id,
                                 type = businessFunction.type,
                                 jobTitle = businessFunction.jobTitle,
                                 period = businessFunction.period
                                     ?.let { period ->
-                                        CheckPersonesStructureAction.Params.Person.BusinessFunction.Period(
+                                        VerifyRequirementResponseAction.Params.Person.BusinessFunction.Period(
                                             startDate = period.startDate
                                         )
                                     },
                                 documents = businessFunction.documents
                                     .map { document ->
-                                        CheckPersonesStructureAction.Params.Person.BusinessFunction.Document(
+                                        VerifyRequirementResponseAction.Params.Person.BusinessFunction.Document(
                                             documentType = document.documentType,
                                             id = document.id,
                                             title = document.title,
@@ -135,26 +117,7 @@ class AccessCheckPersonesStructureDelegate(
                         }
                 )
             }
-            ?.asList()
-            .orEmpty()
 
-        return success(persons)
-    }
-
-    class Parameters(
-        val location: Location
-    )
-
-    enum class Location(override val key: String) : EnumElementProvider.Key {
-
-        AWARD("award"),
-        BUYER("buyer"),
-        PROCURING_ENTITY("procuringEntity"),
-        SUPPLIERS("suppliers"),
-        TENDERERS("tenderers");
-
-        override fun toString(): String = key
-
-        companion object : EnumElementProvider<Location>(info = info())
+        return success(responder)
     }
 }
