@@ -1,7 +1,7 @@
-package com.procurement.orchestrator.infrastructure.bpms.delegate.qualification
+package com.procurement.orchestrator.infrastructure.bpms.delegate.dossier
 
 import com.procurement.orchestrator.application.CommandId
-import com.procurement.orchestrator.application.client.QualificationClient
+import com.procurement.orchestrator.application.client.DossierClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.getDetailsIfNotEmpty
 import com.procurement.orchestrator.application.service.Logger
@@ -15,13 +15,13 @@ import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExterna
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
-import com.procurement.orchestrator.infrastructure.client.web.qualification.action.GetSubmissionStateByIdsAction
+import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetSubmissionStateByIdsAction
 import org.springframework.stereotype.Component
 
 @Component
-class QualificationGetSubmissionStateByIdsDelegate(
+class DossierGetSubmissionStateByIdsDelegate(
     logger: Logger,
-    private val qualificationClient: QualificationClient,
+    private val dossierClient: DossierClient,
     operationStepRepository: OperationStepRepository,
     transform: Transform
 ) : AbstractExternalDelegate<Unit, GetSubmissionStateByIdsAction.Result>(
@@ -43,7 +43,7 @@ class QualificationGetSubmissionStateByIdsDelegate(
         val submissions = context.submissions.getDetailsIfNotEmpty()
             .orForwardFail { fail -> return fail }
 
-        return qualificationClient.getSubmissionStateByIds(
+        return dossierClient.getSubmissionStateByIds(
             id = commandId,
             params = GetSubmissionStateByIdsAction.Params(
                 cpid = processInfo.cpid,
