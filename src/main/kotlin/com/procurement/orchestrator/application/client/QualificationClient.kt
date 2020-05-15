@@ -5,7 +5,6 @@ import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CreateSubmissionAction
-import com.procurement.orchestrator.infrastructure.client.web.qualification.action.ValidateSubmissionAction
 
 interface QualificationClient {
 
@@ -13,10 +12,5 @@ interface QualificationClient {
         id: CommandId,
         params: CreateSubmissionAction.Params
     ): Result<Reply<CreateSubmissionAction.Result>, Fail.Incident>
-
-    suspend fun validateSubmission(
-        id: CommandId,
-        params: ValidateSubmissionAction.Params
-    ): Result<Reply<Unit>, Fail.Incident>
 
 }

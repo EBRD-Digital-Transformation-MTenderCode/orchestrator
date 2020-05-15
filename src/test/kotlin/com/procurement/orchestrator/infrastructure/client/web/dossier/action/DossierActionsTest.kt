@@ -27,4 +27,36 @@ class DossierActionsTest {
             }
         }
     }
+
+    @Nested
+    inner class ValidateSubmission {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<ValidateSubmissionAction.Params>("json/client/dossier/validate_submission_params_full.json")
+            }
+
+            @Test
+            fun required_1() {
+                testingBindingAndMapping<ValidateSubmissionAction.Params>("json/client/dossier/validate_submission_params_required_1.json")
+            }
+
+            @Test
+            fun required_2() {
+                testingBindingAndMapping<ValidateSubmissionAction.Params>("json/client/dossier/validate_submission_params_required_2.json")
+            }
+
+            @Test
+            fun required_3() {
+                testingBindingAndMapping<ValidateSubmissionAction.Params>("json/client/dossier/validate_submission_params_required_3.json")
+            }
+
+            @Test
+            fun required_4() {
+                testingBindingAndMapping<ValidateSubmissionAction.Params>("json/client/dossier/validate_submission_params_required_4.json")
+            }
+        }
+    }
 }
