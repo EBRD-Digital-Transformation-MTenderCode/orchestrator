@@ -7,6 +7,7 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.WebClient
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.CheckPeriodAction
+import com.procurement.orchestrator.infrastructure.client.web.dossier.action.CreateSubmissionAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.ValidateRequirementResponseAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.ValidateSubmissionAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
@@ -40,4 +41,14 @@ class HttpDossierClient(private val webClient: WebClient, properties: ComponentP
         url = url,
         command = DossierCommands.ValidateSubmission.build(id = id, params = params)
     )
+
+    override suspend fun createSubmission(
+        id: CommandId,
+        params: CreateSubmissionAction.Params
+    ): Result<Reply<CreateSubmissionAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = DossierCommands.CreateSubmission.build(id = id, params = params),
+        target = DossierCommands.CreateSubmission.target
+    )
+
 }

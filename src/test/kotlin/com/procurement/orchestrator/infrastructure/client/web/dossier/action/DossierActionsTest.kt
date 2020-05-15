@@ -71,4 +71,25 @@ class DossierActionsTest {
             }
         }
     }
+
+    @Nested
+    inner class CreateSubmission {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CreateSubmissionAction.Params>("json/client/dossier/create_submission_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CreateSubmissionAction.Result>("json/client/dossier/create_submission_result_full.json")
+            }
+        }
+    }
+
 }

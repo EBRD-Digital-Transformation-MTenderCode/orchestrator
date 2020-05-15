@@ -1,12 +1,7 @@
 package com.procurement.orchestrator.infrastructure.client.web.qualification
 
-import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.QualificationClient
-import com.procurement.orchestrator.domain.fail.Fail
-import com.procurement.orchestrator.domain.functional.Result
-import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.WebClient
-import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CreateSubmissionAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
 import java.net.URL
 
@@ -15,12 +10,4 @@ class HttpQualificationClient(private val webClient: WebClient, properties: Comp
 
     private val url: URL = URL(properties.url + "/command2")
 
-    override suspend fun createSubmission(
-        id: CommandId,
-        params: CreateSubmissionAction.Params
-    ): Result<Reply<CreateSubmissionAction.Result>, Fail.Incident> = webClient.call(
-        url = url,
-        command = QualificationCommands.CreateSubmission.build(id = id, params = params),
-        target = QualificationCommands.CreateSubmission.target
-    )
 }

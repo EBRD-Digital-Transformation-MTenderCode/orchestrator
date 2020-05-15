@@ -1,7 +1,7 @@
-package com.procurement.orchestrator.infrastructure.bpms.delegate.qualification
+package com.procurement.orchestrator.infrastructure.bpms.delegate.dossier
 
 import com.procurement.orchestrator.application.CommandId
-import com.procurement.orchestrator.application.client.QualificationClient
+import com.procurement.orchestrator.application.client.DossierClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.getDetailsIfOnlyOne
 import com.procurement.orchestrator.application.model.context.members.Outcomes
@@ -23,13 +23,13 @@ import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExterna
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
-import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CreateSubmissionAction
+import com.procurement.orchestrator.infrastructure.client.web.dossier.action.CreateSubmissionAction
 import org.springframework.stereotype.Component
 
 @Component
-class QualificationCreateSubmissionDelegate(
+class DossierCreateSubmissionDelegate(
     logger: Logger,
-    private val client: QualificationClient,
+    private val client: DossierClient,
     operationStepRepository: OperationStepRepository,
     transform: Transform
 ) : AbstractExternalDelegate<Unit, CreateSubmissionAction.Result>(
