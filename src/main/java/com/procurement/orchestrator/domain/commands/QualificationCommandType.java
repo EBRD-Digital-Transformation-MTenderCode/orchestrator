@@ -1,11 +1,12 @@
 package com.procurement.orchestrator.domain.commands;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.procurement.orchestrator.exception.EnumException;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public enum QualificationCommandType {
 
@@ -16,8 +17,7 @@ public enum QualificationCommandType {
     SET_FINAL_STATUSES("setFinalStatuses"),
     PREPARE_CANCELLATION("prepareCancellation"),
     AWARDS_CANCELLATION("awardsCancellation"),
-    SAVE_PERIOD("savePeriod"),
-    VALIDATE_PERIOD("validatePeriod");
+    SAVE_PERIOD("savePeriod");
 
     private static final Map<String, QualificationCommandType> CONSTANTS = new HashMap<>();
     private final String value;
