@@ -1,7 +1,7 @@
-package com.procurement.orchestrator.infrastructure.bpms.delegate.qualification
+package com.procurement.orchestrator.infrastructure.bpms.delegate.dossier
 
 import com.procurement.orchestrator.application.CommandId
-import com.procurement.orchestrator.application.client.QualificationClient
+import com.procurement.orchestrator.application.client.DossierClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.getDetailsIfOnlyOne
 import com.procurement.orchestrator.application.model.context.extension.tryGetToken
@@ -14,13 +14,13 @@ import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExterna
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
-import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckAccessToSubmissionAction
+import com.procurement.orchestrator.infrastructure.client.web.dossier.action.CheckAccessToSubmissionAction
 import org.springframework.stereotype.Component
 
 @Component
-class QualificationCheckAccessToSubmissionDelegate(
+class DossierCheckAccessToSubmissionDelegate(
     logger: Logger,
-    private val qualificationClient: QualificationClient,
+    private val dossierClient: DossierClient,
     operationStepRepository: OperationStepRepository,
     transform: Transform
 ) : AbstractExternalDelegate<Unit, Unit>(
@@ -46,7 +46,7 @@ class QualificationCheckAccessToSubmissionDelegate(
         val token = requestInfo.tryGetToken()
             .orForwardFail { fail -> return fail }
 
-        return qualificationClient.checkAccessToSubmission(
+        return dossierClient.checkAccessToSubmission(
             id = commandId,
             params = CheckAccessToSubmissionAction.Params(
                 cpid = processInfo.cpid,

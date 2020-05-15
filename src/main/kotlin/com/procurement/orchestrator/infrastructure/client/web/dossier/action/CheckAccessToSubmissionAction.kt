@@ -1,4 +1,4 @@
-package com.procurement.orchestrator.infrastructure.client.web.qualification.action
+package com.procurement.orchestrator.infrastructure.client.web.dossier.action
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.procurement.orchestrator.application.model.Owner
