@@ -6,6 +6,7 @@ import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.WebClient
+import com.procurement.orchestrator.infrastructure.client.web.dossier.action.CheckPeriodAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.ValidateRequirementResponseAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
 import java.net.URL
@@ -21,5 +22,13 @@ class HttpDossierClient(private val webClient: WebClient, properties: ComponentP
     ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
         url = url,
         command = DossierCommands.ValidateRequirementResponse.build(id = id, params = params)
+    )
+
+    override suspend fun checkPeriod(
+        id: CommandId,
+        params: CheckPeriodAction.Params
+    ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
+        url = url,
+        command = DossierCommands.CheckPeriod.build(id = id, params = params)
     )
 }
