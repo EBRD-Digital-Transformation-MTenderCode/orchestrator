@@ -27,7 +27,7 @@ class BpeCreateIdsDelegate(
     logger: Logger,
     operationStepRepository: OperationStepRepository,
     transform: Transform
-) : AbstractInternalDelegate<Parameters, Response>(
+) : AbstractInternalDelegate<BpeCreateIdsDelegate.Parameters, BpeCreateIdsDelegate.Response>(
     logger = logger,
     transform = transform,
     operationStepRepository = operationStepRepository
@@ -61,10 +61,10 @@ class BpeCreateIdsDelegate(
 
         val response = when (parameters.location) {
             Location.AWARD_REQUIREMENT_RESPONSE -> {
-                Response()
+                Response.RequirementResponseDetails()
             }
             Location.TENDER_AMENDMENT -> {
-                Response()
+                Response.AmendmentDetails()
             }
             Location.SUBMISSION_DETAILS -> {
 
@@ -80,7 +80,7 @@ class BpeCreateIdsDelegate(
                     }
                     .toMap()
 
-                Response(submissionsIds = submissionsIds)
+                Response.SubmissionDetails(submissionsIds = submissionsIds)
             }
         }
 
@@ -100,6 +100,7 @@ class BpeCreateIdsDelegate(
             Location.TENDER_AMENDMENT -> {
             }
             Location.SUBMISSION_DETAILS -> {
+                data as Response.SubmissionDetails
                 val submissions = context.submissions.details
 
                 val updatedSubmissions = Submissions(
@@ -117,23 +118,32 @@ class BpeCreateIdsDelegate(
 
         return MaybeFail.none()
     }
-}
 
-class Response(
-    val requirementResponsesIds: Map<RequirementResponseId.Temporal, RequirementResponseId.Permanent> = emptyMap(),
-    val amendmentsIds: Map<AmendmentId.Temporal, AmendmentId.Permanent> = emptyMap(),
-    val submissionsIds: Map<SubmissionId.Temporal, SubmissionId.Permanent> = emptyMap()
-)
+    sealed class Response {
 
-class Parameters(val location: Location)
+        class RequirementResponseDetails(
+            val requirementResponsesIds: Map<RequirementResponseId.Temporal, RequirementResponseId.Permanent> = emptyMap()
+        ) : Response()
 
-enum class Location(override val key: String) : EnumElementProvider.Key {
+        class AmendmentDetails(
+            val amendmentsIds: Map<AmendmentId.Temporal, AmendmentId.Permanent> = emptyMap()
+        ) : Response()
 
-    AWARD_REQUIREMENT_RESPONSE("award.requirementResponse"),
-    TENDER_AMENDMENT("tender.amendment"),
-    SUBMISSION_DETAILS("submission");
+        class SubmissionDetails(
+            val submissionsIds: Map<SubmissionId.Temporal, SubmissionId.Permanent> = emptyMap()
+        ) : Response()
+    }
 
-    override fun toString(): String = key
+    class Parameters(val location: Location)
 
-    companion object : EnumElementProvider<Location>(info = info())
+    enum class Location(override val key: String) : EnumElementProvider.Key {
+
+        AWARD_REQUIREMENT_RESPONSE("award.requirementResponse"),
+        TENDER_AMENDMENT("tender.amendment"),
+        SUBMISSION_DETAILS("submission");
+
+        override fun toString(): String = key
+
+        companion object : EnumElementProvider<Location>(info = info())
+    }
 }
