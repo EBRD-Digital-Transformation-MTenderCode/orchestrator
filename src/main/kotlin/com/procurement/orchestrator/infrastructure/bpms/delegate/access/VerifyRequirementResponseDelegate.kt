@@ -5,6 +5,7 @@ import com.procurement.orchestrator.application.client.AccessClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.getAwardIfOnlyOne
 import com.procurement.orchestrator.application.model.context.extension.getRequirementResponseIfOnlyOne
+import com.procurement.orchestrator.application.model.context.extension.getResponder
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
@@ -52,7 +53,7 @@ class VerifyRequirementResponseDelegate(
         val requirementResponse = award.getRequirementResponseIfOnlyOne()
             .orForwardFail { error -> return error }
 
-        val responder = convertResponder(context, requirementResponse)
+        val responder = convertResponder(requirementResponse)
             .orForwardFail { error -> return error }
 
         return accessClient.verifyRequirementResponse(
@@ -74,12 +75,11 @@ class VerifyRequirementResponseDelegate(
         data: Unit
     ): MaybeFail<Fail.Incident.Bpmn> = MaybeFail.none()
 
-    private fun convertResponder(
-        context: CamundaGlobalContext,
-        requirementResponse: RequirementResponse
-    ): Result<VerifyRequirementResponseAction.Params.Person, Fail.Incident> {
+    private fun convertResponder(requirementResponse: RequirementResponse)
+        : Result<VerifyRequirementResponseAction.Params.Person, Fail.Incident> {
 
-        val responder  = requirementResponse.responder!!
+        val responder = requirementResponse.getResponder()
+            .orForwardFail { error -> return error }
             .let { responder ->
                 VerifyRequirementResponseAction.Params.Person(
                     title = responder.title,
