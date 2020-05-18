@@ -11,11 +11,11 @@ import com.procurement.orchestrator.domain.EnumElementProvider.Companion.keysAsS
 import com.procurement.orchestrator.domain.extension.amendmentIds
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
+import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.model.amendment.Amendment
-import com.procurement.orchestrator.domain.model.amendment.AmendmentId
 import com.procurement.orchestrator.domain.model.amendment.AmendmentRelatesTo
 import com.procurement.orchestrator.domain.model.amendment.AmendmentStatus
 import com.procurement.orchestrator.domain.model.amendment.AmendmentType
@@ -26,6 +26,7 @@ import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExterna
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
+import com.procurement.orchestrator.infrastructure.client.web.revision.RevisionCommands
 import com.procurement.orchestrator.infrastructure.client.web.revision.action.FindAmendmentIdsAction
 import org.springframework.stereotype.Component
 
@@ -35,7 +36,7 @@ class RevisionFindAmendmentIdsDelegate(
     private val client: RevisionClient,
     operationStepRepository: OperationStepRepository,
     transform: Transform
-) : AbstractExternalDelegate<RevisionFindAmendmentIdsDelegate.Parameters, List<AmendmentId>>(
+) : AbstractExternalDelegate<RevisionFindAmendmentIdsDelegate.Parameters, FindAmendmentIdsAction.Result>(
     logger = logger,
     transform = transform,
     operationStepRepository = operationStepRepository
@@ -100,7 +101,7 @@ class RevisionFindAmendmentIdsDelegate(
         commandId: CommandId,
         context: CamundaGlobalContext,
         parameters: Parameters
-    ): Result<Reply<List<AmendmentId>>, Fail.Incident> {
+    ): Result<Reply<FindAmendmentIdsAction.Result>, Fail.Incident> {
 
         val processInfo = context.processInfo
         val cpid = processInfo.cpid
@@ -142,8 +143,13 @@ class RevisionFindAmendmentIdsDelegate(
     override fun updateGlobalContext(
         context: CamundaGlobalContext,
         parameters: Parameters,
-        data: List<AmendmentId>
+        result: Option<FindAmendmentIdsAction.Result>
     ): MaybeFail<Fail.Incident> {
+
+        val data = result.orNull
+            ?: return MaybeFail.fail(
+                Fail.Incident.Response.Empty(service = "eRevision", action = RevisionCommands.FindAmendmentIds)
+            )
 
         val tender = context.tender
         val updatedTender = if (tender == null) {

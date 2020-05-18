@@ -12,6 +12,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.GetT
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ResponderProcessingAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForLotsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForTenderAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateRequirementResponsesAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.VerifyRequirementResponseAction
 
 interface AccessClient {
@@ -60,4 +61,9 @@ interface AccessClient {
         id: CommandId,
         params: GetOrganizationAction.Params
     ): Result<Reply<GetOrganizationAction.Result>, Fail.Incident>
+
+    suspend fun validateRequirementResponses(
+        id: CommandId,
+        params: ValidateRequirementResponsesAction.Params
+    ): Result<Reply<ValidateRequirementResponsesAction.Result>, Fail.Incident>
 }

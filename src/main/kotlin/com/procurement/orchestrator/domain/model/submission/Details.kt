@@ -5,8 +5,8 @@ import com.procurement.orchestrator.domain.model.IdentifiableObjects.Companion.u
 import java.io.Serializable
 
 class Details(values: List<Submission> = emptyList()) : List<Submission> by values,
-    IdentifiableObjects<Submission, Details>,
-    Serializable {
+                                                        IdentifiableObjects<Submission, Details>,
+                                                        Serializable {
 
     constructor(submission: Submission) : this(listOf(submission))
 

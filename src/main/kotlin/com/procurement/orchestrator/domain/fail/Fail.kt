@@ -1,6 +1,7 @@
 package com.procurement.orchestrator.domain.fail
 
 import com.procurement.orchestrator.application.service.Logger
+import com.procurement.orchestrator.application.service.ProceduralAction
 import com.procurement.orchestrator.domain.EnumElementProvider
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.ValidationResult
@@ -278,6 +279,12 @@ sealed class Fail(prefix: String, number: String) {
                     id = id,
                     name = name
                 )
+            }
+
+            class Empty(description: String) : Response(number = "2", description = description) {
+
+                constructor(service: String, action: ProceduralAction<*>)
+                    : this("The response to the '${action.name}' command from the service '$service' is empty.")
             }
         }
     }
