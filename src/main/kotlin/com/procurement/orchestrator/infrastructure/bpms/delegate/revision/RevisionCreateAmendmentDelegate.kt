@@ -61,6 +61,7 @@ class RevisionCreateAmendmentDelegate(
                 .id
                 .toString()
 
+            OperationTypeProcess.CREATE_SUBMISSION,
             OperationTypeProcess.DECLARE_NON_CONFLICT_OF_INTEREST,
             OperationTypeProcess.TENDER_OR_LOT_AMENDMENT_CANCELLATION,
             OperationTypeProcess.TENDER_OR_LOT_AMENDMENT_CONFIRMATION ->
