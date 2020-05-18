@@ -6,6 +6,7 @@ import com.procurement.orchestrator.application.model.context.CamundaGlobalConte
 import com.procurement.orchestrator.application.model.context.extension.getCandidatesIfNotEmpty
 import com.procurement.orchestrator.application.model.context.extension.getDetailsIfOnlyOne
 import com.procurement.orchestrator.application.model.context.extension.getDocumentsIfNotEmpty
+import com.procurement.orchestrator.application.model.context.extension.tryGetSubmissions
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
@@ -42,7 +43,8 @@ class QualificationValidateSubmissionDelegate(
         parameters: Unit
     ): Result<Reply<Unit>, Fail.Incident> {
 
-        val submissions = context.submissions
+        val submissions = context.tryGetSubmissions()
+            .orForwardFail { fail -> return fail }
 
         val submission = submissions.getDetailsIfOnlyOne()
             .orForwardFail { fail -> return fail }

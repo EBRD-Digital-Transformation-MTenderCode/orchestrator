@@ -13,6 +13,7 @@ import com.procurement.orchestrator.application.model.context.extension.getDocum
 import com.procurement.orchestrator.application.model.context.extension.getPersonesIfNotEmpty
 import com.procurement.orchestrator.application.model.context.extension.getRequirementResponseIfOnlyOne
 import com.procurement.orchestrator.application.model.context.extension.getResponder
+import com.procurement.orchestrator.application.model.context.extension.tryGetSubmissions
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.EnumElementProvider
@@ -200,16 +201,18 @@ class StorageCheckRegistrationDelegate(
         }
 
     private fun getSubmissionsDocumentsIdsOptional(context: CamundaGlobalContext): Result<List<DocumentId>, Fail.Incident> =
-        context.submissions.details
-            .getOrNull(0)
+        context.submissions
+            ?.details
+            ?.getOrNull(0)
             ?.documents
             ?.map { document -> document.id }
             .orEmpty()
             .asSuccess()
 
-
     private fun getSubmissionsDocumentsIdsRequired(context: CamundaGlobalContext): Result<List<DocumentId>, Fail.Incident> =
-        context.submissions.getDetailsIfOnlyOne()
+        context.tryGetSubmissions()
+            .orForwardFail { fail -> return fail }
+            .getDetailsIfOnlyOne()
             .orForwardFail { fail -> return fail }
             .getDocumentsIfNotEmpty()
             .orForwardFail { fail -> return fail }
@@ -227,8 +230,9 @@ class StorageCheckRegistrationDelegate(
         }
 
     private fun getSubmissionsCandidateDocumentsIdsOptional(context: CamundaGlobalContext): Result<List<DocumentId>, Fail.Incident> =
-        context.submissions.details
-            .getOrNull(0)
+        context.submissions
+            ?.details
+            ?.getOrNull(0)
             ?.candidates
             ?.asSequence()
             ?.flatMap { candidate -> candidate.persons.asSequence() }
@@ -240,7 +244,9 @@ class StorageCheckRegistrationDelegate(
             .asSuccess()
 
     private fun getSubmissionsCandidateDocumentsIdsRequired(context: CamundaGlobalContext): Result<List<DocumentId>, Fail.Incident> =
-        context.submissions.getDetailsIfNotEmpty()
+        context.tryGetSubmissions()
+            .orForwardFail { fail -> return fail }
+            .getDetailsIfNotEmpty()
             .orForwardFail { fail -> return fail }
             .flatMap { submission ->
                 submission.getCandidatesIfNotEmpty()

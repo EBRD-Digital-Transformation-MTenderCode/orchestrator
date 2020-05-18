@@ -4,6 +4,7 @@ import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.QualificationClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.getDetailsIfOnlyOne
+import com.procurement.orchestrator.application.model.context.extension.tryGetSubmissions
 import com.procurement.orchestrator.application.model.context.members.Outcomes
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
@@ -47,7 +48,9 @@ class QualificationCreateSubmissionDelegate(
         parameters: Unit
     ): Result<Reply<CreateSubmissionAction.Result>, Fail.Incident> {
 
-        val submissions = context.submissions
+        val submissions = context.tryGetSubmissions()
+            .orForwardFail { fail -> return fail }
+
         val submission = submissions.getDetailsIfOnlyOne()
             .orForwardFail { fail -> return fail }
 
@@ -76,7 +79,10 @@ class QualificationCreateSubmissionDelegate(
         data: CreateSubmissionAction.Result
     ): MaybeFail<Fail.Incident> {
 
-        val submission = context.submissions.getDetailsIfOnlyOne()
+        val submissions = context.tryGetSubmissions()
+            .orReturnFail { return MaybeFail.fail(it) }
+
+        val submission = submissions.getDetailsIfOnlyOne()
             .orReturnFail { return MaybeFail.fail(it) }
 
         val updatedSubmission = submission.copy(

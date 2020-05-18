@@ -41,7 +41,7 @@ class CamundaGlobalContext(propertyContainer: PropertyContainer) : GlobalContext
 
     override var contracts: Contracts by collectionPropertyDelegate(propertyContainer) { Contracts() }
 
-    override var submissions: Submissions by propertyDelegate(propertyContainer) { Submissions() }
+    override var submissions: Submissions? by nullablePropertyDelegate(propertyContainer)
 }
 
 fun CamundaGlobalContext.serialize(transform: Transform): Result<String, Fail.Incident.Transform.Serialization> =
@@ -56,7 +56,7 @@ fun CamundaGlobalContext.serialize(transform: Transform): Result<String, Fail.In
         override var awards: Awards = this@serialize.awards
         override var parties: Parties = this@serialize.parties
         override var contracts: Contracts = this@serialize.contracts
-        override var submissions: Submissions = this@serialize.submissions
+        override var submissions: Submissions? = this@serialize.submissions
     }.let { context ->
         transform.trySerialization(context)
     }
