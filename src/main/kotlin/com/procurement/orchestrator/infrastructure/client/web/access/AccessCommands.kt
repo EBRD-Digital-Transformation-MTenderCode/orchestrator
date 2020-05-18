@@ -8,6 +8,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.GetT
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ResponderProcessingAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForLotsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForTenderAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateRequirementResponsesAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.VerifyRequirementResponseAction
 
 object AccessCommands {
@@ -29,4 +30,6 @@ object AccessCommands {
     object SetStateForLots : SetStateForLotsAction()
 
     object GetOrganization : GetOrganizationAction()
+
+    object ValidateRequirementResponses : ValidateRequirementResponsesAction()
 }

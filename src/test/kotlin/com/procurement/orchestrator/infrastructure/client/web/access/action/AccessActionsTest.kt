@@ -168,7 +168,6 @@ class AccessActionsTest {
         }
     }
 
-
     @Nested
     inner class GetOrganization {
         @Nested
@@ -199,6 +198,36 @@ class AccessActionsTest {
             @Test
             fun required_3() {
                 testingBindingAndMapping<GetOrganizationAction.Result>("json/client/access/get_organization_result_required_3.json")
+            }
+        }
+    }
+
+    @Nested
+    inner class ValidateRequirementResponses {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<ValidateRequirementResponsesAction.Params>("json/client/access/validate_requirement_responses_params_full.json")
+            }
+
+            @Test
+            fun required1() {
+                testingBindingAndMapping<ValidateRequirementResponsesAction.Params>("json/client/access/validate_requirement_responses_params_required_1.json")
+            }
+
+            @Test
+            fun required2() {
+                testingBindingAndMapping<ValidateRequirementResponsesAction.Params>("json/client/access/validate_requirement_responses_params_required_2.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<ValidateRequirementResponsesAction.Result>("json/client/access/validate_requirement_responses_result_full.json")
             }
         }
     }
