@@ -8,7 +8,6 @@ import com.procurement.orchestrator.application.model.context.extension.tryGetTo
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
-import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
@@ -40,7 +39,8 @@ class DossierCheckAccessToSubmissionDelegate(
         val processInfo = context.processInfo
         val requestInfo = context.requestInfo
 
-        val submission = context.submissions.getDetailsIfOnlyOne()
+        val submission = context.submissions!!
+            .getDetailsIfOnlyOne()
             .orForwardFail { fail -> return fail }
 
         val token = requestInfo.tryGetToken()
@@ -57,10 +57,4 @@ class DossierCheckAccessToSubmissionDelegate(
             )
         )
     }
-
-    override fun updateGlobalContext(
-        context: CamundaGlobalContext,
-        parameters: Unit,
-        data: Unit
-    ): MaybeFail<Fail.Incident> = MaybeFail.none()
 }
