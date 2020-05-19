@@ -4,6 +4,7 @@ import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.DossierClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.getDetailsIfOnlyOne
+import com.procurement.orchestrator.application.model.context.extension.tryGetSubmissions
 import com.procurement.orchestrator.application.model.context.extension.tryGetToken
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
@@ -39,7 +40,8 @@ class DossierCheckAccessToSubmissionDelegate(
         val processInfo = context.processInfo
         val requestInfo = context.requestInfo
 
-        val submission = context.submissions!!
+        val submission = context.tryGetSubmissions()
+            .orForwardFail { fail -> return fail }
             .getDetailsIfOnlyOne()
             .orForwardFail { fail -> return fail }
 
