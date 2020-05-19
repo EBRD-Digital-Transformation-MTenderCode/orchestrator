@@ -1,4 +1,4 @@
-package com.procurement.orchestrator.application.service.response
+package com.procurement.orchestrator.application.service.declaration
 
 import com.procurement.orchestrator.application.model.RequestId
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
@@ -39,22 +39,22 @@ import com.procurement.orchestrator.domain.model.requirement.response.Requiremen
 import com.procurement.orchestrator.infrastructure.bpms.repository.RequestRecord
 import com.procurement.orchestrator.infrastructure.bpms.repository.RequestRepository
 
-interface RequirementResponseService {
-    fun declareNoConflictOfInterest(request: RequirementResponseDataIn.Request): MaybeFail<Fail>
+interface DeclarationService {
+    fun declareNoConflictOfInterest(request: DeclarationDataIn.Request): MaybeFail<Fail>
 }
 
-class RequirementResponseServiceImpl(
+class DeclarationServiceImpl(
     private val transform: Transform,
     private val processService: ProcessService,
     private val requestRepository: RequestRepository,
     private val ruleRepository: RuleRepository
-) : RequirementResponseService {
+) : DeclarationService {
 
     companion object {
         private const val DECLARE_NON_CONFLICT_OF_INTEREST = "declareNonConflictOfInterest"
     }
 
-    override fun declareNoConflictOfInterest(request: RequirementResponseDataIn.Request): MaybeFail<Fail> {
+    override fun declareNoConflictOfInterest(request: DeclarationDataIn.Request): MaybeFail<Fail> {
         val savedRequest: RequestRecord = saveRequest(request)
             .orReturnFail { return MaybeFail.fail(it) }
 
@@ -63,7 +63,7 @@ class RequirementResponseServiceImpl(
         if (isLaunched)
             return MaybeFail.fail(RequestErrors.Common.Repeated())
 
-        val payload = deserializationPayload<RequirementResponseDataIn.Payload>(request.payload)
+        val payload = deserializationPayload<DeclarationDataIn.Payload>(request.payload)
             .orReturnFail { return MaybeFail.fail(it) }
 
         val prevProcessContext: LatestProcessContext = processService.getProcessContext(cpid = request.context.cpid)
@@ -220,7 +220,7 @@ class RequirementResponseServiceImpl(
                 )
             }
 
-    private fun saveRequest(request: RequirementResponseDataIn.Request): Result<RequestRecord, Fail.Incident> {
+    private fun saveRequest(request: DeclarationDataIn.Request): Result<RequestRecord, Fail.Incident> {
         val record = request.asRecord()
             .orForwardFail { fail -> return fail }
         requestRepository.save(record)
@@ -228,7 +228,7 @@ class RequirementResponseServiceImpl(
         return Result.success(record)
     }
 
-    private fun RequirementResponseDataIn.Request.asRecord(): Result<RequestRecord, Fail.Incident> {
+    private fun DeclarationDataIn.Request.asRecord(): Result<RequestRecord, Fail.Incident> {
         val serializedContext: String = transform.trySerialization(this.context)
             .orForwardFail { fail -> return fail }
         return RequestRecord(

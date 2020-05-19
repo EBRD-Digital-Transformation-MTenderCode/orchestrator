@@ -15,6 +15,7 @@ import com.procurement.orchestrator.domain.EnumElementProvider
 import com.procurement.orchestrator.domain.EnumElementProvider.Companion.keysAsStrings
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
+import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
@@ -39,6 +40,7 @@ import com.procurement.orchestrator.infrastructure.bpms.delegate.rule.missingEnt
 import com.procurement.orchestrator.infrastructure.bpms.delegate.rule.unknownEntityRule
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
+import com.procurement.orchestrator.infrastructure.client.web.storage.StorageCommands
 import com.procurement.orchestrator.infrastructure.client.web.storage.action.OpenAccessAction
 import org.springframework.stereotype.Component
 
@@ -111,8 +113,14 @@ class StorageOpenAccessDelegate(
     override fun updateGlobalContext(
         context: CamundaGlobalContext,
         parameters: Parameters,
-        data: OpenAccessAction.Result
+        result: Option<OpenAccessAction.Result>
     ): MaybeFail<Fail.Incident> {
+
+        val data = result.orNull
+            ?: return MaybeFail.fail(
+                Fail.Incident.Response.Empty(service = "Storage", action = StorageCommands.OpenAccess)
+            )
+
         val tender = context.tender
         val awards = context.awards
 

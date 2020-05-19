@@ -8,6 +8,7 @@ import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.EnumElementProvider.Companion.keysAsStrings
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
+import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.model.tender.Tender
 import com.procurement.orchestrator.domain.model.tender.TenderStatus
@@ -16,6 +17,7 @@ import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExterna
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
+import com.procurement.orchestrator.infrastructure.client.web.access.AccessCommands
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForTenderAction
 import org.springframework.stereotype.Component
 
@@ -86,8 +88,14 @@ class AccessSetStateForTenderDelegate(
     override fun updateGlobalContext(
         context: CamundaGlobalContext,
         parameters: Parameters,
-        data: SetStateForTenderAction.Result
+        result: Option<SetStateForTenderAction.Result>
     ): MaybeFail<Fail.Incident> {
+
+        val data = result.orNull
+            ?: return MaybeFail.fail(
+                Fail.Incident.Response.Empty(service = "eAccess", action = AccessCommands.SetStateForTender)
+            )
+
         context.tender = context.tender
             ?.copy(
                 status = data.status,

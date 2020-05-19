@@ -54,7 +54,7 @@ interface GlobalContext {
     @get:JsonProperty("contracts")
     var contracts: Contracts
 
-    @get:JsonInclude(JsonInclude.Include.NON_EMPTY)
+    @get:JsonInclude(JsonInclude.Include.NON_NULL)
     @get:JsonProperty("submissions")
-    var submissions: Submissions
+    var submissions: Submissions?
 }

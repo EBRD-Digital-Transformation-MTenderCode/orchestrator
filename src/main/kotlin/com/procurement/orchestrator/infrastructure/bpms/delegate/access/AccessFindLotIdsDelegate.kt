@@ -9,13 +9,13 @@ import com.procurement.orchestrator.domain.EnumElementProvider.Companion.keysAsS
 import com.procurement.orchestrator.domain.extension.lotIds
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
+import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.domain.model.State
 import com.procurement.orchestrator.domain.model.lot.Lot
-import com.procurement.orchestrator.domain.model.lot.LotId
 import com.procurement.orchestrator.domain.model.lot.LotStatus
 import com.procurement.orchestrator.domain.model.lot.LotStatusDetails
 import com.procurement.orchestrator.domain.model.lot.Lots
@@ -26,6 +26,7 @@ import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContai
 import com.procurement.orchestrator.infrastructure.bpms.delegate.parameter.StateParameter
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
+import com.procurement.orchestrator.infrastructure.client.web.access.AccessCommands
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindLotIdsAction
 import org.springframework.stereotype.Component
 
@@ -35,7 +36,7 @@ class AccessFindLotIdsDelegate(
     private val accessClient: AccessClient,
     operationStepRepository: OperationStepRepository,
     transform: Transform
-) : AbstractExternalDelegate<AccessFindLotIdsDelegate.Parameters, List<LotId>>(
+) : AbstractExternalDelegate<AccessFindLotIdsDelegate.Parameters, FindLotIdsAction.Result>(
     logger = logger,
     transform = transform,
     operationStepRepository = operationStepRepository
@@ -92,7 +93,7 @@ class AccessFindLotIdsDelegate(
         commandId: CommandId,
         context: CamundaGlobalContext,
         parameters: Parameters
-    ): Result<Reply<List<LotId>>, Fail.Incident> {
+    ): Result<Reply<FindLotIdsAction.Result>, Fail.Incident> {
 
         val processInfo = context.processInfo
         return accessClient.findLotIds(
@@ -114,8 +115,13 @@ class AccessFindLotIdsDelegate(
     override fun updateGlobalContext(
         context: CamundaGlobalContext,
         parameters: Parameters,
-        data: List<LotId>
+        result: Option<FindLotIdsAction.Result>
     ): MaybeFail<Fail.Incident> {
+
+        val data = result.orNull
+            ?: return MaybeFail.fail(
+                Fail.Incident.Response.Empty(service = "eAccess", action = AccessCommands.FindLotByIds)
+            )
 
         val tender = context.tender
         val updatedTender = if (tender == null) {

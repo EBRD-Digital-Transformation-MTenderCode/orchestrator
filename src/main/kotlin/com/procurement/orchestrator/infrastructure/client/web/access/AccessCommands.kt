@@ -1,7 +1,6 @@
 package com.procurement.orchestrator.infrastructure.client.web.access
 
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckAccessToTenderAction
-import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckPersonesStructureAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindLotIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotStateByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetOrganizationAction
@@ -9,12 +8,14 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.GetT
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ResponderProcessingAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForLotsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForTenderAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateRequirementResponsesAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.VerifyRequirementResponseAction
 
 object AccessCommands {
 
     object CheckAccessToTender : CheckAccessToTenderAction()
 
-    object CheckPersonesStructure : CheckPersonesStructureAction()
+    object VerifyRequirementResponse : VerifyRequirementResponseAction()
 
     object FindLotByIds : FindLotIdsAction()
 
@@ -29,4 +30,6 @@ object AccessCommands {
     object SetStateForLots : SetStateForLotsAction()
 
     object GetOrganization : GetOrganizationAction()
+
+    object ValidateRequirementResponses : ValidateRequirementResponsesAction()
 }
