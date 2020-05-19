@@ -1,6 +1,7 @@
 package com.procurement.orchestrator.infrastructure.client.web.access
 
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckAccessToTenderAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckPersonesStructureAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindLotIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotStateByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetOrganizationAction
@@ -14,6 +15,9 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Veri
 object AccessCommands {
 
     object CheckAccessToTender : CheckAccessToTenderAction()
+
+    @Deprecated(message = "Using VerifyRequirementResponse")
+    object CheckPersonesStructure : CheckPersonesStructureAction()
 
     object VerifyRequirementResponse : VerifyRequirementResponseAction()
 
