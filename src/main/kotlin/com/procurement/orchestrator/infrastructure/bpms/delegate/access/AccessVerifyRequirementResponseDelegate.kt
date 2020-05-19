@@ -24,7 +24,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Veri
 import org.springframework.stereotype.Component
 
 @Component
-class VerifyRequirementResponseDelegate(
+class AccessVerifyRequirementResponseDelegate(
     logger: Logger,
     private val accessClient: AccessClient,
     operationStepRepository: OperationStepRepository,
