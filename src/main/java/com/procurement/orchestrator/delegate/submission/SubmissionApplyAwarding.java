@@ -18,7 +18,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.EvaluationCommandType.APPLY_EVALUATED_AWARDS;
+import static com.procurement.orchestrator.domain.commands.SubmissionCommandType.APPLY_EVALUATED_AWARDS;
+
 
 @Component
 public class SubmissionApplyAwarding implements JavaDelegate {

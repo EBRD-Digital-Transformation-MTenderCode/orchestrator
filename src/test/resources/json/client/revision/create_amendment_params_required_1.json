@@ -1,0 +1,19 @@
+{
+  "cpid": "ocds-b3wdp1-MD-1580458690892",
+  "ocid": "ocds-b3wdp1-MD-1580458690892-EV-1580458791896",
+  "owner": "2e399dd0-1810-4a78-8e29-a3b0551c071b",
+  "operationType": "tenderCancellation",
+  "date": "2020-03-26T12:36:20Z",
+  "relatedEntityId": "317675d5-859a-4d46-bed1-35913beb916d",
+  "amendment": {
+    "id": "bbf51c6d-478f-4a96-8bd2-503e5218d4fa",
+    "rationale": "rationale",
+    "documents": [
+      {
+        "id": "document-1",
+        "documentType": "awardNotice",
+        "title": "document-title"
+      }
+    ]
+  }
+}

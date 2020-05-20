@@ -1,0 +1,16 @@
+{
+  "cpid": "ocds-b3wdp1-MD-1580458690892",
+  "ocid": "ocds-b3wdp1-MD-1580458690892-EV-1580458791896",
+  "requirementResponses": [
+    {
+      "id": "2a969a8f-ea14-45df-b773-def05a76b2ef",
+      "relatedCandidate": {
+        "id": "622f133a-3499-4a71-8bca-a975c261cab5"
+      }
+    }
+  ],
+  "organizationIds": [
+    "9dad10e3-a42b-41b7-91f6-f663b188834a"
+  ],
+  "operationType": "createSubmission"
+}

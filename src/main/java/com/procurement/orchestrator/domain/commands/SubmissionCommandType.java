@@ -25,6 +25,7 @@ public enum SubmissionCommandType {
     GET_BIDS_AUCTION("getBidsAuction"),
     UPDATE_BIDS_BY_LOTS("updateBidsByLots"),
     UPDATE_BID_BY_AWARD_STATUS("updateBidBAwardStatus"),
+    APPLY_EVALUATED_AWARDS("applyAwardingRes"),
     SET_BIDS_FINAL_STATUSES("setBidsFinalStatuses"),
     BID_WITHDRAWN("bidWithdrawn"),
     BIDS_WITHDRAWN("bidsWithdrawn"),

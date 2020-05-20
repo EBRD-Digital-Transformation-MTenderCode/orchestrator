@@ -29,6 +29,10 @@ public class AuctionStart implements JavaDelegate {
 
     private static final Logger LOG = LoggerFactory.getLogger(AuctionSchedule.class);
 
+    private static final String TENDER_PERIOD_END_EV = "tenderPeriodEndEv";
+    private static final String PHASE_AWARDING = "awarding";
+    private static final String VARIABLE_NAME = "operationType";
+
     private final AuctionRestClient auctionRestClient;
 
     private final OperationService operationService;
@@ -71,6 +75,7 @@ public class AuctionStart implements JavaDelegate {
                 final Boolean isAuctionStarted = processService.getBoolean("isAuctionStarted", responseData, processId);
                 execution.setVariable("isAuctionStarted", isAuctionStarted);
                 if (isAuctionStarted) {
+                    context.setOperationType("tenderPeriodEndAuction");
                     final ArrayNode auctionLinksNode = (ArrayNode) responseData.get("auctionsLinks");
                     if (auctionLinksNode.size() > 0) {
                         Set<AuctionLinks> auctionLinks = new HashSet<>();
@@ -79,6 +84,13 @@ public class AuctionStart implements JavaDelegate {
                         }
                         context.setAuctionLinks(auctionLinks);
                     }
+                } else {
+                    context.setOperationType(TENDER_PERIOD_END_EV);
+                    context.setPhase(PHASE_AWARDING);
+                    LOG.debug("CONTEXT FOR SAVE ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(context));
+
+                    execution.setVariable(VARIABLE_NAME, TENDER_PERIOD_END_EV);
+                    LOG.debug("COMMAND ({}) IN CONTEXT PUT THE VARIABLE '{}' WITH THE VALUE '{}'.", context.getOperationId(), VARIABLE_NAME, TENDER_PERIOD_END_EV);
                 }
 
                 final JsonNode step = processService.setAuctionStartData(jsonData, responseData, processId);

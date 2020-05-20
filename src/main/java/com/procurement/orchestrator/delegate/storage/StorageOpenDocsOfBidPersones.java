@@ -20,6 +20,7 @@ import org.springframework.stereotype.Component;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import static com.procurement.orchestrator.domain.commands.StorageCommandType.PUBLISH;
 
@@ -57,31 +58,30 @@ public class StorageOpenDocsOfBidPersones implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
 
-        final JsonNode documents = getDocumentsOfBusinessFunctions(jsonData, processId);
-        if (documents != null) {
-            final JsonNode commandMessage = processService.getCommandMessage(PUBLISH, context, documents);
-            if (LOG.isDebugEnabled())
-                LOG.debug("COMMAND ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(commandMessage));
+        final Optional<JsonNode> documents = getDocumentsOfBusinessFunctions(jsonData, processId);
+        if (documents.isPresent()) {
+            final JsonNode commandMessage = processService.getCommandMessage(PUBLISH, context, documents.get());
+            LOG.debug("COMMAND ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(commandMessage));
 
             final ResponseEntity<ResponseDto> response = storageRestClient.execute(commandMessage);
-            if (LOG.isDebugEnabled())
-                LOG.debug("RESPONSE FROM SERVICE ({}): '{}'.", context.getOperationId(), jsonUtil.toJson(response.getBody()));
+            LOG.debug("RESPONSE FROM SERVICE ({}): '{}'.", context.getOperationId(), jsonUtil.toJson(response.getBody()));
 
             final JsonNode responseData = processService.processResponse(response, context, processId, taskId, commandMessage);
-            if (LOG.isDebugEnabled())
-                LOG.debug("RESPONSE AFTER PROCESSING ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(responseData));
+            LOG.debug("RESPONSE AFTER PROCESSING ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(responseData));
 
             if (responseData != null) {
                 final JsonNode step = setDocumentsOfBusinessFunctions(jsonData, responseData, processId);
-                if (LOG.isDebugEnabled())
-                    LOG.debug("STEP FOR SAVE ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(step));
+                LOG.debug("STEP FOR SAVE ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(step));
 
                 operationService.saveOperationStep(execution, entity, commandMessage, step);
             }
+        } else {
+            LOG.debug("No documents for publishing.");
+            operationService.saveOperationStep(execution, entity);
         }
     }
 
-    private JsonNode getDocumentsOfBusinessFunctions(final JsonNode jsonData, final String processId) {
+    private Optional<JsonNode> getDocumentsOfBusinessFunctions(final JsonNode jsonData, final String processId) {
         try {
             final ArrayNode bidsNode = (ArrayNode) jsonData.get("bids");
 
@@ -111,17 +111,16 @@ public class StorageOpenDocsOfBidPersones implements JavaDelegate {
                 }
             }
 
-
             if (documentsNode.size() == 0)
-                return null;
+                return Optional.empty();
 
             final ObjectNode mainNode = jsonUtil.createObjectNode();
             mainNode.set("documents", documentsNode);
-            return mainNode;
+            return Optional.of(mainNode);
         } catch (Exception e) {
             LOG.error("Error getting documents of businessFunctions.", e);
             processService.terminateProcess(processId, e.getMessage());
-            return null;
+            return Optional.empty();
         }
     }
 

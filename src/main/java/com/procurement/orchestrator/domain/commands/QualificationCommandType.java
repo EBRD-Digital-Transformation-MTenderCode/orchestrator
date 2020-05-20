@@ -1,21 +1,23 @@
 package com.procurement.orchestrator.domain.commands;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
-import com.procurement.orchestrator.exception.EnumException;
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.procurement.orchestrator.exception.EnumException;
 
 public enum QualificationCommandType {
 
     CREATE_AWARDS("createAwards"),
     AWARD_BY_BID("awardByBid"),
     CHECK_AWARDED("checkAwarded"),
+    CHECK_PERIOD("checkPeriod"),
     SET_FINAL_STATUSES("setFinalStatuses"),
     PREPARE_CANCELLATION("prepareCancellation"),
-    AWARDS_CANCELLATION("awardsCancellation");
+    AWARDS_CANCELLATION("awardsCancellation"),
+    SAVE_PERIOD("savePeriod"),
+    VALIDATE_PERIOD("validatePeriod");
 
     private static final Map<String, QualificationCommandType> CONSTANTS = new HashMap<>();
     private final String value;

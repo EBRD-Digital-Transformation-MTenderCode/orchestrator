@@ -159,48 +159,19 @@ public class MessageConsumer {
                 final String command = response.get("command").asText();
                 switch (AgentResponseCommandType.fromValue(command)) {
                     case LAUNCH_AC_VERIFICATION: {
-                        final JsonNode dataNode = response.get("data");
-                        if (dataNode != null) {
-                            final String ocid = dataNode.get("ocid").asText();
-                            final Context prevContext = requestService.getContext(ocid);
-                            final String uuid = UUIDs.timeBased().toString();
-                            final Context context =
-                                requestService.checkRulesAndProcessContext(prevContext, "verificationAC", uuid);
-                            requestService.saveRequestAndCheckOperation(context, dataNode);
-                            final Map<String, Object> variables = new HashMap<>();
-                            variables.put("operationType", context.getOperationType());
-                            processService.startProcess(context, variables);
-                        }
+                        launchProcess(response, "verificationAC");
                         break;
                     }
                     case TREASURY_APPROVING: {
-                        final JsonNode dataNode = response.get("data");
-                        if (dataNode != null) {
-                            final String ocid = dataNode.get("ocid").asText();
-                            final Context prevContext = requestService.getContext(ocid);
-                            final String uuid = UUIDs.timeBased().toString();
-                            final Context context =
-                                requestService.checkRulesAndProcessContext(prevContext, "treasuryApprovingAC", uuid);
-                            requestService.saveRequestAndCheckOperation(context, dataNode);
-                            final Map<String, Object> variables = new HashMap<>();
-                            variables.put("operationType", context.getOperationType());
-                            processService.startProcess(context, variables);
-                        }
+                        launchProcess(response, "treasuryApprovingAC");
                         break;
                     }
                     case TREASURY_CLARIFICATION: {
-                        final JsonNode dataNode = response.get("data");
-                        if (dataNode != null) {
-                            final String ocid = dataNode.get("ocid").asText();
-                            final Context prevContext = requestService.getContext(ocid);
-                            final String uuid = UUIDs.timeBased().toString();
-                            final Context context =
-                                    requestService.checkRulesAndProcessContext(prevContext, "acClarification", uuid);
-                            requestService.saveRequestAndCheckOperation(context, dataNode);
-                            final Map<String, Object> variables = new HashMap<>();
-                            variables.put("operationType", context.getOperationType());
-                            processService.startProcess(context, variables);
-                        }
+                        launchProcess(response, "acClarification");
+                        break;
+                    }
+                    case PROCESS_AC_REJECTION: {
+                        launchProcess(response, "acRejection");
                         break;
                     }
                     default: {
@@ -216,6 +187,21 @@ public class MessageConsumer {
         } catch (Exception e) {
             //TODO error processing
             LOG.error("Error while processing the message from the mConnect-Bus (" + message + ").", e);
+        }
+    }
+
+    private void launchProcess(final JsonNode response, final String processType) {
+        final JsonNode dataNode = response.get("data");
+        if (dataNode != null) {
+            final String ocid = dataNode.get("ocid").asText();
+            final Context prevContext = requestService.getContext(ocid);
+            final String uuid = UUIDs.timeBased().toString();
+            final Context context =
+                    requestService.checkRulesAndProcessContext(prevContext, processType, uuid);
+            requestService.saveRequestAndCheckOperation(context, dataNode);
+            final Map<String, Object> variables = new HashMap<>();
+            variables.put("operationType", context.getOperationType());
+            processService.startProcess(context, variables);
         }
     }
 

@@ -1,0 +1,755 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" id="Definitions_0tdjnzu" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.6.0">
+  <bpmn:collaboration id="Collaboration_1d4y186">
+    <bpmn:participant id="Participant_1aeo09p" name="cancelLot" processRef="cancelLot" />
+  </bpmn:collaboration>
+  <bpmn:process id="cancelLot" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" camunda:asyncBefore="true">
+      <bpmn:outgoing>SequenceFlow_1l6eosn</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="BpeProcessInitializerTask" name="BPE:&#10;Process Initializer" camunda:asyncBefore="true" camunda:delegateExpression="${bpeProcessInitializerDelegate}">
+      <bpmn:incoming>SequenceFlow_1l6eosn</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_044xjuj</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="AccessCheckAccessToTenderTask" name="eAccess:&#10;Check access to tender" camunda:asyncBefore="true" camunda:delegateExpression="${accessCheckAccessToTenderDelegate}">
+      <bpmn:incoming>SequenceFlow_044xjuj</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0lfc2wc</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="AccessGetLotStateByIdsTask" name="eAccess:&#10;Get lot state by ids" camunda:asyncBefore="true" camunda:delegateExpression="${accessGetLotStateByIdsDelegate}">
+      <bpmn:incoming>SequenceFlow_0lfc2wc</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0fuk4r3</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="RevisionFindAmendmentIdsForTenderrTask" name="eRevision: Find amendment ids for tender" default="SequenceFlow_0n1twmj" camunda:asyncBefore="true" camunda:delegateExpression="${revisionFindAmendmentIdsDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="relatesTo">tender</camunda:inputParameter>
+          <camunda:inputParameter name="type">cancellation</camunda:inputParameter>
+          <camunda:inputParameter name="status">pending</camunda:inputParameter>
+          <camunda:inputParameter name="UGC">false</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1870x57</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0n1twmj</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_09rtkfj</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="ContractingFindCANIdsTask" name="eContracting:&#10;Find CAN ids" default="SequenceFlow_11et42j" camunda:asyncBefore="true" camunda:delegateExpression="${contractingFindCANIdsDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="states">
+            <camunda:list>
+              <camunda:value>status=PENDING</camunda:value>
+            </camunda:list>
+          </camunda:inputParameter>
+          <camunda:inputParameter name="locationOfLots">tender.lots</camunda:inputParameter>
+          <camunda:inputParameter name="UGC">false</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1jlj5tv</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_11et42j</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_1npbt9x</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="RevisionDataValidationTask" name="eRevision: &#10;Data validation" camunda:asyncBefore="true" camunda:delegateExpression="${revisionDataValidationDelegate}">
+      <bpmn:incoming>SequenceFlow_11et42j</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1bq9bam</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="StorageCheckRegistrationTask" name="iStorage:&#10;Check registration of amendment documents" camunda:asyncBefore="true" camunda:delegateExpression="${storageCheckRegistrationDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="entities">
+            <camunda:map>
+              <camunda:entry key="amendment">optional</camunda:entry>
+            </camunda:map>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1bq9bam</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_18c5973</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="BpeCreateIdsForAmendmentTask" name="BPE: Create Ids for amendment" camunda:asyncBefore="true" camunda:delegateExpression="${bpeCreateIdsForAmendmentDelegate}">
+      <bpmn:incoming>SequenceFlow_18c5973</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0ztqzoa</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="RevisionCreateAmendmentTask" name="eRevision: Create amendment" camunda:asyncBefore="true" camunda:delegateExpression="${revisionCreateAmendmentDelegate}">
+      <bpmn:incoming>SequenceFlow_0ztqzoa</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_18cvtfg</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="StorageOpenAccessToAmendmentDocumentsTask" name="iStorage:&#10; Open access to amendment documents" camunda:asyncBefore="true" camunda:delegateExpression="${storageOpenAccessDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="entities">
+            <camunda:map>
+              <camunda:entry key="amendment">optional</camunda:entry>
+            </camunda:map>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_18cvtfg</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1vtwrhv</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="BpeAddUpdateRecordTaskInQueueTask" name="BPE:&#10;Add update record task to queue" camunda:asyncBefore="true" camunda:delegateExpression="${bpeAddUpdateRecordTaskInQueueDelegate}">
+      <bpmn:incoming>SequenceFlow_1vtwrhv</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0cuocm0</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="NoticeTask" name="eNotice:&#10;UpdateRecord" camunda:asyncBefore="true" camunda:delegateExpression="${noticeDelegate}">
+      <bpmn:incoming>SequenceFlow_0cuocm0</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1gai7l2</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="BpeSaveContextTask" name="BPE:&#10;Save context" camunda:asyncBefore="true" camunda:delegateExpression="${bpeSaveContextDelegate}">
+      <bpmn:incoming>SequenceFlow_1gai7l2</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1291gps</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="EndEvent_1l2uz19">
+      <bpmn:incoming>SequenceFlow_1c8ghv1</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="NotifierSuccessNotificationToPlatformTask" name="iNotifier Kafka:&#10;Success Notification To Platform" camunda:asyncBefore="true" camunda:delegateExpression="${notifierSuccessNotificationToPlatformDelegate}">
+      <bpmn:incoming>SequenceFlow_1291gps</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1c8ghv1</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="BpeAddErrorBPR-10.0.3.2.4Task" name="Add Error BPR-10.0.3.2.4" camunda:asyncBefore="true" camunda:delegateExpression="${bpeErrorAppenderDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="errorCode">BPR-10.0.3.2.4</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1npbt9x</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1iulcvz</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="BpeAddErrorBPR-10.0.3.2.1Task" name="Add Error BPR-10.0.3.2.1" camunda:asyncBefore="true" camunda:delegateExpression="${bpeErrorAppenderDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="errorCode">BPR-10.0.3.2.1</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0zjl28j</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1su8z1w</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="BpeAddErrorBPR-10.0.3.2.2Task" name="Add Error BPR-10.0.3.2.2" camunda:asyncBefore="true" camunda:delegateExpression="${bpeErrorAppenderDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="errorCode">BPR-10.0.3.2.2</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_09rtkfj</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_002hqjd</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="RevisionFindAmendmentIdsForLotsTask" name="eRevision: Find amendment ids for lots" default="SequenceFlow_1jlj5tv" camunda:asyncBefore="true" camunda:delegateExpression="${revisionFindAmendmentIdsDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="relatesTo">lot</camunda:inputParameter>
+          <camunda:inputParameter name="type">cancellation</camunda:inputParameter>
+          <camunda:inputParameter name="status">pending</camunda:inputParameter>
+          <camunda:inputParameter name="sendRelatedItem">True</camunda:inputParameter>
+          <camunda:inputParameter name="UGC">false</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0n1twmj</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1jlj5tv</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_0xbvkgs</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="BpeAddErrorBPR-10.0.3.2.3Task" name="Add Error BPR-10.0.3.2.3" camunda:asyncBefore="true" camunda:delegateExpression="${bpeErrorAppenderDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="errorCode">BPR-10.0.3.2.3</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0xbvkgs</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1d65u0a</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_0ap1ifs">
+      <bpmn:incoming>SequenceFlow_1su8z1w</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_1d65u0a</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_002hqjd</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_193zrjh</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_0wjpl0p">
+      <bpmn:incoming>SequenceFlow_193zrjh</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_1iulcvz</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1j59o5n</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="BpeBpmnErrorDescriptionModifierTask" name="Add description" camunda:asyncBefore="true" camunda:delegateExpression="${bpeErrorDescriptionModifierDelegate}">
+      <bpmn:incoming>SequenceFlow_1j59o5n</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1eiwmr2</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="NotifierErrorNotificationToPlatformTask" name="iNotifier Kafka:&#10;Error Notification To Platform" camunda:asyncBefore="true" camunda:delegateExpression="${notifierErrorNotificationToPlatformDelegate}">
+      <bpmn:incoming>SequenceFlow_1eiwmr2</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0i72ucc</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="EndEvent_1hrd805">
+      <bpmn:incoming>SequenceFlow_0i72ucc</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:subProcess id="SubProcess_1wlp1is" name="Lot Status Analysis">
+      <bpmn:incoming>SequenceFlow_0fuk4r3</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1870x57</bpmn:outgoing>
+      <bpmn:multiInstanceLoopCharacteristics isSequential="true" camunda:collection="${tender.lots}" camunda:elementVariable="lot" />
+      <bpmn:startEvent id="StartEvent_19b15cs">
+        <bpmn:outgoing>SequenceFlow_19kmdus</bpmn:outgoing>
+      </bpmn:startEvent>
+      <bpmn:exclusiveGateway id="ExclusiveGateway_0hbkgpd" name="The lot status is active?">
+        <bpmn:incoming>SequenceFlow_19kmdus</bpmn:incoming>
+        <bpmn:outgoing>SequenceFlow_0qw5ylb</bpmn:outgoing>
+        <bpmn:outgoing>SequenceFlow_16vqopd</bpmn:outgoing>
+      </bpmn:exclusiveGateway>
+      <bpmn:endEvent id="EndEvent_10qeq1t">
+        <bpmn:incoming>SequenceFlow_0qw5ylb</bpmn:incoming>
+      </bpmn:endEvent>
+      <bpmn:sequenceFlow id="SequenceFlow_0qw5ylb" sourceRef="ExclusiveGateway_0hbkgpd" targetRef="EndEvent_10qeq1t">
+        <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${lot.status == 'ACTIVE'}</bpmn:conditionExpression>
+      </bpmn:sequenceFlow>
+      <bpmn:sequenceFlow id="SequenceFlow_16vqopd" sourceRef="ExclusiveGateway_0hbkgpd" targetRef="BPR-10.0.3.2.1">
+        <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${lot.status != 'ACTIVE'}</bpmn:conditionExpression>
+      </bpmn:sequenceFlow>
+      <bpmn:endEvent id="BPR-10.0.3.2.1" name="BPR-10.0.3.2.1">
+        <bpmn:incoming>SequenceFlow_16vqopd</bpmn:incoming>
+        <bpmn:errorEventDefinition id="ErrorEventDefinition_0i3khq6" errorRef="Error_1vym2p7" />
+      </bpmn:endEvent>
+      <bpmn:sequenceFlow id="SequenceFlow_19kmdus" sourceRef="StartEvent_19b15cs" targetRef="ExclusiveGateway_0hbkgpd" />
+    </bpmn:subProcess>
+    <bpmn:subProcess id="SubProcess_04ya8yh" triggeredByEvent="true">
+      <bpmn:startEvent id="ExternalIncidentStartEvent" name="External Incident">
+        <bpmn:extensionElements>
+          <camunda:executionListener event="end">
+            <camunda:script scriptFormat="javascript">execution.removeVariable("suspend")</camunda:script>
+          </camunda:executionListener>
+        </bpmn:extensionElements>
+        <bpmn:outgoing>SequenceFlow_1934c6x</bpmn:outgoing>
+        <bpmn:errorEventDefinition id="ErrorEventDefinition_0f8q03e" errorRef="Error_0kv316y" camunda:errorMessageVariable="errorTaskId" />
+      </bpmn:startEvent>
+      <bpmn:serviceTask id="RecoveryAfterExternalIncidentTask" name="Return to last task" camunda:asyncAfter="true" camunda:delegateExpression="${recoveryDelegate}">
+        <bpmn:incoming>SequenceFlow_13jfhjy</bpmn:incoming>
+        <bpmn:outgoing>SequenceFlow_14gy0sv</bpmn:outgoing>
+      </bpmn:serviceTask>
+      <bpmn:endEvent id="EndEvent_13oqi8l">
+        <bpmn:incoming>SequenceFlow_14gy0sv</bpmn:incoming>
+      </bpmn:endEvent>
+      <bpmn:sequenceFlow id="SequenceFlow_1934c6x" sourceRef="ExternalIncidentStartEvent" targetRef="FixExternalIncidentTask" />
+      <bpmn:sequenceFlow id="SequenceFlow_14gy0sv" sourceRef="RecoveryAfterExternalIncidentTask" targetRef="EndEvent_13oqi8l" />
+      <bpmn:userTask id="FixExternalIncidentTask" name="Fix external incident" camunda:formKey="embedded:/INCIDENT_FORM.html">
+        <bpmn:extensionElements>
+          <camunda:formData>
+            <camunda:formField id="IncidentLevel" label="level" type="string" defaultValue="${incident.level}">
+              <camunda:validation>
+                <camunda:constraint name="readonly" />
+              </camunda:validation>
+            </camunda:formField>
+            <camunda:formField id="ServiceVersion" label="service version" type="string" defaultValue="${incident.service.version}">
+              <camunda:validation>
+                <camunda:constraint name="readonly" />
+              </camunda:validation>
+            </camunda:formField>
+            <camunda:formField id="ServiceId" label="service id" type="string" defaultValue="${incident.service.id}">
+              <camunda:validation>
+                <camunda:constraint name="readonly" />
+              </camunda:validation>
+            </camunda:formField>
+            <camunda:formField id="ServiceName" label="service name" type="string" defaultValue="${incident.service.name}">
+              <camunda:validation>
+                <camunda:constraint name="readonly" />
+              </camunda:validation>
+            </camunda:formField>
+            <camunda:formField id="IncidentId" label="id" type="string" defaultValue="${incident.id}">
+              <camunda:validation>
+                <camunda:constraint name="readonly" />
+              </camunda:validation>
+            </camunda:formField>
+            <camunda:formField id="IncidentDate" label="date" type="string" defaultValue="${incident.date}">
+              <camunda:validation>
+                <camunda:constraint name="readonly" />
+              </camunda:validation>
+            </camunda:formField>
+          </camunda:formData>
+        </bpmn:extensionElements>
+        <bpmn:incoming>SequenceFlow_1934c6x</bpmn:incoming>
+        <bpmn:outgoing>SequenceFlow_13jfhjy</bpmn:outgoing>
+      </bpmn:userTask>
+      <bpmn:sequenceFlow id="SequenceFlow_13jfhjy" sourceRef="FixExternalIncidentTask" targetRef="RecoveryAfterExternalIncidentTask" />
+    </bpmn:subProcess>
+    <bpmn:subProcess id="SubProcess_1m2xgg2" triggeredByEvent="true">
+      <bpmn:startEvent id="InternalIncidentStartEvent" name="Internal Incident">
+        <bpmn:extensionElements>
+          <camunda:executionListener event="end">
+            <camunda:script scriptFormat="javascript">execution.removeVariable("suspend")</camunda:script>
+          </camunda:executionListener>
+        </bpmn:extensionElements>
+        <bpmn:outgoing>SequenceFlow_0ihuxri</bpmn:outgoing>
+        <bpmn:errorEventDefinition id="ErrorEventDefinition_0rmskjw" errorRef="Error_15lgooj" camunda:errorMessageVariable="errorTaskId" />
+      </bpmn:startEvent>
+      <bpmn:serviceTask id="RecoveryAfterInternalIncidentTask" name="Return to last task" camunda:asyncAfter="true" camunda:delegateExpression="${recoveryDelegate}">
+        <bpmn:incoming>SequenceFlow_0w0v5j6</bpmn:incoming>
+        <bpmn:outgoing>SequenceFlow_1ew4ki4</bpmn:outgoing>
+      </bpmn:serviceTask>
+      <bpmn:endEvent id="EndEvent_1mpdpw4">
+        <bpmn:incoming>SequenceFlow_1ew4ki4</bpmn:incoming>
+      </bpmn:endEvent>
+      <bpmn:sequenceFlow id="SequenceFlow_0ihuxri" sourceRef="InternalIncidentStartEvent" targetRef="NotifierBpeIncidentTask" />
+      <bpmn:sequenceFlow id="SequenceFlow_1ew4ki4" sourceRef="RecoveryAfterInternalIncidentTask" targetRef="EndEvent_1mpdpw4" />
+      <bpmn:serviceTask id="NotifierBpeIncidentTask" name="Send incident to special Kafka topic" camunda:asyncBefore="true" camunda:delegateExpression="${notifierBpeIncidentDelegate}">
+        <bpmn:incoming>SequenceFlow_0ihuxri</bpmn:incoming>
+        <bpmn:outgoing>SequenceFlow_19kfmmo</bpmn:outgoing>
+      </bpmn:serviceTask>
+      <bpmn:sequenceFlow id="SequenceFlow_19kfmmo" sourceRef="NotifierBpeIncidentTask" targetRef="FixInternalIncidentTask" />
+      <bpmn:userTask id="FixInternalIncidentTask" name="Fix internal incident" camunda:formKey="embedded:/INCIDENT_FORM.html">
+        <bpmn:extensionElements>
+          <camunda:formData>
+            <camunda:formField id="IncidentLevel" label="level" type="string" defaultValue="${incident.level}">
+              <camunda:validation>
+                <camunda:constraint name="readonly" />
+              </camunda:validation>
+            </camunda:formField>
+            <camunda:formField id="ServiceVersion" label="service version" type="string" defaultValue="${incident.service.version}">
+              <camunda:validation>
+                <camunda:constraint name="readonly" />
+              </camunda:validation>
+            </camunda:formField>
+            <camunda:formField id="ServiceId" label="service id" type="string" defaultValue="${incident.service.id}">
+              <camunda:validation>
+                <camunda:constraint name="readonly" />
+              </camunda:validation>
+            </camunda:formField>
+            <camunda:formField id="ServiceName" label="service name" type="string" defaultValue="${incident.service.name}">
+              <camunda:validation>
+                <camunda:constraint name="readonly" />
+              </camunda:validation>
+            </camunda:formField>
+            <camunda:formField id="IncidentId" label="id" type="string" defaultValue="${incident.id}">
+              <camunda:validation>
+                <camunda:constraint name="readonly" />
+              </camunda:validation>
+            </camunda:formField>
+            <camunda:formField id="IncidentDate" label="date" type="string" defaultValue="${incident.date}">
+              <camunda:validation>
+                <camunda:constraint name="readonly" />
+              </camunda:validation>
+            </camunda:formField>
+          </camunda:formData>
+        </bpmn:extensionElements>
+        <bpmn:incoming>SequenceFlow_19kfmmo</bpmn:incoming>
+        <bpmn:outgoing>SequenceFlow_0w0v5j6</bpmn:outgoing>
+      </bpmn:userTask>
+      <bpmn:sequenceFlow id="SequenceFlow_0w0v5j6" sourceRef="FixInternalIncidentTask" targetRef="RecoveryAfterInternalIncidentTask" />
+    </bpmn:subProcess>
+    <bpmn:subProcess id="SubProcess_0f1fy12" triggeredByEvent="true">
+      <bpmn:endEvent id="EndEvent_14479mk">
+        <bpmn:incoming>SequenceFlow_0t5bck1</bpmn:incoming>
+      </bpmn:endEvent>
+      <bpmn:sequenceFlow id="SequenceFlow_0t5bck1" sourceRef="NotifierValidationErrorNotificationToPlatformTask" targetRef="EndEvent_14479mk" />
+      <bpmn:sequenceFlow id="SequenceFlow_0qu9fq9" sourceRef="StartEvent_1nmszns" targetRef="BpeValidationErrorDescriptionModifierTask" />
+      <bpmn:sequenceFlow id="SequenceFlow_1mgoxz0" sourceRef="BpeValidationErrorDescriptionModifierTask" targetRef="NotifierValidationErrorNotificationToPlatformTask" />
+      <bpmn:startEvent id="StartEvent_1nmszns" name="code = Validation">
+        <bpmn:outgoing>SequenceFlow_0qu9fq9</bpmn:outgoing>
+        <bpmn:errorEventDefinition id="ErrorEventDefinition_1v1i6o0" errorRef="Error_0k7qyu7" camunda:errorCodeVariable="errorCode" camunda:errorMessageVariable="errorMessage" />
+      </bpmn:startEvent>
+      <bpmn:serviceTask id="BpeValidationErrorDescriptionModifierTask" name="Add description" camunda:asyncBefore="true" camunda:delegateExpression="${bpeErrorDescriptionModifierDelegate}">
+        <bpmn:incoming>SequenceFlow_0qu9fq9</bpmn:incoming>
+        <bpmn:outgoing>SequenceFlow_1mgoxz0</bpmn:outgoing>
+      </bpmn:serviceTask>
+      <bpmn:serviceTask id="NotifierValidationErrorNotificationToPlatformTask" name="iNotifier Kafka:&#10;Validation Error Notification To Platform" camunda:asyncBefore="true" camunda:delegateExpression="${notifierErrorNotificationToPlatformDelegate}">
+        <bpmn:incoming>SequenceFlow_1mgoxz0</bpmn:incoming>
+        <bpmn:outgoing>SequenceFlow_0t5bck1</bpmn:outgoing>
+      </bpmn:serviceTask>
+    </bpmn:subProcess>
+    <bpmn:boundaryEvent id="BPR-10.0.3.2.1Catcher" attachedToRef="SubProcess_1wlp1is">
+      <bpmn:outgoing>SequenceFlow_0zjl28j</bpmn:outgoing>
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_0tafuro" errorRef="Error_1vym2p7" />
+    </bpmn:boundaryEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0xbvkgs" name="result != null" sourceRef="RevisionFindAmendmentIdsForLotsTask" targetRef="BpeAddErrorBPR-10.0.3.2.3Task">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${result != null}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_09rtkfj" name="result != null" sourceRef="RevisionFindAmendmentIdsForTenderrTask" targetRef="BpeAddErrorBPR-10.0.3.2.2Task">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${result != null}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_193zrjh" sourceRef="ExclusiveGateway_0ap1ifs" targetRef="ExclusiveGateway_0wjpl0p" />
+    <bpmn:sequenceFlow id="SequenceFlow_002hqjd" sourceRef="BpeAddErrorBPR-10.0.3.2.2Task" targetRef="ExclusiveGateway_0ap1ifs" />
+    <bpmn:sequenceFlow id="SequenceFlow_1d65u0a" sourceRef="BpeAddErrorBPR-10.0.3.2.3Task" targetRef="ExclusiveGateway_0ap1ifs" />
+    <bpmn:sequenceFlow id="SequenceFlow_1su8z1w" sourceRef="BpeAddErrorBPR-10.0.3.2.1Task" targetRef="ExclusiveGateway_0ap1ifs" />
+    <bpmn:sequenceFlow id="SequenceFlow_0zjl28j" sourceRef="BPR-10.0.3.2.1Catcher" targetRef="BpeAddErrorBPR-10.0.3.2.1Task" />
+    <bpmn:sequenceFlow id="SequenceFlow_1jlj5tv" sourceRef="RevisionFindAmendmentIdsForLotsTask" targetRef="ContractingFindCANIdsTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0n1twmj" sourceRef="RevisionFindAmendmentIdsForTenderrTask" targetRef="RevisionFindAmendmentIdsForLotsTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1870x57" sourceRef="SubProcess_1wlp1is" targetRef="RevisionFindAmendmentIdsForTenderrTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0fuk4r3" sourceRef="AccessGetLotStateByIdsTask" targetRef="SubProcess_1wlp1is" />
+    <bpmn:sequenceFlow id="SequenceFlow_0lfc2wc" sourceRef="AccessCheckAccessToTenderTask" targetRef="AccessGetLotStateByIdsTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_044xjuj" sourceRef="BpeProcessInitializerTask" targetRef="AccessCheckAccessToTenderTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1l6eosn" sourceRef="StartEvent_1" targetRef="BpeProcessInitializerTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_11et42j" sourceRef="ContractingFindCANIdsTask" targetRef="RevisionDataValidationTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1bq9bam" sourceRef="RevisionDataValidationTask" targetRef="StorageCheckRegistrationTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_18c5973" sourceRef="StorageCheckRegistrationTask" targetRef="BpeCreateIdsForAmendmentTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0ztqzoa" sourceRef="BpeCreateIdsForAmendmentTask" targetRef="RevisionCreateAmendmentTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_18cvtfg" sourceRef="RevisionCreateAmendmentTask" targetRef="StorageOpenAccessToAmendmentDocumentsTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1vtwrhv" sourceRef="StorageOpenAccessToAmendmentDocumentsTask" targetRef="BpeAddUpdateRecordTaskInQueueTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0cuocm0" sourceRef="BpeAddUpdateRecordTaskInQueueTask" targetRef="NoticeTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1gai7l2" sourceRef="NoticeTask" targetRef="BpeSaveContextTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1291gps" sourceRef="BpeSaveContextTask" targetRef="NotifierSuccessNotificationToPlatformTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1c8ghv1" sourceRef="NotifierSuccessNotificationToPlatformTask" targetRef="EndEvent_1l2uz19" />
+    <bpmn:sequenceFlow id="SequenceFlow_1npbt9x" name="result != null" sourceRef="ContractingFindCANIdsTask" targetRef="BpeAddErrorBPR-10.0.3.2.4Task">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${result != null}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_1iulcvz" sourceRef="BpeAddErrorBPR-10.0.3.2.4Task" targetRef="ExclusiveGateway_0wjpl0p" />
+    <bpmn:sequenceFlow id="SequenceFlow_1j59o5n" sourceRef="ExclusiveGateway_0wjpl0p" targetRef="BpeBpmnErrorDescriptionModifierTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0i72ucc" sourceRef="NotifierErrorNotificationToPlatformTask" targetRef="EndEvent_1hrd805" />
+    <bpmn:sequenceFlow id="SequenceFlow_1eiwmr2" sourceRef="BpeBpmnErrorDescriptionModifierTask" targetRef="NotifierErrorNotificationToPlatformTask" />
+    <bpmn:textAnnotation id="TextAnnotation_1s55it7">
+      <bpmn:text>operationType:
+lotCancellation</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_12j4wag" sourceRef="StartEvent_1" targetRef="TextAnnotation_1s55it7" />
+  </bpmn:process>
+  <bpmn:error id="Error_1vym2p7" name="Lot not in status &#39;ACTIVE&#39;" errorCode="BPR-10.0.3.2.1" />
+  <bpmn:error id="Error_0k7qyu7" name="Validation error from service" errorCode="ValidationError" camunda:errorMessage="ValidationError" />
+  <bpmn:error id="Error_15lgooj" name="Internal Incident" errorCode="InternalIncident" />
+  <bpmn:error id="Error_0kv316y" name="External Incident" errorCode="ExternalIncident" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1d4y186">
+      <bpmndi:BPMNShape id="Participant_1aeo09p_di" bpmnElement="Participant_1aeo09p" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="2830" height="690" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="242" y="220" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1l6eosn_di" bpmnElement="SequenceFlow_1l6eosn">
+        <di:waypoint x="278" y="238" />
+        <di:waypoint x="320" y="238" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_1arr4h1_di" bpmnElement="BpeProcessInitializerTask">
+        <dc:Bounds x="320" y="198" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_044xjuj_di" bpmnElement="SequenceFlow_044xjuj">
+        <di:waypoint x="420" y="238" />
+        <di:waypoint x="460" y="238" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_18xca2a_di" bpmnElement="AccessCheckAccessToTenderTask">
+        <dc:Bounds x="460" y="198" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_050qfk3_di" bpmnElement="AccessGetLotStateByIdsTask">
+        <dc:Bounds x="610" y="198" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_02qgc5m_di" bpmnElement="RevisionFindAmendmentIdsForTenderrTask">
+        <dc:Bounds x="1070" y="198" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1prb4j3_di" bpmnElement="RevisionFindAmendmentIdsForLotsTask">
+        <dc:Bounds x="1220" y="198" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0i5c87z_di" bpmnElement="RevisionDataValidationTask">
+        <dc:Bounds x="1520" y="198" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1rcj14r_di" bpmnElement="StorageCheckRegistrationTask">
+        <dc:Bounds x="1670" y="198" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0i3md4b_di" bpmnElement="BpeCreateIdsForAmendmentTask">
+        <dc:Bounds x="1830" y="198" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0lfc2wc_di" bpmnElement="SequenceFlow_0lfc2wc">
+        <di:waypoint x="560" y="238" />
+        <di:waypoint x="610" y="238" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_07ssmyc_di" bpmnElement="RevisionCreateAmendmentTask">
+        <dc:Bounds x="1980" y="198" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1qqnq5c_di" bpmnElement="StorageOpenAccessToAmendmentDocumentsTask">
+        <dc:Bounds x="2140" y="198" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0vn9umm_di" bpmnElement="BpeAddUpdateRecordTaskInQueueTask">
+        <dc:Bounds x="2300" y="198" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1gm8ct7_di" bpmnElement="NoticeTask">
+        <dc:Bounds x="2460" y="198" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0t4gx47_di" bpmnElement="BpeSaveContextTask">
+        <dc:Bounds x="2620" y="198" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0m2cbpx_di" bpmnElement="NotifierSuccessNotificationToPlatformTask">
+        <dc:Bounds x="2770" y="198" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="SubProcess_1s6kbee_di" bpmnElement="SubProcess_0f1fy12" isExpanded="true">
+        <dc:Bounds x="1785" y="572" width="510" height="166" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_14479mk_di" bpmnElement="EndEvent_14479mk">
+        <dc:Bounds x="2217" y="629" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0t5bck1_di" bpmnElement="SequenceFlow_0t5bck1">
+        <di:waypoint x="2165" y="647" />
+        <di:waypoint x="2217" y="647" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_1j86rf1_di" bpmnElement="BpeAddErrorBPR-10.0.3.2.1Task">
+        <dc:Bounds x="746" y="410" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1p59uxk_di" bpmnElement="BpeAddErrorBPR-10.0.3.2.2Task">
+        <dc:Bounds x="1070" y="330" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1bzrlkw_di" bpmnElement="BpeAddErrorBPR-10.0.3.2.3Task">
+        <dc:Bounds x="1220" y="330" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1r031rt_di" bpmnElement="NotifierErrorNotificationToPlatformTask">
+        <dc:Bounds x="1670" y="430" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0c626mg_di" bpmnElement="BpeBpmnErrorDescriptionModifierTask">
+        <dc:Bounds x="1520" y="430" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="SubProcess_1wlp1is_di" bpmnElement="SubProcess_1wlp1is" isExpanded="true">
+        <dc:Bounds x="750" y="114" width="280" height="247" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_19b15cs_di" bpmnElement="StartEvent_19b15cs">
+        <dc:Bounds x="790" y="196" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExclusiveGateway_0hbkgpd_di" bpmnElement="ExclusiveGateway_0hbkgpd" isMarkerVisible="true">
+        <dc:Bounds x="865" y="189" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="852" y="159" width="77" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_10qeq1t_di" bpmnElement="EndEvent_10qeq1t">
+        <dc:Bounds x="962" y="196" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0qw5ylb_di" bpmnElement="SequenceFlow_0qw5ylb">
+        <di:waypoint x="915" y="214" />
+        <di:waypoint x="962" y="214" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0fuk4r3_di" bpmnElement="SequenceFlow_0fuk4r3">
+        <di:waypoint x="710" y="238" />
+        <di:waypoint x="750" y="238" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_16vqopd_di" bpmnElement="SequenceFlow_16vqopd">
+        <di:waypoint x="890" y="239" />
+        <di:waypoint x="890" y="282" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_1g09d5q_di" bpmnElement="BPR-10.0.3.2.1" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <dc:Bounds x="872" y="282" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="852" y="325" width="76" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_19kmdus_di" bpmnElement="SequenceFlow_19kmdus">
+        <di:waypoint x="826" y="214" />
+        <di:waypoint x="865" y="214" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1870x57_di" bpmnElement="SequenceFlow_1870x57">
+        <di:waypoint x="1030" y="238" />
+        <di:waypoint x="1070" y="238" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1bq9bam_di" bpmnElement="SequenceFlow_1bq9bam">
+        <di:waypoint x="1620" y="238" />
+        <di:waypoint x="1670" y="238" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_18c5973_di" bpmnElement="SequenceFlow_18c5973">
+        <di:waypoint x="1770" y="238" />
+        <di:waypoint x="1830" y="238" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0ztqzoa_di" bpmnElement="SequenceFlow_0ztqzoa">
+        <di:waypoint x="1930" y="238" />
+        <di:waypoint x="1980" y="238" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_18cvtfg_di" bpmnElement="SequenceFlow_18cvtfg">
+        <di:waypoint x="2080" y="238" />
+        <di:waypoint x="2140" y="238" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1vtwrhv_di" bpmnElement="SequenceFlow_1vtwrhv">
+        <di:waypoint x="2240" y="238" />
+        <di:waypoint x="2300" y="238" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0cuocm0_di" bpmnElement="SequenceFlow_0cuocm0">
+        <di:waypoint x="2400" y="238" />
+        <di:waypoint x="2460" y="238" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1gai7l2_di" bpmnElement="SequenceFlow_1gai7l2">
+        <di:waypoint x="2560" y="238" />
+        <di:waypoint x="2620" y="238" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1291gps_di" bpmnElement="SequenceFlow_1291gps">
+        <di:waypoint x="2720" y="238" />
+        <di:waypoint x="2770" y="238" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_1l2uz19_di" bpmnElement="EndEvent_1l2uz19">
+        <dc:Bounds x="2922" y="220" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1c8ghv1_di" bpmnElement="SequenceFlow_1c8ghv1">
+        <di:waypoint x="2870" y="238" />
+        <di:waypoint x="2922" y="238" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BoundaryEvent_05mu3f2_di" bpmnElement="BPR-10.0.3.2.1Catcher" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <dc:Bounds x="778" y="343" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="748" y="386" width="76" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0zjl28j_di" bpmnElement="SequenceFlow_0zjl28j">
+        <di:waypoint x="796" y="379" />
+        <di:waypoint x="796" y="410" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ExclusiveGateway_0ap1ifs_di" bpmnElement="ExclusiveGateway_0ap1ifs" isMarkerVisible="true">
+        <dc:Bounds x="1245" y="445" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1su8z1w_di" bpmnElement="SequenceFlow_1su8z1w">
+        <di:waypoint x="796" y="490" />
+        <di:waypoint x="796" y="520" />
+        <di:waypoint x="1270" y="520" />
+        <di:waypoint x="1270" y="495" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1d65u0a_di" bpmnElement="SequenceFlow_1d65u0a">
+        <di:waypoint x="1270" y="410" />
+        <di:waypoint x="1270" y="445" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_193zrjh_di" bpmnElement="SequenceFlow_193zrjh">
+        <di:waypoint x="1295" y="470" />
+        <di:waypoint x="1395" y="470" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1eiwmr2_di" bpmnElement="SequenceFlow_1eiwmr2">
+        <di:waypoint x="1620" y="470" />
+        <di:waypoint x="1670" y="470" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_1hrd805_di" bpmnElement="EndEvent_1hrd805">
+        <dc:Bounds x="1812" y="452" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0i72ucc_di" bpmnElement="SequenceFlow_0i72ucc">
+        <di:waypoint x="1770" y="470" />
+        <di:waypoint x="1812" y="470" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0qu9fq9_di" bpmnElement="SequenceFlow_0qu9fq9">
+        <di:waypoint x="1861" y="647" />
+        <di:waypoint x="1905" y="647" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1mgoxz0_di" bpmnElement="SequenceFlow_1mgoxz0">
+        <di:waypoint x="2005" y="647" />
+        <di:waypoint x="2065" y="647" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="StartEvent_18ag282_di" bpmnElement="StartEvent_1nmszns" bioc:stroke="rgb(251, 140, 0)" bioc:fill="rgb(255, 224, 178)">
+        <dc:Bounds x="1825" y="629" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1801" y="672" width="84" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_08y79tc_di" bpmnElement="BpeValidationErrorDescriptionModifierTask">
+        <dc:Bounds x="1905" y="607" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_059j3m6_di" bpmnElement="NotifierValidationErrorNotificationToPlatformTask">
+        <dc:Bounds x="2065" y="607" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_002hqjd_di" bpmnElement="SequenceFlow_002hqjd">
+        <di:waypoint x="1120" y="410" />
+        <di:waypoint x="1120" y="470" />
+        <di:waypoint x="1245" y="470" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0n1twmj_di" bpmnElement="SequenceFlow_0n1twmj">
+        <di:waypoint x="1170" y="238" />
+        <di:waypoint x="1220" y="238" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1jlj5tv_di" bpmnElement="SequenceFlow_1jlj5tv">
+        <di:waypoint x="1320" y="238" />
+        <di:waypoint x="1370" y="238" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_1s55it7_di" bpmnElement="TextAnnotation_1s55it7">
+        <dc:Bounds x="210" y="140" width="100" height="40" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_12j4wag_di" bpmnElement="Association_12j4wag">
+        <di:waypoint x="260" y="220" />
+        <di:waypoint x="260" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_09rtkfj_di" bpmnElement="SequenceFlow_09rtkfj">
+        <di:waypoint x="1120" y="278" />
+        <di:waypoint x="1120" y="330" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1130" y="301" width="61" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0xbvkgs_di" bpmnElement="SequenceFlow_0xbvkgs">
+        <di:waypoint x="1270" y="278" />
+        <di:waypoint x="1270" y="330" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1280" y="301" width="61" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="SubProcess_1m2xgg2_di" bpmnElement="SubProcess_1m2xgg2" isExpanded="true">
+        <dc:Bounds x="340" y="561" width="727" height="180" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="SubProcess_04ya8yh_di" bpmnElement="SubProcess_04ya8yh" isExpanded="true">
+        <dc:Bounds x="1153" y="568" width="534" height="173" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_1fvbslm_di" bpmnElement="InternalIncidentStartEvent" bioc:stroke="rgb(142, 36, 170)" bioc:fill="rgb(225, 190, 231)">
+        <dc:Bounds x="389" y="633" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="368" y="676" width="80" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0v6unld_di" bpmnElement="RecoveryAfterInternalIncidentTask">
+        <dc:Bounds x="821" y="611" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_1mpdpw4_di" bpmnElement="EndEvent_1mpdpw4">
+        <dc:Bounds x="991" y="633" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_1xggnb3_di" bpmnElement="ExternalIncidentStartEvent" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
+        <dc:Bounds x="1202" y="641" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1181" y="684" width="83" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1ie7gya_di" bpmnElement="RecoveryAfterExternalIncidentTask">
+        <dc:Bounds x="1448" y="619" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_13oqi8l_di" bpmnElement="EndEvent_13oqi8l">
+        <dc:Bounds x="1619" y="641" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0ihuxri_di" bpmnElement="SequenceFlow_0ihuxri">
+        <di:waypoint x="425" y="651" />
+        <di:waypoint x="480" y="651" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1ew4ki4_di" bpmnElement="SequenceFlow_1ew4ki4">
+        <di:waypoint x="921" y="651" />
+        <di:waypoint x="991" y="651" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1934c6x_di" bpmnElement="SequenceFlow_1934c6x">
+        <di:waypoint x="1238" y="659" />
+        <di:waypoint x="1297" y="659" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_14gy0sv_di" bpmnElement="SequenceFlow_14gy0sv">
+        <di:waypoint x="1548" y="659" />
+        <di:waypoint x="1619" y="659" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_1rem18b_di" bpmnElement="NotifierBpeIncidentTask">
+        <dc:Bounds x="480" y="611" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_19kfmmo_di" bpmnElement="SequenceFlow_19kfmmo">
+        <di:waypoint x="580" y="651" />
+        <di:waypoint x="649" y="651" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="UserTask_16ovm4j_di" bpmnElement="FixInternalIncidentTask">
+        <dc:Bounds x="649" y="611" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0w0v5j6_di" bpmnElement="SequenceFlow_0w0v5j6">
+        <di:waypoint x="749" y="651" />
+        <di:waypoint x="821" y="651" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="UserTask_1gzx2l5_di" bpmnElement="FixExternalIncidentTask">
+        <dc:Bounds x="1297" y="619" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_13jfhjy_di" bpmnElement="SequenceFlow_13jfhjy">
+        <di:waypoint x="1397" y="659" />
+        <di:waypoint x="1448" y="659" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_19n82yy_di" bpmnElement="ContractingFindCANIdsTask">
+        <dc:Bounds x="1370" y="198" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_11et42j_di" bpmnElement="SequenceFlow_11et42j">
+        <di:waypoint x="1470" y="238" />
+        <di:waypoint x="1520" y="238" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_0sd2nx3_di" bpmnElement="BpeAddErrorBPR-10.0.3.2.4Task">
+        <dc:Bounds x="1370" y="330" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1npbt9x_di" bpmnElement="SequenceFlow_1npbt9x">
+        <di:waypoint x="1420" y="278" />
+        <di:waypoint x="1420" y="330" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1429" y="301" width="61" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1iulcvz_di" bpmnElement="SequenceFlow_1iulcvz">
+        <di:waypoint x="1420" y="410" />
+        <di:waypoint x="1420" y="445" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ExclusiveGateway_0wjpl0p_di" bpmnElement="ExclusiveGateway_0wjpl0p" isMarkerVisible="true">
+        <dc:Bounds x="1395" y="445" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1j59o5n_di" bpmnElement="SequenceFlow_1j59o5n">
+        <di:waypoint x="1445" y="470" />
+        <di:waypoint x="1520" y="470" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

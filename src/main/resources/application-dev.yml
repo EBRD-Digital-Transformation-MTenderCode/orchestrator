@@ -1,0 +1,127 @@
+server:
+  port: 8080
+
+spring:
+  profiles:
+    active: local
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://10.0.20.112:5432/orchestrator
+    username: postgres
+    password: postgres
+    hikari:
+      maximum-pool-size: 10
+      pool-name: orchestrator-pool
+
+cassandra:
+  contact-points: 10.0.20.104,10.0.20.105,10.0.20.106
+  keyspace-name: ocds
+  username: caclient
+  password: 6AH7vbrkMWnfK
+
+uri:
+  budget: http://dev.public.eprocurement.systems/budget/
+  tender: http://dev.public.eprocurement.systems/tender/
+
+camunda:
+  bpm:
+    auto-deployment-enabled: true
+    history-level: none
+    admin-user:
+      id: demo
+      password: demo123
+
+feign:
+  hystrix:
+    enabled: false
+  client:
+    config:
+      default:
+        connectTimeout: 10000
+        readTimeout: 10000
+
+notification:
+  incident:
+    bootstrap-servers: 10.0.20.107:9092,10.0.20.108:9092,10.0.20.109:9092
+    retries: 5
+    topic: incidents
+
+  platform:
+    bootstrap-servers: 10.0.20.107:9092,10.0.20.108:9092,10.0.20.109:9092
+    retries: 5
+    topic: notification-kafka-channel
+
+components:
+  eAccess:
+    host: 10.0.20.125
+    port: 9031
+  eRevision:
+    host: 10.0.20.125
+    port: 9351
+  storage:
+    host: 10.0.20.125
+    port: 9131
+  eNotice:
+    host: 10.0.20.125
+    port: 9041
+  eDossier:
+    host: 10.0.20.125
+    port: 9251
+  eEvaluation:
+    host: 10.0.20.125
+    port: 9081
+  eContracting:
+    host: 10.0.20.125
+    port: 9151
+  eQualification:
+    host: 10.0.20.125
+    port: 9091
+
+ribbon:
+  eureka:
+    enabled: false
+e-budget:
+  ribbon:
+    listOfServers: http://10.0.20.125:9051
+e-access:
+  ribbon:
+    listOfServers: http://10.0.20.125:9031
+e-auction:
+  ribbon:
+    listOfServers: http://10.0.20.125:9191
+e-notice:
+  ribbon:
+    listOfServers: http://10.0.20.125:9041
+e-submission:
+  ribbon:
+    listOfServers: http://10.0.20.125:9061
+e-clarification:
+  ribbon:
+    listOfServers: http://10.0.20.125:9071
+e-storage:
+  ribbon:
+    listOfServers: http://10.0.20.125:9131
+e-qualification:
+  ribbon:
+    listOfServers: http://10.0.20.125:9091
+e-evaluation:
+  ribbon:
+    listOfServers: http://10.0.20.125:9081
+e-contracting:
+  ribbon:
+    listOfServers: http://10.0.20.125:9151
+e-regulation:
+  ribbon:
+    listOfServers: http://10.0.20.125:9201
+e-mdm:
+  ribbon:
+    listOfServers: http://10.0.20.125:9161
+e-dossier:
+  ribbon:
+    listOfServers: http://10.0.20.125:9042
+
+logging:
+  ##  level:
+  ##    root: WARN
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n"

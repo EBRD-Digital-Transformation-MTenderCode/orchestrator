@@ -1,0 +1,20 @@
+{
+  "cpid": "ocds-t1s2t3-MD-1579534436912",
+  "ocid": "ocds-t1s2t3-MD-1579534436912-EV-1579534438142",
+  "operationId": "ed0a4a10-69d0-11ea-b042-95bd482f47e8",
+  "requestId": "ed0a4a10-69d0-11ea-b042-95bd482f47e8",
+  "owner": "8674b569-5bb9-4d3f-8a5a-dc8d9c9c1592",
+  "stage": "EV",
+  "prevStage": "EV",
+  "phase": "empty",
+  "processType": "tenderPeriodEnd",
+  "operationType": "tenderUnsuccessful",
+  "country": "MD",
+  "language": "ro",
+  "pmd": "TEST_OT",
+  "startDate": "2020-03-19T11:41:02Z",
+  "timeStamp": 1584618062458,
+  "isAuction": false,
+  "mainProcurementCategory": "mainProcurementCategory",
+  "awardCriteria": "awardCriteria"
+}

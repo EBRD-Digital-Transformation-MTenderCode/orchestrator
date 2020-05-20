@@ -80,11 +80,21 @@ public class AccessSetLotsUnsuccessful implements JavaDelegate {
 
     private JsonNode addLotsUnsuccessful(final JsonNode jsonData, final JsonNode responseData, final String processId) {
         try {
-            ((ObjectNode) jsonData).set("unsuccessfulLots", responseData.get("unsuccessfulLots"));
+            final ObjectNode mainNode = (ObjectNode) jsonData;
+            mainNode.set("unsuccessfulLots", responseData.get("unsuccessfulLots"));
 
-            final ObjectNode tender = (ObjectNode) responseData.get("tender");
-            ((ObjectNode) jsonData).set("tenderStatus", tender.get("status"));
-            ((ObjectNode) jsonData).set("tenderStatusDetails", tender.get("statusDetails"));
+            final ObjectNode tenderNode = (ObjectNode) responseData.get("tender");
+            mainNode.set("tenderStatus", tenderNode.get("status"));
+            mainNode.set("tenderStatusDetails", tenderNode.get("statusDetails"));
+
+            if (mainNode.has("tender")) {
+                final ObjectNode mainTenderNode = (ObjectNode) mainNode.get("tender");
+                mainTenderNode.set("status", tenderNode.get("status"));
+                mainTenderNode.set("statusDetails", tenderNode.get("statusDetails"));
+            } else {
+                mainNode.set("tender", tenderNode);
+            }
+
             return jsonData;
         } catch (Exception e) {
             processService.terminateProcess(processId, e.getMessage());
@@ -102,14 +112,6 @@ public class AccessSetLotsUnsuccessful implements JavaDelegate {
                     context.setPhase("empty");
 
                     execution.setVariable("isTenderUnsuccessful", true);
-                } else {
-                    if (execution.hasVariable("isAuctionStarted")) {
-                        final boolean isAuctionStarted = (Boolean) execution.getVariable("isAuctionStarted");
-                        if (!isAuctionStarted) {
-                            context.setOperationType("tenderPeriodEndEv");
-                            context.setPhase("awarding");
-                        }
-                    }
                 }
             }
         }

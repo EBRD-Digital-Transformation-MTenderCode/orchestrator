@@ -73,7 +73,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_1hqddop" sourceRef="ExclusiveGateway_1h457dl" targetRef="ExclusiveGateway_0kxvyig">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${operationType=='createAward' &amp;&amp; execution.hasVariable('lotAwarded')==true}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:serviceTask id="OrganizationSchemeReferenceTask" name="MDM:&#10;Organization scheme reference&#10;" camunda:asyncBefore="true" implementation="##WebService" camunda:delegateExpression="${organizationSchemeReference}">
+    <bpmn:serviceTask id="OrganizationSchemeForSupplierTask" name="MDM:&#10;Organization scheme reference&#10;" camunda:asyncBefore="true" implementation="##WebService" camunda:delegateExpression="${organizationSchemeForSupplier}">
       <bpmn:incoming>SequenceFlow_09y4aed</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1nom66q</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -88,8 +88,8 @@
     <bpmn:sequenceFlow id="SequenceFlow_0sann79" sourceRef="SaveFirstOperationTask" targetRef="AccessCheckLotAwardedTask" />
     <bpmn:sequenceFlow id="SequenceFlow_07x1um4" sourceRef="AccessCheckLotAwardedTask" targetRef="AccessCheckAwardTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0poxw5n" sourceRef="AccessCheckAwardTask" targetRef="AddressEnricherTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_09y4aed" sourceRef="AddressEnricherTask" targetRef="OrganizationSchemeReferenceTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1nom66q" sourceRef="OrganizationSchemeReferenceTask" targetRef="OrganizationScaleReferenceTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_09y4aed" sourceRef="AddressEnricherTask" targetRef="OrganizationSchemeForSupplierTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1nom66q" sourceRef="OrganizationSchemeForSupplierTask" targetRef="OrganizationScaleReferenceTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1m6krjl" sourceRef="OrganizationScaleReferenceTask" targetRef="EvaluationCreateAwardTask" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="Yaoqiang_Diagram-Process_1" name="Untitled Diagram" resolution="96">
@@ -211,7 +211,7 @@
           <dc:Bounds x="1619" y="366" width="85" height="40" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_098pvhh_di" bpmnElement="OrganizationSchemeReferenceTask">
+      <bpmndi:BPMNShape id="ServiceTask_098pvhh_di" bpmnElement="OrganizationSchemeForSupplierTask">
         <dc:Bounds x="1044" y="200" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_1dn13r0_di" bpmnElement="OrganizationScaleReferenceTask">
