@@ -26,7 +26,6 @@ import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContai
 import com.procurement.orchestrator.infrastructure.bpms.delegate.parameter.StateParameter
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
-import com.procurement.orchestrator.infrastructure.client.web.access.AccessCommands
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindLotIdsAction
 import org.springframework.stereotype.Component
 
@@ -119,9 +118,7 @@ class AccessFindLotIdsDelegate(
     ): MaybeFail<Fail.Incident> {
 
         val data = result.orNull
-            ?: return MaybeFail.fail(
-                Fail.Incident.Response.Empty(service = "eAccess", action = AccessCommands.FindLotByIds)
-            )
+            ?: return MaybeFail.none()
 
         val tender = context.tender
         val updatedTender = if (tender == null) {
