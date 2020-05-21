@@ -20,7 +20,7 @@ abstract class FindEnquiryIdsAction : FunctionalAction<FindEnquiryIdsAction.Para
         @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid,
         @field:JsonProperty("ocid") @param:JsonProperty("ocid") val ocid: Ocid,
 
-        @JsonInclude(JsonInclude.Include.NON_NULL)
+        @get:JsonInclude(JsonInclude.Include.NON_NULL)
         @param:JsonProperty("isAnswer") @get:JsonProperty("isAnswer") val isAnswer: Boolean?
     )
 
