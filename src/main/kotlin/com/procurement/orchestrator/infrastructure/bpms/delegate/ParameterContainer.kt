@@ -24,6 +24,22 @@ class ParameterContainer(private val execution: DelegateExecution) {
         return success(value)
     }
 
+    fun getBooleanOrNull(name: String): Result<Boolean?, Fail.Incident.Bpmn.Parameter> {
+        val value = execution.getVariable(name)
+            ?.let {
+                if (it !is Boolean)
+                    return failure(
+                        Fail.Incident.Bpmn.Parameter.DataTypeMismatch(
+                            name = name,
+                            expectedType = Boolean::class.qualifiedName!!,
+                            actualType = it::class.qualifiedName!!
+                        )
+                    )
+                it as Boolean
+            }
+        return success(value)
+    }
+
     fun getString(name: String): Result<String, Fail.Incident.Bpmn.Parameter> {
         val value: String = execution.getVariable(name)
             ?.let {
