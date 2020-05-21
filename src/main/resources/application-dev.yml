@@ -76,6 +76,9 @@ components:
   eQualification:
     host: 10.0.20.125
     port: 9091
+  eClarification:
+    host: 10.0.20.125
+    port: 9071
 
 ribbon:
   eureka:
