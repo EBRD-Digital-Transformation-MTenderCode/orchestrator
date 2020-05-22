@@ -4,8 +4,9 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonValue
 import com.procurement.orchestrator.domain.model.identifier.IdentifierId
 import com.procurement.orchestrator.domain.model.identifier.IdentifierScheme
+import java.io.Serializable
 
-class PersonId private constructor(private val value: String) {
+class PersonId private constructor(private val value: String) : Serializable {
 
     @JsonValue
     override fun toString(): String = value
