@@ -12,6 +12,7 @@ import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.extension.date.format
 import com.procurement.orchestrator.domain.extension.date.nowDefaultUTC
 import com.procurement.orchestrator.domain.fail.Fail
+import com.procurement.orchestrator.domain.fail.error.DataValidationErrors
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.infrastructure.bpms.extension.readErrors
 import com.procurement.orchestrator.infrastructure.bpms.extension.writeErrors
@@ -43,8 +44,12 @@ abstract class AbstractInitializeProcessDelegate(
         updateGlobalContext(camundaContext, globalContext)
             .doOnFail { fail ->
                 when (fail) {
-                    is Fail.Incident.Transform -> throwValidationError(execution = execution, incident = fail)
-                    else -> throwIncident(execution = execution, incident = fail)
+                    is Fail.Error -> throwError(execution = execution, error = fail)
+
+                    is Fail.Incident -> when (fail) {
+                        is Fail.Incident.Transform -> throwTransformError(execution = execution, incident = fail)
+                        else -> throwIncident(execution = execution, incident = fail)
+                    }
                 }
             }
 
@@ -86,7 +91,7 @@ abstract class AbstractInitializeProcessDelegate(
     protected abstract fun updateGlobalContext(
         camundaContext: CamundaContext,
         globalContext: CamundaGlobalContext
-    ): MaybeFail<Fail.Incident>
+    ): MaybeFail<Fail>
 
     private fun propertyContainer(execution: DelegateExecution) = object : PropertyContainer {
         override fun get(name: String): Any? = execution.getVariable(name)
@@ -122,13 +127,29 @@ abstract class AbstractInitializeProcessDelegate(
         throw BpmnError(INTERNAL_INCIDENT_CODE, execution.currentActivityId)
     }
 
-    private fun throwValidationError(execution: DelegateExecution, incident: Fail.Incident.Transform): Nothing {
+    private fun throwTransformError(execution: DelegateExecution, incident: Fail.Incident.Transform): Nothing {
         incident.logging(logger)
         val newErrors = listOf(
             Errors.Error(
                 code = incident.code,
                 description = incident.description,
                 details = listOf()
+            )
+        )
+        execution.writeErrors(execution.readErrors() + newErrors)
+        throw BpmnError(VALIDATION_ERROR_CODE)
+    }
+
+    private fun throwError(execution: DelegateExecution, error: Fail.Error): Nothing {
+        error.logging(logger)
+        val newErrors = listOf(
+            Errors.Error(
+                code = error.code,
+                description = error.description,
+                details = when (error) {
+                    is DataValidationErrors -> listOf(Errors.Error.Detail(name = error.name))
+                    else -> emptyList()
+                }
             )
         )
         execution.writeErrors(execution.readErrors() + newErrors)
