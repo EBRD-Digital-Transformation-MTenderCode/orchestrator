@@ -16,7 +16,6 @@ import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
 import com.procurement.orchestrator.domain.model.award.Awards
-import com.procurement.orchestrator.domain.model.identifier.Identifier
 import com.procurement.orchestrator.domain.model.person.Person
 import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponses
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
@@ -86,13 +85,7 @@ class AccessResponderProcessingDelegate(
 
         val updatedRequirementResponse = requirementResponse.copy(
             responder = Person(
-                identifier = data.identifier
-                    .let { identifier ->
-                        Identifier(
-                            scheme = identifier.scheme,
-                            id = identifier.id
-                        )
-                    },
+                id = data.id,
                 name = data.name
             )
         )
@@ -114,10 +107,11 @@ class AccessResponderProcessingDelegate(
         val responder = requirementResponse.responder
             ?.let { responder ->
                 ResponderProcessingAction.Params.Responder(
+                    id = responder.id,
                     title = responder.title,
                     name = responder.name,
                     identifier = responder.identifier
-                        .let { identifier ->
+                        ?.let { identifier ->
                             ResponderProcessingAction.Params.Responder.Identifier(
                                 scheme = identifier.scheme,
                                 id = identifier.id,
