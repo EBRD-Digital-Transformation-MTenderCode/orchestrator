@@ -83,10 +83,11 @@ class AccessVerifyRequirementResponseDelegate(
             .orForwardFail { error -> return error }
             .let { responder ->
                 VerifyRequirementResponseAction.Params.Person(
+                    id = responder.id,
                     title = responder.title,
                     name = responder.name,
                     identifier = responder.identifier
-                        .let { identifier ->
+                        ?.let { identifier ->
                             VerifyRequirementResponseAction.Params.Person.Identifier(
                                 scheme = identifier.scheme,
                                 id = identifier.id,
