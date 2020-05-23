@@ -102,10 +102,11 @@ class AccessCheckPersonesStructureDelegate(
         val persons = requirementResponse.responder
             ?.let { responder ->
                 CheckPersonesStructureAction.Params.Person(
+                    id = responder.id,
                     title = responder.title,
                     name = responder.name,
                     identifier = responder.identifier
-                        .let { identifier ->
+                        ?.let { identifier ->
                             CheckPersonesStructureAction.Params.Person.Identifier(
                                 scheme = identifier.scheme,
                                 id = identifier.id,

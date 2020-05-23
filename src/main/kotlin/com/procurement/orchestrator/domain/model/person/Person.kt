@@ -6,10 +6,14 @@ import com.procurement.orchestrator.domain.model.IdentifiableObject
 import com.procurement.orchestrator.domain.model.identifier.Identifier
 import com.procurement.orchestrator.domain.model.or
 import com.procurement.orchestrator.domain.model.organization.person.BusinessFunctions
+import com.procurement.orchestrator.domain.model.updateBy
 import java.io.Serializable
 
 data class Person(
-    @field:JsonProperty("identifier") @param:JsonProperty("identifier") val identifier: Identifier,
+    @field:JsonProperty("id") @param:JsonProperty("id") val id: PersonId,
+
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonProperty("identifier") @param:JsonProperty("identifier") val identifier: Identifier? = null,
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonProperty("name") @param:JsonProperty("name") val name: String? = null,
@@ -25,12 +29,13 @@ data class Person(
         true
     else
         other is Person
-            && this.identifier == other.identifier
+            && this.id == other.id
 
-    override fun hashCode(): Int = identifier.hashCode()
+    override fun hashCode(): Int = id.hashCode()
 
     override fun updateBy(src: Person) = Person(
-        identifier = identifier,
+        id = id,
+        identifier = identifier updateBy src.identifier,
         name = src.name or name,
         title = src.title or title,
         businessFunctions = businessFunctions updateBy src.businessFunctions

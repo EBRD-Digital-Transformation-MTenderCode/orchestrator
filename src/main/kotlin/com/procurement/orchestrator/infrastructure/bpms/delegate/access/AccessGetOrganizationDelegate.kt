@@ -187,6 +187,7 @@ class AccessGetOrganizationDelegate(
             data.persons
                 ?.map { person ->
                     Person(
+                        id = person.id,
                         title = person.title,
                         name = person.name,
                         identifier = person.identifier

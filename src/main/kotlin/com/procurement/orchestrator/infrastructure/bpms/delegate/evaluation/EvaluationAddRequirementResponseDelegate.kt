@@ -92,13 +92,7 @@ class EvaluationAddRequirementResponseDelegate(
                         responder = requirementResponse.responder
                             ?.let { responder ->
                                 AddRequirementResponseAction.Params.Award.RequirementResponse.Responder(
-                                    identifier = responder.identifier
-                                        .let { identifier ->
-                                            AddRequirementResponseAction.Params.Award.RequirementResponse.Responder.Identifier(
-                                                scheme = identifier.scheme,
-                                                id = identifier.id
-                                            )
-                                        },
+                                    id = responder.id,
                                     name = responder.name
                                         ?: return failure(
                                             Fail.Incident.Bpms.Context.Missing(
