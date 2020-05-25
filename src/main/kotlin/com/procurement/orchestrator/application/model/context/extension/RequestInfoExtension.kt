@@ -7,7 +7,7 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.asFailure
 import com.procurement.orchestrator.domain.functional.asSuccess
 
-private const val TOKEN_ATTRIBUTE_NAME = "token"
+private const val TOKEN_ATTRIBUTE_NAME = "requestInfo.token"
 
 fun RequestInfo.tryGetToken(): Result<Token, Fail.Incident.Bpms.Context.Missing> {
     val token = this.token
