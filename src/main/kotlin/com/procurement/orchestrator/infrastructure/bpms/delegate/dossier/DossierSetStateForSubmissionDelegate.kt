@@ -4,11 +4,13 @@ import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.DossierClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.getDetailsIfOnlyOne
+import com.procurement.orchestrator.application.model.context.extension.tryGetSubmissions
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.EnumElementProvider.Companion.keysAsStrings
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
+import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.domain.model.submission.Details
@@ -18,6 +20,7 @@ import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExterna
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
+import com.procurement.orchestrator.infrastructure.client.web.dossier.DossierCommands
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.SetStateForSubmissionAction
 import org.springframework.stereotype.Component
 
@@ -64,7 +67,8 @@ class DossierSetStateForSubmissionDelegate(
 
         val processInfo = context.processInfo
 
-        val submission = context.submissions
+        val submission = context.tryGetSubmissions()
+            .orForwardFail { fail -> return fail }
             .getDetailsIfOnlyOne()
             .orForwardFail { fail -> return fail }
 
@@ -84,12 +88,21 @@ class DossierSetStateForSubmissionDelegate(
     override fun updateGlobalContext(
         context: CamundaGlobalContext,
         parameters: Parameters,
-        data: SetStateForSubmissionAction.Result
+        result: Option<SetStateForSubmissionAction.Result>
     ): MaybeFail<Fail.Incident> {
 
-        val submission = context.submissions
+        val submission = context.tryGetSubmissions()
+            .orReturnFail { fail -> return MaybeFail.fail(fail) }
             .getDetailsIfOnlyOne()
             .orReturnFail { fail -> return MaybeFail.fail(fail) }
+
+        val data = result.orNull
+            ?: return MaybeFail.fail(
+                Fail.Incident.Response.Empty(
+                    service = "eDossier",
+                    action = DossierCommands.SetStateForSubmission
+                )
+            )
 
         val updatedSubmission = submission.copy(status = data.status)
 
