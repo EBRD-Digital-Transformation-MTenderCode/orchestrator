@@ -1,9 +1,13 @@
 package com.procurement.orchestrator.infrastructure.bpms.delegate.bpe
 
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonValue
 import com.procurement.orchestrator.application.model.Phase
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
+import com.procurement.orchestrator.domain.EnumElementProvider
+import com.procurement.orchestrator.domain.EnumElementProvider.Companion.keysAsStrings
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Option
@@ -19,7 +23,7 @@ class BpeSetPhaseDelegate(
     logger: Logger,
     operationStepRepository: OperationStepRepository,
     transform: Transform
-) : AbstractInternalDelegate<BpeSetPhaseDelegate.Parameters, Phase>(
+) : AbstractInternalDelegate<BpeSetPhaseDelegate.Parameters, BpeSetPhaseDelegate.Phases>(
     logger = logger,
     transform = transform,
     operationStepRepository = operationStepRepository
@@ -30,29 +34,54 @@ class BpeSetPhaseDelegate(
     }
 
     override fun parameters(parameterContainer: ParameterContainer): Result<Parameters, Fail.Incident.Bpmn.Parameter> {
-        val phase: Phase = parameterContainer.getString(PARAMETER_NAME_PHASE)
+        val phase: Phases = parameterContainer.getString(PARAMETER_NAME_PHASE)
             .orForwardFail { fail -> return fail }
-            .let { Phase(it) }
+            .let { phase ->
+                Phases.orNull(phase)
+                    ?: return Result.failure(
+                        Fail.Incident.Bpmn.Parameter.UnknownValue(
+                            name = PARAMETER_NAME_PHASE,
+                            expectedValues = Phases.allowedElements.keysAsStrings(),
+                            actualValue = phase
+                        )
+                    )
+            }
         return success(Parameters(phase = phase))
     }
 
     override suspend fun execute(
         context: CamundaGlobalContext,
         parameters: Parameters
-    ): Result<Option<Phase>, Fail.Incident> = success(Option.pure(parameters.phase))
+    ): Result<Option<Phases>, Fail.Incident> = success(Option.pure(parameters.phase))
 
     override fun updateGlobalContext(
         context: CamundaGlobalContext,
         parameters: Parameters,
-        data: Phase
+        data: Phases
     ): MaybeFail<Fail.Incident.Bpmn> {
 
         context.processInfo = context.processInfo
-            .copy(phase = data)
+            .copy(phase = Phase(data.key))
         return MaybeFail.none()
     }
 
     class Parameters(
-        val phase: Phase
+        val phase: Phases
     )
+
+    enum class Phases(@JsonValue override val key: String) : EnumElementProvider.Key {
+
+        EMPTY("empty"),
+        QUALIFICATION("qualification"),
+        SUSPENDED("suspended");
+
+        override fun toString(): String = key
+
+        companion object : EnumElementProvider<Phases>(info = info()) {
+
+            @JvmStatic
+            @JsonCreator
+            fun creator(name: String) = Phases.orThrow(name)
+        }
+    }
 }
