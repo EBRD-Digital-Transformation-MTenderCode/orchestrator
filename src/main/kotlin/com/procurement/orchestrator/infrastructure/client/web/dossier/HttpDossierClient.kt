@@ -6,6 +6,7 @@ import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.WebClient
+import com.procurement.orchestrator.infrastructure.client.web.dossier.action.CheckAccessToSubmissionAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetSubmissionStateByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.ValidateRequirementResponseAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
@@ -31,5 +32,13 @@ class HttpDossierClient(private val webClient: WebClient, properties: ComponentP
         url = url,
         command = DossierCommands.GetSubmissionStateByIds.build(id = id, params = params),
         target = DossierCommands.GetSubmissionStateByIds.target
+    )
+
+    override suspend fun checkAccessToSubmission(
+        id: CommandId,
+        params: CheckAccessToSubmissionAction.Params
+    ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
+        url = url,
+        command = DossierCommands.CheckAccessToSubmission.build(id = id, params = params)
     )
 }

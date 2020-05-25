@@ -29,6 +29,17 @@ class DossierActionsTest {
     }
 
     @Nested
+    inner class CheckAccessToSubmission {
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CheckAccessToSubmissionAction.Params>("json/client/dossier/check_access_to_submission_full.json")
+            }
+        }
+    }
+
+    @Nested
     inner class GetSubmissionStateByIds {
         @Nested
         inner class Params {

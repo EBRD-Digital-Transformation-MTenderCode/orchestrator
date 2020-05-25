@@ -11,6 +11,7 @@ import com.procurement.orchestrator.domain.EnumElementProvider
 import com.procurement.orchestrator.domain.EnumElementProvider.Companion.keysAsStrings
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
+import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.model.amendment.AmendmentId
@@ -20,6 +21,7 @@ import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExterna
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
+import com.procurement.orchestrator.infrastructure.client.web.revision.RevisionCommands
 import com.procurement.orchestrator.infrastructure.client.web.revision.action.SetStateForAmendmentAction
 import org.springframework.stereotype.Component
 
@@ -103,8 +105,13 @@ class RevisionSetStateForAmendmentDelegate(
     override fun updateGlobalContext(
         context: CamundaGlobalContext,
         parameters: Parameters,
-        data: SetStateForAmendmentAction.Result
+        result: Option<SetStateForAmendmentAction.Result>
     ): MaybeFail<Fail.Incident> {
+
+        val data = result.orNull
+            ?: return MaybeFail.fail(
+                Fail.Incident.Response.Empty(service = "eRevision", action = RevisionCommands.SetStateForAmendment)
+            )
 
         when (parameters.location) {
             Location.TENDER -> {

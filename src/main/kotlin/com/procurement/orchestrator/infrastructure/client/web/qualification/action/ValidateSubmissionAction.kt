@@ -17,7 +17,7 @@ abstract class ValidateSubmissionAction : ProceduralAction<ValidateSubmissionAct
     class Params(
         @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid,
         @field:JsonProperty("ocid") @param:JsonProperty("ocid") val ocid: Ocid,
-        @field:JsonProperty("id") @param:JsonProperty("id") val id: SubmissionId.Permanent,
+        @field:JsonProperty("id") @param:JsonProperty("id") val id: SubmissionId,
         @field:JsonProperty("candidates") @param:JsonProperty("candidates") val candidates: Candidates,
 
         @field:JsonInclude(JsonInclude.Include.NON_EMPTY)

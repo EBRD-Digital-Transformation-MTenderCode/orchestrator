@@ -4,11 +4,13 @@ import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.QualificationClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.getDetailsIfOnlyOne
+import com.procurement.orchestrator.application.model.context.extension.tryGetSubmissions
 import com.procurement.orchestrator.application.model.context.members.Outcomes
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
+import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.model.party.Parties
@@ -16,12 +18,14 @@ import com.procurement.orchestrator.domain.model.party.Party
 import com.procurement.orchestrator.domain.model.party.PartyRole
 import com.procurement.orchestrator.domain.model.party.PartyRoles
 import com.procurement.orchestrator.domain.model.submission.Details
+import com.procurement.orchestrator.domain.model.submission.SubmissionId
 import com.procurement.orchestrator.domain.model.submission.Submissions
 import com.procurement.orchestrator.domain.util.extension.asList
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
+import com.procurement.orchestrator.infrastructure.client.web.qualification.QualificationCommands
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CreateSubmissionAction
 import org.springframework.stereotype.Component
 
@@ -46,7 +50,9 @@ class QualificationCreateSubmissionDelegate(
         parameters: Unit
     ): Result<Reply<CreateSubmissionAction.Result>, Fail.Incident> {
 
-        val submissions = context.submissions
+        val submissions = context.tryGetSubmissions()
+            .orForwardFail { fail -> return fail }
+
         val submission = submissions.getDetailsIfOnlyOne()
             .orForwardFail { fail -> return fail }
 
@@ -60,7 +66,7 @@ class QualificationCreateSubmissionDelegate(
                 date = requestInfo.timestamp,
                 owner = requestInfo.owner,
                 submission = CreateSubmissionAction.Params.Submission(
-                    id = submission.id,
+                    id = submission.id as SubmissionId.Permanent,
                     requirementResponses = submission.requirementResponses,
                     candidates = submission.candidates,
                     documents = submission.documents
@@ -72,10 +78,21 @@ class QualificationCreateSubmissionDelegate(
     override fun updateGlobalContext(
         context: CamundaGlobalContext,
         parameters: Unit,
-        data: CreateSubmissionAction.Result
+        result: Option<CreateSubmissionAction.Result>
     ): MaybeFail<Fail.Incident> {
 
-        val submission = context.submissions.getDetailsIfOnlyOne()
+        val data = result.orNull
+            ?: return MaybeFail.fail(
+                Fail.Incident.Response.Empty(
+                    service = "eQualification",
+                    action = QualificationCommands.CreateSubmission
+                )
+            )
+
+        val submissions = context.tryGetSubmissions()
+            .orReturnFail { return MaybeFail.fail(it) }
+
+        val submission = submissions.getDetailsIfOnlyOne()
             .orReturnFail { return MaybeFail.fail(it) }
 
         val updatedSubmission = submission.copy(
