@@ -74,8 +74,6 @@ class ClarificationFindEnquiryIdsDelegate(
         val tender = context.tryGetTender()
             .orReturnFail { fail -> return MaybeFail.fail(fail) }
 
-        val enquiries = tender.enquiries
-
         val data = result.orNull
             ?: return MaybeFail.fail(
                 Fail.Incident.Response.Empty(service = "eClarification", action = ClarificationCommands.FindEnquiryIds)
@@ -83,6 +81,8 @@ class ClarificationFindEnquiryIdsDelegate(
 
         val receivedEnquiries = data
             .map { Enquiry(id = it) }
+
+        val enquiries = tender.enquiries
 
         val newEnquiries = getNewElements(known = enquiries, received = receivedEnquiries)
 
