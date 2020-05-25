@@ -21,13 +21,16 @@ abstract class SetStateForLotsAction :
     class Params(
         @param:JsonProperty("cpid") @field:JsonProperty("cpid") val cpid: Cpid,
         @param:JsonProperty("ocid") @field:JsonProperty("ocid") val ocid: Ocid,
+
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
         @param:JsonProperty("lots") @field:JsonProperty("lots") val lots: List<Lot>
     ) {
         data class Lot(
             @param:JsonProperty("id") @field:JsonProperty("id") val id: LotId.Permanent,
             @param:JsonProperty("status") @field:JsonProperty("status") val status: LotStatus,
-            @param:JsonProperty("statusDetails") @field:JsonProperty("statusDetails") val statusDetails: LotStatusDetails
+
+            @JsonInclude(JsonInclude.Include.NON_NULL)
+            @param:JsonProperty("statusDetails") @field:JsonProperty("statusDetails") val statusDetails: LotStatusDetails?
         )
     }
 
@@ -35,7 +38,9 @@ abstract class SetStateForLotsAction :
         class Lot(
             @param:JsonProperty("id") @field:JsonProperty("id") val id: LotId.Permanent,
             @param:JsonProperty("status") @field:JsonProperty("status") val status: LotStatus,
-            @param:JsonProperty("statusDetails") @field:JsonProperty("statusDetails") val statusDetails: LotStatusDetails
+
+            @JsonInclude(JsonInclude.Include.NON_NULL)
+            @param:JsonProperty("statusDetails") @field:JsonProperty("statusDetails") val statusDetails: LotStatusDetails?
         ) : Serializable
     }
 }

@@ -398,8 +398,8 @@
     <bpmn:sequenceFlow id="SequenceFlow_0vsuy8m" sourceRef="ExclusiveGateway_0og1pru" targetRef="BpeBpmnErrorDescriptionModifierTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0ewcvtb" sourceRef="BpeProcessInitializerTask" targetRef="RevisionCheckAccessToAmendmentTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0jgeubz" sourceRef="StartEvent_0q80gyq" targetRef="BpeProcessInitializerTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1jssco6" sourceRef="RevisionCheckAccessToAmendmentTask" targetRef="RevisionGetAmendmentStateByIdsTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0tuegz6" sourceRef="RevisionGetAmendmentStateByIdsTask" targetRef="SubProcess_1bs0od7" />
+    <bpmn:sequenceFlow id="SequenceFlow_1jssco6" sourceRef="RevisionCheckAccessToAmendmentTask" targetRef="RevisionGetMainPartOfAmendmentByIdsTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0tuegz6" sourceRef="RevisionGetMainPartOfAmendmentByIdsTask" targetRef="SubProcess_1bs0od7" />
     <bpmn:sequenceFlow id="SequenceFlow_0w8427f" sourceRef="NotifierErrorNotificationToPlatformTask" targetRef="EndEvent_1wz5cyb" />
     <bpmn:sequenceFlow id="SequenceFlow_0ax7zpj" sourceRef="BoundaryEvent_106t0cm" targetRef="AddErrorBPR-10.0.3.4.4Task" />
     <bpmn:sequenceFlow id="SequenceFlow_0a7w9ay" sourceRef="BoundaryEvent_0n8xy0x" targetRef="AddErrorBPR-10.0.3.4.3Task" />
@@ -430,7 +430,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_0b3utcl" sourceRef="SubUpdateMSTask" targetRef="ExclusiveGateway_1fpwzww" />
     <bpmn:sequenceFlow id="SequenceFlow_1a0eurs" sourceRef="SubModifyLotsFromCancelTenderLineTask" targetRef="ExclusiveGateway_0kqw9cg" />
     <bpmn:sequenceFlow id="SequenceFlow_1rmne3j" sourceRef="SubModifyLotsTask" targetRef="AccessFindActiveLotIdsInLotLineTask" />
-    <bpmn:serviceTask id="RevisionGetAmendmentStateByIdsTask" name="eRevision:&#10;Get main part of amendment by ids" camunda:asyncBefore="true" camunda:delegateExpression="${revisionGetMainPartOfAmendmentByIdsDelegate}">
+    <bpmn:serviceTask id="RevisionGetMainPartOfAmendmentByIdsTask" name="eRevision:&#10;Get main part of amendment by ids" camunda:asyncBefore="true" camunda:delegateExpression="${revisionGetMainPartOfAmendmentByIdsDelegate}">
       <bpmn:extensionElements>
         <camunda:inputOutput>
           <camunda:inputParameter name="location">tender</camunda:inputParameter>
@@ -619,7 +619,7 @@ TenderOrLotAmendmentConfirmation</bpmn:text>
       <bpmndi:BPMNShape id="BusinessRuleTask_1j25hu0_di" bpmnElement="DMNChoosingProcessForStart" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="1580" y="393" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_1puackp_di" bpmnElement="RevisionGetAmendmentStateByIdsTask" bioc:stroke="black" bioc:fill="white">
+      <bpmndi:BPMNShape id="ServiceTask_1puackp_di" bpmnElement="RevisionGetMainPartOfAmendmentByIdsTask" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="570" y="393" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_00b0mo8_di" bpmnElement="BpeProcessInitializerTask" bioc:stroke="black" bioc:fill="white">

@@ -1,7 +1,9 @@
 package com.procurement.orchestrator.application.model.context.extension
 
+import com.procurement.orchestrator.application.model.context.GlobalContext
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
+import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.domain.model.document.Document
 import com.procurement.orchestrator.domain.model.organization.Organization
 import com.procurement.orchestrator.domain.model.submission.Submission
@@ -12,6 +14,11 @@ private const val NAME_CANDIDATES = "candidates"
 private const val NAME_DOCUMENTS = "documents"
 
 private const val PATH_SUBMISSIONS = "submissions"
+
+fun GlobalContext.tryGetSubmissions(): Result<Submissions, Fail.Incident.Bpms.Context> =
+    this.submissions
+        ?.asSuccess()
+        ?: Result.failure(Fail.Incident.Bpms.Context.Missing(name = "submissions"))
 
 fun Submissions.getDetailsIfNotEmpty(): Result<List<Submission>, Fail.Incident.Bpms.Context> =
     this.details.getIfNotEmpty(name = NAME_DETAILS, path = PATH_SUBMISSIONS)

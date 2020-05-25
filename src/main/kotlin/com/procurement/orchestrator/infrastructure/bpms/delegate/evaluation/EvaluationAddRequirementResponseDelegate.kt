@@ -9,6 +9,7 @@ import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
+import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
@@ -91,13 +92,7 @@ class EvaluationAddRequirementResponseDelegate(
                         responder = requirementResponse.responder
                             ?.let { responder ->
                                 AddRequirementResponseAction.Params.Award.RequirementResponse.Responder(
-                                    identifier = responder.identifier
-                                        .let { identifier ->
-                                            AddRequirementResponseAction.Params.Award.RequirementResponse.Responder.Identifier(
-                                                scheme = identifier.scheme,
-                                                id = identifier.id
-                                            )
-                                        },
+                                    id = responder.id,
                                     name = responder.name
                                         ?: return failure(
                                             Fail.Incident.Bpms.Context.Missing(
@@ -122,6 +117,6 @@ class EvaluationAddRequirementResponseDelegate(
     override fun updateGlobalContext(
         context: CamundaGlobalContext,
         parameters: Unit,
-        data: Unit
+        result: Option<Unit>
     ): MaybeFail<Fail.Incident> = MaybeFail.none()
 }

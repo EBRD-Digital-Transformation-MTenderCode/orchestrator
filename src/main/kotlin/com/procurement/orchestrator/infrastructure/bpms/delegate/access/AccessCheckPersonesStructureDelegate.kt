@@ -11,6 +11,7 @@ import com.procurement.orchestrator.domain.EnumElementProvider
 import com.procurement.orchestrator.domain.EnumElementProvider.Companion.keysAsStrings
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
+import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
@@ -25,6 +26,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Chec
 import org.springframework.stereotype.Component
 
 @Component
+@Deprecated(message = "Using AccessVerifyRequirementResponseDelegate")
 class AccessCheckPersonesStructureDelegate(
     logger: Logger,
     private val accessClient: AccessClient,
@@ -87,7 +89,7 @@ class AccessCheckPersonesStructureDelegate(
     override fun updateGlobalContext(
         context: CamundaGlobalContext,
         parameters: Parameters,
-        data: Unit
+        result: Option<Unit>
     ): MaybeFail<Fail.Incident.Bpmn> = MaybeFail.none()
 
     private fun buildPersonsForAward(context: CamundaGlobalContext): Result<List<CheckPersonesStructureAction.Params.Person>, Fail.Incident> {
@@ -100,10 +102,11 @@ class AccessCheckPersonesStructureDelegate(
         val persons = requirementResponse.responder
             ?.let { responder ->
                 CheckPersonesStructureAction.Params.Person(
+                    id = responder.id,
                     title = responder.title,
                     name = responder.name,
                     identifier = responder.identifier
-                        .let { identifier ->
+                        ?.let { identifier ->
                             CheckPersonesStructureAction.Params.Person.Identifier(
                                 scheme = identifier.scheme,
                                 id = identifier.id,

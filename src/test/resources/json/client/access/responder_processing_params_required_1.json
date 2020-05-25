@@ -3,6 +3,7 @@
   "ocid": "ocds-b3wdp1-MD-1580458690892-EV-1580458791896",
   "date": "2020-02-12T12:14:12Z",
   "responder": {
+    "id": "scheme-id",
     "title": "string",
     "name": "string",
     "identifier": {

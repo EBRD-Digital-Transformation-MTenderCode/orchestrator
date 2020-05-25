@@ -66,6 +66,7 @@
         },
         "persones": [
           {
+            "id": "scheme-id",
             "title": "Mr.",
             "name": "string",
             "identifier": {
@@ -96,7 +97,6 @@
         "details": {
           "typeOfSupplier": "company",
           "mainEconomicActivities": [
-
           ],
           "scale": "micro",
           "bankAccounts": [
