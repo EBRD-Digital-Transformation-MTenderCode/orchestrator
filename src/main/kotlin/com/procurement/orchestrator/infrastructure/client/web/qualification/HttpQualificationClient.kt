@@ -7,8 +7,8 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.WebClient
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckPeriodAction
-import com.procurement.orchestrator.infrastructure.client.web.qualification.action.ValidateSubmissionAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CreateSubmissionAction
+import com.procurement.orchestrator.infrastructure.client.web.qualification.action.ValidateSubmissionAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
 import java.net.URL
 

@@ -38,4 +38,23 @@ class DossierActionsTest {
             }
         }
     }
+
+    @Nested
+    inner class GetSubmissionStateByIds {
+        @Nested
+        inner class Params {
+            @Test
+            fun test() {
+                testingBindingAndMapping<GetSubmissionStateByIdsAction.Params>("json/client/dossier/get_submission_state_by_ids_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun test() {
+                testingBindingAndMapping<GetSubmissionStateByIdsAction.Result>("json/client/dossier/get_submission_state_by_ids_result_full.json")
+            }
+        }
+    }
 }
