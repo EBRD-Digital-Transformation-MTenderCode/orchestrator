@@ -70,7 +70,7 @@ abstract class AbstractInternalDelegate<P, R : Any>(
         context: CamundaGlobalContext,
         parameters: P,
         data: R
-    ): MaybeFail<Fail.Incident.Bpmn>
+    ): MaybeFail<Fail.Incident>
 
     private fun saveStep(
         globalContext: CamundaGlobalContext,
