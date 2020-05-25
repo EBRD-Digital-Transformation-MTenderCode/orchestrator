@@ -1,0 +1,161 @@
+{
+  "cpid": "ocds-b3wdp1-MD-1580458690892",
+  "ocid": "ocds-b3wdp1-MD-1580458690892-EV-1580458791896",
+  "date": "2020-03-26T12:36:20Z",
+  "owner": "8674b569-5bb9-4d3f-8a5a-dc8d9c9c1592",
+  "submission": {
+    "id": "8674b569-5bb9-4d3f-8a5a-dc8d9c9c1592",
+    "requirementResponses": [
+      {
+        "id": "8674b569-5bb9-4d3f-8a5a-dc8d9c9c1592",
+        "value": "Unknown Type: string,number,integer,boolean",
+        "requirement": {
+          "id": "string"
+        },
+        "relatedCandidate": {
+          "id": "string",
+          "name": "string"
+        }
+      }
+    ],
+    "candidates": [
+      {
+        "id": "string",
+        "name": "string",
+        "identifier": {
+          "id": "string",
+          "legalName": "string",
+          "scheme": "string",
+          "uri": "string"
+        },
+        "additionalIdentifiers": [
+          {
+            "id": "string",
+            "legalName": "string",
+            "scheme": "string",
+            "uri": "string"
+          }
+        ],
+        "address": {
+          "streetAddress": "string",
+          "postalCode": "string",
+          "addressDetails": {
+            "country": {
+              "id": "string",
+              "description": "string",
+              "scheme": "string"
+            },
+            "region": {
+              "id": "string",
+              "description": "string",
+              "scheme": "string"
+            },
+            "locality": {
+              "id": "string",
+              "description": "string",
+              "scheme": "string"
+            }
+          }
+        },
+        "contactPoint": {
+          "name": "string",
+          "email": "string",
+          "telephone": "string",
+          "faxNumber": "string",
+          "url": "string"
+        },
+        "persones": [
+          {
+            "id": "scheme-id",
+            "title": "Mr.",
+            "name": "string",
+            "identifier": {
+              "scheme": "string",
+              "id": "string",
+              "uri": "string"
+            },
+            "businessFunctions": [
+              {
+                "id": "string",
+                "type": "authority",
+                "jobTitle": "string",
+                "period": {
+                  "startDate": "2020-05-11T09:44:13Z"
+                },
+                "documents": [
+                  {
+                    "id": "string",
+                    "documentType": "regulatoryDocument",
+                    "title": "string",
+                    "description": "string"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "details": {
+          "typeOfSupplier": "company",
+          "mainEconomicActivities": [
+          ],
+          "scale": "micro",
+          "bankAccounts": [
+            {
+              "description": "string",
+              "bankName": "string",
+              "address": {
+                "streetAddress": "string",
+                "postalCode": "string",
+                "addressDetails": {
+                  "country": {
+                    "id": "string",
+                    "description": "string",
+                    "scheme": "string"
+                  },
+                  "region": {
+                    "id": "string",
+                    "description": "string",
+                    "scheme": "string"
+                  },
+                  "locality": {
+                    "id": "string",
+                    "description": "string",
+                    "scheme": "string"
+                  }
+                }
+              },
+              "identifier": {
+                "scheme": "UA-MFO",
+                "id": "string"
+              },
+              "accountIdentification": {
+                "scheme": "IBAN",
+                "id": "string"
+              },
+              "additionalAccountIdentifiers": [
+                {
+                  "scheme": "fiscal",
+                  "id": "string"
+                }
+              ]
+            }
+          ],
+          "legalForm": {
+            "scheme": "MD-CFOJ",
+            "id": "string",
+            "description": "string",
+            "uri": "string"
+          }
+        }
+      }
+    ],
+    "documents": [
+      {
+        "documentType": "illustration",
+        "id": "string",
+        "title": "string",
+        "description": "string"
+      }
+    ]
+  }
+}

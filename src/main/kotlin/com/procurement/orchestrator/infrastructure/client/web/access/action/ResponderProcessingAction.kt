@@ -9,6 +9,7 @@ import com.procurement.orchestrator.domain.model.document.DocumentId
 import com.procurement.orchestrator.domain.model.document.DocumentType
 import com.procurement.orchestrator.domain.model.organization.person.BusinessFunctionId
 import com.procurement.orchestrator.domain.model.organization.person.BusinessFunctionType
+import com.procurement.orchestrator.domain.model.person.PersonId
 import com.procurement.orchestrator.infrastructure.client.web.Target
 import com.procurement.orchestrator.infrastructure.model.Version
 import java.io.Serializable
@@ -28,6 +29,8 @@ abstract class ResponderProcessingAction :
     ) {
 
         class Responder(
+            @field:JsonProperty("id") @param:JsonProperty("id") val id: PersonId,
+
             @JsonInclude(JsonInclude.Include.NON_NULL)
             @field:JsonProperty("title") @param:JsonProperty("title") val title: String?,
 
@@ -85,13 +88,7 @@ abstract class ResponderProcessingAction :
     }
 
     class Result(
-        @field:JsonProperty("name") @param:JsonProperty("name") val name: String,
-        @field:JsonProperty("identifier") @param:JsonProperty("identifier") val identifier: Identifier
-    ) : Serializable {
-
-        data class Identifier(
-            @field:JsonProperty("scheme") @param:JsonProperty("scheme") val scheme: String,
-            @field:JsonProperty("id") @param:JsonProperty("id") val id: String
-        ) : Serializable
-    }
+        @field:JsonProperty("id") @param:JsonProperty("id") val id: PersonId,
+        @field:JsonProperty("name") @param:JsonProperty("name") val name: String
+    ) : Serializable
 }

@@ -94,8 +94,8 @@ class QueueNoticeTask(
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
         @field:JsonProperty("contracts") @param:JsonProperty("contracts") val contracts: Contracts = Contracts(),
 
-        @JsonInclude(JsonInclude.Include.NON_EMPTY)
-        @field:JsonProperty("submissions") @param:JsonProperty("submissions") val submissions: Submissions = Submissions()
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        @field:JsonProperty("submissions") @param:JsonProperty("submissions") val submissions: Submissions?
     )
 
     enum class Action(override val key: String, private val weight: Int) : EnumElementProvider.Key {
@@ -146,5 +146,6 @@ private fun QueueNoticeTask.Data.update(data: QueueNoticeTask.Data): QueueNotice
     bids = bids updateBy data.bids,
     awards = awards updateBy data.awards,
     parties = parties updateBy data.parties,
-    contracts = contracts updateBy data.contracts
+    contracts = contracts updateBy data.contracts,
+    submissions = submissions updateBy data.submissions
 )

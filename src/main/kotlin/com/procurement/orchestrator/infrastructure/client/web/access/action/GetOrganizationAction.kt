@@ -9,6 +9,7 @@ import com.procurement.orchestrator.domain.model.document.DocumentId
 import com.procurement.orchestrator.domain.model.document.DocumentType
 import com.procurement.orchestrator.domain.model.organization.person.BusinessFunctionType
 import com.procurement.orchestrator.domain.model.party.PartyRole
+import com.procurement.orchestrator.domain.model.person.PersonId
 import com.procurement.orchestrator.infrastructure.client.web.Target
 import com.procurement.orchestrator.infrastructure.model.Version
 import java.io.Serializable
@@ -109,11 +110,13 @@ abstract class GetOrganizationAction : FunctionalAction<GetOrganizationAction.Pa
         ) : Serializable
 
         data class Person(
+            @field:JsonProperty("id") @param:JsonProperty("id") val id: PersonId,
             @field:JsonProperty("title") @param:JsonProperty("title") val title: String,
             @field:JsonProperty("name") @param:JsonProperty("name") val name: String,
             @field:JsonProperty("identifier") @param:JsonProperty("identifier") val identifier: Identifier,
             @field:JsonProperty("businessFunctions") @param:JsonProperty("businessFunctions") val businessFunctions: List<BusinessFunction>
         ) : Serializable {
+
             data class Identifier(
                 @field:JsonProperty("scheme") @param:JsonProperty("scheme") val scheme: String,
                 @field:JsonProperty("id") @param:JsonProperty("id") val id: String,
@@ -131,6 +134,7 @@ abstract class GetOrganizationAction : FunctionalAction<GetOrganizationAction.Pa
                 @JsonInclude(JsonInclude.Include.NON_EMPTY)
                 @field:JsonProperty("documents") @param:JsonProperty("documents") val documents: List<Document>?
             ) : Serializable {
+
                 data class Period(
                     @field:JsonProperty("startDate") @param:JsonProperty("startDate") val startDate: LocalDateTime
                 ) : Serializable

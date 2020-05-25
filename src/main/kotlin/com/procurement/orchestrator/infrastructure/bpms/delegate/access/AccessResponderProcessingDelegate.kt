@@ -9,19 +9,20 @@ import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
+import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
 import com.procurement.orchestrator.domain.model.award.Awards
-import com.procurement.orchestrator.domain.model.identifier.Identifier
 import com.procurement.orchestrator.domain.model.person.Person
 import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponses
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
+import com.procurement.orchestrator.infrastructure.client.web.access.AccessCommands
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ResponderProcessingAction
 import org.springframework.stereotype.Component
 
@@ -68,8 +69,13 @@ class AccessResponderProcessingDelegate(
     override fun updateGlobalContext(
         context: CamundaGlobalContext,
         parameters: Unit,
-        data: ResponderProcessingAction.Result
+        result: Option<ResponderProcessingAction.Result>
     ): MaybeFail<Fail.Incident> {
+
+        val data = result.orNull
+            ?: return MaybeFail.fail(
+                Fail.Incident.Response.Empty(service = "eAccess", action = AccessCommands.ResponderProcessing)
+            )
 
         val award = context.getAwardIfOnlyOne()
             .orReturnFail { return MaybeFail.fail(it) }
@@ -79,13 +85,7 @@ class AccessResponderProcessingDelegate(
 
         val updatedRequirementResponse = requirementResponse.copy(
             responder = Person(
-                identifier = data.identifier
-                    .let { identifier ->
-                        Identifier(
-                            scheme = identifier.scheme,
-                            id = identifier.id
-                        )
-                    },
+                id = data.id,
                 name = data.name
             )
         )
@@ -107,10 +107,11 @@ class AccessResponderProcessingDelegate(
         val responder = requirementResponse.responder
             ?.let { responder ->
                 ResponderProcessingAction.Params.Responder(
+                    id = responder.id,
                     title = responder.title,
                     name = responder.name,
                     identifier = responder.identifier
-                        .let { identifier ->
+                        ?.let { identifier ->
                             ResponderProcessingAction.Params.Responder.Identifier(
                                 scheme = identifier.scheme,
                                 id = identifier.id,

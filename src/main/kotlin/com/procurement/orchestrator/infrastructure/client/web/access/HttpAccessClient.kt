@@ -15,6 +15,8 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.GetT
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ResponderProcessingAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForLotsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForTenderAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateRequirementResponsesAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.VerifyRequirementResponseAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
 import java.net.URL
 
@@ -49,12 +51,12 @@ class HttpAccessClient(private val webClient: WebClient, properties: ComponentPr
         command = AccessCommands.CheckAccessToTender.build(id = id, params = params)
     )
 
-    override suspend fun checkPersonsStructure(
+    override suspend fun verifyRequirementResponse(
         id: CommandId,
-        params: CheckPersonesStructureAction.Params
+        params: VerifyRequirementResponseAction.Params
     ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
         url = url,
-        command = AccessCommands.CheckPersonesStructure.build(id = id, params = params)
+        command = AccessCommands.VerifyRequirementResponse.build(id = id, params = params)
     )
 
     override suspend fun responderProcessing(
@@ -100,5 +102,22 @@ class HttpAccessClient(private val webClient: WebClient, properties: ComponentPr
         url = url,
         command = AccessCommands.GetOrganization.build(id = id, params = params),
         target = AccessCommands.GetOrganization.target
+    )
+
+    override suspend fun checkPersonsStructure(
+        id: CommandId,
+        params: CheckPersonesStructureAction.Params
+    ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
+        url = url,
+        command = AccessCommands.CheckPersonesStructure.build(id = id, params = params)
+    )
+
+    override suspend fun validateRequirementResponses(
+        id: CommandId,
+        params: ValidateRequirementResponsesAction.Params
+    ): Result<Reply<ValidateRequirementResponsesAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = AccessCommands.ValidateRequirementResponses.build(id = id, params = params),
+        target = AccessCommands.ValidateRequirementResponses.target
     )
 }

@@ -1,5 +1,7 @@
 package com.procurement.orchestrator.infrastructure.configuration
 
+import com.procurement.orchestrator.application.service.ProcessLauncher
+import com.procurement.orchestrator.application.service.ProcessLauncherImpl
 import com.procurement.orchestrator.application.service.ProcessService
 import com.procurement.orchestrator.application.service.ProcessServiceImpl
 import com.procurement.orchestrator.application.service.Transform
@@ -7,8 +9,6 @@ import com.procurement.orchestrator.application.service.cancellation.Cancellatio
 import com.procurement.orchestrator.application.service.cancellation.CancellationServiceImpl
 import com.procurement.orchestrator.application.service.confirmation.ConfirmationService
 import com.procurement.orchestrator.application.service.confirmation.ConfirmationServiceImpl
-import com.procurement.orchestrator.application.service.response.RequirementResponseService
-import com.procurement.orchestrator.application.service.response.RequirementResponseServiceImpl
 import com.procurement.orchestrator.infrastructure.configuration.property.UriProperties
 import org.camunda.bpm.engine.RuntimeService
 import org.springframework.boot.context.properties.EnableConfigurationProperties
@@ -55,7 +55,7 @@ class ServiceConfiguration(
         )
 
     @Bean
-    fun requirementResponseService(): RequirementResponseService = RequirementResponseServiceImpl(
+    fun processLauncher(): ProcessLauncher = ProcessLauncherImpl(
         transform = transform,
         processService = processService(),
         requestRepository = repositoryConfiguration.requestRepository(),

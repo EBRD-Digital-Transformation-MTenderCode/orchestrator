@@ -132,6 +132,7 @@ class NotifierSuccessNotificationToPlatformDelegate(
 
     private fun generateUrl(operationType: OperationTypeProcess, cpid: Cpid, ocid: Ocid): String =
         when (operationType) {
+            OperationTypeProcess.CREATE_SUBMISSION -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.TENDER_CANCELLATION -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.LOT_CANCELLATION -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.DECLARE_NON_CONFLICT_OF_INTEREST -> "$tenderUri/$cpid/$ocid"
