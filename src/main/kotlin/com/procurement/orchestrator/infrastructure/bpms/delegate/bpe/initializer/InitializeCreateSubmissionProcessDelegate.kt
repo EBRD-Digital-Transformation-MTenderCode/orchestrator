@@ -31,6 +31,7 @@ import com.procurement.orchestrator.domain.model.organization.person.BusinessFun
 import com.procurement.orchestrator.domain.model.organization.person.BusinessFunctions
 import com.procurement.orchestrator.domain.model.period.Period
 import com.procurement.orchestrator.domain.model.person.Person
+import com.procurement.orchestrator.domain.model.person.PersonId
 import com.procurement.orchestrator.domain.model.person.Persons
 import com.procurement.orchestrator.domain.model.requirement.RequirementReference
 import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponse
@@ -169,6 +170,10 @@ class InitializeCreateSubmissionProcessDelegate(
                                     persons = candidate.persons
                                         .map { person ->
                                             Person(
+                                                id = PersonId.generate(
+                                                    scheme = person.identifier.scheme,
+                                                    id = person.identifier.id
+                                                ),
                                                 identifier = person.identifier
                                                     .let { identifier ->
                                                         Identifier(

@@ -9,6 +9,7 @@ import com.procurement.orchestrator.domain.model.document.DocumentId
 import com.procurement.orchestrator.domain.model.document.DocumentType
 import com.procurement.orchestrator.domain.model.organization.person.BusinessFunctionId
 import com.procurement.orchestrator.domain.model.organization.person.BusinessFunctionType
+import com.procurement.orchestrator.domain.model.person.PersonId
 import com.procurement.orchestrator.infrastructure.model.Version
 import java.time.LocalDateTime
 
@@ -26,6 +27,8 @@ abstract class CheckPersonesStructureAction : ProceduralAction<CheckPersonesStru
     ) {
 
         class Person(
+            @field:JsonProperty("id") @param:JsonProperty("id") val id: PersonId,
+
             @JsonInclude(JsonInclude.Include.NON_NULL)
             @field:JsonProperty("title") @param:JsonProperty("title") val title: String?,
 
