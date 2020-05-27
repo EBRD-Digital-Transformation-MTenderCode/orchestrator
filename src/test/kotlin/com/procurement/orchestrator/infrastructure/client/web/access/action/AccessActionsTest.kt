@@ -203,6 +203,30 @@ class AccessActionsTest {
     }
 
     @Nested
+    inner class GetQualificationCriteriaAndMethod {
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetQualificationCriteriaAndMethodAction.Params>("json/client/access/get_qualification_criteria_and_method_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetQualificationCriteriaAndMethodAction.Result>("json/client/access/get_qualification_criteria_and_method_result_full.json")
+            }
+
+            @Test
+            fun required_1() {
+                testingBindingAndMapping<GetQualificationCriteriaAndMethodAction.Result>("json/client/access/get_qualification_criteria_and_method_result_required_1.json")
+            }
+        }
+    }
+
+    @Nested
     inner class ValidateRequirementResponses {
 
         @Nested

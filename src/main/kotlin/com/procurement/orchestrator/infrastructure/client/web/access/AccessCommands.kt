@@ -5,6 +5,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Chec
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindLotIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotStateByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetOrganizationAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.GetQualificationCriteriaAndMethodAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ResponderProcessingAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForLotsAction
@@ -34,6 +35,8 @@ object AccessCommands {
     object SetStateForLots : SetStateForLotsAction()
 
     object GetOrganization : GetOrganizationAction()
+
+    object GetQualificationCriteriaAndMethod : GetQualificationCriteriaAndMethodAction()
 
     object ValidateRequirementResponses : ValidateRequirementResponsesAction()
 }
