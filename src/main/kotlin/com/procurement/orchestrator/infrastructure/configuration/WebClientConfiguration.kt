@@ -1,6 +1,7 @@
 package com.procurement.orchestrator.infrastructure.configuration
 
 import com.procurement.orchestrator.application.client.AccessClient
+import com.procurement.orchestrator.application.client.ClarificationClient
 import com.procurement.orchestrator.application.client.ContractingClient
 import com.procurement.orchestrator.application.client.DossierClient
 import com.procurement.orchestrator.application.client.EvaluationClient
@@ -13,6 +14,7 @@ import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.infrastructure.client.web.OkHttpWebClient
 import com.procurement.orchestrator.infrastructure.client.web.WebClient
 import com.procurement.orchestrator.infrastructure.client.web.access.HttpAccessClient
+import com.procurement.orchestrator.infrastructure.client.web.clarification.HttpClarificationClient
 import com.procurement.orchestrator.infrastructure.client.web.contracting.HttpContractingClient
 import com.procurement.orchestrator.infrastructure.client.web.dossier.HttpDossierClient
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.HttpEvaluationClient
@@ -77,4 +79,8 @@ class WebClientConfiguration(
     @Bean
     fun qualificationClient(): QualificationClient =
         HttpQualificationClient(webClient = webClient(),properties = componentProperties["eQualification"])
+
+    @Bean
+    fun clarificationClient():ClarificationClient =
+        HttpClarificationClient(webClient = webClient(), properties = componentProperties["eClarification"])
 }
