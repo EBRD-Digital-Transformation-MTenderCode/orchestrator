@@ -59,6 +59,40 @@ class DossierActionsTest {
     }
 
     @Nested
+    inner class GetOrganizations {
+        @Nested
+        inner class Params {
+            @Test
+            fun test() {
+                testingBindingAndMapping<GetOrganizationsAction.Params>("json/client/dossier/get_organizations_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetOrganizationsAction.Result>("json/client/dossier/get_organizations_result_full.json")
+            }
+
+            @Test
+            fun required1() {
+                testingBindingAndMapping<GetOrganizationsAction.Result>("json/client/dossier/get_organizations_result_required_1.json")
+            }
+
+            @Test
+            fun required2() {
+                testingBindingAndMapping<GetOrganizationsAction.Result>("json/client/dossier/get_organizations_result_required_2.json")
+            }
+
+            @Test
+            fun required3() {
+                testingBindingAndMapping<GetOrganizationsAction.Result>("json/client/dossier/get_organizations_result_required_3.json")
+            }
+        }
+    }
+
+    @Nested
     inner class SetStateForSubmission {
 
         @Nested

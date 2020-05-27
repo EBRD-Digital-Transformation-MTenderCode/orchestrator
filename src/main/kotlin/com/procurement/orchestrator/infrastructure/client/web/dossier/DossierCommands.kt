@@ -1,5 +1,7 @@
 package com.procurement.orchestrator.infrastructure.client.web.dossier
 
+import com.procurement.orchestrator.infrastructure.client.web.dossier.action.CheckAccessToSubmissionAction
+import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetOrganizationsAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetSubmissionPeriodEndDateAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetSubmissionStateByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.CheckAccessToSubmissionAction
@@ -8,13 +10,16 @@ import com.procurement.orchestrator.infrastructure.client.web.dossier.action.Val
 
 object DossierCommands {
 
-    object GetSubmissionPeriodEndDate : GetSubmissionPeriodEndDateAction()
+    object CheckAccessToSubmission : CheckAccessToSubmissionAction()
 
-    object ValidateRequirementResponse : ValidateRequirementResponseAction()
+    object GetOrganizations : GetOrganizationsAction()
+
+    object GetSubmissionPeriodEndDate : GetSubmissionPeriodEndDateAction()
 
     object GetSubmissionStateByIds : GetSubmissionStateByIdsAction()
 
     object CheckAccessToSubmission: CheckAccessToSubmissionAction()
 
     object SetStateForSubmission : SetStateForSubmissionAction()
+    object ValidateRequirementResponse : ValidateRequirementResponseAction()
 }

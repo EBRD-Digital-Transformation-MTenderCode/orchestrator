@@ -28,7 +28,6 @@ import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContai
 import com.procurement.orchestrator.infrastructure.bpms.delegate.parameter.StateParameter
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
-import com.procurement.orchestrator.infrastructure.client.web.contracting.ContractingCommands
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.FindCANIdsAction
 import org.springframework.stereotype.Component
 
@@ -185,9 +184,7 @@ class ContractingFindCANIdsDelegate(
     ): MaybeFail<Fail.Incident> {
 
         val data = result.orNull
-            ?: return MaybeFail.fail(
-                Fail.Incident.Response.Empty(service = "eContracting", action = ContractingCommands.FindCANIds)
-            )
+            ?: return MaybeFail.none()
 
         val contextContracts = context.contracts
 

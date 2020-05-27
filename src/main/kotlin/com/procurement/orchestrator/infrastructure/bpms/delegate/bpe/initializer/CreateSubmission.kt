@@ -17,6 +17,8 @@ import com.procurement.orchestrator.domain.model.document.DocumentType
 import com.procurement.orchestrator.domain.model.identifier.IdentifierId
 import com.procurement.orchestrator.domain.model.identifier.IdentifierScheme
 import com.procurement.orchestrator.domain.model.organization.OrganizationId
+import com.procurement.orchestrator.domain.model.organization.datail.MainEconomicActivityId
+import com.procurement.orchestrator.domain.model.organization.datail.MainEconomicActivityScheme
 import com.procurement.orchestrator.domain.model.organization.datail.Scale
 import com.procurement.orchestrator.domain.model.organization.datail.TypeOfSupplier
 import com.procurement.orchestrator.domain.model.organization.datail.account.AccountIdentifierId
@@ -222,8 +224,8 @@ object CreateSubmission {
                     ) {
 
                         data class MainEconomicActivity(
-                            @field:JsonProperty("scheme") @param:JsonProperty("scheme") val scheme: IdentifierScheme,
-                            @field:JsonProperty("id") @param:JsonProperty("id") val id: IdentifierId,
+                            @field:JsonProperty("scheme") @param:JsonProperty("scheme") val scheme: MainEconomicActivityScheme,
+                            @field:JsonProperty("id") @param:JsonProperty("id") val id: MainEconomicActivityId,
                             @field:JsonProperty("description") @param:JsonProperty("description") val description: String,
 
                             @field:JsonInclude(JsonInclude.Include.NON_NULL)
