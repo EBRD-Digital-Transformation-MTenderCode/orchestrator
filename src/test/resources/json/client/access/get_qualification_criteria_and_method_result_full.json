@@ -1,0 +1,22 @@
+{
+  "conversions": [
+    {
+      "id": "317675d5-859a-4d46-bed1-35913beb916d",
+      "relatedItem": "317675d5-859a-4d46-bed1-35913beb915d",
+      "relatesTo": "requirement",
+      "description": "string",
+      "rationale": "string",
+      "coefficients": [
+        {
+          "value": "Unknown Type: string,number,boolean,integer",
+          "id": "317675d5-859a-4d46-bed1-35913beb911d",
+          "coefficient": 0
+        }
+      ]
+    }
+  ],
+  "qualificationSystemMethods": [
+    "automated"
+  ],
+  "reductionCriteria": "reductionCriteria"
+}

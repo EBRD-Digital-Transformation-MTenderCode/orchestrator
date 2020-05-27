@@ -1,11 +1,11 @@
-package com.procurement.orchestrator.delegate.qualification;
+package com.procurement.orchestrator.delegate.dossier;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.delegate.clarification.ClarificationCheckPeriod;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.dto.command.ResponseDto;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
-import com.procurement.orchestrator.rest.QualificationRestClient;
+import com.procurement.orchestrator.rest.DossierRestClient;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -16,27 +16,27 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
-import static com.procurement.orchestrator.domain.commands.QualificationCommandType.CHECK_PERIOD;
+import static com.procurement.orchestrator.domain.commands.DossierCommandType.CHECK_PERIOD;
 
 @Component
-public class QualificationCheckPeriod implements JavaDelegate {
+public class DossierCheckPeriod implements JavaDelegate {
 
     private static final Logger LOG = LoggerFactory.getLogger(ClarificationCheckPeriod.class);
     private static final String ATTRIBUTE_NAME = "isPreQualificationPeriodChanged";
     private static final String VARIABLE_NAME = "isPreQualificationPeriodChanged";
 
-    private final QualificationRestClient qualificationRestClient;
+    private final DossierRestClient dossierRestClient;
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public QualificationCheckPeriod(
-        final QualificationRestClient qualificationRestClient,
+    public DossierCheckPeriod(
+        final DossierRestClient dossierRestClient,
         final OperationService operationService,
         final ProcessService processService,
         final JsonUtil jsonUtil
     ) {
-        this.qualificationRestClient = qualificationRestClient;
+        this.dossierRestClient = dossierRestClient;
         this.operationService = operationService;
         this.processService = processService;
         this.jsonUtil = jsonUtil;
@@ -57,7 +57,7 @@ public class QualificationCheckPeriod implements JavaDelegate {
             LOG.debug("COMMAND ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(commandMessage));
         }
 
-        final ResponseEntity<ResponseDto> response = qualificationRestClient.execute(commandMessage);
+        final ResponseEntity<ResponseDto> response = dossierRestClient.execute(commandMessage);
         if (LOG.isDebugEnabled()) {
             LOG.debug("RESPONSE FROM SERVICE ({}): '{}'.", context.getOperationId(), jsonUtil.toJson(response.getBody()));
         }

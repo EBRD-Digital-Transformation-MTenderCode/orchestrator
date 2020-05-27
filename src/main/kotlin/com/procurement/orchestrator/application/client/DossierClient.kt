@@ -8,10 +8,18 @@ import com.procurement.orchestrator.infrastructure.client.web.dossier.action.Che
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetOrganizationsAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetSubmissionPeriodEndDateAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetSubmissionStateByIdsAction
+import com.procurement.orchestrator.infrastructure.client.web.dossier.action.CheckPeriodAction
+import com.procurement.orchestrator.infrastructure.client.web.dossier.action.CreateSubmissionAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.SetStateForSubmissionAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.ValidateRequirementResponseAction
+import com.procurement.orchestrator.infrastructure.client.web.dossier.action.ValidateSubmissionAction
 
 interface DossierClient {
+
+    suspend fun checkAccessToSubmission(
+        id: CommandId,
+        params: CheckAccessToSubmissionAction.Params
+    ): Result<Reply<Unit>, Fail.Incident>
 
     suspend fun getOrganizations(
         id: CommandId,
@@ -23,20 +31,30 @@ interface DossierClient {
         params: GetSubmissionPeriodEndDateAction.Params
     ): Result<Reply<GetSubmissionPeriodEndDateAction.Result>, Fail.Incident>
 
+    suspend fun getSubmissionStateByIds(
+        id: CommandId,
+        params: GetSubmissionStateByIdsAction.Params
+    ): Result<Reply<GetSubmissionStateByIdsAction.Result>, Fail.Incident>
+
     suspend fun validateRequirementResponse(
         id: CommandId,
         params: ValidateRequirementResponseAction.Params
     ): Result<Reply<Unit>, Fail.Incident>
 
-    suspend fun checkAccessToSubmission(
+    suspend fun checkPeriod(
         id: CommandId,
-        params: CheckAccessToSubmissionAction.Params
+        params: CheckPeriodAction.Params
     ): Result<Reply<Unit>, Fail.Incident>
 
-    suspend fun getSubmissionStateByIds(
+    suspend fun validateSubmission(
         id: CommandId,
-        params: GetSubmissionStateByIdsAction.Params
-    ): Result<Reply<GetSubmissionStateByIdsAction.Result>, Fail.Incident>
+        params: ValidateSubmissionAction.Params
+    ): Result<Reply<Unit>, Fail.Incident>
+
+    suspend fun createSubmission(
+        id: CommandId,
+        params: CreateSubmissionAction.Params
+    ): Result<Reply<CreateSubmissionAction.Result>, Fail.Incident>
 
     suspend fun setStateForSubmission(
         id: CommandId,

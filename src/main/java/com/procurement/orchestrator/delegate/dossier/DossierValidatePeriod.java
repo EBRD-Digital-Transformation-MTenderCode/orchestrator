@@ -1,12 +1,11 @@
-package com.procurement.orchestrator.delegate.qualification;
+package com.procurement.orchestrator.delegate.dossier;
 
-import java.util.Objects;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.dto.command.ResponseDto;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
-import com.procurement.orchestrator.rest.QualificationRestClient;
+import com.procurement.orchestrator.rest.DossierRestClient;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -17,14 +16,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
-import static com.procurement.orchestrator.domain.commands.QualificationCommandType.VALIDATE_PERIOD;
+import java.util.Objects;
+
+import static com.procurement.orchestrator.domain.commands.DossierCommandType.VALIDATE_PERIOD;
 
 @Component
-public class QualificationValidatePeriod implements JavaDelegate {
+public class DossierValidatePeriod implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(QualificationValidatePeriod.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DossierValidatePeriod.class);
 
-    private final QualificationRestClient qualificationRestClient;
+    private final DossierRestClient dossierRestClient;
 
     private final OperationService operationService;
 
@@ -32,11 +33,11 @@ public class QualificationValidatePeriod implements JavaDelegate {
 
     private final JsonUtil jsonUtil;
 
-    public QualificationValidatePeriod(final QualificationRestClient qualificationRestClient,
-                                       final OperationService operationService,
-                                       final ProcessService processService,
-                                       final JsonUtil jsonUtil) {
-        this.qualificationRestClient = qualificationRestClient;
+    public DossierValidatePeriod(final DossierRestClient dossierRestClient,
+                                 final OperationService operationService,
+                                 final ProcessService processService,
+                                 final JsonUtil jsonUtil) {
+        this.dossierRestClient = dossierRestClient;
         this.operationService = operationService;
         this.processService = processService;
         this.jsonUtil = jsonUtil;
@@ -55,7 +56,7 @@ public class QualificationValidatePeriod implements JavaDelegate {
         final JsonNode commandMessage = processService.getCommandMessage(VALIDATE_PERIOD, context, qualificationPeriod);
         LOG.debug("COMMAND ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(commandMessage));
 
-        final ResponseEntity<ResponseDto> response = qualificationRestClient.execute(commandMessage);
+        final ResponseEntity<ResponseDto> response = dossierRestClient.execute(commandMessage);
         LOG.debug("RESPONSE FROM SERVICE ({}): '{}'.", context.getOperationId(), jsonUtil.toJson(response.getBody()));
 
         final JsonNode responseData =

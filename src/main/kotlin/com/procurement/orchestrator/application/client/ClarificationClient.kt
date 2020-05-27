@@ -4,13 +4,12 @@ import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
-import com.procurement.orchestrator.infrastructure.client.web.qualification.action.StartQualificationPeriodAction
+import com.procurement.orchestrator.infrastructure.client.web.clarification.action.FindEnquiryIdsAction
 
-interface QualificationClient {
+interface ClarificationClient {
 
-    suspend fun startQualificationPeriod(
+    suspend fun findEnquiryIds(
         id: CommandId,
-        params: StartQualificationPeriodAction.Params
-    ): Result<Reply<StartQualificationPeriodAction.Result>, Fail.Incident>
-
+        params: FindEnquiryIdsAction.Params
+    ): Result<Reply<FindEnquiryIdsAction.Result>, Fail.Incident>
 }
