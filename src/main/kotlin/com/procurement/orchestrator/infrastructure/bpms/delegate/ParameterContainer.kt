@@ -92,5 +92,8 @@ class ParameterContainer(private val execution: DelegateExecution) {
             ?: success(emptyMap())
     }
 
-    private fun String.isBoolean(): Boolean = this == "true" || this == "false"
+    private fun String.isBoolean(): Boolean {
+        val string = this.toLowerCase()
+        return string == "true" || string == "false"
+    }
 }
