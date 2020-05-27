@@ -11,8 +11,12 @@ import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.model.tender.Tender
+import com.procurement.orchestrator.domain.model.tender.conversion.Conversion
 import com.procurement.orchestrator.domain.model.tender.conversion.Conversions
+import com.procurement.orchestrator.domain.model.tender.conversion.coefficient.Coefficient
+import com.procurement.orchestrator.domain.model.tender.conversion.coefficient.Coefficients
 import com.procurement.orchestrator.domain.model.tender.criteria.OtherCriteria
+import com.procurement.orchestrator.domain.model.tender.criteria.QualificationSystemMethods
 import com.procurement.orchestrator.domain.util.extension.getNewElements
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
@@ -69,16 +73,36 @@ class AccessGetQualificationCriteriaAndMethodDelegate(
 
         val tender = context.tender ?: Tender()
 
-        val receivedConversionsIds = data.conversions
+        val receivedConversion = data.conversions.orEmpty()
+
+        val mergedConversions = tender.conversions.mergeWith(receivedConversion)
+
+        val otherCriteria = OtherCriteria(
+            reductionCriteria = data.reductionCriteria,
+            qualificationSystemMethods = QualificationSystemMethods(data.qualificationSystemMethods)
+        )
+
+        val updatedTender = tender.copy(
+            otherCriteria = otherCriteria,
+            conversions = Conversions(mergedConversions)
+        )
+
+        context.tender = updatedTender
+
+        return MaybeFail.none()
+    }
+
+    private fun List<Conversion>.mergeWith(received: List<GetQualificationCriteriaAndMethodAction.Result.Conversion>): List<Conversion> {
+        val receivedConversionsIds = received
             .map { it.id }
 
-        val availableConversionsDbIds = tender.conversions
+        val availableConversionsDbIds = this
             .map { it.id }
 
-        val receivedConversionsById = data.conversions
+        val receivedConversionsById = received
             .associateBy { it.id }
 
-        val updatedConversions = tender.conversions
+        val updatedConversions = this
             .map { conversion ->
                 receivedConversionsById[conversion.id]
                     ?.let { rqConversion -> conversion.updateBy(rqConversion) }
@@ -87,20 +111,74 @@ class AccessGetQualificationCriteriaAndMethodDelegate(
 
         val newConversionIds = getNewElements(received = receivedConversionsIds, known = availableConversionsDbIds)
         val newConversion = newConversionIds
-            .map { conversionId -> receivedConversionsById.getValue(conversionId) }
+            .map { conversionId ->
+                receivedConversionsById.getValue(conversionId)
+                    .convertToContextEntity()
+            }
 
-        val otherCriteria = OtherCriteria(
-            reductionCriteria = data.reductionCriteria,
-            qualificationSystemMethods = data.qualificationSystemMethods
-        )
-
-        val updatedTender = tender.copy(
-            otherCriteria = otherCriteria,
-            conversions = Conversions(updatedConversions + newConversion)
-        )
-
-        context.tender = updatedTender
-
-        return MaybeFail.none()
+        return updatedConversions + newConversion
     }
+
+    private fun GetQualificationCriteriaAndMethodAction.Result.Conversion.convertToContextEntity(): Conversion {
+
+        val convertedCoefficient = this.coefficients
+            .map { it.convertToContextEntity() }
+
+        return Conversion(
+            id           = this.id,
+            description  = this.description,
+            relatesTo    = this.relatesTo,
+            relatedItem  = this.relatedItem,
+            rationale    = this.rationale,
+            coefficients = Coefficients(convertedCoefficient)
+        )
+    }
+
+    private fun GetQualificationCriteriaAndMethodAction.Result.Conversion.Coefficient.convertToContextEntity(): Coefficient =
+        Coefficient(
+            id          = this.id,
+            coefficient = this.coefficient,
+            value       = this.value
+        )
+
+    private fun Conversion.updateBy(received: GetQualificationCriteriaAndMethodAction.Result.Conversion): Conversion {
+        val receivedCoefficientsIds = received.coefficients
+            .map { it.id }
+
+        val availableCoefficientsDbIds = this.coefficients
+            .map { it.id }
+
+        val receivedCoefficientsById = received.coefficients
+            .associateBy { it.id }
+
+        val updatedCoefficients = this.coefficients
+            .map { coefficient ->
+                receivedCoefficientsById[coefficient.id]
+                    ?.let { rqCoefficient -> coefficient.updateBy(rqCoefficient) }
+                    ?: coefficient
+            }
+
+        val newCoefficientsIds = getNewElements(received = receivedCoefficientsIds, known = availableCoefficientsDbIds)
+        val newCoefficients = newCoefficientsIds
+            .map { conversionId ->
+                receivedCoefficientsById.getValue(conversionId)
+                    .convertToContextEntity()
+            }
+
+        return Conversion(
+            id           = this.id,
+            description  = received.description ?: this.description,
+            rationale    = received.rationale,
+            relatedItem  = received.relatedItem,
+            relatesTo    = received.relatesTo,
+            coefficients = Coefficients(updatedCoefficients + newCoefficients)
+        )
+    }
+
+    private fun Coefficient.updateBy(received: GetQualificationCriteriaAndMethodAction.Result.Conversion.Coefficient): Coefficient =
+        Coefficient(
+            id          = this.id,
+            coefficient = received.coefficient,
+            value       = received.value
+        )
 }
