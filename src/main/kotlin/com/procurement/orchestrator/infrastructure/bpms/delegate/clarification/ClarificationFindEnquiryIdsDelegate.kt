@@ -18,7 +18,6 @@ import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExterna
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
-import com.procurement.orchestrator.infrastructure.client.web.clarification.ClarificationCommands
 import com.procurement.orchestrator.infrastructure.client.web.clarification.action.FindEnquiryIdsAction
 import org.springframework.stereotype.Component
 
@@ -75,9 +74,7 @@ class ClarificationFindEnquiryIdsDelegate(
             .orReturnFail { fail -> return MaybeFail.fail(fail) }
 
         val data = result.orNull
-            ?: return MaybeFail.fail(
-                Fail.Incident.Response.Empty(service = "eClarification", action = ClarificationCommands.FindEnquiryIds)
-            )
+            ?: return MaybeFail.none()
 
         val receivedEnquiries = data
             .map { Enquiry(id = it) }
