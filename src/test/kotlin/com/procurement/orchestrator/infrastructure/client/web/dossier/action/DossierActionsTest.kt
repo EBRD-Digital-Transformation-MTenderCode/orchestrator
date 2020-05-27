@@ -29,6 +29,70 @@ class DossierActionsTest {
     }
 
     @Nested
+    inner class CheckAccessToSubmission {
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CheckAccessToSubmissionAction.Params>("json/client/dossier/check_access_to_submission_full.json")
+            }
+        }
+    }
+
+    @Nested
+    inner class GetSubmissionStateByIds {
+        @Nested
+        inner class Params {
+            @Test
+            fun test() {
+                testingBindingAndMapping<GetSubmissionStateByIdsAction.Params>("json/client/dossier/get_submission_state_by_ids_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun test() {
+                testingBindingAndMapping<GetSubmissionStateByIdsAction.Result>("json/client/dossier/get_submission_state_by_ids_result_full.json")
+            }
+        }
+    }
+
+    @Nested
+    inner class GetOrganizations {
+        @Nested
+        inner class Params {
+            @Test
+            fun test() {
+                testingBindingAndMapping<GetOrganizationsAction.Params>("json/client/dossier/get_organizations_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetOrganizationsAction.Result>("json/client/dossier/get_organizations_result_full.json")
+            }
+
+            @Test
+            fun required1() {
+                testingBindingAndMapping<GetOrganizationsAction.Result>("json/client/dossier/get_organizations_result_required_1.json")
+            }
+
+            @Test
+            fun required2() {
+                testingBindingAndMapping<GetOrganizationsAction.Result>("json/client/dossier/get_organizations_result_required_2.json")
+            }
+
+            @Test
+            fun required3() {
+                testingBindingAndMapping<GetOrganizationsAction.Result>("json/client/dossier/get_organizations_result_required_3.json")
+            }
+        }
+    }
+
+    @Nested
     inner class ValidateSubmission {
 
         @Nested

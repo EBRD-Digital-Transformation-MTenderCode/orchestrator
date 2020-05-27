@@ -7,17 +7,15 @@ import com.procurement.orchestrator.domain.model.or
 import java.io.Serializable
 
 data class MainEconomicActivity(
-    @field:JsonProperty("description") @param:JsonProperty("description") val description: String,
+    @field:JsonProperty("scheme") @param:JsonProperty("scheme") val scheme: MainEconomicActivityScheme,
+    @field:JsonProperty("id") @param:JsonProperty("id") val id: MainEconomicActivityId,
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    @field:JsonProperty("scheme") @param:JsonProperty("scheme") val scheme: String?,
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    @field:JsonProperty("id") @param:JsonProperty("id") val id: String?,
+    @field:JsonProperty("description") @param:JsonProperty("description") val description: String?,
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonProperty("uri") @param:JsonProperty("uri") val uri: String?
-)  : IdentifiableObject<MainEconomicActivity>, Serializable {
+) : IdentifiableObject<MainEconomicActivity>, Serializable {
 
     override fun equals(other: Any?): Boolean = if (this === other)
         true

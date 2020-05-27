@@ -57,8 +57,8 @@ abstract class AbstractExternalDelegate<P, R : Any>(
         val reply = runBlocking(context = scope.coroutineContext) { execute(commandId, globalContext, parameters) }
             .orReturnFail { fail -> execution.throwIncident(fail) }
             .also { result ->
-                if (execution.isUpdateGlobalContext && result.isDefined) {
-                    updateGlobalContext(context = globalContext, parameters = parameters, data = result.get)
+                if (execution.isUpdateGlobalContext) {
+                    updateGlobalContext(context = globalContext, parameters = parameters, result = result)
                         .doOnFail { fail -> execution.throwIncident(fail) }
                 }
             }
@@ -82,11 +82,11 @@ abstract class AbstractExternalDelegate<P, R : Any>(
         parameters: P
     ): Result<Reply<R>, Fail.Incident>
 
-    protected abstract fun updateGlobalContext(
+    protected open fun updateGlobalContext(
         context: CamundaGlobalContext,
         parameters: P,
-        data: R
-    ): MaybeFail<Fail.Incident>
+        result: Option<R>
+    ): MaybeFail<Fail.Incident> = MaybeFail.none()
 
     private fun saveStep(
         globalContext: CamundaGlobalContext,

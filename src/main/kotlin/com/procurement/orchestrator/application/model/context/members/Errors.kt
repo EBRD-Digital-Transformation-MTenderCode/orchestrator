@@ -21,10 +21,10 @@ class Errors(values: List<Error>) : List<Errors.Error> by values, Serializable {
 
         data class Detail(
             @JsonInclude(JsonInclude.Include.NON_NULL)
-            @field:JsonProperty("id") @param:JsonProperty("id") val id: String?,
+            @field:JsonProperty("id") @param:JsonProperty("id") val id: String? = null,
 
             @JsonInclude(JsonInclude.Include.NON_NULL)
-            @field:JsonProperty("name") @param:JsonProperty("name") val name: String?
+            @field:JsonProperty("name") @param:JsonProperty("name") val name: String? = null
         ) : Serializable
     }
 }

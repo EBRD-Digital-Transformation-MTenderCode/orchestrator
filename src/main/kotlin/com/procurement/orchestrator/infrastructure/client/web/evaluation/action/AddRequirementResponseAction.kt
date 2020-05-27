@@ -9,6 +9,7 @@ import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
 import com.procurement.orchestrator.domain.model.award.AwardId
 import com.procurement.orchestrator.domain.model.organization.OrganizationId
+import com.procurement.orchestrator.domain.model.person.PersonId
 import com.procurement.orchestrator.domain.model.requirement.RequirementId
 import com.procurement.orchestrator.domain.model.requirement.RequirementResponseValue
 import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponseId
@@ -55,15 +56,9 @@ abstract class AddRequirementResponseAction : ProceduralAction<AddRequirementRes
                 )
 
                 class Responder(
-                    @field:JsonProperty("identifier") @param:JsonProperty("identifier") val identifier: Identifier,
+                    @field:JsonProperty("id") @param:JsonProperty("id") val id: PersonId,
                     @field:JsonProperty("name") @param:JsonProperty("name") val name: String
-                ) {
-
-                    data class Identifier(
-                        @field:JsonProperty("scheme") @param:JsonProperty("scheme") val scheme: String,
-                        @field:JsonProperty("id") @param:JsonProperty("id") val id: String
-                    )
-                }
+                )
             }
         }
     }
