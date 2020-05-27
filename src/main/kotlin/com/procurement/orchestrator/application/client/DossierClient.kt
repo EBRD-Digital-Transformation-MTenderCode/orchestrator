@@ -8,7 +8,10 @@ import com.procurement.orchestrator.infrastructure.client.web.dossier.action.Che
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetOrganizationsAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetSubmissionPeriodEndDateAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetSubmissionStateByIdsAction
+import com.procurement.orchestrator.infrastructure.client.web.dossier.action.CheckPeriodAction
+import com.procurement.orchestrator.infrastructure.client.web.dossier.action.CreateSubmissionAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.ValidateRequirementResponseAction
+import com.procurement.orchestrator.infrastructure.client.web.dossier.action.ValidateSubmissionAction
 
 interface DossierClient {
 
@@ -36,4 +39,20 @@ interface DossierClient {
         id: CommandId,
         params: ValidateRequirementResponseAction.Params
     ): Result<Reply<Unit>, Fail.Incident>
+
+    suspend fun checkPeriod(
+        id: CommandId,
+        params: CheckPeriodAction.Params
+    ): Result<Reply<Unit>, Fail.Incident>
+
+    suspend fun validateSubmission(
+        id: CommandId,
+        params: ValidateSubmissionAction.Params
+    ): Result<Reply<Unit>, Fail.Incident>
+
+    suspend fun createSubmission(
+        id: CommandId,
+        params: CreateSubmissionAction.Params
+    ): Result<Reply<CreateSubmissionAction.Result>, Fail.Incident>
+
 }

@@ -91,4 +91,69 @@ class DossierActionsTest {
             }
         }
     }
+
+    @Nested
+    inner class ValidateSubmission {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<ValidateSubmissionAction.Params>("json/client/dossier/validate_submission_params_full.json")
+            }
+
+            @Test
+            fun required_1() {
+                testingBindingAndMapping<ValidateSubmissionAction.Params>("json/client/dossier/validate_submission_params_required_1.json")
+            }
+
+            @Test
+            fun required_2() {
+                testingBindingAndMapping<ValidateSubmissionAction.Params>("json/client/dossier/validate_submission_params_required_2.json")
+            }
+
+            @Test
+            fun required_3() {
+                testingBindingAndMapping<ValidateSubmissionAction.Params>("json/client/dossier/validate_submission_params_required_3.json")
+            }
+
+            @Test
+            fun required_4() {
+                testingBindingAndMapping<ValidateSubmissionAction.Params>("json/client/dossier/validate_submission_params_required_4.json")
+            }
+        }
+    }
+
+    @Nested
+    inner class CheckPeriod {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CheckPeriodAction.Params>("json/client/dossier/check_period_params_full.json")
+            }
+        }
+    }
+
+    @Nested
+    inner class CreateSubmission {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CreateSubmissionAction.Params>("json/client/dossier/create_submission_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CreateSubmissionAction.Result>("json/client/dossier/create_submission_result_full.json")
+            }
+        }
+    }
+
 }
