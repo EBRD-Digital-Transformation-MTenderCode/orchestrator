@@ -13,11 +13,6 @@ import com.procurement.orchestrator.infrastructure.client.web.dossier.action.Val
 
 interface DossierClient {
 
-    suspend fun checkAccessToSubmission(
-        id: CommandId,
-        params: CheckAccessToSubmissionAction.Params
-    ): Result<Reply<Unit>, Fail.Incident>
-
     suspend fun getOrganizations(
         id: CommandId,
         params: GetOrganizationsAction.Params
@@ -27,11 +22,6 @@ interface DossierClient {
         id: CommandId,
         params: GetSubmissionPeriodEndDateAction.Params
     ): Result<Reply<GetSubmissionPeriodEndDateAction.Result>, Fail.Incident>
-
-    suspend fun getSubmissionStateByIds(
-        id: CommandId,
-        params: GetSubmissionStateByIdsAction.Params
-    ): Result<Reply<GetSubmissionStateByIdsAction.Result>, Fail.Incident>
 
     suspend fun validateRequirementResponse(
         id: CommandId,
