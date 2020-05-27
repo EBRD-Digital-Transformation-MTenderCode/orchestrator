@@ -21,5 +21,14 @@ class ClarificationActionsTest {
                 testingBindingAndMapping<FindEnquiryIdsAction.Params>("json/client/clarification/find_enquiry_ids_params_1.json")
             }
         }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<FindEnquiryIdsAction.Result>("json/client/clarification/find_enquiry_ids_result_full.json")
+            }
+
+        }
     }
 }
