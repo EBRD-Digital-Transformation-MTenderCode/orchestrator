@@ -9,3 +9,6 @@ private const val NAME = "parties"
 
 fun GlobalContext.getPartyIfOnlyOne(): Result<Party, Fail.Incident.Bpms.Context> =
     this.parties.getElementIfOnlyOne(name = NAME)
+
+fun GlobalContext.tryGetPartyIfNotEmpty(): Result<List<Party>, Fail.Incident.Bpms.Context> =
+    this.parties.getIfNotEmpty(name = NAME, path = "parties")
