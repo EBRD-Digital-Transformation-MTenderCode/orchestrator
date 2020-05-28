@@ -4,5 +4,6 @@
   "lotIds": [
     "string"
   ],
-  "date": "2020-04-09T15:01:53Z"
+  "date": "2020-04-09T15:01:53Z",
+  "operationType": "createSubmission"
 }
