@@ -39,6 +39,11 @@ class QualificationActionTest {
             fun required1() {
                 testingBindingAndMapping<FindQualificationIdsAction.Params>("json/client/qualification/find_qualification_ids_params_1.json")
             }
+
+            @Test
+            fun required2() {
+                testingBindingAndMapping<FindQualificationIdsAction.Params>("json/client/qualification/find_qualification_ids_params_2.json")
+            }
         }
 
         @Nested
