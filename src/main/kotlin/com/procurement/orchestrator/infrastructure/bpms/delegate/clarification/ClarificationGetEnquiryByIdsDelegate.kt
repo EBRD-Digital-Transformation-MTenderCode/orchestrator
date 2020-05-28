@@ -103,8 +103,9 @@ class ClarificationGetEnquiryByIdsDelegate(
         val newParty = getNewElements(received = requestParty, known = contextParties)
 
         val requestEnquiries = data.map { reEnquiry -> reEnquiry.convertToEnquiry() }
-        val newEnquiries = getNewElements(received = requestEnquiries,known = contextTender.enquiries)
-        val updatedTender = contextTender.copy(enquiries = Enquiries(contextTender.enquiries + newEnquiries))
+        val contextEnquiries = contextTender.enquiries
+        val newEnquiries = getNewElements(received = requestEnquiries, known = contextEnquiries)
+        val updatedTender = contextTender.copy(enquiries = Enquiries(contextEnquiries + newEnquiries))
 
         context.parties = Parties(contextParties + newParty)
         context.tender = updatedTender
