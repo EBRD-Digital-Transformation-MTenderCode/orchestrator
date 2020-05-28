@@ -7,6 +7,7 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.WebClient
 import com.procurement.orchestrator.infrastructure.client.web.clarification.action.FindEnquiryIdsAction
+import com.procurement.orchestrator.infrastructure.client.web.clarification.action.GetEnquiryByIdsAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
 import java.net.URL
 
@@ -22,5 +23,14 @@ class HttpClarificationClient(private val webClient: WebClient, properties: Comp
         url = url,
         command = ClarificationCommands.FindEnquiryIds.build(id = id, params = params),
         target = ClarificationCommands.FindEnquiryIds.target
+    )
+
+    override suspend fun getEnquiryByIds(
+        id: CommandId,
+        params: GetEnquiryByIdsAction.Params
+    ): Result<Reply<GetEnquiryByIdsAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = ClarificationCommands.GetEnquiryByIds.build(id = id, params = params),
+        target = ClarificationCommands.GetEnquiryByIds.target
     )
 }

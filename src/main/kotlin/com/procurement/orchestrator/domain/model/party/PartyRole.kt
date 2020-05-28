@@ -15,7 +15,8 @@ enum class PartyRole(@JsonValue override val key: String) : EnumElementProvider.
     REVIEW_BODY("reviewBody"),
     SUPPLIER("supplier"),
     TENDERER("tenderer"),
-    CANDIDATE("candidate");
+    CANDIDATE("candidate"),
+    AUTHOR("author");
 
     override fun toString(): String = key
 
