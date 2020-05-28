@@ -20,7 +20,9 @@ abstract class FindQualificationIdsAction : FunctionalAction<FindQualificationId
     class Params(
         @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid,
         @field:JsonProperty("ocid") @param:JsonProperty("ocid") val ocid: Ocid,
-        @field:JsonProperty("states") @param:JsonProperty("states") val states: List<State>
+
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        @field:JsonProperty("states") @param:JsonProperty("states") val states: List<State>? = emptyList()
     ) {
         data class State(
             @JsonInclude(JsonInclude.Include.NON_NULL)
