@@ -31,4 +31,35 @@ class ClarificationActionsTest {
 
         }
     }
+
+    @Nested
+    inner class GetEnquiryByIds {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetEnquiryByIdsAction.Params>("json/client/clarification/get_enquiry_by_ids_params_full.json")
+            }
+
+        }
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetEnquiryByIdsAction.Result>("json/client/clarification/get_enquiry_by_ids_result_full.json")
+            }
+
+            @Test
+            fun fully1() {
+                testingBindingAndMapping<GetEnquiryByIdsAction.Result>("json/client/clarification/get_enquiry_by_ids_result_1.json")
+            }
+
+            @Test
+            fun fully2() {
+                testingBindingAndMapping<GetEnquiryByIdsAction.Result>("json/client/clarification/get_enquiry_by_ids_result_2.json")
+            }
+
+        }
+    }
 }
