@@ -12,6 +12,7 @@ import com.procurement.orchestrator.infrastructure.client.web.dossier.action.Cre
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetOrganizationsAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetSubmissionPeriodEndDateAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetSubmissionStateByIdsAction
+import com.procurement.orchestrator.infrastructure.client.web.dossier.action.SetStateForSubmissionAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.ValidateRequirementResponseAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.ValidateSubmissionAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
@@ -79,6 +80,15 @@ class HttpDossierClient(private val webClient: WebClient, properties: ComponentP
     ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
         url = url,
         command = DossierCommands.CheckAccessToSubmission.build(id = id, params = params)
+    )
+
+    override suspend fun setStateForSubmission(
+        id: CommandId,
+        params: SetStateForSubmissionAction.Params
+    ): Result<Reply<SetStateForSubmissionAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = DossierCommands.SetStateForSubmission.build(id = id, params = params),
+        target = DossierCommands.SetStateForSubmission.target
     )
 
     override suspend fun getOrganizations(

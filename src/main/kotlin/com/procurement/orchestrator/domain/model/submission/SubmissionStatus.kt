@@ -6,11 +6,14 @@ import com.procurement.orchestrator.domain.EnumElementProvider
 import com.procurement.orchestrator.domain.model.amendment.AmendmentStatus
 
 enum class SubmissionStatus(@JsonValue override val key: String) : EnumElementProvider.Key {
-    PENDING("pending");
+    PENDING("pending"),
+    VALID("valid"),
+    WITHDRAWN("withdrawn"),
+    DISQUALIFIED("disqualified");
 
     override fun toString(): String = key
 
-    companion object : EnumElementProvider<AmendmentStatus>(info = info()) {
+    companion object : EnumElementProvider<SubmissionStatus>(info = info()) {
 
         @JvmStatic
         @JsonCreator

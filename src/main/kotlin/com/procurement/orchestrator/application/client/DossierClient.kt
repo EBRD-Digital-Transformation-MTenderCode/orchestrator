@@ -10,6 +10,7 @@ import com.procurement.orchestrator.infrastructure.client.web.dossier.action.Get
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetSubmissionStateByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.CheckPeriodAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.CreateSubmissionAction
+import com.procurement.orchestrator.infrastructure.client.web.dossier.action.SetStateForSubmissionAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.ValidateRequirementResponseAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.ValidateSubmissionAction
 
@@ -55,4 +56,8 @@ interface DossierClient {
         params: CreateSubmissionAction.Params
     ): Result<Reply<CreateSubmissionAction.Result>, Fail.Incident>
 
+    suspend fun setStateForSubmission(
+        id: CommandId,
+        params: SetStateForSubmissionAction.Params
+    ): Result<Reply<SetStateForSubmissionAction.Result>, Fail.Incident>
 }

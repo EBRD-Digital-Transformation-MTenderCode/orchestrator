@@ -70,11 +70,12 @@ class ClarificationFindEnquiryIdsDelegate(
         result: Option<FindEnquiryIdsAction.Result>
     ): MaybeFail<Fail.Incident> {
 
+        val data = result.orNull
+            ?: return MaybeFail.none()
+
         val tender = context.tryGetTender()
             .orReturnFail { fail -> return MaybeFail.fail(fail) }
 
-        val data = result.orNull
-            ?: return MaybeFail.none()
 
         val receivedEnquiries = data
             .map { Enquiry(id = it) }
