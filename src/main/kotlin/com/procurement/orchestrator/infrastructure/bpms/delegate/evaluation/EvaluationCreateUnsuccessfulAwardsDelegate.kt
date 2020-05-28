@@ -60,7 +60,8 @@ class EvaluationCreateUnsuccessfulAwardsDelegate(
                 cpid = processInfo.cpid,
                 ocid = processInfo.ocid,
                 date = requestInfo.timestamp,
-                lotIds = lots.map { it.id as LotId.Permanent }
+                lotIds = lots.map { it.id as LotId.Permanent },
+                operationType = processInfo.operationType
             )
         )
     }
