@@ -84,12 +84,6 @@ class ClarificationGetEnquiryByIdsDelegate(
         result: Option<GetEnquiryByIdsAction.Result>
     ): MaybeFail<Fail.Incident> {
 
-        val contextParties = context.tryGetPartyIfNotEmpty()
-            .orReturnFail { fail -> return MaybeFail.fail(fail) }
-
-        val contextTender = context.tryGetTender()
-            .orReturnFail { fail -> return MaybeFail.fail(fail) }
-
         val data = result.orNull
             ?: return MaybeFail.fail(
                 Fail.Incident.Response.Empty(
@@ -97,6 +91,12 @@ class ClarificationGetEnquiryByIdsDelegate(
                     action = ClarificationCommands.GetEnquiryByIds
                 )
             )
+        val contextParties = context.tryGetPartyIfNotEmpty()
+            .orReturnFail { fail -> return MaybeFail.fail(fail) }
+
+        val contextTender = context.tryGetTender()
+            .orReturnFail { fail -> return MaybeFail.fail(fail) }
+
 
 
         val requestParty = data.map { enquiry -> enquiry.convertToParty() }
