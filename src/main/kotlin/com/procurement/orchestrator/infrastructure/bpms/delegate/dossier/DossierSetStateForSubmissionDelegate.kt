@@ -91,11 +91,6 @@ class DossierSetStateForSubmissionDelegate(
         result: Option<SetStateForSubmissionAction.Result>
     ): MaybeFail<Fail.Incident> {
 
-        val submission = context.tryGetSubmissions()
-            .orReturnFail { fail -> return MaybeFail.fail(fail) }
-            .getDetailsIfOnlyOne()
-            .orReturnFail { fail -> return MaybeFail.fail(fail) }
-
         val data = result.orNull
             ?: return MaybeFail.fail(
                 Fail.Incident.Response.Empty(
@@ -103,6 +98,12 @@ class DossierSetStateForSubmissionDelegate(
                     action = DossierCommands.SetStateForSubmission
                 )
             )
+
+        val submission = context.tryGetSubmissions()
+            .orReturnFail { fail -> return MaybeFail.fail(fail) }
+            .getDetailsIfOnlyOne()
+            .orReturnFail { fail -> return MaybeFail.fail(fail) }
+
 
         val updatedSubmission = submission.copy(status = data.status)
 
