@@ -1,7 +1,9 @@
 package com.procurement.orchestrator.delegate.chronograph;
 
 import java.time.LocalDateTime;
-import com.datastax.driver.core.utils.UUIDs;
+import java.util.UUID;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.delegate.kafka.MessageProducer;
 import com.procurement.orchestrator.domain.Context;
@@ -12,6 +14,7 @@ import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
+import lombok.Builder;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
@@ -23,17 +26,22 @@ public class ChronographScheduleEndSubmissionPeriod implements JavaDelegate {
 
     private static final Logger LOG = LoggerFactory.getLogger(ChronographScheduleEndSubmissionPeriod.class);
 
+    private static final String PROCESS_TYPE = "submissionPeriodEnd";
+    private static final String PHASE = "submission";
+
     private final MessageProducer messageProducer;
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
     private final DateUtil dateUtil;
 
-    public ChronographScheduleEndSubmissionPeriod(final MessageProducer messageProducer,
-                                                  final OperationService operationService,
-                                                  final ProcessService processService,
-                                                  final JsonUtil jsonUtil,
-                                                  final DateUtil dateUtil) {
+    public ChronographScheduleEndSubmissionPeriod(
+        final MessageProducer messageProducer,
+        final OperationService operationService,
+        final ProcessService processService,
+        final JsonUtil jsonUtil,
+        final DateUtil dateUtil
+    ) {
         this.messageProducer = messageProducer;
         this.operationService = operationService;
         this.processService = processService;
@@ -46,28 +54,80 @@ public class ChronographScheduleEndSubmissionPeriod implements JavaDelegate {
         LOG.info(execution.getCurrentActivityId());
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
-        /**set context for next process*/
-        final Context contextChronograph = new Context();
-        final String uuid = UUIDs.timeBased().toString();
-        contextChronograph.setCpid(context.getCpid());
-        contextChronograph.setProcessType("submissionPeriodEnd");
-        contextChronograph.setOperationId(uuid);
-        contextChronograph.setRequestId(uuid);
+
+        Metadata.MetadataBuilder metadataBuilder = Metadata.builder();
+
+        final String uuid = UUID.randomUUID().toString();
+        metadataBuilder.requestId(uuid);
+        metadataBuilder.operationId(uuid);
+        metadataBuilder.cpid(context.getCpid());
+        metadataBuilder.ocid(context.getOcid());
+        metadataBuilder.processType(PROCESS_TYPE);
+        metadataBuilder.phase(PHASE);
+
+        final String owner = context.getOwner();
+        metadataBuilder.owner(owner);
+        metadataBuilder.platformId(owner);
 
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
         final String processId = execution.getProcessInstanceId();
         final LocalDateTime launchTime = dateUtil.stringToLocal(
-            processService.getPreQualificationPeriodEndDate(jsonData, processId));
+            processService.getPreQualificationPeriodEndDate(jsonData, processId)
+        );
+        metadataBuilder.timestamp(launchTime);
 
         final ScheduleTask task = new ScheduleTask(
             ActionType.SCHEDULE,
             context.getCpid(),
-            "submission",
+            PHASE,
             launchTime,
-            null, /*newLaunchTime*/
-            jsonUtil.toJson(contextChronograph)
+            null,
+            jsonUtil.toJson(metadataBuilder.build())
         );
         messageProducer.sendToChronograph(task);
         operationService.saveOperationStep(execution, entity, jsonUtil.toJsonNode(task));
+    }
+
+    @Builder
+    static class Metadata {
+        @JsonProperty(value = "operationId")
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        private String operationId;
+
+        @JsonProperty(value = "requestId")
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        private String requestId;
+
+        @JsonProperty(value = "cpid")
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        private String cpid;
+
+        @JsonProperty(value = "ocid")
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        private String ocid;
+
+        @JsonProperty(value = "processType")
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        private String processType;
+
+        @JsonProperty(value = "phase")
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        private String phase;
+
+        @JsonProperty(value = "owner")
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        private String owner;
+
+        @JsonProperty(value = "platformId")
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        private String platformId;
+
+        @JsonProperty(value = "timestamp")
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        private LocalDateTime timestamp;
+
+        @JsonProperty(value = "isAuction")
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        private Boolean isAuction = false;
     }
 }
