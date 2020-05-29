@@ -43,7 +43,7 @@ import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStep
 import org.springframework.stereotype.Component
 
 @Component
-class InitializeCreateSubmissionProcessDelegate(
+class BpeInitializeCreateSubmissionProcessDelegate(
     val logger: Logger,
     private val transform: Transform,
     operationStepRepository: OperationStepRepository,
