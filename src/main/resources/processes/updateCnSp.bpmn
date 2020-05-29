@@ -47,11 +47,11 @@
     <bpmn:sequenceFlow id="SequenceFlow_0au1nef" sourceRef="DossierCheckPeriodTask" targetRef="MdmValidateTenderCnTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1q80495" sourceRef="SaveFirstOperationTask" targetRef="StorageValidateDocsOfTenderTask" />
     <bpmn:sequenceFlow id="SequenceFlow_05ohfz1" sourceRef="StartEvent_1" targetRef="SaveFirstOperationTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1a9d5nj" name="operationType&#10;==&#39;updateCN&#39;&#10;" sourceRef="ExclusiveGateway_1jdkyq3" targetRef="BpeSetIsAuctionTask">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${operationType=='updateCN'}</bpmn:conditionExpression>
+    <bpmn:sequenceFlow id="SequenceFlow_1a9d5nj" name="operationType&#10;==&#39;updateCn&#39;" sourceRef="ExclusiveGateway_1jdkyq3" targetRef="BpeSetIsAuctionTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${operationType == 'updateCn'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_0vs74bs" name="operationType==&#39;createCNonPN&#39;" sourceRef="ExclusiveGateway_1jdkyq3" targetRef="DossierValidatePeriodTask">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${operationType == 'createCNonPN'}</bpmn:conditionExpression>
+    <bpmn:sequenceFlow id="SequenceFlow_0vs74bs" name="operationType==&#39;createCnOnPn&#39;" sourceRef="ExclusiveGateway_1jdkyq3" targetRef="DossierValidatePeriodTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${operationType == 'createCnOnPn'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_1cxhl09" sourceRef="ExclusiveGateway_0ual76v" targetRef="ExclusiveGateway_0btunx9" />
     <bpmn:serviceTask id="DossierValidatePeriodTask" name="eDossier: Validate Period" camunda:asyncBefore="true" camunda:delegateExpression="${dossierValidatePeriod}">
@@ -541,7 +541,7 @@
         <di:waypoint x="990" y="472" />
         <di:waypoint x="1040" y="472" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="905" y="464" width="70" height="40" />
+          <dc:Bounds x="905" y="464" width="70" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0vs74bs_di" bpmnElement="SequenceFlow_0vs74bs">
