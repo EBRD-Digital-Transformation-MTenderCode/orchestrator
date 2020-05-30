@@ -1,6 +1,5 @@
 package com.procurement.orchestrator.delegate.clarification;
 
-import java.util.Objects;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.procurement.orchestrator.domain.Context;
@@ -16,6 +15,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+
+import java.util.Objects;
 
 import static com.procurement.orchestrator.domain.commands.ClarificationCommandType.CREATE_PERIOD;
 
@@ -90,9 +91,17 @@ public class ClarificationCreatePeriod implements JavaDelegate {
     private JsonNode setEnquiryPeriod(JsonNode jsonData, JsonNode respData, String processId) {
         try {
             final ObjectNode srcEnquiryPeriod = (ObjectNode) respData.get("enquiryPeriod");
-            final ObjectNode dstEnquiryPeriod = (ObjectNode) jsonData.get("tender").get("enquiryPeriod");
-            dstEnquiryPeriod.replace("startDate", srcEnquiryPeriod.get("startDate"));
-            dstEnquiryPeriod.replace("endDate", srcEnquiryPeriod.get("endDate"));
+            final ObjectNode tenderNode = (ObjectNode) jsonData.get("tender");
+
+            final ObjectNode dstEnquiryPeriod = (tenderNode.has("enquiryPeriod"))
+                    ? (ObjectNode) tenderNode.get("enquiryPeriod")
+                    : jsonUtil.createObjectNode();
+
+            dstEnquiryPeriod.set("startDate", srcEnquiryPeriod.get("startDate"));
+            dstEnquiryPeriod.set("endDate", srcEnquiryPeriod.get("endDate"));
+
+            tenderNode.set("enquiryPeriod", dstEnquiryPeriod);
+
             return jsonData;
         } catch (Exception e) {
             processService.terminateProcess(processId, e.getMessage());
