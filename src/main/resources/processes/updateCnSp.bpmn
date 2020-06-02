@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.6.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.5.0">
   <bpmn:error id="tr_exception" name="TR_EXCEPTION" errorCode="TR_EXCEPTION" />
   <bpmn:collaboration id="Collaboration_0jt6r0m">
     <bpmn:participant id="Participant_00wp72i" name="UpdateCnSp" processRef="updateCnSp" />
@@ -47,11 +47,11 @@
     <bpmn:sequenceFlow id="SequenceFlow_0au1nef" sourceRef="DossierCheckPeriodTask" targetRef="MdmValidateTenderCnTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1q80495" sourceRef="SaveFirstOperationTask" targetRef="StorageValidateDocsOfTenderTask" />
     <bpmn:sequenceFlow id="SequenceFlow_05ohfz1" sourceRef="StartEvent_1" targetRef="SaveFirstOperationTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1a9d5nj" name="operationType&#10;==&#39;updateCn&#39;" sourceRef="ExclusiveGateway_1jdkyq3" targetRef="BpeSetIsAuctionTask">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${operationType == 'updateCn'}</bpmn:conditionExpression>
+    <bpmn:sequenceFlow id="SequenceFlow_1a9d5nj" name="operationType&#10;==&#39;updateCN&#39;" sourceRef="ExclusiveGateway_1jdkyq3" targetRef="BpeSetIsAuctionTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${operationType == 'updateCN'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_0vs74bs" name="operationType==&#39;createCnOnPn&#39;" sourceRef="ExclusiveGateway_1jdkyq3" targetRef="DossierValidatePeriodTask">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${operationType == 'createCnOnPn'}</bpmn:conditionExpression>
+    <bpmn:sequenceFlow id="SequenceFlow_0vs74bs" name="operationType==&#39;createCNonPN&#39;" sourceRef="ExclusiveGateway_1jdkyq3" targetRef="DossierValidatePeriodTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${operationType == 'createCNonPN'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_1cxhl09" sourceRef="ExclusiveGateway_0ual76v" targetRef="ExclusiveGateway_0btunx9" />
     <bpmn:serviceTask id="DossierValidatePeriodTask" name="eDossier: Validate Period" camunda:asyncBefore="true" camunda:delegateExpression="${dossierValidatePeriod}">
@@ -549,7 +549,7 @@
         <di:waypoint x="990" y="242" />
         <di:waypoint x="1040" y="242" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="898" y="216" width="84" height="27" />
+          <dc:Bounds x="899" y="216" width="83" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ExclusiveGateway_0ual76v_di" bpmnElement="ExclusiveGateway_0ual76v" isMarkerVisible="true">
