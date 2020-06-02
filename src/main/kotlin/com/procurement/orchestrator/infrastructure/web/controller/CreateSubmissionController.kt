@@ -32,7 +32,7 @@ class CreateSubmissionController(
         private const val PROCESS_NAME = "createSubmission"
     }
 
-    @PostMapping("/create/submission/{cpid}/{ocid}")
+    @PostMapping("/do/submission/{cpid}/{ocid}")
     fun create(
         servlet: HttpServletRequest,
         @PathVariable cpid: String,
