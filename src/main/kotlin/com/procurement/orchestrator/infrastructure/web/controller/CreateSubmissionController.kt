@@ -2,7 +2,6 @@ package com.procurement.orchestrator.infrastructure.web.controller
 
 import com.procurement.orchestrator.application.model.OperationId
 import com.procurement.orchestrator.application.model.PlatformId
-import com.procurement.orchestrator.application.model.Token
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.PlatformRequest
 import com.procurement.orchestrator.application.service.ProcessLauncher
@@ -14,7 +13,6 @@ import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.infrastructure.extension.http.getOperationId
 import com.procurement.orchestrator.infrastructure.extension.http.getPayload
 import com.procurement.orchestrator.infrastructure.extension.http.getPlatformId
-import com.procurement.orchestrator.infrastructure.extension.http.getToken
 import com.procurement.orchestrator.infrastructure.web.extension.buildResponse
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PathVariable
@@ -77,9 +75,6 @@ class CreateSubmissionController(
         val operationId: OperationId = servlet.getOperationId()
             .orForwardFail { fail -> return fail }
 
-        val token: Token = servlet.getToken()
-            .orForwardFail { fail -> return fail }
-
         val payload: String = servlet.getPayload()
             .orForwardFail { fail -> return fail }
 
@@ -89,7 +84,7 @@ class CreateSubmissionController(
             context = PlatformRequest.Context(
                 cpid = verifiedCpid,
                 ocid = verifiedOcid,
-                token = token,
+                token = null,
                 owner = platformId,
                 uri = servlet.requestURI,
                 processName = PROCESS_NAME
