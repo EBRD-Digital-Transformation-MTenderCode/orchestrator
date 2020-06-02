@@ -11,6 +11,7 @@ enum class Stage(@JsonValue override val key: String, private val weight: Int) :
     PN("PN", weight = 30),
     EV("EV", weight = 40),
     NP("NP", weight = 40),
+    TP("TP", weight = 40),
     AC("AC", weight = 50);
 
     override fun toString(): String = key
