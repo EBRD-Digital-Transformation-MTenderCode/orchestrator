@@ -26,10 +26,10 @@ abstract class FindQualificationIdsAction : FunctionalAction<FindQualificationId
     ) {
         data class State(
             @JsonInclude(JsonInclude.Include.NON_NULL)
-            @field:JsonProperty("status") @param:JsonProperty("status") val status: QualificationStatus? = null,
+            @field:JsonProperty("status") @param:JsonProperty("status") val status: QualificationStatus?,
 
             @JsonInclude(JsonInclude.Include.NON_NULL)
-            @field:JsonProperty("statusDetails") @param:JsonProperty("statusDetails") val statusDetails: QualificationStatusDetails? = null
+            @field:JsonProperty("statusDetails") @param:JsonProperty("statusDetails") val statusDetails: QualificationStatusDetails?
         )
     }
 

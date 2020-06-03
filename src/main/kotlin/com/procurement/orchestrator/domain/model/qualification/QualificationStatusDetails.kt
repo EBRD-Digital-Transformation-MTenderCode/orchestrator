@@ -17,6 +17,6 @@ enum class QualificationStatusDetails(@JsonValue override val key: String) : Enu
 
         @JvmStatic
         @JsonCreator
-        fun creator(name: String) = QualificationStatus.orThrow(name)
+        fun creator(name: String) = orThrow(name)
     }
 }
