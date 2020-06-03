@@ -5,11 +5,12 @@ import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.CheckAccessToSubmissionAction
+import com.procurement.orchestrator.infrastructure.client.web.dossier.action.CheckPeriodAction
+import com.procurement.orchestrator.infrastructure.client.web.dossier.action.CreateSubmissionAction
+import com.procurement.orchestrator.infrastructure.client.web.dossier.action.FindSubmissionsForOpeningAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetOrganizationsAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetSubmissionPeriodEndDateAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetSubmissionStateByIdsAction
-import com.procurement.orchestrator.infrastructure.client.web.dossier.action.CheckPeriodAction
-import com.procurement.orchestrator.infrastructure.client.web.dossier.action.CreateSubmissionAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.SetStateForSubmissionAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.ValidateRequirementResponseAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.ValidateSubmissionAction
@@ -60,4 +61,9 @@ interface DossierClient {
         id: CommandId,
         params: SetStateForSubmissionAction.Params
     ): Result<Reply<SetStateForSubmissionAction.Result>, Fail.Incident>
+
+    suspend fun findSubmissionsForOpening(
+        id: CommandId,
+        params: FindSubmissionsForOpeningAction.Params
+    ): Result<Reply<FindSubmissionsForOpeningAction.Result>, Fail.Incident>
 }
