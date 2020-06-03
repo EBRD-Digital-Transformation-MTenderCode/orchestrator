@@ -47,7 +47,7 @@ class CamundaGlobalContext(propertyContainer: PropertyContainer) : GlobalContext
 
     override var preQualification: PreQualification? by nullablePropertyDelegate(propertyContainer)
 
-    override var qualifications: Qualifications? by nullablePropertyDelegate(propertyContainer)
+    override var qualifications: Qualifications by collectionPropertyDelegate(propertyContainer) {Qualifications() }
 }
 
 fun CamundaGlobalContext.serialize(transform: Transform): Result<String, Fail.Incident.Transform.Serialization> =
@@ -64,7 +64,7 @@ fun CamundaGlobalContext.serialize(transform: Transform): Result<String, Fail.In
         override var contracts: Contracts = this@serialize.contracts
         override var submissions: Submissions? = this@serialize.submissions
         override var preQualification: PreQualification? = this@serialize.preQualification
-        override var qualifications: Qualifications? = this@serialize.qualifications
+        override var qualifications: Qualifications = this@serialize.qualifications
     }.let { context ->
         transform.trySerialization(context)
     }

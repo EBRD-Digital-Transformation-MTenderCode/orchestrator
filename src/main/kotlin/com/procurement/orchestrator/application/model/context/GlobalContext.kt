@@ -64,7 +64,7 @@ interface GlobalContext {
     @get:JsonProperty("preQualification")
     var preQualification: PreQualification?
 
-    @get:JsonInclude(JsonInclude.Include.NON_NULL)
+    @get:JsonInclude(JsonInclude.Include.NON_EMPTY)
     @get:JsonProperty("qualifications")
-    var qualifications: Qualifications?
+    var qualifications: Qualifications
 }

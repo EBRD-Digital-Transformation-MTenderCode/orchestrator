@@ -117,7 +117,7 @@ class QualificationFindQualificationIdsDelegate(
         val data = result.orNull
             ?: return MaybeFail.none()
 
-        val contextQualifications = context.qualifications ?: Qualifications()
+        val contextQualifications = context.qualifications
         val requestQualifications = data.map { Qualification(id = it) }
 
         val newQualifications = getNewElements(received = requestQualifications, known = contextQualifications)
