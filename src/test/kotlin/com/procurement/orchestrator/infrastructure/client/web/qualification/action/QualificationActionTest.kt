@@ -54,4 +54,19 @@ class QualificationActionTest {
             }
         }
     }
+
+    @Nested
+    inner class CreateQualification {
+        @Nested
+        inner class Params {
+//            @Test
+//            fun required() {
+//                testingBindingAndMapping<CreateQualificationAction.Params>("json/client/qualification/create_qualification_params_full.json")
+//            }
+        }
+        @Nested
+        inner class Result {
+
+        }
+    }
 }
