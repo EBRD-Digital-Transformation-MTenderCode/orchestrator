@@ -59,14 +59,29 @@ class QualificationActionTest {
     inner class CreateQualification {
         @Nested
         inner class Params {
-//            @Test
-//            fun required() {
-//                testingBindingAndMapping<CreateQualificationAction.Params>("json/client/qualification/create_qualification_params_full.json")
-//            }
+            @Test
+            fun required() {
+                testingBindingAndMapping<CreateQualificationAction.Params>("json/client/qualification/create_qualification_params_full.json")
+            }
+            @Test
+            fun required1() {
+                testingBindingAndMapping<CreateQualificationAction.Params>("json/client/qualification/create_qualification_params_1.json")
+            }
+            @Test
+            fun required2() {
+                testingBindingAndMapping<CreateQualificationAction.Params>("json/client/qualification/create_qualification_params_2.json")
+            }
         }
         @Nested
         inner class Result {
-
+            @Test
+            fun required() {
+                testingBindingAndMapping<CreateQualificationAction.Result>("json/client/qualification/create_qualification_result_full.json")
+            }
+            @Test
+            fun required1() {
+                testingBindingAndMapping<CreateQualificationAction.Result>("json/client/qualification/create_qualification_result_1.json")
+            }
         }
     }
 }

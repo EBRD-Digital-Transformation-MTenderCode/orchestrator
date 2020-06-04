@@ -44,33 +44,6 @@
     }
   ],
   "tender": {
-    "conversions": [
-      {
-        "id": "93546830-29ec-4695-863a-765309a34bc4",
-        "relatedItem": "string",
-        "relatesTo": "requirement",
-        "description": "string",
-        "rationale": "string",
-        "coefficients": [
-          {
-            "value": "STRING",
-            "id": "string",
-            "coefficient": 0.001
-          },
-          {
-            "value": 1,
-            "id": "string",
-            "coefficient": 0.001
-          },
-          {
-            "value": 0.025,
-            "id": "string",
-            "coefficient": 0.001
-          }
-
-        ]
-      }
-    ],
     "otherCriteria": {
       "reductionCriteria": "scoring",
       "qualificationSystemMethods": [

@@ -49,7 +49,6 @@
         "id": "93546830-29ec-4695-863a-765309a34bc4",
         "relatedItem": "string",
         "relatesTo": "requirement",
-        "description": "string",
         "rationale": "string",
         "coefficients": [
           {
