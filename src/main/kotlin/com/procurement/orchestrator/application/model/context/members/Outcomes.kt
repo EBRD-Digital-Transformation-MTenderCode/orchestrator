@@ -6,6 +6,7 @@ import com.procurement.orchestrator.application.model.PlatformId
 import com.procurement.orchestrator.application.model.Token
 import com.procurement.orchestrator.domain.model.amendment.AmendmentId
 import com.procurement.orchestrator.domain.model.award.AwardId
+import com.procurement.orchestrator.domain.model.qualification.QualificationId
 import com.procurement.orchestrator.domain.model.submission.SubmissionId
 import java.io.Serializable
 
@@ -20,7 +21,10 @@ class Outcomes(values: MutableMap<PlatformId, Details> = mutableMapOf()) :
         @field:JsonProperty("awards") @param:JsonProperty("awards") val awards: List<Award> = emptyList(),
 
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
-        @field:JsonProperty("submissions") @param:JsonProperty("submissions") val submissions: List<Submission> = emptyList()
+        @field:JsonProperty("submissions") @param:JsonProperty("submissions") val submissions: List<Submission> = emptyList(),
+
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        @field:JsonProperty("qualifications") @param:JsonProperty("qualifications") val qualifications: List<Qualification> = emptyList()
 
     ) : Serializable {
 
@@ -37,6 +41,11 @@ class Outcomes(values: MutableMap<PlatformId, Details> = mutableMapOf()) :
 
         data class Submission(
             @field:JsonProperty("id") @param:JsonProperty("id") val id: SubmissionId.Permanent,
+            @field:JsonProperty("token") @param:JsonProperty("token") val token: Token
+        ) : Serializable
+
+        data class Qualification(
+            @field:JsonProperty("id") @param:JsonProperty("id") val id: QualificationId,
             @field:JsonProperty("token") @param:JsonProperty("token") val token: Token
         ) : Serializable
     }
