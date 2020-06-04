@@ -54,4 +54,30 @@ class QualificationActionTest {
             }
         }
     }
+
+    @Nested
+    inner class GetNextsForQualification {
+        @Nested
+        inner class Params {
+
+            @Test
+            fun required() {
+                testingBindingAndMapping<GetNextsForQualificationAction.Params>("json/client/qualification/get_nexts_for_qualification_params_full.json")
+            }
+
+            @Test
+            fun required1() {
+                testingBindingAndMapping<GetNextsForQualificationAction.Params>("json/client/qualification/get_nexts_for_qualification_params_full.json")
+            }
+        }
+
+
+        @Nested
+        inner class Result {
+            @Test
+            fun required() {
+                testingBindingAndMapping<GetNextsForQualificationAction.Result>("json/client/qualification/get_nexts_for_qualification_result_full.json")
+            }
+        }
+    }
 }
