@@ -12,6 +12,7 @@ import com.procurement.orchestrator.domain.model.bid.Bids
 import com.procurement.orchestrator.domain.model.contract.Contracts
 import com.procurement.orchestrator.domain.model.party.Parties
 import com.procurement.orchestrator.domain.model.qualification.PreQualification
+import com.procurement.orchestrator.domain.model.qualification.Qualifications
 import com.procurement.orchestrator.domain.model.submission.Submissions
 import com.procurement.orchestrator.domain.model.tender.Tender
 
@@ -62,4 +63,8 @@ interface GlobalContext {
     @get:JsonInclude(JsonInclude.Include.NON_NULL)
     @get:JsonProperty("preQualification")
     var preQualification: PreQualification?
+
+    @get:JsonInclude(JsonInclude.Include.NON_EMPTY)
+    @get:JsonProperty("qualifications")
+    var qualifications: Qualifications
 }
