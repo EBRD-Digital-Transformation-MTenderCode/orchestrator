@@ -46,17 +46,23 @@ abstract class CreateQualificationAction : FunctionalAction<CreateQualificationA
         ) {
             data class RequirementResponse(
                 @param:JsonProperty("id") @field:JsonProperty("id") val id: RequirementResponseId,
-                @param:JsonProperty("value") @field:JsonProperty("value") val value: RequirementResponseValue,
                 @param:JsonProperty("requirement") @field:JsonProperty("requirement") val requirement: Requirement,
-                @param:JsonProperty("relatedCandidate") @field:JsonProperty("relatedCandidate") val relatedCandidate: RelatedCandidate
+
+                @JsonInclude(JsonInclude.Include.NON_NULL)
+                @param:JsonProperty("value") @field:JsonProperty("value") val value: RequirementResponseValue?,
+                @JsonInclude(JsonInclude.Include.NON_NULL)
+                @param:JsonProperty("relatedCandidate") @field:JsonProperty("relatedCandidate") val relatedCandidate: RelatedCandidate?
             ) {
                 data class Requirement(
-                    @param:JsonProperty("id") @field:JsonProperty("id") val id: RequirementId
+                    @JsonInclude(JsonInclude.Include.NON_NULL)
+                    @param:JsonProperty("id") @field:JsonProperty("id") val id: RequirementId?
                 )
 
                 data class RelatedCandidate(
-                    @param:JsonProperty("id") @field:JsonProperty("id") val id: OrganizationId,
-                    @param:JsonProperty("name") @field:JsonProperty("name") val name: String
+                    @JsonInclude(JsonInclude.Include.NON_NULL)
+                    @param:JsonProperty("id") @field:JsonProperty("id") val id: OrganizationId?,
+                    @JsonInclude(JsonInclude.Include.NON_NULL)
+                    @param:JsonProperty("name") @field:JsonProperty("name") val name: String?
                 )
             }
         }
@@ -69,24 +75,31 @@ abstract class CreateQualificationAction : FunctionalAction<CreateQualificationA
         ) {
             data class Conversion(
                 @param:JsonProperty("id") @field:JsonProperty("id") val id: ConversionId,
-                @param:JsonProperty("relatedItem") @field:JsonProperty("relatedItem") val relatedItem: String,
-                @param:JsonProperty("relatesTo") @field:JsonProperty("relatesTo") val relatesTo: ConversionsRelatesTo,
-                @param:JsonProperty("rationale") @field:JsonProperty("rationale") val rationale: String,
+                @JsonInclude(JsonInclude.Include.NON_NULL)
+                @param:JsonProperty("relatedItem") @field:JsonProperty("relatedItem") val relatedItem: String?,
+                @JsonInclude(JsonInclude.Include.NON_NULL)
+                @param:JsonProperty("relatesTo") @field:JsonProperty("relatesTo") val relatesTo: ConversionsRelatesTo?,
+                @JsonInclude(JsonInclude.Include.NON_NULL)
+                @param:JsonProperty("rationale") @field:JsonProperty("rationale") val rationale: String?,
                 @param:JsonProperty("coefficients") @field:JsonProperty("coefficients") val coefficients: List<Coefficient>,
 
                 @JsonInclude(JsonInclude.Include.NON_NULL)
                 @param:JsonProperty("description") @field:JsonProperty("description") val description: String?
             ) {
                 data class Coefficient(
-                    @param:JsonProperty("value") @field:JsonProperty("value") val value: CoefficientValue,
-                    @param:JsonProperty("id") @field:JsonProperty("id") val id: CoefficientId,
-                    @param:JsonProperty("coefficient") @field:JsonProperty("coefficient") val coefficient: CoefficientRate
+                    @JsonInclude(JsonInclude.Include.NON_NULL)
+                    @param:JsonProperty("value") @field:JsonProperty("value") val value: CoefficientValue?,
+                    @JsonInclude(JsonInclude.Include.NON_NULL)
+                    @param:JsonProperty("coefficient") @field:JsonProperty("coefficient") val coefficient: CoefficientRate?,
+                    @param:JsonProperty("id") @field:JsonProperty("id") val id: CoefficientId
                 )
             }
 
             data class OtherCriteria(
-                @param:JsonProperty("reductionCriteria") @field:JsonProperty("reductionCriteria") val reductionCriteria: ReductionCriteria,
-                @param:JsonProperty("qualificationSystemMethods") @field:JsonProperty("qualificationSystemMethods") val qualificationSystemMethods: List<QualificationSystemMethod>
+                @JsonInclude(JsonInclude.Include.NON_NULL)
+                @param:JsonProperty("reductionCriteria") @field:JsonProperty("reductionCriteria") val reductionCriteria: ReductionCriteria?,
+                @JsonInclude(JsonInclude.Include.NON_EMPTY)
+                @param:JsonProperty("qualificationSystemMethods") @field:JsonProperty("qualificationSystemMethods") val qualificationSystemMethods: List<QualificationSystemMethod>?
             )
         }
     }
@@ -100,6 +113,6 @@ abstract class CreateQualificationAction : FunctionalAction<CreateQualificationA
             @param:JsonProperty("token") @field:JsonProperty("token") val token: Token,
             @JsonInclude(JsonInclude.Include.NON_NULL)
             @param:JsonProperty("scoring") @field:JsonProperty("scoring") val scoring: Scoring?
-        )
+        ) : Serializable
     }
 }
