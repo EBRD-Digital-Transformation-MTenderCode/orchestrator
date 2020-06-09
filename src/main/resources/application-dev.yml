@@ -79,6 +79,9 @@ components:
   eClarification:
     host: 10.0.20.125
     port: 9071
+  mdm:
+    host: 10.0.20.125
+    port: 9161
 
 ribbon:
   eureka:
