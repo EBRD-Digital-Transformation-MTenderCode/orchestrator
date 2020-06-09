@@ -30,7 +30,7 @@ class OkHttpRestClient(
         private val retryInfo = RetryInfo()
     }
 
-    private tailrec suspend fun execute(call: Call, retryInfo: RetryInfo): Result<Response, WebClientFail> =
+    private tailrec suspend fun execute(call: Call, retryInfo: RetryInfo): Result<Response, WebClientFail.NetworkError> =
         when (val result = call.awaitAnyResponse()) {
             is Result.Success -> result
             is Result.Failure ->
@@ -50,14 +50,7 @@ class OkHttpRestClient(
         val call = httpClient.newCall(request)
         val response = execute(call = call, retryInfo = retryInfo)
             .orReturnFail { webClientFail ->
-                return when (webClientFail) {
-                    is WebClientFail.NetworkError  -> failure(
-                        Fail.Incident.NetworkError(description = webClientFail.toString())
-                    )
-                    is WebClientFail.ResponseError -> failure(
-                        Fail.Incident.ResponseError(description = webClientFail.response.content)
-                    )
-                }
+                return failure(Fail.Incident.NetworkError(description = webClientFail.toString()))
             }
 
         val callResponse = CallResponse(
