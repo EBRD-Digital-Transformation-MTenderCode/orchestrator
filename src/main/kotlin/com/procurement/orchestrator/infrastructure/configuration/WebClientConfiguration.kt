@@ -11,7 +11,9 @@ import com.procurement.orchestrator.application.client.QualificationClient
 import com.procurement.orchestrator.application.client.RevisionClient
 import com.procurement.orchestrator.application.client.StorageClient
 import com.procurement.orchestrator.application.service.Transform
+import com.procurement.orchestrator.infrastructure.client.web.OkHttpRestClient
 import com.procurement.orchestrator.infrastructure.client.web.OkHttpWebClient
+import com.procurement.orchestrator.infrastructure.client.web.RestClient
 import com.procurement.orchestrator.infrastructure.client.web.WebClient
 import com.procurement.orchestrator.infrastructure.client.web.access.HttpAccessClient
 import com.procurement.orchestrator.infrastructure.client.web.clarification.HttpClarificationClient
@@ -62,7 +64,15 @@ class WebClientConfiguration(
         HttpNoticeClient(webClient = webClient(), properties = componentProperties["eNotice"])
 
     @Bean
-    fun mdmClient(): MdmClient = HttpMdmClient(repositoryConfiguration.errorDescriptionRepository())
+    fun mdmClient(): MdmClient = HttpMdmClient(
+        errorDescriptionRepository = repositoryConfiguration.errorDescriptionRepository(),
+        properties = componentProperties["mdm"],
+        transform = transform,
+        restClient = restClient()
+    )
+
+    @Bean
+    fun restClient(): RestClient = OkHttpRestClient(logger = loggerConfiguration.logger())
 
     @Bean
     fun dossierClient(): DossierClient =
