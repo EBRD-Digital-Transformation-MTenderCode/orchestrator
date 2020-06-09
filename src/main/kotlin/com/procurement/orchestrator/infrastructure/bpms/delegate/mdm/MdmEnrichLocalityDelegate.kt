@@ -42,9 +42,6 @@ class MdmEnrichLocalityDelegate(
 ) {
 
     companion object {
-        const val HTTP_CODE_200: Int = 200
-        const val HTTP_CODE_404: Int = 404
-
         const val RESPONSE_SCHEME_NOT_FOUND: String = "schemeNotFound"
         const val RESPONSE_ID_NOT_FOUND: String = "idNotFound"
 

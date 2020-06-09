@@ -41,9 +41,6 @@ class MdmEnrichRegionDelegate(
 ) {
 
     companion object {
-        const val HTTP_CODE_200: Int = 200
-        const val HTTP_CODE_404: Int = 404
-
         const val PARAMETER_NAME_LOCATION: String = "location"
     }
 
