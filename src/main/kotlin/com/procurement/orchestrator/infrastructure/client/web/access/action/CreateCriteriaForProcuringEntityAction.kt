@@ -9,9 +9,13 @@ import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
 import com.procurement.orchestrator.domain.model.requirement.RequirementId
 import com.procurement.orchestrator.domain.model.tender.criteria.CriteriaSource
+import com.procurement.orchestrator.domain.model.tender.criteria.Criterion
 import com.procurement.orchestrator.domain.model.tender.criteria.CriterionId
 import com.procurement.orchestrator.domain.model.tender.criteria.requirement.Requirement
+import com.procurement.orchestrator.domain.model.tender.criteria.requirement.RequirementGroup
 import com.procurement.orchestrator.domain.model.tender.criteria.requirement.RequirementGroupId
+import com.procurement.orchestrator.domain.model.tender.criteria.requirement.RequirementGroups
+import com.procurement.orchestrator.domain.model.tender.criteria.requirement.Requirements
 import com.procurement.orchestrator.infrastructure.bind.criteria.requirement.RequirementDeserializer
 import com.procurement.orchestrator.infrastructure.bind.criteria.requirement.RequirementSerializer
 import com.procurement.orchestrator.infrastructure.client.web.Target
@@ -84,3 +88,53 @@ abstract class CreateCriteriaForProcuringEntityAction : FunctionalAction<CreateC
         }
     }
 }
+
+fun CreateCriteriaForProcuringEntityAction.Result.Criterion.convertToGlobalContextEntity(): Criterion {
+
+    val requirementGroups = this.requirementGroups
+        .map { it.convertToGlobalContextEntity() }
+
+    return Criterion(
+        id                = this.id,
+        description       = this.description,
+        source            = this.source,
+        title             = this.title,
+        requirementGroups = RequirementGroups(requirementGroups)
+    )
+}
+
+private fun CreateCriteriaForProcuringEntityAction.Result.Criterion.RequirementGroup.convertToGlobalContextEntity() = RequirementGroup(
+    id           = this.id,
+    description  = this.description,
+    requirements = Requirements(this.requirements)
+)
+
+fun Criterion.convertToRequestEntity(): CreateCriteriaForProcuringEntityAction.Params.Criterion {
+    val requirementGroups = this.requirementGroups
+        .map { it.convertToRequestEntity() }
+
+    return CreateCriteriaForProcuringEntityAction.Params.Criterion(
+        id                = this.id,
+        title             = this.title!!,
+        description       = this.description,
+        requirementGroups = requirementGroups
+    )
+}
+
+private fun RequirementGroup.convertToRequestEntity(): CreateCriteriaForProcuringEntityAction.Params.Criterion.RequirementGroup {
+    val requirements = this.requirements
+        .map { it.convertToRequestEntity() }
+
+    return CreateCriteriaForProcuringEntityAction.Params.Criterion.RequirementGroup(
+        id           = this.id,
+        description  = this.description,
+        requirements = requirements
+    )
+}
+
+private fun Requirement.convertToRequestEntity(): CreateCriteriaForProcuringEntityAction.Params.Criterion.RequirementGroup.Requirement =
+    CreateCriteriaForProcuringEntityAction.Params.Criterion.RequirementGroup.Requirement(
+        id          = this.id,
+        title       = this.title,
+        description = this.description
+    )
