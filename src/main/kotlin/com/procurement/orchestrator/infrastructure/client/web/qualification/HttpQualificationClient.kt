@@ -6,6 +6,7 @@ import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.WebClient
+import com.procurement.orchestrator.infrastructure.client.web.qualification.action.FindQualificationIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.StartQualificationPeriodAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
 import java.net.URL
@@ -22,5 +23,14 @@ class HttpQualificationClient(private val webClient: WebClient, properties: Comp
         url = url,
         command = QualificationCommands.StartQualificationPeriod.build(id = id, params = params),
         target = QualificationCommands.StartQualificationPeriod.target
+    )
+
+    override suspend fun findQualificationIds(
+        id: CommandId,
+        params: FindQualificationIdsAction.Params
+    ): Result<Reply<FindQualificationIdsAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = QualificationCommands.FindQualificationIds.build(id = id, params = params),
+        target = QualificationCommands.FindQualificationIds.target
     )
 }
