@@ -53,6 +53,7 @@ public enum AccessCommandType {
     CHECK_BUDGET_SOURCES("checkBudgetSources"),
     VALIDATE_OWNER_AND_TOKEN("validateOwnerAndToken"),
     CHECK_CN_ON_PN("checkCnOnPn"),
+    GET_AWARD_CRITERIA_AND_CONVERSATIONS("getAwardCriteriaAndConversions"),
     CHECK_RESPONSES("checkResponses");
 
     private static final Map<String, AccessCommandType> CONSTANTS = new HashMap<>();
