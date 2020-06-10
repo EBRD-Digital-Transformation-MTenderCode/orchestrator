@@ -54,7 +54,8 @@ public enum AccessCommandType {
     VALIDATE_OWNER_AND_TOKEN("validateOwnerAndToken"),
     CHECK_CN_ON_PN("checkCnOnPn"),
     GET_AWARD_CRITERIA_AND_CONVERSATIONS("getAwardCriteriaAndConversions"),
-    CREATE_REQUESTS_FOR_EV_PANELS("createRequestsForEvPanels");
+    CREATE_REQUESTS_FOR_EV_PANELS("createRequestsForEvPanels"),
+    CHECK_RESPONSES("checkResponses");
 
     private static final Map<String, AccessCommandType> CONSTANTS = new HashMap<>();
     private final String value;
