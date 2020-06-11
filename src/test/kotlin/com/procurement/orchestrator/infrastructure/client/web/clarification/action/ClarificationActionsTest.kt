@@ -62,4 +62,41 @@ class ClarificationActionsTest {
 
         }
     }
+
+    @Nested
+    inner class FindEnquiries {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<FindEnquiriesAction.Params>("json/client/clarification/find_enquiries_params_full.json")
+            }
+
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<FindEnquiriesAction.Result>("json/client/clarification/find_enquiries_result_full.json")
+            }
+
+            @Test
+            fun required1() {
+                testingBindingAndMapping<FindEnquiriesAction.Result>("json/client/clarification/find_enquiries_result_required_1.json")
+            }
+
+            @Test
+            fun required2() {
+                testingBindingAndMapping<FindEnquiriesAction.Result>("json/client/clarification/find_enquiries_result_required_2.json")
+            }
+
+            @Test
+            fun required3() {
+                testingBindingAndMapping<FindEnquiriesAction.Result>("json/client/clarification/find_enquiries_result_required_3.json")
+            }
+
+        }
+    }
 }
