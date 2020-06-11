@@ -8,6 +8,7 @@ import com.procurement.orchestrator.infrastructure.bind.date.JsonDateTimeModule
 import com.procurement.orchestrator.infrastructure.bind.measure.amount.AmountModule
 import com.procurement.orchestrator.infrastructure.bind.measure.money.MoneyModule
 import com.procurement.orchestrator.infrastructure.bind.measure.quantity.QuantityModule
+import com.procurement.orchestrator.infrastructure.bind.measure.scoring.ScoringModule
 
 fun ObjectMapper.configuration() {
 
@@ -16,7 +17,7 @@ fun ObjectMapper.configuration() {
     this.registerModule(AmountModule())
     this.registerModule(QuantityModule())
     this.registerModule(JsonDateTimeModule())
-
+    this.registerModule(ScoringModule())
 
     this.configure(DeserializationFeature.USE_BIG_INTEGER_FOR_INTS, true)
     this.configure(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS, true)

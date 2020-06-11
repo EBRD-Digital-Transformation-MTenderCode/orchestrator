@@ -1,6 +1,7 @@
 package com.procurement.orchestrator.delegate.access;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.dto.command.ResponseDto;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
@@ -71,7 +72,26 @@ public class AccessUpdateCn implements JavaDelegate {
             execution.setVariable(VARIABLE_NAME, isLotsChanged);
             LOG.debug("COMMAND ({}) IN CONTEXT PUT THE VARIABLE '{}' WITH THE VALUE '{}'.", context.getOperationId(), VARIABLE_NAME, isLotsChanged);
 
-            operationService.saveOperationStep(execution, entity, context, commandMessage, responseData);
+            final JsonNode step = update(jsonData, responseData, processId);
+            if (LOG.isDebugEnabled())
+                LOG.debug("STEP FOR SAVE ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(step));
+
+            operationService.saveOperationStep(execution, entity, context, commandMessage, step);
+        }
+    }
+
+    private JsonNode update(final JsonNode jsonData, final JsonNode responseData, final String processId) {
+        try {
+            final ObjectNode main = (ObjectNode) jsonData;
+            main.replace("lotsChanged", responseData.get("lotsChanged"));
+            main.replace("planning", responseData.get("planning"));
+            main.replace("tender", responseData.get("tender"));
+            if(responseData.has("amendment"))
+                main.replace("amendment", responseData.get("amendment"));
+            return main;
+        } catch (Exception e) {
+            processService.terminateProcess(processId, e.getMessage());
+            return null;
         }
     }
 }

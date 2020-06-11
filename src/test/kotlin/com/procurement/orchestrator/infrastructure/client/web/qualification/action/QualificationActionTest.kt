@@ -7,67 +7,51 @@ import org.junit.jupiter.api.Test
 class QualificationActionTest {
 
     @Nested
-    inner class CreateSubmission {
-
+    inner class StartQualificationPeriod {
         @Nested
         inner class Params {
             @Test
-            fun fully() {
-                testingBindingAndMapping<CreateSubmissionAction.Params>("json/client/qualification/create_submission_params_full.json")
+            fun required() {
+                testingBindingAndMapping<StartQualificationPeriodAction.Params>("json/client/qualification/start_qualification_period_params_full.json")
             }
         }
 
         @Nested
         inner class Result {
             @Test
-            fun fully() {
-                testingBindingAndMapping<CreateSubmissionAction.Result>("json/client/qualification/create_submission_result_full.json")
+            fun required() {
+                testingBindingAndMapping<StartQualificationPeriodAction.Result>("json/client/qualification/start_qualification_period_result_full.json")
             }
         }
     }
 
     @Nested
-    inner class CheckPeriod {
+    inner class FindQualificationIds {
 
         @Nested
         inner class Params {
             @Test
-            fun fully() {
-                testingBindingAndMapping<CheckPeriodAction.Params>("json/client/qualification/check_period_params_full.json")
+            fun required() {
+                testingBindingAndMapping<FindQualificationIdsAction.Params>("json/client/qualification/find_qualification_ids_params_full.json")
+            }
+
+            @Test
+            fun required1() {
+                testingBindingAndMapping<FindQualificationIdsAction.Params>("json/client/qualification/find_qualification_ids_params_1.json")
+            }
+
+            @Test
+            fun required2() {
+                testingBindingAndMapping<FindQualificationIdsAction.Params>("json/client/qualification/find_qualification_ids_params_2.json")
             }
         }
-    }
-
-    @Nested
-    inner class ValidateSubmission {
 
         @Nested
-        inner class Params {
+        inner class Result {
             @Test
-            fun fully() {
-                testingBindingAndMapping<ValidateSubmissionAction.Params>("json/client/qualification/validate_submission_params_full.json")
-            }
-
-            @Test
-            fun required_1() {
-                testingBindingAndMapping<ValidateSubmissionAction.Params>("json/client/qualification/validate_submission_params_required_1.json")
-            }
-
-            @Test
-            fun required_2() {
-                testingBindingAndMapping<ValidateSubmissionAction.Params>("json/client/qualification/validate_submission_params_required_2.json")
-            }
-
-            @Test
-            fun required_3() {
-                testingBindingAndMapping<ValidateSubmissionAction.Params>("json/client/qualification/validate_submission_params_required_3.json")
-            }
-
-            @Test
-            fun required_4() {
-                testingBindingAndMapping<ValidateSubmissionAction.Params>("json/client/qualification/validate_submission_params_required_4.json")
+            fun required() {
+                testingBindingAndMapping<FindQualificationIdsAction.Result>("json/client/qualification/find_qualification_ids_result_full.json")
             }
         }
     }
-
 }

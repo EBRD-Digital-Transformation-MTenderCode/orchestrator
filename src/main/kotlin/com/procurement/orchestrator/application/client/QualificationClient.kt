@@ -4,25 +4,18 @@ import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
-import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckPeriodAction
-import com.procurement.orchestrator.infrastructure.client.web.qualification.action.ValidateSubmissionAction
-import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CreateSubmissionAction
+import com.procurement.orchestrator.infrastructure.client.web.qualification.action.FindQualificationIdsAction
+import com.procurement.orchestrator.infrastructure.client.web.qualification.action.StartQualificationPeriodAction
 
 interface QualificationClient {
 
-    suspend fun createSubmission(
+    suspend fun startQualificationPeriod(
         id: CommandId,
-        params: CreateSubmissionAction.Params
-    ): Result<Reply<CreateSubmissionAction.Result>, Fail.Incident>
+        params: StartQualificationPeriodAction.Params
+    ): Result<Reply<StartQualificationPeriodAction.Result>, Fail.Incident>
 
-    suspend fun checkPeriod(
+    suspend fun findQualificationIds(
         id: CommandId,
-        params: CheckPeriodAction.Params
-    ): Result<Reply<Unit>, Fail.Incident>
-
-    suspend fun validateSubmission(
-        id: CommandId,
-        params: ValidateSubmissionAction.Params
-    ): Result<Reply<Unit>, Fail.Incident>
-
+        params: FindQualificationIdsAction.Params
+    ): Result<Reply<FindQualificationIdsAction.Result>, Fail.Incident>
 }

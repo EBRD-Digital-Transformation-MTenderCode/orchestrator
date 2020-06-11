@@ -60,9 +60,10 @@ class AccessSetStateForLotsDelegate(
                         )
                     )
             }
-        val statusDetails: LotStatusDetails = parameterContainer.getString(PARAMETER_NAME_STATUS_DETAILS)
+
+        val statusDetails: LotStatusDetails? = parameterContainer.getStringOrNull(PARAMETER_NAME_STATUS_DETAILS)
             .orForwardFail { fail -> return fail }
-            .let { statusDetails ->
+            ?.let { statusDetails ->
                 LotStatusDetails.orNull(statusDetails)
                     ?: return failure(
                         Fail.Incident.Bpmn.Parameter.UnknownValue(
@@ -107,6 +108,7 @@ class AccessSetStateForLotsDelegate(
                         statusDetails = parameters.statusDetails
                     )
                 }
+
             Location.TENDER_AMENDMENT -> tender.amendments
                 .map { amendment ->
                     val entityId = amendment.relatedItem
@@ -185,7 +187,7 @@ class AccessSetStateForLotsDelegate(
         return MaybeFail.none()
     }
 
-    class Parameters(val status: LotStatus, val statusDetails: LotStatusDetails, val location: Location)
+    class Parameters(val status: LotStatus, val statusDetails: LotStatusDetails?, val location: Location)
 
     enum class Location(@JsonValue override val key: String) : EnumElementProvider.Key {
 

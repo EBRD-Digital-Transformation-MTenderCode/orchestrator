@@ -24,6 +24,23 @@ class ParameterContainer(private val execution: DelegateExecution) {
         return success(value)
     }
 
+    fun getBooleanOrNull(name: String): Result<Boolean?, Fail.Incident.Bpmn.Parameter.DataTypeMismatch> {
+        val value: Boolean? = getStringOrNull(name = name)
+            .orForwardFail { fail -> return fail }
+            ?.let {
+                if (!it.isBoolean())
+                    return failure(
+                        Fail.Incident.Bpmn.Parameter.DataTypeMismatch(
+                            name = name,
+                            expectedType = Boolean::class.qualifiedName!!,
+                            actualType = it::class.qualifiedName!!
+                        )
+                    )
+                it.toBoolean()
+            }
+        return success(value)
+    }
+
     fun getString(name: String): Result<String, Fail.Incident.Bpmn.Parameter> {
         val value: String = execution.getVariable(name)
             ?.let {
@@ -73,5 +90,10 @@ class ParameterContainer(private val execution: DelegateExecution) {
                 }.toMap())
             }
             ?: success(emptyMap())
+    }
+
+    private fun String.isBoolean(): Boolean {
+        val string = this.toLowerCase()
+        return string == "true" || string == "false"
     }
 }

@@ -13,8 +13,10 @@ public enum DossierCommandType {
     CHECK_CRITERIA("checkCriteria"),
     CREATE_CRITERIA("createCriteria"),
     CHECK_RESPONSES("checkResponses"),
-    GET_CRITERIA("getCriteria"),
-    CREATE_REQUESTS_FOR_EV_PANELS("createRequestsForEvPanels");
+    CREATE_REQUESTS_FOR_EV_PANELS("createRequestsForEvPanels"),
+    VALIDATE_PERIOD("validatePeriod"),
+    CHECK_PERIOD("checkPeriod"),
+    SAVE_PERIOD("savePeriod");
 
     private static final Map<String, DossierCommandType> CONSTANTS = new HashMap<>();
     private final String value;

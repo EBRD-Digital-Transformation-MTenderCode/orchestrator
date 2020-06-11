@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.6.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.5.0">
   <bpmn:error id="tr_exception" name="TR_EXCEPTION" errorCode="TR_EXCEPTION" />
   <bpmn:collaboration id="Collaboration_0jt6r0m">
     <bpmn:participant id="Participant_00wp72i" name="UpdateCnSp" processRef="updateCnSp" />
@@ -40,223 +40,205 @@
     <bpmn:sequenceFlow id="SequenceFlow_07ec624" sourceRef="ChronographScheduleEndSubmissionPeriodPnTask" targetRef="ExclusiveGateway_0btunx9" />
     <bpmn:sequenceFlow id="SequenceFlow_0mjemoh" sourceRef="StorageValidateDocsOfBusinessFunctionTask" targetRef="AccessCheckOwnerTokenTask" />
     <bpmn:sequenceFlow id="SequenceFlow_05iz5y3" sourceRef="StorageValidateDocsOfTenderTask" targetRef="StorageValidateDocsOfBusinessFunctionTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0om0mu1" sourceRef="BpeSetIsAuctionTask" targetRef="QualificationCheckPeriodTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1cblblq" sourceRef="QualificationValidatePeriodTask" targetRef="ExclusiveGateway_1dk50w6" />
+    <bpmn:sequenceFlow id="SequenceFlow_0om0mu1" sourceRef="BpeSetIsAuctionTask" targetRef="DossierCheckPeriodTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1cblblq" sourceRef="DossierValidatePeriodTask" targetRef="ExclusiveGateway_1dk50w6" />
     <bpmn:sequenceFlow id="SequenceFlow_10dni9k" sourceRef="AccessCheckItemsPnTask" targetRef="ExclusiveGateway_1jdkyq3" />
     <bpmn:sequenceFlow id="SequenceFlow_077838s" sourceRef="AccessCheckOwnerTokenTask" targetRef="AccessCheckItemsPnTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0au1nef" sourceRef="QualificationCheckPeriodTask" targetRef="MdmValidateTenderCnTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0au1nef" sourceRef="DossierCheckPeriodTask" targetRef="MdmValidateTenderCnTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1q80495" sourceRef="SaveFirstOperationTask" targetRef="StorageValidateDocsOfTenderTask" />
     <bpmn:sequenceFlow id="SequenceFlow_05ohfz1" sourceRef="StartEvent_1" targetRef="SaveFirstOperationTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1a9d5nj" name="operationType&#10;==&#39;updateCN&#39;&#10;" sourceRef="ExclusiveGateway_1jdkyq3" targetRef="BpeSetIsAuctionTask">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${operationType=='updateCN'}</bpmn:conditionExpression>
+    <bpmn:sequenceFlow id="SequenceFlow_1a9d5nj" name="operationType&#10;==&#39;updateCN&#39;" sourceRef="ExclusiveGateway_1jdkyq3" targetRef="BpeSetIsAuctionTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${operationType == 'updateCN'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_0vs74bs" name="operationType==&#39;createCNonPN&#39;" sourceRef="ExclusiveGateway_1jdkyq3" targetRef="QualificationValidatePeriodTask">
+    <bpmn:sequenceFlow id="SequenceFlow_0vs74bs" name="operationType==&#39;createCNonPN&#39;" sourceRef="ExclusiveGateway_1jdkyq3" targetRef="DossierValidatePeriodTask">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${operationType == 'createCNonPN'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_1cxhl09" sourceRef="ExclusiveGateway_0ual76v" targetRef="ExclusiveGateway_0btunx9" />
-    <bpmn:serviceTask id="QualificationValidatePeriodTask" name="eQualification: Validate Period" camunda:asyncBefore="true" camunda:delegateExpression="${qualificationValidatePeriod}">
+    <bpmn:serviceTask id="DossierValidatePeriodTask" name="eDossier: Validate Period" camunda:asyncBefore="true" camunda:delegateExpression="${dossierValidatePeriod}">
       <bpmn:incoming>SequenceFlow_0vs74bs</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1cblblq</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="AccessCreateCnOnPnTask" name="Access &#10;Create Cn on Pn" camunda:asyncBefore="true" camunda:delegateExpression="${accessCreateCnOnPn}">
-      <bpmn:incoming>SequenceFlow_138etsr</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1q3sbt9</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:serviceTask id="MdmValidateTenderPnTask" name="Mdm Validate" camunda:asyncBefore="true" camunda:delegateExpression="${mdmValidateTender}">
-      <bpmn:incoming>SequenceFlow_0unv9ei</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1tbwwl9</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:serviceTask id="ClarificationCreatePeriodPnTask" name="eClarification Create Period&#10;" camunda:asyncBefore="true" camunda:delegateExpression="${clarificationCreatePeriod}">
-      <bpmn:incoming>SequenceFlow_1hbo20r</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_01zhl4m</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:serviceTask id="UpdateCnSetActiveTrueTask" name="BPE:&#10;Set Active True&#10;" camunda:asyncBefore="true" camunda:delegateExpression="${updateCnSetActiveTrue}">
-      <bpmn:incoming>SequenceFlow_1svoxaw</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_138etsr</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:serviceTask id="AccessCheckCnOnPn" name="eAccess:&#10;Check CheckCnOnPn" camunda:asyncBefore="true" camunda:delegateExpression="${accessCheckCnOnPn}">
-      <bpmn:incoming>SequenceFlow_0mbkjr5</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_179x2bx</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:exclusiveGateway id="ExclusiveGateway_1dk50w6" name="mdmValidation?">
-      <bpmn:incoming>SequenceFlow_1cblblq</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_0unv9ei</bpmn:outgoing>
-      <bpmn:outgoing>SequenceFlow_1rmaef9</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
-    <bpmn:serviceTask id="DossierCheckCriteriaTask" name="eDossier:&#10;Check Criteria" camunda:asyncBefore="true" camunda:delegateExpression="${dossierCheckCriteria}">
-      <bpmn:incoming>SequenceFlow_16jv4hg</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_0mbkjr5</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:serviceTask id="DossierCreateCriteriaTask" name="eDossier:&#10;Create Criteria" camunda:asyncBefore="true" camunda:delegateExpression="${dossierCreateCriteria}">
-      <bpmn:incoming>SequenceFlow_1q3sbt9</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_0d3ushb</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:exclusiveGateway id="ExclusiveGateway_1ve9xsi">
-      <bpmn:incoming>SequenceFlow_179x2bx</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1klypcj</bpmn:outgoing>
-      <bpmn:outgoing>SequenceFlow_13w1ig9</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
-    <bpmn:serviceTask id="ServiceTask_0kx1k5e" name="Access &#10;Get lots for auctions" camunda:asyncBefore="true" camunda:delegateExpression="${accessGetLotsForAuction}">
-      <bpmn:incoming>SequenceFlow_1klypcj</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1f58u11</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:serviceTask id="ServiceTask_165dg54" name="eAuction:&#10;Validate electronic auctions&#10;" camunda:asyncBefore="true" camunda:delegateExpression="${auctionValidate}">
-      <bpmn:incoming>SequenceFlow_1f58u11</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_0n7hn0x</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:exclusiveGateway id="ExclusiveGateway_11azitn">
-      <bpmn:incoming>SequenceFlow_1tbwwl9</bpmn:incoming>
-      <bpmn:incoming>SequenceFlow_1rmaef9</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_16jv4hg</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
-    <bpmn:exclusiveGateway id="ExclusiveGateway_0r7lzzu">
-      <bpmn:incoming>SequenceFlow_0n7hn0x</bpmn:incoming>
-      <bpmn:incoming>SequenceFlow_13w1ig9</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1svoxaw</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
-    <bpmn:serviceTask id="qualificationSavePeriodTask" name="eQualification:&#10;Save Period " camunda:asyncBefore="true" camunda:delegateExpression="${qualificationSavePeriod}">
-      <bpmn:incoming>SequenceFlow_0d3ushb</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1hbo20r</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:serviceTask id="ChronographScheduleEndSubmissionPeriodPnTask" name="Chronograph Schedule End Submission Period" camunda:asyncBefore="true" camunda:delegateExpression="${chronographScheduleEndSubmissionPeriod}">
-      <bpmn:incoming>SequenceFlow_01zhl4m</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_07ec624</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_138etsr" sourceRef="UpdateCnSetActiveTrueTask" targetRef="AccessCreateCnOnPnTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1q3sbt9" sourceRef="AccessCreateCnOnPnTask" targetRef="DossierCreateCriteriaTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0unv9ei" name="yes" sourceRef="ExclusiveGateway_1dk50w6" targetRef="MdmValidateTenderPnTask">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${mdmValidation == true}</bpmn:conditionExpression>
-    </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_1tbwwl9" sourceRef="MdmValidateTenderPnTask" targetRef="ExclusiveGateway_11azitn" />
-    <bpmn:sequenceFlow id="SequenceFlow_1hbo20r" sourceRef="qualificationSavePeriodTask" targetRef="ClarificationCreatePeriodPnTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_01zhl4m" sourceRef="ClarificationCreatePeriodPnTask" targetRef="ChronographScheduleEndSubmissionPeriodPnTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1svoxaw" sourceRef="ExclusiveGateway_0r7lzzu" targetRef="UpdateCnSetActiveTrueTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0mbkjr5" sourceRef="DossierCheckCriteriaTask" targetRef="AccessCheckCnOnPn" />
-    <bpmn:sequenceFlow id="SequenceFlow_179x2bx" sourceRef="AccessCheckCnOnPn" targetRef="ExclusiveGateway_1ve9xsi" />
-    <bpmn:sequenceFlow id="SequenceFlow_1rmaef9" name="no" sourceRef="ExclusiveGateway_1dk50w6" targetRef="ExclusiveGateway_11azitn">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${mdmValidation == false}</bpmn:conditionExpression>
-    </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_16jv4hg" sourceRef="ExclusiveGateway_11azitn" targetRef="DossierCheckCriteriaTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0d3ushb" sourceRef="DossierCreateCriteriaTask" targetRef="qualificationSavePeriodTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_13w1ig9" name="requireAuction == false" sourceRef="ExclusiveGateway_1ve9xsi" targetRef="ExclusiveGateway_0r7lzzu">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${requireAuction==false}</bpmn:conditionExpression>
-    </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_1klypcj" name="requireAuction&#10;==true" sourceRef="ExclusiveGateway_1ve9xsi" targetRef="ServiceTask_0kx1k5e">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${requireAuction==true}</bpmn:conditionExpression>
-    </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_1f58u11" sourceRef="ServiceTask_0kx1k5e" targetRef="ServiceTask_165dg54" />
-    <bpmn:sequenceFlow id="SequenceFlow_0n7hn0x" sourceRef="ServiceTask_165dg54" targetRef="ExclusiveGateway_0r7lzzu" />
-    <bpmn:serviceTask id="QualificationCheckPeriodTask" name="eQualification Check Period" camunda:asyncBefore="true" camunda:delegateExpression="${qualificationCheckPeriod}">
+    <bpmn:sequenceFlow id="SequenceFlow_16jv4hg" sourceRef="ExclusiveGateway_11azitn" targetRef="AccessCheckCnOnPnTask" />
+    <bpmn:serviceTask id="DossierCheckPeriodTask" name="eDossier: Check Period" camunda:asyncBefore="true" camunda:delegateExpression="${dossierCheckPeriod}">
       <bpmn:incoming>SequenceFlow_0om0mu1</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0au1nef</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="SendMessageTask" name="Send &#10;message&#10;" camunda:asyncBefore="true" camunda:delegateExpression="${sendMessageToPlatform}">
-      <bpmn:incoming>SequenceFlow_0m8swog</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_152vu65</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:serviceTask id="NoticeCreateReleaseTask" name="eNotice:&#10;Create release&#10;" camunda:asyncBefore="true" camunda:delegateExpression="${noticeCreateRelease}">
-      <bpmn:incoming>SequenceFlow_0g6vjpn</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_0gb7fks</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:endEvent id="EndEvent_13r5oj1">
-      <bpmn:incoming>SequenceFlow_152vu65</bpmn:incoming>
-    </bpmn:endEvent>
-    <bpmn:serviceTask id="StorageOpenDocsOfTenderTask" name="Storage&#10;Open documents of tender&#10;" camunda:asyncBefore="true" camunda:delegateExpression="${storageOpenDocsOfTender}">
-      <bpmn:incoming>SequenceFlow_1w46tqu</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_00vu013</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:serviceTask id="SaveContextTask" name="Save Context" camunda:delegateExpression="${saveContext}">
-      <bpmn:incoming>SequenceFlow_0gb7fks</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_0m8swog</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:serviceTask id="StorageOpenDocsOfBusinessFunctionTask" name="Storage&#10;Open documents of business functions&#10;" camunda:asyncBefore="true" camunda:delegateExpression="${storageOpenDocsOfBusinessFunction}">
-      <bpmn:incoming>SequenceFlow_00vu013</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_0g6vjpn</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:exclusiveGateway id="ExclusiveGateway_0btunx9">
-      <bpmn:incoming>SequenceFlow_07ec624</bpmn:incoming>
-      <bpmn:incoming>SequenceFlow_1cxhl09</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1w46tqu</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="SequenceFlow_0m8swog" sourceRef="SaveContextTask" targetRef="SendMessageTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_152vu65" sourceRef="SendMessageTask" targetRef="EndEvent_13r5oj1" />
-    <bpmn:sequenceFlow id="SequenceFlow_0g6vjpn" sourceRef="StorageOpenDocsOfBusinessFunctionTask" targetRef="NoticeCreateReleaseTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0gb7fks" sourceRef="NoticeCreateReleaseTask" targetRef="SaveContextTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1w46tqu" sourceRef="ExclusiveGateway_0btunx9" targetRef="StorageOpenDocsOfTenderTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_00vu013" sourceRef="StorageOpenDocsOfTenderTask" targetRef="StorageOpenDocsOfBusinessFunctionTask" />
-    <bpmn:serviceTask id="AccessUpdateCnTask" name="Access&#10;Update Cn" camunda:asyncBefore="true" camunda:delegateExpression="${accessUpdateCn}">
-      <bpmn:incoming>SequenceFlow_0qd4jrx</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_0xg6r2o</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:serviceTask id="MdmValidateTenderCnTask" name="Mdm Validate" camunda:asyncBefore="true" camunda:delegateExpression="${mdmValidateTenderNoItems}">
-      <bpmn:incoming>SequenceFlow_0au1nef</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1smn57g</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:serviceTask id="ClarificationCreatePeriodCnTask" name="eClarification Create Period" camunda:asyncBefore="true" camunda:delegateExpression="${clarificationCreatePeriod}">
-      <bpmn:incoming>SequenceFlow_1mdybtg</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_0kik57c</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:exclusiveGateway id="ExclusiveGateway_0gquyxz">
+    <bpmn:exclusiveGateway id="ExclusiveGateway_0gquyxz" default="SequenceFlow_0fx3af7">
       <bpmn:incoming>SequenceFlow_1smn57g</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0fx3af7</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlow_1v2w8n1</bpmn:outgoing>
     </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="SequenceFlow_0xg6r2o" sourceRef="AccessUpdateCnTask" targetRef="ExclusiveGateway_1qs97z1" />
+    <bpmn:sequenceFlow id="SequenceFlow_1smn57g" sourceRef="MdmValidateTenderCnTask" targetRef="ExclusiveGateway_0gquyxz" />
+    <bpmn:sequenceFlow id="SequenceFlow_1v2w8n1" name="isAuction&#10;==true" sourceRef="ExclusiveGateway_0gquyxz" targetRef="AccessGetLotsForAuctionCnTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isAuction==true}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_0fx3af7" sourceRef="ExclusiveGateway_0gquyxz" targetRef="ExclusiveGateway_1gi70cg" />
+    <bpmn:sequenceFlow id="SequenceFlow_1an9eyi" sourceRef="AccessGetLotsForAuctionCnTask" targetRef="AuctionValidateCnTask" />
     <bpmn:serviceTask id="AuctionValidateCnTask" name="eAuction:&#10;Validate electronic auctions&#10;" camunda:asyncBefore="true" camunda:delegateExpression="${auctionValidate}">
       <bpmn:incoming>SequenceFlow_1an9eyi</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_011ue1g</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_0efccvy</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:inclusiveGateway id="ExclusiveGateway_0biiggs">
-      <bpmn:incoming>SequenceFlow_0fx3af7</bpmn:incoming>
-      <bpmn:incoming>SequenceFlow_011ue1g</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_0qd4jrx</bpmn:outgoing>
-    </bpmn:inclusiveGateway>
-    <bpmn:serviceTask id="AccessGetLotsForAuctionCnTask" name="Access &#10;Get lots for auctions" camunda:asyncBefore="true" camunda:delegateExpression="${accessGetLotsForAuction}">
+    <bpmn:serviceTask id="AccessGetLotsForAuctionCnTask" name="Access: &#10;Get lots for auctions" camunda:asyncBefore="true" camunda:delegateExpression="${accessGetLotsForAuction}">
       <bpmn:incoming>SequenceFlow_1v2w8n1</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1an9eyi</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:exclusiveGateway id="ExclusiveGateway_1qs97z1">
+    <bpmn:sequenceFlow id="SequenceFlow_0o0csv0" sourceRef="ExclusiveGateway_1gi70cg" targetRef="AccessUpdateCnTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0efccvy" sourceRef="AuctionValidateCnTask" targetRef="ExclusiveGateway_1gi70cg" />
+    <bpmn:exclusiveGateway id="ExclusiveGateway_1gi70cg">
+      <bpmn:incoming>SequenceFlow_0fx3af7</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_0efccvy</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0o0csv0</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="SequenceFlow_1svoxaw" sourceRef="ExclusiveGateway_0r7lzzu" targetRef="UpdateCnSetActiveTrueTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_179x2bx" sourceRef="AccessCheckCnOnPnTask" targetRef="ExclusiveGateway_1ve9xsi" />
+    <bpmn:serviceTask id="MdmValidateTenderCnTask" name="Mdm: Validate" camunda:asyncBefore="true" camunda:delegateExpression="${mdmValidateTenderNoItems}">
+      <bpmn:incoming>SequenceFlow_0au1nef</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1smn57g</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="AccessUpdateCnTask" name="Access&#10;Update Cn" camunda:asyncBefore="true" camunda:delegateExpression="${accessUpdateCn}">
+      <bpmn:incoming>SequenceFlow_0o0csv0</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0xg6r2o</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_1qs97z1" default="SequenceFlow_03el6a6">
       <bpmn:incoming>SequenceFlow_0xg6r2o</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0w1mvk8</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlow_03el6a6</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:serviceTask id="SubmissionSavePeriodCnTask" name="eQualification:&#10;Save Period " camunda:asyncBefore="true" camunda:delegateExpression="${qualificationSavePeriod}">
+    <bpmn:serviceTask id="DossierSavePeriodTask" name="eDossier:&#10;Save Period " camunda:asyncBefore="true" camunda:delegateExpression="${dossierSavePeriod}">
       <bpmn:incoming>SequenceFlow_0w1mvk8</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1f0c1hk</bpmn:outgoing>
     </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1mdybtg" sourceRef="ChronographRescheduleEndSubmissionPeriodTask" targetRef="ClarificationCreatePeriodCnTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0kik57c" sourceRef="ClarificationCreatePeriodCnTask" targetRef="ExclusiveGateway_0ual76v" />
+    <bpmn:sequenceFlow id="SequenceFlow_0w1mvk8" name="isPreQualificationPeriodChanged==true" sourceRef="ExclusiveGateway_1qs97z1" targetRef="DossierSavePeriodTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isPreQualificationPeriodChanged==true}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_03el6a6" sourceRef="ExclusiveGateway_1qs97z1" targetRef="ExclusiveGateway_0ual76v" />
+    <bpmn:sequenceFlow id="SequenceFlow_1f0c1hk" sourceRef="DossierSavePeriodTask" targetRef="ChronographRescheduleEndSubmissionPeriodTask" />
     <bpmn:serviceTask id="ChronographRescheduleEndSubmissionPeriodTask" name="Chronograph Reschedule Submission Period" camunda:asyncBefore="true" camunda:delegateExpression="${chronographRescheduleEndSubmissionPeriod}">
       <bpmn:incoming>SequenceFlow_1f0c1hk</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1mdybtg</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="ClarificationCreatePeriodCnTask" name="eClarification Create Period" camunda:asyncBefore="true" camunda:delegateExpression="${clarificationCreatePeriod}">
+      <bpmn:incoming>SequenceFlow_1mdybtg</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0kik57c</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:exclusiveGateway id="ExclusiveGateway_0ual76v">
       <bpmn:incoming>SequenceFlow_03el6a6</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_0kik57c</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1cxhl09</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="SequenceFlow_0qd4jrx" sourceRef="ExclusiveGateway_0biiggs" targetRef="AccessUpdateCnTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0xg6r2o" sourceRef="AccessUpdateCnTask" targetRef="ExclusiveGateway_1qs97z1" />
-    <bpmn:sequenceFlow id="SequenceFlow_1smn57g" sourceRef="MdmValidateTenderCnTask" targetRef="ExclusiveGateway_0gquyxz" />
-    <bpmn:sequenceFlow id="SequenceFlow_1mdybtg" sourceRef="ChronographRescheduleEndSubmissionPeriodTask" targetRef="ClarificationCreatePeriodCnTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0kik57c" sourceRef="ClarificationCreatePeriodCnTask" targetRef="ExclusiveGateway_0ual76v" />
-    <bpmn:sequenceFlow id="SequenceFlow_1v2w8n1" name="isAuction&#10;==true" sourceRef="ExclusiveGateway_0gquyxz" targetRef="AccessGetLotsForAuctionCnTask">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isAuction==true}</bpmn:conditionExpression>
+    <bpmn:serviceTask id="MdmValidateTenderPnTask" name="Mdm: Validate" camunda:asyncBefore="true" camunda:delegateExpression="${mdmValidateTender}">
+      <bpmn:incoming>SequenceFlow_0unv9ei</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1tbwwl9</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_1dk50w6" default="SequenceFlow_1rmaef9">
+      <bpmn:incoming>SequenceFlow_1cblblq</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0unv9ei</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_1rmaef9</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_11azitn">
+      <bpmn:incoming>SequenceFlow_1tbwwl9</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_1rmaef9</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_16jv4hg</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="SequenceFlow_0unv9ei" name="mdmValidation == true" sourceRef="ExclusiveGateway_1dk50w6" targetRef="MdmValidateTenderPnTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${mdmValidation == true}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_0fx3af7" name="isAuction == false" sourceRef="ExclusiveGateway_0gquyxz" targetRef="ExclusiveGateway_0biiggs">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isAuction==false}</bpmn:conditionExpression>
+    <bpmn:sequenceFlow id="SequenceFlow_1tbwwl9" sourceRef="MdmValidateTenderPnTask" targetRef="ExclusiveGateway_11azitn" />
+    <bpmn:sequenceFlow id="SequenceFlow_1rmaef9" sourceRef="ExclusiveGateway_1dk50w6" targetRef="ExclusiveGateway_11azitn" />
+    <bpmn:serviceTask id="AccessCheckCnOnPnTask" name="eAccess:&#10;Check CheckCnOnPn" camunda:asyncBefore="true" camunda:delegateExpression="${accessCheckCnOnPn}">
+      <bpmn:incoming>SequenceFlow_16jv4hg</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_179x2bx</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_1ve9xsi" default="SequenceFlow_13w1ig9">
+      <bpmn:incoming>SequenceFlow_179x2bx</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1klypcj</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_13w1ig9</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_0r7lzzu">
+      <bpmn:incoming>SequenceFlow_0n7hn0x</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_13w1ig9</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1svoxaw</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="AuctionValidateTask" name="eAuction:&#10;Validate electronic auctions&#10;" camunda:asyncBefore="true" camunda:delegateExpression="${auctionValidate}">
+      <bpmn:incoming>SequenceFlow_1f58u11</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0n7hn0x</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="AccessGetLotsForAuctionTask" name="Access &#10;Get lots for auctions" camunda:asyncBefore="true" camunda:delegateExpression="${accessGetLotsForAuction}">
+      <bpmn:incoming>SequenceFlow_1klypcj</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1f58u11</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_13w1ig9" sourceRef="ExclusiveGateway_1ve9xsi" targetRef="ExclusiveGateway_0r7lzzu" />
+    <bpmn:sequenceFlow id="SequenceFlow_1klypcj" name="requireAuction&#10;==true" sourceRef="ExclusiveGateway_1ve9xsi" targetRef="AccessGetLotsForAuctionTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${requireAuction==true}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_1an9eyi" sourceRef="AccessGetLotsForAuctionCnTask" targetRef="AuctionValidateCnTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_011ue1g" sourceRef="AuctionValidateCnTask" targetRef="ExclusiveGateway_0biiggs" />
-    <bpmn:sequenceFlow id="SequenceFlow_0w1mvk8" name="isPreQualificationPeriodChanged==true" sourceRef="ExclusiveGateway_1qs97z1" targetRef="SubmissionSavePeriodCnTask">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isPreQualificationPeriodChanged==true}</bpmn:conditionExpression>
-    </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_03el6a6" name="isPreQualificationPeriodChanged==false" sourceRef="ExclusiveGateway_1qs97z1" targetRef="ExclusiveGateway_0ual76v">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isPreQualificationPeriodChanged==false}</bpmn:conditionExpression>
-    </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_1f0c1hk" sourceRef="SubmissionSavePeriodCnTask" targetRef="ChronographRescheduleEndSubmissionPeriodTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0n7hn0x" sourceRef="AuctionValidateTask" targetRef="ExclusiveGateway_0r7lzzu" />
+    <bpmn:sequenceFlow id="SequenceFlow_1f58u11" sourceRef="AccessGetLotsForAuctionTask" targetRef="AuctionValidateTask" />
+    <bpmn:serviceTask id="AccessCreateCnOnPnTask" name="Access: &#10;Create Cn on Pn" camunda:asyncBefore="true" camunda:delegateExpression="${accessCreateCnOnPn}">
+      <bpmn:incoming>SequenceFlow_138etsr</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1q3sbt9</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="UpdateCnSetActiveTrueTask" name="BPE:&#10;Set Active True&#10;" camunda:asyncBefore="true" camunda:delegateExpression="${updateCnSetActiveTrue}">
+      <bpmn:incoming>SequenceFlow_1svoxaw</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_138etsr</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="ClarificationCreatePeriodPnTask" name="eClarification Create Period&#10;" camunda:asyncBefore="true" camunda:delegateExpression="${clarificationCreatePeriod}">
+      <bpmn:incoming>SequenceFlow_1hbo20r</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_01zhl4m</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="ChronographScheduleEndSubmissionPeriodPnTask" name="Chronograph Schedule End Submission Period" camunda:asyncBefore="true" camunda:delegateExpression="${chronographScheduleEndSubmissionPeriod}">
+      <bpmn:incoming>SequenceFlow_01zhl4m</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_07ec624</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="QualificationSavePeriodTask" name="eDossier:&#10;Save Period " camunda:asyncBefore="true" camunda:delegateExpression="${dossierSavePeriod}">
+      <bpmn:incoming>SequenceFlow_1q3sbt9</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1hbo20r</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_138etsr" sourceRef="UpdateCnSetActiveTrueTask" targetRef="AccessCreateCnOnPnTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1q3sbt9" sourceRef="AccessCreateCnOnPnTask" targetRef="QualificationSavePeriodTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1hbo20r" sourceRef="QualificationSavePeriodTask" targetRef="ClarificationCreatePeriodPnTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_01zhl4m" sourceRef="ClarificationCreatePeriodPnTask" targetRef="ChronographScheduleEndSubmissionPeriodPnTask" />
+    <bpmn:exclusiveGateway id="ExclusiveGateway_0btunx9">
+      <bpmn:incoming>SequenceFlow_07ec624</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_1cxhl09</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1w46tqu</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="SequenceFlow_1w46tqu" sourceRef="ExclusiveGateway_0btunx9" targetRef="StorageOpenDocsOfTenderTask" />
+    <bpmn:serviceTask id="SendMessageTask" name="Send &#10;message&#10;" camunda:asyncBefore="true" camunda:delegateExpression="${sendMessageToPlatform}">
+      <bpmn:incoming>SequenceFlow_0m8swog</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_152vu65</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="StorageOpenDocsOfTenderTask" name="Storage&#10;Open documents of tender&#10;" camunda:asyncBefore="true" camunda:delegateExpression="${storageOpenDocsOfTender}">
+      <bpmn:incoming>SequenceFlow_1w46tqu</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_00vu013</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_0m8swog" sourceRef="SaveContextTask" targetRef="SendMessageTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_152vu65" sourceRef="SendMessageTask" targetRef="EndEvent_13r5oj1" />
+    <bpmn:sequenceFlow id="SequenceFlow_0g6vjpn" sourceRef="StorageOpenDocsOfBusinessFunctionTask" targetRef="NoticeCreateReleaseTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0gb7fks" sourceRef="NoticeCreateReleaseTask" targetRef="SaveContextTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_00vu013" sourceRef="StorageOpenDocsOfTenderTask" targetRef="StorageOpenDocsOfBusinessFunctionTask" />
+    <bpmn:serviceTask id="StorageOpenDocsOfBusinessFunctionTask" name="Storage&#10;Open documents of business functions&#10;" camunda:asyncBefore="true" camunda:delegateExpression="${storageOpenDocsOfBusinessFunction}">
+      <bpmn:incoming>SequenceFlow_00vu013</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0g6vjpn</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="NoticeCreateReleaseTask" name="eNotice:&#10;Create release&#10;" camunda:asyncBefore="true" camunda:delegateExpression="${noticeCreateRelease}">
+      <bpmn:incoming>SequenceFlow_0g6vjpn</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0gb7fks</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="SaveContextTask" name="Save Context" camunda:delegateExpression="${saveContext}">
+      <bpmn:incoming>SequenceFlow_0gb7fks</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0m8swog</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="EndEvent_13r5oj1">
+      <bpmn:incoming>SequenceFlow_152vu65</bpmn:incoming>
+    </bpmn:endEvent>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0jt6r0m">
       <bpmndi:BPMNShape id="Participant_00wp72i_di" bpmnElement="Participant_00wp72i" isHorizontal="true">
-        <dc:Bounds x="153" y="61" width="3837" height="600" />
+        <dc:Bounds x="153" y="61" width="3467" height="600" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
         <dc:Bounds x="205" y="341" width="36" height="36" />
@@ -268,25 +250,25 @@
         <dc:Bounds x="263" y="319" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_07x4zvz_di" bpmnElement="AccessCreateCnOnPnTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="2410" y="202" width="100" height="80" />
+        <dc:Bounds x="2220" y="202" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_15bcibh_di" bpmnElement="QualificationValidatePeriodTask" bioc:stroke="black" bioc:fill="white">
+      <bpmndi:BPMNShape id="ServiceTask_15bcibh_di" bpmnElement="DossierValidatePeriodTask" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="1040" y="202" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_02g673z_di" bpmnElement="SendMessageTask">
-        <dc:Bounds x="3760" y="319" width="100" height="80" />
+        <dc:Bounds x="3430" y="330" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_1yjbbu3_di" bpmnElement="NoticeCreateReleaseTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="3480" y="319" width="100" height="80" />
+        <dc:Bounds x="3150" y="330" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="EndEvent_13r5oj1_di" bpmnElement="EndEvent_13r5oj1">
-        <dc:Bounds x="3905" y="341" width="36" height="36" />
+        <dc:Bounds x="3562" y="352" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1947" y="454" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_0m3grhv_di" bpmnElement="StorageOpenDocsOfTenderTask">
-        <dc:Bounds x="3206" y="319" width="100" height="80" />
+        <dc:Bounds x="2876" y="330" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ExclusiveGateway_1jdkyq3_di" bpmnElement="ExclusiveGateway_1jdkyq3" isMarkerVisible="true">
         <dc:Bounds x="965" y="334" width="50" height="50" />
@@ -294,68 +276,62 @@
           <dc:Bounds x="466" y="458" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_1op3fd0_di" bpmnElement="QualificationCheckPeriodTask" bioc:stroke="black" bioc:fill="white">
+      <bpmndi:BPMNShape id="ServiceTask_1op3fd0_di" bpmnElement="DossierCheckPeriodTask" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="1180" y="432" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_0erfib8_di" bpmnElement="AccessUpdateCnTask" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="1920" y="432" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_06o2xgj_di" bpmnElement="SaveContextTask">
-        <dc:Bounds x="3619" y="319" width="100" height="80" />
+        <dc:Bounds x="3290" y="330" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ExclusiveGateway_1qs97z1_di" bpmnElement="ExclusiveGateway_1qs97z1" isMarkerVisible="true">
-        <dc:Bounds x="2075" y="447" width="50" height="50" />
+        <dc:Bounds x="2065" y="447" width="50" height="50" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1083.6353077816493" y="605" width="0" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_1gtwj09_di" bpmnElement="MdmValidateTenderPnTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="1290" y="202" width="100" height="80" />
+        <dc:Bounds x="1280" y="202" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_04a8h0c_di" bpmnElement="AccessCheckItemsPnTask" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="820" y="319" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_1tvffuw_di" bpmnElement="qualificationSavePeriodTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="2679" y="202" width="100" height="80" />
+      <bpmndi:BPMNShape id="ServiceTask_1tvffuw_di" bpmnElement="QualificationSavePeriodTask" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="2369" y="202" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_0jnjez2_di" bpmnElement="ChronographScheduleEndSubmissionPeriodPnTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="2970" y="202" width="100" height="80" />
+        <dc:Bounds x="2660" y="202" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_04w2fv0_di" bpmnElement="ClarificationCreatePeriodPnTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="2820" y="202" width="100" height="80" />
+        <dc:Bounds x="2510" y="202" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_1510bsq_di" bpmnElement="MdmValidateTenderCnTask">
-        <dc:Bounds x="1330" y="432" width="100" height="80" />
+        <dc:Bounds x="1320" y="432" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_094df4m_di" bpmnElement="SubmissionSavePeriodCnTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="2170" y="527" width="100" height="80" />
+      <bpmndi:BPMNShape id="ServiceTask_094df4m_di" bpmnElement="DossierSavePeriodTask" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="2160" y="527" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_1svw510_di" bpmnElement="ChronographRescheduleEndSubmissionPeriodTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="2320" y="527" width="100" height="80" />
+        <dc:Bounds x="2300" y="527" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_1xm36dz_di" bpmnElement="ClarificationCreatePeriodCnTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="2480" y="527" width="100" height="80" />
+        <dc:Bounds x="2440" y="527" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_1t0hi6c_di" bpmnElement="StorageValidateDocsOfTenderTask">
         <dc:Bounds x="400" y="319" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_1014d6t_di" bpmnElement="UpdateCnSetActiveTrueTask">
-        <dc:Bounds x="2270" y="202" width="100" height="80" />
+        <dc:Bounds x="2080" y="202" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_1sxi07q_di" bpmnElement="AccessCheckCnOnPn" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="1690" y="202" width="100" height="80" />
+      <bpmndi:BPMNShape id="ServiceTask_1sxi07q_di" bpmnElement="AccessCheckCnOnPnTask" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="1510" y="202" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ExclusiveGateway_1dk50w6_di" bpmnElement="ExclusiveGateway_1dk50w6" isMarkerVisible="true">
-        <dc:Bounds x="1185" y="217" width="50" height="50" />
+        <dc:Bounds x="1175" y="217" width="50" height="50" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1171" y="187" width="79" height="14" />
         </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_0e21enn_di" bpmnElement="DossierCheckCriteriaTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="1540" y="202" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_0t4el6y_di" bpmnElement="DossierCreateCriteriaTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="2550" y="202" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_09okwtf_di" bpmnElement="AccessCheckOwnerTokenTask">
         <dc:Bounds x="680" y="319" width="100" height="80" />
@@ -364,106 +340,99 @@
         <dc:Bounds x="1475" y="447" width="50" height="50" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_0g0vh6s_di" bpmnElement="AuctionValidateCnTask">
-        <dc:Bounds x="1710" y="557" width="100" height="80" />
+        <dc:Bounds x="1710" y="540" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_0o2aavo_di" bpmnElement="BpeSetIsAuctionTask">
         <dc:Bounds x="1040" y="432" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="InclusiveGateway_1m1cnr3_di" bpmnElement="ExclusiveGateway_0biiggs">
-        <dc:Bounds x="1835" y="447" width="50" height="50" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_0rlwoi2_di" bpmnElement="StorageValidateDocsOfBusinessFunctionTask">
         <dc:Bounds x="540" y="319" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_0zux778_di" bpmnElement="StorageOpenDocsOfBusinessFunctionTask">
-        <dc:Bounds x="3336" y="319" width="100" height="80" />
+        <dc:Bounds x="3010" y="330" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_05vo0rq_di" bpmnElement="AccessGetLotsForAuctionCnTask">
-        <dc:Bounds x="1560" y="557" width="100" height="80" />
+        <dc:Bounds x="1560" y="540" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ExclusiveGateway_1ve9xsi_di" bpmnElement="ExclusiveGateway_1ve9xsi" isMarkerVisible="true" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="1835" y="217" width="50" height="50" />
+        <dc:Bounds x="1655" y="217" width="50" height="50" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_0kx1k5e_di" bpmnElement="ServiceTask_0kx1k5e" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="1900" y="85" width="100" height="80" />
+      <bpmndi:BPMNShape id="ServiceTask_0kx1k5e_di" bpmnElement="AccessGetLotsForAuctionTask" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="1730" y="85" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_165dg54_di" bpmnElement="ServiceTask_165dg54" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="2040" y="85" width="100" height="80" />
+      <bpmndi:BPMNShape id="ServiceTask_165dg54_di" bpmnElement="AuctionValidateTask" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="1870" y="85" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ExclusiveGateway_11azitn_di" bpmnElement="ExclusiveGateway_11azitn" isMarkerVisible="true">
-        <dc:Bounds x="1435" y="217" width="50" height="50" />
+        <dc:Bounds x="1425" y="217" width="50" height="50" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ExclusiveGateway_0r7lzzu_di" bpmnElement="ExclusiveGateway_0r7lzzu" isMarkerVisible="true">
-        <dc:Bounds x="2175" y="217" width="50" height="50" />
+        <dc:Bounds x="1995" y="217" width="50" height="50" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ExclusiveGateway_0btunx9_di" bpmnElement="ExclusiveGateway_0btunx9" isMarkerVisible="true">
-        <dc:Bounds x="3105" y="334" width="50" height="50" />
+        <dc:Bounds x="2795" y="345" width="50" height="50" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1w46tqu_di" bpmnElement="SequenceFlow_1w46tqu">
-        <di:waypoint x="3155" y="359" />
-        <di:waypoint x="3206" y="359" />
+        <di:waypoint x="2845" y="370" />
+        <di:waypoint x="2876" y="370" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_07ec624_di" bpmnElement="SequenceFlow_07ec624">
-        <di:waypoint x="3070" y="242" />
-        <di:waypoint x="3130" y="242" />
-        <di:waypoint x="3130" y="334" />
+        <di:waypoint x="2760" y="242" />
+        <di:waypoint x="2820" y="242" />
+        <di:waypoint x="2820" y="345" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_13w1ig9_di" bpmnElement="SequenceFlow_13w1ig9">
-        <di:waypoint x="1885" y="242" />
-        <di:waypoint x="2175" y="242" />
+        <di:waypoint x="1705" y="242" />
+        <di:waypoint x="1995" y="242" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1897" y="256" width="88" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1svoxaw_di" bpmnElement="SequenceFlow_1svoxaw">
-        <di:waypoint x="2225" y="242" />
-        <di:waypoint x="2270" y="242" />
+        <di:waypoint x="2045" y="242" />
+        <di:waypoint x="2080" y="242" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1rmaef9_di" bpmnElement="SequenceFlow_1rmaef9">
-        <di:waypoint x="1210" y="267" />
-        <di:waypoint x="1210" y="310" />
-        <di:waypoint x="1460" y="310" />
-        <di:waypoint x="1460" y="267" />
+        <di:waypoint x="1200" y="267" />
+        <di:waypoint x="1200" y="320" />
+        <di:waypoint x="1450" y="320" />
+        <di:waypoint x="1450" y="267" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1253" y="292" width="13" height="14" />
+          <dc:Bounds x="1205" y="326" width="89" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_16jv4hg_di" bpmnElement="SequenceFlow_16jv4hg">
-        <di:waypoint x="1485" y="242" />
-        <di:waypoint x="1540" y="242" />
+        <di:waypoint x="1475" y="242" />
+        <di:waypoint x="1510" y="242" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0n7hn0x_di" bpmnElement="SequenceFlow_0n7hn0x" bioc:stroke="black" bioc:fill="white">
-        <di:waypoint x="2140" y="125" />
-        <di:waypoint x="2200" y="125" />
-        <di:waypoint x="2200" y="217" />
+        <di:waypoint x="1970" y="125" />
+        <di:waypoint x="2020" y="125" />
+        <di:waypoint x="2020" y="217" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1f58u11_di" bpmnElement="SequenceFlow_1f58u11" bioc:stroke="black" bioc:fill="white">
-        <di:waypoint x="2000" y="125" />
-        <di:waypoint x="2040" y="125" />
+        <di:waypoint x="1830" y="125" />
+        <di:waypoint x="1870" y="125" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1klypcj_di" bpmnElement="SequenceFlow_1klypcj" bioc:stroke="black" bioc:fill="white">
-        <di:waypoint x="1860" y="217" />
-        <di:waypoint x="1860" y="125" />
-        <di:waypoint x="1900" y="125" />
+        <di:waypoint x="1680" y="217" />
+        <di:waypoint x="1680" y="125" />
+        <di:waypoint x="1730" y="125" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1781" y="157" width="71" height="27" />
+          <dc:Bounds x="1601" y="157" width="71" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_0d3ushb_di" bpmnElement="SequenceFlow_0d3ushb">
-        <di:waypoint x="2650" y="242" />
-        <di:waypoint x="2679" y="242" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_179x2bx_di" bpmnElement="SequenceFlow_179x2bx" bioc:stroke="black" bioc:fill="white">
-        <di:waypoint x="1790" y="242" />
-        <di:waypoint x="1835" y="242" />
+        <di:waypoint x="1610" y="242" />
+        <di:waypoint x="1655" y="242" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1an9eyi_di" bpmnElement="SequenceFlow_1an9eyi">
-        <di:waypoint x="1660" y="597" />
-        <di:waypoint x="1710" y="597" />
+        <di:waypoint x="1660" y="580" />
+        <di:waypoint x="1710" y="580" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0g6vjpn_di" bpmnElement="SequenceFlow_0g6vjpn">
-        <di:waypoint x="3436" y="359" />
-        <di:waypoint x="3480" y="359" />
+        <di:waypoint x="3110" y="370" />
+        <di:waypoint x="3150" y="370" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0mjemoh_di" bpmnElement="SequenceFlow_0mjemoh">
         <di:waypoint x="640" y="359" />
@@ -479,32 +448,23 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1cblblq_di" bpmnElement="SequenceFlow_1cblblq">
         <di:waypoint x="1140" y="242" />
-        <di:waypoint x="1185" y="242" />
+        <di:waypoint x="1175" y="242" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1q3sbt9_di" bpmnElement="SequenceFlow_1q3sbt9">
-        <di:waypoint x="2510" y="242" />
-        <di:waypoint x="2550" y="242" />
+        <di:waypoint x="2320" y="242" />
+        <di:waypoint x="2369" y="242" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_138etsr_di" bpmnElement="SequenceFlow_138etsr">
-        <di:waypoint x="2370" y="242" />
-        <di:waypoint x="2410" y="242" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_011ue1g_di" bpmnElement="SequenceFlow_011ue1g">
-        <di:waypoint x="1810" y="597" />
-        <di:waypoint x="1860" y="597" />
-        <di:waypoint x="1860" y="497" />
+        <di:waypoint x="2180" y="242" />
+        <di:waypoint x="2220" y="242" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1v2w8n1_di" bpmnElement="SequenceFlow_1v2w8n1">
         <di:waypoint x="1500" y="497" />
-        <di:waypoint x="1500" y="597" />
-        <di:waypoint x="1560" y="597" />
+        <di:waypoint x="1500" y="580" />
+        <di:waypoint x="1560" y="580" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1431" y="543" width="45" height="27" />
+          <dc:Bounds x="1447" y="533" width="45" height="27" />
         </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_0qd4jrx_di" bpmnElement="SequenceFlow_0qd4jrx">
-        <di:waypoint x="1885" y="472" />
-        <di:waypoint x="1920" y="472" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0fx3af7_di" bpmnElement="SequenceFlow_0fx3af7">
         <di:waypoint x="1525" y="472" />
@@ -521,63 +481,59 @@
         <di:waypoint x="780" y="359" />
         <di:waypoint x="820" y="359" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_0mbkjr5_di" bpmnElement="SequenceFlow_0mbkjr5">
-        <di:waypoint x="1640" y="242" />
-        <di:waypoint x="1690" y="242" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1tbwwl9_di" bpmnElement="SequenceFlow_1tbwwl9">
-        <di:waypoint x="1390" y="242" />
-        <di:waypoint x="1435" y="242" />
+        <di:waypoint x="1380" y="242" />
+        <di:waypoint x="1425" y="242" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0unv9ei_di" bpmnElement="SequenceFlow_0unv9ei">
-        <di:waypoint x="1235" y="242" />
-        <di:waypoint x="1290" y="242" />
+        <di:waypoint x="1225" y="242" />
+        <di:waypoint x="1280" y="242" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1252" y="223" width="17" height="14" />
+          <dc:Bounds x="1205" y="186" width="89" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0m8swog_di" bpmnElement="SequenceFlow_0m8swog">
-        <di:waypoint x="3719" y="359" />
-        <di:waypoint x="3760" y="359" />
+        <di:waypoint x="3390" y="370" />
+        <di:waypoint x="3430" y="370" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0gb7fks_di" bpmnElement="SequenceFlow_0gb7fks">
-        <di:waypoint x="3580" y="359" />
-        <di:waypoint x="3619" y="359" />
+        <di:waypoint x="3250" y="370" />
+        <di:waypoint x="3290" y="370" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_00vu013_di" bpmnElement="SequenceFlow_00vu013">
-        <di:waypoint x="3306" y="359" />
-        <di:waypoint x="3336" y="359" />
+        <di:waypoint x="2976" y="370" />
+        <di:waypoint x="3010" y="370" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1f0c1hk_di" bpmnElement="SequenceFlow_1f0c1hk" bioc:stroke="black" bioc:fill="white">
-        <di:waypoint x="2270" y="567" />
-        <di:waypoint x="2320" y="567" />
+        <di:waypoint x="2260" y="567" />
+        <di:waypoint x="2300" y="567" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1smn57g_di" bpmnElement="SequenceFlow_1smn57g">
-        <di:waypoint x="1430" y="472" />
+        <di:waypoint x="1420" y="472" />
         <di:waypoint x="1475" y="472" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0au1nef_di" bpmnElement="SequenceFlow_0au1nef">
         <di:waypoint x="1280" y="472" />
-        <di:waypoint x="1330" y="472" />
+        <di:waypoint x="1320" y="472" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1q80495_di" bpmnElement="SequenceFlow_1q80495">
         <di:waypoint x="363" y="359" />
         <di:waypoint x="400" y="359" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_152vu65_di" bpmnElement="SequenceFlow_152vu65">
-        <di:waypoint x="3860" y="359" />
-        <di:waypoint x="3905" y="359" />
+        <di:waypoint x="3530" y="370" />
+        <di:waypoint x="3562" y="370" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_05ohfz1_di" bpmnElement="SequenceFlow_05ohfz1">
         <di:waypoint x="241" y="359" />
         <di:waypoint x="263" y="359" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0w1mvk8_di" bpmnElement="SequenceFlow_0w1mvk8" bioc:stroke="black" bioc:fill="white">
-        <di:waypoint x="2100" y="497" />
-        <di:waypoint x="2100" y="567" />
-        <di:waypoint x="2170" y="567" />
+        <di:waypoint x="2090" y="497" />
+        <di:waypoint x="2090" y="567" />
+        <di:waypoint x="2160" y="567" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="2044" y="583" width="89" height="40" />
+          <dc:Bounds x="2034" y="583" width="89" height="40" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1a9d5nj_di" bpmnElement="SequenceFlow_1a9d5nj">
@@ -585,7 +541,7 @@
         <di:waypoint x="990" y="472" />
         <di:waypoint x="1040" y="472" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="905" y="464" width="70" height="40" />
+          <dc:Bounds x="905" y="464" width="70" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0vs74bs_di" bpmnElement="SequenceFlow_0vs74bs">
@@ -593,44 +549,56 @@
         <di:waypoint x="990" y="242" />
         <di:waypoint x="1040" y="242" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="898" y="216" width="84" height="27" />
+          <dc:Bounds x="899" y="216" width="83" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ExclusiveGateway_0ual76v_di" bpmnElement="ExclusiveGateway_0ual76v" isMarkerVisible="true">
-        <dc:Bounds x="2635" y="447" width="50" height="50" />
+        <dc:Bounds x="2565" y="447" width="50" height="50" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_03el6a6_di" bpmnElement="SequenceFlow_03el6a6">
-        <di:waypoint x="2125" y="472" />
-        <di:waypoint x="2635" y="472" />
+        <di:waypoint x="2115" y="472" />
+        <di:waypoint x="2565" y="472" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="2216" y="420" width="89" height="40" />
+          <dc:Bounds x="2165" y="420" width="89" height="40" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1cxhl09_di" bpmnElement="SequenceFlow_1cxhl09">
-        <di:waypoint x="2685" y="472" />
-        <di:waypoint x="3130" y="472" />
-        <di:waypoint x="3130" y="384" />
+        <di:waypoint x="2615" y="472" />
+        <di:waypoint x="2820" y="472" />
+        <di:waypoint x="2820" y="395" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1hbo20r_di" bpmnElement="SequenceFlow_1hbo20r">
-        <di:waypoint x="2779" y="242" />
-        <di:waypoint x="2820" y="242" />
+        <di:waypoint x="2469" y="242" />
+        <di:waypoint x="2510" y="242" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_01zhl4m_di" bpmnElement="SequenceFlow_01zhl4m">
-        <di:waypoint x="2920" y="242" />
-        <di:waypoint x="2970" y="242" />
+        <di:waypoint x="2610" y="242" />
+        <di:waypoint x="2660" y="242" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0kik57c_di" bpmnElement="SequenceFlow_0kik57c">
-        <di:waypoint x="2580" y="567" />
-        <di:waypoint x="2660" y="567" />
-        <di:waypoint x="2660" y="497" />
+        <di:waypoint x="2540" y="567" />
+        <di:waypoint x="2590" y="567" />
+        <di:waypoint x="2590" y="497" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0xg6r2o_di" bpmnElement="SequenceFlow_0xg6r2o">
         <di:waypoint x="2020" y="472" />
-        <di:waypoint x="2075" y="472" />
+        <di:waypoint x="2065" y="472" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1mdybtg_di" bpmnElement="SequenceFlow_1mdybtg">
-        <di:waypoint x="2420" y="567" />
-        <di:waypoint x="2480" y="567" />
+        <di:waypoint x="2400" y="567" />
+        <di:waypoint x="2440" y="567" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ExclusiveGateway_1gi70cg_di" bpmnElement="ExclusiveGateway_1gi70cg" isMarkerVisible="true">
+        <dc:Bounds x="1835" y="447" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0o0csv0_di" bpmnElement="SequenceFlow_0o0csv0">
+        <di:waypoint x="1885" y="472" />
+        <di:waypoint x="1920" y="472" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0efccvy_di" bpmnElement="SequenceFlow_0efccvy">
+        <di:waypoint x="1810" y="580" />
+        <di:waypoint x="1860" y="580" />
+        <di:waypoint x="1860" y="497" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

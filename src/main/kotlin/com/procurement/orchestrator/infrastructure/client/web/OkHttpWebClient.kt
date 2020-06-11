@@ -77,7 +77,10 @@ class OkHttpWebClient(
             .orReturnFail { webClientFail ->
                 return when (webClientFail) {
                     is WebClientFail.NetworkError -> failure(
-                        Fail.Incident.NetworkError(description = webClientFail.toString())
+                        Fail.Incident.NetworkError(
+                            exception = webClientFail.exception,
+                            description = "Error of call by url: '$url' and payload: '$payload'."
+                        )
                     )
                     is WebClientFail.ResponseError -> failure(
                         Fail.Incident.ResponseError(description = webClientFail.response.content)
