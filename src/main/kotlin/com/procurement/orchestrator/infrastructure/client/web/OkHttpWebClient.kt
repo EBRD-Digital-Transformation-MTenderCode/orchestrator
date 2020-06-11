@@ -79,7 +79,7 @@ class OkHttpWebClient(
                     is WebClientFail.NetworkError -> failure(
                         Fail.Incident.NetworkError(
                             exception = webClientFail.exception,
-                            description = "Error of call by url: '$url'."
+                            description = "Error of call by url: '$url' and payload: '$payload'."
                         )
                     )
                     is WebClientFail.ResponseError -> failure(
