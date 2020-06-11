@@ -19,16 +19,16 @@ import org.springframework.stereotype.Component;
 import static com.procurement.orchestrator.domain.commands.AccessCommandType.GET_AWARD_CRITERIA_AND_CONVERSATIONS;
 
 @Component
-public class AccessGetAwardCriteriaAndConversations implements JavaDelegate {
+public class AccessGetAwardCriteriaAndConversions implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AccessGetAwardCriteriaAndConversations.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AccessGetAwardCriteriaAndConversions.class);
 
     private final AccessRestClient accessRestClient;
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public AccessGetAwardCriteriaAndConversations(
+    public AccessGetAwardCriteriaAndConversions(
             final AccessRestClient accessRestClient,
             final OperationService operationService,
             final ProcessService processService,
