@@ -195,8 +195,13 @@ sealed class Fail(prefix: String, number: String) {
                 Transform(number = "4", description = description, exception = exception)
         }
 
-        class NetworkError(description: String) :
-            Incident(level = Level.ERROR, number = "5", description = description)
+        class NetworkError(description: String, val exception: Exception) :
+            Incident(level = Level.ERROR, number = "5", description = description) {
+
+            override fun logging(logger: Logger) {
+                logger.error(message = message, exception = exception)
+            }
+        }
 
         class BadResponse(description: String, val exception: Exception? = null, val body: String) :
             Incident(level = Level.ERROR, number = "6", description = description) {
