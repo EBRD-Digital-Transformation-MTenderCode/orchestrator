@@ -17,6 +17,7 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.functional.asSuccess
+import com.procurement.orchestrator.domain.model.address.region.RegionDetails
 import com.procurement.orchestrator.domain.model.candidate.Candidates
 import com.procurement.orchestrator.domain.model.organization.Organization
 import com.procurement.orchestrator.domain.model.submission.Details
@@ -24,7 +25,6 @@ import com.procurement.orchestrator.domain.model.submission.Submissions
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractRestDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
-import com.procurement.orchestrator.infrastructure.client.web.CallResponse
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.EnrichRegionAction
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRegion
 import org.springframework.stereotype.Component
@@ -35,7 +35,7 @@ class MdmEnrichRegionDelegate(
     operationStepRepository: OperationStepRepository,
     transform: Transform,
     private val mdmClient: MdmClient
-) : AbstractRestDelegate<MdmEnrichRegionDelegate.Parameters, List<EnrichRegionAction.Response.Success>>(
+) : AbstractRestDelegate<MdmEnrichRegionDelegate.Parameters, List<GetRegion.Result.Success>>(
     logger = logger,
     transform = transform,
     operationStepRepository = operationStepRepository
@@ -66,7 +66,7 @@ class MdmEnrichRegionDelegate(
         parameters: Parameters,
         context: CamundaGlobalContext,
         executionInterceptor: ExecutionInterceptor
-    ): Result<List<EnrichRegionAction.Response.Success>, Fail.Incident> {
+    ): Result<List<GetRegion.Result.Success>, Fail.Incident> {
 
         val requestInfo = context.requestInfo
 
@@ -82,8 +82,7 @@ class MdmEnrichRegionDelegate(
         val results = countriesFromContext.map { country ->
             val response = mdmClient.enrichRegion(
                 id = commandId,
-                params = getParams(requestInfo.language, country),
-                handler = ::processResponse
+                params = getParams(requestInfo.language, country)
             ).orForwardFail { error -> return error }
 
             resolveResponseEvent(response, executionInterceptor)
@@ -94,18 +93,27 @@ class MdmEnrichRegionDelegate(
 
     override fun updateGlobalContext(
         context: CamundaGlobalContext,
-        result: List<EnrichRegionAction.Response.Success>
+        result: List<GetRegion.Result.Success>
     ): MaybeFail<Fail.Incident> {
 
         val submissions = context.tryGetSubmissions()
             .orReturnFail { error -> return MaybeFail.fail(error) }
 
-        val enrichedCountries = result.map { it.data }
+        val regiones = result.asSequence()
+            .map {
+                RegionDetails(
+                    id = it.id,
+                    uri = it.uri,
+                    scheme = it.scheme,
+                    description = it.description
+                )
+            }
+            .associateBy { it }
 
         val updatedSubmissions = submissions.details
             .map { submission ->
                 val updatedCandidates = submission.candidates
-                    .map { candidate -> updateRegion(candidate, enrichedCountries) }
+                    .map { candidate -> candidate.updateRegion(regiones) }
                 submission.copy(candidates = Candidates(updatedCandidates))
             }
 
@@ -115,21 +123,15 @@ class MdmEnrichRegionDelegate(
     }
 
 
-    private fun updateRegion(
-        candidate: Organization,
-        enrichedRegiones: List<EnrichRegionAction.Response.Success.Data>
+    private fun Organization.updateRegion(
+        enrichedRegionesById: Map<RegionDetails, RegionDetails>
     ): Organization {
-        val region = candidate.address!!.addressDetails!!.region
-        val enrichedRegion = enrichedRegiones
-            .find { it.id == region.id && it.scheme == region.scheme }!!
-        val updatedRegion = region.copy(
-            description = enrichedRegion.description,
-            uri = enrichedRegion.uri
-        )
-        return candidate
-            .copy(address = candidate.address
-                .copy(addressDetails = candidate.address.addressDetails!!
-                    .copy(region = updatedRegion)
+        val oldRegion = this.address!!.addressDetails!!.region
+        val enrichedRegion = enrichedRegionesById.getValue(oldRegion)
+        return this
+            .copy(address = this.address
+                .copy(addressDetails = this.address.addressDetails!!
+                    .copy(region = enrichedRegion)
                 )
             )
     }
@@ -152,16 +154,9 @@ class MdmEnrichRegionDelegate(
         }
 
     private fun resolveResponseEvent(response: GetRegion.Result, executionInterceptor: ExecutionInterceptor)
-        : EnrichRegionAction.Response.Success =
+        : GetRegion.Result.Success =
         when (response) {
-            is GetRegion.Result.Success -> EnrichRegionAction.Response.Success(
-                data = EnrichRegionAction.Response.Success.Data(
-                    id = response.id,
-                    description = response.description,
-                    scheme = response.scheme,
-                    uri = response.uri
-                )
-            )
+            is GetRegion.Result.Success -> response
             is GetRegion.Result.Fail    -> {
                 val errors = response.errors
                     .map { error ->
@@ -173,57 +168,6 @@ class MdmEnrichRegionDelegate(
                 executionInterceptor.throwError(errors = errors)
             }
         }
-
-    fun processResponse(response: CallResponse, transform: Transform): Result<GetRegion.Result, Fail.Incident> {
-        val responseContent = response.content
-        return when (response.code) {
-            HTTP_CODE_200 -> {
-                val result = transform.tryDeserialization(
-                    value = responseContent,
-                    target = EnrichRegionAction.Response.Success::class.java
-                )
-                    .orReturnFail { fail ->
-                        return failure(
-                            Fail.Incident.BadResponse(description = fail.description, body = responseContent)
-                        )
-                    }
-                GetRegion.Result.Success(
-                    id = result.data.id,
-                    description = result.data.description,
-                    uri = result.data.uri,
-                    scheme = result.data.scheme
-                )
-                    .asSuccess()
-            }
-
-            HTTP_CODE_404 -> {
-                val responseError = transform.tryDeserialization(
-                    value = responseContent,
-                    target = EnrichRegionAction.Response.Error::class.java
-                )
-                    .orForwardFail { error -> return error }
-
-                success(
-                    GetRegion.Result.Fail(
-                        errors = responseError.errors
-                            .map { error ->
-                                GetRegion.Result.Fail.Error(
-                                    code = error.code,
-                                    description = error.description
-                                )
-                            }
-                    )
-                )
-            }
-            else          -> failure(
-                Fail.Incident.BadResponse(
-                    description = "Invalid response code.",
-                    body = responseContent
-                )
-            )
-        }
-    }
-
 
     enum class Location(@JsonValue override val key: String) : EnumElementProvider.Key {
 

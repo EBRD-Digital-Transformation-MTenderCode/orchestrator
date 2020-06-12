@@ -18,6 +18,7 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.functional.asSuccess
+import com.procurement.orchestrator.domain.model.address.locality.LocalityDetails
 import com.procurement.orchestrator.domain.model.candidate.Candidates
 import com.procurement.orchestrator.domain.model.organization.Organization
 import com.procurement.orchestrator.domain.model.submission.Details
@@ -25,7 +26,6 @@ import com.procurement.orchestrator.domain.model.submission.Submissions
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractRestDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
-import com.procurement.orchestrator.infrastructure.client.web.CallResponse
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.EnrichLocalityAction
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetLocality
 import org.springframework.stereotype.Component
@@ -36,7 +36,7 @@ class MdmEnrichLocalityDelegate(
     operationStepRepository: OperationStepRepository,
     transform: Transform,
     private val mdmClient: MdmClient
-) : AbstractRestDelegate<MdmEnrichLocalityDelegate.Parameters, List<EnrichLocalityAction.Response.Success>>(
+) : AbstractRestDelegate<MdmEnrichLocalityDelegate.Parameters, List<GetLocality.Result.Success>>(
     logger = logger,
     transform = transform,
     operationStepRepository = operationStepRepository
@@ -70,7 +70,7 @@ class MdmEnrichLocalityDelegate(
         parameters: Parameters,
         context: CamundaGlobalContext,
         executionInterceptor: ExecutionInterceptor
-    ): Result<List<EnrichLocalityAction.Response.Success>, Fail.Incident> {
+    ): Result<List<GetLocality.Result.Success>, Fail.Incident> {
 
         val requestInfo = context.requestInfo
 
@@ -86,8 +86,7 @@ class MdmEnrichLocalityDelegate(
         val results = countriesFromContext.map { country ->
             val response = mdmClient.enrichLocality(
                 id = commandId,
-                params = getParams(requestInfo.language, country),
-                handler = ::processResponse
+                params = getParams(requestInfo.language, country)
             ).orForwardFail { error -> return error }
 
             resolveResponseEvent(response, executionInterceptor)
@@ -100,18 +99,27 @@ class MdmEnrichLocalityDelegate(
 
     override fun updateGlobalContext(
         context: CamundaGlobalContext,
-        result: List<EnrichLocalityAction.Response.Success>
+        result: List<GetLocality.Result.Success>
     ): MaybeFail<Fail.Incident> {
 
         val submissions = context.tryGetSubmissions()
             .orReturnFail { error -> return MaybeFail.fail(error) }
 
-        val enrichedCountries = result.map { it.data }
+        val localities = result.asSequence()
+            .map {
+                LocalityDetails(
+                    id = it.id,
+                    uri = it.uri,
+                    scheme = it.scheme,
+                    description = it.description
+                )
+            }
+            .associateBy { it }
 
         val updatedSubmissions = submissions.details
             .map { submission ->
                 val updatedCandidates = submission.candidates
-                    .map { candidate -> updateLocality(candidate, enrichedCountries) }
+                    .map { candidate -> candidate.updateLocality(localities) }
                 submission.copy(candidates = Candidates(updatedCandidates))
             }
 
@@ -121,21 +129,15 @@ class MdmEnrichLocalityDelegate(
     }
 
 
-    private fun updateLocality(
-        candidate: Organization,
-        enrichedLocalities: List<EnrichLocalityAction.Response.Success.Data>
+    private fun Organization.updateLocality(
+        enrichedLocalitiesById: Map<LocalityDetails, LocalityDetails>
     ): Organization {
-        val locality = candidate.address!!.addressDetails!!.locality
-        val enrichedLocality = enrichedLocalities
-            .find { it.id == locality.id && it.scheme == locality.scheme }!!
-        val updatedLocality = locality.copy(
-            description = enrichedLocality.description,
-            uri = enrichedLocality.uri
-        )
-        return candidate
-            .copy(address = candidate.address
-                .copy(addressDetails = candidate.address.addressDetails!!
-                    .copy(locality = updatedLocality)
+        val oldLocality = this.address!!.addressDetails!!.locality
+        val enrichedLocality = enrichedLocalitiesById.getValue(oldLocality)
+        return this
+            .copy(address = this.address
+                .copy(addressDetails = this.address.addressDetails!!
+                    .copy(locality = enrichedLocality)
                 )
             )
     }
@@ -160,18 +162,9 @@ class MdmEnrichLocalityDelegate(
         }
 
     private fun resolveResponseEvent(response: GetLocality.Result, executionInterceptor: ExecutionInterceptor)
-        : Option<EnrichLocalityAction.Response.Success> =
+        : Option<GetLocality.Result.Success> =
         when (response) {
-            is GetLocality.Result.Success             -> Option.pure(
-                EnrichLocalityAction.Response.Success(
-                    data = EnrichLocalityAction.Response.Success.Data(
-                        id = response.id,
-                        description = response.description,
-                        scheme = response.scheme,
-                        uri = response.uri
-                    )
-                )
-            )
+            is GetLocality.Result.Success             -> Option.pure(response)
             is GetLocality.Result.Fail.SchemeNotFound -> Option.none()
             is GetLocality.Result.Fail.IdNotFound     -> {
                 val errors = response.details.errors
@@ -184,52 +177,6 @@ class MdmEnrichLocalityDelegate(
                 executionInterceptor.throwError(errors = errors)
             }
         }
-
-    fun processResponse(response: CallResponse, transform: Transform): Result<GetLocality.Result, Fail.Incident> {
-        val responseContent = response.content
-        return when (response.code) {
-            HTTP_CODE_200 -> {
-                val result = transform.tryDeserialization(
-                    value = responseContent,
-                    target = EnrichLocalityAction.Response.Success::class.java
-                )
-                    .orReturnFail { fail ->
-                        return failure(
-                            Fail.Incident.BadResponse(description = fail.description, body = responseContent)
-                        )
-                    }
-                GetLocality.Result.Success(
-                    id = result.data.id,
-                    description = result.data.description,
-                    uri = result.data.uri,
-                    scheme = result.data.scheme
-                )
-                    .asSuccess()
-            }
-
-            HTTP_CODE_404 -> {
-                val responseError = transform.tryDeserialization(
-                    value = responseContent,
-                    target = EnrichLocalityAction.Response.Error::class.java
-                )
-                    .orForwardFail { error -> return error }
-                val error = responseError.errors.first()
-                when (error.code) {
-                    RESPONSE_SCHEME_NOT_FOUND -> success(GetLocality.Result.Fail.SchemeNotFound)
-                    RESPONSE_ID_NOT_FOUND     -> success(GetLocality.Result.Fail.IdNotFound(responseError))
-                    else                      ->
-                        failure(Fail.Incident.BadResponse(description = "Unknown error code.", body = responseContent))
-                }
-            }
-            else          -> failure(
-                Fail.Incident.BadResponse(
-                    description = "Invalid response code.",
-                    body = responseContent
-                )
-            )
-        }
-    }
-
 
     enum class Location(@JsonValue override val key: String) : EnumElementProvider.Key {
 

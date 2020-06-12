@@ -17,6 +17,7 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.functional.asSuccess
+import com.procurement.orchestrator.domain.model.address.country.CountryDetails
 import com.procurement.orchestrator.domain.model.candidate.Candidates
 import com.procurement.orchestrator.domain.model.organization.Organization
 import com.procurement.orchestrator.domain.model.submission.Details
@@ -24,7 +25,6 @@ import com.procurement.orchestrator.domain.model.submission.Submissions
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractRestDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
-import com.procurement.orchestrator.infrastructure.client.web.CallResponse
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.EnrichCountryAction
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetCountry
 import org.springframework.stereotype.Component
@@ -35,7 +35,7 @@ class MdmEnrichCountryDelegate(
     operationStepRepository: OperationStepRepository,
     transform: Transform,
     private val mdmClient: MdmClient
-) : AbstractRestDelegate<MdmEnrichCountryDelegate.Parameters, List<EnrichCountryAction.Response.Success>>(
+) : AbstractRestDelegate<MdmEnrichCountryDelegate.Parameters, List<GetCountry.Result.Success>>(
     logger = logger,
     transform = transform,
     operationStepRepository = operationStepRepository
@@ -66,7 +66,7 @@ class MdmEnrichCountryDelegate(
         parameters: Parameters,
         context: CamundaGlobalContext,
         executionInterceptor: ExecutionInterceptor
-    ): Result<List<EnrichCountryAction.Response.Success>, Fail.Incident> {
+    ): Result<List<GetCountry.Result.Success>, Fail.Incident> {
 
         val requestInfo = context.requestInfo
 
@@ -82,8 +82,7 @@ class MdmEnrichCountryDelegate(
         val results = countriesFromContext.map { country ->
             val response = mdmClient.enrichCountry(
                 id = commandId,
-                params = getParams(requestInfo.language, country),
-                handler = ::processResponse
+                params = getParams(requestInfo.language, country)
             ).orForwardFail { error -> return error }
 
             resolveResponseEvent(response, executionInterceptor)
@@ -94,18 +93,27 @@ class MdmEnrichCountryDelegate(
 
     override fun updateGlobalContext(
         context: CamundaGlobalContext,
-        result: List<EnrichCountryAction.Response.Success>
+        result: List<GetCountry.Result.Success>
     ): MaybeFail<Fail.Incident> {
 
         val submissions = context.tryGetSubmissions()
             .orReturnFail { error -> return MaybeFail.fail(error) }
 
-        val enrichedCountries = result.map { it.data }
+        val countries = result.asSequence()
+            .map {
+                CountryDetails(
+                    id = it.id,
+                    uri = it.uri,
+                    scheme = it.scheme,
+                    description = it.description
+                )
+            }
+            .associateBy { it }
 
         val updatedSubmissions = submissions.details
             .map { submission ->
                 val updatedCandidates = submission.candidates
-                    .map { candidate -> updateCountry(candidate, enrichedCountries) }
+                    .map { candidate -> candidate.updateCountry(countries) }
                 submission.copy(candidates = Candidates(updatedCandidates))
             }
 
@@ -115,21 +123,15 @@ class MdmEnrichCountryDelegate(
     }
 
 
-    private fun updateCountry(
-        candidate: Organization,
-        enrichedCountries: List<EnrichCountryAction.Response.Success.Data>
+    private fun Organization.updateCountry(
+        enrichedCountriesById: Map<CountryDetails, CountryDetails>
     ): Organization {
-        val country = candidate.address!!.addressDetails!!.country
-        val enrichedCountry = enrichedCountries
-            .find { it.id == country.id && it.scheme == country.scheme }!!
-        val updatedCountry = country.copy(
-            description = enrichedCountry.description,
-            uri = enrichedCountry.uri
-        )
-        return candidate
-            .copy(address = candidate.address
-                .copy(addressDetails = candidate.address.addressDetails!!
-                    .copy(country = updatedCountry)
+        val oldCountry = this.address!!.addressDetails!!.country
+        val enrichedCountry = enrichedCountriesById.getValue(oldCountry)
+        return this
+            .copy(address = this.address
+                .copy(addressDetails = this.address.addressDetails!!
+                    .copy(country = enrichedCountry)
                 )
             )
     }
@@ -150,16 +152,9 @@ class MdmEnrichCountryDelegate(
         }
 
     private fun resolveResponseEvent(response: GetCountry.Result, executionInterceptor: ExecutionInterceptor)
-        : EnrichCountryAction.Response.Success =
+        : GetCountry.Result.Success =
         when (response) {
-            is GetCountry.Result.Success  -> EnrichCountryAction.Response.Success(
-                data = EnrichCountryAction.Response.Success.Data(
-                    id = response.id,
-                    description = response.description,
-                    scheme = response.scheme,
-                    uri = response.uri
-                )
-            )
+            is GetCountry.Result.Success  -> response
             is GetCountry.Result.Fail     -> {
                 val errors = response.errors
                     .map { error ->
@@ -171,56 +166,6 @@ class MdmEnrichCountryDelegate(
                 executionInterceptor.throwError(errors = errors)
             }
         }
-
-    fun processResponse(response: CallResponse, transform: Transform): Result<GetCountry.Result, Fail.Incident> {
-        val responseContent = response.content
-        return when (response.code) {
-            HTTP_CODE_200 -> {
-                val result = transform.tryDeserialization(
-                    value = responseContent,
-                    target = EnrichCountryAction.Response.Success::class.java
-                )
-                    .orReturnFail { fail ->
-                        return failure(
-                            Fail.Incident.BadResponse(description = fail.description, body = responseContent)
-                        )
-                    }
-                GetCountry.Result.Success(
-                    id = result.data.id,
-                    description = result.data.description,
-                    uri = result.data.uri,
-                    scheme = result.data.scheme
-                )
-                    .asSuccess()
-            }
-
-            HTTP_CODE_404 -> {
-                val responseError = transform.tryDeserialization(
-                    value = responseContent,
-                    target = EnrichCountryAction.Response.Error::class.java
-                )
-                    .orForwardFail { error -> return error }
-                success(
-                    GetCountry.Result.Fail(
-                        errors = responseError.errors
-                            .map { error ->
-                                GetCountry.Result.Fail.Error(
-                                    code = error.code,
-                                    description = error.description
-                                )
-                            }
-                    )
-                )
-            }
-            else          -> failure(
-                Fail.Incident.BadResponse(
-                    description = "Invalid response code.",
-                    body = responseContent
-                )
-            )
-        }
-    }
-
 
     enum class Location(@JsonValue override val key: String) : EnumElementProvider.Key {
 

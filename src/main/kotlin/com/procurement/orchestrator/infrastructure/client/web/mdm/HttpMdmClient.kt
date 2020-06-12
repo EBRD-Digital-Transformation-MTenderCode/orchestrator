@@ -7,6 +7,8 @@ import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.asSuccess
+import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractRestDelegate
+import com.procurement.orchestrator.infrastructure.bpms.delegate.mdm.MdmEnrichLocalityDelegate
 import com.procurement.orchestrator.infrastructure.bpms.repository.ErrorDescriptionRepository
 import com.procurement.orchestrator.infrastructure.client.reply.EMPTY_REPLY_ID
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
@@ -52,8 +54,7 @@ class HttpMdmClient(
 
     override suspend fun enrichCountry(
         id: CommandId,
-        params: EnrichCountryAction.Params,
-        handler: (response: CallResponse, transform: Transform) -> Result<GetCountry.Result, Fail.Incident>
+        params: EnrichCountryAction.Params
     ): Result<GetCountry.Result, Fail.Incident> {
 
         val url: URL = getCountryEndpoint(params.countyId)
@@ -70,7 +71,7 @@ class HttpMdmClient(
         val response = restClient.call(url = httpUrlBuilder.build())
             .orForwardFail { error -> return error }
 
-        return handler(response, transform)
+        return processGetCountryResponse(response, transform)
     }
 
     private fun getCountryEndpoint(countyId: String): URL =
@@ -79,8 +80,7 @@ class HttpMdmClient(
 
     override suspend fun enrichRegion(
         id: CommandId,
-        params: EnrichRegionAction.Params,
-        handler: (response: CallResponse, transform: Transform) -> Result<GetRegion.Result, Fail.Incident>
+        params: EnrichRegionAction.Params
     ): Result<GetRegion.Result, Fail.Incident> {
 
         val url: URL = getRegionEndpoint(params.countyId, params.regionId)
@@ -97,17 +97,15 @@ class HttpMdmClient(
         val response = restClient.call(url = httpUrlBuilder.build())
             .orForwardFail { error -> return error }
 
-        return handler(response, transform)
+        return processGetRegionResponse(response, transform)
     }
 
     private fun getRegionEndpoint(countyId: String, regionId: String): URL =
         URL("$baseUrl/addresses/countries/${countyId}/regions/${regionId}")
 
-
     override suspend fun enrichLocality(
         id: CommandId,
-        params: EnrichLocalityAction.Params,
-        handler: (response: CallResponse, transform: Transform) -> Result<GetLocality.Result, Fail.Incident>
+        params: EnrichLocalityAction.Params
     ): Result<GetLocality.Result, Fail.Incident> {
 
         val url: URL = getLocalityEndpoint(params.countyId, params.regionId, params.localityId)
@@ -124,9 +122,153 @@ class HttpMdmClient(
         val response = restClient.call(url = httpUrlBuilder.build())
             .orForwardFail { error -> return error }
 
-        return handler(response, transform)
+        return processGetLocalityResponse(response, transform)
     }
 
     private fun getLocalityEndpoint(countyId: String, regionId: String, localityId: String): URL =
         URL("$baseUrl/addresses/countries/${countyId}/regions/${regionId}/localities/${localityId}")
+
+    private fun processGetCountryResponse(response: CallResponse, transform: Transform): Result<GetCountry.Result, Fail.Incident> {
+        val responseContent = response.content
+        return when (response.code) {
+            AbstractRestDelegate.HTTP_CODE_200 -> {
+                val result = transform.tryDeserialization(
+                    value = responseContent,
+                    target = EnrichCountryAction.Response.Success::class.java
+                )
+                    .orReturnFail { fail ->
+                        return Result.failure(
+                            Fail.Incident.BadResponse(description = fail.description, body = responseContent)
+                        )
+                    }
+                GetCountry.Result.Success(
+                    id = result.data.id,
+                    description = result.data.description,
+                    uri = result.data.uri,
+                    scheme = result.data.scheme
+                )
+                    .asSuccess()
+            }
+
+            AbstractRestDelegate.HTTP_CODE_404 -> {
+                val responseError = transform.tryDeserialization(
+                    value = responseContent,
+                    target = EnrichCountryAction.Response.Error::class.java
+                )
+                    .orForwardFail { error -> return error }
+                Result.success(
+                    GetCountry.Result.Fail(
+                        errors = responseError.errors
+                            .map { error ->
+                                GetCountry.Result.Fail.Error(
+                                    code = error.code,
+                                    description = error.description
+                                )
+                            }
+                    )
+                )
+            }
+            else                               -> Result.failure(
+                Fail.Incident.BadResponse(
+                    description = "Invalid response code.",
+                    body = responseContent
+                )
+            )
+        }
+    }
+
+    fun processGetRegionResponse(response: CallResponse, transform: Transform): Result<GetRegion.Result, Fail.Incident> {
+        val responseContent = response.content
+        return when (response.code) {
+            AbstractRestDelegate.HTTP_CODE_200 -> {
+                val result = transform.tryDeserialization(
+                    value = responseContent,
+                    target = EnrichRegionAction.Response.Success::class.java
+                )
+                    .orReturnFail { fail ->
+                        return Result.failure(
+                            Fail.Incident.BadResponse(description = fail.description, body = responseContent)
+                        )
+                    }
+                GetRegion.Result.Success(
+                    id = result.data.id,
+                    description = result.data.description,
+                    uri = result.data.uri,
+                    scheme = result.data.scheme
+                )
+                    .asSuccess()
+            }
+
+            AbstractRestDelegate.HTTP_CODE_404 -> {
+                val responseError = transform.tryDeserialization(
+                    value = responseContent,
+                    target = EnrichRegionAction.Response.Error::class.java
+                )
+                    .orForwardFail { error -> return error }
+
+                Result.success(
+                    GetRegion.Result.Fail(
+                        errors = responseError.errors
+                            .map { error ->
+                                GetRegion.Result.Fail.Error(
+                                    code = error.code,
+                                    description = error.description
+                                )
+                            }
+                    )
+                )
+            }
+            else                               -> Result.failure(
+                Fail.Incident.BadResponse(
+                    description = "Invalid response code.",
+                    body = responseContent
+                )
+            )
+        }
+    }
+
+    fun processGetLocalityResponse(response: CallResponse, transform: Transform): Result<GetLocality.Result, Fail.Incident> {
+        val responseContent = response.content
+        return when (response.code) {
+            AbstractRestDelegate.HTTP_CODE_200 -> {
+                val result = transform.tryDeserialization(
+                    value = responseContent,
+                    target = EnrichLocalityAction.Response.Success::class.java
+                )
+                    .orReturnFail { fail ->
+                        return Result.failure(
+                            Fail.Incident.BadResponse(description = fail.description, body = responseContent)
+                        )
+                    }
+                GetLocality.Result.Success(
+                    id = result.data.id,
+                    description = result.data.description,
+                    uri = result.data.uri,
+                    scheme = result.data.scheme
+                )
+                    .asSuccess()
+            }
+
+            AbstractRestDelegate.HTTP_CODE_404 -> {
+                val responseError = transform.tryDeserialization(
+                    value = responseContent,
+                    target = EnrichLocalityAction.Response.Error::class.java
+                )
+                    .orForwardFail { error -> return error }
+                val error = responseError.errors.first()
+                when (error.code) {
+                    MdmEnrichLocalityDelegate.RESPONSE_SCHEME_NOT_FOUND -> Result.success(GetLocality.Result.Fail.SchemeNotFound)
+                    MdmEnrichLocalityDelegate.RESPONSE_ID_NOT_FOUND     -> Result.success(GetLocality.Result.Fail.IdNotFound(responseError))
+                    else                                                ->
+                        Result.failure(Fail.Incident.BadResponse(description = "Unknown error code.", body = responseContent))
+                }
+            }
+            else                               -> Result.failure(
+                Fail.Incident.BadResponse(
+                    description = "Invalid response code.",
+                    body = responseContent
+                )
+            )
+        }
+    }
 }
