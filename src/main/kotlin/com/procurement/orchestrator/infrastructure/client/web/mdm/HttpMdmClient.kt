@@ -7,18 +7,12 @@ import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.asSuccess
-import com.procurement.orchestrator.infrastructure.bpms.delegate.mdm.MdmEnrichCountryDelegate
-import com.procurement.orchestrator.infrastructure.bpms.delegate.mdm.MdmEnrichLocalityDelegate
-import com.procurement.orchestrator.infrastructure.bpms.delegate.mdm.MdmEnrichRegionDelegate
 import com.procurement.orchestrator.infrastructure.bpms.repository.ErrorDescriptionRepository
 import com.procurement.orchestrator.infrastructure.client.reply.EMPTY_REPLY_ID
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.CallResponse
 import com.procurement.orchestrator.infrastructure.client.web.RestClient
-import com.procurement.orchestrator.infrastructure.client.web.mdm.action.EnrichCountryAction
-import com.procurement.orchestrator.infrastructure.client.web.mdm.action.EnrichLocalityAction
-import com.procurement.orchestrator.infrastructure.client.web.mdm.action.EnrichRegionAction
-import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetErrorDescriptionsAction
+import com.procurement.orchestrator.infrastructure.client.web.mdm.action.*
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
 import com.procurement.orchestrator.infrastructure.model.Version
 import okhttp3.HttpUrl
@@ -59,8 +53,8 @@ class HttpMdmClient(
     override suspend fun enrichCountry(
         id: CommandId,
         params: EnrichCountryAction.Params,
-        handler: (response: CallResponse, transform: Transform) -> Result<MdmEnrichCountryDelegate.ResponseEvent, Fail.Incident>
-    ): Result<MdmEnrichCountryDelegate.ResponseEvent, Fail.Incident> {
+        handler: (response: CallResponse, transform: Transform) -> Result<GetCountry.Result, Fail.Incident>
+    ): Result<GetCountry.Result, Fail.Incident> {
 
         val url: URL = getCountryEndpoint(params.countyId)
         val httpUrlBuilder: HttpUrl.Builder = url.toHttpUrlOrNull()!!.newBuilder()
@@ -86,8 +80,8 @@ class HttpMdmClient(
     override suspend fun enrichRegion(
         id: CommandId,
         params: EnrichRegionAction.Params,
-        handler: (response: CallResponse, transform: Transform) -> Result<MdmEnrichRegionDelegate.ResponseEvent, Fail.Incident>
-    ): Result<MdmEnrichRegionDelegate.ResponseEvent, Fail.Incident> {
+        handler: (response: CallResponse, transform: Transform) -> Result<GetRegion.Result, Fail.Incident>
+    ): Result<GetRegion.Result, Fail.Incident> {
 
         val url: URL = getRegionEndpoint(params.countyId, params.regionId)
         val httpUrlBuilder: HttpUrl.Builder = url.toHttpUrlOrNull()!!.newBuilder()
@@ -113,8 +107,8 @@ class HttpMdmClient(
     override suspend fun enrichLocality(
         id: CommandId,
         params: EnrichLocalityAction.Params,
-        handler: (response: CallResponse, transform: Transform) -> Result<MdmEnrichLocalityDelegate.ResponseEvent, Fail.Incident>
-    ): Result<MdmEnrichLocalityDelegate.ResponseEvent, Fail.Incident> {
+        handler: (response: CallResponse, transform: Transform) -> Result<GetLocality.Result, Fail.Incident>
+    ): Result<GetLocality.Result, Fail.Incident> {
 
         val url: URL = getLocalityEndpoint(params.countyId, params.regionId, params.localityId)
         val httpUrlBuilder: HttpUrl.Builder = url.toHttpUrlOrNull()!!.newBuilder()

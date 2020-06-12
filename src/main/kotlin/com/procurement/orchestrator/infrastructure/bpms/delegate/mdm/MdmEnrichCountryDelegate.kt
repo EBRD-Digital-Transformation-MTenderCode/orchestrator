@@ -26,6 +26,7 @@ import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContai
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.web.CallResponse
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.EnrichCountryAction
+import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetCountry
 import org.springframework.stereotype.Component
 
 @Component
@@ -34,7 +35,7 @@ class MdmEnrichCountryDelegate(
     operationStepRepository: OperationStepRepository,
     transform: Transform,
     private val mdmClient: MdmClient
-) : AbstractRestDelegate<MdmEnrichCountryDelegate.Parameters, List<EnrichCountryAction.Result>>(
+) : AbstractRestDelegate<MdmEnrichCountryDelegate.Parameters, List<EnrichCountryAction.Response.Success>>(
     logger = logger,
     transform = transform,
     operationStepRepository = operationStepRepository
@@ -65,7 +66,7 @@ class MdmEnrichCountryDelegate(
         parameters: Parameters,
         context: CamundaGlobalContext,
         executionInterceptor: ExecutionInterceptor
-    ): Result<List<EnrichCountryAction.Result>, Fail.Incident> {
+    ): Result<List<EnrichCountryAction.Response.Success>, Fail.Incident> {
 
         val requestInfo = context.requestInfo
 
@@ -93,7 +94,7 @@ class MdmEnrichCountryDelegate(
 
     override fun updateGlobalContext(
         context: CamundaGlobalContext,
-        result: List<EnrichCountryAction.Result>
+        result: List<EnrichCountryAction.Response.Success>
     ): MaybeFail<Fail.Incident> {
 
         val submissions = context.tryGetSubmissions()
@@ -116,7 +117,7 @@ class MdmEnrichCountryDelegate(
 
     private fun updateCountry(
         candidate: Organization,
-        enrichedCountries: List<EnrichCountryAction.Result.Data>
+        enrichedCountries: List<EnrichCountryAction.Response.Success.Data>
     ): Organization {
         val country = candidate.address!!.addressDetails!!.country
         val enrichedCountry = enrichedCountries
@@ -148,12 +149,19 @@ class MdmEnrichCountryDelegate(
             }
         }
 
-    private fun resolveResponseEvent(response: ResponseEvent, executionInterceptor: ExecutionInterceptor)
-        : EnrichCountryAction.Result =
+    private fun resolveResponseEvent(response: GetCountry.Result, executionInterceptor: ExecutionInterceptor)
+        : EnrichCountryAction.Response.Success =
         when (response) {
-            is ResponseEvent.Success        -> response.value
-            is ResponseEvent.Fail     -> {
-                val errors = response.details.errors
+            is GetCountry.Result.Success  -> EnrichCountryAction.Response.Success(
+                data = EnrichCountryAction.Response.Success.Data(
+                    id = response.id,
+                    description = response.description,
+                    scheme = response.scheme,
+                    uri = response.uri
+                )
+            )
+            is GetCountry.Result.Fail     -> {
+                val errors = response.errors
                     .map { error ->
                         Errors.Error(
                             code = error.code,
@@ -164,30 +172,45 @@ class MdmEnrichCountryDelegate(
             }
         }
 
-    fun processResponse(response: CallResponse, transform: Transform): Result<ResponseEvent, Fail.Incident> {
+    fun processResponse(response: CallResponse, transform: Transform): Result<GetCountry.Result, Fail.Incident> {
         val responseContent = response.content
         return when (response.code) {
             HTTP_CODE_200 -> {
                 val result = transform.tryDeserialization(
                     value = responseContent,
-                    target = EnrichCountryAction.Result::class.java
+                    target = EnrichCountryAction.Response.Success::class.java
                 )
                     .orReturnFail { fail ->
                         return failure(
                             Fail.Incident.BadResponse(description = fail.description, body = responseContent)
                         )
                     }
-                ResponseEvent.Success(value = result)
+                GetCountry.Result.Success(
+                    id = result.data.id,
+                    description = result.data.description,
+                    uri = result.data.uri,
+                    scheme = result.data.scheme
+                )
                     .asSuccess()
             }
 
             HTTP_CODE_404 -> {
                 val responseError = transform.tryDeserialization(
                     value = responseContent,
-                    target = EnrichCountryAction.ResponseError::class.java
+                    target = EnrichCountryAction.Response.Error::class.java
                 )
                     .orForwardFail { error -> return error }
-                success(ResponseEvent.Fail(responseError))
+                success(
+                    GetCountry.Result.Fail(
+                        errors = responseError.errors
+                            .map { error ->
+                                GetCountry.Result.Fail.Error(
+                                    code = error.code,
+                                    description = error.description
+                                )
+                            }
+                    )
+                )
             }
             else          -> failure(
                 Fail.Incident.BadResponse(
@@ -211,11 +234,6 @@ class MdmEnrichCountryDelegate(
             @JsonCreator
             fun creator(name: String) = Location.orThrow(name)
         }
-    }
-
-    sealed class ResponseEvent {
-        data class Success (val value: EnrichCountryAction.Result)          : ResponseEvent()
-        data class Fail    (val details: EnrichCountryAction.ResponseError) : ResponseEvent()
     }
 
     data class Parameters(val location: Location)

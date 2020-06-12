@@ -14,7 +14,7 @@ class MdmActionsTest {
 
             @Test
             fun fully() {
-                testingBindingAndMapping<EnrichCountryAction.Result>("json/client/mdm/enrich_country_response_full.json")
+                testingBindingAndMapping<EnrichCountryAction.Response.Success>("json/client/mdm/enrich_country_response_full.json")
             }
         }
     }
@@ -27,7 +27,7 @@ class MdmActionsTest {
 
             @Test
             fun fully() {
-                testingBindingAndMapping<EnrichRegionAction.Result>("json/client/mdm/enrich_region_response_full.json")
+                testingBindingAndMapping<EnrichRegionAction.Response.Success>("json/client/mdm/enrich_region_response_full.json")
             }
         }
     }
@@ -40,10 +40,8 @@ class MdmActionsTest {
 
             @Test
             fun fully() {
-                testingBindingAndMapping<EnrichLocalityAction.Result>("json/client/mdm/enrich_locality_response_full.json")
+                testingBindingAndMapping<EnrichLocalityAction.Response.Success>("json/client/mdm/enrich_locality_response_full.json")
             }
         }
     }
-
-
 }
