@@ -36,7 +36,7 @@ class MdmEnrichLocalityDelegate(
     operationStepRepository: OperationStepRepository,
     transform: Transform,
     private val mdmClient: MdmClient
-) : AbstractRestDelegate<MdmEnrichLocalityDelegate.Parameters, List<GetLocality.Result.Success>>(
+) : AbstractRestDelegate<MdmEnrichLocalityDelegate.Parameters, List<LocalityDetails>>(
     logger = logger,
     transform = transform,
     operationStepRepository = operationStepRepository
@@ -70,27 +70,27 @@ class MdmEnrichLocalityDelegate(
         parameters: Parameters,
         context: CamundaGlobalContext,
         executionInterceptor: ExecutionInterceptor
-    ): Result<List<GetLocality.Result.Success>, Fail.Incident> {
+    ): Result<List<LocalityDetails>, Fail.Incident> {
 
         val requestInfo = context.requestInfo
 
         val submissions = context.tryGetSubmissions()
             .orForwardFail { error -> return error }
 
-        val countriesFromContext = submissions.details
+        val results = submissions.details
             .asSequence()
             .flatMap { submission -> submission.candidates.asSequence() }
             .map { candidate -> candidate.defineCountryInfoByLocation(parameters.location) }
             .toSet()
+            .map { country ->
+                val response = mdmClient.enrichLocality(
+                    id = commandId,
+                    params = getParams(requestInfo.language, country)
+                )
+                    .orForwardFail { error -> return error }
 
-        val results = countriesFromContext.map { country ->
-            val response = mdmClient.enrichLocality(
-                id = commandId,
-                params = getParams(requestInfo.language, country)
-            ).orForwardFail { error -> return error }
-
-            resolveResponseEvent(response, executionInterceptor)
-        }
+                handleResult(response, executionInterceptor)
+            }
             .filter { optionalResult -> optionalResult.isDefined }
             .map { result -> result.get }
 
@@ -99,22 +99,13 @@ class MdmEnrichLocalityDelegate(
 
     override fun updateGlobalContext(
         context: CamundaGlobalContext,
-        result: List<GetLocality.Result.Success>
+        result: List<LocalityDetails>
     ): MaybeFail<Fail.Incident> {
 
         val submissions = context.tryGetSubmissions()
             .orReturnFail { error -> return MaybeFail.fail(error) }
 
-        val localities = result.asSequence()
-            .map {
-                LocalityDetails(
-                    id = it.id,
-                    uri = it.uri,
-                    scheme = it.scheme,
-                    description = it.description
-                )
-            }
-            .associateBy { it }
+        val localities = result.associateBy { it }
 
         val updatedSubmissions = submissions.details
             .map { submission ->
@@ -152,7 +143,7 @@ class MdmEnrichLocalityDelegate(
         )
 
     private fun Organization.defineCountryInfoByLocation(location: Location) =
-        when(location) {
+        when (location) {
             Location.SUBMISSION -> {
                 val country = this.address!!.addressDetails!!.country
                 val region = this.address.addressDetails!!.region
@@ -161,22 +152,30 @@ class MdmEnrichLocalityDelegate(
             }
         }
 
-    private fun resolveResponseEvent(response: GetLocality.Result, executionInterceptor: ExecutionInterceptor)
-        : Option<GetLocality.Result.Success> =
-        when (response) {
-            is GetLocality.Result.Success             -> Option.pure(response)
-            is GetLocality.Result.Fail.SchemeNotFound -> Option.none()
-            is GetLocality.Result.Fail.IdNotFound     -> {
-                val errors = response.details.errors
-                    .map { error ->
-                        Errors.Error(
-                            code = error.code,
-                            description = error.description
-                        )
-                    }
-                executionInterceptor.throwError(errors = errors)
-            }
+    private fun handleResult(
+        response: GetLocality.Result,
+        executionInterceptor: ExecutionInterceptor
+    ): Option<LocalityDetails> = when (response) {
+        is GetLocality.Result.Success             -> Option.pure(
+            LocalityDetails(
+                id = response.id,
+                scheme = response.scheme,
+                description = response.description,
+                uri = response.uri
+            )
+        )
+        is GetLocality.Result.Fail.SchemeNotFound -> Option.none()
+        is GetLocality.Result.Fail.IdNotFound     -> {
+            val errors = response.details.errors
+                .map { error ->
+                    Errors.Error(
+                        code = error.code,
+                        description = error.description
+                    )
+                }
+            executionInterceptor.throwError(errors = errors)
         }
+    }
 
     enum class Location(@JsonValue override val key: String) : EnumElementProvider.Key {
 

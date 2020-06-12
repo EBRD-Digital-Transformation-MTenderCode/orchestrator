@@ -35,7 +35,7 @@ class MdmEnrichRegionDelegate(
     operationStepRepository: OperationStepRepository,
     transform: Transform,
     private val mdmClient: MdmClient
-) : AbstractRestDelegate<MdmEnrichRegionDelegate.Parameters, List<GetRegion.Result.Success>>(
+) : AbstractRestDelegate<MdmEnrichRegionDelegate.Parameters, List<RegionDetails>>(
     logger = logger,
     transform = transform,
     operationStepRepository = operationStepRepository
@@ -66,49 +66,39 @@ class MdmEnrichRegionDelegate(
         parameters: Parameters,
         context: CamundaGlobalContext,
         executionInterceptor: ExecutionInterceptor
-    ): Result<List<GetRegion.Result.Success>, Fail.Incident> {
+    ): Result<List<RegionDetails>, Fail.Incident> {
 
         val requestInfo = context.requestInfo
 
         val submissions = context.tryGetSubmissions()
             .orForwardFail { error -> return error }
 
-        val countriesFromContext = submissions.details
+        val results = submissions.details
             .asSequence()
             .flatMap { submission -> submission.candidates.asSequence() }
             .map { candidate -> candidate.defineCountryInfoByLocation(parameters.location) }
             .toSet()
+            .map { country ->
+                val result = mdmClient.enrichRegion(
+                    id = commandId,
+                    params = getParams(requestInfo.language, country)
+                ).orForwardFail { error -> return error }
 
-        val results = countriesFromContext.map { country ->
-            val response = mdmClient.enrichRegion(
-                id = commandId,
-                params = getParams(requestInfo.language, country)
-            ).orForwardFail { error -> return error }
-
-            resolveResponseEvent(response, executionInterceptor)
-        }
+                handleResult(result, executionInterceptor)
+            }
 
         return results.asSuccess()
     }
 
     override fun updateGlobalContext(
         context: CamundaGlobalContext,
-        result: List<GetRegion.Result.Success>
+        result: List<RegionDetails>
     ): MaybeFail<Fail.Incident> {
 
         val submissions = context.tryGetSubmissions()
             .orReturnFail { error -> return MaybeFail.fail(error) }
 
-        val regiones = result.asSequence()
-            .map {
-                RegionDetails(
-                    id = it.id,
-                    uri = it.uri,
-                    scheme = it.scheme,
-                    description = it.description
-                )
-            }
-            .associateBy { it }
+        val regiones = result.associateBy { it }
 
         val updatedSubmissions = submissions.details
             .map { submission ->
@@ -145,7 +135,7 @@ class MdmEnrichRegionDelegate(
         )
 
     private fun Organization.defineCountryInfoByLocation(location: Location) =
-        when(location) {
+        when (location) {
             Location.SUBMISSION -> {
                 val country = this.address!!.addressDetails!!.country
                 val region = this.address.addressDetails!!.region
@@ -153,21 +143,27 @@ class MdmEnrichRegionDelegate(
             }
         }
 
-    private fun resolveResponseEvent(response: GetRegion.Result, executionInterceptor: ExecutionInterceptor)
-        : GetRegion.Result.Success =
-        when (response) {
-            is GetRegion.Result.Success -> response
-            is GetRegion.Result.Fail    -> {
-                val errors = response.errors
-                    .map { error ->
-                        Errors.Error(
-                            code = error.code,
-                            description = error.description
-                        )
-                    }
-                executionInterceptor.throwError(errors = errors)
-            }
+    private fun handleResult(
+        response: GetRegion.Result,
+        executionInterceptor: ExecutionInterceptor
+    ): RegionDetails = when (response) {
+        is GetRegion.Result.Success -> RegionDetails(
+            id = response.id,
+            scheme = response.scheme,
+            description = response.description,
+            uri = response.uri
+        )
+        is GetRegion.Result.Fail    -> {
+            val errors = response.errors
+                .map { error ->
+                    Errors.Error(
+                        code = error.code,
+                        description = error.description
+                    )
+                }
+            executionInterceptor.throwError(errors = errors)
         }
+    }
 
     enum class Location(@JsonValue override val key: String) : EnumElementProvider.Key {
 
