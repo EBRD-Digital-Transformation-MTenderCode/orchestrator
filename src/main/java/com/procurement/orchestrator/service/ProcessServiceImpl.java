@@ -1515,6 +1515,7 @@ public class ProcessServiceImpl implements ProcessService {
             mainNode.replace("planning", responseData.get("planning"));
             mainNode.replace("award", responseData.get("award"));
             mainNode.replace("contract", responseData.get("contract"));
+            mainNode.replace("buyer", responseData.get("buyer"));
             return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
