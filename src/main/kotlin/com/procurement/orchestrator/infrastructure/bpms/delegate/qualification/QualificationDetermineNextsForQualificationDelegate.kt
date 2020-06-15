@@ -21,16 +21,16 @@ import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContai
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.qualification.QualificationCommands
-import com.procurement.orchestrator.infrastructure.client.web.qualification.action.GetNextsForQualificationAction
+import com.procurement.orchestrator.infrastructure.client.web.qualification.action.DetermineNextsForQualificationAction
 import org.springframework.stereotype.Component
 
 @Component
-class QualificationGetNextsForQualificationDelegate(
+class QualificationDetermineNextsForQualificationDelegate(
     logger: Logger,
     private val qualificationClient: QualificationClient,
     operationStepRepository: OperationStepRepository,
     transform: Transform
-) : AbstractExternalDelegate<Unit, GetNextsForQualificationAction.Result>(
+) : AbstractExternalDelegate<Unit, DetermineNextsForQualificationAction.Result>(
     logger = logger,
     transform = transform,
     operationStepRepository = operationStepRepository
@@ -42,11 +42,9 @@ class QualificationGetNextsForQualificationDelegate(
         commandId: CommandId,
         context: CamundaGlobalContext,
         parameters: Unit
-    ): Result<Reply<GetNextsForQualificationAction.Result>, Fail.Incident> {
+    ): Result<Reply<DetermineNextsForQualificationAction.Result>, Fail.Incident> {
 
         val processInfo = context.processInfo
-        val contextQualifications = context.getQualificationsIfNotEmpty()
-            .orForwardFail { fail -> return fail }
 
         val contextSubmissions = context.tryGetSubmissions()
             .orForwardFail { fail -> return fail }
@@ -56,21 +54,13 @@ class QualificationGetNextsForQualificationDelegate(
         val contextTender = context.tryGetTender()
             .orForwardFail { fail -> return fail }
 
-        return qualificationClient.getNextsForQualification(
+        return qualificationClient.determineNextsForQualification(
             id = commandId,
-            params = GetNextsForQualificationAction.Params(
+            params = DetermineNextsForQualificationAction.Params(
                 cpid = processInfo.cpid,
                 ocid = processInfo.ocid,
-                qualifications = contextQualifications.map { qualification ->
-                    GetNextsForQualificationAction.Params.Qualification(
-                        id = qualification.id,
-                        relatedSubmission = qualification.relatedSubmission as SubmissionId.Permanent,
-                        date = qualification.date,
-                        scoring = qualification.scoring
-                    )
-                },
                 submissions = contextSubmissions.map { submission ->
-                    GetNextsForQualificationAction.Params.Submission(
+                    DetermineNextsForQualificationAction.Params.Submission(
                         id = submission.id as SubmissionId.Permanent,
                         date = submission.date
                     )
@@ -84,14 +74,14 @@ class QualificationGetNextsForQualificationDelegate(
     override fun updateGlobalContext(
         context: CamundaGlobalContext,
         parameters: Unit,
-        result: Option<GetNextsForQualificationAction.Result>
+        result: Option<DetermineNextsForQualificationAction.Result>
     ): MaybeFail<Fail.Incident> {
 
         val data = result.orNull
             ?: return MaybeFail.fail(
                 Fail.Incident.Response.Empty(
                     service = "eQualification",
-                    action = QualificationCommands.GetNextsForQualification
+                    action = QualificationCommands.DetermineNextsForQualification
                 )
             )
 
@@ -112,6 +102,6 @@ class QualificationGetNextsForQualificationDelegate(
 
     private fun updateQualification(
         qualification: Qualification,
-        reqQualification: GetNextsForQualificationAction.Result.Qualification
+        reqQualification: DetermineNextsForQualificationAction.Result.Qualification
     ) = qualification.copy(statusDetails = reqQualification.statusDetails)
 }

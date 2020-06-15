@@ -6,8 +6,8 @@ import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.WebClient
+import com.procurement.orchestrator.infrastructure.client.web.qualification.action.DetermineNextsForQualificationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.FindQualificationIdsAction
-import com.procurement.orchestrator.infrastructure.client.web.qualification.action.GetNextsForQualificationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.StartQualificationPeriodAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
 import java.net.URL
@@ -35,12 +35,12 @@ class HttpQualificationClient(private val webClient: WebClient, properties: Comp
         target = QualificationCommands.FindQualificationIds.target
     )
 
-    override suspend fun getNextsForQualification(
+    override suspend fun determineNextsForQualification(
         id: CommandId,
-        params: GetNextsForQualificationAction.Params
-    ): Result<Reply<GetNextsForQualificationAction.Result>, Fail.Incident> = webClient.call(
+        params: DetermineNextsForQualificationAction.Params
+    ): Result<Reply<DetermineNextsForQualificationAction.Result>, Fail.Incident> = webClient.call(
         url = url,
-        command = QualificationCommands.GetNextsForQualification.build(id = id, params = params),
-        target = QualificationCommands.GetNextsForQualification.target
+        command = QualificationCommands.DetermineNextsForQualification.build(id = id, params = params),
+        target = QualificationCommands.DetermineNextsForQualification.target
     )
 }
