@@ -133,10 +133,11 @@ class HttpMdmClient(
         val responseContent = response.content
         return when (response.code) {
             AbstractRestDelegate.HTTP_CODE_200 -> {
-                val result = transform.tryDeserialization(
-                    value = responseContent,
-                    target = EnrichCountryAction.Response.Success::class.java
-                )
+                val result = transform
+                    .tryDeserialization(
+                        value = responseContent,
+                        target = EnrichCountryAction.Response.Success::class.java
+                    )
                     .orReturnFail { fail ->
                         return Result.failure(
                             Fail.Incident.BadResponse(description = fail.description, body = responseContent)
@@ -152,10 +153,11 @@ class HttpMdmClient(
             }
 
             AbstractRestDelegate.HTTP_CODE_404 -> {
-                val responseError = transform.tryDeserialization(
-                    value = responseContent,
-                    target = EnrichCountryAction.Response.Error::class.java
-                )
+                val responseError = transform
+                    .tryDeserialization(
+                        value = responseContent,
+                        target = EnrichCountryAction.Response.Error::class.java
+                    )
                     .orForwardFail { error -> return error }
                 Result.success(
                     GetCountry.Result.Fail(
@@ -185,10 +187,11 @@ class HttpMdmClient(
         val responseContent = response.content
         return when (response.code) {
             AbstractRestDelegate.HTTP_CODE_200 -> {
-                val result = transform.tryDeserialization(
-                    value = responseContent,
-                    target = EnrichRegionAction.Response.Success::class.java
-                )
+                val result = transform
+                    .tryDeserialization(
+                        value = responseContent,
+                        target = EnrichRegionAction.Response.Success::class.java
+                    )
                     .orReturnFail { fail ->
                         return Result.failure(
                             Fail.Incident.BadResponse(description = fail.description, body = responseContent)
@@ -204,10 +207,11 @@ class HttpMdmClient(
             }
 
             AbstractRestDelegate.HTTP_CODE_404 -> {
-                val responseError = transform.tryDeserialization(
-                    value = responseContent,
-                    target = EnrichRegionAction.Response.Error::class.java
-                )
+                val responseError = transform
+                    .tryDeserialization(
+                        value = responseContent,
+                        target = EnrichRegionAction.Response.Error::class.java
+                    )
                     .orForwardFail { error -> return error }
 
                 Result.success(
@@ -238,10 +242,11 @@ class HttpMdmClient(
         val responseContent = response.content
         return when (response.code) {
             AbstractRestDelegate.HTTP_CODE_200 -> {
-                val result = transform.tryDeserialization(
-                    value = responseContent,
-                    target = EnrichLocalityAction.Response.Success::class.java
-                )
+                val result = transform
+                    .tryDeserialization(
+                        value = responseContent,
+                        target = EnrichLocalityAction.Response.Success::class.java
+                    )
                     .orReturnFail { fail ->
                         return Result.failure(
                             Fail.Incident.BadResponse(description = fail.description, body = responseContent)
@@ -257,10 +262,11 @@ class HttpMdmClient(
             }
 
             AbstractRestDelegate.HTTP_CODE_404 -> {
-                val responseError = transform.tryDeserialization(
-                    value = responseContent,
-                    target = EnrichLocalityAction.Response.Error::class.java
-                )
+                val responseError = transform
+                    .tryDeserialization(
+                        value = responseContent,
+                        target = EnrichLocalityAction.Response.Error::class.java
+                    )
                     .orForwardFail { error -> return error }
                 val error = responseError.errors.first()
                 when (error.code) {
