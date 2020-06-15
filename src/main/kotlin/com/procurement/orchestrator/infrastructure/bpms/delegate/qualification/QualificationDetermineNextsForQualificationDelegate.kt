@@ -65,8 +65,14 @@ class QualificationDetermineNextsForQualificationDelegate(
                         date = submission.date
                     )
                 },
-                reductionCriteria = contextTender.otherCriteria?.reductionCriteria,
-                qualificationSystemMethods = contextTender.otherCriteria?.qualificationSystemMethods
+                otherCriteria = contextTender.otherCriteria
+                    ?.let { otherCriteria ->
+                        DetermineNextsForQualificationAction.Params.OtherCriteria(
+                            reductionCriteria = otherCriteria.reductionCriteria,
+                            qualificationSystemMethods = otherCriteria.qualificationSystemMethods
+                        )
+                    }
+
             )
         )
     }

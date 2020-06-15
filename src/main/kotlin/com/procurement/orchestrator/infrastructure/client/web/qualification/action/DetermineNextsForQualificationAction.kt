@@ -24,12 +24,16 @@ abstract class DetermineNextsForQualificationAction : FunctionalAction<Determine
         @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid,
         @field:JsonProperty("ocid") @param:JsonProperty("ocid") val ocid: Ocid,
         @field:JsonProperty("submissions") @param:JsonProperty("submissions") val submissions: List<Submission>,
-
         @JsonInclude(JsonInclude.Include.NON_NULL)
-        @field:JsonProperty("reductionCriteria") @param:JsonProperty("reductionCriteria") val reductionCriteria: ReductionCriteria?,
-        @JsonInclude(JsonInclude.Include.NON_EMPTY)
-        @field:JsonProperty("qualificationSystemMethods") @param:JsonProperty("qualificationSystemMethods") val qualificationSystemMethods: List<QualificationSystemMethod>?
+        @field:JsonProperty("otherCriteria") @param:JsonProperty("otherCriteria") val otherCriteria: OtherCriteria?
     ) {
+
+        data class OtherCriteria(
+            @JsonInclude(JsonInclude.Include.NON_NULL)
+            @field:JsonProperty("reductionCriteria") @param:JsonProperty("reductionCriteria") val reductionCriteria: ReductionCriteria?,
+            @JsonInclude(JsonInclude.Include.NON_EMPTY)
+            @field:JsonProperty("qualificationSystemMethods") @param:JsonProperty("qualificationSystemMethods") val qualificationSystemMethods: List<QualificationSystemMethod>?
+        )
 
         data class Submission(
             @JsonInclude(JsonInclude.Include.NON_NULL)
