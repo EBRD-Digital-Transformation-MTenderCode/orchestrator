@@ -2,7 +2,6 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.mdm
 
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonValue
-import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.MdmClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.tryGetSubmissions
@@ -66,7 +65,6 @@ class MdmEnrichLocalityDelegate(
     }
 
     override suspend fun execute(
-        commandId: CommandId,
         parameters: Parameters,
         context: CamundaGlobalContext,
         executionInterceptor: ExecutionInterceptor
@@ -83,10 +81,7 @@ class MdmEnrichLocalityDelegate(
             .map { candidate -> candidate.defineAddressInfoByLocation(parameters.location) }
             .toSet()
             .map { country ->
-                val response = mdmClient.enrichLocality(
-                    id = commandId,
-                    params = getParams(requestInfo.language, country)
-                )
+                val response = mdmClient.enrichLocality(params = getParams(requestInfo.language, country))
                     .orForwardFail { error -> return error }
 
                 handleResult(response, executionInterceptor)

@@ -1,6 +1,5 @@
 package com.procurement.orchestrator.infrastructure.bpms.delegate
 
-import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.members.Errors
 import com.procurement.orchestrator.application.model.context.members.Incident
@@ -54,12 +53,9 @@ abstract class AbstractRestDelegate<P, R : Any>(
 
         val resultContext = ResultContext()
         val scope = GlobalScope + resultContext
-        val commandId = CommandId.generate(
-            processId = execution.processInstanceId,
-            activityId = execution.currentActivityId
-        )
+
         val executionInterceptor: ExecutionInterceptor = ExecutionInterceptorImpl(execution)
-        val result = runBlocking(context = scope.coroutineContext) { execute(commandId, parameters, globalContext, executionInterceptor) }
+        val result = runBlocking(context = scope.coroutineContext) { execute(parameters, globalContext, executionInterceptor) }
             .orReturnFail { fail -> execution.throwIncident(fail) }
             .also { result ->
                 if (execution.isUpdateGlobalContext) {
@@ -77,7 +73,6 @@ abstract class AbstractRestDelegate<P, R : Any>(
     protected abstract fun parameters(parameterContainer: ParameterContainer): Result<P, Fail.Incident.Bpmn.Parameter>
 
     protected abstract suspend fun execute(
-        commandId: CommandId,
         parameters: P,
         context: CamundaGlobalContext,
         executionInterceptor: ExecutionInterceptor

@@ -60,10 +60,7 @@ class HttpMdmClient(
             }
             .asSuccess()
 
-    override suspend fun enrichCountry(
-        id: CommandId,
-        params: EnrichCountryAction.Params
-    ): Result<GetCountry.Result, Fail.Incident> {
+    override suspend fun enrichCountry(params: EnrichCountryAction.Params): Result<GetCountry.Result, Fail.Incident> {
 
         val httpUrl: HttpUrl = getCountryEndpoint(params)
             .toHttpUrl()
@@ -82,10 +79,7 @@ class HttpMdmClient(
 
     private fun getCountryEndpoint(params: EnrichCountryAction.Params): String = "$baseUrl/addresses/countries/${params.countyId}"
 
-    override suspend fun enrichRegion(
-        id: CommandId,
-        params: EnrichRegionAction.Params
-    ): Result<GetRegion.Result, Fail.Incident> {
+    override suspend fun enrichRegion(params: EnrichRegionAction.Params): Result<GetRegion.Result, Fail.Incident> {
 
         val httpUrl: HttpUrl = getRegionEndpoint(params)
             .toHttpUrl()
@@ -105,10 +99,7 @@ class HttpMdmClient(
     private fun getRegionEndpoint(params: EnrichRegionAction.Params): String =
         "$baseUrl/addresses/countries/${params.countyId}/regions/${params.regionId}"
 
-    override suspend fun enrichLocality(
-        id: CommandId,
-        params: EnrichLocalityAction.Params
-    ): Result<GetLocality.Result, Fail.Incident> {
+    override suspend fun enrichLocality(params: EnrichLocalityAction.Params): Result<GetLocality.Result, Fail.Incident> {
 
         val httpUrl: HttpUrl = getLocalityEndpoint(params)
             .toHttpUrl()
