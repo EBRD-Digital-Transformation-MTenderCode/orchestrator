@@ -50,7 +50,11 @@ class OkHttpRestClient(
         val call = httpClient.newCall(request)
         val response = execute(call = call, retryInfo = retryInfo)
             .orReturnFail { webClientFail ->
-                return failure(Fail.Incident.NetworkError(description = webClientFail.toString()))
+                return failure(
+                    Fail.Incident.NetworkError(
+                        description = webClientFail.toString(),
+                        exception = webClientFail.exception)
+                )
             }
 
         val callResponse = CallResponse(
