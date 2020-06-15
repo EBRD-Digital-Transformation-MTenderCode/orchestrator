@@ -11,7 +11,6 @@ import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
-import com.procurement.orchestrator.domain.model.party.PartyRole
 import com.procurement.orchestrator.domain.model.tender.Tender
 import com.procurement.orchestrator.domain.model.tender.criteria.Criteria
 import com.procurement.orchestrator.domain.model.tender.criteria.CriteriaSource
@@ -44,13 +43,13 @@ class AccessFindCriteriaDelegate(
     override fun parameters(parameterContainer: ParameterContainer): Result<Parameters, Fail.Incident.Bpmn.Parameter> {
         val source: CriteriaSource = parameterContainer.getString(PARAMETER_NAME_SOURCE)
             .orForwardFail { fail -> return fail }
-            .let { role ->
-                CriteriaSource.orNull(role)
+            .let { source ->
+                CriteriaSource.orNull(source)
                     ?: return Result.failure(
                         Fail.Incident.Bpmn.Parameter.UnknownValue(
                             name = PARAMETER_NAME_SOURCE,
-                            actualValue = role,
-                            expectedValues = PartyRole.allowedElements.keysAsStrings()
+                            actualValue = source,
+                            expectedValues = CriteriaSource.allowedElements.keysAsStrings()
                         )
                     )
             }
