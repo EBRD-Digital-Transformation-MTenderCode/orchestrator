@@ -28,7 +28,7 @@ import okhttp3.HttpUrl.Companion.toHttpUrl
 import java.net.URL
 
 class HttpMdmClient(
-    private val errorDescriptionRepository: ErrorDescriptionRepository?,
+    private val errorDescriptionRepository: ErrorDescriptionRepository,
     private val restClient: RestClient,
     private val transform: Transform,
     properties: ComponentProperties.Component
@@ -41,7 +41,7 @@ class HttpMdmClient(
         params: GetErrorDescriptionsAction.Params
     ): Result<Reply<GetErrorDescriptionsAction.Result>, Fail.Incident> =
 
-        errorDescriptionRepository!!.load(codes = params.codes, language = params.language.toUpperCase())
+        errorDescriptionRepository.load(codes = params.codes, language = params.language.toUpperCase())
             .orForwardFail { fail -> return fail }
             .map { error ->
                 GetErrorDescriptionsAction.Result.Error(
