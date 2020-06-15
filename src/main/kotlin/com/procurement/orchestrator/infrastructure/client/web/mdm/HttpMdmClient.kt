@@ -178,7 +178,7 @@ class HttpMdmClient(
         }
     }
 
-    fun processGetRegionResponse(
+    private fun processGetRegionResponse(
         response: CallResponse,
         transform: Transform
     ): Result<GetRegion.Result, Fail.Incident> {
@@ -231,7 +231,7 @@ class HttpMdmClient(
         }
     }
 
-    fun processGetLocalityResponse(
+    private fun processGetLocalityResponse(
         response: CallResponse,
         transform: Transform
     ): Result<GetLocality.Result, Fail.Incident> {
