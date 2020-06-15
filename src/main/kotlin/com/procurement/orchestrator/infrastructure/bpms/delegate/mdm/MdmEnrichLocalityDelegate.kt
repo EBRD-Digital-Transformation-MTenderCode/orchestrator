@@ -80,7 +80,7 @@ class MdmEnrichLocalityDelegate(
         val results = submissions.details
             .asSequence()
             .flatMap { submission -> submission.candidates.asSequence() }
-            .map { candidate -> candidate.defineCountryInfoByLocation(parameters.location) }
+            .map { candidate -> candidate.defineAddressInfoByLocation(parameters.location) }
             .toSet()
             .map { country ->
                 val response = mdmClient.enrichLocality(
@@ -142,7 +142,7 @@ class MdmEnrichLocalityDelegate(
             localityId = address.localityId
         )
 
-    private fun Organization.defineCountryInfoByLocation(location: Location) =
+    private fun Organization.defineAddressInfoByLocation(location: Location) =
         when (location) {
             Location.SUBMISSION -> {
                 val country = this.address!!.addressDetails!!.country
