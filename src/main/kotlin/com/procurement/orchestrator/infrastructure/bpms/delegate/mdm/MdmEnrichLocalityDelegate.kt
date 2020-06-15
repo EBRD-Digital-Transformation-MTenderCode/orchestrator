@@ -133,13 +133,13 @@ class MdmEnrichLocalityDelegate(
             )
     }
 
-    private fun getParams(language: String, country: Country): EnrichLocalityAction.Params =
+    private fun getParams(language: String, address: Address): EnrichLocalityAction.Params =
         EnrichLocalityAction.Params(
             lang = language,
-            scheme = country.scheme,
-            countyId = country.id,
-            regionId = country.regionId,
-            localityId = country.localityId
+            scheme = address.scheme,
+            countyId = address.countryId,
+            regionId = address.regionId,
+            localityId = address.localityId
         )
 
     private fun Organization.defineCountryInfoByLocation(location: Location) =
@@ -148,7 +148,7 @@ class MdmEnrichLocalityDelegate(
                 val country = this.address!!.addressDetails!!.country
                 val region = this.address.addressDetails!!.region
                 val locality = this.address.addressDetails.locality
-                Country(id = country.id, regionId = region.id, scheme = region.scheme, localityId = locality.id)
+                Address(countryId = country.id, regionId = region.id, scheme = region.scheme, localityId = locality.id)
             }
         }
 
@@ -187,11 +187,11 @@ class MdmEnrichLocalityDelegate(
 
             @JvmStatic
             @JsonCreator
-            fun creator(name: String) = Location.orThrow(name)
+            fun creator(name: String) = orThrow(name)
         }
     }
 
     data class Parameters(val location: Location)
-    data class Country(val id: String, val regionId: String, val localityId: String, val scheme: String)
+    private data class Address(val countryId: String, val regionId: String, val localityId: String, val scheme: String)
 }
 

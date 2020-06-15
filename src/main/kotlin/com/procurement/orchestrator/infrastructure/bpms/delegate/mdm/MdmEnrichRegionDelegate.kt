@@ -79,10 +79,12 @@ class MdmEnrichRegionDelegate(
             .map { candidate -> candidate.defineCountryInfoByLocation(parameters.location) }
             .toSet()
             .map { country ->
-                val result = mdmClient.enrichRegion(
-                    id = commandId,
-                    params = getParams(requestInfo.language, country)
-                ).orForwardFail { error -> return error }
+                val result = mdmClient
+                    .enrichRegion(
+                        id = commandId,
+                        params = getParams(requestInfo.language, country)
+                    )
+                    .orForwardFail { error -> return error }
 
                 handleResult(result, executionInterceptor)
             }
@@ -112,26 +114,27 @@ class MdmEnrichRegionDelegate(
         return MaybeFail.none()
     }
 
-
     private fun Organization.updateRegion(
         enrichedRegionesById: Map<RegionDetails, RegionDetails>
     ): Organization {
         val oldRegion = this.address!!.addressDetails!!.region
         val enrichedRegion = enrichedRegionesById.getValue(oldRegion)
         return this
-            .copy(address = this.address
-                .copy(addressDetails = this.address.addressDetails!!
-                    .copy(region = enrichedRegion)
-                )
+            .copy(
+                address = this.address
+                    .copy(
+                        addressDetails = this.address.addressDetails!!
+                            .copy(region = enrichedRegion)
+                    )
             )
     }
 
-    private fun getParams(language: String, country: Country): EnrichRegionAction.Params =
+    private fun getParams(language: String, address: Address): EnrichRegionAction.Params =
         EnrichRegionAction.Params(
             lang = language,
-            scheme = country.scheme,
-            countyId = country.id,
-            regionId = country.regionId
+            scheme = address.scheme,
+            countyId = address.countryId,
+            regionId = address.regionId
         )
 
     private fun Organization.defineCountryInfoByLocation(location: Location) =
@@ -139,7 +142,7 @@ class MdmEnrichRegionDelegate(
             Location.SUBMISSION -> {
                 val country = this.address!!.addressDetails!!.country
                 val region = this.address.addressDetails!!.region
-                Country(id = country.id, regionId = region.id, scheme = region.scheme)
+                Address(countryId = country.id, regionId = region.id, scheme = region.scheme)
             }
         }
 
@@ -175,11 +178,11 @@ class MdmEnrichRegionDelegate(
 
             @JvmStatic
             @JsonCreator
-            fun creator(name: String) = Location.orThrow(name)
+            fun creator(name: String) = orThrow(name)
         }
     }
 
     data class Parameters(val location: Location)
-    data class Country(val id: String, val regionId: String, val scheme: String)
+    private data class Address(val countryId: String, val regionId: String, val scheme: String)
 }
 
