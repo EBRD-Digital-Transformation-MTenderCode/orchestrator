@@ -14,11 +14,17 @@ import com.procurement.orchestrator.infrastructure.client.reply.EMPTY_REPLY_ID
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.CallResponse
 import com.procurement.orchestrator.infrastructure.client.web.RestClient
-import com.procurement.orchestrator.infrastructure.client.web.mdm.action.*
+import com.procurement.orchestrator.infrastructure.client.web.mdm.action.EnrichCountryAction
+import com.procurement.orchestrator.infrastructure.client.web.mdm.action.EnrichLocalityAction
+import com.procurement.orchestrator.infrastructure.client.web.mdm.action.EnrichRegionAction
+import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetCountry
+import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetErrorDescriptionsAction
+import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetLocality
+import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRegion
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
 import com.procurement.orchestrator.infrastructure.model.Version
 import okhttp3.HttpUrl
-import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
+import okhttp3.HttpUrl.Companion.toHttpUrl
 import java.net.URL
 
 class HttpMdmClient(
@@ -57,78 +63,73 @@ class HttpMdmClient(
         params: EnrichCountryAction.Params
     ): Result<GetCountry.Result, Fail.Incident> {
 
-        val url: URL = getCountryEndpoint(params.countyId)
-        val httpUrlBuilder: HttpUrl.Builder = url.toHttpUrlOrNull()!!.newBuilder()
+        val httpUrl: HttpUrl = getCountryEndpoint(params)
+            .toHttpUrl()
+            .newBuilder()
+            .apply {
+                addQueryParameter("lang", params.lang)
+                addQueryParameter("scheme", params.scheme)
+            }
+            .build()
 
-        val queryParams = mapOf(
-            "lang" to params.lang,
-            "scheme" to params.scheme
-        )
-        queryParams.forEach { key, value ->
-            httpUrlBuilder.addQueryParameter(name = key, value = value)
-        }
-
-        val response = restClient.call(url = httpUrlBuilder.build())
+        val response = restClient.call(url = httpUrl)
             .orForwardFail { error -> return error }
 
         return processGetCountryResponse(response, transform)
     }
 
-    private fun getCountryEndpoint(countyId: String): URL =
-        URL("$baseUrl/addresses/countries/${countyId}")
-
+    private fun getCountryEndpoint(params: EnrichCountryAction.Params): String = "$baseUrl/addresses/countries/${params.countyId}"
 
     override suspend fun enrichRegion(
         id: CommandId,
         params: EnrichRegionAction.Params
     ): Result<GetRegion.Result, Fail.Incident> {
 
-        val url: URL = getRegionEndpoint(params.countyId, params.regionId)
-        val httpUrlBuilder: HttpUrl.Builder = url.toHttpUrlOrNull()!!.newBuilder()
+        val httpUrl: HttpUrl = getRegionEndpoint(params)
+            .toHttpUrl()
+            .newBuilder()
+            .apply {
+                addQueryParameter("lang", params.lang)
+                addQueryParameter("scheme", params.scheme)
+            }
+            .build()
 
-        val queryParams = mapOf(
-            "lang" to params.lang,
-            "scheme" to params.scheme
-        )
-        queryParams.forEach { key, value ->
-            httpUrlBuilder.addQueryParameter(name = key, value = value)
-        }
-
-        val response = restClient.call(url = httpUrlBuilder.build())
+        val response = restClient.call(url = httpUrl)
             .orForwardFail { error -> return error }
 
         return processGetRegionResponse(response, transform)
     }
 
-    private fun getRegionEndpoint(countyId: String, regionId: String): URL =
-        URL("$baseUrl/addresses/countries/${countyId}/regions/${regionId}")
+    private fun getRegionEndpoint(params: EnrichRegionAction.Params): String =
+        "$baseUrl/addresses/countries/${params.countyId}/regions/${params.regionId}"
 
     override suspend fun enrichLocality(
         id: CommandId,
         params: EnrichLocalityAction.Params
     ): Result<GetLocality.Result, Fail.Incident> {
 
-        val url: URL = getLocalityEndpoint(params.countyId, params.regionId, params.localityId)
-        val httpUrlBuilder: HttpUrl.Builder = url.toHttpUrlOrNull()!!.newBuilder()
+        val httpUrl: HttpUrl = getLocalityEndpoint(params)
+            .toHttpUrl()
+            .newBuilder()
+            .apply {
+                addQueryParameter("lang", params.lang)
+                addQueryParameter("scheme", params.scheme)
+            }
+            .build()
 
-        val queryParams = mapOf(
-            "lang" to params.lang,
-            "scheme" to params.scheme
-        )
-        queryParams.forEach { key, value ->
-            httpUrlBuilder.addQueryParameter(name = key, value = value)
-        }
-
-        val response = restClient.call(url = httpUrlBuilder.build())
+        val response = restClient.call(url = httpUrl)
             .orForwardFail { error -> return error }
 
         return processGetLocalityResponse(response, transform)
     }
 
-    private fun getLocalityEndpoint(countyId: String, regionId: String, localityId: String): URL =
-        URL("$baseUrl/addresses/countries/${countyId}/regions/${regionId}/localities/${localityId}")
+    private fun getLocalityEndpoint(params: EnrichLocalityAction.Params): String =
+        "$baseUrl/addresses/countries/${params.countyId}/regions/${params.regionId}/localities/${params.localityId}"
 
-    private fun processGetCountryResponse(response: CallResponse, transform: Transform): Result<GetCountry.Result, Fail.Incident> {
+    private fun processGetCountryResponse(
+        response: CallResponse,
+        transform: Transform
+    ): Result<GetCountry.Result, Fail.Incident> {
         val responseContent = response.content
         return when (response.code) {
             AbstractRestDelegate.HTTP_CODE_200 -> {
@@ -177,7 +178,10 @@ class HttpMdmClient(
         }
     }
 
-    fun processGetRegionResponse(response: CallResponse, transform: Transform): Result<GetRegion.Result, Fail.Incident> {
+    fun processGetRegionResponse(
+        response: CallResponse,
+        transform: Transform
+    ): Result<GetRegion.Result, Fail.Incident> {
         val responseContent = response.content
         return when (response.code) {
             AbstractRestDelegate.HTTP_CODE_200 -> {
@@ -227,7 +231,10 @@ class HttpMdmClient(
         }
     }
 
-    fun processGetLocalityResponse(response: CallResponse, transform: Transform): Result<GetLocality.Result, Fail.Incident> {
+    fun processGetLocalityResponse(
+        response: CallResponse,
+        transform: Transform
+    ): Result<GetLocality.Result, Fail.Incident> {
         val responseContent = response.content
         return when (response.code) {
             AbstractRestDelegate.HTTP_CODE_200 -> {
@@ -258,9 +265,18 @@ class HttpMdmClient(
                 val error = responseError.errors.first()
                 when (error.code) {
                     MdmEnrichLocalityDelegate.RESPONSE_SCHEME_NOT_FOUND -> Result.success(GetLocality.Result.Fail.SchemeNotFound)
-                    MdmEnrichLocalityDelegate.RESPONSE_ID_NOT_FOUND     -> Result.success(GetLocality.Result.Fail.IdNotFound(responseError))
+                    MdmEnrichLocalityDelegate.RESPONSE_ID_NOT_FOUND     -> Result.success(
+                        GetLocality.Result.Fail.IdNotFound(
+                            responseError
+                        )
+                    )
                     else                                                ->
-                        Result.failure(Fail.Incident.BadResponse(description = "Unknown error code.", body = responseContent))
+                        Result.failure(
+                            Fail.Incident.BadResponse(
+                                description = "Unknown error code.",
+                                body = responseContent
+                            )
+                        )
                 }
             }
             else                               -> Result.failure(
