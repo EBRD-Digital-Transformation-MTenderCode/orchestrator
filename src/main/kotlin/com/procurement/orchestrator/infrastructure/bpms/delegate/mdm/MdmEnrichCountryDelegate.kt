@@ -6,10 +6,13 @@ import com.procurement.orchestrator.application.client.MdmClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.tryGetSubmissions
 import com.procurement.orchestrator.application.model.context.members.Errors
+import com.procurement.orchestrator.application.model.context.members.Incident
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.EnumElementProvider
 import com.procurement.orchestrator.domain.EnumElementProvider.Companion.keysAsStrings
+import com.procurement.orchestrator.domain.extension.date.format
+import com.procurement.orchestrator.domain.extension.date.nowDefaultUTC
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
@@ -26,6 +29,7 @@ import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContai
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.EnrichCountryAction
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetCountry
+import com.procurement.orchestrator.infrastructure.configuration.property.GlobalProperties
 import org.springframework.stereotype.Component
 
 @Component
@@ -133,7 +137,7 @@ class MdmEnrichCountryDelegate(
         EnrichCountryAction.Params(
             lang = language,
             scheme = address.scheme,
-            countyId = address.id
+            countryId = address.id
         )
 
     private fun Organization.defineAddressInfoByLocation(location: Location) =
@@ -148,13 +152,13 @@ class MdmEnrichCountryDelegate(
         response: GetCountry.Result,
         executionInterceptor: ExecutionInterceptor
     ): CountryDetails = when (response) {
-        is GetCountry.Result.Success -> CountryDetails(
+        is GetCountry.Result.Success                   -> CountryDetails(
             id = response.id,
             description = response.description,
             scheme = response.scheme,
             uri = response.uri
         )
-        is GetCountry.Result.Fail    -> {
+        is GetCountry.Result.Fail.AnotherError         -> {
             val errors = response.errors
                 .map { error ->
                     Errors.Error(
@@ -163,6 +167,30 @@ class MdmEnrichCountryDelegate(
                     )
                 }
             executionInterceptor.throwError(errors = errors)
+        }
+        is GetCountry.Result.Fail.NoTranslationFounded -> {
+            executionInterceptor.throwIncident(
+                Incident(
+                    id = executionInterceptor.processInstanceId,
+                    date = nowDefaultUTC().format(),
+                    level = Fail.Incident.Level.ERROR.toString(),
+                    service = GlobalProperties.service
+                        .let { service ->
+                            Incident.Service(
+                                id = service.id,
+                                name = service.name,
+                                version = service.version
+                            )
+                        },
+                    details = response.errors
+                        .map { incident ->
+                            Incident.Detail(
+                                code = incident.code,
+                                description = incident.description
+                            )
+                        }
+                )
+            )
         }
     }
 

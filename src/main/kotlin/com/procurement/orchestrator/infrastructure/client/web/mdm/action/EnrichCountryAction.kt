@@ -8,7 +8,7 @@ object EnrichCountryAction {
     class Params(
         @field:JsonProperty("lang") @param:JsonProperty("lang") val lang: String,
         @field:JsonProperty("scheme") @param:JsonProperty("scheme") val scheme: String,
-        @field:JsonProperty("countyId") @param:JsonProperty("countyId") val countyId: String
+        @field:JsonProperty("countryId") @param:JsonProperty("countryId") val countryId: String
     )
 
     sealed class Response {
@@ -26,9 +26,9 @@ object EnrichCountryAction {
         }
 
         class Error(
-            @field:JsonProperty("errors") @param:JsonProperty("errors") val errors: List<Error>
+            @field:JsonProperty("errors") @param:JsonProperty("errors") val errors: List<Details>
         ) : Serializable {
-            data class Error(
+            data class Details(
                 @field:JsonProperty("code") @param:JsonProperty("code") val code: String,
                 @field:JsonProperty("description") @param:JsonProperty("description") val description: String
             ) : Response(), Serializable
@@ -39,11 +39,16 @@ object EnrichCountryAction {
 
 object GetCountry{
 
+    const val ERROR_NO_TRANSLATION_FOR_LANGUAGE = "404.20.11.05"
+
     sealed class Result {
         data class Success (val id: String, val scheme: String, val description: String, val uri: String) : Result()
 
-        data class Fail(val errors: List<Error>) : Result() {
-            data class Error(val code: String, val description: String)
+        sealed class Fail(val errors: List<Details>) : Result() {
+            class AnotherError(errors: List<Details>): Fail(errors)
+            class NoTranslationFounded(errors: List<Details>) : Fail(errors)
+
+            class Details(val code: String, val description: String)
         }
     }
 }

@@ -6,10 +6,13 @@ import com.procurement.orchestrator.application.client.MdmClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.tryGetSubmissions
 import com.procurement.orchestrator.application.model.context.members.Errors
+import com.procurement.orchestrator.application.model.context.members.Incident
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.EnumElementProvider
 import com.procurement.orchestrator.domain.EnumElementProvider.Companion.keysAsStrings
+import com.procurement.orchestrator.domain.extension.date.format
+import com.procurement.orchestrator.domain.extension.date.nowDefaultUTC
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Option
@@ -27,6 +30,7 @@ import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContai
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.EnrichLocalityAction
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetLocality
+import com.procurement.orchestrator.infrastructure.configuration.property.GlobalProperties
 import org.springframework.stereotype.Component
 
 @Component
@@ -42,9 +46,6 @@ class MdmEnrichLocalityDelegate(
 ) {
 
     companion object {
-        const val RESPONSE_SCHEME_NOT_FOUND: String = "schemeNotFound"
-        const val RESPONSE_ID_NOT_FOUND: String = "idNotFound"
-
         const val PARAMETER_NAME_LOCATION: String = "location"
     }
 
@@ -140,7 +141,7 @@ class MdmEnrichLocalityDelegate(
         EnrichLocalityAction.Params(
             lang = language,
             scheme = address.scheme,
-            countyId = address.countryId,
+            countryId = address.countryId,
             regionId = address.regionId,
             localityId = address.localityId
         )
@@ -156,29 +157,60 @@ class MdmEnrichLocalityDelegate(
         }
 
     private fun handleResult(
-        response: GetLocality.Result,
+        result: GetLocality.Result,
         executionInterceptor: ExecutionInterceptor
-    ): Option<LocalityDetails> = when (response) {
+    ): Option<LocalityDetails> = when (result) {
         is GetLocality.Result.Success             -> Option.pure(
             LocalityDetails(
-                id = response.id,
-                scheme = response.scheme,
-                description = response.description,
-                uri = response.uri
+                id = result.id,
+                scheme = result.scheme,
+                description = result.description,
+                uri = result.uri
             )
         )
         is GetLocality.Result.Fail.SchemeNotFound -> Option.none()
         is GetLocality.Result.Fail.IdNotFound     -> {
-            val errors = response.details.errors
-                .map { error ->
-                    Errors.Error(
-                        code = error.code,
-                        description = error.description
-                    )
-                }
+            val errors = result.details.errors.convertErrors()
             executionInterceptor.throwError(errors = errors)
         }
+        is GetLocality.Result.Fail.LanguageNotFound -> {
+            val errors = result.details.errors.convertErrors()
+            executionInterceptor.throwError(errors = errors)
+        }
+        is GetLocality.Result.Fail.TranslationNotFound -> {
+            executionInterceptor.throwIncident(
+                Incident(
+                    id = executionInterceptor.processInstanceId,
+                    date = nowDefaultUTC().format(),
+                    level = Fail.Incident.Level.ERROR.toString(),
+                    service = GlobalProperties.service
+                        .let { service ->
+                            Incident.Service(
+                                id = service.id,
+                                name = service.name,
+                                version = service.version
+                            )
+                        },
+                    details = result.details.errors
+                        .map { incident ->
+                            Incident.Detail(
+                                code = incident.code,
+                                description = incident.description
+                            )
+                        }
+                )
+            )
+        }
     }
+
+    private fun List<EnrichLocalityAction.Response.Error.Details>.convertErrors(): List<Errors.Error> =
+        this.map { error ->
+            Errors.Error(
+                code = error.code,
+                description = error.description
+            )
+        }
+
 
     enum class Location(@JsonValue override val key: String) : EnumElementProvider.Key {
 
