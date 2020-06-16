@@ -44,4 +44,18 @@ class MdmActionsTest {
             }
         }
     }
+
+    @Nested
+    inner class GetRequirementGroups {
+
+        @Nested
+        inner class Result {
+
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetRequirementGroupsAction.Response.Success>("json/client/mdm/get_requirement_group_response_full.json")
+            }
+        }
+    }
+
 }
