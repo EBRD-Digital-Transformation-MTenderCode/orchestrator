@@ -45,8 +45,8 @@ object GetRegion{
         data class Success (val id: String, val scheme: String, val description: String, val uri: String) : Result()
 
         sealed class Fail(val errors: List<Details>) : Result() {
-            class Error(errors: List<Details>): Fail(errors)
-            class NoTranslationFounded(errors: List<Details>) : Fail(errors)
+            class AnotherError(errors: List<Details>): Fail(errors)
+            class TranslationNotFound(errors: List<Details>) : Fail(errors)
 
             class Details(val code: String, val description: String)
         }

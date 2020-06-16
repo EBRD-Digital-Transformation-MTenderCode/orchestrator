@@ -10,7 +10,6 @@ import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractRestDelegate
-import com.procurement.orchestrator.infrastructure.bpms.delegate.mdm.MdmEnrichLocalityDelegate
 import com.procurement.orchestrator.infrastructure.bpms.repository.ErrorDescriptionRepository
 import com.procurement.orchestrator.infrastructure.client.reply.EMPTY_REPLY_ID
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
@@ -117,7 +116,7 @@ class HttpMdmClient(
     }
 
     private fun getLocalityEndpoint(params: EnrichLocalityAction.Params): String =
-        "$baseUrl/addresses/countries/${params.countyId}/regions/${params.regionId}/localities/${params.localityId}"
+        "$baseUrl/addresses/countries/${params.countryId}/regions/${params.regionId}/localities/${params.localityId}"
 
     private fun processGetCountryResponse(
         response: CallResponse,
@@ -156,7 +155,7 @@ class HttpMdmClient(
                     GetCountry.ERROR_NO_TRANSLATION_FOR_LANGUAGE ->
                         success(GetCountry.Result.Fail.NoTranslationFounded(errors = responseError.errors.convertGetCountryErrors()))
                     else                                                       ->
-                        success(GetCountry.Result.Fail.Error(errors = responseError.errors.convertGetCountryErrors()))
+                        success(GetCountry.Result.Fail.AnotherError(errors = responseError.errors.convertGetCountryErrors()))
                 }
             }
 
@@ -211,9 +210,9 @@ class HttpMdmClient(
                 val error = responseError.errors.first()
                 when(error.code) {
                     GetRegion.ERROR_NO_TRANSLATION_FOR_LANGUAGE ->
-                        success(GetRegion.Result.Fail.NoTranslationFounded(errors = responseError.errors.convertGetRegionErrors()))
+                        success(GetRegion.Result.Fail.TranslationNotFound(errors = responseError.errors.convertGetRegionErrors()))
                     else                                                       ->
-                        success(GetRegion.Result.Fail.Error(errors = responseError.errors.convertGetRegionErrors()))
+                        success(GetRegion.Result.Fail.AnotherError(errors = responseError.errors.convertGetRegionErrors()))
                 }
             }
 
@@ -257,6 +256,7 @@ class HttpMdmClient(
             }
             .asSuccess()
 
+        AbstractRestDelegate.HTTP_CODE_400,
         AbstractRestDelegate.HTTP_CODE_404 -> transform
             .tryDeserialization(
                 value = response.content,
@@ -266,10 +266,14 @@ class HttpMdmClient(
             .let { responseError ->
                 val error = responseError.errors.first()
                 when (error.code) {
-                    MdmEnrichLocalityDelegate.RESPONSE_SCHEME_NOT_FOUND ->
+                    GetLocality.CODE_SCHEME_NOT_FOUND ->
                         success(GetLocality.Result.Fail.SchemeNotFound)
-                    MdmEnrichLocalityDelegate.RESPONSE_ID_NOT_FOUND     ->
+                    GetLocality.CODE_ID_NOT_FOUND     ->
                         success(GetLocality.Result.Fail.IdNotFound(responseError))
+                    GetLocality.CODE_TRANSLATION_NOT_FOUND     ->
+                        success(GetLocality.Result.Fail.TranslationNotFound(responseError))
+                    GetLocality.CODE_LANGUAGE_NOT_FOUND     ->
+                        success(GetLocality.Result.Fail.LanguageNotFound(responseError))
                     else                                                ->
                         failure(Fail.Incident.BadResponse(description = "Unknown error code.", body = response.content))
                 }

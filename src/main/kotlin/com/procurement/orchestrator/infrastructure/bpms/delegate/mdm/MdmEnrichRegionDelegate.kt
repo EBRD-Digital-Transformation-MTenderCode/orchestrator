@@ -155,7 +155,7 @@ class MdmEnrichRegionDelegate(
             description = response.description,
             uri = response.uri
         )
-        is GetRegion.Result.Fail.NoTranslationFounded    -> {
+        is GetRegion.Result.Fail.TranslationNotFound    -> {
             executionInterceptor.throwIncident(
                 Incident(
                     id = executionInterceptor.processInstanceId,
@@ -179,7 +179,7 @@ class MdmEnrichRegionDelegate(
                 )
             )
         }
-        is GetRegion.Result.Fail.Error    -> {
+        is GetRegion.Result.Fail.AnotherError    -> {
             val errors = response.errors
                 .map { error ->
                     Errors.Error(

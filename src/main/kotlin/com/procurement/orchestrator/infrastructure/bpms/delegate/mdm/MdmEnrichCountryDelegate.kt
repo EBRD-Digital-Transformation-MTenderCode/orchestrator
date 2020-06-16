@@ -147,13 +147,13 @@ class MdmEnrichCountryDelegate(
         response: GetCountry.Result,
         executionInterceptor: ExecutionInterceptor
     ): CountryDetails = when (response) {
-        is GetCountry.Result.Success -> CountryDetails(
+        is GetCountry.Result.Success                   -> CountryDetails(
             id = response.id,
             description = response.description,
             scheme = response.scheme,
             uri = response.uri
         )
-        is GetCountry.Result.Fail.Error    -> {
+        is GetCountry.Result.Fail.AnotherError         -> {
             val errors = response.errors
                 .map { error ->
                     Errors.Error(
@@ -163,7 +163,7 @@ class MdmEnrichCountryDelegate(
                 }
             executionInterceptor.throwError(errors = errors)
         }
-        is GetCountry.Result.Fail.NoTranslationFounded    -> {
+        is GetCountry.Result.Fail.NoTranslationFounded -> {
             executionInterceptor.throwIncident(
                 Incident(
                     id = executionInterceptor.processInstanceId,
