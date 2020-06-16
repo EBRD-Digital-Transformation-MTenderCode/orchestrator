@@ -39,6 +39,8 @@ object EnrichCountryAction {
 
 object GetCountry{
 
+    const val ERROR_NO_TRANSLATION_FOR_LANGUAGE = "404.20.11.05"
+
     sealed class Result {
         data class Success (val id: String, val scheme: String, val description: String, val uri: String) : Result()
 

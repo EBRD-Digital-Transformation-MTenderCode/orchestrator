@@ -45,8 +45,6 @@ class MdmEnrichCountryDelegate(
 ) {
 
     companion object {
-        const val ERROR_NO_TRANSLATION_FOR_LANGUAGE = "404.20.11.05"
-
         const val PARAMETER_NAME_LOCATION: String = "location"
     }
 
