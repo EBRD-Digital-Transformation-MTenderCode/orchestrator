@@ -10,6 +10,7 @@ import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractRestDelegate
+import com.procurement.orchestrator.infrastructure.bpms.delegate.mdm.MdmEnrichCountryDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.mdm.MdmEnrichLocalityDelegate
 import com.procurement.orchestrator.infrastructure.bpms.repository.ErrorDescriptionRepository
 import com.procurement.orchestrator.infrastructure.client.reply.EMPTY_REPLY_ID
@@ -77,7 +78,7 @@ class HttpMdmClient(
         return processGetCountryResponse(response, transform)
     }
 
-    private fun getCountryEndpoint(params: EnrichCountryAction.Params): String = "$baseUrl/addresses/countries/${params.countyId}"
+    private fun getCountryEndpoint(params: EnrichCountryAction.Params): String = "$baseUrl/addresses/countries/${params.countryId}"
 
     override suspend fun enrichRegion(params: EnrichRegionAction.Params): Result<GetRegion.Result, Fail.Incident> {
 
@@ -143,6 +144,7 @@ class HttpMdmClient(
             }
             .asSuccess()
 
+        AbstractRestDelegate.HTTP_CODE_400,
         AbstractRestDelegate.HTTP_CODE_404 -> transform
             .tryDeserialization(
                 value = response.content,
@@ -150,17 +152,14 @@ class HttpMdmClient(
             )
             .orForwardFail { error -> return error }
             .let { responseError ->
-                GetCountry.Result.Fail(
-                    errors = responseError.errors
-                        .map { error ->
-                            GetCountry.Result.Fail.Error(
-                                code = error.code,
-                                description = error.description
-                            )
-                        }
-                )
+                val error = responseError.errors.first()
+                when (error.code) {
+                    MdmEnrichCountryDelegate.ERROR_NO_TRANSLATION_FOR_LANGUAGE ->
+                        success(GetCountry.Result.Fail.NoTranslationFounded(errors = responseError.errors.convert()))
+                    else                                                       ->
+                        success(GetCountry.Result.Fail.Error(errors = responseError.errors.convert()))
+                }
             }
-            .asSuccess()
 
         else                               -> failure(
             Fail.Incident.BadResponse(
@@ -169,6 +168,14 @@ class HttpMdmClient(
             )
         )
     }
+
+    private fun List<EnrichCountryAction.Response.Error.Details>.convert(): List<GetCountry.Result.Fail.Details> =
+        this.map { error ->
+            GetCountry.Result.Fail.Details(
+                code = error.code,
+                description = error.description
+            )
+        }
 
     private fun processGetRegionResponse(
         response: CallResponse,
