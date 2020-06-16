@@ -23,6 +23,8 @@ import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetCoun
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetErrorDescriptionsAction
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetLocality
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRegion
+import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRequirementGroups
+import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRequirementGroupsAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
 import com.procurement.orchestrator.infrastructure.model.Version
 import okhttp3.HttpUrl
@@ -118,6 +120,30 @@ class HttpMdmClient(
 
     private fun getLocalityEndpoint(params: EnrichLocalityAction.Params): String =
         "$baseUrl/addresses/countries/${params.countyId}/regions/${params.regionId}/localities/${params.localityId}"
+
+
+    override suspend fun getRequirementGroups(params: GetRequirementGroupsAction.Params): Result<GetRequirementGroups.Result.Success, Fail.Incident> {
+
+        val httpUrl: HttpUrl = getRequirementGroupsEndpoint()
+            .toHttpUrl()
+            .newBuilder()
+            .apply {
+                addQueryParameter("lang", params.lang)
+                addQueryParameter("country", params.country)
+                addQueryParameter("pmd", params.pmd.toString())
+                addQueryParameter("phase", params.phase.toString())
+                addQueryParameter("criterionId", params.criterionId)
+            }
+            .build()
+
+        val response = restClient.call(url = httpUrl)
+            .orForwardFail { error -> return error }
+
+        return processGetRequirementGroups(response, transform)
+    }
+
+    private fun getRequirementGroupsEndpoint(): String = "$baseUrl/requirementGroups"
+
 
     private fun processGetCountryResponse(
         response: CallResponse,
@@ -266,4 +292,37 @@ class HttpMdmClient(
         else  ->  failure(Fail.Incident.BadResponse(description = "Invalid response code.", body = response.content))
 
     }
+
+    private fun processGetRequirementGroups(
+        response: CallResponse,
+        transform: Transform
+    ): Result<GetRequirementGroups.Result.Success, Fail.Incident> = when (response.code) {
+        AbstractRestDelegate.HTTP_CODE_200 -> transform
+            .tryDeserialization(
+                value = response.content,
+                target = GetRequirementGroupsAction.Response.Success::class.java
+            )
+            .orReturnFail { fail ->
+                return failure(
+                    Fail.Incident.BadResponse(description = fail.description, body = response.content)
+                )
+            }
+            .let { result ->
+                GetRequirementGroups.Result.Success(
+                    requirementGroups = result.data
+                        ?.map { requirementResponse ->
+                            GetRequirementGroups.Result.Success.RequirementGroup(
+                                id = requirementResponse.id,
+                                description = requirementResponse.description
+                            )
+                        }
+                        .orEmpty()
+                )
+            }
+            .asSuccess()
+
+        else  ->  failure(Fail.Incident.BadResponse(description = "Invalid response code.", body = response.content))
+
+    }
+
 }

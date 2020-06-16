@@ -11,6 +11,8 @@ import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetCoun
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetErrorDescriptionsAction
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetLocality
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRegion
+import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRequirementGroups
+import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRequirementGroupsAction
 
 interface MdmClient {
 
@@ -24,5 +26,7 @@ interface MdmClient {
     suspend fun enrichRegion(params: EnrichRegionAction.Params): Result<GetRegion.Result, Fail.Incident>
 
     suspend fun enrichLocality(params: EnrichLocalityAction.Params): Result<GetLocality.Result, Fail.Incident>
+
+    suspend fun getRequirementGroups(params: GetRequirementGroupsAction.Params): Result<GetRequirementGroups.Result.Success, Fail.Incident>
 
 }
