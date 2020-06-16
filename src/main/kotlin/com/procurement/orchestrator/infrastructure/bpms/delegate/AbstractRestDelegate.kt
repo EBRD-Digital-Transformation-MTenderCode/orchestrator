@@ -30,7 +30,7 @@ import org.camunda.bpm.engine.delegate.BpmnError
 import org.camunda.bpm.engine.delegate.DelegateExecution
 import org.camunda.bpm.engine.delegate.JavaDelegate
 
-abstract class AbstractRestDelegate<P, R : Any>(
+abstract class AbstractRestDelegate<P, T, R : Any>(
     private val logger: Logger,
     private val transform: Transform,
     private val operationStepRepository: OperationStepRepository
@@ -55,7 +55,11 @@ abstract class AbstractRestDelegate<P, R : Any>(
         val scope = GlobalScope + resultContext
 
         val executionInterceptor: ExecutionInterceptor = ExecutionInterceptorImpl(execution)
-        val result = runBlocking(context = scope.coroutineContext) { execute(parameters, globalContext, executionInterceptor) }
+
+        val elements = prepareSeq(context = globalContext, parameters = parameters)
+            .orReturnFail { fail -> execution.throwIncident(fail) }
+
+        val result = runBlocking(context = scope.coroutineContext) { execute(elements,  executionInterceptor) }
             .orReturnFail { fail -> execution.throwIncident(fail) }
             .also { result ->
                 if (execution.isUpdateGlobalContext) {
@@ -72,9 +76,10 @@ abstract class AbstractRestDelegate<P, R : Any>(
 
     protected abstract fun parameters(parameterContainer: ParameterContainer): Result<P, Fail.Incident.Bpmn.Parameter>
 
+    protected abstract fun prepareSeq(context: CamundaGlobalContext, parameters: P): Result<List<T>, Fail.Incident>
+
     protected abstract suspend fun execute(
-        parameters: P,
-        context: CamundaGlobalContext,
+        elements: List<T>,
         executionInterceptor: ExecutionInterceptor
     ): Result<R, Fail.Incident>
 

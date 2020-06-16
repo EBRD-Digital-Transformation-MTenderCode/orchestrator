@@ -34,7 +34,7 @@ class MdmEnrichRegionDelegate(
     operationStepRepository: OperationStepRepository,
     transform: Transform,
     private val mdmClient: MdmClient
-) : AbstractRestDelegate<MdmEnrichRegionDelegate.Parameters, List<RegionDetails>>(
+) : AbstractRestDelegate<MdmEnrichRegionDelegate.Parameters, EnrichRegionAction.Params, List<RegionDetails>>(
     logger = logger,
     transform = transform,
     operationStepRepository = operationStepRepository
@@ -60,31 +60,39 @@ class MdmEnrichRegionDelegate(
         return success(Parameters(location))
     }
 
-    override suspend fun execute(
-        parameters: Parameters,
+    override fun prepareSeq(
         context: CamundaGlobalContext,
-        executionInterceptor: ExecutionInterceptor
-    ): Result<List<RegionDetails>, Fail.Incident> {
-
+        parameters: Parameters
+    ): Result<List<EnrichRegionAction.Params>, Fail.Incident> {
         val requestInfo = context.requestInfo
 
         val submissions = context.tryGetSubmissions()
             .orForwardFail { error -> return error }
 
-        val results = submissions.details
+        return submissions.details
             .asSequence()
             .flatMap { submission -> submission.candidates.asSequence() }
             .map { candidate -> candidate.defineAddressInfoByLocation(parameters.location) }
             .toSet()
-            .map { country ->
+            .map { country -> getParams(requestInfo.language, country) }
+            .asSuccess()
+    }
+
+    override suspend fun execute(
+        elements: List<EnrichRegionAction.Params>,
+        executionInterceptor: ExecutionInterceptor
+    ): Result<List<RegionDetails>, Fail.Incident> {
+
+        return elements
+            .map { params ->
                 val result = mdmClient
-                    .enrichRegion(params = getParams(requestInfo.language, country))
+                    .enrichRegion(params = params)
                     .orForwardFail { error -> return error }
 
                 handleResult(result, executionInterceptor)
             }
+            .asSuccess()
 
-        return results.asSuccess()
     }
 
     override fun updateGlobalContext(
@@ -95,12 +103,12 @@ class MdmEnrichRegionDelegate(
         val submissions = context.tryGetSubmissions()
             .orReturnFail { error -> return MaybeFail.fail(error) }
 
-        val regiones = result.associateBy { it }
+        val regions = result.associateBy { it }
 
         val updatedSubmissions = submissions.details
             .map { submission ->
                 val updatedCandidates = submission.candidates
-                    .map { candidate -> candidate.updateRegion(regiones) }
+                    .map { candidate -> candidate.updateRegion(regions) }
                 submission.copy(candidates = Candidates(updatedCandidates))
             }
 
