@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.procurement.orchestrator.application.model.Phase
 import com.procurement.orchestrator.domain.model.ProcurementMethod
+import com.procurement.orchestrator.domain.model.tender.criteria.requirement.NoneValue
+import com.procurement.orchestrator.domain.model.tender.criteria.requirement.Requirement
 import com.procurement.orchestrator.domain.model.tender.criteria.requirement.RequirementGroupId
 import java.io.Serializable
 
@@ -43,3 +45,13 @@ object GetRequirements {
         }
     }
 }
+
+fun GetRequirements.Result.Success.Requirement.convertToGlobalContextEntity(): Requirement =
+    Requirement(
+        id = this.id,
+        title = this.title,
+        description = this.description,
+        value = NoneValue,
+        period = null,
+        dataType = null
+    )
