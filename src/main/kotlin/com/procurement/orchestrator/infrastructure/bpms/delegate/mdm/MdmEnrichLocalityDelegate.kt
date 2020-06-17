@@ -169,6 +169,10 @@ class MdmEnrichLocalityDelegate(
             val errors = result.details.errors.convertErrors()
             executionInterceptor.throwError(errors = errors)
         }
+        is GetLocality.Result.Fail.AnotherError        -> {
+            val errors = result.details.errors.convertErrors()
+            executionInterceptor.throwError(errors = errors)
+        }
         is GetLocality.Result.Fail.TranslationNotFound -> {
             executionInterceptor.throwIncident(
                 Incident(

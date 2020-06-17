@@ -52,6 +52,7 @@ object GetLocality{
             data class IdNotFound (val details: EnrichLocalityAction.Response.Error) : Fail()
             data class TranslationNotFound (val details: EnrichLocalityAction.Response.Error) : Fail()
             data class LanguageNotFound (val details: EnrichLocalityAction.Response.Error) : Fail()
+            data class AnotherError (val details: EnrichLocalityAction.Response.Error) : Fail()
             object SchemeNotFound : Fail()
         }
     }
