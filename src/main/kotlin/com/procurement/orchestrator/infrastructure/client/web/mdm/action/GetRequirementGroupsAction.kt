@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.procurement.orchestrator.application.model.Phase
 import com.procurement.orchestrator.domain.model.ProcurementMethod
+import com.procurement.orchestrator.domain.model.tender.criteria.CriterionId
 import java.io.Serializable
 
 abstract class GetRequirementGroupsAction {
@@ -14,7 +15,7 @@ abstract class GetRequirementGroupsAction {
         @field:JsonProperty("country") @param:JsonProperty("country") val country: String,
         @field:JsonProperty("pmd") @param:JsonProperty("pmd") val pmd: ProcurementMethod,
         @field:JsonProperty("phase") @param:JsonProperty("phase") val phase: Phase,
-        @field:JsonProperty("criterionId") @param:JsonProperty("criterionId") val criterionId: String
+        @field:JsonProperty("criterionId") @param:JsonProperty("criterionId") val criterionId: CriterionId
     )
 
     sealed class Response {

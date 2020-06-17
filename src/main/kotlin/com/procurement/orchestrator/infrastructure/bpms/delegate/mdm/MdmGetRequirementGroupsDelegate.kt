@@ -11,6 +11,7 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.domain.model.tender.criteria.Criteria
+import com.procurement.orchestrator.domain.model.tender.criteria.CriterionId
 import com.procurement.orchestrator.domain.model.tender.criteria.requirement.RequirementGroup
 import com.procurement.orchestrator.domain.model.tender.criteria.requirement.RequirementGroups
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractRestDelegate
@@ -26,7 +27,7 @@ class MdmGetRequirementGroupsDelegate(
     operationStepRepository: OperationStepRepository,
     transform: Transform,
     private val mdmClient: MdmClient
-) : AbstractRestDelegate<Unit, GetRequirementGroupsAction.Params, Map<String, List<RequirementGroup>>>(
+) : AbstractRestDelegate<Unit, GetRequirementGroupsAction.Params, Map<CriterionId, List<RequirementGroup>>>(
     logger = logger,
     transform = transform,
     operationStepRepository = operationStepRepository
@@ -63,14 +64,13 @@ class MdmGetRequirementGroupsDelegate(
     override suspend fun execute(
         elements: List<GetRequirementGroupsAction.Params>,
         executionInterceptor: ExecutionInterceptor
-    ): Result<Map<String, List<RequirementGroup>>, Fail.Incident> {
+    ): Result<Map<CriterionId, List<RequirementGroup>>, Fail.Incident> {
 
         return elements
             .map { params ->
                 mdmClient.getRequirementGroups(params = params)
                     .orForwardFail { error -> return error }
                     .let { params.criterionId to handleResult(it) }
-
             }
             .toMap()
             .asSuccess()
@@ -78,8 +78,11 @@ class MdmGetRequirementGroupsDelegate(
 
     override fun updateGlobalContext(
         context: CamundaGlobalContext,
-        result: Map<String, List<RequirementGroup>>
+        result: Map<CriterionId, List<RequirementGroup>>
     ): MaybeFail<Fail.Incident> {
+
+        if (result.isEmpty())
+            return MaybeFail.none()
 
         val tender = context.tryGetTender()
             .orReturnFail { error -> return MaybeFail.fail(error) }
