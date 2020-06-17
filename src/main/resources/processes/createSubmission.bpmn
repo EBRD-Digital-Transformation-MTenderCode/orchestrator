@@ -294,7 +294,9 @@
     <bpmn:sequenceFlow id="SequenceFlow_0c15i9g" sourceRef="MdmEnrichLocalityTask" targetRef="ExclusiveGateway_13ir281" />
     <bpmn:sequenceFlow id="SequenceFlow_0qg2zzk" sourceRef="ExclusiveGateway_13ir281" targetRef="ExclusiveGateway_0dgdd7y" />
     <bpmn:sequenceFlow id="SequenceFlow_0cb0ejs" sourceRef="ExclusiveGateway_13ir281" targetRef="AccessValidateRequirementResponsesTask">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${submissions.details[0].requirementResponses != null }</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">
+        ${submissions.details[0].requirementResponses.size() &gt; 0}
+      </bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_04u1vb4" sourceRef="ExclusiveGateway_0dgdd7y" targetRef="StorageCheckRegistrationTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0hnsbul" sourceRef="StorageCheckRegistrationTask" targetRef="BpeCreateIdForSubmissionTask" />
