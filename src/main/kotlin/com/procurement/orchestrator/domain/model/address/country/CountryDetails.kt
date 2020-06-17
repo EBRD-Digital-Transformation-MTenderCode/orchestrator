@@ -22,12 +22,12 @@ data class CountryDetails(
         true
     else
         other is CountryDetails
-            && this.scheme == other.scheme
-            && this.id == other.id
+            && this.scheme.equals(other.scheme, true)
+            && this.id.equals(other.id, true)
 
     override fun hashCode(): Int {
-        var result = scheme.hashCode()
-        result = 31 * result + id.hashCode()
+        var result = scheme.toUpperCase().hashCode()
+        result = 31 * result + id.toUpperCase().hashCode()
         return result
     }
 
