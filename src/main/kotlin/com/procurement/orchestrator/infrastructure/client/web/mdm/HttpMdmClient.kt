@@ -275,7 +275,7 @@ class HttpMdmClient(
                     GetLocality.CODE_LANGUAGE_NOT_FOUND     ->
                         success(GetLocality.Result.Fail.LanguageNotFound(responseError))
                     else                                                ->
-                        failure(Fail.Incident.BadResponse(description = "Unknown error code.", body = response.content))
+                        success(GetLocality.Result.Fail.AnotherError(responseError))
                 }
             }
 
