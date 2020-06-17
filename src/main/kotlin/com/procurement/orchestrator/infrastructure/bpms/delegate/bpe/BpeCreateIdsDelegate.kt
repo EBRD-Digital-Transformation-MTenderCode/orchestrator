@@ -31,6 +31,7 @@ import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractInterna
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import org.springframework.stereotype.Component
+import java.io.Serializable
 
 @Component
 class BpeCreateIdsDelegate(
@@ -215,16 +216,16 @@ class BpeCreateIdsDelegate(
         return MaybeFail.none()
     }
 
-    sealed class Ids {
+    sealed class Ids : Serializable {
 
         class AwardRequirementResponses(values: Map<RequirementResponseId, RequirementResponseId> = emptyMap()) :
-            Ids(), Map<RequirementResponseId, RequirementResponseId> by values
+            Ids(), Map<RequirementResponseId, RequirementResponseId> by values, Serializable
 
         class Submissions(values: Map<SubmissionId, SubmissionId> = emptyMap()) :
-            Ids(), Map<SubmissionId, SubmissionId> by values
+            Ids(), Map<SubmissionId, SubmissionId> by values, Serializable
 
         class TenderAmendments(values: Map<AmendmentId, AmendmentId> = emptyMap()) :
-            Ids(), Map<AmendmentId, AmendmentId> by values
+            Ids(), Map<AmendmentId, AmendmentId> by values, Serializable
     }
 
     class Parameters(val location: Location)
