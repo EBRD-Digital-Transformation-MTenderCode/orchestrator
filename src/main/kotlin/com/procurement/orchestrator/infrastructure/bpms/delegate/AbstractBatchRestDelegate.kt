@@ -37,10 +37,6 @@ abstract class AbstractBatchRestDelegate<P, T, R : Any>(
 ) : JavaDelegate {
 
     companion object {
-        const val HTTP_CODE_200: Int = 200
-        const val HTTP_CODE_400: Int = 400
-        const val HTTP_CODE_404: Int = 404
-
         private const val VALIDATION_ERROR_CODE = "ValidationError"
         private const val EXTERNAL_INCIDENT_CODE = "ExternalIncident"
     }
