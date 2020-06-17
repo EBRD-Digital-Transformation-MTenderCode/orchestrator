@@ -32,5 +32,5 @@ abstract class FindLotIdsAction : FunctionalAction<FindLotIdsAction.Params, Find
         )
     }
 
-    class Result(values: List<LotId.Permanent>) : List<LotId> by values, Serializable
+    class Result(values: List<LotId>) : List<LotId> by values, Serializable
 }

@@ -45,7 +45,7 @@ class BpeCreateIdsForAmendmentDelegate(
             amendments = amendments
                 .map { amendment ->
                     amendment.copy(
-                        id = AmendmentId.Permanent.generate()
+                        id = AmendmentId.generate()
                     )
                 }
                 .let { Amendments(it) }

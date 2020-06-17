@@ -100,7 +100,7 @@ class BpeCreateIdsDelegate(
             .asSequence()
             .map { requirementResponse ->
                 val temporal = requirementResponse.id
-                val permanent = RequirementResponseId.Permanent.generate()
+                val permanent = RequirementResponseId.generate()
                 temporal to permanent
             }
             .toMap()
@@ -116,7 +116,7 @@ class BpeCreateIdsDelegate(
             .asSequence()
             .map { submission ->
                 val temporal = submission.id
-                val permanent = SubmissionId.Permanent.generate()
+                val permanent = SubmissionId.generate()
                 temporal to permanent
             }
             .toMap()
@@ -132,7 +132,7 @@ class BpeCreateIdsDelegate(
             .asSequence()
             .map { amendment ->
                 val temporal = amendment.id
-                val permanent = AmendmentId.Permanent.generate()
+                val permanent = AmendmentId.generate()
                 temporal to permanent
             }
             .toMap()

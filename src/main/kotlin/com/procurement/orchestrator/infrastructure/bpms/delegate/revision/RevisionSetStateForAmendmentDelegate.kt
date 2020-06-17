@@ -80,12 +80,12 @@ class RevisionSetStateForAmendmentDelegate(
         parameters: Parameters
     ): Result<Reply<SetStateForAmendmentAction.Result>, Fail.Incident> {
 
-        val id: AmendmentId.Permanent = when (parameters.location) {
+        val id: AmendmentId = when (parameters.location) {
             Location.TENDER -> context.tryGetTender()
                 .orForwardFail { fail -> return fail }
                 .getAmendmentIfOnlyOne()
                 .orForwardFail { fail -> return fail }
-                .id as AmendmentId.Permanent
+                .id
         }
 
         val processInfo = context.processInfo

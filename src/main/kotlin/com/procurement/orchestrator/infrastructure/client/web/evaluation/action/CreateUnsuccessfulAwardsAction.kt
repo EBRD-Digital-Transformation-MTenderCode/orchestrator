@@ -23,7 +23,7 @@ abstract class CreateUnsuccessfulAwardsAction :
     data class Params(
         @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid,
         @field:JsonProperty("ocid") @param:JsonProperty("ocid") val ocid: Ocid,
-        @field:JsonProperty("lotIds") @param:JsonProperty("lotIds") val lotIds: List<LotId.Permanent>,
+        @field:JsonProperty("lotIds") @param:JsonProperty("lotIds") val lotIds: List<LotId>,
         @field:JsonProperty("date") @param:JsonProperty("date") val date: LocalDateTime,
         @field:JsonProperty("operationType") @param:JsonProperty("operationType") val operationType: OperationTypeProcess
     )
@@ -36,7 +36,7 @@ abstract class CreateUnsuccessfulAwardsAction :
             @field:JsonProperty("description") @param:JsonProperty("description") val description: String,
             @field:JsonProperty("status") @param:JsonProperty("status") val status: AwardStatus,
             @field:JsonProperty("statusDetails") @param:JsonProperty("statusDetails") val statusDetails: AwardStatusDetails,
-            @field:JsonProperty("relatedLots") @param:JsonProperty("relatedLots") val relatedLots: List<LotId.Permanent>
+            @field:JsonProperty("relatedLots") @param:JsonProperty("relatedLots") val relatedLots: List<LotId>
         ) : Serializable
     }
 }

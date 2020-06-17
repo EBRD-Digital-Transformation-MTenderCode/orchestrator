@@ -18,6 +18,6 @@ abstract class CheckAccessToAmendmentAction : ProceduralAction<CheckAccessToAmen
         @field:JsonProperty("ocid") @param:JsonProperty("ocid") val ocid: Ocid,
         @field:JsonProperty("token") @param:JsonProperty("token") val token: Token,
         @field:JsonProperty("owner") @param:JsonProperty("owner") val owner: Owner,
-        @field:JsonProperty("amendmentId") @param:JsonProperty("amendmentId") val id: AmendmentId.Permanent
+        @field:JsonProperty("amendmentId") @param:JsonProperty("amendmentId") val id: AmendmentId
     )
 }
