@@ -15,6 +15,7 @@ import com.procurement.orchestrator.domain.model.tender.Tender
 import com.procurement.orchestrator.domain.model.tender.criteria.Criteria
 import com.procurement.orchestrator.domain.model.tender.criteria.CriteriaSource
 import com.procurement.orchestrator.domain.util.extension.getNewElements
+import com.procurement.orchestrator.domain.util.extension.toSetBy
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
@@ -83,14 +84,11 @@ class AccessFindCriteriaDelegate(
 
         val tender = context.tender ?: Tender()
 
+        val availableCriteriaDbIds = tender.criteria
+            .toSetBy { it.id }
+
         val receivedCriteria = data
             .map { it.convertToContextEntity() }
-
-        val receivedCriteriaIds = receivedCriteria
-            .map { it.id }
-
-        val availableCriteriaDbIds = tender.criteria
-            .map { it.id }
 
         val receivedCriteriaById = receivedCriteria
             .associateBy { it.id }
@@ -101,6 +99,9 @@ class AccessFindCriteriaDelegate(
                     ?.let { rqCriteria -> criteria.updateBy(rqCriteria) }
                     ?: criteria
             }
+
+        val receivedCriteriaIds = receivedCriteria
+            .toSetBy { it.id }
 
         val newCriteriaIds = getNewElements(received = receivedCriteriaIds, known = availableCriteriaDbIds)
         val newCriteria = newCriteriaIds
