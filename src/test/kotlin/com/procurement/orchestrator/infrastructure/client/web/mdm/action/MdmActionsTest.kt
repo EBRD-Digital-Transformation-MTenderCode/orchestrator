@@ -81,4 +81,27 @@ class MdmActionsTest {
         }
     }
 
+    @Nested
+    inner class GetRequirements {
+
+        @Nested
+        inner class Result {
+
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetRequirementsAction.Response.Success>("json/client/mdm/get_requirements_response_full.json")
+            }
+
+            @Test
+            fun required_1() {
+                testingBindingAndMapping<GetRequirementsAction.Response.Success>("json/client/mdm/get_requirements_response_required_1.json")
+            }
+
+            @Test
+            fun required_2() {
+                testingBindingAndMapping<GetRequirementsAction.Response.Success>("json/client/mdm/get_requirements_response_required_2.json")
+            }
+        }
+    }
+
 }
