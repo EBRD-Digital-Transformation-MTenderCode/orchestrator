@@ -25,7 +25,7 @@ import com.procurement.orchestrator.domain.model.candidate.Candidates
 import com.procurement.orchestrator.domain.model.organization.Organization
 import com.procurement.orchestrator.domain.model.submission.Details
 import com.procurement.orchestrator.domain.model.submission.Submissions
-import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractRestDelegate
+import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractBatchRestDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.EnrichLocalityAction
@@ -39,7 +39,7 @@ class MdmEnrichLocalityDelegate(
     operationStepRepository: OperationStepRepository,
     transform: Transform,
     private val mdmClient: MdmClient
-) : AbstractRestDelegate<MdmEnrichLocalityDelegate.Parameters, EnrichLocalityAction.Params, List<LocalityDetails>>(
+) : AbstractBatchRestDelegate<MdmEnrichLocalityDelegate.Parameters, EnrichLocalityAction.Params, List<LocalityDetails>>(
     logger = logger,
     transform = transform,
     operationStepRepository = operationStepRepository

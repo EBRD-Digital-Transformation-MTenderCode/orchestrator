@@ -14,7 +14,7 @@ import com.procurement.orchestrator.domain.model.tender.criteria.Criteria
 import com.procurement.orchestrator.domain.model.tender.criteria.CriterionId
 import com.procurement.orchestrator.domain.model.tender.criteria.requirement.RequirementGroup
 import com.procurement.orchestrator.domain.model.tender.criteria.requirement.RequirementGroups
-import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractRestDelegate
+import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractBatchRestDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRequirementGroups
@@ -27,7 +27,7 @@ class MdmGetRequirementGroupsDelegate(
     operationStepRepository: OperationStepRepository,
     transform: Transform,
     private val mdmClient: MdmClient
-) : AbstractRestDelegate<Unit, GetRequirementGroupsAction.Params, Map<CriterionId, List<RequirementGroup>>>(
+) : AbstractBatchRestDelegate<Unit, GetRequirementGroupsAction.Params, Map<CriterionId, List<RequirementGroup>>>(
     logger = logger,
     transform = transform,
     operationStepRepository = operationStepRepository

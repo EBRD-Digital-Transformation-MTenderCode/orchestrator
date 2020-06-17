@@ -30,7 +30,7 @@ import org.camunda.bpm.engine.delegate.BpmnError
 import org.camunda.bpm.engine.delegate.DelegateExecution
 import org.camunda.bpm.engine.delegate.JavaDelegate
 
-abstract class AbstractRestDelegate<P, T, R : Any>(
+abstract class AbstractBatchRestDelegate<P, T, R : Any>(
     private val logger: Logger,
     private val transform: Transform,
     private val operationStepRepository: OperationStepRepository

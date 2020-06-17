@@ -9,7 +9,7 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.functional.asSuccess
-import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractRestDelegate
+import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractBatchRestDelegate
 import com.procurement.orchestrator.infrastructure.bpms.repository.ErrorDescriptionRepository
 import com.procurement.orchestrator.infrastructure.client.reply.EMPTY_REPLY_ID
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
@@ -148,7 +148,7 @@ class HttpMdmClient(
         response: CallResponse,
         transform: Transform
     ): Result<GetCountry.Result, Fail.Incident> = when (response.code) {
-        AbstractRestDelegate.HTTP_CODE_200 -> transform
+        AbstractBatchRestDelegate.HTTP_CODE_200 -> transform
             .tryDeserialization(
                 value = response.content,
                 target = EnrichCountryAction.Response.Success::class.java
@@ -168,8 +168,8 @@ class HttpMdmClient(
             }
             .asSuccess()
 
-        AbstractRestDelegate.HTTP_CODE_400,
-        AbstractRestDelegate.HTTP_CODE_404 -> transform
+        AbstractBatchRestDelegate.HTTP_CODE_400,
+        AbstractBatchRestDelegate.HTTP_CODE_404 -> transform
             .tryDeserialization(
                 value = response.content,
                 target = EnrichCountryAction.Response.Error::class.java
@@ -205,7 +205,7 @@ class HttpMdmClient(
         response: CallResponse,
         transform: Transform
     ): Result<GetRegion.Result, Fail.Incident> = when (response.code) {
-        AbstractRestDelegate.HTTP_CODE_200 -> transform
+        AbstractBatchRestDelegate.HTTP_CODE_200 -> transform
             .tryDeserialization(
                 value = response.content,
                 target = EnrichRegionAction.Response.Success::class.java
@@ -225,8 +225,8 @@ class HttpMdmClient(
             }
             .asSuccess()
 
-        AbstractRestDelegate.HTTP_CODE_400,
-        AbstractRestDelegate.HTTP_CODE_404 -> transform
+        AbstractBatchRestDelegate.HTTP_CODE_400,
+        AbstractBatchRestDelegate.HTTP_CODE_404 -> transform
             .tryDeserialization(
                 value = response.content,
                 target = EnrichRegionAction.Response.Error::class.java
@@ -262,7 +262,7 @@ class HttpMdmClient(
         response: CallResponse,
         transform: Transform
     ): Result<GetLocality.Result, Fail.Incident> = when (response.code) {
-        AbstractRestDelegate.HTTP_CODE_200 -> transform
+        AbstractBatchRestDelegate.HTTP_CODE_200 -> transform
             .tryDeserialization(
                 value = response.content,
                 target = EnrichLocalityAction.Response.Success::class.java
@@ -282,8 +282,8 @@ class HttpMdmClient(
             }
             .asSuccess()
 
-        AbstractRestDelegate.HTTP_CODE_400,
-        AbstractRestDelegate.HTTP_CODE_404 -> transform
+        AbstractBatchRestDelegate.HTTP_CODE_400,
+        AbstractBatchRestDelegate.HTTP_CODE_404 -> transform
             .tryDeserialization(
                 value = response.content,
                 target = EnrichLocalityAction.Response.Error::class.java
@@ -313,7 +313,7 @@ class HttpMdmClient(
         response: CallResponse,
         transform: Transform
     ): Result<GetRequirementGroups.Result.Success, Fail.Incident> = when (response.code) {
-        AbstractRestDelegate.HTTP_CODE_200 -> transform
+        AbstractBatchRestDelegate.HTTP_CODE_200 -> transform
             .tryDeserialization(
                 value = response.content,
                 target = GetRequirementGroupsAction.Response.Success::class.java
