@@ -103,7 +103,7 @@ class AccessSetStateForLotsDelegate(
             Location.TENDER -> tender.lots
                 .map { lot ->
                     SetStateForLotsAction.Params.Lot(
-                        id = lot.id as LotId.Permanent,
+                        id = lot.id,
                         status = parameters.status,
                         statusDetails = parameters.statusDetails
                     )
@@ -118,17 +118,9 @@ class AccessSetStateForLotsDelegate(
                                 path = "tender.amendments[${amendment.id}].relatedItem"
                             )
                         )
-                    val lotId = LotId.Permanent.tryCreateOrNull(entityId)
-                        ?: return failure(
-                            Fail.Incident.Bpms.Context.DataFormatMismatch(
-                                name = "relatedItem",
-                                path = "tender.amendments[${amendment.id}].relatedItem",
-                                actualValue = entityId,
-                                expectedFormat = LotId.Permanent.pattern
-                            )
-                        )
+                    val lotId = LotId.create(entityId)
                     SetStateForLotsAction.Params.Lot(
-                        id = lotId as LotId.Permanent,
+                        id = lotId,
                         status = parameters.status,
                         statusDetails = parameters.statusDetails
                     )

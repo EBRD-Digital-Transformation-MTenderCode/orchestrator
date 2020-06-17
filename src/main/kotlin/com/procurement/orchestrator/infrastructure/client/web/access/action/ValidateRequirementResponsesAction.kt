@@ -38,7 +38,7 @@ abstract class ValidateRequirementResponsesAction :
     ) {
 
         class RequirementResponse(
-            @field:JsonProperty("id") @param:JsonProperty("id") val id: RequirementResponseId.Temporal,
+            @field:JsonProperty("id") @param:JsonProperty("id") val id: RequirementResponseId,
 
             @JsonDeserialize(using = RequirementValueDeserializer::class)
             @JsonSerialize(using = RequirementValueSerializer::class)
@@ -68,7 +68,7 @@ abstract class ValidateRequirementResponsesAction :
     class Result(values: List<RequirementResponse>) : List<Result.RequirementResponse> by values {
 
         class RequirementResponse(
-            @field:JsonProperty("id") @param:JsonProperty("id") val id: RequirementResponseId.Temporal,
+            @field:JsonProperty("id") @param:JsonProperty("id") val id: RequirementResponseId,
 
             @JsonDeserialize(using = RequirementValueDeserializer::class)
             @JsonSerialize(using = RequirementValueSerializer::class)

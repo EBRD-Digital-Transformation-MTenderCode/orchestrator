@@ -17,7 +17,6 @@ import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
-import com.procurement.orchestrator.domain.model.amendment.AmendmentId
 import com.procurement.orchestrator.domain.model.amendment.Amendments
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
@@ -82,7 +81,7 @@ class RevisionCreateAmendmentDelegate(
                 date = requestInfo.timestamp,
                 relatedEntityId = relatedEntityId,
                 amendment = CreateAmendmentAction.Params.Amendment(
-                    id = amendment.id as AmendmentId.Permanent,
+                    id = amendment.id,
                     rationale = amendment.rationale,
                     description = amendment.description,
                     documents = amendment.documents

@@ -27,17 +27,7 @@ class InitializeWithdrawSubmissionProcessDelegate(
         globalContext: CamundaGlobalContext
     ): MaybeFail<Fail.Incident> {
         val submissionId = camundaContext.request.id
-            ?.let { id ->
-                SubmissionId.Permanent.tryCreateOrNull(id)
-                    ?: return MaybeFail.fail(
-                        Fail.Incident.Bpms.Context.DataFormatMismatch(
-                            name = "id",
-                            path = "#/request",
-                            expectedFormat = SubmissionId.Permanent.pattern,
-                            actualValue = id
-                        )
-                    )
-            }
+            ?.let { id -> SubmissionId.create(id) }
             ?: return MaybeFail.fail(
                 Fail.Incident.Bpms.Context.Missing(name = "id", path = "#/request")
             )

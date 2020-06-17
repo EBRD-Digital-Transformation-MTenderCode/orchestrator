@@ -21,13 +21,13 @@ abstract class GetAmendmentByIdsAction :
     class Params(
         @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid,
         @field:JsonProperty("ocid") @param:JsonProperty("ocid") val ocid: Ocid,
-        @field:JsonProperty("amendmentIds") @param:JsonProperty("amendmentIds") val ids: List<AmendmentId.Permanent>
+        @field:JsonProperty("amendmentIds") @param:JsonProperty("amendmentIds") val ids: List<AmendmentId>
     )
 
     class Result(values: List<Amendment>) : List<Result.Amendment> by values, Serializable {
 
         class Amendment(
-            @field:JsonProperty("id") @param:JsonProperty("id") val id: AmendmentId.Permanent,
+            @field:JsonProperty("id") @param:JsonProperty("id") val id: AmendmentId,
             @field:JsonProperty("type") @param:JsonProperty("type") val type: AmendmentType,
             @field:JsonProperty("status") @param:JsonProperty("status") val status: AmendmentStatus,
             @field:JsonProperty("relatesTo") @param:JsonProperty("relatesTo") val relatesTo: AmendmentRelatesTo,

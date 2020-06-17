@@ -31,7 +31,7 @@ abstract class CreateSubmissionAction : FunctionalAction<CreateSubmissionAction.
         @field:JsonProperty("submission") @param:JsonProperty("submission") val submission: Submission
     ) {
         data class Submission(
-            @field:JsonProperty("id") @param:JsonProperty("id") val id: SubmissionId.Permanent,
+            @field:JsonProperty("id") @param:JsonProperty("id") val id: SubmissionId,
 
             @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
             @field:JsonProperty("requirementResponses") @param:JsonProperty("requirementResponses") val requirementResponses: RequirementResponses = RequirementResponses(),
@@ -45,7 +45,7 @@ abstract class CreateSubmissionAction : FunctionalAction<CreateSubmissionAction.
     }
 
     class Result(
-        @field:JsonProperty("id") @param:JsonProperty("id") val id: SubmissionId.Permanent,
+        @field:JsonProperty("id") @param:JsonProperty("id") val id: SubmissionId,
         @field:JsonProperty("date") @param:JsonProperty("date") val date: LocalDateTime,
         @field:JsonProperty("owner") @param:JsonProperty("owner") val owner: Owner,
         @field:JsonProperty("token") @param:JsonProperty("token") val token: Token,

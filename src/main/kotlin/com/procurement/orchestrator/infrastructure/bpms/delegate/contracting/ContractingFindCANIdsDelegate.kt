@@ -117,11 +117,11 @@ class ContractingFindCANIdsDelegate(
         val tender = context.tryGetTender()
             .orForwardFail { incident -> return incident }
 
-        val lotIds: List<LotId.Permanent> =
+        val lotIds: List<LotId> =
             if (parameters.locationOfLots != null) {
                 when (parameters.locationOfLots) {
                     LocationOfLots.TENDER_LOTS -> {
-                        tender.lots.map { it.id as LotId.Permanent }
+                        tender.lots.map { it.id }
                     }
                     LocationOfLots.AMENDMENT_RELATED_ITEM -> {
                         val amendment = tender.getAmendmentIfOnlyOne()
@@ -134,16 +134,7 @@ class ContractingFindCANIdsDelegate(
                             ?: return Result.failure(Fail.Incident.Bpms.Context.Missing(name = "relatesTo"))
 
                         if (relatesTo == AmendmentRelatesTo.LOT) {
-                            val lotId = LotId.Permanent.tryCreateOrNull(relatedItem)
-                                ?: return Result.failure(
-                                    Fail.Incident.Bpms.Context.DataFormatMismatch(
-                                        name = "relatedItem",
-                                        path = "tender.amendment.relatedItem",
-                                        actualValue = relatedItem,
-                                        expectedFormat = LotId.Permanent.pattern
-                                    )
-                                )
-                            listOf(lotId as LotId.Permanent)
+                            listOf(LotId.create(relatedItem))
                         } else {
                             return Result.failure(
                                 Fail.Incident.Bpms.Context.UnexpectedRelatedEntity(

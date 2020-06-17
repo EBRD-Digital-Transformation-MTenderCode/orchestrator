@@ -35,7 +35,7 @@ abstract class AddRequirementResponseAction : ProceduralAction<AddRequirementRes
         ) {
 
             class RequirementResponse(
-                @field:JsonProperty("id") @param:JsonProperty("id") val id: RequirementResponseId.Permanent,
+                @field:JsonProperty("id") @param:JsonProperty("id") val id: RequirementResponseId,
 
                 @JsonDeserialize(using = RequirementValueDeserializer::class)
                 @JsonSerialize(using = RequirementValueSerializer::class)
