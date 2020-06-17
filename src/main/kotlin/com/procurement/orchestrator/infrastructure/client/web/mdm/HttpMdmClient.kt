@@ -25,6 +25,8 @@ import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetLoca
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRegion
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRequirementGroups
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRequirementGroupsAction
+import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRequirements
+import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRequirementsAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
 import com.procurement.orchestrator.infrastructure.model.Version
 import okhttp3.HttpUrl
@@ -169,7 +171,30 @@ class HttpMdmClient(
         return processGetCriteria(response, transform)
     }
 
-    private fun getCriteriaEndpoint(): String = "$baseUrl//criteria"
+    private fun getCriteriaEndpoint(): String = "$baseUrl/criteria"
+
+
+    override suspend fun getRequirements(params: GetRequirementsAction.Params): Result<GetRequirements.Result.Success, Fail.Incident> {
+
+        val httpUrl: HttpUrl = getRequirementsEndpoint()
+            .toHttpUrl()
+            .newBuilder()
+            .apply {
+                addQueryParameter("lang", params.lang)
+                addQueryParameter("country", params.country)
+                addQueryParameter("pmd", params.pmd.toString())
+                addQueryParameter("phase", params.phase.toString())
+                addQueryParameter("requirementGroupId", params.requirementGroupId)
+            }
+            .build()
+
+        val response = restClient.call(url = httpUrl)
+            .orForwardFail { error -> return error }
+
+        return processGetRequirements(response, transform)
+    }
+
+    private fun getRequirementsEndpoint(): String = "$baseUrl//requirements"
 
 
     private fun processGetCountryResponse(
@@ -387,6 +412,39 @@ class HttpMdmClient(
                     criteria = result.data
                         ?.map { criterion ->
                             GetCriteria.Result.Success.Criterion(
+                                id = criterion.id,
+                                title = criterion.title,
+                                description = criterion.description
+                            )
+                        }
+                        .orEmpty()
+                )
+            }
+            .asSuccess()
+
+        else  ->  failure(Fail.Incident.BadResponse(description = "Invalid response code.", body = response.content))
+
+    }
+
+    private fun processGetRequirements(
+        response: CallResponse,
+        transform: Transform
+    ): Result<GetRequirements.Result.Success, Fail.Incident> = when (response.code) {
+        HTTP_CODE_200 -> transform
+            .tryDeserialization(
+                value = response.content,
+                target = GetRequirementsAction.Response.Success::class.java
+            )
+            .orReturnFail { fail ->
+                return failure(
+                    Fail.Incident.BadResponse(description = fail.description, body = response.content)
+                )
+            }
+            .let { result ->
+                GetRequirements.Result.Success(
+                    requirements = result.data
+                        ?.map { criterion ->
+                            GetRequirements.Result.Success.Requirement(
                                 id = criterion.id,
                                 title = criterion.title,
                                 description = criterion.description

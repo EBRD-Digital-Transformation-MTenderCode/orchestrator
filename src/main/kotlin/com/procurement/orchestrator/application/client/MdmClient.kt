@@ -15,6 +15,8 @@ import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetLoca
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRegion
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRequirementGroups
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRequirementGroupsAction
+import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRequirements
+import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRequirementsAction
 
 interface MdmClient {
 
@@ -32,5 +34,7 @@ interface MdmClient {
     suspend fun getRequirementGroups(params: GetRequirementGroupsAction.Params): Result<GetRequirementGroups.Result.Success, Fail.Incident>
 
     suspend fun getCriteria(params: GetCriteriaAction.Params): Result<GetCriteria.Result.Success, Fail.Incident>
+
+    suspend fun getRequirements(params: GetRequirementsAction.Params): Result<GetRequirements.Result.Success, Fail.Incident>
 
 }
