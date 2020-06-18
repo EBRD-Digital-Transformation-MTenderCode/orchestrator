@@ -15,7 +15,7 @@ import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStep
 import org.springframework.stereotype.Component
 
 @Component
-class InitializeWithdrawSubmissionProcessDelegate(
+class BpeInitializeWithdrawSubmissionProcessDelegate(
     logger: Logger,
     transform: Transform,
     operationStepRepository: OperationStepRepository,
