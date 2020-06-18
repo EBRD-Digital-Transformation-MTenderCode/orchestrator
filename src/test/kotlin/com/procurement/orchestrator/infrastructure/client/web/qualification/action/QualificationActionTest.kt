@@ -65,8 +65,16 @@ class QualificationActionTest {
                 testingBindingAndMapping<DetermineNextsForQualificationAction.Params>("json/client/qualification/determine_nexts_for_qualification_params_full.json")
             }
 
-        }
+            @Test
+            fun required1() {
+                testingBindingAndMapping<DetermineNextsForQualificationAction.Params>("json/client/qualification/determine_nexts_for_qualification_params_1.json")
+            }
 
+            @Test
+            fun required2() {
+                testingBindingAndMapping<DetermineNextsForQualificationAction.Params>("json/client/qualification/determine_nexts_for_qualification_params_2.json")
+            }
+        }
 
         @Nested
         inner class Result {

@@ -65,13 +65,44 @@ class QualificationDetermineNextsForQualificationDelegate(
                         date = submission.date
                     )
                 },
-                otherCriteria = contextTender.otherCriteria
-                    ?.let { otherCriteria ->
-                        DetermineNextsForQualificationAction.Params.OtherCriteria(
-                            reductionCriteria = otherCriteria.reductionCriteria,
-                            qualificationSystemMethods = otherCriteria.qualificationSystemMethods
-                        )
-                    }
+                tender = contextTender.let { tender ->
+                    DetermineNextsForQualificationAction.Params.Tender(
+                        otherCriteria = tender.otherCriteria
+                            .let { otherCriteria ->
+                                DetermineNextsForQualificationAction.Params.Tender.OtherCriteria(
+                                    reductionCriteria = otherCriteria?.reductionCriteria,
+                                    qualificationSystemMethods = otherCriteria?.qualificationSystemMethods
+                                )
+                            },
+                        criteria = tender.criteria
+                            .map { criterion ->
+                                DetermineNextsForQualificationAction.Params.Tender.Criteria(
+                                    id = criterion.id,
+                                    description = criterion.description,
+                                    relatedItem = criterion.relatedItem,
+                                    relatesTo = criterion.relatesTo,
+                                    source = criterion.source,
+                                    title = criterion.title,
+                                    requirementGroups = criterion.requirementGroups
+                                        .map {requirementGroup->
+                                            DetermineNextsForQualificationAction.Params.Tender.Criteria.RequirementGroup(
+                                                id = requirementGroup.id,
+                                                description = requirementGroup.description,
+                                                requirements = requirementGroup.requirements
+                                                    .map {requirement->
+                                                        DetermineNextsForQualificationAction.Params.Tender.Criteria.RequirementGroup.Requirement(
+                                                            id = requirement.id,
+                                                            description = requirement.description,
+                                                            dataType = requirement.dataType,
+                                                            title = requirement.title
+                                                        )
+                                                    }
+                                            )
+                                        }
+                                )
+                            }
+                    )
+                }
 
             )
         )
