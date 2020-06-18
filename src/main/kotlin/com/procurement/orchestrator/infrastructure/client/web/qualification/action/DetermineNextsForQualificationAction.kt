@@ -36,11 +36,11 @@ abstract class DetermineNextsForQualificationAction : FunctionalAction<Determine
 
         data class Tender(
             @JsonProperty("otherCriteria") val otherCriteria: OtherCriteria,
-            @JsonInclude(JsonInclude.Include.NON_NULL)
+            @JsonInclude(JsonInclude.Include.NON_EMPTY)
             @JsonProperty("criteria") val criteria: List<Criteria>?
         ) {
             data class OtherCriteria(
-                @JsonInclude(JsonInclude.Include.NON_NULL)
+                @JsonInclude(JsonInclude.Include.NON_EMPTY)
                 @JsonProperty("qualificationSystemMethods") val qualificationSystemMethods: List<QualificationSystemMethod>?,
                 @JsonInclude(JsonInclude.Include.NON_NULL)
                 @JsonProperty("reductionCriteria") val reductionCriteria: ReductionCriteria?
