@@ -149,9 +149,15 @@ class DossierActionsTest {
 
         @Nested
         inner class Result {
+
             @Test
             fun fully() {
                 testingBindingAndMapping<CreateSubmissionAction.Result>("json/client/dossier/create_submission_result_full.json")
+            }
+
+            @Test
+            fun required1() {
+                testingBindingAndMapping<CreateSubmissionAction.Result>("json/client/dossier/create_submission_result_required_1.json")
             }
         }
     }
