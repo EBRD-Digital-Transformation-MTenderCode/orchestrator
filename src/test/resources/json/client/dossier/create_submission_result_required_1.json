@@ -1,0 +1,12 @@
+{
+  "id": "8674b569-5bb9-4d3f-8a5a-dc8d9c9c1592",
+  "date": "2020-03-26T12:36:20Z",
+  "token": "8674b569-5bb9-4d3f-8a5a-dc8d9c9c1592",
+  "status": "pending",
+  "candidates": [
+    {
+      "id": "string",
+      "name": "string"
+    }
+  ]
+}

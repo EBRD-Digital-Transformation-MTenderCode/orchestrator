@@ -78,14 +78,7 @@ class CancelLotController(
                 )
             )
 
-        val verifiedLotId = LotId.Permanent.tryCreateOrNull(lotId)
-            ?: return failure(
-                RequestErrors.Common.DataFormatMismatch(
-                    name = "lot-id",
-                    expectedFormat = LotId.Permanent.pattern,
-                    actualValue = lotId
-                )
-            )
+        val verifiedLotId = LotId.create(lotId)
 
         val platformId = servlet.getPlatformId()
             .orForwardFail { fail -> return fail }

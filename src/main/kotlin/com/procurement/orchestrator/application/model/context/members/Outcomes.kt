@@ -36,7 +36,7 @@ class Outcomes(values: MutableMap<PlatformId, Details> = mutableMapOf()) :
         ) : Serializable
 
         data class Submission(
-            @field:JsonProperty("id") @param:JsonProperty("id") val id: SubmissionId.Permanent,
+            @field:JsonProperty("id") @param:JsonProperty("id") val id: SubmissionId,
             @field:JsonProperty("token") @param:JsonProperty("token") val token: Token
         ) : Serializable
     }

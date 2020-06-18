@@ -10,6 +10,7 @@ import com.procurement.orchestrator.application.repository.OldProcessContextRepo
 import com.procurement.orchestrator.application.repository.ProcessDefinitionRepository
 import com.procurement.orchestrator.application.repository.ProcessInitializerRepository
 import com.procurement.orchestrator.domain.fail.Fail
+import com.procurement.orchestrator.domain.fail.error.BpeErrors
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.asSuccess
@@ -25,7 +26,7 @@ interface ProcessService {
         countryId: CountryId,
         pmd: ProcurementMethod,
         processName: String
-    ): Result<ProcessDefinitionKey, Fail.Incident>
+    ): Result<ProcessDefinitionKey, Fail>
 
     fun getProcessContext(cpid: Cpid): Result<LatestProcessContext?, Fail.Incident>
 
@@ -50,13 +51,13 @@ class ProcessServiceImpl(
         countryId: CountryId,
         pmd: ProcurementMethod,
         processName: String
-    ): Result<ProcessDefinitionKey, Fail.Incident> =
+    ): Result<ProcessDefinitionKey, Fail> =
         processDefinitionRepository.getProcessDefinitionKey(countryId = countryId, pmd = pmd, processName = processName)
             .orForwardFail { fail -> return fail }
             ?.asSuccess()
             ?: failure(
-                Fail.Incident.Bpe(
-                    description = "Process definition key by country: '$countryId', pmd: '$pmd', process name: '$processName' is not found."
+                BpeErrors.Process(
+                    description = "It is impossible to start the process '$processName' for the procedure '$pmd'."
                 )
             )
 

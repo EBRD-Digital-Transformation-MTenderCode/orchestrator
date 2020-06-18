@@ -12,7 +12,7 @@ import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.reply.parse
 import com.procurement.orchestrator.infrastructure.client.retry.RetryInfo
 import com.procurement.orchestrator.infrastructure.client.web.extension.WebClientFail
-import com.procurement.orchestrator.infrastructure.client.web.extension.await
+import com.procurement.orchestrator.infrastructure.client.web.extension.awaitSuccessfulResponse
 import com.procurement.orchestrator.infrastructure.client.web.extension.content
 import kotlinx.coroutines.delay
 import okhttp3.Call
@@ -94,7 +94,7 @@ class OkHttpWebClient(
     }
 
     private tailrec suspend fun execute(call: Call, retryInfo: RetryInfo): Result<Response, WebClientFail> =
-        when (val result = call.await()) {
+        when (val result = call.awaitSuccessfulResponse()) {
             is Result.Success -> result
             is Result.Failure -> when (result.error) {
                 is WebClientFail.ResponseError -> result
