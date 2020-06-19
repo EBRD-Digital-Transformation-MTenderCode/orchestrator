@@ -18,6 +18,6 @@ abstract class CheckAccessToQualificationAction : ProceduralAction<CheckAccessTo
         @field:JsonProperty("ocid") @param:JsonProperty("ocid") val ocid: Ocid,
         @field:JsonProperty("token") @param:JsonProperty("token") val token: Token,
         @field:JsonProperty("owner") @param:JsonProperty("owner") val owner: Owner,
-        @field:JsonProperty("qualificationId") @param:JsonProperty("qualificationId") val qualificationId: List<QualificationId>
+        @field:JsonProperty("qualificationId") @param:JsonProperty("qualificationId") val qualificationId: QualificationId
     )
 }
