@@ -3,6 +3,7 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.qualification
 import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.QualificationClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
+import com.procurement.orchestrator.application.model.context.extension.getQualificationIfOnlyOne
 import com.procurement.orchestrator.application.model.context.extension.tryGetToken
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
@@ -39,7 +40,8 @@ class QualificationCheckAccessToQualificationDelegate(
         val requestInfo = context.requestInfo
 
         val qualification = context.qualifications
-            .first()
+            .getQualificationIfOnlyOne()
+            .orForwardFail { fail -> return fail }
 
         val token = requestInfo.tryGetToken()
             .orForwardFail { fail -> return fail }
