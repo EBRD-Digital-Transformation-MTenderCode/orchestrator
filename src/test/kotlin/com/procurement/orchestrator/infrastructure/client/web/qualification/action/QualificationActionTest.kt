@@ -53,5 +53,16 @@ class QualificationActionTest {
                 testingBindingAndMapping<FindQualificationIdsAction.Result>("json/client/qualification/find_qualification_ids_result_full.json")
             }
         }
+
+        @Nested
+        inner class CheckDeclaration {
+            @Nested
+            inner class Params {
+                @Test
+                fun required() {
+                    testingBindingAndMapping<CheckDeclarationAction.Params>("json/client/qualification/check_declataion_params_full.json")
+                }
+            }
+        }
     }
 }
