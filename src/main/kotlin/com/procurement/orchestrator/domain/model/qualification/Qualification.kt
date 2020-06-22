@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.procurement.orchestrator.domain.model.IdentifiableObject
 import com.procurement.orchestrator.domain.model.measure.Scoring
 import com.procurement.orchestrator.domain.model.or
+import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponses
 import com.procurement.orchestrator.domain.model.submission.SubmissionId
 import java.io.Serializable
 import java.time.LocalDateTime
@@ -26,7 +27,10 @@ data class Qualification(
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
 
-    @field:JsonProperty("scoring") @param:JsonProperty("scoring") val scoring: Scoring? = null
+    @field:JsonProperty("scoring") @param:JsonProperty("scoring") val scoring: Scoring? = null,
+
+    @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
+    @field:JsonProperty("requirementResponses") @param:JsonProperty("requirementResponses") val requirementResponses: RequirementResponses = RequirementResponses()
 
 ) : IdentifiableObject<Qualification>, Serializable {
 
@@ -36,6 +40,7 @@ data class Qualification(
         status = src.status or status,
         statusDetails = src.statusDetails or statusDetails,
         relatedSubmission = src.relatedSubmission or relatedSubmission,
-        scoring = src.scoring or scoring
+        scoring = src.scoring or scoring,
+        requirementResponses = requirementResponses updateBy src.requirementResponses
     )
 }
