@@ -4,6 +4,7 @@ import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.StorageClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.getAmendmentsIfNotEmpty
+import com.procurement.orchestrator.application.model.context.extension.getAwardDocumentsIfNotEmpty
 import com.procurement.orchestrator.application.model.context.extension.getBusinessFunctionsIfNotEmpty
 import com.procurement.orchestrator.application.model.context.extension.getDocumentsIfNotEmpty
 import com.procurement.orchestrator.application.model.context.extension.getIfNotEmpty
@@ -358,7 +359,7 @@ class StorageOpenAccessDelegate(
                     .getBusinessFunctionsIfNotEmpty(path = BUSINESS_FUNCTIONS_PATH)
                     .orForwardFail { fail -> return fail }
                     .flatMap { businessFunction ->
-                        businessFunction.getDocumentsIfNotEmpty()
+                        businessFunction.getAwardDocumentsIfNotEmpty()
                             .orForwardFail { fail -> return fail }
                     }
             }
