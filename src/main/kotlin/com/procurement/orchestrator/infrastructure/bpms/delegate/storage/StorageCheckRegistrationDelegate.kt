@@ -4,6 +4,7 @@ import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.StorageClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.getAmendmentsIfNotEmpty
+import com.procurement.orchestrator.application.model.context.extension.getAwardDocumentsIfNotEmpty
 import com.procurement.orchestrator.application.model.context.extension.getAwardsIfNotEmpty
 import com.procurement.orchestrator.application.model.context.extension.getBusinessFunctionsIfNotEmpty
 import com.procurement.orchestrator.application.model.context.extension.getCandidatesIfNotEmpty
@@ -11,8 +12,11 @@ import com.procurement.orchestrator.application.model.context.extension.getDetai
 import com.procurement.orchestrator.application.model.context.extension.getDetailsIfOnlyOne
 import com.procurement.orchestrator.application.model.context.extension.getDocumentsIfNotEmpty
 import com.procurement.orchestrator.application.model.context.extension.getPersonesIfNotEmpty
+import com.procurement.orchestrator.application.model.context.extension.getQualificationDocumentsIfNotEmpty
+import com.procurement.orchestrator.application.model.context.extension.getQualificationIfOnlyOne
 import com.procurement.orchestrator.application.model.context.extension.getRequirementResponseIfOnlyOne
 import com.procurement.orchestrator.application.model.context.extension.getResponder
+import com.procurement.orchestrator.application.model.context.extension.getSubmissionDocumentsIfNotEmpty
 import com.procurement.orchestrator.application.model.context.extension.tryGetSubmissions
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
@@ -50,6 +54,7 @@ class StorageCheckRegistrationDelegate(
         private const val TENDER_ATTRIBUTE_NAME = "tender"
         private const val AWARDS_BUSINESS_FUNCTIONS_PATH = "awards.requirementResponses.responder"
         private const val SUBMISSIONS_BUSINESS_FUNCTIONS_PATH = "submissions.details.candidates.persones"
+        private const val QUALIFICATIONS_BUSINESS_FUNCTIONS_PATH = "qualifications.requirementResponses.responder"
     }
 
     override fun parameters(parameterContainer: ParameterContainer): Result<Parameters, Fail.Incident.Bpmn.Parameter> {
@@ -105,10 +110,15 @@ class StorageCheckRegistrationDelegate(
             getSubmissionsCandidateDocumentsIds(context, entities)
                 .orForwardFail { fail -> return fail }
 
+        val qualificationDocuments: List<DocumentId> =
+            getQualificationDocumentsIds(context, entities)
+                .orForwardFail { fail -> return fail }
+
         val documentIds: List<DocumentId> = tenderDocuments.plus(amendmentDocuments)
             .plus(awardRequirementResponseDocuments)
             .plus(submissionsDocuments)
             .plus(submissionCandidateDocuments)
+            .plus(qualificationDocuments)
 
         if (documentIds.isEmpty())
             return success(Reply.None)
@@ -262,7 +272,7 @@ class StorageCheckRegistrationDelegate(
                     .orForwardFail { fail -> return fail }
             }
             .flatMap { businessFunction ->
-                businessFunction.getDocumentsIfNotEmpty()
+                businessFunction.getSubmissionDocumentsIfNotEmpty()
                     .orForwardFail { fail -> return fail }
             }
             .map { document -> document.id }
@@ -296,11 +306,48 @@ class StorageCheckRegistrationDelegate(
                     .getBusinessFunctionsIfNotEmpty(path = AWARDS_BUSINESS_FUNCTIONS_PATH)
                     .orForwardFail { fail -> return fail }
                     .flatMap { businessFunction ->
-                        businessFunction.getDocumentsIfNotEmpty()
+                        businessFunction.getAwardDocumentsIfNotEmpty()
                             .orForwardFail { fail -> return fail }
                     }
             }
             .map { document -> document.id }
+            .asSuccess()
+
+    private fun getQualificationDocumentsIds(
+        context: CamundaGlobalContext, entities: Map<EntityKey, EntityValue>
+    ): Result<List<DocumentId>, Fail.Incident> =
+        when (entities[EntityKey.QUALIFICATION_REQUIREMENT_RESPONSE]) {
+            EntityValue.OPTIONAL -> getQualificationDocumentsIdsOptional(context)
+            EntityValue.REQUIRED -> getQualificationDocumentsIdsRequired(context)
+                .doOnError { error -> return error.asFailure() }
+            null -> emptyList<DocumentId>().asSuccess()
+        }
+
+    private fun getQualificationDocumentsIdsOptional(context: CamundaGlobalContext): Result<List<DocumentId>, Fail.Incident> =
+        context.qualifications
+            .asSequence()
+            .flatMap { qualification -> qualification.requirementResponses.asSequence() }
+            .flatMap { requirementResponse -> requirementResponse.responder?.businessFunctions?.asSequence() ?: emptySequence() }
+            .flatMap { businessFunction -> businessFunction.documents.asSequence() }
+            .map { document -> document.id }
+            .toList()
+            .asSuccess()
+
+    private fun getQualificationDocumentsIdsRequired(context: CamundaGlobalContext): Result<List<DocumentId>, Fail.Incident> =
+        context.getQualificationIfOnlyOne()
+            .orForwardFail { fail -> return fail }
+            .getRequirementResponseIfOnlyOne()
+            .orForwardFail { fail -> return fail }
+            .getResponder()
+            .orForwardFail { fail -> return fail }
+            .getBusinessFunctionsIfNotEmpty(path = QUALIFICATIONS_BUSINESS_FUNCTIONS_PATH)
+            .orForwardFail { fail -> return fail }
+            .flatMap { businessFunction ->
+                businessFunction.getQualificationDocumentsIfNotEmpty()
+                    .orForwardFail { fail -> return fail }
+            }
+            .map { document -> document.id }
+            .toList()
             .asSuccess()
 
     override fun updateGlobalContext(
@@ -319,7 +366,8 @@ class StorageCheckRegistrationDelegate(
         AWARD_REQUIREMENT_RESPONSE("award.requirementResponse"),
         TENDER("tender"),
         SUBMISSION("submission"),
-        SUBMISSION_CANDIDATE("submission.candidate");
+        SUBMISSION_CANDIDATE("submission.candidate"),
+        QUALIFICATION_REQUIREMENT_RESPONSE("qualification.requirementResponse");
 
         override fun toString(): String = key
 
