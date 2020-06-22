@@ -64,5 +64,24 @@ class QualificationActionTest {
                 }
             }
         }
+
+        @Nested
+        inner class DoDeclaration {
+            @Nested
+            inner class Params {
+                @Test
+                fun required() {
+                    testingBindingAndMapping<DoDeclarationAction.Params>("json/client/qualification/do_declaration_params_full.json")
+                }
+            }
+
+            @Nested
+            inner class Result {
+                @Test
+                fun required() {
+                    testingBindingAndMapping<DoDeclarationAction.Result>("json/client/qualification/do_declaration_result_full.json")
+                }
+            }
+        }
     }
 }
