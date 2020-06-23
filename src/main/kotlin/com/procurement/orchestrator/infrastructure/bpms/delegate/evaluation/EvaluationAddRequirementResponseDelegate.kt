@@ -13,7 +13,6 @@ import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
-import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponseId
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
@@ -57,7 +56,7 @@ class EvaluationAddRequirementResponseDelegate(
                 award = AddRequirementResponseAction.Params.Award(
                     id = award.id,
                     requirementResponse = AddRequirementResponseAction.Params.Award.RequirementResponse(
-                        id = requirementResponse.id as RequirementResponseId.Permanent,
+                        id = requirementResponse.id,
                         value = requirementResponse.value
                             ?: return failure(
                                 Fail.Incident.Bpms.Context.Missing(

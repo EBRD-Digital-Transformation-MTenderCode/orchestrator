@@ -10,9 +10,7 @@ import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.fail.error.RequestErrors
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
-import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.asSuccess
-import com.procurement.orchestrator.domain.model.submission.SubmissionId
 import com.procurement.orchestrator.infrastructure.extension.http.getOperationId
 import com.procurement.orchestrator.infrastructure.extension.http.getPlatformId
 import com.procurement.orchestrator.infrastructure.extension.http.getToken
@@ -75,15 +73,6 @@ class CancelSubmissionController(
 
         val verifiedOcid = parseSingleStageOcid(ocid)
             .orForwardFail { return it }
-
-        if (SubmissionId.Permanent.validation(submissionId))
-            return failure(
-                RequestErrors.Common.DataFormatMismatch(
-                    name = "submissionId",
-                    expectedFormat = SubmissionId.Permanent.pattern,
-                    actualValue = submissionId
-                )
-            )
 
         val platformId: PlatformId = servlet.getPlatformId()
             .orForwardFail { fail -> return fail }

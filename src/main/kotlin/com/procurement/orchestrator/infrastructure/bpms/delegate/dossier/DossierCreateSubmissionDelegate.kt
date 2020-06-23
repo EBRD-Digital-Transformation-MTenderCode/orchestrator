@@ -18,7 +18,6 @@ import com.procurement.orchestrator.domain.model.party.Party
 import com.procurement.orchestrator.domain.model.party.PartyRole
 import com.procurement.orchestrator.domain.model.party.PartyRoles
 import com.procurement.orchestrator.domain.model.submission.Details
-import com.procurement.orchestrator.domain.model.submission.SubmissionId
 import com.procurement.orchestrator.domain.model.submission.Submissions
 import com.procurement.orchestrator.domain.util.extension.asList
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
@@ -66,7 +65,7 @@ class DossierCreateSubmissionDelegate(
                 date = requestInfo.timestamp,
                 owner = requestInfo.owner,
                 submission = CreateSubmissionAction.Params.Submission(
-                    id = submission.id as SubmissionId.Permanent,
+                    id = submission.id,
                     requirementResponses = submission.requirementResponses,
                     candidates = submission.candidates,
                     documents = submission.documents

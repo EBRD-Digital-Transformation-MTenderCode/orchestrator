@@ -71,7 +71,7 @@ class ConfirmationServiceImpl(
             )
             .orReturnFail { return MaybeFail.fail(it) }
             ?: return MaybeFail.fail(
-                BpeErrors.Process(
+                BpeErrors.ImpossibleOperation(
                     description = "Operation by country: '$countryId', pmd: '$pmd', process definition key: '$processDefinitionKey', stage: '$prevStage', phase: '$prevPhase' is impossible."
                 )
             )

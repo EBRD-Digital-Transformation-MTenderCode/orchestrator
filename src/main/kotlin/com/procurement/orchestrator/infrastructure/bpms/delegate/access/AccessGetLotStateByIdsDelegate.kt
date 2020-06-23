@@ -55,7 +55,7 @@ class AccessGetLotStateByIdsDelegate(
                 cpid = processInfo.cpid,
                 ocid = processInfo.ocid,
                 ids = tender.lots
-                    .map { lot -> lot.id as LotId.Permanent }
+                    .map { lot -> lot.id }
             )
         )
     }

@@ -9,15 +9,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum Stage {
+    AC("AC"),
     EI("EI"),
+    EV("EV"),
     FS("FS"),
-    PS("PS"),
-    PQ("PQ"),
+    NP("NP"),
     PIN("PIN"),
     PN("PN"),
-    EV("EV"),
-    NP("NP"),
-    AC("AC");
+    PQ("PQ"),
+    PS("PS"),
+    TP("TP");
 
     private static final Map<String, Stage> CONSTANTS = new HashMap<>();
     private final String value;

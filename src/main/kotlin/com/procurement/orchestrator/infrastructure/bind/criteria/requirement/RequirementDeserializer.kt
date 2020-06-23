@@ -28,7 +28,10 @@ class RequirementDeserializer : JsonDeserializer<List<Requirement>>() {
                 val id: String = requirement.get("id").asText()
                 val title: String = requirement.get("title").asText()
                 val description: String? = requirement.takeIf { it.has("description") }?.get("description")?.asText()
-                val dataType: RequirementDataType = RequirementDataType.orThrow(requirement.get("dataType").asText())
+
+                val dataType: RequirementDataType? = requirement.takeIf { it.has("dataType") }
+                    ?.let { RequirementDataType.orThrow(requirement.get("dataType").asText()) }
+
                 val period: Requirement.Period? = requirement.takeIf { it.has("period") }
                     ?.let {
                         val period = it.get("period")

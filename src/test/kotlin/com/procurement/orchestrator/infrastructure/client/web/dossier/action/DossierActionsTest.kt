@@ -149,9 +149,15 @@ class DossierActionsTest {
 
         @Nested
         inner class Result {
+
             @Test
             fun fully() {
                 testingBindingAndMapping<CreateSubmissionAction.Result>("json/client/dossier/create_submission_result_full.json")
+            }
+
+            @Test
+            fun required1() {
+                testingBindingAndMapping<CreateSubmissionAction.Result>("json/client/dossier/create_submission_result_required_1.json")
             }
         }
     }
@@ -173,6 +179,26 @@ class DossierActionsTest {
             @Test
             fun fully() {
                 testingBindingAndMapping<SetStateForSubmissionAction.Result>("json/client/dossier/set_state_for_submission_result_full.json")
+            }
+        }
+    }
+
+    @Nested
+    inner class VerifySubmissionPeriodEnd {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<VerifySubmissionPeriodEndAction.Params>("json/client/dossier/verify_submission_period_end_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<VerifySubmissionPeriodEndAction.Result>("json/client/dossier/verify_submission_period_end_result_full.json")
             }
         }
     }

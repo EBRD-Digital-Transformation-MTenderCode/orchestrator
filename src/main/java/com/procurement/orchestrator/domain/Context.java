@@ -28,6 +28,9 @@ public class Context {
     @JsonProperty(value = "ocid")
     private String ocid;
 
+    @JsonProperty(value = "ocidCn")
+    private String ocidCn;
+
     @JsonProperty(value = "stage")
     private String stage;
 
@@ -100,5 +103,21 @@ public class Context {
 
     public void setOwner(final String owner) {
         this.owner = UUID.fromString(owner).toString();
+    }
+
+    public String getCpid() {
+        return cpid;
+    }
+
+    public String getOperationType() {
+        return operationType;
+    }
+
+    public String getProcessType() {
+        return processType;
+    }
+
+    public String getRequestId() {
+        return requestId;
     }
 }

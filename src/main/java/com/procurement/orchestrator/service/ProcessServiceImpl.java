@@ -165,7 +165,10 @@ public class ProcessServiceImpl implements ProcessService {
     @Override
     public JsonNode getPreQualificationPeriod(final JsonNode jsonData, final String processId) {
         try {
-            return jsonData.get("preQualification").get("period");
+            final JsonNode period = jsonData.get("preQualification").get("period");
+            final ObjectNode objectNode = jsonUtil.createObjectNode();
+            objectNode.set("period", period);
+            return objectNode;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
             return null;
@@ -1512,6 +1515,7 @@ public class ProcessServiceImpl implements ProcessService {
             mainNode.replace("planning", responseData.get("planning"));
             mainNode.replace("award", responseData.get("award"));
             mainNode.replace("contract", responseData.get("contract"));
+            mainNode.replace("buyer", responseData.get("buyer"));
             return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());

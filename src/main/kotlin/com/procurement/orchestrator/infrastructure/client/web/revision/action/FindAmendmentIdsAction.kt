@@ -35,5 +35,5 @@ abstract class FindAmendmentIdsAction : FunctionalAction<FindAmendmentIdsAction.
         @field:JsonProperty("relatedItems") @param:JsonProperty("relatedItems") val relatedItems: List<String> = emptyList()
     )
 
-    class Result(values: List<AmendmentId.Permanent>) : List<AmendmentId> by values, Serializable
+    class Result(values: List<AmendmentId>) : List<AmendmentId> by values, Serializable
 }

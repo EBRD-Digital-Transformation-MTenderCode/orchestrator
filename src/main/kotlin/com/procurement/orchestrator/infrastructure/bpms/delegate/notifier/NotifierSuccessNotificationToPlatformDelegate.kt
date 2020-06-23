@@ -127,16 +127,31 @@ class NotifierSuccessNotificationToPlatformDelegate(
                     id = amendment.id,
                     token = amendment.token
                 )
+            },
+        awards = details.awards
+            .map { award ->
+                PlatformNotification.Outcomes.Award(
+                    id = award.id
+                )
+            },
+        submissions = details.submissions
+            .map { submission ->
+                PlatformNotification.Outcomes.Submission(
+                    id = submission.id,
+                    token = submission.token
+                )
             }
     )
 
     private fun generateUrl(operationType: OperationTypeProcess, cpid: Cpid, ocid: Ocid): String =
         when (operationType) {
             OperationTypeProcess.CREATE_SUBMISSION -> "$tenderUri/$cpid/$ocid"
-            OperationTypeProcess.TENDER_CANCELLATION -> "$tenderUri/$cpid/$ocid"
-            OperationTypeProcess.LOT_CANCELLATION -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.DECLARE_NON_CONFLICT_OF_INTEREST -> "$tenderUri/$cpid/$ocid"
+            OperationTypeProcess.LOT_CANCELLATION -> "$tenderUri/$cpid/$ocid"
+            OperationTypeProcess.TENDER_CANCELLATION -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.TENDER_OR_LOT_AMENDMENT_CANCELLATION -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.TENDER_OR_LOT_AMENDMENT_CONFIRMATION -> "$tenderUri/$cpid/$ocid"
+            OperationTypeProcess.WITHDRAW_SUBMISSION -> "$tenderUri/$cpid/$ocid"
+            OperationTypeProcess.QUALIFICATION_DECLARE_NON_CONFLICT_OF_INTEREST -> "$tenderUri/$cpid/$ocid"
         }
 }
