@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.infrastructure.client.web.qualification.action
 
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
@@ -50,7 +51,8 @@ abstract class CheckDeclarationAction : ProceduralAction<CheckDeclarationAction.
             ) {
                 data class Requirement(
                     @param:JsonProperty("id") @field:JsonProperty("id") val id: RequirementId,
-                    @param:JsonProperty("dataType") @field:JsonProperty("dataType") val dataType: RequirementDataType
+                    @JsonInclude(JsonInclude.Include.NON_NULL)
+                    @param:JsonProperty("dataType") @field:JsonProperty("dataType") val dataType: RequirementDataType?
                 )
             }
         }
