@@ -182,4 +182,24 @@ class DossierActionsTest {
             }
         }
     }
+
+    @Nested
+    inner class VerifySubmissionPeriodEnd {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<VerifySubmissionPeriodEndAction.Params>("json/client/dossier/verify_submission_period_end_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<VerifySubmissionPeriodEndAction.Result>("json/client/dossier/verify_submission_period_end_result_full.json")
+            }
+        }
+    }
 }
