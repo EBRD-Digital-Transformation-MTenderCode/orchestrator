@@ -6,6 +6,7 @@ import com.procurement.orchestrator.infrastructure.client.web.dossier.action.Val
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckDeclarationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.DoDeclarationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.FindQualificationIdsAction
+import com.procurement.orchestrator.infrastructure.client.web.qualification.action.FindRequirementResponseByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.StartQualificationPeriodAction
 
 object QualificationCommands {
@@ -23,4 +24,6 @@ object QualificationCommands {
     object CheckDeclaration : CheckDeclarationAction()
 
     object DoDeclaration : DoDeclarationAction()
+
+    object FindRequirementResponseByIds: FindRequirementResponseByIdsAction()
 }
