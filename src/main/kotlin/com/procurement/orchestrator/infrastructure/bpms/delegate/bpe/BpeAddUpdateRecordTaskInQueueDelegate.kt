@@ -53,6 +53,7 @@ class BpeAddUpdateRecordTaskInQueueDelegate(
                     parties = context.parties,
                     contracts = context.contracts,
                     submissions = context.submissions,
+                    qualifications = context.qualifications,
                     preQualification = context.preQualification
                 )
             )

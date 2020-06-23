@@ -25,7 +25,7 @@ import com.procurement.orchestrator.domain.model.candidate.Candidates
 import com.procurement.orchestrator.domain.model.organization.Organization
 import com.procurement.orchestrator.domain.model.submission.Details
 import com.procurement.orchestrator.domain.model.submission.Submissions
-import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractRestDelegate
+import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractBatchRestDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.EnrichLocalityAction
@@ -39,7 +39,7 @@ class MdmEnrichLocalityDelegate(
     operationStepRepository: OperationStepRepository,
     transform: Transform,
     private val mdmClient: MdmClient
-) : AbstractRestDelegate<MdmEnrichLocalityDelegate.Parameters, List<LocalityDetails>>(
+) : AbstractBatchRestDelegate<MdmEnrichLocalityDelegate.Parameters, EnrichLocalityAction.Params, List<LocalityDetails>>(
     logger = logger,
     transform = transform,
     operationStepRepository = operationStepRepository
@@ -65,32 +65,40 @@ class MdmEnrichLocalityDelegate(
         return success(Parameters(location))
     }
 
-    override suspend fun execute(
-        parameters: Parameters,
+    override fun prepareSeq(
         context: CamundaGlobalContext,
-        executionInterceptor: ExecutionInterceptor
-    ): Result<List<LocalityDetails>, Fail.Incident> {
-
+        parameters: Parameters
+    ): Result<List<EnrichLocalityAction.Params>, Fail.Incident> {
         val requestInfo = context.requestInfo
 
         val submissions = context.tryGetSubmissions()
             .orForwardFail { error -> return error }
 
-        val results = submissions.details
+        return  submissions.details
             .asSequence()
             .flatMap { submission -> submission.candidates.asSequence() }
             .map { candidate -> candidate.defineAddressInfoByLocation(parameters.location) }
             .toSet()
-            .map { country ->
-                val response = mdmClient.enrichLocality(params = getParams(requestInfo.language, country))
+            .map { country -> getParams(requestInfo.language, country) }
+            .asSuccess()
+    }
+
+    override suspend fun execute(
+        elements: List<EnrichLocalityAction.Params>,
+        executionInterceptor: ExecutionInterceptor
+    ): Result<List<LocalityDetails>, Fail.Incident> {
+
+        return elements
+            .map { params ->
+                val response = mdmClient
+                    .enrichLocality(params = params)
                     .orForwardFail { error -> return error }
 
                 handleResult(response, executionInterceptor)
             }
             .filter { optionalResult -> optionalResult.isDefined }
             .map { result -> result.get }
-
-        return results.asSuccess()
+            .asSuccess()
     }
 
     override fun updateGlobalContext(

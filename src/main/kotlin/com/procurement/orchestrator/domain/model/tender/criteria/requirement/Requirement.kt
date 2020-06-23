@@ -13,7 +13,7 @@ class Requirement(
     val title: String,
     val description: String?,
     val period: Period?,
-    val dataType: RequirementDataType,
+    val dataType: RequirementDataType?,
     val value: RequirementValue
 ) : IdentifiableObject<Requirement>, Serializable {
 
