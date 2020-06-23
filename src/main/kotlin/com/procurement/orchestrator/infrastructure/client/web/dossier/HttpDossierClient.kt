@@ -15,6 +15,7 @@ import com.procurement.orchestrator.infrastructure.client.web.dossier.action.Get
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.SetStateForSubmissionAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.ValidateRequirementResponseAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.ValidateSubmissionAction
+import com.procurement.orchestrator.infrastructure.client.web.dossier.action.VerifySubmissionPeriodEndAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
 import java.net.URL
 
@@ -98,5 +99,14 @@ class HttpDossierClient(private val webClient: WebClient, properties: ComponentP
         url = url,
         command = DossierCommands.GetOrganizations.build(id = id, params = params),
         target = DossierCommands.GetOrganizations.target
+    )
+
+    override suspend fun verifySubmissionPeriodEnd(
+        id: CommandId,
+        params: VerifySubmissionPeriodEndAction.Params
+    ): Result<Reply<VerifySubmissionPeriodEndAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = DossierCommands.VerifySubmissionPeriodEnd.build(id = id, params = params),
+        target = DossierCommands.VerifySubmissionPeriodEnd.target
     )
 }

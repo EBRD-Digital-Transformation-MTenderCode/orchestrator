@@ -2,18 +2,18 @@ package com.procurement.orchestrator.domain.model.requirement.response
 
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonValue
-import com.procurement.orchestrator.domain.model.UUID_PATTERN
-import com.procurement.orchestrator.domain.model.isUUID
 import java.io.Serializable
 import java.util.*
 
-sealed class RequirementResponseId(private val value: String) : Serializable {
+class RequirementResponseId private constructor(private val value: String) : Serializable {
 
     companion object {
 
         @JvmStatic
         @JsonCreator
-        fun parse(text: String): RequirementResponseId? = Permanent.tryCreateOrNull(text)
+        fun create(text: String): RequirementResponseId = RequirementResponseId(text)
+
+        fun generate(): RequirementResponseId = RequirementResponseId(UUID.randomUUID().toString())
     }
 
     override fun equals(other: Any?): Boolean {
@@ -28,23 +28,4 @@ sealed class RequirementResponseId(private val value: String) : Serializable {
 
     @JsonValue
     override fun toString(): String = value
-
-    class Temporal private constructor(value: String) : RequirementResponseId(value), Serializable {
-        companion object {
-            fun create(text: String): RequirementResponseId = Temporal(text)
-        }
-    }
-
-    class Permanent private constructor(value: String) : RequirementResponseId(value), Serializable {
-        companion object {
-            val pattern: String
-                get() = UUID_PATTERN
-
-            fun validation(text: String): Boolean = text.isUUID()
-
-            fun tryCreateOrNull(text: String): RequirementResponseId? = if (validation(text)) Permanent(text) else null
-
-            fun generate(): RequirementResponseId = Permanent(UUID.randomUUID().toString())
-        }
-    }
 }

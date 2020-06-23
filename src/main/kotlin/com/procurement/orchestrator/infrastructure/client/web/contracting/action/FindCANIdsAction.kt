@@ -9,8 +9,6 @@ import com.procurement.orchestrator.domain.model.can.CanId
 import com.procurement.orchestrator.domain.model.can.CanStatus
 import com.procurement.orchestrator.domain.model.can.CanStatusDetails
 import com.procurement.orchestrator.domain.model.lot.LotId
-import com.procurement.orchestrator.domain.model.lot.LotStatus
-import com.procurement.orchestrator.domain.model.lot.LotStatusDetails
 import com.procurement.orchestrator.infrastructure.client.web.Target
 import com.procurement.orchestrator.infrastructure.model.Version
 import java.io.Serializable
@@ -29,7 +27,7 @@ abstract class FindCANIdsAction : FunctionalAction<FindCANIdsAction.Params, Find
         @field:JsonProperty("states") @param:JsonProperty("states") val states: List<State>?,
 
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
-        @field:JsonProperty("lotIds") @param:JsonProperty("lotIds") val lotIds: List<LotId.Permanent>?
+        @field:JsonProperty("lotIds") @param:JsonProperty("lotIds") val lotIds: List<LotId>?
 
     ) {
         data class State(

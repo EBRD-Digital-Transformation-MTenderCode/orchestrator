@@ -283,4 +283,35 @@ class AccessActionsTest {
         }
     }
 
+
+    @Nested
+    inner class CreateCriteriaForProcuringEntity {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CreateCriteriaForProcuringEntityAction.Params>("json/client/access/create_criteria_for_procuring_entity_params_full.json")
+            }
+
+            @Test
+            fun required1() {
+                testingBindingAndMapping<CreateCriteriaForProcuringEntityAction.Params>("json/client/access/create_criteria_for_procuring_entity_params_required_1.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CreateCriteriaForProcuringEntityAction.Result>("json/client/access/create_criteria_for_procuring_entity_result_full.json")
+            }
+
+            @Test
+            fun required1() {
+                testingBindingAndMapping<CreateCriteriaForProcuringEntityAction.Result>("json/client/access/create_criteria_for_procuring_entity_result_required_1.json")
+            }
+        }
+    }
+
 }

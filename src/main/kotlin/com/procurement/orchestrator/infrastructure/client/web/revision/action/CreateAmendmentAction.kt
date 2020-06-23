@@ -35,7 +35,7 @@ abstract class CreateAmendmentAction : FunctionalAction<CreateAmendmentAction.Pa
     ) {
 
         class Amendment(
-            @field:JsonProperty("id") @param:JsonProperty("id") val id: AmendmentId.Permanent,
+            @field:JsonProperty("id") @param:JsonProperty("id") val id: AmendmentId,
 
             @field:JsonInclude(JsonInclude.Include.NON_NULL)
             @field:JsonProperty("rationale") @param:JsonProperty("rationale") val rationale: String? = null,
@@ -59,7 +59,7 @@ abstract class CreateAmendmentAction : FunctionalAction<CreateAmendmentAction.Pa
     }
 
     class Result(
-        @field:JsonProperty("id") @param:JsonProperty("id") val id: AmendmentId.Permanent,
+        @field:JsonProperty("id") @param:JsonProperty("id") val id: AmendmentId,
         @field:JsonProperty("token") @param:JsonProperty("token") val token: Token,
 
         @field:JsonInclude(JsonInclude.Include.NON_NULL)

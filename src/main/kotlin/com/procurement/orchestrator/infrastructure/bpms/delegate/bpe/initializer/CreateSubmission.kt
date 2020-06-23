@@ -44,7 +44,7 @@ object CreateSubmission {
         ) {
 
             data class Submission(
-                @field:JsonProperty("id") @param:JsonProperty("id") val id: SubmissionId.Permanent,
+                @field:JsonProperty("id") @param:JsonProperty("id") val id: SubmissionId,
 
                 @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
                 @field:JsonProperty("requirementResponses") @param:JsonProperty("requirementResponses") val requirementResponses: List<RequirementResponse> = emptyList(),

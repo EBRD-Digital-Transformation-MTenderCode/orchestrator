@@ -16,6 +16,7 @@ import com.procurement.orchestrator.infrastructure.bind.criteria.requirement.val
 import com.procurement.orchestrator.infrastructure.bind.criteria.requirement.value.RequirementValueSerializer
 import com.procurement.orchestrator.infrastructure.client.web.Target
 import com.procurement.orchestrator.infrastructure.model.Version
+import java.io.Serializable
 
 abstract class ValidateRequirementResponsesAction :
     FunctionalAction<ValidateRequirementResponsesAction.Params, ValidateRequirementResponsesAction.Result> {
@@ -38,7 +39,7 @@ abstract class ValidateRequirementResponsesAction :
     ) {
 
         class RequirementResponse(
-            @field:JsonProperty("id") @param:JsonProperty("id") val id: RequirementResponseId.Temporal,
+            @field:JsonProperty("id") @param:JsonProperty("id") val id: RequirementResponseId,
 
             @JsonDeserialize(using = RequirementValueDeserializer::class)
             @JsonSerialize(using = RequirementValueSerializer::class)
@@ -65,10 +66,10 @@ abstract class ValidateRequirementResponsesAction :
         }
     }
 
-    class Result(values: List<RequirementResponse>) : List<Result.RequirementResponse> by values {
+    class Result(values: List<RequirementResponse>) : List<Result.RequirementResponse> by values, Serializable {
 
         class RequirementResponse(
-            @field:JsonProperty("id") @param:JsonProperty("id") val id: RequirementResponseId.Temporal,
+            @field:JsonProperty("id") @param:JsonProperty("id") val id: RequirementResponseId,
 
             @JsonDeserialize(using = RequirementValueDeserializer::class)
             @JsonSerialize(using = RequirementValueSerializer::class)
@@ -76,16 +77,16 @@ abstract class ValidateRequirementResponsesAction :
 
             @field:JsonProperty("requirement") @param:JsonProperty("requirement") val requirement: Requirement,
             @field:JsonProperty("relatedCandidate") @param:JsonProperty("relatedCandidate") val relatedCandidate: RelatedCandidate
-        ) {
+        ) : Serializable {
 
             class Requirement(
                 @field:JsonProperty("id") @param:JsonProperty("id") val id: RequirementId
-            )
+            ) : Serializable
 
             class RelatedCandidate(
                 @field:JsonProperty("id") @param:JsonProperty("id") val id: OrganizationId,
                 @field:JsonProperty("name") @param:JsonProperty("name") val name: String
-            )
+            ) : Serializable
         }
     }
 }

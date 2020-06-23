@@ -7,6 +7,7 @@ import com.procurement.orchestrator.application.model.PlatformId
 import com.procurement.orchestrator.application.model.Token
 import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
+import com.procurement.orchestrator.domain.model.amendment.AmendmentId
 import com.procurement.orchestrator.domain.model.lot.LotId
 
 object CancellationLot {
@@ -30,7 +31,7 @@ object CancellationLot {
     ) {
 
         class Amendment(
-            @field:JsonProperty("id") @param:JsonProperty("id") val id: String,
+            @field:JsonProperty("id") @param:JsonProperty("id") val id: AmendmentId,
 
             @field:JsonInclude(JsonInclude.Include.NON_NULL)
             @field:JsonProperty("rationale") @param:JsonProperty("rationale") val rationale: String? = null,

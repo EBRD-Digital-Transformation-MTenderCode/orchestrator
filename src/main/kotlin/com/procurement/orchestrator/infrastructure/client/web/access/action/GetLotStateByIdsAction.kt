@@ -19,13 +19,13 @@ abstract class GetLotStateByIdsAction : FunctionalAction<GetLotStateByIdsAction.
     class Params(
         @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid,
         @field:JsonProperty("ocid") @param:JsonProperty("ocid") val ocid: Ocid,
-        @field:JsonProperty("lotIds") @param:JsonProperty("lotIds") val ids: List<LotId.Permanent>
+        @field:JsonProperty("lotIds") @param:JsonProperty("lotIds") val ids: List<LotId>
     )
 
     class Result(values: List<Lot>) : List<Result.Lot> by values, Serializable {
 
         class Lot(
-            @field:JsonProperty("id") @param:JsonProperty("id") val id: LotId.Permanent,
+            @field:JsonProperty("id") @param:JsonProperty("id") val id: LotId,
             @field:JsonProperty("status") @param:JsonProperty("status") val status: LotStatus,
             @field:JsonProperty("statusDetails") @param:JsonProperty("statusDetails") val statusDetails: LotStatusDetails
         ) : Serializable

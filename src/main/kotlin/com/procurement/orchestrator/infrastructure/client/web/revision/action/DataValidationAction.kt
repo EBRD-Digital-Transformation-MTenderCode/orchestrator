@@ -23,7 +23,7 @@ abstract class DataValidationAction : ProceduralAction<DataValidationAction.Para
     ) {
 
         class Amendment(
-            @field:JsonProperty("id") @param:JsonProperty("id") val id: AmendmentId.Temporal,
+            @field:JsonProperty("id") @param:JsonProperty("id") val id: AmendmentId,
 
             @field:JsonInclude(JsonInclude.Include.NON_NULL)
             @field:JsonProperty("rationale") @param:JsonProperty("rationale") val rationale: String? = null,

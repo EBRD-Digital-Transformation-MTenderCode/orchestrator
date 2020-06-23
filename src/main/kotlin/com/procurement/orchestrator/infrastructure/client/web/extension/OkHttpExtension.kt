@@ -16,7 +16,7 @@ val Response.contentType: String
 val Response.content: String
     get() = body?.charStream()?.readText() ?: ""
 
-suspend fun Call.await(): Result<Response, WebClientFail> = suspendCoroutine { con ->
+suspend fun Call.awaitSuccessfulResponse(): Result<Response, WebClientFail> = suspendCoroutine { con ->
     val callback = object : Callback {
         override fun onResponse(call: Call, response: Response) {
             if (response.isSuccessful)
@@ -32,3 +32,19 @@ suspend fun Call.await(): Result<Response, WebClientFail> = suspendCoroutine { c
 
     enqueue(callback)
 }
+
+
+suspend fun Call.awaitAnyResponse(): Result<Response, WebClientFail.NetworkError> =
+    suspendCoroutine { con ->
+        val callback = object : Callback {
+            override fun onResponse(call: Call, response: Response) {
+                con.resume(success(response))
+            }
+
+            override fun onFailure(call: Call, e: IOException) {
+                con.resume(failure(WebClientFail.NetworkError(exception = e)))
+            }
+        }
+
+        enqueue(callback)
+    }

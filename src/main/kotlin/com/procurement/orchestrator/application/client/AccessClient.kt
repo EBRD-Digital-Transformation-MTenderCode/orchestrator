@@ -6,6 +6,7 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckAccessToTenderAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckPersonesStructureAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateCriteriaForProcuringEntityAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindCriteriaAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindLotIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotStateByIdsAction
@@ -70,6 +71,11 @@ interface AccessClient {
         id: CommandId,
         params: GetOrganizationAction.Params
     ): Result<Reply<GetOrganizationAction.Result>, Fail.Incident>
+
+    suspend fun createCriteriaForProcuringEntity(
+        id: CommandId,
+        params: CreateCriteriaForProcuringEntityAction.Params
+    ): Result<Reply<CreateCriteriaForProcuringEntityAction.Result>, Fail.Incident>
 
     suspend fun getQualificationCriteriaAndMethod(
         id: CommandId,
