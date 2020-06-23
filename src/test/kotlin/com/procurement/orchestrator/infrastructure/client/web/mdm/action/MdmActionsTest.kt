@@ -44,4 +44,64 @@ class MdmActionsTest {
             }
         }
     }
+
+    @Nested
+    inner class GetRequirementGroups {
+
+        @Nested
+        inner class Result {
+
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetRequirementGroupsAction.Response.Success>("json/client/mdm/get_requirement_group_response_full.json")
+            }
+        }
+    }
+
+    @Nested
+    inner class GetCriteria {
+
+        @Nested
+        inner class Result {
+
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetCriteriaAction.Response.Success>("json/client/mdm/get_criteria_response_full.json")
+            }
+
+            @Test
+            fun required_1() {
+                testingBindingAndMapping<GetCriteriaAction.Response.Success>("json/client/mdm/get_criteria_response_required_1.json")
+            }
+
+            @Test
+            fun required_2() {
+                testingBindingAndMapping<GetCriteriaAction.Response.Success>("json/client/mdm/get_criteria_response_required_2.json")
+            }
+        }
+    }
+
+    @Nested
+    inner class GetRequirements {
+
+        @Nested
+        inner class Result {
+
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetRequirementsAction.Response.Success>("json/client/mdm/get_requirements_response_full.json")
+            }
+
+            @Test
+            fun required_1() {
+                testingBindingAndMapping<GetRequirementsAction.Response.Success>("json/client/mdm/get_requirements_response_required_1.json")
+            }
+
+            @Test
+            fun required_2() {
+                testingBindingAndMapping<GetRequirementsAction.Response.Success>("json/client/mdm/get_requirements_response_required_2.json")
+            }
+        }
+    }
+
 }

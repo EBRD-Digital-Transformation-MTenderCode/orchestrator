@@ -70,7 +70,8 @@ abstract class DetermineNextsForQualificationAction : FunctionalAction<Determine
                     data class Requirement(
                         @field:JsonProperty("id") @param:JsonProperty("id") val id: String,
                         @field:JsonProperty("title") @param:JsonProperty("title") val title: String,
-                        @field:JsonProperty("dataType") @param:JsonProperty("dataType") val dataType: RequirementDataType,
+                        @JsonInclude(JsonInclude.Include.NON_NULL)
+                        @field:JsonProperty("dataType") @param:JsonProperty("dataType") val dataType: RequirementDataType?,
                         @JsonInclude(JsonInclude.Include.NON_NULL)
                         @field:JsonProperty("description") @param:JsonProperty("description") val description: String?
                     )
