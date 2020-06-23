@@ -9,6 +9,7 @@ import com.procurement.orchestrator.infrastructure.client.web.WebClient
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckDeclarationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.DoDeclarationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.FindQualificationIdsAction
+import com.procurement.orchestrator.infrastructure.client.web.qualification.action.FindRequirementResponseByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.StartQualificationPeriodAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
 import java.net.URL
@@ -51,5 +52,14 @@ class HttpQualificationClient(private val webClient: WebClient, properties: Comp
         url = url,
         command = QualificationCommands.DoDeclaration.build(id = id, params = params),
         target = QualificationCommands.DoDeclaration.target
+    )
+
+    override suspend fun findRequirementResponseByIds(
+        id: CommandId,
+        params: FindRequirementResponseByIdsAction.Params
+    ): Result<Reply<FindRequirementResponseByIdsAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = QualificationCommands.FindRequirementResponseByIds.build(id = id, params = params),
+        target = QualificationCommands.FindRequirementResponseByIds.target
     )
 }

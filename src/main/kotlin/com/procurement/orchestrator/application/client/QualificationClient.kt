@@ -7,6 +7,7 @@ import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckDeclarationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.DoDeclarationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.FindQualificationIdsAction
+import com.procurement.orchestrator.infrastructure.client.web.qualification.action.FindRequirementResponseByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.StartQualificationPeriodAction
 
 interface QualificationClient {
@@ -30,4 +31,9 @@ interface QualificationClient {
         id: CommandId,
         params: DoDeclarationAction.Params
     ): Result<Reply<DoDeclarationAction.Result>, Fail.Incident>
+
+    suspend fun findRequirementResponseByIds(
+        id: CommandId,
+        params: FindRequirementResponseByIdsAction.Params
+    ): Result<Reply<FindRequirementResponseByIdsAction.Result>, Fail.Incident>
 }
