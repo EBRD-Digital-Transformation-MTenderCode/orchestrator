@@ -15,7 +15,6 @@ import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.model.qualification.Qualification
 import com.procurement.orchestrator.domain.model.qualification.Qualifications
-import com.procurement.orchestrator.domain.model.submission.SubmissionId
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
@@ -61,7 +60,7 @@ class QualificationDetermineNextsForQualificationDelegate(
                 ocid = processInfo.ocid,
                 submissions = contextSubmissions.map { submission ->
                     DetermineNextsForQualificationAction.Params.Submission(
-                        id = submission.id as SubmissionId.Permanent,
+                        id = submission.id,
                         date = submission.date
                     )
                 },

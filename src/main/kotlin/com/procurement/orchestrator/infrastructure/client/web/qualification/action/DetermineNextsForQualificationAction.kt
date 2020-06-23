@@ -30,7 +30,7 @@ abstract class DetermineNextsForQualificationAction : FunctionalAction<Determine
         @field:JsonProperty("tender") @param:JsonProperty("tender") val tender: Tender
     ) {
         data class Submission(
-            @field:JsonProperty("id") @param:JsonProperty("id") val id: SubmissionId.Permanent?,
+            @field:JsonProperty("id") @param:JsonProperty("id") val id: SubmissionId?,
             @field:JsonProperty("date") @param:JsonProperty("date") val date: LocalDateTime?
         )
 
