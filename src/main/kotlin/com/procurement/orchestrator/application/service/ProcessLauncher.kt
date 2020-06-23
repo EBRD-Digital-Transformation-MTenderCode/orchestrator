@@ -20,6 +20,7 @@ import com.procurement.orchestrator.infrastructure.bpms.repository.RequestReposi
 
 interface ProcessLauncher {
     fun launch(request: PlatformRequest): MaybeFail<Fail>
+    fun launch(event: ChronographEvent): MaybeFail<Fail>
 }
 
 class ProcessLauncherImpl(
@@ -59,7 +60,7 @@ class ProcessLauncherImpl(
             )
             .orReturnFail { return MaybeFail.fail(it) }
             ?: return MaybeFail.fail(
-                BpeErrors.Process(
+                BpeErrors.ImpossibleOperation(
                     description = "Operation by country: '$countryId', pmd: '$pmd', process definition key: '$processDefinitionKey', stage: '$prevStage', phase: '$prevPhase' is impossible."
                 )
             )
@@ -103,6 +104,77 @@ class ProcessLauncherImpl(
 
         val variables: Map<String, Any> = propertyContainer.toMap()
         processService.launchProcess(processDefinitionKey, request.operationId, variables)
+        return MaybeFail.none()
+    }
+
+    override fun launch(event: ChronographEvent): MaybeFail<Fail> {
+        val isLaunched = processService.isLaunchedProcess(operationId = event.operationId)
+            .orReturnFail { return MaybeFail.fail(it) }
+        if (isLaunched)
+            return MaybeFail.fail(RequestErrors.Common.Repeated())
+
+        val prevProcessContext: LatestProcessContext = processService.getProcessContext(cpid = event.cpid)
+            .orReturnFail { return MaybeFail.fail(it) }
+            ?: return MaybeFail.fail(Fail.Incident.Bpe(description = "The process context by cpid '${event.cpid}' does not found."))
+
+        val countryId = prevProcessContext.country
+        val pmd = prevProcessContext.pmd
+        val processDefinitionKey = processService
+            .getProcessDefinitionKey(countryId = countryId, pmd = pmd, processName = event.processName)
+            .orReturnFail { return MaybeFail.fail(it) }
+        val prevStage = prevProcessContext.stage
+        val prevPhase = prevProcessContext.phase
+        val rule = ruleRepository
+            .load(
+                countryId = countryId,
+                pmd = pmd,
+                processDefinitionKey = processDefinitionKey,
+                stageFrom = prevStage,
+                phaseFrom = prevPhase
+            )
+            .orReturnFail { return MaybeFail.fail(it) }
+            ?: return MaybeFail.fail(
+                BpeErrors.ImpossibleOperation(
+                    description = "Operation by country: '$countryId', pmd: '$pmd', process definition key: '$processDefinitionKey', stage: '$prevStage', phase: '$prevPhase' is impossible."
+                )
+            )
+
+        val propertyContainer = DefaultPropertyContainer()
+        CamundaGlobalContext(propertyContainer)
+            .apply {
+                requestInfo = RequestInfo(
+                    operationId = event.operationId,
+                    timestamp = event.timestamp,
+                    requestId = event.requestId,
+                    platformId = event.platformId,
+                    country = countryId,
+                    language = prevProcessContext.language,
+                    owner = event.platformId,
+                    token = null
+                )
+
+                processInfo = ProcessInfo(
+                    ocid = event.ocid,
+                    cpid = event.cpid,
+                    pmd = pmd,
+                    operationType = rule.operationType,
+                    stage = rule.stageTo,
+                    prevStage = prevStage,
+                    processDefinitionKey = processDefinitionKey,
+                    phase = rule.phaseTo,
+                    isAuction = prevProcessContext.isAuction,
+                    mainProcurementCategory = prevProcessContext.mainProcurementCategory,
+                    awardCriteria = prevProcessContext.awardCriteria
+                )
+            }
+
+        CamundaContext(propertyContainer)
+            .apply {
+                this.request = CamundaContext.Request(id = null, payload = "")
+            }
+
+        val variables: Map<String, Any> = propertyContainer.toMap()
+        processService.launchProcess(processDefinitionKey, event.operationId, variables)
         return MaybeFail.none()
     }
 

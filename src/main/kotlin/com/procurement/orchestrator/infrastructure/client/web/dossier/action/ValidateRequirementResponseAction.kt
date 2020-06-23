@@ -23,7 +23,7 @@ abstract class ValidateRequirementResponseAction : ProceduralAction<ValidateRequ
     ) {
 
         class RequirementResponse(
-            @field:JsonProperty("id") @param:JsonProperty("id") val id: RequirementResponseId.Temporal,
+            @field:JsonProperty("id") @param:JsonProperty("id") val id: RequirementResponseId,
 
             @JsonDeserialize(using = RequirementValueDeserializer::class)
             @JsonSerialize(using = RequirementValueSerializer::class)

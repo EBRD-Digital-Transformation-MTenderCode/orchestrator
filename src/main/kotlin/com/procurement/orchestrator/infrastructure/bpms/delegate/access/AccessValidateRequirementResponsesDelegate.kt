@@ -19,7 +19,6 @@ import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.model.organization.OrganizationReference
 import com.procurement.orchestrator.domain.model.requirement.RequirementReference
 import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponse
-import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponseId
 import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponses
 import com.procurement.orchestrator.domain.model.submission.Details
 import com.procurement.orchestrator.domain.model.submission.Submissions
@@ -83,7 +82,7 @@ class AccessValidateRequirementResponsesDelegate(
                 requirementResponse = submission.requirementResponses
                     .map { requirementResponse ->
                         ValidateRequirementResponsesAction.Params.RequirementResponse(
-                            id = requirementResponse.id as RequirementResponseId.Temporal,
+                            id = requirementResponse.id,
                             value = requirementResponse.value,
                             requirement = requirementResponse.requirement
                                 ?.let { requirement ->

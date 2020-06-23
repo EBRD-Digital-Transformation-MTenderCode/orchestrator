@@ -13,7 +13,6 @@ import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.model.Cpid
-import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponseId
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
@@ -56,7 +55,7 @@ class DossierValidateRequirementResponseDelegate(
             params = ValidateRequirementResponseAction.Params(
                 cpid = cpid,
                 requirementResponse = ValidateRequirementResponseAction.Params.RequirementResponse(
-                    id = requirementResponse.id as RequirementResponseId.Temporal,
+                    id = requirementResponse.id,
                     value = requirementResponse.value,
                     requirement = requirementResponse.requirement
                         ?.let { requirement ->

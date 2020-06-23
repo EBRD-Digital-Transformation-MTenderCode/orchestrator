@@ -43,7 +43,7 @@ abstract class GetEnquiryByIdsAction : FunctionalAction<GetEnquiryByIdsAction.Pa
             @JsonInclude(JsonInclude.Include.NON_NULL)
             @field:JsonProperty("answer") @param:JsonProperty("answer") val answer: String?,
             @JsonInclude(JsonInclude.Include.NON_NULL)
-            @field:JsonProperty("relatedLot") @param:JsonProperty("relatedLot") val relatedLot: LotId.Permanent?
+            @field:JsonProperty("relatedLot") @param:JsonProperty("relatedLot") val relatedLot: LotId?
 
         ) : Serializable {
             data class Author(

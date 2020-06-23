@@ -20,6 +20,7 @@ enum class TenderStatusDetails(@JsonValue override val key: String) : EnumElemen
     PLANNED("planned"),
     PLANNING("planning"),
     QUALIFICATION("qualification"),
+    SUBMISSION("submission"),
     SUSPENDED("suspended"),
     TENDERING("tendering");
 
