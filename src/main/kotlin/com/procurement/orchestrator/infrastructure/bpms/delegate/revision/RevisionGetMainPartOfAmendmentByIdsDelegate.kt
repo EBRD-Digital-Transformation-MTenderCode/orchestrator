@@ -70,11 +70,11 @@ class RevisionGetMainPartOfAmendmentByIdsDelegate(
         val cpid = processInfo.cpid
         val ocid = processInfo.ocid
 
-        val ids: List<AmendmentId.Permanent> = when (parameters.location) {
+        val ids: List<AmendmentId> = when (parameters.location) {
             Location.TENDER -> context.tryGetTender()
                 .orForwardFail { fail -> return fail }
                 .amendments
-                .map { it.id as AmendmentId.Permanent }
+                .map { it.id }
         }
 
         return client.getAmendmentByIds(

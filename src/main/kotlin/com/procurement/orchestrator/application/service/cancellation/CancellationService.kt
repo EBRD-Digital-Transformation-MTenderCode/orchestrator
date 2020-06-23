@@ -21,7 +21,6 @@ import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.domain.model.amendment.Amendment
-import com.procurement.orchestrator.domain.model.amendment.AmendmentId
 import com.procurement.orchestrator.domain.model.amendment.Amendments
 import com.procurement.orchestrator.domain.model.document.Document
 import com.procurement.orchestrator.domain.model.document.DocumentId
@@ -87,7 +86,7 @@ class CancellationServiceImpl(
             )
             .orReturnFail { return MaybeFail.fail(it) }
             ?: return MaybeFail.fail(
-                BpeErrors.Process(
+                BpeErrors.ImpossibleOperation(
                     description = "Operation by country: '$countryId', pmd: '$pmd', process definition key: '$processDefinitionKey', stage: '$prevStage', phase: '$prevPhase' is impossible."
                 )
             )
@@ -124,7 +123,7 @@ class CancellationServiceImpl(
                     amendments = payload.amendments
                         .map { amendment ->
                             Amendment(
-                                id = AmendmentId.Temporal.create(amendment.id),
+                                id = amendment.id,
                                 rationale = amendment.rationale,
                                 description = amendment.description,
                                 documents = amendment.documents
@@ -190,7 +189,7 @@ class CancellationServiceImpl(
             )
             .orReturnFail { return MaybeFail.fail(it) }
             ?: return MaybeFail.fail(
-                BpeErrors.Process(
+                BpeErrors.ImpossibleOperation(
                     description = "Operation by country: '$countryId', pmd: '$pmd', process definition key: '$processDefinitionKey', stage: '$prevStage', phase: '$prevPhase' is impossible."
                 )
             )
@@ -230,7 +229,7 @@ class CancellationServiceImpl(
                     amendments = payload.amendments
                         .map { amendment ->
                             Amendment(
-                                id = AmendmentId.Temporal.create(amendment.id),
+                                id = amendment.id,
                                 rationale = amendment.rationale,
                                 description = amendment.description,
                                 documents = amendment.documents
@@ -293,7 +292,7 @@ class CancellationServiceImpl(
             )
             .orReturnFail { return MaybeFail.fail(it) }
             ?: return MaybeFail.fail(
-                BpeErrors.Process(
+                BpeErrors.ImpossibleOperation(
                     description = "Operation by country: '$countryId', pmd: '$pmd', process definition key: '$processDefinitionKey', stage: '$prevStage', phase: '$prevPhase' is impossible."
                 )
             )

@@ -99,6 +99,7 @@ class BpeInitializeCreateSubmissionProcessDelegate(
                                         .let { identifier ->
                                             identifier.scheme + "-" + identifier.id
                                         },
+                                    name = candidate.name,
                                     identifier = candidate.identifier
                                         .let { identifier ->
                                             Identifier(

@@ -3,7 +3,6 @@ package com.procurement.orchestrator.delegate.kafka;
 import com.datastax.driver.core.utils.UUIDs;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
-import com.procurement.orchestrator.domain.chronograph.ChronographResponse;
 import com.procurement.orchestrator.domain.commands.AgentResponseCommandType;
 import com.procurement.orchestrator.domain.commands.AuctionCommandType;
 import com.procurement.orchestrator.domain.commands.DocGeneratorCommandType;
@@ -38,31 +37,6 @@ public class MessageConsumer {
         this.requestService = requestService;
         this.jsonUtil = jsonUtil;
         this.dateUtil = dateUtil;
-    }
-
-    @KafkaListener(topics = "chronograph-out")
-    public void onChronograph(final String message, @Header(KafkaHeaders.ACKNOWLEDGMENT) final Acknowledgment ac) {
-        try {
-            LOG.info("Received a message from the Chronograph (" + message + ").");
-            ac.acknowledge();
-            final ChronographResponse response = jsonUtil.toObject(ChronographResponse.class, message);
-            if (response.getStatus().equals("NOTIFICATION")) {
-                final ChronographResponse.ChronographResponseData data = response.getData();
-                final Context contextChronograph = jsonUtil.toObject(Context.class, data.getMetaData());
-                final Context prevContext = requestService.getContext(contextChronograph.getCpid());
-                final Context context = requestService.checkRulesAndProcessContext(
-                        prevContext,
-                        contextChronograph.getProcessType(),
-                        contextChronograph.getRequestId());
-                requestService.saveRequestAndCheckOperation(context, jsonUtil.empty());
-                final Map<String, Object> variables = new HashMap<>();
-                variables.put("operationType", context.getOperationType());
-                processService.startProcess(context, variables);
-            }
-        } catch (Exception e) {
-            //TODO error processing
-            LOG.error("Error while processing the message from the Chronograph (" + message + ").", e);
-        }
     }
 
     @KafkaListener(topics = "auction-front-out")

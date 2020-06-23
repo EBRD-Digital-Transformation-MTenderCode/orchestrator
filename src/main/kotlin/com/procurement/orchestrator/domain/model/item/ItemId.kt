@@ -2,18 +2,18 @@ package com.procurement.orchestrator.domain.model.item
 
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonValue
-import com.procurement.orchestrator.domain.model.UUID_PATTERN
-import com.procurement.orchestrator.domain.model.isUUID
 import java.io.Serializable
 import java.util.*
 
-sealed class ItemId(private val value: String) : Serializable {
+class ItemId private constructor(private val value: String) : Serializable {
 
     companion object {
 
         @JvmStatic
         @JsonCreator
-        fun parse(text: String): ItemId? = Permanent.tryCreateOrNull(text)
+        fun create(text: String): ItemId = ItemId(text)
+
+        fun generate(): ItemId = ItemId(UUID.randomUUID().toString())
     }
 
     override fun equals(other: Any?): Boolean {
@@ -28,24 +28,4 @@ sealed class ItemId(private val value: String) : Serializable {
 
     @JsonValue
     override fun toString(): String = value
-
-    class Temporal private constructor(value: String) : ItemId(value), Serializable {
-        companion object {
-            fun create(text: String): ItemId = Temporal(text)
-        }
-    }
-
-    class Permanent private constructor(value: String) : ItemId(value), Serializable {
-
-        companion object {
-            val pattern: String
-                get() = UUID_PATTERN
-
-            fun validation(text: String): Boolean = text.isUUID()
-
-            fun tryCreateOrNull(text: String): ItemId? = if (validation(text)) Permanent(text) else null
-
-            fun generate(): ItemId = Permanent(UUID.randomUUID().toString())
-        }
-    }
 }

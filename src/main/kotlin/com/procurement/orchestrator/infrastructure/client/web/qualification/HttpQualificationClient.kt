@@ -6,6 +6,8 @@ import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.WebClient
+import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckDeclarationAction
+import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CreateQualificationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.DetermineNextsForQualificationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.FindQualificationIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.StartQualificationPeriodAction
@@ -33,6 +35,23 @@ class HttpQualificationClient(private val webClient: WebClient, properties: Comp
         url = url,
         command = QualificationCommands.FindQualificationIds.build(id = id, params = params),
         target = QualificationCommands.FindQualificationIds.target
+    )
+
+    override suspend fun checkDeclaration(
+        id: CommandId,
+        params: CheckDeclarationAction.Params
+    ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
+        url = url,
+        command = QualificationCommands.CheckDeclaration.build(id = id, params = params)
+    )
+
+    override suspend fun createQualification(
+        id: CommandId,
+        params: CreateQualificationAction.Params
+    ): Result<Reply<CreateQualificationAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = QualificationCommands.CreateQualification.build(id = id, params = params),
+        target = QualificationCommands.CreateQualification.target
     )
 
     override suspend fun determineNextsForQualification(

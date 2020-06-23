@@ -12,7 +12,6 @@ import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
-import com.procurement.orchestrator.domain.model.amendment.AmendmentId
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
@@ -56,7 +55,7 @@ class RevisionDataValidationDelegate(
                 ocid = processInfo.ocid,
                 operationType = processInfo.operationType,
                 amendment = DataValidationAction.Params.Amendment(
-                    id = amendment.id as AmendmentId.Temporal,
+                    id = amendment.id,
                     rationale = amendment.rationale,
                     description = amendment.description,
                     documents = amendment.documents

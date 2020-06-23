@@ -6,9 +6,9 @@ import com.procurement.orchestrator.domain.EnumElementProvider
 
 enum class ReductionCriteria(@JsonValue override val key: String) : EnumElementProvider.Key {
 
-    reductionCriteria("reductionCriteria"),
-    none("none"),
-    SCORING("scoring");
+    REDUCTION_CRITERIA("reductionCriteria"),
+    SCORING("scoring"),
+    NONE("none");
 
     override fun toString(): String = key
 

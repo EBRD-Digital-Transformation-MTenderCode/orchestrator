@@ -24,7 +24,7 @@ class BpeCreateIdsForAwardRequirementResponseDelegate(
     logger: Logger,
     operationStepRepository: OperationStepRepository,
     transform: Transform
-) : AbstractInternalDelegate<Unit, Map<RequirementResponseId.Temporal, RequirementResponseId.Permanent>>(
+) : AbstractInternalDelegate<Unit, Map<RequirementResponseId, RequirementResponseId>>(
     logger = logger,
     transform = transform,
     operationStepRepository = operationStepRepository
@@ -36,7 +36,7 @@ class BpeCreateIdsForAwardRequirementResponseDelegate(
     override suspend fun execute(
         context: CamundaGlobalContext,
         parameters: Unit
-    ): Result<Option<Map<RequirementResponseId.Temporal, RequirementResponseId.Permanent>>, Fail.Incident> {
+    ): Result<Option<Map<RequirementResponseId, RequirementResponseId>>, Fail.Incident> {
         val awards = context.getAwardsIfNotEmpty()
             .orForwardFail { fail -> return fail }
 
@@ -44,8 +44,8 @@ class BpeCreateIdsForAwardRequirementResponseDelegate(
             .flatMap { award ->
                 award.requirementResponses.asSequence()
                     .map { requirementResponse ->
-                        val temporal = requirementResponse.id as RequirementResponseId.Temporal
-                        val permanent = RequirementResponseId.Permanent.generate() as RequirementResponseId.Permanent
+                        val temporal = requirementResponse.id as RequirementResponseId
+                        val permanent = RequirementResponseId.generate() as RequirementResponseId
                         temporal to permanent
                     }
             }
@@ -57,7 +57,7 @@ class BpeCreateIdsForAwardRequirementResponseDelegate(
     override fun updateGlobalContext(
         context: CamundaGlobalContext,
         parameters: Unit,
-        data: Map<RequirementResponseId.Temporal, RequirementResponseId.Permanent>
+        data: Map<RequirementResponseId, RequirementResponseId>
     ): MaybeFail<Fail.Incident.Bpmn> {
         val awards = context.awards
 
@@ -67,7 +67,7 @@ class BpeCreateIdsForAwardRequirementResponseDelegate(
                     val updatedRequirementResponses = award.requirementResponses
                         .map { requirementResponse ->
                             requirementResponse.copy(
-                                id = data.getValue(requirementResponse.id as RequirementResponseId.Temporal)
+                                id = data.getValue(requirementResponse.id as RequirementResponseId)
                             )
                         }
                     award.copy(

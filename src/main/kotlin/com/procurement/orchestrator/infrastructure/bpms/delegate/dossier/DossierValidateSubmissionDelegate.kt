@@ -5,7 +5,6 @@ import com.procurement.orchestrator.application.client.DossierClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.getCandidatesIfNotEmpty
 import com.procurement.orchestrator.application.model.context.extension.getDetailsIfOnlyOne
-import com.procurement.orchestrator.application.model.context.extension.getDocumentsIfNotEmpty
 import com.procurement.orchestrator.application.model.context.extension.tryGetSubmissions
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
@@ -15,7 +14,6 @@ import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.model.candidate.Candidates
-import com.procurement.orchestrator.domain.model.document.Documents
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
@@ -53,9 +51,6 @@ class DossierValidateSubmissionDelegate(
         val submissionCandidates = submission.getCandidatesIfNotEmpty()
             .orForwardFail { fail -> return fail }
 
-        val submissionDocuments = submission.getDocumentsIfNotEmpty()
-            .orForwardFail { fail -> return fail }
-
         val processInfo = context.processInfo
 
         return client.validateSubmission(
@@ -65,7 +60,7 @@ class DossierValidateSubmissionDelegate(
                 ocid = processInfo.ocid,
                 id = submission.id,
                 candidates = Candidates(submissionCandidates),
-                documents = Documents(submissionDocuments)
+                documents = submission.documents
             )
         )
     }

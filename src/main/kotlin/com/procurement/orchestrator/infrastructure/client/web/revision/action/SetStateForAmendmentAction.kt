@@ -24,13 +24,13 @@ abstract class SetStateForAmendmentAction :
     ) {
 
         class Amendment(
-            @field:JsonProperty("id") @param:JsonProperty("id") val id: AmendmentId.Permanent,
+            @field:JsonProperty("id") @param:JsonProperty("id") val id: AmendmentId,
             @field:JsonProperty("status") @param:JsonProperty("status") val status: AmendmentStatus
         ) : Serializable
     }
 
     class Result(
-        @field:JsonProperty("id") @param:JsonProperty("id") val id: AmendmentId.Permanent,
+        @field:JsonProperty("id") @param:JsonProperty("id") val id: AmendmentId,
         @field:JsonProperty("status") @param:JsonProperty("status") val status: AmendmentStatus
     ) : Serializable
 }

@@ -12,7 +12,6 @@ import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
 import com.procurement.orchestrator.domain.model.amendment.AmendmentId
-import com.procurement.orchestrator.domain.model.lot.LotId
 import com.procurement.orchestrator.infrastructure.extension.http.getOperationId
 import com.procurement.orchestrator.infrastructure.extension.http.getPlatformId
 import com.procurement.orchestrator.infrastructure.extension.http.getToken
@@ -78,14 +77,7 @@ class ConfirmAmendmentController(
                 )
             )
 
-        val verifiedAmendmentId: AmendmentId = AmendmentId.Permanent.tryCreateOrNull(amendmentId)
-            ?: return failure(
-                RequestErrors.Common.DataFormatMismatch(
-                    name = "amendment-id",
-                    expectedFormat = LotId.Permanent.pattern,
-                    actualValue = amendmentId
-                )
-            )
+        val verifiedAmendmentId: AmendmentId = AmendmentId.create(amendmentId)
 
         val platformId = servlet.getPlatformId()
             .orForwardFail { fail -> return fail }

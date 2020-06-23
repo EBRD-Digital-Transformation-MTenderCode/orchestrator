@@ -22,12 +22,12 @@ data class LocalityDetails(
         true
     else
         other is LocalityDetails
-            && this.scheme == other.scheme
-            && this.id == other.id
+            && this.scheme.toUpperCase() == other.scheme.toUpperCase()
+            && this.id.toUpperCase() == other.id.toUpperCase()
 
     override fun hashCode(): Int {
-        var result = scheme.hashCode()
-        result = 31 * result + id.hashCode()
+        var result = scheme.toUpperCase().hashCode()
+        result = 31 * result + id.toUpperCase().hashCode()
         return result
     }
 

@@ -1,11 +1,11 @@
-package com.procurement.orchestrator.delegate.dossier;
+package com.procurement.orchestrator.delegate.access;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.dto.command.ResponseDto;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
-import com.procurement.orchestrator.rest.DossierRestClient;
+import com.procurement.orchestrator.rest.AccessRestClient;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -16,25 +16,25 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
-import static com.procurement.orchestrator.domain.commands.DossierCommandType.GET_CRITERIA;
+import static com.procurement.orchestrator.domain.commands.AccessCommandType.GET_AWARD_CRITERIA_AND_CONVERSATIONS;
 
 @Component
-public class DossierGetCriteriaDetails implements JavaDelegate {
+public class AccessGetAwardCriteriaAndConversions implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(DossierGetCriteriaDetails.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AccessGetAwardCriteriaAndConversions.class);
 
-    private final DossierRestClient dossierRestClient;
+    private final AccessRestClient accessRestClient;
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public DossierGetCriteriaDetails(
-            final DossierRestClient dossierRestClient,
+    public AccessGetAwardCriteriaAndConversions(
+            final AccessRestClient accessRestClient,
             final OperationService operationService,
             final ProcessService processService,
             final JsonUtil jsonUtil
     ) {
-        this.dossierRestClient = dossierRestClient;
+        this.accessRestClient = accessRestClient;
         this.operationService = operationService;
         this.processService = processService;
         this.jsonUtil = jsonUtil;
@@ -50,11 +50,11 @@ public class DossierGetCriteriaDetails implements JavaDelegate {
         final String taskId = execution.getCurrentActivityId();
 
         if (requestData != null) {
-            final JsonNode commandMessage = processService.getCommandMessage(GET_CRITERIA, context, jsonUtil.empty());
+            final JsonNode commandMessage = processService.getCommandMessage(GET_AWARD_CRITERIA_AND_CONVERSATIONS, context, jsonUtil.empty());
             if (LOG.isDebugEnabled())
                 LOG.debug("COMMAND ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(commandMessage));
 
-            final ResponseEntity<ResponseDto> response = dossierRestClient.execute(commandMessage);
+            final ResponseEntity<ResponseDto> response = accessRestClient.execute(commandMessage);
             if (LOG.isDebugEnabled())
                 LOG.debug("RESPONSE FROM SERVICE ({}): '{}'.", context.getOperationId(), jsonUtil.toJson(response.getBody()));
 
@@ -74,7 +74,7 @@ public class DossierGetCriteriaDetails implements JavaDelegate {
             }
         } else {
             if (LOG.isDebugEnabled())
-                LOG.debug("Request data is missing. The Dossier service for checking responses was not called.");
+                LOG.debug("Request data is missing. The Access service for checking responses was not called.");
         }
 
     }
