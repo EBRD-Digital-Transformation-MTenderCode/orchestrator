@@ -4,18 +4,20 @@ import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.StorageClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.getAmendmentsIfNotEmpty
+import com.procurement.orchestrator.application.model.context.extension.getAwardBusinessFunctionsIfNotEmpty
 import com.procurement.orchestrator.application.model.context.extension.getAwardDocumentsIfNotEmpty
 import com.procurement.orchestrator.application.model.context.extension.getAwardsIfNotEmpty
-import com.procurement.orchestrator.application.model.context.extension.getBusinessFunctionsIfNotEmpty
 import com.procurement.orchestrator.application.model.context.extension.getCandidatesIfNotEmpty
 import com.procurement.orchestrator.application.model.context.extension.getDetailsIfNotEmpty
 import com.procurement.orchestrator.application.model.context.extension.getDetailsIfOnlyOne
 import com.procurement.orchestrator.application.model.context.extension.getDocumentsIfNotEmpty
 import com.procurement.orchestrator.application.model.context.extension.getPersonesIfNotEmpty
+import com.procurement.orchestrator.application.model.context.extension.getQualificationBusinessFunctionsIfNotEmpty
 import com.procurement.orchestrator.application.model.context.extension.getQualificationDocumentsIfNotEmpty
 import com.procurement.orchestrator.application.model.context.extension.getQualificationIfOnlyOne
 import com.procurement.orchestrator.application.model.context.extension.getRequirementResponseIfOnlyOne
 import com.procurement.orchestrator.application.model.context.extension.getResponder
+import com.procurement.orchestrator.application.model.context.extension.getSubmissionBusinessFunctionsIfNotEmpty
 import com.procurement.orchestrator.application.model.context.extension.getSubmissionDocumentsIfNotEmpty
 import com.procurement.orchestrator.application.model.context.extension.tryGetSubmissions
 import com.procurement.orchestrator.application.service.Logger
@@ -52,9 +54,6 @@ class StorageCheckRegistrationDelegate(
 ) {
     companion object {
         private const val TENDER_ATTRIBUTE_NAME = "tender"
-        private const val AWARDS_BUSINESS_FUNCTIONS_PATH = "awards.requirementResponses.responder"
-        private const val SUBMISSIONS_BUSINESS_FUNCTIONS_PATH = "submissions.details.candidates.persones"
-        private const val QUALIFICATIONS_BUSINESS_FUNCTIONS_PATH = "qualifications.requirementResponses.responder"
     }
 
     override fun parameters(parameterContainer: ParameterContainer): Result<Parameters, Fail.Incident.Bpmn.Parameter> {
@@ -268,7 +267,7 @@ class StorageCheckRegistrationDelegate(
                     .orForwardFail { fail -> return fail }
             }
             .flatMap { persone ->
-                persone.getBusinessFunctionsIfNotEmpty(path = SUBMISSIONS_BUSINESS_FUNCTIONS_PATH)
+                persone.getSubmissionBusinessFunctionsIfNotEmpty()
                     .orForwardFail { fail -> return fail }
             }
             .flatMap { businessFunction ->
@@ -303,7 +302,7 @@ class StorageCheckRegistrationDelegate(
                     .orForwardFail { fail -> return fail }
                     .getResponder()
                     .orForwardFail { fail -> return fail }
-                    .getBusinessFunctionsIfNotEmpty(path = AWARDS_BUSINESS_FUNCTIONS_PATH)
+                    .getAwardBusinessFunctionsIfNotEmpty()
                     .orForwardFail { fail -> return fail }
                     .flatMap { businessFunction ->
                         businessFunction.getAwardDocumentsIfNotEmpty()
@@ -340,7 +339,7 @@ class StorageCheckRegistrationDelegate(
             .orForwardFail { fail -> return fail }
             .getResponder()
             .orForwardFail { fail -> return fail }
-            .getBusinessFunctionsIfNotEmpty(path = QUALIFICATIONS_BUSINESS_FUNCTIONS_PATH)
+            .getQualificationBusinessFunctionsIfNotEmpty()
             .orForwardFail { fail -> return fail }
             .flatMap { businessFunction ->
                 businessFunction.getQualificationDocumentsIfNotEmpty()
