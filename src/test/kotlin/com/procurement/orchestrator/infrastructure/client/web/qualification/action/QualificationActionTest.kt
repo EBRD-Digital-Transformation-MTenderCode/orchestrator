@@ -125,4 +125,17 @@ class QualificationActionTest {
             }
         }
     }
+
+    @Nested
+    inner class CheckQualificationState {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun required() {
+                testingBindingAndMapping<CheckQualificationStateAction.Params>("json/client/qualification/check_qualification_state_params_full.json")
+            }
+        }
+
+    }
 }
