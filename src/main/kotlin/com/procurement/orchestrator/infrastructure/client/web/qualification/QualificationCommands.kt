@@ -4,6 +4,7 @@ import com.procurement.orchestrator.infrastructure.client.web.dossier.action.Che
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.CreateSubmissionAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.ValidateSubmissionAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckDeclarationAction
+import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CreateQualificationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.FindQualificationIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.StartQualificationPeriodAction
 
@@ -20,4 +21,6 @@ object QualificationCommands {
     object FindQualificationIds : FindQualificationIdsAction()
 
     object CheckDeclaration : CheckDeclarationAction()
+
+    object CreateQualification : CreateQualificationAction()
 }

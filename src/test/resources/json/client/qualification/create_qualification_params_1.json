@@ -1,0 +1,80 @@
+{
+  "cpid": "ocds-b3wdp1-MD-1580458690892",
+  "ocid": "ocds-b3wdp1-MD-1580458690892-EV-1580458791896",
+  "date": "2020-06-04T07:09:19Z",
+  "owner": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "submissions": [
+    {
+      "id": "30675015-f5be-454f-9e20-9c6b9382190b",
+      "requirementResponses": [
+        {
+          "id": "3ed2bbb4-fd54-4f0a-8896-3789ab2461e5",
+          "value": "STRING",
+          "requirement": {
+            "id": "string"
+          },
+          "relatedCandidate": {
+            "id": "string",
+            "name": "string"
+          }
+        },
+        {
+          "id": "0bff6ecb-bad1-4bc2-b98f-cbfe9b0c8a2b",
+          "value": 1,
+          "requirement": {
+            "id": "string"
+          },
+          "relatedCandidate": {
+            "id": "string",
+            "name": "string"
+          }
+        },
+        {
+          "id": "72129714-3e18-4405-b171-5821d79a9079",
+          "value": 0.025,
+          "requirement": {
+            "id": "string"
+          },
+          "relatedCandidate": {
+            "id": "string",
+            "name": "string"
+          }
+        }
+      ]
+    }
+  ],
+  "tender": {
+    "conversions": [
+      {
+        "id": "93546830-29ec-4695-863a-765309a34bc4",
+        "relatedItem": "string",
+        "relatesTo": "requirement",
+        "rationale": "string",
+        "coefficients": [
+          {
+            "value": "STRING",
+            "id": "string",
+            "coefficient": 0.001
+          },
+          {
+            "value": 1,
+            "id": "string",
+            "coefficient": 0.001
+          },
+          {
+            "value": 0.025,
+            "id": "string",
+            "coefficient": 0.001
+          }
+
+        ]
+      }
+    ],
+    "otherCriteria": {
+      "reductionCriteria": "scoring",
+      "qualificationSystemMethods": [
+        "automated"
+      ]
+    }
+  }
+}
