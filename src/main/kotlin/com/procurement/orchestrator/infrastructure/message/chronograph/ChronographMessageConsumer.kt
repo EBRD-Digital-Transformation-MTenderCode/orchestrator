@@ -67,7 +67,7 @@ class ChronographMessageConsumer(
             contextChronograph.requestId
         )
         requestService.saveRequestAndCheckOperation(context, null)
-        val variables = mapOf(
+        val variables: MutableMap<String, Any> = mutableMapOf(
             "operationType" to context.operationType
         )
         processService.startProcess(context, variables)
