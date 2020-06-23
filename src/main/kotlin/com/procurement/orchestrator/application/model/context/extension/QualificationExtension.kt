@@ -15,3 +15,6 @@ fun GlobalContext.getQualificationIfOnlyOne(): Result<Qualification, Fail.Incide
 
 fun Qualification.getRequirementResponseIfOnlyOne(): Result<RequirementResponse, Fail.Incident.Bpms.Context> =
     this.requirementResponses.getElementIfOnlyOne(name = REQUIREMENT_RESPONSE_NAME, path = PATH)
+
+fun GlobalContext.getQualificationsIfNotEmpty(): Result<List<Qualification>, Fail.Incident.Bpms.Context> =
+    this.qualifications.getIfNotEmpty(name = PATH)

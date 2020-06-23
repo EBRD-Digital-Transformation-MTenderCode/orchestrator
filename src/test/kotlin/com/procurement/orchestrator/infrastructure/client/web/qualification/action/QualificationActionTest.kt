@@ -95,4 +95,34 @@ class QualificationActionTest {
             }
         }
     }
+
+    @Nested
+    inner class DetermineNextsForQualification {
+        @Nested
+        inner class Params {
+
+            @Test
+            fun required() {
+                testingBindingAndMapping<DetermineNextsForQualificationAction.Params>("json/client/qualification/determine_nexts_for_qualification_params_full.json")
+            }
+
+            @Test
+            fun required1() {
+                testingBindingAndMapping<DetermineNextsForQualificationAction.Params>("json/client/qualification/determine_nexts_for_qualification_params_1.json")
+            }
+
+            @Test
+            fun required2() {
+                testingBindingAndMapping<DetermineNextsForQualificationAction.Params>("json/client/qualification/determine_nexts_for_qualification_params_2.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun required() {
+                testingBindingAndMapping<DetermineNextsForQualificationAction.Result>("json/client/qualification/determine_nexts_for_qualification_result_full.json")
+            }
+        }
+    }
 }
