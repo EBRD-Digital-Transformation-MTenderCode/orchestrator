@@ -7,6 +7,7 @@ import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckAccessToTenderAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckPersonesStructureAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateCriteriaForProcuringEntityAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.FindCriteriaAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindLotIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotStateByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetOrganizationAction
@@ -85,4 +86,9 @@ interface AccessClient {
         id: CommandId,
         params: ValidateRequirementResponsesAction.Params
     ): Result<Reply<ValidateRequirementResponsesAction.Result>, Fail.Incident>
+
+    suspend fun findCriteria(
+        id: CommandId,
+        params: FindCriteriaAction.Params
+    ): Result<Reply<FindCriteriaAction.Result>, Fail.Incident>
 }
