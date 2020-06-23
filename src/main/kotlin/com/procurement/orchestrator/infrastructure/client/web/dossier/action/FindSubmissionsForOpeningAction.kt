@@ -47,7 +47,7 @@ abstract class FindSubmissionsForOpeningAction : FunctionalAction<FindSubmission
     class Result(values: List<Submission>) : List<Result.Submission> by values, Serializable {
 
         data class Submission(
-            @param:JsonProperty("id") @field:JsonProperty("id") val id: SubmissionId.Permanent,
+            @param:JsonProperty("id") @field:JsonProperty("id") val id: SubmissionId,
 
             @JsonInclude(JsonInclude.Include.NON_EMPTY)
             @param:JsonProperty("requirementResponses") @field:JsonProperty("requirementResponses") val requirementResponses: List<RequirementResponse>?,
@@ -59,7 +59,7 @@ abstract class FindSubmissionsForOpeningAction : FunctionalAction<FindSubmission
             @param:JsonProperty("date") @field:JsonProperty("date") val date: LocalDateTime
         ) : Serializable {
             data class RequirementResponse(
-                @param:JsonProperty("id") @field:JsonProperty("id") val id: RequirementResponseId.Temporal,
+                @param:JsonProperty("id") @field:JsonProperty("id") val id: RequirementResponseId,
                 @JsonDeserialize(using = RequirementValueDeserializer::class)
                 @JsonSerialize(using = RequirementValueSerializer::class)
                 @param:JsonProperty("value") @field:JsonProperty("value") val value: RequirementResponseValue,
