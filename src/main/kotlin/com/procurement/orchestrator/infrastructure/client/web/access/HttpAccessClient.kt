@@ -8,6 +8,7 @@ import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.WebClient
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckAccessToTenderAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckPersonesStructureAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateCriteriaForProcuringEntityAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindLotIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotStateByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetOrganizationAction
@@ -103,6 +104,15 @@ class HttpAccessClient(private val webClient: WebClient, properties: ComponentPr
         url = url,
         command = AccessCommands.GetOrganization.build(id = id, params = params),
         target = AccessCommands.GetOrganization.target
+    )
+
+    override suspend fun createCriteriaForProcuringEntity(
+        id: CommandId,
+        params: CreateCriteriaForProcuringEntityAction.Params
+    ): Result<Reply<CreateCriteriaForProcuringEntityAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = AccessCommands.CreateCriteriaForProcuringEntity.build(id = id, params = params),
+        target = AccessCommands.CreateCriteriaForProcuringEntity.target
     )
 
     override suspend fun getQualificationCriteriaAndMethod(
