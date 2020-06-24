@@ -24,9 +24,10 @@ fun initiator(operationType: OperationTypeProcess): Initiator = when (operationT
     OperationTypeProcess.CREATE_SUBMISSION -> Initiator.PLATFORM
     OperationTypeProcess.DECLARE_NON_CONFLICT_OF_INTEREST,
     OperationTypeProcess.LOT_CANCELLATION -> Initiator.PLATFORM
+    OperationTypeProcess.QUALIFICATION_DECLARE_NON_CONFLICT_OF_INTEREST -> Initiator.PLATFORM
+    OperationTypeProcess.SUBMISSION_PERIOD_END -> Initiator.BPE
     OperationTypeProcess.TENDER_CANCELLATION -> Initiator.PLATFORM
     OperationTypeProcess.TENDER_OR_LOT_AMENDMENT_CANCELLATION,
     OperationTypeProcess.TENDER_OR_LOT_AMENDMENT_CONFIRMATION -> Initiator.PLATFORM
     OperationTypeProcess.WITHDRAW_SUBMISSION -> Initiator.PLATFORM
-    OperationTypeProcess.QUALIFICATION_DECLARE_NON_CONFLICT_OF_INTEREST -> Initiator.PLATFORM
 }
