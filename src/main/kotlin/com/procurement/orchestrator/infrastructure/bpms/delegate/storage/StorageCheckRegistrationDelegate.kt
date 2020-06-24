@@ -196,7 +196,6 @@ class StorageCheckRegistrationDelegate(
         when (entities[EntityKey.AWARD_REQUIREMENT_RESPONSE]) {
             EntityValue.OPTIONAL -> getAwardDocumentsIdsOptional(context)
             EntityValue.REQUIRED -> getAwardDocumentsIdsRequired(context)
-                .doOnError { error -> return error.asFailure() }
             null -> emptyList<DocumentId>().asSuccess()
         }
 
@@ -206,7 +205,6 @@ class StorageCheckRegistrationDelegate(
         when (entities[EntityKey.SUBMISSION]) {
             EntityValue.OPTIONAL -> getSubmissionsDocumentsIdsOptional(context)
             EntityValue.REQUIRED -> getSubmissionsDocumentsIdsRequired(context)
-                .doOnError { error -> return error.asFailure() }
             null -> emptyList<DocumentId>().asSuccess()
         }
 
@@ -235,7 +233,6 @@ class StorageCheckRegistrationDelegate(
         when (entities[EntityKey.SUBMISSION_CANDIDATE]) {
             EntityValue.OPTIONAL -> getSubmissionsCandidateDocumentsIdsOptional(context)
             EntityValue.REQUIRED -> getSubmissionsCandidateDocumentsIdsRequired(context)
-                .doOnError { error -> return error.asFailure() }
             null -> emptyList<DocumentId>().asSuccess()
         }
 
@@ -318,7 +315,6 @@ class StorageCheckRegistrationDelegate(
         when (entities[EntityKey.QUALIFICATION_REQUIREMENT_RESPONSE]) {
             EntityValue.OPTIONAL -> getQualificationDocumentsIdsOptional(context)
             EntityValue.REQUIRED -> getQualificationDocumentsIdsRequired(context)
-                .doOnError { error -> return error.asFailure() }
             null -> emptyList<DocumentId>().asSuccess()
         }
 
