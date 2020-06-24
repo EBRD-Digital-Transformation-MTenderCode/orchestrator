@@ -288,7 +288,6 @@ class StorageOpenAccessDelegate(
         when (entities[EntityKey.TENDER]) {
             EntityValue.OPTIONAL -> getTenderDocumentsIdsOptional(tender)
             EntityValue.REQUIRED -> getTenderDocumentsIdsRequired(tender)
-                .doOnError { error -> return error.asFailure() }
             null -> emptyList<DocumentId>().asSuccess()
         }
 
@@ -314,7 +313,6 @@ class StorageOpenAccessDelegate(
         when (entities[EntityKey.AMENDMENT]) {
             EntityValue.OPTIONAL -> getAmendmentDocumentsIdsOptional(tender)
             EntityValue.REQUIRED -> getAmendmentDocumentsIdsRequired(tender)
-                .doOnError { error -> return error.asFailure() }
             null -> emptyList<DocumentId>().asSuccess()
         }
 
@@ -347,7 +345,6 @@ class StorageOpenAccessDelegate(
         when (entities[EntityKey.AWARD_REQUIREMENT_RESPONSE]) {
             EntityValue.OPTIONAL -> getAwardDocumentsIdsOptional(awards)
             EntityValue.REQUIRED -> getAwardDocumentsIdsRequired(awards)
-                .doOnError { error -> return error.asFailure() }
             null -> emptyList<DocumentId>().asSuccess()
         }
 
@@ -391,7 +388,6 @@ class StorageOpenAccessDelegate(
         when (entities[EntityKey.QUALIFICATION_REQUIREMENT_RESPONSE]) {
             EntityValue.OPTIONAL -> getQualificationDocumentsIdsOptional(qualifications)
             EntityValue.REQUIRED -> getQualificationDocumentsIdsRequired(qualifications)
-                .doOnError { error -> return error.asFailure() }
             null -> emptyList<DocumentId>().asSuccess()
         }
 
