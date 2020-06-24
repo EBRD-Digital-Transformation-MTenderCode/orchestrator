@@ -17,7 +17,6 @@ class ChronographMessage(
     class Metadata(
         @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: String,
         @field:JsonProperty("ocid") @param:JsonProperty("ocid") val ocid: String,
-        @field:JsonProperty("operationType") @param:JsonProperty("operationType") val operationType: String,
         @field:JsonProperty("processType") @param:JsonProperty("processType") val processType: String,
         @field:JsonProperty("requestId") @param:JsonProperty("requestId") val requestId: String,
         @field:JsonProperty("operationId") @param:JsonProperty("operationId") val operationId: String,
