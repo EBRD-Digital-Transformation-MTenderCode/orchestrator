@@ -1,6 +1,7 @@
 package com.procurement.orchestrator.infrastructure.message.chronograph
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import java.time.LocalDateTime
 
 class ChronographMessage(
     @field:JsonProperty("status") @param:JsonProperty("status") val status: String,
@@ -17,6 +18,7 @@ class ChronographMessage(
     class Metadata(
         @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: String,
         @field:JsonProperty("ocid") @param:JsonProperty("ocid") val ocid: String,
+        @field:JsonProperty("timestamp") @param:JsonProperty("timestamp") val timestamp: LocalDateTime,
         @field:JsonProperty("processType") @param:JsonProperty("processType") val processType: String,
         @field:JsonProperty("requestId") @param:JsonProperty("requestId") val requestId: String,
         @field:JsonProperty("operationId") @param:JsonProperty("operationId") val operationId: String,

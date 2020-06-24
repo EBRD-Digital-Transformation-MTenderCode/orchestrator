@@ -9,7 +9,6 @@ import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.ProcessLauncher
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.Context
-import com.procurement.orchestrator.domain.extension.date.parseLocalDateTime
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.model.Cpid
@@ -89,7 +88,7 @@ class ChronographMessageConsumer(
         val requestId: RequestId = RequestId.tryCreateOrNull(payload.requestId)!!
         val owner: Owner = Owner.tryCreateOrNull(payload.owner)!!
         val platformId: PlatformId = owner
-        val timestamp: LocalDateTime = data.launchTime.parseLocalDateTime()
+        val timestamp: LocalDateTime = payload.timestamp
 
         val event = ChronographEvent(
             operationId = operationId,
