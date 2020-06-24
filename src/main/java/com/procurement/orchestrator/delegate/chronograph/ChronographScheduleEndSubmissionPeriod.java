@@ -1,10 +1,12 @@
 package com.procurement.orchestrator.delegate.chronograph;
 
-import java.time.LocalDateTime;
-import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.procurement.orchestrator.databinding.LocalDateTimeDeserializer;
+import com.procurement.orchestrator.databinding.LocalDateTimeSerializer;
 import com.procurement.orchestrator.delegate.kafka.MessageProducer;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.chronograph.ActionType;
@@ -20,6 +22,9 @@ import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Component
 public class ChronographScheduleEndSubmissionPeriod implements JavaDelegate {
@@ -124,6 +129,8 @@ public class ChronographScheduleEndSubmissionPeriod implements JavaDelegate {
 
         @JsonProperty(value = "timestamp")
         @JsonInclude(JsonInclude.Include.NON_NULL)
+        @JsonSerialize(using = LocalDateTimeSerializer.class)
+        @JsonDeserialize(using = LocalDateTimeDeserializer.class)
         private LocalDateTime timestamp;
 
         @JsonProperty(value = "isAuction")
