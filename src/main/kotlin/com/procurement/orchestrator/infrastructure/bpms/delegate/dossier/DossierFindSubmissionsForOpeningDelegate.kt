@@ -25,7 +25,6 @@ import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExterna
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
-import com.procurement.orchestrator.infrastructure.client.web.dossier.DossierCommands
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.FindSubmissionsForOpeningAction
 import org.springframework.stereotype.Component
 
@@ -70,9 +69,7 @@ class DossierFindSubmissionsForOpeningDelegate(
     ): MaybeFail<Fail.Incident> {
 
         val data = result.orNull
-            ?: return MaybeFail.fail(
-                Fail.Incident.Response.Empty(service = "eDossier", action = DossierCommands.FindSubmissionsForOpening)
-            )
+            ?: return MaybeFail.none()
 
         val buildSubmissions = buildSubmissions(data)
 
