@@ -24,7 +24,7 @@ import com.procurement.orchestrator.infrastructure.client.web.qualification.acti
 import org.springframework.stereotype.Component
 
 @Component
-class QualificationCreateQualificationDelegate(
+class QualificationCreateQualificationsDelegate(
     logger: Logger,
     private val qualificationClient: QualificationClient,
     operationStepRepository: OperationStepRepository,
