@@ -66,7 +66,7 @@ public class ChronographScheduleEndSubmissionPeriod implements JavaDelegate {
         metadataBuilder.requestId(uuid);
         metadataBuilder.operationId(uuid);
         metadataBuilder.cpid(context.getCpid());
-        metadataBuilder.ocid(context.getOcid());
+        metadataBuilder.ocid(context.getOcidCn());
         metadataBuilder.processType(PROCESS_TYPE);
         metadataBuilder.phase(PHASE);
 
