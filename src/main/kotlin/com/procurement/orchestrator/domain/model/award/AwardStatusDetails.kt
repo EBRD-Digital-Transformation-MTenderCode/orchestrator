@@ -6,14 +6,15 @@ import com.procurement.orchestrator.domain.EnumElementProvider
 import com.procurement.orchestrator.domain.model.amendment.AmendmentStatus
 
 enum class AwardStatusDetails(@JsonValue override val key: String) : EnumElementProvider.Key {
-    PENDING("pending"),
     ACTIVE("active"),
-    UNSUCCESSFUL("unsuccessful"),
+    AWAITING("awaiting"),
     CONSIDERATION("consideration"),
     EMPTY("empty"),
-    AWAITING("awaiting"),
+    LACK_OF_SUBMISSIONS("lackOfSubmissions"),
+    LOT_CANCELLED("lotCancelled"),
     NO_OFFERS_RECEIVED("noOffersReceived"),
-    LOT_CANCELLED("lotCancelled");
+    PENDING("pending"),
+    UNSUCCESSFUL("unsuccessful");
 
     override fun toString(): String = key
 
