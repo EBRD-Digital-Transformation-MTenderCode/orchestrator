@@ -5,6 +5,7 @@ import com.procurement.orchestrator.application.model.Owner
 import com.procurement.orchestrator.application.model.PlatformId
 import com.procurement.orchestrator.application.model.RequestId
 import com.procurement.orchestrator.application.service.ChronographEvent
+import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.ProcessLauncher
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.Context
@@ -28,7 +29,8 @@ class ChronographMessageConsumer(
     private val processService: ProcessService,
     private val requestService: RequestService,
     private val transform: Transform,
-    private val processLauncher: ProcessLauncher
+    private val processLauncher: ProcessLauncher,
+    private val logger: Logger
 ) {
     companion object {
         private val LOG = LoggerFactory.getLogger(ChronographMessageConsumer::class.java)
@@ -45,10 +47,11 @@ class ChronographMessageConsumer(
                 .orThrow { it.exception }
 
             if ("NOTIFICATION" == response.status.toUpperCase()) {
-                if ("SUBMISSION" == response.data.phase.toUpperCase())
+                val result = if ("SUBMISSION" == response.data.phase.toUpperCase())
                     processingNew(response.data)
                 else
                     processingOld(response.data)
+                result.doOnFail { error -> error.logging(logger) }
             }
             acknowledgment.acknowledge()
         } catch (e: Exception) {

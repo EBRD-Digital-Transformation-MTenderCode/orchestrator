@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.config.kafka;
 
+import com.procurement.orchestrator.application.service.Logger;
 import com.procurement.orchestrator.application.service.ProcessLauncher;
 import com.procurement.orchestrator.application.service.Transform;
 import com.procurement.orchestrator.delegate.kafka.MessageConsumer;
@@ -75,7 +76,8 @@ public class KafkaConsumerConfig {
     public ChronographMessageConsumer chronographMessageConsumer(final ProcessService processService,
                                                                  final RequestService requestService,
                                                                  final Transform transform,
-                                                                 final ProcessLauncher processLauncher) {
-        return new ChronographMessageConsumer(processService, requestService, transform, processLauncher);
+                                                                 final ProcessLauncher processLauncher,
+                                                                 final Logger logger) {
+        return new ChronographMessageConsumer(processService, requestService, transform, processLauncher, logger);
     }
 }
