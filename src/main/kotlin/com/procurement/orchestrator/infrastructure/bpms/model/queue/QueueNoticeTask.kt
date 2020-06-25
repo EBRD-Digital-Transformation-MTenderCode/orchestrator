@@ -156,5 +156,6 @@ private fun QueueNoticeTask.Data.update(data: QueueNoticeTask.Data): QueueNotice
     parties = parties updateBy data.parties,
     contracts = contracts updateBy data.contracts,
     submissions = submissions updateBy data.submissions,
-    preQualification = preQualification updateBy data.preQualification
+    preQualification = preQualification updateBy data.preQualification,
+    qualifications = qualifications updateBy data.qualifications
 )
