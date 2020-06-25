@@ -39,7 +39,7 @@ class QualificationCheckAccessToQualificationDelegate(
         val processInfo = context.processInfo
         val requestInfo = context.requestInfo
 
-        val qualification = context.qualifications
+        val qualification = context
             .getQualificationIfOnlyOne()
             .orForwardFail { fail -> return fail }
 
