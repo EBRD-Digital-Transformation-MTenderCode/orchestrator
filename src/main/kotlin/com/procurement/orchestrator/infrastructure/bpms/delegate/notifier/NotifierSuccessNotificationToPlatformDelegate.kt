@@ -140,6 +140,13 @@ class NotifierSuccessNotificationToPlatformDelegate(
                     id = submission.id,
                     token = submission.token
                 )
+            },
+        qualifications = details.qualifications
+            .map { qualification ->
+                PlatformNotification.Outcomes.Qualification(
+                    id = qualification.id,
+                    token = qualification.token
+                )
             }
     )
 
