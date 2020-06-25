@@ -23,6 +23,13 @@ import com.procurement.orchestrator.domain.model.identifier.Identifiers
 import com.procurement.orchestrator.domain.model.lot.RelatedLots
 import com.procurement.orchestrator.domain.model.organization.ContactPoint
 import com.procurement.orchestrator.domain.model.organization.datail.Details
+import com.procurement.orchestrator.domain.model.organization.datail.MainEconomicActivities
+import com.procurement.orchestrator.domain.model.organization.datail.MainEconomicActivity
+import com.procurement.orchestrator.domain.model.organization.datail.account.AccountIdentifier
+import com.procurement.orchestrator.domain.model.organization.datail.account.AccountIdentifiers
+import com.procurement.orchestrator.domain.model.organization.datail.account.BankAccount
+import com.procurement.orchestrator.domain.model.organization.datail.account.BankAccounts
+import com.procurement.orchestrator.domain.model.organization.datail.legalform.LegalForm
 import com.procurement.orchestrator.domain.model.organization.person.BusinessFunction
 import com.procurement.orchestrator.domain.model.organization.person.BusinessFunctions
 import com.procurement.orchestrator.domain.model.party.Parties
@@ -243,8 +250,101 @@ class DossierGetOrganizationsDelegate(
                 }
                 .orEmpty()
         ),
-        details = Details(
+        details = organization.details
+            .let { details: GetOrganizationsAction.Result.Organization.Details ->
+                Details(
+                    typeOfSupplier = details.typeOfSupplier,
+                    mainEconomicActivities = details.mainEconomicActivities
+                        .map { mainEconomicActivity ->
+                            MainEconomicActivity(
+                                scheme = mainEconomicActivity.scheme,
+                                id = mainEconomicActivity.id,
+                                description = mainEconomicActivity.description,
+                                uri = mainEconomicActivity.uri
+                            )
+                        }
+                        .let { MainEconomicActivities(it) },
+                    bankAccounts = details.bankAccounts
+                        .map { bankAccount ->
+                            BankAccount(
+                                description = bankAccount.description,
+                                bankName = bankAccount.bankName,
+                                address = bankAccount.address
+                                    .let { address ->
+                                        Address(
+                                            streetAddress = address.streetAddress,
+                                            postalCode = address.postalCode,
+                                            addressDetails = address.addressDetails
+                                                .let { addressDetails ->
+                                                    AddressDetails(
+                                                        country = addressDetails.country
+                                                            .let { country ->
+                                                                CountryDetails(
+                                                                    scheme = country.scheme,
+                                                                    id = country.id,
+                                                                    description = country.description,
+                                                                    uri = country.uri
+                                                                )
+                                                            },
+                                                        region = addressDetails.region
+                                                            .let { region ->
+                                                                RegionDetails(
+                                                                    scheme = region.scheme,
+                                                                    id = region.id,
+                                                                    description = region.description,
+                                                                    uri = region.uri
+                                                                )
+                                                            },
+                                                        locality = addressDetails.locality
+                                                            .let { locality ->
+                                                                LocalityDetails(
+                                                                    scheme = locality.scheme,
+                                                                    id = locality.id,
+                                                                    description = locality.description,
+                                                                    uri = locality.uri
+                                                                )
+                                                            }
+                                                    )
+                                                }
+                                        )
+                                    },
+                                identifier = bankAccount.identifier
+                                    .let { accountIdentifier ->
+                                        AccountIdentifier(
+                                            scheme = accountIdentifier.scheme,
+                                            id = accountIdentifier.id
+                                        )
+                                    },
+                                accountIdentification = bankAccount.accountIdentification
+                                    .let { accountIdentifier ->
+                                        AccountIdentifier(
+                                            scheme = accountIdentifier.scheme,
+                                            id = accountIdentifier.id
+                                        )
 
-        )
+                                    },
+                                additionalAccountIdentifiers = bankAccount.additionalAccountIdentifiers
+                                    .map { accountIdentifier ->
+                                        AccountIdentifier(
+                                            scheme = accountIdentifier.scheme,
+                                            id = accountIdentifier.id
+                                        )
+                                    }
+                                    .let { AccountIdentifiers(it) }
+                            )
+                        }
+                        .let { BankAccounts(it) },
+                    legalForm = details.legalForm
+                        ?.let { legalForm ->
+                            LegalForm(
+                                scheme = legalForm.scheme,
+                                id = legalForm.id,
+                                description = legalForm.description,
+                                uri = legalForm.uri
+                            )
+                        },
+                    scale = details.scale
+                )
+            }
     )
 }

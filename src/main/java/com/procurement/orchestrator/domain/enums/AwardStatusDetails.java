@@ -7,22 +7,23 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public enum AwardStatusDetails {
-    PENDING("pending"),
     ACTIVE("active"),
-    UNSUCCESSFUL("unsuccessful"),
+    AWAITING("awaiting"),
     CONSIDERATION("consideration"),
     EMPTY("empty"),
-    AWAITING("awaiting"),
+    LACK_OF_SUBMISSIONS("lackOfSubmissions"),
+    LOT_CANCELLED("lotCancelled"),
     NO_OFFERS_RECEIVED("noOffersReceived"),
-    LOT_CANCELLED("lotCancelled");
+    PENDING("pending"),
+    UNSUCCESSFUL("unsuccessful");
 
     private String value;
 
     private static Map<String, AwardStatusDetails> elements = Arrays.stream(values())
-            .collect(Collectors.toMap(
-                    item -> item.value.toUpperCase(),
-                    item -> item)
-            );
+        .collect(Collectors.toMap(
+            item -> item.value.toUpperCase(),
+            item -> item)
+        );
 
     AwardStatusDetails(String value) {
         this.value = value;

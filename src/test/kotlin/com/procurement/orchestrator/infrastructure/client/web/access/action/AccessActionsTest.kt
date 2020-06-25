@@ -255,4 +255,63 @@ class AccessActionsTest {
             }
         }
     }
+
+    @Nested
+    inner class FindCriteria {
+
+        @Nested
+        inner class Params {
+
+            @Test
+            fun fully() {
+                testingBindingAndMapping<FindCriteriaAction.Params>("json/client/access/find_criteria_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+
+            @Test
+            fun fully() {
+                testingBindingAndMapping<FindCriteriaAction.Result>("json/client/access/find_criteria_result_full.json")
+            }
+
+            @Test
+            fun required_1() {
+                testingBindingAndMapping<FindCriteriaAction.Result>("json/client/access/find_criteria_result_required_1.json")
+            }
+        }
+    }
+
+
+    @Nested
+    inner class CreateCriteriaForProcuringEntity {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CreateCriteriaForProcuringEntityAction.Params>("json/client/access/create_criteria_for_procuring_entity_params_full.json")
+            }
+
+            @Test
+            fun required1() {
+                testingBindingAndMapping<CreateCriteriaForProcuringEntityAction.Params>("json/client/access/create_criteria_for_procuring_entity_params_required_1.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CreateCriteriaForProcuringEntityAction.Result>("json/client/access/create_criteria_for_procuring_entity_result_full.json")
+            }
+
+            @Test
+            fun required1() {
+                testingBindingAndMapping<CreateCriteriaForProcuringEntityAction.Result>("json/client/access/create_criteria_for_procuring_entity_result_required_1.json")
+            }
+        }
+    }
+
 }

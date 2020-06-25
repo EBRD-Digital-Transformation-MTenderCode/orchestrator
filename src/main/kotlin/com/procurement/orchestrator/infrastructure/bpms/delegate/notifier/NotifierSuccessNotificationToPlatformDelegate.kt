@@ -140,6 +140,13 @@ class NotifierSuccessNotificationToPlatformDelegate(
                     id = submission.id,
                     token = submission.token
                 )
+            },
+        qualifications = details.qualifications
+            .map { qualification ->
+                PlatformNotification.Outcomes.Qualification(
+                    id = qualification.id,
+                    token = qualification.token
+                )
             }
     )
 
@@ -148,6 +155,8 @@ class NotifierSuccessNotificationToPlatformDelegate(
             OperationTypeProcess.CREATE_SUBMISSION -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.DECLARE_NON_CONFLICT_OF_INTEREST -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.LOT_CANCELLATION -> "$tenderUri/$cpid/$ocid"
+            OperationTypeProcess.QUALIFICATION_DECLARE_NON_CONFLICT_OF_INTEREST -> "$tenderUri/$cpid/$ocid"
+            OperationTypeProcess.SUBMISSION_PERIOD_END -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.TENDER_CANCELLATION -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.TENDER_OR_LOT_AMENDMENT_CANCELLATION -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.TENDER_OR_LOT_AMENDMENT_CONFIRMATION -> "$tenderUri/$cpid/$ocid"
