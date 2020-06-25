@@ -3,7 +3,6 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.clarification
 import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.ClarificationClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
-import com.procurement.orchestrator.application.model.context.extension.tryGetTender
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
@@ -12,6 +11,7 @@ import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.model.enquiry.Enquiries
+import com.procurement.orchestrator.domain.model.tender.Tender
 import com.procurement.orchestrator.domain.util.extension.getNewElements
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
@@ -71,8 +71,7 @@ class ClarificationFindEnquiriesDelegate(
         val responseData = result.orNull
             ?: return MaybeFail.none()
 
-        val tender = context.tryGetTender()
-            .orReturnFail { fail -> return MaybeFail.fail(fail) }
+        val tender = context.tender ?: Tender()
 
         val receivedEnquiriesById = responseData.map { it.convertToGlobalContextEntity() }
             .associateBy { it.id }
