@@ -77,10 +77,10 @@ class QualificationDoDeclarationDelegate(
                         requirementResponses = listOf(
                             DoDeclarationAction.Params.Qualification.RequirementResponse(
                                 id = requirementResponse.id,
-                                value = requirementResponse.value!!,
+                                value = requirementResponse.value,
                                 responder = DoDeclarationAction.Params.Qualification.RequirementResponse.Responder(
                                     id = responder.id,
-                                    name = responder.name!!
+                                    name = responder.name
                                 ),
                                 relatedTenderer = DoDeclarationAction.Params.Qualification.RequirementResponse.RelatedTenderer(
                                     id = relatedTenderer.id

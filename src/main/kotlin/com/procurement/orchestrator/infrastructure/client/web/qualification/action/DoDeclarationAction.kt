@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.infrastructure.client.web.qualification.action
 
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
@@ -37,7 +38,8 @@ abstract class DoDeclarationAction : FunctionalAction<DoDeclarationAction.Params
 
                 @JsonDeserialize(using = RequirementValueDeserializer::class)
                 @JsonSerialize(using = RequirementValueSerializer::class)
-                @param:JsonProperty("value") @field:JsonProperty("value") val value: RequirementResponseValue,
+                @JsonInclude(JsonInclude.Include.NON_NULL)
+                @param:JsonProperty("value") @field:JsonProperty("value") val value: RequirementResponseValue?,
                 @param:JsonProperty("relatedTenderer") @field:JsonProperty("relatedTenderer") val relatedTenderer: RelatedTenderer,
                 @param:JsonProperty("requirement") @field:JsonProperty("requirement") val requirement: Requirement,
                 @param:JsonProperty("responder") @field:JsonProperty("responder") val responder: Responder
@@ -52,7 +54,9 @@ abstract class DoDeclarationAction : FunctionalAction<DoDeclarationAction.Params
 
                 data class Responder(
                     @param:JsonProperty("id") @field:JsonProperty("id") val id: PersonId,
-                    @param:JsonProperty("name") @field:JsonProperty("name") val name: String
+
+                    @JsonInclude(JsonInclude.Include.NON_NULL)
+                    @param:JsonProperty("name") @field:JsonProperty("name") val name: String?
                 )
             }
         }
