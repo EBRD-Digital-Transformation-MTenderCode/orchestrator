@@ -23,9 +23,6 @@
       <bpmn:incoming>SequenceFlow_0nmhgb0</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1veuodv</bpmn:outgoing>
     </bpmn:callActivity>
-    <bpmn:endEvent id="EndEvent_12khj00">
-      <bpmn:incoming>SequenceFlow_1veuodv</bpmn:incoming>
-    </bpmn:endEvent>
     <bpmn:serviceTask id="ClarificationFindEnquiryIdsWithoutAnswerTask" name="eClarifiaction:&#10;Find enquiry Ids without answer" default="SequenceFlow_15i70n8" camunda:asyncBefore="true" camunda:delegateExpression="${clarificationFindEnquiryIdsDelegate}">
       <bpmn:extensionElements>
         <camunda:inputOutput>
@@ -272,20 +269,26 @@
     <bpmn:sequenceFlow id="SequenceFlow_1l1eexc" sourceRef="SubModifyUnsuccessfulTenderTask" targetRef="SubUpdateMSTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1i251ti" sourceRef="SubModifyLotsTask" targetRef="SubModifyUnsuccessfulTenderTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1qhia7h" sourceRef="DossierGetOrganizationsTask" targetRef="ClarificationFindEnquiriesTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1veuodv" sourceRef="SubSuspendTenderTask" targetRef="EndEvent_12khj00" />
+    <bpmn:sequenceFlow id="SequenceFlow_1veuodv" sourceRef="SubSuspendTenderTask" targetRef="NoticeSuspendTenderTask"/>
     <bpmn:sequenceFlow id="SequenceFlow_0nmhgb0" name="result != null" sourceRef="ClarificationFindEnquiryIdsWithoutAnswerTask" targetRef="SubSuspendTenderTask">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${result != null}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_0pvpyb7" sourceRef="DossierFindSubmissionsForOpeningTask" targetRef="DossierGetOrganizationsTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_15i70n8" sourceRef="ClarificationFindEnquiryIdsWithoutAnswerTask" targetRef="DossierFindSubmissionsForOpeningTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0bqagqi" sourceRef="ExclusiveGateway_0gajng2" targetRef="BpeErrorAppenderTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1xftalg" sourceRef="AccessGetTenderStateTask" targetRef="ExclusiveGateway_0gajng2" />
-    <bpmn:sequenceFlow id="SequenceFlow_05sblo1" sourceRef="SubUpdateMSTask" targetRef="NoticeForUnsuccessfulTenderlTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1ew5zzw" name="result == null" sourceRef="DossierFindSubmissionsForOpeningTask" targetRef="SubModifyLotsTask">
+    <bpmn:sequenceFlow id="SequenceFlow_0pvpyb7" sourceRef="DossierFindSubmissionsForOpeningTask"
+                       targetRef="DossierGetOrganizationsTask"/>
+    <bpmn:sequenceFlow id="SequenceFlow_15i70n8" sourceRef="ClarificationFindEnquiryIdsWithoutAnswerTask"
+                       targetRef="DossierFindSubmissionsForOpeningTask"/>
+    <bpmn:sequenceFlow id="SequenceFlow_0bqagqi" sourceRef="ExclusiveGateway_0gajng2" targetRef="BpeErrorAppenderTask"/>
+    <bpmn:sequenceFlow id="SequenceFlow_1xftalg" sourceRef="AccessGetTenderStateTask"
+                       targetRef="ExclusiveGateway_0gajng2"/>
+    <bpmn:sequenceFlow id="SequenceFlow_05sblo1" sourceRef="SubUpdateMSTask"
+                       targetRef="NoticeForUnsuccessfulTenderlTask"/>
+    <bpmn:sequenceFlow id="SequenceFlow_1ew5zzw" name="result == null" sourceRef="DossierFindSubmissionsForOpeningTask"
+                       targetRef="SubModifyLotsTask">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${result == null}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_0dr78f6" sourceRef="StartEvent_1" targetRef="BpeProcessInitializerTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_01pv6yg" sourceRef="DossierVerifySubmissionPeriodEndTask" targetRef="ClarificationFindEnquiryIdsWithoutAnswerTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0dr78f6" sourceRef="StartEvent_1" targetRef="BpeProcessInitializerTask"/>
+    <bpmn:sequenceFlow id="SequenceFlow_01pv6yg" sourceRef="DossierVerifySubmissionPeriodEndTask"
+                       targetRef="ClarificationFindEnquiryIdsWithoutAnswerTask"/>
     <bpmn:sequenceFlow id="SequenceFlow_009k4vg" name="submissionPeriodExpired == false"
                        sourceRef="DossierVerifySubmissionPeriodEndTask"
                        targetRef="subRescheduleSubmissionPeriodEndTask">
@@ -379,6 +382,15 @@
       <bpmn:sequenceFlow id="SequenceFlow_1m9rqdq" sourceRef="FixInternalIncidentTask"
                          targetRef="RecoveryAfterInternalIncidentTask"/>
     </bpmn:subProcess>
+    <bpmn:sequenceFlow id="SequenceFlow_1vz606q" sourceRef="NoticeSuspendTenderTask" targetRef="EndEvent_12khj00"/>
+    <bpmn:serviceTask id="NoticeSuspendTenderTask" name="eNotice:&#10;UpdateRecord" camunda:asyncBefore="true"
+                      camunda:delegateExpression="${noticeDelegate}">
+      <bpmn:incoming>SequenceFlow_1veuodv</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1vz606q</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="EndEvent_12khj00">
+      <bpmn:incoming>SequenceFlow_1vz606q</bpmn:incoming>
+    </bpmn:endEvent>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0csvhob">
@@ -455,7 +467,7 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1veuodv_di" bpmnElement="SequenceFlow_1veuodv">
         <di:waypoint x="900" y="453" />
-        <di:waypoint x="942" y="453" />
+        <di:waypoint x="940" y="453"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0nmhgb0_di" bpmnElement="SequenceFlow_0nmhgb0">
         <di:waypoint x="850" y="358" />
@@ -521,7 +533,7 @@
         <dc:Bounds x="800" y="413" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="EndEvent_12khj00_di" bpmnElement="EndEvent_12khj00">
-        <dc:Bounds x="942" y="435" width="36" height="36" />
+        <dc:Bounds x="1082" y="435" width="36" height="36"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_0rhshwg_di" bpmnElement="BpeErrorDescriptionModifierTask" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="670" y="540" width="100" height="80" />
@@ -661,14 +673,14 @@
         <di:waypoint x="800" y="318" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_009k4vg_di" bpmnElement="SequenceFlow_009k4vg">
-        <di:waypoint x="710" y="358" />
-        <di:waypoint x="710" y="413" />
+        <di:waypoint x="710" y="358"/>
+        <di:waypoint x="710" y="413"/>
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="716" y="369" width="87" height="27" />
+          <dc:Bounds x="716" y="369" width="87" height="27"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="CallActivity_0o3uphm_di" bpmnElement="subRescheduleSubmissionPeriodEndTask">
-        <dc:Bounds x="660" y="413" width="100" height="80" />
+        <dc:Bounds x="660" y="413" width="100" height="80"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0u5n63k_di" bpmnElement="SequenceFlow_0u5n63k" bioc:stroke="rgb(67, 160, 71)"
                        bioc:fill="rgb(200, 230, 201)">
@@ -719,6 +731,13 @@
       <bpmndi:BPMNEdge id="SequenceFlow_1m9rqdq_di" bpmnElement="SequenceFlow_1m9rqdq">
         <di:waypoint x="1574" y="540"/>
         <di:waypoint x="1604" y="540"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_0z8xxpn_di" bpmnElement="NoticeSuspendTenderTask">
+        <dc:Bounds x="940" y="413" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1vz606q_di" bpmnElement="SequenceFlow_1vz606q">
+        <di:waypoint x="1040" y="453"/>
+        <di:waypoint x="1082" y="453"/>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
