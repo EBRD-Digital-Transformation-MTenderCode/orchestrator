@@ -182,7 +182,7 @@ abstract class GetOrganizationsAction : FunctionalAction<GetOrganizationsAction.
 
                 @field:JsonInclude(JsonInclude.Include.NON_NULL)
                 @field:JsonProperty("legalForm") @param:JsonProperty("legalForm") val legalForm: LegalForm? = null
-            ) {
+            ) : Serializable {
 
                 data class MainEconomicActivity(
                     @field:JsonProperty("scheme") @param:JsonProperty("scheme") val scheme: MainEconomicActivityScheme,
@@ -191,7 +191,7 @@ abstract class GetOrganizationsAction : FunctionalAction<GetOrganizationsAction.
 
                     @field:JsonInclude(JsonInclude.Include.NON_NULL)
                     @field:JsonProperty("uri") @param:JsonProperty("uri") val uri: String? = null
-                )
+                ) : Serializable
 
                 data class BankAccount(
                     @field:JsonProperty("description") @param:JsonProperty("description") val description: String,
@@ -202,7 +202,7 @@ abstract class GetOrganizationsAction : FunctionalAction<GetOrganizationsAction.
 
                     @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
                     @field:JsonProperty("additionalAccountIdentifiers") @param:JsonProperty("additionalAccountIdentifiers") val additionalAccountIdentifiers: List<AccountIdentifier> = emptyList()
-                ) {
+                ) : Serializable {
 
                     data class Address(
                         @field:JsonProperty("streetAddress") @param:JsonProperty("streetAddress") val streetAddress: String,
@@ -211,13 +211,13 @@ abstract class GetOrganizationsAction : FunctionalAction<GetOrganizationsAction.
                         @field:JsonProperty("postalCode") @param:JsonProperty("postalCode") val postalCode: String? = null,
 
                         @field:JsonProperty("addressDetails") @param:JsonProperty("addressDetails") val addressDetails: AddressDetails
-                    ) {
+                    ) : Serializable {
 
                         data class AddressDetails(
                             @field:JsonProperty("country") @param:JsonProperty("country") val country: CountryDetails,
                             @field:JsonProperty("region") @param:JsonProperty("region") val region: RegionDetails,
                             @field:JsonProperty("locality") @param:JsonProperty("locality") val locality: LocalityDetails
-                        ) {
+                        ) : Serializable {
 
                             data class CountryDetails(
                                 @field:JsonProperty("scheme") @param:JsonProperty("scheme") val scheme: CountryScheme,
@@ -226,7 +226,7 @@ abstract class GetOrganizationsAction : FunctionalAction<GetOrganizationsAction.
 
                                 @field:JsonInclude(JsonInclude.Include.NON_NULL)
                                 @field:JsonProperty("uri") @param:JsonProperty("uri") val uri: String? = null
-                            )
+                            ) : Serializable
 
                             data class RegionDetails(
                                 @field:JsonProperty("scheme") @param:JsonProperty("scheme") val scheme: RegionScheme,
@@ -235,7 +235,7 @@ abstract class GetOrganizationsAction : FunctionalAction<GetOrganizationsAction.
 
                                 @field:JsonInclude(JsonInclude.Include.NON_NULL)
                                 @field:JsonProperty("uri") @param:JsonProperty("uri") val uri: String? = null
-                            )
+                            ) : Serializable
 
                             data class LocalityDetails(
                                 @field:JsonProperty("scheme") @param:JsonProperty("scheme") val scheme: LocalityScheme,
@@ -244,14 +244,14 @@ abstract class GetOrganizationsAction : FunctionalAction<GetOrganizationsAction.
 
                                 @field:JsonInclude(JsonInclude.Include.NON_NULL)
                                 @field:JsonProperty("uri") @param:JsonProperty("uri") val uri: String? = null
-                            )
+                            ) : Serializable
                         }
                     }
 
                     data class AccountIdentifier(
                         @field:JsonProperty("scheme") @param:JsonProperty("scheme") val scheme: AccountIdentifierScheme,
                         @field:JsonProperty("id") @param:JsonProperty("id") val id: AccountIdentifierId
-                    )
+                    ) : Serializable
                 }
 
                 data class LegalForm(
@@ -261,7 +261,7 @@ abstract class GetOrganizationsAction : FunctionalAction<GetOrganizationsAction.
 
                     @field:JsonInclude(JsonInclude.Include.NON_NULL)
                     @field:JsonProperty("uri") @param:JsonProperty("uri") val uri: String?
-                )
+                ) : Serializable
             }
         }
     }

@@ -1,0 +1,54 @@
+[
+  {
+    "id": "enquiry[0].id",
+    "date": "2020-05-28T06:24:38Z",
+    "author": {
+      "name": "enquiry[0].author.name",
+      "id": "enquiry[0].author.id",
+      "identifier": {
+        "id": "enquiry[0].author.identifier.id",
+        "legalName": "enquiry[0].author.identifier.legalName",
+        "scheme": "enquiry[0].author.identifier.scheme"
+      },
+      "address": {
+        "streetAddress": "enquiry[0].author.address.streetAddress",
+        "addressDetails": {
+          "country": {
+            "id": "enquiry[0].author.address.addressDetails.country.id",
+            "description": "enquiry[0].author.address.addressDetails.country.description",
+            "scheme": "enquiry[0].author.address.addressDetails.country.scheme",
+            "uri": "enquiry[0].author.address.addressDetails.country.uri"
+          },
+          "region": {
+            "id": "enquiry[0].author.address.addressDetails.region.id",
+            "description": "enquiry[0].author.address.addressDetails.region.description",
+            "scheme": "enquiry[0].author.address.addressDetails.region.scheme",
+            "uri": "enquiry[0].author.address.addressDetails.region.uri"
+          },
+          "locality": {
+            "id": "enquiry[0].author.address.addressDetails.locality.id",
+            "description": "enquiry[0].author.address.addressDetails.locality.description",
+            "scheme": "enquiry[0].author.address.addressDetails.locality.scheme"
+          }
+        }
+      },
+      "additionalIdentifiers": [
+        {
+          "id": "enquiry[0].author.additionalIdentifiers[0].id",
+          "legalName": "enquiry[0].author.additionalIdentifiers[0].legalName",
+          "scheme": "enquiry[0].author.additionalIdentifiers[0].scheme"
+        }
+      ],
+      "contactPoint": {
+        "name": "enquiry[0].author.contactPoint.name",
+        "email": "enquiry[0].author.contactPoint.email",
+        "telephone": "enquiry[0].author.contactPoint.telephone"
+      },
+      "details": {
+        "scale": "sme"
+      }
+    },
+    "title": "enquiry[0].title",
+    "description": "enquiry[0].description"
+  }
+]

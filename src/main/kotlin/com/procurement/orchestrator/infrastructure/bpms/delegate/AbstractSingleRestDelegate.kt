@@ -30,17 +30,13 @@ import org.camunda.bpm.engine.delegate.BpmnError
 import org.camunda.bpm.engine.delegate.DelegateExecution
 import org.camunda.bpm.engine.delegate.JavaDelegate
 
-abstract class AbstractRestDelegate<P, R : Any>(
+abstract class AbstractSingleRestDelegate<P, R : Any>(
     private val logger: Logger,
     private val transform: Transform,
     private val operationStepRepository: OperationStepRepository
 ) : JavaDelegate {
 
     companion object {
-        const val HTTP_CODE_200: Int = 200
-        const val HTTP_CODE_400: Int = 400
-        const val HTTP_CODE_404: Int = 404
-
         private const val VALIDATION_ERROR_CODE = "ValidationError"
         private const val EXTERNAL_INCIDENT_CODE = "ExternalIncident"
     }
@@ -56,6 +52,7 @@ abstract class AbstractRestDelegate<P, R : Any>(
         val scope = GlobalScope + resultContext
 
         val executionInterceptor: ExecutionInterceptor = ExecutionInterceptorImpl(execution)
+
         val result = runBlocking(context = scope.coroutineContext) { execute(parameters, globalContext, executionInterceptor) }
             .orReturnFail { fail -> execution.throwIncident(fail) }
             .also { result ->
@@ -73,16 +70,19 @@ abstract class AbstractRestDelegate<P, R : Any>(
 
     protected abstract fun parameters(parameterContainer: ParameterContainer): Result<P, Fail.Incident.Bpmn.Parameter>
 
+
     protected abstract suspend fun execute(
         parameters: P,
         context: CamundaGlobalContext,
         executionInterceptor: ExecutionInterceptor
     ): Result<R, Fail.Incident>
 
+
     protected open fun updateGlobalContext(
         context: CamundaGlobalContext,
         result: R
     ): MaybeFail<Fail.Incident> = MaybeFail.none()
+
 
     private fun saveStep(
         globalContext: CamundaGlobalContext,
@@ -114,6 +114,7 @@ abstract class AbstractRestDelegate<P, R : Any>(
             )
         )
     }
+
 
     private fun DelegateExecution.throwIncident(incident: Fail.Incident): Nothing {
         incident.logging(logger)
@@ -165,39 +166,28 @@ abstract class AbstractRestDelegate<P, R : Any>(
         throwingIncident(incident)
     }
 
+
     private fun DelegateExecution.throwError(errors: List<Errors.Error>): Nothing {
         val existErrors = readErrors()
         writeErrors(existErrors + errors)
         throw BpmnError(VALIDATION_ERROR_CODE)
     }
 
+
     private fun DelegateExecution.throwingIncident(incident: Incident): Nothing {
         writeIncident(incident)
         throw BpmnError(EXTERNAL_INCIDENT_CODE, this.currentActivityId)
     }
 
+
     inner class ExecutionInterceptorImpl(val execution: DelegateExecution) : ExecutionInterceptor() {
-
-        override val processInstanceId: String
-            get() = execution.processInstanceId
-
         override fun throwError(errors: List<Errors.Error>): Nothing {
             execution.throwError(errors)
-        }
-
-        override fun throwIncident(incident: Incident): Nothing {
-            execution.throwingIncident(incident = incident)
         }
     }
 
     abstract class ExecutionInterceptor {
-        abstract val processInstanceId: String
-
         abstract fun throwError(errors: List<Errors.Error>): Nothing
-        abstract fun throwIncident(incident: Incident): Nothing
     }
+
 }
-
-
-
-

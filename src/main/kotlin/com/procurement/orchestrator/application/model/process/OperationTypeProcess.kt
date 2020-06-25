@@ -9,6 +9,8 @@ enum class OperationTypeProcess(@JsonValue override val key: String) : EnumEleme
     CREATE_SUBMISSION("createSubmission"),
     DECLARE_NON_CONFLICT_OF_INTEREST("declareNonConflictOfInterest"),
     LOT_CANCELLATION("lotCancellation"),
+    QUALIFICATION_DECLARE_NON_CONFLICT_OF_INTEREST("qualificationDeclareNonConflictOfInterest"),
+    SUBMISSION_PERIOD_END("submissionPeriodEnd"),
     TENDER_CANCELLATION("tenderCancellation"),
     TENDER_OR_LOT_AMENDMENT_CANCELLATION("tenderOrLotAmendmentCancellation"),
     TENDER_OR_LOT_AMENDMENT_CONFIRMATION("tenderOrLotAmendmentConfirmation"),
