@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1r4ki2a" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.6.0">
-  <bpmn:collaboration id="Collaboration_1v5xjvh">
-    <bpmn:participant id="Participant_1w4g2ed" name="SubSuspendTender" processRef="subSuspendTender" />
-  </bpmn:collaboration>
-  <bpmn:process id="subSuspendTender" isExecutable="true">
-    <bpmn:subProcess id="SubProcess_1ybp60c" triggeredByEvent="true">
-      <bpmn:startEvent id="StartEvent_1jr9dvt" name="External Incident">
-        <bpmn:extensionElements>
-          <camunda:executionListener event="end">
-            <camunda:script scriptFormat="javascript">execution.removeVariable("suspend")</camunda:script>
-          </camunda:executionListener>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+                  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+                  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn"
+                  xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+                  id="Definitions_1r4ki2a" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler"
+                  exporterVersion="3.5.0">
+    <bpmn:collaboration id="Collaboration_1v5xjvh">
+        <bpmn:participant id="Participant_1w4g2ed" name="SubSuspendTender" processRef="subSuspendTender"/>
+    </bpmn:collaboration>
+    <bpmn:process id="subSuspendTender" isExecutable="true">
+        <bpmn:subProcess id="SubProcess_1ybp60c" triggeredByEvent="true">
+            <bpmn:startEvent id="StartEvent_1jr9dvt" name="External Incident">
+                <bpmn:extensionElements>
+                    <camunda:executionListener event="end">
+                        <camunda:script scriptFormat="javascript">execution.removeVariable("suspend")</camunda:script>
+                    </camunda:executionListener>
         </bpmn:extensionElements>
         <bpmn:outgoing>SequenceFlow_1cdsna3</bpmn:outgoing>
         <bpmn:errorEventDefinition id="ErrorEventDefinition_0dnuy23" errorRef="Error_0kv316y" camunda:errorMessageVariable="errorTaskId" />
@@ -127,51 +132,54 @@
       <bpmn:sequenceFlow id="SequenceFlow_02mom77" sourceRef="NotifierBpeIncidentTask" targetRef="FixInternalIncidentTask" />
       <bpmn:sequenceFlow id="SequenceFlow_1pk3ozt" sourceRef="FixInternalIncidentTask" targetRef="RecoveryAfterInternalIncidentTask" />
     </bpmn:subProcess>
-    <bpmn:serviceTask id="BpeAddUpdateRecordTaskInQueueTask" name="BPE:&#10;Add update record task to queue" camunda:asyncBefore="true" camunda:delegateExpression="${bpeAddUpdateRecordTaskInQueueDelegate}">
-      <bpmn:incoming>SequenceFlow_1axt1hg</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1bsndlx</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:serviceTask id="NoticeTask" name="eNotice:&#10;UpdateRecord" camunda:asyncBefore="true" camunda:delegateExpression="${noticeDelegate}">
-      <bpmn:incoming>SequenceFlow_1bsndlx</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_0027c8j</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:serviceTask id="NotifierSuccessNotificationToPlatformTask" name="BPE:&#10;Save context" camunda:asyncBefore="true" camunda:delegateExpression="${bpeSaveContextDelegate}">
-      <bpmn:incoming>SequenceFlow_0027c8j</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1u0t7dn</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:endEvent id="EndEvent_1o1x3rt">
-      <bpmn:incoming>SequenceFlow_1u0t7dn</bpmn:incoming>
-    </bpmn:endEvent>
-    <bpmn:serviceTask id="BpeSetSuspendedPhaseTask" name="BPE:&#10;Set &#39;suspended&#39; phase" camunda:asyncBefore="true" camunda:delegateExpression="${bpeSetPhaseDelegate}">
-      <bpmn:extensionElements>
-        <camunda:inputOutput>
-          <camunda:inputParameter name="value">SUSPENDED</camunda:inputParameter>
-        </camunda:inputOutput>
-      </bpmn:extensionElements>
-      <bpmn:incoming>SequenceFlow_0o5dt5q</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1axt1hg</bpmn:outgoing>
-    </bpmn:serviceTask>
     <bpmn:serviceTask id="AccessSetStateForTenderTask" name="eAccess:&#10;Set &#39;suspended&#39; state for tender" camunda:asyncBefore="true" camunda:delegateExpression="${accessSetStateForTenderDelegate}">
       <bpmn:extensionElements>
         <camunda:inputOutput>
           <camunda:inputParameter name="status">ACTIVE</camunda:inputParameter>
           <camunda:inputParameter name="statusDetails">SUSPENDED</camunda:inputParameter>
         </camunda:inputOutput>
-        <camunda:executionListener expression="exycua/.phae= empty" event="end" />
+          <camunda:executionListener expression="exycua/.phae= empty" event="end"/>
       </bpmn:extensionElements>
-      <bpmn:incoming>SequenceFlow_0ivy4go</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_0o5dt5q</bpmn:outgoing>
+        <bpmn:incoming>SequenceFlow_0ivy4go</bpmn:incoming>
+        <bpmn:outgoing>SequenceFlow_0o5dt5q</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:startEvent id="StartEvent_0a8w8ub">
-      <bpmn:outgoing>SequenceFlow_0ivy4go</bpmn:outgoing>
-    </bpmn:startEvent>
-    <bpmn:sequenceFlow id="SequenceFlow_1axt1hg" sourceRef="BpeSetSuspendedPhaseTask" targetRef="BpeAddUpdateRecordTaskInQueueTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1bsndlx" sourceRef="BpeAddUpdateRecordTaskInQueueTask" targetRef="NoticeTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0027c8j" sourceRef="NoticeTask" targetRef="NotifierSuccessNotificationToPlatformTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1u0t7dn" sourceRef="NotifierSuccessNotificationToPlatformTask" targetRef="EndEvent_1o1x3rt" />
-    <bpmn:sequenceFlow id="SequenceFlow_0o5dt5q" sourceRef="AccessSetStateForTenderTask" targetRef="BpeSetSuspendedPhaseTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0ivy4go" sourceRef="StartEvent_0a8w8ub" targetRef="AccessSetStateForTenderTask" />
-  </bpmn:process>
+        <bpmn:startEvent id="StartEvent_0a8w8ub">
+            <bpmn:outgoing>SequenceFlow_0ivy4go</bpmn:outgoing>
+        </bpmn:startEvent>
+        <bpmn:sequenceFlow id="SequenceFlow_1axt1hg" sourceRef="BpeSetSuspendedPhaseTask"
+                           targetRef="BpeAddUpdateRecordTaskInQueueTask"/>
+        <bpmn:sequenceFlow id="SequenceFlow_1bsndlx" sourceRef="BpeAddUpdateRecordTaskInQueueTask"
+                           targetRef="BpeSaveContextTask"/>
+        <bpmn:sequenceFlow id="SequenceFlow_1u0t7dn" sourceRef="BpeSaveContextTask" targetRef="EndEvent_1o1x3rt"/>
+        <bpmn:sequenceFlow id="SequenceFlow_0o5dt5q" sourceRef="AccessSetStateForTenderTask"
+                           targetRef="BpeSetSuspendedPhaseTask"/>
+        <bpmn:sequenceFlow id="SequenceFlow_0ivy4go" sourceRef="StartEvent_0a8w8ub"
+                           targetRef="AccessSetStateForTenderTask"/>
+        <bpmn:serviceTask id="BpeSetSuspendedPhaseTask" name="BPE:&#10;Set &#39;suspended&#39; phase"
+                          camunda:asyncBefore="true" camunda:delegateExpression="${bpeSetPhaseDelegate}">
+            <bpmn:extensionElements>
+                <camunda:inputOutput>
+                    <camunda:inputParameter name="value">SUSPENDED</camunda:inputParameter>
+                </camunda:inputOutput>
+            </bpmn:extensionElements>
+            <bpmn:incoming>SequenceFlow_0o5dt5q</bpmn:incoming>
+            <bpmn:outgoing>SequenceFlow_1axt1hg</bpmn:outgoing>
+        </bpmn:serviceTask>
+        <bpmn:serviceTask id="BpeAddUpdateRecordTaskInQueueTask" name="BPE:&#10;Add update record task to queue"
+                          camunda:asyncBefore="true"
+                          camunda:delegateExpression="${bpeAddUpdateRecordTaskInQueueDelegate}">
+            <bpmn:incoming>SequenceFlow_1axt1hg</bpmn:incoming>
+            <bpmn:outgoing>SequenceFlow_1bsndlx</bpmn:outgoing>
+        </bpmn:serviceTask>
+        <bpmn:serviceTask id="BpeSaveContextTask" name="BPE:&#10;Save context" camunda:asyncBefore="true"
+                          camunda:delegateExpression="${bpeSaveContextDelegate}">
+            <bpmn:incoming>SequenceFlow_1bsndlx</bpmn:incoming>
+            <bpmn:outgoing>SequenceFlow_1u0t7dn</bpmn:outgoing>
+        </bpmn:serviceTask>
+        <bpmn:endEvent id="EndEvent_1o1x3rt">
+            <bpmn:incoming>SequenceFlow_1u0t7dn</bpmn:incoming>
+        </bpmn:endEvent>
+    </bpmn:process>
   <bpmn:error id="Error_0kv316y" name="External Incident" errorCode="ExternalIncident" />
   <bpmn:error id="Error_15lgooj" name="Internal Incident" errorCode="InternalIncident" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -179,43 +187,39 @@
       <bpmndi:BPMNShape id="Participant_1w4g2ed_di" bpmnElement="Participant_1w4g2ed" isHorizontal="true">
         <dc:Bounds x="170" y="90" width="1200" height="370" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="StartEvent_0a8w8ub_di" bpmnElement="StartEvent_0a8w8ub">
-        <dc:Bounds x="382" y="172" width="36" height="36" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_0qu6dkd_di" bpmnElement="BpeSetSuspendedPhaseTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="590" y="150" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_01n8e2c_di" bpmnElement="BpeAddUpdateRecordTaskInQueueTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="720" y="150" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_0xy19mf_di" bpmnElement="NotifierSuccessNotificationToPlatformTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="980" y="150" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_0e6yrp1_di" bpmnElement="NoticeTask">
-        <dc:Bounds x="850" y="150" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="SequenceFlow_0ivy4go_di" bpmnElement="SequenceFlow_0ivy4go">
-        <di:waypoint x="418" y="190" />
-        <di:waypoint x="450" y="190" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_1axt1hg_di" bpmnElement="SequenceFlow_1axt1hg">
-        <di:waypoint x="690" y="190" />
-        <di:waypoint x="720" y="190" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_1bsndlx_di" bpmnElement="SequenceFlow_1bsndlx">
-        <di:waypoint x="820" y="190" />
-        <di:waypoint x="850" y="190" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_0027c8j_di" bpmnElement="SequenceFlow_0027c8j">
-        <di:waypoint x="950" y="190" />
-        <di:waypoint x="980" y="190" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_1u0t7dn_di" bpmnElement="SequenceFlow_1u0t7dn">
-        <di:waypoint x="1080" y="190" />
-        <di:waypoint x="1112" y="190" />
-      </bpmndi:BPMNEdge>
+        <bpmndi:BPMNShape id="StartEvent_0a8w8ub_di" bpmnElement="StartEvent_0a8w8ub">
+            <dc:Bounds x="382" y="172" width="36" height="36"/>
+        </bpmndi:BPMNShape>
+        <bpmndi:BPMNShape id="ServiceTask_0qu6dkd_di" bpmnElement="BpeSetSuspendedPhaseTask" bioc:stroke="black"
+                          bioc:fill="white">
+            <dc:Bounds x="590" y="150" width="100" height="80"/>
+        </bpmndi:BPMNShape>
+        <bpmndi:BPMNShape id="ServiceTask_01n8e2c_di" bpmnElement="BpeAddUpdateRecordTaskInQueueTask"
+                          bioc:stroke="black" bioc:fill="white">
+            <dc:Bounds x="730" y="150" width="100" height="80"/>
+        </bpmndi:BPMNShape>
+        <bpmndi:BPMNShape id="ServiceTask_0xy19mf_di" bpmnElement="BpeSaveContextTask" bioc:stroke="black"
+                          bioc:fill="white">
+            <dc:Bounds x="870" y="150" width="100" height="80"/>
+        </bpmndi:BPMNShape>
+        <bpmndi:BPMNEdge id="SequenceFlow_0ivy4go_di" bpmnElement="SequenceFlow_0ivy4go">
+            <di:waypoint x="418" y="190"/>
+            <di:waypoint x="450" y="190"/>
+        </bpmndi:BPMNEdge>
+        <bpmndi:BPMNEdge id="SequenceFlow_1axt1hg_di" bpmnElement="SequenceFlow_1axt1hg">
+            <di:waypoint x="690" y="190"/>
+            <di:waypoint x="730" y="190"/>
+        </bpmndi:BPMNEdge>
+        <bpmndi:BPMNEdge id="SequenceFlow_1bsndlx_di" bpmnElement="SequenceFlow_1bsndlx">
+            <di:waypoint x="830" y="190"/>
+            <di:waypoint x="870" y="190"/>
+        </bpmndi:BPMNEdge>
+        <bpmndi:BPMNEdge id="SequenceFlow_1u0t7dn_di" bpmnElement="SequenceFlow_1u0t7dn">
+            <di:waypoint x="970" y="190"/>
+            <di:waypoint x="1002" y="190"/>
+        </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="EndEvent_1o1x3rt_di" bpmnElement="EndEvent_1o1x3rt">
-        <dc:Bounds x="1112" y="172" width="36" height="36" />
+          <dc:Bounds x="1002" y="172" width="36" height="36"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_1gubreh_di" bpmnElement="AccessSetStateForTenderTask" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="450" y="150" width="100" height="80" />
