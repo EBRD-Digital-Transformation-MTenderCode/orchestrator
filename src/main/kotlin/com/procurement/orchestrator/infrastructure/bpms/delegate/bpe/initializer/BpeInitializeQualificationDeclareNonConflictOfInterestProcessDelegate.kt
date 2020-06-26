@@ -34,12 +34,12 @@ import com.procurement.orchestrator.domain.model.qualification.Qualifications
 import com.procurement.orchestrator.domain.model.requirement.RequirementReference
 import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponse
 import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponses
-import com.procurement.orchestrator.infrastructure.bpms.delegate.bpe.initializer.QualifacationDeclareNonConflictOfInterest.Request
+import com.procurement.orchestrator.infrastructure.bpms.delegate.bpe.initializer.QualificationDeclareNonConflictOfInterest.Request
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import org.springframework.stereotype.Component
 
 @Component
-class BpeInitializeQualifacationDeclareNonConflictOfInterestProcessDelegate(
+class BpeInitializeQualificationDeclareNonConflictOfInterestProcessDelegate(
     val logger: Logger,
     private val transform: Transform,
     operationStepRepository: OperationStepRepository,

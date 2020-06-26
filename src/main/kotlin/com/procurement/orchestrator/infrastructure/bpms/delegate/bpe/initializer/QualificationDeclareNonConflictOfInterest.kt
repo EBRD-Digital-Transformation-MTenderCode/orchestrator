@@ -9,7 +9,7 @@ import com.procurement.orchestrator.domain.model.requirement.response.Requiremen
 import com.procurement.orchestrator.infrastructure.bind.criteria.requirement.value.RequirementValueDeserializer
 import com.procurement.orchestrator.infrastructure.bind.criteria.requirement.value.RequirementValueSerializer
 
-object QualifacationDeclareNonConflictOfInterest {
+object QualificationDeclareNonConflictOfInterest {
 
     class Request {
 
