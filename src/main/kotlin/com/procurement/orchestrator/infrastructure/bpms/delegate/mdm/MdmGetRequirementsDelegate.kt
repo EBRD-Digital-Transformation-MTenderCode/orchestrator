@@ -10,6 +10,7 @@ import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.functional.asSuccess
+import com.procurement.orchestrator.domain.model.tender.Tender
 import com.procurement.orchestrator.domain.model.tender.criteria.Criteria
 import com.procurement.orchestrator.domain.model.tender.criteria.CriterionId
 import com.procurement.orchestrator.domain.model.tender.criteria.requirement.Requirement
@@ -99,8 +100,7 @@ class MdmGetRequirementsDelegate(
         if (result.isEmpty())
             return MaybeFail.none()
 
-        val tender = context.tryGetTender()
-            .orReturnFail { error -> return MaybeFail.fail(error) }
+        val tender = context.tender ?: Tender()
 
         val dbCriteriaById = tender.criteria
             .associateBy { it.id }
