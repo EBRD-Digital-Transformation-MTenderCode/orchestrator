@@ -4,6 +4,7 @@ import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
+import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckAccessToQualificationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckDeclarationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CreateQualificationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.DetermineNextsForQualificationAction
@@ -24,6 +25,12 @@ interface QualificationClient {
         id: CommandId,
         params: FindQualificationIdsAction.Params
     ): Result<Reply<FindQualificationIdsAction.Result>, Fail.Incident>
+
+    suspend fun checkAccessToQualification(
+        id: CommandId,
+        params: CheckAccessToQualificationAction.Params
+    ): Result<Reply<Unit>, Fail.Incident>
+
 
     suspend fun checkDeclaration(
         id: CommandId,

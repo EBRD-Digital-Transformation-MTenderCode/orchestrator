@@ -176,4 +176,16 @@ class QualificationActionTest {
         }
 
     }
+
+    @Nested
+    inner class CheckAccessToQualification {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun full() {
+                testingBindingAndMapping<CheckAccessToQualificationAction.Params>("json/client/qualification/check_access_to_qualification_params_full.json")
+            }
+        }
+    }
 }
