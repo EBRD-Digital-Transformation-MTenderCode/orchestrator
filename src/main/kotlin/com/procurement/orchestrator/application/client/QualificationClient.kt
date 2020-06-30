@@ -8,7 +8,9 @@ import com.procurement.orchestrator.infrastructure.client.web.qualification.acti
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CreateQualificationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.DetermineNextsForQualificationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckQualificationStateAction
+import com.procurement.orchestrator.infrastructure.client.web.qualification.action.DoDeclarationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.FindQualificationIdsAction
+import com.procurement.orchestrator.infrastructure.client.web.qualification.action.FindRequirementResponseByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.StartQualificationPeriodAction
 
 interface QualificationClient {
@@ -42,4 +44,14 @@ interface QualificationClient {
         id: CommandId,
         params: CheckQualificationStateAction.Params
     ): Result<Reply<Unit>, Fail.Incident>
+
+    suspend fun doDeclaration(
+        id: CommandId,
+        params: DoDeclarationAction.Params
+    ): Result<Reply<DoDeclarationAction.Result>, Fail.Incident>
+
+    suspend fun findRequirementResponseByIds(
+        id: CommandId,
+        params: FindRequirementResponseByIdsAction.Params
+    ): Result<Reply<FindRequirementResponseByIdsAction.Result>, Fail.Incident>
 }

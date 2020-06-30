@@ -10,7 +10,9 @@ import com.procurement.orchestrator.infrastructure.client.web.qualification.acti
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CreateQualificationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.DetermineNextsForQualificationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckQualificationStateAction
+import com.procurement.orchestrator.infrastructure.client.web.qualification.action.DoDeclarationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.FindQualificationIdsAction
+import com.procurement.orchestrator.infrastructure.client.web.qualification.action.FindRequirementResponseByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.StartQualificationPeriodAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
 import java.net.URL
@@ -70,5 +72,23 @@ class HttpQualificationClient(private val webClient: WebClient, properties: Comp
     ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
         url = url,
         command = QualificationCommands.CheckQualificationState.build(id = id, params = params)
+    )
+
+    override suspend fun doDeclaration(
+        id: CommandId,
+        params: DoDeclarationAction.Params
+    ): Result<Reply<DoDeclarationAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = QualificationCommands.DoDeclaration.build(id = id, params = params),
+        target = QualificationCommands.DoDeclaration.target
+    )
+
+    override suspend fun findRequirementResponseByIds(
+        id: CommandId,
+        params: FindRequirementResponseByIdsAction.Params
+    ): Result<Reply<FindRequirementResponseByIdsAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = QualificationCommands.FindRequirementResponseByIds.build(id = id, params = params),
+        target = QualificationCommands.FindRequirementResponseByIds.target
     )
 }

@@ -5,7 +5,9 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.domain.model.award.Award
+import com.procurement.orchestrator.domain.model.organization.OrganizationReference
 import com.procurement.orchestrator.domain.model.person.Person
+import com.procurement.orchestrator.domain.model.requirement.RequirementReference
 import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponse
 import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponseId
 
@@ -28,3 +30,11 @@ fun Award.findRequirementResponseById(
 fun RequirementResponse.getResponder(): Result<Person, Fail.Incident.Bpms.Context> =
     this.responder?.asSuccess()
         ?: failure(Fail.Incident.Bpms.Context.Missing(name = "responder", path = "awards.requirementResponses"))
+
+fun RequirementResponse.getRelatedTenderer(): Result<OrganizationReference, Fail.Incident.Bpms.Context> =
+    this.relatedTenderer?.asSuccess()
+        ?: failure(Fail.Incident.Bpms.Context.Missing(name = "relatedTenderer", path = "qualifications.requirementResponses"))
+
+fun RequirementResponse.getRequirement(): Result<RequirementReference, Fail.Incident.Bpms.Context> =
+    this.requirement?.asSuccess()
+        ?: failure(Fail.Incident.Bpms.Context.Missing(name = "requirement", path = "qualifications.requirementResponses"))
