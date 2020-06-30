@@ -10,6 +10,7 @@ import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.functional.asSuccess
+import com.procurement.orchestrator.domain.model.tender.Tender
 import com.procurement.orchestrator.domain.model.tender.criteria.Criteria
 import com.procurement.orchestrator.domain.model.tender.criteria.Criterion
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractSingleRestDelegate
@@ -61,8 +62,7 @@ class MdmGetCriteriaDelegate(
         if (result.isEmpty())
             return MaybeFail.none()
 
-        val tender = context.tryGetTender()
-            .orReturnFail { error -> return MaybeFail.fail(error) }
+        val tender = context.tender ?: Tender()
 
         context.tender = tender.copy(criteria = Criteria(result))
 
