@@ -8,7 +8,9 @@ import com.procurement.orchestrator.infrastructure.client.web.qualification.acti
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.DetermineNextsForQualificationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckQualificationStateAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckAccessToQualificationAction
+import com.procurement.orchestrator.infrastructure.client.web.qualification.action.DoDeclarationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.FindQualificationIdsAction
+import com.procurement.orchestrator.infrastructure.client.web.qualification.action.FindRequirementResponseByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.StartQualificationPeriodAction
 
 object QualificationCommands {
@@ -19,7 +21,7 @@ object QualificationCommands {
 
     object ValidateSubmission : ValidateSubmissionAction()
 
-    object StartQualificationPeriod: StartQualificationPeriodAction()
+    object StartQualificationPeriod : StartQualificationPeriodAction()
 
     object FindQualificationIds : FindQualificationIdsAction()
 
@@ -30,6 +32,10 @@ object QualificationCommands {
     object DetermineNextsForQualification : DetermineNextsForQualificationAction()
 
     object CheckQualificationState : CheckQualificationStateAction()
+
+    object DoDeclaration : DoDeclarationAction()
+
+    object FindRequirementResponseByIds: FindRequirementResponseByIdsAction()
 
     object CheckAccessToQualification : CheckAccessToQualificationAction()
 }

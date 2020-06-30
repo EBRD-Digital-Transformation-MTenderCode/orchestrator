@@ -64,6 +64,44 @@ class QualificationActionTest {
                 }
             }
         }
+
+        @Nested
+        inner class DoDeclaration {
+            @Nested
+            inner class Params {
+                @Test
+                fun required() {
+                    testingBindingAndMapping<DoDeclarationAction.Params>("json/client/qualification/do_declaration_params_full.json")
+                }
+            }
+
+            @Nested
+            inner class Result {
+                @Test
+                fun required() {
+                    testingBindingAndMapping<DoDeclarationAction.Result>("json/client/qualification/do_declaration_result_full.json")
+                }
+            }
+        }
+
+        @Nested
+        inner class FindRequirementResponseByIds {
+            @Nested
+            inner class Params {
+                @Test
+                fun required() {
+                    testingBindingAndMapping<FindRequirementResponseByIdsAction.Params>("json/client/qualification/find_requirement_response_by_id_params_full.json")
+                }
+            }
+
+            @Nested
+            inner class Result {
+                @Test
+                fun required() {
+                    testingBindingAndMapping<FindRequirementResponseByIdsAction.Result>("json/client/qualification/find_requirement_response_by_id_result_full.json")
+                }
+            }
+        }
     }
 
     @Nested

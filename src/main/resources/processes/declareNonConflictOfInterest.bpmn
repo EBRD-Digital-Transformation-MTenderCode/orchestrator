@@ -215,7 +215,16 @@
       <bpmn:incoming>SequenceFlow_1ursrn9</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0btiqp5</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="BpeCreateIdsForRequirementResponseTask" name="BPE: Create Ids for requirement response" camunda:asyncBefore="true" camunda:delegateExpression="${bpeCreateIdsForAwardRequirementResponseDelegate}">
+    <bpmn:serviceTask id="bpeCreateIdsTask" name="BPE: Create Ids for requirement response" camunda:asyncBefore="true" camunda:delegateExpression="${bpeCreateIdsDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="location">
+            <camunda:list>
+              <camunda:value>award.requirementResponse</camunda:value>
+            </camunda:list>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0btiqp5</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_117xrjb</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -237,6 +246,11 @@
       <bpmn:outgoing>SequenceFlow_04xofpb</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="AccessResponderProcessingTask" name="eAccess:&#10;Responder processing" camunda:asyncBefore="true" camunda:delegateExpression="${accessResponderProcessingDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="location">award</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_10631qk</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1ar5qqv</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -277,8 +291,8 @@
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_0anse3n" sourceRef="AccessVerifyRequirementResponseTask" targetRef="EvaluationCheckRelatedTendererTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1ursrn9" sourceRef="EvaluationCheckRelatedTendererTask" targetRef="StorageCheckRegistrationTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0btiqp5" sourceRef="StorageCheckRegistrationTask" targetRef="BpeCreateIdsForRequirementResponseTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_117xrjb" sourceRef="BpeCreateIdsForRequirementResponseTask" targetRef="StorageOpenAccessToDocumentsTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0btiqp5" sourceRef="StorageCheckRegistrationTask" targetRef="bpeCreateIdsTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_117xrjb" sourceRef="bpeCreateIdsTask" targetRef="StorageOpenAccessToDocumentsTask" />
     <bpmn:sequenceFlow id="SequenceFlow_10631qk" sourceRef="StorageOpenAccessToDocumentsTask" targetRef="AccessResponderProcessingTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1ar5qqv" sourceRef="AccessResponderProcessingTask" targetRef="EvaluationAddRequirementResponseTask" />
     <bpmn:sequenceFlow id="SequenceFlow_04xofpb" sourceRef="EvaluationAddRequirementResponseTask" targetRef="SubUpdateMSTask" />
@@ -371,7 +385,7 @@ declareNonConflictOfInterest</bpmn:text>
       <bpmndi:BPMNShape id="ServiceTask_0au9c5k_di" bpmnElement="AccessResponderProcessingTask" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="1470" y="180" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_012nfyu_di" bpmnElement="BpeCreateIdsForRequirementResponseTask" bioc:stroke="black" bioc:fill="white">
+      <bpmndi:BPMNShape id="ServiceTask_012nfyu_di" bpmnElement="bpeCreateIdsTask" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="1210" y="180" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_0bzrxom_di" bpmnElement="EvaluationAddRequirementResponseTask" bioc:stroke="black" bioc:fill="white">
