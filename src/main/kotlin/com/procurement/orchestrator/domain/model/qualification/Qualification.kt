@@ -34,6 +34,14 @@ data class Qualification(
 
 ) : IdentifiableObject<Qualification>, Serializable {
 
+    override fun equals(other: Any?): Boolean = if (this === other)
+        true
+    else
+        other is Qualification
+            && this.id == other.id
+
+    override fun hashCode(): Int = id.hashCode()
+
     override fun updateBy(src: Qualification): Qualification = Qualification(
         id = id,
         date = src.date or date,

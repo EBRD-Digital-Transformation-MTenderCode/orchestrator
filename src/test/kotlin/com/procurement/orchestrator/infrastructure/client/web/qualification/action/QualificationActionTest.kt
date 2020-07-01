@@ -64,5 +64,128 @@ class QualificationActionTest {
                 }
             }
         }
+
+        @Nested
+        inner class DoDeclaration {
+            @Nested
+            inner class Params {
+                @Test
+                fun required() {
+                    testingBindingAndMapping<DoDeclarationAction.Params>("json/client/qualification/do_declaration_params_full.json")
+                }
+            }
+
+            @Nested
+            inner class Result {
+                @Test
+                fun required() {
+                    testingBindingAndMapping<DoDeclarationAction.Result>("json/client/qualification/do_declaration_result_full.json")
+                }
+            }
+        }
+
+        @Nested
+        inner class FindRequirementResponseByIds {
+            @Nested
+            inner class Params {
+                @Test
+                fun required() {
+                    testingBindingAndMapping<FindRequirementResponseByIdsAction.Params>("json/client/qualification/find_requirement_response_by_id_params_full.json")
+                }
+            }
+
+            @Nested
+            inner class Result {
+                @Test
+                fun required() {
+                    testingBindingAndMapping<FindRequirementResponseByIdsAction.Result>("json/client/qualification/find_requirement_response_by_id_result_full.json")
+                }
+            }
+        }
+    }
+
+    @Nested
+    inner class CreateQualification {
+        @Nested
+        inner class Params {
+            @Test
+            fun required() {
+                testingBindingAndMapping<CreateQualificationAction.Params>("json/client/qualification/create_qualification_params_full.json")
+            }
+            @Test
+            fun required1() {
+                testingBindingAndMapping<CreateQualificationAction.Params>("json/client/qualification/create_qualification_params_1.json")
+            }
+            @Test
+            fun required2() {
+                testingBindingAndMapping<CreateQualificationAction.Params>("json/client/qualification/create_qualification_params_2.json")
+            }
+        }
+        @Nested
+        inner class Result {
+            @Test
+            fun required() {
+                testingBindingAndMapping<CreateQualificationAction.Result>("json/client/qualification/create_qualification_result_full.json")
+            }
+            @Test
+            fun required1() {
+                testingBindingAndMapping<CreateQualificationAction.Result>("json/client/qualification/create_qualification_result_1.json")
+            }
+        }
+    }
+
+    @Nested
+    inner class DetermineNextsForQualification {
+        @Nested
+        inner class Params {
+
+            @Test
+            fun required() {
+                testingBindingAndMapping<DetermineNextsForQualificationAction.Params>("json/client/qualification/determine_nexts_for_qualification_params_full.json")
+            }
+
+            @Test
+            fun required1() {
+                testingBindingAndMapping<DetermineNextsForQualificationAction.Params>("json/client/qualification/determine_nexts_for_qualification_params_1.json")
+            }
+
+            @Test
+            fun required2() {
+                testingBindingAndMapping<DetermineNextsForQualificationAction.Params>("json/client/qualification/determine_nexts_for_qualification_params_2.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun required() {
+                testingBindingAndMapping<DetermineNextsForQualificationAction.Result>("json/client/qualification/determine_nexts_for_qualification_result_full.json")
+            }
+        }
+    }
+
+    @Nested
+    inner class CheckQualificationState {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun required() {
+                testingBindingAndMapping<CheckQualificationStateAction.Params>("json/client/qualification/check_qualification_state_params_full.json")
+            }
+        }
+
+    }
+
+    @Nested
+    inner class CheckAccessToQualification {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun full() {
+                testingBindingAndMapping<CheckAccessToQualificationAction.Params>("json/client/qualification/check_access_to_qualification_params_full.json")
+            }
+        }
     }
 }

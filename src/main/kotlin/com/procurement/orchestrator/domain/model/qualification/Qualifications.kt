@@ -8,7 +8,7 @@ class Qualifications(values: List<Qualification> = emptyList()) : List<Qualifica
     IdentifiableObjects<Qualification, Qualifications>,
     Serializable {
 
-    constructor(qualification: Qualification) : this(listOf(qualification))
+    constructor(value: Qualification) : this(listOf(value))
 
     override operator fun plus(other: Qualifications) =
         Qualifications(this as List<Qualification> + other as List<Qualification>)
