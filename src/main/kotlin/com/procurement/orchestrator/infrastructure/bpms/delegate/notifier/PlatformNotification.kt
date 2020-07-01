@@ -21,25 +21,33 @@ object PlatformNotification {
         @field:JsonProperty("message") @param:JsonProperty("message") val message: String
     )
 
-    class Message(
-        @field:JsonProperty("X-RESPONSE-ID") @param:JsonProperty("X-RESPONSE-ID") val responseId: ResponseId,
-        @field:JsonProperty("X-OPERATION-ID") @param:JsonProperty("X-OPERATION-ID") val operationId: OperationId,
-        @field:JsonProperty("initiator") @param:JsonProperty("initiator") val initiator: Initiator,
-        @field:JsonProperty("data") @param:JsonProperty("data") val body: Body
-    ) {
+    sealed class Message {
 
-        sealed class Body {
+        data class Success(
+            @field:JsonProperty("X-RESPONSE-ID") @param:JsonProperty("X-RESPONSE-ID") val responseId: ResponseId,
+            @field:JsonProperty("X-OPERATION-ID") @param:JsonProperty("X-OPERATION-ID") val operationId: OperationId,
+            @field:JsonProperty("initiator") @param:JsonProperty("initiator") val initiator: Initiator,
+            @field:JsonProperty("data") @param:JsonProperty("data") val data: Data
+        ) : Message() {
 
-            class Success(
+            class Data(
                 @field:JsonProperty("ocid") @param:JsonProperty("ocid") val ocid: Ocid,
                 @field:JsonProperty("url") @param:JsonProperty("url") val url: String,
                 @field:JsonProperty("operationDate") @param:JsonProperty("operationDate") val operationDate: LocalDateTime,
 
                 @JsonInclude(JsonInclude.Include.NON_NULL)
                 @field:JsonProperty("outcomes") @param:JsonProperty("outcomes") val outcomes: Outcomes? = null
-            ) : Body()
+            )
+        }
 
-            class Errors(items: List<Error>) : List<Errors.Error> by items, Body() {
+        data class Fail(
+            @field:JsonProperty("X-RESPONSE-ID") @param:JsonProperty("X-RESPONSE-ID") val responseId: ResponseId,
+            @field:JsonProperty("X-OPERATION-ID") @param:JsonProperty("X-OPERATION-ID") val operationId: OperationId,
+            @field:JsonProperty("initiator") @param:JsonProperty("initiator") val initiator: Initiator,
+            @field:JsonProperty("errors") @param:JsonProperty("errors") val errors: Errors
+        ) : Message() {
+
+            class Errors(items: List<Error>) : List<Errors.Error> by items {
 
                 data class Error(
                     @field:JsonProperty("code") @param:JsonProperty("code") val code: String,

@@ -98,11 +98,11 @@ class NotifierSuccessNotificationToPlatformDelegate(
         requestInfo: RequestInfo,
         outcomeDetails: Outcomes.Details?
     ): Result<PlatformNotification.MessageEnvelop, Fail.Incident> {
-        val message = PlatformNotification.Message(
+        val message = PlatformNotification.Message.Success(
             responseId = ResponseId.generate(),
             operationId = requestInfo.operationId,
             initiator = initiator(processInfo.operationType),
-            body = PlatformNotification.Message.Body.Success(
+            data = PlatformNotification.Message.Success.Data(
                 ocid = processInfo.ocid,
                 url = generateUrl(processInfo.operationType, cpid = processInfo.cpid, ocid = processInfo.ocid),
                 operationDate = requestInfo.timestamp,
