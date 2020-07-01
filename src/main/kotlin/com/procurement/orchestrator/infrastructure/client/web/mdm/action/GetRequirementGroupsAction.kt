@@ -9,7 +9,7 @@ import java.io.Serializable
 
 abstract class GetRequirementGroupsAction {
 
-    class Params(
+    data class Params(
         @field:JsonProperty("lang") @param:JsonProperty("lang") val lang: String,
         @field:JsonProperty("scheme") @param:JsonProperty("scheme") val scheme: String,
         @field:JsonProperty("country") @param:JsonProperty("country") val country: String,
@@ -20,7 +20,7 @@ abstract class GetRequirementGroupsAction {
 
     sealed class Response {
 
-        class Success(
+        data class Success(
             @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
             @field:JsonProperty("data") @param:JsonProperty("data") val data: List<RequirementResponse>?
         ) : Response(), Serializable {
