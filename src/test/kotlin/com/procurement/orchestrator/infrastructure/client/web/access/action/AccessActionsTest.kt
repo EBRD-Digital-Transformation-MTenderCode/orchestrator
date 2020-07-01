@@ -314,4 +314,16 @@ class AccessActionsTest {
         }
     }
 
+    @Nested
+    inner class CheckTenderState {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CheckTenderStateAction.Params>("json/client/access/check_tender_state_params_full.json")
+            }
+        }
+    }
+
 }
