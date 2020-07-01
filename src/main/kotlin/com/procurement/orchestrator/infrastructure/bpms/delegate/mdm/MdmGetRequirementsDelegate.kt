@@ -9,10 +9,9 @@ import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
+import com.procurement.orchestrator.domain.functional.asFailure
 import com.procurement.orchestrator.domain.functional.asSuccess
-import com.procurement.orchestrator.domain.model.tender.Tender
 import com.procurement.orchestrator.domain.model.tender.criteria.Criteria
-import com.procurement.orchestrator.domain.model.tender.criteria.CriterionId
 import com.procurement.orchestrator.domain.model.tender.criteria.requirement.Requirement
 import com.procurement.orchestrator.domain.model.tender.criteria.requirement.RequirementGroupId
 import com.procurement.orchestrator.domain.model.tender.criteria.requirement.RequirementGroups
@@ -24,7 +23,6 @@ import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRequ
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRequirementsAction
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.convertToGlobalContextEntity
 import org.springframework.stereotype.Component
-import java.io.Serializable
 
 @Component
 class MdmGetRequirementsDelegate(
@@ -32,7 +30,7 @@ class MdmGetRequirementsDelegate(
     operationStepRepository: OperationStepRepository,
     transform: Transform,
     private val mdmClient: MdmClient
-) : AbstractBatchRestDelegate<Unit, MdmGetRequirementsDelegate.ParametersDetails, List<MdmGetRequirementsDelegate.RequirementsDetails>>(
+) : AbstractBatchRestDelegate<Unit, GetRequirementsAction.Params, Map<RequirementGroupId, List<Requirement>>>(
     logger = logger,
     transform = transform,
     operationStepRepository = operationStepRepository
@@ -44,84 +42,65 @@ class MdmGetRequirementsDelegate(
     override fun prepareSeq(
         context: CamundaGlobalContext,
         parameters: Unit
-    ): Result<List<ParametersDetails>, Fail.Incident> {
+    ): Result<List<GetRequirementsAction.Params>, Fail.Incident> {
 
         val requestInfo = context.requestInfo
         val processInfo = context.processInfo
 
-        val tender = context.tryGetTender()
+        return context.tryGetTender()
             .orForwardFail { error -> return error }
-
-        return tender.criteria
-            .asSequence()
+            .criteria
             .flatMap { criterion ->
                 criterion.requirementGroups
-                    .asSequence()
                     .map { requirementGroup ->
-                        ParametersDetails(
-                            params = GetRequirementsAction.Params(
-                                lang = requestInfo.language,
-                                pmd = processInfo.pmd,
-                                country = requestInfo.country,
-                                phase = processInfo.phase,
-                                requirementGroupId = requirementGroup.id
-                            ),
-                            relatedCriteria = criterion.id
+                        GetRequirementsAction.Params(
+                            lang = requestInfo.language,
+                            pmd = processInfo.pmd,
+                            country = requestInfo.country,
+                            phase = processInfo.phase,
+                            requirementGroupId = requirementGroup.id
                         )
                     }
             }
-            .toList()
             .asSuccess()
     }
 
     override suspend fun execute(
-        elements: List<ParametersDetails>,
+        elements: List<GetRequirementsAction.Params>,
         executionInterceptor: ExecutionInterceptor
-    ): Result<List<RequirementsDetails>, Fail.Incident> {
+    ): Result<Map<RequirementGroupId, List<Requirement>>, Fail.Incident> = elements
+        .map { params ->
+            val requirements = mdmClient.getRequirements(params = params)
+                .orForwardFail { error -> return error }
+                .let {
+                    handleResult(it)
+                }
+            if (requirements.isEmpty())
+                return Fail.Incident.Response.Empty(service = "MDM", action = "GetRequirements ($params)")
+                    .asFailure()
 
-        return elements
-            .map { paramsDetails ->
-                mdmClient.getRequirements(params = paramsDetails.params)
-                    .orForwardFail { error -> return error }
-                    .let {
-                        val requirement = handleResult(it)
-                        RequirementsDetails(
-                            relatedCriteria = paramsDetails.relatedCriteria,
-                            relatedGroupId = paramsDetails.params.requirementGroupId,
-                            requirements = requirement
-                        )
-                    }
-            }
-            .asSuccess()
-    }
+            params.requirementGroupId to requirements
+        }
+        .toMap()
+        .asSuccess()
 
     override fun updateGlobalContext(
         context: CamundaGlobalContext,
-        result: List<RequirementsDetails>
+        result: Map<RequirementGroupId, List<Requirement>>
     ): MaybeFail<Fail.Incident> {
 
         if (result.isEmpty())
             return MaybeFail.none()
 
-        val tender = context.tender ?: Tender()
+        val tender = context.tryGetTender()
+            .orReturnFail { return MaybeFail.fail(it) }
 
-        val dbCriteriaById = tender.criteria
-            .associateBy { it.id }
-
-        val requirementsGroupedByCriteriaId = result.groupBy { it.relatedCriteria }
-
-        val updatedCriteria = requirementsGroupedByCriteriaId
-            .map { (criterionId, results) ->
-                val criterion = dbCriteriaById.getValue(criterionId)
-
-                val dbRequirementGroupsById = criterion.requirementGroups
-                    .associateBy { it.id }
-
-                val updatedRequirementGroups = results
-                    .map { resultDetails ->
-                        dbRequirementGroupsById
-                            .getValue(resultDetails.relatedGroupId)
-                            .copy(requirements = Requirements(resultDetails.requirements))
+        val updatedCriteria = tender.criteria
+            .map { criterion ->
+                val updatedRequirementGroups = criterion.requirementGroups
+                    .map { requirementGroup ->
+                        val requirements = result.getValue(requirementGroup.id)
+                        requirementGroup.copy(requirements = Requirements(requirements))
                     }
                 criterion.copy(requirementGroups = RequirementGroups(updatedRequirementGroups))
             }
@@ -135,16 +114,4 @@ class MdmGetRequirementsDelegate(
         is GetRequirements.Result.Success ->
             response.requirements.map { it.convertToGlobalContextEntity() }
     }
-
-    data class RequirementsDetails(
-        val relatedCriteria: CriterionId,
-        val relatedGroupId: RequirementGroupId,
-        val requirements: List<Requirement>
-    ) : Serializable
-
-    data class ParametersDetails(
-        val params: GetRequirementsAction.Params,
-        val relatedCriteria: CriterionId
-    )
 }
-

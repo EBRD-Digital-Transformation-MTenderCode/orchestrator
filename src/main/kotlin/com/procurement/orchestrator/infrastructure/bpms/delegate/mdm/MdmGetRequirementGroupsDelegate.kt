@@ -9,8 +9,8 @@ import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
+import com.procurement.orchestrator.domain.functional.asFailure
 import com.procurement.orchestrator.domain.functional.asSuccess
-import com.procurement.orchestrator.domain.model.tender.Tender
 import com.procurement.orchestrator.domain.model.tender.criteria.Criteria
 import com.procurement.orchestrator.domain.model.tender.criteria.CriterionId
 import com.procurement.orchestrator.domain.model.tender.criteria.requirement.RequirementGroup
@@ -69,9 +69,17 @@ class MdmGetRequirementGroupsDelegate(
 
         return elements
             .map { params ->
-                mdmClient.getRequirementGroups(params = params)
+                val requirementGroups = mdmClient.getRequirementGroups(params = params)
                     .orForwardFail { error -> return error }
-                    .let { params.criterionId to handleResult(it) }
+                    .let {
+                        handleResult(it)
+                    }
+
+                if (requirementGroups.isEmpty())
+                    return Fail.Incident.Response.Empty(service = "MDM", action = "GetRequirementGroups ($params)")
+                        .asFailure()
+
+                params.criterionId to requirementGroups
             }
             .toMap()
             .asSuccess()
@@ -85,15 +93,13 @@ class MdmGetRequirementGroupsDelegate(
         if (result.isEmpty())
             return MaybeFail.none()
 
-        val tender = context.tender ?: Tender()
+        val tender = context.tryGetTender()
+            .orReturnFail { return MaybeFail.fail(it) }
 
-        val dbCriteriaById = tender.criteria
-            .associateBy { it.id }
-
-        val updatedCriteria = result
-            .map { (criterionId, requirementGroups) ->
-                val criterionFromDb = dbCriteriaById.getValue(criterionId)
-                criterionFromDb.copy(requirementGroups = RequirementGroups(requirementGroups))
+        val updatedCriteria = tender.criteria
+            .map { criterion ->
+                val requirementGroups = result.getValue(criterion.id)
+                criterion.copy(requirementGroups = RequirementGroups(requirementGroups))
             }
 
         context.tender = tender.copy(criteria = Criteria(updatedCriteria))
