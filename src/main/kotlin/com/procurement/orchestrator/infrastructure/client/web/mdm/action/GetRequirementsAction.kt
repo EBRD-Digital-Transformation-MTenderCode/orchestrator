@@ -11,7 +11,7 @@ import java.io.Serializable
 
 abstract class GetRequirementsAction {
 
-    class Params(
+    data class Params(
         @field:JsonProperty("lang") @param:JsonProperty("lang") val lang: String,
         @field:JsonProperty("country") @param:JsonProperty("country") val country: String,
         @field:JsonProperty("pmd") @param:JsonProperty("pmd") val pmd: ProcurementMethod,
@@ -21,7 +21,7 @@ abstract class GetRequirementsAction {
 
     sealed class Response {
 
-        class Success(
+        data class Success(
             @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
             @field:JsonProperty("data") @param:JsonProperty("data") val data: List<RequirementResponse>?
         ) : Response(), Serializable {
