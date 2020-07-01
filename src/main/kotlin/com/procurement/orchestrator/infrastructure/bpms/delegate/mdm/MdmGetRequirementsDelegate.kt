@@ -24,6 +24,7 @@ import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRequ
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRequirementsAction
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.convertToGlobalContextEntity
 import org.springframework.stereotype.Component
+import java.io.Serializable
 
 @Component
 class MdmGetRequirementsDelegate(
@@ -52,8 +53,10 @@ class MdmGetRequirementsDelegate(
             .orForwardFail { error -> return error }
 
         return tender.criteria
-            .map { criterion ->
+            .asSequence()
+            .flatMap { criterion ->
                 criterion.requirementGroups
+                    .asSequence()
                     .map { requirementGroup ->
                         ParametersDetails(
                             params = GetRequirementsAction.Params(
@@ -67,7 +70,7 @@ class MdmGetRequirementsDelegate(
                         )
                     }
             }
-            .flatMap { it }
+            .toList()
             .asSuccess()
     }
 
@@ -137,7 +140,7 @@ class MdmGetRequirementsDelegate(
         val relatedCriteria: CriterionId,
         val relatedGroupId: RequirementGroupId,
         val requirements: List<Requirement>
-    )
+    ) : Serializable
 
     data class ParametersDetails(
         val params: GetRequirementsAction.Params,
