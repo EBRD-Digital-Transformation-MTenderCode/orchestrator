@@ -14,13 +14,14 @@ import com.procurement.orchestrator.domain.model.tender.criteria.requirement.Ran
 import com.procurement.orchestrator.domain.model.tender.criteria.requirement.Requirement
 import com.procurement.orchestrator.domain.model.tender.criteria.requirement.RequirementDataType
 import com.procurement.orchestrator.domain.model.tender.criteria.requirement.RequirementValue
+import com.procurement.orchestrator.domain.model.tender.criteria.requirement.Requirements
 import com.procurement.orchestrator.exceptions.ErrorException
 import com.procurement.orchestrator.exceptions.ErrorType
 import com.procurement.orchestrator.infrastructure.bind.date.JsonDateTimeDeserializer
 import java.io.IOException
 import java.math.BigDecimal
 
-class RequirementDeserializer : JsonDeserializer<List<Requirement>>() {
+class RequirementsDeserializer : JsonDeserializer<Requirements>() {
     companion object {
         fun deserialize(requirements: ArrayNode): List<Requirement> {
 
@@ -197,8 +198,8 @@ class RequirementDeserializer : JsonDeserializer<List<Requirement>>() {
     override fun deserialize(
         jsonParser: JsonParser,
         deserializationContext: DeserializationContext
-    ): List<Requirement> {
+    ): Requirements {
         val requirementNode = jsonParser.readValueAsTree<ArrayNode>()
-        return deserialize(requirementNode)
+        return Requirements(deserialize(requirementNode))
     }
 }

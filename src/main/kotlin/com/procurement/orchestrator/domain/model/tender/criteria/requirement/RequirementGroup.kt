@@ -7,8 +7,8 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.procurement.orchestrator.domain.model.IdentifiableObject
 import com.procurement.orchestrator.domain.model.or
 
-import com.procurement.orchestrator.infrastructure.bind.criteria.requirement.RequirementDeserializer
-import com.procurement.orchestrator.infrastructure.bind.criteria.requirement.RequirementSerializer
+import com.procurement.orchestrator.infrastructure.bind.criteria.requirement.RequirementsDeserializer
+import com.procurement.orchestrator.infrastructure.bind.criteria.requirement.RequirementsSerializer
 import java.io.Serializable
 
 data class RequirementGroup(
@@ -17,8 +17,8 @@ data class RequirementGroup(
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonProperty("description") @param:JsonProperty("description") val description: String? = null,
 
-    @JsonDeserialize(using = RequirementDeserializer::class)
-    @JsonSerialize(using = RequirementSerializer::class)
+    @JsonDeserialize(using = RequirementsDeserializer::class)
+    @JsonSerialize(using = RequirementsSerializer::class)
     @field:JsonProperty("requirements") @param:JsonProperty("requirements") val requirements: Requirements = Requirements()
 ) : IdentifiableObject<RequirementGroup>, Serializable {
 
