@@ -23,6 +23,7 @@ import com.procurement.orchestrator.domain.model.amendment.Amendment
 import com.procurement.orchestrator.domain.model.amendment.AmendmentId
 import com.procurement.orchestrator.domain.model.amendment.Amendments
 import com.procurement.orchestrator.domain.model.award.Awards
+import com.procurement.orchestrator.domain.model.qualification.Qualifications
 import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponseId
 import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponses
 import com.procurement.orchestrator.domain.model.submission.Details
@@ -38,7 +39,7 @@ class BpeCreateIdsDelegate(
     logger: Logger,
     operationStepRepository: OperationStepRepository,
     transform: Transform
-) : AbstractInternalDelegate<BpeCreateIdsDelegate.Parameters, BpeCreateIdsDelegate.Ids>(
+) : AbstractInternalDelegate<BpeCreateIdsDelegate.Parameters, List<BpeCreateIdsDelegate.Ids>>(
     logger = logger,
     transform = transform,
     operationStepRepository = operationStepRepository
@@ -49,9 +50,9 @@ class BpeCreateIdsDelegate(
     }
 
     override fun parameters(parameterContainer: ParameterContainer): Result<Parameters, Fail.Incident.Bpmn.Parameter> {
-        val location = parameterContainer.getString(PARAMETER_NAME_LOCATION)
+        val location = parameterContainer.getListString(PARAMETER_NAME_LOCATION)
             .orForwardFail { fail -> return fail }
-            .let {
+            .map {
                 Location.orNull(it)
                     ?: return Result.failure(
                         Fail.Incident.Bpmn.Parameter.UnknownValue(
@@ -68,27 +69,37 @@ class BpeCreateIdsDelegate(
     override suspend fun execute(
         context: CamundaGlobalContext,
         parameters: Parameters
-    ): Result<Option<Ids>, Fail.Incident> = when (parameters.location) {
-        Location.AWARD_REQUIREMENT_RESPONSE -> generatePermanentAwardRequirementResponsesIds(context)
-            .orForwardFail { fail -> return fail }
-
-        Location.SUBMISSION_DETAILS -> generatePermanentSubmissionsIds(context)
-            .orForwardFail { fail -> return fail }
-
-        Location.TENDER_AMENDMENT -> generatePermanentTenderAmendmentsIds(context)
-            .orForwardFail { fail -> return fail }
-    }
+    ): Result<Option<List<Ids>>, Fail.Incident> = parameters.location
+        .map { location ->
+            when (location) {
+                Location.AWARD_REQUIREMENT_RESPONSE         -> generatePermanentAwardRequirementResponsesIds(context)
+                Location.SUBMISSION_DETAILS                 -> generatePermanentSubmissionsIds(context)
+                Location.TENDER_AMENDMENT                   -> generatePermanentTenderAmendmentsIds(context)
+                Location.SUBMISSION_REQUIREMENT_RESPONSE    -> generatePermanentSubmissionsRequirementResponseIds(context)
+                Location.QUALIFICATION_REQUIREMENT_RESPONSE -> generatePermanentQualificationsRequirementResponseIds(context)
+            }
+                .orForwardFail { fail -> return fail }
+        }
         .asOption()
         .asSuccess()
 
     override fun updateGlobalContext(
         context: CamundaGlobalContext,
         parameters: Parameters,
-        data: Ids
-    ): MaybeFail<Fail.Incident> = when (data) {
-        is Ids.AwardRequirementResponses -> updateAwardRequirementResponsesIds(context, data)
-        is Ids.Submissions -> updateSubmissionsIds(context, data)
-        is Ids.TenderAmendments -> updateTenderAmendmentsIds(context, data)
+        data: List<Ids>
+    ): MaybeFail<Fail.Incident>  {
+
+        data.forEach { permanentIds ->
+            when (permanentIds) {
+                is Ids.AwardRequirementResponses          -> updateAwardRequirementResponsesIds(context, permanentIds)
+                is Ids.Submissions                        -> updateSubmissionsIds(context, permanentIds)
+                is Ids.TenderAmendments                   -> updateTenderAmendmentsIds(context, permanentIds)
+                is Ids.SubmissionsRequirementResponses    -> updateSubmissionsRequirementResponseIds(context, permanentIds)
+                is Ids.QualificationsRequirementResponses -> updateQualificationRequirementResponseIds(context, permanentIds)
+            }
+        }
+
+        return MaybeFail.none()
     }
 
     private fun generatePermanentAwardRequirementResponsesIds(context: GlobalContext): Result<Ids, Fail.Incident> =
@@ -141,6 +152,36 @@ class BpeCreateIdsDelegate(
                 success(Ids.TenderAmendments(it))
             }
 
+    private fun generatePermanentSubmissionsRequirementResponseIds(context: GlobalContext): Result<Ids, Fail.Incident> =
+        context.tryGetSubmissions()
+            .orForwardFail { fail -> return fail }
+            .getDetailsIfNotEmpty()
+            .orForwardFail { fail -> return fail }
+            .flatMap { it.requirementResponses }
+            .asSequence()
+            .map { requirementResponse ->
+                val temporal = requirementResponse.id
+                val permanent = RequirementResponseId.generate()
+                temporal to permanent
+            }
+            .toMap()
+            .let { Ids.SubmissionsRequirementResponses(it) }
+            .asSuccess()
+
+    private fun generatePermanentQualificationsRequirementResponseIds(context: GlobalContext): Result<Ids, Fail.Incident> =
+        context.qualifications
+            .flatMap { it.requirementResponses }
+            .asSequence()
+            .map { requirementResponse ->
+                val temporal = requirementResponse.id
+                val permanent = RequirementResponseId.generate()
+                temporal to permanent
+            }
+            .toMap()
+            .let { Ids.QualificationsRequirementResponses(it) }
+            .asSuccess()
+
+
     private fun updateAwardRequirementResponsesIds(
         context: CamundaGlobalContext,
         ids: Ids.AwardRequirementResponses
@@ -191,6 +232,54 @@ class BpeCreateIdsDelegate(
         return MaybeFail.none()
     }
 
+    private fun updateSubmissionsRequirementResponseIds(
+        context: CamundaGlobalContext,
+        ids: Ids.SubmissionsRequirementResponses
+    ): MaybeFail<Fail.Incident.Bpms.Context> {
+        val submissions = context.tryGetSubmissions()
+            .orReturnFail { return MaybeFail.fail(it) }
+
+        val updatedDetails = submissions.getDetailsIfNotEmpty()
+            .orReturnFail { return MaybeFail.fail(it) }
+            .map { submission ->
+                val updatedRequirementResponse = submission.requirementResponses
+                    .map { requirementResponse ->
+                        ids.getValue(requirementResponse.id)
+                            .let { requirementResponse.copy(id = it) }
+                    }
+                submission.copy(requirementResponses = RequirementResponses(updatedRequirementResponse))
+            }
+            .let { Details(it) }
+
+        val updatedSubmissions = submissions.copy(details = updatedDetails)
+
+        context.submissions = updatedSubmissions
+
+        return MaybeFail.none()
+    }
+
+    private fun updateQualificationRequirementResponseIds(
+        context: CamundaGlobalContext,
+        ids: Ids.QualificationsRequirementResponses
+    ): MaybeFail<Fail.Incident.Bpms.Context> {
+        val qualifications = context.qualifications
+
+        val updatedQualifications = qualifications
+            .map { qualification ->
+                val updatedRequirementResponse = qualification.requirementResponses
+                    .map { requirementResponse ->
+                        ids.getValue(requirementResponse.id)
+                            .let { requirementResponse.copy(id = it) }
+                    }
+                qualification.copy(requirementResponses = RequirementResponses(updatedRequirementResponse))
+            }
+            .let { Qualifications(it) }
+
+        context.qualifications = updatedQualifications
+
+        return MaybeFail.none()
+    }
+
     private fun updateTenderAmendmentsIds(
         context: CamundaGlobalContext,
         ids: Ids.TenderAmendments
@@ -226,15 +315,23 @@ class BpeCreateIdsDelegate(
 
         class TenderAmendments(values: Map<AmendmentId, AmendmentId> = emptyMap()) :
             Ids(), Map<AmendmentId, AmendmentId> by values, Serializable
+
+        class SubmissionsRequirementResponses(values: Map<RequirementResponseId, RequirementResponseId> = emptyMap()) :
+            Ids(), Map<RequirementResponseId, RequirementResponseId> by values, Serializable
+
+        class QualificationsRequirementResponses(values: Map<RequirementResponseId, RequirementResponseId> = emptyMap()) :
+            Ids(), Map<RequirementResponseId, RequirementResponseId> by values, Serializable
     }
 
-    class Parameters(val location: Location)
+    class Parameters(val location: List<Location>)
 
     enum class Location(override val key: String) : EnumElementProvider.Key {
 
         AWARD_REQUIREMENT_RESPONSE("award.requirementResponse"),
         SUBMISSION_DETAILS("submission"),
-        TENDER_AMENDMENT("tender.amendment");
+        TENDER_AMENDMENT("tender.amendment"),
+        SUBMISSION_REQUIREMENT_RESPONSE("submission.requirementResponse"),
+        QUALIFICATION_REQUIREMENT_RESPONSE("qualification.requirementResponse");
 
         override fun toString(): String = key
 
