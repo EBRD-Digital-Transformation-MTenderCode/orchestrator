@@ -38,7 +38,7 @@ class Requirement(
     }
 }
 
-sealed class RequirementValue
+sealed class RequirementValue : Serializable
 
 sealed class ExpectedValue : RequirementValue() {
     companion object {
