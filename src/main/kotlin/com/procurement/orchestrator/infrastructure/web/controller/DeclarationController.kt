@@ -31,7 +31,8 @@ class DeclarationController(
 ) {
 
     companion object {
-        private const val PROCESS_NAME = "declareNonConflictOfInterest"
+        private const val PROCESS_NAME_DECLARE = "declareNonConflictOfInterest"
+        private const val PROCESS_NAME_QUALIFICATION_DECLARE = "qualificationDeclareNonConflictOfInterest"
     }
 
     @PostMapping("/{cpid}/{ocid}/{awardId}")
@@ -47,6 +48,71 @@ class DeclarationController(
             if (logger.isDebugEnabled)
                 logger.debug("Response: status '${response.statusCode}', body '${response.body}'.")
         }
+
+    @PostMapping("/qualification/{cpid}/{ocid}/{qualificationId}")
+    fun qualificationDeclarationNonConflictInterest(
+        servlet: HttpServletRequest,
+        @PathVariable cpid: String,
+        @PathVariable ocid: String,
+        @PathVariable qualificationId: String
+    ): ResponseEntity<String> = performQualificationDeclaration(servlet = servlet, cpid = cpid, ocid = ocid, id = qualificationId)
+        .also { fail -> fail.logging(logger) }
+        .buildResponse()
+        .also { response ->
+            if (logger.isDebugEnabled)
+                logger.debug("Response: status '${response.statusCode}', body '${response.body}'.")
+        }
+
+    private fun performQualificationDeclaration(servlet: HttpServletRequest, cpid: String, ocid: String, id: String): MaybeFail<Fail> {
+        val request: PlatformRequest = buildRequestForQualificationDeclaration(servlet = servlet, cpid = cpid, ocid = ocid, id = id)
+            .orReturnFail { return MaybeFail.fail(it) }
+            .also { request ->
+                if (logger.isDebugEnabled)
+                    logger.debug("Request: platform '${request.platformId}', operation-id '${request.operationId}', uri '${servlet.requestURI}', payload '${request.payload}'.")
+            }
+        return processLauncher.launch(request)
+    }
+
+    private fun buildRequestForQualificationDeclaration(
+        servlet: HttpServletRequest,
+        cpid: String,
+        ocid: String,
+        id: String
+    ): Result<PlatformRequest, RequestErrors> {
+
+        val verifiedCpid = parseCpid(cpid)
+            .orForwardFail { return it }
+
+        val verifiedOcid = parseSingleStageOcid(ocid)
+            .orForwardFail { return it }
+
+        val platformId: PlatformId = servlet.getPlatformId()
+            .orForwardFail { fail -> return fail }
+
+        val operationId: OperationId = servlet.getOperationId()
+            .orForwardFail { fail -> return fail }
+
+        val token: Token = servlet.getToken()
+            .orForwardFail { fail -> return fail }
+
+        val payload: String = servlet.getPayload()
+            .orForwardFail { fail -> return fail }
+
+        return PlatformRequest(
+            operationId = operationId,
+            platformId = platformId,
+            context = PlatformRequest.Context(
+                cpid = verifiedCpid,
+                ocid = verifiedOcid,
+                token = token,
+                owner = platformId,
+                id = id,
+                uri = servlet.requestURI,
+                processName = PROCESS_NAME_QUALIFICATION_DECLARE
+            ),
+            payload = payload
+        ).asSuccess()
+    }
 
     private fun perform(
         servlet: HttpServletRequest,
@@ -98,7 +164,7 @@ class DeclarationController(
                 owner = platformId,
                 id = id,
                 uri = servlet.requestURI,
-                processName = PROCESS_NAME
+                processName = PROCESS_NAME_DECLARE
             ),
             payload = payload
         ).asSuccess()

@@ -2,20 +2,15 @@ package com.procurement.orchestrator.infrastructure.client.web.access.action
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.procurement.orchestrator.application.service.FunctionalAction
 import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
 import com.procurement.orchestrator.domain.model.tender.criteria.CriteriaRelatesTo
 import com.procurement.orchestrator.domain.model.tender.criteria.CriteriaSource
 import com.procurement.orchestrator.domain.model.tender.criteria.Criterion
-import com.procurement.orchestrator.domain.model.tender.criteria.requirement.Requirement
 import com.procurement.orchestrator.domain.model.tender.criteria.requirement.RequirementGroup
 import com.procurement.orchestrator.domain.model.tender.criteria.requirement.RequirementGroups
 import com.procurement.orchestrator.domain.model.tender.criteria.requirement.Requirements
-import com.procurement.orchestrator.infrastructure.bind.criteria.requirement.RequirementDeserializer
-import com.procurement.orchestrator.infrastructure.bind.criteria.requirement.RequirementSerializer
 import com.procurement.orchestrator.infrastructure.client.web.Target
 import com.procurement.orchestrator.infrastructure.model.Version
 import java.io.Serializable
@@ -55,9 +50,7 @@ abstract class FindCriteriaAction : FunctionalAction<FindCriteriaAction.Params, 
                 @JsonInclude(JsonInclude.Include.NON_NULL)
                 @field:JsonProperty("description") @param:JsonProperty("description") val description: String?,
 
-                @JsonDeserialize(using = RequirementDeserializer::class)
-                @JsonSerialize(using = RequirementSerializer::class)
-                @field:JsonProperty("requirements") @param:JsonProperty("requirements") val requirements: List<Requirement>
+                @field:JsonProperty("requirements") @param:JsonProperty("requirements") val requirements: Requirements
             ) : Serializable
         }
     }

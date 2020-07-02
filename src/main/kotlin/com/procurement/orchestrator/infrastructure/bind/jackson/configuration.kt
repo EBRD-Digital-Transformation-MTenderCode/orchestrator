@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.procurement.orchestrator.infrastructure.bind.conversion.coefficient.rate.CoefficientRateModule
 import com.procurement.orchestrator.infrastructure.bind.conversion.coefficient.value.CoefficientValueModule
+import com.procurement.orchestrator.infrastructure.bind.criteria.requirement.RequirementsModule
 import com.procurement.orchestrator.infrastructure.bind.criteria.requirement.value.RequirementValueModule
 import com.procurement.orchestrator.infrastructure.bind.date.JsonDateTimeModule
 import com.procurement.orchestrator.infrastructure.bind.measure.amount.AmountModule
@@ -23,6 +24,7 @@ fun ObjectMapper.configuration() {
     this.registerModule(ScoringModule())
     this.registerModule(CoefficientValueModule())
     this.registerModule(CoefficientRateModule())
+    this.registerModule(RequirementsModule())
     this.registerModule(RequirementValueModule())
 
     this.configure(DeserializationFeature.USE_BIG_INTEGER_FOR_INTS, true)

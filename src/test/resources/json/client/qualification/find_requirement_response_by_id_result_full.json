@@ -1,0 +1,21 @@
+{
+  "qualification": {
+    "id": "1aae9903-8f21-4cae-9bbf-3a658b9c4db5",
+    "requirementResponses": [
+      {
+        "id": "string",
+        "value": "Unknown Type: string,number,boolean,integer",
+        "relatedTenderer": {
+          "id": "string"
+        },
+        "requirement": {
+          "id": "string"
+        },
+        "responder": {
+          "id": "string",
+          "name": "string"
+        }
+      }
+    ]
+  }
+}

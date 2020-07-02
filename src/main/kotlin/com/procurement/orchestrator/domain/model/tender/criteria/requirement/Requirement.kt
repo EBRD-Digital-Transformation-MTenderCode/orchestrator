@@ -14,7 +14,7 @@ class Requirement(
     val description: String?,
     val period: Period?,
     val dataType: RequirementDataType?,
-    val value: RequirementValue
+    val value: RequirementValue = NoneValue
 ) : IdentifiableObject<Requirement>, Serializable {
 
     override fun updateBy(src: Requirement) = Requirement(
@@ -38,7 +38,7 @@ class Requirement(
     }
 }
 
-sealed class RequirementValue
+sealed class RequirementValue : Serializable
 
 sealed class ExpectedValue : RequirementValue() {
     companion object {

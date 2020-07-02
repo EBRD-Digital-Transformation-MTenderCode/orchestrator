@@ -289,7 +289,10 @@ sealed class Fail(prefix: String, number: String) {
             class Empty(description: String) : Response(number = "2", description = description) {
 
                 constructor(service: String, action: ProceduralAction<*>)
-                    : this("The response to the '${action.name}' command from the service '$service' is empty.")
+                    : this(service, action.name)
+
+                constructor(service: String, action: String)
+                    : this("The response to the '$action' command from the service '$service' is empty.")
             }
         }
     }

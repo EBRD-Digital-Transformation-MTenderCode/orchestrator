@@ -56,18 +56,18 @@ class NotifierErrorNotificationToPlatformDelegate(
 
         val requestInfo = context.requestInfo
         val processInfo = context.processInfo
-        val message = PlatformNotification.Message(
+        val message = PlatformNotification.Message.Fail(
             responseId = ResponseId.generate(),
             operationId = requestInfo.operationId,
             initiator = initiator(processInfo.operationType),
-            body = PlatformNotification.Message.Body.Errors(
+            errors = PlatformNotification.Message.Fail.Errors(
                 items = errors.map { error ->
-                    PlatformNotification.Message.Body.Errors.Error(
+                    PlatformNotification.Message.Fail.Errors.Error(
                         code = error.code,
                         description = error.description,
                         details = error.details
                             .map { detail ->
-                                PlatformNotification.Message.Body.Errors.Error.Detail(
+                                PlatformNotification.Message.Fail.Errors.Error.Detail(
                                     id = detail.id,
                                     name = detail.name
                                 )

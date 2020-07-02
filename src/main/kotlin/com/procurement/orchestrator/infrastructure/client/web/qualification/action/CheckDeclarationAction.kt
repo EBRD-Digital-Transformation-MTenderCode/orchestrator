@@ -9,6 +9,7 @@ import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
 import com.procurement.orchestrator.domain.model.identifier.IdentifierId
 import com.procurement.orchestrator.domain.model.organization.OrganizationId
+import com.procurement.orchestrator.domain.model.person.PersonId
 import com.procurement.orchestrator.domain.model.qualification.QualificationId
 import com.procurement.orchestrator.domain.model.requirement.RequirementId
 import com.procurement.orchestrator.domain.model.requirement.RequirementResponseValue
@@ -37,7 +38,7 @@ abstract class CheckDeclarationAction : ProceduralAction<CheckDeclarationAction.
             @JsonSerialize(using = RequirementValueSerializer::class)
             @param:JsonProperty("value") @field:JsonProperty("value") val value: RequirementResponseValue,
             @param:JsonProperty("relatedTendererId") @field:JsonProperty("relatedTendererId") val relatedTendererId: OrganizationId,
-            @param:JsonProperty("responderId") @field:JsonProperty("responderId") val responderId: IdentifierId,
+            @param:JsonProperty("responderId") @field:JsonProperty("responderId") val responderId: PersonId,
             @param:JsonProperty("requirementId") @field:JsonProperty("requirementId") val requirementId: RequirementId
         )
 
