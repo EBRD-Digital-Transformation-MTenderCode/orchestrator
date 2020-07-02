@@ -63,7 +63,7 @@ class QualificationCheckDeclarationDelegate(
                     value = requirementResponse.value!!,
                     relatedTendererId = requirementResponse.relatedTenderer!!.id,
                     requirementId = requirementResponse.requirement!!.id,
-                    responderId = requirementResponse.responder!!.identifier!!.id
+                    responderId = requirementResponse.responder!!.id
                 ),
                 criteria = criteria.map { criterion ->
                     CheckDeclarationAction.Params.Criteria(
