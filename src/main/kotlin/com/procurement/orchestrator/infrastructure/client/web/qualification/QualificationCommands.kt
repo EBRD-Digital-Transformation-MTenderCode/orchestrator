@@ -8,6 +8,7 @@ import com.procurement.orchestrator.infrastructure.client.web.qualification.acti
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.DetermineNextsForQualificationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckQualificationStateAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckAccessToQualificationAction
+import com.procurement.orchestrator.infrastructure.client.web.qualification.action.DoConsiderationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.DoDeclarationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.FindQualificationIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.FindRequirementResponseByIdsAction
@@ -38,4 +39,6 @@ object QualificationCommands {
     object FindRequirementResponseByIds: FindRequirementResponseByIdsAction()
 
     object CheckAccessToQualification : CheckAccessToQualificationAction()
+
+    object DoConsideration: DoConsiderationAction()
 }
