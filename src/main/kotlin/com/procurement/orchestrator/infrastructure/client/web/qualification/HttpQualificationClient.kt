@@ -66,7 +66,7 @@ class HttpQualificationClient(private val webClient: WebClient, properties: Comp
         target = QualificationCommands.CreateQualification.target
     )
 
-    override suspend fun determineNextsForQualification(
+    override suspend fun rankQualifications(
         id: CommandId,
         params: RankQualificationsAction.Params
     ): Result<Reply<RankQualificationsAction.Result>, Fail.Incident> = webClient.call(

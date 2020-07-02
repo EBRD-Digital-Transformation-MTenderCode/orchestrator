@@ -53,7 +53,7 @@ class RankQualificationsDelegate(
         val contextTender = context.tryGetTender()
             .orForwardFail { fail -> return fail }
 
-        return qualificationClient.determineNextsForQualification(
+        return qualificationClient.rankQualifications(
             id = commandId,
             params = RankQualificationsAction.Params(
                 cpid = processInfo.cpid,

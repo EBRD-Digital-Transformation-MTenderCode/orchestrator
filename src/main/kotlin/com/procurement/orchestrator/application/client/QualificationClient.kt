@@ -42,7 +42,7 @@ interface QualificationClient {
         params: CreateQualificationAction.Params
     ): Result<Reply<CreateQualificationAction.Result>, Fail.Incident>
 
-    suspend fun determineNextsForQualification(
+    suspend fun rankQualifications(
         id: CommandId,
         params: RankQualificationsAction.Params
     ): Result<Reply<RankQualificationsAction.Result>, Fail.Incident>
