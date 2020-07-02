@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1krjmdz" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.7.3">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1krjmdz" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.5.0">
   <bpmn:collaboration id="Collaboration_19llggx">
     <bpmn:participant id="Participant_1jvivsb" name="QualificationDeclareNonConflictOfInterest" processRef="qualificationDeclareNonConflictOfInterest" />
   </bpmn:collaboration>
@@ -47,10 +47,6 @@
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_04j0zzf</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0tub1ku</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:serviceTask id="QualificationCheckQualificationStateTask" name="eQualifciton:&#10;Check qualification state" camunda:asyncBefore="true" camunda:expression="${qualificationCheckQualificationStateDelegate}">
-      <bpmn:incoming>SequenceFlow_03nwrl0</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_0mcop1d</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="BpeErrorAppenderTask" name="Add Error BPR-10.0.3.13.1" camunda:asyncBefore="true" camunda:delegateExpression="${bpeErrorAppenderDelegate}">
       <bpmn:extensionElements>
@@ -311,6 +307,10 @@
       <bpmn:sequenceFlow id="SequenceFlow_12buxjp" sourceRef="StartEvent_11vxh89" targetRef="BpeValidationErrorDescriptionModifierTask" />
       <bpmn:sequenceFlow id="SequenceFlow_0bbc8el" sourceRef="NotifierValidationErrorNotificationToPlatformTask" targetRef="EndEvent_0u1fo4d" />
     </bpmn:subProcess>
+    <bpmn:serviceTask id="QualificationCheckQualificationStateTask" name="eQualifciton:&#10;Check qualification state" camunda:asyncBefore="true" camunda:delegateExpression="${qualificationCheckQualificationStateDelegate}">
+      <bpmn:incoming>SequenceFlow_03nwrl0</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0mcop1d</bpmn:outgoing>
+    </bpmn:serviceTask>
     <bpmn:textAnnotation id="TextAnnotation_1kpksrs">
       <bpmn:text>обновление/добавление данных об ответчике</bpmn:text>
     </bpmn:textAnnotation>
@@ -347,11 +347,11 @@
     <bpmn:association id="Association_1lb2ory" sourceRef="QualificationCheckDeclarationTask" targetRef="TextAnnotation_0197pp6" />
     <bpmn:association id="Association_1v8036f" sourceRef="QualificationFindRequirementResponseByIdsTask" targetRef="TextAnnotation_1gs931o" />
     <bpmn:association id="Association_06mcgbt" sourceRef="StorageOpenAccessTask" targetRef="TextAnnotation_0snz9n4" />
-    <bpmn:association id="Association_051uppe" sourceRef="QualificationCheckQualificationStateTask" targetRef="TextAnnotation_138udqt" />
     <bpmn:association id="Association_1l9zdmq" sourceRef="QualificationDoDeclarationTask" targetRef="TextAnnotation_1aqzy86" />
     <bpmn:association id="Association_0hzgmm1" sourceRef="QualificationCheckAccessToQualificationTask" targetRef="TextAnnotation_17ribex" />
     <bpmn:association id="Association_1fnn67g" sourceRef="StorageCheckRegistrationTask" targetRef="TextAnnotation_0oq2loc" />
     <bpmn:association id="Association_1al6t0r" sourceRef="BpeInitializeQualifacationDeclareNonConflictOfInterestProcessTask" targetRef="TextAnnotation_04ua1pf" />
+    <bpmn:association id="Association_051uppe" sourceRef="QualificationCheckQualificationStateTask" targetRef="TextAnnotation_138udqt" />
   </bpmn:process>
   <bpmn:error id="Error_15lgooj" name="Internal Incident" errorCode="InternalIncident" />
   <bpmn:error id="Error_0kv316y" name="External Incident" errorCode="ExternalIncident" />
