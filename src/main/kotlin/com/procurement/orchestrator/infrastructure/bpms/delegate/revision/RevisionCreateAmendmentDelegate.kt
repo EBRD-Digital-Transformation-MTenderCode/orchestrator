@@ -24,6 +24,7 @@ import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStep
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.revision.RevisionCommands
 import com.procurement.orchestrator.infrastructure.client.web.revision.action.CreateAmendmentAction
+import com.procurement.orchestrator.infrastructure.configuration.property.ExternalServiceName
 import org.springframework.stereotype.Component
 
 @Component
@@ -109,7 +110,7 @@ class RevisionCreateAmendmentDelegate(
 
         val data = result.orNull
             ?: return MaybeFail.fail(
-                Fail.Incident.Response.Empty(service = "eRevision", action = RevisionCommands.CreateAmendment)
+                Fail.Incident.Response.Empty(service = ExternalServiceName.REVISION, action = RevisionCommands.CreateAmendment)
             )
 
         val tender = context.tryGetTender()

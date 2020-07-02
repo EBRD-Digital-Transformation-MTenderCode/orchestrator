@@ -36,6 +36,7 @@ import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStep
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.clarification.ClarificationCommands
 import com.procurement.orchestrator.infrastructure.client.web.clarification.action.GetEnquiryByIdsAction
+import com.procurement.orchestrator.infrastructure.configuration.property.ExternalServiceName
 import org.springframework.stereotype.Component
 
 @Component
@@ -87,7 +88,7 @@ class ClarificationGetEnquiryByIdsDelegate(
         val data = result.orNull
             ?: return MaybeFail.fail(
                 Fail.Incident.Response.Empty(
-                    service = "eClarification",
+                    service = ExternalServiceName.CLARIFICATION,
                     action = ClarificationCommands.GetEnquiryByIds
                 )
             )

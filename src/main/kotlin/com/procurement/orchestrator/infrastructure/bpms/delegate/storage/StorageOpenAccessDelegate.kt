@@ -24,7 +24,6 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.functional.ValidationResult
-import com.procurement.orchestrator.domain.functional.asFailure
 import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.domain.functional.validate
 import com.procurement.orchestrator.domain.model.amendment.Amendment
@@ -46,6 +45,7 @@ import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStep
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.storage.StorageCommands
 import com.procurement.orchestrator.infrastructure.client.web.storage.action.OpenAccessAction
+import com.procurement.orchestrator.infrastructure.configuration.property.ExternalServiceName
 import org.springframework.stereotype.Component
 
 @Component
@@ -122,7 +122,7 @@ class StorageOpenAccessDelegate(
 
         val data = result.orNull
             ?: return MaybeFail.fail(
-                Fail.Incident.Response.Empty(service = "Storage", action = StorageCommands.OpenAccess)
+                Fail.Incident.Response.Empty(service = ExternalServiceName.STORAGE, action = StorageCommands.OpenAccess)
             )
 
         val tender = context.tender

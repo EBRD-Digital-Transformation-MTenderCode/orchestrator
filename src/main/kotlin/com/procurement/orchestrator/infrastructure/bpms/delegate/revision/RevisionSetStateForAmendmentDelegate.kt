@@ -23,6 +23,7 @@ import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStep
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.revision.RevisionCommands
 import com.procurement.orchestrator.infrastructure.client.web.revision.action.SetStateForAmendmentAction
+import com.procurement.orchestrator.infrastructure.configuration.property.ExternalServiceName
 import org.springframework.stereotype.Component
 
 @Component
@@ -110,7 +111,7 @@ class RevisionSetStateForAmendmentDelegate(
 
         val data = result.orNull
             ?: return MaybeFail.fail(
-                Fail.Incident.Response.Empty(service = "eRevision", action = RevisionCommands.SetStateForAmendment)
+                Fail.Incident.Response.Empty(service = ExternalServiceName.REVISION, action = RevisionCommands.SetStateForAmendment)
             )
 
         when (parameters.location) {
