@@ -141,17 +141,17 @@ class QualificationActionTest {
 
             @Test
             fun required() {
-                testingBindingAndMapping<DetermineNextsForQualificationAction.Params>("json/client/qualification/determine_nexts_for_qualification_params_full.json")
+                testingBindingAndMapping<RankQualificationsAction.Params>("json/client/qualification/determine_nexts_for_qualification_params_full.json")
             }
 
             @Test
             fun required1() {
-                testingBindingAndMapping<DetermineNextsForQualificationAction.Params>("json/client/qualification/determine_nexts_for_qualification_params_1.json")
+                testingBindingAndMapping<RankQualificationsAction.Params>("json/client/qualification/determine_nexts_for_qualification_params_1.json")
             }
 
             @Test
             fun required2() {
-                testingBindingAndMapping<DetermineNextsForQualificationAction.Params>("json/client/qualification/determine_nexts_for_qualification_params_2.json")
+                testingBindingAndMapping<RankQualificationsAction.Params>("json/client/qualification/determine_nexts_for_qualification_params_2.json")
             }
         }
 
@@ -159,7 +159,7 @@ class QualificationActionTest {
         inner class Result {
             @Test
             fun required() {
-                testingBindingAndMapping<DetermineNextsForQualificationAction.Result>("json/client/qualification/determine_nexts_for_qualification_result_full.json")
+                testingBindingAndMapping<RankQualificationsAction.Result>("json/client/qualification/determine_nexts_for_qualification_result_full.json")
             }
         }
     }
