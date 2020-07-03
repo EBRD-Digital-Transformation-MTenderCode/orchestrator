@@ -234,5 +234,45 @@ class QualificationActionTest {
         }
     }
 
+    @Nested
+    inner class SetNextForQualificationDelegate {
+        @Nested
+        inner class Params {
+
+            @Test
+            fun required() {
+                testingBindingAndMapping<SetNextForQualificationAction.Params>("json/client/qualification/set_next_for_qualification_params_full.json")
+            }
+
+            @Test
+            fun required1() {
+                testingBindingAndMapping<SetNextForQualificationAction.Params>("json/client/qualification/set_next_for_qualification_params_1.json")
+            }
+
+            @Test
+            fun required2() {
+                testingBindingAndMapping<SetNextForQualificationAction.Params>("json/client/qualification/set_next_for_qualification_params_2.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun required() {
+                testingBindingAndMapping<SetNextForQualificationAction.Result>("json/client/qualification/set_next_for_qualification_result_full.json")
+            }
+
+            @Test
+            fun required1() {
+                testingBindingAndMapping<SetNextForQualificationAction.Result>("json/client/qualification/set_next_for_qualification_result_1.json")
+            }
+
+            @Test
+            fun required2() {
+                testingBindingAndMapping<SetNextForQualificationAction.Result>("json/client/qualification/set_next_for_qualification_result_2.json")
+            }
+        }
+    }
+
 
 }
