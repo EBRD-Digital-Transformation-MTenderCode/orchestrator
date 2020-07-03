@@ -12,6 +12,7 @@ import com.procurement.orchestrator.infrastructure.client.web.qualification.acti
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.DoQualificationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.FindQualificationIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.FindRequirementResponseByIdsAction
+import com.procurement.orchestrator.infrastructure.client.web.qualification.action.SetNextForQualificationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.StartQualificationPeriodAction
 
 object QualificationCommands {
@@ -41,4 +42,6 @@ object QualificationCommands {
     object CheckAccessToQualification : CheckAccessToQualificationAction()
 
     object DoQualification: DoQualificationAction()
+
+    object SetNextForQualification: SetNextForQualificationAction()
 }
