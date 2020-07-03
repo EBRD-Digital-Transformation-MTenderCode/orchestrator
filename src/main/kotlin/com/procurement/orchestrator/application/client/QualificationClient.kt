@@ -13,6 +13,7 @@ import com.procurement.orchestrator.infrastructure.client.web.qualification.acti
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.DoQualificationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.FindQualificationIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.FindRequirementResponseByIdsAction
+import com.procurement.orchestrator.infrastructure.client.web.qualification.action.SetNextForQualificationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.StartQualificationPeriodAction
 
 interface QualificationClient {
@@ -67,4 +68,9 @@ interface QualificationClient {
         id: CommandId,
         params: DoQualificationAction.Params
     ): Result<Reply<DoQualificationAction.Result>, Fail.Incident>
+
+    suspend fun setNextForQualificationAction(
+        id: CommandId,
+        params: SetNextForQualificationAction.Params
+    ): Result<Reply<SetNextForQualificationAction.Result>, Fail.Incident>
 }
