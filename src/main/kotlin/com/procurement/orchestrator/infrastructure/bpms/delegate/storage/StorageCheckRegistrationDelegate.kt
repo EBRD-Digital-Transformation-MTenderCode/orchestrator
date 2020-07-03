@@ -109,6 +109,10 @@ class StorageCheckRegistrationDelegate(
             getSubmissionsCandidateDocumentsIds(context, entities)
                 .orForwardFail { fail -> return fail }
 
+        val qualificationDocuments: List<DocumentId> =
+            getQualificationDocumentsIds(context, entities)
+                .orForwardFail { fail -> return fail }
+
         val qualificationReqRsDocuments: List<DocumentId> =
             getQualificationReqRsDocumentsIds(context, entities)
                 .orForwardFail { fail -> return fail }
@@ -117,6 +121,7 @@ class StorageCheckRegistrationDelegate(
             .plus(awardRequirementResponseDocuments)
             .plus(submissionsDocuments)
             .plus(submissionCandidateDocuments)
+            .plus(qualificationDocuments)
             .plus(qualificationReqRsDocuments)
 
         if (documentIds.isEmpty())
@@ -345,6 +350,32 @@ class StorageCheckRegistrationDelegate(
             .toList()
             .asSuccess()
 
+    private fun getQualificationDocumentsIds(
+        context: CamundaGlobalContext, entities: Map<EntityKey, EntityValue>
+    ): Result<List<DocumentId>, Fail.Incident> =
+        when (entities[EntityKey.QUALIFICATION]) {
+            EntityValue.OPTIONAL -> getQualificationDocumentsIdsOptional(context)
+            EntityValue.REQUIRED -> getQualificationDocumentsIdsRequired(context)
+            null -> emptyList<DocumentId>().asSuccess()
+        }
+
+    private fun getQualificationDocumentsIdsOptional(context: CamundaGlobalContext): Result<List<DocumentId>, Fail.Incident> =
+        context.qualifications
+            .asSequence()
+            .flatMap { qualification -> qualification.documents.asSequence() }
+            .map { document -> document.id }
+            .toList()
+            .asSuccess()
+
+    private fun getQualificationDocumentsIdsRequired(context: CamundaGlobalContext): Result<List<DocumentId>, Fail.Incident> =
+        context.getQualificationIfOnlyOne()
+            .orForwardFail { fail -> return fail }
+            .getDocumentsIfNotEmpty()
+            .orForwardFail { fail -> return fail }
+            .map { document -> document.id }
+            .toList()
+            .asSuccess()
+
     override fun updateGlobalContext(
         context: CamundaGlobalContext,
         parameters: Parameters,
@@ -362,7 +393,8 @@ class StorageCheckRegistrationDelegate(
         TENDER("tender"),
         SUBMISSION("submission"),
         SUBMISSION_CANDIDATE("submission.candidate"),
-        QUALIFICATION_REQUIREMENT_RESPONSE("qualification.requirementResponse");
+        QUALIFICATION_REQUIREMENT_RESPONSE("qualification.requirementResponse"),
+        QUALIFICATION("qualification");
 
         override fun toString(): String = key
 
