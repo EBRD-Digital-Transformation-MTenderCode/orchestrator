@@ -49,6 +49,8 @@ public enum OperationType {
     ISSUING_AC("issuingAC"),
     PROCESS_AC_CLARIFICATION("processAcClarification"),
     PROCESS_AC_REJECTION("processAcRejection"),
+    QUALIFICATION("qualification"),
+    QUALIFICATION_CONSIDERATION("qualificationConsideration"),
     STANDSTILL_PERIOD("standstillPeriod"),
     START_AWARD_PERIOD("startAwardPeriod"),
     START_NEW_STAGE("startNewStage"),
