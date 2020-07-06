@@ -2,6 +2,7 @@ package com.procurement.orchestrator.infrastructure.client.web.access
 
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckAccessToTenderAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckPersonesStructureAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateCriteriaForProcuringEntityAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindCriteriaAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindLotIdsAction
@@ -45,4 +46,6 @@ object AccessCommands {
     object ValidateRequirementResponses : ValidateRequirementResponsesAction()
 
     object FindCriteria : FindCriteriaAction()
+
+    object CheckTenderState : CheckTenderStateAction()
 }

@@ -10,11 +10,11 @@ import com.procurement.orchestrator.infrastructure.client.web.qualification.acti
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckDeclarationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckQualificationStateAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CreateQualificationAction
-import com.procurement.orchestrator.infrastructure.client.web.qualification.action.DetermineNextsForQualificationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.DoConsiderationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.DoDeclarationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.FindQualificationIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.FindRequirementResponseByIdsAction
+import com.procurement.orchestrator.infrastructure.client.web.qualification.action.RankQualificationsAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.StartQualificationPeriodAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
 import java.net.URL
@@ -67,13 +67,13 @@ class HttpQualificationClient(private val webClient: WebClient, properties: Comp
         target = QualificationCommands.CreateQualification.target
     )
 
-    override suspend fun determineNextsForQualification(
+    override suspend fun rankQualifications(
         id: CommandId,
-        params: DetermineNextsForQualificationAction.Params
-    ): Result<Reply<DetermineNextsForQualificationAction.Result>, Fail.Incident> = webClient.call(
+        params: RankQualificationsAction.Params
+    ): Result<Reply<RankQualificationsAction.Result>, Fail.Incident> = webClient.call(
         url = url,
-        command = QualificationCommands.DetermineNextsForQualification.build(id = id, params = params),
-        target = QualificationCommands.DetermineNextsForQualification.target
+        command = QualificationCommands.RankQualifications.build(id = id, params = params),
+        target = QualificationCommands.RankQualifications.target
     )
 
     override suspend fun checkQualificationState(

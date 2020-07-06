@@ -11,14 +11,14 @@ import com.procurement.orchestrator.domain.model.tender.criteria.requirement.Max
 import com.procurement.orchestrator.domain.model.tender.criteria.requirement.MinValue
 import com.procurement.orchestrator.domain.model.tender.criteria.requirement.NoneValue
 import com.procurement.orchestrator.domain.model.tender.criteria.requirement.RangeValue
-import com.procurement.orchestrator.domain.model.tender.criteria.requirement.Requirement
+import com.procurement.orchestrator.domain.model.tender.criteria.requirement.Requirements
 import com.procurement.orchestrator.infrastructure.bind.date.JsonDateTimeSerializer
 import java.io.IOException
 import java.math.BigDecimal
 
-class RequirementSerializer : JsonSerializer<List<Requirement>>() {
+class RequirementsSerializer : JsonSerializer<Requirements>() {
     companion object {
-        fun serialize(requirements: List<Requirement>): ArrayNode {
+        fun serialize(requirements: Requirements): ArrayNode {
             fun BigDecimal.jsonFormat() = BigDecimal("%.3f".format(this))
             val serializedRequirements = JsonNodeFactory.withExactBigDecimals(true).arrayNode()
 
@@ -87,7 +87,7 @@ class RequirementSerializer : JsonSerializer<List<Requirement>>() {
 
     @Throws(IOException::class, JsonProcessingException::class)
     override fun serialize(
-        requirements: List<Requirement>,
+        requirements: Requirements,
         jsonGenerator: JsonGenerator,
         provider: SerializerProvider
     ) {

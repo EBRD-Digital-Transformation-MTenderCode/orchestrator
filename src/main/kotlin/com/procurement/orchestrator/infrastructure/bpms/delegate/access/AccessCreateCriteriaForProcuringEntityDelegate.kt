@@ -57,7 +57,8 @@ class AccessCreateCriteriaForProcuringEntityDelegate(
             params = Params(
                 cpid = processInfo.cpid,
                 ocid = processInfo.ocid,
-                criteria = criteriaFromContext
+                criteria = criteriaFromContext,
+                operationType = processInfo.operationType
             )
         )
     }

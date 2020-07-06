@@ -3,6 +3,7 @@ package com.procurement.orchestrator.domain.model.qualification
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.procurement.orchestrator.domain.model.IdentifiableObject
+import com.procurement.orchestrator.domain.model.document.Documents
 import com.procurement.orchestrator.domain.model.measure.Scoring
 import com.procurement.orchestrator.domain.model.or
 import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponses
@@ -30,7 +31,16 @@ data class Qualification(
     @field:JsonProperty("scoring") @param:JsonProperty("scoring") val scoring: Scoring? = null,
 
     @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
-    @field:JsonProperty("requirementResponses") @param:JsonProperty("requirementResponses") val requirementResponses: RequirementResponses = RequirementResponses()
+    @field:JsonProperty("requirementResponses") @param:JsonProperty("requirementResponses") val requirementResponses: RequirementResponses = RequirementResponses(),
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonProperty("internalId") @param:JsonProperty("internalId") val internalId: String? = null,
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonProperty("description") @param:JsonProperty("description") val description: String? = null,
+
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    @field:JsonProperty("documents") @param:JsonProperty("documents") val documents: Documents = Documents()
 
 ) : IdentifiableObject<Qualification>, Serializable {
 
@@ -49,6 +59,9 @@ data class Qualification(
         statusDetails = src.statusDetails or statusDetails,
         relatedSubmission = src.relatedSubmission or relatedSubmission,
         scoring = src.scoring or scoring,
-        requirementResponses = requirementResponses updateBy src.requirementResponses
+        requirementResponses = requirementResponses updateBy src.requirementResponses,
+        internalId = src.internalId or internalId,
+        description = src.description or description,
+        documents = documents updateBy src.documents
     )
 }

@@ -20,17 +20,17 @@ import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContai
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.qualification.QualificationCommands
-import com.procurement.orchestrator.infrastructure.client.web.qualification.action.DetermineNextsForQualificationAction
+import com.procurement.orchestrator.infrastructure.client.web.qualification.action.RankQualificationsAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ExternalServiceName
 import org.springframework.stereotype.Component
 
 @Component
-class QualificationDetermineNextsForQualificationDelegate(
+class RankQualificationsDelegate(
     logger: Logger,
     private val qualificationClient: QualificationClient,
     operationStepRepository: OperationStepRepository,
     transform: Transform
-) : AbstractExternalDelegate<Unit, DetermineNextsForQualificationAction.Result>(
+) : AbstractExternalDelegate<Unit, RankQualificationsAction.Result>(
     logger = logger,
     transform = transform,
     operationStepRepository = operationStepRepository
@@ -42,7 +42,7 @@ class QualificationDetermineNextsForQualificationDelegate(
         commandId: CommandId,
         context: CamundaGlobalContext,
         parameters: Unit
-    ): Result<Reply<DetermineNextsForQualificationAction.Result>, Fail.Incident> {
+    ): Result<Reply<RankQualificationsAction.Result>, Fail.Incident> {
 
         val processInfo = context.processInfo
 
@@ -54,29 +54,29 @@ class QualificationDetermineNextsForQualificationDelegate(
         val contextTender = context.tryGetTender()
             .orForwardFail { fail -> return fail }
 
-        return qualificationClient.determineNextsForQualification(
+        return qualificationClient.rankQualifications(
             id = commandId,
-            params = DetermineNextsForQualificationAction.Params(
+            params = RankQualificationsAction.Params(
                 cpid = processInfo.cpid,
                 ocid = processInfo.ocid,
                 submissions = contextSubmissions.map { submission ->
-                    DetermineNextsForQualificationAction.Params.Submission(
+                    RankQualificationsAction.Params.Submission(
                         id = submission.id,
                         date = submission.date
                     )
                 },
                 tender = contextTender.let { tender ->
-                    DetermineNextsForQualificationAction.Params.Tender(
+                    RankQualificationsAction.Params.Tender(
                         otherCriteria = tender.otherCriteria
                             .let { otherCriteria ->
-                                DetermineNextsForQualificationAction.Params.Tender.OtherCriteria(
+                                RankQualificationsAction.Params.Tender.OtherCriteria(
                                     reductionCriteria = otherCriteria?.reductionCriteria,
                                     qualificationSystemMethods = otherCriteria?.qualificationSystemMethods
                                 )
                             },
                         criteria = tender.criteria
                             .map { criterion ->
-                                DetermineNextsForQualificationAction.Params.Tender.Criteria(
+                                RankQualificationsAction.Params.Tender.Criteria(
                                     id = criterion.id,
                                     description = criterion.description,
                                     relatedItem = criterion.relatedItem,
@@ -85,12 +85,12 @@ class QualificationDetermineNextsForQualificationDelegate(
                                     title = criterion.title,
                                     requirementGroups = criterion.requirementGroups
                                         .map {requirementGroup->
-                                            DetermineNextsForQualificationAction.Params.Tender.Criteria.RequirementGroup(
+                                            RankQualificationsAction.Params.Tender.Criteria.RequirementGroup(
                                                 id = requirementGroup.id,
                                                 description = requirementGroup.description,
                                                 requirements = requirementGroup.requirements
                                                     .map {requirement->
-                                                        DetermineNextsForQualificationAction.Params.Tender.Criteria.RequirementGroup.Requirement(
+                                                        RankQualificationsAction.Params.Tender.Criteria.RequirementGroup.Requirement(
                                                             id = requirement.id,
                                                             description = requirement.description,
                                                             dataType = requirement.dataType,
@@ -111,14 +111,14 @@ class QualificationDetermineNextsForQualificationDelegate(
     override fun updateGlobalContext(
         context: CamundaGlobalContext,
         parameters: Unit,
-        result: Option<DetermineNextsForQualificationAction.Result>
+        result: Option<RankQualificationsAction.Result>
     ): MaybeFail<Fail.Incident> {
 
         val data = result.orNull
             ?: return MaybeFail.fail(
                 Fail.Incident.Response.Empty(
                     service = ExternalServiceName.QUALIFICATION,
-                    action = QualificationCommands.DetermineNextsForQualification
+                    action = QualificationCommands.RankQualifications
                 )
             )
 
@@ -139,6 +139,6 @@ class QualificationDetermineNextsForQualificationDelegate(
 
     private fun updateQualification(
         qualification: Qualification,
-        reqQualification: DetermineNextsForQualificationAction.Result.Qualification
+        reqQualification: RankQualificationsAction.Result.Qualification
     ) = qualification.copy(statusDetails = reqQualification.statusDetails)
 }

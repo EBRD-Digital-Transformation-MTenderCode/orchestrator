@@ -65,6 +65,8 @@ class RevisionCreateAmendmentDelegate(
 
             OperationTypeProcess.CREATE_SUBMISSION,
             OperationTypeProcess.DECLARE_NON_CONFLICT_OF_INTEREST,
+            OperationTypeProcess.QUALIFICATION,
+            OperationTypeProcess.QUALIFICATION_CONSIDERATION,
             OperationTypeProcess.QUALIFICATION_DECLARE_NON_CONFLICT_OF_INTEREST,
             OperationTypeProcess.SUBMISSION_PERIOD_END,
             OperationTypeProcess.TENDER_OR_LOT_AMENDMENT_CANCELLATION,

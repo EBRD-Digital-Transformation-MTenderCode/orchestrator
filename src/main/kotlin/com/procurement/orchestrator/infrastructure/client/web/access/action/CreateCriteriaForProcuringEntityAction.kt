@@ -2,8 +2,7 @@ package com.procurement.orchestrator.infrastructure.client.web.access.action
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.procurement.orchestrator.application.model.process.OperationTypeProcess
 import com.procurement.orchestrator.application.service.FunctionalAction
 import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
@@ -16,13 +15,12 @@ import com.procurement.orchestrator.domain.model.tender.criteria.requirement.Req
 import com.procurement.orchestrator.domain.model.tender.criteria.requirement.RequirementGroupId
 import com.procurement.orchestrator.domain.model.tender.criteria.requirement.RequirementGroups
 import com.procurement.orchestrator.domain.model.tender.criteria.requirement.Requirements
-import com.procurement.orchestrator.infrastructure.bind.criteria.requirement.RequirementDeserializer
-import com.procurement.orchestrator.infrastructure.bind.criteria.requirement.RequirementSerializer
 import com.procurement.orchestrator.infrastructure.client.web.Target
 import com.procurement.orchestrator.infrastructure.model.Version
 import java.io.Serializable
 
-abstract class CreateCriteriaForProcuringEntityAction : FunctionalAction<CreateCriteriaForProcuringEntityAction.Params, CreateCriteriaForProcuringEntityAction.Result> {
+abstract class CreateCriteriaForProcuringEntityAction :
+    FunctionalAction<CreateCriteriaForProcuringEntityAction.Params, CreateCriteriaForProcuringEntityAction.Result> {
     override val version: Version = Version.parse("2.0.0")
     override val name: String = "createCriteriaForProcuringEntity"
     override val target: Target<Result> = Target.plural()
@@ -30,6 +28,7 @@ abstract class CreateCriteriaForProcuringEntityAction : FunctionalAction<CreateC
     class Params(
         @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid,
         @field:JsonProperty("ocid") @param:JsonProperty("ocid") val ocid: Ocid,
+        @field:JsonProperty("operationType") @param:JsonProperty("operationType") val operationType: OperationTypeProcess,
         @field:JsonProperty("criteria") @param:JsonProperty("criteria") val criteria: List<Criterion>
     ) {
         data class Criterion(
@@ -53,7 +52,7 @@ abstract class CreateCriteriaForProcuringEntityAction : FunctionalAction<CreateC
                 data class Requirement(
                     @field:JsonProperty("id") @param:JsonProperty("id") val id: RequirementId,
                     @field:JsonProperty("title") @param:JsonProperty("title") val title: String,
-                    
+
                     @JsonInclude(JsonInclude.Include.NON_NULL)
                     @field:JsonProperty("description") @param:JsonProperty("description") val description: String?
                 )
@@ -81,9 +80,7 @@ abstract class CreateCriteriaForProcuringEntityAction : FunctionalAction<CreateC
                 @JsonInclude(JsonInclude.Include.NON_NULL)
                 @field:JsonProperty("description") @param:JsonProperty("description") val description: String?,
 
-                @JsonDeserialize(using = RequirementDeserializer::class)
-                @JsonSerialize(using = RequirementSerializer::class)
-                @field:JsonProperty("requirements") @param:JsonProperty("requirements") val requirements: List<Requirement>
+                @field:JsonProperty("requirements") @param:JsonProperty("requirements") val requirements: Requirements
             ) : Serializable
         }
     }
@@ -95,28 +92,29 @@ fun CreateCriteriaForProcuringEntityAction.Result.Criterion.convertToGlobalConte
         .map { it.convertToGlobalContextEntity() }
 
     return Criterion(
-        id                = this.id,
-        description       = this.description,
-        source            = this.source,
-        title             = this.title,
+        id = this.id,
+        description = this.description,
+        source = this.source,
+        title = this.title,
         requirementGroups = RequirementGroups(requirementGroups)
     )
 }
 
-private fun CreateCriteriaForProcuringEntityAction.Result.Criterion.RequirementGroup.convertToGlobalContextEntity() = RequirementGroup(
-    id           = this.id,
-    description  = this.description,
-    requirements = Requirements(this.requirements)
-)
+private fun CreateCriteriaForProcuringEntityAction.Result.Criterion.RequirementGroup.convertToGlobalContextEntity() =
+    RequirementGroup(
+        id = this.id,
+        description = this.description,
+        requirements = Requirements(this.requirements)
+    )
 
 fun Criterion.convertToRequestEntity(): CreateCriteriaForProcuringEntityAction.Params.Criterion {
     val requirementGroups = this.requirementGroups
         .map { it.convertToRequestEntity() }
 
     return CreateCriteriaForProcuringEntityAction.Params.Criterion(
-        id                = this.id,
-        title             = this.title!!,
-        description       = this.description,
+        id = this.id,
+        title = this.title!!,
+        description = this.description,
         requirementGroups = requirementGroups
     )
 }
@@ -126,15 +124,15 @@ private fun RequirementGroup.convertToRequestEntity(): CreateCriteriaForProcurin
         .map { it.convertToRequestEntity() }
 
     return CreateCriteriaForProcuringEntityAction.Params.Criterion.RequirementGroup(
-        id           = this.id,
-        description  = this.description,
+        id = this.id,
+        description = this.description,
         requirements = requirements
     )
 }
 
 private fun Requirement.convertToRequestEntity(): CreateCriteriaForProcuringEntityAction.Params.Criterion.RequirementGroup.Requirement =
     CreateCriteriaForProcuringEntityAction.Params.Criterion.RequirementGroup.Requirement(
-        id          = this.id,
-        title       = this.title,
+        id = this.id,
+        title = this.title,
         description = this.description
     )
