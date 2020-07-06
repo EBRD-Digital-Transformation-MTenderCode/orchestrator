@@ -28,6 +28,7 @@ import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStep
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.access.AccessCommands
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForLotsAction
+import com.procurement.orchestrator.infrastructure.configuration.property.ExternalServiceName
 import org.springframework.stereotype.Component
 
 @Component
@@ -145,7 +146,7 @@ class AccessSetStateForLotsDelegate(
 
         val data = result.orNull
             ?: return MaybeFail.fail(
-                Fail.Incident.Response.Empty(service = "eAccess", action = AccessCommands.SetStateForLots)
+                Fail.Incident.Response.Empty(service = ExternalServiceName.ACCESS, action = AccessCommands.SetStateForLots)
             )
 
         val tender = context.tryGetTender()

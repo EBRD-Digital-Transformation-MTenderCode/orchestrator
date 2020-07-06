@@ -188,4 +188,24 @@ class QualificationActionTest {
             }
         }
     }
+
+    @Nested
+    inner class DoConsideration {
+        @Nested
+        inner class Params {
+
+            @Test
+            fun required() {
+                testingBindingAndMapping<DoConsiderationAction.Params>("json/client/qualification/do_consideration_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun required() {
+                testingBindingAndMapping<DoConsiderationAction.Result>("json/client/qualification/do_consideration_result_full.json")
+            }
+        }
+    }
 }

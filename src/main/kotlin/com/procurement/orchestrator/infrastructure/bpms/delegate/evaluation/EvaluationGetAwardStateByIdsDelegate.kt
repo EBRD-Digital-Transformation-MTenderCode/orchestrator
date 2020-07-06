@@ -22,6 +22,7 @@ import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStep
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.EvaluationCommands
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.GetAwardStateByIdsAction
+import com.procurement.orchestrator.infrastructure.configuration.property.ExternalServiceName
 import org.springframework.stereotype.Component
 
 @Component
@@ -67,7 +68,7 @@ class EvaluationGetAwardStateByIdsDelegate(
 
         val data = result.orNull
             ?: return MaybeFail.fail(
-                Fail.Incident.Response.Empty(service = "eEvaluation", action = EvaluationCommands.GetAwardStateByIds)
+                Fail.Incident.Response.Empty(service = ExternalServiceName.EVALUATION, action = EvaluationCommands.GetAwardStateByIds)
             )
 
         val awards = context.getAwardsIfNotEmpty()
