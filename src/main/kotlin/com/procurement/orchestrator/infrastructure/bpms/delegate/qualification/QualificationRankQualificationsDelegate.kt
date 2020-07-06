@@ -25,7 +25,7 @@ import com.procurement.orchestrator.infrastructure.configuration.property.Extern
 import org.springframework.stereotype.Component
 
 @Component
-class RankQualificationsDelegate(
+class QualificationRankQualificationsDelegate(
     logger: Logger,
     private val qualificationClient: QualificationClient,
     operationStepRepository: OperationStepRepository,
