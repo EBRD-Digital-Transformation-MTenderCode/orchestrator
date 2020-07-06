@@ -18,9 +18,9 @@ import com.procurement.orchestrator.infrastructure.model.Version
 import java.io.Serializable
 import java.time.LocalDateTime
 
-abstract class DetermineNextsForQualificationAction : FunctionalAction<DetermineNextsForQualificationAction.Params, DetermineNextsForQualificationAction.Result> {
+abstract class RankQualificationsAction : FunctionalAction<RankQualificationsAction.Params, RankQualificationsAction.Result> {
     override val version: Version = Version.parse("2.0.0")
-    override val name: String = "determineNextsForQualification"
+    override val name: String = "rankQualifications"
     override val target: Target<Result> = Target.plural()
 
     class Params(
