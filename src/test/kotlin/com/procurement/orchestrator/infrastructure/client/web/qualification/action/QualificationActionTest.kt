@@ -196,7 +196,7 @@ class QualificationActionTest {
 
             @Test
             fun required() {
-                testingBindingAndMapping<DoConsiderationAction.Params>("json/client/qualification/do_qualification_params_full.json")
+                testingBindingAndMapping<DoConsiderationAction.Params>("json/client/qualification/do_consideration_params_full.json")
             }
         }
 
@@ -204,7 +204,7 @@ class QualificationActionTest {
         inner class Result {
             @Test
             fun required() {
-                testingBindingAndMapping<DoConsiderationAction.Result>("json/client/qualification/do_qualification_result_full.json")
+                testingBindingAndMapping<DoConsiderationAction.Result>("json/client/qualification/do_consideration_result_full.json")
             }
         }
     }
