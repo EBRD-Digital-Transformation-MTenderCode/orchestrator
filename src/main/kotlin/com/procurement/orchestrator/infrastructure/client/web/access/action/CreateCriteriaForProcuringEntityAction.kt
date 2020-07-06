@@ -2,6 +2,7 @@ package com.procurement.orchestrator.infrastructure.client.web.access.action
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.procurement.orchestrator.application.model.process.OperationTypeProcess
 import com.procurement.orchestrator.application.service.FunctionalAction
 import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
@@ -27,6 +28,7 @@ abstract class CreateCriteriaForProcuringEntityAction :
     class Params(
         @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid,
         @field:JsonProperty("ocid") @param:JsonProperty("ocid") val ocid: Ocid,
+        @field:JsonProperty("operationType") @param:JsonProperty("operationType") val operationType: OperationTypeProcess,
         @field:JsonProperty("criteria") @param:JsonProperty("criteria") val criteria: List<Criterion>
     ) {
         data class Criterion(
