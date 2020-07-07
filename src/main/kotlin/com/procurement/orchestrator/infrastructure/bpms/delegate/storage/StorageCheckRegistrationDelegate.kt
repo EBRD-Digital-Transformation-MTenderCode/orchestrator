@@ -361,10 +361,10 @@ class StorageCheckRegistrationDelegate(
 
     private fun getQualificationDocumentsIdsOptional(context: CamundaGlobalContext): Result<List<DocumentId>, Fail.Incident> =
         context.qualifications
-            .asSequence()
-            .flatMap { qualification -> qualification.documents.asSequence() }
-            .map { document -> document.id }
-            .toList()
+            .getOrNull(0)
+            ?.documents
+            ?.map { document -> document.id }
+            .orEmpty()
             .asSuccess()
 
     private fun getQualificationDocumentsIdsRequired(context: CamundaGlobalContext): Result<List<DocumentId>, Fail.Incident> =
