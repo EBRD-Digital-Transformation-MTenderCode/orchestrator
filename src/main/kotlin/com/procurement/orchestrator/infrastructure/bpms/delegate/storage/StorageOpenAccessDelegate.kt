@@ -451,10 +451,10 @@ class StorageOpenAccessDelegate(
 
     private fun getQualificationDocumentsIdsOptional(qualifications: Qualifications): Result<List<DocumentId>, Fail.Incident> =
         qualifications
-            .asSequence()
-            .flatMap { qualification -> qualification.documents.asSequence() }
-            .map { document -> document.id }
-            .toList()
+            .getOrNull(0)
+            ?.documents
+            ?.map { document -> document.id }
+            .orEmpty()
             .asSuccess()
 
     private fun getQualificationDocumentsIdsRequired(qualifications: Qualifications): Result<List<DocumentId>, Fail.Incident> =
