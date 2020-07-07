@@ -17,6 +17,7 @@ import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStep
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.dossier.DossierCommands
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetSubmissionPeriodEndDateAction
+import com.procurement.orchestrator.infrastructure.configuration.property.ExternalServiceName
 import org.springframework.stereotype.Component
 
 @Component
@@ -58,7 +59,7 @@ class DossierGetSubmissionPeriodEndDateDelegate(
 
         val data = result.orNull
             ?: return MaybeFail.fail(
-                Fail.Incident.Response.Empty(service = "eDossier", action = DossierCommands.GetSubmissionPeriodEndDate)
+                Fail.Incident.Response.Empty(service = ExternalServiceName.DOSSIER, action = DossierCommands.GetSubmissionPeriodEndDate)
             )
 
         val preQualification = context.preQualification

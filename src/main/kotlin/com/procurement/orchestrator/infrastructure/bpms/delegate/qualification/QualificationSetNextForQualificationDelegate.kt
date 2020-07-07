@@ -27,6 +27,7 @@ import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStep
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.qualification.QualificationCommands
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.SetNextForQualificationAction
+import com.procurement.orchestrator.infrastructure.configuration.property.ExternalServiceName
 import org.springframework.stereotype.Component
 
 @Component
@@ -120,7 +121,7 @@ class QualificationSetNextForQualificationDelegate(
         val data = result.orNull
             ?: return MaybeFail.fail(
                 Fail.Incident.Response.Empty(
-                    service = "eQualification",
+                    service = ExternalServiceName.QUALIFICATION,
                     action = QualificationCommands.SetNextForQualification
                 )
             )

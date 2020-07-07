@@ -17,6 +17,7 @@ import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStep
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.mdm.MdmCommands
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetErrorDescriptionsAction
+import com.procurement.orchestrator.infrastructure.configuration.property.ExternalServiceName
 import org.springframework.stereotype.Component
 
 @Component
@@ -58,7 +59,7 @@ class BpeErrorDescriptionModifierDelegate(
 
         val data = result.orNull
             ?: return MaybeFail.fail(
-                Fail.Incident.Response.Empty(service = "MDM", action = MdmCommands.GetErrorDescriptions)
+                Fail.Incident.Response.Empty(service = ExternalServiceName.MDM, action = MdmCommands.GetErrorDescriptions)
             )
 
         val errorDescriptions = data.associateBy(
