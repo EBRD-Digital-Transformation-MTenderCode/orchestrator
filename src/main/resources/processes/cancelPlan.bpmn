@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+                  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+                  xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+                  xmlns:camunda="http://camunda.org/schema/1.0/bpmn"
+                  id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler"
+                  exporterVersion="3.5.0">
+  <bpmn:error id="tr_exception" name="TR_EXCEPTION" errorCode="TR_EXCEPTION"/>
+  <bpmn:collaboration id="Collaboration_1mao1l9">
+    <bpmn:participant id="Participant_0ump8kl" name="cancelPlan" processRef="cancelPlan"/>
+  </bpmn:collaboration>
+  <bpmn:process id="cancelPlan" name="cancelPlan" isExecutable="true">
+    <bpmn:startEvent id="Event_0wp5rq4">
+      <bpmn:outgoing>Flow_01ides4</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="SaveFirstOperationTask" name="Save first operation"
+                      camunda:delegateExpression="${saveFirstOperation}">
+      <bpmn:incoming>Flow_01ides4</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ycguel</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="AccessPlanCancellationTask" name="Access Plan Cancellation" camunda:asyncBefore="true"
+                      camunda:delegateExpression="${accessSetPlanCancellation}">
+      <bpmn:incoming>Flow_0ycguel</bpmn:incoming>
+      <bpmn:outgoing>Flow_0umfhyh</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="NoticeCreateReleaseTask" name="Notice create release" camunda:asyncBefore="true"
+                      camunda:delegateExpression="${noticeCreateRelease}">
+      <bpmn:incoming>Flow_0umfhyh</bpmn:incoming>
+      <bpmn:outgoing>Flow_0i19pej</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="SaveContextTask" name="Save Context" camunda:delegateExpression="${saveContext}">
+      <bpmn:incoming>Flow_0i19pej</bpmn:incoming>
+      <bpmn:outgoing>Flow_13x78b3</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="SendMessageTask" name="Send &#10;message&#10;" camunda:asyncBefore="true"
+                      camunda:delegateExpression="${sendMessageToPlatform}">
+      <bpmn:incoming>Flow_13x78b3</bpmn:incoming>
+      <bpmn:outgoing>Flow_068b6jg</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Event_0dap52r">
+      <bpmn:incoming>Flow_068b6jg</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_01ides4" sourceRef="Event_0wp5rq4" targetRef="SaveFirstOperationTask"/>
+    <bpmn:sequenceFlow id="Flow_0ycguel" sourceRef="SaveFirstOperationTask" targetRef="AccessPlanCancellationTask"/>
+    <bpmn:sequenceFlow id="Flow_0umfhyh" sourceRef="AccessPlanCancellationTask" targetRef="NoticeCreateReleaseTask"/>
+    <bpmn:sequenceFlow id="Flow_068b6jg" sourceRef="SendMessageTask" targetRef="Event_0dap52r"/>
+    <bpmn:sequenceFlow id="Flow_0i19pej" sourceRef="NoticeCreateReleaseTask" targetRef="SaveContextTask"/>
+    <bpmn:sequenceFlow id="Flow_13x78b3" sourceRef="SaveContextTask" targetRef="SendMessageTask"/>
+    <bpmn:textAnnotation id="TextAnnotation_1dk1gcz">
+      <bpmn:text>operationType: cancelPlan</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0iudvoc" sourceRef="Event_0wp5rq4" targetRef="TextAnnotation_1dk1gcz"/>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1mao1l9">
+      <bpmndi:BPMNShape id="Participant_0ump8kl_di" bpmnElement="Participant_0ump8kl" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="990" height="190"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_1dk1gcz_di" bpmnElement="TextAnnotation_1dk1gcz">
+        <dc:Bounds x="210" y="110" width="99.99305040770942" height="39.99490363232024"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_01ides4_di" bpmnElement="Flow_01ides4">
+        <di:waypoint x="278" y="210"/>
+        <di:waypoint x="340" y="210"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ycguel_di" bpmnElement="Flow_0ycguel">
+        <di:waypoint x="440" y="210"/>
+        <di:waypoint x="490" y="210"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0umfhyh_di" bpmnElement="Flow_0umfhyh">
+        <di:waypoint x="590" y="210"/>
+        <di:waypoint x="630" y="210"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_068b6jg_di" bpmnElement="Flow_068b6jg">
+        <di:waypoint x="1030" y="210"/>
+        <di:waypoint x="1072" y="210"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0i19pej_di" bpmnElement="Flow_0i19pej">
+        <di:waypoint x="730" y="210"/>
+        <di:waypoint x="782" y="210"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_13x78b3_di" bpmnElement="Flow_13x78b3">
+        <di:waypoint x="882" y="210"/>
+        <di:waypoint x="930" y="210"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Event_0wp5rq4_di" bpmnElement="Event_0wp5rq4">
+        <dc:Bounds x="242" y="192" width="36" height="36"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0kegmvr_di" bpmnElement="SaveFirstOperationTask">
+        <dc:Bounds x="340" y="170" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1hkspto_di" bpmnElement="AccessPlanCancellationTask">
+        <dc:Bounds x="490" y="170" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1tvffuw_di" bpmnElement="NoticeCreateReleaseTask">
+        <dc:Bounds x="630" y="170" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0ql6wk4_di" bpmnElement="SaveContextTask">
+        <dc:Bounds x="782" y="170" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_02g673z_di" bpmnElement="SendMessageTask">
+        <dc:Bounds x="930" y="170" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0dap52r_di" bpmnElement="Event_0dap52r">
+        <dc:Bounds x="1072" y="192" width="36" height="36"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_0iudvoc_di" bpmnElement="Association_0iudvoc">
+        <di:waypoint x="260" y="192"/>
+        <di:waypoint x="260" y="150"/>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

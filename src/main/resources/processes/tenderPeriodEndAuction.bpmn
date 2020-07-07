@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.6.0">
-  <bpmn:error id="tr_exception" name="TR_EXCEPTION" errorCode="TR_EXCEPTION" />
-  <bpmn:collaboration id="Collaboration_11qrtt0">
-    <bpmn:participant id="Participant_03000d8" name="TenderPeriodEndAuction" processRef="tenderPeriodEndAuction" />
-  </bpmn:collaboration>
-  <bpmn:process id="tenderPeriodEndAuction" name="tenderPeriodEndAuction" isExecutable="true">
-    <bpmn:endEvent id="EndEvent_1">
-      <bpmn:incoming>SequenceFlow_0yxhad4</bpmn:incoming>
-    </bpmn:endEvent>
-    <bpmn:serviceTask id="SendMessageTask" name="Send&#10;message to platfom&#10;" camunda:asyncBefore="true" camunda:delegateExpression="${sendMessageToPlatform}">
-      <bpmn:incoming>SequenceFlow_03c2kny</bpmn:incoming>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+                  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+                  xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+                  xmlns:camunda="http://camunda.org/schema/1.0/bpmn"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1"
+                  targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.5.0">
+    <bpmn:error id="tr_exception" name="TR_EXCEPTION" errorCode="TR_EXCEPTION"/>
+    <bpmn:collaboration id="Collaboration_11qrtt0">
+        <bpmn:participant id="Participant_03000d8" name="TenderPeriodEndAuction" processRef="tenderPeriodEndAuction"/>
+    </bpmn:collaboration>
+    <bpmn:process id="tenderPeriodEndAuction" name="tenderPeriodEndAuction" isExecutable="true">
+        <bpmn:endEvent id="EndEvent_1">
+            <bpmn:incoming>SequenceFlow_0yxhad4</bpmn:incoming>
+        </bpmn:endEvent>
+        <bpmn:serviceTask id="SendMessageTask" name="Send&#10;message to platfom&#10;" camunda:asyncBefore="true"
+                          camunda:delegateExpression="${sendMessageToPlatform}">
+            <bpmn:incoming>SequenceFlow_03c2kny</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_18bitdu</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="AccessGetActiveLotsTask" name="Access Get Active Lots" camunda:asyncBefore="true" camunda:delegateExpression="${accessGetActiveLots}">
@@ -133,10 +139,12 @@
       <bpmn:incoming>SequenceFlow_0p0816t</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0xryzge</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="AccessCreateRequestForEvaluationPanelsTask" name="eAccess:&#10;Create Request for Evaluation Panels" camunda:asyncBefore="true" camunda:delegateExpression="${accessCreateRequestForEvaluationPanelsCreateRequestForEvaluationPanels}">
-      <bpmn:incoming>SequenceFlow_0xryzge</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_03duro1</bpmn:outgoing>
-    </bpmn:serviceTask>
+        <bpmn:serviceTask id="AccessCreateRequestForEvaluationPanelsTask"
+                          name="eAccess:&#10;Create Request for Evaluation Panels" camunda:asyncBefore="true"
+                          camunda:delegateExpression="${accessCreateRequestForEvaluationPanels}">
+            <bpmn:incoming>SequenceFlow_0xryzge</bpmn:incoming>
+            <bpmn:outgoing>SequenceFlow_03duro1</bpmn:outgoing>
+        </bpmn:serviceTask>
     <bpmn:serviceTask id="EvaluationStartAwardPeriodTask" name="eEvaluation:&#10;Start Award Period" camunda:asyncBefore="true" camunda:delegateExpression="${evaluationStartAwardPeriod}">
       <bpmn:incoming>SequenceFlow_03duro1</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0kby0y3</bpmn:outgoing>

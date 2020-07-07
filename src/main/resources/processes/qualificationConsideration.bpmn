@@ -18,9 +18,11 @@
       <bpmn:incoming>SequenceFlow_03jq1nm</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1lq49mv</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="AccessCheckQualificationStateTask" name="eQualifciton:&#10;Check qualification state" camunda:asyncBefore="true" camunda:delegateExpression="${accessCheckQualificationStateDelegate}">
-      <bpmn:incoming>SequenceFlow_1lq49mv</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_09sm58c</bpmn:outgoing>
+    <bpmn:serviceTask id="QualificationCheckQualificationStateTask" name="eQualifciton:&#10;Check qualification state"
+                      camunda:asyncBefore="true"
+                      camunda:delegateExpression="${qualificationCheckQualificationStateDelegate}">
+        <bpmn:incoming>SequenceFlow_1lq49mv</bpmn:incoming>
+        <bpmn:outgoing>SequenceFlow_09sm58c</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="QualificationDoConsiderationTask" name="eQualification:&#10;do consideration" camunda:asyncBefore="true" camunda:delegateExpression="${qualificationDoConsiderationDelegate}">
       <bpmn:incoming>SequenceFlow_09sm58c</bpmn:incoming>
@@ -44,12 +46,14 @@
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1irxb9r" sourceRef="NotifierSuccessNotificationToPlatformTask" targetRef="EndEvent_0u5k5ky" />
     <bpmn:sequenceFlow id="SequenceFlow_1vqd0rl" sourceRef="StartEvent_17wz89y" targetRef="BpeInitializeQualificationConsiderationProcessTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1lq49mv" sourceRef="AccessCheckTenderStateTask" targetRef="AccessCheckQualificationStateTask" />
+      <bpmn:sequenceFlow id="SequenceFlow_1lq49mv" sourceRef="AccessCheckTenderStateTask"
+                         targetRef="QualificationCheckQualificationStateTask"/>
     <bpmn:sequenceFlow id="SequenceFlow_1egb7c5" sourceRef="NoticeTask" targetRef="NotifierSuccessNotificationToPlatformTask" />
     <bpmn:sequenceFlow id="SequenceFlow_10vvg5o" sourceRef="BpeAddUpdateRecordTaskInQueueTask" targetRef="NoticeTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1o0w0iw" sourceRef="BpeInitializeQualificationConsiderationProcessTask" targetRef="QualificationCheckAccessToQualificationTask" />
     <bpmn:sequenceFlow id="SequenceFlow_03jq1nm" sourceRef="QualificationCheckAccessToQualificationTask" targetRef="AccessCheckTenderStateTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_09sm58c" sourceRef="AccessCheckQualificationStateTask" targetRef="QualificationDoConsiderationTask" />
+      <bpmn:sequenceFlow id="SequenceFlow_09sm58c" sourceRef="QualificationCheckQualificationStateTask"
+                         targetRef="QualificationDoConsiderationTask"/>
     <bpmn:sequenceFlow id="SequenceFlow_15gkh6f" sourceRef="QualificationDoConsiderationTask" targetRef="BpeAddUpdateRecordTaskInQueueTask" />
     <bpmn:subProcess id="SubProcess_1ppxozw" triggeredByEvent="true">
       <bpmn:serviceTask id="NotifierValidationErrorNotificationToPlatformTask" name="iNotifier Kafka:&#10;Validation Error Notification To Platform" camunda:asyncBefore="true" camunda:delegateExpression="${notifierErrorNotificationToPlatformDelegate}">
@@ -212,7 +216,8 @@
     <bpmn:association id="Association_19507g1" sourceRef="BpeInitializeQualificationConsiderationProcessTask" targetRef="TextAnnotation_0c4uzvd" />
     <bpmn:association id="Association_1c1l37c" sourceRef="QualificationCheckAccessToQualificationTask" targetRef="TextAnnotation_1c5bv0j" />
     <bpmn:association id="Association_163xa4n" sourceRef="AccessCheckTenderStateTask" targetRef="TextAnnotation_0vqoxkl" />
-    <bpmn:association id="Association_1vka64s" sourceRef="AccessCheckQualificationStateTask" targetRef="TextAnnotation_0nnglpx" />
+      <bpmn:association id="Association_1vka64s" sourceRef="QualificationCheckQualificationStateTask"
+                        targetRef="TextAnnotation_0nnglpx"/>
     <bpmn:association id="Association_15ax0e7" sourceRef="QualificationDoConsiderationTask" targetRef="TextAnnotation_1bynq28" />
   </bpmn:process>
   <bpmn:error id="Error_1hqpna6" name="Internal Incident" errorCode="InternalIncident" />
@@ -232,9 +237,10 @@
       <bpmndi:BPMNShape id="TextAnnotation_0vqoxkl_di" bpmnElement="TextAnnotation_0vqoxkl">
         <dc:Bounds x="750" y="120" width="100" height="68" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_1rih4jg_di" bpmnElement="AccessCheckQualificationStateTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="880" y="220" width="100" height="80" />
-      </bpmndi:BPMNShape>
+        <bpmndi:BPMNShape id="ServiceTask_1rih4jg_di" bpmnElement="QualificationCheckQualificationStateTask"
+                          bioc:stroke="black" bioc:fill="white">
+            <dc:Bounds x="880" y="220" width="100" height="80"/>
+        </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_1acy9i6_di" bpmnElement="BpeAddUpdateRecordTaskInQueueTask">
         <dc:Bounds x="1140" y="220" width="100" height="80" />
       </bpmndi:BPMNShape>
