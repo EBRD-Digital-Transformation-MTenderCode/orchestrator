@@ -23,7 +23,9 @@ import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExterna
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
+import com.procurement.orchestrator.infrastructure.client.web.qualification.QualificationCommands
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.DoQualificationAction
+import com.procurement.orchestrator.infrastructure.configuration.property.ExternalServiceName
 import org.springframework.stereotype.Component
 
 @Component
@@ -83,7 +85,12 @@ class QualificationDoQualificationDelegate(
     ): MaybeFail<Fail.Incident> {
 
         val data = result.orNull
-            ?: return MaybeFail.none()
+            ?: return MaybeFail.fail(
+                Fail.Incident.Response.Empty(
+                    service = ExternalServiceName.QUALIFICATION,
+                    action = QualificationCommands.CreateQualification
+                )
+            )
 
         val qualifications = data.qualifications
             ?.map { qualification ->
