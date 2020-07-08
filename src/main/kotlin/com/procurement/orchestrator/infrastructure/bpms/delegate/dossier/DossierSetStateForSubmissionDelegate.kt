@@ -22,6 +22,7 @@ import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStep
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.dossier.DossierCommands
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.SetStateForSubmissionAction
+import com.procurement.orchestrator.infrastructure.configuration.property.ExternalServiceName
 import org.springframework.stereotype.Component
 
 @Component
@@ -94,7 +95,7 @@ class DossierSetStateForSubmissionDelegate(
         val data = result.orNull
             ?: return MaybeFail.fail(
                 Fail.Incident.Response.Empty(
-                    service = "eDossier",
+                    service = ExternalServiceName.DOSSIER,
                     action = DossierCommands.SetStateForSubmission
                 )
             )

@@ -6,12 +6,13 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckAccessToQualificationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckDeclarationAction
-import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CreateQualificationAction
-import com.procurement.orchestrator.infrastructure.client.web.qualification.action.DetermineNextsForQualificationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckQualificationStateAction
+import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CreateQualificationAction
+import com.procurement.orchestrator.infrastructure.client.web.qualification.action.DoConsiderationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.DoDeclarationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.FindQualificationIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.FindRequirementResponseByIdsAction
+import com.procurement.orchestrator.infrastructure.client.web.qualification.action.RankQualificationsAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.StartQualificationPeriodAction
 
 interface QualificationClient {
@@ -42,10 +43,10 @@ interface QualificationClient {
         params: CreateQualificationAction.Params
     ): Result<Reply<CreateQualificationAction.Result>, Fail.Incident>
 
-    suspend fun determineNextsForQualification(
+    suspend fun rankQualifications(
         id: CommandId,
-        params: DetermineNextsForQualificationAction.Params
-    ): Result<Reply<DetermineNextsForQualificationAction.Result>, Fail.Incident>
+        params: RankQualificationsAction.Params
+    ): Result<Reply<RankQualificationsAction.Result>, Fail.Incident>
 
     suspend fun checkQualificationState(
         id: CommandId,
@@ -61,4 +62,9 @@ interface QualificationClient {
         id: CommandId,
         params: FindRequirementResponseByIdsAction.Params
     ): Result<Reply<FindRequirementResponseByIdsAction.Result>, Fail.Incident>
+
+    suspend fun doConsideration(
+        id: CommandId,
+        params: DoConsiderationAction.Params
+    ): Result<Reply<DoConsiderationAction.Result>, Fail.Incident>
 }

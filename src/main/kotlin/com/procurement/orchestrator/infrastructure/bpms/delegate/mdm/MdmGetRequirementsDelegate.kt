@@ -22,6 +22,7 @@ import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStep
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRequirements
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRequirementsAction
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.convertToGlobalContextEntity
+import com.procurement.orchestrator.infrastructure.configuration.property.ExternalServiceName
 import org.springframework.stereotype.Component
 
 @Component
@@ -76,7 +77,7 @@ class MdmGetRequirementsDelegate(
                     handleResult(it)
                 }
             if (requirements.isEmpty())
-                return Fail.Incident.Response.Empty(service = "MDM", action = "GetRequirements ($params)")
+                return Fail.Incident.Response.Empty(service = ExternalServiceName.MDM, action = "GetRequirements ($params)")
                     .asFailure()
 
             params.requirementGroupId to requirements

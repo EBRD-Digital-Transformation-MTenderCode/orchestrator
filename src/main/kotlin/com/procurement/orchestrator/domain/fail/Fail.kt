@@ -5,6 +5,7 @@ import com.procurement.orchestrator.application.service.ProceduralAction
 import com.procurement.orchestrator.domain.EnumElementProvider
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.ValidationResult
+import com.procurement.orchestrator.infrastructure.configuration.property.ExternalServiceName
 import com.procurement.orchestrator.infrastructure.configuration.property.GlobalProperties
 
 sealed class Fail(prefix: String, number: String) {
@@ -288,10 +289,10 @@ sealed class Fail(prefix: String, number: String) {
 
             class Empty(description: String) : Response(number = "2", description = description) {
 
-                constructor(service: String, action: ProceduralAction<*>)
+                constructor(service: ExternalServiceName, action: ProceduralAction<*>)
                     : this(service, action.name)
 
-                constructor(service: String, action: String)
+                constructor(service: ExternalServiceName, action: String)
                     : this("The response to the '$action' command from the service '$service' is empty.")
             }
         }

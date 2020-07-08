@@ -6,6 +6,7 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckAccessToTenderAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckPersonesStructureAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateCriteriaForProcuringEntityAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindCriteriaAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindLotIdsAction
@@ -91,4 +92,9 @@ interface AccessClient {
         id: CommandId,
         params: FindCriteriaAction.Params
     ): Result<Reply<FindCriteriaAction.Result>, Fail.Incident>
+
+    suspend fun checkTenderState(
+        id: CommandId,
+        params: CheckTenderStateAction.Params
+    ): Result<Reply<Unit>, Fail.Incident>
 }

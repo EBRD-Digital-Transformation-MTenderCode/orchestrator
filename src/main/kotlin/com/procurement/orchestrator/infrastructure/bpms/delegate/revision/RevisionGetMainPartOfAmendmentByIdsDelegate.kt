@@ -22,6 +22,7 @@ import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStep
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.revision.RevisionCommands
 import com.procurement.orchestrator.infrastructure.client.web.revision.action.GetAmendmentByIdsAction
+import com.procurement.orchestrator.infrastructure.configuration.property.ExternalServiceName
 import org.springframework.stereotype.Component
 
 @Component
@@ -91,7 +92,7 @@ class RevisionGetMainPartOfAmendmentByIdsDelegate(
 
         val data = result.orNull
             ?: return MaybeFail.fail(
-                Fail.Incident.Response.Empty(service = "eRevision", action = RevisionCommands.GetAmendmentByIds)
+                Fail.Incident.Response.Empty(service = ExternalServiceName.REVISION, action = RevisionCommands.GetAmendmentByIds)
             )
 
         when (parameters.location) {
