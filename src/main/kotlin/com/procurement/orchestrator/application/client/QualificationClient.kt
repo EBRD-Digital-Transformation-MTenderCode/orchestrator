@@ -6,6 +6,7 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckAccessToQualificationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckDeclarationAction
+import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckQualificationPeriodAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckQualificationStateAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CreateQualificationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.DoConsiderationAction
@@ -31,7 +32,6 @@ interface QualificationClient {
         id: CommandId,
         params: CheckAccessToQualificationAction.Params
     ): Result<Reply<Unit>, Fail.Incident>
-
 
     suspend fun checkDeclaration(
         id: CommandId,
@@ -67,4 +67,9 @@ interface QualificationClient {
         id: CommandId,
         params: DoConsiderationAction.Params
     ): Result<Reply<DoConsiderationAction.Result>, Fail.Incident>
+
+    suspend fun checkQualificationPeriod(
+        id: CommandId,
+        params: CheckQualificationPeriodAction.Params
+    ): Result<Reply<Unit>, Fail.Incident>
 }
