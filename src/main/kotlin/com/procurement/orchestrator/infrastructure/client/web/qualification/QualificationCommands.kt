@@ -5,6 +5,7 @@ import com.procurement.orchestrator.infrastructure.client.web.dossier.action.Cre
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.ValidateSubmissionAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckAccessToQualificationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckDeclarationAction
+import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckQualificationPeriodAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckQualificationStateAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CreateQualificationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.DoConsiderationAction
@@ -41,4 +42,6 @@ object QualificationCommands {
     object CheckAccessToQualification : CheckAccessToQualificationAction()
 
     object DoConsideration: DoConsiderationAction()
+
+    object CheckQualificationPeriod: CheckQualificationPeriodAction()
 }
