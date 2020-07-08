@@ -48,6 +48,7 @@ class EvaluationCheckRelatedTendererDelegate(
 
         val relatedTendererId = requirementResponse.relatedTenderer?.id
         val requirementId = requirementResponse.requirement?.id
+        val responderId = requirementResponse.responder?.id
 
         val processInfo = context.processInfo
         return evaluationClient.checkRelatedTenderer(
@@ -57,7 +58,8 @@ class EvaluationCheckRelatedTendererDelegate(
                 ocid = processInfo.ocid,
                 awardId = award.id,
                 relatedTendererId = relatedTendererId,
-                requirementId = requirementId
+                requirementId = requirementId,
+                responderId = responderId
             )
         )
     }
