@@ -136,16 +136,17 @@ class QualificationSetNextForQualificationDelegate(
                     statusDetails = qualification.statusDetails,
                     relatedSubmission = qualification.relatedSubmission,
                     scoring = qualification.scoring,
-                    documents = Documents(qualification.documents
-                                              ?.map { document ->
-                                                  Document(
-                                                      id = document.id,
-                                                      documentType = document.documentType,
-                                                      title = document.title,
-                                                      description = document.description
-                                                  )
-                                              }
-                                              .orEmpty()
+                    documents = Documents(
+                        qualification.documents
+                            ?.map { document ->
+                                Document(
+                                    id = document.id,
+                                    documentType = document.documentType,
+                                    title = document.title,
+                                    description = document.description
+                                )
+                            }
+                            .orEmpty()
                     ),
                     requirementResponses = RequirementResponses(
                         qualification.requirementResponses
