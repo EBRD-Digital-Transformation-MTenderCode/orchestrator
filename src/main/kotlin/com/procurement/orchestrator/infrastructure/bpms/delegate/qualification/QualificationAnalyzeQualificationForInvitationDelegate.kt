@@ -11,11 +11,11 @@ import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExterna
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
-import com.procurement.orchestrator.infrastructure.client.web.qualification.action.AnalizeQualificationForInvitationAction
+import com.procurement.orchestrator.infrastructure.client.web.qualification.action.AnalyzeQualificationForInvitationAction
 import org.springframework.stereotype.Component
 
 @Component
-class QualificationAnalizeQualificationForInvitationDelegate(
+class QualificationAnalyzeQualificationForInvitationDelegate(
     logger: Logger,
     private val client: QualificationClient,
     operationStepRepository: OperationStepRepository,
@@ -37,9 +37,9 @@ class QualificationAnalizeQualificationForInvitationDelegate(
         val processInfo = context.processInfo
         val requestInfo = context.requestInfo
 
-        return client.analizeQualificationForInvitation(
+        return client.analyzeQualificationForInvitation(
             id = commandId,
-            params = AnalizeQualificationForInvitationAction.Params(
+            params = AnalyzeQualificationForInvitationAction.Params(
                 cpid = processInfo.cpid,
                 ocid = processInfo.ocid,
                 country = requestInfo.country,

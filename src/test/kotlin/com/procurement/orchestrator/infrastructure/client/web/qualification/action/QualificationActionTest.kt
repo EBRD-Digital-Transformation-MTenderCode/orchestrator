@@ -210,13 +210,13 @@ class QualificationActionTest {
     }
 
     @Nested
-    inner class AnalizeQualificationForInvitation {
+    inner class AnalyzeQualificationForInvitation {
 
         @Nested
         inner class Params {
             @Test
             fun required() {
-                testingBindingAndMapping<AnalizeQualificationForInvitationAction.Params>("json/client/qualification/analize_qualification_for_invitaion_params_full.json")
+                testingBindingAndMapping<AnalyzeQualificationForInvitationAction.Params>("json/client/qualification/analyze_qualification_for_invitation_params_full.json")
             }
         }
 

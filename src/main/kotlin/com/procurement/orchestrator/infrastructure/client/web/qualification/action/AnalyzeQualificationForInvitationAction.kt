@@ -7,9 +7,9 @@ import com.procurement.orchestrator.domain.model.Ocid
 import com.procurement.orchestrator.domain.model.ProcurementMethod
 import com.procurement.orchestrator.infrastructure.model.Version
 
-abstract class AnalizeQualificationForInvitationAction : ProceduralAction<AnalizeQualificationForInvitationAction.Params> {
+abstract class AnalyzeQualificationForInvitationAction : ProceduralAction<AnalyzeQualificationForInvitationAction.Params> {
     override val version: Version = Version.parse("2.0.0")
-    override val name: String = "analizeQualification"
+    override val name: String = "analyzeQualification"
 
     class Params(
         @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid,

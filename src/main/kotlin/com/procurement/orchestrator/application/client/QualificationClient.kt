@@ -4,7 +4,7 @@ import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
-import com.procurement.orchestrator.infrastructure.client.web.qualification.action.AnalizeQualificationForInvitationAction
+import com.procurement.orchestrator.infrastructure.client.web.qualification.action.AnalyzeQualificationForInvitationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckAccessToQualificationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckDeclarationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckQualificationStateAction
@@ -69,8 +69,8 @@ interface QualificationClient {
         params: DoConsiderationAction.Params
     ): Result<Reply<DoConsiderationAction.Result>, Fail.Incident>
 
-    suspend fun analizeQualificationForInvitation(
+    suspend fun analyzeQualificationForInvitation(
         id: CommandId,
-        params: AnalizeQualificationForInvitationAction.Params
+        params: AnalyzeQualificationForInvitationAction.Params
     ): Result<Reply<Unit>, Fail.Incident>
 }
