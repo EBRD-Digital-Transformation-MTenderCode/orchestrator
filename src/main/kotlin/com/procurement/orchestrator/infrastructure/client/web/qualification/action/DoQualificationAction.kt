@@ -23,6 +23,7 @@ import com.procurement.orchestrator.infrastructure.bind.criteria.requirement.val
 import com.procurement.orchestrator.infrastructure.bind.criteria.requirement.value.RequirementValueSerializer
 import com.procurement.orchestrator.infrastructure.client.web.Target
 import com.procurement.orchestrator.infrastructure.model.Version
+import java.io.Serializable
 import java.time.LocalDateTime
 
 abstract class DoQualificationAction : FunctionalAction<DoQualificationAction.Params, DoQualificationAction.Result> {
@@ -59,7 +60,7 @@ abstract class DoQualificationAction : FunctionalAction<DoQualificationAction.Pa
     class Result(
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
         @param:JsonProperty("qualifications") @field:JsonProperty("qualifications") val qualifications: List<Qualification>?
-    ) {
+    ) : Serializable {
         data class Qualification(
             @param:JsonProperty("id") @field:JsonProperty("id") val id: QualificationId,
             @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -74,14 +75,14 @@ abstract class DoQualificationAction : FunctionalAction<DoQualificationAction.Pa
             @param:JsonProperty("requirementResponses") @field:JsonProperty("requirementResponses") val requirementResponses: List<RequirementResponse>?,
             @JsonInclude(JsonInclude.Include.NON_NULL)
             @param:JsonProperty("scoring") @field:JsonProperty("scoring") val scoring: Scoring?
-        ) {
+        ) : Serializable {
             data class Document(
                 @param:JsonProperty("id") @field:JsonProperty("id") val id: DocumentId,
                 @param:JsonProperty("documentType") @field:JsonProperty("documentType") val documentType: DocumentType,
                 @param:JsonProperty("title") @field:JsonProperty("title") val title: String,
                 @JsonInclude(JsonInclude.Include.NON_NULL)
                 @param:JsonProperty("description") @field:JsonProperty("description") val description: String?
-            )
+            ) : Serializable
 
             data class RequirementResponse(
                 @param:JsonProperty("id") @field:JsonProperty("id") val id: RequirementResponseId,
@@ -91,19 +92,19 @@ abstract class DoQualificationAction : FunctionalAction<DoQualificationAction.Pa
                 @param:JsonProperty("relatedTenderer") @field:JsonProperty("relatedTenderer") val relatedTenderer: RelatedTenderer,
                 @param:JsonProperty("requirement") @field:JsonProperty("requirement") val requirement: Requirement,
                 @param:JsonProperty("responder") @field:JsonProperty("responder") val responder: Responder
-            ) {
+            ) : Serializable {
                 data class RelatedTenderer(
                     @param:JsonProperty("id") @field:JsonProperty("id") val id: OrganizationId
-                )
+                ) : Serializable
 
                 data class Requirement(
                     @param:JsonProperty("id") @field:JsonProperty("id") val id: RequirementId
-                )
+                ) : Serializable
 
                 data class Responder(
                     @param:JsonProperty("id") @field:JsonProperty("id") val id: PersonId,
                     @param:JsonProperty("name") @field:JsonProperty("name") val name: String
-                )
+                ) : Serializable
             }
         }
     }
