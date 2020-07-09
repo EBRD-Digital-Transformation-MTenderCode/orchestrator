@@ -6,6 +6,7 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckAccessToQualificationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckDeclarationAction
+import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckQualificationForProtocolAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckQualificationStateAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CreateQualificationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.DoConsiderationAction
@@ -67,4 +68,9 @@ interface QualificationClient {
         id: CommandId,
         params: DoConsiderationAction.Params
     ): Result<Reply<DoConsiderationAction.Result>, Fail.Incident>
+
+    suspend fun checkQualificationForProtocol(
+        id: CommandId,
+        params: CheckQualificationForProtocolAction.Params
+    ): Result<Reply<Unit>, Fail.Incident>
 }
