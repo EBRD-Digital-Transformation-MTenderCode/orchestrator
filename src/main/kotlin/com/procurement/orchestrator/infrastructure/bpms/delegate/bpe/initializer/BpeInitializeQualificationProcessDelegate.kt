@@ -71,12 +71,14 @@ class BpeInitializeQualificationProcessDelegate(
         payload: Request.Payload
     ): Result<Qualification, DataValidationErrors> {
 
-        val documents = payload.documents
+        val qualification = payload.qualification
+
+        val documents = qualification.documents
             .mapToResult { receivedDocument -> createDocument(qualificationId, receivedDocument) }
             .orForwardFail { fail -> return fail }
 
-        val parsedStatusDetails = payload.statusDetails
-            ?.let { statusDetails ->
+        val parsedStatusDetails = qualification.statusDetails
+            .let { statusDetails ->
                 QualificationStatusDetails.orNull(statusDetails)
                     ?: return failure(
                         DataValidationErrors.UnknownValue(
@@ -89,9 +91,9 @@ class BpeInitializeQualificationProcessDelegate(
 
         return Qualification(
             id = qualificationId,
-            internalId = payload.internalId,
+            internalId = qualification.internalId,
             statusDetails = parsedStatusDetails,
-            description = payload.description,
+            description = qualification.description,
             documents = Documents(documents)
         ).asSuccess()
     }
