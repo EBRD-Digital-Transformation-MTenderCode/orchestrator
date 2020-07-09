@@ -10,9 +10,11 @@ import com.procurement.orchestrator.infrastructure.client.web.qualification.acti
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CreateQualificationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.DoConsiderationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.DoDeclarationAction
+import com.procurement.orchestrator.infrastructure.client.web.qualification.action.DoQualificationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.FindQualificationIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.FindRequirementResponseByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.RankQualificationsAction
+import com.procurement.orchestrator.infrastructure.client.web.qualification.action.SetNextForQualificationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.StartQualificationPeriodAction
 
 interface QualificationClient {
@@ -67,4 +69,14 @@ interface QualificationClient {
         id: CommandId,
         params: DoConsiderationAction.Params
     ): Result<Reply<DoConsiderationAction.Result>, Fail.Incident>
+
+    suspend fun doQualification(
+        id: CommandId,
+        params: DoQualificationAction.Params
+    ): Result<Reply<DoQualificationAction.Result>, Fail.Incident>
+
+    suspend fun setNextForQualificationAction(
+        id: CommandId,
+        params: SetNextForQualificationAction.Params
+    ): Result<Reply<SetNextForQualificationAction.Result>, Fail.Incident>
 }
