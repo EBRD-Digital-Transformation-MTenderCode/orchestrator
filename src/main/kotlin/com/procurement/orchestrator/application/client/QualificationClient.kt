@@ -72,5 +72,5 @@ interface QualificationClient {
     suspend fun analyzeQualificationForInvitation(
         id: CommandId,
         params: AnalyzeQualificationForInvitationAction.Params
-    ): Result<Reply<Unit>, Fail.Incident>
+    ): Result<Reply<AnalyzeQualificationForInvitationAction.Result>, Fail.Incident>
 }

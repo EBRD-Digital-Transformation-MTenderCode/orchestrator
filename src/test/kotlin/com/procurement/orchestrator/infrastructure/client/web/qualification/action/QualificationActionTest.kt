@@ -220,5 +220,13 @@ class QualificationActionTest {
             }
         }
 
+        @Nested
+        inner class Result {
+            @Test
+            fun required() {
+                testingBindingAndMapping<AnalyzeQualificationForInvitationAction.Result>("json/client/qualification/analyze_qualification_for_invitation_result_full.json")
+            }
+        }
+
     }
 }

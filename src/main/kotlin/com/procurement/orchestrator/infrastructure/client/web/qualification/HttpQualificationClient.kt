@@ -115,8 +115,9 @@ class HttpQualificationClient(private val webClient: WebClient, properties: Comp
     override suspend fun analyzeQualificationForInvitation(
         id: CommandId,
         params: AnalyzeQualificationForInvitationAction.Params
-    ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
+    ): Result<Reply<AnalyzeQualificationForInvitationAction.Result>, Fail.Incident> = webClient.call(
         url = url,
-        command = QualificationCommands.AnalyzeQualificationForInvitation.build(id = id, params = params)
+        command = QualificationCommands.AnalyzeQualificationForInvitation.build(id = id, params = params),
+        target = QualificationCommands.AnalyzeQualificationForInvitation.target
     )
 }
