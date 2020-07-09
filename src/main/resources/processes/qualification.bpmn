@@ -60,7 +60,7 @@
       <bpmn:incoming>SequenceFlow_0pvfylr</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1t5j9w3</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="accessCheckQualificationStateTask" name="eQualifciton:&#10;Check qualification state" camunda:asyncBefore="true" camunda:delegateExpression="${accessCheckQualificationStateDelegate}">
+    <bpmn:serviceTask id="qualificationCheckQualificationStateTask" name="eQualifciton:&#10;Check qualification state" camunda:asyncBefore="true" camunda:delegateExpression="${qualificationCheckQualificationStateDelegate}">
       <bpmn:incoming>SequenceFlow_0znfpq3</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1ac0n0l</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -84,7 +84,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_1qvf5tx" sourceRef="QualificationSetNextForQualificationTask" targetRef="StorageOpenAccessTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1p8c8kt" sourceRef="NotifierSuccessNotificationToPlatformTask" targetRef="EndEvent_1v6jrs1" />
     <bpmn:sequenceFlow id="SequenceFlow_1j0qi56" sourceRef="StartEvent_1" targetRef="BpeInitializeQualificationProcessTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1ac0n0l" sourceRef="accessCheckQualificationStateTask" targetRef="StorageCheckRegistrationTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1ac0n0l" sourceRef="qualificationCheckQualificationStateTask" targetRef="StorageCheckRegistrationTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1vtfb9w" sourceRef="QualificationDoQualificationTask" targetRef="AccessGetQualificationCriteriaAndMethodTask" />
     <bpmn:sequenceFlow id="SequenceFlow_19epd3y" sourceRef="StorageCheckRegistrationTask" targetRef="QualificationDoQualificationTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1smj1ft" sourceRef="StorageOpenAccessTask" targetRef="BpeAddUpdateRecordTaskInQueueDelegate" />
@@ -92,7 +92,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_0yhhphm" sourceRef="NoticeTask" targetRef="NotifierSuccessNotificationToPlatformTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0pvfylr" sourceRef="BpeInitializeQualificationProcessTask" targetRef="QualificationCheckAccessToQualificationTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1t5j9w3" sourceRef="QualificationCheckAccessToQualificationTask" targetRef="AccessCheckTenderStateTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0znfpq3" sourceRef="AccessCheckTenderStateTask" targetRef="accessCheckQualificationStateTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0znfpq3" sourceRef="AccessCheckTenderStateTask" targetRef="qualificationCheckQualificationStateTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0c8il3z" sourceRef="AccessGetQualificationCriteriaAndMethodTask" targetRef="DossierFindSubmissionsForOpeningTask" />
     <bpmn:subProcess id="SubProcess_1891o8r" triggeredByEvent="true">
       <bpmn:startEvent id="StartEvent_11bgihv" name="External Incident">
@@ -258,7 +258,7 @@
     <bpmn:textAnnotation id="TextAnnotation_18vzs4n">
       <bpmn:text>Используется, для получения id и date submissions</bpmn:text>
     </bpmn:textAnnotation>
-    <bpmn:association id="Association_1an3pdw" sourceRef="accessCheckQualificationStateTask" targetRef="TextAnnotation_0h6bbrf" />
+    <bpmn:association id="Association_1an3pdw" sourceRef="qualificationCheckQualificationStateTask" targetRef="TextAnnotation_0h6bbrf" />
     <bpmn:association id="Association_04miqhr" sourceRef="QualificationDoQualificationTask" targetRef="TextAnnotation_1qqdz9x" />
     <bpmn:association id="Association_093i1j3" sourceRef="QualificationSetNextForQualificationTask" targetRef="TextAnnotation_1vybh01" />
     <bpmn:association id="Association_0p3334w" sourceRef="BpeInitializeQualificationProcessTask" targetRef="TextAnnotation_0pmtdna" />
@@ -312,7 +312,7 @@
       <bpmndi:BPMNShape id="ServiceTask_1hlxc06_di" bpmnElement="BpeInitializeQualificationProcessTask" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="300" y="240" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_05qe3iy_di" bpmnElement="accessCheckQualificationStateTask" bioc:stroke="black" bioc:fill="white">
+      <bpmndi:BPMNShape id="ServiceTask_05qe3iy_di" bpmnElement="qualificationCheckQualificationStateTask" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="690" y="240" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_06pxf6h_di" bpmnElement="BpeAddUpdateRecordTaskInQueueDelegate">
