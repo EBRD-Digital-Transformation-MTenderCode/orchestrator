@@ -208,4 +208,17 @@ class QualificationActionTest {
             }
         }
     }
+
+    @Nested
+    inner class AnalizeQualificationForInvitation {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun required() {
+                testingBindingAndMapping<AnalizeQualificationForInvitationAction.Params>("json/client/qualification/analize_qualification_for_invitaion_params_full.json")
+            }
+        }
+
+    }
 }
