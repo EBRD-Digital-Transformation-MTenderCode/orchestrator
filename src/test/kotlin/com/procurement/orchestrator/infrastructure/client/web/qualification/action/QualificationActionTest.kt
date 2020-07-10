@@ -135,23 +135,23 @@ class QualificationActionTest {
     }
 
     @Nested
-    inner class DetermineNextsForQualification {
+    inner class RankQualifications {
         @Nested
         inner class Params {
 
             @Test
             fun required() {
-                testingBindingAndMapping<DetermineNextsForQualificationAction.Params>("json/client/qualification/determine_nexts_for_qualification_params_full.json")
+                testingBindingAndMapping<RankQualificationsAction.Params>("json/client/qualification/rank_qualifications_params_full.json")
             }
 
             @Test
             fun required1() {
-                testingBindingAndMapping<DetermineNextsForQualificationAction.Params>("json/client/qualification/determine_nexts_for_qualification_params_1.json")
+                testingBindingAndMapping<RankQualificationsAction.Params>("json/client/qualification/rank_qualifications_params_1.json")
             }
 
             @Test
             fun required2() {
-                testingBindingAndMapping<DetermineNextsForQualificationAction.Params>("json/client/qualification/determine_nexts_for_qualification_params_2.json")
+                testingBindingAndMapping<RankQualificationsAction.Params>("json/client/qualification/rank_qualifications_params_2.json")
             }
         }
 
@@ -159,7 +159,7 @@ class QualificationActionTest {
         inner class Result {
             @Test
             fun required() {
-                testingBindingAndMapping<DetermineNextsForQualificationAction.Result>("json/client/qualification/determine_nexts_for_qualification_result_full.json")
+                testingBindingAndMapping<RankQualificationsAction.Result>("json/client/qualification/rank_qualifications_result_full.json")
             }
         }
     }
@@ -188,4 +188,111 @@ class QualificationActionTest {
             }
         }
     }
+
+    @Nested
+    inner class DoConsideration {
+        @Nested
+        inner class Params {
+
+            @Test
+            fun required() {
+                testingBindingAndMapping<DoConsiderationAction.Params>("json/client/qualification/do_consideration_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun required() {
+                testingBindingAndMapping<DoConsiderationAction.Result>("json/client/qualification/do_consideration_result_full.json")
+            }
+        }
+    }
+
+    @Nested
+    inner class DoQualification {
+        @Nested
+        inner class Params {
+
+            @Test
+            fun required() {
+                testingBindingAndMapping<DoQualificationAction.Params>("json/client/qualification/do_qualification_params_full.json")
+            }
+
+            @Test
+            fun required1() {
+                testingBindingAndMapping<DoQualificationAction.Params>("json/client/qualification/do_qualification_params_1.json")
+            }
+
+            @Test
+            fun required2() {
+                testingBindingAndMapping<DoQualificationAction.Params>("json/client/qualification/do_qualification_params_2.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun required() {
+                testingBindingAndMapping<DoQualificationAction.Result>("json/client/qualification/do_qualification_result_full.json")
+            }
+
+            @Test
+            fun required1() {
+                testingBindingAndMapping<DoQualificationAction.Result>("json/client/qualification/do_qualification_result_1.json")
+            }
+
+            @Test
+            fun required2() {
+                testingBindingAndMapping<DoQualificationAction.Result>("json/client/qualification/do_qualification_result_2.json")
+            }
+
+            @Test
+            fun required3() {
+                testingBindingAndMapping<DoQualificationAction.Result>("json/client/qualification/do_qualification_result_3.json")
+            }
+        }
+    }
+
+    @Nested
+    inner class SetNextForQualificationDelegate {
+        @Nested
+        inner class Params {
+
+            @Test
+            fun required() {
+                testingBindingAndMapping<SetNextForQualificationAction.Params>("json/client/qualification/set_next_for_qualification_params_full.json")
+            }
+
+            @Test
+            fun required1() {
+                testingBindingAndMapping<SetNextForQualificationAction.Params>("json/client/qualification/set_next_for_qualification_params_1.json")
+            }
+
+            @Test
+            fun required2() {
+                testingBindingAndMapping<SetNextForQualificationAction.Params>("json/client/qualification/set_next_for_qualification_params_2.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun required() {
+                testingBindingAndMapping<SetNextForQualificationAction.Result>("json/client/qualification/set_next_for_qualification_result_full.json")
+            }
+
+            @Test
+            fun required1() {
+                testingBindingAndMapping<SetNextForQualificationAction.Result>("json/client/qualification/set_next_for_qualification_result_1.json")
+            }
+
+            @Test
+            fun required2() {
+                testingBindingAndMapping<SetNextForQualificationAction.Result>("json/client/qualification/set_next_for_qualification_result_2.json")
+            }
+        }
+    }
+
+
 }

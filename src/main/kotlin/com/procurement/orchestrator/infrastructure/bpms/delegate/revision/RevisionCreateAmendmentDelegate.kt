@@ -24,6 +24,7 @@ import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStep
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.revision.RevisionCommands
 import com.procurement.orchestrator.infrastructure.client.web.revision.action.CreateAmendmentAction
+import com.procurement.orchestrator.infrastructure.configuration.property.ExternalServiceName
 import org.springframework.stereotype.Component
 
 @Component
@@ -64,6 +65,8 @@ class RevisionCreateAmendmentDelegate(
 
             OperationTypeProcess.CREATE_SUBMISSION,
             OperationTypeProcess.DECLARE_NON_CONFLICT_OF_INTEREST,
+            OperationTypeProcess.QUALIFICATION,
+            OperationTypeProcess.QUALIFICATION_CONSIDERATION,
             OperationTypeProcess.QUALIFICATION_DECLARE_NON_CONFLICT_OF_INTEREST,
             OperationTypeProcess.SUBMISSION_PERIOD_END,
             OperationTypeProcess.TENDER_OR_LOT_AMENDMENT_CANCELLATION,
@@ -109,7 +112,7 @@ class RevisionCreateAmendmentDelegate(
 
         val data = result.orNull
             ?: return MaybeFail.fail(
-                Fail.Incident.Response.Empty(service = "eRevision", action = RevisionCommands.CreateAmendment)
+                Fail.Incident.Response.Empty(service = ExternalServiceName.REVISION, action = RevisionCommands.CreateAmendment)
             )
 
         val tender = context.tryGetTender()

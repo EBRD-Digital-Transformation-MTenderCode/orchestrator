@@ -113,11 +113,16 @@ class StorageCheckRegistrationDelegate(
             getQualificationDocumentsIds(context, entities)
                 .orForwardFail { fail -> return fail }
 
+        val qualificationReqRsDocuments: List<DocumentId> =
+            getQualificationReqRsDocumentsIds(context, entities)
+                .orForwardFail { fail -> return fail }
+
         val documentIds: List<DocumentId> = tenderDocuments.plus(amendmentDocuments)
             .plus(awardRequirementResponseDocuments)
             .plus(submissionsDocuments)
             .plus(submissionCandidateDocuments)
             .plus(qualificationDocuments)
+            .plus(qualificationReqRsDocuments)
 
         if (documentIds.isEmpty())
             return success(Reply.None)
@@ -309,16 +314,16 @@ class StorageCheckRegistrationDelegate(
             .map { document -> document.id }
             .asSuccess()
 
-    private fun getQualificationDocumentsIds(
+    private fun getQualificationReqRsDocumentsIds(
         context: CamundaGlobalContext, entities: Map<EntityKey, EntityValue>
     ): Result<List<DocumentId>, Fail.Incident> =
         when (entities[EntityKey.QUALIFICATION_REQUIREMENT_RESPONSE]) {
-            EntityValue.OPTIONAL -> getQualificationDocumentsIdsOptional(context)
-            EntityValue.REQUIRED -> getQualificationDocumentsIdsRequired(context)
+            EntityValue.OPTIONAL -> getQualificationReqRsDocumentsIdsOptional(context)
+            EntityValue.REQUIRED -> getQualificationReqRsDocumentsIdsRequired(context)
             null -> emptyList<DocumentId>().asSuccess()
         }
 
-    private fun getQualificationDocumentsIdsOptional(context: CamundaGlobalContext): Result<List<DocumentId>, Fail.Incident> =
+    private fun getQualificationReqRsDocumentsIdsOptional(context: CamundaGlobalContext): Result<List<DocumentId>, Fail.Incident> =
         context.qualifications
             .asSequence()
             .flatMap { qualification -> qualification.requirementResponses.asSequence() }
@@ -328,7 +333,7 @@ class StorageCheckRegistrationDelegate(
             .toList()
             .asSuccess()
 
-    private fun getQualificationDocumentsIdsRequired(context: CamundaGlobalContext): Result<List<DocumentId>, Fail.Incident> =
+    private fun getQualificationReqRsDocumentsIdsRequired(context: CamundaGlobalContext): Result<List<DocumentId>, Fail.Incident> =
         context.getQualificationIfOnlyOne()
             .orForwardFail { fail -> return fail }
             .getRequirementResponseIfOnlyOne()
@@ -341,6 +346,32 @@ class StorageCheckRegistrationDelegate(
                 businessFunction.getQualificationDocumentsIfNotEmpty()
                     .orForwardFail { fail -> return fail }
             }
+            .map { document -> document.id }
+            .toList()
+            .asSuccess()
+
+    private fun getQualificationDocumentsIds(
+        context: CamundaGlobalContext, entities: Map<EntityKey, EntityValue>
+    ): Result<List<DocumentId>, Fail.Incident> =
+        when (entities[EntityKey.QUALIFICATION]) {
+            EntityValue.OPTIONAL -> getQualificationDocumentsIdsOptional(context)
+            EntityValue.REQUIRED -> getQualificationDocumentsIdsRequired(context)
+            null -> emptyList<DocumentId>().asSuccess()
+        }
+
+    private fun getQualificationDocumentsIdsOptional(context: CamundaGlobalContext): Result<List<DocumentId>, Fail.Incident> =
+        context.qualifications
+            .getOrNull(0)
+            ?.documents
+            ?.map { document -> document.id }
+            .orEmpty()
+            .asSuccess()
+
+    private fun getQualificationDocumentsIdsRequired(context: CamundaGlobalContext): Result<List<DocumentId>, Fail.Incident> =
+        context.getQualificationIfOnlyOne()
+            .orForwardFail { fail -> return fail }
+            .getDocumentsIfNotEmpty()
+            .orForwardFail { fail -> return fail }
             .map { document -> document.id }
             .toList()
             .asSuccess()
@@ -362,7 +393,8 @@ class StorageCheckRegistrationDelegate(
         TENDER("tender"),
         SUBMISSION("submission"),
         SUBMISSION_CANDIDATE("submission.candidate"),
-        QUALIFICATION_REQUIREMENT_RESPONSE("qualification.requirementResponse");
+        QUALIFICATION_REQUIREMENT_RESPONSE("qualification.requirementResponse"),
+        QUALIFICATION("qualification");
 
         override fun toString(): String = key
 

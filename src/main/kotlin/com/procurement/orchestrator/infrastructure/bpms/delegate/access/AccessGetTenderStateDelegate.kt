@@ -16,6 +16,7 @@ import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStep
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.access.AccessCommands
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetTenderStateAction
+import com.procurement.orchestrator.infrastructure.configuration.property.ExternalServiceName
 import org.springframework.stereotype.Component
 
 @Component
@@ -57,7 +58,7 @@ class AccessGetTenderStateDelegate(
 
         val data = result.orNull
             ?: return MaybeFail.fail(
-                Fail.Incident.Response.Empty(service = "eAccess", action = AccessCommands.GetTenderState)
+                Fail.Incident.Response.Empty(service = ExternalServiceName.ACCESS, action = AccessCommands.GetTenderState)
             )
 
         context.tender = context.tender

@@ -18,6 +18,7 @@ import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStep
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.EvaluationCommands
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CloseAwardPeriodAction
+import com.procurement.orchestrator.infrastructure.configuration.property.ExternalServiceName
 import org.springframework.stereotype.Component
 
 @Component
@@ -61,7 +62,7 @@ class EvaluationCloseAwardPeriodDelegate(
 
         val data = result.orNull
             ?: return MaybeFail.fail(
-                Fail.Incident.Response.Empty(service = "eEvaluation", action = EvaluationCommands.CloseAwardPeriod)
+                Fail.Incident.Response.Empty(service = ExternalServiceName.EVALUATION, action = EvaluationCommands.CloseAwardPeriod)
             )
 
         val tender = context.tryGetTender()

@@ -16,7 +16,8 @@ public enum DossierCommandType {
     CREATE_REQUESTS_FOR_EV_PANELS("createRequestsForEvPanels"),
     VALIDATE_PERIOD("validatePeriod"),
     CHECK_PERIOD("checkPeriod"),
-    SAVE_PERIOD("savePeriod");
+    SAVE_PERIOD("savePeriod"),
+    EXTEND_SUBMISSION_PERIOD("extendSubmissionPeriod");
 
     private static final Map<String, DossierCommandType> CONSTANTS = new HashMap<>();
     private final String value;

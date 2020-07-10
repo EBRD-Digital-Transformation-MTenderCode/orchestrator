@@ -1,0 +1,17 @@
+{
+  "cpid": "ocds-b3wdp1-MD-1580458690892",
+  "ocid": "ocds-b3wdp1-MD-1580458690892-EV-1580458791896",
+  "qualifications": [
+    {
+      "id": "22c3b6f0-bb87-4b40-a001-7c052d0c472d",
+      "statusDetails": "awaiting",
+      "documents": [
+        {
+          "id": "string",
+          "documentType": "notice",
+          "title": "string"
+        }
+      ]
+    }
+  ]
+}

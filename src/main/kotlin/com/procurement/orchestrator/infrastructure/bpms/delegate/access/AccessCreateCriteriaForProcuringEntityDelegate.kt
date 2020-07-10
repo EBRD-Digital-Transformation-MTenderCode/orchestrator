@@ -21,6 +21,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Crea
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateCriteriaForProcuringEntityAction.Params
 import com.procurement.orchestrator.infrastructure.client.web.access.action.convertToGlobalContextEntity
 import com.procurement.orchestrator.infrastructure.client.web.access.action.convertToRequestEntity
+import com.procurement.orchestrator.infrastructure.configuration.property.ExternalServiceName
 import org.springframework.stereotype.Component
 
 @Component
@@ -56,7 +57,8 @@ class AccessCreateCriteriaForProcuringEntityDelegate(
             params = Params(
                 cpid = processInfo.cpid,
                 ocid = processInfo.ocid,
-                criteria = criteriaFromContext
+                criteria = criteriaFromContext,
+                operationType = processInfo.operationType
             )
         )
     }
@@ -70,7 +72,7 @@ class AccessCreateCriteriaForProcuringEntityDelegate(
         val data = result.orNull
             ?: return MaybeFail.fail(
                 Fail.Incident.Response.Empty(
-                    service = "eAccess",
+                    service = ExternalServiceName.ACCESS,
                     action = AccessCommands.CreateCriteriaForProcuringEntity
                 )
             )

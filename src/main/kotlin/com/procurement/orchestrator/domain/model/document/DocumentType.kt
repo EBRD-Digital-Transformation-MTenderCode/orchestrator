@@ -48,7 +48,8 @@ enum class DocumentType(@JsonValue override val key: String) : EnumElementProvid
     X_COMMERCIAL_OFFER("x_commercialOffer"),
     X_ELIGIBILITY_DOCUMENTS("x_eligibilityDocuments"),
     X_QUALIFICATION_DOCUMENTS("x_qualificationDocuments"),
-    X_TECHNICAL_DOCUMENTS("x_technicalDocuments");
+    X_TECHNICAL_DOCUMENTS("x_technicalDocuments"),
+    NOTICE("notice");
 
     override fun toString(): String = key
 
