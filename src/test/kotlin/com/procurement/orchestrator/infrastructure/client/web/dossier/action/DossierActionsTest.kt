@@ -237,4 +237,33 @@ class DossierActionsTest {
             }
         }
     }
+
+    @Nested
+    inner class GetSubmissionCandidateReferencesByQualificationIds {
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetSubmissionCandidateReferencesByQualificationIdsAction.Params>("json/client/dossier/get_submission_candidate_references_by_qualification_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetSubmissionCandidateReferencesByQualificationIdsAction.Result>("json/client/dossier/get_submission_candidate_references_by_qualification_result_full.json")
+            }
+
+            @Test
+            fun fully1() {
+                testingBindingAndMapping<GetSubmissionCandidateReferencesByQualificationIdsAction.Result>("json/client/dossier/get_submission_candidate_references_by_qualification_result_1.json")
+            }
+
+            @Test
+            fun fully2() {
+                testingBindingAndMapping<GetSubmissionCandidateReferencesByQualificationIdsAction.Result>("json/client/dossier/get_submission_candidate_references_by_qualification_result_2.json")
+            }
+        }
+    }
 }
