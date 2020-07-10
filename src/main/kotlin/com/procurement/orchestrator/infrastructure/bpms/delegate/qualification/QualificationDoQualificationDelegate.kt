@@ -130,7 +130,8 @@ class QualificationDoQualificationDelegate(
                                 )
                             }.orEmpty()
                     ),
-                    scoring = qualification.scoring
+                    scoring = qualification.scoring,
+                    description = qualification.description
                 )
             }.orEmpty()
 

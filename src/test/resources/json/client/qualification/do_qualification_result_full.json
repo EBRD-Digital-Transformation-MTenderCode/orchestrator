@@ -3,6 +3,7 @@
     {
       "id": "f7662a29-6f25-4707-a520-f3e1f19ed35e",
       "internalId": "string",
+      "description": "description",
       "status": "pending",
       "statusDetails": "active",
       "date": "2020-07-03T13:11:03Z",
