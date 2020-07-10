@@ -64,7 +64,7 @@ class QualificationAnalyzeQualificationForInvitationDelegate(
             ?: return MaybeFail.fail(
                 Fail.Incident.Response.Empty(
                     service = ExternalServiceName.QUALIFICATION,
-                    action = QualificationCommands.RankQualifications
+                    action = QualificationCommands.AnalyzeQualificationForInvitation
                 )
             )
 
