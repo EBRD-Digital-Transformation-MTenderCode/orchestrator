@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.infrastructure.client.web.evaluation.action
 
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.procurement.orchestrator.application.service.ProceduralAction
 import com.procurement.orchestrator.domain.model.Cpid
@@ -18,8 +19,11 @@ abstract class CheckRelatedTendererAction : ProceduralAction<CheckRelatedTendere
         @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid,
         @field:JsonProperty("ocid") @param:JsonProperty("ocid") val ocid: Ocid,
         @field:JsonProperty("awardId") @param:JsonProperty("awardId") val awardId: AwardId,
+        @JsonInclude(JsonInclude.Include.NON_NULL)
         @field:JsonProperty("relatedTendererId") @param:JsonProperty("relatedTendererId") val relatedTendererId: OrganizationId?,
+        @JsonInclude(JsonInclude.Include.NON_NULL)
         @field:JsonProperty("requirementId") @param:JsonProperty("requirementId") val requirementId: RequirementId?,
+        @JsonInclude(JsonInclude.Include.NON_NULL)
         @field:JsonProperty("responderId") @param:JsonProperty("responderId") val responderId: PersonId?
     )
 }
