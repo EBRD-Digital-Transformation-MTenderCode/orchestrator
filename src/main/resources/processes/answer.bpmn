@@ -95,7 +95,7 @@
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="Flow_14nwn3b" sourceRef="AccessSetTenderUnsuspendedTask" targetRef="Gateway_0wnooeu" />
     <bpmn:sequenceFlow id="Flow_0n89tjm" name="GPA || TEST_GPA" sourceRef="Gateway_0wnooeu" targetRef="DossierExtendSubmissionPeriodTask">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${pmd == 'GPA' || 'TEST_GPA}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${pmd == 'GPA' || pmd == 'TEST_GPA'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_0lhi27d" sourceRef="ClarificationAddAnswerUnsuspendedTask" targetRef="AccessSetTenderUnsuspendedTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1gv60od" name="true" sourceRef="ExclusiveGateway_0ai5ezj" targetRef="ClarificationAddAnswerUnsuspendedTask">
