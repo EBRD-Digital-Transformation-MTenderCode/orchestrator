@@ -25,7 +25,7 @@ import com.procurement.orchestrator.infrastructure.configuration.property.Extern
 import org.springframework.stereotype.Component
 
 @Component
-class GetSubmissionCandidateReferencesByQualificationIdsDelegate(
+class DossierGetSubmissionCandidateReferencesByQualificationIdsDelegate(
     logger: Logger,
     private val dossierClient: DossierClient,
     operationStepRepository: OperationStepRepository,
