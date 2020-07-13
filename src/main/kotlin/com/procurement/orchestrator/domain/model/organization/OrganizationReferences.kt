@@ -1,7 +1,7 @@
 package com.procurement.orchestrator.domain.model.organization
 
-import com.procurement.orchestrator.domain.model.ComplexObjects.Companion.merge
 import com.procurement.orchestrator.domain.model.IdentifiableObjects
+import com.procurement.orchestrator.domain.model.IdentifiableObjects.Companion.update
 import java.io.Serializable
 
 class OrganizationReferences(
@@ -18,5 +18,5 @@ class OrganizationReferences(
     override operator fun plus(others: List<OrganizationReference>) =
         OrganizationReferences(this as List<OrganizationReference> + others)
 
-    override fun updateBy(src: OrganizationReferences) = OrganizationReferences(merge(dst = this, src = src))
+    override fun updateBy(src: OrganizationReferences) = OrganizationReferences(update(dst = this, src = src))
 }
