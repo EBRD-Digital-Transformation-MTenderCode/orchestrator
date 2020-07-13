@@ -65,6 +65,8 @@ abstract class DoQualificationAction : FunctionalAction<DoQualificationAction.Pa
             @param:JsonProperty("id") @field:JsonProperty("id") val id: QualificationId,
             @JsonInclude(JsonInclude.Include.NON_NULL)
             @param:JsonProperty("internalId") @field:JsonProperty("internalId") val internalId: String?,
+            @JsonInclude(JsonInclude.Include.NON_NULL)
+            @param:JsonProperty("description") @field:JsonProperty("description") val description: String?,
             @param:JsonProperty("status") @field:JsonProperty("status") val status: QualificationStatus,
             @param:JsonProperty("statusDetails") @field:JsonProperty("statusDetails") val statusDetails: QualificationStatusDetails,
             @param:JsonProperty("date") @field:JsonProperty("date") val date: LocalDateTime,
