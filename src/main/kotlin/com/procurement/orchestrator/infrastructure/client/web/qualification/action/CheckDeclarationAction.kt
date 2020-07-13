@@ -37,12 +37,15 @@ abstract class CheckDeclarationAction : ProceduralAction<CheckDeclarationAction.
             @JsonSerialize(using = RequirementValueSerializer::class)
             @param:JsonProperty("value") @field:JsonProperty("value") val value: RequirementResponseValue,
             @param:JsonProperty("relatedTendererId") @field:JsonProperty("relatedTendererId") val relatedTendererId: OrganizationId,
-            @param:JsonProperty("responder") @field:JsonProperty("responder") val responder: Responder,
+
+            @JsonInclude(JsonInclude.Include.NON_NULL)
+            @param:JsonProperty("responder") @field:JsonProperty("responder") val responder: Responder?,
+
             @param:JsonProperty("requirementId") @field:JsonProperty("requirementId") val requirementId: RequirementId
         ) {
             data class Responder(
-                @JsonInclude(JsonInclude.Include.NON_NULL)
-                @param:JsonProperty("id") @field:JsonProperty("id") val id: PersonId?,
+                @param:JsonProperty("id") @field:JsonProperty("id") val id: PersonId,
+
                 @JsonInclude(JsonInclude.Include.NON_NULL)
                 @param:JsonProperty("name") @field:JsonProperty("name") val name: String?
             )

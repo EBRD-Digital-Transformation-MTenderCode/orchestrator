@@ -9,8 +9,6 @@ import com.procurement.orchestrator.application.model.context.extension.tryGetTe
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
-import com.procurement.orchestrator.domain.functional.MaybeFail
-import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
@@ -64,10 +62,10 @@ class QualificationCheckDeclarationDelegate(
                     relatedTendererId = requirementResponse.relatedTenderer!!.id,
                     requirementId = requirementResponse.requirement!!.id,
                     responder = requirementResponse.responder
-                        .let {
+                        ?.let { responder ->
                             CheckDeclarationAction.Params.RequirementResponse.Responder(
-                                id = it?.id,
-                                name = it?.name
+                                id = responder.id,
+                                name = responder.name
                             )
                         }
 
@@ -91,10 +89,4 @@ class QualificationCheckDeclarationDelegate(
             )
         )
     }
-
-    override fun updateGlobalContext(
-        context: CamundaGlobalContext,
-        parameters: Unit,
-        result: Option<Unit>
-    ): MaybeFail<Fail.Incident> = MaybeFail.none()
 }
