@@ -110,7 +110,7 @@ abstract class SetNextForQualificationAction : FunctionalAction<SetNextForQualif
             @param:JsonProperty("scoring") @field:JsonProperty("scoring") val scoring: Scoring?,
             @JsonInclude(JsonInclude.Include.NON_EMPTY)
             @param:JsonProperty("documents") @field:JsonProperty("documents") val documents: List<Document>?
-        ) {
+        ) : Serializable {
             data class RequirementResponse(
                 @param:JsonProperty("id") @field:JsonProperty("id") val id: RequirementResponseId,
                 @JsonDeserialize(using = RequirementValueDeserializer::class)
@@ -119,19 +119,19 @@ abstract class SetNextForQualificationAction : FunctionalAction<SetNextForQualif
                 @param:JsonProperty("relatedTenderer") @field:JsonProperty("relatedTenderer") val relatedTenderer: RelatedTenderer,
                 @param:JsonProperty("requirement") @field:JsonProperty("requirement") val requirement: Requirement,
                 @param:JsonProperty("responder") @field:JsonProperty("responder") val responder: Responder
-            ) {
+            ) : Serializable {
                 data class RelatedTenderer(
                     @param:JsonProperty("id") @field:JsonProperty("id") val id: OrganizationId
-                )
+                ) : Serializable
 
                 data class Requirement(
                     @param:JsonProperty("id") @field:JsonProperty("id") val id: RequirementId
-                )
+                ) : Serializable
 
                 data class Responder(
                     @param:JsonProperty("id") @field:JsonProperty("id") val id: PersonId,
                     @param:JsonProperty("name") @field:JsonProperty("name") val name: String
-                )
+                ) : Serializable
             }
 
             data class Document(
@@ -140,7 +140,7 @@ abstract class SetNextForQualificationAction : FunctionalAction<SetNextForQualif
                 @param:JsonProperty("title") @field:JsonProperty("title") val title: String,
                 @JsonInclude(JsonInclude.Include.NON_NULL)
                 @param:JsonProperty("description") @field:JsonProperty("description") val description: String?
-            )
+            ) : Serializable
         }
     }
 }
