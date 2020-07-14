@@ -82,6 +82,9 @@ components:
   mdm:
     host: 10.0.20.125
     port: 9161
+  eSubmission:
+    host: 10.0.20.125
+    port: 9061
 
 ribbon:
   eureka:
