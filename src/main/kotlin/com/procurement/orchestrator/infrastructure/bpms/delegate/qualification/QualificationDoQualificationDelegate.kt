@@ -48,16 +48,19 @@ class QualificationDoQualificationDelegate(
         parameters: Unit
     ): Result<Reply<DoQualificationAction.Result>, Fail.Incident> {
 
-        val processInfo = context.processInfo
+
 
         val qualification = context.getQualificationIfOnlyOne()
             .orForwardFail { fail -> return fail }
 
+        val processInfo = context.processInfo
+        val requestInfo = context.requestInfo
         return qualificationClient.doQualification(
             id = commandId,
             params = DoQualificationAction.Params(
                 cpid = processInfo.cpid,
                 ocid = processInfo.ocid,
+                date = requestInfo.timestamp,
                 qualifications = listOf(
                     DoQualificationAction.Params.Qualification(
                         id = qualification.id,
