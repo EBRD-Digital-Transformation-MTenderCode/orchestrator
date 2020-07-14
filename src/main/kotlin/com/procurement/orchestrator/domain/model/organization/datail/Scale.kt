@@ -6,7 +6,7 @@ import com.procurement.orchestrator.domain.EnumElementProvider
 
 enum class Scale(@JsonValue override val key: String) : EnumElementProvider.Key {
 
-    EMPTY("  "),
+    EMPTY(""),
     LARGE("large"),
     MICRO("micro"),
     SME("sme");
