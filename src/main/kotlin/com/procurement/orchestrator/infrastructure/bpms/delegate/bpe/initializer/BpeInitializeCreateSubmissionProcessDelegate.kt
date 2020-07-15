@@ -53,10 +53,9 @@ class BpeInitializeCreateSubmissionProcessDelegate(
     override fun updateGlobalContext(
         camundaContext: CamundaContext,
         globalContext: CamundaGlobalContext
-    ): MaybeFail<Fail.Incident> {
-        val payload: CreateSubmission.Request.Payload =
-            transform.tryDeserialization(camundaContext.request.payload, CreateSubmission.Request.Payload::class.java)
-                .orReturnFail { return MaybeFail.fail(it) }
+    ): MaybeFail<Fail> {
+        val payload: CreateSubmission.Request.Payload = parsePayload(camundaContext.request.payload, CreateSubmission.Request.Payload::class.java)
+            .orReturnFail { return MaybeFail.fail(it) }
 
         globalContext.submissions = buildSubmissions(payload)
 

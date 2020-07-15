@@ -61,10 +61,8 @@ class BpeInitializeDeclareNonConflictOfInterestProcessDelegate(
                     )
             }
 
-        val payload: DeclareNonConflictOfInterest.Request.Payload = transform.tryDeserialization(
-            value = camundaContext.request.payload,
-            target = DeclareNonConflictOfInterest.Request.Payload::class.java
-        )
+        val payload: DeclareNonConflictOfInterest.Request.Payload =
+            parsePayload(camundaContext.request.payload, DeclareNonConflictOfInterest.Request.Payload::class.java)
             .orReturnFail { return MaybeFail.fail(it) }
 
         globalContext.awards = buildAwards(awardId, payload)
