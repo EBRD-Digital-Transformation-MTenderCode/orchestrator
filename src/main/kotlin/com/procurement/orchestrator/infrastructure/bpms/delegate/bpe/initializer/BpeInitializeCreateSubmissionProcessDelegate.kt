@@ -45,7 +45,7 @@ import org.springframework.stereotype.Component
 @Component
 class BpeInitializeCreateSubmissionProcessDelegate(
     val logger: Logger,
-    private val transform: Transform,
+    transform: Transform,
     operationStepRepository: OperationStepRepository,
     processInitializerRepository: ProcessInitializerRepository
 ) : AbstractInitializeProcessDelegate(logger, transform, operationStepRepository, processInitializerRepository) {
