@@ -10,6 +10,7 @@ import com.procurement.orchestrator.application.client.NoticeClient
 import com.procurement.orchestrator.application.client.QualificationClient
 import com.procurement.orchestrator.application.client.RevisionClient
 import com.procurement.orchestrator.application.client.StorageClient
+import com.procurement.orchestrator.application.client.SubmissionClient
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.infrastructure.client.web.OkHttpRestClient
 import com.procurement.orchestrator.infrastructure.client.web.OkHttpWebClient
@@ -25,6 +26,7 @@ import com.procurement.orchestrator.infrastructure.client.web.notice.HttpNoticeC
 import com.procurement.orchestrator.infrastructure.client.web.qualification.HttpQualificationClient
 import com.procurement.orchestrator.infrastructure.client.web.revision.HttpRevisionClient
 import com.procurement.orchestrator.infrastructure.client.web.storage.HttpStorageClient
+import com.procurement.orchestrator.infrastructure.client.web.submission.HttpSubmissionClient
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
@@ -93,4 +95,8 @@ class WebClientConfiguration(
     @Bean
     fun clarificationClient():ClarificationClient =
         HttpClarificationClient(webClient = webClient(), properties = componentProperties["eClarification"])
+
+    @Bean
+    fun submissionClient(): SubmissionClient =
+        HttpSubmissionClient(webClient = webClient(), properties = componentProperties["eSubmission"])
 }
