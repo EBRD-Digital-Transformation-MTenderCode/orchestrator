@@ -1,0 +1,16 @@
+{
+  "invitations": [
+    {
+      "id": "ad4e0bb1-606a-4f2f-9fb6-c0254788706f",
+      "date": "2020-07-15T09:14:06Z",
+      "status": "active",
+      "tenderers": [
+        {
+          "id": "string",
+          "name": "string"
+        }
+      ],
+      "relatedQualification": "13465ae3-1c16-4cef-acce-be2e8652d9c3"
+    }
+  ]
+}
