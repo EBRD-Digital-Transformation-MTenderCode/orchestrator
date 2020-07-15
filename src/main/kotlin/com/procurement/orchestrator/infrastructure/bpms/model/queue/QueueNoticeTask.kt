@@ -12,6 +12,7 @@ import com.procurement.orchestrator.domain.model.Ocid
 import com.procurement.orchestrator.domain.model.award.Awards
 import com.procurement.orchestrator.domain.model.bid.Bids
 import com.procurement.orchestrator.domain.model.contract.Contracts
+import com.procurement.orchestrator.domain.model.invitation.Invitations
 import com.procurement.orchestrator.domain.model.party.Parties
 import com.procurement.orchestrator.domain.model.qualification.PreQualification
 import com.procurement.orchestrator.domain.model.qualification.Qualifications
@@ -103,7 +104,10 @@ class QueueNoticeTask(
         @field:JsonProperty("qualifications") @param:JsonProperty("qualifications") val qualifications: Qualifications = Qualifications(),
 
         @JsonInclude(JsonInclude.Include.NON_NULL)
-        @field:JsonProperty("preQualification") @param:JsonProperty("preQualification") val preQualification: PreQualification?
+        @field:JsonProperty("preQualification") @param:JsonProperty("preQualification") val preQualification: PreQualification?,
+
+        @get:JsonInclude(JsonInclude.Include.NON_EMPTY)
+        @field:JsonProperty("invitations") @param:JsonProperty("invitations") var invitations: Invitations = Invitations()
     )
 
     enum class Action(override val key: String, private val weight: Int) : EnumElementProvider.Key {
@@ -157,5 +161,6 @@ private fun QueueNoticeTask.Data.update(data: QueueNoticeTask.Data): QueueNotice
     contracts = contracts updateBy data.contracts,
     submissions = submissions updateBy data.submissions,
     preQualification = preQualification updateBy data.preQualification,
-    qualifications = qualifications updateBy data.qualifications
+    qualifications = qualifications updateBy data.qualifications,
+    invitations = invitations updateBy data.invitations
 )
