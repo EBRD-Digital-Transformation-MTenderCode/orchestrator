@@ -1,0 +1,15 @@
+{
+  "qualification": {
+    "statusDetails": "active",
+    "internalId": "string",
+    "description": "string",
+    "documents": [
+      {
+        "id": "string",
+        "documentType": "notice",
+        "title": "string",
+        "description": "string"
+      }
+    ]
+  }
+}

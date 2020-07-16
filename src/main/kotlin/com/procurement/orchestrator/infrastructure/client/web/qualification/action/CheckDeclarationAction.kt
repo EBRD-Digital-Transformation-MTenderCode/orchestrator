@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.procurement.orchestrator.application.service.ProceduralAction
 import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
-import com.procurement.orchestrator.domain.model.identifier.IdentifierId
 import com.procurement.orchestrator.domain.model.organization.OrganizationId
 import com.procurement.orchestrator.domain.model.person.PersonId
 import com.procurement.orchestrator.domain.model.qualification.QualificationId
@@ -38,9 +37,19 @@ abstract class CheckDeclarationAction : ProceduralAction<CheckDeclarationAction.
             @JsonSerialize(using = RequirementValueSerializer::class)
             @param:JsonProperty("value") @field:JsonProperty("value") val value: RequirementResponseValue,
             @param:JsonProperty("relatedTendererId") @field:JsonProperty("relatedTendererId") val relatedTendererId: OrganizationId,
-            @param:JsonProperty("responderId") @field:JsonProperty("responderId") val responderId: PersonId,
+
+            @JsonInclude(JsonInclude.Include.NON_NULL)
+            @param:JsonProperty("responder") @field:JsonProperty("responder") val responder: Responder?,
+
             @param:JsonProperty("requirementId") @field:JsonProperty("requirementId") val requirementId: RequirementId
-        )
+        ) {
+            data class Responder(
+                @param:JsonProperty("id") @field:JsonProperty("id") val id: PersonId,
+
+                @JsonInclude(JsonInclude.Include.NON_NULL)
+                @param:JsonProperty("name") @field:JsonProperty("name") val name: String?
+            )
+        }
 
         data class Criteria(
             @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
