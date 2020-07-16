@@ -326,4 +326,15 @@ class AccessActionsTest {
         }
     }
 
+    @Nested
+    inner class ValidateTenderPeriod {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<ValidateTenderPeriodAction.Params>("json/client/access/validate_tender_period_full.json")
+            }
+        }
+    }
 }
