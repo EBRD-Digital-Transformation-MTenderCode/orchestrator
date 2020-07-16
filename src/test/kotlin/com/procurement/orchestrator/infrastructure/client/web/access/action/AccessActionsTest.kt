@@ -283,7 +283,6 @@ class AccessActionsTest {
         }
     }
 
-
     @Nested
     inner class CreateCriteriaForProcuringEntity {
 
@@ -322,18 +321,6 @@ class AccessActionsTest {
             @Test
             fun fully() {
                 testingBindingAndMapping<CheckTenderStateAction.Params>("json/client/access/check_tender_state_params_full.json")
-            }
-        }
-    }
-
-    @Nested
-    inner class ValidateTenderPeriod {
-
-        @Nested
-        inner class Params {
-            @Test
-            fun fully() {
-                testingBindingAndMapping<ValidateTenderPeriodAction.Params>("json/client/access/validate_tender_period_full.json")
             }
         }
     }
