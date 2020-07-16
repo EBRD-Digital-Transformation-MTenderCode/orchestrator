@@ -20,7 +20,6 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Resp
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForLotsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForTenderAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateRequirementResponsesAction
-import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateTenderPeriodAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.VerifyRequirementResponseAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
 import java.net.URL
@@ -159,13 +158,5 @@ class HttpAccessClient(private val webClient: WebClient, properties: ComponentPr
     ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
         url = url,
         command = AccessCommands.CheckTenderState.build(id = id, params = params)
-    )
-
-    override suspend fun validateTenderPeriod(
-        id: CommandId,
-        params: ValidateTenderPeriodAction.Params
-    ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
-        url = url,
-        command = AccessCommands.ValidateTenderPeriod.build(id = id, params = params)
     )
 }
