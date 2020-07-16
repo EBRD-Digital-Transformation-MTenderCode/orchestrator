@@ -14,7 +14,6 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Resp
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForLotsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForTenderAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateRequirementResponsesAction
-import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateTenderPeriodAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.VerifyRequirementResponseAction
 
 object AccessCommands {
@@ -49,6 +48,4 @@ object AccessCommands {
     object FindCriteria : FindCriteriaAction()
 
     object CheckTenderState : CheckTenderStateAction()
-
-    object ValidateTenderPeriod : ValidateTenderPeriodAction()
 }

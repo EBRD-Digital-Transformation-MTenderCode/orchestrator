@@ -10,10 +10,10 @@ import com.procurement.orchestrator.infrastructure.client.web.dossier.action.Get
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.SetStateForSubmissionAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.ValidateRequirementResponseAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.ValidateSubmissionAction
+import com.procurement.orchestrator.infrastructure.client.web.dossier.action.ValidateTenderPeriodAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.VerifySubmissionPeriodEndAction
 
 object DossierCommands {
-
 
     object GetOrganizations : GetOrganizationsAction()
 
@@ -21,7 +21,7 @@ object DossierCommands {
 
     object GetSubmissionStateByIds : GetSubmissionStateByIdsAction()
 
-    object CheckAccessToSubmission: CheckAccessToSubmissionAction()
+    object CheckAccessToSubmission : CheckAccessToSubmissionAction()
 
     object SetStateForSubmission : SetStateForSubmissionAction()
 
@@ -35,5 +35,7 @@ object DossierCommands {
 
     object VerifySubmissionPeriodEnd : VerifySubmissionPeriodEndAction()
 
-    object FindSubmissionsForOpening: FindSubmissionsForOpeningAction()
+    object FindSubmissionsForOpening : FindSubmissionsForOpeningAction()
+
+    object ValidateTenderPeriod : ValidateTenderPeriodAction()
 }
