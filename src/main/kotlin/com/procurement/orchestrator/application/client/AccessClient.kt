@@ -18,6 +18,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Resp
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForLotsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForTenderAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateRequirementResponsesAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateTenderPeriodAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.VerifyRequirementResponseAction
 
 interface AccessClient {
@@ -96,5 +97,10 @@ interface AccessClient {
     suspend fun checkTenderState(
         id: CommandId,
         params: CheckTenderStateAction.Params
+    ): Result<Reply<Unit>, Fail.Incident>
+
+    suspend fun validateTenderPeriod(
+        id: CommandId,
+        params: ValidateTenderPeriodAction.Params
     ): Result<Reply<Unit>, Fail.Incident>
 }
