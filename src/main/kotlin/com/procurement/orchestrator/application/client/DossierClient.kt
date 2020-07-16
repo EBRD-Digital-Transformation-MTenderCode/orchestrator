@@ -14,6 +14,7 @@ import com.procurement.orchestrator.infrastructure.client.web.dossier.action.Get
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.SetStateForSubmissionAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.ValidateRequirementResponseAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.ValidateSubmissionAction
+import com.procurement.orchestrator.infrastructure.client.web.dossier.action.ValidateTenderPeriodAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.VerifySubmissionPeriodEndAction
 
 interface DossierClient {
@@ -72,4 +73,9 @@ interface DossierClient {
         id: CommandId,
         params: FindSubmissionsForOpeningAction.Params
     ): Result<Reply<FindSubmissionsForOpeningAction.Result>, Fail.Incident>
+
+    suspend fun validateTenderPeriod(
+        id: CommandId,
+        params: ValidateTenderPeriodAction.Params
+    ): Result<Reply<Unit>, Fail.Incident>
 }
