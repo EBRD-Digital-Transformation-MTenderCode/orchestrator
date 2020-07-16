@@ -1,7 +1,7 @@
-package com.procurement.orchestrator.infrastructure.bpms.delegate.access
+package com.procurement.orchestrator.infrastructure.bpms.delegate.dossier
 
 import com.procurement.orchestrator.application.CommandId
-import com.procurement.orchestrator.application.client.AccessClient
+import com.procurement.orchestrator.application.client.DossierClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
@@ -12,13 +12,13 @@ import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExterna
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
-import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateTenderPeriodAction
+import com.procurement.orchestrator.infrastructure.client.web.dossier.action.ValidateTenderPeriodAction
 import org.springframework.stereotype.Component
 
 @Component
-class AccessValidateTenderPeriodDelegate(
+class DossierValidateTenderPeriodDelegate(
     logger: Logger,
-    private val accessClient: AccessClient,
+    private val dossierClient: DossierClient,
     operationStepRepository: OperationStepRepository,
     transform: Transform
 ) : AbstractExternalDelegate<Unit, Unit>(
@@ -38,7 +38,7 @@ class AccessValidateTenderPeriodDelegate(
         val processInfo = context.processInfo
         val requestInfo = context.requestInfo
 
-        return accessClient.validateTenderPeriod(
+        return dossierClient.validateTenderPeriod(
             id = commandId,
             params = ValidateTenderPeriodAction.Params(
                 cpid = processInfo.cpid,
