@@ -10,9 +10,11 @@ import com.procurement.orchestrator.infrastructure.client.web.qualification.acti
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CreateQualificationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.DoConsiderationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.DoDeclarationAction
+import com.procurement.orchestrator.infrastructure.client.web.qualification.action.DoQualificationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.FindQualificationIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.FindRequirementResponseByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.RankQualificationsAction
+import com.procurement.orchestrator.infrastructure.client.web.qualification.action.SetNextForQualificationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.StartQualificationPeriodAction
 
 object QualificationCommands {
@@ -42,6 +44,10 @@ object QualificationCommands {
     object CheckAccessToQualification : CheckAccessToQualificationAction()
 
     object DoConsideration: DoConsiderationAction()
+
+    object DoQualification: DoQualificationAction()
+
+    object SetNextForQualification: SetNextForQualificationAction()
 
     object AnalyzeQualificationForInvitation : AnalyzeQualificationForInvitationAction()
 }

@@ -1,7 +1,7 @@
 package com.procurement.orchestrator.domain.model.contract.confirmation.response
 
-import com.procurement.orchestrator.domain.model.ComplexObjects.Companion.merge
 import com.procurement.orchestrator.domain.model.IdentifiableObjects
+import com.procurement.orchestrator.domain.model.IdentifiableObjects.Companion.update
 import java.io.Serializable
 
 class ConfirmationResponses(
@@ -18,5 +18,5 @@ class ConfirmationResponses(
     override operator fun plus(others: List<ConfirmationResponse>) =
         ConfirmationResponses(this as List<ConfirmationResponse> + others)
 
-    override fun updateBy(src: ConfirmationResponses) = ConfirmationResponses(merge(dst = this, src = src))
+    override fun updateBy(src: ConfirmationResponses) = ConfirmationResponses(update(dst = this, src = src))
 }

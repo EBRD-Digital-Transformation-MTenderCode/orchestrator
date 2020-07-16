@@ -26,7 +26,7 @@ interface ComplexObjects<E, T : ComplexObjects<E, T>> : List<E> {
     infix fun combineBy(src: T): T
 
     companion object {
-        fun <E> merge(dst: List<E>, src: List<E>): List<E> = mutableSetOf<E>()
+        fun <E, T : ComplexObjects<E, T>> merge(dst: ComplexObjects<E,T>, src: ComplexObjects<E,T>): List<E> = mutableSetOf<E>()
             .apply {
                 addAll(dst)
                 addAll(src)

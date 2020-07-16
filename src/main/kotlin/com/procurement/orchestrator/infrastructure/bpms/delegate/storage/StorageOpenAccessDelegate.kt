@@ -249,7 +249,7 @@ class StorageOpenAccessDelegate(
         return success(Awards(updatedAwards))
     }
 
-    private fun Qualifications.updateDocuments(documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document>): Result<Qualifications, Fail.Incident.Bpms> {
+    private fun Qualifications.updateReqRsDocuments(documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document>): Result<Qualifications, Fail.Incident.Bpms> {
         val updatedQualifications = this.map { qualification ->
             val updatedRequirementResponses = qualification.requirementResponses
                 .map { requirementResponse ->
@@ -264,7 +264,7 @@ class StorageOpenAccessDelegate(
                                             ?: return failure(
                                                 Fail.Incident.Bpms.Context.UnConsistency.Update(
                                                     name = "document",
-                                                    path = "awards[id:${qualification.id}].requirementResponse[id:${requirementResponse.id}].responder.businessFunctions[id:${businessFunction.id}]",
+                                                    path = "qualifications[id:${qualification.id}].requirementResponse[id:${requirementResponse.id}].responder.businessFunctions[id:${businessFunction.id}]",
                                                     id = document.id.toString()
                                                 )
                                             )
@@ -278,6 +278,26 @@ class StorageOpenAccessDelegate(
                 }
             qualification.copy(requirementResponses = RequirementResponses(updatedRequirementResponses))
         }
+        return success(Qualifications(updatedQualifications))
+    }
+
+    private fun Qualifications.updateDocuments(documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document>): Result<Qualifications, Fail.Incident.Bpms> {
+        val updatedQualifications = this.map { qualification ->
+            val updatedDocuments = qualification.documents
+                .map { document ->
+                    documentsByIds[document.id]
+                        ?.let { document.copy(datePublished = it.datePublished, url = it.uri) }
+                        ?: return failure(
+                            Fail.Incident.Bpms.Context.UnConsistency.Update(
+                                name = "document",
+                                path = "qualifications[id:${qualification.id}]",
+                                id = document.id.toString()
+                            )
+                        )
+                }
+            qualification.copy(documents = Documents(updatedDocuments))
+        }
+
         return success(Qualifications(updatedQualifications))
     }
 
@@ -381,17 +401,17 @@ class StorageOpenAccessDelegate(
             .map { document -> document.id }
             .asSuccess()
 
-    private fun getQualificationDocumentsIds(
+    private fun getQualificationReqRsDocumentsIds(
         qualifications: Qualifications,
         entities: Map<EntityKey, EntityValue>
     ): Result<List<DocumentId>, Fail.Incident> =
         when (entities[EntityKey.QUALIFICATION_REQUIREMENT_RESPONSE]) {
-            EntityValue.OPTIONAL -> getQualificationDocumentsIdsOptional(qualifications)
-            EntityValue.REQUIRED -> getQualificationDocumentsIdsRequired(qualifications)
+            EntityValue.OPTIONAL -> getQualificationReqRsDocumentsIdsOptional(qualifications)
+            EntityValue.REQUIRED -> getQualificationReqRsDocumentsIdsRequired(qualifications)
             null -> emptyList<DocumentId>().asSuccess()
         }
 
-    private fun getQualificationDocumentsIdsOptional(qualifications: Qualifications): Result<List<DocumentId>, Fail.Incident> =
+    private fun getQualificationReqRsDocumentsIdsOptional(qualifications: Qualifications): Result<List<DocumentId>, Fail.Incident> =
         qualifications
             .asSequence()
             .flatMap { qualification -> qualification.requirementResponses.asSequence() }
@@ -401,7 +421,7 @@ class StorageOpenAccessDelegate(
             .toList()
             .asSuccess()
 
-    private fun getQualificationDocumentsIdsRequired(qualifications: Qualifications): Result<List<DocumentId>, Fail.Incident> =
+    private fun getQualificationReqRsDocumentsIdsRequired(qualifications: Qualifications): Result<List<DocumentId>, Fail.Incident> =
         qualifications
             .getElementIfOnlyOne(name = QUALIFICATIONS_ATTRIBUTE_NAME)
             .orForwardFail { fail -> return fail }
@@ -415,6 +435,34 @@ class StorageOpenAccessDelegate(
                 businessFunction.getQualificationDocumentsIfNotEmpty()
                     .orForwardFail { fail -> return fail }
             }
+            .map { document -> document.id }
+            .toList()
+            .asSuccess()
+
+    private fun getQualificationDocumentsIds(
+        qualifications: Qualifications,
+        entities: Map<EntityKey, EntityValue>
+    ): Result<List<DocumentId>, Fail.Incident> =
+        when (entities[EntityKey.QUALIFICATION]) {
+            EntityValue.OPTIONAL -> getQualificationDocumentsIdsOptional(qualifications)
+            EntityValue.REQUIRED -> getQualificationDocumentsIdsRequired(qualifications)
+            null -> emptyList<DocumentId>().asSuccess()
+        }
+
+    private fun getQualificationDocumentsIdsOptional(qualifications: Qualifications): Result<List<DocumentId>, Fail.Incident> =
+        qualifications
+            .getOrNull(0)
+            ?.documents
+            ?.map { document -> document.id }
+            .orEmpty()
+            .asSuccess()
+
+    private fun getQualificationDocumentsIdsRequired(qualifications: Qualifications): Result<List<DocumentId>, Fail.Incident> =
+        qualifications
+            .getElementIfOnlyOne(name = QUALIFICATIONS_ATTRIBUTE_NAME)
+            .orForwardFail { fail -> return fail }
+            .getDocumentsIfNotEmpty()
+            .orForwardFail { fail -> return fail }
             .map { document -> document.id }
             .toList()
             .asSuccess()
@@ -436,10 +484,14 @@ class StorageOpenAccessDelegate(
         val qualificationDocuments: List<DocumentId> = getQualificationDocumentsIds(qualifications, entities)
             .orForwardFail { fail -> return fail }
 
+        val qualificationReqRsDocuments: List<DocumentId> = getQualificationReqRsDocumentsIds(qualifications, entities)
+            .orForwardFail { fail -> return fail }
+
         return amendmentDocuments
             .plus(tenderDocuments)
             .plus(awardRequirementResponseDocuments)
             .plus(qualificationDocuments)
+            .plus(qualificationReqRsDocuments)
             .asSuccess()
     }
 
@@ -495,13 +547,19 @@ class StorageOpenAccessDelegate(
         documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document>,
         context: CamundaGlobalContext
     ): MaybeFail<Fail.Incident> {
-        val updatedQualifications: Qualifications = if (EntityKey.QUALIFICATION_REQUIREMENT_RESPONSE in entities)
-            qualifications.updateDocuments(documentsByIds)
+        val qualificationsWithUpdatedReqRsDocuments: Qualifications = if (EntityKey.QUALIFICATION_REQUIREMENT_RESPONSE in entities)
+            qualifications.updateReqRsDocuments(documentsByIds)
                 .orReturnFail { return MaybeFail.fail(it) }
         else
             qualifications
 
-        context.qualifications = updatedQualifications
+        val qualificationsWithAllDocumentsUpdated: Qualifications = if (EntityKey.QUALIFICATION in entities)
+            qualificationsWithUpdatedReqRsDocuments.updateDocuments(documentsByIds)
+                .orReturnFail { return MaybeFail.fail(it) }
+        else
+            qualificationsWithUpdatedReqRsDocuments
+
+        context.qualifications = qualificationsWithAllDocumentsUpdated
 
         return MaybeFail.none()
     }
@@ -515,7 +573,8 @@ class StorageOpenAccessDelegate(
         AMENDMENT("amendment"),
         AWARD_REQUIREMENT_RESPONSE("award.requirementResponse"),
         TENDER("tender"),
-        QUALIFICATION_REQUIREMENT_RESPONSE("qualification.requirementResponse");
+        QUALIFICATION_REQUIREMENT_RESPONSE("qualification.requirementResponse"),
+        QUALIFICATION("qualification");
 
         override fun toString(): String = key
 

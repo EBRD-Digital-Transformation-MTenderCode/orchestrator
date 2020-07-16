@@ -1,0 +1,27 @@
+{
+  "qualifications": [
+    {
+      "id": "f7662a29-6f25-4707-a520-f3e1f19ed35e",
+      "status": "pending",
+      "statusDetails": "active",
+      "date": "2020-07-03T13:11:03Z",
+      "relatedSubmission": "string",
+      "requirementResponses": [
+        {
+          "id": "string",
+          "value": "Unknown Type: string,number,integer,boolean",
+          "relatedTenderer": {
+            "id": "string"
+          },
+          "requirement": {
+            "id": "string"
+          },
+          "responder": {
+            "id": "string",
+            "name": "string"
+          }
+        }
+      ]
+    }
+  ]
+}
