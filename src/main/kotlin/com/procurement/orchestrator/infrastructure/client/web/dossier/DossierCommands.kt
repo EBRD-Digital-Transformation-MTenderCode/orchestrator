@@ -5,6 +5,7 @@ import com.procurement.orchestrator.infrastructure.client.web.dossier.action.Che
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.CreateSubmissionAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.FindSubmissionsForOpeningAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetOrganizationsAction
+import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetSubmissionCandidateReferencesByQualificationIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetSubmissionPeriodEndDateAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetSubmissionStateByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.SetStateForSubmissionAction
@@ -36,4 +37,6 @@ object DossierCommands {
     object VerifySubmissionPeriodEnd : VerifySubmissionPeriodEndAction()
 
     object FindSubmissionsForOpening: FindSubmissionsForOpeningAction()
+
+    object GetSubmissionCandidateReferencesByQualificationIds : GetSubmissionCandidateReferencesByQualificationIdsAction()
 }

@@ -11,7 +11,7 @@ enum class BusinessFunctionType(@JsonValue override val key: String) : EnumEleme
     CONTACT_POINT("contactPoint"),
     PRICE_EVALUATOR("priceEvaluator"),
     PRICE_OPENER("priceOpener"),
-    PROCURMENT_OFFICER("procurmentOfficer"), //TODO syntax
+    PROCUREMENT_OFFICER("procurementOfficer"),
     TECHNICAL_EVALUATOR("technicalEvaluator"),
     TECHNICAL_OPENER("technicalOpener");
 

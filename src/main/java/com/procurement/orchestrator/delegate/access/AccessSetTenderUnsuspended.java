@@ -57,12 +57,13 @@ public class AccessSetTenderUnsuspended implements JavaDelegate {
                 commandMessage);
         if (Objects.nonNull(responseData)) {
             context.setOperationType("unsuspendTender");
+            execution.setVariable("pmd", context.getPmd());
             operationService.saveOperationStep(
-                    execution,
-                    entity,
-                    context,
-                    commandMessage,
-                    processService.addTenderUnsuspendData(jsonData, responseData, processId));
+                execution,
+                entity,
+                context,
+                commandMessage,
+                processService.addTenderUnsuspendData(jsonData, responseData, processId));
         }
     }
 }

@@ -4,13 +4,6 @@
     <bpmn:participant id="Participant_1y9z92f" name="Qualification" processRef="qualification" />
   </bpmn:collaboration>
   <bpmn:process id="qualification" isExecutable="true">
-    <bpmn:serviceTask id="QualificationSetNextForQualificationTask" name="eQualification:&#10;Set next for qualification" camunda:asyncBefore="true" camunda:delegateExpression="${qualificationSetNextForQualificationDelegate}">
-      <bpmn:incoming>SequenceFlow_093wm7w</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1qvf5tx</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:endEvent id="EndEvent_1v6jrs1">
-      <bpmn:incoming>SequenceFlow_1p8c8kt</bpmn:incoming>
-    </bpmn:endEvent>
     <bpmn:startEvent id="StartEvent_1">
       <bpmn:outgoing>SequenceFlow_1j0qi56</bpmn:outgoing>
     </bpmn:startEvent>
@@ -35,19 +28,6 @@
       <bpmn:incoming>SequenceFlow_1ac0n0l</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_19epd3y</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="StorageOpenAccessTask" name="iStorage:&#10; Open access to documents" camunda:asyncBefore="true" camunda:delegateExpression="${storageOpenAccessDelegate}">
-      <bpmn:extensionElements>
-        <camunda:inputOutput>
-          <camunda:inputParameter name="entities">
-            <camunda:map>
-              <camunda:entry key="qualification">optional</camunda:entry>
-            </camunda:map>
-          </camunda:inputParameter>
-        </camunda:inputOutput>
-      </bpmn:extensionElements>
-      <bpmn:incoming>SequenceFlow_1qvf5tx</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1smj1ft</bpmn:outgoing>
-    </bpmn:serviceTask>
     <bpmn:serviceTask id="DossierFindSubmissionsForOpeningTask" name="eDossier:&#10;Find submissions" camunda:asyncBefore="true" camunda:delegateExpression="${dossierFindSubmissionsForOpeningDelegate}">
       <bpmn:incoming>SequenceFlow_0c8il3z</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_093wm7w</bpmn:outgoing>
@@ -64,32 +44,16 @@
       <bpmn:incoming>SequenceFlow_0znfpq3</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1ac0n0l</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="NoticeTask" name="eNotice:&#10;UpdateRecord" camunda:asyncBefore="true" camunda:delegateExpression="${noticeDelegate}">
-      <bpmn:incoming>SequenceFlow_115cyhh</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_0yhhphm</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:serviceTask id="BpeAddUpdateRecordTaskInQueueDelegate" name="BPE:&#10;Add update record task to queue" camunda:asyncBefore="true" camunda:delegateExpression="${bpeAddUpdateRecordTaskInQueueDelegate}">
-      <bpmn:incoming>SequenceFlow_1smj1ft</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_115cyhh</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:serviceTask id="NotifierSuccessNotificationToPlatformTask" name="iNotifier Kafka:&#10;Success Notification To Platform" camunda:asyncBefore="true" camunda:delegateExpression="${notifierSuccessNotificationToPlatformDelegate}">
-      <bpmn:incoming>SequenceFlow_0yhhphm</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1p8c8kt</bpmn:outgoing>
-    </bpmn:serviceTask>
     <bpmn:serviceTask id="QualificationDoQualificationTask" name="eQualification:&#10;do qualification" camunda:asyncBefore="true" camunda:delegateExpression="${qualificationDoQualificationDelegate}">
       <bpmn:incoming>SequenceFlow_19epd3y</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1vtfb9w</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_093wm7w" sourceRef="DossierFindSubmissionsForOpeningTask" targetRef="QualificationSetNextForQualificationTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1qvf5tx" sourceRef="QualificationSetNextForQualificationTask" targetRef="StorageOpenAccessTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1p8c8kt" sourceRef="NotifierSuccessNotificationToPlatformTask" targetRef="EndEvent_1v6jrs1" />
+    <bpmn:sequenceFlow id="SequenceFlow_093wm7w" sourceRef="DossierFindSubmissionsForOpeningTask"
+                       targetRef="AccessFindCriteriaTask"/>
     <bpmn:sequenceFlow id="SequenceFlow_1j0qi56" sourceRef="StartEvent_1" targetRef="BpeInitializeQualificationProcessTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1ac0n0l" sourceRef="qualificationCheckQualificationStateTask" targetRef="StorageCheckRegistrationTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1vtfb9w" sourceRef="QualificationDoQualificationTask" targetRef="AccessGetQualificationCriteriaAndMethodTask" />
     <bpmn:sequenceFlow id="SequenceFlow_19epd3y" sourceRef="StorageCheckRegistrationTask" targetRef="QualificationDoQualificationTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1smj1ft" sourceRef="StorageOpenAccessTask" targetRef="BpeAddUpdateRecordTaskInQueueDelegate" />
-    <bpmn:sequenceFlow id="SequenceFlow_115cyhh" sourceRef="BpeAddUpdateRecordTaskInQueueDelegate" targetRef="NoticeTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0yhhphm" sourceRef="NoticeTask" targetRef="NotifierSuccessNotificationToPlatformTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0pvfylr" sourceRef="BpeInitializeQualificationProcessTask" targetRef="QualificationCheckAccessToQualificationTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1t5j9w3" sourceRef="QualificationCheckAccessToQualificationTask" targetRef="AccessCheckTenderStateTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0znfpq3" sourceRef="AccessCheckTenderStateTask" targetRef="qualificationCheckQualificationStateTask" />
@@ -229,22 +193,86 @@
         <bpmn:incoming>SequenceFlow_0tjbmut</bpmn:incoming>
         <bpmn:outgoing>SequenceFlow_0tls8l3</bpmn:outgoing>
       </bpmn:serviceTask>
-      <bpmn:serviceTask id="NotifierValidationErrorNotificationToPlatformTask" name="iNotifier Kafka:&#10;Validation Error Notification To Platform" camunda:asyncBefore="true" camunda:delegateExpression="${notifierErrorNotificationToPlatformDelegate}">
+      <bpmn:serviceTask id="NotifierValidationErrorNotificationToPlatformTask"
+                        name="iNotifier Kafka:&#10;Validation Error Notification To Platform" camunda:asyncBefore="true"
+                        camunda:delegateExpression="${notifierErrorNotificationToPlatformDelegate}">
         <bpmn:incoming>SequenceFlow_0tls8l3</bpmn:incoming>
         <bpmn:outgoing>SequenceFlow_1cemjdy</bpmn:outgoing>
       </bpmn:serviceTask>
-      <bpmn:sequenceFlow id="SequenceFlow_0tls8l3" sourceRef="BpeValidationErrorDescriptionModifierTask" targetRef="NotifierValidationErrorNotificationToPlatformTask" />
-      <bpmn:sequenceFlow id="SequenceFlow_0tjbmut" sourceRef="StartEvent_1pk3npo" targetRef="BpeValidationErrorDescriptionModifierTask" />
-      <bpmn:sequenceFlow id="SequenceFlow_1cemjdy" sourceRef="NotifierValidationErrorNotificationToPlatformTask" targetRef="EndEvent_1mv4snj" />
+      <bpmn:sequenceFlow id="SequenceFlow_0tls8l3" sourceRef="BpeValidationErrorDescriptionModifierTask"
+                         targetRef="NotifierValidationErrorNotificationToPlatformTask"/>
+      <bpmn:sequenceFlow id="SequenceFlow_0tjbmut" sourceRef="StartEvent_1pk3npo"
+                         targetRef="BpeValidationErrorDescriptionModifierTask"/>
+      <bpmn:sequenceFlow id="SequenceFlow_1cemjdy" sourceRef="NotifierValidationErrorNotificationToPlatformTask"
+                         targetRef="EndEvent_1mv4snj"/>
     </bpmn:subProcess>
+    <bpmn:serviceTask id="QualificationSetNextForQualificationTask"
+                      name="eQualification:&#10;Set next for qualification" camunda:asyncBefore="true"
+                      camunda:delegateExpression="${qualificationSetNextForQualificationDelegate}">
+      <bpmn:incoming>SequenceFlow_0tqtbd6</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1qvf5tx</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="EndEvent_1v6jrs1">
+      <bpmn:incoming>SequenceFlow_1p8c8kt</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="StorageOpenAccessTask" name="iStorage:&#10; Open access to documents"
+                      camunda:asyncBefore="true" camunda:delegateExpression="${storageOpenAccessDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="entities">
+            <camunda:map>
+              <camunda:entry key="qualification">optional</camunda:entry>
+            </camunda:map>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1qvf5tx</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1smj1ft</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="NoticeTask" name="eNotice:&#10;UpdateRecord" camunda:asyncBefore="true"
+                      camunda:delegateExpression="${noticeDelegate}">
+      <bpmn:incoming>SequenceFlow_115cyhh</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0yhhphm</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="BpeAddUpdateRecordTaskInQueueDelegate" name="BPE:&#10;Add update record task to queue"
+                      camunda:asyncBefore="true" camunda:delegateExpression="${bpeAddUpdateRecordTaskInQueueDelegate}">
+      <bpmn:incoming>SequenceFlow_1smj1ft</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_115cyhh</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="NotifierSuccessNotificationToPlatformTask"
+                      name="iNotifier Kafka:&#10;Success Notification To Platform" camunda:asyncBefore="true"
+                      camunda:delegateExpression="${notifierSuccessNotificationToPlatformDelegate}">
+      <bpmn:incoming>SequenceFlow_0yhhphm</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1p8c8kt</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1qvf5tx" sourceRef="QualificationSetNextForQualificationTask"
+                       targetRef="StorageOpenAccessTask"/>
+    <bpmn:sequenceFlow id="SequenceFlow_1p8c8kt" sourceRef="NotifierSuccessNotificationToPlatformTask"
+                       targetRef="EndEvent_1v6jrs1"/>
+    <bpmn:sequenceFlow id="SequenceFlow_1smj1ft" sourceRef="StorageOpenAccessTask"
+                       targetRef="BpeAddUpdateRecordTaskInQueueDelegate"/>
+    <bpmn:sequenceFlow id="SequenceFlow_115cyhh" sourceRef="BpeAddUpdateRecordTaskInQueueDelegate"
+                       targetRef="NoticeTask"/>
+    <bpmn:sequenceFlow id="SequenceFlow_0yhhphm" sourceRef="NoticeTask"
+                       targetRef="NotifierSuccessNotificationToPlatformTask"/>
+    <bpmn:serviceTask id="AccessFindCriteriaTask"
+                      name="eAccess:&#10;Find criteria with source &#39;procuringEntity&#39;" camunda:asyncBefore="true"
+                      camunda:delegateExpression="${accessFindCriteriaDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="source">procuringEntity</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_093wm7w</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0tqtbd6</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_0tqtbd6" sourceRef="AccessFindCriteriaTask"
+                       targetRef="QualificationSetNextForQualificationTask"/>
     <bpmn:textAnnotation id="TextAnnotation_0h6bbrf">
       <bpmn:text>Проверка валидности состояния qualification для обновления</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:textAnnotation id="TextAnnotation_1qqdz9x">
       <bpmn:text>Обновления qualification( добавление документов, iternalId и state)</bpmn:text>
-    </bpmn:textAnnotation>
-    <bpmn:textAnnotation id="TextAnnotation_1vybh01">
-      <bpmn:text>Определение следующего qualification для оценки(если есть)</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:textAnnotation id="TextAnnotation_0pmtdna">
       <bpmn:text>Разлаживаем данные с платформы в глобальный контекст</bpmn:text>
@@ -258,13 +286,27 @@
     <bpmn:textAnnotation id="TextAnnotation_18vzs4n">
       <bpmn:text>Используется, для получения id и date submissions</bpmn:text>
     </bpmn:textAnnotation>
-    <bpmn:association id="Association_1an3pdw" sourceRef="qualificationCheckQualificationStateTask" targetRef="TextAnnotation_0h6bbrf" />
-    <bpmn:association id="Association_04miqhr" sourceRef="QualificationDoQualificationTask" targetRef="TextAnnotation_1qqdz9x" />
-    <bpmn:association id="Association_093i1j3" sourceRef="QualificationSetNextForQualificationTask" targetRef="TextAnnotation_1vybh01" />
-    <bpmn:association id="Association_0p3334w" sourceRef="BpeInitializeQualificationProcessTask" targetRef="TextAnnotation_0pmtdna" />
-    <bpmn:association id="Association_1wd50vj" sourceRef="QualificationCheckAccessToQualificationTask" targetRef="TextAnnotation_16hafhw" />
-    <bpmn:association id="Association_06b62op" sourceRef="AccessCheckTenderStateTask" targetRef="TextAnnotation_0s0rvb1" />
-    <bpmn:association id="Association_1u512f7" sourceRef="DossierFindSubmissionsForOpeningTask" targetRef="TextAnnotation_18vzs4n" />
+    <bpmn:association id="Association_1an3pdw" sourceRef="qualificationCheckQualificationStateTask"
+                      targetRef="TextAnnotation_0h6bbrf"/>
+    <bpmn:association id="Association_04miqhr" sourceRef="QualificationDoQualificationTask"
+                      targetRef="TextAnnotation_1qqdz9x"/>
+    <bpmn:association id="Association_0p3334w" sourceRef="BpeInitializeQualificationProcessTask"
+                      targetRef="TextAnnotation_0pmtdna"/>
+    <bpmn:association id="Association_1wd50vj" sourceRef="QualificationCheckAccessToQualificationTask"
+                      targetRef="TextAnnotation_16hafhw"/>
+    <bpmn:association id="Association_06b62op" sourceRef="AccessCheckTenderStateTask"
+                      targetRef="TextAnnotation_0s0rvb1"/>
+    <bpmn:association id="Association_1u512f7" sourceRef="DossierFindSubmissionsForOpeningTask"
+                      targetRef="TextAnnotation_18vzs4n"/>
+    <bpmn:textAnnotation id="TextAnnotation_1vybh01">
+      <bpmn:text>Определение следующего qualification для оценки(если есть)</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_093i1j3" sourceRef="QualificationSetNextForQualificationTask"
+                      targetRef="TextAnnotation_1vybh01"/>
+    <bpmn:textAnnotation id="TextAnnotation_0r421wb">
+      <bpmn:text>Поиск критериев для передачи на qualification</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1ui0h67" sourceRef="AccessFindCriteriaTask" targetRef="TextAnnotation_0r421wb"/>
   </bpmn:process>
   <bpmn:error id="Error_113ectg" />
   <bpmn:error id="Error_0n5fckx" name="Internal Incident" errorCode="InternalIncident" />
@@ -273,7 +315,7 @@
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1tavez2">
       <bpmndi:BPMNShape id="Participant_1y9z92f_di" bpmnElement="Participant_1y9z92f" isHorizontal="true">
-        <dc:Bounds x="180" y="80" width="1910" height="440" />
+        <dc:Bounds x="180" y="80" width="2028" height="440"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_0pmtdna_di" bpmnElement="TextAnnotation_0pmtdna">
         <dc:Bounds x="290" y="133" width="100" height="82" />
@@ -316,16 +358,16 @@
         <dc:Bounds x="690" y="240" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_06pxf6h_di" bpmnElement="BpeAddUpdateRecordTaskInQueueDelegate">
-        <dc:Bounds x="1600" y="240" width="100" height="80" />
+        <dc:Bounds x="1730" y="240" width="100" height="80"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_1yu13py_di" bpmnElement="NoticeTask">
-        <dc:Bounds x="1725" y="240" width="100" height="80" />
+        <dc:Bounds x="1855" y="240" width="100" height="80"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_17ilus4_di" bpmnElement="NotifierSuccessNotificationToPlatformTask">
-        <dc:Bounds x="1860" y="240" width="100" height="80" />
+        <dc:Bounds x="1990" y="240" width="100" height="80"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="EndEvent_1v6jrs1_di" bpmnElement="EndEvent_1v6jrs1">
-        <dc:Bounds x="1992" y="262" width="36" height="36" />
+        <dc:Bounds x="2122" y="262" width="36" height="36"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1t5j9w3_di" bpmnElement="SequenceFlow_1t5j9w3">
         <di:waypoint x="530" y="280" />
@@ -344,16 +386,16 @@
         <di:waypoint x="820" y="280" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_115cyhh_di" bpmnElement="SequenceFlow_115cyhh">
-        <di:waypoint x="1700" y="280" />
-        <di:waypoint x="1725" y="280" />
+        <di:waypoint x="1830" y="280"/>
+        <di:waypoint x="1855" y="280"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0yhhphm_di" bpmnElement="SequenceFlow_0yhhphm">
-        <di:waypoint x="1825" y="280" />
-        <di:waypoint x="1860" y="280" />
+        <di:waypoint x="1955" y="280"/>
+        <di:waypoint x="1990" y="280"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1p8c8kt_di" bpmnElement="SequenceFlow_1p8c8kt">
-        <di:waypoint x="1960" y="280" />
-        <di:waypoint x="1992" y="280" />
+        <di:waypoint x="2090" y="280"/>
+        <di:waypoint x="2122" y="280"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1vtfb9w_di" bpmnElement="SequenceFlow_1vtfb9w">
         <di:waypoint x="1050" y="280" />
@@ -367,25 +409,25 @@
         <di:waypoint x="950" y="280" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ServiceTask_18zk7tz_di" bpmnElement="StorageOpenAccessTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="1470" y="240" width="100" height="80" />
+        <dc:Bounds x="1600" y="240" width="100" height="80"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1smj1ft_di" bpmnElement="SequenceFlow_1smj1ft">
-        <di:waypoint x="1570" y="280" />
-        <di:waypoint x="1600" y="280" />
+        <di:waypoint x="1700" y="280"/>
+        <di:waypoint x="1730" y="280"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ServiceTask_01xhepc_di" bpmnElement="QualificationSetNextForQualificationTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="1340" y="240" width="100" height="80" />
+        <dc:Bounds x="1470" y="240" width="100" height="80"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1qvf5tx_di" bpmnElement="SequenceFlow_1qvf5tx">
-        <di:waypoint x="1440" y="280" />
-        <di:waypoint x="1470" y="280" />
+        <di:waypoint x="1570" y="280"/>
+        <di:waypoint x="1600" y="280"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="TextAnnotation_1vybh01_di" bpmnElement="TextAnnotation_1vybh01">
-        <dc:Bounds x="1340" y="117" width="99.99305040770942" height="96.36767976278725" />
+        <dc:Bounds x="1470" y="117" width="100" height="96"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Association_093i1j3_di" bpmnElement="Association_093i1j3">
-        <di:waypoint x="1390" y="240" />
-        <di:waypoint x="1390" y="213" />
+        <di:waypoint x="1520" y="240"/>
+        <di:waypoint x="1520" y="213"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ServiceTask_0a814jh_di" bpmnElement="AccessCheckTenderStateTask" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="560" y="240" width="100" height="80" />
@@ -511,16 +553,31 @@
         <di:waypoint x="460" y="429" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0tls8l3_di" bpmnElement="SequenceFlow_0tls8l3">
-        <di:waypoint x="1680" y="428" />
-        <di:waypoint x="1720" y="428" />
+        <di:waypoint x="1680" y="428"/>
+        <di:waypoint x="1720" y="428"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0tjbmut_di" bpmnElement="SequenceFlow_0tjbmut">
-        <di:waypoint x="1546" y="428" />
-        <di:waypoint x="1580" y="428" />
+        <di:waypoint x="1546" y="428"/>
+        <di:waypoint x="1580" y="428"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1cemjdy_di" bpmnElement="SequenceFlow_1cemjdy">
-        <di:waypoint x="1820" y="428" />
-        <di:waypoint x="1852" y="428" />
+        <di:waypoint x="1820" y="428"/>
+        <di:waypoint x="1852" y="428"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_0tjetnx_di" bpmnElement="AccessFindCriteriaTask" bioc:stroke="black"
+                        bioc:fill="white">
+        <dc:Bounds x="1340" y="240" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0tqtbd6_di" bpmnElement="SequenceFlow_0tqtbd6">
+        <di:waypoint x="1440" y="280"/>
+        <di:waypoint x="1470" y="280"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_0r421wb_di" bpmnElement="TextAnnotation_0r421wb">
+        <dc:Bounds x="1340" y="140" width="99.99305040770942" height="68.19866567828021"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_1ui0h67_di" bpmnElement="Association_1ui0h67">
+        <di:waypoint x="1390" y="240"/>
+        <di:waypoint x="1390" y="208"/>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

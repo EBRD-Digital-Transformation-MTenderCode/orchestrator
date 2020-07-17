@@ -13,7 +13,9 @@ import com.procurement.orchestrator.domain.extension.date.format
 import com.procurement.orchestrator.domain.extension.date.nowDefaultUTC
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.fail.error.DataValidationErrors
+import com.procurement.orchestrator.domain.fail.error.RequestErrors
 import com.procurement.orchestrator.domain.functional.MaybeFail
+import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.bpms.extension.readErrors
 import com.procurement.orchestrator.infrastructure.bpms.extension.writeErrors
 import com.procurement.orchestrator.infrastructure.bpms.extension.writeIncident
@@ -87,6 +89,13 @@ abstract class AbstractInitializeProcessDelegate(
             throw BpmnError("Attention starting duplicate process.") //TODO BpmnCodeError
         }
     }
+
+    protected fun <T> parsePayload(payload: String, target: Class<T>): Result<T, RequestErrors.Payload.Parsing> =
+        transform
+            .tryDeserialization(value = payload, target = target)
+            .mapError { error ->
+                RequestErrors.Payload.Parsing(payload = payload, exception = error.exception)
+            }
 
     protected abstract fun updateGlobalContext(
         camundaContext: CamundaContext,

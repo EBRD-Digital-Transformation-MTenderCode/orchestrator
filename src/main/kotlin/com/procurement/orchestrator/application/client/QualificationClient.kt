@@ -4,8 +4,10 @@ import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
+import com.procurement.orchestrator.infrastructure.client.web.qualification.action.AnalyzeQualificationForInvitationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckAccessToQualificationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckDeclarationAction
+import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckQualificationForProtocolAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckQualificationPeriodAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckQualificationStateAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CreateQualificationAction
@@ -79,6 +81,16 @@ interface QualificationClient {
         id: CommandId,
         params: SetNextForQualificationAction.Params
     ): Result<Reply<SetNextForQualificationAction.Result>, Fail.Incident>
+
+    suspend fun analyzeQualificationForInvitation(
+        id: CommandId,
+        params: AnalyzeQualificationForInvitationAction.Params
+    ): Result<Reply<AnalyzeQualificationForInvitationAction.Result>, Fail.Incident>
+
+    suspend fun checkQualificationForProtocol(
+        id: CommandId,
+        params: CheckQualificationForProtocolAction.Params
+    ): Result<Reply<Unit>, Fail.Incident>
 
     suspend fun checkQualificationPeriod(
         id: CommandId,

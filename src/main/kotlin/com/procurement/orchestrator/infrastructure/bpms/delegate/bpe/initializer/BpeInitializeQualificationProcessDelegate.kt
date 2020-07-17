@@ -30,7 +30,7 @@ import org.springframework.stereotype.Component
 @Component
 class BpeInitializeQualificationProcessDelegate(
     val logger: Logger,
-    private val transform: Transform,
+    transform: Transform,
     operationStepRepository: OperationStepRepository,
     processInitializerRepository: ProcessInitializerRepository
 ) : AbstractInitializeProcessDelegate(logger, transform, operationStepRepository, processInitializerRepository) {
@@ -51,11 +51,7 @@ class BpeInitializeQualificationProcessDelegate(
                     )
             }
 
-        val payload: Request.Payload = transform
-            .tryDeserialization(
-                value = camundaContext.request.payload,
-                target = Request.Payload::class.java
-            )
+        val payload: Request.Payload = parsePayload(camundaContext.request.payload, Request.Payload::class.java)
             .orReturnFail { return MaybeFail.fail(it) }
 
         val createdQualification = createQualification(qualificationId, payload)
