@@ -65,14 +65,13 @@ class BpeSetPhaseDelegate(
         return MaybeFail.none()
     }
 
-    class Parameters(
-        val phase: Phases
-    )
+    class Parameters(val phase: Phases)
 
     enum class Phases(@JsonValue override val key: String) : EnumElementProvider.Key {
 
         EMPTY("empty"),
         QUALIFICATION("qualification"),
+        QUALIFICATION_STANDSTILL("qualificationStandstill"),
         SUSPENDED("suspended");
 
         override fun toString(): String = key

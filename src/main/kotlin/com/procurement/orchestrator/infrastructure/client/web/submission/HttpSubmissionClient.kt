@@ -6,6 +6,7 @@ import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.WebClient
+import com.procurement.orchestrator.infrastructure.client.web.submission.action.DoInvitationsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.CheckAbsenceActiveInvitationsAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
 import java.net.URL
@@ -14,6 +15,15 @@ class HttpSubmissionClient(private val webClient: WebClient, properties: Compone
     SubmissionClient {
 
     private val url: URL = URL(properties.url + "/command2")
+
+    override suspend fun doInvitations(
+        id: CommandId,
+        params: DoInvitationsAction.Params
+    ): Result<Reply<DoInvitationsAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = SubmissionCommands.DoInvitations.build(id = id, params = params),
+        target = SubmissionCommands.DoInvitations.target
+    )
 
     override suspend fun checkAbsenceActiveInvitations(
         id: CommandId,

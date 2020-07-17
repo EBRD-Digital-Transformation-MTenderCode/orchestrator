@@ -15,6 +15,7 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.model.award.Awards
 import com.procurement.orchestrator.domain.model.bid.Bids
 import com.procurement.orchestrator.domain.model.contract.Contracts
+import com.procurement.orchestrator.domain.model.invitation.Invitations
 import com.procurement.orchestrator.domain.model.party.Parties
 import com.procurement.orchestrator.domain.model.qualification.PreQualification
 import com.procurement.orchestrator.domain.model.qualification.Qualifications
@@ -48,6 +49,8 @@ class CamundaGlobalContext(propertyContainer: PropertyContainer) : GlobalContext
     override var preQualification: PreQualification? by nullablePropertyDelegate(propertyContainer)
 
     override var qualifications: Qualifications by collectionPropertyDelegate(propertyContainer) {Qualifications() }
+
+    override var invitations: Invitations by collectionPropertyDelegate(propertyContainer) {Invitations() }
 }
 
 fun CamundaGlobalContext.serialize(transform: Transform): Result<String, Fail.Incident.Transform.Serialization> =
@@ -65,6 +68,7 @@ fun CamundaGlobalContext.serialize(transform: Transform): Result<String, Fail.In
         override var submissions: Submissions? = this@serialize.submissions
         override var preQualification: PreQualification? = this@serialize.preQualification
         override var qualifications: Qualifications = this@serialize.qualifications
+        override var invitations: Invitations = this@serialize.invitations
     }.let { context ->
         transform.trySerialization(context)
     }

@@ -34,6 +34,7 @@ abstract class DoQualificationAction : FunctionalAction<DoQualificationAction.Pa
     class Params(
         @param:JsonProperty("cpid") @field:JsonProperty("cpid") val cpid: Cpid,
         @param:JsonProperty("ocid") @field:JsonProperty("ocid") val ocid: Ocid,
+        @param:JsonProperty("date") @field:JsonProperty("date") val date: LocalDateTime,
         @param:JsonProperty("qualifications") @field:JsonProperty("qualifications") val qualifications: List<Qualification>
     ) {
         data class Qualification(
