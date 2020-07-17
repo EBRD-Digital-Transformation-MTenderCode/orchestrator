@@ -6,9 +6,10 @@ import com.procurement.orchestrator.domain.EnumElementProvider
 
 enum class QualificationStatusDetails(@JsonValue override val key: String) : EnumElementProvider.Key {
 
-    AWAITING("awaiting"),
-    CONSIDERATION("consideration"),
     ACTIVE("active"),
+    AWAITING("awaiting"),
+    BASED_ON_HUMAN_DECISION("basedOnHumanDecision"),
+    CONSIDERATION("consideration"),
     UNSUCCESSFUL("unsuccessful");
 
     override fun toString(): String = key
