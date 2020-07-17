@@ -6,6 +6,7 @@ import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.WebClient
+import com.procurement.orchestrator.infrastructure.client.web.qualification.action.AnalyzeQualificationForInvitationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckAccessToQualificationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckDeclarationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckQualificationForProtocolAction
@@ -130,6 +131,15 @@ class HttpQualificationClient(private val webClient: WebClient, properties: Comp
         url = url,
         command = QualificationCommands.SetNextForQualification.build(id = id, params = params),
         target = QualificationCommands.SetNextForQualification.target
+    )
+
+    override suspend fun analyzeQualificationForInvitation(
+        id: CommandId,
+        params: AnalyzeQualificationForInvitationAction.Params
+    ): Result<Reply<AnalyzeQualificationForInvitationAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = QualificationCommands.AnalyzeQualificationForInvitation.build(id = id, params = params),
+        target = QualificationCommands.AnalyzeQualificationForInvitation.target
     )
 
     override suspend fun checkQualificationForProtocol(

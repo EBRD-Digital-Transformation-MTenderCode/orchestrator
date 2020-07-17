@@ -63,14 +63,18 @@ class RevisionCreateAmendmentDelegate(
                 .id
                 .toString()
 
+            OperationTypeProcess.APPLY_QUALIFICATION_PROTOCOL,
             OperationTypeProcess.CREATE_SUBMISSION,
             OperationTypeProcess.DECLARE_NON_CONFLICT_OF_INTEREST,
             OperationTypeProcess.QUALIFICATION,
             OperationTypeProcess.QUALIFICATION_CONSIDERATION,
             OperationTypeProcess.QUALIFICATION_DECLARE_NON_CONFLICT_OF_INTEREST,
+            OperationTypeProcess.QUALIFICATION_PROTOCOL,
+            OperationTypeProcess.START_SECOND_STAGE,
             OperationTypeProcess.SUBMISSION_PERIOD_END,
             OperationTypeProcess.TENDER_OR_LOT_AMENDMENT_CANCELLATION,
             OperationTypeProcess.TENDER_OR_LOT_AMENDMENT_CONFIRMATION,
+            OperationTypeProcess.WITHDRAW_QUALIFICATION_PROTOCOL,
             OperationTypeProcess.WITHDRAW_SUBMISSION ->
                 return failure(Fail.Incident.Bpe(description = "Operation type: '${processInfo.operationType.key}' in this delegate do not implemented."))
         }
