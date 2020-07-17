@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.procurement.orchestrator.application.service.FunctionalAction
 import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
+import com.procurement.orchestrator.domain.model.qualification.Qualification
 import com.procurement.orchestrator.domain.model.qualification.QualificationId
 import com.procurement.orchestrator.domain.model.qualification.QualificationStatus
 import com.procurement.orchestrator.domain.model.qualification.QualificationStatusDetails
@@ -32,3 +33,10 @@ abstract class FinalizeQualificationsAction : FunctionalAction<FinalizeQualifica
         ) : Serializable
     }
 }
+
+fun FinalizeQualificationsAction.Result.Qualification.convertToGlobalContextEntity() =
+    Qualification(
+        id = this.id,
+        status = status,
+        statusDetails = statusDetails
+    )
