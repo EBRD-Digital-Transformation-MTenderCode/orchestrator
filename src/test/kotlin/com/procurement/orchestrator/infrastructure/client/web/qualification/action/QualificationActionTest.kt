@@ -328,4 +328,16 @@ class QualificationActionTest {
             }
         }
     }
+
+    @Nested
+    inner class CheckQualificationPeriod {
+        @Nested
+        inner class Params {
+
+            @Test
+            fun required() {
+                testingBindingAndMapping<CheckQualificationPeriodAction.Params>("json/client/qualification/check_qualification_period_params_full.json")
+            }
+        }
+    }
 }

@@ -8,6 +8,7 @@ import com.procurement.orchestrator.infrastructure.client.web.qualification.acti
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckAccessToQualificationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckDeclarationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckQualificationForProtocolAction
+import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckQualificationPeriodAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckQualificationStateAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CreateQualificationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.DoConsiderationAction
@@ -35,7 +36,6 @@ interface QualificationClient {
         id: CommandId,
         params: CheckAccessToQualificationAction.Params
     ): Result<Reply<Unit>, Fail.Incident>
-
 
     suspend fun checkDeclaration(
         id: CommandId,
@@ -90,5 +90,10 @@ interface QualificationClient {
     suspend fun checkQualificationForProtocol(
         id: CommandId,
         params: CheckQualificationForProtocolAction.Params
+    ): Result<Reply<Unit>, Fail.Incident>
+
+    suspend fun checkQualificationPeriod(
+        id: CommandId,
+        params: CheckQualificationPeriodAction.Params
     ): Result<Reply<Unit>, Fail.Incident>
 }
