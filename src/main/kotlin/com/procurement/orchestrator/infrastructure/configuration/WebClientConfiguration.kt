@@ -93,7 +93,7 @@ class WebClientConfiguration(
         HttpQualificationClient(webClient = webClient(),properties = componentProperties["eQualification"])
 
     @Bean
-    fun clarificationClient():ClarificationClient =
+    fun clarificationClient(): ClarificationClient =
         HttpClarificationClient(webClient = webClient(), properties = componentProperties["eClarification"])
 
     @Bean
