@@ -1,9 +1,9 @@
 {
   "cpid": "ocds-b3wdp1-MD-1580458690892",
-  "date": "2020-07-15T09:14:06.370Z",
+  "date": "2020-07-15T09:14:06Z",
   "qualifications": [
     {
-      "id": "string",
+      "id": "ef4a2f22-05ed-48cc-8654-534ca152eef8",
       "statusDetails": "active",
       "relatedSubmission": "string"
     }

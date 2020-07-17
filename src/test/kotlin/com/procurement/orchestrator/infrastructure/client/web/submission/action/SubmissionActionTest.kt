@@ -12,7 +12,7 @@ class SubmissionActionTest {
         inner class Params {
             @Test
             fun required() {
-                testingBindingAndMapping<DoInvitationsAction.Params>("json/client/qualification/start_qualification_period_params_full.json")
+                testingBindingAndMapping<DoInvitationsAction.Params>("json/client/submission/do_invitations_params_full.json")
             }
         }
 
@@ -20,7 +20,7 @@ class SubmissionActionTest {
         inner class Result {
             @Test
             fun required() {
-                testingBindingAndMapping<DoInvitationsAction.Result>("json/client/qualification/start_qualification_period_result_full.json")
+                testingBindingAndMapping<DoInvitationsAction.Result>("json/client/submission/do_invitations_result_full.json")
             }
         }
     }
