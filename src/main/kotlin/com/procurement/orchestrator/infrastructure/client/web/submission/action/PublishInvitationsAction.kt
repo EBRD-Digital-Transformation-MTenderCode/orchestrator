@@ -3,6 +3,7 @@ package com.procurement.orchestrator.infrastructure.client.web.submission.action
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.procurement.orchestrator.application.service.FunctionalAction
 import com.procurement.orchestrator.domain.model.Cpid
+import com.procurement.orchestrator.domain.model.invitation.Invitation
 import com.procurement.orchestrator.domain.model.invitation.InvitationId
 import com.procurement.orchestrator.domain.model.invitation.InvitationStatus
 import com.procurement.orchestrator.infrastructure.client.web.Target
@@ -28,3 +29,9 @@ abstract class PublishInvitationsAction : FunctionalAction<PublishInvitationsAct
         ) : Serializable
     }
 }
+
+fun PublishInvitationsAction.Result.Invitation.convertToGlobalContextEntity() =
+    Invitation(
+        id = this.id,
+        status = this.status
+    )

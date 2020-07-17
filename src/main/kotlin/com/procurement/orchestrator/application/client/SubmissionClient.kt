@@ -6,6 +6,7 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.CheckAbsenceActiveInvitationsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.DoInvitationsAction
+import com.procurement.orchestrator.infrastructure.client.web.submission.action.PublishInvitationsAction
 
 interface SubmissionClient {
 
@@ -13,6 +14,11 @@ interface SubmissionClient {
         id: CommandId,
         params: DoInvitationsAction.Params
     ): Result<Reply<DoInvitationsAction.Result>, Fail.Incident>
+
+    suspend fun publishInvitations(
+        id: CommandId,
+        params: PublishInvitationsAction.Params
+    ): Result<Reply<PublishInvitationsAction.Result>, Fail.Incident>
 
     suspend fun checkAbsenceActiveInvitations(
         id: CommandId,
