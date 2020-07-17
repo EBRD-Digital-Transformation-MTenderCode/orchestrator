@@ -11,6 +11,8 @@ import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.model.qualification.Qualification
 import com.procurement.orchestrator.domain.model.qualification.Qualifications
+import com.procurement.orchestrator.domain.util.extension.getNewElements
+import com.procurement.orchestrator.domain.util.extension.toSetBy
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
@@ -68,30 +70,29 @@ class QualificationAnalyzeQualificationForInvitationDelegate(
                 )
             )
 
-        val contextQualifications = context.qualifications
-        val contextQualificationsByIds = contextQualifications
+        val qualificationByIds = data.qualifications
             .associateBy { it.id }
+        val qualifications = context.qualifications
+        val updatedQualifications = qualifications.map { qualification ->
+            qualificationByIds[qualification.id]
+                ?.let { src ->
+                    qualification.copy(
+                        statusDetails = src.statusDetails,
+                        relatedSubmission = src.relatedSubmission,
+                        status = src.status
+                    )
+                }
+                ?: qualification
+        }
 
-        val updatedQualifications = data.qualifications
-            .map { reqQualification ->
-                contextQualificationsByIds[reqQualification.id]
-                    ?.let { updateQualification(qualification = it, reqQualification = reqQualification) }
-                    ?: buildQualification(reqQualification = reqQualification)
-            }
+        val newQualifications =
+            getNewElements(received = qualificationByIds.keys, known = qualifications.toSetBy { it.id })
+                .map { id -> buildQualification(qualificationByIds.getValue(id)) }
 
-        context.qualifications = Qualifications(values = updatedQualifications)
+        context.qualifications = Qualifications(updatedQualifications + newQualifications)
 
         return MaybeFail.none()
     }
-
-    private fun updateQualification(
-        qualification: Qualification,
-        reqQualification: AnalyzeQualificationForInvitationAction.Result.Qualification
-    ) = qualification.copy(
-        statusDetails = reqQualification.statusDetails,
-        relatedSubmission = reqQualification.relatedSubmission,
-        status = reqQualification.status
-    )
 
     private fun buildQualification(reqQualification: AnalyzeQualificationForInvitationAction.Result.Qualification) =
         Qualification(
