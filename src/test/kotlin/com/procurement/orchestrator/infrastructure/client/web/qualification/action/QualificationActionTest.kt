@@ -316,4 +316,16 @@ class QualificationActionTest {
         }
 
     }
+
+    @Nested
+    inner class CheckQualificationForProtocol {
+        @Nested
+        inner class Params {
+
+            @Test
+            fun required() {
+                testingBindingAndMapping<CheckQualificationForProtocolAction.Params>("json/client/qualification/check_qualification_for_protocol_params_full.json")
+            }
+        }
+    }
 }

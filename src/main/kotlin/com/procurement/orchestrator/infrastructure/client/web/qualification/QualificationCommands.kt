@@ -6,6 +6,7 @@ import com.procurement.orchestrator.infrastructure.client.web.dossier.action.Val
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.AnalyzeQualificationForInvitationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckAccessToQualificationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckDeclarationAction
+import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckQualificationForProtocolAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckQualificationStateAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CreateQualificationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.DoConsiderationAction
@@ -50,4 +51,6 @@ object QualificationCommands {
     object SetNextForQualification: SetNextForQualificationAction()
 
     object AnalyzeQualificationForInvitation : AnalyzeQualificationForInvitationAction()
+
+    object CheckQualificationForProtocol : CheckQualificationForProtocolAction()
 }
