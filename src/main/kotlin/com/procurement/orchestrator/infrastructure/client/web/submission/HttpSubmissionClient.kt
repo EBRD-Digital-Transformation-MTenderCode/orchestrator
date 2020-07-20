@@ -6,7 +6,6 @@ import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.WebClient
-import com.procurement.orchestrator.infrastructure.client.web.dossier.DossierCommands
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.CheckAbsenceActiveInvitationsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.DoInvitationsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.ValidateTenderPeriodAction
@@ -40,6 +39,6 @@ class HttpSubmissionClient(private val webClient: WebClient, properties: Compone
         params: ValidateTenderPeriodAction.Params
     ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
         url = url,
-        command = DossierCommands.ValidateTenderPeriod.build(id = id, params = params)
+        command = SubmissionCommands.ValidateTenderPeriod.build(id = id, params = params)
     )
 }
