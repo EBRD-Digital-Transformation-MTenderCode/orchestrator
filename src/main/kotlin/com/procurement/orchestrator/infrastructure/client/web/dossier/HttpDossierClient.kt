@@ -18,7 +18,6 @@ import com.procurement.orchestrator.infrastructure.client.web.dossier.action.Set
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.ValidateRequirementResponseAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.ValidateSubmissionAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.VerifySubmissionPeriodEndAction
-import com.procurement.orchestrator.infrastructure.client.web.submission.action.ValidateTenderPeriodAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
 import java.net.URL
 
@@ -129,14 +128,5 @@ class HttpDossierClient(private val webClient: WebClient, properties: ComponentP
         url = url,
         command = DossierCommands.GetSubmissionCandidateReferencesByQualificationIds.build(id = id, params = params),
         target = DossierCommands.GetSubmissionCandidateReferencesByQualificationIds.target
-    )
-
-
-    override suspend fun validateTenderPeriod(
-        id: CommandId,
-        params: ValidateTenderPeriodAction.Params
-    ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
-        url = url,
-        command = DossierCommands.ValidateTenderPeriod.build(id = id, params = params)
     )
 }
