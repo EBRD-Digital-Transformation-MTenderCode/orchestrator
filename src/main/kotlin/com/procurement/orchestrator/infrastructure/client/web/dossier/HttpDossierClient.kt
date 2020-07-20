@@ -11,6 +11,7 @@ import com.procurement.orchestrator.infrastructure.client.web.dossier.action.Che
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.CreateSubmissionAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.FindSubmissionsForOpeningAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetOrganizationsAction
+import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetSubmissionCandidateReferencesByQualificationIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetSubmissionPeriodEndDateAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetSubmissionStateByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.SetStateForSubmissionAction
@@ -120,6 +121,16 @@ class HttpDossierClient(private val webClient: WebClient, properties: ComponentP
         command = DossierCommands.FindSubmissionsForOpening.build(id = id, params = params),
         target = DossierCommands.FindSubmissionsForOpening.target
     )
+
+    override suspend fun getSubmissionCandidateReferencesByQualificationIds(
+        id: CommandId,
+        params: GetSubmissionCandidateReferencesByQualificationIdsAction.Params
+    ): Result<Reply<GetSubmissionCandidateReferencesByQualificationIdsAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = DossierCommands.GetSubmissionCandidateReferencesByQualificationIds.build(id = id, params = params),
+        target = DossierCommands.GetSubmissionCandidateReferencesByQualificationIds.target
+    )
+
 
     override suspend fun validateTenderPeriod(
         id: CommandId,

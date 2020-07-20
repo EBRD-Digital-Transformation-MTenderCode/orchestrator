@@ -6,8 +6,11 @@ import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.WebClient
+import com.procurement.orchestrator.infrastructure.client.web.qualification.action.AnalyzeQualificationForInvitationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckAccessToQualificationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckDeclarationAction
+import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckQualificationForProtocolAction
+import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckQualificationPeriodAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CheckQualificationStateAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.CreateQualificationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.DoConsiderationAction
@@ -129,5 +132,30 @@ class HttpQualificationClient(private val webClient: WebClient, properties: Comp
         url = url,
         command = QualificationCommands.SetNextForQualification.build(id = id, params = params),
         target = QualificationCommands.SetNextForQualification.target
+    )
+
+    override suspend fun analyzeQualificationForInvitation(
+        id: CommandId,
+        params: AnalyzeQualificationForInvitationAction.Params
+    ): Result<Reply<AnalyzeQualificationForInvitationAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = QualificationCommands.AnalyzeQualificationForInvitation.build(id = id, params = params),
+        target = QualificationCommands.AnalyzeQualificationForInvitation.target
+    )
+
+    override suspend fun checkQualificationForProtocol(
+        id: CommandId,
+        params: CheckQualificationForProtocolAction.Params
+    ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
+        url = url,
+        command = QualificationCommands.CheckQualificationForProtocol.build(id = id, params = params)
+    )
+
+    override suspend fun checkQualificationPeriod(
+        id: CommandId,
+        params: CheckQualificationPeriodAction.Params
+    ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
+        url = url,
+        command = QualificationCommands.CheckQualificationPeriod.build(id = id, params = params)
     )
 }

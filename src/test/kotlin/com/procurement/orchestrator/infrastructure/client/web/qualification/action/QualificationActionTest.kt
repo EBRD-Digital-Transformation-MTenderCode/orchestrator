@@ -295,4 +295,49 @@ class QualificationActionTest {
     }
 
 
+
+    @Nested
+    inner class AnalyzeQualificationForInvitation {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun required() {
+                testingBindingAndMapping<AnalyzeQualificationForInvitationAction.Params>("json/client/qualification/analyze_qualification_for_invitation_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun required() {
+                testingBindingAndMapping<AnalyzeQualificationForInvitationAction.Result>("json/client/qualification/analyze_qualification_for_invitation_result_full.json")
+            }
+        }
+
+    }
+
+    @Nested
+    inner class CheckQualificationForProtocol {
+        @Nested
+        inner class Params {
+
+            @Test
+            fun required() {
+                testingBindingAndMapping<CheckQualificationForProtocolAction.Params>("json/client/qualification/check_qualification_for_protocol_params_full.json")
+            }
+        }
+    }
+
+    @Nested
+    inner class CheckQualificationPeriod {
+        @Nested
+        inner class Params {
+
+            @Test
+            fun required() {
+                testingBindingAndMapping<CheckQualificationPeriodAction.Params>("json/client/qualification/check_qualification_period_params_full.json")
+            }
+        }
+    }
 }
