@@ -1,7 +1,7 @@
-package com.procurement.orchestrator.infrastructure.bpms.delegate.dossier
+package com.procurement.orchestrator.infrastructure.bpms.delegate.submission
 
 import com.procurement.orchestrator.application.CommandId
-import com.procurement.orchestrator.application.client.DossierClient
+import com.procurement.orchestrator.application.client.SubmissionClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
@@ -16,9 +16,9 @@ import com.procurement.orchestrator.infrastructure.client.web.submission.action.
 import org.springframework.stereotype.Component
 
 @Component
-class DossierValidateTenderPeriodDelegate(
+class SubmissionValidateTenderPeriodDelegate(
     logger: Logger,
-    private val dossierClient: DossierClient,
+    private val submissionClient: SubmissionClient,
     operationStepRepository: OperationStepRepository,
     transform: Transform
 ) : AbstractExternalDelegate<Unit, Unit>(
@@ -38,7 +38,7 @@ class DossierValidateTenderPeriodDelegate(
         val processInfo = context.processInfo
         val requestInfo = context.requestInfo
 
-        return dossierClient.validateTenderPeriod(
+        return submissionClient.validateTenderPeriod(
             id = commandId,
             params = ValidateTenderPeriodAction.Params(
                 cpid = processInfo.cpid,
