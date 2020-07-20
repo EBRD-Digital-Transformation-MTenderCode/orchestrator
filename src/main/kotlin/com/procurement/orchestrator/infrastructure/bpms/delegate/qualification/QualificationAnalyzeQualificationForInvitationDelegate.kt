@@ -23,7 +23,7 @@ import com.procurement.orchestrator.infrastructure.configuration.property.Extern
 import org.springframework.stereotype.Component
 
 @Component
-class QualificationAnalyzeQualificationForInvitationDelegate(
+class QualificationAnalyzeQualificationsForInvitationDelegate(
     logger: Logger,
     private val client: QualificationClient,
     operationStepRepository: OperationStepRepository,
