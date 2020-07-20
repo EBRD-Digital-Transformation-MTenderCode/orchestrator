@@ -24,4 +24,16 @@ class SubmissionActionTest {
             }
         }
     }
+
+    @Nested
+    inner class ValidateTenderPeriod {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<ValidateTenderPeriodAction.Params>("json/client/dossier/validate_tender_period_full.json")
+            }
+        }
+    }
 }

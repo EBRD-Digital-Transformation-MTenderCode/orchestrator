@@ -1,6 +1,5 @@
 package com.procurement.orchestrator.infrastructure.client.web.dossier.action
 
-import com.procurement.orchestrator.infrastructure.client.web.submission.action.ValidateTenderPeriodAction
 import com.procurement.orchestrator.json.testingBindingAndMapping
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -264,18 +263,6 @@ class DossierActionsTest {
             @Test
             fun fully2() {
                 testingBindingAndMapping<GetSubmissionCandidateReferencesByQualificationIdsAction.Result>("json/client/dossier/get_submission_candidate_references_by_qualification_result_2.json")
-            }
-        }
-    }
-
-    @Nested
-    inner class ValidateTenderPeriod {
-
-        @Nested
-        inner class Params {
-            @Test
-            fun fully() {
-                testingBindingAndMapping<ValidateTenderPeriodAction.Params>("json/client/dossier/validate_tender_period_full.json")
             }
         }
     }
