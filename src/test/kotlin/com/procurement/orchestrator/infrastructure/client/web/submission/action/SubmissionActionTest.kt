@@ -32,7 +32,7 @@ class SubmissionActionTest {
         inner class Params {
             @Test
             fun fully() {
-                testingBindingAndMapping<ValidateTenderPeriodAction.Params>("json/client/dossier/validate_tender_period_full.json")
+                testingBindingAndMapping<ValidateTenderPeriodAction.Params>("json/client/submission/validate_tender_period_full.json")
             }
         }
     }
