@@ -2,7 +2,8 @@
   "qualifications": [
     {
       "id": "d80918e9-1fe5-45f3-a7b9-d355191afb60",
-      "status": "active"
+      "status": "active",
+      "relatedSubmission": "text"
     }
   ]
 }

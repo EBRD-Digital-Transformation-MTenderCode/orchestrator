@@ -24,7 +24,10 @@ abstract class FinalizeSubmissionsAction : FunctionalAction<FinalizeSubmissionsA
             @param:JsonProperty("id") @field:JsonProperty("id") val id: QualificationId,
 
             @JsonInclude(JsonInclude.Include.NON_NULL)
-            @param:JsonProperty("status") @field:JsonProperty("status") val status: QualificationStatus?
+            @param:JsonProperty("status") @field:JsonProperty("status") val status: QualificationStatus?,
+
+            @JsonInclude(JsonInclude.Include.NON_NULL)
+            @param:JsonProperty("relatedSubmission") @field:JsonProperty("relatedSubmission") val relatedSubmission: SubmissionId?
         )
     }
 

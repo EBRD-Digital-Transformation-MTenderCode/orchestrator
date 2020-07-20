@@ -54,7 +54,8 @@ class DossierFinalizeSubmissionsDelegate(
                 qualifications = qualifications.map {
                     FinalizeSubmissionsAction.Params.Qualification(
                         id = it.id,
-                        status = it.status
+                        status = it.status,
+                        relatedSubmission = it.relatedSubmission
                     )
                 }
             )
