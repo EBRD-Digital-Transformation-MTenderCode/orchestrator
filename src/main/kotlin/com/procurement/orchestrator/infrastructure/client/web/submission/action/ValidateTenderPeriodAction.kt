@@ -1,4 +1,4 @@
-package com.procurement.orchestrator.infrastructure.client.web.dossier.action
+package com.procurement.orchestrator.infrastructure.client.web.submission.action
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
