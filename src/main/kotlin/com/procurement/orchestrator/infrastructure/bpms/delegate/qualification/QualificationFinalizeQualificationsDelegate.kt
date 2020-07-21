@@ -10,7 +10,6 @@ import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.model.qualification.Qualifications
-import com.procurement.orchestrator.domain.util.extension.getNewElements
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
@@ -66,22 +65,12 @@ class QualificationFinalizeQualificationsDelegate(
                 )
             )
 
-        val receivedQualifications = data.qualifications.map { it.convertToGlobalContextEntity() }
-        val receivedQualificationByIds = receivedQualifications.associateBy { it.id }
-
+        val receivedQualifications = Qualifications(data.qualifications.map { it.convertToGlobalContextEntity() })
         val qualificationsFromDb = context.qualifications
 
-        val updatedQualifications = qualificationsFromDb.map { qualificationFromDb ->
-            receivedQualificationByIds[qualificationFromDb.id]
-                ?.let { receivedQualification -> qualificationFromDb updateBy receivedQualification }
-                ?: qualificationFromDb
-        }
+        val updatedQualifications = qualificationsFromDb updateBy receivedQualifications
 
-        val newQualifications =
-            getNewElements(received = receivedQualificationByIds.keys, known = qualificationsFromDb.map { it.id })
-                .map { id -> receivedQualificationByIds.getValue(id) }
-
-        context.qualifications = Qualifications(updatedQualifications + newQualifications)
+        context.qualifications = updatedQualifications
 
         return MaybeFail.none()
     }
