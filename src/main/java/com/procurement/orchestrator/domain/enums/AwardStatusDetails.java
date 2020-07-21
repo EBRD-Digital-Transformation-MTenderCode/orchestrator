@@ -1,16 +1,16 @@
 package com.procurement.orchestrator.domain.enums;
 
-import com.procurement.orchestrator.exception.EnumException;
-
 import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Collectors;
+import com.procurement.orchestrator.exception.EnumException;
 
 public enum AwardStatusDetails {
     ACTIVE("active"),
     AWAITING("awaiting"),
     CONSIDERATION("consideration"),
     EMPTY("empty"),
+    LACK_OF_QUALIFICATIONS("lackOfQualifications"),
     LACK_OF_SUBMISSIONS("lackOfSubmissions"),
     LOT_CANCELLED("lotCancelled"),
     NO_OFFERS_RECEIVED("noOffersReceived"),

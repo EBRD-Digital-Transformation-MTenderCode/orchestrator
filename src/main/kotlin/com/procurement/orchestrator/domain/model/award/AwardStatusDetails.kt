@@ -10,6 +10,7 @@ enum class AwardStatusDetails(@JsonValue override val key: String) : EnumElement
     AWAITING("awaiting"),
     CONSIDERATION("consideration"),
     EMPTY("empty"),
+    LACK_OF_QUALIFICATIONS("lackOfQualifications"),
     LACK_OF_SUBMISSIONS("lackOfSubmissions"),
     LOT_CANCELLED("lotCancelled"),
     NO_OFFERS_RECEIVED("noOffersReceived"),
