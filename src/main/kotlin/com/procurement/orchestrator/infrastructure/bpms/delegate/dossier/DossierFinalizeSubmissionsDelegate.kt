@@ -13,7 +13,6 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.model.submission.Details
 import com.procurement.orchestrator.domain.model.submission.Submissions
-import com.procurement.orchestrator.domain.util.extension.getNewElements
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
@@ -76,26 +75,15 @@ class DossierFinalizeSubmissionsDelegate(
                 )
             )
 
-        val receivedSubmissions = data.submissions.details.map { it.convertToGlobalContextEntity() }
+        val receivedSubmissions = Details(data.submissions.details.map { it.convertToGlobalContextEntity() })
 
         val submissionsFromDb = context.submissions
 
         val updatedSubmissions =
             if (submissionsFromDb == null)
                 Details(receivedSubmissions)
-            else {
-                val receivedSubmissionsById = receivedSubmissions.associateBy { it.id }
-                val updatedSubmissions = submissionsFromDb.details.map { submission ->
-                    receivedSubmissionsById[submission.id]
-                        ?.let { receivedSubmission -> submission updateBy receivedSubmission }
-                        ?: submission
-                }
-                val knownSubmissionIds = submissionsFromDb.details.map { it.id }
-                val newSubmissions = getNewElements(receivedSubmissionsById.keys, knownSubmissionIds)
-                    .map { newSubmissions -> receivedSubmissionsById.getValue(newSubmissions) }
-
-                Details(updatedSubmissions + newSubmissions)
-            }
+            else
+                Details(submissionsFromDb.details updateBy receivedSubmissions)
 
         context.submissions = Submissions(updatedSubmissions)
 
