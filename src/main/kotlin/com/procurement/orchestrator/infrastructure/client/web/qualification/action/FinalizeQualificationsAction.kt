@@ -15,7 +15,7 @@ import java.io.Serializable
 abstract class FinalizeQualificationsAction : FunctionalAction<FinalizeQualificationsAction.Params, FinalizeQualificationsAction.Result> {
     override val version: Version = Version.parse("2.0.0")
     override val name: String = "finalizeQualifications"
-    override val target: Target<Result> = Target.plural()
+    override val target: Target<Result> = Target.single()
 
     class Params(
         @param:JsonProperty("cpid") @field:JsonProperty("cpid") val cpid: Cpid,
