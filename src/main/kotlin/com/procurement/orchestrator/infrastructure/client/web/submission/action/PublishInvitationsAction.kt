@@ -13,7 +13,7 @@ import java.io.Serializable
 abstract class PublishInvitationsAction : FunctionalAction<PublishInvitationsAction.Params, PublishInvitationsAction.Result> {
     override val version: Version = Version.parse("2.0.0")
     override val name: String = "publishInvitations"
-    override val target: Target<Result> = Target.plural()
+    override val target: Target<Result> = Target.single()
 
     class Params(
         @param:JsonProperty("cpid") @field:JsonProperty("cpid") val cpid: Cpid
