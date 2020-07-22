@@ -19,12 +19,8 @@ import com.procurement.orchestrator.domain.model.requirement.RequirementId
 import com.procurement.orchestrator.domain.model.requirement.RequirementResponseValue
 import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponseId
 import com.procurement.orchestrator.domain.model.submission.SubmissionId
-import com.procurement.orchestrator.domain.model.tender.criteria.CriteriaRelatesTo
-import com.procurement.orchestrator.domain.model.tender.criteria.CriteriaSource
 import com.procurement.orchestrator.domain.model.tender.criteria.QualificationSystemMethod
 import com.procurement.orchestrator.domain.model.tender.criteria.ReductionCriteria
-import com.procurement.orchestrator.domain.model.tender.criteria.requirement.RequirementDataType
-import com.procurement.orchestrator.domain.model.tender.criteria.requirement.RequirementGroupId
 import com.procurement.orchestrator.infrastructure.bind.criteria.requirement.value.RequirementValueDeserializer
 import com.procurement.orchestrator.infrastructure.bind.criteria.requirement.value.RequirementValueSerializer
 import com.procurement.orchestrator.infrastructure.client.web.Target
@@ -63,35 +59,8 @@ abstract class SetNextForQualificationAction : FunctionalAction<SetNextForQualif
         }
 
         data class Criteria(
-            @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
-            @JsonInclude(JsonInclude.Include.NON_NULL)
-            @param:JsonProperty("title") @field:JsonProperty("title") val title: String?,
-            @JsonInclude(JsonInclude.Include.NON_NULL)
-            @param:JsonProperty("description") @field:JsonProperty("description") val description: String?,
-            @JsonInclude(JsonInclude.Include.NON_NULL)
-            @param:JsonProperty("source") @field:JsonProperty("source") val source: CriteriaSource?,
-            @JsonInclude(JsonInclude.Include.NON_NULL)
-            @param:JsonProperty("relatesTo") @field:JsonProperty("relatesTo") val relatesTo: CriteriaRelatesTo?,
-            @JsonInclude(JsonInclude.Include.NON_NULL)
-            @param:JsonProperty("relatedItem") @field:JsonProperty("relatedItem") val relatedItem: String?,
-            @param:JsonProperty("requirementGroups") @field:JsonProperty("requirementGroups") val requirementGroups: List<RequirementGroup>
-        ) {
-            data class RequirementGroup(
-                @param:JsonProperty("id") @field:JsonProperty("id") val id: RequirementGroupId,
-                @JsonInclude(JsonInclude.Include.NON_NULL)
-                @param:JsonProperty("descriptions") @field:JsonProperty("descriptions") val descriptions: String?,
-                @param:JsonProperty("requirements") @field:JsonProperty("requirements") val requirements: List<Requirement>
-            ) {
-                data class Requirement(
-                    @param:JsonProperty("id") @field:JsonProperty("id") val id: RequirementId,
-                    @param:JsonProperty("title") @field:JsonProperty("title") val title: String,
-                    @JsonInclude(JsonInclude.Include.NON_NULL)
-                    @param:JsonProperty("description") @field:JsonProperty("description") val description: String?,
-                    @JsonInclude(JsonInclude.Include.NON_NULL)
-                    @param:JsonProperty("dataType") @field:JsonProperty("dataType") val dataType: RequirementDataType?
-                )
-            }
-        }
+            @param:JsonProperty("id") @field:JsonProperty("id") val id: String
+        )
     }
 
     class Result(@param:JsonProperty("qualifications") @field:JsonProperty("qualifications") val qualifications: List<Qualification>) :
