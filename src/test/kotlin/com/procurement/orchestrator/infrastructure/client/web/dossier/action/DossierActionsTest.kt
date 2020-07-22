@@ -266,4 +266,38 @@ class DossierActionsTest {
             }
         }
     }
+
+    @Nested
+    inner class GetSubmissionsForTendering {
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetSubmissionsForTenderingAction.Params>("json/client/dossier/get_submission_for_tendering_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetSubmissionsForTenderingAction.Result>("json/client/dossier/get_submission_for_tendering_result_full.json")
+            }
+
+            @Test
+            fun required1() {
+                testingBindingAndMapping<GetSubmissionsForTenderingAction.Result>("json/client/dossier/get_submission_for_tendering_result_required_1.json")
+            }
+
+            @Test
+            fun required2() {
+                testingBindingAndMapping<GetSubmissionsForTenderingAction.Result>("json/client/dossier/get_submission_for_tendering_result_required_2.json")
+            }
+
+            @Test
+            fun required3() {
+                testingBindingAndMapping<GetSubmissionsForTenderingAction.Result>("json/client/dossier/get_submission_for_tendering_result_required_3.json")
+            }
+        }
+    }
 }
