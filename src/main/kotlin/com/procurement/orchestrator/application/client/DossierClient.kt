@@ -12,6 +12,7 @@ import com.procurement.orchestrator.infrastructure.client.web.dossier.action.Get
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetSubmissionCandidateReferencesByQualificationIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetSubmissionPeriodEndDateAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetSubmissionStateByIdsAction
+import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetSubmissionsForTenderingAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.SetStateForSubmissionAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.ValidateRequirementResponseAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.ValidateSubmissionAction
@@ -78,4 +79,9 @@ interface DossierClient {
         id: CommandId,
         params: GetSubmissionCandidateReferencesByQualificationIdsAction.Params
     ): Result<Reply<GetSubmissionCandidateReferencesByQualificationIdsAction.Result>, Fail.Incident>
+
+    suspend fun getSubmissionsForTendering(
+        id: CommandId,
+        params: GetSubmissionsForTenderingAction.Params
+    ): Result<Reply<GetSubmissionsForTenderingAction.Result>, Fail.Incident>
 }
