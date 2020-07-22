@@ -57,7 +57,8 @@ class DossierFindSubmissionsForOpeningDelegate(
                 cpid = processInfo.cpid,
                 ocid = processInfo.ocid,
                 pmd = processInfo.pmd,
-                country = requestInfo.country
+                country = requestInfo.country,
+                operationType = processInfo.operationType
             )
         )
     }
