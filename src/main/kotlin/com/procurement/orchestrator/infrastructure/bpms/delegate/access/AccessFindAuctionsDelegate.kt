@@ -64,35 +64,31 @@ class AccessFindAuctionsDelegate(
             ?: return MaybeFail.none()
 
         val receivedDetails = data.tender.electronicAuctions.details
-            .map { detail ->
-                ElectronicAuctionsDetail(
-                    id = detail.id,
-                    relatedLot = detail.relatedLot,
-                    electronicAuctionModalities = ElectronicAuctionModalities(
-                        detail.electronicAuctionModalities
-                            .map { modality ->
-                                ElectronicAuctionModality(
-                                    eligibleMinimumDifference = modality.eligibleMinimumDifference
-                                        .let { eligibleMinimumDifference ->
-                                            Value(
-                                                amount = eligibleMinimumDifference.amount,
-                                                currency = eligibleMinimumDifference.currency
-                                            )
-                                        }
-                                )
-                            }
-                    )
-                )
-            }
+            .map { detail -> detail.toContextDetail()}
+
+        val createdElectronicAuctions = ElectronicAuctions(details = ElectronicAuctionsDetails(receivedDetails))
 
         val tender = context.tender ?: Tender()
-
-        val electronicAuctions = tender.electronicAuctions ?: ElectronicAuctions()
-        val updatedDetails = electronicAuctions.details updateBy ElectronicAuctionsDetails(receivedDetails)
-        val updatedTender = tender.copy(electronicAuctions = electronicAuctions.copy(details = updatedDetails))
-
-        context.tender = updatedTender
+        context.tender = tender.copy(electronicAuctions = createdElectronicAuctions)
 
         return MaybeFail.none()
     }
+
+    fun FindAuctionsAction.Result.Tender.ElectronicAuctions.Detail.toContextDetail() = ElectronicAuctionsDetail(
+        id = id,
+        relatedLot = relatedLot,
+        electronicAuctionModalities = ElectronicAuctionModalities(
+            electronicAuctionModalities.map { modality ->
+                ElectronicAuctionModality(
+                    eligibleMinimumDifference = modality.eligibleMinimumDifference
+                        .let { eligibleMinimumDifference ->
+                            Value(
+                                amount = eligibleMinimumDifference.amount,
+                                currency = eligibleMinimumDifference.currency
+                            )
+                        }
+                )
+            }
+        )
+    )
 }
