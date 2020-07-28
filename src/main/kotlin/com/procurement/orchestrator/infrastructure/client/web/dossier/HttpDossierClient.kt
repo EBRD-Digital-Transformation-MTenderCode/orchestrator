@@ -129,5 +129,4 @@ class HttpDossierClient(private val webClient: WebClient, properties: ComponentP
         command = DossierCommands.GetSubmissionCandidateReferencesByQualificationIds.build(id = id, params = params),
         target = DossierCommands.GetSubmissionCandidateReferencesByQualificationIds.target
     )
-
 }

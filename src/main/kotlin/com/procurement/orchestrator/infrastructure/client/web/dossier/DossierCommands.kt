@@ -15,14 +15,13 @@ import com.procurement.orchestrator.infrastructure.client.web.dossier.action.Ver
 
 object DossierCommands {
 
-
     object GetOrganizations : GetOrganizationsAction()
 
     object GetSubmissionPeriodEndDate : GetSubmissionPeriodEndDateAction()
 
     object GetSubmissionStateByIds : GetSubmissionStateByIdsAction()
 
-    object CheckAccessToSubmission: CheckAccessToSubmissionAction()
+    object CheckAccessToSubmission : CheckAccessToSubmissionAction()
 
     object SetStateForSubmission : SetStateForSubmissionAction()
 

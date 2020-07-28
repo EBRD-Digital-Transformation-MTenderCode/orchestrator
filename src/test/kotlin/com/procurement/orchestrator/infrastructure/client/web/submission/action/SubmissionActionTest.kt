@@ -24,4 +24,28 @@ class SubmissionActionTest {
             }
         }
     }
+
+    @Nested
+    inner class CheckAbsenceActiveInvitations {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CheckAbsenceActiveInvitationsAction.Params>("json/client/submission/check_absence_active_invitations_params_full.json")
+            }
+        }
+    }
+
+    @Nested
+    inner class ValidateTenderPeriod {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<ValidateTenderPeriodAction.Params>("json/client/submission/validate_tender_period_full.json")
+            }
+        }
+    }
 }
