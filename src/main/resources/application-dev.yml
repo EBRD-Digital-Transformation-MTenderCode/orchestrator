@@ -6,7 +6,7 @@ spring:
     active: local
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://10.0.20.112:5432/orchestrator
+    url: jdbc:postgresql://localhost:5432/orchestrator
     username: postgres
     password: postgres
     hikari:
@@ -14,10 +14,9 @@ spring:
       pool-name: orchestrator-pool
 
 cassandra:
-  contact-points: 10.0.20.104,10.0.20.105,10.0.20.106
+  contact-points: localhost
   keyspace-name: ocds
-  username: caclient
-  password: 6AH7vbrkMWnfK
+  port: 9042
 
 uri:
   budget: http://dev.public.eprocurement.systems/budget/
@@ -42,48 +41,48 @@ feign:
 
 notification:
   incident:
-    bootstrap-servers: 10.0.20.107:9092,10.0.20.108:9092,10.0.20.109:9092
+    bootstrap-servers: localhost:9092
     retries: 5
     topic: incidents
 
   platform:
-    bootstrap-servers: 10.0.20.107:9092,10.0.20.108:9092,10.0.20.109:9092
+    bootstrap-servers: localhost:9092
     retries: 5
     topic: notification-kafka-channel
 
 components:
   eAccess:
-    host: 10.0.20.125
+    host: e-access
     port: 9031
   eRevision:
-    host: 10.0.20.125
+    host: e-revision
     port: 9351
   storage:
-    host: 10.0.20.125
+    host: storage
     port: 9131
   eNotice:
-    host: 10.0.20.125
+    host: e-notice
     port: 9041
   eDossier:
-    host: 10.0.20.125
+    host: e-dossier
     port: 9251
   eEvaluation:
-    host: 10.0.20.125
+    host: e-evaluation
     port: 9081
   eContracting:
-    host: 10.0.20.125
+    host: e-contracting
     port: 9151
   eQualification:
-    host: 10.0.20.125
+    host: e-qualification
     port: 9091
   eClarification:
-    host: 10.0.20.125
+    host: e-clarification
     port: 9071
   mdm:
-    host: 10.0.20.125
+    host: mdm
     port: 9161
   eSubmission:
-    host: 10.0.20.125
+    host: e-submission
     port: 9061
 
 ribbon:
