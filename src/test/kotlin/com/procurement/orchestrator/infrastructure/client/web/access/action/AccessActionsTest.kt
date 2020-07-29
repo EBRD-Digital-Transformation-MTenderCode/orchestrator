@@ -324,4 +324,24 @@ class AccessActionsTest {
             }
         }
     }
+
+    @Nested
+    inner class FindAuctions {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<FindAuctionsAction.Params>("json/client/access/find_auctions_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<FindAuctionsAction.Result>("json/client/access/find_auctions_result_full.json")
+            }
+        }
+    }
 }
