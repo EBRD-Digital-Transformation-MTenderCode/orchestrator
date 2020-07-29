@@ -48,4 +48,23 @@ class SubmissionActionTest {
             }
         }
     }
+
+    @Nested
+    inner class PublishInvitations {
+        @Nested
+        inner class Params {
+            @Test
+            fun full() {
+                testingBindingAndMapping<PublishInvitationsAction.Params>("json/client/submission/publish_invitations_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun full() {
+                testingBindingAndMapping<PublishInvitationsAction.Result>("json/client/submission/publish_invitations_result_full.json")
+            }
+        }
+    }
 }
