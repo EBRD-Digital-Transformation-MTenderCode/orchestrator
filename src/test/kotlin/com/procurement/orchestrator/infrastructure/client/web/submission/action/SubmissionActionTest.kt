@@ -67,4 +67,23 @@ class SubmissionActionTest {
             }
         }
     }
+
+    @Nested
+    inner class SetTenderPeriod {
+        @Nested
+        inner class Params {
+            @Test
+            fun required() {
+                testingBindingAndMapping<SetTenderPeriodAction.Params>("json/client/submission/set_tender_period_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun required() {
+                testingBindingAndMapping<SetTenderPeriodAction.Result>("json/client/submission/set_tender_period_result_full.json")
+            }
+        }
+    }
 }

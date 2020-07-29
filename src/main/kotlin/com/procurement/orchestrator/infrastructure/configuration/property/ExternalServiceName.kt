@@ -14,7 +14,7 @@ enum class ExternalServiceName(override val key: String) : EnumElementProvider.K
     QUALIFICATION("eQualification"),
     REVISION("eRevision"),
     STORAGE("Storage"),
-    SUBMISSION("submission");
+    SUBMISSION("eSubmisssion");
 
     override fun toString(): String = key
 
