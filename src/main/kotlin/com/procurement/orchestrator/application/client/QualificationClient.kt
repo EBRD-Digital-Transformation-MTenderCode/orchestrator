@@ -19,6 +19,7 @@ import com.procurement.orchestrator.infrastructure.client.web.qualification.acti
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.FindRequirementResponseByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.RankQualificationsAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.SetNextForQualificationAction
+import com.procurement.orchestrator.infrastructure.client.web.qualification.action.SetQualificationPeriodEndAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.StartQualificationPeriodAction
 
 interface QualificationClient {
@@ -102,4 +103,9 @@ interface QualificationClient {
         id: CommandId,
         params: CheckQualificationPeriodAction.Params
     ): Result<Reply<Unit>, Fail.Incident>
+
+    suspend fun setQualificationPeriodEnd(
+        id: CommandId,
+        params: SetQualificationPeriodEndAction.Params
+    ): Result<Reply<SetQualificationPeriodEndAction.Result>, Fail.Incident>
 }

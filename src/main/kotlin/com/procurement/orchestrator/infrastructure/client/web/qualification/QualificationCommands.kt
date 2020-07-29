@@ -18,6 +18,7 @@ import com.procurement.orchestrator.infrastructure.client.web.qualification.acti
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.FindRequirementResponseByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.RankQualificationsAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.SetNextForQualificationAction
+import com.procurement.orchestrator.infrastructure.client.web.qualification.action.SetQualificationPeriodEndAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.StartQualificationPeriodAction
 
 object QualificationCommands {
@@ -59,4 +60,6 @@ object QualificationCommands {
     object FinalizeQualifications : FinalizeQualificationsAction()
 
     object CheckQualificationPeriod: CheckQualificationPeriodAction()
+
+   object SetQualificationPeriodEnd: SetQualificationPeriodEndAction()
 }

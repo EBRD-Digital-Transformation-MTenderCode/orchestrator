@@ -21,6 +21,7 @@ import com.procurement.orchestrator.infrastructure.client.web.qualification.acti
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.FindRequirementResponseByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.RankQualificationsAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.SetNextForQualificationAction
+import com.procurement.orchestrator.infrastructure.client.web.qualification.action.SetQualificationPeriodEndAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.StartQualificationPeriodAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
 import java.net.URL
@@ -167,5 +168,14 @@ class HttpQualificationClient(private val webClient: WebClient, properties: Comp
     ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
         url = url,
         command = QualificationCommands.CheckQualificationPeriod.build(id = id, params = params)
+    )
+
+    override suspend fun setQualificationPeriodEnd(
+        id: CommandId,
+        params: SetQualificationPeriodEndAction.Params
+    ): Result<Reply<SetQualificationPeriodEndAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = QualificationCommands.SetQualificationPeriodEnd.build(id = id, params = params),
+        target = QualificationCommands.SetQualificationPeriodEnd.target
     )
 }
