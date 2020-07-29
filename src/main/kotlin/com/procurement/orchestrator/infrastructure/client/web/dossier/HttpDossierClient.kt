@@ -15,6 +15,7 @@ import com.procurement.orchestrator.infrastructure.client.web.dossier.action.Get
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetSubmissionCandidateReferencesByQualificationIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetSubmissionPeriodEndDateAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetSubmissionStateByIdsAction
+import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetSubmissionsForTenderingAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.SetStateForSubmissionAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.ValidateRequirementResponseAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.ValidateSubmissionAction
@@ -138,5 +139,14 @@ class HttpDossierClient(private val webClient: WebClient, properties: ComponentP
         url = url,
         command = DossierCommands.GetSubmissionCandidateReferencesByQualificationIds.build(id = id, params = params),
         target = DossierCommands.GetSubmissionCandidateReferencesByQualificationIds.target
+    )
+
+    override suspend fun getSubmissionsForTendering(
+        id: CommandId,
+        params: GetSubmissionsForTenderingAction.Params
+    ): Result<Reply<GetSubmissionsForTenderingAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = DossierCommands.GetSubmissionsForTendering.build(id = id, params = params),
+        target = DossierCommands.GetSubmissionsForTendering.target
     )
 }
