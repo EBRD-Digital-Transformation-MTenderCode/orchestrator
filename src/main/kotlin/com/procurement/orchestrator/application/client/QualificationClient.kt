@@ -14,10 +14,12 @@ import com.procurement.orchestrator.infrastructure.client.web.qualification.acti
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.DoConsiderationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.DoDeclarationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.DoQualificationAction
+import com.procurement.orchestrator.infrastructure.client.web.qualification.action.FinalizeQualificationsAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.FindQualificationIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.FindRequirementResponseByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.RankQualificationsAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.SetNextForQualificationAction
+import com.procurement.orchestrator.infrastructure.client.web.qualification.action.SetQualificationPeriodEndAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.StartQualificationPeriodAction
 
 interface QualificationClient {
@@ -92,8 +94,18 @@ interface QualificationClient {
         params: CheckQualificationForProtocolAction.Params
     ): Result<Reply<Unit>, Fail.Incident>
 
+    suspend fun finalizeQualifications(
+        id: CommandId,
+        params: FinalizeQualificationsAction.Params
+    ): Result<Reply<FinalizeQualificationsAction.Result>, Fail.Incident>
+
     suspend fun checkQualificationPeriod(
         id: CommandId,
         params: CheckQualificationPeriodAction.Params
     ): Result<Reply<Unit>, Fail.Incident>
+
+    suspend fun setQualificationPeriodEnd(
+        id: CommandId,
+        params: SetQualificationPeriodEndAction.Params
+    ): Result<Reply<SetQualificationPeriodEndAction.Result>, Fail.Incident>
 }

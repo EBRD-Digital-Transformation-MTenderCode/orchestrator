@@ -10,6 +10,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Chec
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckPersonesStructureAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateCriteriaForProcuringEntityAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.FindAuctionsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindCriteriaAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindLotIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotStateByIdsAction
@@ -158,5 +159,14 @@ class HttpAccessClient(private val webClient: WebClient, properties: ComponentPr
     ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
         url = url,
         command = AccessCommands.CheckTenderState.build(id = id, params = params)
+    )
+
+    override suspend fun findAuctions(
+        id: CommandId,
+        params: FindAuctionsAction.Params
+    ): Result<Reply<FindAuctionsAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = AccessCommands.FindAuctions.build(id = id, params = params),
+        target = AccessCommands.FindAuctions.target
     )
 }
