@@ -75,7 +75,8 @@ class RevisionCreateAmendmentDelegate(
             OperationTypeProcess.TENDER_OR_LOT_AMENDMENT_CANCELLATION,
             OperationTypeProcess.TENDER_OR_LOT_AMENDMENT_CONFIRMATION,
             OperationTypeProcess.WITHDRAW_QUALIFICATION_PROTOCOL,
-            OperationTypeProcess.WITHDRAW_SUBMISSION ->
+            OperationTypeProcess.WITHDRAW_SUBMISSION,
+            OperationTypeProcess.START_SECOND_STAGE ->
                 return failure(Fail.Incident.Bpe(description = "Operation type: '${processInfo.operationType.key}' in this delegate do not implemented."))
         }
 

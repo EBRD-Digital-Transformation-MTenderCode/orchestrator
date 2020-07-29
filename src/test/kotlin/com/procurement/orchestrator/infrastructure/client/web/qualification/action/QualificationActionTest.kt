@@ -342,6 +342,28 @@ class QualificationActionTest {
     }
 
     @Nested
+    inner class FinalizeQualifications {
+        @Nested
+        inner class Params {
+
+            @Test
+            fun full() {
+                testingBindingAndMapping<FinalizeQualificationsAction.Params>("json/client/qualification/finalize_qualifications_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+
+            @Test
+            fun full() {
+                testingBindingAndMapping<FinalizeQualificationsAction.Result>("json/client/qualification/finalize_qualifications_result_full.json")
+            }
+        }
+    }
+
+
+    @Nested
     inner class SetQualificationPeriodEnd {
 
         @Nested

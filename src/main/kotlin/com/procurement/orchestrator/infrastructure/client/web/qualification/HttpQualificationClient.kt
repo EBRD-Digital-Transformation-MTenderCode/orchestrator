@@ -16,6 +16,7 @@ import com.procurement.orchestrator.infrastructure.client.web.qualification.acti
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.DoConsiderationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.DoDeclarationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.DoQualificationAction
+import com.procurement.orchestrator.infrastructure.client.web.qualification.action.FinalizeQualificationsAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.FindQualificationIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.FindRequirementResponseByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.RankQualificationsAction
@@ -129,7 +130,7 @@ class HttpQualificationClient(private val webClient: WebClient, properties: Comp
     override suspend fun setNextForQualificationAction(
         id: CommandId,
         params: SetNextForQualificationAction.Params
-    ): Result<Reply<SetNextForQualificationAction.Result>, Fail.Incident>  = webClient.call(
+    ): Result<Reply<SetNextForQualificationAction.Result>, Fail.Incident> = webClient.call(
         url = url,
         command = QualificationCommands.SetNextForQualification.build(id = id, params = params),
         target = QualificationCommands.SetNextForQualification.target
@@ -150,6 +151,15 @@ class HttpQualificationClient(private val webClient: WebClient, properties: Comp
     ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
         url = url,
         command = QualificationCommands.CheckQualificationForProtocol.build(id = id, params = params)
+    )
+
+    override suspend fun finalizeQualifications(
+        id: CommandId,
+        params: FinalizeQualificationsAction.Params
+    ): Result<Reply<FinalizeQualificationsAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = QualificationCommands.FinalizeQualifications.build(id = id, params = params),
+        target = QualificationCommands.FinalizeQualifications.target
     )
 
     override suspend fun checkQualificationPeriod(

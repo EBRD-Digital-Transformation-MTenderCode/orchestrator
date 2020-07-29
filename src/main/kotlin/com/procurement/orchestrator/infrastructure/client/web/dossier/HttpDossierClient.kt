@@ -9,6 +9,7 @@ import com.procurement.orchestrator.infrastructure.client.web.WebClient
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.CheckAccessToSubmissionAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.CheckPeriodAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.CreateSubmissionAction
+import com.procurement.orchestrator.infrastructure.client.web.dossier.action.FinalizeSubmissionsAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.FindSubmissionsForOpeningAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetOrganizationsAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetSubmissionCandidateReferencesByQualificationIdsAction
@@ -121,6 +122,15 @@ class HttpDossierClient(private val webClient: WebClient, properties: ComponentP
         target = DossierCommands.FindSubmissionsForOpening.target
     )
 
+    override suspend fun finalizeSubmissions(
+        id: CommandId,
+        params: FinalizeSubmissionsAction.Params
+    ): Result<Reply<FinalizeSubmissionsAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = DossierCommands.FinalizeSubmissions.build(id = id, params = params),
+        target = DossierCommands.FinalizeSubmissions.target
+    )
+
     override suspend fun getSubmissionCandidateReferencesByQualificationIds(
         id: CommandId,
         params: GetSubmissionCandidateReferencesByQualificationIdsAction.Params
@@ -129,5 +139,4 @@ class HttpDossierClient(private val webClient: WebClient, properties: ComponentP
         command = DossierCommands.GetSubmissionCandidateReferencesByQualificationIds.build(id = id, params = params),
         target = DossierCommands.GetSubmissionCandidateReferencesByQualificationIds.target
     )
-
 }
