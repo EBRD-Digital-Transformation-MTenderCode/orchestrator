@@ -283,7 +283,6 @@ class AccessActionsTest {
         }
     }
 
-
     @Nested
     inner class CreateCriteriaForProcuringEntity {
 
