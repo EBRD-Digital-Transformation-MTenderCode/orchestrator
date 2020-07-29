@@ -38,6 +38,18 @@ class SubmissionActionTest {
     }
 
     @Nested
+    inner class ValidateTenderPeriod {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<ValidateTenderPeriodAction.Params>("json/client/submission/validate_tender_period_full.json")
+            }
+        }
+    }
+
+    @Nested
     inner class PublishInvitations {
         @Nested
         inner class Params {

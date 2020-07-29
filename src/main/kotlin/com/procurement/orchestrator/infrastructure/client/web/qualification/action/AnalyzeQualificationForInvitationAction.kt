@@ -15,7 +15,7 @@ import java.io.Serializable
 
 abstract class AnalyzeQualificationForInvitationAction : FunctionalAction<AnalyzeQualificationForInvitationAction.Params, AnalyzeQualificationForInvitationAction.Result> {
     override val version: Version = Version.parse("2.0.0")
-    override val name: String = "analyzeQualification"
+    override val name: String = "analyzeQualificationsForInvitation"
     override val target: Target<Result> = Target.single()
 
     class Params(
