@@ -17,13 +17,11 @@ import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExterna
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
-import com.procurement.orchestrator.infrastructure.client.web.qualification.QualificationCommands
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.AnalyzeQualificationForInvitationAction
-import com.procurement.orchestrator.infrastructure.configuration.property.ExternalServiceName
 import org.springframework.stereotype.Component
 
 @Component
-class QualificationAnalyzeQualificationForInvitationDelegate(
+class QualificationAnalyzeQualificationsForInvitationDelegate(
     logger: Logger,
     private val client: QualificationClient,
     operationStepRepository: OperationStepRepository,
@@ -62,13 +60,7 @@ class QualificationAnalyzeQualificationForInvitationDelegate(
         result: Option<AnalyzeQualificationForInvitationAction.Result>
     ): MaybeFail<Fail.Incident> {
 
-        val data = result.orNull
-            ?: return MaybeFail.fail(
-                Fail.Incident.Response.Empty(
-                    service = ExternalServiceName.QUALIFICATION,
-                    action = QualificationCommands.AnalyzeQualificationForInvitation
-                )
-            )
+        val data = result.orNull ?: return MaybeFail.none()
 
         val qualificationByIds = data.qualifications
             .associateBy { it.id }

@@ -14,6 +14,7 @@ import com.procurement.orchestrator.infrastructure.client.web.qualification.acti
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.DoConsiderationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.DoDeclarationAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.DoQualificationAction
+import com.procurement.orchestrator.infrastructure.client.web.qualification.action.FinalizeQualificationsAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.FindQualificationIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.FindRequirementResponseByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.RankQualificationsAction
@@ -91,6 +92,11 @@ interface QualificationClient {
         id: CommandId,
         params: CheckQualificationForProtocolAction.Params
     ): Result<Reply<Unit>, Fail.Incident>
+
+    suspend fun finalizeQualifications(
+        id: CommandId,
+        params: FinalizeQualificationsAction.Params
+    ): Result<Reply<FinalizeQualificationsAction.Result>, Fail.Incident>
 
     suspend fun checkQualificationPeriod(
         id: CommandId,
