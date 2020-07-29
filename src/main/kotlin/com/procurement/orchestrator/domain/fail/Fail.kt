@@ -2,6 +2,7 @@ package com.procurement.orchestrator.domain.fail
 
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.ProceduralAction
+import com.procurement.orchestrator.application.service.ProceduralActionV1
 import com.procurement.orchestrator.domain.EnumElementProvider
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.ValidationResult
@@ -290,6 +291,9 @@ sealed class Fail(prefix: String, number: String) {
             class Empty(description: String) : Response(number = "2", description = description) {
 
                 constructor(service: ExternalServiceName, action: ProceduralAction<*>)
+                    : this(service, action.name)
+
+                constructor(service: ExternalServiceName, action: ProceduralActionV1<*, *>)
                     : this(service, action.name)
 
                 constructor(service: ExternalServiceName, action: String)
