@@ -81,28 +81,7 @@ class QualificationSetNextForQualificationDelegate(
                 ,
                 criteria = tender.criteria.map { criterion ->
                     SetNextForQualificationAction.Params.Criteria(
-                        id = criterion.id,
-                        title = criterion.title,
-                        description = criterion.description,
-                        source = criterion.source,
-                        relatesTo = criterion.relatesTo,
-                        relatedItem = criterion.relatedItem,
-                        requirementGroups = criterion.requirementGroups
-                            .map { requirementGroup ->
-                                SetNextForQualificationAction.Params.Criteria.RequirementGroup(
-                                    id = requirementGroup.id,
-                                    descriptions = requirementGroup.description,
-                                    requirements = requirementGroup.requirements
-                                        .map { requirement ->
-                                            SetNextForQualificationAction.Params.Criteria.RequirementGroup.Requirement(
-                                                id = requirement.id,
-                                                description = requirement.description,
-                                                title = requirement.title,
-                                                dataType = requirement.dataType
-                                            )
-                                        }
-                                )
-                            }
+                        id = criterion.id
                     )
                 }
 
