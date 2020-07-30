@@ -43,13 +43,15 @@ class DossierFinalizeSubmissionsDelegate(
         context: CamundaGlobalContext,
         parameters: Unit
     ): Result<Reply<FinalizeSubmissionsAction.Result>, Fail.Incident> {
-
+        val processInfo = context.processInfo
         val qualifications = context.getQualificationsIfNotEmpty()
             .orForwardFail { error -> return error }
 
         return client.finalizeSubmissions(
             id = commandId,
             params = FinalizeSubmissionsAction.Params(
+                cpid = processInfo.cpid,
+                ocid = processInfo.ocid,
                 qualifications = qualifications.map {
                     FinalizeSubmissionsAction.Params.Qualification(
                         id = it.id,
