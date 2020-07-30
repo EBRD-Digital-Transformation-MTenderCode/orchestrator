@@ -8,6 +8,7 @@ import com.procurement.orchestrator.domain.model.qualification.Qualification
 import com.procurement.orchestrator.domain.model.qualification.QualificationId
 import com.procurement.orchestrator.domain.model.qualification.QualificationStatus
 import com.procurement.orchestrator.domain.model.qualification.QualificationStatusDetails
+import com.procurement.orchestrator.domain.model.submission.SubmissionId
 import com.procurement.orchestrator.infrastructure.client.web.Target
 import com.procurement.orchestrator.infrastructure.model.Version
 import java.io.Serializable
@@ -29,7 +30,8 @@ abstract class FinalizeQualificationsAction : FunctionalAction<FinalizeQualifica
         data class Qualification(
             @param:JsonProperty("id") @field:JsonProperty("id") val id: QualificationId,
             @param:JsonProperty("status") @field:JsonProperty("status") val status: QualificationStatus,
-            @param:JsonProperty("statusDetails") @field:JsonProperty("statusDetails") val statusDetails: QualificationStatusDetails
+            @param:JsonProperty("statusDetails") @field:JsonProperty("statusDetails") val statusDetails: QualificationStatusDetails,
+            @param:JsonProperty("relatedSubmission") @field:JsonProperty("relatedSubmission") val relatedSubmission: SubmissionId
         ) : Serializable
     }
 }
@@ -37,6 +39,7 @@ abstract class FinalizeQualificationsAction : FunctionalAction<FinalizeQualifica
 fun FinalizeQualificationsAction.Result.Qualification.convertToGlobalContextEntity() =
     Qualification(
         id = this.id,
-        status = status,
-        statusDetails = statusDetails
+        status = this.status,
+        statusDetails = this.statusDetails,
+        relatedSubmission = this.relatedSubmission
     )
