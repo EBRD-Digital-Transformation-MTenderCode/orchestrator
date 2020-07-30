@@ -43,38 +43,10 @@
     <bpmn:sequenceFlow id="Flow_1rt471m" sourceRef="AccessCheckAccessToTenderTask" targetRef="AccessCheckTenderStateTask" />
     <bpmn:sequenceFlow id="Flow_1ybo955" sourceRef="AccessCheckTenderStateTask" targetRef="QualificationCheckQualificationPeriodTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1rpir45" sourceRef="QualificationAnalyzeQualificationsForInvitationTask" targetRef="dossierGetSubmissionCandidateReferencesByQualificationIdsTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_15tdmo6" sourceRef="dossierGetSubmissionCandidateReferencesByQualificationIdsTask" targetRef="SubmissionDoInvitationsTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1jsgf29" name="result == null" sourceRef="QualificationAnalyzeQualificationsForInvitationTask" targetRef="SubModifyQualificationStandstillTenderTask">
+    <bpmn:sequenceFlow id="SequenceFlow_15tdmo6" sourceRef="dossierGetSubmissionCandidateReferencesByQualificationIdsTask" targetRef="ExclusiveGateway_0qpd22t" />
+    <bpmn:sequenceFlow id="SequenceFlow_1jsgf29" name="result == null" sourceRef="QualificationAnalyzeQualificationsForInvitationTask" targetRef="ExclusiveGateway_0qpd22t">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${result == null}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:callActivity id="SubModifyQualificationStandstillTenderTask" name="modify tender" camunda:asyncBefore="true" calledElement="subModifyTender" camunda:variableMappingDelegateExpression="${prepareStartProcessDataDelegate}">
-      <bpmn:extensionElements>
-        <camunda:out source="errors" target="errors" />
-      </bpmn:extensionElements>
-      <bpmn:incoming>SequenceFlow_1jsgf29</bpmn:incoming>
-      <bpmn:incoming>SequenceFlow_0d1q4cj</bpmn:incoming>
-      <bpmn:outgoing>Flow_1k3g7yk</bpmn:outgoing>
-    </bpmn:callActivity>
-    <bpmn:serviceTask id="BpeAddUpdateRecordTaskInQueueTask" name="BPE:&#10;Add update record task to queue" camunda:asyncBefore="true" camunda:delegateExpression="${bpeAddUpdateRecordTaskInQueueDelegate}">
-      <bpmn:incoming>Flow_1k3g7yk</bpmn:incoming>
-      <bpmn:outgoing>Flow_0nycgtn</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:serviceTask id="NoticeTask" name="eNotice:&#10;UpdateRecord" camunda:asyncBefore="true" camunda:delegateExpression="${noticeDelegate}">
-      <bpmn:incoming>Flow_0nycgtn</bpmn:incoming>
-      <bpmn:outgoing>Flow_022n6dh</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:serviceTask id="NotifierSuccessNotificationToPlatformTask" name="iNotifier Kafka:&#10;Success Notification To Platform" camunda:asyncBefore="true" camunda:delegateExpression="${notifierSuccessNotificationToPlatformDelegate}">
-      <bpmn:incoming>Flow_022n6dh</bpmn:incoming>
-      <bpmn:outgoing>Flow_173hph4</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:endEvent id="Event_1u3gdop">
-      <bpmn:incoming>Flow_173hph4</bpmn:incoming>
-    </bpmn:endEvent>
-    <bpmn:sequenceFlow id="Flow_1k3g7yk" sourceRef="SubModifyQualificationStandstillTenderTask" targetRef="BpeAddUpdateRecordTaskInQueueTask" />
-    <bpmn:sequenceFlow id="Flow_0nycgtn" sourceRef="BpeAddUpdateRecordTaskInQueueTask" targetRef="NoticeTask" />
-    <bpmn:sequenceFlow id="Flow_022n6dh" sourceRef="NoticeTask" targetRef="NotifierSuccessNotificationToPlatformTask" />
-    <bpmn:sequenceFlow id="Flow_173hph4" sourceRef="NotifierSuccessNotificationToPlatformTask" targetRef="Event_1u3gdop" />
-    <bpmn:sequenceFlow id="SequenceFlow_0d1q4cj" sourceRef="SubmissionDoInvitationsTask" targetRef="SubModifyQualificationStandstillTenderTask" />
     <bpmn:subProcess id="SubProcess_17uv9gj" triggeredByEvent="true">
       <bpmn:serviceTask id="NotifierValidationErrorNotificationToPlatformTask" name="iNotifier Kafka:&#10;Validation Error Notification To Platform" camunda:asyncBefore="true" camunda:delegateExpression="${notifierErrorNotificationToPlatformDelegate}">
         <bpmn:incoming>SequenceFlow_0s5e0fk</bpmn:incoming>
@@ -222,10 +194,43 @@
       <bpmn:incoming>SequenceFlow_1rpir45</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_15tdmo6</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="SubmissionDoInvitationsTask" name="eSubmission:&#10;Do invitations" camunda:asyncBefore="true" camunda:delegateExpression="${submissionDoInvitationsDelegate}">
+    <bpmn:exclusiveGateway id="ExclusiveGateway_0qpd22t">
       <bpmn:incoming>SequenceFlow_15tdmo6</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_1jsgf29</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_09qg43d</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="SequenceFlow_09qg43d" sourceRef="ExclusiveGateway_0qpd22t" targetRef="SubmissionDoInvitationsTask" />
+    <bpmn:callActivity id="SubModifyQualificationStandstillTenderTask" name="modify tender" camunda:asyncBefore="true" calledElement="subModifyTender" camunda:variableMappingDelegateExpression="${prepareStartProcessDataDelegate}">
+      <bpmn:extensionElements>
+        <camunda:out source="errors" target="errors" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0d1q4cj</bpmn:incoming>
+      <bpmn:outgoing>Flow_1k3g7yk</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:serviceTask id="BpeAddUpdateRecordTaskInQueueTask" name="BPE:&#10;Add update record task to queue" camunda:asyncBefore="true" camunda:delegateExpression="${bpeAddUpdateRecordTaskInQueueDelegate}">
+      <bpmn:incoming>Flow_1k3g7yk</bpmn:incoming>
+      <bpmn:outgoing>Flow_0nycgtn</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="NoticeTask" name="eNotice:&#10;UpdateRecord" camunda:asyncBefore="true" camunda:delegateExpression="${noticeDelegate}">
+      <bpmn:incoming>Flow_0nycgtn</bpmn:incoming>
+      <bpmn:outgoing>Flow_022n6dh</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="NotifierSuccessNotificationToPlatformTask" name="iNotifier Kafka:&#10;Success Notification To Platform" camunda:asyncBefore="true" camunda:delegateExpression="${notifierSuccessNotificationToPlatformDelegate}">
+      <bpmn:incoming>Flow_022n6dh</bpmn:incoming>
+      <bpmn:outgoing>Flow_173hph4</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Event_1u3gdop">
+      <bpmn:incoming>Flow_173hph4</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="SubmissionDoInvitationsTask" name="eSubmission:&#10;Do invitations" camunda:asyncBefore="true" camunda:delegateExpression="${submissionDoInvitationsDelegate}">
+      <bpmn:incoming>SequenceFlow_09qg43d</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0d1q4cj</bpmn:outgoing>
     </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_0d1q4cj" sourceRef="SubmissionDoInvitationsTask" targetRef="SubModifyQualificationStandstillTenderTask" />
+    <bpmn:sequenceFlow id="Flow_1k3g7yk" sourceRef="SubModifyQualificationStandstillTenderTask" targetRef="BpeAddUpdateRecordTaskInQueueTask" />
+    <bpmn:sequenceFlow id="Flow_0nycgtn" sourceRef="BpeAddUpdateRecordTaskInQueueTask" targetRef="NoticeTask" />
+    <bpmn:sequenceFlow id="Flow_022n6dh" sourceRef="NoticeTask" targetRef="NotifierSuccessNotificationToPlatformTask" />
+    <bpmn:sequenceFlow id="Flow_173hph4" sourceRef="NotifierSuccessNotificationToPlatformTask" targetRef="Event_1u3gdop" />
     <bpmn:textAnnotation id="TextAnnotation_1pyespv">
       <bpmn:text>Проверка доступа к тендеру
 ( owner&amp;token)</bpmn:text>
@@ -254,12 +259,12 @@
     <bpmn:textAnnotation id="TextAnnotation_0yrbjo8">
       <bpmn:text>Формирование/отмена/не изменение invitations в зависимости от решений касаемо qualifications</bpmn:text>
     </bpmn:textAnnotation>
-    <bpmn:association id="Association_0tnkkt8" sourceRef="SubmissionDoInvitationsTask" targetRef="TextAnnotation_0yrbjo8" />
     <bpmn:textAnnotation id="TextAnnotation_0mf7psv">
       <bpmn:text>установка нового statusDetails тендера
 qualificationStandstill</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:association id="Association_0hbnsls" sourceRef="SubModifyQualificationStandstillTenderTask" targetRef="TextAnnotation_0mf7psv" />
+    <bpmn:association id="Association_0tnkkt8" sourceRef="SubmissionDoInvitationsTask" targetRef="TextAnnotation_0yrbjo8" />
   </bpmn:process>
   <bpmn:error id="Error_0al3e34" name="Internal Incident" errorCode="InternalIncident" />
   <bpmn:error id="Error_0e4p21q" name="External Incident" errorCode="ExternalIncident" />
@@ -267,7 +272,7 @@ qualificationStandstill</bpmn:text>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1fjc9hn">
       <bpmndi:BPMNShape id="Participant_1jq6v1s_di" bpmnElement="Participant_1jq6v1s" isHorizontal="true">
-        <dc:Bounds x="160" y="50" width="2008" height="590" />
+        <dc:Bounds x="160" y="50" width="1970" height="590" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_1qf3otz_di" bpmnElement="TextAnnotation_1qf3otz">
         <dc:Bounds x="1125" y="122" width="110" height="110" />
@@ -333,29 +338,29 @@ qualificationStandstill</bpmn:text>
         <dc:Bounds x="990" y="250" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0hbx15l_di" bpmnElement="SubModifyQualificationStandstillTenderTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="1420" y="250" width="100" height="80" />
+        <dc:Bounds x="1495" y="250" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0ro43rc_di" bpmnElement="BpeAddUpdateRecordTaskInQueueTask">
-        <dc:Bounds x="1565" y="250" width="100" height="80" />
+        <dc:Bounds x="1640" y="250" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0nbocbp_di" bpmnElement="NoticeTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="1705" y="250" width="100" height="80" />
+        <dc:Bounds x="1780" y="250" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_19t0io8_di" bpmnElement="NotifierSuccessNotificationToPlatformTask">
-        <dc:Bounds x="1845" y="250" width="100" height="80" />
+        <dc:Bounds x="1920" y="250" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_1u3gdop_di" bpmnElement="Event_1u3gdop">
-        <dc:Bounds x="1977" y="272" width="36" height="36" />
+        <dc:Bounds x="2052" y="272" width="36" height="36" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Group_1cgu8p9_di" bpmnElement="Group_1cgu8p9">
-        <dc:Bounds x="1545" y="207" width="485" height="153" />
+        <dc:Bounds x="1620" y="207" width="485" height="153" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1778" y="214" width="33" height="14" />
+          <dc:Bounds x="1853" y="214" width="33" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_1k3g7yk_di" bpmnElement="Flow_1k3g7yk">
-        <di:waypoint x="1520" y="290" />
-        <di:waypoint x="1565" y="290" />
+        <di:waypoint x="1595" y="290" />
+        <di:waypoint x="1640" y="290" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1kdxwxj_di" bpmnElement="Flow_1kdxwxj">
         <di:waypoint x="810" y="290" />
@@ -382,16 +387,16 @@ qualificationStandstill</bpmn:text>
         <di:waypoint x="710" y="290" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0nycgtn_di" bpmnElement="Flow_0nycgtn">
-        <di:waypoint x="1665" y="290" />
-        <di:waypoint x="1705" y="290" />
+        <di:waypoint x="1740" y="290" />
+        <di:waypoint x="1780" y="290" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_022n6dh_di" bpmnElement="Flow_022n6dh">
-        <di:waypoint x="1805" y="290" />
-        <di:waypoint x="1845" y="290" />
+        <di:waypoint x="1880" y="290" />
+        <di:waypoint x="1920" y="290" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_173hph4_di" bpmnElement="Flow_173hph4">
-        <di:waypoint x="1945" y="290" />
-        <di:waypoint x="1977" y="290" />
+        <di:waypoint x="2020" y="290" />
+        <di:waypoint x="2052" y="290" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1rpir45_di" bpmnElement="SequenceFlow_1rpir45">
         <di:waypoint x="1090" y="290" />
@@ -399,34 +404,34 @@ qualificationStandstill</bpmn:text>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_15tdmo6_di" bpmnElement="SequenceFlow_15tdmo6">
         <di:waypoint x="1230" y="290" />
-        <di:waypoint x="1270" y="290" />
+        <di:waypoint x="1265" y="290" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="TextAnnotation_0yrbjo8_di" bpmnElement="TextAnnotation_0yrbjo8">
-        <dc:Bounds x="1270" y="101" width="100" height="124" />
+        <dc:Bounds x="1345" y="101" width="100" height="124" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Association_0tnkkt8_di" bpmnElement="Association_0tnkkt8">
-        <di:waypoint x="1320" y="250" />
-        <di:waypoint x="1320" y="225" />
+        <di:waypoint x="1395" y="250" />
+        <di:waypoint x="1395" y="225" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1jsgf29_di" bpmnElement="SequenceFlow_1jsgf29">
         <di:waypoint x="1040" y="330" />
         <di:waypoint x="1040" y="390" />
-        <di:waypoint x="1470" y="390" />
-        <di:waypoint x="1470" y="330" />
+        <di:waypoint x="1290" y="390" />
+        <di:waypoint x="1290" y="315" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1058" y="353" width="63" height="14" />
+          <dc:Bounds x="1048" y="353" width="63" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0d1q4cj_di" bpmnElement="SequenceFlow_0d1q4cj">
-        <di:waypoint x="1370" y="290" />
-        <di:waypoint x="1420" y="290" />
+        <di:waypoint x="1445" y="290" />
+        <di:waypoint x="1495" y="290" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="TextAnnotation_0mf7psv_di" bpmnElement="TextAnnotation_0mf7psv">
-        <dc:Bounds x="1420" y="115" width="100" height="96" />
+        <dc:Bounds x="1495" y="115" width="100" height="96" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Association_0hbnsls_di" bpmnElement="Association_0hbnsls">
-        <di:waypoint x="1470" y="250" />
-        <di:waypoint x="1470" y="211" />
+        <di:waypoint x="1545" y="250" />
+        <di:waypoint x="1545" y="211" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="SubProcess_17uv9gj_di" bpmnElement="SubProcess_17uv9gj" isExpanded="true">
         <dc:Bounds x="1420" y="440" width="440" height="140" />
@@ -529,8 +534,15 @@ qualificationStandstill</bpmn:text>
         <dc:Bounds x="1130" y="250" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_0sxb25h_di" bpmnElement="SubmissionDoInvitationsTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="1270" y="250" width="100" height="80" />
+        <dc:Bounds x="1345" y="250" width="100" height="80" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExclusiveGateway_0qpd22t_di" bpmnElement="ExclusiveGateway_0qpd22t" isMarkerVisible="true">
+        <dc:Bounds x="1265" y="265" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_09qg43d_di" bpmnElement="SequenceFlow_09qg43d">
+        <di:waypoint x="1315" y="290" />
+        <di:waypoint x="1345" y="290" />
+      </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn:definitions>
