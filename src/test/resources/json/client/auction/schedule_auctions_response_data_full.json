@@ -1,0 +1,25 @@
+{
+  "auctionPeriod": {
+    "startDate": "2019-05-06T12:00:00Z"
+  },
+  "electronicAuctions": {
+    "details": [
+      {
+        "id": "2a63c872-1ac1-4185-9b42-9d94d5edaf9b",
+        "relatedLot": "4cb7e5cf-1ff4-499c-9647-7116dc46db92",
+        "auctionPeriod": {
+          "startDate": "2019-05-06T12:00:00Z"
+        },
+        "electronicAuctionModalities": [
+          {
+            "url": "http://auction.eprocurement.systems/auctions/ocds-t1s2t3-MD-1593771957614/4cb7e5cf-1ff4-499c-9647-7116dc46db92",
+            "eligibleMinimumDifference": {
+              "amount": 150.00,
+              "currency": "MDL"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -84,6 +84,9 @@ components:
   eSubmission:
     host: e-submission
     port: 9061
+  eAuction:
+    host: 10.0.20.125
+    port: 9191
 
 ribbon:
   eureka:

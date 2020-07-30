@@ -1,0 +1,20 @@
+{
+  "tenderPeriod": {
+    "endDate": "2019-05-05T00:00:00Z"
+  },
+  "electronicAuctions": {
+    "details": [
+      {
+        "relatedLot": "0f1104da-f493-46a4-8a51-82a3b487da9c",
+        "electronicAuctionModalities": [
+          {
+            "eligibleMinimumDifference": {
+              "amount": 150.00,
+              "currency": "MDL"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
