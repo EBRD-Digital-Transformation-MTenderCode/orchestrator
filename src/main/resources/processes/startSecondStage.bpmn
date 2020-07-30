@@ -217,7 +217,8 @@
       <bpmn:outgoing>SequenceFlow_113mtrw</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_0gv8odg" sourceRef="AuctionScheduleAuctionsTask" targetRef="ExclusiveGateway_15k9hdx" />
-    <bpmn:serviceTask id="AccessFindAuctionsTask" name="eAccess:&#10;Find auctions" camunda:asyncBefore="true" camunda:delegateExpression="${accessFindAuctionsDelegate}">
+    <bpmn:serviceTask id="AccessFindAuctionsTask" name="eAccess:&#10;Find auctions" default="SequenceFlow_02110c7"
+                      camunda:asyncBefore="true" camunda:delegateExpression="${accessFindAuctionsDelegate}">
       <bpmn:incoming>SequenceFlow_113mtrw</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_02110c7</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlow_1ki0vyf</bpmn:outgoing>
