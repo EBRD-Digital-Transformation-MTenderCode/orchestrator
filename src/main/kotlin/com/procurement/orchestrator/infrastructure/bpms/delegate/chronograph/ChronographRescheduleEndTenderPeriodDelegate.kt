@@ -16,9 +16,9 @@ import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
-import com.procurement.orchestrator.infrastructure.bpms.model.chronograph.ChronographMetadata
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
+import com.procurement.orchestrator.infrastructure.message.chronograph.ChronographMessage
 import org.springframework.stereotype.Component
 
 @Component
@@ -53,20 +53,17 @@ class ChronographRescheduleEndTenderPeriodDelegate(
         val tender = context.tryGetTender()
             .orForwardFail { fail -> return fail }
 
-        val launchTime = tender.tenderPeriod?.endDate
+        val launchTime = tender.tenderPeriod!!.endDate!!
         val uuid = UUIDs.timeBased().toString()
 
-        val contextChronograph = ChronographMetadata(
+        val contextChronograph = ChronographMessage.Metadata(
             operationId = uuid,
             requestId = uuid,
-            cpid = processInfo.cpid,
-            ocid = processInfo.ocid,
-            phase = PHASE_SUBMISSION,
-            timeStamp = launchTime,
+            cpid = processInfo.cpid.toString(),
+            ocid = processInfo.ocid.toString(),
             processType = PROCESS_TYPE_SUBMISSION_PERIOD_END,
-            isAuction = processInfo.isAuction,
-            owner = requestInfo.owner,
-            platformId = requestInfo.owner
+            owner = requestInfo.owner.toString(),
+            timestamp = launchTime
         )
 
         val metaData = transform.trySerialization(contextChronograph)
