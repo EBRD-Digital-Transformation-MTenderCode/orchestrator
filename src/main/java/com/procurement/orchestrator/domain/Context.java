@@ -120,4 +120,173 @@ public class Context {
     public String getRequestId() {
         return requestId;
     }
+
+    public static class Builder {
+        private String operationId;
+        private String requestId;
+        private String cpid;
+        private String ocid;
+        private String ocidCn;
+        private String stage;
+        private String prevStage;
+        private String processType;
+        private String operationType;
+        private String phase;
+        private String owner;
+        private String ownerCA;
+        private String country;
+        private String language;
+        private String pmd;
+        private String token;
+        private Set<Outcome> outcomes;
+        private Set<PlatformError> errors;
+        private String startDate;
+        private String endDate;
+        private String id;
+        private Long timeStamp;
+        private Boolean isAuction;
+        private Set<AuctionLinks> auctionLinks;
+        private String mainProcurementCategory;
+        private String awardCriteria;
+        private Boolean testMode;
+
+        public Builder setOperationId(String operationId) {
+            this.operationId = operationId;
+            return this;
+        }
+
+        public Builder setRequestId(String requestId) {
+            this.requestId = requestId;
+            return this;
+        }
+
+        public Builder setCpid(String cpid) {
+            this.cpid = cpid;
+            return this;
+        }
+
+        public Builder setOcid(String ocid) {
+            this.ocid = ocid;
+            return this;
+        }
+
+        public Builder setOcidCn(String ocidCn) {
+            this.ocidCn = ocidCn;
+            return this;
+        }
+
+        public Builder setStage(String stage) {
+            this.stage = stage;
+            return this;
+        }
+
+        public Builder setPrevStage(String prevStage) {
+            this.prevStage = prevStage;
+            return this;
+        }
+
+        public Builder setProcessType(String processType) {
+            this.processType = processType;
+            return this;
+        }
+
+        public Builder setOperationType(String operationType) {
+            this.operationType = operationType;
+            return this;
+        }
+
+        public Builder setPhase(String phase) {
+            this.phase = phase;
+            return this;
+        }
+
+        public Builder setOwner(String owner) {
+            this.owner = owner;
+            return this;
+        }
+
+        public Builder setOwnerCA(String ownerCA) {
+            this.ownerCA = ownerCA;
+            return this;
+        }
+
+        public Builder setCountry(String country) {
+            this.country = country;
+            return this;
+        }
+
+        public Builder setLanguage(String language) {
+            this.language = language;
+            return this;
+        }
+
+        public Builder setPmd(String pmd) {
+            this.pmd = pmd;
+            return this;
+        }
+
+        public Builder setToken(String token) {
+            this.token = token;
+            return this;
+        }
+
+        public Builder setOutcomes(Set<Outcome> outcomes) {
+            this.outcomes = outcomes;
+            return this;
+        }
+
+        public Builder setErrors(Set<PlatformError> errors) {
+            this.errors = errors;
+            return this;
+        }
+
+        public Builder setStartDate(String startDate) {
+            this.startDate = startDate;
+            return this;
+        }
+
+        public Builder setEndDate(String endDate) {
+            this.endDate = endDate;
+            return this;
+        }
+
+        public Builder setId(String id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder setTimeStamp(Long timeStamp) {
+            this.timeStamp = timeStamp;
+            return this;
+        }
+
+        public Builder setIsAuction(Boolean isAuction) {
+            this.isAuction = isAuction;
+            return this;
+        }
+
+        public Builder setAuctionLinks(Set<AuctionLinks> auctionLinks) {
+            this.auctionLinks = auctionLinks;
+            return this;
+        }
+
+        public Builder setMainProcurementCategory(String mainProcurementCategory) {
+            this.mainProcurementCategory = mainProcurementCategory;
+            return this;
+        }
+
+        public Builder setAwardCriteria(String awardCriteria) {
+            this.awardCriteria = awardCriteria;
+            return this;
+        }
+
+        public Builder setTestMode(Boolean testMode) {
+            this.testMode = testMode;
+            return this;
+        }
+
+        public Context build() {
+            return new Context(operationId, requestId, cpid, ocid, ocidCn, stage, prevStage, processType, operationType, phase, owner, ownerCA, country, language, pmd, token, outcomes, errors, startDate, endDate, id, timeStamp, isAuction, auctionLinks, mainProcurementCategory, awardCriteria, testMode);
+        }
+    }
 }
