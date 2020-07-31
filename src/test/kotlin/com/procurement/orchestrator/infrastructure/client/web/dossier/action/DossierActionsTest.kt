@@ -162,7 +162,6 @@ class DossierActionsTest {
         }
     }
 
-
     @Nested
     inner class SetStateForSubmission {
 
@@ -218,22 +217,21 @@ class DossierActionsTest {
             @Test
             fun fully() {
                 testingBindingAndMapping<FindSubmissionsForOpeningAction.Result>("json/client/dossier/find_submissions_for_opening_result_full.json")
-
             }
+
             @Test
             fun required_1() {
                 testingBindingAndMapping<FindSubmissionsForOpeningAction.Result>("json/client/dossier/find_submissions_for_opening_result_required_1.json")
-
             }
+
             @Test
             fun required_2() {
                 testingBindingAndMapping<FindSubmissionsForOpeningAction.Result>("json/client/dossier/find_submissions_for_opening_result_required_2.json")
-
             }
+
             @Test
             fun required_3() {
                 testingBindingAndMapping<FindSubmissionsForOpeningAction.Result>("json/client/dossier/find_submissions_for_opening_result_required_3.json")
-
             }
         }
     }
@@ -263,6 +261,60 @@ class DossierActionsTest {
             @Test
             fun fully2() {
                 testingBindingAndMapping<GetSubmissionCandidateReferencesByQualificationIdsAction.Result>("json/client/dossier/get_submission_candidate_references_by_qualification_result_2.json")
+            }
+        }
+    }
+
+    @Nested
+    inner class FinalizeSubmissions {
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<FinalizeSubmissionsAction.Params>("json/client/dossier/finalize_submissions_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<FinalizeSubmissionsAction.Result>("json/client/dossier/finalize_submissions_result_full.json")
+            }
+        }
+    }
+
+
+    @Nested
+    inner class GetSubmissionsForTendering {
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetSubmissionsForTenderingAction.Params>("json/client/dossier/get_submission_for_tendering_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetSubmissionsForTenderingAction.Result>("json/client/dossier/get_submission_for_tendering_result_full.json")
+            }
+
+            @Test
+            fun required1() {
+                testingBindingAndMapping<GetSubmissionsForTenderingAction.Result>("json/client/dossier/get_submission_for_tendering_result_required_1.json")
+            }
+
+            @Test
+            fun required2() {
+                testingBindingAndMapping<GetSubmissionsForTenderingAction.Result>("json/client/dossier/get_submission_for_tendering_result_required_2.json")
+            }
+
+            @Test
+            fun required3() {
+                testingBindingAndMapping<GetSubmissionsForTenderingAction.Result>("json/client/dossier/get_submission_for_tendering_result_required_3.json")
             }
         }
     }

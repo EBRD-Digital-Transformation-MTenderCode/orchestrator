@@ -340,4 +340,47 @@ class QualificationActionTest {
             }
         }
     }
+
+    @Nested
+    inner class FinalizeQualifications {
+        @Nested
+        inner class Params {
+
+            @Test
+            fun full() {
+                testingBindingAndMapping<FinalizeQualificationsAction.Params>("json/client/qualification/finalize_qualifications_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+
+            @Test
+            fun full() {
+                testingBindingAndMapping<FinalizeQualificationsAction.Result>("json/client/qualification/finalize_qualifications_result_full.json")
+            }
+        }
+    }
+
+
+    @Nested
+    inner class SetQualificationPeriodEnd {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun required() {
+                testingBindingAndMapping<SetQualificationPeriodEndAction.Params>("json/client/qualification/set_qualification_period_end_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun required() {
+                testingBindingAndMapping<SetQualificationPeriodEndAction.Result>("json/client/qualification/set_qualification_period_end_result_full.json")
+            }
+        }
+
+    }
 }

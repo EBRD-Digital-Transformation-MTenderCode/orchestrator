@@ -1,6 +1,7 @@
 package com.procurement.orchestrator.infrastructure.configuration
 
 import com.procurement.orchestrator.application.client.AccessClient
+import com.procurement.orchestrator.application.client.AuctionClientV1
 import com.procurement.orchestrator.application.client.ClarificationClient
 import com.procurement.orchestrator.application.client.ContractingClient
 import com.procurement.orchestrator.application.client.DossierClient
@@ -14,9 +15,12 @@ import com.procurement.orchestrator.application.client.SubmissionClient
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.infrastructure.client.web.OkHttpRestClient
 import com.procurement.orchestrator.infrastructure.client.web.OkHttpWebClient
+import com.procurement.orchestrator.infrastructure.client.web.OkHttpWebClientV1
 import com.procurement.orchestrator.infrastructure.client.web.RestClient
 import com.procurement.orchestrator.infrastructure.client.web.WebClient
+import com.procurement.orchestrator.infrastructure.client.web.WebClientV1
 import com.procurement.orchestrator.infrastructure.client.web.access.HttpAccessClient
+import com.procurement.orchestrator.infrastructure.client.web.auction.HttpAuctionClientV1
 import com.procurement.orchestrator.infrastructure.client.web.clarification.HttpClarificationClient
 import com.procurement.orchestrator.infrastructure.client.web.contracting.HttpContractingClient
 import com.procurement.orchestrator.infrastructure.client.web.dossier.HttpDossierClient
@@ -48,6 +52,9 @@ class WebClientConfiguration(
 
     @Bean
     fun webClient(): WebClient = OkHttpWebClient(logger = loggerConfiguration.logger(), transform = transform)
+
+    @Bean
+    fun webClientV1(): WebClientV1 = OkHttpWebClientV1(logger = loggerConfiguration.logger(), transform = transform)
 
     @Bean
     fun accessClient(): AccessClient =
@@ -99,4 +106,8 @@ class WebClientConfiguration(
     @Bean
     fun submissionClient(): SubmissionClient =
         HttpSubmissionClient(webClient = webClient(), properties = componentProperties["eSubmission"])
+
+    @Bean
+    fun auctionClientV1(): AuctionClientV1 =
+        HttpAuctionClientV1(webClient = webClientV1(), properties = componentProperties["eAuction"])
 }

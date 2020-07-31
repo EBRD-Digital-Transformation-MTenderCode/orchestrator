@@ -72,7 +72,8 @@ class BpeSetPhaseDelegate(
         EMPTY("empty"),
         QUALIFICATION("qualification"),
         QUALIFICATION_STANDSTILL("qualificationStandstill"),
-        SUSPENDED("suspended");
+        SUSPENDED("suspended"),
+        TENDERING("tendering");
 
         override fun toString(): String = key
 

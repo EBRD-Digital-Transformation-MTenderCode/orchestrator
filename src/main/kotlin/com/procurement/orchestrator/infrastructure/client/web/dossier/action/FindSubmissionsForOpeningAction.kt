@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.procurement.orchestrator.application.model.process.OperationTypeProcess
 import com.procurement.orchestrator.application.service.FunctionalAction
 import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
@@ -34,14 +35,15 @@ import java.time.LocalDateTime
 
 abstract class FindSubmissionsForOpeningAction : FunctionalAction<FindSubmissionsForOpeningAction.Params, FindSubmissionsForOpeningAction.Result> {
     override val version: Version = Version.parse("2.0.0")
-    override val name: String = "findSubmissionsForOpening"
+    override val name: String = "findSubmissions"
     override val target: Target<Result> = Target.plural()
 
     class Params(
         @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid,
         @field:JsonProperty("ocid") @param:JsonProperty("ocid") val ocid: Ocid,
         @field:JsonProperty("pmd") @param:JsonProperty("pmd") val pmd: ProcurementMethod,
-        @field:JsonProperty("country") @param:JsonProperty("country") val country: String
+        @field:JsonProperty("country") @param:JsonProperty("country") val country: String,
+        @field:JsonProperty("operationType") @param:JsonProperty("operationType") val operationType: OperationTypeProcess
     )
 
     class Result(values: List<Submission>) : List<Result.Submission> by values, Serializable {
