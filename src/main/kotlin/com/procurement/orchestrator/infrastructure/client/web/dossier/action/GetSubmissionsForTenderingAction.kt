@@ -55,21 +55,23 @@ abstract class GetSubmissionsForTenderingAction : FunctionalAction<GetSubmission
 
             @param:JsonProperty("status") @field:JsonProperty("status") val status: SubmissionStatus,
             @param:JsonProperty("date") @field:JsonProperty("date") val date: LocalDateTime
-        ) {
+        ) : Serializable {
+
             data class RequirementResponse(
                 @param:JsonProperty("id") @field:JsonProperty("id") val id: RequirementResponseId,
                 @param:JsonProperty("value") @field:JsonProperty("value") val value: RequirementResponseValue,
                 @param:JsonProperty("requirement") @field:JsonProperty("requirement") val requirement: Requirement,
                 @param:JsonProperty("relatedCandidate") @field:JsonProperty("relatedCandidate") val relatedCandidate: RelatedCandidate
-            ) {
+            ) : Serializable {
+
                 data class Requirement(
                     @param:JsonProperty("id") @field:JsonProperty("id") val id: RequirementId
-                )
+                ) : Serializable
 
                 data class RelatedCandidate(
                     @param:JsonProperty("id") @field:JsonProperty("id") val id: OrganizationId,
                     @param:JsonProperty("name") @field:JsonProperty("name") val name: String
-                )
+                ) : Serializable
             }
 
             data class Candidate(
@@ -87,7 +89,8 @@ abstract class GetSubmissionsForTenderingAction : FunctionalAction<GetSubmission
                 @param:JsonProperty("persones") @field:JsonProperty("persones") val persones: List<Persone>?,
 
                 @param:JsonProperty("details") @field:JsonProperty("details") val details: Details
-            ) {
+            ) : Serializable {
+
                 data class Identifier(
                     @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
                     @param:JsonProperty("legalName") @field:JsonProperty("legalName") val legalName: String,
@@ -95,7 +98,7 @@ abstract class GetSubmissionsForTenderingAction : FunctionalAction<GetSubmission
 
                     @JsonInclude(JsonInclude.Include.NON_NULL)
                     @param:JsonProperty("uri") @field:JsonProperty("uri") val uri: String?
-                )
+                ) : Serializable
 
                 data class AdditionalIdentifier(
                     @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
@@ -104,7 +107,7 @@ abstract class GetSubmissionsForTenderingAction : FunctionalAction<GetSubmission
 
                     @JsonInclude(JsonInclude.Include.NON_NULL)
                     @param:JsonProperty("uri") @field:JsonProperty("uri") val uri: String?
-                )
+                ) : Serializable
 
                 data class Address(
                     @param:JsonProperty("streetAddress") @field:JsonProperty("streetAddress") val streetAddress: String,
@@ -113,25 +116,26 @@ abstract class GetSubmissionsForTenderingAction : FunctionalAction<GetSubmission
                     @param:JsonProperty("postalCode") @field:JsonProperty("postalCode") val postalCode: String?,
 
                     @param:JsonProperty("addressDetails") @field:JsonProperty("addressDetails") val addressDetails: AddressDetails
-                ) {
+                ) : Serializable {
                     data class AddressDetails(
                         @param:JsonProperty("country") @field:JsonProperty("country") val country: Country,
                         @param:JsonProperty("region") @field:JsonProperty("region") val region: Region,
                         @param:JsonProperty("locality") @field:JsonProperty("locality") val locality: Locality
-                    ) {
+                    ) : Serializable {
+
                         data class Country(
                             @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
                             @param:JsonProperty("description") @field:JsonProperty("description") val description: String,
                             @param:JsonProperty("scheme") @field:JsonProperty("scheme") val scheme: String,
                             @param:JsonProperty("uri") @field:JsonProperty("uri") val uri: String
-                        )
+                        ) : Serializable
 
                         data class Region(
                             @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
                             @param:JsonProperty("description") @field:JsonProperty("description") val description: String,
                             @param:JsonProperty("scheme") @field:JsonProperty("scheme") val scheme: String,
                             @param:JsonProperty("uri") @field:JsonProperty("uri") val uri: String
-                        )
+                        ) : Serializable
 
                         data class Locality(
                             @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
@@ -140,7 +144,7 @@ abstract class GetSubmissionsForTenderingAction : FunctionalAction<GetSubmission
 
                             @JsonInclude(JsonInclude.Include.NON_NULL)
                             @param:JsonProperty("uri") @field:JsonProperty("uri") val uri: String?
-                        )
+                        ) : Serializable
                     }
                 }
 
@@ -154,7 +158,7 @@ abstract class GetSubmissionsForTenderingAction : FunctionalAction<GetSubmission
 
                     @JsonInclude(JsonInclude.Include.NON_NULL)
                     @param:JsonProperty("url") @field:JsonProperty("url") val url: String?
-                )
+                ) : Serializable
 
                 data class Persone(
                     @param:JsonProperty("id") @field:JsonProperty("id") val id: PersonId,
@@ -162,14 +166,15 @@ abstract class GetSubmissionsForTenderingAction : FunctionalAction<GetSubmission
                     @param:JsonProperty("name") @field:JsonProperty("name") val name: String,
                     @param:JsonProperty("identifier") @field:JsonProperty("identifier") val identifier: Identifier,
                     @param:JsonProperty("businessFunctions") @field:JsonProperty("businessFunctions") val businessFunctions: List<BusinessFunction>
-                ) {
+                ) : Serializable {
+
                     data class Identifier(
                         @param:JsonProperty("scheme") @field:JsonProperty("scheme") val scheme: String,
                         @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
 
                         @JsonInclude(JsonInclude.Include.NON_NULL)
                         @param:JsonProperty("uri") @field:JsonProperty("uri") val uri: String?
-                    )
+                    ) : Serializable
 
                     data class BusinessFunction(
                         @param:JsonProperty("id") @field:JsonProperty("id") val id: BusinessFunctionId,
@@ -179,11 +184,12 @@ abstract class GetSubmissionsForTenderingAction : FunctionalAction<GetSubmission
 
                         @JsonInclude(JsonInclude.Include.NON_EMPTY)
                         @param:JsonProperty("documents") @field:JsonProperty("documents") val documents: List<Document>?
-                    ) {
+                    ) : Serializable {
+
                         data class Period(
                             @JsonInclude(JsonInclude.Include.NON_NULL)
                             @param:JsonProperty("startDate") @field:JsonProperty("startDate") val startDate: LocalDateTime?
-                        )
+                        ) : Serializable
 
                         data class Document(
                             @param:JsonProperty("id") @field:JsonProperty("id") val id: DocumentId,
@@ -192,7 +198,7 @@ abstract class GetSubmissionsForTenderingAction : FunctionalAction<GetSubmission
 
                             @JsonInclude(JsonInclude.Include.NON_NULL)
                             @param:JsonProperty("description") @field:JsonProperty("description") val description: String?
-                        )
+                        ) : Serializable
                     }
                 }
 
@@ -209,7 +215,8 @@ abstract class GetSubmissionsForTenderingAction : FunctionalAction<GetSubmission
 
                     @JsonInclude(JsonInclude.Include.NON_NULL)
                     @param:JsonProperty("legalForm") @field:JsonProperty("legalForm") val legalForm: LegalForm?
-                ) {
+                ) : Serializable {
+
                     data class MainEconomicActivity(
                         @param:JsonProperty("scheme") @field:JsonProperty("scheme") val scheme: String,
                         @param:JsonProperty("id") @field:JsonProperty("id") val id: MainEconomicActivityId,
@@ -217,7 +224,7 @@ abstract class GetSubmissionsForTenderingAction : FunctionalAction<GetSubmission
 
                         @JsonInclude(JsonInclude.Include.NON_NULL)
                         @param:JsonProperty("uri") @field:JsonProperty("uri") val uri: String?
-                    )
+                    ) : Serializable
 
                     data class BankAccount(
                         @param:JsonProperty("description") @field:JsonProperty("description") val description: String,
@@ -228,7 +235,8 @@ abstract class GetSubmissionsForTenderingAction : FunctionalAction<GetSubmission
 
                         @JsonInclude(JsonInclude.Include.NON_EMPTY)
                         @param:JsonProperty("additionalAccountIdentifiers") @field:JsonProperty("additionalAccountIdentifiers") val additionalAccountIdentifiers: List<AdditionalAccountIdentifier>?
-                    ) {
+                    ) : Serializable {
+
                         data class Address(
                             @param:JsonProperty("streetAddress") @field:JsonProperty("streetAddress") val streetAddress: String,
 
@@ -236,46 +244,48 @@ abstract class GetSubmissionsForTenderingAction : FunctionalAction<GetSubmission
                             @param:JsonProperty("postalCode") @field:JsonProperty("postalCode") val postalCode: String?,
 
                             @param:JsonProperty("addressDetails") @field:JsonProperty("addressDetails") val addressDetails: AddressDetails
-                        ) {
+                        ) : Serializable {
+
                             data class AddressDetails(
                                 @param:JsonProperty("country") @field:JsonProperty("country") val country: Country,
                                 @param:JsonProperty("region") @field:JsonProperty("region") val region: Region,
                                 @param:JsonProperty("locality") @field:JsonProperty("locality") val locality: Locality
-                            ) {
+                            ) : Serializable {
+
                                 data class Country(
                                     @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
                                     @param:JsonProperty("description") @field:JsonProperty("description") val description: String,
                                     @param:JsonProperty("scheme") @field:JsonProperty("scheme") val scheme: String
-                                )
+                                ) : Serializable
 
                                 data class Region(
                                     @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
                                     @param:JsonProperty("description") @field:JsonProperty("description") val description: String,
                                     @param:JsonProperty("scheme") @field:JsonProperty("scheme") val scheme: String
-                                )
+                                ) : Serializable
 
                                 data class Locality(
                                     @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
                                     @param:JsonProperty("description") @field:JsonProperty("description") val description: String,
                                     @param:JsonProperty("scheme") @field:JsonProperty("scheme") val scheme: String
-                                )
+                                ) : Serializable
                             }
                         }
 
                         data class Identifier(
                             @param:JsonProperty("scheme") @field:JsonProperty("scheme") val scheme: String,
                             @param:JsonProperty("id") @field:JsonProperty("id") val id: String
-                        )
+                        ) : Serializable
 
                         data class AccountIdentification(
                             @param:JsonProperty("scheme") @field:JsonProperty("scheme") val scheme: String,
                             @param:JsonProperty("id") @field:JsonProperty("id") val id: String
-                        )
+                        ) : Serializable
 
                         data class AdditionalAccountIdentifier(
                             @param:JsonProperty("scheme") @field:JsonProperty("scheme") val scheme: String,
                             @param:JsonProperty("id") @field:JsonProperty("id") val id: String
-                        )
+                        ) : Serializable
                     }
 
                     data class LegalForm(
@@ -285,7 +295,7 @@ abstract class GetSubmissionsForTenderingAction : FunctionalAction<GetSubmission
 
                         @JsonInclude(JsonInclude.Include.NON_NULL)
                         @param:JsonProperty("uri") @field:JsonProperty("uri") val uri: String?
-                    )
+                    ) : Serializable
                 }
             }
 
@@ -296,7 +306,7 @@ abstract class GetSubmissionsForTenderingAction : FunctionalAction<GetSubmission
 
                 @JsonInclude(JsonInclude.Include.NON_NULL)
                 @param:JsonProperty("description") @field:JsonProperty("description") val description: String?
-            )
+            ) : Serializable
         }
     }
 }

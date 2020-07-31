@@ -7,8 +7,10 @@ import com.procurement.orchestrator.application.model.context.extension.tryGetTe
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.delegate.kafka.MessageProducer
+import com.procurement.orchestrator.domain.Context
 import com.procurement.orchestrator.domain.chronograph.ActionType
 import com.procurement.orchestrator.domain.chronograph.ScheduleTask
+import com.procurement.orchestrator.domain.extension.date.toMilliseconds
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.failure
@@ -16,7 +18,6 @@ import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
-import com.procurement.orchestrator.infrastructure.bpms.model.chronograph.ChronographMetadata
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import org.springframework.stereotype.Component
@@ -54,7 +55,7 @@ class ChronographScheduleEndTenderPeriodDelegate(
         val tender = context.tryGetTender()
             .orForwardFail { fail -> return fail }
 
-        val launchTime = tender.tenderPeriod?.endDate
+        val launchTime = tender.tenderPeriod!!.endDate!!
         val uuid = UUIDs.timeBased().toString()
         val processType =
             if (processInfo.isAuction)
@@ -62,18 +63,17 @@ class ChronographScheduleEndTenderPeriodDelegate(
             else
                 PROCESS_TYPE_TENDER_PERIOD_END
 
-        val contextChronograph = ChronographMetadata(
-            operationId = uuid,
-            requestId = uuid,
-            cpid = processInfo.cpid,
-            ocid = processInfo.ocid,
-            phase = PHASE_TENDERING,
-            timeStamp = launchTime,
-            processType = processType,
-            isAuction = processInfo.isAuction,
-            owner = requestInfo.owner,
-            platformId = requestInfo.owner
-        )
+        val contextChronograph = Context.Builder()
+            .setOperationId(uuid)
+            .setRequestId(uuid)
+            .setCpid(processInfo.cpid.toString())
+            .setOcid(processInfo.ocid.toString())
+            .setPhase(PHASE_TENDERING)
+            .setTimeStamp(launchTime.toMilliseconds())
+            .setProcessType(processType)
+            .setIsAuction(processInfo.isAuction)
+            .setOwner(requestInfo.owner.toString())
+            .build()
 
         val metaData = transform.trySerialization(contextChronograph)
             .orForwardFail { fail -> return fail }

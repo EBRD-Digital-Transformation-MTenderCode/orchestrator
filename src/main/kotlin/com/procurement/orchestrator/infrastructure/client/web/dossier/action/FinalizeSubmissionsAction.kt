@@ -3,6 +3,8 @@ package com.procurement.orchestrator.infrastructure.client.web.dossier.action
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.procurement.orchestrator.application.service.FunctionalAction
+import com.procurement.orchestrator.domain.model.Cpid
+import com.procurement.orchestrator.domain.model.Ocid
 import com.procurement.orchestrator.domain.model.qualification.QualificationId
 import com.procurement.orchestrator.domain.model.qualification.QualificationStatus
 import com.procurement.orchestrator.domain.model.submission.Submission
@@ -18,6 +20,8 @@ abstract class FinalizeSubmissionsAction : FunctionalAction<FinalizeSubmissionsA
     override val target: Target<Result> = Target.single()
 
     class Params(
+        @param:JsonProperty("cpid") @field:JsonProperty("cpid") val cpid: Cpid,
+        @param:JsonProperty("ocid") @field:JsonProperty("ocid") val ocid: Ocid,
         @field:JsonProperty("qualifications") @param:JsonProperty("qualifications") val qualifications: List<Qualification>
     ) {
         data class Qualification(
