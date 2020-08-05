@@ -63,6 +63,8 @@ public class BpeAnalyzeProcedureType implements JavaDelegate {
             case TEST_SV:
             case MV:
             case TEST_MV:
+            case GPA:
+            case TEST_GPA:
                 return Optional.of(true);
             case DA:
             case TEST_DA:
