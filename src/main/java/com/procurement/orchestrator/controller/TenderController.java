@@ -1,7 +1,5 @@
 package com.procurement.orchestrator.controller;
 
-import java.util.HashMap;
-import java.util.Map;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -23,6 +21,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 public class TenderController extends DoBaseController {
@@ -470,6 +471,8 @@ public class TenderController extends DoBaseController {
             case TEST_SV:
             case MV:
             case TEST_MV:
+            case GPA:
+            case TEST_GPA:
                 process = "startConsiderByAward";
                 break;
 
