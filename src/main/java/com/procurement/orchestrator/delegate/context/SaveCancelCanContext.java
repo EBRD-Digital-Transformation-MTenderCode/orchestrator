@@ -36,8 +36,8 @@ public class SaveCancelCanContext implements JavaDelegate {
         if (context.getOperationType().equals(OperationType.CANCEL_CAN_CONTRACT.value())) {
             context.setStage(Stage.AC.value());
             context.setPhase("empty");
-            final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
-            final String acId = jsonData.get("contract").get("id").asText();
+            final JsonNode jsonData = jsonUtil.toJsonNode(entity.getRequestData());
+            final String acId = jsonData.get("data").get("contract").get("id").asText();
             context.setOcid(acId);
             operationService.saveContractContext(acId, context);
         }
