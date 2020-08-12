@@ -36,7 +36,6 @@ class ChronographScheduleEndTenderPeriodDelegate(
 
     companion object {
         private const val PROCESS_TYPE_TENDER_PERIOD_END = "tenderPeriodEnd"
-        private const val PROCESS_TYPE_TENDER_PERIOD_END_AUCTION = "tenderPeriodEndAuction"
         private const val PHASE_TENDERING = "tendering"
     }
 
@@ -57,11 +56,6 @@ class ChronographScheduleEndTenderPeriodDelegate(
 
         val launchTime = tender.tenderPeriod!!.endDate!!
         val uuid = UUIDs.timeBased().toString()
-        val processType =
-            if (processInfo.isAuction)
-                PROCESS_TYPE_TENDER_PERIOD_END_AUCTION
-            else
-                PROCESS_TYPE_TENDER_PERIOD_END
 
         val contextChronograph = Context.Builder()
             .setOperationId(uuid)
@@ -70,7 +64,7 @@ class ChronographScheduleEndTenderPeriodDelegate(
             .setOcid(processInfo.ocid.toString())
             .setPhase(PHASE_TENDERING)
             .setTimeStamp(launchTime.toMilliseconds())
-            .setProcessType(processType)
+            .setProcessType(PROCESS_TYPE_TENDER_PERIOD_END)
             .setIsAuction(processInfo.isAuction)
             .setOwner(requestInfo.owner.toString())
             .build()
