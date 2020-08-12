@@ -23,8 +23,12 @@ abstract class DoInvitationsAction : FunctionalAction<DoInvitationsAction.Params
     class Params(
         @param:JsonProperty("cpid") @field:JsonProperty("cpid") val cpid: Cpid,
         @param:JsonProperty("date") @field:JsonProperty("date") val date: LocalDateTime,
-        @param:JsonProperty("qualifications") @field:JsonProperty("qualifications") val qualifications: List<Qualification>,
-        @param:JsonProperty("submissions") @field:JsonProperty("submissions") val submissions: Submissions
+
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        @param:JsonProperty("qualifications") @field:JsonProperty("qualifications") val qualifications: List<Qualification>?,
+
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        @param:JsonProperty("submissions") @field:JsonProperty("submissions") val submissions: Submissions?
     ) {
         data class Qualification(
             @param:JsonProperty("id") @field:JsonProperty("id") val id: QualificationId,

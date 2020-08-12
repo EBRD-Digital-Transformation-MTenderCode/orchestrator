@@ -58,8 +58,8 @@ class SubmissionDoInvitationsDelegate(
                         statusDetails = qualification.statusDetails
                     )
                 },
-                submissions = DoInvitationsAction.Params.Submissions(
-                    details = submissions?.details?.map { details ->
+                submissions = submissions?.details
+                    ?.map { details ->
                         DoInvitationsAction.Params.Submissions.Detail(
                             id = details.id,
                             candidates = details.candidates.map { candidate ->
@@ -69,9 +69,7 @@ class SubmissionDoInvitationsDelegate(
                                 )
                             }
                         )
-                    }
-
-                )
+                    }?.let { DoInvitationsAction.Params.Submissions(it) }
             )
         )
     }
