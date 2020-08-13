@@ -322,3 +322,6 @@ INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_ph
 INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_SV','treasuryApprovingAC','AC','verification','verified','AC','treasuryApprovingAC');
 INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_SV','activationAC','AC','verified','execution','AC','activationAC');
 INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_SV','activationAC','AC','signedContract','execution','AC','activationAC');
+
+INSERT INTO orchestrator.rules (country,pmd,process_definition_key,stage_from,phase_from,operation_type,phase_to,stage_to) VALUES ('MD','TEST_GPA','cancelLot','TP','awarding','lotCancellation','awarding','TP');
+INSERT INTO orchestrator.rules (country,pmd,process_definition_key,stage_from,phase_from,operation_type,phase_to,stage_to) VALUES ('MD','TEST_GPA','cancelTender','TP','awarding','tenderCancellation','awarding','TP');
