@@ -6,6 +6,7 @@ import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
 import com.procurement.orchestrator.infrastructure.client.web.Target
 import com.procurement.orchestrator.infrastructure.model.Version
+import java.io.Serializable
 import java.time.LocalDateTime
 
 abstract class GetSubmissionPeriodEndDateAction :
@@ -22,5 +23,5 @@ abstract class GetSubmissionPeriodEndDateAction :
 
     class Result(
         @field:JsonProperty("endDate") @param:JsonProperty("endDate") val endDate: LocalDateTime
-    )
+    ): Serializable
 }
