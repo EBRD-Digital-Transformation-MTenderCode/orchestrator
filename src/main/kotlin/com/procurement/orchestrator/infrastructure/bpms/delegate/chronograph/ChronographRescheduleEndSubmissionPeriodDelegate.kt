@@ -3,7 +3,8 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.chronograph
 import com.datastax.driver.core.utils.UUIDs
 import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
-import com.procurement.orchestrator.application.model.context.extension.tryGetTender
+import com.procurement.orchestrator.application.model.context.extension.tryGetPeriod
+import com.procurement.orchestrator.application.model.context.extension.tryGetPreQualification
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.delegate.kafka.MessageProducer
@@ -50,10 +51,13 @@ class ChronographRescheduleEndSubmissionPeriodDelegate(
         val processInfo = context.processInfo
         val requestInfo = context.requestInfo
 
-        val tender = context.tryGetTender()
+        val preQualification = context.tryGetPreQualification()
             .orForwardFail { fail -> return fail }
 
-        val launchTime = tender.tenderPeriod!!.endDate!!
+        val period = preQualification.tryGetPeriod()
+            .orForwardFail { fail -> return fail }
+
+        val launchTime = period.endDate!!
         val uuid = UUIDs.timeBased().toString()
 
         val contextChronograph = ChronographMessage.Metadata(
