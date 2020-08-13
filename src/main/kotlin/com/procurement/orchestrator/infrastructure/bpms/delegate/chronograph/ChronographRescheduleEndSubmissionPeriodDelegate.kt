@@ -3,14 +3,13 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.chronograph
 import com.datastax.driver.core.utils.UUIDs
 import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
-import com.procurement.orchestrator.application.model.context.extension.tryGetTender
+import com.procurement.orchestrator.application.model.context.extension.tryGetPeriod
+import com.procurement.orchestrator.application.model.context.extension.tryGetPreQualification
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.delegate.kafka.MessageProducer
-import com.procurement.orchestrator.domain.Context
 import com.procurement.orchestrator.domain.chronograph.ActionType
 import com.procurement.orchestrator.domain.chronograph.ScheduleTask
-import com.procurement.orchestrator.domain.extension.date.toMilliseconds
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.failure
@@ -20,10 +19,11 @@ import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExterna
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
+import com.procurement.orchestrator.infrastructure.message.chronograph.ChronographMessage
 import org.springframework.stereotype.Component
 
 @Component
-class ChronographScheduleEndTenderPeriodDelegate(
+class ChronographRescheduleEndSubmissionPeriodDelegate(
     private val messageProducer: MessageProducer,
     private val transform: Transform,
     operationStepRepository: OperationStepRepository,
@@ -35,8 +35,8 @@ class ChronographScheduleEndTenderPeriodDelegate(
 ) {
 
     companion object {
-        private const val PROCESS_TYPE_TENDER_PERIOD_END = "tenderPeriodEnd"
-        private const val PHASE_TENDERING = "tendering"
+        private const val PROCESS_TYPE_SUBMISSION_PERIOD_END = "submissionPeriodEnd"
+        private const val PHASE_SUBMISSION = "submission"
     }
 
     override fun parameters(parameterContainer: ParameterContainer): Result<Unit, Fail.Incident.Bpmn.Parameter> =
@@ -51,37 +51,50 @@ class ChronographScheduleEndTenderPeriodDelegate(
         val processInfo = context.processInfo
         val requestInfo = context.requestInfo
 
-        val tender = context.tryGetTender()
+        val preQualification = context.tryGetPreQualification()
             .orForwardFail { fail -> return fail }
 
-        val launchTime = tender.tenderPeriod!!.endDate!!
+        val period = preQualification.tryGetPeriod()
+            .orForwardFail { fail -> return fail }
+
+        val launchTime = period.endDate!!
         val uuid = UUIDs.timeBased().toString()
 
-        val contextChronograph = Context.Builder()
-            .setOperationId(uuid)
-            .setRequestId(uuid)
-            .setCpid(processInfo.cpid.toString())
-            .setOcid(processInfo.ocid.toString())
-            .setPhase(PHASE_TENDERING)
-            .setTimeStamp(launchTime.toMilliseconds())
-            .setProcessType(PROCESS_TYPE_TENDER_PERIOD_END)
-            .setIsAuction(processInfo.isAuction)
-            .setOwner(requestInfo.owner.toString())
-            .build()
+        val contextChronograph = ChronographMessage.Metadata(
+            operationId = uuid,
+            requestId = uuid,
+            cpid = processInfo.cpid.toString(),
+            ocid = processInfo.ocid.toString(),
+            processType = PROCESS_TYPE_SUBMISSION_PERIOD_END,
+            owner = requestInfo.owner.toString(),
+            timestamp = launchTime
+        )
 
         val metaData = transform.trySerialization(contextChronograph)
             .orForwardFail { fail -> return fail }
 
-        val task = ScheduleTask(
+        val cancelTask = ScheduleTask(
+            ActionType.CANCEL,
+            processInfo.cpid.toString(),
+            PHASE_SUBMISSION,
+            null,
+            null,
+            null
+        )
+
+        sendToChronograph(cancelTask)
+            .orForwardFail { fail -> return fail }
+
+        val scheduleTask = ScheduleTask(
             ActionType.SCHEDULE,
             processInfo.cpid.toString(),
-            PHASE_TENDERING,
+            PHASE_SUBMISSION,
             launchTime,
             null,  /*newLaunchTime*/
             metaData
         )
 
-        sendToChronograph(task)
+        sendToChronograph(scheduleTask)
             .orForwardFail { fail -> return fail }
 
         return success(Reply.None)
@@ -99,3 +112,4 @@ class ChronographScheduleEndTenderPeriodDelegate(
         )
     }
 }
+

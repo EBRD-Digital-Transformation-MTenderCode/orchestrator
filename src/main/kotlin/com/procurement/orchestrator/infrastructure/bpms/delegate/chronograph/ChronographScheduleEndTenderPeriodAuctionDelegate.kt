@@ -23,7 +23,7 @@ import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import org.springframework.stereotype.Component
 
 @Component
-class ChronographScheduleEndTenderPeriodDelegate(
+class ChronographScheduleEndTenderPeriodAuctionDelegate(
     private val messageProducer: MessageProducer,
     private val transform: Transform,
     operationStepRepository: OperationStepRepository,
@@ -35,7 +35,7 @@ class ChronographScheduleEndTenderPeriodDelegate(
 ) {
 
     companion object {
-        private const val PROCESS_TYPE_TENDER_PERIOD_END = "tenderPeriodEnd"
+        private const val PROCESS_TYPE_TENDER_PERIOD_END_AUCTION = "tenderPeriodEndAuction"
         private const val PHASE_TENDERING = "tendering"
     }
 
@@ -64,7 +64,7 @@ class ChronographScheduleEndTenderPeriodDelegate(
             .setOcid(processInfo.ocid.toString())
             .setPhase(PHASE_TENDERING)
             .setTimeStamp(launchTime.toMilliseconds())
-            .setProcessType(PROCESS_TYPE_TENDER_PERIOD_END)
+            .setProcessType(PROCESS_TYPE_TENDER_PERIOD_END_AUCTION)
             .setIsAuction(processInfo.isAuction)
             .setOwner(requestInfo.owner.toString())
             .build()
