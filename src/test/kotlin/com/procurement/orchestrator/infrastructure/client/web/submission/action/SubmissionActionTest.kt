@@ -11,8 +11,13 @@ class SubmissionActionTest {
         @Nested
         inner class Params {
             @Test
-            fun required() {
+            fun fully() {
                 testingBindingAndMapping<DoInvitationsAction.Params>("json/client/submission/do_invitations_params_full.json")
+            }
+
+            @Test
+            fun required() {
+                testingBindingAndMapping<DoInvitationsAction.Params>("json/client/submission/do_invitations_params_required.json")
             }
         }
 
