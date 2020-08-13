@@ -22,7 +22,7 @@ import com.procurement.orchestrator.infrastructure.message.chronograph.Chronogra
 import org.springframework.stereotype.Component
 
 @Component
-class ChronographRescheduleEndTenderPeriodDelegate(
+class ChronographRescheduleEndSubmissionPeriodDelegate(
     private val messageProducer: MessageProducer,
     private val transform: Transform,
     operationStepRepository: OperationStepRepository,
