@@ -63,11 +63,19 @@ public class BpeAnalyzeProcurementMethod implements JavaDelegate {
             case TEST_SV:
             case MV:
             case TEST_MV:
+            case RT:
+            case TEST_RT:
             case GPA:
             case TEST_GPA:
                 return Optional.of(true);
+            case CD:
+            case TEST_CD:
             case DA:
             case TEST_DA:
+            case DC:
+            case TEST_DC:
+            case IP:
+            case TEST_IP:
             case NP:
             case TEST_NP:
             case OP:
