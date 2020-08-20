@@ -1,12 +1,5 @@
 package com.procurement.orchestrator.service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
 import com.datastax.driver.core.utils.UUIDs;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -28,6 +21,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.*;
 
 @Service
 public class ProcessServiceImpl implements ProcessService {
@@ -1116,6 +1111,7 @@ public class ProcessServiceImpl implements ProcessService {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
             final ObjectNode tenderNode = mainNode.putObject("tender");
             tenderNode.replace("classification", jsonData.get("tender").get("classification"));
+            tenderNode.replace("items", jsonData.get("tender").get("items"));
             mainNode.replace("buyer", jsonData.get("buyer"));
             return mainNode;
         } catch (Exception e) {
@@ -1130,6 +1126,7 @@ public class ProcessServiceImpl implements ProcessService {
             final ObjectNode tenderNode = (ObjectNode) jsonData.get("tender");
             tenderNode.replace("classification", responseData.get("tender").get("classification"));
             tenderNode.replace("mainProcurementCategory", responseData.get("tender").get("mainProcurementCategory"));
+            tenderNode.replace("items", responseData.get("tender").get("items"));
             mainNode.replace("buyer", responseData.get("buyer"));
             return jsonData;
         } catch (Exception e) {
