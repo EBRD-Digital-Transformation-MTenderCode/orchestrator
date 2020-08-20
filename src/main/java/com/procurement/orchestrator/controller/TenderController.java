@@ -97,11 +97,19 @@ public class TenderController extends DoBaseController {
             case TEST_DA:
             case NP:
             case TEST_NP:
+            case CD:
+            case TEST_CD:
+            case DC:
+            case TEST_DC:
+            case IP:
+            case TEST_IP:
             case OP:
             case TEST_OP:
                 processType = "updateCnOp";
                 break;
 
+            case RT:
+            case TEST_RT:
             case GPA:
             case TEST_GPA:
                 processType = "updateCnSp";
@@ -128,10 +136,18 @@ public class TenderController extends DoBaseController {
             case TEST_DA:
             case NP:
             case TEST_NP:
+            case CD:
+            case TEST_CD:
+            case DC:
+            case TEST_DC:
+            case IP:
+            case TEST_IP:
             case OP:
             case TEST_OP:
                 break;
 
+            case RT:
+            case TEST_RT:
             case GPA:
             case TEST_GPA:
                 processService.setPreQualificationPeriodStartDate(data, startDate, null);
@@ -471,6 +487,8 @@ public class TenderController extends DoBaseController {
             case TEST_SV:
             case MV:
             case TEST_MV:
+            case RT:
+            case TEST_RT:
             case GPA:
             case TEST_GPA:
                 process = "startConsiderByAward";
