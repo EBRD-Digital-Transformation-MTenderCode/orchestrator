@@ -6,7 +6,7 @@ import com.procurement.orchestrator.application.repository.ProcessDefinitionRepo
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.asSuccess
-import com.procurement.orchestrator.domain.model.ProcurementMethod
+import com.procurement.orchestrator.domain.model.ProcurementMethodDetails
 import com.procurement.orchestrator.domain.model.address.country.CountryId
 import com.procurement.orchestrator.infrastructure.extension.cassandra.tryExecute
 
@@ -33,7 +33,7 @@ class CassandraProcessDefinitionRepository(private val session: Session) : Proce
 
     override fun getProcessDefinitionKey(
         countryId: CountryId,
-        pmd: ProcurementMethod,
+        pmd: ProcurementMethodDetails,
         processName: String
     ): Result<ProcessDefinitionKey?, Fail.Incident.Database.Access> = preparedGetProcessDefinitionKeyCQL.bind()
         .apply {

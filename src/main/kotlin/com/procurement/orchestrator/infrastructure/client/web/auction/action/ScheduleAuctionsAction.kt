@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.procurement.orchestrator.application.model.OperationId
 import com.procurement.orchestrator.application.service.FunctionalActionV1
 import com.procurement.orchestrator.domain.model.Cpid
-import com.procurement.orchestrator.domain.model.ProcurementMethod
+import com.procurement.orchestrator.domain.model.ProcurementMethodDetails
 import com.procurement.orchestrator.domain.model.lot.LotId
 import com.procurement.orchestrator.domain.model.measure.Amount
 import com.procurement.orchestrator.domain.model.tender.auction.AuctionId
@@ -24,7 +24,7 @@ abstract class ScheduleAuctionsAction : FunctionalActionV1<ScheduleAuctionsActio
         @field:JsonProperty("startDate") @param:JsonProperty("startDate") val startDate: LocalDateTime,
         @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid,
         @field:JsonProperty("country") @param:JsonProperty("country") val country: String,
-        @field:JsonProperty("pmd") @param:JsonProperty("pmd") val pmd: ProcurementMethod
+        @field:JsonProperty("pmd") @param:JsonProperty("pmd") val pmd: ProcurementMethodDetails
     )
 
     class Data(

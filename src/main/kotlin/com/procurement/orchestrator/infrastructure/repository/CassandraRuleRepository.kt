@@ -11,7 +11,7 @@ import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.asSuccess
-import com.procurement.orchestrator.domain.model.ProcurementMethod
+import com.procurement.orchestrator.domain.model.ProcurementMethodDetails
 import com.procurement.orchestrator.domain.model.address.country.CountryId
 import com.procurement.orchestrator.infrastructure.extension.cassandra.tryExecute
 
@@ -59,7 +59,7 @@ class CassandraRuleRepository(private val session: Session) : RuleRepository {
 
     override fun load(
         countryId: CountryId,
-        pmd: ProcurementMethod,
+        pmd: ProcurementMethodDetails,
         processDefinitionKey: ProcessDefinitionKey
     ): Result<List<Rule>, Fail.Incident.Database> = preparedLoadRulesCQL.bind()
         .apply {
@@ -98,7 +98,7 @@ class CassandraRuleRepository(private val session: Session) : RuleRepository {
 
     override fun load(
         countryId: CountryId,
-        pmd: ProcurementMethod,
+        pmd: ProcurementMethodDetails,
         processDefinitionKey: ProcessDefinitionKey,
         stageFrom: Stage?,
         phaseFrom: Phase?
