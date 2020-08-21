@@ -41,6 +41,8 @@ abstract class ScheduleAuctionsAction : FunctionalActionV1<ScheduleAuctionsActio
             @param:JsonProperty("details") @field:JsonProperty("details") val details: List<Detail>?
         ) {
             data class Detail(
+                @param:JsonProperty("id") @field:JsonProperty("id") val id: AuctionId,
+
                 @JsonInclude(JsonInclude.Include.NON_NULL)
                 @param:JsonProperty("relatedLot") @field:JsonProperty("relatedLot") val relatedLot: LotId?,
 
