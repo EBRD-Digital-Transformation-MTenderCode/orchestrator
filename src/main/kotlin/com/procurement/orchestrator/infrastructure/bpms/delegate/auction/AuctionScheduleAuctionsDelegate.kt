@@ -67,6 +67,7 @@ class AuctionScheduleAuctionsDelegate(
                     ScheduleAuctionsAction.Data.ElectronicAuctions(
                         details = electronicAuctions?.details?.map { detail ->
                             ScheduleAuctionsAction.Data.ElectronicAuctions.Detail(
+                                id = detail.id,
                                 relatedLot = detail.relatedLot,
                                 electronicAuctionModalities = detail.electronicAuctionModalities.map { electronicAuctionModality ->
                                     ScheduleAuctionsAction.Data.ElectronicAuctions.Detail.ElectronicAuctionModality(
