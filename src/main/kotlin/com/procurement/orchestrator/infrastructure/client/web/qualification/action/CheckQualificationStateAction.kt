@@ -5,7 +5,7 @@ import com.procurement.orchestrator.application.model.process.OperationTypeProce
 import com.procurement.orchestrator.application.service.ProceduralAction
 import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
-import com.procurement.orchestrator.domain.model.ProcurementMethod
+import com.procurement.orchestrator.domain.model.ProcurementMethodDetails
 import com.procurement.orchestrator.domain.model.address.country.CountryId
 import com.procurement.orchestrator.domain.model.qualification.QualificationId
 import com.procurement.orchestrator.infrastructure.model.Version
@@ -19,7 +19,7 @@ abstract class CheckQualificationStateAction : ProceduralAction<CheckQualificati
         @field:JsonProperty("ocid") @param:JsonProperty("ocid") val ocid: Ocid,
         @field:JsonProperty("qualificationId") @param:JsonProperty("qualificationId") val qualificationId: QualificationId,
         @field:JsonProperty("country") @param:JsonProperty("country") val country: CountryId,
-        @field:JsonProperty("pmd") @param:JsonProperty("pmd") val pmd: ProcurementMethod,
+        @field:JsonProperty("pmd") @param:JsonProperty("pmd") val pmd: ProcurementMethodDetails,
         @field:JsonProperty("operationType") @param:JsonProperty("operationType") val operationType: OperationTypeProcess
     )
 }

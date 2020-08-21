@@ -9,7 +9,7 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.functional.asFailure
-import com.procurement.orchestrator.domain.model.ProcurementMethod
+import com.procurement.orchestrator.domain.model.ProcurementMethodDetails
 import com.procurement.orchestrator.domain.model.address.country.CountryId
 import com.procurement.orchestrator.infrastructure.extension.jwt.PLATFORM_ID_CLAIM
 import com.procurement.orchestrator.infrastructure.extension.jwt.decodeJWT
@@ -99,15 +99,15 @@ fun HttpServletRequest.getToken(): Result<Token, RequestErrors.Header> {
 fun HttpServletRequest.getCountry(): Result<CountryId, RequestErrors.QueryParameter> =
     this.getRequiredQueryParam(QUERY_PARAM_COUNTRY)
 
-fun HttpServletRequest.getPmd(): Result<ProcurementMethod, RequestErrors.QueryParameter> {
+fun HttpServletRequest.getPmd(): Result<ProcurementMethodDetails, RequestErrors.QueryParameter> {
     val param: String = this.getRequiredQueryParam(QUERY_PARAM_PMD)
         .orForwardFail { fail -> return fail }
 
-    return ProcurementMethod.orNull(param)
+    return ProcurementMethodDetails.orNull(param)
         ?.let { success(it) }
         ?: RequestErrors.QueryParameter.UnknownValue(
             name = QUERY_PARAM_PMD,
-            expectedValues = ProcurementMethod.allowedElements.keysAsStrings(),
+            expectedValues = ProcurementMethodDetails.allowedElements.keysAsStrings(),
             actualValue = param
         )
             .asFailure()

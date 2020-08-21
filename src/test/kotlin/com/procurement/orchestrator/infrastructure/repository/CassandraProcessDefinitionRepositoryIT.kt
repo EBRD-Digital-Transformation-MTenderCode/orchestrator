@@ -14,7 +14,7 @@ import com.nhaarman.mockitokotlin2.whenever
 import com.procurement.orchestrator.application.model.process.ProcessDefinitionKey
 import com.procurement.orchestrator.application.repository.ProcessDefinitionRepository
 import com.procurement.orchestrator.domain.fail.Fail
-import com.procurement.orchestrator.domain.model.ProcurementMethod
+import com.procurement.orchestrator.domain.model.ProcurementMethodDetails
 import com.procurement.orchestrator.domain.model.address.country.CountryId
 import com.procurement.orchestrator.extension.junit.assertFailure
 import com.procurement.orchestrator.extension.junit.assertSuccess
@@ -40,7 +40,7 @@ class CassandraProcessDefinitionRepositoryIT {
         private const val COLUMN_PROCESS_DEFINITION_KEY = "process_definition_key"
 
         private const val COUNTRY_ID: String = "MD"
-        private val PMD = ProcurementMethod.DA
+        private val PMD = ProcurementMethodDetails.DA
         private const val PROCESS_NAME: String = "Process-1"
         private val PROCESS_DEFINITION_KEY: ProcessDefinitionKey = ProcessDefinitionKey("Process-key-1")
     }
@@ -111,7 +111,7 @@ class CassandraProcessDefinitionRepositoryIT {
 
     private fun insertProcess(
         countryId: CountryId = COUNTRY_ID,
-        pmd: ProcurementMethod = PMD,
+        pmd: ProcurementMethodDetails = PMD,
         processName: String = PROCESS_NAME,
         processDefinitionKey: ProcessDefinitionKey = PROCESS_DEFINITION_KEY
     ) {
