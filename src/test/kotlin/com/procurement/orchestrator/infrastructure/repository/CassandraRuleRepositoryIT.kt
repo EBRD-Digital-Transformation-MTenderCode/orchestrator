@@ -17,7 +17,7 @@ import com.procurement.orchestrator.application.model.process.OperationTypeProce
 import com.procurement.orchestrator.application.model.process.ProcessDefinitionKey
 import com.procurement.orchestrator.application.repository.RuleRepository
 import com.procurement.orchestrator.domain.fail.Fail
-import com.procurement.orchestrator.domain.model.ProcurementMethod
+import com.procurement.orchestrator.domain.model.ProcurementMethodDetails
 import com.procurement.orchestrator.domain.model.address.country.CountryId
 import com.procurement.orchestrator.extension.junit.assertFailure
 import com.procurement.orchestrator.extension.junit.assertSuccess
@@ -47,7 +47,7 @@ class CassandraRuleRepositoryIT {
         private const val COLUMN_OPERATION_TYPE = "operation_type"
 
         private const val COUNTRY_ID: String = "MD"
-        private val PMD = ProcurementMethod.DA
+        private val PMD = ProcurementMethodDetails.DA
         private val PROCESS_DEFINITION_KEY: ProcessDefinitionKey = ProcessDefinitionKey("Process-key-1")
         private val STAGE_PREV: Stage = Stage.EV
         private val STAGE_NEW: Stage = Stage.AC
@@ -131,7 +131,7 @@ class CassandraRuleRepositoryIT {
 
     private fun insertProcess(
         countryId: CountryId = COUNTRY_ID,
-        pmd: ProcurementMethod = PMD,
+        pmd: ProcurementMethodDetails = PMD,
         processDefinitionKey: ProcessDefinitionKey = PROCESS_DEFINITION_KEY,
         stageFrom: Stage = STAGE_PREV,
         stageTo: Stage = STAGE_NEW,

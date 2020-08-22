@@ -16,7 +16,7 @@ import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
-import com.procurement.orchestrator.domain.model.ProcurementMethod
+import com.procurement.orchestrator.domain.model.ProcurementMethodDetails
 import com.procurement.orchestrator.domain.model.address.country.CountryId
 import com.procurement.orchestrator.domain.model.tender.AwardCriteria
 import org.camunda.bpm.engine.RuntimeService
@@ -24,7 +24,7 @@ import org.camunda.bpm.engine.RuntimeService
 interface ProcessService {
     fun getProcessDefinitionKey(
         countryId: CountryId,
-        pmd: ProcurementMethod,
+        pmd: ProcurementMethodDetails,
         processName: String
     ): Result<ProcessDefinitionKey, Fail>
 
@@ -49,7 +49,7 @@ class ProcessServiceImpl(
 
     override fun getProcessDefinitionKey(
         countryId: CountryId,
-        pmd: ProcurementMethod,
+        pmd: ProcurementMethodDetails,
         processName: String
     ): Result<ProcessDefinitionKey, Fail> =
         processDefinitionRepository.getProcessDefinitionKey(countryId = countryId, pmd = pmd, processName = processName)
@@ -114,7 +114,7 @@ class ProcessServiceImpl(
             ?: return failure(Fail.Incident.Bpe(description = "The old process context does not contain the 'language' attribute."))
         val pmd = this.pmd
             ?.let { value ->
-                ProcurementMethod.orNull(value)
+                ProcurementMethodDetails.orNull(value)
                     ?: return failure(Fail.Incident.Bpe(description = "The old process context contain unknown value '$value' of the 'pmd' attribute."))
             }
             ?: return failure(Fail.Incident.Bpe(description = "The old process context does not contain the 'pmd' attribute."))

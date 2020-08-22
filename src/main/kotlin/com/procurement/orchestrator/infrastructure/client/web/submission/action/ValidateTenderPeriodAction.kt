@@ -6,7 +6,7 @@ import com.procurement.orchestrator.application.model.process.OperationTypeProce
 import com.procurement.orchestrator.application.service.ProceduralAction
 import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
-import com.procurement.orchestrator.domain.model.ProcurementMethod
+import com.procurement.orchestrator.domain.model.ProcurementMethodDetails
 import com.procurement.orchestrator.infrastructure.model.Version
 import java.time.LocalDateTime
 
@@ -19,7 +19,7 @@ abstract class ValidateTenderPeriodAction : ProceduralAction<ValidateTenderPerio
         @param:JsonProperty("ocid") @field:JsonProperty("ocid") val ocid: Ocid,
         @param:JsonProperty("date") @field:JsonProperty("date") val date: LocalDateTime,
         @param:JsonProperty("country") @field:JsonProperty("country") val country: String,
-        @param:JsonProperty("pmd") @field:JsonProperty("pmd") val pmd: ProcurementMethod,
+        @param:JsonProperty("pmd") @field:JsonProperty("pmd") val pmd: ProcurementMethodDetails,
         @param:JsonProperty("operationType") @field:JsonProperty("operationType") val operationType: OperationTypeProcess,
         @param:JsonProperty("tender") @field:JsonProperty("tender") val tender: Tender
     ) {

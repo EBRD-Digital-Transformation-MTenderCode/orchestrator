@@ -6,7 +6,7 @@ import com.procurement.orchestrator.application.model.process.OperationTypeProce
 import com.procurement.orchestrator.application.service.FunctionalAction
 import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
-import com.procurement.orchestrator.domain.model.ProcurementMethod
+import com.procurement.orchestrator.domain.model.ProcurementMethodDetails
 import com.procurement.orchestrator.domain.model.document.DocumentId
 import com.procurement.orchestrator.domain.model.document.DocumentType
 import com.procurement.orchestrator.domain.model.organization.OrganizationId
@@ -35,7 +35,7 @@ abstract class GetSubmissionsForTenderingAction : FunctionalAction<GetSubmission
     class Params(
         @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid,
         @field:JsonProperty("ocid") @param:JsonProperty("ocid") val ocid: Ocid,
-        @field:JsonProperty("pmd") @param:JsonProperty("pmd") val pmd: ProcurementMethod,
+        @field:JsonProperty("pmd") @param:JsonProperty("pmd") val pmd: ProcurementMethodDetails,
         @field:JsonProperty("country") @param:JsonProperty("country") val country: String,
         @field:JsonProperty("operationType") @param:JsonProperty("operationType") val operationType: OperationTypeProcess
     )

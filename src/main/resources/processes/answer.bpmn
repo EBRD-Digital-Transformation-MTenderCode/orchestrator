@@ -94,8 +94,8 @@
       <bpmn:outgoing>SequenceFlow_0kx3wva</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="Flow_14nwn3b" sourceRef="AccessSetTenderUnsuspendedTask" targetRef="Gateway_0wnooeu" />
-    <bpmn:sequenceFlow id="Flow_0n89tjm" name="GPA || TEST_GPA" sourceRef="Gateway_0wnooeu" targetRef="DossierExtendSubmissionPeriodTask">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${pmd == 'GPA' || pmd == 'TEST_GPA'}</bpmn:conditionExpression>
+    <bpmn:sequenceFlow id="Flow_0n89tjm" name="GPA, RT" sourceRef="Gateway_0wnooeu" targetRef="DossierExtendSubmissionPeriodTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${pmd == 'GPA' || pmd == 'TEST_GPA' || pmd == 'RT' || pmd == 'TEST_RT'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_0lhi27d" sourceRef="ClarificationAddAnswerUnsuspendedTask" targetRef="AccessSetTenderUnsuspendedTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1gv60od" name="true" sourceRef="ExclusiveGateway_0ai5ezj" targetRef="ClarificationAddAnswerUnsuspendedTask">
@@ -325,7 +325,7 @@
         <di:waypoint x="930" y="510" />
         <di:waypoint x="1020" y="510" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="901" y="526" width="58" height="27" />
+          <dc:Bounds x="930" y="526" width="44" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_14nwn3b_di" bpmnElement="Flow_14nwn3b">

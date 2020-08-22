@@ -3,7 +3,7 @@ package com.procurement.orchestrator.infrastructure.client.web.mdm.action
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.procurement.orchestrator.application.model.Phase
-import com.procurement.orchestrator.domain.model.ProcurementMethod
+import com.procurement.orchestrator.domain.model.ProcurementMethodDetails
 import com.procurement.orchestrator.domain.model.tender.criteria.Criterion
 import java.io.Serializable
 
@@ -12,7 +12,7 @@ abstract class GetCriteriaAction {
     class Params(
         @field:JsonProperty("lang") @param:JsonProperty("lang") val lang: String,
         @field:JsonProperty("country") @param:JsonProperty("country") val country: String,
-        @field:JsonProperty("pmd") @param:JsonProperty("pmd") val pmd: ProcurementMethod,
+        @field:JsonProperty("pmd") @param:JsonProperty("pmd") val pmd: ProcurementMethodDetails,
         @field:JsonProperty("phase") @param:JsonProperty("phase") val phase: Phase
     )
 
