@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import com.procurement.orchestrator.domain.EnumElementProvider
 
 enum class ProcurementMethodDetails(override val key: String) : EnumElementProvider.Key {
-    CD("DA"),
+    CD("CD"),
     DA("DA"),
     DC("DC"),
     FA("FA"),
