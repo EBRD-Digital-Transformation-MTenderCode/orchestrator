@@ -10,14 +10,16 @@ import java.util.Map;
 
 public enum AccessCommandType {
 
-    CREATE_PIN("createPin"),
-    CREATE_PN("createPn"),
-    UPDATE_PN("updatePn"),
+    CREATE_AP("createAp"),
     CREATE_CN("createCn"),
-    UPDATE_CN("updateCn"),
-    CREATE_PIN_ON_PN("createPinOnPn"),
     CREATE_CN_ON_PIN("createCnOnPin"),
     CREATE_CN_ON_PN("createCnOnPn"),
+    CREATE_PIN("createPin"),
+    CREATE_PIN_ON_PN("createPinOnPn"),
+    CREATE_PN("createPn"),
+
+    UPDATE_CN("updateCn"),
+    UPDATE_PN("updatePn"),
 
     SET_TENDER_SUSPENDED("setTenderSuspended"),
     SET_TENDER_UNSUSPENDED("setTenderUnsuspended"),
