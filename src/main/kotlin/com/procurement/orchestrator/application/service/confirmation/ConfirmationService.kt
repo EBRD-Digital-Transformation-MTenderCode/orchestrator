@@ -102,7 +102,13 @@ class ConfirmationServiceImpl(
                     isAuction = prevProcessContext.isAuction,
                     mainProcurementCategory = prevProcessContext.mainProcurementCategory,
                     awardCriteria = prevProcessContext.awardCriteria,
-                    relatedProcess = null
+                    relatedProcess = prevProcessContext.relatedProcess
+                        .let { relatedProcess ->
+                            ProcessInfo.RelatedProcess(
+                                cpid = relatedProcess?.cpid,
+                                ocid = relatedProcess?.ocid
+                            )
+                        }
                 )
 
                 tender = Tender(
