@@ -76,7 +76,12 @@ class BpeSaveContextDelegate(
             timestamp = requestInfo.timestamp.toInstant(ZoneOffset.UTC).toEpochMilli(),
             isAuction = processInfo.isAuction,
             mainProcurementCategory = processInfo.mainProcurementCategory,
-            awardCriteria = processInfo.awardCriteria?.toString()
+            awardCriteria = processInfo.awardCriteria?.toString(),
+            relatedProcess = OldProcessContext.RelatedProcess(
+                cpid = processInfo.cpid.toString(),
+                ocid = processInfo.ocid.toString()
+            )
+
         )
 
         val serializedContext = transform.trySerialization(oldProcessContext)
