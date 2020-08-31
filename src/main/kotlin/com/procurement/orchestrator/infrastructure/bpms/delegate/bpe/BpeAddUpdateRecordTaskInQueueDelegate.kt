@@ -55,7 +55,8 @@ class BpeAddUpdateRecordTaskInQueueDelegate(
                     submissions = context.submissions,
                     qualifications = context.qualifications,
                     preQualification = context.preQualification,
-                    invitations = context.invitations
+                    invitations = context.invitations,
+                    relatedProcesses = context.relatedProcesses
                 )
             )
             .orForwardFail { fail -> return fail }
