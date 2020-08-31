@@ -101,7 +101,8 @@ class ConfirmationServiceImpl(
                     phase = rule.phaseTo,
                     isAuction = prevProcessContext.isAuction,
                     mainProcurementCategory = prevProcessContext.mainProcurementCategory,
-                    awardCriteria = prevProcessContext.awardCriteria
+                    awardCriteria = prevProcessContext.awardCriteria,
+                    relatedProcess = null
                 )
 
                 tender = Tender(

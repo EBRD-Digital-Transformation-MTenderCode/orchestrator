@@ -90,7 +90,8 @@ class ProcessLauncherImpl(
                     phase = rule.phaseTo,
                     isAuction = prevProcessContext.isAuction,
                     mainProcurementCategory = prevProcessContext.mainProcurementCategory,
-                    awardCriteria = prevProcessContext.awardCriteria
+                    awardCriteria = prevProcessContext.awardCriteria,
+                    relatedProcess = null
                 )
             }
 
@@ -164,7 +165,8 @@ class ProcessLauncherImpl(
                     phase = rule.phaseTo,
                     isAuction = prevProcessContext.isAuction,
                     mainProcurementCategory = prevProcessContext.mainProcurementCategory,
-                    awardCriteria = prevProcessContext.awardCriteria
+                    awardCriteria = prevProcessContext.awardCriteria,
+                    relatedProcess = null
                 )
             }
 
