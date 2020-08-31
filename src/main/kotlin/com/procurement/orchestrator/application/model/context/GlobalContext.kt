@@ -10,6 +10,7 @@ import com.procurement.orchestrator.application.model.context.members.RequestInf
 import com.procurement.orchestrator.domain.model.award.Awards
 import com.procurement.orchestrator.domain.model.bid.Bids
 import com.procurement.orchestrator.domain.model.contract.Contracts
+import com.procurement.orchestrator.domain.model.contract.RelatedProcesses
 import com.procurement.orchestrator.domain.model.invitation.Invitations
 import com.procurement.orchestrator.domain.model.party.Parties
 import com.procurement.orchestrator.domain.model.qualification.PreQualification
@@ -72,4 +73,8 @@ interface GlobalContext {
     @get:JsonInclude(JsonInclude.Include.NON_EMPTY)
     @get:JsonProperty("invitations")
     var invitations: Invitations
+
+    @get:JsonInclude(JsonInclude.Include.NON_EMPTY)
+    @get:JsonProperty("relatedProcesses")
+    var relatedProcesses: RelatedProcesses
 }
