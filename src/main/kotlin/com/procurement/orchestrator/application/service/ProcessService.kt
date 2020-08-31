@@ -127,6 +127,19 @@ class ProcessServiceImpl(
                     ?: return failure(Fail.Incident.Bpe(description = "The old process context contain unknown value '$value' of the 'awardCriteria' attribute."))
             }
 
+        val relatedProcessCpid: Cpid? = this.relatedProcess?.cpid
+            ?.let { value ->
+                Cpid.tryCreateOrNull(value)
+                    ?: return failure(Fail.Incident.Bpe(description = "The old process context contain unknown value '${value}' of the 'relatedProcess.cpid' attribute."))
+            }
+        val relatedProcessOcid: Ocid? = this.relatedProcess?.ocid
+            ?.let { value ->
+                Ocid.SingleStage.tryCreateOrNull(value)
+                    ?: return failure(Fail.Incident.Bpe(description = "The old process context contain unknown value '${value}' of the 'relatedProcess.ocid' attribute."))
+            }
+
+        val relatedProcess = LatestProcessContext.RelatedProcess(relatedProcessCpid, relatedProcessOcid)
+
         return LatestProcessContext(
             cpid = cpid,
             ocid = ocid,
@@ -137,7 +150,8 @@ class ProcessServiceImpl(
             pmd = pmd,
             isAuction = isAuction,
             mainProcurementCategory = mainProcurementCategory,
-            awardCriteria = awardCriteria
+            awardCriteria = awardCriteria,
+            relatedProcess = relatedProcess
         ).asSuccess()
     }
 }
