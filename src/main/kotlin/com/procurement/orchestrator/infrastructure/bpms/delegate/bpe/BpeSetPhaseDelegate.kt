@@ -72,6 +72,7 @@ class BpeSetPhaseDelegate(
         EMPTY("empty"),
         QUALIFICATION("qualification"),
         QUALIFICATION_STANDSTILL("qualificationStandstill"),
+        PLANNING("planning"),
         SUSPENDED("suspended"),
         TENDERING("tendering");
 
