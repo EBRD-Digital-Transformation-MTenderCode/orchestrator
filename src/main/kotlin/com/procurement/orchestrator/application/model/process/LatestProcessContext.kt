@@ -17,5 +17,12 @@ class LatestProcessContext(
     val pmd: ProcurementMethodDetails,
     val isAuction: Boolean,
     val mainProcurementCategory: String? = null,
-    val awardCriteria: AwardCriteria? = null
-)
+    val awardCriteria: AwardCriteria? = null,
+    val relatedProcess: RelatedProcess?
+) {
+    data class RelatedProcess(
+        val cpid: Cpid?,
+        val ocid: Ocid?
+    )
+}
+
