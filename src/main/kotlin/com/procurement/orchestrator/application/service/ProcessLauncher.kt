@@ -92,10 +92,10 @@ class ProcessLauncherImpl(
                     mainProcurementCategory = prevProcessContext.mainProcurementCategory,
                     awardCriteria = prevProcessContext.awardCriteria,
                     relatedProcess = prevProcessContext.relatedProcess
-                        .let { relatedProcess ->
+                        ?.let { relatedProcess ->
                             ProcessInfo.RelatedProcess(
-                                cpid = relatedProcess?.cpid,
-                                ocid = relatedProcess?.ocid
+                                cpid = relatedProcess.cpid,
+                                ocid = relatedProcess.ocid
                             )
                         }
                 )
@@ -173,10 +173,10 @@ class ProcessLauncherImpl(
                     mainProcurementCategory = prevProcessContext.mainProcurementCategory,
                     awardCriteria = prevProcessContext.awardCriteria,
                     relatedProcess = prevProcessContext.relatedProcess
-                        .let { relatedProcess ->
+                        ?.let { relatedProcess ->
                             ProcessInfo.RelatedProcess(
-                                cpid = relatedProcess?.cpid,
-                                ocid = relatedProcess?.ocid
+                                cpid = relatedProcess.cpid,
+                                ocid = relatedProcess.ocid
                             )
                         }
                 )
