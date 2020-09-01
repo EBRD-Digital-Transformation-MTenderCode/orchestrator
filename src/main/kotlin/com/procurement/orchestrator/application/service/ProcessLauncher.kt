@@ -91,11 +91,10 @@ class ProcessLauncherImpl(
                     isAuction = prevProcessContext.isAuction,
                     mainProcurementCategory = prevProcessContext.mainProcurementCategory,
                     awardCriteria = prevProcessContext.awardCriteria,
-                    relatedProcess = prevProcessContext.relatedProcess
+                    relatedProcess = request.context.relatedProcess
                         ?.let { relatedProcess ->
                             ProcessInfo.RelatedProcess(
-                                cpid = relatedProcess.cpid,
-                                ocid = relatedProcess.ocid
+                                cpid = relatedProcess.cpid
                             )
                         }
                 )
@@ -172,13 +171,7 @@ class ProcessLauncherImpl(
                     isAuction = prevProcessContext.isAuction,
                     mainProcurementCategory = prevProcessContext.mainProcurementCategory,
                     awardCriteria = prevProcessContext.awardCriteria,
-                    relatedProcess = prevProcessContext.relatedProcess
-                        ?.let { relatedProcess ->
-                            ProcessInfo.RelatedProcess(
-                                cpid = relatedProcess.cpid,
-                                ocid = relatedProcess.ocid
-                            )
-                        }
+                    relatedProcess = null
                 )
             }
 
