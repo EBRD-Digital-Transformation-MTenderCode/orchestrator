@@ -19,3 +19,4 @@ class LatestProcessContext(
     val mainProcurementCategory: String? = null,
     val awardCriteria: AwardCriteria? = null
 )
+
