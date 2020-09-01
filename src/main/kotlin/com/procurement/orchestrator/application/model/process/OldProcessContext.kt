@@ -48,16 +48,5 @@ data class OldProcessContext(
     @field:JsonProperty("mainProcurementCategory") @param:JsonProperty("mainProcurementCategory") var mainProcurementCategory: String?,
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    @field:JsonProperty("awardCriteria") @param:JsonProperty("awardCriteria") var awardCriteria: String?,
-
-    @field:JsonInclude(JsonInclude.Include.NON_NULL)
-    @field:JsonProperty("relatedProcess") @param:JsonProperty("relatedProcess") val relatedProcess: RelatedProcess?
-) {
-    data class RelatedProcess(
-        @field:JsonInclude(JsonInclude.Include.NON_NULL)
-        @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: String?,
-
-        @field:JsonInclude(JsonInclude.Include.NON_NULL)
-        @field:JsonProperty("ocid") @param:JsonProperty("ocid") val ocid: String?
-    )
-}
+    @field:JsonProperty("awardCriteria") @param:JsonProperty("awardCriteria") var awardCriteria: String?
+)
