@@ -13,7 +13,6 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.infrastructure.extension.http.getMs
 import com.procurement.orchestrator.infrastructure.extension.http.getOperationId
-import com.procurement.orchestrator.infrastructure.extension.http.getPayload
 import com.procurement.orchestrator.infrastructure.extension.http.getPlatformId
 import com.procurement.orchestrator.infrastructure.extension.http.getToken
 import com.procurement.orchestrator.infrastructure.web.extension.buildResponse
@@ -81,9 +80,6 @@ class RelationApController(
         val token: Token = servlet.getToken()
             .orForwardFail { fail -> return fail }
 
-        val payload: String = servlet.getPayload()
-            .orForwardFail { fail -> return fail }
-
         val ms = servlet.getMs()
             .orForwardFail { return it }
 
@@ -99,7 +95,7 @@ class RelationApController(
                 processName = PROCESS_NAME,
                 relatedProcess = PlatformRequest.Context.RelatedProcess(ms)
             ),
-            payload = payload
+            payload = ""
         ).asSuccess()
     }
 }
