@@ -11,6 +11,7 @@ import com.procurement.orchestrator.domain.fail.error.RequestErrors
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.asSuccess
+import com.procurement.orchestrator.infrastructure.extension.http.getMs
 import com.procurement.orchestrator.infrastructure.extension.http.getOperationId
 import com.procurement.orchestrator.infrastructure.extension.http.getPayload
 import com.procurement.orchestrator.infrastructure.extension.http.getPlatformId
@@ -19,7 +20,6 @@ import com.procurement.orchestrator.infrastructure.web.extension.buildResponse
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import javax.servlet.http.HttpServletRequest
 
@@ -37,9 +37,8 @@ class RelationApController(
     fun create(
         servlet: HttpServletRequest,
         @PathVariable cpid: String,
-        @PathVariable ocid: String,
-        @RequestParam(name = "MS", required = false) ms: String
-    ): ResponseEntity<String> = perform(servlet = servlet, cpid = cpid, ocid = ocid, ms = ms)
+        @PathVariable ocid: String
+    ): ResponseEntity<String> = perform(servlet = servlet, cpid = cpid, ocid = ocid)
         .also { fail -> fail.logging(logger) }
         .buildResponse()
         .also { response ->
@@ -50,10 +49,9 @@ class RelationApController(
     private fun perform(
         servlet: HttpServletRequest,
         cpid: String,
-        ocid: String,
-        ms: String
+        ocid: String
     ): MaybeFail<Fail> {
-        val request: PlatformRequest = buildRequest(servlet = servlet, cpid = cpid, ocid = ocid, ms = ms)
+        val request: PlatformRequest = buildRequest(servlet = servlet, cpid = cpid, ocid = ocid)
             .orReturnFail { return MaybeFail.fail(it) }
             .also { request ->
                 if (logger.isDebugEnabled)
@@ -65,8 +63,7 @@ class RelationApController(
     private fun buildRequest(
         servlet: HttpServletRequest,
         cpid: String,
-        ocid: String,
-        ms: String
+        ocid: String
     ): Result<PlatformRequest, RequestErrors> {
 
         val verifiedCpid = parseCpid(cpid)
@@ -87,7 +84,7 @@ class RelationApController(
         val payload: String = servlet.getPayload()
             .orForwardFail { fail -> return fail }
 
-        val msCpid = parseCpid(ms)
+        val ms = servlet.getMs()
             .orForwardFail { return it }
 
         return PlatformRequest(
@@ -100,7 +97,7 @@ class RelationApController(
                 owner = platformId,
                 uri = servlet.requestURI,
                 processName = PROCESS_NAME,
-                relatedProcess = PlatformRequest.Context.RelatedProcess(msCpid)
+                relatedProcess = PlatformRequest.Context.RelatedProcess(ms)
             ),
             payload = payload
         ).asSuccess()
