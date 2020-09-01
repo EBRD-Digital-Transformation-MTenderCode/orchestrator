@@ -38,6 +38,6 @@ data class ProcessInfo(
 
     data class RelatedProcess(
         @field:JsonInclude(JsonInclude.Include.NON_NULL)
-        @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid?
+        @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid
     ) : Serializable
 }
