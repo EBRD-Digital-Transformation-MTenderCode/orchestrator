@@ -18,7 +18,7 @@ class LatestProcessContext(
     val isAuction: Boolean,
     val mainProcurementCategory: String? = null,
     val awardCriteria: AwardCriteria? = null,
-    val relatedProcess: RelatedProcess?
+    val relatedProcess: RelatedProcess? = null
 ) {
     data class RelatedProcess(
         val cpid: Cpid?,
