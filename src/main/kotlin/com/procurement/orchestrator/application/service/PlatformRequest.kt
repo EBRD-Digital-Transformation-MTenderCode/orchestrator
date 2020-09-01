@@ -22,6 +22,9 @@ class PlatformRequest(
         @field:JsonProperty("owner") @param:JsonProperty("owner") val owner: Owner,
         @field:JsonProperty("id") @param:JsonProperty("id") val id: String? = null,
         @field:JsonProperty("uri") @param:JsonProperty("uri") val uri: String,
-        @field:JsonProperty("processName") @param:JsonProperty("processName") val processName: String
-    )
+        @field:JsonProperty("processName") @param:JsonProperty("processName") val processName: String,
+        @field:JsonProperty("relatedProcess") @param:JsonProperty("relatedProcess") val relatedProcess: RelatedProcess? = null
+    ) {
+        class RelatedProcess(@field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid)
+    }
 }
