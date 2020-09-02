@@ -15,6 +15,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.GetL
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetOrganizationAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetQualificationCriteriaAndMethodAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetTenderStateAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.OutsourcingPnAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ResponderProcessingAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForLotsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForTenderAction
@@ -103,4 +104,9 @@ interface AccessClient {
         id: CommandId,
         params: FindAuctionsAction.Params
     ): Result<Reply<FindAuctionsAction.Result>, Fail.Incident>
+
+    suspend fun outsourcingPn(
+        id: CommandId,
+        params: OutsourcingPnAction.Params
+    ): Result<Reply<OutsourcingPnAction.Result>, Fail.Incident>
 }
