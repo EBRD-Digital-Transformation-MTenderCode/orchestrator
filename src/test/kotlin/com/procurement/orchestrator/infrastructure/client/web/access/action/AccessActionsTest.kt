@@ -344,4 +344,24 @@ class AccessActionsTest {
             }
         }
     }
+
+    @Nested
+    inner class CreateRelationToOtherProcess {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CreateRelationToOtherProcessAction.Params>("json/client/access/create_relation_to_other_process_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CreateRelationToOtherProcessAction.Result>("json/client/access/create_relation_to_other_process_result_full.json")
+            }
+        }
+    }
 }
