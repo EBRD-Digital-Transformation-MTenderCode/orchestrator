@@ -14,6 +14,8 @@ enum class OperationTypeProcess(@JsonValue override val key: String) : EnumEleme
     QUALIFICATION_CONSIDERATION("qualificationConsideration"),
     QUALIFICATION_DECLARE_NON_CONFLICT_OF_INTEREST("qualificationDeclareNonConflictOfInterest"),
     QUALIFICATION_PROTOCOL("qualificationProtocol"),
+    OUTSOURCING_PN("outsourcingPN"),
+    RELATION_AP("relationAP"),
     START_SECOND_STAGE("startSecondStage"),
     SUBMISSION_PERIOD_END("submissionPeriodEnd"),
     TENDER_CANCELLATION("tenderCancellation"),
