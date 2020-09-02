@@ -4,6 +4,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Chec
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckPersonesStructureAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateCriteriaForProcuringEntityAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateRelationToOtherProcessAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindAuctionsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindCriteriaAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindLotIdsAction
@@ -51,4 +52,6 @@ object AccessCommands {
     object CheckTenderState : CheckTenderStateAction()
 
     object FindAuctions : FindAuctionsAction()
+
+    object CreateRelationToOtherProcess : CreateRelationToOtherProcessAction()
 }
