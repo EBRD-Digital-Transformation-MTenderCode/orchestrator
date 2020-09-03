@@ -26,6 +26,7 @@ private const val HEADER_OPERATION_ID = "X-OPERATION-ID"
 private const val HEADER_TOKEN = "X-TOKEN"
 private const val QUERY_PARAM_COUNTRY = "country"
 private const val QUERY_PARAM_PMD = "pmd"
+private const val QUERY_CPID_FA = "FA"
 private const val QUERY_PARAM_MS = "MS"
 private const val QUERY_OCID_PN = "ocidPN"
 
@@ -127,6 +128,9 @@ fun HttpServletRequest.getPayload(): Result<String, RequestErrors.Payload.Missin
     .takeIf { it.isNotBlank() }
     ?.let { success(it) }
     ?: failure(RequestErrors.Payload.Missing())
+
+fun HttpServletRequest.getCpidFa(): Result<Cpid, RequestErrors> =
+    getRequiredQueryParam(QUERY_CPID_FA).bind { parseCpid(it) }
 
 fun HttpServletRequest.getMs(): Result<Cpid, RequestErrors> =
     getRequiredQueryParam(QUERY_PARAM_MS).bind { parseCpid(it) }
