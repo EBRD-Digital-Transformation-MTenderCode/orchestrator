@@ -7,6 +7,7 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.WebClient
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckAccessToTenderAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckExistenceFaAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckPersonesStructureAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateCriteriaForProcuringEntityAction
@@ -169,6 +170,14 @@ class HttpAccessClient(private val webClient: WebClient, properties: ComponentPr
         url = url,
         command = AccessCommands.FindAuctions.build(id = id, params = params),
         target = AccessCommands.FindAuctions.target
+    )
+
+    override suspend fun checkExistenceFa(
+        id: CommandId,
+        params: CheckExistenceFaAction.Params
+    ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
+        url = url,
+        command = AccessCommands.CheckExistenceFa.build(id = id, params = params)
     )
 
     override suspend fun outsourcingPn(
