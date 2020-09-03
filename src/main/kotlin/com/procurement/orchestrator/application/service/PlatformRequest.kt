@@ -30,7 +30,7 @@ class PlatformRequest(
             @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid,
 
             @JsonInclude(JsonInclude.Include.NON_NULL)
-            @field:JsonProperty("ocid") @param:JsonProperty("ocid") val ocid: Ocid?
+            @field:JsonProperty("ocid") @param:JsonProperty("ocid") val ocid: Ocid? = null
         )
     }
 }
