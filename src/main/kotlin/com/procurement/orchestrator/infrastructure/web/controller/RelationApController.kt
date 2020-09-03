@@ -12,6 +12,7 @@ import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.infrastructure.extension.http.getMs
+import com.procurement.orchestrator.infrastructure.extension.http.getOcidPn
 import com.procurement.orchestrator.infrastructure.extension.http.getOperationId
 import com.procurement.orchestrator.infrastructure.extension.http.getPlatformId
 import com.procurement.orchestrator.infrastructure.extension.http.getToken
@@ -83,6 +84,9 @@ class RelationApController(
         val ms = servlet.getMs()
             .orForwardFail { return it }
 
+        val ocidPn = servlet.getOcidPn()
+            .orForwardFail { return it }
+
         return PlatformRequest(
             operationId = operationId,
             platformId = platformId,
@@ -93,7 +97,7 @@ class RelationApController(
                 owner = platformId,
                 uri = servlet.requestURI,
                 processName = PROCESS_NAME,
-                relatedProcess = PlatformRequest.Context.RelatedProcess(ms)
+                relatedProcess = PlatformRequest.Context.RelatedProcess(cpid = ms, ocid = ocidPn)
             ),
             payload = ""
         ).asSuccess()
