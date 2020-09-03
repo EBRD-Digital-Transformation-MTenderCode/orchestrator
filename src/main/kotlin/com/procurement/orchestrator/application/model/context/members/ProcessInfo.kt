@@ -30,5 +30,16 @@ data class ProcessInfo(
     @field:JsonProperty("mainProcurementCategory") @param:JsonProperty("mainProcurementCategory") val mainProcurementCategory: String?,
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
-    @field:JsonProperty("awardCriteria") @param:JsonProperty("awardCriteria") val awardCriteria: AwardCriteria?
-) : Serializable
+    @field:JsonProperty("awardCriteria") @param:JsonProperty("awardCriteria") val awardCriteria: AwardCriteria?,
+
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonProperty("relatedProcess") @param:JsonProperty("relatedProcess") val relatedProcess: RelatedProcess?
+    ) : Serializable {
+
+    data class RelatedProcess(
+        @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid,
+
+        @field:JsonInclude(JsonInclude.Include.NON_NULL)
+        @field:JsonProperty("ocid") @param:JsonProperty("ocid") val ocid: Ocid?
+    ) : Serializable
+}
