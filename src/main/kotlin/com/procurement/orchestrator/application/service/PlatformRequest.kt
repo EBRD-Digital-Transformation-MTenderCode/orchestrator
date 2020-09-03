@@ -26,7 +26,8 @@ class PlatformRequest(
         @field:JsonProperty("relatedProcess") @param:JsonProperty("relatedProcess") val relatedProcess: RelatedProcess? = null
     ) {
         data class RelatedProcess(
-            @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid
+            @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid,
+            @field:JsonProperty("ocid") @param:JsonProperty("ocid") val ocid: Ocid
         )
     }
 }
