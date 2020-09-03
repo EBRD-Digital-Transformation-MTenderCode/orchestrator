@@ -9,6 +9,7 @@ import com.procurement.orchestrator.infrastructure.client.web.WebClient
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckAccessToTenderAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckExistenceFaAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckPersonesStructureAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckRelationAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateCriteriaForProcuringEntityAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindAuctionsAction
@@ -177,5 +178,13 @@ class HttpAccessClient(private val webClient: WebClient, properties: ComponentPr
     ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
         url = url,
         command = AccessCommands.CheckExistenceFa.build(id = id, params = params)
+    )
+
+    override suspend fun checkRelationDelegate(
+        id: CommandId,
+        params: CheckRelationAction.Params
+    ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
+        url = url,
+        command = AccessCommands.CheckRelation.build(id = id, params = params)
     )
 }

@@ -7,6 +7,7 @@ import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckAccessToTenderAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckExistenceFaAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckPersonesStructureAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckRelationAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateCriteriaForProcuringEntityAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindAuctionsAction
@@ -108,5 +109,10 @@ interface AccessClient {
     suspend fun checkExistenceFa(
         id: CommandId,
         params: CheckExistenceFaAction.Params
+    ): Result<Reply<Unit>, Fail.Incident>
+
+    suspend fun checkRelationDelegate(
+        id: CommandId,
+        params: CheckRelationAction.Params
     ): Result<Reply<Unit>, Fail.Incident>
 }
