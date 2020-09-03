@@ -346,6 +346,18 @@ class AccessActionsTest {
     }
 
     @Nested
+    inner class CheckExistenceFa {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CheckExistenceFaAction.Params>("json/client/access/check_existence_fa_full.json")
+            }
+        }
+    }
+
+    @Nested
     inner class CreateRelationToOtherProcess {
 
         @Nested

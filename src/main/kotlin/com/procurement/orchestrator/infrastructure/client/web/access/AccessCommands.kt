@@ -1,6 +1,7 @@
 package com.procurement.orchestrator.infrastructure.client.web.access
 
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckAccessToTenderAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckExistenceFaAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckPersonesStructureAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateCriteriaForProcuringEntityAction
@@ -52,6 +53,8 @@ object AccessCommands {
     object CheckTenderState : CheckTenderStateAction()
 
     object FindAuctions : FindAuctionsAction()
+
+    object CheckExistenceFa: CheckExistenceFaAction()
 
     object CreateRelationToOtherProcess : CreateRelationToOtherProcessAction()
 }
