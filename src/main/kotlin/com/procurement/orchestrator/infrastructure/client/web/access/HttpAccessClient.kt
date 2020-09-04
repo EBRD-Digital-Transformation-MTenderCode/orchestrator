@@ -12,6 +12,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Chec
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckRelationAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateCriteriaForProcuringEntityAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateRelationToOtherProcessAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindAuctionsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindCriteriaAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindLotIdsAction
@@ -188,6 +189,15 @@ class HttpAccessClient(private val webClient: WebClient, properties: ComponentPr
         url = url,
         command = AccessCommands.OutsourcingPn.build(id = id, params = params),
         target = AccessCommands.OutsourcingPn.target
+    )
+
+    override suspend fun createRelationToOtherProcess(
+        id: CommandId,
+        params: CreateRelationToOtherProcessAction.Params
+    ): Result<Reply<CreateRelationToOtherProcessAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = AccessCommands.CreateRelationToOtherProcess.build(id = id, params = params),
+        target = AccessCommands.CreateRelationToOtherProcess.target
     )
 
     override suspend fun checkRelationDelegate(

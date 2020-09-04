@@ -37,4 +37,6 @@ fun initiator(operationType: OperationTypeProcess): Initiator = when (operationT
     OperationTypeProcess.WITHDRAW_QUALIFICATION_PROTOCOL -> Initiator.PLATFORM
     OperationTypeProcess.WITHDRAW_SUBMISSION -> Initiator.PLATFORM
     OperationTypeProcess.START_SECOND_STAGE -> Initiator.PLATFORM
+    OperationTypeProcess.OUTSOURCING_PN -> Initiator.PLATFORM
+    OperationTypeProcess.RELATION_AP -> Initiator.PLATFORM
 }

@@ -168,5 +168,8 @@ class NotifierSuccessNotificationToPlatformDelegate(
             OperationTypeProcess.WITHDRAW_QUALIFICATION_PROTOCOL -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.WITHDRAW_SUBMISSION -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.START_SECOND_STAGE -> "$tenderUri/$cpid/$ocid"
+            OperationTypeProcess.RELATION_AP -> "$tenderUri/$cpid/$ocid"
+            OperationTypeProcess.OUTSOURCING_PN -> "$tenderUri/$cpid/$ocid"
+
         }
 }
