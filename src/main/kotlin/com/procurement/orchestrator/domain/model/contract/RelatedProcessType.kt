@@ -6,6 +6,7 @@ import com.procurement.orchestrator.domain.EnumElementProvider
 
 enum class RelatedProcessType(@JsonValue override val key: String) : EnumElementProvider.Key {
 
+    FRAMEWORK("framework"),
     PARENT("parent"),
     PLANNING("planning"),
     X_CONTRACTING("x_contracting"),
