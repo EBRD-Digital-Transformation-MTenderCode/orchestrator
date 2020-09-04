@@ -325,3 +325,8 @@ INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_ph
 
 INSERT INTO orchestrator.rules (country,pmd,process_definition_key,stage_from,phase_from,operation_type,phase_to,stage_to) VALUES ('MD','TEST_GPA','cancelLot','TP','awarding','lotCancellation','awarding','TP');
 INSERT INTO orchestrator.rules (country,pmd,process_definition_key,stage_from,phase_from,operation_type,phase_to,stage_to) VALUES ('MD','TEST_GPA','cancelTender','TP','awarding','tenderCancellation','awarding','TP');
+
+INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','OF','creareFA','creareFA');
+INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OF','creareFA','creareFA');
+INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','CF','creareFA','creareFA');
+INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_CF','creareFA','creareFA');
