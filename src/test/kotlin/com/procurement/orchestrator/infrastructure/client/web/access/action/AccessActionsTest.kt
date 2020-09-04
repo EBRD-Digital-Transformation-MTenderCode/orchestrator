@@ -396,4 +396,16 @@ class AccessActionsTest {
             }
         }
     }
+
+    @Nested
+    inner class CheckRelation {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CheckRelationAction.Params>("json/client/access/check_relation_params_full.json")
+            }
+        }
+    }
 }
