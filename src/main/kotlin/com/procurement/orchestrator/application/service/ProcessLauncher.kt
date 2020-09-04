@@ -95,7 +95,7 @@ class ProcessLauncherImpl(
                         ?.let { relatedProcess ->
                             ProcessInfo.RelatedProcess(
                                 cpid = relatedProcess.cpid,
-                                ocid = null
+                                ocid = relatedProcess.ocid
                             )
                         }
                 )

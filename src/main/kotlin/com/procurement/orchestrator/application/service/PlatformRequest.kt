@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.application.service
 
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.procurement.orchestrator.application.model.OperationId
 import com.procurement.orchestrator.application.model.Owner
@@ -26,7 +27,10 @@ class PlatformRequest(
         @field:JsonProperty("relatedProcess") @param:JsonProperty("relatedProcess") val relatedProcess: RelatedProcess? = null
     ) {
         data class RelatedProcess(
-            @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid
+            @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid,
+
+            @JsonInclude(JsonInclude.Include.NON_NULL)
+            @field:JsonProperty("ocid") @param:JsonProperty("ocid") val ocid: Ocid? = null
         )
     }
 }

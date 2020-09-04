@@ -358,6 +358,26 @@ class AccessActionsTest {
     }
 
     @Nested
+    inner class OutsourcingPn {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<OutsourcingPnAction.Params>("json/client/access/outsourcing_pn_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<OutsourcingPnAction.Result>("json/client/access/outsourcing_pn_result_full.json")
+            }
+        }
+    }
+
+    @Nested
     inner class CheckRelation {
 
         @Nested
