@@ -13,6 +13,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.GetL
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetOrganizationAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetQualificationCriteriaAndMethodAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetTenderStateAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.OutsourcingPnAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ResponderProcessingAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForLotsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForTenderAction
@@ -55,6 +56,8 @@ object AccessCommands {
     object FindAuctions : FindAuctionsAction()
 
     object CheckExistenceFa: CheckExistenceFaAction()
+
+    object OutsourcingPn: OutsourcingPnAction()
 
     object CreateRelationToOtherProcess : CreateRelationToOtherProcessAction()
 }
