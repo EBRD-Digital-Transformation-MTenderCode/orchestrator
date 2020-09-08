@@ -199,6 +199,12 @@ public class NotificationServiceImpl implements NotificationService {
                 data.setOutcomes(buildOutcomes(context.getStage(), context.getOcid(), context.getToken()));
                 break;
             }
+            case CREATE_AP: {
+                data.setOcid(context.getCpid());
+                data.setUrl(getTenderUri(context.getCpid(), null));
+                data.setOutcomes(buildOutcomes(context.getStage(), context.getOcid(), context.getToken()));
+                break;
+            }
             case CREATE_PN: {
                 data.setOcid(context.getCpid());
                 data.setUrl(getTenderUri(context.getCpid(), null));
