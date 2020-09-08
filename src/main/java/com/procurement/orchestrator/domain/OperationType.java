@@ -27,6 +27,7 @@ public enum OperationType {
     CANCEL_TENDER_EV("cancelTenderEv"),
     CONFIRM_CAN("confirmCan"),
     CREATE_AC("createAC"),
+    CREATE_AP("createAP"),
     CREATE_AWARD("createAward"),
     CREATE_BID("createBid"),
     CREATE_CAN("createCan"),
@@ -47,10 +48,12 @@ public enum OperationType {
     EVALUATE_AWARD("evaluateAward"),
     FINAL_UPDATE_AC("finalUpdateAC"),
     ISSUING_AC("issuingAC"),
+    OUTSOURCING_PN("outsourcingPN"),
     PROCESS_AC_CLARIFICATION("processAcClarification"),
     PROCESS_AC_REJECTION("processAcRejection"),
     QUALIFICATION("qualification"),
     QUALIFICATION_CONSIDERATION("qualificationConsideration"),
+    RELATION_AP("relationAP"),
     STANDSTILL_PERIOD("standstillPeriod"),
     START_AWARD_PERIOD("startAwardPeriod"),
     START_NEW_STAGE("startNewStage"),
@@ -65,6 +68,7 @@ public enum OperationType {
     UNSUCCESSFUL_TENDER("tenderUnsuccessful"),//no message
     UNSUSPEND_TENDER("unsuspendTender"),//no message
     UPDATE_AC("updateAC"),
+    UPDATE_AP("updateAP"),
     UPDATE_BID("updateBid"),
     UPDATE_BID_DOCS("updateBidDocs"),
     UPDATE_CAN_DOCS("updateCanDocs"),
