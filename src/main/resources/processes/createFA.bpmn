@@ -27,7 +27,7 @@
       <bpmn:incoming>SequenceFlow_0v4c1qp</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1o45z99</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="MdmValidateFATask" name="Mdm: Validate FA" camunda:asyncBefore="true" camunda:delegateExpression="${mdmValidateFA}">
+    <bpmn:serviceTask id="MdmValidateAPTask" name="Mdm: Validate AP" camunda:asyncBefore="true" camunda:delegateExpression="${mdmValidateAP}">
       <bpmn:incoming>SequenceFlow_0xy8qy5</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_18l6jhj</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -43,8 +43,8 @@
       <bpmn:outgoing>SequenceFlow_0i98unn</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:sequenceFlow id="SequenceFlow_067jsvt" sourceRef="StorageOpenDocsOfTenderTask" targetRef="NoticeCreateReleaseTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_18l6jhj" sourceRef="MdmValidateFATask" targetRef="AccessCreateAPTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0xy8qy5" sourceRef="StorageValidateDocsOfTenderTask" targetRef="MdmValidateFATask" />
+    <bpmn:sequenceFlow id="SequenceFlow_18l6jhj" sourceRef="MdmValidateAPTask" targetRef="AccessCreateAPTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0xy8qy5" sourceRef="StorageValidateDocsOfTenderTask" targetRef="MdmValidateAPTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0i98unn" sourceRef="StartEvent_1ft9glb" targetRef="SaveFirstOperationTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0efztym" sourceRef="SaveFirstOperationTask" targetRef="StorageValidateDocsOfTenderTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1a7gbjf" sourceRef="NoticeCreateReleaseTask" targetRef="SaveContextTask" />
@@ -81,7 +81,7 @@
       <bpmndi:BPMNShape id="ServiceTask_0st98ri_di" bpmnElement="StorageOpenDocsOfTenderTask" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="800" y="170" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_0logzng_di" bpmnElement="MdmValidateFATask" bioc:stroke="black" bioc:fill="white">
+      <bpmndi:BPMNShape id="ServiceTask_0logzng_di" bpmnElement="MdmValidateAPTask" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="540" y="170" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_08bmlun_di" bpmnElement="StorageValidateDocsOfTenderTask" bioc:stroke="black" bioc:fill="white">
