@@ -470,8 +470,8 @@ public class TenderController extends DoBaseController {
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
-    @RequestMapping(value = "/do/ap", method = RequestMethod.POST)
-    public ResponseEntity<String> creareFA(@RequestHeader("Authorization") final String authorization,
+    @RequestMapping(value = "/ap", method = RequestMethod.POST)
+    public ResponseEntity<String> createFA(@RequestHeader("Authorization") final String authorization,
                                            @RequestHeader("X-OPERATION-ID") final String operationId,
                                            @RequestParam("country") final String country,
                                            @RequestParam("pmd") final String pmd,
