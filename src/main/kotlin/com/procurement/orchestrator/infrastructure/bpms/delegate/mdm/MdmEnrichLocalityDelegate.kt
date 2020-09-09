@@ -128,7 +128,7 @@ class MdmEnrichLocalityDelegate(
         enrichedLocalitiesById: Map<LocalityDetails, LocalityDetails>
     ): Organization {
         val oldLocality = this.address!!.addressDetails!!.locality
-        val enrichedLocality = enrichedLocalitiesById.getValue(oldLocality)
+        val enrichedLocality = enrichedLocalitiesById[oldLocality] ?: oldLocality
         return this
             .copy(address = this.address
                 .copy(addressDetails = this.address.addressDetails!!
