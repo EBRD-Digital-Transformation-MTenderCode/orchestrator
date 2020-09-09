@@ -74,7 +74,9 @@ public class MdmValidateAP implements JavaDelegate {
 
     private JsonNode getTenderData(final JsonNode jsonData, final String processId) {
         try {
-            return jsonData.get("tender");
+            final ObjectNode requestNode = jsonUtil.createObjectNode();
+            requestNode.set("tender", jsonData.get("tender"));
+            return requestNode;
         } catch (Exception e) {
             processService.terminateProcess(processId, e.getMessage());
             return null;
