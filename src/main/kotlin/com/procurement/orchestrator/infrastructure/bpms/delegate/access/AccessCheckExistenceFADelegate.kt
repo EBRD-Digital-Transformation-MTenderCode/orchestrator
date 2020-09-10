@@ -41,7 +41,7 @@ class AccessCheckExistenceFADelegate(
         accessClient.checkExistenceFa(
             id = commandId,
             params = CheckExistenceFaAction.Params(
-                cpid = context.processInfo.cpid
+                cpid = context.processInfo.relatedProcess!!.cpid
             )
         )
 
