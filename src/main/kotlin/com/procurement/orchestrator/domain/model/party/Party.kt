@@ -23,7 +23,7 @@ data class Party(
     @field:JsonProperty("identifier") @param:JsonProperty("identifier") val identifier: Identifier? = null,
 
     @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
-    @field:JsonProperty("additionalIdentifier") @param:JsonProperty("additionalIdentifier") val additionalIdentifiers: Identifiers = Identifiers(),
+    @field:JsonProperty("additionalIdentifiers") @param:JsonProperty("additionalIdentifiers") val additionalIdentifiers: Identifiers = Identifiers(),
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonProperty("address") @param:JsonProperty("address") val address: Address? = null,
