@@ -18,7 +18,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Chec
 import org.springframework.stereotype.Component
 
 @Component
-class AccessCheckExistenceFaDelegate(
+class AccessCheckExistenceFADelegate(
     logger: Logger,
     private val accessClient: AccessClient,
     operationStepRepository: OperationStepRepository,

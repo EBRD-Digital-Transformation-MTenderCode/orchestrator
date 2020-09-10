@@ -23,7 +23,7 @@ import com.procurement.orchestrator.infrastructure.configuration.property.Extern
 import org.springframework.stereotype.Component
 
 @Component
-class AccessOutsourcingPnDelegate(
+class AccessOutsourcingPNDelegate(
     logger: Logger,
     private val accessClient: AccessClient,
     operationStepRepository: OperationStepRepository,
