@@ -101,7 +101,11 @@ data class Tender(
     @field:JsonProperty("procurementMethodModalities") @param:JsonProperty("procurementMethodModalities") val procurementMethodModalities: ProcurementMethodModalities = ProcurementMethodModalities(),
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
-    @field:JsonProperty("electronicAuctions") @param:JsonProperty("electronicAuctions") val electronicAuctions: ElectronicAuctions? = null
+    @field:JsonProperty("electronicAuctions") @param:JsonProperty("electronicAuctions") val electronicAuctions: ElectronicAuctions? = null,
+
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonProperty("procedureOutsourcing") @param:JsonProperty("procedureOutsourcing") val procedureOutsourcing: ProcedureOutsourcing? = null
+
 ) : IdentifiableObject<Tender>, Serializable {
 
     override fun updateBy(src: Tender): Tender = Tender(
@@ -131,6 +135,7 @@ data class Tender(
         submissionMethodRationales = submissionMethodRationales combineBy src.submissionMethodRationales,
         requiresElectronicCatalogue = src.requiresElectronicCatalogue or requiresElectronicCatalogue,
         procurementMethodModalities = procurementMethodModalities combineBy src.procurementMethodModalities,
-        electronicAuctions = electronicAuctions updateBy src.electronicAuctions
+        electronicAuctions = electronicAuctions updateBy src.electronicAuctions,
+        procedureOutsourcing = procedureOutsourcing updateBy src.procedureOutsourcing
     )
 }
