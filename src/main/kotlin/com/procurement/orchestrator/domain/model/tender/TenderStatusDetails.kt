@@ -6,6 +6,8 @@ import com.procurement.orchestrator.domain.EnumElementProvider
 
 enum class TenderStatusDetails(@JsonValue override val key: String) : EnumElementProvider.Key {
 
+    AGGREGATION_PENDING("aggregationPending"),
+    AGGREGATED("aggregated"),
     AUCTION("auction"),
     AWARDED_CONTRACT_PREPARATION("awardedContractPreparation"),
     AWARDED_STANDSTILL("awardedStandStill"),
