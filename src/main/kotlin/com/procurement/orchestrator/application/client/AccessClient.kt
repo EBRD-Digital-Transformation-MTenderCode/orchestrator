@@ -5,9 +5,12 @@ import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckAccessToTenderAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckExistenceFaAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckPersonesStructureAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckRelationAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateCriteriaForProcuringEntityAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateRelationToOtherProcessAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindAuctionsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindCriteriaAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindLotIdsAction
@@ -15,6 +18,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.GetL
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetOrganizationAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetQualificationCriteriaAndMethodAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetTenderStateAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.OutsourcingPnAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ResponderProcessingAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForLotsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForTenderAction
@@ -103,4 +107,24 @@ interface AccessClient {
         id: CommandId,
         params: FindAuctionsAction.Params
     ): Result<Reply<FindAuctionsAction.Result>, Fail.Incident>
+
+    suspend fun checkExistenceFa(
+        id: CommandId,
+        params: CheckExistenceFaAction.Params
+    ): Result<Reply<Unit>, Fail.Incident>
+
+    suspend fun outsourcingPn(
+        id: CommandId,
+        params: OutsourcingPnAction.Params
+    ): Result<Reply<OutsourcingPnAction.Result>, Fail.Incident>
+
+    suspend fun createRelationToOtherProcess(
+        id: CommandId,
+        params: CreateRelationToOtherProcessAction.Params
+    ): Result<Reply<CreateRelationToOtherProcessAction.Result>, Fail.Incident>
+
+    suspend fun checkRelationDelegate(
+        id: CommandId,
+        params: CheckRelationAction.Params
+    ): Result<Reply<Unit>, Fail.Incident>
 }

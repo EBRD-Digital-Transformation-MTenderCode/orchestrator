@@ -1,9 +1,12 @@
 package com.procurement.orchestrator.infrastructure.client.web.access
 
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckAccessToTenderAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckExistenceFaAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckPersonesStructureAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckRelationAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateCriteriaForProcuringEntityAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateRelationToOtherProcessAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindAuctionsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindCriteriaAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindLotIdsAction
@@ -11,6 +14,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.GetL
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetOrganizationAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetQualificationCriteriaAndMethodAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetTenderStateAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.OutsourcingPnAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ResponderProcessingAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForLotsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForTenderAction
@@ -51,4 +55,12 @@ object AccessCommands {
     object CheckTenderState : CheckTenderStateAction()
 
     object FindAuctions : FindAuctionsAction()
+
+    object CheckExistenceFa: CheckExistenceFaAction()
+
+    object OutsourcingPn: OutsourcingPnAction()
+
+    object CreateRelationToOtherProcess : CreateRelationToOtherProcessAction()
+
+    object CheckRelation : CheckRelationAction()
 }

@@ -11,7 +11,7 @@
       <bpmn:incoming>SequenceFlow_06umqda</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1tztwop</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="ChronographRescheduleEndSubmissionPeriodTask" name="Chronograph: Reschedule end submission period" camunda:asyncBefore="true" camunda:delegateExpression="${chronographRescheduleEndSubmissionPeriodDelegate}">
+    <bpmn:serviceTask id="ChronographScheduleEndSubmissionPeriodTask" name="Chronograph: Schedule end submission period" camunda:asyncBefore="true" camunda:delegateExpression="${chronographScheduleEndSubmissionPeriodDelegate}">
       <bpmn:incoming>SequenceFlow_1tztwop</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0d8s2h3</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -142,8 +142,8 @@
       <bpmn:sequenceFlow id="SequenceFlow_0hypwrf" sourceRef="UserTask_0cj7l21" targetRef="ServiceTask_0zi1jx0" />
     </bpmn:subProcess>
     <bpmn:sequenceFlow id="SequenceFlow_06umqda" sourceRef="StartEvent_1" targetRef="DossierGetSubmissionPeriodEndDateTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1tztwop" sourceRef="DossierGetSubmissionPeriodEndDateTask" targetRef="ChronographRescheduleEndSubmissionPeriodTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0d8s2h3" sourceRef="ChronographRescheduleEndSubmissionPeriodTask" targetRef="EndEvent_0ptfdjj" />
+    <bpmn:sequenceFlow id="SequenceFlow_1tztwop" sourceRef="DossierGetSubmissionPeriodEndDateTask" targetRef="ChronographScheduleEndSubmissionPeriodTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0d8s2h3" sourceRef="ChronographScheduleEndSubmissionPeriodTask" targetRef="EndEvent_0ptfdjj" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0avdl32">
@@ -156,7 +156,7 @@
       <bpmndi:BPMNShape id="ServiceTask_1cmxh35_di" bpmnElement="DossierGetSubmissionPeriodEndDateTask" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="640" y="140" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_1ppuijt_di" bpmnElement="ChronographRescheduleEndSubmissionPeriodTask" bioc:stroke="black" bioc:fill="white">
+      <bpmndi:BPMNShape id="ServiceTask_1ppuijt_di" bpmnElement="ChronographScheduleEndSubmissionPeriodTask" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="780" y="140" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="EndEvent_0ptfdjj_di" bpmnElement="EndEvent_0ptfdjj">

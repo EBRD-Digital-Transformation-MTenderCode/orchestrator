@@ -13,6 +13,7 @@ public enum MdmCommandType {
     PROCESS_EI_DATA("processEiData"),
     PROCESS_FS_DATA("processFsData"),
     PROCESS_TENDER_DATA("processTenderData"),
+    VALIDATE_AP("validateAP"),
     PROCESS_BID_DATA("processBidData"),
     PROCESS_ENQUIRY_DATA("processEnquiryData"),
     PROCESS_CONTRACT_DATA("processContractData");

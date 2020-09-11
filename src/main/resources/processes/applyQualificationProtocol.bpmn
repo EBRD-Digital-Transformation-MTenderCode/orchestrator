@@ -8,7 +8,7 @@
     <bpmn:startEvent id="StartEvent_1">
       <bpmn:outgoing>SequenceFlow_0ehmx8r</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:serviceTask id="AccessGetTenderStateTask" name="eAccess:&#10;Check access to tender" camunda:asyncBefore="true" camunda:delegateExpression="${accessGetTenderStateDelegate}">
+    <bpmn:serviceTask id="AccessCheckAccessToTenderTask" name="eAccess:&#10;Check access to tender" camunda:asyncBefore="true" camunda:delegateExpression="${accessCheckAccessToTenderDelegate}">
       <bpmn:extensionElements>
         <camunda:inputOutput>
           <camunda:inputParameter name="UGC">false</camunda:inputParameter>
@@ -26,8 +26,8 @@
       <bpmn:outgoing>SequenceFlow_1expo7j</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_0ehmx8r" sourceRef="StartEvent_1" targetRef="BpeProcessInitializerTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_13r4zlt" sourceRef="BpeProcessInitializerTask" targetRef="AccessGetTenderStateTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1bmhj6k" sourceRef="AccessGetTenderStateTask" targetRef="AccessCheckTenderStateTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_13r4zlt" sourceRef="BpeProcessInitializerTask" targetRef="AccessCheckAccessToTenderTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1bmhj6k" sourceRef="AccessCheckAccessToTenderTask" targetRef="AccessCheckTenderStateTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1expo7j" sourceRef="QualificationCheckQualificationPeriodTask" targetRef="SubmissionCheckAbsenceActiveInvitationsTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0z8cz6i" sourceRef="SubmissionCheckAbsenceActiveInvitationsTask" targetRef="SubModifyLotsTask" />
     <bpmn:serviceTask id="AccessCheckTenderStateTask" name="eAccess:&#10;Check tender state" camunda:asyncBefore="true" camunda:delegateExpression="${accessCheckTenderStateDelegate}">
@@ -238,9 +238,10 @@
     </bpmn:textAnnotation>
     <bpmn:association id="Association_1cw7xtc" sourceRef="QualificationCheckQualificationPeriodTask" targetRef="TextAnnotation_1ogp8pg" />
     <bpmn:textAnnotation id="TextAnnotation_0mw0dnm">
-      <bpmn:text>Проверка валидности состояния тендера</bpmn:text>
+      <bpmn:text>Проверка доступа к тендеру
+( owner&amp;token)</bpmn:text>
     </bpmn:textAnnotation>
-    <bpmn:association id="Association_0paco1e" sourceRef="AccessGetTenderStateTask" targetRef="TextAnnotation_0mw0dnm" />
+    <bpmn:association id="Association_0paco1e" sourceRef="AccessCheckAccessToTenderTask" targetRef="TextAnnotation_0mw0dnm" />
     <bpmn:textAnnotation id="TextAnnotation_19mhy7m">
       <bpmn:text>Проверка отсутствия активных invitations</bpmn:text>
     </bpmn:textAnnotation>
@@ -348,7 +349,7 @@
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
         <dc:Bounds x="179" y="232" width="36" height="36" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_06ukgc4_di" bpmnElement="AccessGetTenderStateTask" bioc:stroke="black" bioc:fill="white">
+      <bpmndi:BPMNShape id="ServiceTask_06ukgc4_di" bpmnElement="AccessCheckAccessToTenderTask" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="390" y="210" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_0hnbftj_di" bpmnElement="BpeProcessInitializerTask" bioc:stroke="black" bioc:fill="white">

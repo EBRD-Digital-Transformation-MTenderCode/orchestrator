@@ -9,11 +9,16 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.functional.asFailure
+import com.procurement.orchestrator.domain.functional.bind
+import com.procurement.orchestrator.domain.model.Cpid
+import com.procurement.orchestrator.domain.model.Ocid
 import com.procurement.orchestrator.domain.model.ProcurementMethodDetails
 import com.procurement.orchestrator.domain.model.address.country.CountryId
 import com.procurement.orchestrator.infrastructure.extension.jwt.PLATFORM_ID_CLAIM
 import com.procurement.orchestrator.infrastructure.extension.jwt.decodeJWT
 import com.procurement.orchestrator.infrastructure.extension.jwt.getPlatformId
+import com.procurement.orchestrator.infrastructure.web.controller.parseCpid
+import com.procurement.orchestrator.infrastructure.web.controller.parseSingleStageOcid
 import javax.servlet.http.HttpServletRequest
 
 private const val HEADER_AUTHORIZATION = "Authorization"
@@ -21,6 +26,9 @@ private const val HEADER_OPERATION_ID = "X-OPERATION-ID"
 private const val HEADER_TOKEN = "X-TOKEN"
 private const val QUERY_PARAM_COUNTRY = "country"
 private const val QUERY_PARAM_PMD = "pmd"
+private const val QUERY_CPID_FA = "FA"
+private const val QUERY_PARAM_MS = "MS"
+private const val QUERY_OCID_PN = "ocidPN"
 
 private const val AUTH_TOKEN_TYPE = "Bearer"
 private const val START_AUTH_TOKEN_POSITION = AUTH_TOKEN_TYPE.length + 1
@@ -120,6 +128,15 @@ fun HttpServletRequest.getPayload(): Result<String, RequestErrors.Payload.Missin
     .takeIf { it.isNotBlank() }
     ?.let { success(it) }
     ?: failure(RequestErrors.Payload.Missing())
+
+fun HttpServletRequest.getCpidFa(): Result<Cpid, RequestErrors> =
+    getRequiredQueryParam(QUERY_CPID_FA).bind { parseCpid(it) }
+
+fun HttpServletRequest.getMs(): Result<Cpid, RequestErrors> =
+    getRequiredQueryParam(QUERY_PARAM_MS).bind { parseCpid(it) }
+
+fun HttpServletRequest.getOcidPn(): Result<Ocid, RequestErrors> =
+    getRequiredQueryParam(QUERY_OCID_PN).bind { parseSingleStageOcid(it) }
 
 private fun HttpServletRequest.getRequiredHeader(name: String): Result<String, RequestErrors.Header> =
     this.getHeader(name)

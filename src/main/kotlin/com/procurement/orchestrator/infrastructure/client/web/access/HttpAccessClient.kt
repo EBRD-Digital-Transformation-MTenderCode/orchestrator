@@ -7,9 +7,12 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.WebClient
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckAccessToTenderAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckExistenceFaAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckPersonesStructureAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckRelationAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateCriteriaForProcuringEntityAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateRelationToOtherProcessAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindAuctionsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindCriteriaAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindLotIdsAction
@@ -17,6 +20,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.GetL
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetOrganizationAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetQualificationCriteriaAndMethodAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetTenderStateAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.OutsourcingPnAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ResponderProcessingAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForLotsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForTenderAction
@@ -168,5 +172,39 @@ class HttpAccessClient(private val webClient: WebClient, properties: ComponentPr
         url = url,
         command = AccessCommands.FindAuctions.build(id = id, params = params),
         target = AccessCommands.FindAuctions.target
+    )
+
+    override suspend fun checkExistenceFa(
+        id: CommandId,
+        params: CheckExistenceFaAction.Params
+    ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
+        url = url,
+        command = AccessCommands.CheckExistenceFa.build(id = id, params = params)
+    )
+
+    override suspend fun outsourcingPn(
+        id: CommandId,
+        params: OutsourcingPnAction.Params
+    ): Result<Reply<OutsourcingPnAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = AccessCommands.OutsourcingPn.build(id = id, params = params),
+        target = AccessCommands.OutsourcingPn.target
+    )
+
+    override suspend fun createRelationToOtherProcess(
+        id: CommandId,
+        params: CreateRelationToOtherProcessAction.Params
+    ): Result<Reply<CreateRelationToOtherProcessAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = AccessCommands.CreateRelationToOtherProcess.build(id = id, params = params),
+        target = AccessCommands.CreateRelationToOtherProcess.target
+    )
+
+    override suspend fun checkRelationDelegate(
+        id: CommandId,
+        params: CheckRelationAction.Params
+    ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
+        url = url,
+        command = AccessCommands.CheckRelation.build(id = id, params = params)
     )
 }

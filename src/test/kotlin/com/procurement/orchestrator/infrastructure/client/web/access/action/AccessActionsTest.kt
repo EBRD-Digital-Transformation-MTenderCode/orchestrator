@@ -344,4 +344,68 @@ class AccessActionsTest {
             }
         }
     }
+
+    @Nested
+    inner class CheckExistenceFa {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CheckExistenceFaAction.Params>("json/client/access/check_existence_fa_full.json")
+            }
+        }
+    }
+
+    @Nested
+    inner class OutsourcingPn {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<OutsourcingPnAction.Params>("json/client/access/outsourcing_pn_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<OutsourcingPnAction.Result>("json/client/access/outsourcing_pn_result_full.json")
+            }
+        }
+    }
+
+    @Nested
+    inner class CreateRelationToOtherProcess {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CreateRelationToOtherProcessAction.Params>("json/client/access/create_relation_to_other_process_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CreateRelationToOtherProcessAction.Result>("json/client/access/create_relation_to_other_process_result_full.json")
+            }
+        }
+    }
+
+    @Nested
+    inner class CheckRelation {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CheckRelationAction.Params>("json/client/access/check_relation_params_full.json")
+            }
+        }
+    }
 }
