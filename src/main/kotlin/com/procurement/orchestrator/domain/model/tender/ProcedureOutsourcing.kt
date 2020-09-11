@@ -9,5 +9,5 @@ data class ProcedureOutsourcing(
 ) : ComplexObject<ProcedureOutsourcing>, Serializable {
 
     override fun updateBy(src: ProcedureOutsourcing): ProcedureOutsourcing =
-        ProcedureOutsourcing(procedureOutsourced = procedureOutsourced)
+        ProcedureOutsourcing(procedureOutsourced = src.procedureOutsourced)
 }
