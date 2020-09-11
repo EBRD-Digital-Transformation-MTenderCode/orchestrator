@@ -171,7 +171,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_0jtui5z" sourceRef="NotifierSuccessNotificationToPlatformTask" targetRef="EndEvent_1c8rlom" />
     <bpmn:sequenceFlow id="SequenceFlow_0wq6udj" sourceRef="BpeAddUpdateRecordTaskInQueueTask" targetRef="NoticeTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1ebu58j" sourceRef="NoticeTask" targetRef="NotifierSuccessNotificationToPlatformTask" />
-    <bpmn:callActivity id="SubModifyTenderTask" name="update PN state" camunda:asyncBefore="true" calledElement="subModifyTender" camunda:variableMappingDelegateExpression="${updateOtherProcessRecord}">
+    <bpmn:callActivity id="SubModifyTenderTask" name="update PN state" camunda:asyncBefore="true" calledElement="subModifyTender" camunda:variableMappingDelegateExpression="${updateOtherProcessRecordDelegate}">
       <bpmn:extensionElements>
         <camunda:out source="errors" target="errors" />
       </bpmn:extensionElements>
@@ -208,7 +208,7 @@
       <bpmn:incoming>SequenceFlow_1bqo5es</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1evsjzv</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:callActivity id="SubCheckRelationOtherProcessMS" name="check relation to PN in FA" camunda:asyncBefore="true" calledElement="subCheckRelationOtherProcessMS" camunda:variableMappingDelegateExpression="${updateOtherProcessRecord}">
+    <bpmn:callActivity id="SubCheckRelationOtherProcessMS" name="check relation to PN in FA" camunda:asyncBefore="true" calledElement="subCheckRelationOtherProcessMS" camunda:variableMappingDelegateExpression="${updateOtherProcessRecordDelegate}">
       <bpmn:incoming>SequenceFlow_1evsjzv</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0g9mvt8</bpmn:outgoing>
     </bpmn:callActivity>
