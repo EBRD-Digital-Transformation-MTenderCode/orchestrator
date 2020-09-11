@@ -11,7 +11,7 @@ import org.camunda.bpm.engine.variable.VariableMap
 import org.springframework.stereotype.Component
 
 @Component
-class UpdateOtherProcessMsDelegate : DelegateVariableMapping {
+class UpdateOtherProcessMSDelegate : DelegateVariableMapping {
 
     companion object {
         private const val VARIABLE_PROCESS_INFO = "processInfo"
