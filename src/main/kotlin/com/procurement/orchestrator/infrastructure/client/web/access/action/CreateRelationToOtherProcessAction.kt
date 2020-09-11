@@ -25,11 +25,15 @@ abstract class CreateRelationToOtherProcessAction : FunctionalAction<CreateRelat
         @field:JsonProperty("relatedCpid") @param:JsonProperty("relatedCpid") val relatedCpid: Cpid?,
 
         @field:JsonProperty("operationType") @param:JsonProperty("operationType") val operationType: OperationTypeProcess
-        )
+    )
 
     class Result(
-        @param:JsonProperty("relatedProcesses") @field:JsonProperty("relatedProcesses") val relatedProcesses: List<RelatedProcess>
+        @param:JsonProperty("relatedProcesses") @field:JsonProperty("relatedProcesses") val relatedProcesses: List<RelatedProcess>,
+
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        @param:JsonProperty("tender") @field:JsonProperty("tender") val tender: Tender? = null
     ) : Serializable {
+
         data class RelatedProcess(
             @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
             @param:JsonProperty("relationship") @field:JsonProperty("relationship") val relationship: List<RelatedProcessType>,
@@ -37,5 +41,14 @@ abstract class CreateRelationToOtherProcessAction : FunctionalAction<CreateRelat
             @param:JsonProperty("identifier") @field:JsonProperty("identifier") val identifier: String,
             @param:JsonProperty("uri") @field:JsonProperty("uri") val uri: String
         ) : Serializable
+
+        data class Tender(
+            @param:JsonProperty("procedureOutsourcing") @field:JsonProperty("procedureOutsourcing") val procedureOutsourcing: ProcedureOutsourcing
+        ) : Serializable {
+
+            data class ProcedureOutsourcing(
+                @param:JsonProperty("procedureOutsourced") @field:JsonProperty("procedureOutsourced") val procedureOutsourced: Boolean
+            ) : Serializable
+        }
     }
 }

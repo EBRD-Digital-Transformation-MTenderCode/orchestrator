@@ -394,6 +394,11 @@ class AccessActionsTest {
             fun fully() {
                 testingBindingAndMapping<CreateRelationToOtherProcessAction.Result>("json/client/access/create_relation_to_other_process_result_full.json")
             }
+
+            @Test
+            fun required1() {
+                testingBindingAndMapping<CreateRelationToOtherProcessAction.Result>("json/client/access/create_relation_to_other_process_result_required_1.json")
+            }
         }
     }
 
