@@ -10,6 +10,7 @@ import java.util.Map;
 
 public enum Stage {
     AC("AC"),
+    AP("AP"),
     EI("EI"),
     EV("EV"),
     FS("FS"),
