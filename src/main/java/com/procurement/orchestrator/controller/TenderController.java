@@ -14,7 +14,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -480,6 +486,20 @@ public class TenderController extends DoBaseController {
         requestService.validate(operationId, data);
         final Context context = requestService.getContextForCreate(authorization, operationId, country, pmd, "createFA", testMode);
         context.setEndDate(processService.getTenderPeriodEndDate(data, null));
+        requestService.saveRequestAndCheckOperation(context, data);
+        processService.startProcess(context, new HashMap<>());
+        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
+    }
+
+    @RequestMapping(value = "/ap/{cpid}/{ocid}", method = RequestMethod.POST)
+    public ResponseEntity<String> updateAp(@RequestHeader("Authorization") final String authorization,
+                                           @RequestHeader("X-OPERATION-ID") final String operationId,
+                                           @RequestHeader("X-TOKEN") final String token,
+                                           @PathVariable("cpid") final String cpid,
+                                           @PathVariable("ocid") final String ocid,
+                                           @RequestBody final JsonNode data) {
+        requestService.validate(operationId, data);
+        final Context context = requestService.getContextForUpdate(authorization, operationId, cpid, ocid, token, "updateAP");
         requestService.saveRequestAndCheckOperation(context, data);
         processService.startProcess(context, new HashMap<>());
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
