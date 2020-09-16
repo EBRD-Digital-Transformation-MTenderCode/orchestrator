@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1eb7pyf" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.5.0">
+  <bpmn:collaboration id="Collaboration_100epa1">
+    <bpmn:participant id="Participant_0evnsbz" name="UpdateAP" processRef="updateAP" />
+  </bpmn:collaboration>
+  <bpmn:process id="updateAP" name="updateAP" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_11lbzd0">
+      <bpmn:outgoing>SequenceFlow_0d21d7a</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:endEvent id="EndEvent_11kjy6x">
+      <bpmn:incoming>SequenceFlow_1uej4q2</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="SendMessageTask" name="Send &#10;message&#10;" camunda:asyncBefore="true" camunda:delegateExpression="${sendMessageToPlatform}">
+      <bpmn:incoming>SequenceFlow_083wrqk</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1uej4q2</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="SaveFirstOperationTask" name="Save first operation" camunda:delegateExpression="${saveFirstOperation}">
+      <bpmn:incoming>SequenceFlow_0d21d7a</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1hz5kuw</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="AccessUpdateAPTask" name="Access&#10;update AP" camunda:asyncBefore="true" camunda:delegateExpression="${accessUpdateAP}">
+      <bpmn:incoming>SequenceFlow_0o10j7c</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_10i41mo</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="NoticeCreateReleaseTask" name="Notice create release" camunda:asyncBefore="true" camunda:delegateExpression="${noticeCreateRelease}">
+      <bpmn:incoming>SequenceFlow_1hw2ky4</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1eges6t</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="SaveContextTask" name="Save Context" camunda:delegateExpression="${saveContext}">
+      <bpmn:incoming>SequenceFlow_1eges6t</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_083wrqk</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="StorageOpenDocsOfTenderTask" name="Storage open Documents of Tender" camunda:asyncBefore="true" camunda:delegateExpression="${storageOpenDocsOfTender}">
+      <bpmn:incoming>SequenceFlow_10i41mo</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1hw2ky4</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="MdmEnrichDataForUpdateAPTask" name="MDM: &#10;Enrich data for update AP&#10;" camunda:asyncBefore="true" camunda:delegateExpression="${mdmEnrichDataForUpdateAP}">
+      <bpmn:incoming>SequenceFlow_0t7tjev</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0o10j7c</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="AccessCheckItemsTask" name="Access Check Items" camunda:asyncBefore="true" camunda:delegateExpression="${accessCheckItems}">
+      <bpmn:incoming>SequenceFlow_0xs9g2m</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0t7tjev</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="StorageValidateDocsOfTenderTask" name="Storage&#10;Validate" camunda:asyncBefore="true" camunda:delegateExpression="${storageValidateDocsOfTender}">
+      <bpmn:incoming>SequenceFlow_1hz5kuw</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0xs9g2m</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_0d21d7a" sourceRef="StartEvent_11lbzd0" targetRef="SaveFirstOperationTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1uej4q2" sourceRef="SendMessageTask" targetRef="EndEvent_11kjy6x" />
+    <bpmn:sequenceFlow id="SequenceFlow_083wrqk" sourceRef="SaveContextTask" targetRef="SendMessageTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1hz5kuw" sourceRef="SaveFirstOperationTask" targetRef="StorageValidateDocsOfTenderTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0o10j7c" sourceRef="MdmEnrichDataForUpdateAPTask" targetRef="AccessUpdateAPTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_10i41mo" sourceRef="AccessUpdateAPTask" targetRef="StorageOpenDocsOfTenderTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1hw2ky4" sourceRef="StorageOpenDocsOfTenderTask" targetRef="NoticeCreateReleaseTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1eges6t" sourceRef="NoticeCreateReleaseTask" targetRef="SaveContextTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0t7tjev" sourceRef="AccessCheckItemsTask" targetRef="MdmEnrichDataForUpdateAPTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0xs9g2m" sourceRef="StorageValidateDocsOfTenderTask" targetRef="AccessCheckItemsTask" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_100epa1">
+      <bpmndi:BPMNShape id="Participant_0evnsbz_di" bpmnElement="Participant_0evnsbz" isHorizontal="true">
+        <dc:Bounds x="152" y="80" width="1380" height="250" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_11lbzd0_di" bpmnElement="StartEvent_11lbzd0">
+        <dc:Bounds x="202" y="182" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_11kjy6x_di" bpmnElement="EndEvent_11kjy6x">
+        <dc:Bounds x="1475" y="182" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1qr1fs8_di" bpmnElement="SendMessageTask">
+        <dc:Bounds x="1348" y="160" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0j4n8pr_di" bpmnElement="SaveFirstOperationTask">
+        <dc:Bounds x="268" y="160" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1wo7n03_di" bpmnElement="AccessUpdateAPTask">
+        <dc:Bounds x="808" y="160" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_10isvlr_di" bpmnElement="NoticeCreateReleaseTask">
+        <dc:Bounds x="1078" y="160" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1sgpcba_di" bpmnElement="SaveContextTask">
+        <dc:Bounds x="1213" y="160" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_13ltx6k_di" bpmnElement="StorageOpenDocsOfTenderTask">
+        <dc:Bounds x="943" y="160" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0l0bcdf_di" bpmnElement="MdmEnrichDataForUpdateAPTask">
+        <dc:Bounds x="673" y="160" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0qlszrv_di" bpmnElement="AccessCheckItemsTask">
+        <dc:Bounds x="538" y="160" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0tt0wy6_di" bpmnElement="StorageValidateDocsOfTenderTask">
+        <dc:Bounds x="403" y="160" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0d21d7a_di" bpmnElement="SequenceFlow_0d21d7a">
+        <di:waypoint x="238" y="200" />
+        <di:waypoint x="268" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1uej4q2_di" bpmnElement="SequenceFlow_1uej4q2">
+        <di:waypoint x="1448" y="200" />
+        <di:waypoint x="1475" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_083wrqk_di" bpmnElement="SequenceFlow_083wrqk">
+        <di:waypoint x="1313" y="200" />
+        <di:waypoint x="1348" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1hz5kuw_di" bpmnElement="SequenceFlow_1hz5kuw">
+        <di:waypoint x="368" y="200" />
+        <di:waypoint x="403" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0o10j7c_di" bpmnElement="SequenceFlow_0o10j7c">
+        <di:waypoint x="773" y="200" />
+        <di:waypoint x="808" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_10i41mo_di" bpmnElement="SequenceFlow_10i41mo">
+        <di:waypoint x="908" y="200" />
+        <di:waypoint x="943" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1hw2ky4_di" bpmnElement="SequenceFlow_1hw2ky4">
+        <di:waypoint x="1043" y="200" />
+        <di:waypoint x="1078" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1eges6t_di" bpmnElement="SequenceFlow_1eges6t">
+        <di:waypoint x="1178" y="200" />
+        <di:waypoint x="1213" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0t7tjev_di" bpmnElement="SequenceFlow_0t7tjev">
+        <di:waypoint x="638" y="200" />
+        <di:waypoint x="673" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0xs9g2m_di" bpmnElement="SequenceFlow_0xs9g2m">
+        <di:waypoint x="503" y="200" />
+        <di:waypoint x="538" y="200" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
