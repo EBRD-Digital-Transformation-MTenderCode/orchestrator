@@ -1186,6 +1186,15 @@ public class ProcessServiceImpl implements ProcessService {
         }
     }
 
+    public JsonNode getFullTender(final JsonNode jsonData, final String processId) {
+        try {
+            return jsonData.get("tender");
+        } catch (Exception e) {
+            terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
     public JsonNode setTenderData(final Boolean itemsAdd, final JsonNode jsonData, final JsonNode responseData, final String processId) {
         try {
             final ObjectNode tenderNode = (ObjectNode) jsonData.get("tender");
