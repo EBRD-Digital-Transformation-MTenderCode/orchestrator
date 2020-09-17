@@ -1,12 +1,13 @@
 package com.procurement.orchestrator.service;
 
-import java.util.Map;
-import java.util.Optional;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.dto.command.ResponseDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
+import java.util.Optional;
 
 @Service
 public interface ProcessService {
@@ -170,6 +171,8 @@ public interface ProcessService {
     JsonNode setFsData(JsonNode jsonData, JsonNode responseData, String processId);
 
     JsonNode getTenderData(Boolean itemsAdd, JsonNode jsonData, String processId);
+
+    JsonNode getFullTender(final JsonNode jsonData, final String processId);
 
     JsonNode setTenderData(Boolean itemsAdd, JsonNode jsonData, JsonNode responseData, String processId);
 
