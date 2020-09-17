@@ -12,6 +12,8 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.model.contract.RelatedProcess
 import com.procurement.orchestrator.domain.model.contract.RelatedProcessTypes
 import com.procurement.orchestrator.domain.model.contract.RelatedProcesses
+import com.procurement.orchestrator.domain.model.tender.ProcedureOutsourcing
+import com.procurement.orchestrator.domain.model.tender.Tender
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
@@ -72,6 +74,20 @@ class AccessCreateRelationToOtherProcessDelegate(
         val updatedRelatedProcesses = context.relatedProcesses updateBy RelatedProcesses(receivedRelatedProcesses)
 
         context.relatedProcesses = updatedRelatedProcesses
+
+        if (data.tender != null) {
+            val tender = context.tender ?: Tender()
+            val updatedTender = tender.copy(
+                procedureOutsourcing = tender.procedureOutsourcing
+                    ?.copy(
+                        procedureOutsourced = data.tender.procedureOutsourcing.procedureOutsourced
+                    )
+                    ?: ProcedureOutsourcing(
+                        procedureOutsourced = data.tender.procedureOutsourcing.procedureOutsourced
+                    )
+            )
+            context.tender = updatedTender
+        }
 
         return MaybeFail.none()
     }

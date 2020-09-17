@@ -18,6 +18,7 @@ public enum AccessCommandType {
     CREATE_PIN_ON_PN("createPinOnPn"),
     CREATE_PN("createPn"),
 
+    UPDATE_AP("updateAp"),
     UPDATE_CN("updateCn"),
     UPDATE_PN("updatePn"),
 

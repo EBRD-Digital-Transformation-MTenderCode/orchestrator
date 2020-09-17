@@ -14,6 +14,7 @@ public enum MdmCommandType {
     PROCESS_FS_DATA("processFsData"),
     PROCESS_TENDER_DATA("processTenderData"),
     VALIDATE_AP("validateAP"),
+    ENRICH_DATA_FOR_UPDATE_AP("enrichDataForUpdateAP"),
     PROCESS_BID_DATA("processBidData"),
     PROCESS_ENQUIRY_DATA("processEnquiryData"),
     PROCESS_CONTRACT_DATA("processContractData");
