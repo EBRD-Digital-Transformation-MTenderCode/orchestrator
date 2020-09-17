@@ -36,6 +36,7 @@ public enum OperationType {
     CREATE_CN_ON_PN("createCNonPN"),
     CREATE_EI("createEI"),
     CREATE_ENQUIRY("createEnquiry"),
+    CREATE_FE("createFE"),
     CREATE_FS("createFS"),
     CREATE_NEGOTIATION_CN_ON_PN("createNegotiationCnOnPn"),
     CREATE_PIN("createPIN"),
