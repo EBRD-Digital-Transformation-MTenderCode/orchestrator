@@ -19,19 +19,21 @@ import org.springframework.stereotype.Component;
 import static com.procurement.orchestrator.domain.commands.AccessCommandType.AMEND_FE;
 
 @Component
-public class AccessAmendFe implements JavaDelegate {
+public class AccessAmendFE implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AccessAmendFe.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AccessAmendFE.class);
 
     private final AccessRestClient accessRestClient;
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public AccessAmendFe(final AccessRestClient accessRestClient,
-                          final OperationService operationService,
-                          final ProcessService processService,
-                          final JsonUtil jsonUtil) {
+    public AccessAmendFE(
+        final AccessRestClient accessRestClient,
+        final OperationService operationService,
+        final ProcessService processService,
+        final JsonUtil jsonUtil
+    ) {
         this.accessRestClient = accessRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -51,13 +53,16 @@ public class AccessAmendFe implements JavaDelegate {
 
         if (tender != null) {
             final JsonNode commandMessage = processService.getCommandMessage(AMEND_FE, context, tender);
-            LOG.debug("COMMAND ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(commandMessage));
+            if (LOG.isDebugEnabled())
+                LOG.debug("COMMAND ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(commandMessage));
 
             final ResponseEntity<ResponseDto> response = accessRestClient.execute(commandMessage);
-            LOG.debug("RESPONSE FROM SERVICE ({}): '{}'.", context.getOperationId(), jsonUtil.toJson(response.getBody()));
+            if (LOG.isDebugEnabled())
+                LOG.debug("RESPONSE FROM SERVICE ({}): '{}'.", context.getOperationId(), jsonUtil.toJson(response.getBody()));
 
             JsonNode responseData = processService.processResponse(response, context, processId, taskId, commandMessage);
-            LOG.debug("RESPONSE AFTER PROCESSING ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(responseData));
+            if (LOG.isDebugEnabled())
+                LOG.debug("RESPONSE AFTER PROCESSING ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(responseData));
 
             if (responseData != null) {
                 final JsonNode step = replaceTender(jsonData, responseData, processId);
