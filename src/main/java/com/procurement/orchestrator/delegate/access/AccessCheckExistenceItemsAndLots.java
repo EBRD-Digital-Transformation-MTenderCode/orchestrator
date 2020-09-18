@@ -27,10 +27,12 @@ public class AccessCheckExistenceItemsAndLots implements JavaDelegate {
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public AccessCheckExistenceItemsAndLots(final AccessRestClient accessRestClient,
-                                            final OperationService operationService,
-                                            final ProcessService processService,
-                                            final JsonUtil jsonUtil) {
+    public AccessCheckExistenceItemsAndLots(
+        final AccessRestClient accessRestClient,
+        final OperationService operationService,
+        final ProcessService processService,
+        final JsonUtil jsonUtil
+    ) {
         this.accessRestClient = accessRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -46,13 +48,16 @@ public class AccessCheckExistenceItemsAndLots implements JavaDelegate {
         final String taskId = execution.getCurrentActivityId();
 
         final JsonNode commandMessage = processService.getCommandMessage(CHECK_EXISTENCE_ITEMS_AND_LOTS, context, jsonUtil.empty());
-        LOG.debug("COMMAND ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(commandMessage));
+        if (LOG.isDebugEnabled())
+            LOG.debug("COMMAND ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(commandMessage));
 
         final ResponseEntity<ResponseDto> response = accessRestClient.execute(commandMessage);
-        LOG.debug("RESPONSE FROM SERVICE ({}): '{}'.", context.getOperationId(), jsonUtil.toJson(response.getBody()));
+        if (LOG.isDebugEnabled())
+            LOG.debug("RESPONSE FROM SERVICE ({}): '{}'.", context.getOperationId(), jsonUtil.toJson(response.getBody()));
 
-        JsonNode responseData = processService.processResponse(response, context, processId, taskId, commandMessage);
-        LOG.debug("RESPONSE AFTER PROCESSING ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(responseData));
+        final JsonNode responseData = processService.processResponse(response, context, processId, taskId, commandMessage);
+        if (LOG.isDebugEnabled())
+            LOG.debug("RESPONSE AFTER PROCESSING ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(responseData));
 
         if (responseData != null) {
             operationService.saveOperationStep(execution, entity, commandMessage);
