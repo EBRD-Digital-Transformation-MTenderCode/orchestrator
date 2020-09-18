@@ -541,4 +541,23 @@ public class TenderController extends DoBaseController {
         processService.startProcess(context, variables);
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
+
+    @RequestMapping(value = "/amend/fe/{cpid}/{ocid}", method = RequestMethod.POST)
+    public ResponseEntity<String> amendFe(@RequestHeader("Authorization") final String authorization,
+                                           @RequestHeader("X-OPERATION-ID") final String operationId,
+                                           @RequestHeader("X-TOKEN") final String token,
+                                           @PathVariable("cpid") final String cpid,
+                                           @PathVariable("ocid") final String ocid,
+                                           @RequestBody final JsonNode data) {
+        requestService.validate(operationId, data);
+        final String processType = "amendFE";
+        final Context context =
+                requestService.getContextForUpdate(authorization, operationId, cpid, ocid, token, processType);
+        processService.setPreQualificationPeriodStartDate(data, context.getStartDate(), null);
+        requestService.saveRequestAndCheckOperation(context, data);
+        final Map<String, Object> variables = new HashMap<>();
+        variables.put("operationType", context.getOperationType());
+        processService.startProcess(context, variables);
+        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
+    }
 }
