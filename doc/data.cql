@@ -330,3 +330,11 @@ INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type)
 INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_OF','creareFA','creareFA');
 INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','CF','creareFA','creareFA');
 INSERT INTO ocds.orchestrator_process_type (country, pmd, process, process_type) VALUES ('MD','TEST_CF','creareFA','creareFA');
+INSERT INTO ocds.orchestrator_process_type (country,pmd,process,process_type) VALUES ('MD','OF','createFE','createFE');
+INSERT INTO ocds.orchestrator_process_type (country,pmd,process,process_type) VALUES ('MD','OF','amendFE','amendFE');
+INSERT INTO ocds.orchestrator_process_type (country,pmd,process,process_type) VALUES ('MD','TEST_OF','createFE','createFE');
+INSERT INTO ocds.orchestrator_process_type (country,pmd,process,process_type) VALUES ('MD','TEST_OF','amendFE','amendFE');
+INSERT INTO ocds.orchestrator_process_type (country,pmd,process,process_type) VALUES ('MD','CF','createFE','createFE');
+INSERT INTO ocds.orchestrator_process_type (country,pmd,process,process_type) VALUES ('MD','CF','amendFE','amendFE');
+INSERT INTO ocds.orchestrator_process_type (country,pmd,process,process_type) VALUES ('MD','TEST_CF','createFE','createFE');
+INSERT INTO ocds.orchestrator_process_type (country,pmd,process,process_type) VALUES ('MD','TEST_CF','amendFE','amendFE');
