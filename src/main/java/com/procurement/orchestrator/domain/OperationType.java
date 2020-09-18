@@ -12,6 +12,7 @@ public enum OperationType {
 
     ACTIVATION_AC("activationAC"),
     ADD_ANSWER("addAnswer"),
+    AMEND_FE("amendFE"),
     AUCTION_PERIOD_END("auctionPeriodEnd"),
     AWARD_BY_BID("awardByBid"),
     AWARD_BY_BID_EV("awardByBidEv"),
@@ -36,6 +37,7 @@ public enum OperationType {
     CREATE_CN_ON_PN("createCNonPN"),
     CREATE_EI("createEI"),
     CREATE_ENQUIRY("createEnquiry"),
+    CREATE_FE("createFE"),
     CREATE_FS("createFS"),
     CREATE_NEGOTIATION_CN_ON_PN("createNegotiationCnOnPn"),
     CREATE_PIN("createPIN"),
