@@ -18,19 +18,21 @@ import org.springframework.stereotype.Component;
 import static com.procurement.orchestrator.domain.commands.AccessCommandType.CHECK_FE_DATA;
 
 @Component
-public class AccessCheckFeData implements JavaDelegate {
+public class AccessCheckFEData implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AccessCheckFeData.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AccessCheckFEData.class);
 
     private final AccessRestClient accessRestClient;
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public AccessCheckFeData(final AccessRestClient accessRestClient,
-                             final OperationService operationService,
-                             final ProcessService processService,
-                             final JsonUtil jsonUtil) {
+    public AccessCheckFEData(
+        final AccessRestClient accessRestClient,
+        final OperationService operationService,
+        final ProcessService processService,
+        final JsonUtil jsonUtil
+    ) {
         this.accessRestClient = accessRestClient;
         this.operationService = operationService;
         this.processService = processService;
@@ -50,13 +52,16 @@ public class AccessCheckFeData implements JavaDelegate {
 
         if (tender != null) {
             final JsonNode commandMessage = processService.getCommandMessage(CHECK_FE_DATA, context, tender);
-            LOG.debug("COMMAND ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(commandMessage));
+            if (LOG.isDebugEnabled())
+                LOG.debug("COMMAND ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(commandMessage));
 
             final ResponseEntity<ResponseDto> response = accessRestClient.execute(commandMessage);
-            LOG.debug("RESPONSE FROM SERVICE ({}): '{}'.", context.getOperationId(), jsonUtil.toJson(response.getBody()));
+            if (LOG.isDebugEnabled())
+                LOG.debug("RESPONSE FROM SERVICE ({}): '{}'.", context.getOperationId(), jsonUtil.toJson(response.getBody()));
 
-            JsonNode responseData = processService.processResponse(response, context, processId, taskId, commandMessage);
-            LOG.debug("RESPONSE AFTER PROCESSING ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(responseData));
+            final JsonNode responseData = processService.processResponse(response, context, processId, taskId, commandMessage);
+            if (LOG.isDebugEnabled())
+                LOG.debug("RESPONSE AFTER PROCESSING ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(responseData));
 
             if (responseData != null) {
                 operationService.saveOperationStep(execution, entity, commandMessage);
