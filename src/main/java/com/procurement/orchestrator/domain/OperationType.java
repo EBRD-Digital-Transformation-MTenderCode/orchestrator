@@ -12,6 +12,7 @@ public enum OperationType {
 
     ACTIVATION_AC("activationAC"),
     ADD_ANSWER("addAnswer"),
+    AMEND_FE("amendFE"),
     AUCTION_PERIOD_END("auctionPeriodEnd"),
     AWARD_BY_BID("awardByBid"),
     AWARD_BY_BID_EV("awardByBidEv"),
