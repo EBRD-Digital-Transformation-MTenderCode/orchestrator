@@ -48,6 +48,7 @@ public enum AccessCommandType {
 
     CHECK_AWARD("checkAward"),
     CHECK_EXISTENCE_ITEMS_AND_LOTS("checkExistenceItemsAndLots"),
+    CHECK_FE_DATA("checkFEData"),
     CHECK_LOT_STATUS("checkLotStatus"),
     CHECK_LOT_ACTIVE("checkLotActive"),
     CHECK_LOTS_STATUS("checkLotsStatus"),
