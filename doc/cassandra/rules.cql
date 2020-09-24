@@ -794,3 +794,12 @@ INSERT INTO orchestrator.rules (country, pmd, process_definition_key, stage_from
 VALUES ('MD', 'TEST_SV', 'declareNonConflictOfInterest', 'EV', 'EV', 'awarding', 'awarding', 'declareNonConflictOfInterest');
 INSERT INTO orchestrator.rules (country, pmd, process_definition_key, stage_from, stage_to, phase_from, phase_to, operation_type)
 VALUES ('MD', 'TEST_MV', 'declareNonConflictOfInterest', 'EV', 'EV', 'awarding', 'awarding', 'declareNonConflictOfInterest');
+
+INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','OF','createFE','AP','planning','submission','FE','createFE');
+INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','OF','createFE','FE','submission','submission','FE','amendFE');
+INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OF','createFE','AP','planning','submission','FE','createFE');
+INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_OF','createFE','FE','submission','submission','FE','amendFE');
+INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','CF','createFE','AP','planning','submission','FE','createFE');
+INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','CF','createFE','FE','submission','submission','FE','amendFE');
+INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_CF','createFE','AP','planning','submission','FE','createFE');
+INSERT INTO ocds.orchestrator_rules (country,pmd,process_type,prev_stage,prev_phase,new_phase,new_stage,operation_type) VALUES ('MD','TEST_CF','createFE','FE','submission','submission','FE','amendFE');

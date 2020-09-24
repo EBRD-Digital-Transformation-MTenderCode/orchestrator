@@ -14,10 +14,12 @@ public enum AccessCommandType {
     CREATE_CN("createCn"),
     CREATE_CN_ON_PIN("createCnOnPin"),
     CREATE_CN_ON_PN("createCnOnPn"),
+    CREATE_FE("createFE"),
     CREATE_PIN("createPin"),
     CREATE_PIN_ON_PN("createPinOnPn"),
     CREATE_PN("createPn"),
 
+    AMEND_FE("amendFE"),
     UPDATE_AP("updateAp"),
     UPDATE_CN("updateCn"),
     UPDATE_PN("updatePn"),
@@ -46,6 +48,8 @@ public enum AccessCommandType {
     SET_FINAL_STATUSES("setFinalStatuses"),
 
     CHECK_AWARD("checkAward"),
+    CHECK_EXISTENCE_ITEMS_AND_LOTS("checkExistenceItemsAndLots"),
+    CHECK_FE_DATA("checkFEData"),
     CHECK_LOT_STATUS("checkLotStatus"),
     CHECK_LOT_ACTIVE("checkLotActive"),
     CHECK_LOTS_STATUS("checkLotsStatus"),
