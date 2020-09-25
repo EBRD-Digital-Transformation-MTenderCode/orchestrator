@@ -1,6 +1,9 @@
 {
   "cpid": "ocds-b3wdp1-MD-1580458690892",
   "date": "2020-07-15T09:14:06Z",
+  "pmd": "MV",
+  "country": "MD",
+  "operationType": "relationAP",
   "qualifications": [
     {
       "id": "ef4a2f22-05ed-48cc-8654-534ca152eef8",
