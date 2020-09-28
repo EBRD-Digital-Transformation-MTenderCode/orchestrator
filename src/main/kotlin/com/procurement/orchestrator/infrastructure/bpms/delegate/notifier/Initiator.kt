@@ -22,6 +22,8 @@ enum class Initiator(@JsonValue override val key: String) : EnumElementProvider.
 
 fun initiator(operationType: OperationTypeProcess): Initiator = when (operationType) {
     OperationTypeProcess.APPLY_QUALIFICATION_PROTOCOL -> Initiator.PLATFORM
+    OperationTypeProcess.COMPLETE_QUALIFICATION -> Initiator.PLATFORM
+    OperationTypeProcess.CREATE_PCR -> Initiator.PLATFORM
     OperationTypeProcess.CREATE_SUBMISSION -> Initiator.PLATFORM
     OperationTypeProcess.DECLARE_NON_CONFLICT_OF_INTEREST,
     OperationTypeProcess.LOT_CANCELLATION -> Initiator.PLATFORM
@@ -36,7 +38,6 @@ fun initiator(operationType: OperationTypeProcess): Initiator = when (operationT
     OperationTypeProcess.TENDER_OR_LOT_AMENDMENT_CONFIRMATION -> Initiator.PLATFORM
     OperationTypeProcess.WITHDRAW_QUALIFICATION_PROTOCOL -> Initiator.PLATFORM
     OperationTypeProcess.WITHDRAW_SUBMISSION -> Initiator.PLATFORM
-    OperationTypeProcess.START_SECOND_STAGE -> Initiator.PLATFORM
     OperationTypeProcess.OUTSOURCING_PN -> Initiator.PLATFORM
     OperationTypeProcess.RELATION_AP -> Initiator.PLATFORM
 }
