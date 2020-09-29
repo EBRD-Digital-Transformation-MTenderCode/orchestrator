@@ -3,6 +3,7 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.dossier
 import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.DossierClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
+import com.procurement.orchestrator.application.model.process.OperationTypeProcess
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
@@ -93,7 +94,7 @@ class DossierGetSubmissionsForTenderingDelegate(
 
         val submissionReceived = data.first()
         val builtParties = submissionReceived.candidates
-            .map { candidate -> buildParty(candidate) }
+            .map { candidate -> buildParty(candidate, context.processInfo.operationType) }
             .let { Parties(it) }
 
         val parties = context.parties
@@ -104,10 +105,13 @@ class DossierGetSubmissionsForTenderingDelegate(
         return MaybeFail.none()
     }
 
-    private fun buildParty(organization: GetSubmissionsForTenderingAction.Result.Submission.Candidate) = Party(
+    private fun buildParty(
+        organization: GetSubmissionsForTenderingAction.Result.Submission.Candidate,
+        operationType: OperationTypeProcess
+    ) = Party(
         id = organization.id,
         name = organization.name,
-        roles = PartyRoles(PartyRole.INVITED_TENDERER),
+        roles = getPartyRoles(operationType),
         address = organization.address
             .let { address ->
                 Address(
@@ -336,4 +340,10 @@ class DossierGetSubmissionsForTenderingDelegate(
                 )
             }
     )
+
+    fun getPartyRoles(operationType: OperationTypeProcess) =
+        if (operationType == OperationTypeProcess.COMPLETE_QUALIFICATION)
+            PartyRoles(PartyRole.INVITED_CANDIDATE)
+        else
+            PartyRoles(PartyRole.INVITED_TENDERER)
 }
