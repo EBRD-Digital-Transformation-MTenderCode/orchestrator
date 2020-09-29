@@ -153,6 +153,8 @@ class NotifierSuccessNotificationToPlatformDelegate(
     private fun generateUrl(operationType: OperationTypeProcess, cpid: Cpid, ocid: Ocid): String =
         when (operationType) {
             OperationTypeProcess.APPLY_QUALIFICATION_PROTOCOL -> "$tenderUri/$cpid/$ocid"
+            OperationTypeProcess.COMPLETE_QUALIFICATION -> "$tenderUri/$cpid/$ocid"
+            OperationTypeProcess.CREATE_PCR -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.CREATE_SUBMISSION -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.DECLARE_NON_CONFLICT_OF_INTEREST -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.LOT_CANCELLATION -> "$tenderUri/$cpid/$ocid"
@@ -167,7 +169,6 @@ class NotifierSuccessNotificationToPlatformDelegate(
             OperationTypeProcess.TENDER_OR_LOT_AMENDMENT_CONFIRMATION -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.WITHDRAW_QUALIFICATION_PROTOCOL -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.WITHDRAW_SUBMISSION -> "$tenderUri/$cpid/$ocid"
-            OperationTypeProcess.START_SECOND_STAGE -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.RELATION_AP -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.OUTSOURCING_PN -> "$tenderUri/$cpid/$ocid"
 
