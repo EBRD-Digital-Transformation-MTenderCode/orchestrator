@@ -227,7 +227,7 @@
       <bpmn:outgoing>SequenceFlow_0kdxiry</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_0h5u84h" name="relationAP" sourceRef="ExclusiveGateway_0oqxytt" targetRef="AccessSetAggregatedStateForPlanTask">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${processInfo.operationType == 'RELATION_AP}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${processInfo.operationType == 'RELATION_AP'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_0bekdl8" sourceRef="AccessSetAggregatedStateForPlanTask" targetRef="bpeSetPhaseRelationAPWayTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0kdxiry" sourceRef="bpeSetPhaseRelationAPWayTask" targetRef="ExclusiveGateway_1kyf9ft" />
@@ -377,7 +377,7 @@
       <bpmn:sequenceFlow id="SequenceFlow_10dnpin" sourceRef="FixExternalIncidentTask" targetRef="RecoveryAfterExternalIncidentTask" />
     </bpmn:subProcess>
     <bpmn:sequenceFlow id="SequenceFlow_1l1fjqz" name="complete&#10;Qualification" sourceRef="ExclusiveGateway_0oqxytt" targetRef="AccessSetEvaluationStateForFETask">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${processInfo.operationType == 'COMPLETE_QUALIFICATION}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${processInfo.operationType == 'COMPLETE_QUALIFICATION'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_0oou9hj" sourceRef="AccessSetEvaluationStateForFETask" targetRef="bpeSetPhaseCompleteQualificationWayTask" />
     <bpmn:serviceTask id="bpeSetPhaseCompleteQualificationWayTask" name="BPE:&#10;Set &#39;evaluation&#39; phase" camunda:asyncBefore="true" camunda:delegateExpression="${bpeSetPhaseDelegate}">
