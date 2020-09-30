@@ -22,13 +22,13 @@ import org.springframework.web.bind.annotation.RestController
 import javax.servlet.http.HttpServletRequest
 
 @RestController
-class ConfirmQualificationController(
+class CompleteQualificationController(
     private val logger: Logger,
     private val processLauncher: ProcessLauncher
 ) {
 
     companion object {
-        private const val PROCESS_NAME = "confirmQualification"
+        private const val PROCESS_NAME = "completeQualification"
     }
 
     @PostMapping("/confirm/qualification/{cpid}/{ocid}")
