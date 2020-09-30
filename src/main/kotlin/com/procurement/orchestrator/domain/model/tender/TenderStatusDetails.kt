@@ -17,6 +17,7 @@ enum class TenderStatusDetails(@JsonValue override val key: String) : EnumElemen
     CLARIFICATION("clarification"),
     COMPLETE("complete"),
     EMPTY("empty"),
+    EVALUATION("evaluation"),
     LACK_OF_QUALIFICATIONS("lackOfQualifications"),
     LACK_OF_SUBMISSIONS("lackOfSubmissions"),
     NEGOTIATION("negotiation"),
