@@ -18,12 +18,10 @@ import com.procurement.orchestrator.infrastructure.web.extension.buildResponse
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import javax.servlet.http.HttpServletRequest
 
 @RestController
-@RequestMapping("/confirm/qualification")
 class ConfirmQualificationController(
     private val logger: Logger,
     private val processLauncher: ProcessLauncher
@@ -33,7 +31,7 @@ class ConfirmQualificationController(
         private const val PROCESS_NAME = "confirmQualification"
     }
 
-    @PostMapping("/{cpid}/{ocid}")
+    @PostMapping("/confirm/qualification/{cpid}/{ocid}")
     fun doQualificationProtocol(
         servlet: HttpServletRequest,
         @PathVariable cpid: String,
