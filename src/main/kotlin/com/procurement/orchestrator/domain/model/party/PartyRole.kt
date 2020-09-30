@@ -9,6 +9,7 @@ enum class PartyRole(@JsonValue override val key: String) : EnumElementProvider.
     BUYER("buyer"),
     ENQUIRER("enquirer"),
     FUNDER("funder"),
+    INVITED_CANDIDATE("invitedCandidate"),
     INVITED_TENDERER("invitedTenderer"),
     PAYEE("payee"),
     PAYER("payer"),
