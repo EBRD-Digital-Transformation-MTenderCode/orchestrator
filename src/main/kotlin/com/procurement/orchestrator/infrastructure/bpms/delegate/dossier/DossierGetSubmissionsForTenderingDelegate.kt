@@ -342,8 +342,26 @@ class DossierGetSubmissionsForTenderingDelegate(
     )
 
     fun getPartyRoles(operationType: OperationTypeProcess) =
-        if (operationType == OperationTypeProcess.COMPLETE_QUALIFICATION)
-            PartyRoles(PartyRole.INVITED_CANDIDATE)
-        else
-            PartyRoles(PartyRole.INVITED_TENDERER)
+        when (operationType) {
+            OperationTypeProcess.COMPLETE_QUALIFICATION -> PartyRoles(PartyRole.INVITED_CANDIDATE)
+            OperationTypeProcess.APPLY_QUALIFICATION_PROTOCOL,
+            OperationTypeProcess.CREATE_PCR,
+            OperationTypeProcess.CREATE_SUBMISSION,
+            OperationTypeProcess.DECLARE_NON_CONFLICT_OF_INTEREST,
+            OperationTypeProcess.LOT_CANCELLATION,
+            OperationTypeProcess.OUTSOURCING_PN,
+            OperationTypeProcess.QUALIFICATION,
+            OperationTypeProcess.QUALIFICATION_CONSIDERATION,
+            OperationTypeProcess.QUALIFICATION_DECLARE_NON_CONFLICT_OF_INTEREST,
+            OperationTypeProcess.QUALIFICATION_PROTOCOL,
+            OperationTypeProcess.RELATION_AP,
+            OperationTypeProcess.START_SECOND_STAGE,
+            OperationTypeProcess.SUBMISSION_PERIOD_END,
+            OperationTypeProcess.TENDER_CANCELLATION,
+            OperationTypeProcess.TENDER_OR_LOT_AMENDMENT_CANCELLATION,
+            OperationTypeProcess.TENDER_OR_LOT_AMENDMENT_CONFIRMATION,
+            OperationTypeProcess.WITHDRAW_QUALIFICATION_PROTOCOL,
+            OperationTypeProcess.WITHDRAW_SUBMISSION -> PartyRoles(PartyRole.INVITED_TENDERER)
+
+        }
 }
