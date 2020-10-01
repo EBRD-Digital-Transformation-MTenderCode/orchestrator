@@ -28,7 +28,7 @@ class ConfirmQualificationController(
 ) {
 
     companion object {
-        private const val PROCESS_NAME = "confirmQualification"
+        private const val PROCESS_NAME = "completeQualification"
     }
 
     @PostMapping("/confirm/qualification/{cpid}/{ocid}")
