@@ -67,36 +67,12 @@
     </bpmn:serviceTask>
     <bpmn:exclusiveGateway id="ExclusiveGateway_0tdjp01">
       <bpmn:incoming>SequenceFlow_16r36c0</bpmn:incoming>
-      <bpmn:incoming>SequenceFlow_171fvm2</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_11gfh4q</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0ulsgcd</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:serviceTask id="AccessSetCancelledStateForLotsTask" name="eAccess:&#10;Set &#39;cancelled&#39; state for lots" camunda:asyncBefore="true" camunda:delegateExpression="${accessSetStateForLotsDelegate}">
-      <bpmn:extensionElements>
-        <camunda:inputOutput>
-          <camunda:inputParameter name="status">CANCELLED</camunda:inputParameter>
-          <camunda:inputParameter name="statusDetails">EMPTY</camunda:inputParameter>
-          <camunda:inputParameter name="location">tender</camunda:inputParameter>
-        </camunda:inputOutput>
-      </bpmn:extensionElements>
-      <bpmn:incoming>SequenceFlow_0e44cq7</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_171fvm2</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:serviceTask id="AccessFindActiveLotIdsAmendmentConfirmationWayTask" name="eAccess:&#10;Find &#39;active&#39; lot ids" camunda:asyncBefore="true" camunda:delegateExpression="${accessFindLotIdsDelegate}">
-      <bpmn:extensionElements>
-        <camunda:inputOutput>
-          <camunda:inputParameter name="states">
-            <camunda:list>
-              <camunda:value>status=ACTIVE</camunda:value>
-            </camunda:list>
-          </camunda:inputParameter>
-        </camunda:inputOutput>
-      </bpmn:extensionElements>
-      <bpmn:incoming>SequenceFlow_11ip81a</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_0e44cq7</bpmn:outgoing>
-    </bpmn:serviceTask>
     <bpmn:exclusiveGateway id="ExclusiveGateway_1ojjv4q">
-      <bpmn:incoming>SequenceFlow_1j7lrz9</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_0ndqy1c</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_15lhtbe</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_1k6plab</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1qvmn6s</bpmn:outgoing>
     </bpmn:exclusiveGateway>
@@ -238,8 +214,6 @@
       <bpmn:sequenceFlow id="SequenceFlow_1x8pt1e" sourceRef="RecoveryAfterExternalIncidentTask" targetRef="EndEvent_0gdym4w" />
       <bpmn:sequenceFlow id="SequenceFlow_15rovjd" sourceRef="FixExternalIncidentTask" targetRef="RecoveryAfterExternalIncidentTask" />
     </bpmn:subProcess>
-    <bpmn:sequenceFlow id="SequenceFlow_16bnird" sourceRef="AccessSetUnsuccessfulStateForLotsTask" targetRef="SubCreateUnsuccessfulAwardsSubmissionPeriodEndWayTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0kprco0" sourceRef="AccessFindActiveLotIdsSubmissionPeriodEndLineWayTask" targetRef="AccessSetUnsuccessfulStateForLotsTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1xbhian" name="submissionPeriod End&#10;&#10;applyQualification Protocol" sourceRef="ExclusiveGateway_04tlvke" targetRef="AccessFindActiveLotIdsSubmissionPeriodEndLineWayTask">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${processInfo.operationType == 'SUBMISSION_PERIOD_END' || processInfo.operationType == 'APPLY_QUALIFICATION_PROTOCOL'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
@@ -251,7 +225,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_16r36c0" sourceRef="AccessSetCancelledStateForLotTask" targetRef="ExclusiveGateway_0tdjp01" />
     <bpmn:sequenceFlow id="SequenceFlow_1eu0mg0" sourceRef="AccessGetTenderStateTask" targetRef="SubCreateUnsuccessfulAwardsAmendmentConfirmationWayTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0ulsgcd" sourceRef="ExclusiveGateway_0tdjp01" targetRef="AccessGetTenderStateTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1j7lrz9" name="result.status == &#39;ACTIVE&#39; &#38;&#38; &#10;result.statusDetails == &#39;AWARDING&#39;" sourceRef="AccessGetTenderStateTask" targetRef="ExclusiveGateway_1ojjv4q">
+    <bpmn:sequenceFlow id="SequenceFlow_1j7lrz9" name="result.status == &#39;ACTIVE&#39; &#38;&#38; &#10;result.statusDetails == &#39;AWARDING&#39;" sourceRef="AccessGetTenderStateTask" targetRef="ExclusiveGateway_0fn08wy">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${result.status == 'ACTIVE' &amp;&amp; result.statusDetails== 'AWARDING'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_1pgp4gi" sourceRef="RevisionFindAmendmentIdsForLotTask" targetRef="RevisionGetMainPartOfAmendmentByIdsTask" />
@@ -260,7 +234,6 @@
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${result != null}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_0e44cq7" sourceRef="AccessFindActiveLotIdsAmendmentConfirmationWayTask" targetRef="AccessSetCancelledStateForLotsTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_171fvm2" sourceRef="AccessSetCancelledStateForLotsTask" targetRef="ExclusiveGateway_0tdjp01" />
     <bpmn:sequenceFlow id="SequenceFlow_0pr8uer" sourceRef="BpeAddUpdateRecordTaskInQueueTask" targetRef="EndEvent_0b2v92t" />
     <bpmn:sequenceFlow id="SequenceFlow_0ndqy1c" sourceRef="SubCreateUnsuccessfulAwardsAmendmentConfirmationWayTask" targetRef="ExclusiveGateway_1ojjv4q" />
     <bpmn:sequenceFlow id="SequenceFlow_1qvmn6s" sourceRef="ExclusiveGateway_1ojjv4q" targetRef="BpeAddUpdateRecordTaskInQueueTask" />
@@ -295,6 +268,43 @@
       <bpmn:incoming>SequenceFlow_16bnird</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1k6plab</bpmn:outgoing>
     </bpmn:callActivity>
+    <bpmn:sequenceFlow id="SequenceFlow_0kprco0" sourceRef="AccessFindActiveLotIdsSubmissionPeriodEndLineWayTask" targetRef="AccessSetUnsuccessfulStateForLotsTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_16bnird" sourceRef="AccessSetUnsuccessfulStateForLotsTask" targetRef="SubCreateUnsuccessfulAwardsSubmissionPeriodEndWayTask" />
+    <bpmn:serviceTask id="AccessFindActiveLotIdsAmendmentConfirmationWayTask" name="eAccess:&#10;Find &#39;active&#39; lot ids" default="SequenceFlow_0e44cq7" camunda:asyncBefore="true" camunda:delegateExpression="${accessFindLotIdsDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="states">
+            <camunda:list>
+              <camunda:value>status=ACTIVE</camunda:value>
+            </camunda:list>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_11ip81a</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0e44cq7</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_0qylw3v</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_11gfh4q" sourceRef="AccessSetCancelledStateForLotsTask" targetRef="ExclusiveGateway_0tdjp01" />
+    <bpmn:sequenceFlow id="SequenceFlow_0qylw3v" name="result = null" sourceRef="AccessFindActiveLotIdsAmendmentConfirmationWayTask" targetRef="ExclusiveGateway_0fn08wy">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${result = null}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_15lhtbe" sourceRef="ExclusiveGateway_0fn08wy" targetRef="ExclusiveGateway_1ojjv4q" />
+    <bpmn:serviceTask id="AccessSetCancelledStateForLotsTask" name="eAccess:&#10;Set &#39;cancelled&#39; state for lots" camunda:asyncBefore="true" camunda:delegateExpression="${accessSetStateForLotsDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="status">CANCELLED</camunda:inputParameter>
+          <camunda:inputParameter name="statusDetails">EMPTY</camunda:inputParameter>
+          <camunda:inputParameter name="location">tender</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0e44cq7</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_11gfh4q</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_0fn08wy">
+      <bpmn:incoming>SequenceFlow_1j7lrz9</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_0qylw3v</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_15lhtbe</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
   </bpmn:process>
   <bpmn:error id="Error_15lgooj" name="Internal Incident" errorCode="InternalIncident" />
   <bpmn:error id="Error_0kv316y" name="External Incident" errorCode="ExternalIncident" />
@@ -404,9 +414,9 @@
       <bpmndi:BPMNEdge id="SequenceFlow_1j7lrz9_di" bpmnElement="SequenceFlow_1j7lrz9">
         <di:waypoint x="1140" y="200" />
         <di:waypoint x="1140" y="270" />
-        <di:waypoint x="1345" y="270" />
+        <di:waypoint x="1225" y="270" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1051" y="207" width="78" height="66" />
+          <dc:Bounds x="1052" y="207" width="77" height="66" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ServiceTask_05iant6_di" bpmnElement="RevisionGetMainPartOfAmendmentByIdsTask" bioc:stroke="black" bioc:fill="white">
@@ -427,17 +437,17 @@
         <di:waypoint x="570" y="160" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ServiceTask_163q3ty_di" bpmnElement="AccessSetCancelledStateForLotsTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="850" y="230" width="100" height="80" />
+        <dc:Bounds x="710" y="230" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_1xyvvys_di" bpmnElement="AccessFindActiveLotIdsAmendmentConfirmationWayTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="710" y="230" width="100" height="80" />
+        <dc:Bounds x="570" y="230" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_11ip81a_di" bpmnElement="SequenceFlow_11ip81a">
         <di:waypoint x="480" y="200" />
         <di:waypoint x="480" y="270" />
-        <di:waypoint x="710" y="270" />
+        <di:waypoint x="570" y="270" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="489" y="225" width="61" height="14" />
+          <dc:Bounds x="490" y="243" width="60" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ExclusiveGateway_0tdjp01_di" bpmnElement="ExclusiveGateway_0tdjp01" isMarkerVisible="true">
@@ -447,14 +457,9 @@
         <di:waypoint x="1045" y="160" />
         <di:waypoint x="1090" y="160" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_171fvm2_di" bpmnElement="SequenceFlow_171fvm2">
-        <di:waypoint x="950" y="270" />
-        <di:waypoint x="1020" y="270" />
-        <di:waypoint x="1020" y="185" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0e44cq7_di" bpmnElement="SequenceFlow_0e44cq7">
-        <di:waypoint x="810" y="270" />
-        <di:waypoint x="850" y="270" />
+        <di:waypoint x="670" y="270" />
+        <di:waypoint x="710" y="270" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0pr8uer_di" bpmnElement="SequenceFlow_0pr8uer">
         <di:waypoint x="1520" y="270" />
@@ -491,34 +496,55 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ServiceTask_1idh5as_di" bpmnElement="AccessFindActiveLotIdsSubmissionPeriodEndLineWayTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="430" y="340" width="100" height="80" />
+        <dc:Bounds x="430" y="390" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1xbhian_di" bpmnElement="SequenceFlow_1xbhian" bioc:stroke="black" bioc:fill="white">
         <di:waypoint x="304" y="295" />
-        <di:waypoint x="304" y="380" />
-        <di:waypoint x="430" y="380" />
+        <di:waypoint x="304" y="430" />
+        <di:waypoint x="430" y="430" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="326" y="347" width="87" height="66" />
+          <dc:Bounds x="326" y="447" width="87" height="66" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ServiceTask_1yfmjx6_di" bpmnElement="AccessSetUnsuccessfulStateForLotsTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="570" y="340" width="100" height="80" />
+        <dc:Bounds x="570" y="390" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0kprco0_di" bpmnElement="SequenceFlow_0kprco0">
-        <di:waypoint x="530" y="380" />
-        <di:waypoint x="570" y="380" />
+        <di:waypoint x="530" y="430" />
+        <di:waypoint x="570" y="430" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="CallActivity_177njt8_di" bpmnElement="SubCreateUnsuccessfulAwardsSubmissionPeriodEndWayTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="710" y="340" width="100" height="80" />
+        <dc:Bounds x="710" y="390" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_16bnird_di" bpmnElement="SequenceFlow_16bnird">
-        <di:waypoint x="670" y="380" />
-        <di:waypoint x="710" y="380" />
+        <di:waypoint x="670" y="430" />
+        <di:waypoint x="710" y="430" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1k6plab_di" bpmnElement="SequenceFlow_1k6plab">
-        <di:waypoint x="810" y="380" />
-        <di:waypoint x="1370" y="380" />
+        <di:waypoint x="810" y="430" />
+        <di:waypoint x="1370" y="430" />
         <di:waypoint x="1370" y="295" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_11gfh4q_di" bpmnElement="SequenceFlow_11gfh4q">
+        <di:waypoint x="810" y="270" />
+        <di:waypoint x="1020" y="270" />
+        <di:waypoint x="1020" y="185" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0qylw3v_di" bpmnElement="SequenceFlow_0qylw3v">
+        <di:waypoint x="620" y="310" />
+        <di:waypoint x="620" y="340" />
+        <di:waypoint x="1250" y="340" />
+        <di:waypoint x="1250" y="295" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="910" y="322" width="57" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ExclusiveGateway_0fn08wy_di" bpmnElement="ExclusiveGateway_0fn08wy" isMarkerVisible="true">
+        <dc:Bounds x="1225" y="245" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_15lhtbe_di" bpmnElement="SequenceFlow_15lhtbe">
+        <di:waypoint x="1275" y="270" />
+        <di:waypoint x="1345" y="270" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
