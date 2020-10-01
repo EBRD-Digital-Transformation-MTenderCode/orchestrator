@@ -286,7 +286,7 @@
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_11gfh4q" sourceRef="AccessSetCancelledStateForLotsTask" targetRef="ExclusiveGateway_0tdjp01" />
     <bpmn:sequenceFlow id="SequenceFlow_0qylw3v" name="result = null" sourceRef="AccessFindActiveLotIdsAmendmentConfirmationWayTask" targetRef="ExclusiveGateway_0fn08wy">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${result = null}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${result == null}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_15lhtbe" sourceRef="ExclusiveGateway_0fn08wy" targetRef="ExclusiveGateway_1ojjv4q" />
     <bpmn:serviceTask id="AccessSetCancelledStateForLotsTask" name="eAccess:&#10;Set &#39;cancelled&#39; state for lots" camunda:asyncBefore="true" camunda:delegateExpression="${accessSetStateForLotsDelegate}">
