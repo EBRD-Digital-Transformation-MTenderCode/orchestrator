@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController
 import javax.servlet.http.HttpServletRequest
 
 @RestController
-class CompleteQualificationController(
+class ConfirmQualificationController(
     private val logger: Logger,
     private val processLauncher: ProcessLauncher
 ) {
