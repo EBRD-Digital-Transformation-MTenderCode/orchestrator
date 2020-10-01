@@ -51,6 +51,9 @@ class SubmissionDoInvitationsDelegate(
             params = DoInvitationsAction.Params(
                 cpid = processInfo.cpid,
                 date = requestInfo.timestamp,
+                country = requestInfo.country,
+                pmd = processInfo.pmd,
+                operationType = processInfo.operationType,
                 qualifications = qualifications.map { qualification ->
                     DoInvitationsAction.Params.Qualification(
                         id = qualification.id,

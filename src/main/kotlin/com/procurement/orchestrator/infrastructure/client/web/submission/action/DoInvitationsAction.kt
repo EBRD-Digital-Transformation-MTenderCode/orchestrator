@@ -2,8 +2,10 @@ package com.procurement.orchestrator.infrastructure.client.web.submission.action
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.procurement.orchestrator.application.model.process.OperationTypeProcess
 import com.procurement.orchestrator.application.service.FunctionalAction
 import com.procurement.orchestrator.domain.model.Cpid
+import com.procurement.orchestrator.domain.model.ProcurementMethodDetails
 import com.procurement.orchestrator.domain.model.invitation.InvitationId
 import com.procurement.orchestrator.domain.model.invitation.InvitationStatus
 import com.procurement.orchestrator.domain.model.organization.OrganizationId
@@ -23,6 +25,9 @@ abstract class DoInvitationsAction : FunctionalAction<DoInvitationsAction.Params
     class Params(
         @param:JsonProperty("cpid") @field:JsonProperty("cpid") val cpid: Cpid,
         @param:JsonProperty("date") @field:JsonProperty("date") val date: LocalDateTime,
+        @param:JsonProperty("country") @field:JsonProperty("country") val country: String,
+        @param:JsonProperty("pmd") @field:JsonProperty("pmd") val pmd: ProcurementMethodDetails,
+        @param:JsonProperty("operationType") @field:JsonProperty("operationType") val operationType: OperationTypeProcess,
 
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
         @param:JsonProperty("qualifications") @field:JsonProperty("qualifications") val qualifications: List<Qualification>?,

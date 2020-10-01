@@ -71,6 +71,7 @@ class BpeSetPhaseDelegate(
         AGGREGATED("aggregated"),
         AGGREGATION_PENDING("aggregationPending"),
         EMPTY("empty"),
+        EVALUATION("evaluation"),
         QUALIFICATION("qualification"),
         QUALIFICATION_STANDSTILL("qualificationStandstill"),
         SUSPENDED("suspended"),
