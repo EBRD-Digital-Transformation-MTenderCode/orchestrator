@@ -91,8 +91,8 @@ class DossierGetSubmissionsForTenderingDelegate(
         val data = result.orNull
             ?: return MaybeFail.none()
 
-        val submissionReceived = data.first()
-        val builtParties = submissionReceived.candidates
+
+        val builtParties = data.flatMap { submission -> submission.candidates }
             .map { candidate -> buildParty(candidate) }
             .let { Parties(it) }
 
