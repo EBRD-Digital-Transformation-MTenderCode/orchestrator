@@ -3,6 +3,7 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.dossier
 import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.DossierClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
+import com.procurement.orchestrator.application.model.process.OperationTypeProcess
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
@@ -91,9 +92,8 @@ class DossierGetSubmissionsForTenderingDelegate(
         val data = result.orNull
             ?: return MaybeFail.none()
 
-
         val builtParties = data.flatMap { submission -> submission.candidates }
-            .map { candidate -> buildParty(candidate) }
+            .map { candidate -> buildParty(candidate, context.processInfo.operationType) }
             .let { Parties(it) }
 
         val parties = context.parties
@@ -104,10 +104,13 @@ class DossierGetSubmissionsForTenderingDelegate(
         return MaybeFail.none()
     }
 
-    private fun buildParty(organization: GetSubmissionsForTenderingAction.Result.Submission.Candidate) = Party(
+    private fun buildParty(
+        organization: GetSubmissionsForTenderingAction.Result.Submission.Candidate,
+        operationType: OperationTypeProcess
+    ) = Party(
         id = organization.id,
         name = organization.name,
-        roles = PartyRoles(PartyRole.INVITED_TENDERER),
+        roles = getPartyRoles(operationType),
         address = organization.address
             .let { address ->
                 Address(
@@ -336,4 +339,28 @@ class DossierGetSubmissionsForTenderingDelegate(
                 )
             }
     )
+
+    fun getPartyRoles(operationType: OperationTypeProcess) =
+        when (operationType) {
+            OperationTypeProcess.COMPLETE_QUALIFICATION -> PartyRoles(PartyRole.INVITED_CANDIDATE)
+            OperationTypeProcess.APPLY_QUALIFICATION_PROTOCOL,
+            OperationTypeProcess.CREATE_PCR,
+            OperationTypeProcess.CREATE_SUBMISSION,
+            OperationTypeProcess.DECLARE_NON_CONFLICT_OF_INTEREST,
+            OperationTypeProcess.LOT_CANCELLATION,
+            OperationTypeProcess.OUTSOURCING_PN,
+            OperationTypeProcess.QUALIFICATION,
+            OperationTypeProcess.QUALIFICATION_CONSIDERATION,
+            OperationTypeProcess.QUALIFICATION_DECLARE_NON_CONFLICT_OF_INTEREST,
+            OperationTypeProcess.QUALIFICATION_PROTOCOL,
+            OperationTypeProcess.RELATION_AP,
+            OperationTypeProcess.START_SECOND_STAGE,
+            OperationTypeProcess.SUBMISSION_PERIOD_END,
+            OperationTypeProcess.TENDER_CANCELLATION,
+            OperationTypeProcess.TENDER_OR_LOT_AMENDMENT_CANCELLATION,
+            OperationTypeProcess.TENDER_OR_LOT_AMENDMENT_CONFIRMATION,
+            OperationTypeProcess.WITHDRAW_QUALIFICATION_PROTOCOL,
+            OperationTypeProcess.WITHDRAW_SUBMISSION -> PartyRoles(PartyRole.INVITED_TENDERER)
+
+        }
 }
