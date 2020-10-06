@@ -4,6 +4,7 @@ import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
+import com.procurement.orchestrator.infrastructure.client.web.access.action.CalculateApValueAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckAccessToTenderAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckExistenceFaAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckPersonesStructureAction
@@ -127,4 +128,9 @@ interface AccessClient {
         id: CommandId,
         params: CheckRelationAction.Params
     ): Result<Reply<Unit>, Fail.Incident>
+
+    suspend fun calculateApValueAction(
+        id: CommandId,
+        params: CalculateApValueAction.Params
+    ): Result<Reply<CalculateApValueAction.Result>, Fail.Incident>
 }

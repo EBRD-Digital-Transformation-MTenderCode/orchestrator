@@ -6,6 +6,7 @@ import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.WebClient
+import com.procurement.orchestrator.infrastructure.client.web.access.action.CalculateApValueAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckAccessToTenderAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckExistenceFaAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckPersonesStructureAction
@@ -206,5 +207,14 @@ class HttpAccessClient(private val webClient: WebClient, properties: ComponentPr
     ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
         url = url,
         command = AccessCommands.CheckRelation.build(id = id, params = params)
+    )
+
+    override suspend fun calculateApValueAction(
+        id: CommandId,
+        params: CalculateApValueAction.Params
+    ): Result<Reply<CalculateApValueAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = AccessCommands.CalculateApValue.build(id = id, params = params),
+        target = AccessCommands.CalculateApValue.target
     )
 }
