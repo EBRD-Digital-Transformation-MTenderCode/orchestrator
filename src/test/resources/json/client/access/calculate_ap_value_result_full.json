@@ -1,0 +1,8 @@
+{
+  "tender": {
+    "value": {
+      "amount": 150.00,
+      "currency": "string"
+    }
+  }
+}

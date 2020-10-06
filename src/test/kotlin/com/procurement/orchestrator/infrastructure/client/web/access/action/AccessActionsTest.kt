@@ -413,4 +413,24 @@ class AccessActionsTest {
             }
         }
     }
+
+    @Nested
+    inner class CalculateApValue {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CalculateApValueAction.Params>("json/client/access/calculate_ap_value_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CalculateApValueAction.Result>("json/client/access/calculate_ap_value_result_full.json")
+            }
+        }
+    }
 }
