@@ -73,11 +73,7 @@ class AccessCalculateAPValueDelegate(
                 )
             }
         val tender = context.tender ?: Tender()
-
-        val updatedTender = tender.copy(
-            value = tender.value?.updateBy(receivedValue)
-                ?: receivedValue
-        )
+        val updatedTender = tender.copy(value = receivedValue)
 
         context.tender = updatedTender
 
