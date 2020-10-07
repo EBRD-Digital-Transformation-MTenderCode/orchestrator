@@ -72,8 +72,10 @@ class AccessCalculateAPValueDelegate(
                     currency = value.currency
                 )
             }
-        val tender = context.tender ?: Tender()
-        val updatedTender = tender.copy(value = receivedValue)
+
+        val updatedTender = context.tender
+            ?.copy(value = receivedValue)
+            ?: Tender(value = receivedValue)
 
         context.tender = updatedTender
 
