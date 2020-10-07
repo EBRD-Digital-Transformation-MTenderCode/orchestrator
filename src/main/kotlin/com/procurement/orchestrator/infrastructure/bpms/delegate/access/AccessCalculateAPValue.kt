@@ -17,17 +17,17 @@ import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContai
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.access.AccessCommands
-import com.procurement.orchestrator.infrastructure.client.web.access.action.CalculateApValueAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.CalculateAPValueAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ExternalServiceName
 import org.springframework.stereotype.Component
 
 @Component
-class AccessCalculateApValue(
+class AccessCalculateAPValue(
     logger: Logger,
     private val accessClient: AccessClient,
     operationStepRepository: OperationStepRepository,
     transform: Transform
-) : AbstractExternalDelegate<Unit, CalculateApValueAction.Result>(
+) : AbstractExternalDelegate<Unit, CalculateAPValueAction.Result>(
     logger = logger,
     transform = transform,
     operationStepRepository = operationStepRepository
@@ -40,11 +40,11 @@ class AccessCalculateApValue(
         commandId: CommandId,
         context: CamundaGlobalContext,
         parameters: Unit
-    ): Result<Reply<CalculateApValueAction.Result>, Fail.Incident> {
+    ): Result<Reply<CalculateAPValueAction.Result>, Fail.Incident> {
         val processInfo = context.processInfo
-        return accessClient.calculateApValueAction(
+        return accessClient.calculateAPValueAction(
             id = commandId,
-            params = CalculateApValueAction.Params(
+            params = CalculateAPValueAction.Params(
                 cpid = processInfo.cpid,
                 ocid = processInfo.ocid
             )
@@ -54,14 +54,14 @@ class AccessCalculateApValue(
     override fun updateGlobalContext(
         context: CamundaGlobalContext,
         parameters: Unit,
-        result: Option<CalculateApValueAction.Result>
+        result: Option<CalculateAPValueAction.Result>
     ): MaybeFail<Fail.Incident> {
 
         val data = result.orNull
             ?: return MaybeFail.fail(
                 Fail.Incident.Response.Empty(
                     service = ExternalServiceName.ACCESS,
-                    action = AccessCommands.CalculateApValue
+                    action = AccessCommands.CalculateAPValue
                 )
             )
 

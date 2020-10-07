@@ -415,13 +415,13 @@ class AccessActionsTest {
     }
 
     @Nested
-    inner class CalculateApValue {
+    inner class CalculateAPValue {
 
         @Nested
         inner class Params {
             @Test
             fun fully() {
-                testingBindingAndMapping<CalculateApValueAction.Params>("json/client/access/calculate_ap_value_params_full.json")
+                testingBindingAndMapping<CalculateAPValueAction.Params>("json/client/access/calculate_ap_value_params_full.json")
             }
         }
 
@@ -429,7 +429,7 @@ class AccessActionsTest {
         inner class Result {
             @Test
             fun fully() {
-                testingBindingAndMapping<CalculateApValueAction.Result>("json/client/access/calculate_ap_value_result_full.json")
+                testingBindingAndMapping<CalculateAPValueAction.Result>("json/client/access/calculate_ap_value_result_full.json")
             }
         }
     }
