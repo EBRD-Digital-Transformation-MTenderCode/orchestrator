@@ -164,7 +164,7 @@ class StorageOpenAccessDelegate(
         submissions?.let { updateSubmissions(it, entities, documentsByIds, context) }
             ?.doOnFail { return MaybeFail.fail(it) }
 
-        parties.let { updateParties(it, entities, documentsByIds, context) }
+        updateParties(parties, entities, documentsByIds, context)
             .doOnFail { return MaybeFail.fail(it) }
 
         return MaybeFail.none()
