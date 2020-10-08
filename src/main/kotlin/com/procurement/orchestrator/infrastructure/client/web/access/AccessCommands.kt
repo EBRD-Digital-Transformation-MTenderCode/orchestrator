@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.infrastructure.client.web.access
 
+import com.procurement.orchestrator.infrastructure.client.web.access.action.CalculateAPValueAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckAccessToTenderAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckExistenceFaAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckPersonesStructureAction
@@ -63,4 +64,6 @@ object AccessCommands {
     object CreateRelationToOtherProcess : CreateRelationToOtherProcessAction()
 
     object CheckRelation : CheckRelationAction()
+
+    object CalculateAPValue: CalculateAPValueAction()
 }
