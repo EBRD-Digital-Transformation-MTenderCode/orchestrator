@@ -34,6 +34,7 @@ import com.procurement.orchestrator.domain.model.document.DocumentId
 import com.procurement.orchestrator.domain.model.document.Documents
 import com.procurement.orchestrator.domain.model.organization.person.BusinessFunctions
 import com.procurement.orchestrator.domain.model.party.Parties
+import com.procurement.orchestrator.domain.model.person.Persons
 import com.procurement.orchestrator.domain.model.qualification.Qualifications
 import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponses
 import com.procurement.orchestrator.domain.model.submission.Details
@@ -160,10 +161,11 @@ class StorageOpenAccessDelegate(
         updateAwards(awards, entities, documentsByIds, context).doOnFail { return MaybeFail.fail(it) }
         updateQualifications(qualifications, entities, documentsByIds, context).doOnFail { return MaybeFail.fail(it) }
 
-        submissions
-            ?.let { updateSubmissions(it, entities, documentsByIds, context) }
+        submissions?.let { updateSubmissions(it, entities, documentsByIds, context) }
             ?.doOnFail { return MaybeFail.fail(it) }
 
+        parties.let { updateParties(it, entities, documentsByIds, context) }
+            .doOnFail { return MaybeFail.fail(it) }
 
         return MaybeFail.none()
     }
@@ -342,6 +344,33 @@ class StorageOpenAccessDelegate(
         }
 
         return success(Submissions(Details(updatedSubmissions)))
+    }
+
+    private fun Parties.updateDocuments(documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document>): Result<Parties, Fail.Incident.Bpms> {
+        val updatedParties = this.map { party ->
+            val updatedPersons = party.persons
+                .map { person ->
+                    val updatedBusinessFunctions = person.businessFunctions
+                        .map { businessFunction ->
+                            val updatedDocuments = businessFunction.documents
+                                .map { document ->
+                                    documentsByIds[document.id]
+                                        ?.let { document.copy(datePublished = it.datePublished, url = it.uri) }
+                                        ?: return failure(
+                                            Fail.Incident.Bpms.Context.UnConsistency.Update(
+                                                name = "document",
+                                                path = "parties[id:${party.id}].persons[id:${person.id}].businessFunctions[id:${businessFunction.id}]",
+                                                id = document.id.toString()
+                                            )
+                                        )
+                                }
+                            businessFunction.copy(documents = Documents(updatedDocuments))
+                        }
+                    person.copy(businessFunctions = BusinessFunctions(updatedBusinessFunctions))
+                }
+            party.copy(persons = Persons(updatedPersons))
+        }
+        return success(Parties(updatedParties))
     }
 
     private fun getTenderDocumentsIds(
@@ -689,6 +718,23 @@ class StorageOpenAccessDelegate(
             submissions
 
         context.submissions = submissionsWithUpdatedDocuments
+
+        return MaybeFail.none()
+    }
+
+    private fun updateParties(
+        parties: Parties,
+        entities: Map<EntityKey, EntityValue>,
+        documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document>,
+        context: CamundaGlobalContext
+    ): MaybeFail<Fail.Incident> {
+        val partiesWithUpdatedDocuments: Parties = if (EntityKey.PARTIES in entities)
+            parties.updateDocuments(documentsByIds)
+                .orReturnFail { return MaybeFail.fail(it) }
+        else
+            parties
+
+        context.parties = partiesWithUpdatedDocuments
 
         return MaybeFail.none()
     }
