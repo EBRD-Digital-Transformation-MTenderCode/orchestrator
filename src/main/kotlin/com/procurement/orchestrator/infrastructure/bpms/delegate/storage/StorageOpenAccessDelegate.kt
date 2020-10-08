@@ -33,8 +33,11 @@ import com.procurement.orchestrator.domain.model.document.Document
 import com.procurement.orchestrator.domain.model.document.DocumentId
 import com.procurement.orchestrator.domain.model.document.Documents
 import com.procurement.orchestrator.domain.model.organization.person.BusinessFunctions
+import com.procurement.orchestrator.domain.model.party.Parties
 import com.procurement.orchestrator.domain.model.qualification.Qualifications
 import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponses
+import com.procurement.orchestrator.domain.model.submission.Details
+import com.procurement.orchestrator.domain.model.submission.Submissions
 import com.procurement.orchestrator.domain.model.tender.Tender
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
@@ -63,6 +66,8 @@ class StorageOpenAccessDelegate(
         private const val TENDER_ATTRIBUTE_NAME = "tender"
         private const val AWARDS_ATTRIBUTE_NAME = "awards"
         private const val QUALIFICATIONS_ATTRIBUTE_NAME = "qualifications"
+        private const val SUBMISSIONS_ATTRIBUTE_NAME = "submissions"
+        private const val PARTIES_ATTRIBUTE_NAME = "parties"
         private const val DOCUMENT_ID_PATH = "document.id"
     }
 
@@ -98,7 +103,14 @@ class StorageOpenAccessDelegate(
         parameters: Parameters
     ): Result<Reply<OpenAccessAction.Result>, Fail.Incident> {
 
-        val documentIds = getAllDocuments(context.tender, context.awards, context.qualifications, parameters)
+        val documentIds = getAllDocuments(
+            context.tender,
+            context.awards,
+            context.qualifications,
+            context.submissions,
+            context.parties,
+            parameters
+        )
             .orForwardFail { fail -> return fail }
 
         if (documentIds.isEmpty())
@@ -128,12 +140,16 @@ class StorageOpenAccessDelegate(
         val tender = context.tender
         val awards = context.awards
         val qualifications = context.qualifications
+        val submissions = context.submissions
+        val parties = context.parties
 
         validateData(
             data = data,
             tender = tender,
             awards = awards,
             qualifications = qualifications,
+            submissions = submissions,
+            parties = parties,
             parameters = parameters
         ).doOnError { return MaybeFail.fail(it) }
 
@@ -144,6 +160,11 @@ class StorageOpenAccessDelegate(
         updateAwards(awards, entities, documentsByIds, context).doOnFail { return MaybeFail.fail(it) }
         updateQualifications(qualifications, entities, documentsByIds, context).doOnFail { return MaybeFail.fail(it) }
 
+        submissions
+            ?.let { updateSubmissions(it, entities, documentsByIds, context) }
+            ?.doOnFail { return MaybeFail.fail(it) }
+
+
         return MaybeFail.none()
     }
 
@@ -151,11 +172,13 @@ class StorageOpenAccessDelegate(
         tender: Tender?,
         awards: Awards,
         qualifications: Qualifications,
+        submissions: Submissions?,
+        parties: Parties,
         parameters: Parameters,
         data: OpenAccessAction.Result
     ): ValidationResult<Fail.Incident> {
 
-        val contextDocumentIds = getAllDocuments(tender, awards, qualifications, parameters)
+        val contextDocumentIds = getAllDocuments(tender, awards, qualifications, submissions, parties, parameters)
             .orReturnFail { return ValidationResult.error(it) }
 
         data.map { it.id }
@@ -301,6 +324,26 @@ class StorageOpenAccessDelegate(
         return success(Qualifications(updatedQualifications))
     }
 
+    private fun Submissions.updateDocuments(documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document>): Result<Submissions, Fail.Incident.Bpms> {
+        val updatedSubmissions = this.details.map { submission ->
+            val updatedDocuments = submission.documents
+                .map { document ->
+                    documentsByIds[document.id]
+                        ?.let { document.copy(datePublished = it.datePublished, url = it.uri) }
+                        ?: return failure(
+                            Fail.Incident.Bpms.Context.UnConsistency.Update(
+                                name = "document",
+                                path = "qualifications[id:${submission.id}]",
+                                id = document.id.toString()
+                            )
+                        )
+                }
+            submission.copy(documents = Documents(updatedDocuments))
+        }
+
+        return success(Submissions(Details(updatedSubmissions)))
+    }
+
     private fun getTenderDocumentsIds(
         tender: Tender?,
         entities: Map<EntityKey, EntityValue>
@@ -439,6 +482,62 @@ class StorageOpenAccessDelegate(
             .toList()
             .asSuccess()
 
+    private fun getSubmissionsDocumentsIds(
+        submissions: Submissions?,
+        entities: Map<EntityKey, EntityValue>
+    ): Result<List<DocumentId>, Fail.Incident> =
+        when (entities[EntityKey.SUBMISSION]) {
+            EntityValue.OPTIONAL -> getSubmissionsDocumentsIdsOptional(submissions)
+            EntityValue.REQUIRED -> getSubmissionsDocumentsIdsRequired(submissions)
+            null -> success(emptyList())
+        }
+
+    private fun getSubmissionsDocumentsIdsOptional(submissions: Submissions?): Result<List<DocumentId>, Fail.Incident> =
+        submissions?.details?.get(0)
+            ?.documents
+            ?.map { document -> document.id }
+            .orEmpty()
+            .asSuccess()
+
+    private fun getSubmissionsDocumentsIdsRequired(submissions: Submissions?): Result<List<DocumentId>, Fail.Incident> =
+        submissions?.details.orEmpty()
+            .getElementIfOnlyOne(name = SUBMISSIONS_ATTRIBUTE_NAME)
+            .orForwardFail { fail -> return fail }
+            .documents
+            .map { document -> document.id }
+            .asSuccess()
+
+    private fun getPartiesDocumentsIds(
+        parties: Parties,
+        entities: Map<EntityKey, EntityValue>
+    ): Result<List<DocumentId>, Fail.Incident> =
+        when (entities[EntityKey.PARTIES]) {
+            EntityValue.OPTIONAL -> getPartiesDocumentsIdsOptional(parties)
+            EntityValue.REQUIRED -> getPartiesDocumentsIdsRequired(parties)
+            null -> success(emptyList())
+        }
+
+    private fun getPartiesDocumentsIdsOptional(parties: Parties): Result<List<DocumentId>, Fail.Incident> =
+        parties.asSequence()
+            .flatMap { party -> party.persons.asSequence() }
+            .flatMap { person -> person.businessFunctions.asSequence() }
+            .flatMap { businessFunction -> businessFunction.documents.asSequence() }
+            .map { document -> document.id }
+            .toList()
+            .asSuccess()
+
+    private fun getPartiesDocumentsIdsRequired(parties: Parties): Result<List<DocumentId>, Fail.Incident> =
+        parties
+            .getIfNotEmpty(name = PARTIES_ATTRIBUTE_NAME)
+            .orForwardFail { fail -> return fail }
+            .asSequence()
+            .flatMap { party -> party.persons.asSequence() }
+            .flatMap { person -> person.businessFunctions.asSequence() }
+            .flatMap { businessFunction -> businessFunction.documents.asSequence() }
+            .map { document -> document.id }
+            .toList()
+            .asSuccess()
+
     private fun getQualificationDocumentsIds(
         qualifications: Qualifications,
         entities: Map<EntityKey, EntityValue>
@@ -468,7 +567,12 @@ class StorageOpenAccessDelegate(
             .asSuccess()
 
     private fun getAllDocuments(
-        tender: Tender?, awards: Awards, qualifications: Qualifications, parameters: Parameters
+        tender: Tender?,
+        awards: Awards,
+        qualifications: Qualifications,
+        submissions: Submissions?,
+        parties: Parties,
+        parameters: Parameters
     ): Result<List<DocumentId>, Fail.Incident> {
         val entities = parameters.entities
 
@@ -487,11 +591,19 @@ class StorageOpenAccessDelegate(
         val qualificationReqRsDocuments: List<DocumentId> = getQualificationReqRsDocumentsIds(qualifications, entities)
             .orForwardFail { fail -> return fail }
 
+        val submissionsDocuments: List<DocumentId> = getSubmissionsDocumentsIds(submissions, entities)
+            .orForwardFail { fail -> return fail }
+
+        val partiesDocuments: List<DocumentId> = getPartiesDocumentsIds(parties, entities)
+            .orForwardFail { fail -> return fail }
+
         return amendmentDocuments
             .plus(tenderDocuments)
             .plus(awardRequirementResponseDocuments)
             .plus(qualificationDocuments)
             .plus(qualificationReqRsDocuments)
+            .plus(submissionsDocuments)
+            .plus(partiesDocuments)
             .asSuccess()
     }
 
@@ -564,6 +676,23 @@ class StorageOpenAccessDelegate(
         return MaybeFail.none()
     }
 
+    private fun updateSubmissions(
+        submissions: Submissions,
+        entities: Map<EntityKey, EntityValue>,
+        documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document>,
+        context: CamundaGlobalContext
+    ): MaybeFail<Fail.Incident> {
+        val submissionsWithUpdatedDocuments: Submissions = if (EntityKey.SUBMISSION in entities)
+            submissions.updateDocuments(documentsByIds)
+                .orReturnFail { return MaybeFail.fail(it) }
+        else
+            submissions
+
+        context.submissions = submissionsWithUpdatedDocuments
+
+        return MaybeFail.none()
+    }
+
     class Parameters(
         val entities: Map<EntityKey, EntityValue>
     )
@@ -574,7 +703,9 @@ class StorageOpenAccessDelegate(
         AWARD_REQUIREMENT_RESPONSE("award.requirementResponse"),
         TENDER("tender"),
         QUALIFICATION_REQUIREMENT_RESPONSE("qualification.requirementResponse"),
-        QUALIFICATION("qualification");
+        QUALIFICATION("qualification"),
+        SUBMISSION("submission"),
+        PARTIES("parties");
 
         override fun toString(): String = key
 
