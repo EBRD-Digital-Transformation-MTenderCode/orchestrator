@@ -15,6 +15,7 @@ import com.procurement.orchestrator.domain.model.tender.conversion.Conversions
 import com.procurement.orchestrator.domain.model.tender.criteria.Criteria
 import com.procurement.orchestrator.domain.model.tender.criteria.OtherCriteria
 import com.procurement.orchestrator.domain.model.updateBy
+import com.procurement.orchestrator.domain.model.value.Value
 import java.io.Serializable
 
 data class Tender(
@@ -104,7 +105,10 @@ data class Tender(
     @field:JsonProperty("electronicAuctions") @param:JsonProperty("electronicAuctions") val electronicAuctions: ElectronicAuctions? = null,
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
-    @field:JsonProperty("procedureOutsourcing") @param:JsonProperty("procedureOutsourcing") val procedureOutsourcing: ProcedureOutsourcing? = null
+    @field:JsonProperty("procedureOutsourcing") @param:JsonProperty("procedureOutsourcing") val procedureOutsourcing: ProcedureOutsourcing? = null,
+
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonProperty("value") @param:JsonProperty("value") val value: Value? = null
 
 ) : IdentifiableObject<Tender>, Serializable {
 
@@ -136,6 +140,7 @@ data class Tender(
         requiresElectronicCatalogue = src.requiresElectronicCatalogue or requiresElectronicCatalogue,
         procurementMethodModalities = procurementMethodModalities combineBy src.procurementMethodModalities,
         electronicAuctions = electronicAuctions updateBy src.electronicAuctions,
-        procedureOutsourcing = procedureOutsourcing updateBy src.procedureOutsourcing
+        procedureOutsourcing = procedureOutsourcing updateBy src.procedureOutsourcing,
+        value = src.value or value
     )
 }

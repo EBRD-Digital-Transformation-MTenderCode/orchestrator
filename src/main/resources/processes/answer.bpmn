@@ -94,8 +94,8 @@
       <bpmn:outgoing>SequenceFlow_0kx3wva</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="Flow_14nwn3b" sourceRef="AccessSetTenderUnsuspendedTask" targetRef="Gateway_0wnooeu" />
-    <bpmn:sequenceFlow id="Flow_0n89tjm" name="GPA, RT" sourceRef="Gateway_0wnooeu" targetRef="DossierExtendSubmissionPeriodTask">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${pmd == 'GPA' || pmd == 'TEST_GPA' || pmd == 'RT' || pmd == 'TEST_RT'}</bpmn:conditionExpression>
+    <bpmn:sequenceFlow id="Flow_0n89tjm" name="GPA, RT, OF, CF" sourceRef="Gateway_0wnooeu" targetRef="DossierExtendSubmissionPeriodTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${pmd == 'GPA' || pmd == 'TEST_GPA' || pmd == 'RT' || pmd == 'TEST_RT' || pmd == 'OF' || pmd == 'TEST_OF' || pmd == 'CF' || pmd == 'TEST_CF'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_0lhi27d" sourceRef="ClarificationAddAnswerUnsuspendedTask" targetRef="AccessSetTenderUnsuspendedTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1gv60od" name="true" sourceRef="ExclusiveGateway_0ai5ezj" targetRef="ClarificationAddAnswerUnsuspendedTask">
@@ -110,8 +110,8 @@
     <bpmn:sequenceFlow id="SequenceFlow_00te0ou" sourceRef="SaveFirstOperationTask" targetRef="ClarificationCheckAnswerTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0e01d0y" sourceRef="SendMessageToPlatformTask" targetRef="EndEvent_00jlsn0" />
     <bpmn:sequenceFlow id="SequenceFlow_1cfk6vg" sourceRef="ClarificationSaveNewPeriodTask" targetRef="ChronographScheduleEndEnquiryPeriodTask" />
-    <bpmn:sequenceFlow id="Flow_1os7m56" sourceRef="DossierExtendSubmissionPeriodTask" targetRef="ChronographRescheduleEndSubmissionPeriodTask" />
-    <bpmn:sequenceFlow id="Flow_04wnwpl" sourceRef="ChronographRescheduleEndSubmissionPeriodTask" targetRef="ClarificationCreatePeriodTask" />
+    <bpmn:sequenceFlow id="Flow_1os7m56" sourceRef="DossierExtendSubmissionPeriodTask" targetRef="ChnographScheduleEndSubmissionPeriodTask" />
+    <bpmn:sequenceFlow id="Flow_04wnwpl" sourceRef="ChnographScheduleEndSubmissionPeriodTask" targetRef="ClarificationCreatePeriodTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0hfn4dk" name="OT, SV, MV" sourceRef="Gateway_0wnooeu" targetRef="ClarificationSaveNewPeriodTask" />
     <bpmn:sequenceFlow id="Flow_07jks1p" sourceRef="ChronographScheduleEndEnquiryPeriodTask" targetRef="SubmissionSaveNewPeriodTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0s4tbs2" sourceRef="SubmissionSaveNewPeriodTask" targetRef="ChronographRescheduleEndTenderPeriodTask" />
@@ -126,7 +126,7 @@
       <bpmn:incoming>Flow_0n89tjm</bpmn:incoming>
       <bpmn:outgoing>Flow_1os7m56</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="ChronographRescheduleEndSubmissionPeriodTask" name="Chronograph: Reschedule End Submission Period" camunda:asyncBefore="true" camunda:delegateExpression="${chronographRescheduleEndSubmissionPeriod}">
+    <bpmn:serviceTask id="ChnographScheduleEndSubmissionPeriodTask" name="Chronograph: Schedule End Submission Period" camunda:asyncBefore="true" camunda:delegateExpression="${chronographScheduleEndSubmissionPeriod}">
       <bpmn:incoming>Flow_1os7m56</bpmn:incoming>
       <bpmn:outgoing>Flow_04wnwpl</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -197,7 +197,7 @@
       <bpmndi:BPMNShape id="Activity_05hvpae_di" bpmnElement="DossierExtendSubmissionPeriodTask" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="1020" y="470" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0snfysj_di" bpmnElement="ChronographRescheduleEndSubmissionPeriodTask" bioc:stroke="black" bioc:fill="white">
+      <bpmndi:BPMNShape id="Activity_0snfysj_di" bpmnElement="ChnographScheduleEndSubmissionPeriodTask" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="1159" y="470" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_1a5b96v_di" bpmnElement="Gateway_1a5b96v" isMarkerVisible="true">
@@ -325,7 +325,7 @@
         <di:waypoint x="930" y="510" />
         <di:waypoint x="1020" y="510" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="930" y="526" width="44" height="14" />
+          <dc:Bounds x="911" y="526" width="83" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_14nwn3b_di" bpmnElement="Flow_14nwn3b">
