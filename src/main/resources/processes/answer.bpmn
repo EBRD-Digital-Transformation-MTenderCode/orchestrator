@@ -126,7 +126,7 @@
       <bpmn:incoming>Flow_0n89tjm</bpmn:incoming>
       <bpmn:outgoing>Flow_1os7m56</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="ChnographScheduleEndSubmissionPeriodTask" name="Chronograph: Schedule End Submission Period" camunda:asyncBefore="true" camunda:delegateExpression="${chronographScheduleEndSubmissionPeriodDelegate}">
+    <bpmn:serviceTask id="ChnographScheduleEndSubmissionPeriodTask" name="Chronograph: Schedule End Submission Period" camunda:asyncBefore="true" camunda:delegateExpression="${chronographScheduleEndSubmissionPeriod}">
       <bpmn:incoming>Flow_1os7m56</bpmn:incoming>
       <bpmn:outgoing>Flow_04wnwpl</bpmn:outgoing>
     </bpmn:serviceTask>
