@@ -49,7 +49,8 @@ class QualificationAnalyzeQualificationsForInvitationDelegate(
                 cpid = processInfo.cpid,
                 ocid = processInfo.ocid,
                 country = requestInfo.country,
-                pmd = processInfo.pmd
+                pmd = processInfo.pmd,
+                operationType = processInfo.operationType
             )
         )
     }
