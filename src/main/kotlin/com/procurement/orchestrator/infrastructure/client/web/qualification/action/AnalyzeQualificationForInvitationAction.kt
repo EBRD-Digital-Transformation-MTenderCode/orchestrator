@@ -1,6 +1,7 @@
 package com.procurement.orchestrator.infrastructure.client.web.qualification.action
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.procurement.orchestrator.application.model.process.OperationTypeProcess
 import com.procurement.orchestrator.application.service.FunctionalAction
 import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
@@ -22,7 +23,8 @@ abstract class AnalyzeQualificationForInvitationAction : FunctionalAction<Analyz
         @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid,
         @field:JsonProperty("ocid") @param:JsonProperty("ocid") val ocid: Ocid,
         @field:JsonProperty("country") @param:JsonProperty("country") val country: String,
-        @field:JsonProperty("pmd") @param:JsonProperty("pmd") val pmd: ProcurementMethodDetails
+        @field:JsonProperty("pmd") @param:JsonProperty("pmd") val pmd: ProcurementMethodDetails,
+        @field:JsonProperty("operationType") @param:JsonProperty("operationType") val operationType: OperationTypeProcess
     )
 
     class Result(
