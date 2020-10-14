@@ -13,6 +13,7 @@ enum class Stage(@JsonValue override val key: String, private val weight: Int) :
     EV("EV", weight = 40),
     FE("FE", weight = 40),
     NP("NP", weight = 40),
+    PC("PC", weight = 40),
     TP("TP", weight = 40),
     AC("AC", weight = 50);
 
