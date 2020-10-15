@@ -1,0 +1,123 @@
+{
+  "tender": {
+    "title": "string",
+    "description": "string",
+    "classification": {
+      "id": "string",
+      "scheme": "string"
+    },
+    "targets": [
+      {
+        "id": "string",
+        "title": "string",
+        "relatesTo": "lot",
+        "relatedItem": "001",
+        "observations": [
+          {
+            "id": "001-1",
+            "measure": "Unknown Type: number,integer,string,boolean",
+            "unit": {
+              "id": "string"
+            },
+            "notes": "Diagonal"
+          }
+        ]
+      }
+    ],
+    "criteria": [
+      {
+        "id": "string",
+        "title": "string",
+        "requirementGroups": [
+          {
+            "id": "string",
+            "description": "string",
+            "requirements": [
+              {
+                "id": "string",
+                "title": "string",
+                "dataType": "string",
+                "period": {
+                  "startDate": "2019-05-06T12:00:00Z",
+                  "endDate": "2019-05-08T12:00:00Z"
+                },
+                "expectedValue": "Unknown Type: string,number,integer,boolean"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "lots": [
+      {
+        "id": "d3732c09-7d62-4edc-a172-241da6636e7c",
+        "title": "string",
+        "variants": [
+          {
+            "hasVariants": true
+          }
+        ],
+        "classification": {
+          "id": "string",
+          "scheme": "string"
+        }
+      }
+    ],
+    "items": [
+      {
+        "id": "d3732c09-7d62-4edc-a172-241da6636e7c",
+        "classification": {
+          "id": "string",
+          "scheme": "string"
+        },
+        "description": "string",
+        "quantity": 213.020,
+        "unit": {
+          "id": "string"
+        },
+        "relatedLot": "d3732c09-7d62-4edc-a172-241da6636e7c"
+      }
+    ],
+    "tenderPeriod": {
+      "endDate": "2020-10-15T09:50:25Z"
+    },
+    "documents": [{
+      "id": "string",
+      "title": "string",
+      "documentType": "tenderNotice"
+    }
+    ],
+    "electronicAuctions": {
+      "details": [
+        {
+          "id": "string",
+          "relatedLot": "string",
+          "electronicAuctionModalities": [
+            {
+              "eligibleMinimumDifference": {
+                "currency": "string"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "conversions": [
+      {
+        "id": "d3732c09-7d62-4edc-a172-241da6636e7c",
+        "rationale": "string",
+        "relatesTo": "requirement",
+        "relatedItem": "string",
+        "coefficients": [
+          {
+            "id": "string",
+            "value": "Unknown Type: number,integer,boolean",
+            "coefficient": 0
+          }
+        ]
+      }
+    ],
+    "awardCriteria": "priceOnly",
+    "awardCriteriaDetails": "automated"
+  }
+}
