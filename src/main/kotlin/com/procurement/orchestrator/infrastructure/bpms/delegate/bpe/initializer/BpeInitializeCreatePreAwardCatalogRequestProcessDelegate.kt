@@ -73,163 +73,176 @@ class BpeInitializeCreatePreAwardCatalogRequestProcessDelegate(
             description = tender.description,
             awardCriteria = tender.awardCriteria,
             awardCriteriaDetails = tender.awardCriteriaDetails,
-            criteria = tender.criteria
-                ?.map { criterion ->
-                    Criterion(
-                        id = criterion.id,
-                        title = criterion.title,
-                        description = criterion.description,
-                        relatesTo = criterion.relatesTo,
-                        source = null,
-                        relatedItem = criterion.relatedItem,
-                        requirementGroups = criterion.requirementGroups
-                            .map { requirementGroup ->
-                                RequirementGroup(
-                                    id = requirementGroup.id,
-                                    description = requirementGroup.description,
-                                    requirements = Requirements(requirementGroup.requirements)
-                                )
-                            }
-                            .let { RequirementGroups(it) }
-                    )
-                }
-                .orEmpty()
-                .let { Criteria(it) },
-
-            conversions = tender.conversions
-                ?.map { conversion ->
-                    Conversion(
-                        id = conversion.id,
-                        description = conversion.description,
-                        relatedItem = conversion.relatedItem,
-                        relatesTo = conversion.relatesTo,
-                        rationale = conversion.rationale,
-                        coefficients = conversion.coefficients
-                            .map { coefficient ->
-                                Coefficient(
-                                    id = coefficient.id,
-                                    value = coefficient.value,
-                                    coefficient = coefficient.coefficient
-                                )
-                            }
-                            .let { Coefficients(it) }
-                    )
-                }
-                .orEmpty()
-                .let { Conversions(it) },
-
-            lots = tender.lots
-                .map { lot ->
-                    Lot(
-                        id = LotId.create(lot.id),
-                        internalId = lot.internalId,
-                        title = lot.title,
-                        description = lot.description,
-                        variants = lot.variants
-                            .map { variant ->
-                                Variant(hasVariants = variant.hasVariants)
-                            }
-                            .let { Variants(it) }
-                    )
-                }
-                .let { Lots(it) },
-
-            items = tender.items
-                ?.map { item ->
-                    Item(
-                        id = ItemId.create(item.id),
-                        description = item.description,
-                        classification = item.classification
-                            .let { classification ->
-                                Classification(
-                                    id = classification.id,
-                                    scheme = classification.scheme
-                                )
-                            },
-                        unit = Unit(id = item.unit.id),
-                        relatedLot = LotId.create(item.relatedLot)
-                    )
-                }
-                .orEmpty()
-                .let { Items(it) },
-
-            tenderPeriod = tender.tenderPeriod
-                ?.let { period ->
-                    Period(
-                        endDate = period.endDate
-                    )
-                },
-            electronicAuctions = tender.electronicAuctions
-                ?.let { electronicAuctions ->
-                    ElectronicAuctions(
-                        details = electronicAuctions.details
-                            .map { detail ->
-                                ElectronicAuctionsDetail(
-                                    id = detail.id,
-                                    relatedLot = LotId.create(detail.relatedLot),
-                                    electronicAuctionModalities = detail.electronicAuctionModalities
-                                        .map { modality ->
-                                            ElectronicAuctionModality(
-                                                eligibleMinimumDifference = Value(
-                                                    currency = modality.eligibleMinimumDifference.currency
-                                                )
-                                            )
-                                        }
-                                        .let { ElectronicAuctionModalities(it) }
-                                )
-                            }
-                            .let { ElectronicAuctionsDetails(it) }
-                    )
-                },
+            criteria = initializeCriteria(tender.criteria.orEmpty()),
+            conversions = initializeConversions(tender.conversions.orEmpty()),
+            lots = initializeLots(tender.lots),
+            items = initializeItems(tender.items.orEmpty()),
+            documents = initializeDocuments(tender.documents.orEmpty()),
+            targets = initializeTargets(tender.targets.orEmpty()),
+            tenderPeriod = initializeTenderPeriod(tender.tenderPeriod),
+            electronicAuctions = initializeElectronicAuctions(tender.electronicAuctions),
+            classification = initializeClassification(tender.classification),
             procurementMethodModalities = tender.procurementMethodModalities
                 .orEmpty()
-                .let { ProcurementMethodModalities(it) },
+                .let { ProcurementMethodModalities(it) }
+        )
 
-            documents = tender.documents
-                ?.map { document ->
-                    Document(
-                        id = document.id,
-                        title = document.title,
-                        documentType = document.documentType,
-                        description = document.description,
-                        relatedLots = document.relatedLots
-                            ?.map { LotId.create(it) }
-                            .orEmpty()
-                            .let { RelatedLots(it) }
-                    )
-                }
-                .orEmpty()
-                .let { Documents(it) },
-            targets = tender.targets
-                ?.map { target ->
-                    Target(
-                        id = target.id,
-                        relatesTo = target.relatesTo,
-                        relatedItem = target.relatedItem,
-                        title = target.title,
-                        observations = target.observations
-                            .map { observation ->
-                                Observation(
-                                    id = observation.id,
-                                    unit = Unit(id = observation.unit.id),
-                                    notes = observation.notes,
-                                    measure = observation.measure
-                                )
-                            }
-                            .let { Observations(it) }
-                    )
-                }
-                .orEmpty()
-                .let { Targets(it) },
+    private fun initializeCriteria(criteria: List<CreatePreAwardCatalogRequest.Request.Payload.Tender.Criteria>): Criteria =
+        criteria
+            .map { criterion ->
+                Criterion(
+                    id = criterion.id,
+                    title = criterion.title,
+                    description = criterion.description,
+                    relatesTo = criterion.relatesTo,
+                    source = null,
+                    relatedItem = criterion.relatedItem,
+                    requirementGroups = criterion.requirementGroups
+                        .map { requirementGroup ->
+                            RequirementGroup(
+                                id = requirementGroup.id,
+                                description = requirementGroup.description,
+                                requirements = Requirements(requirementGroup.requirements)
+                            )
+                        }
+                        .let { RequirementGroups(it) }
+                )
+            }
+            .let { Criteria(it) }
 
-            classification = tender.classification
-                .let { classification ->
-                    Classification(
-                        id = classification.id,
-                        scheme = classification.scheme,
-                        description = null,
-                        uri = null
-                    )
-                }
+    private fun initializeConversions(conversions: List<CreatePreAwardCatalogRequest.Request.Payload.Tender.Conversion>): Conversions =
+        conversions
+            .map { conversion ->
+                Conversion(
+                    id = conversion.id,
+                    description = conversion.description,
+                    relatedItem = conversion.relatedItem,
+                    relatesTo = conversion.relatesTo,
+                    rationale = conversion.rationale,
+                    coefficients = conversion.coefficients
+                        .map { coefficient ->
+                            Coefficient(
+                                id = coefficient.id,
+                                value = coefficient.value,
+                                coefficient = coefficient.coefficient
+                            )
+                        }
+                        .let { Coefficients(it) }
+                )
+            }
+            .let { Conversions(it) }
+
+    private fun initializeLots(lots: List<CreatePreAwardCatalogRequest.Request.Payload.Tender.Lot>): Lots =
+        lots
+            .map { lot ->
+                Lot(
+                    id = LotId.create(lot.id),
+                    internalId = lot.internalId,
+                    title = lot.title,
+                    description = lot.description,
+                    variants = lot.variants
+                        .let { variant ->
+                            Variant(hasVariants = variant.hasVariants)
+                        }
+                        .let { Variants(it) }
+                )
+            }
+            .let { Lots(it) }
+
+    private fun initializeItems(items: List<CreatePreAwardCatalogRequest.Request.Payload.Tender.Item>): Items =
+        items
+            .map { item ->
+                Item(
+                    id = ItemId.create(item.id),
+                    description = item.description,
+                    classification = item.classification
+                        .let { classification ->
+                            Classification(
+                                id = classification.id,
+                                scheme = classification.scheme
+                            )
+                        },
+                    unit = Unit(id = item.unit.id),
+                    relatedLot = LotId.create(item.relatedLot)
+                )
+            }
+            .let { Items(it) }
+
+    private fun initializeDocuments(documents: List<CreatePreAwardCatalogRequest.Request.Payload.Tender.Document>): Documents =
+        documents
+            .map { document ->
+                Document(
+                    id = document.id,
+                    title = document.title,
+                    documentType = document.documentType,
+                    description = document.description,
+                    relatedLots = document.relatedLots
+                        ?.map { LotId.create(it) }
+                        .orEmpty()
+                        .let { RelatedLots(it) }
+                )
+            }
+            .let { Documents(it) }
+
+    private fun initializeTargets(targets: List<CreatePreAwardCatalogRequest.Request.Payload.Tender.Target>): Targets =
+        targets
+            .map { target ->
+                Target(
+                    id = target.id,
+                    relatesTo = target.relatesTo,
+                    relatedItem = target.relatedItem,
+                    title = target.title,
+                    observations = target.observations
+                        .map { observation ->
+                            Observation(
+                                id = observation.id,
+                                unit = Unit(id = observation.unit.id),
+                                notes = observation.notes,
+                                measure = observation.measure
+                            )
+                        }
+                        .let { Observations(it) }
+                )
+            }
+            .let { Targets(it) }
+
+    private fun initializeTenderPeriod(tenderPeriod: CreatePreAwardCatalogRequest.Request.Payload.Tender.TenderPeriod?): Period? =
+        tenderPeriod
+            ?.let { period ->
+                Period(
+                    endDate = period.endDate
+                )
+            }
+
+    private fun initializeElectronicAuctions(electronicAuctions: CreatePreAwardCatalogRequest.Request.Payload.Tender.ElectronicAuctions?): ElectronicAuctions? =
+        electronicAuctions
+            ?.let { _electronicAuctions ->
+                ElectronicAuctions(
+                    details = _electronicAuctions.details
+                        .map { detail ->
+                            ElectronicAuctionsDetail(
+                                id = detail.id,
+                                relatedLot = LotId.create(detail.relatedLot),
+                                electronicAuctionModalities = detail.electronicAuctionModalities
+                                    .map { modality ->
+                                        ElectronicAuctionModality(
+                                            eligibleMinimumDifference = Value(
+                                                currency = modality.eligibleMinimumDifference.currency
+                                            )
+                                        )
+                                    }
+                                    .let { ElectronicAuctionModalities(it) }
+                            )
+                        }
+                        .let { ElectronicAuctionsDetails(it) }
+                )
+            }
+
+    private fun initializeClassification(classification: CreatePreAwardCatalogRequest.Request.Payload.Tender.Classification): Classification =
+        Classification(
+            id = classification.id,
+            scheme = classification.scheme,
+            description = null,
+            uri = null
         )
 }
