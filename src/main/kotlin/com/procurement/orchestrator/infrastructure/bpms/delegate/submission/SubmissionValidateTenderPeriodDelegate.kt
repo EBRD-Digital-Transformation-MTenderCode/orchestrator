@@ -41,8 +41,6 @@ class SubmissionValidateTenderPeriodDelegate(
         return submissionClient.validateTenderPeriod(
             id = commandId,
             params = ValidateTenderPeriodAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
                 date = requestInfo.timestamp,
                 country = requestInfo.country,
                 pmd = processInfo.pmd,
