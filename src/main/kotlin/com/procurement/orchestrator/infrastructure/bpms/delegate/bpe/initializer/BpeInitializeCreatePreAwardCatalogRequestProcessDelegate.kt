@@ -15,7 +15,6 @@ import com.procurement.orchestrator.domain.model.document.Documents
 import com.procurement.orchestrator.domain.model.item.Item
 import com.procurement.orchestrator.domain.model.item.ItemId
 import com.procurement.orchestrator.domain.model.item.Items
-import com.procurement.orchestrator.domain.model.item.unit.ItemUnit
 import com.procurement.orchestrator.domain.model.lot.Lot
 import com.procurement.orchestrator.domain.model.lot.LotId
 import com.procurement.orchestrator.domain.model.lot.Lots
@@ -41,6 +40,7 @@ import com.procurement.orchestrator.domain.model.tender.criteria.requirement.Req
 import com.procurement.orchestrator.domain.model.tender.criteria.requirement.Requirements
 import com.procurement.orchestrator.domain.model.tender.target.Target
 import com.procurement.orchestrator.domain.model.tender.target.Targets
+import com.procurement.orchestrator.domain.model.unit.Unit
 import com.procurement.orchestrator.domain.model.value.Value
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import org.springframework.stereotype.Component
@@ -146,7 +146,7 @@ class BpeInitializeCreatePreAwardCatalogRequestProcessDelegate(
                                     scheme = classification.scheme
                                 )
                             },
-                        unit = ItemUnit(id = item.unit.id),
+                        unit = Unit(id = item.unit.id),
                         relatedLot = LotId.create(item.relatedLot)
                     )
                 }
@@ -211,7 +211,7 @@ class BpeInitializeCreatePreAwardCatalogRequestProcessDelegate(
                             .map { observation ->
                                 Observation(
                                     id = observation.id,
-                                    unit = ItemUnit(id = observation.unit.id),
+                                    unit = Unit(id = observation.unit.id),
                                     notes = observation.notes,
                                     measure = observation.measure
                                 )
