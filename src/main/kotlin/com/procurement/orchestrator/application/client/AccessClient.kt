@@ -6,6 +6,7 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CalculateAPValueAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckAccessToTenderAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckEqualPNAndAPCurrencyAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckExistenceFaAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckPersonesStructureAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckRelationAction
@@ -133,4 +134,9 @@ interface AccessClient {
         id: CommandId,
         params: CalculateAPValueAction.Params
     ): Result<Reply<CalculateAPValueAction.Result>, Fail.Incident>
+
+    suspend fun checkEqualPNAndAPCurrency(
+        id: CommandId,
+        params: CheckEqualPNAndAPCurrencyAction.Params
+    ): Result<Reply<Unit>, Fail.Incident>
 }
