@@ -16,9 +16,9 @@ abstract class CheckEqualityCurrenciesAction : ProceduralAction<CheckEqualityCur
         @field:JsonProperty("ocid") @param:JsonProperty("ocid") val ocid: Ocid,
 
         @JsonInclude(JsonInclude.Include.NON_NULL)
-        @field:JsonProperty("cpidAP") @param:JsonProperty("cpidAP") val cpidAP: Cpid?,
+        @field:JsonProperty("relatedCpid") @param:JsonProperty("relatedCpid") val relatedCpid: Cpid?,
 
         @JsonInclude(JsonInclude.Include.NON_NULL)
-        @field:JsonProperty("ocidAP") @param:JsonProperty("ocidAP") val ocidAP: Ocid?
+        @field:JsonProperty("relatedOcid") @param:JsonProperty("relatedOcid") val relatedOcid: Ocid?
     )
 }

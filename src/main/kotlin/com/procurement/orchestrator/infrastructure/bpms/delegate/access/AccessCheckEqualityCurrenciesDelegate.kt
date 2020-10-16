@@ -44,8 +44,8 @@ class AccessCheckEqualityCurrenciesDelegate(
             params = CheckEqualityCurrenciesAction.Params(
                 cpid = processInfo.cpid,
                 ocid = processInfo.ocid,
-                cpidAP = processInfo.relatedProcess?.cpid,
-                ocidAP = processInfo.relatedProcess?.ocid
+                relatedCpid = processInfo.relatedProcess?.cpid,
+                relatedOcid = processInfo.relatedProcess?.ocid
             )
         )
     }
