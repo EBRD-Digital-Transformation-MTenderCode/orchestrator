@@ -8,6 +8,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Calc
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckAccessToTenderAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckEqualPNAndAPCurrencyAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckExistenceFaAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckExistenceSignAuctionAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckPersonesStructureAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckRelationAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckTenderStateAction
@@ -113,6 +114,11 @@ interface AccessClient {
     suspend fun checkExistenceFa(
         id: CommandId,
         params: CheckExistenceFaAction.Params
+    ): Result<Reply<Unit>, Fail.Incident>
+
+    suspend fun checkExistenceSignAuction(
+        id: CommandId,
+        params: CheckExistenceSignAuctionAction.Params
     ): Result<Reply<Unit>, Fail.Incident>
 
     suspend fun outsourcingPn(
