@@ -16,7 +16,7 @@ abstract class ValidateRelatedTenderClassificationAction : ProceduralAction<Vali
         @field:JsonProperty("tender") @param:JsonProperty("tender") var tender: Tender
     ) {
         data class Tender(
-            @field:JsonProperty("classification") @param:JsonProperty("classification") val classification: Classification
+            @field:JsonProperty("classification") @param:JsonProperty("classification") val classification: Classification?
         ) {
             data class Classification(
                 @field:JsonProperty("id") @param:JsonProperty("id") val id: String
