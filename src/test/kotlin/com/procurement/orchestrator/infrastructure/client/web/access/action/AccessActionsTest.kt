@@ -435,13 +435,13 @@ class AccessActionsTest {
     }
 
     @Nested
-    inner class CheckEqualPNAndAPCurrency {
+    inner class CheckEqualityCurrencies {
 
         @Nested
         inner class Params {
             @Test
             fun fully() {
-                testingBindingAndMapping<CheckEqualPNAndAPCurrencyAction.Params>("json/client/access/calculate_ap_value_params_full.json")
+                testingBindingAndMapping<CheckEqualityCurrenciesAction.Params>("json/client/access/check_equality_currencies_params_full.json")
             }
         }
     }
