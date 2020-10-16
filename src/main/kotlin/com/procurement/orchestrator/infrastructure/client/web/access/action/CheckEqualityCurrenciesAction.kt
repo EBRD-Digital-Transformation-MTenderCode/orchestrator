@@ -7,9 +7,9 @@ import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
 import com.procurement.orchestrator.infrastructure.model.Version
 
-abstract class CheckEqualPNAndAPCurrencyAction : ProceduralAction<CheckEqualPNAndAPCurrencyAction.Params> {
+abstract class CheckEqualityCurrenciesAction : ProceduralAction<CheckEqualityCurrenciesAction.Params> {
     override val version: Version = Version.parse("2.0.0")
-    override val name: String = "checkEqualPNAndAPCurrency"
+    override val name: String = "checkEqualityCurrencies"
 
     class Params(
         @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid,
