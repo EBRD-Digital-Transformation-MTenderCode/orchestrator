@@ -7,8 +7,9 @@ import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.CheckAbsenceActiveInvitationsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.DoInvitationsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.PublishInvitationsAction
-import com.procurement.orchestrator.infrastructure.client.web.submission.action.ValidateTenderPeriodAction
+import com.procurement.orchestrator.infrastructure.client.web.submission.action.PublishInvitationsInPcrAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.SetTenderPeriodAction
+import com.procurement.orchestrator.infrastructure.client.web.submission.action.ValidateTenderPeriodAction
 
 interface SubmissionClient {
 
@@ -36,4 +37,9 @@ interface SubmissionClient {
         id: CommandId,
         params: SetTenderPeriodAction.Params
     ): Result<Reply<SetTenderPeriodAction.Result>, Fail.Incident>
+
+    suspend fun publishInvitationsInPcr(
+        id: CommandId,
+        params: PublishInvitationsInPcrAction.Params
+    ): Result<Reply<PublishInvitationsInPcrAction.Result>, Fail.Incident>
 }
