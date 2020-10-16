@@ -8,10 +8,10 @@ import com.procurement.orchestrator.domain.model.IdentifiableObject
 import com.procurement.orchestrator.domain.model.address.Address
 import com.procurement.orchestrator.domain.model.classification.Classification
 import com.procurement.orchestrator.domain.model.classification.Classifications
-import com.procurement.orchestrator.domain.model.item.unit.ItemUnit
 import com.procurement.orchestrator.domain.model.lot.LotId
 import com.procurement.orchestrator.domain.model.measure.Quantity
 import com.procurement.orchestrator.domain.model.or
+import com.procurement.orchestrator.domain.model.unit.Unit
 import com.procurement.orchestrator.domain.model.updateBy
 import com.procurement.orchestrator.infrastructure.bind.measure.quantity.QuantityDeserializer
 import com.procurement.orchestrator.infrastructure.bind.measure.quantity.QuantitySerializer
@@ -38,7 +38,7 @@ data class Item(
     @field:JsonProperty("quantity") @param:JsonProperty("quantity") val quantity: Quantity? = null,
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
-    @field:JsonProperty("unit") @param:JsonProperty("unit") val unit: ItemUnit? = null,
+    @field:JsonProperty("unit") @param:JsonProperty("unit") val unit: Unit? = null,
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonProperty("deliveryAddress") @param:JsonProperty("deliveryAddress") val deliveryAddress: Address? = null,
