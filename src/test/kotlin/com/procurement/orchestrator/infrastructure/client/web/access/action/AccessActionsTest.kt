@@ -174,7 +174,7 @@ class AccessActionsTest {
         inner class Params {
             @Test
             fun fully() {
-                testingBindingAndMapping<GetRelatedTenderCurrencyAction.Params>("json/client/access/get_related_tender_currency_params_full.json")
+                testingBindingAndMapping<GetTenderCurrencyAction.Params>("json/client/access/get_tender_currency_params_full.json")
             }
         }
 
@@ -182,7 +182,7 @@ class AccessActionsTest {
         inner class Result {
             @Test
             fun fully() {
-                testingBindingAndMapping<GetRelatedTenderCurrencyAction.Result>("json/client/access/get_related_tender_currency_result_full.json")
+                testingBindingAndMapping<GetTenderCurrencyAction.Result>("json/client/access/get_tender_currency_result_full.json")
             }
         }
     }

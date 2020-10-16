@@ -19,6 +19,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Find
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotStateByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetOrganizationAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetQualificationCriteriaAndMethodAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.GetTenderCurrencyAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.OutsourcingPnAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ResponderProcessingAction
@@ -69,6 +70,11 @@ interface AccessClient {
         id: CommandId,
         params: GetTenderStateAction.Params
     ): Result<Reply<GetTenderStateAction.Result>, Fail.Incident>
+
+    suspend fun getTenderCurrency(
+        id: CommandId,
+        params: GetTenderCurrencyAction.Params
+    ): Result<Reply<GetTenderCurrencyAction.Result>, Fail.Incident>
 
     suspend fun setStateForLots(
         id: CommandId,
