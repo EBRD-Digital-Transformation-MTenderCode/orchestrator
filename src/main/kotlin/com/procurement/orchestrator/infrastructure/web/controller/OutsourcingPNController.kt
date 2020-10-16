@@ -11,7 +11,8 @@ import com.procurement.orchestrator.domain.fail.error.RequestErrors
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.asSuccess
-import com.procurement.orchestrator.infrastructure.extension.http.getCpidFa
+import com.procurement.orchestrator.infrastructure.extension.http.getCpidAP
+import com.procurement.orchestrator.infrastructure.extension.http.getOcidAP
 import com.procurement.orchestrator.infrastructure.extension.http.getOperationId
 import com.procurement.orchestrator.infrastructure.extension.http.getPlatformId
 import com.procurement.orchestrator.infrastructure.extension.http.getToken
@@ -80,7 +81,10 @@ class OutsourcingPNController(
         val token: Token = servlet.getToken()
             .orForwardFail { fail -> return fail }
 
-        val cpidFa = servlet.getCpidFa()
+        val cpidAP = servlet.getCpidAP()
+            .orForwardFail { fail -> return fail }
+
+        val ocidAP = servlet.getOcidAP()
             .orForwardFail { fail -> return fail }
 
         return PlatformRequest(
@@ -93,7 +97,10 @@ class OutsourcingPNController(
                 owner = platformId,
                 uri = servlet.requestURI,
                 processName = PROCESS_NAME,
-                relatedProcess = PlatformRequest.Context.RelatedProcess(cpid = cpidFa)
+                relatedProcess = PlatformRequest.Context.RelatedProcess(
+                    cpid = cpidAP,
+                    ocid = ocidAP
+                )
             ),
             payload = ""
         ).asSuccess()
