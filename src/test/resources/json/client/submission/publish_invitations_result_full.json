@@ -2,7 +2,15 @@
   "invitations": [
     {
       "id": "ad4e0bb1-606a-4f2f-9fb6-c0254788706f",
-      "status": "active"
+      "status": "active",
+      "date": "2020-10-16T12:14:23Z",
+      "relatedQualification": "ca0b1fc4-1c49-4ab3-999a-fe921e6ca88d",
+      "tenderers": [
+        {
+          "id": "string",
+          "name": "string"
+        }
+      ]
     }
   ]
 }
