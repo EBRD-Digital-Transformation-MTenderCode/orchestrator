@@ -44,7 +44,7 @@ abstract class PublishInvitationsAction : FunctionalAction<PublishInvitationsAct
     }
 }
 
-fun PublishInvitationsAction.Result.Invitation.convertToGlobalContextEntity() =
+fun PublishInvitationsAction.Result.Invitation.convertIdAndStatus() =
     Invitation(
         id = this.id,
         status = this.status

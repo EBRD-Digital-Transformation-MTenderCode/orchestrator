@@ -16,7 +16,7 @@ import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStep
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.submission.SubmissionCommands
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.PublishInvitationsAction
-import com.procurement.orchestrator.infrastructure.client.web.submission.action.convertToGlobalContextEntity
+import com.procurement.orchestrator.infrastructure.client.web.submission.action.convertIdAndStatus
 import com.procurement.orchestrator.infrastructure.configuration.property.ExternalServiceName
 import org.springframework.stereotype.Component
 
@@ -64,7 +64,7 @@ class SubmissionPublishInvitationsDelegate(
                 )
             )
 
-        val invitations = data.invitations.map { it.convertToGlobalContextEntity() }
+        val invitations = data.invitations.map { it.convertIdAndStatus() }
 
         context.invitations = Invitations(invitations)
 
