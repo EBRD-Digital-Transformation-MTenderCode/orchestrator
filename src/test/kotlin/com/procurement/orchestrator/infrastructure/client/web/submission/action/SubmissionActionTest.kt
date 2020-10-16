@@ -91,4 +91,23 @@ class SubmissionActionTest {
             }
         }
     }
+
+    @Nested
+    inner class PublishInvitationsInPcr {
+        @Nested
+        inner class Params {
+            @Test
+            fun full() {
+                testingBindingAndMapping<PublishInvitationsInPcrAction.Params>("json/client/submission/publish_invitations_in_pcr_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun full() {
+                testingBindingAndMapping<PublishInvitationsInPcrAction.Result>("json/client/submission/publish_invitations_in_pcr_result_full.json")
+            }
+        }
+    }
 }
