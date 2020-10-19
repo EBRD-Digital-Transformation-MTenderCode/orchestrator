@@ -17,7 +17,7 @@ import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExterna
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
-import com.procurement.orchestrator.infrastructure.client.web.dossier.action.FindSubmissionsForOpeningAction
+import com.procurement.orchestrator.infrastructure.client.web.dossier.action.FindSubmissionsAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.convertToParty
 import org.springframework.stereotype.Component
 
@@ -27,7 +27,7 @@ class DossierGetSubmissionsForPcrDelegate(
     private val dossierClient: DossierClient,
     operationStepRepository: OperationStepRepository,
     transform: Transform
-) : AbstractExternalDelegate<Unit, FindSubmissionsForOpeningAction.Result>(
+) : AbstractExternalDelegate<Unit, FindSubmissionsAction.Result>(
     logger = logger,
     transform = transform,
     operationStepRepository = operationStepRepository
@@ -40,13 +40,13 @@ class DossierGetSubmissionsForPcrDelegate(
         commandId: CommandId,
         context: CamundaGlobalContext,
         parameters: Unit
-    ): Result<Reply<FindSubmissionsForOpeningAction.Result>, Fail.Incident> {
+    ): Result<Reply<FindSubmissionsAction.Result>, Fail.Incident> {
 
         val processInfo = context.processInfo
         val requestInfo = context.requestInfo
-        return dossierClient.findSubmissionsForOpening(
+        return dossierClient.findSubmissions(
             id = commandId,
-            params = FindSubmissionsForOpeningAction.Params(
+            params = FindSubmissionsAction.Params(
                 cpid = processInfo.relatedProcess!!.cpid,
                 ocid = processInfo.relatedProcess.ocid!!,
                 pmd = processInfo.pmd,
@@ -59,7 +59,7 @@ class DossierGetSubmissionsForPcrDelegate(
     override fun updateGlobalContext(
         context: CamundaGlobalContext,
         parameters: Unit,
-        result: Option<FindSubmissionsForOpeningAction.Result>
+        result: Option<FindSubmissionsAction.Result>
     ): MaybeFail<Fail.Incident> {
 
         val data = result.orNull

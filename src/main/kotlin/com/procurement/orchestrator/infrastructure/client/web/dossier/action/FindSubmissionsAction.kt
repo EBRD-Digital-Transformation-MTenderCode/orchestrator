@@ -58,7 +58,7 @@ import com.procurement.orchestrator.infrastructure.model.Version
 import java.io.Serializable
 import java.time.LocalDateTime
 
-abstract class FindSubmissionsForOpeningAction : FunctionalAction<FindSubmissionsForOpeningAction.Params, FindSubmissionsForOpeningAction.Result> {
+abstract class FindSubmissionsAction : FunctionalAction<FindSubmissionsAction.Params, FindSubmissionsAction.Result> {
     override val version: Version = Version.parse("2.0.0")
     override val name: String = "findSubmissions"
     override val target: Target<Result> = Target.plural()
@@ -327,7 +327,7 @@ abstract class FindSubmissionsForOpeningAction : FunctionalAction<FindSubmission
     }
 }
 
-fun FindSubmissionsForOpeningAction.Result.Submission.Candidate.convertToParty() = Party(
+fun FindSubmissionsAction.Result.Submission.Candidate.convertToParty() = Party(
     id = id,
     name = name,
     additionalIdentifiers = additionalIdentifiers
