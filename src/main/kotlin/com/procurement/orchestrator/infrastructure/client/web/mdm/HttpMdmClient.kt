@@ -14,9 +14,11 @@ import com.procurement.orchestrator.infrastructure.client.reply.EMPTY_REPLY_ID
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.CallResponse
 import com.procurement.orchestrator.infrastructure.client.web.RestClient
+import com.procurement.orchestrator.infrastructure.client.web.mdm.action.EnrichClassificationsAction
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.EnrichCountryAction
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.EnrichLocalityAction
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.EnrichRegionAction
+import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetClassification
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetCountry
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetCriteria
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetCriteriaAction
@@ -129,7 +131,6 @@ class HttpMdmClient(
     private fun getLocalityEndpoint(params: EnrichLocalityAction.Params): String =
         "$baseUrl/addresses/countries/${params.countryId}/regions/${params.regionId}/localities/${params.localityId}"
 
-
     override suspend fun getRequirementGroups(params: GetRequirementGroupsAction.Params): Result<GetRequirementGroups.Result.Success, Fail.Incident> {
 
         val httpUrl: HttpUrl = getRequirementGroupsEndpoint()
@@ -173,7 +174,6 @@ class HttpMdmClient(
 
     private fun getCriteriaEndpoint(): String = "$baseUrl/criteria"
 
-
     override suspend fun getRequirements(params: GetRequirementsAction.Params): Result<GetRequirements.Result.Success, Fail.Incident> {
 
         val httpUrl: HttpUrl = getRequirementsEndpoint()
@@ -196,6 +196,24 @@ class HttpMdmClient(
 
     private fun getRequirementsEndpoint(): String = "$baseUrl//requirements"
 
+    override suspend fun enrichClassifications(params: EnrichClassificationsAction.Params): Result<GetClassification.Result, Fail.Incident> {
+        val httpUrl: HttpUrl = getClassificationEndpoint(params)
+            .toHttpUrl()
+            .newBuilder()
+            .apply {
+                addQueryParameter("lang", params.lang)
+                addQueryParameter("scheme", params.scheme)
+            }
+            .build()
+
+        val response = restClient.call(url = httpUrl)
+            .orForwardFail { error -> return error }
+
+        return processGetClassificationResponse(response, transform)
+    }
+
+    private fun getClassificationEndpoint(params: EnrichClassificationsAction.Params): String =
+        "$baseUrl/classifications/${params.classificationId}"
 
     private fun processGetCountryResponse(
         response: CallResponse,
@@ -233,12 +251,12 @@ class HttpMdmClient(
                 when (error.code) {
                     GetCountry.ERROR_NO_TRANSLATION_FOR_LANGUAGE ->
                         success(GetCountry.Result.Fail.NoTranslationFounded(errors = responseError.errors.convertGetCountryErrors()))
-                    else                                                       ->
+                    else ->
                         success(GetCountry.Result.Fail.AnotherError(errors = responseError.errors.convertGetCountryErrors()))
                 }
             }
 
-        else                               -> failure(
+        else -> failure(
             Fail.Incident.BadResponse(
                 description = "Invalid response code.",
                 body = response.content
@@ -287,15 +305,15 @@ class HttpMdmClient(
             .orForwardFail { error -> return error }
             .let { responseError ->
                 val error = responseError.errors.first()
-                when(error.code) {
+                when (error.code) {
                     GetRegion.ERROR_NO_TRANSLATION_FOR_LANGUAGE ->
                         success(GetRegion.Result.Fail.TranslationNotFound(errors = responseError.errors.convertGetRegionErrors()))
-                    else                                                       ->
+                    else ->
                         success(GetRegion.Result.Fail.AnotherError(errors = responseError.errors.convertGetRegionErrors()))
                 }
             }
 
-        else                               -> failure(
+        else -> failure(
             Fail.Incident.BadResponse(
                 description = "Invalid response code.",
                 body = response.content
@@ -347,18 +365,18 @@ class HttpMdmClient(
                 when (error.code) {
                     GetLocality.CODE_SCHEME_NOT_FOUND ->
                         success(GetLocality.Result.Fail.SchemeNotFound)
-                    GetLocality.CODE_ID_NOT_FOUND     ->
+                    GetLocality.CODE_ID_NOT_FOUND ->
                         success(GetLocality.Result.Fail.IdNotFound(responseError))
-                    GetLocality.CODE_TRANSLATION_NOT_FOUND     ->
+                    GetLocality.CODE_TRANSLATION_NOT_FOUND ->
                         success(GetLocality.Result.Fail.TranslationNotFound(responseError))
-                    GetLocality.CODE_LANGUAGE_NOT_FOUND     ->
+                    GetLocality.CODE_LANGUAGE_NOT_FOUND ->
                         success(GetLocality.Result.Fail.LanguageNotFound(responseError))
-                    else                                                ->
+                    else ->
                         success(GetLocality.Result.Fail.AnotherError(responseError))
                 }
             }
 
-        else  ->  failure(Fail.Incident.BadResponse(description = "Invalid response code.", body = response.content))
+        else -> failure(Fail.Incident.BadResponse(description = "Invalid response code.", body = response.content))
 
     }
 
@@ -390,7 +408,7 @@ class HttpMdmClient(
             }
             .asSuccess()
 
-        else  ->  failure(Fail.Incident.BadResponse(description = "Invalid response code.", body = response.content))
+        else -> failure(Fail.Incident.BadResponse(description = "Invalid response code.", body = response.content))
     }
 
     private fun processGetCriteria(
@@ -422,7 +440,7 @@ class HttpMdmClient(
             }
             .asSuccess()
 
-        else  ->  failure(Fail.Incident.BadResponse(description = "Invalid response code.", body = response.content))
+        else -> failure(Fail.Incident.BadResponse(description = "Invalid response code.", body = response.content))
 
     }
 
@@ -455,8 +473,51 @@ class HttpMdmClient(
             }
             .asSuccess()
 
-        else  ->  failure(Fail.Incident.BadResponse(description = "Invalid response code.", body = response.content))
+        else -> failure(Fail.Incident.BadResponse(description = "Invalid response code.", body = response.content))
 
     }
 
+    private fun processGetClassificationResponse(
+        response: CallResponse,
+        transform: Transform
+    ): Result<GetClassification.Result, Fail.Incident> = when (response.code) {
+        HTTP_CODE_200 -> transform
+            .tryDeserialization(response.content, EnrichClassificationsAction.Response.Success::class.java)
+            .orReturnFail { fail ->
+                return failure(
+                    Fail.Incident.BadResponse(description = fail.description, body = response.content)
+                )
+            }
+            .let { result ->
+                GetClassification.Result.Success(
+                    id = result.data.id,
+                    description = result.data.description,
+                    scheme = result.data.scheme
+                )
+            }
+            .asSuccess()
+
+        HTTP_CODE_400,
+        HTTP_CODE_404 -> transform
+            .tryDeserialization(response.content, EnrichClassificationsAction.Response.Error::class.java)
+            .orForwardFail { error -> return error }
+            .let { responseError ->
+                val error = responseError.errors.first()
+                when (error.code) {
+                    GetClassification.CODE_SCHEME_NOT_FOUND ->
+                        success(GetClassification.Result.Fail.SchemeNotFound)
+                    GetClassification.CODE_ID_NOT_FOUND ->
+                        success(GetClassification.Result.Fail.IdNotFound(responseError))
+                    GetClassification.CODE_TRANSLATION_NOT_FOUND ->
+                        success(GetClassification.Result.Fail.TranslationNotFound(responseError))
+                    GetClassification.CODE_LANGUAGE_NOT_FOUND ->
+                        success(GetClassification.Result.Fail.LanguageNotFound(responseError))
+                    else ->
+                        success(GetClassification.Result.Fail.AnotherError(responseError))
+                }
+            }
+
+        else -> failure(Fail.Incident.BadResponse(description = "Invalid response code.", body = response.content))
+
+    }
 }
