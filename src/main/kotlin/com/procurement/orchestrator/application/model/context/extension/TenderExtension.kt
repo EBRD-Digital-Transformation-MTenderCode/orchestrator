@@ -11,6 +11,7 @@ import com.procurement.orchestrator.domain.model.enquiry.Enquiry
 import com.procurement.orchestrator.domain.model.item.Item
 import com.procurement.orchestrator.domain.model.lot.Lot
 import com.procurement.orchestrator.domain.model.tender.Tender
+import com.procurement.orchestrator.domain.model.tender.target.Target
 
 private const val PATH = "tender"
 
@@ -30,6 +31,9 @@ fun Tender.getLotIfOnlyOne(): Result<Lot, Fail.Incident.Bpms.Context> =
 
 fun Tender.getLotsIfNotEmpty(): Result<List<Lot>, Fail.Incident.Bpms.Context> =
     this.lots.getIfNotEmpty(name = "lots", path = PATH)
+
+fun Tender.getTargetsIfNotEmpty(): Result<List<Target>, Fail.Incident.Bpms.Context> =
+    this.targets.getIfNotEmpty(name = "targets", path = PATH)
 
 fun Tender.getItemsIfNotEmpty(): Result<List<Item>, Fail.Incident.Bpms.Context> =
     this.items.getIfNotEmpty(name = "items", path = PATH)
