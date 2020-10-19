@@ -8,6 +8,7 @@ import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.model.classification.Classification
+import com.procurement.orchestrator.domain.model.contract.observation.Dimensions
 import com.procurement.orchestrator.domain.model.contract.observation.Observation
 import com.procurement.orchestrator.domain.model.contract.observation.Observations
 import com.procurement.orchestrator.domain.model.document.Document
@@ -198,7 +199,19 @@ class BpeInitializeCreatePreAwardCatalogRequestProcessDelegate(
                                 id = observation.id,
                                 unit = Unit(id = observation.unit.id),
                                 notes = observation.notes,
-                                measure = observation.measure
+                                measure = observation.measure,
+                                period = observation.period
+                                    ?.let { period ->
+                                        Period(
+                                            startDate = period.startDate,
+                                            endDate = period.endDate
+                                        )
+                                    },
+                                dimensions = observation.dimensions
+                                    ?.let { dimensions ->
+                                        Dimensions(requirementClassIdPR = dimensions.requirementClassIdPR)
+                                    },
+                                relatedRequirementId = observation.relatedRequirementId
                             )
                         }
                         .let { Observations(it) }
