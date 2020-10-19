@@ -72,6 +72,4 @@ object AccessCommands {
     object CalculateAPValue : CalculateAPValueAction()
 
     object CheckEqualityCurrencies: CheckEqualityCurrenciesAction()
-
-    object CheckEqualPNAndAPCurrency : CheckEqualPNAndAPCurrencyAction()
 }
