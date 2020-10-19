@@ -199,7 +199,7 @@ class MdmEnrichClassificationsDelegate(
         entities: Map<EntityKey, EntityValue>,
         enrichedClassifications: Map<Classification, Classification>
     ): List<Lot> {
-        val updatedItems: List<Lot> =
+        val updatedLots: List<Lot> =
             if (EntityKey.LOT in entities)
                 lots.map { lot ->
                     val currentClassification = lot.classification!!
@@ -212,7 +212,7 @@ class MdmEnrichClassificationsDelegate(
             else
                 lots
 
-        return updatedItems
+        return updatedLots
     }
 
     private fun handleResult(
