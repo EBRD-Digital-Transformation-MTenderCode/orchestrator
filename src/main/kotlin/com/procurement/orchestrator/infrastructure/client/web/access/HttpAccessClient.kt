@@ -8,7 +8,7 @@ import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.WebClient
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CalculateAPValueAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckAccessToTenderAction
-import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckEqualPNAndAPCurrencyAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckEqualityCurrenciesAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckExistenceFaAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckExistenceSignAuctionAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckPersonesStructureAction
@@ -228,11 +228,11 @@ class HttpAccessClient(private val webClient: WebClient, properties: ComponentPr
         target = AccessCommands.CalculateAPValue.target
     )
 
-    override suspend fun checkEqualPNAndAPCurrency(
+    override suspend fun checkEqualityCurrencies(
         id: CommandId,
-        params: CheckEqualPNAndAPCurrencyAction.Params
+        params: CheckEqualityCurrenciesAction.Params
     ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
         url = url,
-        command = AccessCommands.CheckEqualPNAndAPCurrency.build(id = id, params = params)
+        command = AccessCommands.CheckEqualityCurrencies.build(id = id, params = params)
     )
 }
