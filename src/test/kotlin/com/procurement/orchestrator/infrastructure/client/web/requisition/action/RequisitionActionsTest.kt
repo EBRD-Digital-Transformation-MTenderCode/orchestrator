@@ -18,4 +18,27 @@ class RequisitionActionsTest {
         }
     }
 
+    @Nested
+    inner class CreateRelationToContractProcessStage {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CreateRelationToContractProcessStageAction.Params>(
+                    "json/client/requisition/validate_pcr_data_params_full.json"
+                )
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CreateRelationToContractProcessStageAction.Params>(
+                    "json/client/requisition/validate_pcr_data_params_full.json"
+                )
+            }
+        }
+    }
 }
