@@ -2,7 +2,7 @@ package com.procurement.orchestrator.infrastructure.client.web.access
 
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CalculateAPValueAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckAccessToTenderAction
-import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckEqualPNAndAPCurrencyAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckEqualityCurrenciesAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckExistenceFaAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckPersonesStructureAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckRelationAction
@@ -71,5 +71,5 @@ object AccessCommands {
 
     object CalculateAPValue: CalculateAPValueAction()
 
-    object CheckEqualPNAndAPCurrency: CheckEqualPNAndAPCurrencyAction()
+    object CheckEqualityCurrencies: CheckEqualityCurrenciesAction()
 }

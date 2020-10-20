@@ -98,6 +98,7 @@ class MdmEnrichCountryDelegate(
 
     override fun updateGlobalContext(
         context: CamundaGlobalContext,
+        parameters: Parameters,
         result: List<CountryDetails>
     ): MaybeFail<Fail.Incident> {
 

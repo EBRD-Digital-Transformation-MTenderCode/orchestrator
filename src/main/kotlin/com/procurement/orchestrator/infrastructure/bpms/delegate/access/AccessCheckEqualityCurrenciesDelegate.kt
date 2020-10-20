@@ -14,11 +14,11 @@ import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExterna
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
-import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckEqualPNAndAPCurrencyAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckEqualityCurrenciesAction
 import org.springframework.stereotype.Component
 
 @Component
-class AccessCheckEqualPNAndAPCurrencyDelegate(
+class AccessCheckEqualityCurrenciesDelegate(
     logger: Logger,
     private val accessClient: AccessClient,
     operationStepRepository: OperationStepRepository,
@@ -39,13 +39,13 @@ class AccessCheckEqualPNAndAPCurrencyDelegate(
     ): Result<Reply<Unit>, Fail.Incident> {
         val processInfo = context.processInfo
 
-        return accessClient.checkEqualPNAndAPCurrency(
+        return accessClient.checkEqualityCurrencies(
             id = commandId,
-            params = CheckEqualPNAndAPCurrencyAction.Params(
+            params = CheckEqualityCurrenciesAction.Params(
                 cpid = processInfo.cpid,
                 ocid = processInfo.ocid,
-                cpidAP = processInfo.relatedProcess?.cpid,
-                ocidAP = processInfo.relatedProcess?.ocid
+                relatedCpid = processInfo.relatedProcess?.cpid,
+                relatedOcid = processInfo.relatedProcess?.ocid
             )
         )
     }
