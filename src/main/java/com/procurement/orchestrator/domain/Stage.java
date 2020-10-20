@@ -18,12 +18,14 @@ public enum Stage {
     NP("NP"),
     PIN("PIN"),
     PN("PN"),
+    PC("PC"),
     PQ("PQ"),
     PS("PS"),
     TP("TP");
 
     private static final Map<String, Stage> CONSTANTS = new HashMap<>();
     private final String value;
+    private static final int STAGE_POSITION = 4;
 
     static {
         for (final Stage c : values()) {
@@ -42,6 +44,14 @@ public enum Stage {
             throw new EnumException(Stage.class.getName(), value, Arrays.toString(values()));
         }
         return constant;
+    }
+
+    public static Stage fromOcid(final String ocid) {
+        final String[] ocidParts = ocid.split("-");
+        if (STAGE_POSITION >= ocid.length())
+            return null;
+
+        return CONSTANTS.get(ocidParts[STAGE_POSITION]);
     }
 
     @Override
