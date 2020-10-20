@@ -25,10 +25,10 @@ data class Observation(
     @field:JsonProperty("unit") @param:JsonProperty("unit") val unit: Unit? = null,
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    @field:JsonProperty("dimensions") @param:JsonProperty("dimensions") val dimensions: Dimensions?,
+    @field:JsonProperty("dimensions") @param:JsonProperty("dimensions") val dimensions: Dimensions? = null,
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    @field:JsonProperty("relatedRequirementId") @param:JsonProperty("relatedRequirementId") val relatedRequirementId: String?
+    @field:JsonProperty("relatedRequirementId") @param:JsonProperty("relatedRequirementId") val relatedRequirementId: String? = null
 
 
 ) : IdentifiableObject<Observation>, Serializable {
