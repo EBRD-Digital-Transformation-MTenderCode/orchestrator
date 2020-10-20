@@ -19,6 +19,7 @@ import com.procurement.orchestrator.domain.model.tender.target.Targets
 import com.procurement.orchestrator.domain.model.updateBy
 import com.procurement.orchestrator.domain.model.value.Value
 import java.io.Serializable
+import java.time.LocalDateTime
 
 data class Tender(
 
@@ -36,6 +37,9 @@ data class Tender(
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonProperty("statusDetails") @param:JsonProperty("statusDetails") val statusDetails: TenderStatusDetails? = null,
+
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonProperty("date") @param:JsonProperty("date") val date: LocalDateTime? = null,
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonProperty("otherCriteria") @param:JsonProperty("otherCriteria") val otherCriteria: OtherCriteria? = null,
