@@ -26,7 +26,7 @@ class RequisitionActionsTest {
             @Test
             fun fully() {
                 testingBindingAndMapping<CreateRelationToContractProcessStageAction.Params>(
-                    "json/client/requisition/validate_pcr_data_params_full.json"
+                    "json/client/requisition/create_relation_to_contract_process_stage_params_full.json"
                 )
             }
         }
@@ -35,8 +35,8 @@ class RequisitionActionsTest {
         inner class Result {
             @Test
             fun fully() {
-                testingBindingAndMapping<CreateRelationToContractProcessStageAction.Params>(
-                    "json/client/requisition/validate_pcr_data_params_full.json"
+                testingBindingAndMapping<CreateRelationToContractProcessStageAction.Result>(
+                    "json/client/requisition/create_relation_to_contract_process_stage_result_full.json"
                 )
             }
         }
