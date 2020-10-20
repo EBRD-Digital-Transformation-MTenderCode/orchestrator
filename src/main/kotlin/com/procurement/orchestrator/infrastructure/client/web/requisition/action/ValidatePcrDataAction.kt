@@ -96,7 +96,8 @@ abstract class ValidatePcrDataAction : ProceduralAction<ValidatePcrDataAction.Pa
                 @JsonInclude(JsonInclude.Include.NON_NULL)
                 @field:JsonProperty("title") @param:JsonProperty("title") val title: String?,
 
-                @field:JsonProperty("variants") @param:JsonProperty("variants") val variants: Variant,
+                @JsonInclude(JsonInclude.Include.NON_NULL)
+                @field:JsonProperty("variants") @param:JsonProperty("variants") val variants: Variant?,
 
                 @JsonInclude(JsonInclude.Include.NON_NULL)
                 @field:JsonProperty("classification") @param:JsonProperty("classification") val classification: Classification?,

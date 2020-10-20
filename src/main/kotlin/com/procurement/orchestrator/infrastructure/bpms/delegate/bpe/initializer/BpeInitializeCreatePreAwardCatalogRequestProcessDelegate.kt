@@ -21,7 +21,6 @@ import com.procurement.orchestrator.domain.model.lot.LotId
 import com.procurement.orchestrator.domain.model.lot.Lots
 import com.procurement.orchestrator.domain.model.lot.RelatedLots
 import com.procurement.orchestrator.domain.model.lot.Variant
-import com.procurement.orchestrator.domain.model.lot.Variants
 import com.procurement.orchestrator.domain.model.period.Period
 import com.procurement.orchestrator.domain.model.tender.ProcurementMethodModalities
 import com.procurement.orchestrator.domain.model.tender.Tender
@@ -145,7 +144,6 @@ class BpeInitializeCreatePreAwardCatalogRequestProcessDelegate(
                         .let { variant ->
                             Variant(hasVariants = variant.hasVariants)
                         }
-                        .let { Variants(it) }
                 )
             }
             .let { Lots(it) }

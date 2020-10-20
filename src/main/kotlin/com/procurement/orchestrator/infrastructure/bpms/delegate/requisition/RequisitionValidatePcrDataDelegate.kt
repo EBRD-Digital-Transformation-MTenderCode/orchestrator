@@ -76,8 +76,8 @@ class RequisitionValidatePcrDataDelegate(
                                     scheme = classification.scheme
                                 )
                             },
-                        variants = lot.variants.first()
-                            .let { variants ->
+                        variants = lot.variants
+                            ?.let { variants ->
                                 ValidatePcrDataAction.Params.Tender.Lot.Variant(
                                     hasVariants = variants.hasVariants,
                                     variantsDetails = variants.variantDetails
@@ -190,8 +190,7 @@ class RequisitionValidatePcrDataDelegate(
                         title = document.title,
                         description = document.description,
                         documentType = document.documentType,
-                        relatedLots = document.relatedLots
-                            .map { it }
+                        relatedLots = document.relatedLots.toList()
                     )
                 }
         )
