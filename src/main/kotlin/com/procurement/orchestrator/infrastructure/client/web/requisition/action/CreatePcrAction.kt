@@ -732,12 +732,12 @@ abstract class CreatePcrAction : FunctionalAction<CreatePcrAction.Params, Create
 
     object RequestConverter {
         fun fromDomain(tender: Tender): Params.Tender =
-            CreatePcrAction.Params.Tender(
+            Params.Tender(
                 title = tender.title,
                 description = tender.description,
                 classification = tender.classification
                     ?.let { classification ->
-                        CreatePcrAction.Params.Tender.Classification(
+                        Params.Tender.Classification(
                             id = classification.id,
                             scheme = classification.scheme,
                             description = classification.description
@@ -745,7 +745,7 @@ abstract class CreatePcrAction : FunctionalAction<CreatePcrAction.Params, Create
                     },
                 value = tender.value
                     ?.let { value ->
-                        CreatePcrAction.Params.Tender.Value(
+                        Params.Tender.Value(
                             currency = value.currency
                         )
                     },
@@ -753,14 +753,14 @@ abstract class CreatePcrAction : FunctionalAction<CreatePcrAction.Params, Create
                 awardCriteriaDetails = tender.awardCriteriaDetails,
                 lots = tender.lots
                     .map { lot ->
-                        CreatePcrAction.Params.Tender.Lot(
+                        Params.Tender.Lot(
                             id = lot.id,
                             internalId = lot.internalId,
                             title = lot.title,
                             description = lot.description,
                             classification = lot.classification
                                 ?.let { classification ->
-                                    CreatePcrAction.Params.Tender.Classification(
+                                    Params.Tender.Classification(
                                         id = classification.id,
                                         scheme = classification.scheme,
                                         description = classification.description
@@ -768,7 +768,7 @@ abstract class CreatePcrAction : FunctionalAction<CreatePcrAction.Params, Create
                                 },
                             variants = lot.variants
                                 ?.let { variants ->
-                                    CreatePcrAction.Params.Tender.Lot.Variant(
+                                    Params.Tender.Lot.Variant(
                                         hasVariants = variants.hasVariants,
                                         variantsDetails = variants.variantDetails
                                     )
@@ -777,14 +777,14 @@ abstract class CreatePcrAction : FunctionalAction<CreatePcrAction.Params, Create
                     },
                 items = tender.items
                     .map { item ->
-                        CreatePcrAction.Params.Tender.Item(
+                        Params.Tender.Item(
                             id = item.id,
                             internalId = item.internalId,
                             description = item.description,
                             quantity = item.quantity,
                             classification = item.classification
                                 ?.let { classification ->
-                                    CreatePcrAction.Params.Tender.Classification(
+                                    Params.Tender.Classification(
                                         id = classification.id,
                                         scheme = classification.scheme,
                                         description = classification.description
@@ -792,7 +792,7 @@ abstract class CreatePcrAction : FunctionalAction<CreatePcrAction.Params, Create
                                 },
                             unit = item.unit
                                 ?.let { unit ->
-                                    CreatePcrAction.Params.Tender.Item.Unit(
+                                    Params.Tender.Item.Unit(
                                         id = unit.id,
                                         name = unit.name
                                     )
@@ -802,18 +802,18 @@ abstract class CreatePcrAction : FunctionalAction<CreatePcrAction.Params, Create
                     },
                 targets = tender.targets
                     .map { target ->
-                        CreatePcrAction.Params.Tender.Target(
+                        Params.Tender.Target(
                             id = target.id,
                             title = target.title,
                             relatesTo = target.relatesTo,
                             relatedItem = target.relatedItem,
                             observations = target.observations
                                 .map { observation ->
-                                    CreatePcrAction.Params.Tender.Target.Observation(
+                                    Params.Tender.Target.Observation(
                                         id = observation.id,
                                         period = observation.period
                                             ?.let { period ->
-                                                CreatePcrAction.Params.Tender.Target.Observation.Period(
+                                                Params.Tender.Target.Observation.Period(
                                                     startDate = period.startDate,
                                                     endDate = period.endDate
                                                 )
@@ -822,14 +822,14 @@ abstract class CreatePcrAction : FunctionalAction<CreatePcrAction.Params, Create
                                         notes = observation.notes,
                                         unit = observation.unit
                                             ?.let { unit ->
-                                                CreatePcrAction.Params.Tender.Target.Observation.ObservationUnit(
+                                                Params.Tender.Target.Observation.ObservationUnit(
                                                     id = unit.id,
                                                     name = unit.name
                                                 )
                                             },
                                         dimensions = observation.dimensions
                                             ?.let { dimensions ->
-                                                CreatePcrAction.Params.Tender.Target.Observation.Dimensions(
+                                                Params.Tender.Target.Observation.Dimensions(
                                                     requirementClassIdPR = dimensions.requirementClassIdPR
                                                 )
                                             },
@@ -840,7 +840,7 @@ abstract class CreatePcrAction : FunctionalAction<CreatePcrAction.Params, Create
                     },
                 criteria = tender.criteria
                     .map { criterion ->
-                        CreatePcrAction.Params.Tender.Criterion(
+                        Params.Tender.Criterion(
                             id = criterion.id,
                             title = criterion.title,
                             description = criterion.description,
@@ -848,7 +848,7 @@ abstract class CreatePcrAction : FunctionalAction<CreatePcrAction.Params, Create
                             relatesTo = criterion.relatesTo,
                             requirementGroups = criterion.requirementGroups
                                 .map { requirementGroup ->
-                                    CreatePcrAction.Params.Tender.Criterion.RequirementGroup(
+                                    Params.Tender.Criterion.RequirementGroup(
                                         id = requirementGroup.id,
                                         description = requirementGroup.description,
                                         requirements = requirementGroup.requirements
@@ -859,7 +859,7 @@ abstract class CreatePcrAction : FunctionalAction<CreatePcrAction.Params, Create
                     },
                 conversions = tender.conversions
                     .map { conversion ->
-                        CreatePcrAction.Params.Tender.Conversion(
+                        Params.Tender.Conversion(
                             id = conversion.id,
                             description = conversion.description,
                             relatedItem = conversion.relatedItem,
@@ -867,7 +867,7 @@ abstract class CreatePcrAction : FunctionalAction<CreatePcrAction.Params, Create
                             rationale = conversion.rationale,
                             coefficients = conversion.coefficients
                                 .map { coefficient ->
-                                    CreatePcrAction.Params.Tender.Conversion.Coefficient(
+                                    Params.Tender.Conversion.Coefficient(
                                         id = coefficient.id,
                                         value = coefficient.value,
                                         coefficient = coefficient.coefficient
@@ -878,7 +878,7 @@ abstract class CreatePcrAction : FunctionalAction<CreatePcrAction.Params, Create
                 procurementMethodModalities = tender.procurementMethodModalities,
                 documents = tender.documents
                     .map { document ->
-                        CreatePcrAction.Params.Tender.Document(
+                        Params.Tender.Document(
                             id = document.id,
                             title = document.title,
                             description = document.description,
