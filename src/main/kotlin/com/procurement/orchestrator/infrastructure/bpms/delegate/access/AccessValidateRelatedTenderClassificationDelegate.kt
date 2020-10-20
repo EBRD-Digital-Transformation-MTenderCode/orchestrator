@@ -45,7 +45,7 @@ class AccessValidateRelatedTenderClassificationDelegate(
             id = commandId,
             params = ValidateRelatedTenderClassificationAction.Params(
                 cpid = relatedProcess.cpid,
-                ocid = relatedProcess.ocid!!,
+                ocid = relatedProcess.ocid,
                 tender = ValidateRelatedTenderClassificationAction.Params.Tender(
                     classification = tender.classification?.let { tenderClassification ->
                         ValidateRelatedTenderClassificationAction.Params.Tender.Classification(
