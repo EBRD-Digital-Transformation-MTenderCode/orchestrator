@@ -42,7 +42,7 @@
       <bpmn:incoming>SequenceFlow_10qzhvy</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_09n45sw</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="AccessCheckEqualPNAndAPCurrencyTask" name="eAccess:&#10;Check equal PN And AP currency" camunda:asyncBefore="true" camunda:delegateExpression="${accessCheckEqualPNAndAPCurrencyDelegate}">
+    <bpmn:serviceTask id="AccessCheckEqualityCurrenciesTask" name="eAccess:&#10;Check equality currencies" camunda:asyncBefore="true" camunda:delegateExpression="${accessCheckEqualityCurrenciesDelegate}">
       <bpmn:incoming>SequenceFlow_06i8ijq</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0ooyayc</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -228,12 +228,12 @@
     <bpmn:sequenceFlow id="SequenceFlow_1riqidl" sourceRef="NoticeTask" targetRef="NotifierSuccessNotificationToPlatformTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1k5q7ta" sourceRef="BpeAddUpdateRecordTaskInQueueTask" targetRef="NoticeTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1dueump" sourceRef="UpdateOtherProcessMSTask" targetRef="BpeAddUpdateRecordTaskInQueueTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0ooyayc" sourceRef="AccessCheckEqualPNAndAPCurrencyTask" targetRef="AccessOutsourcingPNTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0ooyayc" sourceRef="AccessCheckEqualityCurrenciesTask" targetRef="AccessOutsourcingPNTask" />
     <bpmn:sequenceFlow id="SequenceFlow_10qzhvy" sourceRef="StartEvent_0a4k6jk" targetRef="BpeProcessInitializerTask" />
     <bpmn:sequenceFlow id="SequenceFlow_03siap3" sourceRef="AccessCheckAccessToPlanTask" targetRef="AccessCheckPlanStateTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0cv1lhv" sourceRef="AccessCheckPlanStateTask" targetRef="AccessCheckExistenceFATask" />
     <bpmn:sequenceFlow id="SequenceFlow_09n45sw" sourceRef="BpeProcessInitializerTask" targetRef="AccessCheckAccessToPlanTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_06i8ijq" sourceRef="AccessCheckExistenceFATask" targetRef="AccessCheckEqualPNAndAPCurrencyTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_06i8ijq" sourceRef="AccessCheckExistenceFATask" targetRef="AccessCheckEqualityCurrenciesTask" />
     <bpmn:textAnnotation id="TextAnnotation_1de1bt3">
       <bpmn:text>Проверка состояния плана</bpmn:text>
     </bpmn:textAnnotation>
@@ -485,7 +485,7 @@
         <di:waypoint x="920" y="230" />
         <di:waypoint x="948" y="230" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_0xk7xby_di" bpmnElement="AccessCheckEqualPNAndAPCurrencyTask" bioc:stroke="black" bioc:fill="white">
+      <bpmndi:BPMNShape id="ServiceTask_0xk7xby_di" bpmnElement="AccessCheckEqualityCurrenciesTask" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="820" y="190" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
