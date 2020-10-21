@@ -76,6 +76,7 @@
       {
         "id": "string",
         "title": "string",
+        "source": "tenderer",
         "requirementGroups": [
           {
             "id": "string",

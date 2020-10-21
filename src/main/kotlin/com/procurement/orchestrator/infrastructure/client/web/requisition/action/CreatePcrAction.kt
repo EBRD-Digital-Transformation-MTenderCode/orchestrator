@@ -48,6 +48,7 @@ import com.procurement.orchestrator.domain.model.tender.conversion.coefficient.C
 import com.procurement.orchestrator.domain.model.tender.conversion.coefficient.CoefficientValue
 import com.procurement.orchestrator.domain.model.tender.conversion.coefficient.Coefficients
 import com.procurement.orchestrator.domain.model.tender.criteria.CriteriaRelatesTo
+import com.procurement.orchestrator.domain.model.tender.criteria.CriteriaSource
 import com.procurement.orchestrator.domain.model.tender.criteria.Criterion
 import com.procurement.orchestrator.domain.model.tender.criteria.requirement.Requirement
 import com.procurement.orchestrator.domain.model.tender.criteria.requirement.RequirementGroup
@@ -497,6 +498,8 @@ abstract class CreatePcrAction : FunctionalAction<CreatePcrAction.Params, Create
                 @JsonInclude(JsonInclude.Include.NON_NULL)
                 @field:JsonProperty("relatesTo") @param:JsonProperty("relatesTo") val relatesTo: CriteriaRelatesTo?,
 
+                @field:JsonProperty("source") @param:JsonProperty("source") val source: CriteriaSource,
+
                 @field:JsonProperty("requirementGroups") @param:JsonProperty("requirementGroups") val requirementGroups: List<RequirementGroup>
 
             ) : Serializable {
@@ -686,7 +689,7 @@ abstract class CreatePcrAction : FunctionalAction<CreatePcrAction.Params, Create
                     requirementGroups = criterion.requirementGroups
                         .map { it.convert() }
                         .let { RequirementGroups(it) },
-                    source = null
+                    source = criterion.source
                 )
 
             private fun Result.Tender.Criterion.RequirementGroup.convert(): RequirementGroup =
@@ -887,6 +890,5 @@ abstract class CreatePcrAction : FunctionalAction<CreatePcrAction.Params, Create
                         )
                     }
             )
-
     }
 }

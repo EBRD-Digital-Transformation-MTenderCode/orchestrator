@@ -87,6 +87,7 @@
         "description": "string",
         "relatedItem": "string",
         "relatesTo": "tenderer",
+        "source": "tenderer",
         "requirementGroups": [
           {
             "id": "string",
