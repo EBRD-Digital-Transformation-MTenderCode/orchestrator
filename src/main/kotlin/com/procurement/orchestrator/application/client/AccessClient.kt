@@ -25,6 +25,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Outs
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ResponderProcessingAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForLotsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForTenderAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateRelatedTenderClassificationAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateRequirementResponsesAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.VerifyRequirementResponseAction
 
@@ -125,6 +126,11 @@ interface AccessClient {
         id: CommandId,
         params: OutsourcingPnAction.Params
     ): Result<Reply<OutsourcingPnAction.Result>, Fail.Incident>
+
+    suspend fun validateRelatedTenderClassification(
+        id: CommandId,
+        params: ValidateRelatedTenderClassificationAction.Params
+    ): Result<Reply<Unit>, Fail.Incident>
 
     suspend fun createRelationToOtherProcess(
         id: CommandId,

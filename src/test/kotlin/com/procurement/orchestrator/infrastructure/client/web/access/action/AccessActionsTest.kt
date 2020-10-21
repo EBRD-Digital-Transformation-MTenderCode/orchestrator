@@ -390,6 +390,18 @@ class AccessActionsTest {
     }
 
     @Nested
+    inner class ValidateRelatedTenderClassification {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<ValidateRelatedTenderClassificationAction.Params>("json/client/access/validate_related_tender_classification_full.json")
+            }
+        }
+    }
+
+    @Nested
     inner class CreateRelationToOtherProcess {
 
         @Nested

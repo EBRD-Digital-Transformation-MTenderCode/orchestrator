@@ -101,6 +101,7 @@ class MdmEnrichRegionDelegate(
 
     override fun updateGlobalContext(
         context: CamundaGlobalContext,
+        parameters: Parameters,
         result: List<RegionDetails>
     ): MaybeFail<Fail.Incident> {
 
