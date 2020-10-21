@@ -8,7 +8,7 @@ import com.procurement.orchestrator.domain.model.or
 import java.io.Serializable
 
 data class Target(
-    @field:JsonProperty("id") @param:JsonProperty("id") val id: String,
+    @field:JsonProperty("id") @param:JsonProperty("id") val id: TargetId,
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonProperty("title") @param:JsonProperty("title") val title: String? = null,
@@ -22,8 +22,7 @@ data class Target(
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonProperty("observations") @param:JsonProperty("observations") val observations: Observations = Observations()
 
-) : IdentifiableObject<Target>,
-    Serializable {
+) : IdentifiableObject<Target>, Serializable {
 
     override fun equals(other: Any?): Boolean = if (this === other)
         true
