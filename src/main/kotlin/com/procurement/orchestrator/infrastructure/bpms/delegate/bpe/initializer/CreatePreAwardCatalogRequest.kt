@@ -280,7 +280,7 @@ object CreatePreAwardCatalogRequest {
                     @field:JsonInclude(JsonInclude.Include.NON_NULL)
                     @field:JsonProperty("description") @param:JsonProperty("description") val description: String?,
 
-                    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+                    @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
                     @field:JsonProperty("relatedLots") @param:JsonProperty("relatedLots") val relatedLots: List<String>?
                 )
             }
