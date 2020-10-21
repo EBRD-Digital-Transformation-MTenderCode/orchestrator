@@ -14,7 +14,7 @@ import java.io.Serializable
 data class Value(
     @param:JsonDeserialize(using = AmountDeserializer::class)
     @field:JsonSerialize(using = AmountSerializer::class)
-    @field:JsonProperty("amount") @param:JsonProperty("amount") val amount: Amount,
+    @field:JsonProperty("amount") @param:JsonProperty("amount") val amount: Amount? = null,
 
     @field:JsonProperty("currency") @param:JsonProperty("currency") val currency: String,
 
