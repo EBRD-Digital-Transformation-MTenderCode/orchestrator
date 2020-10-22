@@ -19,7 +19,9 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.functional.asSuccess
+import com.procurement.orchestrator.domain.model.address.Address
 import com.procurement.orchestrator.domain.model.address.region.RegionDetails
+import com.procurement.orchestrator.domain.model.bid.Bid
 import com.procurement.orchestrator.domain.model.candidate.Candidates
 import com.procurement.orchestrator.domain.model.organization.Organization
 import com.procurement.orchestrator.domain.model.submission.Details
@@ -49,9 +51,9 @@ class MdmEnrichRegionDelegate(
     }
 
     override fun parameters(parameterContainer: ParameterContainer): Result<Parameters, Fail.Incident.Bpmn.Parameter> {
-        val location: Location = parameterContainer.getString(PARAMETER_NAME_LOCATION)
+        val locations: List<Location> = parameterContainer.getListString(PARAMETER_NAME_LOCATION)
             .orForwardFail { fail -> return fail }
-            .let { location ->
+            .map { location ->
                 Location.orNull(location)
                     ?: return failure(
                         Fail.Incident.Bpmn.Parameter.UnknownValue(
@@ -61,7 +63,7 @@ class MdmEnrichRegionDelegate(
                         )
                     )
             }
-        return success(Parameters(location))
+        return success(Parameters(locations))
     }
 
     override fun prepareSeq(
@@ -73,12 +75,18 @@ class MdmEnrichRegionDelegate(
         val submissions = context.tryGetSubmissions()
             .orForwardFail { error -> return error }
 
-        return submissions.details
-            .asSequence()
-            .flatMap { submission -> submission.candidates.asSequence() }
-            .map { candidate -> candidate.defineAddressInfoByLocation(parameters.location) }
+        val bids = context.bids?.details.orEmpty()
+
+        return parameters.locations
+            .flatMap { location ->
+                when (location) {
+                    Location.SUBMISSION -> getSubmissionAddresses(submissions)
+                    Location.BID -> getBidsAddresses(bids)
+                    Location.BID_BANK_ACCOUNTS -> getBidsBankAccountAddresses(bids)
+                }
+            }
             .toSet()
-            .map { country -> getParams(requestInfo.language, country) }
+            .map { countryInfo -> getParams(requestInfo.language, countryInfo) }
             .asSuccess()
     }
 
@@ -96,7 +104,6 @@ class MdmEnrichRegionDelegate(
                 handleResult(result, executionInterceptor)
             }
             .asSuccess()
-
     }
 
     override fun updateGlobalContext(
@@ -127,32 +134,44 @@ class MdmEnrichRegionDelegate(
     ): Organization {
         val oldRegion = this.address!!.addressDetails!!.region
         val enrichedRegion = enrichedRegionesById.getValue(oldRegion)
-        return this
-            .copy(
-                address = this.address
-                    .copy(
-                        addressDetails = this.address.addressDetails!!
-                            .copy(region = enrichedRegion)
+        return this.copy(
+                address = this.address.copy(
+                        addressDetails = this.address.addressDetails!!.copy(region = enrichedRegion)
                     )
             )
     }
 
-    private fun getParams(language: String, address: Address): EnrichRegionAction.Params =
+    private fun getSubmissionAddresses(submissions: Submissions): List<AddressInfo> =
+        submissions.details
+            .flatMap { submission -> submission.candidates }
+            .map { candidate -> getCountryInfo(candidate.address!!) }
+
+    private fun getBidsAddresses(bids: List<Bid>): List<AddressInfo> =
+        bids
+            .flatMap { bid -> bid.tenderers }
+            .map { candidate -> getCountryInfo(candidate.address!!) }
+
+    private fun getBidsBankAccountAddresses(bids: List<Bid>): List<AddressInfo> =
+        bids.asSequence()
+            .flatMap { bid -> bid.tenderers.asSequence() }
+            .mapNotNull { tenderer -> tenderer.details }
+            .flatMap { q -> q.bankAccounts.asSequence() }
+            .map { bankAccount -> getCountryInfo(bankAccount.address!!) }
+            .toList()
+
+    private val getCountryInfo : (Address) -> AddressInfo = { address ->
+        val country = address.addressDetails!!.country
+        val region = address.addressDetails.region
+        AddressInfo(countryId = country.id, regionId = region.id, scheme = region.scheme)
+    }
+
+    private fun getParams(language: String, address: AddressInfo): EnrichRegionAction.Params =
         EnrichRegionAction.Params(
             lang = language,
             scheme = address.scheme,
             countryId = address.countryId,
             regionId = address.regionId
         )
-
-    private fun Organization.defineAddressInfoByLocation(location: Location) =
-        when (location) {
-            Location.SUBMISSION -> {
-                val country = this.address!!.addressDetails!!.country
-                val region = this.address.addressDetails!!.region
-                Address(countryId = country.id, regionId = region.id, scheme = region.scheme)
-            }
-        }
 
     private fun handleResult(
         response: GetRegion.Result,
@@ -164,7 +183,7 @@ class MdmEnrichRegionDelegate(
             description = response.description,
             uri = response.uri
         )
-        is GetRegion.Result.Fail.TranslationNotFound    -> {
+        is GetRegion.Result.Fail.TranslationNotFound -> {
             executionInterceptor.throwIncident(
                 Incident(
                     id = executionInterceptor.processInstanceId,
@@ -188,7 +207,7 @@ class MdmEnrichRegionDelegate(
                 )
             )
         }
-        is GetRegion.Result.Fail.AnotherError    -> {
+        is GetRegion.Result.Fail.AnotherError -> {
             val errors = response.errors
                 .map { error ->
                     Errors.Error(
@@ -202,7 +221,9 @@ class MdmEnrichRegionDelegate(
 
     enum class Location(@JsonValue override val key: String) : EnumElementProvider.Key {
 
-        SUBMISSION("submission");
+        SUBMISSION("submission"),
+        BID("bid"),
+        BID_BANK_ACCOUNTS("bid.bankAccounts");
 
         override fun toString(): String = key
 
@@ -214,7 +235,7 @@ class MdmEnrichRegionDelegate(
         }
     }
 
-    data class Parameters(val location: Location)
-    private data class Address(val countryId: String, val regionId: String, val scheme: String)
+    data class Parameters(val locations: List<Location>)
+    private data class AddressInfo(val countryId: String, val regionId: String, val scheme: String)
 }
 
