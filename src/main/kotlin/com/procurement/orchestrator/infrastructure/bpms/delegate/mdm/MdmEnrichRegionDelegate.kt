@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonValue
 import com.procurement.orchestrator.application.client.MdmClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
+import com.procurement.orchestrator.application.model.context.GlobalContext
 import com.procurement.orchestrator.application.model.context.extension.tryGetSubmissions
 import com.procurement.orchestrator.application.model.context.members.Errors
 import com.procurement.orchestrator.application.model.context.members.Incident
@@ -22,8 +23,12 @@ import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.domain.model.address.Address
 import com.procurement.orchestrator.domain.model.address.region.RegionDetails
 import com.procurement.orchestrator.domain.model.bid.Bid
+import com.procurement.orchestrator.domain.model.bid.Bids
+import com.procurement.orchestrator.domain.model.bid.BidsDetails
 import com.procurement.orchestrator.domain.model.candidate.Candidates
 import com.procurement.orchestrator.domain.model.organization.Organization
+import com.procurement.orchestrator.domain.model.organization.Organizations
+import com.procurement.orchestrator.domain.model.organization.datail.account.BankAccounts
 import com.procurement.orchestrator.domain.model.submission.Details
 import com.procurement.orchestrator.domain.model.submission.Submissions
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractBatchRestDelegate
@@ -112,33 +117,89 @@ class MdmEnrichRegionDelegate(
         result: List<RegionDetails>
     ): MaybeFail<Fail.Incident> {
 
-        val submissions = context.tryGetSubmissions()
-            .orReturnFail { error -> return MaybeFail.fail(error) }
+        val regions: Map<RegionDetails, RegionDetails> = result.associateBy { it }
 
-        val regions = result.associateBy { it }
+        parameters.locations
+            .map { location ->
+                when (location) {
+                    Location.SUBMISSION -> updateSubmissions(context, regions)
+                    Location.BID -> updateBids(context, regions)
+                    Location.BID_BANK_ACCOUNTS -> updateBidsBankAccount(context, regions)
+                }
+            }
 
-        val updatedSubmissions = submissions.details
+        return MaybeFail.none()
+    }
+
+    private fun updateSubmissions(context: GlobalContext, regions: Map<RegionDetails, RegionDetails>) {
+        val updatedSubmissions = context.submissions!!.details
             .map { submission ->
                 val updatedCandidates = submission.candidates
                     .map { candidate -> candidate.updateRegion(regions) }
                 submission.copy(candidates = Candidates(updatedCandidates))
             }
 
-        context.submissions = Submissions(Details(updatedSubmissions))
-
-        return MaybeFail.none()
+        context.submissions = Submissions(details = Details(updatedSubmissions))
     }
 
-    private fun Organization.updateRegion(
-        enrichedRegionesById: Map<RegionDetails, RegionDetails>
-    ): Organization {
+    private fun updateBids(context: GlobalContext, regions: Map<RegionDetails, RegionDetails>) {
+        val updatedBids = context.bids!!.details
+            .map { bid ->
+                val updatedTenderers = bid.tenderers
+                    .map { tenderer -> tenderer.updateRegion(regions) }
+                bid.copy(tenderers = Organizations(updatedTenderers))
+            }
+
+        context.bids = Bids(
+            statistics = context.bids!!.statistics,
+            details = BidsDetails(updatedBids)
+        )
+    }
+
+    private fun updateBidsBankAccount(context: GlobalContext, regions: Map<RegionDetails, RegionDetails>) {
+        val updatedBids = context.bids!!.details
+            .map { bid ->
+                val updatedTenderers = bid.tenderers
+                    .map { tenderer ->
+                        val updatedDetails = tenderer.details!!
+                            .let { details ->
+                                val updatedBankAccounts = details.bankAccounts.map { bankAccount ->
+                                    val updatedAddress = bankAccount.address!!.updateRegion(regions)
+                                    bankAccount.copy(address = updatedAddress)
+                                }
+                                details.copy(bankAccounts = BankAccounts(updatedBankAccounts))
+                            }
+                        tenderer.copy(
+                            details = updatedDetails
+                        )
+                    }
+                bid.copy(tenderers = Organizations(updatedTenderers))
+            }
+
+        context.bids = Bids(
+            statistics = context.bids!!.statistics,
+            details = BidsDetails(updatedBids)
+        )
+    }
+
+    private fun Organization.updateRegion(enrichedRegionesById: Map<RegionDetails, RegionDetails>): Organization {
         val oldRegion = this.address!!.addressDetails!!.region
         val enrichedRegion = enrichedRegionesById.getValue(oldRegion)
         return this.copy(
-                address = this.address.copy(
-                        addressDetails = this.address.addressDetails!!.copy(region = enrichedRegion)
-                    )
+            address = this.address.copy(
+                addressDetails = this.address.addressDetails!!.copy(region = enrichedRegion)
             )
+        )
+    }
+
+    private fun Address.updateRegion(enrichedRegionesById: Map<RegionDetails, RegionDetails>): Address {
+        val oldRegion = this.addressDetails!!.region
+        val enrichedRegion = enrichedRegionesById.getValue(oldRegion)
+        return this.copy(
+            addressDetails = this.addressDetails.copy(
+                region = enrichedRegion
+            )
+        )
     }
 
     private fun getSubmissionAddresses(submissions: Submissions): List<AddressInfo> =
@@ -159,7 +220,7 @@ class MdmEnrichRegionDelegate(
             .map { bankAccount -> getCountryInfo(bankAccount.address!!) }
             .toList()
 
-    private val getCountryInfo : (Address) -> AddressInfo = { address ->
+    private val getCountryInfo: (Address) -> AddressInfo = { address ->
         val country = address.addressDetails!!.country
         val region = address.addressDetails.region
         AddressInfo(countryId = country.id, regionId = region.id, scheme = region.scheme)
