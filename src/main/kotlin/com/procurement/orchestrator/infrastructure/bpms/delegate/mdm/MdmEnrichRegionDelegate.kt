@@ -91,7 +91,7 @@ class MdmEnrichRegionDelegate(
                 }
             }
             .toSet()
-            .map { countryInfo -> getParams(requestInfo.language, countryInfo) }
+            .map { regionInfo -> getParams(requestInfo.language, regionInfo) }
             .asSuccess()
     }
 
@@ -202,31 +202,31 @@ class MdmEnrichRegionDelegate(
         )
     }
 
-    private fun getSubmissionAddresses(submissions: Submissions): List<AddressInfo> =
+    private fun getSubmissionAddresses(submissions: Submissions): List<RegionInfo> =
         submissions.details
             .flatMap { submission -> submission.candidates }
-            .map { candidate -> getCountryInfo(candidate.address!!) }
+            .map { candidate -> getLocalityInfo(candidate.address!!) }
 
-    private fun getBidsAddresses(bids: List<Bid>): List<AddressInfo> =
+    private fun getBidsAddresses(bids: List<Bid>): List<RegionInfo> =
         bids
             .flatMap { bid -> bid.tenderers }
-            .map { candidate -> getCountryInfo(candidate.address!!) }
+            .map { candidate -> getLocalityInfo(candidate.address!!) }
 
-    private fun getBidsBankAccountAddresses(bids: List<Bid>): List<AddressInfo> =
+    private fun getBidsBankAccountAddresses(bids: List<Bid>): List<RegionInfo> =
         bids.asSequence()
             .flatMap { bid -> bid.tenderers.asSequence() }
             .mapNotNull { tenderer -> tenderer.details }
             .flatMap { q -> q.bankAccounts.asSequence() }
-            .map { bankAccount -> getCountryInfo(bankAccount.address!!) }
+            .map { bankAccount -> getLocalityInfo(bankAccount.address!!) }
             .toList()
 
-    private val getCountryInfo: (Address) -> AddressInfo = { address ->
+    private val getLocalityInfo: (Address) -> RegionInfo = { address ->
         val country = address.addressDetails!!.country
         val region = address.addressDetails.region
-        AddressInfo(countryId = country.id, regionId = region.id, scheme = region.scheme)
+        RegionInfo(countryId = country.id, regionId = region.id, scheme = region.scheme)
     }
 
-    private fun getParams(language: String, address: AddressInfo): EnrichRegionAction.Params =
+    private fun getParams(language: String, address: RegionInfo): EnrichRegionAction.Params =
         EnrichRegionAction.Params(
             lang = language,
             scheme = address.scheme,
@@ -297,6 +297,6 @@ class MdmEnrichRegionDelegate(
     }
 
     data class Parameters(val locations: List<Location>)
-    private data class AddressInfo(val countryId: String, val regionId: String, val scheme: String)
+    private data class RegionInfo(val countryId: String, val regionId: String, val scheme: String)
 }
 
