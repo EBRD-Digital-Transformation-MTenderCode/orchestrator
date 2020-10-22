@@ -7,10 +7,11 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.WebClient
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.CheckAbsenceActiveInvitationsAction
+import com.procurement.orchestrator.infrastructure.client.web.submission.action.CheckPeriodAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.DoInvitationsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.PublishInvitationsAction
-import com.procurement.orchestrator.infrastructure.client.web.submission.action.ValidateTenderPeriodAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.SetTenderPeriodAction
+import com.procurement.orchestrator.infrastructure.client.web.submission.action.ValidateTenderPeriodAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
 import java.net.URL
 
@@ -60,5 +61,13 @@ class HttpSubmissionClient(private val webClient: WebClient, properties: Compone
         url = url,
         command = SubmissionCommands.SetTenderPeriod.build(id = id, params = params),
         target = SubmissionCommands.SetTenderPeriod.target
+    )
+
+    override suspend fun checkPeriod(
+        id: CommandId,
+        params: CheckPeriodAction.Params
+    ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
+        url = url,
+        command = SubmissionCommands.CheckPeriod.build(id = id, params = params)
     )
 }
