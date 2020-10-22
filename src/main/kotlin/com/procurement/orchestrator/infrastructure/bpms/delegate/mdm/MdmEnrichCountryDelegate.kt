@@ -130,22 +130,22 @@ class MdmEnrichCountryDelegate(
         return MaybeFail.none()
     }
 
-    private fun updateSubmissions(context: GlobalContext, regions: Map<CountryDetails, CountryDetails>) {
+    private fun updateSubmissions(context: GlobalContext, countries: Map<CountryDetails, CountryDetails>) {
         val updatedSubmissions = context.submissions!!.details
             .map { submission ->
                 val updatedCandidates = submission.candidates
-                    .map { candidate -> candidate.updateCountry(regions) }
+                    .map { candidate -> candidate.updateCountry(countries) }
                 submission.copy(candidates = Candidates(updatedCandidates))
             }
 
         context.submissions = Submissions(details = Details(updatedSubmissions))
     }
 
-    private fun updateBids(context: GlobalContext, regions: Map<CountryDetails, CountryDetails>) {
+    private fun updateBids(context: GlobalContext, countries: Map<CountryDetails, CountryDetails>) {
         val updatedBids = context.bids!!.details
             .map { bid ->
                 val updatedTenderers = bid.tenderers
-                    .map { tenderer -> tenderer.updateCountry(regions) }
+                    .map { tenderer -> tenderer.updateCountry(countries) }
                 bid.copy(tenderers = Organizations(updatedTenderers))
             }
 
@@ -155,7 +155,7 @@ class MdmEnrichCountryDelegate(
         )
     }
 
-    private fun updateBidsBankAccount(context: GlobalContext, regions: Map<CountryDetails, CountryDetails>) {
+    private fun updateBidsBankAccount(context: GlobalContext, countries: Map<CountryDetails, CountryDetails>) {
         val updatedBids = context.bids!!.details
             .map { bid ->
                 val updatedTenderers = bid.tenderers
@@ -163,7 +163,7 @@ class MdmEnrichCountryDelegate(
                         val updatedDetails = tenderer.details!!
                             .let { details ->
                                 val updatedBankAccounts = details.bankAccounts.map { bankAccount ->
-                                    val updatedAddress = bankAccount.address!!.updateCountry(regions)
+                                    val updatedAddress = bankAccount.address!!.updateCountry(countries)
                                     bankAccount.copy(address = updatedAddress)
                                 }
                                 details.copy(bankAccounts = BankAccounts(updatedBankAccounts))
