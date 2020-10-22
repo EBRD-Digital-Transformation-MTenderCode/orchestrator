@@ -19,7 +19,9 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.functional.asSuccess
+import com.procurement.orchestrator.domain.model.address.Address
 import com.procurement.orchestrator.domain.model.address.country.CountryDetails
+import com.procurement.orchestrator.domain.model.bid.Bid
 import com.procurement.orchestrator.domain.model.candidate.Candidates
 import com.procurement.orchestrator.domain.model.organization.Organization
 import com.procurement.orchestrator.domain.model.submission.Details
@@ -49,9 +51,9 @@ class MdmEnrichCountryDelegate(
     }
 
     override fun parameters(parameterContainer: ParameterContainer): Result<Parameters, Fail.Incident.Bpmn.Parameter> {
-        val location: Location = parameterContainer.getString(PARAMETER_NAME_LOCATION)
+        val locations: List<Location> = parameterContainer.getListString(PARAMETER_NAME_LOCATION)
             .orForwardFail { fail -> return fail }
-            .let { location ->
+            .map { location ->
                 Location.orNull(location)
                     ?: return failure(
                         Fail.Incident.Bpmn.Parameter.UnknownValue(
@@ -61,7 +63,7 @@ class MdmEnrichCountryDelegate(
                         )
                     )
             }
-        return success(Parameters(location))
+        return success(Parameters(locations))
     }
 
     override fun prepareSeq(
@@ -73,13 +75,20 @@ class MdmEnrichCountryDelegate(
         val submissions = context.tryGetSubmissions()
             .orForwardFail { error -> return error }
 
-        return submissions.details
-            .asSequence()
-            .flatMap { submission -> submission.candidates.asSequence() }
-            .map { candidate -> candidate.defineAddressInfoByLocation(parameters.location) }
+        val bids = context.bids?.details.orEmpty()
+
+        return parameters.locations
+            .flatMap { location ->
+                when (location) {
+                    Location.SUBMISSION -> getSubmissionAddresses(submissions)
+                    Location.BID -> getBidsAddresses(bids)
+                    Location.BID_BANK_ACCOUNTS -> getBidsBankAccountAddresses(bids)
+                }
+            }
             .toSet()
-            .map { country -> getParams(requestInfo.language, country) }
+            .map { countryInfo -> getParams(requestInfo.language, countryInfo) }
             .asSuccess()
+
     }
 
     override suspend fun execute(
@@ -88,7 +97,8 @@ class MdmEnrichCountryDelegate(
     ): Result<List<CountryDetails>, Fail.Incident> {
 
         return elements
-            .map { params -> mdmClient
+            .map { params ->
+                mdmClient
                     .enrichCountry(params = params)
                     .orForwardFail { error -> return error }
                     .let { result -> handleResult(result, executionInterceptor) }
@@ -124,42 +134,54 @@ class MdmEnrichCountryDelegate(
     ): Organization {
         val oldCountry = this.address!!.addressDetails!!.country
         val enrichedCountry = enrichedCountriesById.getValue(oldCountry)
-        return this
-            .copy(
-                address = this.address
-                    .copy(
-                        addressDetails = this.address.addressDetails!!
-                            .copy(country = enrichedCountry)
+        return this.copy(
+                address = this.address.copy(
+                        addressDetails = this.address.addressDetails!!.copy(country = enrichedCountry)
                     )
             )
     }
 
-    private fun getParams(language: String, address: Address): EnrichCountryAction.Params =
+    private fun getParams(language: String, address: CountryInfo): EnrichCountryAction.Params =
         EnrichCountryAction.Params(
             lang = language,
             scheme = address.scheme,
             countryId = address.id
         )
 
-    private fun Organization.defineAddressInfoByLocation(location: Location) =
-        when (location) {
-            Location.SUBMISSION -> {
-                val country = this.address!!.addressDetails!!.country
-                Address(id = country.id, scheme = country.scheme)
-            }
-        }
+    private fun getSubmissionAddresses(submissions: Submissions): List<CountryInfo> =
+        submissions.details
+            .flatMap { submission -> submission.candidates }
+            .map { candidate -> getCountryInfo(candidate.address!!) }
+
+    private fun getBidsAddresses(bids: List<Bid>): List<CountryInfo> =
+        bids
+            .flatMap { bid -> bid.tenderers }
+            .map { candidate -> getCountryInfo(candidate.address!!) }
+
+    private fun getBidsBankAccountAddresses(bids: List<Bid>): List<CountryInfo> =
+        bids.asSequence()
+            .flatMap { bid -> bid.tenderers.asSequence() }
+            .mapNotNull { tenderer -> tenderer.details }
+            .flatMap { q -> q.bankAccounts.asSequence() }
+            .map { bankAccount -> getCountryInfo(bankAccount.address!!) }
+            .toList()
+
+    private val getCountryInfo : (Address) -> CountryInfo = { address ->
+        val country = address.addressDetails!!.country
+        CountryInfo(id = country.id, scheme = country.scheme)
+    }
 
     private fun handleResult(
         response: GetCountry.Result,
         executionInterceptor: ExecutionInterceptor
     ): CountryDetails = when (response) {
-        is GetCountry.Result.Success                   -> CountryDetails(
+        is GetCountry.Result.Success -> CountryDetails(
             id = response.id,
             description = response.description,
             scheme = response.scheme,
             uri = response.uri
         )
-        is GetCountry.Result.Fail.AnotherError         -> {
+        is GetCountry.Result.Fail.AnotherError -> {
             val errors = response.errors
                 .map { error ->
                     Errors.Error(
@@ -197,7 +219,9 @@ class MdmEnrichCountryDelegate(
 
     enum class Location(@JsonValue override val key: String) : EnumElementProvider.Key {
 
-        SUBMISSION("submission");
+        SUBMISSION("submission"),
+        BID("bid"),
+        BID_BANK_ACCOUNTS("bid.bankAccounts");
 
         override fun toString(): String = key
 
@@ -209,7 +233,7 @@ class MdmEnrichCountryDelegate(
         }
     }
 
-    data class Parameters(val location: Location)
-    private data class Address(val id: String, val scheme: String)
+    data class Parameters(val locations: List<Location>)
+    private data class CountryInfo(val id: String, val scheme: String)
 }
 
