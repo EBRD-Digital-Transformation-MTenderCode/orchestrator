@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.procurement.orchestrator.application.model.Owner
 import com.procurement.orchestrator.application.model.Token
 import com.procurement.orchestrator.application.service.FunctionalAction
 import com.procurement.orchestrator.domain.model.Cpid
@@ -79,6 +80,7 @@ abstract class CreatePcrAction : FunctionalAction<CreatePcrAction.Params, Create
     class Params(
         @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid,
         @field:JsonProperty("date") @param:JsonProperty("date") val date: LocalDateTime,
+        @field:JsonProperty("owner") @param:JsonProperty("owner") val owner: Owner,
         @field:JsonProperty("stateFE") @param:JsonProperty("stateFE") val stateFE: String,
         @field:JsonProperty("tender") @param:JsonProperty("tender") val tender: Tender
     ) {

@@ -70,6 +70,7 @@ class RequisitionCreatePcrDelegate(
             params = CreatePcrAction.Params(
                 cpid = processInfo.cpid,
                 date = requestInfo.timestamp,
+                owner = requestInfo.owner,
                 stateFE = parameters.state,
                 tender = CreatePcrAction.RequestConverter.fromDomain(tender)
             )
