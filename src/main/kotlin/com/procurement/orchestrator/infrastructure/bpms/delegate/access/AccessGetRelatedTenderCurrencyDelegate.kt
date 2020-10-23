@@ -41,12 +41,13 @@ class AccessGetRelatedTenderCurrencyDelegate(
         parameters: Unit
     ): Result<Reply<GetTenderCurrencyAction.Result>, Fail.Incident> {
 
-        val processInfo = context.processInfo
+        val relatedProcess = context.processInfo.relatedProcess
+
         return accessClient.getTenderCurrency(
             id = commandId,
             params = GetTenderCurrencyAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid
+                cpid = relatedProcess?.cpid,
+                ocid = relatedProcess?.ocid
             )
         )
     }
