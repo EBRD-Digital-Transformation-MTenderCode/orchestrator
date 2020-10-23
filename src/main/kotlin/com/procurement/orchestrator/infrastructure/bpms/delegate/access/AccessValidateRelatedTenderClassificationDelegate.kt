@@ -3,22 +3,21 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.access
 import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.AccessClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
+import com.procurement.orchestrator.application.model.context.extension.tryGetTender
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
-import com.procurement.orchestrator.domain.functional.MaybeFail
-import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
-import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckEqualPNAndAPCurrencyAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateRelatedTenderClassificationAction
 import org.springframework.stereotype.Component
 
 @Component
-class AccessCheckEqualPNAndAPCurrencyDelegate(
+class AccessValidateRelatedTenderClassificationDelegate(
     logger: Logger,
     private val accessClient: AccessClient,
     operationStepRepository: OperationStepRepository,
@@ -37,22 +36,25 @@ class AccessCheckEqualPNAndAPCurrencyDelegate(
         context: CamundaGlobalContext,
         parameters: Unit
     ): Result<Reply<Unit>, Fail.Incident> {
-        val processInfo = context.processInfo
 
-        return accessClient.checkEqualPNAndAPCurrency(
+        val relatedProcess = context.processInfo.relatedProcess!!
+        val tender = context.tryGetTender()
+            .orForwardFail { failure -> return failure }
+
+        return accessClient.validateRelatedTenderClassification(
             id = commandId,
-            params = CheckEqualPNAndAPCurrencyAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
-                cpidAP = processInfo.relatedProcess?.cpid,
-                ocidAP = processInfo.relatedProcess?.ocid
+            params = ValidateRelatedTenderClassificationAction.Params(
+                cpid = relatedProcess.cpid,
+                ocid = relatedProcess.ocid,
+                tender = ValidateRelatedTenderClassificationAction.Params.Tender(
+                    classification = tender.classification?.let { tenderClassification ->
+                        ValidateRelatedTenderClassificationAction.Params.Tender.Classification(
+                            id = tenderClassification.id
+                        )
+                    }
+                )
+
             )
         )
     }
-
-    override fun updateGlobalContext(
-        context: CamundaGlobalContext,
-        parameters: Unit,
-        result: Option<Unit>
-    ): MaybeFail<Fail.Incident.Bpmn> = MaybeFail.none()
 }

@@ -87,6 +87,7 @@ class MdmGetRequirementsDelegate(
 
     override fun updateGlobalContext(
         context: CamundaGlobalContext,
+        parameters: Unit,
         result: Map<RequirementGroupId, List<Requirement>>
     ): MaybeFail<Fail.Incident> {
 
