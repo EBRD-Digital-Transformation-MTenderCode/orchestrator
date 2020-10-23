@@ -26,6 +26,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Outs
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ResponderProcessingAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForLotsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForTenderAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateRelatedTenderClassificationAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateRequirementResponsesAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.VerifyRequirementResponseAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
@@ -191,6 +192,14 @@ class HttpAccessClient(private val webClient: WebClient, properties: ComponentPr
         url = url,
         command = AccessCommands.OutsourcingPn.build(id = id, params = params),
         target = AccessCommands.OutsourcingPn.target
+    )
+
+    override suspend fun validateRelatedTenderClassification(
+        id: CommandId,
+        params: ValidateRelatedTenderClassificationAction.Params
+    ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
+        url = url,
+        command = AccessCommands.ValidateRelatedTenderClassification.build(id = id, params = params)
     )
 
     override suspend fun createRelationToOtherProcess(
