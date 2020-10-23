@@ -156,12 +156,13 @@ class MdmEnrichUnitsDelegate(
         val updatedItems: List<Item> =
             if (EntityKey.ITEM in entities)
                 items.map { item ->
-                    val currentUnit = item.unit ?: return@map item
-                    val enrichedItemUnit = enrichedUnits[currentUnit]
+                    val currentUnit = item.unit
+                    val enrichedItemUnit = currentUnit?.let { enrichedUnits[it] }
 
-                    enrichedItemUnit
-                        ?.let { item.copy(unit = currentUnit.update(it)) }
-                        ?: item
+                    if (enrichedItemUnit != null)
+                        item.copy(unit = currentUnit.update(enrichedItemUnit))
+                    else
+                        item
                 }
             else
                 items
@@ -179,12 +180,13 @@ class MdmEnrichUnitsDelegate(
                 val updatedTargets = targets.map { target ->
                     val updatedObservation = target.observations
                         .map { observation ->
-                            val currentUnit = observation.unit ?: return@map observation
-                            val enrichedItemUnit = enrichedUnits[currentUnit]
+                            val currentUnit = observation.unit
+                            val enrichedItemUnit = currentUnit?.let { enrichedUnits[it] }
 
-                            enrichedItemUnit
-                                ?.let { observation.copy(unit = currentUnit.update(it)) }
-                                ?: observation
+                            if (enrichedItemUnit != null)
+                                observation.copy(unit = currentUnit.update(enrichedItemUnit))
+                            else
+                                observation
                         }
                     target.copy(observations = Observations(updatedObservation))
                 }
