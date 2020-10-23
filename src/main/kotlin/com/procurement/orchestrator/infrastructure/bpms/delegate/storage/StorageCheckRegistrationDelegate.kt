@@ -7,6 +7,7 @@ import com.procurement.orchestrator.application.model.context.extension.getAmend
 import com.procurement.orchestrator.application.model.context.extension.getAwardBusinessFunctionsIfNotEmpty
 import com.procurement.orchestrator.application.model.context.extension.getAwardDocumentsIfNotEmpty
 import com.procurement.orchestrator.application.model.context.extension.getAwardsIfNotEmpty
+import com.procurement.orchestrator.application.model.context.extension.getBidsDetailIfOnlyOne
 import com.procurement.orchestrator.application.model.context.extension.getCandidatesIfNotEmpty
 import com.procurement.orchestrator.application.model.context.extension.getDetailsIfNotEmpty
 import com.procurement.orchestrator.application.model.context.extension.getDetailsIfOnlyOne
@@ -25,8 +26,6 @@ import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.EnumElementProvider
 import com.procurement.orchestrator.domain.EnumElementProvider.Companion.keysAsStrings
 import com.procurement.orchestrator.domain.fail.Fail
-import com.procurement.orchestrator.domain.functional.MaybeFail
-import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
@@ -117,12 +116,20 @@ class StorageCheckRegistrationDelegate(
             getQualificationReqRsDocumentsIds(context, entities)
                 .orForwardFail { fail -> return fail }
 
+        val bidsDocuments: List<DocumentId> = getBidsDocumentsIds(context, entities)
+            .orForwardFail { fail -> return fail }
+
+        val bidTenderersDocuments: List<DocumentId> = getBidsTendererDocumentsIds(context, entities)
+            .orForwardFail { fail -> return fail }
+
         val documentIds: List<DocumentId> = tenderDocuments.plus(amendmentDocuments)
             .plus(awardRequirementResponseDocuments)
             .plus(submissionsDocuments)
             .plus(submissionCandidateDocuments)
             .plus(qualificationDocuments)
             .plus(qualificationReqRsDocuments)
+            .plus(bidsDocuments)
+            .plus(bidTenderersDocuments)
 
         if (documentIds.isEmpty())
             return success(Reply.None)
@@ -376,11 +383,57 @@ class StorageCheckRegistrationDelegate(
             .toList()
             .asSuccess()
 
-    override fun updateGlobalContext(
-        context: CamundaGlobalContext,
-        parameters: Parameters,
-        result: Option<Unit>
-    ): MaybeFail<Fail.Incident.Bpmn> = MaybeFail.none()
+    private fun getBidsDocumentsIds(
+        context: CamundaGlobalContext, entities: Map<EntityKey, EntityValue>
+    ): Result<List<DocumentId>, Fail.Incident> =
+        when (entities[EntityKey.BID]) {
+            EntityValue.OPTIONAL -> getBidsDocumentsIdsOptional(context)
+            EntityValue.REQUIRED -> getBidsDocumentsIdsRequired(context)
+            null -> emptyList<DocumentId>().asSuccess()
+        }
+
+    private fun getBidsDocumentsIdsOptional(context: CamundaGlobalContext): Result<List<DocumentId>, Fail.Incident> =
+        context.bids?.details?.getOrNull(0)
+            ?.documents
+            ?.map { document -> document.id }
+            .orEmpty()
+            .asSuccess()
+
+    private fun getBidsDocumentsIdsRequired(context: CamundaGlobalContext): Result<List<DocumentId>, Fail.Incident> =
+        context.bids.getBidsDetailIfOnlyOne()
+            .orForwardFail { fail -> return fail }
+            .documents
+            .map { document -> document.id }
+            .asSuccess()
+
+    private fun getBidsTendererDocumentsIds(
+        context: CamundaGlobalContext, entities: Map<EntityKey, EntityValue>
+    ): Result<List<DocumentId>, Fail.Incident> =
+        when (entities[EntityKey.BID_TENDERER]) {
+            EntityValue.OPTIONAL -> getBidsTendererDocumentsIdsOptional(context)
+            EntityValue.REQUIRED -> getBidsTendererDocumentsIdsRequired(context)
+            null -> emptyList<DocumentId>().asSuccess()
+        }
+
+    private fun getBidsTendererDocumentsIdsOptional(context: CamundaGlobalContext): Result<List<DocumentId>, Fail.Incident> =
+        context.bids?.details?.getOrNull(0)
+            ?.tenderers
+            ?.flatMap { tenderer -> tenderer.persons }
+            ?.flatMap { person -> person.businessFunctions }
+            ?.flatMap { businessFunction -> businessFunction.documents }
+            ?.map { document -> document.id }
+            .orEmpty()
+            .asSuccess()
+
+    private fun getBidsTendererDocumentsIdsRequired(context: CamundaGlobalContext): Result<List<DocumentId>, Fail.Incident> =
+        context.bids.getBidsDetailIfOnlyOne()
+            .orForwardFail { fail -> return fail }
+            .tenderers
+            .flatMap { tenderer -> tenderer.persons }
+            .flatMap { person -> person.businessFunctions }
+            .flatMap { businessFunction -> businessFunction.documents }
+            .map { document -> document.id }
+            .asSuccess()
 
     class Parameters(
         val entities: Map<EntityKey, EntityValue>
@@ -390,11 +443,13 @@ class StorageCheckRegistrationDelegate(
 
         AMENDMENT("amendment"),
         AWARD_REQUIREMENT_RESPONSE("award.requirementResponse"),
-        TENDER("tender"),
+        BID("bid"),
+        BID_TENDERER("bid.tenderer"),
+        QUALIFICATION("qualification"),
+        QUALIFICATION_REQUIREMENT_RESPONSE("qualification.requirementResponse"),
         SUBMISSION("submission"),
         SUBMISSION_CANDIDATE("submission.candidate"),
-        QUALIFICATION_REQUIREMENT_RESPONSE("qualification.requirementResponse"),
-        QUALIFICATION("qualification");
+        TENDER("tender");
 
         override fun toString(): String = key
 
