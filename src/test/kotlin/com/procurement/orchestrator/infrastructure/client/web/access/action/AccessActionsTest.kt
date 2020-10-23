@@ -378,6 +378,18 @@ class AccessActionsTest {
     }
 
     @Nested
+    inner class ValidateRelatedTenderClassification {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<ValidateRelatedTenderClassificationAction.Params>("json/client/access/validate_related_tender_classification_full.json")
+            }
+        }
+    }
+
+    @Nested
     inner class CreateRelationToOtherProcess {
 
         @Nested
@@ -435,13 +447,13 @@ class AccessActionsTest {
     }
 
     @Nested
-    inner class CheckEqualPNAndAPCurrency {
+    inner class CheckEqualityCurrencies {
 
         @Nested
         inner class Params {
             @Test
             fun fully() {
-                testingBindingAndMapping<CheckEqualPNAndAPCurrencyAction.Params>("json/client/access/calculate_ap_value_params_full.json")
+                testingBindingAndMapping<CheckEqualityCurrenciesAction.Params>("json/client/access/check_equality_currencies_params_full.json")
             }
         }
     }

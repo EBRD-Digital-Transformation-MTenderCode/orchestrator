@@ -4,9 +4,11 @@ import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
+import com.procurement.orchestrator.infrastructure.client.web.mdm.action.EnrichClassificationsAction
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.EnrichCountryAction
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.EnrichLocalityAction
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.EnrichRegionAction
+import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetClassification
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetCountry
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetCriteria
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetCriteriaAction
@@ -36,5 +38,7 @@ interface MdmClient {
     suspend fun getCriteria(params: GetCriteriaAction.Params): Result<GetCriteria.Result.Success, Fail.Incident>
 
     suspend fun getRequirements(params: GetRequirementsAction.Params): Result<GetRequirements.Result.Success, Fail.Incident>
+
+    suspend fun enrichClassifications(params: EnrichClassificationsAction.Params): Result<GetClassification.Result, Fail.Incident>
 
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.procurement.orchestrator.domain.model.IdentifiableObject
 import com.procurement.orchestrator.domain.model.amendment.Amendments
+import com.procurement.orchestrator.domain.model.classification.Classification
 import com.procurement.orchestrator.domain.model.document.Documents
 import com.procurement.orchestrator.domain.model.enquiry.Enquiries
 import com.procurement.orchestrator.domain.model.item.Items
@@ -14,6 +15,7 @@ import com.procurement.orchestrator.domain.model.tender.auction.ElectronicAuctio
 import com.procurement.orchestrator.domain.model.tender.conversion.Conversions
 import com.procurement.orchestrator.domain.model.tender.criteria.Criteria
 import com.procurement.orchestrator.domain.model.tender.criteria.OtherCriteria
+import com.procurement.orchestrator.domain.model.tender.target.Targets
 import com.procurement.orchestrator.domain.model.updateBy
 import com.procurement.orchestrator.domain.model.value.Value
 import java.io.Serializable
@@ -108,7 +110,13 @@ data class Tender(
     @field:JsonProperty("procedureOutsourcing") @param:JsonProperty("procedureOutsourcing") val procedureOutsourcing: ProcedureOutsourcing? = null,
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
-    @field:JsonProperty("value") @param:JsonProperty("value") val value: Value? = null
+    @field:JsonProperty("value") @param:JsonProperty("value") val value: Value? = null,
+
+    @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
+    @field:JsonProperty("targets") @param:JsonProperty("targets") val targets: Targets = Targets(),
+
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonProperty("classification") @param:JsonProperty("classification") val classification: Classification? = null
 
 ) : IdentifiableObject<Tender>, Serializable {
 
