@@ -32,7 +32,7 @@ class PCRController(
         private const val PROCESS_NAME = "createPcr"
     }
 
-    @PostMapping("/do/{cpid}/{ocid}")
+    @PostMapping("/do/pcr/{cpid}/{ocid}")
     fun createPCR(
         servlet: HttpServletRequest,
         @PathVariable cpid: String,
