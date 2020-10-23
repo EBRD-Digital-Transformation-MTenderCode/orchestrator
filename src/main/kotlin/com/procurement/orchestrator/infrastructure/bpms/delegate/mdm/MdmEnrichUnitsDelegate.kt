@@ -256,7 +256,7 @@ class MdmEnrichUnitsDelegate(
 
     private fun getItemsUnitsOptional(tender: Tender): Result<List<UnitId>, Fail.Incident> =
         tender.items
-            .map { item -> item.unit!!.id }
+            .mapNotNull { item -> item.unit?.id }
             .asSuccess()
 
     private fun getItemsUnitsRequired(tender: Tender): Result<List<UnitId>, Fail.Incident> {
@@ -279,7 +279,7 @@ class MdmEnrichUnitsDelegate(
     private fun getTargetsUnitsOptional(tender: Tender): Result<List<UnitId>, Fail.Incident> =
         tender.targets
             .flatMap { target -> target.observations }
-            .map { observation -> observation.unit!!.id }
+            .mapNotNull { observation -> observation.unit?.id }
             .asSuccess()
 
     private fun getTargetsUnitsRequired(tender: Tender): Result<List<UnitId>, Fail.Incident> {

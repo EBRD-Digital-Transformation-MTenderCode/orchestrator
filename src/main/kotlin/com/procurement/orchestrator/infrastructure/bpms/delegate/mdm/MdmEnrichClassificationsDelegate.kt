@@ -297,7 +297,7 @@ class MdmEnrichClassificationsDelegate(
 
     private fun getItemsClassificationsOptional(tender: Tender): Result<List<Classification>, Fail.Incident> =
         tender.items
-            .map { item -> item.classification!! }
+            .mapNotNull { item -> item.classification }
             .asSuccess()
 
     private fun getItemsClassificationsRequired(tender: Tender): Result<List<Classification>, Fail.Incident> {
@@ -319,7 +319,7 @@ class MdmEnrichClassificationsDelegate(
 
     private fun getLotsClassificationsOptional(tender: Tender): Result<List<Classification>, Fail.Incident> =
         tender.lots
-            .map { lot -> lot.classification!! }
+            .mapNotNull { lot -> lot.classification }
             .asSuccess()
 
     private fun getLotsClassificationsRequired(tender: Tender): Result<List<Classification>, Fail.Incident> {
