@@ -83,7 +83,7 @@ object PlatformNotification {
         @field:JsonProperty("qualifications") @param:JsonProperty("qualifications") val qualifications: List<Qualification> = emptyList(),
 
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
-        @field:JsonProperty("pc") @param:JsonProperty("pc") val prc: List<PreAwardCatalogRequest> = emptyList()
+        @field:JsonProperty("pc") @param:JsonProperty("pc") val pcr: List<PreAwardCatalogRequest> = emptyList()
     ) {
 
         class Amendment(
