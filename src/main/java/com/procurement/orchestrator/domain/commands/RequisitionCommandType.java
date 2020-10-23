@@ -10,7 +10,8 @@ import java.util.Map;
 
 public enum RequisitionCommandType {
 
-    GET_ACTIVE_LOTS("getActiveLots");
+    GET_ACTIVE_LOTS("getActiveLots"),
+    GET_TENDER_OWNER("getTenderOwner");
 
     private static final Map<String, RequisitionCommandType> CONSTANTS = new HashMap<>();
     private final String value;
