@@ -48,13 +48,13 @@ class MdmEnrichUnitsDelegate(
 ) {
 
     override fun parameters(parameterContainer: ParameterContainer): Result<Parameters, Fail.Incident.Bpmn.Parameter> {
-        val entities: Map<EntityKey, EntityValue> = parameterContainer.getMapString("entities")
+        val locations: Map<EntityKey, EntityValue> = parameterContainer.getMapString("locations")
             .orForwardFail { fail -> return fail }
             .map { (key, value) ->
                 val keyParsed = EntityKey.orNull(key)
                     ?: return failure(
                         Fail.Incident.Bpmn.Parameter.UnknownValue(
-                            name = "entities",
+                            name = "locations",
                             expectedValues = EntityKey.allowedElements.keysAsStrings(),
                             actualValue = key
                         )
@@ -62,7 +62,7 @@ class MdmEnrichUnitsDelegate(
                 val valueParsed = EntityValue.orNull(value)
                     ?: return failure(
                         Fail.Incident.Bpmn.Parameter.UnknownValue(
-                            name = "entities",
+                            name = "locations",
                             expectedValues = EntityValue.allowedElements.keysAsStrings(),
                             actualValue = value
                         )
@@ -70,7 +70,7 @@ class MdmEnrichUnitsDelegate(
                 keyParsed to valueParsed
             }.toMap()
 
-        return success(Parameters(entities = entities))
+        return success(Parameters(locations = locations))
     }
 
     override fun prepareSeq(
@@ -78,7 +78,7 @@ class MdmEnrichUnitsDelegate(
         parameters: Parameters
     ): Result<List<EnrichUnitsAction.Params>, Fail.Incident> {
         val requestInfo = context.requestInfo
-        val entities = parameters.entities
+        val entities = parameters.locations
         val tender = context.tryGetTender()
             .orForwardFail { fail -> return fail }
 
@@ -131,9 +131,9 @@ class MdmEnrichUnitsDelegate(
 
         val enrichedUnits = result.associateBy { it }
 
-        val updatedItems = updateItemsUnit(tender.items, parameters.entities, enrichedUnits)
+        val updatedItems = updateItemsUnit(tender.items, parameters.locations, enrichedUnits)
 
-        val updatedTargets = updateTargetsUnit(tender.targets, parameters.entities, enrichedUnits)
+        val updatedTargets = updateTargetsUnit(tender.targets, parameters.locations, enrichedUnits)
 
         val updatedTender = tender.copy(
             items = Items(updatedItems),
@@ -290,7 +290,7 @@ class MdmEnrichUnitsDelegate(
             .asSuccess()
     }
 
-    data class Parameters(val entities: Map<EntityKey, EntityValue>)
+    data class Parameters(val locations: Map<EntityKey, EntityValue>)
 
     enum class EntityKey(override val key: String) : EnumElementProvider.Key {
         TARGET("target"),
