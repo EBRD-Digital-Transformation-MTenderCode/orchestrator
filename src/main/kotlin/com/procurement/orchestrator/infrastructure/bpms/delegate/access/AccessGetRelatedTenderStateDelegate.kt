@@ -40,13 +40,13 @@ class AccessGetRelatedTenderStateDelegate(
         parameters: Unit
     ): Result<Reply<GetTenderStateAction.Result>, Fail.Incident> {
 
-        val relatedProcess = context.processInfo.relatedProcess!!
+        val relatedProcess = context.processInfo.relatedProcess
 
         return accessClient.getTenderState(
             id = commandId,
             params = GetTenderStateAction.Params(
-                cpid = relatedProcess.cpid,
-                ocid = relatedProcess.ocid!!
+                cpid = relatedProcess?.cpid,
+                ocid = relatedProcess?.ocid
             )
         )
     }
