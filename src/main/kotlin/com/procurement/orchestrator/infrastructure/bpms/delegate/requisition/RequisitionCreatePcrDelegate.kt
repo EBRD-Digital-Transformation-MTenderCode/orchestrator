@@ -59,7 +59,7 @@ class RequisitionCreatePcrDelegate(
         parameters: Parameters
     ): Result<Reply<CreatePcrAction.Result>, Fail.Incident> {
 
-        val processInfo = context.processInfo
+        val processInfo = context.processInfo.relatedProcess
         val requestInfo = context.requestInfo
 
         val tender = context.tryGetTender()
@@ -68,7 +68,7 @@ class RequisitionCreatePcrDelegate(
         return requisitionClient.createPcr(
             id = commandId,
             params = CreatePcrAction.Params(
-                cpid = processInfo.cpid,
+                cpid = processInfo?.cpid,
                 date = requestInfo.timestamp,
                 owner = requestInfo.owner,
                 stateFE = parameters.state,
