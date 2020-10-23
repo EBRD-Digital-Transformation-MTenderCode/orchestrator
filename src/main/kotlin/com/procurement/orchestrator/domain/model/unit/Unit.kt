@@ -8,7 +8,8 @@ import com.procurement.orchestrator.domain.model.value.Value
 import java.io.Serializable
 
 data class Unit(
-    @field:JsonProperty("id") @param:JsonProperty("id") val id: UnitId,
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonProperty("id") @param:JsonProperty("id") val id: UnitId?,
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonProperty("name") @param:JsonProperty("name") val name: String? = null,
