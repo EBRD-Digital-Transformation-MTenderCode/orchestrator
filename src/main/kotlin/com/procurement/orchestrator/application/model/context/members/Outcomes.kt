@@ -28,7 +28,7 @@ class Outcomes(values: MutableMap<PlatformId, Details> = mutableMapOf()) :
         @field:JsonProperty("qualifications") @param:JsonProperty("qualifications") val qualifications: List<Qualification> = emptyList(),
 
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
-        @field:JsonProperty("pcr") @param:JsonProperty("pcr") val pcr: List<PreAwardCatalogRequest> = emptyList()
+        @field:JsonProperty("pc") @param:JsonProperty("pc") val pcr: List<PreAwardCatalogRequest> = emptyList()
 
     ) : Serializable {
 
