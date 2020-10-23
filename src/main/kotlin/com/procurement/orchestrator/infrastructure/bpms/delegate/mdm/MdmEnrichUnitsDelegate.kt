@@ -156,7 +156,7 @@ class MdmEnrichUnitsDelegate(
         val updatedItems: List<Item> =
             if (EntityKey.ITEM in entities)
                 items.map { item ->
-                    val currentUnit = item.unit!!
+                    val currentUnit = item.unit ?: return@map item
                     val enrichedItemUnit = enrichedUnits[currentUnit]
 
                     enrichedItemUnit
@@ -179,7 +179,7 @@ class MdmEnrichUnitsDelegate(
                 val updatedTargets = targets.map { target ->
                     val updatedObservation = target.observations
                         .map { observation ->
-                            val currentUnit = observation.unit!!
+                            val currentUnit = observation.unit ?: return@map observation
                             val enrichedItemUnit = enrichedUnits[currentUnit]
 
                             enrichedItemUnit
