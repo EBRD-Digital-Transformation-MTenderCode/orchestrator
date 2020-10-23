@@ -6,7 +6,7 @@ import com.procurement.orchestrator.domain.model.IdentifiableObject
 import com.procurement.orchestrator.domain.model.document.Documents
 import com.procurement.orchestrator.domain.model.lot.RelatedLots
 import com.procurement.orchestrator.domain.model.or
-import com.procurement.orchestrator.domain.model.organization.OrganizationReferences
+import com.procurement.orchestrator.domain.model.organization.Organizations
 import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponses
 import com.procurement.orchestrator.domain.model.value.Value
 import java.io.Serializable
@@ -25,7 +25,7 @@ data class Bid(
     @field:JsonProperty("statusDetails") @param:JsonProperty("statusDetails") val statusDetails: BidStatusDetails? = null,
 
     @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
-    @field:JsonProperty("tenderers") @param:JsonProperty("tenderers") val tenderers: OrganizationReferences = OrganizationReferences(),
+    @field:JsonProperty("tenderers") @param:JsonProperty("tenderers") val tenderers: Organizations = Organizations(),
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonProperty("value") @param:JsonProperty("value") val value: Value? = null,
