@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.infrastructure.client.web.requisition.action
 
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.procurement.orchestrator.application.model.process.OperationTypeProcess
 import com.procurement.orchestrator.application.service.ProceduralAction
@@ -22,7 +23,10 @@ abstract class CheckLotsStateAction : ProceduralAction<CheckLotsStateAction.Para
         @field:JsonProperty("operationType") @param:JsonProperty("operationType") val operationType: OperationTypeProcess,
         @field:JsonProperty("tender") @param:JsonProperty("tender") val tender: Tender
     ) : Serializable {
-        class Tender(@field:JsonProperty("lots") @param:JsonProperty("lots") val lots: List<Lot>) : Serializable {
+        class Tender(
+            @JsonInclude(JsonInclude.Include.NON_NULL)
+            @field:JsonProperty("lots") @param:JsonProperty("lots") val lots: List<Lot>?
+        ) : Serializable {
             class Lot(@field:JsonProperty("id") @param:JsonProperty("id") val id: LotId) : Serializable
         }
     }
