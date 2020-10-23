@@ -47,13 +47,13 @@ class MdmEnrichClassificationsDelegate(
 ) {
 
     override fun parameters(parameterContainer: ParameterContainer): Result<Parameters, Fail.Incident.Bpmn.Parameter> {
-        val entities: Map<EntityKey, EntityValue> = parameterContainer.getMapString("entities")
+        val locations: Map<EntityKey, EntityValue> = parameterContainer.getMapString("locations")
             .orForwardFail { fail -> return fail }
             .map { (key, value) ->
                 val keyParsed = EntityKey.orNull(key)
                     ?: return failure(
                         Fail.Incident.Bpmn.Parameter.UnknownValue(
-                            name = "entities",
+                            name = "locations",
                             expectedValues = EntityKey.allowedElements.keysAsStrings(),
                             actualValue = key
                         )
@@ -61,7 +61,7 @@ class MdmEnrichClassificationsDelegate(
                 val valueParsed = EntityValue.orNull(value)
                     ?: return failure(
                         Fail.Incident.Bpmn.Parameter.UnknownValue(
-                            name = "entities",
+                            name = "locations",
                             expectedValues = EntityValue.allowedElements.keysAsStrings(),
                             actualValue = value
                         )
@@ -69,7 +69,7 @@ class MdmEnrichClassificationsDelegate(
                 keyParsed to valueParsed
             }.toMap()
 
-        return success(Parameters(entities = entities))
+        return success(Parameters(locations = locations))
     }
 
     override fun prepareSeq(
@@ -77,7 +77,7 @@ class MdmEnrichClassificationsDelegate(
         parameters: Parameters
     ): Result<List<EnrichClassificationsAction.Params>, Fail.Incident> {
         val requestInfo = context.requestInfo
-        val entities = parameters.entities
+        val entities = parameters.locations
         val tender = context.tryGetTender()
             .orForwardFail { fail -> return fail }
 
@@ -138,11 +138,11 @@ class MdmEnrichClassificationsDelegate(
         val enrichedClassifications = result.associateBy { it }
 
         val updatedTenderClassification = tender.classification
-            ?.let { updateTenderClassification(it, parameters.entities, enrichedClassifications) }
+            ?.let { updateTenderClassification(it, parameters.locations, enrichedClassifications) }
 
-        val updatedItems = updateItemsClassification(tender.items, parameters.entities, enrichedClassifications)
+        val updatedItems = updateItemsClassification(tender.items, parameters.locations, enrichedClassifications)
 
-        val updatedLots = updateLotsClassification(tender.lots, parameters.entities, enrichedClassifications)
+        val updatedLots = updateLotsClassification(tender.lots, parameters.locations, enrichedClassifications)
 
         val updatedTender = tender.copy(
             classification = updatedTenderClassification,
@@ -329,7 +329,7 @@ class MdmEnrichClassificationsDelegate(
             .asSuccess()
     }
 
-    data class Parameters(val entities: Map<EntityKey, EntityValue>)
+    data class Parameters(val locations: Map<EntityKey, EntityValue>)
 
     enum class EntityKey(override val key: String) : EnumElementProvider.Key {
         TENDER("tender"),
