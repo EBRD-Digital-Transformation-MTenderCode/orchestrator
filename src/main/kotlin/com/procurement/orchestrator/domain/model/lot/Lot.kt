@@ -3,6 +3,7 @@ package com.procurement.orchestrator.domain.model.lot
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.procurement.orchestrator.domain.model.IdentifiableObject
+import com.procurement.orchestrator.domain.model.classification.Classification
 import com.procurement.orchestrator.domain.model.or
 import com.procurement.orchestrator.domain.model.period.Period
 import com.procurement.orchestrator.domain.model.updateBy
@@ -30,6 +31,9 @@ data class Lot(
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonProperty("value") @param:JsonProperty("value") val value: Value? = null,
 
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonProperty("classification") @param:JsonProperty("classification") val classification: Classification? = null,
+
     @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
     @field:JsonProperty("options") @param:JsonProperty("options") val options: Options = Options(),
 
@@ -39,8 +43,8 @@ data class Lot(
     @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
     @field:JsonProperty("renewals") @param:JsonProperty("renewals") val renewals: Renewals = Renewals(),
 
-    @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
-    @field:JsonProperty("variants") @param:JsonProperty("variants") val variants: Variants = Variants(),
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonProperty("variants") @param:JsonProperty("variants") val variants: Variant? = null,
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonProperty("contractPeriod") @param:JsonProperty("contractPeriod") val contractPeriod: Period? = null,
@@ -68,7 +72,7 @@ data class Lot(
         options = options combineBy src.options,
         recurrentProcurement = recurrentProcurement combineBy src.recurrentProcurement,
         renewals = renewals combineBy src.renewals,
-        variants = variants combineBy src.variants,
+        variants = variants updateBy src.variants,
         contractPeriod = contractPeriod updateBy src.contractPeriod,
         placeOfPerformance = placeOfPerformance updateBy src.placeOfPerformance
     )
