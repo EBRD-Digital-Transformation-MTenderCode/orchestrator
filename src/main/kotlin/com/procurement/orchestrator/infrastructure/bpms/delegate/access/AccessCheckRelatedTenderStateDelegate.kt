@@ -37,13 +37,13 @@ class AccessCheckRelatedTenderStateDelegate(
     ): Result<Reply<Unit>, Fail.Incident> {
         val processInfo = context.processInfo
         val requestInfo = context.requestInfo
-        val relatedProcess = processInfo.relatedProcess!!
+        val relatedProcess = processInfo.relatedProcess
 
         return accessClient.checkTenderState(
             id = commandId,
             params = CheckTenderStateAction.Params(
-                cpid = relatedProcess.cpid,
-                ocid = relatedProcess.ocid!!,
+                cpid = relatedProcess?.cpid,
+                ocid = relatedProcess?.ocid,
                 country = requestInfo.country,
                 pmd = processInfo.pmd,
                 operationType = processInfo.operationType
