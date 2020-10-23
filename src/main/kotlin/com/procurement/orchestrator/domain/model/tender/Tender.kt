@@ -130,6 +130,7 @@ data class Tender(
         description = src.description or description,
         status = src.status or status,
         statusDetails = src.statusDetails or statusDetails,
+        date = src.date or date,
         criteria = criteria updateBy src.criteria,
         conversions = conversions updateBy src.conversions,
         items = items updateBy src.items,
