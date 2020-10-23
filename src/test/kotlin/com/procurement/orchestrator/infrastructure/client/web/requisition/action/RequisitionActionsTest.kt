@@ -18,4 +18,16 @@ class RequisitionActionsTest {
         }
     }
 
+    @Nested
+    inner class CheckLotsState {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CheckLotsStateAction.Params>("json/client/requisition/check_lots_state_params_full.json")
+            }
+        }
+    }
+
 }
