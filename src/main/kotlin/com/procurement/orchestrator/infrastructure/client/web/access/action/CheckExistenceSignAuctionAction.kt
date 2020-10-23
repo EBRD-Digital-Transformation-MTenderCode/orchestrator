@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.infrastructure.client.web.access.action
 
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.procurement.orchestrator.application.service.ProceduralAction
 import com.procurement.orchestrator.domain.model.Cpid
@@ -12,8 +13,12 @@ abstract class CheckExistenceSignAuctionAction : ProceduralAction<CheckExistence
     override val name: String = "checkExistenceSignAuction"
 
     class Params(
-        @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid,
-        @field:JsonProperty("ocid") @param:JsonProperty("ocid") var ocid: Ocid,
+        @field:JsonInclude(JsonInclude.Include.NON_NULL)
+        @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid?,
+
+        @field:JsonInclude(JsonInclude.Include.NON_NULL)
+        @field:JsonProperty("ocid") @param:JsonProperty("ocid") var ocid: Ocid?,
+
         @field:JsonProperty("tender") @param:JsonProperty("tender") var tender: Tender
     ) {
         data class Tender(

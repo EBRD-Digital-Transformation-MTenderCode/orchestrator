@@ -37,15 +37,16 @@ class AccessCheckExistenceSignAuctionDelegate(
         parameters: Unit
     ): Result<Reply<Unit>, Fail.Incident> {
 
-        val relatedProcess = context.processInfo.relatedProcess!!
+        val relatedProcess = context.processInfo.relatedProcess
+
         val tender = context.tryGetTender()
             .orForwardFail { failure -> return failure }
 
         return accessClient.checkExistenceSignAuction(
             id = commandId,
             params = CheckExistenceSignAuctionAction.Params(
-                cpid = relatedProcess.cpid,
-                ocid = relatedProcess.ocid!!,
+                cpid = relatedProcess?.cpid,
+                ocid = relatedProcess?.ocid,
                 tender = CheckExistenceSignAuctionAction.Params.Tender(
                     procurementMethodModalities = tender.procurementMethodModalities
                 )
