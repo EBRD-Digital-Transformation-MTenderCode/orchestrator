@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.RequisitionClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
-import com.procurement.orchestrator.application.model.context.extension.tryGetTender
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.EnumElementProvider
@@ -61,9 +60,6 @@ class RequisitionCheckLotsStateDelegate(
         val processInfo = context.processInfo
         val requestInfo = context.requestInfo
 
-        val tender = context.tryGetTender()
-            .orForwardFail { fail -> return fail }
-
         return requisitionClient.checkLotsState(
             id = commandId,
             params = CheckLotsStateAction.Params(
@@ -73,7 +69,12 @@ class RequisitionCheckLotsStateDelegate(
                 pmd = processInfo.pmd,
                 operationType = processInfo.operationType,
                 tender = CheckLotsStateAction.Params.Tender(
-                    tender.lots.map { CheckLotsStateAction.Params.Tender.Lot(it.id) }
+                    when(parameters.location){
+                        Location.BID -> context.bids?.details?.asSequence()
+                            ?.flatMap { it.relatedLots.asSequence() }
+                            ?.map { CheckLotsStateAction.Params.Tender.Lot(it) }
+                            ?.toList()
+                    }
                 )
             )
         )
