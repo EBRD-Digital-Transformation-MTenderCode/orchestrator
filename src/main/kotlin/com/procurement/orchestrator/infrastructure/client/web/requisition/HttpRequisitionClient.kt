@@ -7,6 +7,7 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.WebClient
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.CheckTenderStateAction
+import com.procurement.orchestrator.infrastructure.client.web.requisition.action.GetCurrencyAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.ValidatePcrDataAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
 import java.net.URL
@@ -30,5 +31,14 @@ class HttpRequisitionClient(private val webClient: WebClient, properties: Compon
     ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
         url = url,
         command = RequisitionCommands.CheckTenderState.build(id = id, params = params)
+    )
+
+    override suspend fun getCurrency(
+        id: CommandId,
+        params: GetCurrencyAction.Params
+    ): Result<Reply<GetCurrencyAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = RequisitionCommands.GetCurrency.build(id = id, params = params),
+        target = RequisitionCommands.GetCurrency.target
     )
 }
