@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.procurement.orchestrator.application.model.process.OperationTypeProcess
 import com.procurement.orchestrator.application.service.ProceduralAction
-import com.procurement.orchestrator.domain.model.Cpid
-import com.procurement.orchestrator.domain.model.Ocid
 import com.procurement.orchestrator.domain.model.ProcurementMethodDetails
 import com.procurement.orchestrator.infrastructure.model.Version
 import java.time.LocalDateTime
@@ -15,8 +13,6 @@ abstract class ValidateTenderPeriodAction : ProceduralAction<ValidateTenderPerio
     override val name: String = "validateTenderPeriod"
 
     class Params(
-        @param:JsonProperty("cpid") @field:JsonProperty("cpid") val cpid: Cpid,
-        @param:JsonProperty("ocid") @field:JsonProperty("ocid") val ocid: Ocid,
         @param:JsonProperty("date") @field:JsonProperty("date") val date: LocalDateTime,
         @param:JsonProperty("country") @field:JsonProperty("country") val country: String,
         @param:JsonProperty("pmd") @field:JsonProperty("pmd") val pmd: ProcurementMethodDetails,
