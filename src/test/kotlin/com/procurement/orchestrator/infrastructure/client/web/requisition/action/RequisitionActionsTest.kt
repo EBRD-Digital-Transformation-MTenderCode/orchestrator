@@ -30,4 +30,47 @@ class RequisitionActionsTest {
         }
     }
 
+    @Nested
+    inner class CreateRelationToContractProcessStage {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CreateRelationToContractProcessStageAction.Params>(
+                    "json/client/requisition/create_relation_to_contract_process_stage_params_full.json"
+                )
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CreateRelationToContractProcessStageAction.Result>(
+                    "json/client/requisition/create_relation_to_contract_process_stage_result_full.json"
+                )
+            }
+        }
+    }
+    @Nested
+    inner class GetTenderState {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetTenderStateAction.Params>("json/client/requisition/get_tender_state_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetTenderStateAction.Result>("json/client/requisition/get_tender_state_result_full.json")
+            }
+        }
+    }
+
 }
