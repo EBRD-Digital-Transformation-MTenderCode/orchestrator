@@ -16,12 +16,12 @@ import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStep
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.submission.SubmissionCommands
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.PublishInvitationsAction
-import com.procurement.orchestrator.infrastructure.client.web.submission.action.convertIdAndStatus
+import com.procurement.orchestrator.infrastructure.client.web.submission.action.convertFull
 import com.procurement.orchestrator.infrastructure.configuration.property.ExternalServiceName
 import org.springframework.stereotype.Component
 
 @Component
-class SubmissionPublishInvitationsDelegate(
+class SubmissionPublishInvitationsInPcrDelegate(
     logger: Logger,
     private val client: SubmissionClient,
     operationStepRepository: OperationStepRepository,
@@ -64,8 +64,7 @@ class SubmissionPublishInvitationsDelegate(
                 )
             )
 
-        val invitations = data.invitations.map { it.convertIdAndStatus() }
-
+        val invitations = data.invitations.map { it.convertFull() }
         context.invitations = Invitations(invitations)
 
         return MaybeFail.none()

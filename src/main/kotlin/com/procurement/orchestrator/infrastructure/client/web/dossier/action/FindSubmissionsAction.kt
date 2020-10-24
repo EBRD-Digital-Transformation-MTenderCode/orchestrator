@@ -9,18 +9,43 @@ import com.procurement.orchestrator.application.service.FunctionalAction
 import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
 import com.procurement.orchestrator.domain.model.ProcurementMethodDetails
+import com.procurement.orchestrator.domain.model.address.Address
+import com.procurement.orchestrator.domain.model.address.AddressDetails
+import com.procurement.orchestrator.domain.model.address.country.CountryDetails
 import com.procurement.orchestrator.domain.model.address.country.CountryId
+import com.procurement.orchestrator.domain.model.address.locality.LocalityDetails
 import com.procurement.orchestrator.domain.model.address.locality.LocalityId
+import com.procurement.orchestrator.domain.model.address.region.RegionDetails
 import com.procurement.orchestrator.domain.model.address.region.RegionId
+import com.procurement.orchestrator.domain.model.document.Document
 import com.procurement.orchestrator.domain.model.document.DocumentId
 import com.procurement.orchestrator.domain.model.document.DocumentType
+import com.procurement.orchestrator.domain.model.document.Documents
+import com.procurement.orchestrator.domain.model.identifier.Identifier
+import com.procurement.orchestrator.domain.model.identifier.Identifiers
+import com.procurement.orchestrator.domain.model.organization.ContactPoint
+import com.procurement.orchestrator.domain.model.organization.datail.Details
+import com.procurement.orchestrator.domain.model.organization.datail.MainEconomicActivities
+import com.procurement.orchestrator.domain.model.organization.datail.MainEconomicActivity
 import com.procurement.orchestrator.domain.model.organization.datail.MainEconomicActivityId
 import com.procurement.orchestrator.domain.model.organization.datail.Scale
 import com.procurement.orchestrator.domain.model.organization.datail.TypeOfSupplier
+import com.procurement.orchestrator.domain.model.organization.datail.account.AccountIdentifier
+import com.procurement.orchestrator.domain.model.organization.datail.account.AccountIdentifiers
+import com.procurement.orchestrator.domain.model.organization.datail.account.BankAccount
+import com.procurement.orchestrator.domain.model.organization.datail.account.BankAccounts
+import com.procurement.orchestrator.domain.model.organization.datail.legalform.LegalForm
 import com.procurement.orchestrator.domain.model.organization.datail.legalform.LegalFormId
+import com.procurement.orchestrator.domain.model.organization.person.BusinessFunction
 import com.procurement.orchestrator.domain.model.organization.person.BusinessFunctionId
 import com.procurement.orchestrator.domain.model.organization.person.BusinessFunctionType
+import com.procurement.orchestrator.domain.model.organization.person.BusinessFunctions
 import com.procurement.orchestrator.domain.model.organization.person.PersonTitle
+import com.procurement.orchestrator.domain.model.party.Party
+import com.procurement.orchestrator.domain.model.period.Period
+import com.procurement.orchestrator.domain.model.person.Person
+import com.procurement.orchestrator.domain.model.person.PersonId
+import com.procurement.orchestrator.domain.model.person.Persons
 import com.procurement.orchestrator.domain.model.requirement.RequirementId
 import com.procurement.orchestrator.domain.model.requirement.RequirementResponseValue
 import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponseId
@@ -33,7 +58,7 @@ import com.procurement.orchestrator.infrastructure.model.Version
 import java.io.Serializable
 import java.time.LocalDateTime
 
-abstract class FindSubmissionsForOpeningAction : FunctionalAction<FindSubmissionsForOpeningAction.Params, FindSubmissionsForOpeningAction.Result> {
+abstract class FindSubmissionsAction : FunctionalAction<FindSubmissionsAction.Params, FindSubmissionsAction.Result> {
     override val version: Version = Version.parse("2.0.0")
     override val name: String = "findSubmissions"
     override val target: Target<Result> = Target.plural()
@@ -301,3 +326,204 @@ abstract class FindSubmissionsForOpeningAction : FunctionalAction<FindSubmission
         }
     }
 }
+
+fun FindSubmissionsAction.Result.Submission.Candidate.convertToParty() = Party(
+    id = id,
+    name = name,
+    additionalIdentifiers = additionalIdentifiers
+        ?.map { additionalIdentifier ->
+            Identifier(
+                id = additionalIdentifier.id,
+                scheme = additionalIdentifier.scheme,
+                legalName = additionalIdentifier.legalName,
+                uri = additionalIdentifier.uri
+            )
+
+        }.orEmpty()
+        .let { Identifiers(it) },
+    address = address
+        .let { address ->
+            Address(
+                streetAddress = address.streetAddress,
+                postalCode = address.postalCode,
+                addressDetails = address.addressDetails
+                    .let { addressDetails ->
+                        AddressDetails(
+                            country = addressDetails.country
+                                .let { country ->
+                                    CountryDetails(
+                                        id = country.id,
+                                        description = country.description,
+                                        scheme = country.scheme,
+                                        uri = country.uri
+                                    )
+                                },
+                            region = addressDetails.region
+                                .let { region ->
+                                    RegionDetails(
+                                        id = region.id,
+                                        description = region.description,
+                                        scheme = region.scheme,
+                                        uri = region.uri
+                                    )
+                                },
+                            locality = addressDetails.locality
+                                .let { locality ->
+                                    LocalityDetails(
+                                        id = locality.id,
+                                        description = locality.description,
+                                        scheme = locality.scheme,
+                                        uri = locality.uri
+                                    )
+                                }
+                        )
+                    }
+            )
+        },
+    contactPoint = contactPoint
+        .let { contactPoint ->
+            ContactPoint(
+                name = contactPoint.name,
+                email = contactPoint.email,
+                telephone = contactPoint.telephone,
+                faxNumber = contactPoint.faxNumber,
+                url = contactPoint.url
+            )
+        },
+    persons = persones
+        ?.map { person ->
+            Person(
+                id = PersonId.parse(person.id)!!,
+                identifier = person.identifier
+                    .let { identifier ->
+                        Identifier(
+                            scheme = identifier.scheme,
+                            id = identifier.id,
+                            uri = identifier.uri
+                        )
+                    },
+                name = person.name,
+                title = person.title.key,
+                businessFunctions = person.businessFunctions
+                    .map { businessFunction ->
+                        BusinessFunction(
+                            id = businessFunction.id,
+                            type = businessFunction.type,
+                            jobTitle = businessFunction.jobTitle,
+                            period = Period(startDate = businessFunction.period.startDate),
+                            documents = businessFunction.documents
+                                ?.map { document ->
+                                    Document(
+                                        documentType = document.documentType,
+                                        id = document.id,
+                                        title = document.title,
+                                        description = document.description
+                                    )
+                                }
+                                .orEmpty()
+                                .let { Documents(it) }
+                        )
+                    }
+                    .let { BusinessFunctions(it) }
+            )
+        }
+        .orEmpty()
+        .let { Persons(it) },
+    details = details
+        .let { details ->
+            Details(
+                typeOfSupplier = details.typeOfSupplier,
+                mainEconomicActivities = details.mainEconomicActivities
+                    ?.map { mainEconomicActivity ->
+                        MainEconomicActivity(
+                            scheme = mainEconomicActivity.scheme,
+                            id = mainEconomicActivity.id,
+                            description = mainEconomicActivity.description,
+                            uri = mainEconomicActivity.uri
+                        )
+                    }
+                    .orEmpty()
+                    .let { MainEconomicActivities(it) },
+                bankAccounts = details.bankAccounts
+                    ?.map { bankAccount ->
+                        BankAccount(
+                            description = bankAccount.description,
+                            bankName = bankAccount.bankName,
+                            address = bankAccount.address
+                                .let { address ->
+                                    Address(
+                                        streetAddress = address.streetAddress,
+                                        postalCode = address.postalCode,
+                                        addressDetails = address.addressDetails
+                                            .let { addressDetails ->
+                                                AddressDetails(
+                                                    country = addressDetails.country
+                                                        .let { country ->
+                                                            CountryDetails(
+                                                                scheme = country.scheme,
+                                                                id = country.id,
+                                                                description = country.description
+                                                            )
+                                                        },
+                                                    region = addressDetails.region
+                                                        .let { region ->
+                                                            RegionDetails(
+                                                                scheme = region.scheme,
+                                                                id = region.id,
+                                                                description = region.description
+                                                            )
+                                                        },
+                                                    locality = addressDetails.locality
+                                                        .let { locality ->
+                                                            LocalityDetails(
+                                                                scheme = locality.scheme,
+                                                                id = locality.id,
+                                                                description = locality.description
+                                                            )
+                                                        }
+                                                )
+                                            }
+                                    )
+                                },
+                            identifier = bankAccount.identifier
+                                .let { accountIdentifier ->
+                                    AccountIdentifier(
+                                        scheme = accountIdentifier.scheme,
+                                        id = accountIdentifier.id
+                                    )
+                                },
+                            accountIdentification = bankAccount.accountIdentification
+                                .let { accountIdentifier ->
+                                    AccountIdentifier(
+                                        scheme = accountIdentifier.scheme,
+                                        id = accountIdentifier.id
+                                    )
+
+                                },
+                            additionalAccountIdentifiers = bankAccount.additionalAccountIdentifiers
+                                ?.map { accountIdentifier ->
+                                    AccountIdentifier(
+                                        scheme = accountIdentifier.scheme,
+                                        id = accountIdentifier.id
+                                    )
+                                }
+                                .orEmpty()
+                                .let { AccountIdentifiers(it) }
+                        )
+                    }
+                    .orEmpty()
+                    .let { BankAccounts(it) },
+                legalForm = details.legalForm
+                    ?.let { legalForm ->
+                        LegalForm(
+                            scheme = legalForm.scheme,
+                            id = legalForm.id,
+                            description = legalForm.description,
+                            uri = legalForm.uri
+                        )
+                    },
+                scale = details.scale
+            )
+        }
+
+)
