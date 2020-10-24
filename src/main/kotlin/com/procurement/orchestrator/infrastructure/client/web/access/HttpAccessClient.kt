@@ -10,6 +10,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Calc
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckAccessToTenderAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckEqualityCurrenciesAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckExistenceFaAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckExistenceSignAuctionAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckPersonesStructureAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckRelationAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckTenderStateAction
@@ -21,6 +22,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Find
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotStateByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetOrganizationAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetQualificationCriteriaAndMethodAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.GetTenderCurrencyAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.OutsourcingPnAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ResponderProcessingAction
@@ -96,6 +98,15 @@ class HttpAccessClient(private val webClient: WebClient, properties: ComponentPr
         url = url,
         command = AccessCommands.GetTenderState.build(id = id, params = params),
         target = AccessCommands.GetTenderState.target
+    )
+
+    override suspend fun getTenderCurrency(
+        id: CommandId,
+        params: GetTenderCurrencyAction.Params
+    ): Result<Reply<GetTenderCurrencyAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = AccessCommands.GetTenderCurrency.build(id = id, params = params),
+        target = AccessCommands.GetTenderCurrency.target
     )
 
     override suspend fun setStateForLots(
@@ -183,6 +194,14 @@ class HttpAccessClient(private val webClient: WebClient, properties: ComponentPr
     ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
         url = url,
         command = AccessCommands.CheckExistenceFa.build(id = id, params = params)
+    )
+
+    override suspend fun checkExistenceSignAuction(
+        id: CommandId,
+        params: CheckExistenceSignAuctionAction.Params
+    ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
+        url = url,
+        command = AccessCommands.CheckExistenceSignAuction.build(id = id, params = params)
     )
 
     override suspend fun outsourcingPn(
