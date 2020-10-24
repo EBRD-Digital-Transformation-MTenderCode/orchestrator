@@ -1,24 +1,29 @@
-package com.procurement.orchestrator.infrastructure.bpms.delegate.submission
+package com.procurement.orchestrator.infrastructure.bpms.delegate.access
 
 import com.procurement.orchestrator.application.CommandId
-import com.procurement.orchestrator.application.client.SubmissionClient
+import com.procurement.orchestrator.application.client.AccessClient
+import com.procurement.orchestrator.application.model.Owner
+import com.procurement.orchestrator.application.model.Token
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
+import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
+import com.procurement.orchestrator.domain.model.Cpid
+import com.procurement.orchestrator.domain.model.Ocid
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
-import com.procurement.orchestrator.infrastructure.client.web.submission.action.ValidateTenderPeriodAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckAccessToTenderAction
 import org.springframework.stereotype.Component
 
 @Component
-class SubmissionValidateTenderPeriodDelegate(
+class AccessCheckAccessToRelatedTenderDelegate(
     logger: Logger,
-    private val submissionClient: SubmissionClient,
+    private val accessClient: AccessClient,
     operationStepRepository: OperationStepRepository,
     transform: Transform
 ) : AbstractExternalDelegate<Unit, Unit>(
@@ -35,22 +40,20 @@ class SubmissionValidateTenderPeriodDelegate(
         context: CamundaGlobalContext,
         parameters: Unit
     ): Result<Reply<Unit>, Fail.Incident> {
-        val processInfo = context.processInfo
+        val relatedProcess = context.processInfo.relatedProcess!!
+        val cpid: Cpid = relatedProcess.cpid
+        val ocid: Ocid = relatedProcess.ocid
+            ?: return failure(Fail.Incident.Bpms.Context.Missing(name = "relatedProcess.ocid", path = "processInfo"))
+
         val requestInfo = context.requestInfo
+        val token: Token = requestInfo.token
+            ?: return failure(Fail.Incident.Bpms.Context.Missing(name = "token", path = "requestInfo"))
+        val owner: Owner = requestInfo.owner
 
-        return submissionClient.validateTenderPeriod(
+        return accessClient.checkAccessToTender(
             id = commandId,
-            params = ValidateTenderPeriodAction.Params(
-                date = requestInfo.timestamp,
-                country = requestInfo.country,
-                pmd = processInfo.pmd,
-                operationType = processInfo.operationType,
-                tender = ValidateTenderPeriodAction.Params.Tender(
-                    tenderPeriod = ValidateTenderPeriodAction.Params.Tender.TenderPeriod(
-                        endDate = context.tender?.tenderPeriod?.endDate
-                    )
-                )
-
+            params = CheckAccessToTenderAction.Params(
+                cpid = cpid, ocid = ocid, token = token, owner = owner
             )
         )
     }
