@@ -4,6 +4,7 @@ import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
+import com.procurement.orchestrator.infrastructure.client.web.clarification.action.CreateEnquiryPeriodAction
 import com.procurement.orchestrator.infrastructure.client.web.clarification.action.FindEnquiriesAction
 import com.procurement.orchestrator.infrastructure.client.web.clarification.action.FindEnquiryIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.clarification.action.GetEnquiryByIdsAction
@@ -25,4 +26,8 @@ interface ClarificationClient {
         params: FindEnquiriesAction.Params
     ): Result<Reply<FindEnquiriesAction.Result>, Fail.Incident>
 
+    suspend fun createEnquiryPeriod(
+        id: CommandId,
+        params: CreateEnquiryPeriodAction.Params
+    ): Result<Reply<CreateEnquiryPeriodAction.Result>, Fail.Incident>
 }
