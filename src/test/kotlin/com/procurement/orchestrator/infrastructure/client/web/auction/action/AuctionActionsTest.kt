@@ -33,4 +33,16 @@ class AuctionActionsTest {
             }
         }
     }
+
+    @Nested
+    inner class ValidateAuctionsData {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<ValidateAuctionsDataAction.Params>("json/client/auction/validate_auctions_data_params_full.json")
+            }
+        }
+    }
 }
