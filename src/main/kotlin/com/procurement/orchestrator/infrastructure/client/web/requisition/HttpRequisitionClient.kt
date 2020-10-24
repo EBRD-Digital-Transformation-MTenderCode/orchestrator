@@ -7,6 +7,7 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.WebClient
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.CheckTenderStateAction
+import com.procurement.orchestrator.infrastructure.client.web.requisition.action.GetTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.CreateRelationToContractProcessStageAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.ValidatePcrDataAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
@@ -40,5 +41,14 @@ class HttpRequisitionClient(private val webClient: WebClient, properties: Compon
         url = url,
         command = RequisitionCommands.CreateRelationToContractProcessStage.build(id = id, params = params),
         target = RequisitionCommands.CreateRelationToContractProcessStage.target
+    )
+
+    override suspend fun getTenderState(
+        id: CommandId,
+        params: GetTenderStateAction.Params
+    ): Result<Reply<GetTenderStateAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = RequisitionCommands.GetTenderState.build(id = id, params = params),
+        target = RequisitionCommands.GetTenderState.target
     )
 }
