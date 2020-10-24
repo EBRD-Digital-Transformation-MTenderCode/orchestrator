@@ -4,6 +4,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Calc
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckAccessToTenderAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckEqualityCurrenciesAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckExistenceFaAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckExistenceSignAuctionAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckPersonesStructureAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckRelationAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckTenderStateAction
@@ -62,9 +63,11 @@ object AccessCommands {
 
     object FindAuctions : FindAuctionsAction()
 
-    object CheckExistenceFa: CheckExistenceFaAction()
+    object CheckExistenceFa : CheckExistenceFaAction()
 
-    object OutsourcingPn: OutsourcingPnAction()
+    object CheckExistenceSignAuction : CheckExistenceSignAuctionAction()
+
+    object OutsourcingPn : OutsourcingPnAction()
 
     object ValidateRelatedTenderClassification : ValidateRelatedTenderClassificationAction()
 
@@ -72,7 +75,7 @@ object AccessCommands {
 
     object CheckRelation : CheckRelationAction()
 
-    object CalculateAPValue: CalculateAPValueAction()
+    object CalculateAPValue : CalculateAPValueAction()
 
     object CheckEqualityCurrencies: CheckEqualityCurrenciesAction()
 }

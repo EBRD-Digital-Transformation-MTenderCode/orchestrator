@@ -377,6 +377,18 @@ class AccessActionsTest {
     }
 
     @Nested
+    inner class CheckExistenceSignAuction {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CheckExistenceSignAuctionAction.Params>("json/client/access/check_existence_sign_auction_full.json")
+            }
+        }
+    }
+
+    @Nested
     inner class OutsourcingPn {
 
         @Nested

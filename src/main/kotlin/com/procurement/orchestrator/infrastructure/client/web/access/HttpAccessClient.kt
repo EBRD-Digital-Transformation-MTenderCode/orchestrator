@@ -10,6 +10,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Calc
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckAccessToTenderAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckEqualityCurrenciesAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckExistenceFaAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckExistenceSignAuctionAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckPersonesStructureAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckRelationAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckTenderStateAction
@@ -193,6 +194,14 @@ class HttpAccessClient(private val webClient: WebClient, properties: ComponentPr
     ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
         url = url,
         command = AccessCommands.CheckExistenceFa.build(id = id, params = params)
+    )
+
+    override suspend fun checkExistenceSignAuction(
+        id: CommandId,
+        params: CheckExistenceSignAuctionAction.Params
+    ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
+        url = url,
+        command = AccessCommands.CheckExistenceSignAuction.build(id = id, params = params)
     )
 
     override suspend fun outsourcingPn(
