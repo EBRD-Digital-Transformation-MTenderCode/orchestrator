@@ -46,14 +46,18 @@ class MdmEnrichClassificationsDelegate(
     operationStepRepository = operationStepRepository
 ) {
 
+    companion object {
+        const val PARAMETER_LOCATIONS = "locations"
+    }
+
     override fun parameters(parameterContainer: ParameterContainer): Result<Parameters, Fail.Incident.Bpmn.Parameter> {
-        val locations: Map<EntityKey, EntityValue> = parameterContainer.getMapString("locations")
+        val locations: Map<EntityKey, EntityValue> = parameterContainer.getMapString(PARAMETER_LOCATIONS)
             .orForwardFail { fail -> return fail }
             .map { (key, value) ->
                 val keyParsed = EntityKey.orNull(key)
                     ?: return failure(
                         Fail.Incident.Bpmn.Parameter.UnknownValue(
-                            name = "locations",
+                            name = PARAMETER_LOCATIONS,
                             expectedValues = EntityKey.allowedElements.keysAsStrings(),
                             actualValue = key
                         )
@@ -61,7 +65,7 @@ class MdmEnrichClassificationsDelegate(
                 val valueParsed = EntityValue.orNull(value)
                     ?: return failure(
                         Fail.Incident.Bpmn.Parameter.UnknownValue(
-                            name = "locations",
+                            name = PARAMETER_LOCATIONS,
                             expectedValues = EntityValue.allowedElements.keysAsStrings(),
                             actualValue = value
                         )
