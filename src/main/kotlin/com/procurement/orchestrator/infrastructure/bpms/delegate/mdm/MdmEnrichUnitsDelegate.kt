@@ -267,7 +267,13 @@ class MdmEnrichUnitsDelegate(
     private fun getItemsUnitsRequired(tender: Tender): Result<List<UnitId>, Fail.Incident> {
         return tender.getItemsIfNotEmpty()
             .orForwardFail { fail -> return fail }
-            .map { item -> item.unit!!.id }
+            .map { item ->
+                val unit = item.unit
+                if (unit == null)
+                    return failure(Fail.Incident.Bpms.Context.Missing(name = "unit", path = "#.items[id:${item.id}]"))
+                else
+                    unit.id
+            }
             .asSuccess()
     }
 
@@ -291,7 +297,18 @@ class MdmEnrichUnitsDelegate(
         return tender.getTargetsIfNotEmpty()
             .orForwardFail { fail -> return fail }
             .flatMap { target -> target.observations }
-            .map { observation -> observation.unit!!.id }
+            .map { observation ->
+                val unit = observation.unit
+                if (unit == null)
+                    return failure(
+                        Fail.Incident.Bpms.Context.Missing(
+                            name = "unit",
+                            path = "#.targets[].observation[id:${observation.id}]"
+                        )
+                    )
+                else
+                    unit.id
+            }
             .asSuccess()
     }
 
