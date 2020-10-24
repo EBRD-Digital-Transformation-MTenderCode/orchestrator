@@ -169,6 +169,25 @@ class AccessActionsTest {
     }
 
     @Nested
+    inner class GetRelatedTenderCurrency {
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetTenderCurrencyAction.Params>("json/client/access/get_tender_currency_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetTenderCurrencyAction.Result>("json/client/access/get_tender_currency_result_full.json")
+            }
+        }
+    }
+
+    @Nested
     inner class GetOrganization {
         @Nested
         inner class Params {
