@@ -104,4 +104,24 @@ class RequisitionActionsTest {
         }
     }
 
+    @Nested
+    inner class ValidateRequirementResponses {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<ValidateRequirementResponsesAction.Params>("json/client/requisition/validate_requirement_responses_params_full.json")
+            }
+            @Test
+            fun required() {
+                testingBindingAndMapping<ValidateRequirementResponsesAction.Params>("json/client/requisition/validate_requirement_responses_params_required.json")
+            }
+            @Test
+            fun required_1() {
+                testingBindingAndMapping<ValidateRequirementResponsesAction.Params>("json/client/requisition/validate_requirement_responses_params_required_1.json")
+            }
+        }
+    }
+
 }

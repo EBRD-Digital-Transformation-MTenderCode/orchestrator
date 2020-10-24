@@ -1,0 +1,29 @@
+{
+  "cpid": "ocds-b3wdp1-MD-1580458690892",
+  "ocid": "ocds-b3wdp1-MD-1580458690892-EV-1580458791896",
+  "tender": {
+    "requirementResponses": [
+      {
+        "id": "string",
+        "value": "Unknown Type: string,number,integer,boolean",
+        "requirement": {
+          "id": "string"
+        },
+        "period": {
+          "startDate": "2020-10-24T14:20:43Z",
+          "endDate": "2020-10-24T14:20:43Z"
+        }
+      }
+    ]
+  },
+  "bids": {
+    "details": [
+      {
+        "id": "66de1f24-866a-49a9-be14-7dafd8b80cac",
+        "relatedLots": [
+          "string"
+        ]
+      }
+    ]
+  }
+}
