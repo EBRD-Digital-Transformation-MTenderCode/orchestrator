@@ -12,7 +12,6 @@ import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.domain.model.period.Period
-import com.procurement.orchestrator.domain.model.tender.Tender
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
@@ -91,8 +90,7 @@ class ClarificationCreateEnquiryPeriodDelegate(
                 )
             }
 
-        context.tender = context.tender?.copy(enquiryPeriod = receivedEnquiryPeriod)
-            ?: Tender(enquiryPeriod = receivedEnquiryPeriod)
+        context.tender = context.tender!!.copy(enquiryPeriod = receivedEnquiryPeriod)
 
         return MaybeFail.none()
     }
