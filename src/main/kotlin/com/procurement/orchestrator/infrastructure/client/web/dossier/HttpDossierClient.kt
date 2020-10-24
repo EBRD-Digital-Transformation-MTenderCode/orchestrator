@@ -10,7 +10,7 @@ import com.procurement.orchestrator.infrastructure.client.web.dossier.action.Che
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.CheckPeriodAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.CreateSubmissionAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.FinalizeSubmissionsAction
-import com.procurement.orchestrator.infrastructure.client.web.dossier.action.FindSubmissionsForOpeningAction
+import com.procurement.orchestrator.infrastructure.client.web.dossier.action.FindSubmissionsAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetOrganizationsAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetSubmissionCandidateReferencesByQualificationIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetSubmissionPeriodEndDateAction
@@ -114,13 +114,13 @@ class HttpDossierClient(private val webClient: WebClient, properties: ComponentP
         target = DossierCommands.VerifySubmissionPeriodEnd.target
     )
 
-    override suspend fun findSubmissionsForOpening(
+    override suspend fun findSubmissions(
         id: CommandId,
-        params: FindSubmissionsForOpeningAction.Params
-    ): Result<Reply<FindSubmissionsForOpeningAction.Result>, Fail.Incident> = webClient.call(
+        params: FindSubmissionsAction.Params
+    ): Result<Reply<FindSubmissionsAction.Result>, Fail.Incident> = webClient.call(
         url = url,
-        command = DossierCommands.FindSubmissionsForOpening.build(id = id, params = params),
-        target = DossierCommands.FindSubmissionsForOpening.target
+        command = DossierCommands.FindSubmissions.build(id = id, params = params),
+        target = DossierCommands.FindSubmissions.target
     )
 
     override suspend fun finalizeSubmissions(
