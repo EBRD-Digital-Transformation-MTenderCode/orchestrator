@@ -147,6 +147,13 @@ class NotifierSuccessNotificationToPlatformDelegate(
                     id = qualification.id,
                     token = qualification.token
                 )
+            },
+        pcr = details.pcr
+            .map { preAwardCatalogRequest ->
+                PlatformNotification.Outcomes.PreAwardCatalogRequest(
+                    id = preAwardCatalogRequest.id,
+                    token = preAwardCatalogRequest.token
+                )
             }
     )
 

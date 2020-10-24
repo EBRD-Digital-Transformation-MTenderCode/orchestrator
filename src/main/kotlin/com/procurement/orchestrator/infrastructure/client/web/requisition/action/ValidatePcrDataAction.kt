@@ -11,10 +11,6 @@ import com.procurement.orchestrator.domain.model.document.DocumentType
 import com.procurement.orchestrator.domain.model.item.ItemId
 import com.procurement.orchestrator.domain.model.lot.LotId
 import com.procurement.orchestrator.domain.model.measure.Quantity
-import com.procurement.orchestrator.domain.model.organization.OrganizationId
-import com.procurement.orchestrator.domain.model.requirement.RequirementId
-import com.procurement.orchestrator.domain.model.requirement.RequirementResponseValue
-import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponseId
 import com.procurement.orchestrator.domain.model.tender.AwardCriteria
 import com.procurement.orchestrator.domain.model.tender.AwardCriteriaDetails
 import com.procurement.orchestrator.domain.model.tender.ProcurementMethodModality
@@ -30,8 +26,6 @@ import com.procurement.orchestrator.infrastructure.bind.conversion.coefficient.v
 import com.procurement.orchestrator.infrastructure.bind.conversion.coefficient.value.CoefficientValueSerializer
 import com.procurement.orchestrator.infrastructure.bind.criteria.requirement.RequirementsDeserializer
 import com.procurement.orchestrator.infrastructure.bind.criteria.requirement.RequirementsSerializer
-import com.procurement.orchestrator.infrastructure.bind.criteria.requirement.value.RequirementValueDeserializer
-import com.procurement.orchestrator.infrastructure.bind.criteria.requirement.value.RequirementValueSerializer
 import com.procurement.orchestrator.infrastructure.bind.date.JsonDateTimeDeserializer
 import com.procurement.orchestrator.infrastructure.bind.date.JsonDateTimeSerializer
 import com.procurement.orchestrator.infrastructure.bind.measure.quantity.QuantityDeserializer
@@ -234,33 +228,6 @@ abstract class ValidatePcrDataAction : ProceduralAction<ValidatePcrDataAction.Pa
                 )
             }
 
-            data class TenderPeriod(
-                @JsonDeserialize(using = JsonDateTimeDeserializer::class)
-                @JsonSerialize(using = JsonDateTimeSerializer::class)
-                @field:JsonProperty("endDate") @param:JsonProperty("endDate") val endDate: LocalDateTime
-            )
-
-            data class ElectronicAuctions(
-                @field:JsonProperty("details") @param:JsonProperty("details") val details: List<Detail>
-            ) {
-
-                data class Detail(
-                    @field:JsonProperty("id") @param:JsonProperty("id") val id: String,
-                    @field:JsonProperty("relatedLot") @param:JsonProperty("relatedLot") val relatedLot: String,
-                    @field:JsonProperty("electronicAuctionModalities") @param:JsonProperty("electronicAuctionModalities") val electronicAuctionModalities: List<Modalities>
-                ) {
-
-                    data class Modalities(
-                        @field:JsonProperty("eligibleMinimumDifference") @param:JsonProperty("eligibleMinimumDifference") val eligibleMinimumDifference: EligibleMinimumDifference
-                    ) {
-
-                        data class EligibleMinimumDifference(
-                            @field:JsonProperty("currency") @param:JsonProperty("currency") val currency: String
-                        )
-                    }
-                }
-            }
-
             data class Conversion(
                 @field:JsonProperty("id") @param:JsonProperty("id") val id: ConversionId,
 
@@ -292,33 +259,6 @@ abstract class ValidatePcrDataAction : ProceduralAction<ValidatePcrDataAction.Pa
                     @JsonInclude(JsonInclude.Include.NON_NULL)
                     @field:JsonProperty("coefficient") @param:JsonProperty("coefficient") val coefficient: CoefficientRate?
                 )
-            }
-
-            data class RequirementResponse(
-                @field:JsonProperty("id") @param:JsonProperty("id") val id: RequirementResponseId,
-
-                @JsonDeserialize(using = RequirementValueDeserializer::class)
-                @JsonSerialize(using = RequirementValueSerializer::class)
-                @field:JsonProperty("value") @param:JsonProperty("value") val value: RequirementResponseValue,
-
-                @field:JsonProperty("requirement") @param:JsonProperty("requirement") val requirement: Requirement,
-                @field:JsonProperty("relatedCandidate") @param:JsonProperty("relatedCandidate") val relatedCandidate: RelatedCandidate
-            ) {
-
-                data class Requirement(
-                    @field:JsonProperty("id") @param:JsonProperty("id") val id: RequirementId
-                )
-
-                data class RelatedCandidate(
-                    @field:JsonProperty("identifier") @param:JsonProperty("identifier") val identifier: Identifier,
-                    @field:JsonProperty("name") @param:JsonProperty("name") val name: String
-                ) {
-
-                    data class Identifier(
-                        @field:JsonProperty("id") @param:JsonProperty("id") val id: OrganizationId,
-                        @field:JsonProperty("scheme") @param:JsonProperty("scheme") val scheme: String
-                    )
-                }
             }
 
             data class Document(

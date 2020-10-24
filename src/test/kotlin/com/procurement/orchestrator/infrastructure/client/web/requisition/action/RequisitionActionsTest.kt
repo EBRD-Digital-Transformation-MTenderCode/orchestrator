@@ -18,6 +18,37 @@ class RequisitionActionsTest {
         }
     }
 
+
+    @Nested
+    inner class CreatePrc {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CreatePcrAction.Params>("json/client/requisition/create_pcr_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CreatePcrAction.Result>("json/client/requisition/create_pcr_result_full.json")
+            }
+
+            @Test
+            fun required_1() {
+                testingBindingAndMapping<CreatePcrAction.Result>("json/client/requisition/create_pcr_result_required_1.json")
+            }
+
+            @Test
+            fun required_2() {
+                testingBindingAndMapping<CreatePcrAction.Result>("json/client/requisition/create_pcr_result_required_2.json")
+            }
+        }
+    }
+
     @Nested
     inner class CheckTenderState {
 
