@@ -1,7 +1,7 @@
-package com.procurement.orchestrator.infrastructure.bpms.delegate.submission
+package com.procurement.orchestrator.infrastructure.bpms.delegate.access
 
 import com.procurement.orchestrator.application.CommandId
-import com.procurement.orchestrator.application.client.SubmissionClient
+import com.procurement.orchestrator.application.client.AccessClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
@@ -9,28 +9,28 @@ import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
-import com.procurement.orchestrator.domain.model.invitation.Invitations
+import com.procurement.orchestrator.domain.model.tender.Tender
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
-import com.procurement.orchestrator.infrastructure.client.web.submission.SubmissionCommands
-import com.procurement.orchestrator.infrastructure.client.web.submission.action.PublishInvitationsAction
-import com.procurement.orchestrator.infrastructure.client.web.submission.action.convertIdAndStatus
+import com.procurement.orchestrator.infrastructure.client.web.access.AccessCommands
+import com.procurement.orchestrator.infrastructure.client.web.access.action.GetTenderStateAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ExternalServiceName
 import org.springframework.stereotype.Component
 
 @Component
-class SubmissionPublishInvitationsDelegate(
+class AccessGetRelatedTenderStateDelegate(
     logger: Logger,
-    private val client: SubmissionClient,
+    private val accessClient: AccessClient,
     operationStepRepository: OperationStepRepository,
     transform: Transform
-) : AbstractExternalDelegate<Unit, PublishInvitationsAction.Result>(
+) : AbstractExternalDelegate<Unit, GetTenderStateAction.Result>(
     logger = logger,
     transform = transform,
     operationStepRepository = operationStepRepository
 ) {
+
     override fun parameters(parameterContainer: ParameterContainer): Result<Unit, Fail.Incident.Bpmn.Parameter> =
         Result.success(Unit)
 
@@ -38,14 +38,15 @@ class SubmissionPublishInvitationsDelegate(
         commandId: CommandId,
         context: CamundaGlobalContext,
         parameters: Unit
-    ): Result<Reply<PublishInvitationsAction.Result>, Fail.Incident> {
+    ): Result<Reply<GetTenderStateAction.Result>, Fail.Incident> {
 
-        val processInfo = context.processInfo
+        val relatedProcess = context.processInfo.relatedProcess
 
-        return client.publishInvitations(
+        return accessClient.getTenderState(
             id = commandId,
-            params = PublishInvitationsAction.Params(
-                cpid = processInfo.cpid
+            params = GetTenderStateAction.Params(
+                cpid = relatedProcess?.cpid,
+                ocid = relatedProcess?.ocid
             )
         )
     }
@@ -53,20 +54,17 @@ class SubmissionPublishInvitationsDelegate(
     override fun updateGlobalContext(
         context: CamundaGlobalContext,
         parameters: Unit,
-        result: Option<PublishInvitationsAction.Result>
+        result: Option<GetTenderStateAction.Result>
     ): MaybeFail<Fail.Incident> {
 
         val data = result.orNull
             ?: return MaybeFail.fail(
-                Fail.Incident.Response.Empty(
-                    service = ExternalServiceName.SUBMISSION,
-                    action = SubmissionCommands.PublishInvitations
-                )
+                Fail.Incident.Response.Empty(ExternalServiceName.ACCESS, AccessCommands.GetTenderState)
             )
 
-        val invitations = data.invitations.map { it.convertIdAndStatus() }
-
-        context.invitations = Invitations(invitations)
+        context.tender = context.tender
+            ?.copy(status = data.status, statusDetails = data.statusDetails)
+            ?: Tender(status = data.status, statusDetails = data.statusDetails)
 
         return MaybeFail.none()
     }
