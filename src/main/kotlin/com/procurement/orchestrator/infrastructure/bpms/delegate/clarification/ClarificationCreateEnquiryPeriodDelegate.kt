@@ -3,6 +3,7 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.clarification
 import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.ClarificationClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
+import com.procurement.orchestrator.application.model.context.extension.tryGetTender
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
@@ -46,6 +47,9 @@ class ClarificationCreateEnquiryPeriodDelegate(
         val processInfo = context.processInfo
         val requestInfo = context.requestInfo
 
+        val tender = context.tryGetTender()
+            .orForwardFail { fail -> return fail }
+
         return clarificationClient.createEnquiryPeriod(
             id = commandId,
             params = CreateEnquiryPeriodAction.Params(
@@ -55,14 +59,12 @@ class ClarificationCreateEnquiryPeriodDelegate(
                 pmd = processInfo.pmd,
                 country = requestInfo.country,
                 owner = requestInfo.owner,
-                tender = context.tender.let { tender ->
-                    CreateEnquiryPeriodAction.Params.Tender(
-                        CreateEnquiryPeriodAction.Params.Tender.TenderPeriod(
-                            startDate = tender?.tenderPeriod?.startDate,
-                            endDate = tender?.tenderPeriod?.endDate
-                        )
+                tender = CreateEnquiryPeriodAction.Params.Tender(
+                    CreateEnquiryPeriodAction.Params.Tender.TenderPeriod(
+                        startDate = tender.tenderPeriod?.startDate,
+                        endDate = tender.tenderPeriod?.endDate
                     )
-                }
+                )
             )
         )
     }
