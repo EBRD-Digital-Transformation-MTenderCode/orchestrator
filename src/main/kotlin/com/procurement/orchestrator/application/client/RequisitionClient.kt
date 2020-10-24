@@ -5,6 +5,7 @@ import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.CheckTenderStateAction
+import com.procurement.orchestrator.infrastructure.client.web.requisition.action.FindProcurementMethodModalitiesAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.ValidatePcrDataAction
 
 interface RequisitionClient {
@@ -18,4 +19,9 @@ interface RequisitionClient {
         id: CommandId,
         params: CheckTenderStateAction.Params
     ): Result<Reply<Unit>, Fail.Incident>
+
+    suspend fun findProcurementMethodModalities(
+        id: CommandId,
+        params: FindProcurementMethodModalitiesAction.Params
+    ): Result<Reply<FindProcurementMethodModalitiesAction.Result>, Fail.Incident>
 }
