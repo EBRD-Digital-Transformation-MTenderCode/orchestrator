@@ -1,0 +1,22 @@
+{
+  "tender": {
+    "items": [
+      {
+        "id": "c5810c7f-9871-4fad-af4a-669a6797aa55",
+        "internalId": "string",
+        "description": "string",
+        "quantity": 0.000,
+        "classification": {
+          "id": "string",
+          "scheme": "CPV",
+          "description": "string"
+        },
+        "unit": {
+          "id": "string",
+          "name": "string"
+        },
+        "relatedLot": "9b3217cf-9db2-4a0d-9afb-26a6c2514a65"
+      }
+    ]
+  }
+}
