@@ -6,11 +6,12 @@ import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.WebClient
-import com.procurement.orchestrator.infrastructure.client.web.requisition.action.CreatePcrAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.CheckTenderStateAction
-import com.procurement.orchestrator.infrastructure.client.web.requisition.action.GetTenderStateAction
+import com.procurement.orchestrator.infrastructure.client.web.requisition.action.CreatePcrAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.CreateRelationToContractProcessStageAction
+import com.procurement.orchestrator.infrastructure.client.web.requisition.action.GetTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.ValidatePcrDataAction
+import com.procurement.orchestrator.infrastructure.client.web.requisition.action.ValidateRequirementResponsesAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
 import java.net.URL
 
@@ -47,7 +48,7 @@ class HttpRequisitionClient(private val webClient: WebClient, properties: Compon
     override suspend fun createRelationToContractProcessStage(
         id: CommandId,
         params: CreateRelationToContractProcessStageAction.Params
-    ): Result<Reply<CreateRelationToContractProcessStageAction.Result>, Fail.Incident>  = webClient.call(
+    ): Result<Reply<CreateRelationToContractProcessStageAction.Result>, Fail.Incident> = webClient.call(
         url = url,
         command = RequisitionCommands.CreateRelationToContractProcessStage.build(id = id, params = params),
         target = RequisitionCommands.CreateRelationToContractProcessStage.target
@@ -60,5 +61,13 @@ class HttpRequisitionClient(private val webClient: WebClient, properties: Compon
         url = url,
         command = RequisitionCommands.GetTenderState.build(id = id, params = params),
         target = RequisitionCommands.GetTenderState.target
+    )
+
+    override suspend fun validateRequirementResponses(
+        id: CommandId,
+        params: ValidateRequirementResponsesAction.Params
+    ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
+        url = url,
+        command = RequisitionCommands.ValidateRequirementResponses.build(id = id, params = params)
     )
 }
