@@ -1,8 +1,9 @@
-package com.procurement.orchestrator.infrastructure.bpms.delegate.submission
+package com.procurement.orchestrator.infrastructure.bpms.delegate.access
 
 import com.procurement.orchestrator.application.CommandId
-import com.procurement.orchestrator.application.client.SubmissionClient
+import com.procurement.orchestrator.application.client.AccessClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
+import com.procurement.orchestrator.application.model.context.extension.tryGetTender
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
@@ -12,13 +13,13 @@ import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExterna
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
-import com.procurement.orchestrator.infrastructure.client.web.submission.action.ValidateTenderPeriodAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckExistenceSignAuctionAction
 import org.springframework.stereotype.Component
 
 @Component
-class SubmissionValidateTenderPeriodDelegate(
+class AccessCheckExistenceSignAuctionDelegate(
     logger: Logger,
-    private val submissionClient: SubmissionClient,
+    private val accessClient: AccessClient,
     operationStepRepository: OperationStepRepository,
     transform: Transform
 ) : AbstractExternalDelegate<Unit, Unit>(
@@ -35,22 +36,20 @@ class SubmissionValidateTenderPeriodDelegate(
         context: CamundaGlobalContext,
         parameters: Unit
     ): Result<Reply<Unit>, Fail.Incident> {
-        val processInfo = context.processInfo
-        val requestInfo = context.requestInfo
 
-        return submissionClient.validateTenderPeriod(
+        val relatedProcess = context.processInfo.relatedProcess
+
+        val tender = context.tryGetTender()
+            .orForwardFail { failure -> return failure }
+
+        return accessClient.checkExistenceSignAuction(
             id = commandId,
-            params = ValidateTenderPeriodAction.Params(
-                date = requestInfo.timestamp,
-                country = requestInfo.country,
-                pmd = processInfo.pmd,
-                operationType = processInfo.operationType,
-                tender = ValidateTenderPeriodAction.Params.Tender(
-                    tenderPeriod = ValidateTenderPeriodAction.Params.Tender.TenderPeriod(
-                        endDate = context.tender?.tenderPeriod?.endDate
-                    )
+            params = CheckExistenceSignAuctionAction.Params(
+                cpid = relatedProcess?.cpid,
+                ocid = relatedProcess?.ocid,
+                tender = CheckExistenceSignAuctionAction.Params.Tender(
+                    procurementMethodModalities = tender.procurementMethodModalities
                 )
-
             )
         )
     }

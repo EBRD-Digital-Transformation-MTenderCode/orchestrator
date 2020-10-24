@@ -8,7 +8,7 @@ import com.procurement.orchestrator.infrastructure.client.web.dossier.action.Che
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.CheckPeriodAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.CreateSubmissionAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.FinalizeSubmissionsAction
-import com.procurement.orchestrator.infrastructure.client.web.dossier.action.FindSubmissionsForOpeningAction
+import com.procurement.orchestrator.infrastructure.client.web.dossier.action.FindSubmissionsAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetOrganizationsAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetSubmissionCandidateReferencesByQualificationIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetSubmissionPeriodEndDateAction
@@ -71,10 +71,10 @@ interface DossierClient {
         params: VerifySubmissionPeriodEndAction.Params
     ): Result<Reply<VerifySubmissionPeriodEndAction.Result>, Fail.Incident>
 
-    suspend fun findSubmissionsForOpening(
+    suspend fun findSubmissions(
         id: CommandId,
-        params: FindSubmissionsForOpeningAction.Params
-    ): Result<Reply<FindSubmissionsForOpeningAction.Result>, Fail.Incident>
+        params: FindSubmissionsAction.Params
+    ): Result<Reply<FindSubmissionsAction.Result>, Fail.Incident>
 
     suspend fun finalizeSubmissions(
         id: CommandId,
