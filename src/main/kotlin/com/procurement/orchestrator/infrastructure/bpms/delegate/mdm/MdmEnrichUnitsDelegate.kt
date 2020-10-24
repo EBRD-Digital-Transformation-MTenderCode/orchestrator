@@ -3,7 +3,7 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.mdm
 import com.procurement.orchestrator.application.client.MdmClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.getItemsIfNotEmpty
-import com.procurement.orchestrator.application.model.context.extension.getLotsIfNotEmpty
+import com.procurement.orchestrator.application.model.context.extension.getTargetsIfNotEmpty
 import com.procurement.orchestrator.application.model.context.extension.tryGetTender
 import com.procurement.orchestrator.application.model.context.members.Errors
 import com.procurement.orchestrator.application.model.context.members.Incident
@@ -15,37 +15,37 @@ import com.procurement.orchestrator.domain.extension.date.format
 import com.procurement.orchestrator.domain.extension.date.nowDefaultUTC
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
-import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.functional.asSuccess
-import com.procurement.orchestrator.domain.model.classification.Classification
+import com.procurement.orchestrator.domain.model.contract.observation.Observations
 import com.procurement.orchestrator.domain.model.item.Item
 import com.procurement.orchestrator.domain.model.item.Items
-import com.procurement.orchestrator.domain.model.lot.Lot
-import com.procurement.orchestrator.domain.model.lot.Lots
 import com.procurement.orchestrator.domain.model.tender.Tender
+import com.procurement.orchestrator.domain.model.tender.target.Target
+import com.procurement.orchestrator.domain.model.tender.target.Targets
+import com.procurement.orchestrator.domain.model.unit.Unit
+import com.procurement.orchestrator.domain.model.unit.UnitId
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractBatchRestDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
-import com.procurement.orchestrator.infrastructure.client.web.mdm.action.EnrichClassificationsAction
-import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetClassification
+import com.procurement.orchestrator.infrastructure.client.web.mdm.action.EnrichUnitsAction
+import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetUnit
 import com.procurement.orchestrator.infrastructure.configuration.property.GlobalProperties
 import org.springframework.stereotype.Component
 
 @Component
-class MdmEnrichClassificationsDelegate(
+class MdmEnrichUnitsDelegate(
     logger: Logger,
     operationStepRepository: OperationStepRepository,
     transform: Transform,
     private val mdmClient: MdmClient
-) : AbstractBatchRestDelegate<MdmEnrichClassificationsDelegate.Parameters, EnrichClassificationsAction.Params, List<Classification>>(
+) : AbstractBatchRestDelegate<MdmEnrichUnitsDelegate.Parameters, EnrichUnitsAction.Params, List<Unit>>(
     logger = logger,
     transform = transform,
     operationStepRepository = operationStepRepository
 ) {
-
     companion object {
         const val PARAMETER_LOCATIONS = "locations"
     }
@@ -79,33 +79,28 @@ class MdmEnrichClassificationsDelegate(
     override fun prepareSeq(
         context: CamundaGlobalContext,
         parameters: Parameters
-    ): Result<List<EnrichClassificationsAction.Params>, Fail.Incident> {
+    ): Result<List<EnrichUnitsAction.Params>, Fail.Incident> {
         val requestInfo = context.requestInfo
         val entities = parameters.locations
         val tender = context.tryGetTender()
             .orForwardFail { fail -> return fail }
 
-        val tenderClassification: Classification? = getTenderClassification(tender, entities)
+        val itemsUnits: List<UnitId> = getItemsUnits(tender, entities)
             .orForwardFail { fail -> return fail }
 
-        val itemsClassifications: List<Classification> = getItemsClassifications(tender, entities)
+        val targetsUnits: List<UnitId> = getTargetsUnits(tender, entities)
             .orForwardFail { fail -> return fail }
 
-        val lotsClassifications: List<Classification> = getLotsClassifications(tender, entities)
-            .orForwardFail { fail -> return fail }
-
-        val allClassifications: Set<Classification> = mutableSetOf<Classification>()
+        val allUnits: Set<UnitId> = mutableSetOf<UnitId>()
             .apply {
-                tenderClassification?.let { add(it) }
-                addAll(itemsClassifications)
-                addAll(lotsClassifications)
+                addAll(itemsUnits)
+                addAll(targetsUnits)
             }
 
-        val params = allClassifications.map { classification ->
-            EnrichClassificationsAction.Params(
+        val params = allUnits.map { unitId ->
+            EnrichUnitsAction.Params(
                 lang = requestInfo.language,
-                classificationId = classification.id,
-                scheme = classification.scheme
+                unitId = unitId
             )
         }
 
@@ -113,45 +108,39 @@ class MdmEnrichClassificationsDelegate(
     }
 
     override suspend fun execute(
-        elements: List<EnrichClassificationsAction.Params>,
+        elements: List<EnrichUnitsAction.Params>,
         executionInterceptor: ExecutionInterceptor
-    ): Result<List<Classification>, Fail.Incident> {
+    ): Result<List<Unit>, Fail.Incident> {
 
         return elements
             .map { params ->
                 val response = mdmClient
-                    .enrichClassifications(params = params)
+                    .enrichUnits(params = params)
                     .orForwardFail { error -> return error }
 
                 handleResult(response, executionInterceptor)
             }
-            .filter { optionalResult -> optionalResult.isDefined }
-            .map { result -> result.get }
             .asSuccess()
     }
 
     override fun updateGlobalContext(
         context: CamundaGlobalContext,
         parameters: Parameters,
-        result: List<Classification>
+        result: List<Unit>
     ): MaybeFail<Fail.Incident> {
 
         val tender = context.tryGetTender()
             .orReturnFail { return MaybeFail.fail(it) }
 
-        val enrichedClassifications = result.associateBy { it }
+        val enrichedUnits = result.associateBy { it }
 
-        val updatedTenderClassification = tender.classification
-            ?.let { updateTenderClassification(it, parameters.locations, enrichedClassifications) }
+        val updatedItems = updateItemsUnit(tender.items, parameters.locations, enrichedUnits)
 
-        val updatedItems = updateItemsClassification(tender.items, parameters.locations, enrichedClassifications)
-
-        val updatedLots = updateLotsClassification(tender.lots, parameters.locations, enrichedClassifications)
+        val updatedTargets = updateTargetsUnit(tender.targets, parameters.locations, enrichedUnits)
 
         val updatedTender = tender.copy(
-            classification = updatedTenderClassification,
             items = Items(updatedItems),
-            lots = Lots(updatedLots)
+            targets = Targets(updatedTargets)
         )
 
         context.tender = updatedTender
@@ -159,38 +148,24 @@ class MdmEnrichClassificationsDelegate(
         return MaybeFail.none()
     }
 
-    private fun Classification.update(classification: Classification): Classification =
-         this.copy(description = classification.description)
+    private fun Unit.update(unit: Unit): Unit =
+        this.copy(name = unit.name)
 
-    private fun updateTenderClassification(
-        classification: Classification,
-        entities: Map<EntityKey, EntityValue>,
-        enrichedClassifications: Map<Classification, Classification>
-    ): Classification {
-        val enrichedTenderClassification = enrichedClassifications[classification]
-        val updatedClassification: Classification =
-            if (EntityKey.TENDER in entities && enrichedTenderClassification != null)
-                classification.copy(description = enrichedTenderClassification.description)
-            else
-                classification
-
-        return updatedClassification
-    }
-
-    private fun updateItemsClassification(
+    private fun updateItemsUnit(
         items: List<Item>,
         entities: Map<EntityKey, EntityValue>,
-        enrichedClassifications: Map<Classification, Classification>
+        enrichedUnits: Map<Unit, Unit>
     ): List<Item> {
         val updatedItems: List<Item> =
             if (EntityKey.ITEM in entities)
                 items.map { item ->
-                    val currentClassification = item.classification ?: return@map item
-                    val enrichedItemClassification = enrichedClassifications[currentClassification]
+                    val currentUnit = item.unit
+                    val enrichedItemUnit = currentUnit?.let { enrichedUnits[it] }
 
-                    enrichedItemClassification
-                        ?.let { item.copy(classification = currentClassification.update(it)) }
-                        ?: item
+                    if (enrichedItemUnit != null)
+                        item.copy(unit = currentUnit.update(enrichedItemUnit))
+                    else
+                        item
                 }
             else
                 items
@@ -198,48 +173,52 @@ class MdmEnrichClassificationsDelegate(
         return updatedItems
     }
 
-    private fun updateLotsClassification(
-        lots: List<Lot>,
+    private fun updateTargetsUnit(
+        targets: List<Target>,
         entities: Map<EntityKey, EntityValue>,
-        enrichedClassifications: Map<Classification, Classification>
-    ): List<Lot> {
-        val updatedLots: List<Lot> =
-            if (EntityKey.LOT in entities)
-                lots.map { lot ->
-                    val currentClassification = lot.classification ?: return@map lot
-                    val enrichedItemClassification = enrichedClassifications[currentClassification]
+        enrichedUnits: Map<Unit, Unit>
+    ): List<Target> {
+        val updatedTargets: List<Target> =
+            if (EntityKey.TARGET in entities) {
+                val updatedTargets = targets.map { target ->
+                    val updatedObservation = target.observations
+                        .map { observation ->
+                            val currentUnit = observation.unit
+                            val enrichedItemUnit = currentUnit?.let { enrichedUnits[it] }
 
-                    enrichedItemClassification
-                        ?.let { lot.copy(classification = currentClassification.update(it)) }
-                        ?: lot
+                            if (enrichedItemUnit != null)
+                                observation.copy(unit = currentUnit.update(enrichedItemUnit))
+                            else
+                                observation
+                        }
+                    target.copy(observations = Observations(updatedObservation))
                 }
-            else
-                lots
+                updatedTargets
+            } else
+                targets
 
-        return updatedLots
+        return updatedTargets
     }
 
     private fun handleResult(
-        result: GetClassification.Result,
+        result: GetUnit.Result,
         executionInterceptor: ExecutionInterceptor
-    ): Option<Classification> = when (result) {
-        is GetClassification.Result.Success -> Option.pure(
-            Classification(id = result.id, scheme = result.scheme, description = result.description)
-        )
-        is GetClassification.Result.Fail.SchemeNotFound -> Option.none()
-        is GetClassification.Result.Fail.IdNotFound -> {
+    ): Unit = when (result) {
+        is GetUnit.Result.Success -> Unit(id = result.id, name = result.name)
+
+        is GetUnit.Result.Fail.IdNotFound -> {
             val errors = result.details.errors.convertErrors()
             executionInterceptor.throwError(errors = errors)
         }
-        is GetClassification.Result.Fail.LanguageNotFound -> {
+        is GetUnit.Result.Fail.LanguageNotFound -> {
             val errors = result.details.errors.convertErrors()
             executionInterceptor.throwError(errors = errors)
         }
-        is GetClassification.Result.Fail.AnotherError -> {
+        is GetUnit.Result.Fail.AnotherError -> {
             val errors = result.details.errors.convertErrors()
             executionInterceptor.throwError(errors = errors)
         }
-        is GetClassification.Result.Fail.TranslationNotFound -> {
+        is GetUnit.Result.Fail.TranslationNotFound -> {
             executionInterceptor.throwIncident(
                 Incident(
                     id = executionInterceptor.processInstanceId,
@@ -265,80 +244,79 @@ class MdmEnrichClassificationsDelegate(
         }
     }
 
-    private fun List<EnrichClassificationsAction.Response.Error.Details>.convertErrors(): List<Errors.Error> =
+    private fun List<EnrichUnitsAction.Response.Error.Details>.convertErrors(): List<Errors.Error> =
         this.map { error ->
             Errors.Error(code = error.code, description = error.description)
         }
 
-    private fun getTenderClassification(
+    private fun getItemsUnits(
         tender: Tender,
         entities: Map<EntityKey, EntityValue>
-    ): Result<Classification?, Fail.Incident> =
-        when (entities[EntityKey.TENDER]) {
-            EntityValue.OPTIONAL -> getTenderClassificationOptional(tender)
-            EntityValue.REQUIRED -> getTenderClassificationRequired(tender)
-            null -> null.asSuccess()
-        }
-
-    private fun getTenderClassificationOptional(tender: Tender): Result<Classification?, Fail.Incident> =
-        success(tender.classification)
-
-    private fun getTenderClassificationRequired(tender: Tender): Result<Classification?, Fail.Incident> {
-        return tender.classification
-            ?.asSuccess()
-            ?: failure(Fail.Incident.Bpms.Context.Missing(name = "tender.classification"))
-    }
-
-    private fun getItemsClassifications(
-        tender: Tender,
-        entities: Map<EntityKey, EntityValue>
-    ): Result<List<Classification>, Fail.Incident> =
+    ): Result<List<UnitId>, Fail.Incident> =
         when (entities[EntityKey.ITEM]) {
-            EntityValue.OPTIONAL -> getItemsClassificationsOptional(tender)
-            EntityValue.REQUIRED -> getItemsClassificationsRequired(tender)
-            null -> emptyList<Classification>().asSuccess()
+            EntityValue.OPTIONAL -> getItemsUnitsOptional(tender)
+            EntityValue.REQUIRED -> getItemsUnitsRequired(tender)
+            null -> emptyList<UnitId>().asSuccess()
         }
 
-    private fun getItemsClassificationsOptional(tender: Tender): Result<List<Classification>, Fail.Incident> =
+    private fun getItemsUnitsOptional(tender: Tender): Result<List<UnitId>, Fail.Incident> =
         tender.items
-            .mapNotNull { item -> item.classification }
+            .mapNotNull { item -> item.unit?.id }
             .asSuccess()
 
-    private fun getItemsClassificationsRequired(tender: Tender): Result<List<Classification>, Fail.Incident> {
+    private fun getItemsUnitsRequired(tender: Tender): Result<List<UnitId>, Fail.Incident> {
         return tender.getItemsIfNotEmpty()
             .orForwardFail { fail -> return fail }
-            .map { item -> item.classification!! }
+            .map { item ->
+                val unit = item.unit
+                if (unit == null)
+                    return failure(Fail.Incident.Bpms.Context.Missing(name = "unit", path = "#.items[id:${item.id}]"))
+                else
+                    unit.id
+            }
             .asSuccess()
     }
 
-    private fun getLotsClassifications(
+    private fun getTargetsUnits(
         tender: Tender,
         entities: Map<EntityKey, EntityValue>
-    ): Result<List<Classification>, Fail.Incident> =
-        when (entities[EntityKey.LOT]) {
-            EntityValue.OPTIONAL -> getLotsClassificationsOptional(tender)
-            EntityValue.REQUIRED -> getLotsClassificationsRequired(tender)
-            null -> emptyList<Classification>().asSuccess()
+    ): Result<List<UnitId>, Fail.Incident> =
+        when (entities[EntityKey.TARGET]) {
+            EntityValue.OPTIONAL -> getTargetsUnitsOptional(tender)
+            EntityValue.REQUIRED -> getTargetsUnitsRequired(tender)
+            null -> emptyList<UnitId>().asSuccess()
         }
 
-    private fun getLotsClassificationsOptional(tender: Tender): Result<List<Classification>, Fail.Incident> =
-        tender.lots
-            .mapNotNull { lot -> lot.classification }
+    private fun getTargetsUnitsOptional(tender: Tender): Result<List<UnitId>, Fail.Incident> =
+        tender.targets
+            .flatMap { target -> target.observations }
+            .mapNotNull { observation -> observation.unit?.id }
             .asSuccess()
 
-    private fun getLotsClassificationsRequired(tender: Tender): Result<List<Classification>, Fail.Incident> {
-        return tender.getLotsIfNotEmpty()
+    private fun getTargetsUnitsRequired(tender: Tender): Result<List<UnitId>, Fail.Incident> {
+        return tender.getTargetsIfNotEmpty()
             .orForwardFail { fail -> return fail }
-            .map { lot -> lot.classification!! }
+            .flatMap { target -> target.observations }
+            .map { observation ->
+                val unit = observation.unit
+                if (unit == null)
+                    return failure(
+                        Fail.Incident.Bpms.Context.Missing(
+                            name = "unit",
+                            path = "#.targets[].observation[id:${observation.id}]"
+                        )
+                    )
+                else
+                    unit.id
+            }
             .asSuccess()
     }
 
     data class Parameters(val locations: Map<EntityKey, EntityValue>)
 
     enum class EntityKey(override val key: String) : EnumElementProvider.Key {
-        TENDER("tender"),
-        ITEM("item"),
-        LOT("lot");
+        TARGET("target"),
+        ITEM("item");
 
         override fun toString(): String = key
 
@@ -346,7 +324,6 @@ class MdmEnrichClassificationsDelegate(
     }
 
     enum class EntityValue(override val key: String) : EnumElementProvider.Key {
-
         REQUIRED("required"),
         OPTIONAL("optional");
 
