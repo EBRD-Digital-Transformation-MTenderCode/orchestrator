@@ -4,6 +4,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Calc
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckAccessToTenderAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckEqualityCurrenciesAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckExistenceFaAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckExistenceSignAuctionAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckPersonesStructureAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckRelationAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckTenderStateAction
@@ -15,6 +16,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Find
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotStateByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetOrganizationAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetQualificationCriteriaAndMethodAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.GetTenderCurrencyAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.OutsourcingPnAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ResponderProcessingAction
@@ -43,6 +45,8 @@ object AccessCommands {
 
     object GetTenderState : GetTenderStateAction()
 
+    object GetTenderCurrency : GetTenderCurrencyAction()
+
     object SetStateForLots : SetStateForLotsAction()
 
     object GetOrganization : GetOrganizationAction()
@@ -59,9 +63,11 @@ object AccessCommands {
 
     object FindAuctions : FindAuctionsAction()
 
-    object CheckExistenceFa: CheckExistenceFaAction()
+    object CheckExistenceFa : CheckExistenceFaAction()
 
-    object OutsourcingPn: OutsourcingPnAction()
+    object CheckExistenceSignAuction : CheckExistenceSignAuctionAction()
+
+    object OutsourcingPn : OutsourcingPnAction()
 
     object ValidateRelatedTenderClassification : ValidateRelatedTenderClassificationAction()
 
@@ -69,7 +75,7 @@ object AccessCommands {
 
     object CheckRelation : CheckRelationAction()
 
-    object CalculateAPValue: CalculateAPValueAction()
+    object CalculateAPValue : CalculateAPValueAction()
 
     object CheckEqualityCurrencies: CheckEqualityCurrenciesAction()
 }
