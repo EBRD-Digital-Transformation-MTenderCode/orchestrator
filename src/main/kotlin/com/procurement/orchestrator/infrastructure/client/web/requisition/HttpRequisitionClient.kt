@@ -7,6 +7,7 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.WebClient
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.CreatePcrAction
+import com.procurement.orchestrator.infrastructure.client.web.requisition.action.CheckTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.ValidatePcrDataAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
 import java.net.URL
@@ -31,5 +32,13 @@ class HttpRequisitionClient(private val webClient: WebClient, properties: Compon
         url = url,
         command = RequisitionCommands.CreatePcr.build(id = id, params = params),
         target = RequisitionCommands.CreatePcr.target
+    )
+
+    override suspend fun checkTenderState(
+        id: CommandId,
+        params: CheckTenderStateAction.Params
+    ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
+        url = url,
+        command = RequisitionCommands.CheckTenderState.build(id = id, params = params)
     )
 }

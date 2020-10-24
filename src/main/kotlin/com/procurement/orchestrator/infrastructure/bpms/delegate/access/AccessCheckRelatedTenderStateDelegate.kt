@@ -1,7 +1,7 @@
-package com.procurement.orchestrator.infrastructure.bpms.delegate.submission
+package com.procurement.orchestrator.infrastructure.bpms.delegate.access
 
 import com.procurement.orchestrator.application.CommandId
-import com.procurement.orchestrator.application.client.SubmissionClient
+import com.procurement.orchestrator.application.client.AccessClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
@@ -12,13 +12,13 @@ import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExterna
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
-import com.procurement.orchestrator.infrastructure.client.web.submission.action.ValidateTenderPeriodAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckTenderStateAction
 import org.springframework.stereotype.Component
 
 @Component
-class SubmissionValidateTenderPeriodDelegate(
+class AccessCheckRelatedTenderStateDelegate(
     logger: Logger,
-    private val submissionClient: SubmissionClient,
+    private val accessClient: AccessClient,
     operationStepRepository: OperationStepRepository,
     transform: Transform
 ) : AbstractExternalDelegate<Unit, Unit>(
@@ -37,20 +37,16 @@ class SubmissionValidateTenderPeriodDelegate(
     ): Result<Reply<Unit>, Fail.Incident> {
         val processInfo = context.processInfo
         val requestInfo = context.requestInfo
+        val relatedProcess = processInfo.relatedProcess
 
-        return submissionClient.validateTenderPeriod(
+        return accessClient.checkTenderState(
             id = commandId,
-            params = ValidateTenderPeriodAction.Params(
-                date = requestInfo.timestamp,
+            params = CheckTenderStateAction.Params(
+                cpid = relatedProcess?.cpid,
+                ocid = relatedProcess?.ocid,
                 country = requestInfo.country,
                 pmd = processInfo.pmd,
-                operationType = processInfo.operationType,
-                tender = ValidateTenderPeriodAction.Params.Tender(
-                    tenderPeriod = ValidateTenderPeriodAction.Params.Tender.TenderPeriod(
-                        endDate = context.tender?.tenderPeriod?.endDate
-                    )
-                )
-
+                operationType = processInfo.operationType
             )
         )
     }
