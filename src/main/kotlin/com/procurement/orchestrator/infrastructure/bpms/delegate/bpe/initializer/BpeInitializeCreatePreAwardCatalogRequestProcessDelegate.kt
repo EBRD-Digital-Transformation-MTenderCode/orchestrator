@@ -161,6 +161,8 @@ class BpeInitializeCreatePreAwardCatalogRequestProcessDelegate(
                 Item(
                     id = ItemId.create(item.id),
                     description = item.description,
+                    quantity = item.quantity,
+                    internalId = item.internalId,
                     classification = item.classification
                         .let { classification ->
                             Classification(
