@@ -1,0 +1,209 @@
+{
+  "bids": {
+    "details": [
+      {
+        "id": "ad346431-1d0e-4c82-9d85-d718d65370fb",
+        "value": {
+          "amount": 0.00,
+          "currency": "string"
+        },
+        "tenderers": [
+          {
+            "id": "string",
+            "name": "string",
+            "identifier": {
+              "id": "string",
+              "legalName": "string",
+              "scheme": "string",
+              "uri": "string"
+            },
+            "additionalIdentifiers": [
+              {
+                "id": "string",
+                "legalName": "string",
+                "scheme": "string",
+                "uri": "string"
+              }
+            ],
+            "address": {
+              "streetAddress": "string",
+              "postalCode": "string",
+              "addressDetails": {
+                "country": {
+                  "id": "string",
+                  "description": "string",
+                  "scheme": "string"
+                },
+                "region": {
+                  "id": "string",
+                  "description": "string",
+                  "scheme": "string"
+                },
+                "locality": {
+                  "id": "string",
+                  "description": "string",
+                  "scheme": "string"
+                }
+              }
+            },
+            "contactPoint": {
+              "name": "string",
+              "email": "string",
+              "telephone": "string",
+              "faxNumber": "string",
+              "url": "string"
+            },
+            "persones": [
+              {
+                "id": "string",
+                "title": "Mr",
+                "name": "string",
+                "identifier": {
+                  "scheme": "string",
+                  "id": "string",
+                  "uri": "string"
+                },
+                "businessFunctions": [
+                  {
+                    "id": "string",
+                    "type": "authority",
+                    "jobTitle": "string",
+                    "period": {
+                      "startDate": "2020-10-25T12:46:45Z"
+                    },
+                    "documents": [
+                      {
+                        "documentType": "regulatoryDocument",
+                        "id": "string",
+                        "title": "string",
+                        "description": "string"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "details": {
+              "typeOfSupplier": "company",
+              "mainEconomicActivities": [
+                {
+                  "id": "string",
+                  "scheme": "string",
+                  "description": "string",
+                  "uri": "string"
+                }
+              ],
+              "scale": "micro",
+              "permits": [
+                {
+                  "scheme": "string",
+                  "id": "string",
+                  "url": "string",
+                  "permitDetails": {
+                    "issuedBy": {
+                      "id": "string",
+                      "name": "string"
+                    },
+                    "issuedThought": {
+                      "id": "string",
+                      "name": "string"
+                    },
+                    "validityPeriod": {
+                      "startDate": "2020-10-25T12:46:45Z",
+                      "endDate": "2020-10-25T12:46:45Z"
+                    }
+                  }
+                }
+              ],
+              "bankAccounts": [
+                {
+                  "description": "string",
+                  "bankName": "string",
+                  "address": {
+                    "streetAddress": "string",
+                    "postalCode": "string",
+                    "addressDetails": {
+                      "country": {
+                        "id": "string",
+                        "description": "string",
+                        "scheme": "string"
+                      },
+                      "region": {
+                        "id": "string",
+                        "description": "string",
+                        "scheme": "string"
+                      },
+                      "locality": {
+                        "id": "string",
+                        "description": "string",
+                        "scheme": "string"
+                      }
+                    }
+                  },
+                  "identifier": {
+                    "scheme": "UA-MFO",
+                    "id": "string"
+                  },
+                  "accountIdentification": {
+                    "scheme": "IBAN",
+                    "id": "string"
+                  },
+                  "additionalAccountIdentifiers": [
+                    {
+                      "scheme": "fiscal",
+                      "id": "string"
+                    }
+                  ]
+                }
+              ],
+              "legalForm": {
+                "scheme": "MD-CFOJ",
+                "id": "string",
+                "description": "string",
+                "uri": "string"
+              }
+            }
+          }
+        ],
+        "relatedLots": [
+          "string"
+        ],
+        "documents": [
+          {
+            "id": "string",
+            "title": "string",
+            "description": "string",
+            "relatedLots": [
+              "string"
+            ],
+            "documentType": "illustration"
+          }
+        ],
+        "items": [
+          {
+            "id": "string",
+            "unit": {
+              "value": {
+                "amount": 0.00,
+                "currency": "string"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "tender": {
+    "procurementMethodModalities": [
+      "requiresElectronicCatalogue"
+    ],
+    "value": {
+      "currency": "string"
+    },
+    "items": [
+      {
+        "id": "string"
+      }
+    ]
+  }
+}
