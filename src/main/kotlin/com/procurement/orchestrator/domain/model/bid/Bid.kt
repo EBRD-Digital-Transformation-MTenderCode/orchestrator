@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.procurement.orchestrator.domain.model.IdentifiableObject
 import com.procurement.orchestrator.domain.model.document.Documents
+import com.procurement.orchestrator.domain.model.item.Items
 import com.procurement.orchestrator.domain.model.lot.RelatedLots
 import com.procurement.orchestrator.domain.model.or
 import com.procurement.orchestrator.domain.model.organization.Organizations
@@ -37,7 +38,11 @@ data class Bid(
     @field:JsonProperty("relatedLots") @param:JsonProperty("relatedLots") val relatedLots: RelatedLots = RelatedLots(),
 
     @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
-    @field:JsonProperty("requirementResponses") @param:JsonProperty("requirementResponses") val requirementResponses: RequirementResponses = RequirementResponses()
+    @field:JsonProperty("requirementResponses") @param:JsonProperty("requirementResponses") val requirementResponses: RequirementResponses = RequirementResponses(),
+
+    @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
+    @field:JsonProperty("items") @param:JsonProperty("items") val items: Items = Items()
+
 ) : IdentifiableObject<Bid>, Serializable {
 
     override fun equals(other: Any?): Boolean {
@@ -59,6 +64,7 @@ data class Bid(
         value = src.value or value,
         documents = documents updateBy src.documents,
         relatedLots = relatedLots combineBy src.relatedLots,
-        requirementResponses = requirementResponses updateBy src.requirementResponses
+        requirementResponses = requirementResponses updateBy src.requirementResponses,
+        items = items updateBy src.items
     )
 }
