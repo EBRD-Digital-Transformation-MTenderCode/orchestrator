@@ -11,7 +11,6 @@ import com.procurement.orchestrator.domain.model.measure.Quantity
 import com.procurement.orchestrator.domain.model.organization.OrganizationId
 import com.procurement.orchestrator.domain.model.requirement.RequirementId
 import com.procurement.orchestrator.domain.model.requirement.RequirementResponseValue
-import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponseId
 import com.procurement.orchestrator.domain.model.tender.AwardCriteria
 import com.procurement.orchestrator.domain.model.tender.AwardCriteriaDetails
 import com.procurement.orchestrator.domain.model.tender.ProcurementMethodModality
@@ -246,7 +245,7 @@ object CreatePreAwardCatalogRequest {
                 }
 
                 data class RequirementResponse(
-                    @field:JsonProperty("id") @param:JsonProperty("id") val id: RequirementResponseId,
+                    @field:JsonProperty("id") @param:JsonProperty("id") val id: String,
 
                     @JsonDeserialize(using = RequirementValueDeserializer::class)
                     @JsonSerialize(using = RequirementValueSerializer::class)
