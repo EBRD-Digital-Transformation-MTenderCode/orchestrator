@@ -24,7 +24,7 @@ class UpdateOtherProcessRecordDelegate : DelegateVariableMapping {
         val relatedProcess = processInfo.relatedProcess!!
 
         val updatedProcessInfo = processInfo.copy(
-            relatedProcess = relatedProcess.copy(cpid = processInfo.cpid, ocid = processInfo.ocid),
+            relatedProcess = relatedProcess.copy(cpid = processInfo.cpid!!, ocid = processInfo.ocid),
             cpid = relatedProcess.cpid,
             ocid = relatedProcess.ocid!!
         )

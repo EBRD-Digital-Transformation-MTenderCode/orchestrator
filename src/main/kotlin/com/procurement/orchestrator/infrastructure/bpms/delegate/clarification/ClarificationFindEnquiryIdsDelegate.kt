@@ -57,8 +57,8 @@ class ClarificationFindEnquiryIdsDelegate(
         return clarificationClient.findEnquiryIds(
             id = commandId,
             params = FindEnquiryIdsAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
                 isAnswer = parameters.isAnswer
             )
         )

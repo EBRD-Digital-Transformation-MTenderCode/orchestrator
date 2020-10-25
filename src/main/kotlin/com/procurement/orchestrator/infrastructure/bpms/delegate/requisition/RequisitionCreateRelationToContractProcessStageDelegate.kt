@@ -47,8 +47,8 @@ class RequisitionCreateRelationToContractProcessStageActionDelegate(
         return requisitionClient.createRelationToContractProcessStage(
             id = commandId,
             params = CreateRelationToContractProcessStageAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
                 relatedOcid = processInfo.relatedProcess?.ocid,
                 operationType = processInfo.operationType
             )

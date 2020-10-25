@@ -22,7 +22,6 @@ import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExterna
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
-import com.procurement.orchestrator.infrastructure.client.web.qualification.QualificationCommands
 import com.procurement.orchestrator.infrastructure.client.web.qualification.action.FindRequirementResponseByIdsAction
 import org.springframework.stereotype.Component
 
@@ -56,8 +55,8 @@ class QualificationFindRequirementResponseByIdsDelegate(
         return qualificationClient.findRequirementResponseByIds(
             id = commandId,
             params = FindRequirementResponseByIdsAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
                 qualificationId = qualification.id,
                 requirementResponseIds = qualification.requirementResponses.map { it.id }
             )

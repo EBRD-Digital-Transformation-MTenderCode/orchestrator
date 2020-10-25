@@ -88,8 +88,8 @@ class RevisionCreateAmendmentDelegate(
         return client.createAmendment(
             id = commandId,
             params = CreateAmendmentAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
                 owner = owner,
                 operationType = processInfo.operationType,
                 date = requestInfo.timestamp,
