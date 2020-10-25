@@ -51,8 +51,8 @@ class EvaluationAddRequirementResponseDelegate(
         return evaluationClient.addRequirementResponse(
             id = commandId,
             params = AddRequirementResponseAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
                 award = AddRequirementResponseAction.Params.Award(
                     id = award.id,
                     requirementResponse = AddRequirementResponseAction.Params.Award.RequirementResponse(

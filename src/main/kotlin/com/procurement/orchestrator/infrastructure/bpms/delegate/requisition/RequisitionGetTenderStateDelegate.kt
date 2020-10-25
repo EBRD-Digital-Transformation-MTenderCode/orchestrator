@@ -46,8 +46,8 @@ class RequisitionGetTenderStateDelegate(
         return requisitionClient.getTenderState(
             id = commandId,
             params = GetTenderStateAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!
             )
         )
     }

@@ -50,8 +50,8 @@ class DossierFinalizeSubmissionsDelegate(
         return client.finalizeSubmissions(
             id = commandId,
             params = FinalizeSubmissionsAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
                 qualifications = qualifications.map {
                     FinalizeSubmissionsAction.Params.Qualification(
                         id = it.id,

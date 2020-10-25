@@ -72,8 +72,8 @@ class ClarificationGetEnquiryByIdsDelegate(
         return clarificationClient.getEnquiryByIds(
             id = commandId,
             params = GetEnquiryByIdsAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
                 enquiryIds = enquiryIds
             )
         )

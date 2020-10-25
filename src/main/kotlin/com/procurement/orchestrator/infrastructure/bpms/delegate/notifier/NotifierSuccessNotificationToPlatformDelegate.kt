@@ -103,8 +103,8 @@ class NotifierSuccessNotificationToPlatformDelegate(
             operationId = requestInfo.operationId,
             initiator = initiator(processInfo.operationType),
             data = PlatformNotification.Message.Success.Data(
-                ocid = processInfo.ocid,
-                url = generateUrl(processInfo.operationType, cpid = processInfo.cpid, ocid = processInfo.ocid),
+                ocid = processInfo.ocid!!,
+                url = generateUrl(processInfo.operationType, cpid = processInfo.cpid!!, ocid = processInfo.ocid),
                 operationDate = requestInfo.timestamp,
                 outcomes = outcomeDetails?.let { buildOutcomes(it) }
             )

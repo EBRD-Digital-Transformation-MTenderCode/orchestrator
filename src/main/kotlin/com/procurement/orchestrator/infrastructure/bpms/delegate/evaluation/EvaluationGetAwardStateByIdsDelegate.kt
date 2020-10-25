@@ -53,8 +53,8 @@ class EvaluationGetAwardStateByIdsDelegate(
         return evaluationClient.getAwardStateByIds(
             id = commandId,
             params = GetAwardStateByIdsAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
                 ids = awards.map { award -> award.id }
             )
         )
