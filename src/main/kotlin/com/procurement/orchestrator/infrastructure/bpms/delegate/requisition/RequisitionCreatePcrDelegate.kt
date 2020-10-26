@@ -95,10 +95,7 @@ class RequisitionCreatePcrDelegate(
         val tender = context.tryGetTender()
             .orReturnFail { return MaybeFail.fail(it) }
 
-        val updatedProcessInfo = processInfo.copy(
-            cpid = processInfo.relatedProcess!!.cpid,
-            ocid = data.ocid
-        )
+        val updatedProcessInfo = processInfo.copy(ocid = data.ocid)
 
         context.processInfo = updatedProcessInfo
 
