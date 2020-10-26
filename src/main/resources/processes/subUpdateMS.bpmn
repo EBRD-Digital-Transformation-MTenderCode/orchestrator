@@ -61,14 +61,14 @@
       <bpmn:incoming>SequenceFlow_18s7bzu</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_16j529z</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="RequisitionGetTenderStateTask" name="eRequisition:&#10;Get PCR state" camunda:asyncBefore="true" camunda:delegateExpression="${requisitionGetTenderStateDelegate}">
+    <bpmn:serviceTask id="RequisitionGetRelatedTenderStateTask" name="eRequisition:&#10;Get PCR state" camunda:asyncBefore="true" camunda:delegateExpression="${requisitionGetRelatedTenderStateDelegate}">
       <bpmn:incoming>SequenceFlow_1ahomwx</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0fpdtcl</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_1ahomwx" name="createPcr" sourceRef="ExclusiveGateway_1pbk6lp" targetRef="RequisitionGetTenderStateTask">
+    <bpmn:sequenceFlow id="SequenceFlow_1ahomwx" name="createPcr" sourceRef="ExclusiveGateway_1pbk6lp" targetRef="RequisitionGetRelatedTenderStateTask">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${processInfo.operationType == 'CREATE_PCR'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_0fpdtcl" sourceRef="RequisitionGetTenderStateTask" targetRef="RequisitionCreateRelationToContractProcessStageTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0fpdtcl" sourceRef="RequisitionGetRelatedTenderStateTask" targetRef="RequisitionCreateRelationToContractProcessStageTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0hvx7ej" sourceRef="RequisitionCreateRelationToContractProcessStageTask" targetRef="ExclusiveGateway_10h4q6q" />
     <bpmn:serviceTask id="RequisitionCreateRelationToContractProcessStageTask" name="eRequisition: Create relation to contract process stage" camunda:asyncBefore="true" camunda:delegateExpression="${requisitionCreateRelationToContractProcessStageDelegate}">
       <bpmn:incoming>SequenceFlow_0fpdtcl</bpmn:incoming>
@@ -298,19 +298,12 @@
       <bpmndi:BPMNShape id="ServiceTask_1dlya7q_di" bpmnElement="AccessGetTenderStateTask" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="600" y="230" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_1wbdv2l_di" bpmnElement="RequisitionGetTenderStateTask" bioc:stroke="black" bioc:fill="white">
+      <bpmndi:BPMNShape id="ServiceTask_1wbdv2l_di" bpmnElement="RequisitionGetRelatedTenderStateTask" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="600" y="340" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1jmceqz_di" bpmnElement="RequisitionCreateRelationToContractProcessStageTask" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="740" y="340" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_0lnsust_di" bpmnElement="TextAnnotation_0lnsust">
-        <dc:Bounds x="835" y="120" width="110" height="83" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="Association_0s34xde_di" bpmnElement="Association_0s34xde">
-        <di:waypoint x="898" y="230" />
-        <di:waypoint x="898" y="203" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="SubProcess_1823y69_di" bpmnElement="SubProcess_1823y69" isExpanded="true">
         <dc:Bounds x="208" y="460" width="571" height="180" />
       </bpmndi:BPMNShape>
@@ -378,6 +371,13 @@
       <bpmndi:BPMNShape id="EndEvent_0j0jks2_di" bpmnElement="EndEvent_0j0jks2">
         <dc:Bounds x="1192" y="536" width="36" height="36" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0lnsust_di" bpmnElement="TextAnnotation_0lnsust">
+        <dc:Bounds x="835" y="120" width="110" height="83" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_0s34xde_di" bpmnElement="Association_0s34xde">
+        <di:waypoint x="898" y="230" />
+        <di:waypoint x="898" y="203" />
+      </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn:definitions>
