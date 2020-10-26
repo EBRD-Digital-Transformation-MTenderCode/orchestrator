@@ -110,7 +110,7 @@
     <bpmn:serviceTask id="RequisitionCreatePcrTask" name="eRequisition: Create PCR" camunda:asyncBefore="true" camunda:delegateExpression="${requisitionCreatePcrDelegate}">
       <bpmn:extensionElements>
         <camunda:inputOutput>
-          <camunda:inputParameter name="stateFE">evaluation</camunda:inputParameter>
+          <camunda:inputParameter name="state">evaluation</camunda:inputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_14cfeyr</bpmn:incoming>
@@ -414,7 +414,7 @@
     <bpmn:serviceTask id="RequisitionCreatePcrSubmissionWayTask" name="eRequisition:&#10;create PCR " camunda:asyncBefore="true" camunda:delegateExpression="${requisitionCreatePcrDelegate}">
       <bpmn:extensionElements>
         <camunda:inputOutput>
-          <camunda:inputParameter name="stateFE">submission</camunda:inputParameter>
+          <camunda:inputParameter name="state">submission</camunda:inputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0drtwx6</bpmn:incoming>
