@@ -1,0 +1,72 @@
+{
+  "token": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "bids": {
+    "details": [
+      {
+        "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "status": "pending",
+        "statusDetails": "empty",
+        "date": "2020-10-26T18:11:40Z",
+        "tenderers": [
+          {
+            "id": "string",
+            "name": "string",
+            "identifier": {
+              "id": "string",
+              "legalName": "string",
+              "scheme": "string"
+            },
+            "additionalIdentifiers": [
+              {
+                "id": "string",
+                "legalName": "string",
+                "scheme": "string"
+              }
+            ],
+            "contactPoint": {
+              "name": "string",
+              "email": "string",
+              "telephone": "string"
+            },
+            "persones": [
+              {
+                "id": "string",
+                "title": "Mr",
+                "name": "string",
+                "identifier": {
+                  "scheme": "string",
+                  "id": "string"
+                },
+                "businessFunctions": [
+                  {
+                    "id": "string",
+                    "type": "authority",
+                    "jobTitle": "string",
+                    "period": {
+                      "startDate": "2020-10-26T18:11:40Z"
+                    }
+                  }
+                ]
+              }
+            ],
+            "details": {
+              "scale": "micro"
+            }
+          }
+        ],
+        "relatedLots": [
+          "string"
+        ],
+        "requirementResponses": [
+          {
+            "id": "string",
+            "value": "Unknown Type: string,number,integer,boolean",
+            "requirement": {
+              "id": "string"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
