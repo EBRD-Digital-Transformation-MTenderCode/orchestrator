@@ -116,7 +116,7 @@ abstract class CreateBidAction : FunctionalAction<CreateBidAction.Params, Create
                     @JsonInclude(JsonInclude.Include.NON_NULL)
                     @param:JsonProperty("identifier") @field:JsonProperty("identifier") val identifier: Identifier?,
 
-                    @JsonInclude(JsonInclude.Include.NON_NULL)
+                    @JsonInclude(JsonInclude.Include.NON_EMPTY)
                     @param:JsonProperty("additionalIdentifiers") @field:JsonProperty("additionalIdentifiers") val additionalIdentifiers: List<AdditionalIdentifier>?,
 
                     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -367,7 +367,8 @@ abstract class CreateBidAction : FunctionalAction<CreateBidAction.Params, Create
                             @JsonInclude(JsonInclude.Include.NON_NULL)
                             @param:JsonProperty("accountIdentification") @field:JsonProperty("accountIdentification") val accountIdentification: AccountIdentification?,
 
-                            @param:JsonProperty("additionalAccountIdentifiers") @field:JsonProperty("additionalAccountIdentifiers") val additionalAccountIdentifiers: List<AdditionalAccountIdentifier>
+                            @JsonInclude(JsonInclude.Include.NON_EMPTY)
+                            @param:JsonProperty("additionalAccountIdentifiers") @field:JsonProperty("additionalAccountIdentifiers") val additionalAccountIdentifiers: List<AdditionalAccountIdentifier>?
                         ) {
                             data class Address(
                                 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -566,7 +567,9 @@ abstract class CreateBidAction : FunctionalAction<CreateBidAction.Params, Create
                         @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
                         @param:JsonProperty("legalName") @field:JsonProperty("legalName") val legalName: String,
                         @param:JsonProperty("scheme") @field:JsonProperty("scheme") val scheme: String,
-                        @param:JsonProperty("uri") @field:JsonProperty("uri") val uri: String
+
+                        @JsonInclude(JsonInclude.Include.NON_NULL)
+                        @param:JsonProperty("uri") @field:JsonProperty("uri") val uri: String?
                     )
 
                     data class AdditionalIdentifier(
@@ -609,7 +612,9 @@ abstract class CreateBidAction : FunctionalAction<CreateBidAction.Params, Create
                                 @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
                                 @param:JsonProperty("description") @field:JsonProperty("description") val description: String,
                                 @param:JsonProperty("scheme") @field:JsonProperty("scheme") val scheme: String,
-                                @param:JsonProperty("uri") @field:JsonProperty("uri") val uri: String
+
+                                @JsonInclude(JsonInclude.Include.NON_NULL)
+                                @param:JsonProperty("uri") @field:JsonProperty("uri") val uri: String?
                             )
                         }
                     }
@@ -618,7 +623,9 @@ abstract class CreateBidAction : FunctionalAction<CreateBidAction.Params, Create
                         @param:JsonProperty("name") @field:JsonProperty("name") val name: String,
                         @param:JsonProperty("email") @field:JsonProperty("email") val email: String,
                         @param:JsonProperty("telephone") @field:JsonProperty("telephone") val telephone: String,
-                        @param:JsonProperty("faxNumber") @field:JsonProperty("faxNumber") val faxNumber: String,
+
+                        @JsonInclude(JsonInclude.Include.NON_NULL)
+                        @param:JsonProperty("faxNumber") @field:JsonProperty("faxNumber") val faxNumber: String?,
 
                         @JsonInclude(JsonInclude.Include.NON_NULL)
                         @param:JsonProperty("url") @field:JsonProperty("url") val url: String?
@@ -668,7 +675,7 @@ abstract class CreateBidAction : FunctionalAction<CreateBidAction.Params, Create
                         @param:JsonProperty("typeOfSupplier") @field:JsonProperty("typeOfSupplier") val typeOfSupplier: TypeOfSupplier?,
 
                         @JsonInclude(JsonInclude.Include.NON_NULL)
-                        @param:JsonProperty("mainEconomicActivities") @field:JsonProperty("mainEconomicActivities") val mainEconomicActivities: List<MainEconomicActivity>,
+                        @param:JsonProperty("mainEconomicActivities") @field:JsonProperty("mainEconomicActivities") val mainEconomicActivities: List<MainEconomicActivity>?,
 
                         @param:JsonProperty("scale") @field:JsonProperty("scale") val scale: Scale,
 
@@ -762,7 +769,9 @@ abstract class CreateBidAction : FunctionalAction<CreateBidAction.Params, Create
                                         @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
                                         @param:JsonProperty("description") @field:JsonProperty("description") val description: String,
                                         @param:JsonProperty("scheme") @field:JsonProperty("scheme") val scheme: String,
-                                        @param:JsonProperty("uri") @field:JsonProperty("uri") val uri: String
+
+                                        @JsonInclude(JsonInclude.Include.NON_NULL)
+                                        @param:JsonProperty("uri") @field:JsonProperty("uri") val uri: String?
                                     )
                                 }
                             }
@@ -835,7 +844,9 @@ abstract class CreateBidAction : FunctionalAction<CreateBidAction.Params, Create
 
                     data class Period(
                         @param:JsonProperty("startDate") @field:JsonProperty("startDate") val startDate: LocalDateTime,
-                        @param:JsonProperty("endDate") @field:JsonProperty("endDate") val endDate: LocalDateTime
+
+                        @JsonInclude(JsonInclude.Include.NON_NULL)
+                        @param:JsonProperty("endDate") @field:JsonProperty("endDate") val endDate: LocalDateTime?
                     )
                 }
             }
@@ -990,14 +1001,14 @@ fun CreateBidAction.Result.Bids.convertToDomainObject() : Bids =
                                     Details(
                                         typeOfSupplier = detail.typeOfSupplier,
                                         mainEconomicActivities = detail.mainEconomicActivities
-                                            .map { mainEconomicActivity ->
+                                            ?.map { mainEconomicActivity ->
                                                 MainEconomicActivity(
                                                     id = mainEconomicActivity.id,
                                                     scheme = mainEconomicActivity.scheme,
                                                     uri = mainEconomicActivity.uri,
                                                     description = mainEconomicActivity.description
                                                 )
-                                            }
+                                            }.orEmpty()
                                             .let { MainEconomicActivities(it) },
                                         scale = detail.scale,
                                         permits = detail.permits?.map { permit ->
