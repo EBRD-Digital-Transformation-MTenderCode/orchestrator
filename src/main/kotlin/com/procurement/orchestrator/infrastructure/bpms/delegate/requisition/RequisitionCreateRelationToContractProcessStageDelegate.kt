@@ -22,7 +22,7 @@ import com.procurement.orchestrator.infrastructure.configuration.property.Extern
 import org.springframework.stereotype.Component
 
 @Component
-class RequisitionCreateRelationToContractProcessStageActionDelegate(
+class RequisitionCreateRelationToContractProcessStageDelegate(
     logger: Logger,
     private val requisitionClient: RequisitionClient,
     operationStepRepository: OperationStepRepository,
