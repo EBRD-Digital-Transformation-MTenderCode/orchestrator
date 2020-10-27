@@ -84,7 +84,7 @@ object CreatePreAwardCatalogRequest {
                 data class Lot(
                     @field:JsonProperty("id") @param:JsonProperty("id") val id: String,
                     @field:JsonProperty("title") @param:JsonProperty("title") val title: String,
-                    @field:JsonProperty("variants") @param:JsonProperty("variants") val variants: Variant,
+                    @field:JsonProperty("variants") @param:JsonProperty("variants") val variants: List<Variant>,
                     @field:JsonProperty("classification") @param:JsonProperty("classification") val classification: Classification,
 
                     @JsonInclude(JsonInclude.Include.NON_NULL)
