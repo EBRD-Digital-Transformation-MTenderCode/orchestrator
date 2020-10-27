@@ -22,10 +22,12 @@
           "id": "string",
           "scheme": "string"
         },
-        "variants": {
-          "hasVariants": true,
-          "variantsDetails": "string"
-        }
+        "variants": [
+          {
+            "hasVariants": true,
+            "variantsDetails": "string"
+          }
+        ]
       }
     ],
     "items": [

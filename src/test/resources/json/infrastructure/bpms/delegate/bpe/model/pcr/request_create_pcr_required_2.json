@@ -10,11 +10,11 @@
       {
         "id": "d3732c09-7d62-4edc-a172-241da6636e7c",
         "title": "string",
-        "variants":
+        "variants": [
           {
             "hasVariants": true
           }
-        ,
+        ],
         "classification": {
           "id": "string",
           "scheme": "string"
