@@ -1136,7 +1136,8 @@ fun CreateBidAction.Result.Bids.convertToDomainObject() : Bids =
                             documentType = document.documentType,
                             id = document.id,
                             title = document.title,
-                            description = document.description
+                            description = document.description,
+                            relatedLots = RelatedLots(document.relatedLots.orEmpty())
                         )
                     }
                     .orEmpty()
