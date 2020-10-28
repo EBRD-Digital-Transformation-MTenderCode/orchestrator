@@ -361,7 +361,7 @@ class BpeInitializeSubmitBidInPcrProcessDelegate(
                             id = item.id,
                             unit = item.unit.let { unit ->
                                 Unit(
-                                    id = null,
+                                    id = unit.id,
                                     value = unit.value
                                         .let { value ->
                                             Value(
