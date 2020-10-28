@@ -23,7 +23,6 @@ import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.domain.model.address.Address
 import com.procurement.orchestrator.domain.model.address.locality.LocalityDetails
-import com.procurement.orchestrator.domain.model.bid.Bid
 import com.procurement.orchestrator.domain.model.bid.Bids
 import com.procurement.orchestrator.domain.model.bid.BidsDetails
 import com.procurement.orchestrator.domain.model.candidate.Candidates
@@ -78,18 +77,14 @@ class MdmEnrichLocalityDelegate(
     ): Result<List<EnrichLocalityAction.Params>, Fail.Incident> {
         val requestInfo = context.requestInfo
 
-        val submissions = context.tryGetSubmissions()
-            .orForwardFail { error -> return error }
-
-        val bids = context.bids?.details.orEmpty()
-
         return parameters.locations
             .flatMap { location ->
                 when (location) {
-                    Location.SUBMISSION -> getSubmissionAddresses(submissions)
-                    Location.BID -> getBidsAddresses(bids)
-                    Location.BID_BANK_ACCOUNTS -> getBidsBankAccountAddresses(bids)
+                    Location.SUBMISSION -> getSubmissionAddresses(context)
+                    Location.BID -> getBidsAddresses(context)
+                    Location.BID_BANK_ACCOUNTS -> getBidsBankAccountAddresses(context)
                 }
+                    .orForwardFail { fail -> return fail }
             }
             .toSet()
             .map { localityInfo -> getParams(requestInfo.language, localityInfo) }
@@ -185,19 +180,8 @@ class MdmEnrichLocalityDelegate(
         )
     }
 
-    private fun Organization.updateLocality(
-        enrichedLocalitiesById: Map<LocalityDetails, LocalityDetails>
-    ): Organization {
-        val oldLocality = this.address!!.addressDetails!!.locality
-        val enrichedLocality = enrichedLocalitiesById[oldLocality] ?: oldLocality
-        return this.copy(
-            address = this.address.copy(
-                addressDetails = this.address.addressDetails!!.copy(
-                    locality = enrichedLocality
-                )
-            )
-        )
-    }
+    private fun Organization.updateLocality(enrichedLocalitiesById: Map<LocalityDetails, LocalityDetails>): Organization =
+        this.copy(address = this.address?.updateLocality(enrichedLocalitiesById))
 
     private fun Address.updateLocality(enrichedLocalitiesById: Map<LocalityDetails, LocalityDetails>): Address {
         val oldLocality = this.addressDetails!!.locality
@@ -218,25 +202,40 @@ class MdmEnrichLocalityDelegate(
             localityId = address.localityId
         )
 
-    private fun getSubmissionAddresses(submissions: Submissions): List<LocalityInfo> =
-        submissions.details
+    private fun getSubmissionAddresses(context: GlobalContext): Result<List<LocalityInfo>, Fail.Incident> {
+        val submissions = context.tryGetSubmissions()
+            .orForwardFail { fail -> return fail }
+
+        return submissions.details
             .flatMap { submission -> submission.candidates }
             .map { candidate -> getLocalityInfo(candidate.address!!) }
+            .asSuccess()
+    }
 
-    private fun getBidsAddresses(bids: List<Bid>): List<LocalityInfo> =
-        bids
+    private fun getBidsAddresses(context: GlobalContext): Result<List<LocalityInfo>, Fail.Incident> {
+        val bids = context.bids
+            ?: return failure(Fail.Incident.Bpms.Context.Missing(name = "bids"))
+
+        return bids.details
             .flatMap { bid -> bid.tenderers }
             .map { candidate -> getLocalityInfo(candidate.address!!) }
+            .asSuccess()
+    }
 
-    private fun getBidsBankAccountAddresses(bids: List<Bid>): List<LocalityInfo> =
-        bids.asSequence()
+    private fun getBidsBankAccountAddresses(context: GlobalContext): Result<List<LocalityInfo>, Fail.Incident> {
+        val bids = context.bids
+            ?: return failure(Fail.Incident.Bpms.Context.Missing(name = "bids"))
+
+        return bids.details.asSequence()
             .flatMap { bid -> bid.tenderers.asSequence() }
-            .mapNotNull { tenderer -> tenderer.details }
+            .map { tenderer -> tenderer.details!! }
             .flatMap { q -> q.bankAccounts.asSequence() }
             .map { bankAccount -> getLocalityInfo(bankAccount.address!!) }
             .toList()
+            .asSuccess()
+    }
 
-    private val getLocalityInfo : (Address) -> LocalityInfo = { address ->
+    private val getLocalityInfo: (Address) -> LocalityInfo = { address ->
         val country = address.addressDetails!!.country
         val region = address.addressDetails.region
         val locality = address.addressDetails.locality
@@ -324,6 +323,11 @@ class MdmEnrichLocalityDelegate(
     }
 
     data class Parameters(val locations: List<Location>)
-    private data class LocalityInfo(val countryId: String, val regionId: String, val localityId: String, val scheme: String)
+    private data class LocalityInfo(
+        val countryId: String,
+        val regionId: String,
+        val localityId: String,
+        val scheme: String
+    )
 }
 
