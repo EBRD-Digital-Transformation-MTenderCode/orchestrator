@@ -100,8 +100,8 @@ class QualificationFindQualificationIdsDelegate(
         return qualificationClient.findQualificationIds(
             id = commandId,
             params = FindQualificationIdsAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
                 states = states
 
             )

@@ -74,8 +74,8 @@ class DossierGetSubmissionsForTenderingDelegate(
         return dossierClient.getSubmissionsForTendering(
             id = commandId,
             params = GetSubmissionsForTenderingAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
                 operationType = processInfo.operationType,
                 pmd = processInfo.pmd,
                 country = requestInfo.country

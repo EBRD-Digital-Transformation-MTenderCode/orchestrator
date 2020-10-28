@@ -93,8 +93,8 @@ class RevisionSetStateForAmendmentDelegate(
         return client.setStateForAmendment(
             id = commandId,
             params = SetStateForAmendmentAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
                 amendment = SetStateForAmendmentAction.Params.Amendment(
                     id = id,
                     status = parameters.status

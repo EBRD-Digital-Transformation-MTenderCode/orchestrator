@@ -52,11 +52,11 @@
       {
         "id": "d3732c09-7d62-4edc-a172-241da6636e7c",
         "title": "string",
-        "variants":
+        "variants": [
           {
             "hasVariants": true
           }
-        ,
+        ],
         "classification": {
           "id": "string",
           "scheme": "string"
@@ -81,11 +81,12 @@
     "tenderPeriod": {
       "endDate": "2020-10-15T09:50:25Z"
     },
-    "documents": [{
-      "id": "string",
-      "title": "string",
-      "documentType": "tenderNotice"
-    }
+    "documents": [
+      {
+        "id": "string",
+        "title": "string",
+        "documentType": "tenderNotice"
+      }
     ],
     "electronicAuctions": {
       "details": [

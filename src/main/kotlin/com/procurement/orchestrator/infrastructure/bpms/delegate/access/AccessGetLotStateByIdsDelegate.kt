@@ -53,8 +53,8 @@ class AccessGetLotStateByIdsDelegate(
         return accessClient.getLotStateByIds(
             id = commandId,
             params = GetLotStateByIdsAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
                 ids = tender.lots
                     .map { lot -> lot.id }
             )

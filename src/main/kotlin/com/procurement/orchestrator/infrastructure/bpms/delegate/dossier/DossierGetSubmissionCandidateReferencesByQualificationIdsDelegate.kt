@@ -52,8 +52,8 @@ class DossierGetSubmissionCandidateReferencesByQualificationIdsDelegate(
         return dossierClient.getSubmissionCandidateReferencesByQualificationIds(
             id = commandId,
             params = GetSubmissionCandidateReferencesByQualificationIdsAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
                 qualifications = qualifications.map {
                     GetSubmissionCandidateReferencesByQualificationIdsAction.Params.Qualification(
                         id = it.id,

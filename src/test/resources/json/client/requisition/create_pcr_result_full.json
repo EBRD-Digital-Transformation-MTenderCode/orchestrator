@@ -1,0 +1,156 @@
+{
+  "ocid": "ocds-b3wdp1-MD-1580458690892-EV-1580458791896",
+  "token": "c3bdd497-ac2d-4e25-bd7f-cd55111aa7b4",
+  "tender": {
+    "id": "id",
+    "status": "active",
+    "statusDetails": "empty",
+    "date": "2020-10-20T11:54:45Z",
+    "title": "string",
+    "description": "string",
+    "value": {
+      "currency": "string"
+    },
+    "classification": {
+      "id": "string",
+      "scheme": "string",
+      "description": "string"
+    },
+    "awardCriteria": "priceOnly",
+    "awardCriteriaDetails": "manual",
+    "lots": [
+      {
+        "id": "string",
+        "internalId": "string",
+        "title": "string",
+        "description": "string",
+        "classification": {
+          "id": "string",
+          "scheme": "string",
+          "description": "string"
+        },
+        "variants": [
+          {
+            "hasVariants": true,
+            "variantsDetails": "string"
+          }
+        ]
+      }
+    ],
+    "items": [
+      {
+        "id": "string",
+        "internalId": "string",
+        "description": "string",
+        "quantity": 12.321,
+        "classification": {
+          "id": "string",
+          "scheme": "string",
+          "description": "string"
+        },
+        "unit": {
+          "id": "string",
+          "name": "string"
+        },
+        "relatedLot": "string"
+      }
+    ],
+    "targets": [
+      {
+        "id": "string",
+        "title": "string",
+        "relatesTo": "string",
+        "relatedItem": "string",
+        "observations": [
+          {
+            "id": "string",
+            "period": {
+              "startDate": "2019-05-06T12:00:00Z",
+              "endDate": "2019-05-08T12:00:00Z"
+            },
+            "measure": "string",
+            "unit": {
+              "id": "string",
+              "name": "string"
+            },
+            "dimensions": {
+              "requirementClassIdPR": "string"
+            },
+            "notes": "string",
+            "relatedRequirementId": "string"
+          }
+        ]
+      }
+    ],
+    "criteria": [
+      {
+        "id": "string",
+        "title": "string",
+        "description": "string",
+        "relatedItem": "string",
+        "relatesTo": "tenderer",
+        "source": "tenderer",
+        "requirementGroups": [
+          {
+            "id": "string",
+            "description": "string",
+            "requirements": [
+              {
+                "id": "d3732c09-7d62-4edc-a172-241da6636e7c",
+                "title": "string",
+                "description": "string",
+                "period": {
+                  "startDate": "2019-05-06T12:00:00Z",
+                  "endDate": "2019-05-09T12:00:00Z"
+                },
+                "dataType": "string",
+                "expectedValue": "string"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "conversions": [
+      {
+        "id": "d3732c09-7d62-4edc-a172-241da6636e7c",
+        "relatedItem": "string",
+        "relatesTo": "requirement",
+        "description": "string",
+        "rationale": "string",
+        "coefficients": [
+          {
+            "value": 1,
+            "id": "string",
+            "coefficient": 1.2
+          }
+        ]
+      }
+    ],
+    "procurementMethodModalities": [
+      "string"
+    ],
+    "documents": [
+      {
+        "id": "string",
+        "title": "string",
+        "documentType": "clarifications",
+        "description": "string",
+        "relatedLots": [
+          "string"
+        ]
+      }
+    ]
+  },
+  "relatedProcesses": [
+    {
+      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "relationship": [
+        "parent"
+      ],
+      "scheme": "ocid",
+      "identifier": "string",
+      "uri": "string"
+    }
+  ]
+}

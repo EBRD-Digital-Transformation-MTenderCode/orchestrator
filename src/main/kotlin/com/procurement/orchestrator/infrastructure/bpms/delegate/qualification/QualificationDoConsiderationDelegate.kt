@@ -48,8 +48,8 @@ class QualificationDoConsiderationDelegate(
         return qualificationClient.doConsideration(
             id = commandId,
             params = DoConsiderationAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
                 qualifications = listOf(DoConsiderationAction.Params.Qualification(qualification.id))
             )
         )
