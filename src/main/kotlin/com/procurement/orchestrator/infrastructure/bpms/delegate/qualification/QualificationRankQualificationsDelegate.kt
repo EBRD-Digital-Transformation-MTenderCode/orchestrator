@@ -57,8 +57,8 @@ class QualificationRankQualificationsDelegate(
         return qualificationClient.rankQualifications(
             id = commandId,
             params = RankQualificationsAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
                 submissions = contextSubmissions.map { submission ->
                     RankQualificationsAction.Params.Submission(
                         id = submission.id,

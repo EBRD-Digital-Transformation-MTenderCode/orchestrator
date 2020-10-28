@@ -103,8 +103,8 @@ class RevisionFindAmendmentIdsDelegate(
     ): Result<Reply<FindAmendmentIdsAction.Result>, Fail.Incident> {
 
         val processInfo = context.processInfo
-        val cpid = processInfo.cpid
-        val ocid = processInfo.ocid
+        val cpid = processInfo.cpid!!
+        val ocid = processInfo.ocid!!
 
         val relatedItems: List<String> = if (parameters.sendRelatedItem)
             when (parameters.relatesTo) {

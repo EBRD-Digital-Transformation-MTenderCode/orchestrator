@@ -17,8 +17,12 @@ class PlatformRequest(
 ) {
 
     class Context(
-        @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid,
-        @field:JsonProperty("ocid") @param:JsonProperty("ocid") val ocid: Ocid,
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid? = null,
+
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        @field:JsonProperty("ocid") @param:JsonProperty("ocid") val ocid: Ocid? = null,
+
         @field:JsonProperty("token") @param:JsonProperty("token") val token: Token? = null,
         @field:JsonProperty("owner") @param:JsonProperty("owner") val owner: Owner,
         @field:JsonProperty("id") @param:JsonProperty("id") val id: String? = null,
