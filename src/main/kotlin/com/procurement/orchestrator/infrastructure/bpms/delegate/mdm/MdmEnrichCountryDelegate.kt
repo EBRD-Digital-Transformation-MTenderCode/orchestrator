@@ -223,7 +223,7 @@ class MdmEnrichCountryDelegate(
     private fun getBidsBankAccountAddresses(bids: List<Bid>): List<CountryInfo> =
         bids.asSequence()
             .flatMap { bid -> bid.tenderers.asSequence() }
-            .mapNotNull { tenderer -> tenderer.details }
+            .map { tenderer -> tenderer.details!! }
             .flatMap { q -> q.bankAccounts.asSequence() }
             .map { bankAccount -> getCountryInfo(bankAccount.address!!) }
             .toList()
