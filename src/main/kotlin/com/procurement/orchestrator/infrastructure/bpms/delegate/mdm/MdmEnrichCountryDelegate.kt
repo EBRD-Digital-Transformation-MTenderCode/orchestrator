@@ -22,7 +22,6 @@ import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.domain.model.address.Address
 import com.procurement.orchestrator.domain.model.address.country.CountryDetails
-import com.procurement.orchestrator.domain.model.bid.Bid
 import com.procurement.orchestrator.domain.model.bid.Bids
 import com.procurement.orchestrator.domain.model.bid.BidsDetails
 import com.procurement.orchestrator.domain.model.candidate.Candidates
@@ -77,18 +76,14 @@ class MdmEnrichCountryDelegate(
     ): Result<List<EnrichCountryAction.Params>, Fail.Incident> {
         val requestInfo = context.requestInfo
 
-        val submissions = context.tryGetSubmissions()
-            .orForwardFail { error -> return error }
-
-        val bids = context.bids?.details.orEmpty()
-
         return parameters.locations
             .flatMap { location ->
                 when (location) {
-                    Location.SUBMISSION -> getSubmissionAddresses(submissions)
-                    Location.BID -> getBidsAddresses(bids)
-                    Location.BID_BANK_ACCOUNTS -> getBidsBankAccountAddresses(bids)
+                    Location.SUBMISSION -> getSubmissionAddresses(context)
+                    Location.BID -> getBidsAddresses(context)
+                    Location.BID_BANK_ACCOUNTS -> getBidsBankAccountAddresses(context)
                 }
+                    .orForwardFail { fail -> return fail }
             }
             .toSet()
             .map { countryInfo -> getParams(requestInfo.language, countryInfo) }
@@ -210,23 +205,38 @@ class MdmEnrichCountryDelegate(
             countryId = address.id
         )
 
-    private fun getSubmissionAddresses(submissions: Submissions): List<CountryInfo> =
-        submissions.details
+    private fun getSubmissionAddresses(context: GlobalContext): Result<List<CountryInfo>, Fail.Incident> {
+        val submissions = context.tryGetSubmissions()
+            .orForwardFail { error -> return error }
+
+        return submissions.details
             .flatMap { submission -> submission.candidates }
             .map { candidate -> getCountryInfo(candidate.address!!) }
+            .asSuccess()
+    }
 
-    private fun getBidsAddresses(bids: List<Bid>): List<CountryInfo> =
-        bids
+    private fun getBidsAddresses(context: GlobalContext): Result<List<CountryInfo>, Fail.Incident> {
+        val bids = context.bids
+            ?: return failure(Fail.Incident.Bpms.Context.Missing(name = "bids"))
+
+        return bids.details
             .flatMap { bid -> bid.tenderers }
             .map { candidate -> getCountryInfo(candidate.address!!) }
+            .asSuccess()
+    }
 
-    private fun getBidsBankAccountAddresses(bids: List<Bid>): List<CountryInfo> =
-        bids.asSequence()
+    private fun getBidsBankAccountAddresses(context: GlobalContext): Result<List<CountryInfo>, Fail.Incident> {
+        val bids = context.bids
+            ?: return failure(Fail.Incident.Bpms.Context.Missing(name = "bids"))
+
+        return bids.details.asSequence()
             .flatMap { bid -> bid.tenderers.asSequence() }
             .map { tenderer -> tenderer.details!! }
             .flatMap { q -> q.bankAccounts.asSequence() }
             .map { bankAccount -> getCountryInfo(bankAccount.address!!) }
             .toList()
+            .asSuccess()
+    }
 
     private val getCountryInfo: (Address) -> CountryInfo = { address ->
         val country = address.addressDetails!!.country
