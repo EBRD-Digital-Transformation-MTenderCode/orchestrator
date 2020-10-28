@@ -395,6 +395,8 @@ abstract class ValidateBidDataAction : ProceduralAction<ValidateBidDataAction.Pa
                     @param:JsonProperty("unit") @field:JsonProperty("unit") val unit: Unit?
                 ) {
                     data class Unit(
+                        @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
+
                         @JsonInclude(JsonInclude.Include.NON_NULL)
                         @param:JsonProperty("value") @field:JsonProperty("value") val value: Value?
                     ) {
@@ -424,8 +426,16 @@ abstract class ValidateBidDataAction : ProceduralAction<ValidateBidDataAction.Pa
             )
 
             data class Item(
-                @param:JsonProperty("id") @field:JsonProperty("id") val id: ItemId
-            )
+                @param:JsonProperty("id") @field:JsonProperty("id") val id: ItemId,
+
+                @JsonInclude(JsonInclude.Include.NON_NULL)
+                @param:JsonProperty("unit") @field:JsonProperty("unit") val unit: Unit?
+            ){
+                data class Unit(
+                    @JsonInclude(JsonInclude.Include.NON_NULL)
+                    @param:JsonProperty("id") @field:JsonProperty("id") val id: String?
+                )
+            }
         }
     }
 }

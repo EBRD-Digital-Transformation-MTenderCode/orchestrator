@@ -307,6 +307,7 @@ class SubmissionValidateBidDataDelegate(
                                     id = item.id,
                                     unit = item.unit?.let { unit ->
                                         ValidateBidDataAction.Params.Bids.Detail.Item.Unit(
+                                            id = unit.id,
                                             value = unit.value
                                                 ?.let { value ->
                                                     ValidateBidDataAction.Params.Bids.Detail.Item.Unit.Value(
@@ -329,7 +330,12 @@ class SubmissionValidateBidDataDelegate(
                             )
                         },
                     procurementMethodModalities = tender.procurementMethodModalities,
-                    items = tender.items.map { ValidateBidDataAction.Params.Tender.Item(it.id) }
+                    items = tender.items.map { item ->
+                        ValidateBidDataAction.Params.Tender.Item(
+                            id = item.id,
+                            unit = item.unit?.let { ValidateBidDataAction.Params.Tender.Item.Unit(it.id) }
+                        )
+                    }
                 )
             )
         )
