@@ -53,6 +53,7 @@ class SubmissionCreateBidDataDelegate(
             params = CreateBidAction.Params(
                 cpid = processInfo.cpid,
                 ocid = processInfo.ocid,
+                owner = requestInfo.owner,
                 date = requestInfo.timestamp,
                 bids = bids.details.map { bid ->
                     CreateBidAction.Params.Bids.Detail(

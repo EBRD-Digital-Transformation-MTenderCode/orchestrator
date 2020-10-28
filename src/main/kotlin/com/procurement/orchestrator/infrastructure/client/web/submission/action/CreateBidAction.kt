@@ -2,6 +2,7 @@ package com.procurement.orchestrator.infrastructure.client.web.submission.action
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.procurement.orchestrator.application.model.Owner
 import com.procurement.orchestrator.application.model.Token
 import com.procurement.orchestrator.application.service.FunctionalAction
 import com.procurement.orchestrator.domain.model.Cpid
@@ -76,6 +77,7 @@ abstract class CreateBidAction : FunctionalAction<CreateBidAction.Params, Create
         @JsonInclude(JsonInclude.Include.NON_NULL)
         @param:JsonProperty("ocid") @field:JsonProperty("ocid") val ocid: Ocid?,
 
+        @param:JsonProperty("owner") @field:JsonProperty("owner") val owner: Owner,
         @param:JsonProperty("bids") @field:JsonProperty("bids") val bids: Bids,
         @param:JsonProperty("date") @field:JsonProperty("date") val date: LocalDateTime
     ) {
