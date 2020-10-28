@@ -1,6 +1,7 @@
 {
   "cpid": "ocds-b3wdp1-MD-1580458690892",
   "ocid": "ocds-b3wdp1-MD-1580458690892-EV-1580458791896",
+  "owner": "c63f170e-7589-4597-bd1a-7083a30f90ee",
   "bids": {
     "details": [
       {
@@ -170,9 +171,6 @@
             "value": "Unknown Type: string,number,integer,boolean",
             "requirement": {
               "id": "string"
-            },
-            "period": {
-              "startDate": "2020-10-26T15:18:43Z"
             }
           }
         ]

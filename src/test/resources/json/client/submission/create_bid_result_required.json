@@ -152,7 +152,7 @@
           }
         ],
         "relatedLots": [
-          "string"
+          "3dd29d1e-80e8-4751-a31d-c3bba5340ba4"
         ],
         "documents": [
           {
@@ -163,13 +163,10 @@
         ],
         "requirementResponses": [
           {
-            "id": "string",
+            "id": "45f08dc8-2643-4472-b0ae-e4719ea5ab02",
             "value": "Unknown Type: string,number,integer,boolean",
             "requirement": {
               "id": "string"
-            },
-            "period": {
-              "startDate": "2020-10-26T18:11:40Z"
             }
           }
         ]

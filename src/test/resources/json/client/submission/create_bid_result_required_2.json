@@ -16,13 +16,28 @@
               "legalName": "string",
               "scheme": "string"
             },
-            "additionalIdentifiers": [
-              {
-                "id": "string",
-                "legalName": "string",
-                "scheme": "string"
+            "address": {
+              "streetAddress": "string",
+              "addressDetails": {
+                "country": {
+                  "id": "string",
+                  "description": "string",
+                  "scheme": "string",
+                  "uri": "string"
+                },
+                "region": {
+                  "id": "string",
+                  "description": "string",
+                  "scheme": "string",
+                  "uri": "string"
+                },
+                "locality": {
+                  "id": "string",
+                  "description": "string",
+                  "scheme": "string"
+                }
               }
-            ],
+            },
             "contactPoint": {
               "name": "string",
               "email": "string",
@@ -34,7 +49,7 @@
           }
         ],
         "relatedLots": [
-          "string"
+          "c0ae84ad-5968-4405-b39b-7db44962e98a"
         ]
       }
     ]
