@@ -22,7 +22,6 @@ import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.domain.model.address.Address
 import com.procurement.orchestrator.domain.model.address.region.RegionDetails
-import com.procurement.orchestrator.domain.model.bid.Bid
 import com.procurement.orchestrator.domain.model.bid.Bids
 import com.procurement.orchestrator.domain.model.bid.BidsDetails
 import com.procurement.orchestrator.domain.model.candidate.Candidates
@@ -77,18 +76,14 @@ class MdmEnrichRegionDelegate(
     ): Result<List<EnrichRegionAction.Params>, Fail.Incident> {
         val requestInfo = context.requestInfo
 
-        val submissions = context.tryGetSubmissions()
-            .orForwardFail { error -> return error }
-
-        val bids = context.bids?.details.orEmpty()
-
         return parameters.locations
             .flatMap { location ->
                 when (location) {
-                    Location.SUBMISSION -> getSubmissionAddresses(submissions)
-                    Location.BID -> getBidsAddresses(bids)
-                    Location.BID_BANK_ACCOUNTS -> getBidsBankAccountAddresses(bids)
+                    Location.SUBMISSION -> getSubmissionAddresses(context)
+                    Location.BID -> getBidsAddresses(context)
+                    Location.BID_BANK_ACCOUNTS -> getBidsBankAccountAddresses(context)
                 }
+                    .orForwardFail { fail -> return fail }
             }
             .toSet()
             .map { regionInfo -> getParams(requestInfo.language, regionInfo) }
@@ -182,15 +177,8 @@ class MdmEnrichRegionDelegate(
         )
     }
 
-    private fun Organization.updateRegion(enrichedRegionesById: Map<RegionDetails, RegionDetails>): Organization {
-        val oldRegion = this.address!!.addressDetails!!.region
-        val enrichedRegion = enrichedRegionesById.getValue(oldRegion)
-        return this.copy(
-            address = this.address.copy(
-                addressDetails = this.address.addressDetails!!.copy(region = enrichedRegion)
-            )
-        )
-    }
+    private fun Organization.updateRegion(enrichedRegionesById: Map<RegionDetails, RegionDetails>): Organization =
+        this.copy(address = this.address?.updateRegion(enrichedRegionesById))
 
     private fun Address.updateRegion(enrichedRegionesById: Map<RegionDetails, RegionDetails>): Address {
         val oldRegion = this.addressDetails!!.region
@@ -202,25 +190,40 @@ class MdmEnrichRegionDelegate(
         )
     }
 
-    private fun getSubmissionAddresses(submissions: Submissions): List<RegionInfo> =
-        submissions.details
+    private fun getSubmissionAddresses(context: GlobalContext): Result<List<RegionInfo>, Fail.Incident> {
+        val submissions = context.tryGetSubmissions()
+            .orForwardFail { fail -> return fail }
+
+        return submissions.details
             .flatMap { submission -> submission.candidates }
-            .map { candidate -> getLocalityInfo(candidate.address!!) }
+            .map { candidate -> getRegionInfo(candidate.address!!) }
+            .asSuccess()
+    }
 
-    private fun getBidsAddresses(bids: List<Bid>): List<RegionInfo> =
-        bids
+    private fun getBidsAddresses(context: GlobalContext): Result<List<RegionInfo>, Fail.Incident> {
+        val bids = context.bids
+            ?: return failure(Fail.Incident.Bpms.Context.Missing(name = "bids"))
+
+        return bids.details
             .flatMap { bid -> bid.tenderers }
-            .map { candidate -> getLocalityInfo(candidate.address!!) }
+            .map { candidate -> getRegionInfo(candidate.address!!) }
+            .asSuccess()
+    }
 
-    private fun getBidsBankAccountAddresses(bids: List<Bid>): List<RegionInfo> =
-        bids.asSequence()
+    private fun getBidsBankAccountAddresses(context: GlobalContext): Result<List<RegionInfo>, Fail.Incident> {
+        val bids = context.bids
+            ?: return failure(Fail.Incident.Bpms.Context.Missing(name = "bids"))
+
+        return bids.details.asSequence()
             .flatMap { bid -> bid.tenderers.asSequence() }
-            .mapNotNull { tenderer -> tenderer.details }
+            .map { tenderer -> tenderer.details!! }
             .flatMap { q -> q.bankAccounts.asSequence() }
-            .map { bankAccount -> getLocalityInfo(bankAccount.address!!) }
+            .map { bankAccount -> getRegionInfo(bankAccount.address!!) }
             .toList()
+            .asSuccess()
+    }
 
-    private val getLocalityInfo: (Address) -> RegionInfo = { address ->
+    private val getRegionInfo: (Address) -> RegionInfo = { address ->
         val country = address.addressDetails!!.country
         val region = address.addressDetails.region
         RegionInfo(countryId = country.id, regionId = region.id, scheme = region.scheme)
