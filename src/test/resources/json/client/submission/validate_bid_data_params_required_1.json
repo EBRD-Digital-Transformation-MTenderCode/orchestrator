@@ -12,6 +12,27 @@
               "legalName": "string",
               "scheme": "string"
             },
+            "address": {
+              "streetAddress": "string",
+              "postalCode": "string",
+              "addressDetails": {
+                "country": {
+                  "id": "string",
+                  "description": "string",
+                  "scheme": "string"
+                },
+                "region": {
+                  "id": "string",
+                  "description": "string",
+                  "scheme": "string"
+                },
+                "locality": {
+                  "id": "string",
+                  "description": "string",
+                  "scheme": "string"
+                }
+              }
+            },
             "contactPoint": {
               "name": "string",
               "email": "string",
