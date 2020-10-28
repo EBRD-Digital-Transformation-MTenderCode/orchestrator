@@ -58,8 +58,8 @@ class QualificationDoQualificationDelegate(
         return qualificationClient.doQualification(
             id = commandId,
             params = DoQualificationAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
                 date = requestInfo.timestamp,
                 qualifications = listOf(
                     DoQualificationAction.Params.Qualification(

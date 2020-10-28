@@ -46,8 +46,8 @@ class QualificationSetQualificationPeriodEndDelegate(
         return qualificationClient.setQualificationPeriodEnd(
             id = commandId,
             params = SetQualificationPeriodEndAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
                 date = requestInfo.timestamp
             )
         )
