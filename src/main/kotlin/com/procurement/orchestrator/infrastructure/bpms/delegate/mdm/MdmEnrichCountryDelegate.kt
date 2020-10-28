@@ -176,17 +176,8 @@ class MdmEnrichCountryDelegate(
         )
     }
 
-    private fun Organization.updateCountry(
-        enrichedCountriesById: Map<CountryDetails, CountryDetails>
-    ): Organization {
-        val oldCountry = this.address!!.addressDetails!!.country
-        val enrichedCountry = enrichedCountriesById.getValue(oldCountry)
-        return this.copy(
-            address = this.address.copy(
-                addressDetails = this.address.addressDetails!!.copy(country = enrichedCountry)
-            )
-        )
-    }
+    private fun Organization.updateCountry(enrichedCountriesById: Map<CountryDetails, CountryDetails>): Organization =
+        this.copy(address = this.address?.updateCountry(enrichedCountriesById))
 
     private fun Address.updateCountry(enrichedCountriesById: Map<CountryDetails, CountryDetails>): Address {
         val oldCountry = this.addressDetails!!.country
