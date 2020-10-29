@@ -136,8 +136,7 @@ abstract class ValidatePcrDataAction : ProceduralAction<ValidatePcrDataAction.Pa
                 @field:JsonProperty("internalId") @param:JsonProperty("internalId") val internalId: String?
             ) {
                 data class Unit(
-                    @JsonInclude(JsonInclude.Include.NON_NULL)
-                    @field:JsonProperty("id") @param:JsonProperty("id") val id: String?
+                    @field:JsonProperty("id") @param:JsonProperty("id") val id: String
                 )
             }
 
@@ -195,8 +194,7 @@ abstract class ValidatePcrDataAction : ProceduralAction<ValidatePcrDataAction.Pa
                     )
 
                     data class ObservationUnit(
-                        @JsonInclude(JsonInclude.Include.NON_NULL)
-                        @field:JsonProperty("id") @param:JsonProperty("id") val id: String?
+                        @field:JsonProperty("id") @param:JsonProperty("id") val id: String
                     )
                 }
             }

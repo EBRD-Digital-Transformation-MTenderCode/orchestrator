@@ -309,7 +309,7 @@ class MdmEnrichUnitsDelegate(
                 if (unit == null)
                     return failure(Fail.Incident.Bpms.Context.Missing(name = "unit", path = "#.items[id:${item.id}]"))
                 else
-                    unit.id ?: return failure(Fail.Incident.Bpms.Context.Empty(name = "unit.id", path = "#.items[id:${item.id}]"))
+                    unit.id
             }
             .asSuccess()
     }
@@ -344,7 +344,7 @@ class MdmEnrichUnitsDelegate(
                         )
                     )
                 else
-                    unit.id ?: return failure(Fail.Incident.Bpms.Context.Empty(name = "unit.id", path = "#.targets[].observation[id:${observation.id}]"))
+                    unit.id
             }
             .asSuccess()
     }
@@ -379,13 +379,7 @@ class MdmEnrichUnitsDelegate(
                     )
                 )
             else
-                unit.id ?:
-                return failure(
-                    Fail.Incident.Bpms.Context.Missing(
-                        name = "id",
-                        path = "#.bids.details[].items[id:${item.id}].uint"
-                    )
-                )
+                unit.id
         }
 
         return success(unitIds)

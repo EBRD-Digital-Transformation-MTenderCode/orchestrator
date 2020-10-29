@@ -194,8 +194,7 @@ abstract class CreatePcrAction : FunctionalAction<CreatePcrAction.Params, Create
 
             ) {
                 data class Unit(
-                    @JsonInclude(JsonInclude.Include.NON_NULL)
-                    @field:JsonProperty("id") @param:JsonProperty("id") val id: String?,
+                    @field:JsonProperty("id") @param:JsonProperty("id") val id: String,
 
                     @JsonInclude(JsonInclude.Include.NON_NULL)
                     @field:JsonProperty("name") @param:JsonProperty("name") val name: String?
@@ -256,8 +255,7 @@ abstract class CreatePcrAction : FunctionalAction<CreatePcrAction.Params, Create
                     )
 
                     data class ObservationUnit(
-                        @JsonInclude(JsonInclude.Include.NON_NULL)
-                        @field:JsonProperty("id") @param:JsonProperty("id") val id: String?,
+                        @field:JsonProperty("id") @param:JsonProperty("id") val id: String,
 
                         @JsonInclude(JsonInclude.Include.NON_NULL)
                         @field:JsonProperty("name") @param:JsonProperty("name") val name: String?

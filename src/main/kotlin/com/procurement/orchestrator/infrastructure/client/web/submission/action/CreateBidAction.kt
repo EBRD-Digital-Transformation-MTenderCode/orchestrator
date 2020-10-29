@@ -474,8 +474,7 @@ abstract class CreateBidAction : FunctionalAction<CreateBidAction.Params, Create
                     @param:JsonProperty("unit") @field:JsonProperty("unit") val unit: Unit?
                 ) {
                     data class Unit(
-                        @JsonInclude(JsonInclude.Include.NON_NULL)
-                        @param:JsonProperty("id") @field:JsonProperty("id") val id: String?,
+                        @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
 
                         @JsonInclude(JsonInclude.Include.NON_NULL)
                         @param:JsonProperty("name") @field:JsonProperty("name") val name: String?,
