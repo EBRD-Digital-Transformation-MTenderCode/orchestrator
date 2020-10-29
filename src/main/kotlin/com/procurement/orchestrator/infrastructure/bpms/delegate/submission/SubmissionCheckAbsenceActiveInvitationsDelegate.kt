@@ -39,7 +39,7 @@ class SubmissionCheckAbsenceActiveInvitationsDelegate(
         return client.checkAbsenceActiveInvitations(
             id = commandId,
             params = CheckAbsenceActiveInvitationsAction.Params(
-                cpid = processInfo.cpid
+                cpid = processInfo.cpid!!
             )
         )
     }

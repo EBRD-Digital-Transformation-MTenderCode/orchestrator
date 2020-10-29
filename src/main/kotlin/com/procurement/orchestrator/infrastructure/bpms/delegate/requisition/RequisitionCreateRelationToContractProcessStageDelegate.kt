@@ -22,7 +22,7 @@ import com.procurement.orchestrator.infrastructure.configuration.property.Extern
 import org.springframework.stereotype.Component
 
 @Component
-class RequisitionCreateRelationToContractProcessStageActionDelegate(
+class RequisitionCreateRelationToContractProcessStageDelegate(
     logger: Logger,
     private val requisitionClient: RequisitionClient,
     operationStepRepository: OperationStepRepository,
@@ -47,8 +47,8 @@ class RequisitionCreateRelationToContractProcessStageActionDelegate(
         return requisitionClient.createRelationToContractProcessStage(
             id = commandId,
             params = CreateRelationToContractProcessStageAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
                 relatedOcid = processInfo.relatedProcess?.ocid,
                 operationType = processInfo.operationType
             )

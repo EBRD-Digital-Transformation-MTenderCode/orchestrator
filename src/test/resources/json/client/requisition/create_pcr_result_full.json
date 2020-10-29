@@ -29,10 +29,12 @@
           "scheme": "string",
           "description": "string"
         },
-        "variants": {
-          "hasVariants": true,
-          "variantsDetails": "string"
-        }
+        "variants": [
+          {
+            "hasVariants": true,
+            "variantsDetails": "string"
+          }
+        ]
       }
     ],
     "items": [

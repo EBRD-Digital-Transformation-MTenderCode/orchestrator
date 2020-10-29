@@ -26,7 +26,7 @@ class UpdateMSDelegate : DelegateVariableMapping {
 
         val updatedProcessInfo = processInfo.copy(
             relatedProcess = relatedProcess.copy(
-                cpid = processInfo.cpid,
+                cpid = processInfo.cpid!!,
                 ocid = processInfo.ocid
             ),
             ocid = Ocid.parse(processInfo.cpid.toString())!!

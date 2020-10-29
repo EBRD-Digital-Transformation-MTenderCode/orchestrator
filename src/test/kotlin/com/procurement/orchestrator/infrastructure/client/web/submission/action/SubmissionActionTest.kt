@@ -93,6 +93,17 @@ class SubmissionActionTest {
     }
 
     @Nested
+    inner class CheckPeriod {
+        @Nested
+        inner class Params {
+            @Test
+            fun required() {
+                testingBindingAndMapping<CheckPeriodAction.Params>("json/client/submission/check_period_params_full.json")
+            }
+        }
+    }
+
+    @Nested
     inner class ValidateBidData {
         @Nested
         inner class Params {

@@ -42,7 +42,7 @@ class DossierValidateRequirementResponseDelegate(
     ): Result<Reply<Unit>, Fail.Incident> {
 
         val processInfo = context.processInfo
-        val cpid: Cpid = processInfo.cpid
+        val cpid: Cpid = processInfo.cpid!!
 
         val award = context.getAwardIfOnlyOne()
             .orForwardFail { fail -> return fail }

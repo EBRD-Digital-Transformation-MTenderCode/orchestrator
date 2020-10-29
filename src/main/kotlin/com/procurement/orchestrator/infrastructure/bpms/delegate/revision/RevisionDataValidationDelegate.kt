@@ -51,8 +51,8 @@ class RevisionDataValidationDelegate(
         return client.dataValidation(
             id = commandId,
             params = DataValidationAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
                 operationType = processInfo.operationType,
                 amendment = DataValidationAction.Params.Amendment(
                     id = amendment.id,

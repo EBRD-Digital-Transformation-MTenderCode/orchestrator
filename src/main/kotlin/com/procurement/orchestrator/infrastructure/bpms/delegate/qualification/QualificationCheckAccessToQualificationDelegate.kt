@@ -49,8 +49,8 @@ class QualificationCheckAccessToQualificationDelegate(
         return client.checkAccessToQualification(
             id = commandId,
             params = CheckAccessToQualificationAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
                 owner = requestInfo.owner,
                 token = token,
                 qualificationId = qualification.id

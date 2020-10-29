@@ -1,6 +1,7 @@
 package com.procurement.orchestrator.infrastructure.client.web.submission
 
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.CheckAbsenceActiveInvitationsAction
+import com.procurement.orchestrator.infrastructure.client.web.submission.action.CheckPeriodAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.DoInvitationsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.PublishInvitationsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.SetTenderPeriodAction
@@ -18,6 +19,8 @@ object SubmissionCommands {
     object ValidateTenderPeriod : ValidateTenderPeriodAction()
 
     object SetTenderPeriod: SetTenderPeriodAction()
+
+    object CheckPeriod : CheckPeriodAction()
 
     object ValidateBidData: ValidateBidDataAction()
 }

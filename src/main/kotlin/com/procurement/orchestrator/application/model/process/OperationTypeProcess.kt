@@ -20,6 +20,7 @@ enum class OperationTypeProcess(@JsonValue override val key: String) : EnumEleme
     RELATION_AP("relationAP"),
     START_SECOND_STAGE("startSecondStage"),
     SUBMISSION_PERIOD_END("submissionPeriodEnd"),
+    SUBMIT_BID_IN_PCR("submitBidInPcr"),
     TENDER_CANCELLATION("tenderCancellation"),
     TENDER_OR_LOT_AMENDMENT_CANCELLATION("tenderOrLotAmendmentCancellation"),
     TENDER_OR_LOT_AMENDMENT_CONFIRMATION("tenderOrLotAmendmentConfirmation"),
