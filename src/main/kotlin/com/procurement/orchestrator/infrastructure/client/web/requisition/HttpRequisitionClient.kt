@@ -13,6 +13,7 @@ import com.procurement.orchestrator.infrastructure.client.web.requisition.action
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.CheckLotsStateAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.FindProcurementMethodModalitiesAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.GetCurrencyAction
+import com.procurement.orchestrator.infrastructure.client.web.requisition.action.FindItemsByLotIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.ValidatePcrDataAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
 import java.net.URL
@@ -89,5 +90,14 @@ class HttpRequisitionClient(private val webClient: WebClient, properties: Compon
         url = url,
         command = RequisitionCommands.GetCurrency.build(id = id, params = params),
         target = RequisitionCommands.GetCurrency.target
+    )
+
+    override suspend fun findItemsByLotIds(
+        id: CommandId,
+        params: FindItemsByLotIdsAction.Params
+    ): Result<Reply<FindItemsByLotIdsAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = RequisitionCommands.FindItemsByLotIds.build(id = id, params = params),
+        target = RequisitionCommands.FindItemsByLotIds.target
     )
 }
