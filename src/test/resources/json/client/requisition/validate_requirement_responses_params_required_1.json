@@ -1,0 +1,14 @@
+{
+  "cpid": "ocds-b3wdp1-MD-1580458690892",
+  "ocid": "ocds-b3wdp1-MD-1580458690892-EV-1580458791896",
+  "bids": {
+    "details": [
+      {
+        "id": "abbdcc18-e2cb-4049-8806-24dae1931a03",
+        "relatedLots": [
+          "string"
+        ]
+      }
+    ]
+  }
+}

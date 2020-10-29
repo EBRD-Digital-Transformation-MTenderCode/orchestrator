@@ -9,6 +9,7 @@ import com.procurement.orchestrator.infrastructure.client.web.requisition.action
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.GetTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.FindItemsByLotIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.ValidatePcrDataAction
+import com.procurement.orchestrator.infrastructure.client.web.requisition.action.ValidateRequirementResponsesAction
 
 object RequisitionCommands {
 
@@ -29,4 +30,6 @@ object RequisitionCommands {
     object GetCurrency : GetCurrencyAction()
 
     object FindItemsByLotIds: FindItemsByLotIdsAction()
+
+    object ValidateRequirementResponses: ValidateRequirementResponsesAction()
 }
