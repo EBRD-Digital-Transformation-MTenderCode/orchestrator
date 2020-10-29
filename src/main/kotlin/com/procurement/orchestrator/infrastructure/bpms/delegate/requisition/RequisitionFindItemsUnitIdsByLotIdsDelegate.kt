@@ -68,8 +68,8 @@ class RequisitionFindItemsUnitIdsByLotIdsDelegate(
         return requisitionClient.findItemsByLotIds(
             id = commandId,
             params = FindItemsByLotIdsAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
                 tender = FindItemsByLotIdsAction.Params.Tender(
                     when (parameters.location) {
                         Location.BID -> context.bids?.details?.asSequence()
