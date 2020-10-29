@@ -63,8 +63,8 @@ class RequisitionCheckLotsStateDelegate(
         return requisitionClient.checkLotsState(
             id = commandId,
             params = CheckLotsStateAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
                 country = requestInfo.country,
                 pmd = processInfo.pmd,
                 operationType = processInfo.operationType,
