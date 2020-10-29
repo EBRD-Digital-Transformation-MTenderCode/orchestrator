@@ -10,6 +10,7 @@ import com.procurement.orchestrator.infrastructure.client.web.requisition.action
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.GetTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.CheckLotsStateAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.FindProcurementMethodModalitiesAction
+import com.procurement.orchestrator.infrastructure.client.web.requisition.action.GetCurrencyAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.ValidatePcrDataAction
 
 interface RequisitionClient {
@@ -46,4 +47,9 @@ interface RequisitionClient {
         id: CommandId,
         params: FindProcurementMethodModalitiesAction.Params
     ): Result<Reply<FindProcurementMethodModalitiesAction.Result>, Fail.Incident>
+
+    suspend fun getCurrency(
+        id: CommandId,
+        params: GetCurrencyAction.Params
+    ): Result<Reply<GetCurrencyAction.Result>, Fail.Incident>
 }

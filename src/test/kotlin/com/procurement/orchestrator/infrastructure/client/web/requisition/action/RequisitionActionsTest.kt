@@ -136,4 +136,24 @@ class RequisitionActionsTest {
         }
     }
 
+    @Nested
+    inner class GetCurrency {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetCurrencyAction.Params>("json/client/requisition/get_currency_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetCurrencyAction.Result>("json/client/requisition/get_currency_result_full.json")
+            }
+        }
+    }
+
 }
