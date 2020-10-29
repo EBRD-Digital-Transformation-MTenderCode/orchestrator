@@ -73,8 +73,8 @@ class DossierGetOrganizationsDelegate(
         return dossierClient.getOrganizations(
             id = commandId,
             params = GetOrganizationsAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!
             )
         )
     }

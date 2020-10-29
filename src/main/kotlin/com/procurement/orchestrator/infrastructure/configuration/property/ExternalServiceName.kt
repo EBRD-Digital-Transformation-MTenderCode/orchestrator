@@ -12,6 +12,7 @@ enum class ExternalServiceName(override val key: String) : EnumElementProvider.K
     MDM("MDM"),
     NOTICE("eNotice"),
     QUALIFICATION("eQualification"),
+    REQUISITION("eRequisition"),
     REVISION("eRevision"),
     STORAGE("Storage"),
     SUBMISSION("eSubmisssion"),

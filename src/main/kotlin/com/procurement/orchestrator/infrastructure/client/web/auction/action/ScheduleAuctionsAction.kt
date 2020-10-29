@@ -90,7 +90,8 @@ abstract class ScheduleAuctionsAction : FunctionalActionV1<ScheduleAuctionsActio
                     @field:JsonProperty("eligibleMinimumDifference") @param:JsonProperty("eligibleMinimumDifference") val eligibleMinimumDifference: EligibleMinimumDifference
                 ) : Serializable {
                     data class EligibleMinimumDifference(
-                        @field:JsonProperty("amount") @param:JsonProperty("amount") val amount: Amount,
+                        @JsonInclude(JsonInclude.Include.NON_NULL)
+                        @field:JsonProperty("amount") @param:JsonProperty("amount") val amount: Amount?,
                         @field:JsonProperty("currency") @param:JsonProperty("currency") val currency: String
                     ) : Serializable
                 }

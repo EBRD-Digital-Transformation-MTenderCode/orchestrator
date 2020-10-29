@@ -98,8 +98,8 @@ class AccessFindLotIdsDelegate(
         return accessClient.findLotIds(
             id = commandId,
             params = FindLotIdsAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
                 states = parameters.states
                     .map { state ->
                         FindLotIdsAction.Params.State(

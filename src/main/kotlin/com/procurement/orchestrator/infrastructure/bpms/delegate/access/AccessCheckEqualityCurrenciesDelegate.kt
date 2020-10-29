@@ -42,8 +42,8 @@ class AccessCheckEqualityCurrenciesDelegate(
         return accessClient.checkEqualityCurrencies(
             id = commandId,
             params = CheckEqualityCurrenciesAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
                 relatedCpid = processInfo.relatedProcess?.cpid,
                 relatedOcid = processInfo.relatedProcess?.ocid
             )
