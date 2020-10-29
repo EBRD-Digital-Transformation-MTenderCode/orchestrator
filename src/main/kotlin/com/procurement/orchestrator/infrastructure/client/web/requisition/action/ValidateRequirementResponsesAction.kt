@@ -6,6 +6,7 @@ import com.procurement.orchestrator.application.service.ProceduralAction
 import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
 import com.procurement.orchestrator.domain.model.bid.BidId
+import com.procurement.orchestrator.domain.model.item.ItemId
 import com.procurement.orchestrator.domain.model.lot.LotId
 import com.procurement.orchestrator.domain.model.requirement.RequirementId
 import com.procurement.orchestrator.domain.model.requirement.RequirementResponseValue
@@ -27,41 +28,51 @@ abstract class ValidateRequirementResponsesAction : ProceduralAction<ValidateReq
         @param:JsonProperty("bids") @field:JsonProperty("bids") val bids: Bids
     ) {
         data class Tender(
-            @param:JsonProperty("requirementResponses") @field:JsonProperty("requirementResponses") val requirementResponses: List<RequirementResponse>
-        ) {
-            data class RequirementResponse(
-                @param:JsonProperty("id") @field:JsonProperty("id") val id: RequirementResponseId,
-
-                @JsonInclude(JsonInclude.Include.NON_NULL)
-                @param:JsonProperty("value") @field:JsonProperty("value") val value: RequirementResponseValue?,
-
-                @param:JsonProperty("requirement") @field:JsonProperty("requirement") val requirement: Requirement,
-
-                @JsonInclude(JsonInclude.Include.NON_NULL)
-                @param:JsonProperty("period") @field:JsonProperty("period") val period: Period?
-            ) {
-                data class Requirement(
-                    @JsonInclude(JsonInclude.Include.NON_NULL)
-                    @param:JsonProperty("id") @field:JsonProperty("id") val id: RequirementId?
-                )
-
-                data class Period(
-                    @JsonInclude(JsonInclude.Include.NON_NULL)
-                    @param:JsonProperty("startDate") @field:JsonProperty("startDate") val startDate: LocalDateTime?,
-
-                    @JsonInclude(JsonInclude.Include.NON_NULL)
-                    @param:JsonProperty("endDate") @field:JsonProperty("endDate") val endDate: LocalDateTime?
-                )
-            }
-        }
+            @param:JsonProperty("procurementMethodModalities") @field:JsonProperty("procurementMethodModalities") val procurementMethodModalities: List<String>
+        )
 
         data class Bids(
             @param:JsonProperty("details") @field:JsonProperty("details") val details: List<Detail>
         ) {
             data class Detail(
                 @param:JsonProperty("id") @field:JsonProperty("id") val id: BidId,
-                @param:JsonProperty("relatedLots") @field:JsonProperty("relatedLots") val relatedLots: List<LotId>
-            )
+                @param:JsonProperty("relatedLots") @field:JsonProperty("relatedLots") val relatedLots: List<LotId>,
+
+                @JsonInclude(JsonInclude.Include.NON_EMPTY)
+                @param:JsonProperty("items") @field:JsonProperty("items") val items: List<Item>?,
+
+                @JsonInclude(JsonInclude.Include.NON_EMPTY)
+                @param:JsonProperty("requirementResponses") @field:JsonProperty("requirementResponses") val requirementResponses: List<RequirementResponse>?
+            ) {
+                data class Item(
+                    @param:JsonProperty("id") @field:JsonProperty("id") val id: ItemId
+                )
+
+                data class RequirementResponse(
+                    @param:JsonProperty("id") @field:JsonProperty("id") val id: RequirementResponseId,
+
+                    @JsonInclude(JsonInclude.Include.NON_NULL)
+                    @param:JsonProperty("value") @field:JsonProperty("value") val value: RequirementResponseValue?,
+
+                    @JsonInclude(JsonInclude.Include.NON_NULL)
+                    @param:JsonProperty("requirement") @field:JsonProperty("requirement") val requirement: Requirement?,
+
+                    @JsonInclude(JsonInclude.Include.NON_NULL)
+                    @param:JsonProperty("period") @field:JsonProperty("period") val period: Period?
+                ) {
+                    data class Requirement(
+                        @param:JsonProperty("id") @field:JsonProperty("id") val id: RequirementId
+                    )
+
+                    data class Period(
+                        @JsonInclude(JsonInclude.Include.NON_NULL)
+                        @param:JsonProperty("startDate") @field:JsonProperty("startDate") val startDate: LocalDateTime?,
+
+                        @JsonInclude(JsonInclude.Include.NON_NULL)
+                        @param:JsonProperty("endDate") @field:JsonProperty("endDate") val endDate: LocalDateTime?
+                    )
+                }
+            }
         }
     }
 }

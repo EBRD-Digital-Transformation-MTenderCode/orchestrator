@@ -4,6 +4,7 @@ import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.RequisitionClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.getBidsDetailIfOnlyOne
+import com.procurement.orchestrator.application.model.context.extension.tryGetTender
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
@@ -44,33 +45,41 @@ class RequisitionValidateRequirementResponsesDelegate(
         val bid = context.bids.getBidsDetailIfOnlyOne()
             .orForwardFail { fail -> return fail }
 
+        val tender = context.tryGetTender()
+            .orForwardFail { fail -> return fail }
+
         return requisitionClient.validateRequirementResponses(
             id = commandId,
             params = ValidateRequirementResponsesAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
+                tender = ValidateRequirementResponsesAction.Params.Tender(tender.procurementMethodModalities),
                 bids = ValidateRequirementResponsesAction.Params.Bids(
                     listOf(
                         ValidateRequirementResponsesAction.Params.Bids.Detail(
                             id = bid.id,
-                            relatedLots = bid.relatedLots
+                            requirementResponses = bid.requirementResponses.map { requirementResponse ->
+                                ValidateRequirementResponsesAction.Params.Bids.Detail.RequirementResponse(
+                                    id = requirementResponse.id,
+                                    value = requirementResponse.value,
+                                    requirement = requirementResponse.requirement?.let {
+                                        ValidateRequirementResponsesAction.Params.Bids.Detail.RequirementResponse.Requirement(
+                                            it.id
+                                        )
+                                    },
+                                    period = requirementResponse.period?.let {
+                                        ValidateRequirementResponsesAction.Params.Bids.Detail.RequirementResponse.Period(
+                                            startDate = it.startDate,
+                                            endDate = it.endDate
+                                        )
+                                    }
+                                )
+                            },
+                            relatedLots = bid.relatedLots,
+                            items = bid.items.map { ValidateRequirementResponsesAction.Params.Bids.Detail.Item(it.id) }
                         )
+
                     )
-                ),
-                tender = ValidateRequirementResponsesAction.Params.Tender(
-                    bid.requirementResponses.map { requirementResponse ->
-                        ValidateRequirementResponsesAction.Params.Tender.RequirementResponse(
-                            id = requirementResponse.id,
-                            value = requirementResponse.value,
-                            requirement = ValidateRequirementResponsesAction.Params.Tender.RequirementResponse.Requirement(
-                                requirementResponse.requirement?.id
-                            ),
-                            period = ValidateRequirementResponsesAction.Params.Tender.RequirementResponse.Period(
-                                startDate = requirementResponse.period?.startDate,
-                                endDate = requirementResponse.period?.endDate
-                            )
-                        )
-                    }
                 )
 
             )
