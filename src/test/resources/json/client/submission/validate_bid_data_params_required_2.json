@@ -1,0 +1,62 @@
+{
+  "bids": {
+    "details": [
+      {
+        "id": "ad346431-1d0e-4c82-9d85-d718d65370fb",
+        "tenderers": [
+          {
+            "id": "string",
+            "name": "string",
+            "identifier": {
+              "id": "string",
+              "legalName": "string",
+              "scheme": "string"
+            },
+            "address": {
+              "streetAddress": "string",
+              "postalCode": "string",
+              "addressDetails": {
+                "country": {
+                  "id": "string",
+                  "description": "string",
+                  "scheme": "string"
+                },
+                "region": {
+                  "id": "string",
+                  "description": "string",
+                  "scheme": "string"
+                },
+                "locality": {
+                  "id": "string",
+                  "description": "string",
+                  "scheme": "string"
+                }
+              }
+            },
+            "contactPoint": {
+              "name": "string",
+              "email": "string",
+              "telephone": "string"
+            },
+            "details": {
+              "scale": "micro",
+              "legalForm": {
+                "scheme": "MD-CFOJ",
+                "id": "string",
+                "description": "string"
+              }
+            }
+          }
+        ],
+        "relatedLots": [
+          "string"
+        ]
+      }
+    ]
+  },
+  "tender": {
+    "value": {
+      "currency": "string"
+    }
+  }
+}

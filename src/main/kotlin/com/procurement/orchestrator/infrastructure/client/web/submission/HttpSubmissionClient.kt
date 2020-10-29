@@ -12,6 +12,7 @@ import com.procurement.orchestrator.infrastructure.client.web.submission.action.
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.DoInvitationsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.PublishInvitationsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.SetTenderPeriodAction
+import com.procurement.orchestrator.infrastructure.client.web.submission.action.ValidateBidDataAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.ValidateTenderPeriodAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
 import java.net.URL
@@ -70,6 +71,14 @@ class HttpSubmissionClient(private val webClient: WebClient, properties: Compone
     ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
         url = url,
         command = SubmissionCommands.CheckPeriod.build(id = id, params = params)
+    )
+
+    override suspend fun validateBidData(
+        id: CommandId,
+        params: ValidateBidDataAction.Params
+    ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
+        url = url,
+        command = SubmissionCommands.ValidateBidData.build(id = id, params = params)
     )
 
     override suspend fun createBid(

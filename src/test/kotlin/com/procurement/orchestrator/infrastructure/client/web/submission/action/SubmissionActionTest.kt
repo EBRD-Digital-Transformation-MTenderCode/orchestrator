@@ -104,6 +104,32 @@ class SubmissionActionTest {
     }
 
     @Nested
+    inner class ValidateBidData {
+        @Nested
+        inner class Params {
+            @Test
+            fun full() {
+                testingBindingAndMapping<ValidateBidDataAction.Params>("json/client/submission/validate_bid_data_params_full.json")
+            }
+
+            @Test
+            fun required() {
+                testingBindingAndMapping<ValidateBidDataAction.Params>("json/client/submission/validate_bid_data_params_required.json")
+            }
+
+            @Test
+            fun required_1() {
+                testingBindingAndMapping<ValidateBidDataAction.Params>("json/client/submission/validate_bid_data_params_required_1.json")
+            }
+
+            @Test
+            fun required_2() {
+                testingBindingAndMapping<ValidateBidDataAction.Params>("json/client/submission/validate_bid_data_params_required_2.json")
+            }
+        }
+    }
+
+    @Nested
     inner class CreateBid {
         @Nested
         inner class Params {
