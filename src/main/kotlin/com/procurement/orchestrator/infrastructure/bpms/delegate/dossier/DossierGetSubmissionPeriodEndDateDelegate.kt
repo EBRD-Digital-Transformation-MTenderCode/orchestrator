@@ -45,8 +45,8 @@ class DossierGetSubmissionPeriodEndDateDelegate(
         return dossierClient.getSubmissionPeriodEndDate(
             id = commandId,
             params = GetSubmissionPeriodEndDateAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!
             )
         )
     }

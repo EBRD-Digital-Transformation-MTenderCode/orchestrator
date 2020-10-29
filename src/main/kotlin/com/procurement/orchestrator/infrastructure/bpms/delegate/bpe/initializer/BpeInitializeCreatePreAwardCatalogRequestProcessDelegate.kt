@@ -21,6 +21,7 @@ import com.procurement.orchestrator.domain.model.lot.LotId
 import com.procurement.orchestrator.domain.model.lot.Lots
 import com.procurement.orchestrator.domain.model.lot.RelatedLots
 import com.procurement.orchestrator.domain.model.lot.Variant
+import com.procurement.orchestrator.domain.model.lot.Variants
 import com.procurement.orchestrator.domain.model.period.Period
 import com.procurement.orchestrator.domain.model.tender.ProcurementMethodModalities
 import com.procurement.orchestrator.domain.model.tender.Tender
@@ -141,8 +142,16 @@ class BpeInitializeCreatePreAwardCatalogRequestProcessDelegate(
                     title = lot.title,
                     description = lot.description,
                     variants = lot.variants
-                        .let { variant ->
-                            Variant(hasVariants = variant.hasVariants)
+                        .map { variant ->
+                            Variant(
+                                hasVariants = variant.hasVariants,
+                                variantDetails = variant.variantsDetails
+                            )
+                        }
+                        .let { Variants(it) },
+                    classification = lot.classification
+                        .let { classification ->
+                            Classification(id = classification.id, scheme = classification.scheme)
                         }
                 )
             }
@@ -154,6 +163,8 @@ class BpeInitializeCreatePreAwardCatalogRequestProcessDelegate(
                 Item(
                     id = ItemId.create(item.id),
                     description = item.description,
+                    quantity = item.quantity,
+                    internalId = item.internalId,
                     classification = item.classification
                         .let { classification ->
                             Classification(

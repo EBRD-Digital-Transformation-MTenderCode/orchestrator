@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.domain.model.tender
 
+import com.fasterxml.jackson.annotation.JsonCreator
 import com.procurement.orchestrator.domain.model.ComplexObjects
 import java.io.Serializable
 
@@ -9,7 +10,8 @@ class SubmissionMethods(
     ComplexObjects<SubmissionMethod, SubmissionMethods>,
     Serializable {
 
-    constructor(value: SubmissionMethod) : this(listOf(value))
+    @JsonCreator
+    constructor(vararg values: SubmissionMethod) : this(values.toList())
 
     override operator fun plus(other: SubmissionMethods) =
         SubmissionMethods(this as List<SubmissionMethod> + other as List<SubmissionMethod>)

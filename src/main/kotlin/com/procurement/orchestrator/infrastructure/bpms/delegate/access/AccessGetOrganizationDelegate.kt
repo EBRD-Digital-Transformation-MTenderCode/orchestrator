@@ -83,8 +83,8 @@ class AccessGetOrganizationDelegate(
         return accessClient.getOrganization(
             id = commandId,
             params = GetOrganizationAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
                 role = parameters.role
             )
         )

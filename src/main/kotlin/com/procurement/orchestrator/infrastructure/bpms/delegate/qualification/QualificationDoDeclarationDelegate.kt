@@ -70,8 +70,8 @@ class QualificationDoDeclarationDelegate(
         return qualificationClient.doDeclaration(
             id = commandId,
             params = DoDeclarationAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
                 qualifications = listOf(
                     DoDeclarationAction.Params.Qualification(
                         id = qualification.id,

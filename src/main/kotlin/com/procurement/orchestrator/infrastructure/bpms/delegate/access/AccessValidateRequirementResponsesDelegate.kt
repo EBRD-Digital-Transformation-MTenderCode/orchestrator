@@ -77,8 +77,8 @@ class AccessValidateRequirementResponsesDelegate(
         return accessClient.validateRequirementResponses(
             id = commandId,
             params = ValidateRequirementResponsesAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
                 requirementResponse = submission.requirementResponses
                     .map { requirementResponse ->
                         ValidateRequirementResponsesAction.Params.RequirementResponse(
