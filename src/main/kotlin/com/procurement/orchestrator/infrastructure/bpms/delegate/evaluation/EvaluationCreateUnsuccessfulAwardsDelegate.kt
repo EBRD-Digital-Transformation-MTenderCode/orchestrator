@@ -57,8 +57,8 @@ class EvaluationCreateUnsuccessfulAwardsDelegate(
         return evaluationClient.createUnsuccessfulAwards(
             id = commandId,
             params = CreateUnsuccessfulAwardsAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
                 date = requestInfo.timestamp,
                 lotIds = lots.map { it.id },
                 operationType = processInfo.operationType

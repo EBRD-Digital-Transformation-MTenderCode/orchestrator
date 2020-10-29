@@ -77,7 +77,7 @@ class RequisitionValidatePcrDataDelegate(
                                 )
                             },
                         variants = lot.variants
-                            ?.let { variants ->
+                            .map { variants ->
                                 ValidatePcrDataAction.Params.Tender.Lot.Variant(
                                     hasVariants = variants.hasVariants,
                                     variantsDetails = variants.variantDetails

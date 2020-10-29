@@ -10,7 +10,12 @@ import java.util.Map;
 
 public enum RequisitionCommandType {
 
+    CREATE_REQUESTS_FOR_EV_PANELS("createRequestsForEvPanels"),
     GET_ACTIVE_LOTS("getActiveLots"),
+    GET_LOTS_AUCTION("getLotsAuction"),
+    SET_LOTS_UNSUCCESSFUL("setLotsStatusUnsuccessful"),
+    SET_TENDER_STATUS_DETAILS("setTenderStatusDetails"),
+    SET_TENDER_UNSUCCESSFUL("setTenderUnsuccessful"),
     GET_AWARD_CRITERIA_AND_CONVERSATIONS("getAwardCriteriaAndConversions");
 
     private static final Map<String, RequisitionCommandType> CONSTANTS = new HashMap<>();

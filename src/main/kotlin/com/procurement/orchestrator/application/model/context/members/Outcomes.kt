@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.procurement.orchestrator.application.model.PlatformId
 import com.procurement.orchestrator.application.model.Token
+import com.procurement.orchestrator.domain.model.Ocid
 import com.procurement.orchestrator.domain.model.amendment.AmendmentId
 import com.procurement.orchestrator.domain.model.award.AwardId
 import com.procurement.orchestrator.domain.model.qualification.QualificationId
@@ -24,7 +25,10 @@ class Outcomes(values: MutableMap<PlatformId, Details> = mutableMapOf()) :
         @field:JsonProperty("submissions") @param:JsonProperty("submissions") val submissions: List<Submission> = emptyList(),
 
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
-        @field:JsonProperty("qualifications") @param:JsonProperty("qualifications") val qualifications: List<Qualification> = emptyList()
+        @field:JsonProperty("qualifications") @param:JsonProperty("qualifications") val qualifications: List<Qualification> = emptyList(),
+
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        @field:JsonProperty("pc") @param:JsonProperty("pc") val pcr: List<PreAwardCatalogRequest> = emptyList()
 
     ) : Serializable {
 
@@ -46,6 +50,11 @@ class Outcomes(values: MutableMap<PlatformId, Details> = mutableMapOf()) :
 
         data class Qualification(
             @field:JsonProperty("id") @param:JsonProperty("id") val id: QualificationId,
+            @field:JsonProperty("token") @param:JsonProperty("token") val token: Token
+        ) : Serializable
+
+        data class PreAwardCatalogRequest(
+            @field:JsonProperty("id") @param:JsonProperty("id") val id: Ocid,
             @field:JsonProperty("token") @param:JsonProperty("token") val token: Token
         ) : Serializable
     }

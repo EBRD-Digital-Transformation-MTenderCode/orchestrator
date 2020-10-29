@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.infrastructure.client.web.clarification
 
+import com.procurement.orchestrator.infrastructure.client.web.clarification.action.CreateEnquiryPeriodAction
 import com.procurement.orchestrator.infrastructure.client.web.clarification.action.FindEnquiriesAction
 import com.procurement.orchestrator.infrastructure.client.web.clarification.action.FindEnquiryIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.clarification.action.GetEnquiryByIdsAction
@@ -11,5 +12,7 @@ object ClarificationCommands {
     object GetEnquiryByIds: GetEnquiryByIdsAction()
 
     object FindEnquiries : FindEnquiriesAction()
+
+    object CreateEnquiryPeriod : CreateEnquiryPeriodAction()
 
 }
