@@ -157,6 +157,31 @@ class RequisitionActionsTest {
     }
 
     @Nested
+    inner class FindItemsByLotIds {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<FindItemsByLotIdsAction.Params>("json/client/requisition/find_items_by_lot_ids_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<FindItemsByLotIdsAction.Result>("json/client/requisition/find_items_by_lot_ids_result_full.json")
+            }
+
+            @Test
+            fun required() {
+                testingBindingAndMapping<FindItemsByLotIdsAction.Result>("json/client/requisition/find_items_by_lot_ids_result_required.json")
+            }
+        }
+    }
+
+    @Nested
     inner class ValidateRequirementResponses {
 
         @Nested
