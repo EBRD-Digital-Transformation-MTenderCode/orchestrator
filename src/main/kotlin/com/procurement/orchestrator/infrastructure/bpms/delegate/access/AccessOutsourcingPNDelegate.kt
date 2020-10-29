@@ -47,8 +47,8 @@ class AccessOutsourcingPNDelegate(
         return accessClient.outsourcingPn(
             id = commandId,
             params = OutsourcingPnAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
                 cpidFa = processInfo.relatedProcess?.cpid
             )
         )

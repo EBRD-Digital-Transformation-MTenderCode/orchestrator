@@ -58,8 +58,8 @@ class QualificationCreateQualificationsDelegate(
         return qualificationClient.createQualification(
             id = commandId,
             params = CreateQualificationAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
                 date = requestInfo.timestamp,
                 owner = requestInfo.owner,
                 submissions = contextSubmissions.map { submission ->

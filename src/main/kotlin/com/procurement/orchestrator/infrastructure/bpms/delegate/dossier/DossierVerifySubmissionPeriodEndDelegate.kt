@@ -42,8 +42,8 @@ class DossierVerifySubmissionPeriodEndDelegate(
         return client.verifySubmissionPeriodEnd(
             id = commandId,
             params = VerifySubmissionPeriodEndAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
                 date = requestInfo.timestamp
             )
         )

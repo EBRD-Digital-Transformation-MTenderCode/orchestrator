@@ -64,7 +64,7 @@ abstract class AbstractInitializeProcessDelegate(
         operationStepRepository
             .save(
                 step = OperationStep(
-                    cpid = processInfo.cpid,
+                    cpid = processInfo.cpid!!,
                     operationId = requestInfo.operationId,
                     processId = execution.processInstanceId,
                     taskId = execution.currentActivityId,

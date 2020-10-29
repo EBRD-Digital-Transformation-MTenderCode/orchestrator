@@ -61,8 +61,8 @@ class QualificationSetNextForQualificationDelegate(
         return qualificationClient.setNextForQualificationAction(
             id = commandId,
             params = SetNextForQualificationAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
                 submissions = submissions.map { submission ->
                     SetNextForQualificationAction.Params.Submission(
                         id = submission.id,

@@ -73,6 +73,7 @@ class RevisionCreateAmendmentDelegate(
             OperationTypeProcess.QUALIFICATION_DECLARE_NON_CONFLICT_OF_INTEREST,
             OperationTypeProcess.QUALIFICATION_PROTOCOL,
             OperationTypeProcess.START_SECOND_STAGE,
+            OperationTypeProcess.SUBMIT_BID_IN_PCR,
             OperationTypeProcess.SUBMISSION_PERIOD_END,
             OperationTypeProcess.TENDER_OR_LOT_AMENDMENT_CANCELLATION,
             OperationTypeProcess.TENDER_OR_LOT_AMENDMENT_CONFIRMATION,
@@ -88,8 +89,8 @@ class RevisionCreateAmendmentDelegate(
         return client.createAmendment(
             id = commandId,
             params = CreateAmendmentAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
                 owner = owner,
                 operationType = processInfo.operationType,
                 date = requestInfo.timestamp,

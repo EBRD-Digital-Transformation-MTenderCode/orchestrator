@@ -18,6 +18,7 @@ import com.procurement.orchestrator.infrastructure.client.web.mdm.action.EnrichC
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.EnrichCountryAction
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.EnrichLocalityAction
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.EnrichRegionAction
+import com.procurement.orchestrator.infrastructure.client.web.mdm.action.EnrichUnitsAction
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetClassification
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetCountry
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetCriteria
@@ -29,6 +30,7 @@ import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRequ
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRequirementGroupsAction
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRequirements
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRequirementsAction
+import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetUnit
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
 import com.procurement.orchestrator.infrastructure.model.Version
 import okhttp3.HttpUrl
@@ -214,6 +216,24 @@ class HttpMdmClient(
 
     private fun getClassificationEndpoint(params: EnrichClassificationsAction.Params): String =
         "$baseUrl/classifications/${params.classificationId}"
+
+    override suspend fun enrichUnits(params: EnrichUnitsAction.Params): Result<GetUnit.Result, Fail.Incident> {
+        val httpUrl: HttpUrl = getUnitEndpoint(params)
+            .toHttpUrl()
+            .newBuilder()
+            .apply {
+                addQueryParameter("lang", params.lang)
+            }
+            .build()
+
+        val response = restClient.call(url = httpUrl)
+            .orForwardFail { error -> return error }
+
+        return processGetUnitResponse(response, transform)
+    }
+
+    private fun getUnitEndpoint(params: EnrichUnitsAction.Params): String =
+        "$baseUrl/units/${params.unitId}"
 
     private fun processGetCountryResponse(
         response: CallResponse,
@@ -520,4 +540,43 @@ class HttpMdmClient(
         else -> failure(Fail.Incident.BadResponse(description = "Invalid response code.", body = response.content))
 
     }
+
+    private fun processGetUnitResponse(
+        response: CallResponse,
+        transform: Transform
+    ): Result<GetUnit.Result, Fail.Incident> = when (response.code) {
+        HTTP_CODE_200 -> transform
+            .tryDeserialization(response.content, EnrichUnitsAction.Response.Success::class.java)
+            .orReturnFail { fail ->
+                return failure(
+                    Fail.Incident.BadResponse(description = fail.description, body = response.content)
+                )
+            }
+            .let { result ->
+                GetUnit.Result.Success(id = result.data.id, name = result.data.name)
+            }
+            .asSuccess()
+
+        HTTP_CODE_400,
+        HTTP_CODE_404 -> transform
+            .tryDeserialization(response.content, EnrichUnitsAction.Response.Error::class.java)
+            .orForwardFail { error -> return error }
+            .let { responseError ->
+                val error = responseError.errors.first()
+                when (error.code) {
+                    GetUnit.CODE_ID_NOT_FOUND ->
+                        success(GetUnit.Result.Fail.IdNotFound(responseError))
+                    GetUnit.CODE_TRANSLATION_NOT_FOUND ->
+                        success(GetUnit.Result.Fail.TranslationNotFound(responseError))
+                    GetUnit.CODE_LANGUAGE_NOT_FOUND ->
+                        success(GetUnit.Result.Fail.LanguageNotFound(responseError))
+                    else ->
+                        success(GetUnit.Result.Fail.AnotherError(responseError))
+                }
+            }
+
+        else -> failure(Fail.Incident.BadResponse(description = "Invalid response code.", body = response.content))
+
+    }
+
 }
