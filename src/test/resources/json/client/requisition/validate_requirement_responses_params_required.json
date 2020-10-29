@@ -1,23 +1,21 @@
 {
   "cpid": "ocds-b3wdp1-MD-1580458690892",
   "ocid": "ocds-b3wdp1-MD-1580458690892-EV-1580458791896",
-  "tender": {
-    "requirementResponses": [
-      {
-        "id": "string",
-        "value": "Unknown Type: string,number,integer,boolean",
-        "requirement": {
-          "id": "string"
-        }
-      }
-    ]
-  },
   "bids": {
     "details": [
       {
-        "id": "66de1f24-866a-49a9-be14-7dafd8b80cac",
+        "id": "61c3a64c-2dda-427a-ac1f-c0ce71ac4576",
         "relatedLots": [
           "string"
+        ],
+        "requirementResponses": [
+          {
+            "id": "string",
+            "value": "Unknown Type: string,number,integer,boolean",
+            "requirement": {
+              "id": "string"
+            }
+          }
         ]
       }
     ]
