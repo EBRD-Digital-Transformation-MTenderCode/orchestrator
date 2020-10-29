@@ -10,6 +10,7 @@ import java.util.Map;
 
 public enum RequisitionCommandType {
 
+    CREATE_REQUESTS_FOR_EV_PANELS("createRequestsForEvPanels"),
     GET_ACTIVE_LOTS("getActiveLots"),
     GET_LOTS_AUCTION("getLotsAuction"),
     SET_LOTS_UNSUCCESSFUL("setLotsStatusUnsuccessful"),
