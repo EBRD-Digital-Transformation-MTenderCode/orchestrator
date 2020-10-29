@@ -16,6 +16,7 @@ import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.model.item.Item
 import com.procurement.orchestrator.domain.model.item.Items
 import com.procurement.orchestrator.domain.model.tender.Tender
+import com.procurement.orchestrator.domain.model.unit.Unit
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.delegate.access.AccessResponderProcessingDelegate
@@ -92,7 +93,16 @@ class RequisitionFindItemsUnitIdsByLotIdsDelegate(
 
         val tender = context.tender ?: Tender()
 
-        val receivedItemsIds = data.tender.items.map { Item(id = it.id) }.let { Items(it) }
+        val receivedItemsIds = data.tender.items
+            .map { item ->
+                Item(
+                    id = item.id,
+                    unit = Unit(id = item.unit.id)
+                )
+            }
+            .let {
+                Items(it)
+            }
         val updatedItems = tender.items updateBy receivedItemsIds
 
         context.tender = tender.copy(items = updatedItems)
