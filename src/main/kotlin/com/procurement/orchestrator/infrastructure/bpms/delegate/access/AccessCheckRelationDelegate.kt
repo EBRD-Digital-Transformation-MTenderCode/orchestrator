@@ -48,8 +48,8 @@ class AccessCheckRelationDelegate(
         return accessClient.checkRelationDelegate(
             id = commandId,
             params = CheckRelationAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
                 relatedCpid = processInfo.relatedProcess?.cpid,
                 operationType = processInfo.operationType,
                 existenceRelation = parameters.relationExists

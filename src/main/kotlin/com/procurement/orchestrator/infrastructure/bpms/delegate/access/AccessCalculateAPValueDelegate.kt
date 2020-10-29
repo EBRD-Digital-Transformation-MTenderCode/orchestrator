@@ -45,8 +45,8 @@ class AccessCalculateAPValueDelegate(
         return accessClient.calculateAPValueAction(
             id = commandId,
             params = CalculateAPValueAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!
             )
         )
     }
