@@ -11,9 +11,9 @@ import java.util.Map;
 public enum RequisitionCommandType {
 
     GET_ACTIVE_LOTS("getActiveLots"),
+    GET_LOTS_AUCTION("getLotsAuction"),
     SET_LOTS_UNSUCCESSFUL("setLotsStatusUnsuccessful"),
-    SET_TENDER_UNSUCCESSFUL("setTenderUnsuccessful"),
-    GET_LOTS_AUCTION("getLotsAuction");
+    SET_TENDER_UNSUCCESSFUL("setTenderUnsuccessful");
 
     private static final Map<String, RequisitionCommandType> CONSTANTS = new HashMap<>();
     private final String value;
