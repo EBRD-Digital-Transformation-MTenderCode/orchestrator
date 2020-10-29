@@ -13,8 +13,13 @@ import com.procurement.orchestrator.domain.model.tender.AwardCriteria
 import java.io.Serializable
 
 data class ProcessInfo(
-    @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid,
-    @field:JsonProperty("ocid") @param:JsonProperty("ocid") val ocid: Ocid,
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid?,
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonProperty("ocid") @param:JsonProperty("ocid") val ocid: Ocid?,
+
     @field:JsonProperty("pmd") @param:JsonProperty("pmd") val pmd: ProcurementMethodDetails,
     @field:JsonProperty("operationType") @param:JsonProperty("operationType") val operationType: OperationTypeProcess,
     @field:JsonProperty("stage") @param:JsonProperty("stage") val stage: Stage,

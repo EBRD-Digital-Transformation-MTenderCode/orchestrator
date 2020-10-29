@@ -40,8 +40,8 @@ class BpeAddCreateRecordTaskInQueueDelegate(
     ): Result<Option<Unit>, Fail.Incident> {
 
         val processInfo = context.processInfo
-        val cpid = processInfo.cpid
-        val ocid = processInfo.ocid
+        val cpid = processInfo.cpid!!
+        val ocid = processInfo.ocid!!
         val data = transform
             .trySerialization(
                 QueueNoticeTask.Data(

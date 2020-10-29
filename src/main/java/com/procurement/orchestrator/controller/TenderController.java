@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.ProcurementMethod;
+import com.procurement.orchestrator.domain.Stage;
 import com.procurement.orchestrator.exception.OperationException;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.service.RequestService;
@@ -198,7 +199,11 @@ public class TenderController extends DoBaseController {
                                             @PathVariable("ocid") final String ocid,
                                             @RequestBody final JsonNode data) {
         requestService.validate(operationId, data);
-        final Context context = requestService.getContextForUpdate(authorization, operationId, cpid, ocid, null, "createBid");
+
+        final Stage stage = Stage.fromOcid(ocid);
+        if (stage == null) throw new OperationException("Invalid ocid. Could not extract stage from ocid.");
+
+        Context context = getContextForCreateBid(authorization, operationId, cpid, ocid, stage);
         context.setOperationType("createBid");
         requestService.saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
@@ -209,6 +214,33 @@ public class TenderController extends DoBaseController {
         processService.startProcess(context, variables);
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
+
+
+    private Context getContextForCreateBid(String authorization, String operationId, String cpid, String ocid, Stage stage) {
+        final String process = "createBid";
+        Context context = null;
+        switch (stage) {
+            case PC:
+                context = requestService.getContextForUpdateByOcid(authorization, operationId, cpid, ocid, null, process);
+                break;
+            case AC:
+            case AP:
+            case EI:
+            case EV:
+            case FE:
+            case FS:
+            case NP:
+            case PN:
+            case PQ:
+            case PS:
+            case TP:
+            case PIN:
+                context = requestService.getContextForUpdate(authorization, operationId, cpid, ocid, null, process);
+                break;
+        }
+        return context;
+    }
+
 
     @RequestMapping(value = "/bid/{cpid}/{ocid}/{id}", method = RequestMethod.POST)
     public ResponseEntity<String> updateBid(@RequestHeader("Authorization") final String authorization,

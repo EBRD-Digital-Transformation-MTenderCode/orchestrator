@@ -49,8 +49,8 @@ class SubmissionSetTenderPeriodDelegate(
         return submissionClient.setTenderPeriodAction(
             id = commandId,
             params = SetTenderPeriodAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
                 date = requestInfo.timestamp,
                 tender = SetTenderPeriodAction.Params.Tender(
                     SetTenderPeriodAction.Params.Tender.TenderPeriod(endDate)

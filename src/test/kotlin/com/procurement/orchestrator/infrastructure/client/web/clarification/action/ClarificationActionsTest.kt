@@ -99,4 +99,25 @@ class ClarificationActionsTest {
 
         }
     }
+
+    @Nested
+    inner class CreateEnquiryPeriod {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CreateEnquiryPeriodAction.Params>("json/client/clarification/create_enquiry_period_params_full.json")
+            }
+
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CreateEnquiryPeriodAction.Result>("json/client/clarification/create_enquiry_period_result_full.json")
+            }
+        }
+    }
 }
