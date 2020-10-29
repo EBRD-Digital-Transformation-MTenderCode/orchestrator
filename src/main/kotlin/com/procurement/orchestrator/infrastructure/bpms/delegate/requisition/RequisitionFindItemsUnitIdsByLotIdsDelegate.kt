@@ -26,12 +26,12 @@ import com.procurement.orchestrator.infrastructure.client.web.requisition.action
 import org.springframework.stereotype.Component
 
 @Component
-class RequisitionFindItemIdsByLotIdsDelegate(
+class RequisitionFindItemsUnitIdsByLotIdsDelegate(
     logger: Logger,
     private val requisitionClient: RequisitionClient,
     operationStepRepository: OperationStepRepository,
     transform: Transform
-) : AbstractExternalDelegate<RequisitionFindItemIdsByLotIdsDelegate.Parameters, FindItemsByLotIdsAction.Result>(
+) : AbstractExternalDelegate<RequisitionFindItemsUnitIdsByLotIdsDelegate.Parameters, FindItemsByLotIdsAction.Result>(
     logger = logger,
     transform = transform,
     operationStepRepository = operationStepRepository
