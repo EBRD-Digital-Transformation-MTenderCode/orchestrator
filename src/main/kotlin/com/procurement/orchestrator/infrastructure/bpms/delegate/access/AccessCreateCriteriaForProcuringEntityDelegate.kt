@@ -55,8 +55,8 @@ class AccessCreateCriteriaForProcuringEntityDelegate(
         return accessClient.createCriteriaForProcuringEntity(
             id = commandId,
             params = Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
                 criteria = criteriaFromContext,
                 operationType = processInfo.operationType
             )

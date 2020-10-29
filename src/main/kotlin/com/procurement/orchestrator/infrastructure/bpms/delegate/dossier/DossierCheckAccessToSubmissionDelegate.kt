@@ -51,8 +51,8 @@ class DossierCheckAccessToSubmissionDelegate(
         return dossierClient.checkAccessToSubmission(
             id = commandId,
             params = CheckAccessToSubmissionAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
                 submissionId = submission.id,
                 owner = requestInfo.owner,
                 token = token

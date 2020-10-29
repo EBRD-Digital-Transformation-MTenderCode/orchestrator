@@ -47,8 +47,8 @@ class EvaluationCloseAwardPeriodDelegate(
         return evaluationClient.closeAwardPeriod(
             id = commandId,
             params = CloseAwardPeriodAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
                 endDate = requestInfo.timestamp
             )
         )

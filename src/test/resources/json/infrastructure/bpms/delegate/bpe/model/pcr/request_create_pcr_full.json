@@ -65,12 +65,12 @@
         "id": "d3732c09-7d62-4edc-a172-241da6636e7c",
         "title": "string",
         "description": "string",
-        "variants":
+        "variants": [
           {
             "hasVariants": true,
             "variantsDetails": "string"
           }
-        ,
+        ],
         "internalId": "string",
         "classification": {
           "id": "string",
@@ -97,15 +97,16 @@
     "tenderPeriod": {
       "endDate": "2020-10-15T09:50:25Z"
     },
-    "documents": [{
-      "id": "string",
-      "title": "string",
-      "documentType": "tenderNotice",
-      "description": "string",
-      "relatedLots": [
-        "string"
-      ]
-    }
+    "documents": [
+      {
+        "id": "string",
+        "title": "string",
+        "documentType": "tenderNotice",
+        "description": "string",
+        "relatedLots": [
+          "string"
+        ]
+      }
     ],
     "electronicAuctions": {
       "details": [
