@@ -19,6 +19,8 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.functional.asSuccess
+import com.procurement.orchestrator.domain.model.bid.Bids
+import com.procurement.orchestrator.domain.model.bid.BidsDetails
 import com.procurement.orchestrator.domain.model.contract.observation.Observations
 import com.procurement.orchestrator.domain.model.item.Item
 import com.procurement.orchestrator.domain.model.item.Items
@@ -91,10 +93,14 @@ class MdmEnrichUnitsDelegate(
         val targetsUnits: List<UnitId> = getTargetsUnits(tender, entities)
             .orForwardFail { fail -> return fail }
 
+        val bidsItemsUnits: List<UnitId> = getBidsItemsUnits(context, entities)
+            .orForwardFail { fail -> return fail }
+
         val allUnits: Set<UnitId> = mutableSetOf<UnitId>()
             .apply {
                 addAll(itemsUnits)
                 addAll(targetsUnits)
+                addAll(bidsItemsUnits)
             }
 
         val params = allUnits.map { unitId ->
@@ -138,12 +144,15 @@ class MdmEnrichUnitsDelegate(
 
         val updatedTargets = updateTargetsUnit(tender.targets, parameters.locations, enrichedUnits)
 
+        val updatedBids = updateBidsItemsUnits(context, parameters.locations, enrichedUnits)
+
         val updatedTender = tender.copy(
             items = Items(updatedItems),
             targets = Targets(updatedTargets)
         )
 
         context.tender = updatedTender
+        context.bids = updatedBids
 
         return MaybeFail.none()
     }
@@ -198,6 +207,34 @@ class MdmEnrichUnitsDelegate(
                 targets
 
         return updatedTargets
+    }
+
+    private fun updateBidsItemsUnits(
+        context: CamundaGlobalContext,
+        entities: Map<EntityKey, EntityValue>,
+        enrichedUnits: Map<Unit, Unit>
+    ): Bids? {
+        val bids = context.bids!!.details
+        val updatedBidsDetails: BidsDetails =
+            if (EntityKey.BID_ITEM in entities) {
+                val updatedBids = bids.map { bid ->
+                    val updatedItems = bid.items
+                        .map { item ->
+                            val currentUnit = item.unit
+                            val enrichedItemUnit = currentUnit?.let { enrichedUnits[it] }
+
+                            if (enrichedItemUnit != null)
+                                item.copy(unit = currentUnit.update(enrichedItemUnit))
+                            else
+                                item
+                        }
+                    bid.copy(items = Items(updatedItems))
+                }
+                BidsDetails(updatedBids)
+            } else
+                bids
+
+        return context.bids?.copy(details = updatedBidsDetails)
     }
 
     private fun handleResult(
@@ -312,10 +349,47 @@ class MdmEnrichUnitsDelegate(
             .asSuccess()
     }
 
+    private fun getBidsItemsUnits(
+        context: CamundaGlobalContext,
+        entities: Map<EntityKey, EntityValue>
+    ): Result<List<UnitId>, Fail.Incident> =
+        when (entities[EntityKey.BID_ITEM]) {
+            EntityValue.OPTIONAL -> getBidsItemsUnitsOptional(context)
+            EntityValue.REQUIRED -> getBidstItemsUnitsRequired(context)
+            null -> emptyList<UnitId>().asSuccess()
+        }
+
+    private fun getBidsItemsUnitsOptional(context: CamundaGlobalContext): Result<List<UnitId>, Fail.Incident> =
+        context.bids?.details?.get(0)?.items
+            ?.mapNotNull { item -> item.unit?.id }
+            .orEmpty()
+            .asSuccess()
+
+    private fun getBidstItemsUnitsRequired(context: CamundaGlobalContext): Result<List<UnitId>, Fail.Incident> {
+        val bidsItems = context.bids?.details?.get(0)?.items
+            ?: return failure(Fail.Incident.Bpms.Context.Missing(name = "bids/items"))
+
+        val unitIds = bidsItems.map { item ->
+            val unit = item.unit
+            if (unit == null)
+                return failure(
+                    Fail.Incident.Bpms.Context.Missing(
+                        name = "unit",
+                        path = "#.targets[].observation[id:${item.id}]"
+                    )
+                )
+            else
+                unit.id
+        }
+
+        return success(unitIds)
+    }
+
     data class Parameters(val locations: Map<EntityKey, EntityValue>)
 
     enum class EntityKey(override val key: String) : EnumElementProvider.Key {
         TARGET("target"),
+        BID_ITEM("bid.item"),
         ITEM("item");
 
         override fun toString(): String = key

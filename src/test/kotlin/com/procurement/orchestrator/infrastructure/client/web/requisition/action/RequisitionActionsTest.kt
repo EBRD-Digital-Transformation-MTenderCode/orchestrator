@@ -104,4 +104,56 @@ class RequisitionActionsTest {
         }
     }
 
+    @Nested
+    inner class CheckLotsState {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CheckLotsStateAction.Params>("json/client/requisition/check_lots_state_params_full.json")
+            }
+        }
+    }
+
+    @Nested
+    inner class FindProcurementMethodModalities {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<FindProcurementMethodModalitiesAction.Params>("json/client/requisition/find_procurement_method_modalities_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<FindProcurementMethodModalitiesAction.Result>("json/client/requisition/find_procurement_method_modalities_result_full.json")
+            }
+        }
+    }
+
+    @Nested
+    inner class GetCurrency {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetCurrencyAction.Params>("json/client/requisition/get_currency_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetCurrencyAction.Result>("json/client/requisition/get_currency_result_full.json")
+            }
+        }
+    }
+
 }

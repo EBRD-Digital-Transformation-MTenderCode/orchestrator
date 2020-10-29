@@ -356,6 +356,7 @@ class DossierGetSubmissionsForTenderingDelegate(
             OperationTypeProcess.RELATION_AP,
             OperationTypeProcess.START_SECOND_STAGE,
             OperationTypeProcess.SUBMISSION_PERIOD_END,
+            OperationTypeProcess.SUBMIT_BID_IN_PCR,
             OperationTypeProcess.TENDER_CANCELLATION,
             OperationTypeProcess.TENDER_OR_LOT_AMENDMENT_CANCELLATION,
             OperationTypeProcess.TENDER_OR_LOT_AMENDMENT_CONFIRMATION,

@@ -33,6 +33,7 @@ import com.procurement.orchestrator.domain.model.lot.RecurrentProcurements
 import com.procurement.orchestrator.domain.model.lot.RelatedLots
 import com.procurement.orchestrator.domain.model.lot.Renewals
 import com.procurement.orchestrator.domain.model.lot.Variant
+import com.procurement.orchestrator.domain.model.lot.Variants
 import com.procurement.orchestrator.domain.model.measure.Quantity
 import com.procurement.orchestrator.domain.model.period.Period
 import com.procurement.orchestrator.domain.model.tender.AwardCriteria
@@ -155,8 +156,8 @@ abstract class CreatePcrAction : FunctionalAction<CreatePcrAction.Params, Create
                 @JsonInclude(JsonInclude.Include.NON_NULL)
                 @field:JsonProperty("classification") @param:JsonProperty("classification") val classification: Classification?,
 
-                @JsonInclude(JsonInclude.Include.NON_NULL)
-                @field:JsonProperty("variants") @param:JsonProperty("variants") val variants: Variant?
+                @JsonInclude(JsonInclude.Include.NON_EMPTY)
+                @field:JsonProperty("variants") @param:JsonProperty("variants") val variants: List<Variant>
             ) {
 
                 data class Variant(
@@ -408,7 +409,8 @@ abstract class CreatePcrAction : FunctionalAction<CreatePcrAction.Params, Create
 
                 @field:JsonProperty("classification") @param:JsonProperty("classification") val classification: Classification,
 
-                @field:JsonProperty("variants") @param:JsonProperty("variants") val variants: Variant
+                @JsonInclude(JsonInclude.Include.NON_EMPTY)
+                @field:JsonProperty("variants") @param:JsonProperty("variants") val variants: List<Variant>
             ) : Serializable {
 
                 data class Variant(
@@ -625,7 +627,9 @@ abstract class CreatePcrAction : FunctionalAction<CreatePcrAction.Params, Create
                     internalId = lot.internalId,
                     classification = Classifications.toDomain(lot.classification),
                     title = lot.title,
-                    variants = lot.variants.convert(),
+                    variants = lot.variants
+                        .map { it.convert() }
+                        .let { Variants(it) },
                     status = null,
                     statusDetails = null,
                     value = null,
@@ -776,7 +780,7 @@ abstract class CreatePcrAction : FunctionalAction<CreatePcrAction.Params, Create
                                     )
                                 },
                             variants = lot.variants
-                                ?.let { variants ->
+                                .map { variants ->
                                     Params.Tender.Lot.Variant(
                                         hasVariants = variants.hasVariants,
                                         variantsDetails = variants.variantDetails

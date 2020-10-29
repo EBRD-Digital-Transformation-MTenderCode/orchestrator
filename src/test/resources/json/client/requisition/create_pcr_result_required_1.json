@@ -27,9 +27,11 @@
           "scheme": "string",
           "description": "string"
         },
-        "variants": {
-          "hasVariants": true
-        }
+        "variants": [
+          {
+            "hasVariants": true
+          }
+        ]
       }
     ],
     "items": [
