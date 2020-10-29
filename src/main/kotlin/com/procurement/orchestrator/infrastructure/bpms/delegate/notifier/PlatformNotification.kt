@@ -109,7 +109,7 @@ object PlatformNotification {
 
         data class PreAwardCatalogRequest(
             @field:JsonProperty("id") @param:JsonProperty("id") val id: Ocid,
-            @field:JsonProperty("token") @param:JsonProperty("token") val token: Token
+            @field:JsonProperty("X-TOKEN") @param:JsonProperty("X-TOKEN") val token: Token
         )
     }
 }
