@@ -43,7 +43,7 @@ data class Bid(
     @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
     @field:JsonProperty("items") @param:JsonProperty("items") val items: Items = Items()
 
-    ) : IdentifiableObject<Bid>, Serializable {
+) : IdentifiableObject<Bid>, Serializable {
 
     override fun equals(other: Any?): Boolean {
         return if (this !== other)
