@@ -65,8 +65,8 @@ class RequisitionFindProcurementMethodModalitiesDelegate(
         return requisitionClient.findProcurementMethodModalities(
             id = commandId,
             params = FindProcurementMethodModalitiesAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
                 tender = FindProcurementMethodModalitiesAction.Params.Tender(
                     parameters.values.map { it.key }
                 )
