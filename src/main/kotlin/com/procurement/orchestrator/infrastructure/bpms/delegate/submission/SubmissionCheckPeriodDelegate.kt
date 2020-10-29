@@ -41,8 +41,8 @@ class SubmissionCheckPeriodDelegate(
         return client.checkPeriod(
             id = commandId,
             params = CheckPeriodAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
                 date = context.requestInfo.timestamp
             )
         )
