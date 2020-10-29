@@ -76,8 +76,8 @@ class AccessSetStateForTenderDelegate(
         return accessClient.setStateForTender(
             id = commandId,
             params = SetStateForTenderAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
                 tender = SetStateForTenderAction.Params.Tender(
                     status = parameters.status,
                     statusDetails = parameters.statusDetails

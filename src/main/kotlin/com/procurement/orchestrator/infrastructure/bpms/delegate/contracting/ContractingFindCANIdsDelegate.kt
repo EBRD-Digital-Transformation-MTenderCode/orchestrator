@@ -154,8 +154,8 @@ class ContractingFindCANIdsDelegate(
         return contractingClient.findCANIds(
             id = commandId,
             params = FindCANIdsAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
                 states = parameters.states
                     .map { state ->
                         FindCANIdsAction.Params.State(

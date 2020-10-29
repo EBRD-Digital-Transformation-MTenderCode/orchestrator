@@ -44,8 +44,8 @@ class RequisitionCheckTenderStateDelegate(
         return requisitionClient.checkTenderState(
             id = commandId,
             params = CheckTenderStateAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
                 country = requestInfo.country,
                 pmd = processInfo.pmd,
                 operationType = processInfo.operationType

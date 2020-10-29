@@ -46,8 +46,8 @@ class QualificationCheckQualificationStateDelegate(
         return client.checkQualificationState(
             id = commandId,
             params = CheckQualificationStateAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
                 qualificationId = qualification.id,
                 country = requestInfo.country,
                 pmd = processInfo.pmd,

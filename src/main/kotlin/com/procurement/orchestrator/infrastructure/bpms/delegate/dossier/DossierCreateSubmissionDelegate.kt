@@ -61,8 +61,8 @@ class DossierCreateSubmissionDelegate(
         return client.createSubmission(
             id = commandId,
             params = CreateSubmissionAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
                 date = requestInfo.timestamp,
                 owner = requestInfo.owner,
                 submission = CreateSubmissionAction.Params.Submission(

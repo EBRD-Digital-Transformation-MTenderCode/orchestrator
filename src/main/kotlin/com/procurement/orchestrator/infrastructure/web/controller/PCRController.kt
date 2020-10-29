@@ -79,16 +79,19 @@ class PCRController(
         val payload: String = servlet.getPayload()
             .orForwardFail { fail -> return fail }
 
+        val relatedProcess = PlatformRequest.Context.RelatedProcess(cpid = verifiedCpid, ocid = verifiedOcid)
+
         return PlatformRequest(
             operationId = operationId,
             platformId = platformId,
             context = PlatformRequest.Context(
                 cpid = verifiedCpid,
-                ocid = verifiedOcid,
+                ocid = null,
                 token = token,
                 owner = platformId,
                 uri = servlet.requestURI,
-                processName = PROCESS_NAME
+                processName = PROCESS_NAME,
+                relatedProcess = relatedProcess
             ),
             payload = payload
         ).asSuccess()

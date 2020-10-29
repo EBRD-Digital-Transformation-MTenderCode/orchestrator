@@ -9,6 +9,9 @@ import com.procurement.orchestrator.infrastructure.client.web.WebClient
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.CheckTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.CreatePcrAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.CreateRelationToContractProcessStageAction
+import com.procurement.orchestrator.infrastructure.client.web.requisition.action.CheckLotsStateAction
+import com.procurement.orchestrator.infrastructure.client.web.requisition.action.FindProcurementMethodModalitiesAction
+import com.procurement.orchestrator.infrastructure.client.web.requisition.action.GetCurrencyAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.GetTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.ValidatePcrDataAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.ValidateRequirementResponsesAction
@@ -61,6 +64,32 @@ class HttpRequisitionClient(private val webClient: WebClient, properties: Compon
         url = url,
         command = RequisitionCommands.GetTenderState.build(id = id, params = params),
         target = RequisitionCommands.GetTenderState.target
+    )
+
+    override suspend fun checkLotsState(
+        id: CommandId,
+        params: CheckLotsStateAction.Params
+    ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
+        url = url,
+        command = RequisitionCommands.CheckLotsState.build(id = id, params = params)
+    )
+
+    override suspend fun findProcurementMethodModalities(
+        id: CommandId,
+        params: FindProcurementMethodModalitiesAction.Params
+    ): Result<Reply<FindProcurementMethodModalitiesAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = RequisitionCommands.FindProcurementMethodModalities.build(id = id, params = params),
+        target = RequisitionCommands.FindProcurementMethodModalities.target
+    )
+
+    override suspend fun getCurrency(
+        id: CommandId,
+        params: GetCurrencyAction.Params
+    ): Result<Reply<GetCurrencyAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = RequisitionCommands.GetCurrency.build(id = id, params = params),
+        target = RequisitionCommands.GetCurrency.target
     )
 
     override suspend fun validateRequirementResponses(
