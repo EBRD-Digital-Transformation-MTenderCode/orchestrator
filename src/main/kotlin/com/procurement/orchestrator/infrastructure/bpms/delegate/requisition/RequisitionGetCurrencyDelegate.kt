@@ -47,8 +47,8 @@ class RequisitionGetCurrencyDelegate(
         return requisitionClient.getCurrency(
             id = commandId,
             params = GetCurrencyAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!
             )
         )
     }
