@@ -128,4 +128,53 @@ class SubmissionActionTest {
             }
         }
     }
+
+    @Nested
+    inner class CreateBid {
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CreateBidAction.Params>("json/client/submission/create_bid_params_full.json")
+            }
+
+            @Test
+            fun required() {
+                testingBindingAndMapping<CreateBidAction.Params>("json/client/submission/create_bid_params_required.json")
+            }
+
+            @Test
+            fun required_1() {
+                testingBindingAndMapping<CreateBidAction.Params>("json/client/submission/create_bid_params_required_1.json")
+            }
+
+            @Test
+            fun required_2() {
+                testingBindingAndMapping<CreateBidAction.Params>("json/client/submission/create_bid_params_required_2.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CreateBidAction.Result>("json/client/submission/create_bid_result_full.json")
+            }
+
+            @Test
+            fun required() {
+                testingBindingAndMapping<CreateBidAction.Result>("json/client/submission/create_bid_result_required.json")
+            }
+
+            @Test
+            fun required_1() {
+                testingBindingAndMapping<CreateBidAction.Result>("json/client/submission/create_bid_result_required_1.json")
+            }
+
+            @Test
+            fun required_2() {
+                testingBindingAndMapping<CreateBidAction.Result>("json/client/submission/create_bid_result_required_2.json")
+            }
+        }
+    }
 }

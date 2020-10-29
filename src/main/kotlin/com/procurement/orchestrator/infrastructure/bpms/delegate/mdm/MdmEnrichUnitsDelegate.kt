@@ -375,7 +375,7 @@ class MdmEnrichUnitsDelegate(
                 return failure(
                     Fail.Incident.Bpms.Context.Missing(
                         name = "unit",
-                        path = "#.targets[].observation[id:${item.id}]"
+                        path = "#.bids.details[].items[id:${item.id}]"
                     )
                 )
             else
