@@ -53,8 +53,8 @@ class QualificationCheckDeclarationDelegate(
         return qualificationClient.checkDeclaration(
             id = commandId,
             params = CheckDeclarationAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
                 qualificationId = qualification.id,
                 requirementResponse = CheckDeclarationAction.Params.RequirementResponse(
                     id = requirementResponse.id,

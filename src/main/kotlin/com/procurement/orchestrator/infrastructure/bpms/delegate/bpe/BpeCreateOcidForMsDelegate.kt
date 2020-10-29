@@ -42,7 +42,7 @@ class BpeCreateOcidForMsDelegate(
 
         val processInfo = context.processInfo
 
-        val cpid = processInfo.cpid
+        val cpid = processInfo.cpid!!
 
         val updatedOcid = Ocid.MultiStage.generate(cpid = cpid)
 

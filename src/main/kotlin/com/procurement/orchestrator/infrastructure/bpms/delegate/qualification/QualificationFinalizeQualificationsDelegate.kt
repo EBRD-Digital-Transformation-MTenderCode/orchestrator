@@ -45,8 +45,8 @@ class QualificationFinalizeQualificationsDelegate(
         return client.finalizeQualifications(
             id = commandId,
             params = FinalizeQualificationsAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!
             )
         )
     }

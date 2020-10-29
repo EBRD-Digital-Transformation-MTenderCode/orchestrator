@@ -1,0 +1,14 @@
+{
+  "cpid": "ocds-b3wdp1-MD-1580458690892",
+  "ocid": "ocds-b3wdp1-MD-1580458690892-EV-1580458791896",
+  "tender": {
+    "tenderPeriod": {
+      "startDate": "2020-10-19T09:26:03Z",
+      "endDate": "2020-10-19T09:26:03Z"
+    }
+  },
+  "owner": "6b2671d3-cb55-4385-8bc9-d56f5557625c",
+  "pmd": "CF",
+  "country": "string",
+  "operationType": "createPcr"
+}

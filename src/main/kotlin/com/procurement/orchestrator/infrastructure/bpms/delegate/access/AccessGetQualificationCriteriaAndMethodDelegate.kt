@@ -52,8 +52,8 @@ class AccessGetQualificationCriteriaAndMethodDelegate(
         return accessClient.getQualificationCriteriaAndMethod(
             id = commandId,
             params = GetQualificationCriteriaAndMethodAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!
             )
         )
     }
