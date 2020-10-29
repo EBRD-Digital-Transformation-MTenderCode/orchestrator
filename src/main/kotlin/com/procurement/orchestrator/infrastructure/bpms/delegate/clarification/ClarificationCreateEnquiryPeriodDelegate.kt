@@ -52,8 +52,8 @@ class ClarificationCreateEnquiryPeriodDelegate(
         return clarificationClient.createEnquiryPeriod(
             id = commandId,
             params = CreateEnquiryPeriodAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
                 operationType = processInfo.operationType,
                 pmd = processInfo.pmd,
                 country = requestInfo.country,

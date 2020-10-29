@@ -56,8 +56,8 @@ class DossierValidateSubmissionDelegate(
         return client.validateSubmission(
             id = commandId,
             params = ValidateSubmissionAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
                 id = submission.id,
                 candidates = Candidates(submissionCandidates),
                 documents = submission.documents

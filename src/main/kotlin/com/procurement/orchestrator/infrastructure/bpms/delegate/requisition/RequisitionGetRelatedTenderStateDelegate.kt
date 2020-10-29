@@ -21,7 +21,7 @@ import com.procurement.orchestrator.infrastructure.configuration.property.Extern
 import org.springframework.stereotype.Component
 
 @Component
-class RequisitionGetTenderStateDelegate(
+class RequisitionGetRelatedTenderStateDelegate(
     logger: Logger,
     private val requisitionClient: RequisitionClient,
     operationStepRepository: OperationStepRepository,
@@ -41,13 +41,13 @@ class RequisitionGetTenderStateDelegate(
         parameters: Unit
     ): Result<Reply<GetTenderStateAction.Result>, Fail.Incident> {
 
-        val processInfo = context.processInfo
+        val relatedProcess = context.processInfo.relatedProcess
 
         return requisitionClient.getTenderState(
             id = commandId,
             params = GetTenderStateAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid
+                cpid = relatedProcess?.cpid,
+                ocid = relatedProcess?.ocid
             )
         )
     }

@@ -57,7 +57,7 @@ class AuctionScheduleAuctionsDelegate(
             context = ScheduleAuctionsAction.Context(
                 operationId = requestInfo.operationId,
                 startDate = requestInfo.timestamp,
-                cpid = processInfo.cpid,
+                cpid = processInfo.cpid!!,
                 country = requestInfo.country,
                 pmd = processInfo.pmd
             ),

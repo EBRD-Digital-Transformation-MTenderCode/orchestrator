@@ -45,8 +45,8 @@ class EvaluationCheckAccessToAwardDelegate(
     ): Result<Reply<Unit>, Fail.Incident> {
 
         val processInfo = context.processInfo
-        val cpid: Cpid = processInfo.cpid
-        val ocid: Ocid = processInfo.ocid
+        val cpid: Cpid = processInfo.cpid!!
+        val ocid: Ocid = processInfo.ocid!!
 
         val award = context.getAwardIfOnlyOne()
             .orForwardFail { fail -> return fail }

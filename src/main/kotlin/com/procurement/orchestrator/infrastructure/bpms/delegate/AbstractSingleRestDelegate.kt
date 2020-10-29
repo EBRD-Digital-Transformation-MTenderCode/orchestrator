@@ -103,7 +103,7 @@ abstract class AbstractSingleRestDelegate<P, R : Any>(
 
         return operationStepRepository.save(
             step = OperationStep(
-                cpid = processInfo.cpid,
+                cpid = processInfo.cpid!!,
                 operationId = requestInfo.operationId,
                 processId = processId,
                 taskId = taskId,

@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.domain.model.document
 
+import com.fasterxml.jackson.annotation.JsonCreator
 import com.procurement.orchestrator.domain.model.ComplexObjects
 import java.io.Serializable
 
@@ -9,7 +10,8 @@ class RelatedConfirmations(
     ComplexObjects<RelatedConfirmation, RelatedConfirmations>,
     Serializable {
 
-    constructor(value: RelatedConfirmation) : this(listOf(value))
+    @JsonCreator
+    constructor(vararg values: RelatedConfirmation) : this(values.toList())
 
     override operator fun plus(other: RelatedConfirmations) =
         RelatedConfirmations(this as List<RelatedConfirmation> + other as List<RelatedConfirmation>)

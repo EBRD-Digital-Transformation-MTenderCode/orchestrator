@@ -54,8 +54,8 @@ class DossierFindSubmissionsForOpeningDelegate(
         return dossierClient.findSubmissions(
             id = commandId,
             params = FindSubmissionsAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
                 pmd = processInfo.pmd,
                 country = requestInfo.country,
                 operationType = processInfo.operationType

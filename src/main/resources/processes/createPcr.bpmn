@@ -66,14 +66,6 @@
       <bpmn:incoming>SequenceFlow_00n6w3u</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_08w7nfx</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:task id="Task_0derg8o" name="eRequisition:&#10;create PCR">
-      <bpmn:incoming>SequenceFlow_0drtwx6</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1ky377b</bpmn:outgoing>
-    </bpmn:task>
-    <bpmn:task id="Task_1az47tw" name="set enquiry period from fe">
-      <bpmn:incoming>SequenceFlow_1ky377b</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_08vi0ue</bpmn:outgoing>
-    </bpmn:task>
     <bpmn:serviceTask id="BpeAddErrorBPR-3.24.1Task" name="Add Error BPR-3.24.1" camunda:asyncBefore="true" camunda:delegateExpression="${bpeErrorAppenderDelegate}">
       <bpmn:extensionElements>
         <camunda:inputOutput>
@@ -111,19 +103,16 @@
       <bpmn:incoming>SequenceFlow_1xg72l1</bpmn:incoming>
       <bpmn:outgoing>Flow_0oi2b3n</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:task id="Task_1szir3q" name="iChronograph Schedule end  enquiry period">
-      <bpmn:incoming>SequenceFlow_1ahwted</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1cgr3ad</bpmn:outgoing>
-    </bpmn:task>
-    <bpmn:task id="Task_1nwasl3" name="eAuction: Save auctions">
-      <bpmn:incoming>SequenceFlow_08vi0ue</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1ahwted</bpmn:outgoing>
-    </bpmn:task>
     <bpmn:serviceTask id="AccessValidateRelatedTenderClassificationTask" name="eAcces:  Validate classification" camunda:asyncBefore="true" camunda:delegateExpression="${accessValidateRelatedTenderClassificationDelegate}">
       <bpmn:incoming>SequenceFlow_0vou0o2</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0fpant1</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="RequisitionCreatePcrTask" name="eRequisition: Create PCR" camunda:asyncBefore="true" camunda:delegateExpression="${requisitionCreatePcrDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="state">evaluation</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_14cfeyr</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_12fm24n</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -359,15 +348,6 @@
     <bpmn:endEvent id="EndEvent_1kzcwxq">
       <bpmn:incoming>SequenceFlow_19k6ngh</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:task id="BpeSetClarificationPhaseTask" name="BPE:&#10;Set &#39;clarification&#39; phase" camunda:asyncBefore="true">
-      <bpmn:extensionElements>
-        <camunda:inputOutput>
-          <camunda:inputParameter name="value">CLARIFICATION</camunda:inputParameter>
-        </camunda:inputOutput>
-      </bpmn:extensionElements>
-      <bpmn:incoming>SequenceFlow_1cgr3ad</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1nqyzd6</bpmn:outgoing>
-    </bpmn:task>
     <bpmn:serviceTask id="AccessGetRelatedTenderCurrencyTask" name="eAccess: Get FE currency" camunda:asyncBefore="true" camunda:delegateExpression="${accessGetRelatedTenderCurrencyDelegate}">
       <bpmn:incoming>SequenceFlow_0583thi</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1mlprtn</bpmn:outgoing>
@@ -398,7 +378,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_1p5zr8l" sourceRef="MdmEnrichUnitsTask" targetRef="AccessGetRelatedFEStateTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1b91jgv" sourceRef="AccessGetRelatedFEStateTask" targetRef="ExclusiveGateway_1707s6s" />
     <bpmn:sequenceFlow id="SequenceFlow_1lpbkc6" name="any another" sourceRef="ExclusiveGateway_1707s6s" targetRef="BpeAddErrorBPR-3.24.1Task" />
-    <bpmn:sequenceFlow id="SequenceFlow_0drtwx6" name="evaluation&#10;(2 way)" sourceRef="ExclusiveGateway_1707s6s" targetRef="Task_0derg8o">
+    <bpmn:sequenceFlow id="SequenceFlow_0drtwx6" name="evaluation&#10;(2 way)" sourceRef="ExclusiveGateway_1707s6s" targetRef="RequisitionCreatePcrSubmissionWayTask">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${result.statusDetails == 'SUBMISSION'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_1gkvzp7" name="submission &#10;(1 way)" sourceRef="ExclusiveGateway_1707s6s" targetRef="SubmissionValidateTenderPeriodTask">
@@ -409,8 +389,8 @@
     <bpmn:sequenceFlow id="SequenceFlow_1hqn431" sourceRef="SubmissionSetTenderPeriodTask" targetRef="ClarificationCreateEnquiryPeriodTask" />
     <bpmn:sequenceFlow id="SequenceFlow_12fm24n" sourceRef="RequisitionCreatePcrTask" targetRef="SubmissionPublishInvitationsInPcrTask" />
     <bpmn:sequenceFlow id="SequenceFlow_00n6w3u" sourceRef="SubmissionPublishInvitationsInPcrTask" targetRef="DossierGetSubmissionsForPcrTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1ky377b" sourceRef="Task_0derg8o" targetRef="Task_1az47tw" />
-    <bpmn:sequenceFlow id="SequenceFlow_08vi0ue" sourceRef="Task_1az47tw" targetRef="Task_1nwasl3" />
+    <bpmn:sequenceFlow id="SequenceFlow_1ky377b" sourceRef="RequisitionCreatePcrSubmissionWayTask" targetRef="ClarificationSetEnquityPeriodFromFETask" />
+    <bpmn:sequenceFlow id="SequenceFlow_08vi0ue" sourceRef="ClarificationSetEnquityPeriodFromFETask" targetRef="AuctionSaveAuctionsTask" />
     <bpmn:sequenceFlow id="SequenceFlow_02ovj3g" sourceRef="BpeAddErrorBPR-3.24.1Task" targetRef="BpeBpmnErrorDescriptionModifierTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0bplvuq" sourceRef="BpeBpmnErrorDescriptionModifierTask" targetRef="NotifierErrorNotificationToPlatformTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1vrvl34" sourceRef="NotifierErrorNotificationToPlatformTask" targetRef="EndEvent_1hipawl" />
@@ -418,8 +398,8 @@
     <bpmn:sequenceFlow id="SequenceFlow_0eywh89" sourceRef="ChronographScheduleEndTenderPeriodAuctionInPcrTask" targetRef="ExclusiveGateway_19738bm" />
     <bpmn:sequenceFlow id="SequenceFlow_1chle7z" sourceRef="ChronographScheduleEndTenderPeriodInPcrTask" targetRef="ExclusiveGateway_19738bm" />
     <bpmn:sequenceFlow id="SequenceFlow_1nqyzd6" sourceRef="BpeSetClarificationPhaseTask" targetRef="ExclusiveGateway_1m6hbe8" />
-    <bpmn:sequenceFlow id="SequenceFlow_1cgr3ad" sourceRef="Task_1szir3q" targetRef="BpeSetClarificationPhaseTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1ahwted" sourceRef="Task_1nwasl3" targetRef="Task_1szir3q" />
+    <bpmn:sequenceFlow id="SequenceFlow_1cgr3ad" sourceRef="ChronographScheduleEndEnquiryPeriodTask" targetRef="BpeSetClarificationPhaseTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1ahwted" sourceRef="AuctionSaveAuctionsTask" targetRef="ChronographScheduleEndEnquiryPeriodTask" />
     <bpmn:sequenceFlow id="Flow_1qgsfdc" sourceRef="AuctionScheduleAuctionsTask" targetRef="ChronographScheduleEndTenderPeriodAuctionInPcrTask" />
     <bpmn:sequenceFlow id="Flow_0dzzlkv" sourceRef="Gateway_1j242gf" targetRef="AuctionScheduleAuctionsTask">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${tender.electronicAuctions != null}</bpmn:conditionExpression>
@@ -431,6 +411,31 @@
     <bpmn:sequenceFlow id="SequenceFlow_0ufk6rl" sourceRef="BpeAddCreateRecordTaskInQueueTask" targetRef="NoticeTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1w7xh8e" sourceRef="NoticeTask" targetRef="NotifierSuccessNotificationToPlatformTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0tp32eg" sourceRef="subUpdateMSTask" targetRef="BpeAddCreateRecordTaskInQueueTask" />
+    <bpmn:serviceTask id="RequisitionCreatePcrSubmissionWayTask" name="eRequisition:&#10;create PCR " camunda:asyncBefore="true" camunda:delegateExpression="${requisitionCreatePcrDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="state">submission</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0drtwx6</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1ky377b</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="ClarificationSetEnquityPeriodFromFETask" name="set enquiry period from fe" camunda:asyncBefore="true" camunda:delegateExpression="${clarificationCreateEnquiryPeriodDelegate}">
+      <bpmn:incoming>SequenceFlow_1ky377b</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_08vi0ue</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="AuctionSaveAuctionsTask" name="eAuction: Save auctions" camunda:asyncBefore="true" camunda:delegateExpression="${auctionScheduleAuctionsDelegate}">
+      <bpmn:incoming>SequenceFlow_08vi0ue</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1ahwted</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="ChronographScheduleEndEnquiryPeriodTask" name="iChronograph Schedule end enquiry period" camunda:asyncBefore="true" camunda:delegateExpression="${chronographScheduleEndTenderPeriodAuctionInPcrDelegate}">
+      <bpmn:incoming>SequenceFlow_1ahwted</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1cgr3ad</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="BpeSetClarificationPhaseTask" name="BPE:&#10;Set &#39;clarification&#39; phase" camunda:asyncBefore="true" camunda:delegateExpression="${bpeSaveContextDelegate}">
+      <bpmn:incoming>SequenceFlow_1cgr3ad</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1nqyzd6</bpmn:outgoing>
+    </bpmn:serviceTask>
     <bpmn:textAnnotation id="TextAnnotation_1yxfdy4">
       <bpmn:text>изменение состояния MS + формирование связки на PCR</bpmn:text>
     </bpmn:textAnnotation>
@@ -487,9 +492,9 @@
     <bpmn:association id="Association_1uur0v3" sourceRef="SubmissionSetTenderPeriodTask" targetRef="TextAnnotation_15i4i7y" />
     <bpmn:association id="Association_08abfzp" sourceRef="SubmissionPublishInvitationsInPcrTask" targetRef="TextAnnotation_1ysglax" />
     <bpmn:association id="Association_1ful0uz" sourceRef="DossierGetSubmissionsForPcrTask" targetRef="TextAnnotation_1vp6fuf" />
-    <bpmn:association id="Association_1hfwy9v" sourceRef="Task_0derg8o" targetRef="TextAnnotation_15qi3o6" />
+    <bpmn:association id="Association_1hfwy9v" sourceRef="RequisitionCreatePcrSubmissionWayTask" targetRef="TextAnnotation_15qi3o6" />
     <bpmn:association id="Association_1tufo6x" sourceRef="ClarificationCreateEnquiryPeriodTask" targetRef="TextAnnotation_0w7ndja" />
-    <bpmn:association id="Association_1sd8z1d" sourceRef="Task_1szir3q" targetRef="TextAnnotation_0j8yum3" />
+    <bpmn:association id="Association_1sd8z1d" sourceRef="ChronographScheduleEndEnquiryPeriodTask" targetRef="TextAnnotation_0j8yum3" />
     <bpmn:association id="Association_0eyxlgf" sourceRef="AccessValidateRelatedTenderClassificationTask" targetRef="TextAnnotation_1onfrim" />
     <bpmn:association id="Association_08ne2bg" sourceRef="RequisitionCreatePcrTask" targetRef="TextAnnotation_1baegdp" />
     <bpmn:association id="Association_1o5uud6" sourceRef="RequisitionValidatePcrDataTask" targetRef="TextAnnotation_0wws1qq" />
@@ -511,123 +516,114 @@
       <bpmndi:BPMNShape id="Participant_00wp72i_di" bpmnElement="Participant_00wp72i" isHorizontal="true">
         <dc:Bounds x="200" y="80" width="3980" height="720" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_1yxfdy4_di" bpmnElement="TextAnnotation_1yxfdy4" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="3570" y="274" width="100" height="82" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_0r601oq_di" bpmnElement="TextAnnotation_0r601oq" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="580" y="274" width="100" height="81" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_0rol8xo_di" bpmnElement="TextAnnotation_0rol8xo" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="830" y="288" width="120" height="66" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_0wws1qq_di" bpmnElement="TextAnnotation_0wws1qq" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="970" y="259" width="100" height="95" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_1my6vm3_di" bpmnElement="TextAnnotation_1my6vm3">
-        <dc:Bounds x="312" y="273" width="100" height="82" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_1n15lml_di" bpmnElement="TextAnnotation_1n15lml" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="1230" y="294" width="100" height="53" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_0j8yum3_di" bpmnElement="TextAnnotation_0j8yum3">
-        <dc:Bounds x="2365" y="106" width="150" height="67" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_1onfrim_di" bpmnElement="TextAnnotation_1onfrim" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="1360" y="266" width="100" height="82" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_1vp6fuf_di" bpmnElement="TextAnnotation_1vp6fuf" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="2390" y="273" width="100" height="95" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_1mmb5ke_di" bpmnElement="TextAnnotation_1mmb5ke" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="2000" y="287" width="100" height="68" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_15qi3o6_di" bpmnElement="TextAnnotation_15qi3o6">
-        <dc:Bounds x="1990" y="110" width="120" height="53" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_1ysglax_di" bpmnElement="TextAnnotation_1ysglax">
-        <dc:Bounds x="2260" y="280" width="100" height="81" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_15i4i7y_di" bpmnElement="TextAnnotation_15i4i7y" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="2520" y="314" width="100" height="39" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_1baegdp_di" bpmnElement="TextAnnotation_1baegdp" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="2120" y="280" width="120" height="75" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_10sdfe5_di" bpmnElement="TextAnnotation_10sdfe5" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="1100" y="300" width="100" height="40" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_05irnwo_di" bpmnElement="TextAnnotation_05irnwo" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="3332" y="286" width="135" height="58" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_0w7ndja_di" bpmnElement="TextAnnotation_0w7ndja">
-        <dc:Bounds x="2640" y="288" width="120" height="65" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="SequenceFlow_0c8iien_di" bpmnElement="SequenceFlow_0c8iien" bioc:stroke="black" bioc:fill="white">
-        <di:waypoint x="3450" y="420" />
-        <di:waypoint x="3485" y="420" />
+      <bpmndi:BPMNEdge id="SequenceFlow_0tp32eg_di" bpmnElement="SequenceFlow_0tp32eg" bioc:stroke="black" bioc:fill="white">
+        <di:waypoint x="3670" y="420" />
+        <di:waypoint x="3710" y="420" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_01occkg_di" bpmnElement="SequenceFlow_01occkg" bioc:stroke="black" bioc:fill="white">
-        <di:waypoint x="3315" y="420" />
-        <di:waypoint x="3350" y="420" />
+      <bpmndi:BPMNEdge id="SequenceFlow_1w7xh8e_di" bpmnElement="SequenceFlow_1w7xh8e" bioc:stroke="black" bioc:fill="white">
+        <di:waypoint x="3940" y="420" />
+        <di:waypoint x="3970" y="420" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_1mlprtn_di" bpmnElement="SequenceFlow_1mlprtn" bioc:stroke="black" bioc:fill="white">
-        <di:waypoint x="1200" y="420" />
-        <di:waypoint x="1230" y="420" />
+      <bpmndi:BPMNEdge id="SequenceFlow_0ufk6rl_di" bpmnElement="SequenceFlow_0ufk6rl" bioc:stroke="black" bioc:fill="white">
+        <di:waypoint x="3810" y="420" />
+        <di:waypoint x="3840" y="420" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_1cxdnpo_di" bpmnElement="SequenceFlow_1cxdnpo">
-        <di:waypoint x="288" y="420" />
-        <di:waypoint x="320" y="420" />
+      <bpmndi:BPMNEdge id="SequenceFlow_19k6ngh_di" bpmnElement="SequenceFlow_19k6ngh" bioc:stroke="black" bioc:fill="white">
+        <di:waypoint x="4070" y="420" />
+        <di:waypoint x="4102" y="420" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_0ymcq1k_di" bpmnElement="SequenceFlow_0ymcq1k" bioc:stroke="black" bioc:fill="white">
-        <di:waypoint x="810" y="420" />
-        <di:waypoint x="840" y="420" />
+      <bpmndi:BPMNEdge id="SequenceFlow_1sh2oq9_di" bpmnElement="SequenceFlow_1sh2oq9" bioc:stroke="black" bioc:fill="white">
+        <di:waypoint x="3535" y="420" />
+        <di:waypoint x="3570" y="420" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_1kjhrz1_di" bpmnElement="SequenceFlow_1kjhrz1" bioc:stroke="black" bioc:fill="white">
-        <di:waypoint x="680" y="420" />
-        <di:waypoint x="710" y="420" />
+      <bpmndi:BPMNEdge id="Flow_1nkmwiq_di" bpmnElement="Flow_1nkmwiq">
+        <di:waypoint x="2945" y="445" />
+        <di:waypoint x="2945" y="530" />
+        <di:waypoint x="3130" y="530" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_0hzq8re_di" bpmnElement="SequenceFlow_0hzq8re" bioc:stroke="black" bioc:fill="white">
-        <di:waypoint x="550" y="420" />
-        <di:waypoint x="580" y="420" />
+      <bpmndi:BPMNEdge id="Flow_0oi2b3n_di" bpmnElement="Flow_0oi2b3n">
+        <di:waypoint x="2880" y="420" />
+        <di:waypoint x="2920" y="420" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_0rb86qd_di" bpmnElement="SequenceFlow_0rb86qd" bioc:stroke="black" bioc:fill="white">
-        <di:waypoint x="420" y="420" />
-        <di:waypoint x="450" y="420" />
+      <bpmndi:BPMNEdge id="Flow_0dzzlkv_di" bpmnElement="Flow_0dzzlkv">
+        <di:waypoint x="2970" y="420" />
+        <di:waypoint x="3000" y="420" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_1sojpge_di" bpmnElement="SequenceFlow_1sojpge" bioc:stroke="black" bioc:fill="white">
-        <di:waypoint x="940" y="420" />
-        <di:waypoint x="970" y="420" />
+      <bpmndi:BPMNEdge id="Flow_1qgsfdc_di" bpmnElement="Flow_1qgsfdc">
+        <di:waypoint x="3100" y="420" />
+        <di:waypoint x="3130" y="420" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_0583thi_di" bpmnElement="SequenceFlow_0583thi" bioc:stroke="black" bioc:fill="white">
-        <di:waypoint x="1070" y="420" />
-        <di:waypoint x="1100" y="420" />
+      <bpmndi:BPMNEdge id="SequenceFlow_1ahwted_di" bpmnElement="SequenceFlow_1ahwted">
+        <di:waypoint x="2360" y="220" />
+        <di:waypoint x="2390" y="220" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_0fpant1_di" bpmnElement="SequenceFlow_0fpant1" bioc:stroke="black" bioc:fill="white">
-        <di:waypoint x="1460" y="420" />
-        <di:waypoint x="1490" y="420" />
+      <bpmndi:BPMNEdge id="SequenceFlow_1cgr3ad_di" bpmnElement="SequenceFlow_1cgr3ad">
+        <di:waypoint x="2490" y="220" />
+        <di:waypoint x="2520" y="220" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_0vou0o2_di" bpmnElement="SequenceFlow_0vou0o2" bioc:stroke="black" bioc:fill="white">
-        <di:waypoint x="1330" y="420" />
-        <di:waypoint x="1360" y="420" />
+      <bpmndi:BPMNEdge id="SequenceFlow_1nqyzd6_di" bpmnElement="SequenceFlow_1nqyzd6">
+        <di:waypoint x="2620" y="220" />
+        <di:waypoint x="3510" y="220" />
+        <di:waypoint x="3510" y="395" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_1flqzaz_di" bpmnElement="SequenceFlow_1flqzaz" bioc:stroke="black" bioc:fill="white">
-        <di:waypoint x="1590" y="420" />
-        <di:waypoint x="1620" y="420" />
+      <bpmndi:BPMNEdge id="SequenceFlow_1chle7z_di" bpmnElement="SequenceFlow_1chle7z" bioc:stroke="black" bioc:fill="white">
+        <di:waypoint x="3230" y="530" />
+        <di:waypoint x="3290" y="530" />
+        <di:waypoint x="3290" y="445" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_1p5zr8l_di" bpmnElement="SequenceFlow_1p5zr8l" bioc:stroke="black" bioc:fill="white">
-        <di:waypoint x="1720" y="420" />
-        <di:waypoint x="1750" y="420" />
+      <bpmndi:BPMNEdge id="SequenceFlow_0eywh89_di" bpmnElement="SequenceFlow_0eywh89" bioc:stroke="black" bioc:fill="white">
+        <di:waypoint x="3230" y="420" />
+        <di:waypoint x="3265" y="420" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_1b91jgv_di" bpmnElement="SequenceFlow_1b91jgv" bioc:stroke="black" bioc:fill="white">
-        <di:waypoint x="1850" y="420" />
-        <di:waypoint x="1895" y="420" />
+      <bpmndi:BPMNEdge id="SequenceFlow_1xg72l1_di" bpmnElement="SequenceFlow_1xg72l1" bioc:stroke="black" bioc:fill="white">
+        <di:waypoint x="2750" y="420" />
+        <di:waypoint x="2780" y="420" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_1lpbkc6_di" bpmnElement="SequenceFlow_1lpbkc6" bioc:stroke="black" bioc:fill="white">
-        <di:waypoint x="1920" y="445" />
-        <di:waypoint x="1920" y="550" />
-        <di:waypoint x="2000" y="550" />
+      <bpmndi:BPMNEdge id="SequenceFlow_1vrvl34_di" bpmnElement="SequenceFlow_1vrvl34" bioc:stroke="black" bioc:fill="white">
+        <di:waypoint x="2360" y="550" />
+        <di:waypoint x="2382" y="550" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0bplvuq_di" bpmnElement="SequenceFlow_0bplvuq" bioc:stroke="black" bioc:fill="white">
+        <di:waypoint x="2230" y="550" />
+        <di:waypoint x="2260" y="550" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_02ovj3g_di" bpmnElement="SequenceFlow_02ovj3g" bioc:stroke="black" bioc:fill="white">
+        <di:waypoint x="2100" y="550" />
+        <di:waypoint x="2130" y="550" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_08vi0ue_di" bpmnElement="SequenceFlow_08vi0ue" bioc:stroke="black" bioc:fill="white">
+        <di:waypoint x="2230" y="220" />
+        <di:waypoint x="2260" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1ky377b_di" bpmnElement="SequenceFlow_1ky377b" bioc:stroke="black" bioc:fill="white">
+        <di:waypoint x="2100" y="220" />
+        <di:waypoint x="2130" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_00n6w3u_di" bpmnElement="SequenceFlow_00n6w3u" bioc:stroke="black" bioc:fill="white">
+        <di:waypoint x="2360" y="420" />
+        <di:waypoint x="2390" y="420" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_12fm24n_di" bpmnElement="SequenceFlow_12fm24n" bioc:stroke="black" bioc:fill="white">
+        <di:waypoint x="2230" y="420" />
+        <di:waypoint x="2260" y="420" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1hqn431_di" bpmnElement="SequenceFlow_1hqn431" bioc:stroke="black" bioc:fill="white">
+        <di:waypoint x="2620" y="420" />
+        <di:waypoint x="2650" y="420" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_08w7nfx_di" bpmnElement="SequenceFlow_08w7nfx" bioc:stroke="black" bioc:fill="white">
+        <di:waypoint x="2490" y="420" />
+        <di:waypoint x="2520" y="420" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_14cfeyr_di" bpmnElement="SequenceFlow_14cfeyr" bioc:stroke="black" bioc:fill="white">
+        <di:waypoint x="2100" y="420" />
+        <di:waypoint x="2130" y="420" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1gkvzp7_di" bpmnElement="SequenceFlow_1gkvzp7" bioc:stroke="black" bioc:fill="white">
+        <di:waypoint x="1945" y="420" />
+        <di:waypoint x="2000" y="420" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1931" y="523" width="60" height="14" />
+          <dc:Bounds x="1933" y="186" width="56" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0drtwx6_di" bpmnElement="SequenceFlow_0drtwx6" bioc:stroke="black" bioc:fill="white">
@@ -638,115 +634,73 @@
           <dc:Bounds x="1944" y="386" width="51" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_1gkvzp7_di" bpmnElement="SequenceFlow_1gkvzp7" bioc:stroke="black" bioc:fill="white">
-        <di:waypoint x="1945" y="420" />
-        <di:waypoint x="2000" y="420" />
+      <bpmndi:BPMNEdge id="SequenceFlow_1lpbkc6_di" bpmnElement="SequenceFlow_1lpbkc6" bioc:stroke="black" bioc:fill="white">
+        <di:waypoint x="1920" y="445" />
+        <di:waypoint x="1920" y="550" />
+        <di:waypoint x="2000" y="550" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1933" y="186" width="56" height="27" />
+          <dc:Bounds x="1931" y="523" width="60" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_14cfeyr_di" bpmnElement="SequenceFlow_14cfeyr" bioc:stroke="black" bioc:fill="white">
-        <di:waypoint x="2100" y="420" />
-        <di:waypoint x="2130" y="420" />
+      <bpmndi:BPMNEdge id="SequenceFlow_1b91jgv_di" bpmnElement="SequenceFlow_1b91jgv" bioc:stroke="black" bioc:fill="white">
+        <di:waypoint x="1850" y="420" />
+        <di:waypoint x="1895" y="420" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_08w7nfx_di" bpmnElement="SequenceFlow_08w7nfx" bioc:stroke="black" bioc:fill="white">
-        <di:waypoint x="2490" y="420" />
-        <di:waypoint x="2520" y="420" />
+      <bpmndi:BPMNEdge id="SequenceFlow_1p5zr8l_di" bpmnElement="SequenceFlow_1p5zr8l" bioc:stroke="black" bioc:fill="white">
+        <di:waypoint x="1720" y="420" />
+        <di:waypoint x="1750" y="420" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_1hqn431_di" bpmnElement="SequenceFlow_1hqn431" bioc:stroke="black" bioc:fill="white">
-        <di:waypoint x="2620" y="420" />
-        <di:waypoint x="2650" y="420" />
+      <bpmndi:BPMNEdge id="SequenceFlow_1flqzaz_di" bpmnElement="SequenceFlow_1flqzaz" bioc:stroke="black" bioc:fill="white">
+        <di:waypoint x="1590" y="420" />
+        <di:waypoint x="1620" y="420" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_12fm24n_di" bpmnElement="SequenceFlow_12fm24n" bioc:stroke="black" bioc:fill="white">
-        <di:waypoint x="2230" y="420" />
-        <di:waypoint x="2260" y="420" />
+      <bpmndi:BPMNEdge id="SequenceFlow_0vou0o2_di" bpmnElement="SequenceFlow_0vou0o2" bioc:stroke="black" bioc:fill="white">
+        <di:waypoint x="1330" y="420" />
+        <di:waypoint x="1360" y="420" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_00n6w3u_di" bpmnElement="SequenceFlow_00n6w3u" bioc:stroke="black" bioc:fill="white">
-        <di:waypoint x="2360" y="420" />
-        <di:waypoint x="2390" y="420" />
+      <bpmndi:BPMNEdge id="SequenceFlow_0fpant1_di" bpmnElement="SequenceFlow_0fpant1" bioc:stroke="black" bioc:fill="white">
+        <di:waypoint x="1460" y="420" />
+        <di:waypoint x="1490" y="420" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_1ky377b_di" bpmnElement="SequenceFlow_1ky377b" bioc:stroke="black" bioc:fill="white">
-        <di:waypoint x="2100" y="220" />
-        <di:waypoint x="2130" y="220" />
+      <bpmndi:BPMNEdge id="SequenceFlow_0583thi_di" bpmnElement="SequenceFlow_0583thi" bioc:stroke="black" bioc:fill="white">
+        <di:waypoint x="1070" y="420" />
+        <di:waypoint x="1100" y="420" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_08vi0ue_di" bpmnElement="SequenceFlow_08vi0ue" bioc:stroke="black" bioc:fill="white">
-        <di:waypoint x="2230" y="220" />
-        <di:waypoint x="2260" y="220" />
+      <bpmndi:BPMNEdge id="SequenceFlow_1sojpge_di" bpmnElement="SequenceFlow_1sojpge" bioc:stroke="black" bioc:fill="white">
+        <di:waypoint x="940" y="420" />
+        <di:waypoint x="970" y="420" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_02ovj3g_di" bpmnElement="SequenceFlow_02ovj3g" bioc:stroke="black" bioc:fill="white">
-        <di:waypoint x="2100" y="550" />
-        <di:waypoint x="2130" y="550" />
+      <bpmndi:BPMNEdge id="SequenceFlow_0rb86qd_di" bpmnElement="SequenceFlow_0rb86qd" bioc:stroke="black" bioc:fill="white">
+        <di:waypoint x="420" y="420" />
+        <di:waypoint x="450" y="420" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_0bplvuq_di" bpmnElement="SequenceFlow_0bplvuq" bioc:stroke="black" bioc:fill="white">
-        <di:waypoint x="2230" y="550" />
-        <di:waypoint x="2260" y="550" />
+      <bpmndi:BPMNEdge id="SequenceFlow_0hzq8re_di" bpmnElement="SequenceFlow_0hzq8re" bioc:stroke="black" bioc:fill="white">
+        <di:waypoint x="550" y="420" />
+        <di:waypoint x="580" y="420" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_1vrvl34_di" bpmnElement="SequenceFlow_1vrvl34" bioc:stroke="black" bioc:fill="white">
-        <di:waypoint x="2360" y="550" />
-        <di:waypoint x="2382" y="550" />
+      <bpmndi:BPMNEdge id="SequenceFlow_1kjhrz1_di" bpmnElement="SequenceFlow_1kjhrz1" bioc:stroke="black" bioc:fill="white">
+        <di:waypoint x="680" y="420" />
+        <di:waypoint x="710" y="420" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_1xg72l1_di" bpmnElement="SequenceFlow_1xg72l1" bioc:stroke="black" bioc:fill="white">
-        <di:waypoint x="2750" y="420" />
-        <di:waypoint x="2780" y="420" />
+      <bpmndi:BPMNEdge id="SequenceFlow_0ymcq1k_di" bpmnElement="SequenceFlow_0ymcq1k" bioc:stroke="black" bioc:fill="white">
+        <di:waypoint x="810" y="420" />
+        <di:waypoint x="840" y="420" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_0eywh89_di" bpmnElement="SequenceFlow_0eywh89" bioc:stroke="black" bioc:fill="white">
-        <di:waypoint x="3230" y="420" />
-        <di:waypoint x="3265" y="420" />
+      <bpmndi:BPMNEdge id="SequenceFlow_1cxdnpo_di" bpmnElement="SequenceFlow_1cxdnpo">
+        <di:waypoint x="288" y="420" />
+        <di:waypoint x="320" y="420" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_1chle7z_di" bpmnElement="SequenceFlow_1chle7z" bioc:stroke="black" bioc:fill="white">
-        <di:waypoint x="3230" y="530" />
-        <di:waypoint x="3290" y="530" />
-        <di:waypoint x="3290" y="445" />
+      <bpmndi:BPMNEdge id="SequenceFlow_1mlprtn_di" bpmnElement="SequenceFlow_1mlprtn" bioc:stroke="black" bioc:fill="white">
+        <di:waypoint x="1200" y="420" />
+        <di:waypoint x="1230" y="420" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_1nqyzd6_di" bpmnElement="SequenceFlow_1nqyzd6">
-        <di:waypoint x="2620" y="220" />
-        <di:waypoint x="3510" y="220" />
-        <di:waypoint x="3510" y="395" />
+      <bpmndi:BPMNEdge id="SequenceFlow_01occkg_di" bpmnElement="SequenceFlow_01occkg" bioc:stroke="black" bioc:fill="white">
+        <di:waypoint x="3315" y="420" />
+        <di:waypoint x="3350" y="420" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_1cgr3ad_di" bpmnElement="SequenceFlow_1cgr3ad">
-        <di:waypoint x="2490" y="220" />
-        <di:waypoint x="2520" y="220" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_1ahwted_di" bpmnElement="SequenceFlow_1ahwted">
-        <di:waypoint x="2360" y="220" />
-        <di:waypoint x="2390" y="220" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1qgsfdc_di" bpmnElement="Flow_1qgsfdc">
-        <di:waypoint x="3100" y="420" />
-        <di:waypoint x="3130" y="420" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0dzzlkv_di" bpmnElement="Flow_0dzzlkv">
-        <di:waypoint x="2970" y="420" />
-        <di:waypoint x="3000" y="420" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0oi2b3n_di" bpmnElement="Flow_0oi2b3n">
-        <di:waypoint x="2880" y="420" />
-        <di:waypoint x="2920" y="420" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1nkmwiq_di" bpmnElement="Flow_1nkmwiq">
-        <di:waypoint x="2945" y="445" />
-        <di:waypoint x="2945" y="530" />
-        <di:waypoint x="3130" y="530" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_1sh2oq9_di" bpmnElement="SequenceFlow_1sh2oq9" bioc:stroke="black" bioc:fill="white">
-        <di:waypoint x="3535" y="420" />
-        <di:waypoint x="3570" y="420" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_19k6ngh_di" bpmnElement="SequenceFlow_19k6ngh" bioc:stroke="black" bioc:fill="white">
-        <di:waypoint x="4070" y="420" />
-        <di:waypoint x="4102" y="420" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_0ufk6rl_di" bpmnElement="SequenceFlow_0ufk6rl" bioc:stroke="black" bioc:fill="white">
-        <di:waypoint x="3810" y="420" />
-        <di:waypoint x="3840" y="420" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_1w7xh8e_di" bpmnElement="SequenceFlow_1w7xh8e" bioc:stroke="black" bioc:fill="white">
-        <di:waypoint x="3940" y="420" />
-        <di:waypoint x="3970" y="420" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_0tp32eg_di" bpmnElement="SequenceFlow_0tp32eg" bioc:stroke="black" bioc:fill="white">
-        <di:waypoint x="3670" y="420" />
-        <di:waypoint x="3710" y="420" />
+      <bpmndi:BPMNEdge id="SequenceFlow_0c8iien_di" bpmnElement="SequenceFlow_0c8iien" bioc:stroke="black" bioc:fill="white">
+        <di:waypoint x="3450" y="420" />
+        <di:waypoint x="3485" y="420" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ServiceTask_0yry499_di" bpmnElement="AccessGetRelatedFEStateTask" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="1750" y="380" width="100" height="80" />
@@ -775,12 +729,6 @@
       <bpmndi:BPMNShape id="ServiceTask_0lwlf6j_di" bpmnElement="DossierGetSubmissionsForPcrTask" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="2390" y="380" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Task_0derg8o_di" bpmnElement="Task_0derg8o" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
-        <dc:Bounds x="2000" y="180" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Task_1az47tw_di" bpmnElement="Task_1az47tw" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
-        <dc:Bounds x="2130" y="180" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_1i8d38q_di" bpmnElement="BpeAddErrorBPR-3.24.1Task" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="2000" y="510" width="100" height="80" />
       </bpmndi:BPMNShape>
@@ -798,12 +746,6 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_022skqp_di" bpmnElement="StorageOpenAccessTask" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="2780" y="380" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Task_1szir3q_di" bpmnElement="Task_1szir3q" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
-        <dc:Bounds x="2390" y="180" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Task_1nwasl3_di" bpmnElement="Task_1nwasl3" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
-        <dc:Bounds x="2260" y="180" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_00moq0r_di" bpmnElement="AccessValidateRelatedTenderClassificationTask" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="1360" y="380" width="100" height="80" />
@@ -831,54 +773,6 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_1b6ly0b_di" bpmnElement="BpeInitializeCreatePreAwardCatalogRequestProcess" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="320" y="380" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_11jm7re_di" bpmnElement="AuctionValidateAuctionsTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="1230" y="380" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_1j242gf_di" bpmnElement="Gateway_1j242gf" isMarkerVisible="true">
-        <dc:Bounds x="2920" y="395" width="50" height="50" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="2910" y="363" width="79" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_02m1usf_di" bpmnElement="AuctionScheduleAuctionsTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="3000" y="380" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_0vh8ut5_di" bpmnElement="ChronographScheduleEndTenderPeriodAuctionInPcrTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="3130" y="380" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_15nhdmk_di" bpmnElement="ChronographScheduleEndTenderPeriodInPcrTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="3130" y="490" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ExclusiveGateway_19738bm_di" bpmnElement="ExclusiveGateway_19738bm" isMarkerVisible="true" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="3265" y="395" width="50" height="50" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_06pheqh_di" bpmnElement="NoticeTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="3840" y="380" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_1lvlth6_di" bpmnElement="BpeAddCreateRecordTaskInQueueTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="3710" y="380" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_016fl9a_di" bpmnElement="NotifierSuccessNotificationToPlatformTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="3970" y="380" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="CallActivity_0jv69hu_di" bpmnElement="subUpdateMSTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="3570" y="380" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ExclusiveGateway_1m6hbe8_di" bpmnElement="ExclusiveGateway_1m6hbe8" isMarkerVisible="true" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="3485" y="395" width="50" height="50" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="EndEvent_1kzcwxq_di" bpmnElement="EndEvent_1kzcwxq" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="4102" y="402" width="36" height="36" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1xvqqx1_di" bpmnElement="BpeSetClarificationPhaseTask" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
-        <dc:Bounds x="2520" y="180" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_0y5xo3z_di" bpmnElement="AccessGetRelatedTenderCurrencyTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="1100" y="380" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_0kzho0z_di" bpmnElement="bpeSaveContextTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="3350" y="380" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1pig7v5_di" bpmnElement="Activity_1pig7v5" isExpanded="true">
         <dc:Bounds x="2050" y="630" width="440" height="140" />
@@ -976,6 +870,117 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_09jei68_di" bpmnElement="NotifierValidationErrorNotificationToPlatformTask">
         <dc:Bounds x="2780" y="658" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_11jm7re_di" bpmnElement="AuctionValidateAuctionsTask" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="1230" y="380" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1j242gf_di" bpmnElement="Gateway_1j242gf" isMarkerVisible="true">
+        <dc:Bounds x="2920" y="395" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2910" y="363" width="79" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_02m1usf_di" bpmnElement="AuctionScheduleAuctionsTask" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="3000" y="380" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0vh8ut5_di" bpmnElement="ChronographScheduleEndTenderPeriodAuctionInPcrTask" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="3130" y="380" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_15nhdmk_di" bpmnElement="ChronographScheduleEndTenderPeriodInPcrTask" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="3130" y="490" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExclusiveGateway_19738bm_di" bpmnElement="ExclusiveGateway_19738bm" isMarkerVisible="true" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="3265" y="395" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_06pheqh_di" bpmnElement="NoticeTask" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="3840" y="380" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1lvlth6_di" bpmnElement="BpeAddCreateRecordTaskInQueueTask" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="3710" y="380" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_016fl9a_di" bpmnElement="NotifierSuccessNotificationToPlatformTask" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="3970" y="380" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="CallActivity_0jv69hu_di" bpmnElement="subUpdateMSTask" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="3570" y="380" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExclusiveGateway_1m6hbe8_di" bpmnElement="ExclusiveGateway_1m6hbe8" isMarkerVisible="true" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="3485" y="395" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_1kzcwxq_di" bpmnElement="EndEvent_1kzcwxq" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="4102" y="402" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0y5xo3z_di" bpmnElement="AccessGetRelatedTenderCurrencyTask" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="1100" y="380" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0kzho0z_di" bpmnElement="bpeSaveContextTask" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="3350" y="380" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0abzzhe_di" bpmnElement="RequisitionCreatePcrSubmissionWayTask" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
+        <dc:Bounds x="2000" y="180" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_15bseb8_di" bpmnElement="ClarificationSetEnquityPeriodFromFETask" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
+        <dc:Bounds x="2130" y="180" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0w8djbe_di" bpmnElement="AuctionSaveAuctionsTask" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
+        <dc:Bounds x="2260" y="180" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0hte5r4_di" bpmnElement="ChronographScheduleEndEnquiryPeriodTask" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
+        <dc:Bounds x="2390" y="180" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_05sf2hv_di" bpmnElement="BpeSetClarificationPhaseTask" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
+        <dc:Bounds x="2520" y="180" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_1yxfdy4_di" bpmnElement="TextAnnotation_1yxfdy4" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="3570" y="274" width="100" height="82" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0r601oq_di" bpmnElement="TextAnnotation_0r601oq" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="580" y="274" width="100" height="81" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0rol8xo_di" bpmnElement="TextAnnotation_0rol8xo" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="830" y="288" width="120" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0wws1qq_di" bpmnElement="TextAnnotation_0wws1qq" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="970" y="259" width="100" height="95" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_1my6vm3_di" bpmnElement="TextAnnotation_1my6vm3">
+        <dc:Bounds x="312" y="273" width="100" height="82" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_1n15lml_di" bpmnElement="TextAnnotation_1n15lml" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="1230" y="294" width="100" height="53" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0j8yum3_di" bpmnElement="TextAnnotation_0j8yum3">
+        <dc:Bounds x="2365" y="106" width="150" height="67" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_1onfrim_di" bpmnElement="TextAnnotation_1onfrim" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="1360" y="266" width="100" height="82" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_1vp6fuf_di" bpmnElement="TextAnnotation_1vp6fuf" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="2390" y="273" width="100" height="95" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_1mmb5ke_di" bpmnElement="TextAnnotation_1mmb5ke" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="2000" y="287" width="100" height="68" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_15qi3o6_di" bpmnElement="TextAnnotation_15qi3o6">
+        <dc:Bounds x="1990" y="110" width="120" height="53" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_1ysglax_di" bpmnElement="TextAnnotation_1ysglax">
+        <dc:Bounds x="2260" y="280" width="100" height="81" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_15i4i7y_di" bpmnElement="TextAnnotation_15i4i7y" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="2520" y="314" width="100" height="39" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_1baegdp_di" bpmnElement="TextAnnotation_1baegdp" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="2120" y="280" width="120" height="75" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_10sdfe5_di" bpmnElement="TextAnnotation_10sdfe5" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="1100" y="300" width="100" height="40" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_05irnwo_di" bpmnElement="TextAnnotation_05irnwo" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="3332" y="286" width="135" height="58" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0w7ndja_di" bpmnElement="TextAnnotation_0w7ndja">
+        <dc:Bounds x="2640" y="288" width="120" height="65" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Association_078k16e_di" bpmnElement="Association_078k16e" bioc:stroke="black" bioc:fill="white">
         <di:waypoint x="3620" y="380" />
