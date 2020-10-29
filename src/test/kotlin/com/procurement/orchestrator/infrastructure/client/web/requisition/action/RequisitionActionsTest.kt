@@ -117,6 +117,26 @@ class RequisitionActionsTest {
     }
 
     @Nested
+    inner class FindProcurementMethodModalities {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<FindProcurementMethodModalitiesAction.Params>("json/client/requisition/find_procurement_method_modalities_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<FindProcurementMethodModalitiesAction.Result>("json/client/requisition/find_procurement_method_modalities_result_full.json")
+            }
+        }
+    }
+
+    @Nested
     inner class GetCurrency {
 
         @Nested

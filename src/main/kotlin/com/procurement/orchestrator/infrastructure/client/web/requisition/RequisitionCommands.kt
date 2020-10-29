@@ -4,6 +4,7 @@ import com.procurement.orchestrator.infrastructure.client.web.requisition.action
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.CheckTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.CreatePcrAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.CreateRelationToContractProcessStageAction
+import com.procurement.orchestrator.infrastructure.client.web.requisition.action.FindProcurementMethodModalitiesAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.GetCurrencyAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.GetTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.ValidatePcrDataAction
@@ -21,6 +22,8 @@ object RequisitionCommands {
     object GetTenderState : GetTenderStateAction()
 
     object CheckLotsState : CheckLotsStateAction()
+
+    object FindProcurementMethodModalities: FindProcurementMethodModalitiesAction()
 
     object GetCurrency : GetCurrencyAction()
 }
