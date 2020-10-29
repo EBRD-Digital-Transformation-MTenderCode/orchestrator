@@ -192,6 +192,8 @@
           {
             "id": "string",
             "unit": {
+              "id": "string",
+              "name": "string",
               "value": {
                 "amount": 0.00,
                 "currency": "string"

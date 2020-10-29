@@ -320,6 +320,8 @@ class SubmissionCreateBidDataDelegate(
                                     id = item.id,
                                     unit = item.unit?.let { unit ->
                                         CreateBidAction.Params.Bids.Detail.Item.Unit(
+                                            id = unit.id,
+                                            name = unit.name,
                                             value = unit.value
                                                 ?.let { value ->
                                                     CreateBidAction.Params.Bids.Detail.Item.Unit.Value(
