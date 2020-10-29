@@ -43,8 +43,8 @@ class AccessCheckAccessToTenderDelegate(
         parameters: Unit
     ): Result<Reply<Unit>, Fail.Incident> {
         val processInfo = context.processInfo
-        val cpid: Cpid = processInfo.cpid
-        val ocid: Ocid = processInfo.ocid
+        val cpid: Cpid = processInfo.cpid!!
+        val ocid: Ocid = processInfo.ocid!!
 
         val requestInfo = context.requestInfo
         val token: Token = requestInfo.token

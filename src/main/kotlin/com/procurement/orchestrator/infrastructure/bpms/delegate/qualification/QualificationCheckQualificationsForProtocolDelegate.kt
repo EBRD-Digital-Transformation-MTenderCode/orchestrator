@@ -39,8 +39,8 @@ class QualificationCheckQualificationsForProtocolDelegate(
         return client.checkQualificationForProtocol(
             id = commandId,
             params = CheckQualificationForProtocolAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!
             )
         )
     }

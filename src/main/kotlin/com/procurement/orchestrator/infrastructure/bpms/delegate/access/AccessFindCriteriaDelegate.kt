@@ -66,8 +66,8 @@ class AccessFindCriteriaDelegate(
         return accessClient.findCriteria(
             id = commandId,
             params = FindCriteriaAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
                 source = parameters.source
             )
         )

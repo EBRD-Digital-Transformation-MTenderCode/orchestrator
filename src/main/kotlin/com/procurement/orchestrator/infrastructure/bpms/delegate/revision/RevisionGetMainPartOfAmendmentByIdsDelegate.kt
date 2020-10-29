@@ -68,8 +68,8 @@ class RevisionGetMainPartOfAmendmentByIdsDelegate(
     ): Result<Reply<GetAmendmentByIdsAction.Result>, Fail.Incident> {
 
         val processInfo = context.processInfo
-        val cpid = processInfo.cpid
-        val ocid = processInfo.ocid
+        val cpid = processInfo.cpid!!
+        val ocid = processInfo.ocid!!
 
         val ids: List<AmendmentId> = when (parameters.location) {
             Location.TENDER -> context.tryGetTender()

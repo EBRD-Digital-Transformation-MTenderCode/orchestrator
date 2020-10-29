@@ -80,7 +80,10 @@ object PlatformNotification {
         @field:JsonProperty("submissions") @param:JsonProperty("submissions") val submissions: List<Submission> = emptyList(),
 
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
-        @field:JsonProperty("qualifications") @param:JsonProperty("qualifications") val qualifications: List<Qualification> = emptyList()
+        @field:JsonProperty("qualifications") @param:JsonProperty("qualifications") val qualifications: List<Qualification> = emptyList(),
+
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        @field:JsonProperty("pc") @param:JsonProperty("pc") val pcr: List<PreAwardCatalogRequest> = emptyList()
     ) {
 
         class Amendment(
@@ -102,6 +105,11 @@ object PlatformNotification {
         data class Qualification(
             @field:JsonProperty("id") @param:JsonProperty("id") val id: QualificationId,
             @field:JsonProperty("X-TOKEN") @param:JsonProperty("X-TOKEN") val token: Token
+        )
+
+        data class PreAwardCatalogRequest(
+            @field:JsonProperty("id") @param:JsonProperty("id") val id: Ocid,
+            @field:JsonProperty("token") @param:JsonProperty("token") val token: Token
         )
     }
 }

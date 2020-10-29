@@ -118,7 +118,7 @@ abstract class AbstractSeqExternalDelegate<P, T, R : Any>(
 
         return operationStepRepository.save(
             step = OperationStep(
-                cpid = processInfo.cpid,
+                cpid = processInfo.cpid!!,
                 operationId = requestInfo.operationId,
                 processId = processId,
                 taskId = taskId,

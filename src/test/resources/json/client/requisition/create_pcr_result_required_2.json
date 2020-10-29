@@ -1,0 +1,49 @@
+{
+  "ocid": "ocds-b3wdp1-MD-1580458690892-EV-1580458791896",
+  "token": "c3bdd497-ac2d-4e25-bd7f-cd55111aa7b4",
+  "tender": {
+    "id": "id",
+    "status": "active",
+    "statusDetails": "empty",
+    "date": "2020-10-20T11:54:45Z",
+    "title": "string",
+    "description": "string",
+    "value": {
+      "currency": "string"
+    },
+    "classification": {
+      "id": "string",
+      "scheme": "string",
+      "description": "string"
+    },
+    "awardCriteria": "priceOnly",
+    "awardCriteriaDetails": "manual",
+    "lots": [
+      {
+        "id": "string",
+        "title": "string",
+        "classification": {
+          "id": "string",
+          "scheme": "string",
+          "description": "string"
+        },
+        "variants": [
+          {
+            "hasVariants": true
+          }
+        ]
+      }
+    ]
+  },
+  "relatedProcesses": [
+    {
+      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "relationship": [
+        "parent"
+      ],
+      "scheme": "ocid",
+      "identifier": "string",
+      "uri": "string"
+    }
+  ]
+}
