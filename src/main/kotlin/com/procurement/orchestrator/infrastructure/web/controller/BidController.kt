@@ -91,7 +91,7 @@ class BidController(
                 if (logger.isDebugEnabled)
                     logger.debug("Request: platform '${request.platformId}', operation-id '${request.operationId}', uri '${servlet.requestURI}', payload '${request.payload}'.")
             }
-        return processLauncher.launch(request)
+        return processLauncher.launchWithContextByOcid(request)
     }
 
     private fun buildRequest(
