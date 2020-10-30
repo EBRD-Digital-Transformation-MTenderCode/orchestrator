@@ -45,7 +45,8 @@ class BidController(
 ) {
 
     companion object {
-        private const val PROCESS_NAME = "createBid"
+        private const val PROCESS_NAME_V1 = "createBid"
+        private const val PROCESS_NAME_V2 = "submitBidInPcr"
     }
 
     @PostMapping("/{cpid}/{ocid}")
@@ -123,7 +124,7 @@ class BidController(
                 token = token,
                 owner = platformId,
                 uri = servlet.requestURI,
-                processName = PROCESS_NAME
+                processName = PROCESS_NAME_V2
             ),
             payload = payload
         ).asSuccess()
@@ -151,10 +152,10 @@ class BidController(
             validateAndLaunchV1(operationId, data, authorization, cpid, ocid)
         } catch (exception: OperationException) {
             return MaybeFail.fail(
-                Fail.Incident.Bpe(description = exception.message ?: "Failed starting process '$PROCESS_NAME'.'")
+                Fail.Incident.Bpe(description = exception.message ?: "Failed starting process '$PROCESS_NAME_V1'.'")
             )
         } catch (exception: Exception) {
-            return MaybeFail.fail(Fail.Incident.Bpe(description = "Failed starting process '$PROCESS_NAME'.'"))
+            return MaybeFail.fail(Fail.Incident.Bpe(description = "Failed starting process '$PROCESS_NAME_V1'.'"))
         }
 
         return MaybeFail.none()
@@ -174,12 +175,12 @@ class BidController(
             cpid,
             ocid.toString(),
             null,
-            PROCESS_NAME
+            PROCESS_NAME_V1
         )
-        context.operationType = PROCESS_NAME
+        context.operationType = PROCESS_NAME_V1
         requestService.saveRequestAndCheckOperation(context, data)
         val variables: MutableMap<String, Any> = HashMap()
-        variables["operationType"] = PROCESS_NAME
+        variables["operationType"] = PROCESS_NAME_V1
         val bidNode = data["bid"] as ObjectNode
         val relatedLotId = (bidNode["relatedLots"] as ArrayNode)[0].asText()
         variables["lotId"] = relatedLotId
