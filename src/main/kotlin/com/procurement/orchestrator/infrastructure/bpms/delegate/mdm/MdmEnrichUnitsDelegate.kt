@@ -214,9 +214,9 @@ class MdmEnrichUnitsDelegate(
         entities: Map<EntityKey, EntityValue>,
         enrichedUnits: Map<Unit, Unit>
     ): Bids? {
-        val bids = context.bids!!.details
         val updatedBidsDetails: BidsDetails =
             if (EntityKey.BID_ITEM in entities) {
+                val bids = context.bids!!.details
                 val updatedBids = bids.map { bid ->
                     val updatedItems = bid.items
                         .map { item ->
@@ -232,7 +232,7 @@ class MdmEnrichUnitsDelegate(
                 }
                 BidsDetails(updatedBids)
             } else
-                bids
+                return context.bids
 
         return context.bids?.copy(details = updatedBidsDetails)
     }
