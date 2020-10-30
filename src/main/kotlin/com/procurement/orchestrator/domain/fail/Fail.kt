@@ -242,6 +242,14 @@ sealed class Fail(prefix: String, number: String) {
                     logger.error(message = message, exception = exception)
                 }
             }
+
+            class Consumer(description: String, val exception: Exception? = null) :
+                Bus(number = "2", description = description) {
+
+                override fun logging(logger: Logger) {
+                    logger.error(message = message, exception = exception)
+                }
+            }
         }
 
         enum class Level(override val key: String) : EnumElementProvider.Key {
