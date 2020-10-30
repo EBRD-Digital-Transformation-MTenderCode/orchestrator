@@ -53,7 +53,9 @@ class RequisitionValidateRequirementResponsesDelegate(
             params = ValidateRequirementResponsesAction.Params(
                 cpid = processInfo.cpid!!,
                 ocid = processInfo.ocid!!,
-                tender = ValidateRequirementResponsesAction.Params.Tender(tender.procurementMethodModalities),
+                tender = tender.procurementMethodModalities
+                    .takeIf { it.isNotEmpty() }
+                    ?.let { ValidateRequirementResponsesAction.Params.Tender(it) },
                 bids = ValidateRequirementResponsesAction.Params.Bids(
                     listOf(
                         ValidateRequirementResponsesAction.Params.Bids.Detail(
