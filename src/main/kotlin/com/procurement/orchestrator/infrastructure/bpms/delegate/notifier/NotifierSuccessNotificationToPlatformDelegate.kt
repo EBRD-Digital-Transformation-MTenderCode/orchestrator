@@ -154,7 +154,15 @@ class NotifierSuccessNotificationToPlatformDelegate(
                     id = preAwardCatalogRequest.id,
                     token = preAwardCatalogRequest.token
                 )
+            },
+        bids = details.bids?.details
+            ?.map { bidDetails ->
+                PlatformNotification.Outcomes.Bids.Details(
+                    id = bidDetails.id,
+                    token = bidDetails.token
+                )
             }
+            ?.let { PlatformNotification.Outcomes.Bids(it) }
     )
 
     private fun generateUrl(operationType: OperationTypeProcess, cpid: Cpid, ocid: Ocid): String =
