@@ -46,7 +46,7 @@ class SubmissionPublishInvitationsInPcrDelegate(
             id = commandId,
             params = PublishInvitationsAction.Params(
                 cpid = processInfo.cpid!!,
-                operationType = null
+                operationType = processInfo.operationType
             )
         )
     }

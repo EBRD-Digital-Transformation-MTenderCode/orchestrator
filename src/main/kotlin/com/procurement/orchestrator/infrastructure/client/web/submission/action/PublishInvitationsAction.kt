@@ -1,6 +1,5 @@
 package com.procurement.orchestrator.infrastructure.client.web.submission.action
 
-import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.procurement.orchestrator.application.model.process.OperationTypeProcess
 import com.procurement.orchestrator.application.service.FunctionalAction
@@ -24,9 +23,7 @@ abstract class PublishInvitationsAction : FunctionalAction<PublishInvitationsAct
 
     class Params(
         @param:JsonProperty("cpid") @field:JsonProperty("cpid") val cpid: Cpid,
-
-        @JsonInclude(JsonInclude.Include.NON_NULL)
-        @param:JsonProperty("operationType") @field:JsonProperty("operationType") val operationType: OperationTypeProcess?
+        @param:JsonProperty("operationType") @field:JsonProperty("operationType") val operationType: OperationTypeProcess
     )
 
     class Result(
