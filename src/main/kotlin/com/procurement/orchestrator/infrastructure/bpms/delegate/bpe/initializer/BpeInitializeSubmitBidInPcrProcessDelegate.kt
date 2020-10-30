@@ -342,7 +342,7 @@ class BpeInitializeSubmitBidInPcrProcessDelegate(
                                     )
                                 }
                         )
-                    }.let { Organizations() },
+                    }.let { Organizations(it) },
                 relatedLots = RelatedLots(bid.relatedLots),
                 documents = bid.documents
                     ?.map { document ->
