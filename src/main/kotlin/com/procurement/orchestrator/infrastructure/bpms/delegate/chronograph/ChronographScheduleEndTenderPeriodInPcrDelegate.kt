@@ -74,7 +74,7 @@ class ChronographScheduleEndTenderPeriodInPcrDelegate(
 
         val task = ScheduleTask(
             ActionType.SCHEDULE,
-            processInfo.cpid.toString(),
+            processInfo.ocid.toString(),
             PHASE_TENDERING,
             launchTime,
             null,  /*newLaunchTime*/
