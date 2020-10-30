@@ -12,6 +12,9 @@ interface OldProcessContextRepository {
     fun save(ocid: Ocid, context: String): Result<Boolean, Fail.Incident.Database.Access>
 
     fun load(cpid: Cpid): Result<String?, Fail.Incident.Database>
+
+    fun load(ocid: Ocid): Result<String?, Fail.Incident.Database>
+
 }
 
 

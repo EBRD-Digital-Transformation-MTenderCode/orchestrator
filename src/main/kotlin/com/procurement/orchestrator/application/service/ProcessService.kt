@@ -30,6 +30,8 @@ interface ProcessService {
 
     fun getProcessContext(cpid: Cpid): Result<LatestProcessContext?, Fail.Incident>
 
+    fun getProcessContext(ocid: Ocid): Result<LatestProcessContext?, Fail.Incident>
+
     fun launchProcess(
         processDefinitionKey: ProcessDefinitionKey,
         operationId: OperationId,
@@ -68,6 +70,13 @@ class ProcessServiceImpl(
             ?.orForwardFail { fail -> return fail }
             .asSuccess()
 
+    override fun getProcessContext(ocid: Ocid): Result<LatestProcessContext?, Fail.Incident> =
+        loadOldProcessContext(ocid = ocid)
+            .orForwardFail { fail -> return fail }
+            ?.convert()
+            ?.orForwardFail { fail -> return fail }
+            .asSuccess()
+
     override fun launchProcess(
         processDefinitionKey: ProcessDefinitionKey,
         operationId: OperationId,
@@ -81,6 +90,15 @@ class ProcessServiceImpl(
 
     private fun loadOldProcessContext(cpid: Cpid): Result<OldProcessContext?, Fail.Incident> =
         oldProcessContextRepository.load(cpid = cpid)
+            .orForwardFail { fail -> return fail }
+            ?.let { value ->
+                transform.tryDeserialization(value, OldProcessContext::class.java)
+                    .orForwardFail { fail -> return fail }
+            }
+            .asSuccess()
+
+    private fun loadOldProcessContext(ocid: Ocid): Result<OldProcessContext?, Fail.Incident> =
+        oldProcessContextRepository.load(ocid = ocid)
             .orForwardFail { fail -> return fail }
             ?.let { value ->
                 transform.tryDeserialization(value, OldProcessContext::class.java)

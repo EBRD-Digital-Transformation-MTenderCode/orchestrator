@@ -50,9 +50,13 @@ class CassandraOldProcessContextRepository(private val session: Session) : OldPr
             .tryExecute(session)
             .map { it.wasApplied() }
 
-    override fun load(cpid: Cpid): Result<String?, Fail.Incident.Database> = preparedLoadCQL.bind()
+    override fun load(cpid: Cpid): Result<String?, Fail.Incident.Database> = load(cpid.toString())
+
+    override fun load(ocid: Ocid): Result<String?, Fail.Incident.Database> = load(ocid.toString())
+
+    private fun load(key: String): Result<String?, Fail.Incident.Database> = preparedLoadCQL.bind()
         .apply {
-            setString(columnCpid, cpid.toString())
+            setString(columnCpid, key)
         }
         .tryExecute(session)
         .orForwardFail { fail -> return fail }
