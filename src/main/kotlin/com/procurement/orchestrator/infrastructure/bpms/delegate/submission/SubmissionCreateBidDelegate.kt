@@ -22,7 +22,7 @@ import com.procurement.orchestrator.infrastructure.configuration.property.Extern
 import org.springframework.stereotype.Component
 
 @Component
-class SubmissionCreateBidDataDelegate(
+class SubmissionCreateBidDelegate(
     logger: Logger,
     private val submissionClient: SubmissionClient,
     operationStepRepository: OperationStepRepository,
