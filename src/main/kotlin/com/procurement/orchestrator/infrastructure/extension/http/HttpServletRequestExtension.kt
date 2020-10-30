@@ -81,6 +81,9 @@ fun HttpServletRequest.getPlatformId(): Result<PlatformId, RequestErrors.Header>
         )
 }
 
+fun HttpServletRequest.getAuthorizationHeader(): Result<String, RequestErrors.Header> =
+    this.getRequiredHeader(HEADER_AUTHORIZATION)
+
 fun HttpServletRequest.getOperationId(): Result<OperationId, RequestErrors.Header> {
     val header: String = this.getRequiredHeader(HEADER_OPERATION_ID)
         .orForwardFail { fail -> return fail }
