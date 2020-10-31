@@ -6,7 +6,9 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CalculateAPValueAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckAccessToTenderAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckEqualityCurrenciesAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckExistenceFaAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckExistenceSignAuctionAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckPersonesStructureAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckRelationAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckTenderStateAction
@@ -18,11 +20,13 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Find
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotStateByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetOrganizationAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetQualificationCriteriaAndMethodAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.GetTenderCurrencyAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.OutsourcingPnAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ResponderProcessingAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForLotsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForTenderAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateRelatedTenderClassificationAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateRequirementResponsesAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.VerifyRequirementResponseAction
 
@@ -69,6 +73,11 @@ interface AccessClient {
         params: GetTenderStateAction.Params
     ): Result<Reply<GetTenderStateAction.Result>, Fail.Incident>
 
+    suspend fun getTenderCurrency(
+        id: CommandId,
+        params: GetTenderCurrencyAction.Params
+    ): Result<Reply<GetTenderCurrencyAction.Result>, Fail.Incident>
+
     suspend fun setStateForLots(
         id: CommandId,
         params: SetStateForLotsAction.Params
@@ -114,10 +123,20 @@ interface AccessClient {
         params: CheckExistenceFaAction.Params
     ): Result<Reply<Unit>, Fail.Incident>
 
+    suspend fun checkExistenceSignAuction(
+        id: CommandId,
+        params: CheckExistenceSignAuctionAction.Params
+    ): Result<Reply<Unit>, Fail.Incident>
+
     suspend fun outsourcingPn(
         id: CommandId,
         params: OutsourcingPnAction.Params
     ): Result<Reply<OutsourcingPnAction.Result>, Fail.Incident>
+
+    suspend fun validateRelatedTenderClassification(
+        id: CommandId,
+        params: ValidateRelatedTenderClassificationAction.Params
+    ): Result<Reply<Unit>, Fail.Incident>
 
     suspend fun createRelationToOtherProcess(
         id: CommandId,
@@ -133,4 +152,9 @@ interface AccessClient {
         id: CommandId,
         params: CalculateAPValueAction.Params
     ): Result<Reply<CalculateAPValueAction.Result>, Fail.Incident>
+
+    suspend fun checkEqualityCurrencies(
+        id: CommandId,
+        params: CheckEqualityCurrenciesAction.Params
+    ): Result<Reply<Unit>, Fail.Incident>
 }

@@ -6,6 +6,7 @@ import com.procurement.orchestrator.application.model.context.extension.getAmend
 import com.procurement.orchestrator.application.model.context.extension.getAwardsIfNotEmpty
 import com.procurement.orchestrator.application.model.context.extension.getDetailsIfNotEmpty
 import com.procurement.orchestrator.application.model.context.extension.getRequirementResponseIfNotEmpty
+import com.procurement.orchestrator.application.model.context.extension.tryGetBids
 import com.procurement.orchestrator.application.model.context.extension.tryGetSubmissions
 import com.procurement.orchestrator.application.model.context.extension.tryGetTender
 import com.procurement.orchestrator.application.service.Logger
@@ -23,6 +24,7 @@ import com.procurement.orchestrator.domain.model.amendment.Amendment
 import com.procurement.orchestrator.domain.model.amendment.AmendmentId
 import com.procurement.orchestrator.domain.model.amendment.Amendments
 import com.procurement.orchestrator.domain.model.award.Awards
+import com.procurement.orchestrator.domain.model.bid.BidsDetails
 import com.procurement.orchestrator.domain.model.qualification.Qualifications
 import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponseId
 import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponses
@@ -77,6 +79,7 @@ class BpeCreateIdsDelegate(
                 Location.TENDER_AMENDMENT                   -> generatePermanentTenderAmendmentsIds(context)
                 Location.SUBMISSION_REQUIREMENT_RESPONSE    -> generatePermanentSubmissionsRequirementResponseIds(context)
                 Location.QUALIFICATION_REQUIREMENT_RESPONSE -> generatePermanentQualificationsRequirementResponseIds(context)
+                Location.BID_REQUIREMENTRESPONSE            -> generatePermanentBidsRequirementResponseIds(context)
             }
                 .orForwardFail { fail -> return fail }
         }
@@ -96,6 +99,7 @@ class BpeCreateIdsDelegate(
                 is Ids.TenderAmendments                   -> updateTenderAmendmentsIds(context, permanentIds)
                 is Ids.SubmissionsRequirementResponses    -> updateSubmissionsRequirementResponseIds(context, permanentIds)
                 is Ids.QualificationsRequirementResponses -> updateQualificationRequirementResponseIds(context, permanentIds)
+                is Ids.BidsRequirementResponses           -> updateBidRequirementResponseIds(context, permanentIds)
             }
         }
 
@@ -179,6 +183,20 @@ class BpeCreateIdsDelegate(
             }
             .toMap()
             .let { Ids.QualificationsRequirementResponses(it) }
+            .asSuccess()
+
+    private fun generatePermanentBidsRequirementResponseIds(context: GlobalContext): Result<Ids, Fail.Incident> =
+        context.tryGetBids()
+            .orForwardFail { fail -> return fail }
+            .details
+            .flatMap { it.requirementResponses }
+            .asSequence()
+            .associate { requirementResponse ->
+                val temporal = requirementResponse.id
+                val permanent = RequirementResponseId.generate()
+                temporal to permanent
+            }
+            .let { Ids.BidsRequirementResponses(it) }
             .asSuccess()
 
 
@@ -280,6 +298,30 @@ class BpeCreateIdsDelegate(
         return MaybeFail.none()
     }
 
+    private fun updateBidRequirementResponseIds(
+        context: CamundaGlobalContext,
+        ids: Ids.BidsRequirementResponses
+    ): MaybeFail<Fail.Incident.Bpms.Context> {
+
+        val bids = context.tryGetBids()
+            .orReturnFail { fail -> return MaybeFail.fail(fail) }
+
+        val updatedBidsDetails = bids.details
+            .map { bid ->
+                val updatedRequirementResponse = bid.requirementResponses
+                    .map { requirementResponse ->
+                        val permanentId = ids.getValue(requirementResponse.id)
+                        requirementResponse.copy(id = permanentId)
+                    }
+                bid.copy(requirementResponses = RequirementResponses(updatedRequirementResponse))
+            }
+            .let { BidsDetails(it) }
+
+        context.bids = bids.copy(details = updatedBidsDetails)
+
+        return MaybeFail.none()
+    }
+
     private fun updateTenderAmendmentsIds(
         context: CamundaGlobalContext,
         ids: Ids.TenderAmendments
@@ -321,6 +363,9 @@ class BpeCreateIdsDelegate(
 
         class QualificationsRequirementResponses(values: Map<RequirementResponseId, RequirementResponseId> = emptyMap()) :
             Ids(), Map<RequirementResponseId, RequirementResponseId> by values, Serializable
+
+        class BidsRequirementResponses(values: Map<RequirementResponseId, RequirementResponseId> = emptyMap()) :
+            Ids(), Map<RequirementResponseId, RequirementResponseId> by values, Serializable
     }
 
     class Parameters(val location: List<Location>)
@@ -328,10 +373,11 @@ class BpeCreateIdsDelegate(
     enum class Location(override val key: String) : EnumElementProvider.Key {
 
         AWARD_REQUIREMENT_RESPONSE("award.requirementResponse"),
+        BID_REQUIREMENTRESPONSE("bid.requirementResponse"),
+        QUALIFICATION_REQUIREMENT_RESPONSE("qualification.requirementResponse"),
         SUBMISSION_DETAILS("submission"),
-        TENDER_AMENDMENT("tender.amendment"),
         SUBMISSION_REQUIREMENT_RESPONSE("submission.requirementResponse"),
-        QUALIFICATION_REQUIREMENT_RESPONSE("qualification.requirementResponse");
+        TENDER_AMENDMENT("tender.amendment");
 
         override fun toString(): String = key
 

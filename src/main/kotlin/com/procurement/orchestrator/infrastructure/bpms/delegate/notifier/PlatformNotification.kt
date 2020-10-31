@@ -9,6 +9,7 @@ import com.procurement.orchestrator.application.model.Token
 import com.procurement.orchestrator.domain.model.Ocid
 import com.procurement.orchestrator.domain.model.amendment.AmendmentId
 import com.procurement.orchestrator.domain.model.award.AwardId
+import com.procurement.orchestrator.domain.model.bid.BidId
 import com.procurement.orchestrator.domain.model.qualification.QualificationId
 import com.procurement.orchestrator.domain.model.submission.SubmissionId
 import java.time.LocalDateTime
@@ -80,7 +81,13 @@ object PlatformNotification {
         @field:JsonProperty("submissions") @param:JsonProperty("submissions") val submissions: List<Submission> = emptyList(),
 
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
-        @field:JsonProperty("qualifications") @param:JsonProperty("qualifications") val qualifications: List<Qualification> = emptyList()
+        @field:JsonProperty("qualifications") @param:JsonProperty("qualifications") val qualifications: List<Qualification> = emptyList(),
+
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        @field:JsonProperty("pc") @param:JsonProperty("pc") val pcr: List<PreAwardCatalogRequest> = emptyList(),
+
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        @field:JsonProperty("bids") @param:JsonProperty("bids") val bids: Bids? = null
     ) {
 
         class Amendment(
@@ -103,5 +110,19 @@ object PlatformNotification {
             @field:JsonProperty("id") @param:JsonProperty("id") val id: QualificationId,
             @field:JsonProperty("X-TOKEN") @param:JsonProperty("X-TOKEN") val token: Token
         )
+
+        data class PreAwardCatalogRequest(
+            @field:JsonProperty("id") @param:JsonProperty("id") val id: Ocid,
+            @field:JsonProperty("X-TOKEN") @param:JsonProperty("X-TOKEN") val token: Token
+        )
+
+        data class Bids(
+            @field:JsonProperty("details") @param:JsonProperty("details") val details: List<Details>
+        ) {
+            data class Details(
+                @field:JsonProperty("id") @param:JsonProperty("id") val id: BidId,
+                @field:JsonProperty("X-TOKEN") @param:JsonProperty("X-TOKEN") val token: Token
+            )
+        }
     }
 }

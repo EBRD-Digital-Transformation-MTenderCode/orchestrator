@@ -1,0 +1,62 @@
+{
+  "cpid": "ocds-b3wdp1-MD-1580458690892",
+  "ocid": "ocds-b3wdp1-MD-1580458690892-EV-1580458791896",
+  "owner": "c63f170e-7589-4597-bd1a-7083a30f90ee",
+  "bids": {
+    "details": [
+      {
+        "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "value": {
+          "amount": 0.00,
+          "currency": "string"
+        },
+        "tenderers": [
+          {
+            "id": "string",
+            "name": "string",
+            "identifier": {
+              "id": "string",
+              "legalName": "string",
+              "scheme": "string"
+            },
+            "address": {
+              "streetAddress": "string",
+              "addressDetails": {
+                "country": {
+                  "id": "string",
+                  "description": "string",
+                  "scheme": "string",
+                  "uri": "string"
+                },
+                "region": {
+                  "id": "string",
+                  "description": "string",
+                  "scheme": "string",
+                  "uri": "string"
+                },
+                "locality": {
+                  "id": "string",
+                  "description": "string",
+                  "scheme": "string",
+                  "uri": "string"
+                }
+              }
+            },
+            "contactPoint": {
+              "name": "string",
+              "email": "string",
+              "telephone": "string"
+            },
+            "details": {
+              "scale": "micro"
+            }
+          }
+        ],
+        "relatedLots": [
+          "string"
+        ]
+      }
+    ]
+  },
+  "date": "2020-10-26T15:18:43Z"
+}

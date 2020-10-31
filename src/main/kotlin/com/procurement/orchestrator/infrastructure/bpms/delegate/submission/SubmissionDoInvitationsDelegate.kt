@@ -49,7 +49,7 @@ class SubmissionDoInvitationsDelegate(
         return submissionClient.doInvitations(
             id = commandId,
             params = DoInvitationsAction.Params(
-                cpid = processInfo.cpid,
+                cpid = processInfo.cpid!!,
                 date = requestInfo.timestamp,
                 country = requestInfo.country,
                 pmd = processInfo.pmd,

@@ -5,10 +5,13 @@ import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.CheckAbsenceActiveInvitationsAction
+import com.procurement.orchestrator.infrastructure.client.web.submission.action.CheckPeriodAction
+import com.procurement.orchestrator.infrastructure.client.web.submission.action.CreateBidAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.DoInvitationsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.PublishInvitationsAction
-import com.procurement.orchestrator.infrastructure.client.web.submission.action.ValidateTenderPeriodAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.SetTenderPeriodAction
+import com.procurement.orchestrator.infrastructure.client.web.submission.action.ValidateBidDataAction
+import com.procurement.orchestrator.infrastructure.client.web.submission.action.ValidateTenderPeriodAction
 
 interface SubmissionClient {
 
@@ -36,4 +39,10 @@ interface SubmissionClient {
         id: CommandId,
         params: SetTenderPeriodAction.Params
     ): Result<Reply<SetTenderPeriodAction.Result>, Fail.Incident>
+
+    suspend fun checkPeriod(id: CommandId, params: CheckPeriodAction.Params): Result<Reply<Unit>, Fail.Incident>
+
+    suspend fun validateBidData(id: CommandId, params: ValidateBidDataAction.Params): Result<Reply<Unit>, Fail.Incident>
+
+    suspend fun createBid(id: CommandId, params: CreateBidAction.Params): Result<Reply<CreateBidAction.Result>, Fail.Incident>
 }

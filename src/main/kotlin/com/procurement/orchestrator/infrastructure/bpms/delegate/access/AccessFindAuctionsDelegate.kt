@@ -48,8 +48,8 @@ class AccessFindAuctionsDelegate(
         return accessClient.findAuctions(
             id = commandId,
             params = FindAuctionsAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!
             )
         )
     }

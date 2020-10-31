@@ -46,8 +46,8 @@ class QualificationStartQualificationPeriodDelegate(
         return qualificationClient.startQualificationPeriod(
             id = commandId,
             params = StartQualificationPeriodAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
                 date = requestInfo.timestamp
             )
         )

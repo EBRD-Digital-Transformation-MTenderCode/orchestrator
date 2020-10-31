@@ -104,4 +104,30 @@ class MdmActionsTest {
         }
     }
 
+    @Nested
+    inner class EnrichClassificationResponse {
+
+        @Nested
+        inner class Result {
+
+            @Test
+            fun fully() {
+                testingBindingAndMapping<EnrichClassificationsAction.Response.Success>("json/client/mdm/enrich_classification_response_full.json")
+            }
+        }
+    }
+
+    @Nested
+    inner class EnrichUnitResponse {
+
+        @Nested
+        inner class Result {
+
+            @Test
+            fun fully() {
+                testingBindingAndMapping<EnrichUnitsAction.Response.Success>("json/client/mdm/enrich_unit_response_full.json")
+            }
+        }
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.infrastructure.client.web.access.action
 
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.procurement.orchestrator.application.model.process.OperationTypeProcess
 import com.procurement.orchestrator.application.service.ProceduralAction
@@ -13,8 +14,12 @@ abstract class CheckTenderStateAction : ProceduralAction<CheckTenderStateAction.
     override val name: String = "checkTenderState"
 
     class Params(
-        @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid,
-        @field:JsonProperty("ocid") @param:JsonProperty("ocid") val ocid: Ocid,
+        @field:JsonInclude(JsonInclude.Include.NON_NULL)
+        @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid?,
+
+        @field:JsonInclude(JsonInclude.Include.NON_NULL)
+        @field:JsonProperty("ocid") @param:JsonProperty("ocid") val ocid: Ocid?,
+
         @field:JsonProperty("country") @param:JsonProperty("country") val country: String,
         @field:JsonProperty("pmd") @param:JsonProperty("pmd") val pmd: ProcurementMethodDetails,
         @field:JsonProperty("operationType") @param:JsonProperty("operationType") val operationType: OperationTypeProcess

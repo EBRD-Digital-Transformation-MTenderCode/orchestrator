@@ -38,7 +38,7 @@ class BpeProcessInitializerDelegate(
         operationStepRepository
             .save(
                 step = OperationStep(
-                    cpid = processInfo.cpid,
+                    cpid = processInfo.cpid!!,
                     operationId = requestInfo.operationId,
                     processId = processId,
                     taskId = taskId,

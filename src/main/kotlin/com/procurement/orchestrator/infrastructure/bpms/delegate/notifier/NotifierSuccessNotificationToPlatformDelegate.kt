@@ -103,8 +103,8 @@ class NotifierSuccessNotificationToPlatformDelegate(
             operationId = requestInfo.operationId,
             initiator = initiator(processInfo.operationType),
             data = PlatformNotification.Message.Success.Data(
-                ocid = processInfo.ocid,
-                url = generateUrl(processInfo.operationType, cpid = processInfo.cpid, ocid = processInfo.ocid),
+                ocid = processInfo.ocid!!,
+                url = generateUrl(processInfo.operationType, cpid = processInfo.cpid!!, ocid = processInfo.ocid),
                 operationDate = requestInfo.timestamp,
                 outcomes = outcomeDetails?.let { buildOutcomes(it) }
             )
@@ -147,30 +147,45 @@ class NotifierSuccessNotificationToPlatformDelegate(
                     id = qualification.id,
                     token = qualification.token
                 )
+            },
+        pcr = details.pcr
+            .map { preAwardCatalogRequest ->
+                PlatformNotification.Outcomes.PreAwardCatalogRequest(
+                    id = preAwardCatalogRequest.id,
+                    token = preAwardCatalogRequest.token
+                )
+            },
+        bids = details.bids?.details
+            ?.map { bidDetails ->
+                PlatformNotification.Outcomes.Bids.Details(
+                    id = bidDetails.id,
+                    token = bidDetails.token
+                )
             }
+            ?.let { PlatformNotification.Outcomes.Bids(it) }
     )
 
     private fun generateUrl(operationType: OperationTypeProcess, cpid: Cpid, ocid: Ocid): String =
         when (operationType) {
             OperationTypeProcess.APPLY_QUALIFICATION_PROTOCOL -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.COMPLETE_QUALIFICATION -> "$tenderUri/$cpid/$ocid"
-            OperationTypeProcess.CREATE_PCR -> "$tenderUri/$cpid/$ocid"
+            OperationTypeProcess.CREATE_PCR -> "$tenderUri/$cpid"
             OperationTypeProcess.CREATE_SUBMISSION -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.DECLARE_NON_CONFLICT_OF_INTEREST -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.LOT_CANCELLATION -> "$tenderUri/$cpid/$ocid"
+            OperationTypeProcess.OUTSOURCING_PN -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.QUALIFICATION -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.QUALIFICATION_CONSIDERATION -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.QUALIFICATION_DECLARE_NON_CONFLICT_OF_INTEREST -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.QUALIFICATION_PROTOCOL -> "$tenderUri/$cpid/$ocid"
+            OperationTypeProcess.RELATION_AP -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.START_SECOND_STAGE -> "$tenderUri/$cpid/$ocid"
+            OperationTypeProcess.SUBMIT_BID_IN_PCR -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.SUBMISSION_PERIOD_END -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.TENDER_CANCELLATION -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.TENDER_OR_LOT_AMENDMENT_CANCELLATION -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.TENDER_OR_LOT_AMENDMENT_CONFIRMATION -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.WITHDRAW_QUALIFICATION_PROTOCOL -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.WITHDRAW_SUBMISSION -> "$tenderUri/$cpid/$ocid"
-            OperationTypeProcess.RELATION_AP -> "$tenderUri/$cpid/$ocid"
-            OperationTypeProcess.OUTSOURCING_PN -> "$tenderUri/$cpid/$ocid"
-
         }
 }

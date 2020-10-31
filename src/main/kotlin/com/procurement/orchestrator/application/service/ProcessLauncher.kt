@@ -20,6 +20,7 @@ import com.procurement.orchestrator.infrastructure.bpms.repository.RequestReposi
 
 interface ProcessLauncher {
     fun launch(request: PlatformRequest): MaybeFail<Fail>
+    fun launchWithContextByOcid(request: PlatformRequest): MaybeFail<Fail>
     fun launch(event: ChronographEvent): MaybeFail<Fail>
 }
 
@@ -31,6 +32,22 @@ class ProcessLauncherImpl(
 ) : ProcessLauncher {
 
     override fun launch(request: PlatformRequest): MaybeFail<Fail> {
+        val prevProcessContext: LatestProcessContext = processService.getProcessContext(cpid = request.context.cpid!!)
+            .orReturnFail { return MaybeFail.fail(it) }
+            ?: return MaybeFail.fail(Fail.Incident.Bpe(description = "The process context by cpid '${request.context.cpid}' does not found."))
+
+        return launch(request, prevProcessContext)
+    }
+
+    override fun launchWithContextByOcid(request: PlatformRequest): MaybeFail<Fail>{
+        val prevProcessContext: LatestProcessContext = processService.getProcessContext(ocid = request.context.ocid!!)
+            .orReturnFail { return MaybeFail.fail(it) }
+            ?: return MaybeFail.fail(Fail.Incident.Bpe(description = "The process context by ocid '${request.context.ocid}' does not found."))
+
+        return launch(request, prevProcessContext)
+    }
+
+    private fun launch(request: PlatformRequest, prevProcessContext: LatestProcessContext): MaybeFail<Fail> {
         val savedRequest: RequestRecord = saveRequest(request)
             .orReturnFail { return MaybeFail.fail(it) }
 
@@ -38,10 +55,6 @@ class ProcessLauncherImpl(
             .orReturnFail { return MaybeFail.fail(it) }
         if (isLaunched)
             return MaybeFail.fail(RequestErrors.Common.Repeated())
-
-        val prevProcessContext: LatestProcessContext = processService.getProcessContext(cpid = request.context.cpid)
-            .orReturnFail { return MaybeFail.fail(it) }
-            ?: return MaybeFail.fail(Fail.Incident.Bpe(description = "The process context by cpid '${request.context.cpid}' does not found."))
 
         val countryId = prevProcessContext.country
         val pmd = prevProcessContext.pmd

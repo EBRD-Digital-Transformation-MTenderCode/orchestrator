@@ -169,6 +169,25 @@ class AccessActionsTest {
     }
 
     @Nested
+    inner class GetRelatedTenderCurrency {
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetTenderCurrencyAction.Params>("json/client/access/get_tender_currency_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetTenderCurrencyAction.Result>("json/client/access/get_tender_currency_result_full.json")
+            }
+        }
+    }
+
+    @Nested
     inner class GetOrganization {
         @Nested
         inner class Params {
@@ -358,6 +377,18 @@ class AccessActionsTest {
     }
 
     @Nested
+    inner class CheckExistenceSignAuction {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CheckExistenceSignAuctionAction.Params>("json/client/access/check_existence_sign_auction_full.json")
+            }
+        }
+    }
+
+    @Nested
     inner class OutsourcingPn {
 
         @Nested
@@ -373,6 +404,18 @@ class AccessActionsTest {
             @Test
             fun fully() {
                 testingBindingAndMapping<OutsourcingPnAction.Result>("json/client/access/outsourcing_pn_result_full.json")
+            }
+        }
+    }
+
+    @Nested
+    inner class ValidateRelatedTenderClassification {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<ValidateRelatedTenderClassificationAction.Params>("json/client/access/validate_related_tender_classification_full.json")
             }
         }
     }
@@ -430,6 +473,18 @@ class AccessActionsTest {
             @Test
             fun fully() {
                 testingBindingAndMapping<CalculateAPValueAction.Result>("json/client/access/calculate_ap_value_result_full.json")
+            }
+        }
+    }
+
+    @Nested
+    inner class CheckEqualityCurrencies {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CheckEqualityCurrenciesAction.Params>("json/client/access/check_equality_currencies_params_full.json")
             }
         }
     }
