@@ -28,6 +28,7 @@ import com.procurement.orchestrator.domain.model.item.Item
 import com.procurement.orchestrator.domain.model.item.ItemId
 import com.procurement.orchestrator.domain.model.lot.Lot
 import com.procurement.orchestrator.domain.model.lot.LotId
+import com.procurement.orchestrator.domain.model.lot.LotStatus
 import com.procurement.orchestrator.domain.model.lot.Options
 import com.procurement.orchestrator.domain.model.lot.RecurrentProcurements
 import com.procurement.orchestrator.domain.model.lot.RelatedLots
@@ -408,7 +409,9 @@ abstract class CreatePcrAction : FunctionalAction<CreatePcrAction.Params, Create
                 @field:JsonProperty("classification") @param:JsonProperty("classification") val classification: Classification,
 
                 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-                @field:JsonProperty("variants") @param:JsonProperty("variants") val variants: List<Variant>
+                @field:JsonProperty("variants") @param:JsonProperty("variants") val variants: List<Variant>,
+
+                @field:JsonProperty("status") @param:JsonProperty("status") val status: LotStatus
             ) : Serializable {
 
                 data class Variant(
@@ -628,7 +631,7 @@ abstract class CreatePcrAction : FunctionalAction<CreatePcrAction.Params, Create
                     variants = lot.variants
                         .map { it.convert() }
                         .let { Variants(it) },
-                    status = null,
+                    status = lot.status,
                     statusDetails = null,
                     value = null,
                     contractPeriod = null,

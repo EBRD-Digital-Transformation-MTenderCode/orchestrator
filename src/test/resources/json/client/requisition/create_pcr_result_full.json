@@ -34,7 +34,8 @@
             "hasVariants": true,
             "variantsDetails": "string"
           }
-        ]
+        ],
+        "status": "active"
       }
     ],
     "items": [
