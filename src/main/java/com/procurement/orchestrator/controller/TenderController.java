@@ -191,25 +191,6 @@ public class TenderController extends DoBaseController {
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
-    @RequestMapping(value = "/bid/{cpid}/{ocid}", method = RequestMethod.POST)
-    public ResponseEntity<String> createBid(@RequestHeader("Authorization") final String authorization,
-                                            @RequestHeader("X-OPERATION-ID") final String operationId,
-                                            @PathVariable("cpid") final String cpid,
-                                            @PathVariable("ocid") final String ocid,
-                                            @RequestBody final JsonNode data) {
-        requestService.validate(operationId, data);
-        final Context context = requestService.getContextForUpdate(authorization, operationId, cpid, ocid, null, "createBid");
-        context.setOperationType("createBid");
-        requestService.saveRequestAndCheckOperation(context, data);
-        final Map<String, Object> variables = new HashMap<>();
-        variables.put("operationType", "createBid");
-        final ObjectNode bidNode = (ObjectNode) data.get("bid");
-        final String relatedLotId = ((ArrayNode) bidNode.get("relatedLots")).get(0).asText();
-        variables.put("lotId", relatedLotId);
-        processService.startProcess(context, variables);
-        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
-    }
-
     @RequestMapping(value = "/bid/{cpid}/{ocid}/{id}", method = RequestMethod.POST)
     public ResponseEntity<String> updateBid(@RequestHeader("Authorization") final String authorization,
                                             @RequestHeader("X-OPERATION-ID") final String operationId,

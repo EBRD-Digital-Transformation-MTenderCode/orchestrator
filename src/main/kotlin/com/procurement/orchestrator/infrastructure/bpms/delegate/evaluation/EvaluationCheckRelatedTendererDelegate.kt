@@ -54,8 +54,8 @@ class EvaluationCheckRelatedTendererDelegate(
         return evaluationClient.checkRelatedTenderer(
             id = commandId,
             params = CheckRelatedTendererAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
                 awardId = award.id,
                 relatedTendererId = relatedTendererId,
                 requirementId = requirementId,

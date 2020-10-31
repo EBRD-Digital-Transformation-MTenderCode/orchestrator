@@ -3,6 +3,7 @@ package com.procurement.orchestrator.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.dao.CassandraDao;
 import com.procurement.orchestrator.domain.Context;
+import com.procurement.orchestrator.domain.Stage;
 import com.procurement.orchestrator.domain.entity.ContextEntity;
 import com.procurement.orchestrator.domain.entity.OperationEntity;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
@@ -180,7 +181,29 @@ public class OperationServiceImpl implements OperationService {
     @Override
     public void saveContext(final Context context) {
         final ContextEntity contextEntity = new ContextEntity();
-        contextEntity.setCpId(context.getCpid());
+
+        final Stage stage = Stage.fromValue(context.getStage());
+        switch (stage) {
+            case AC:
+            case AP:
+            case EI:
+            case EV:
+            case FE:
+            case FS:
+            case NP:
+            case PIN:
+            case PN:
+            case PQ:
+            case PS:
+            case TP:
+                contextEntity.setCpId(context.getCpid());
+                break;
+
+            case PC:
+                contextEntity.setCpId(context.getOcid());
+                break;
+        }
+
         contextEntity.setContext(jsonUtil.toJson(context));
         cassandraDao.saveContext(contextEntity);
     }

@@ -46,10 +46,11 @@ class QualificationAnalyzeQualificationsForInvitationDelegate(
         return client.analyzeQualificationForInvitation(
             id = commandId,
             params = AnalyzeQualificationForInvitationAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
                 country = requestInfo.country,
-                pmd = processInfo.pmd
+                pmd = processInfo.pmd,
+                operationType = processInfo.operationType
             )
         )
     }

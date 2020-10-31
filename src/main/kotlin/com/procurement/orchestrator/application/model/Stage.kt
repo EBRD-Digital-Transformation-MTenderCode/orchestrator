@@ -6,15 +6,17 @@ import com.procurement.orchestrator.domain.EnumElementProvider
 
 enum class Stage(@JsonValue override val key: String, private val weight: Int) : EnumElementProvider.Key {
 
-    EI("EI", weight = 10),
-    FS("FS", weight = 20),
-    PN("PN", weight = 30),
+    AC("AC", weight = 60),
     AP("AP", weight = 30),
+    EI("EI", weight = 10),
     EV("EV", weight = 40),
     FE("FE", weight = 40),
+    FS("FS", weight = 20),
     NP("NP", weight = 40),
+    PC("PC", weight = 50),
+    PN("PN", weight = 30),
     TP("TP", weight = 40),
-    AC("AC", weight = 50);
+    ;
 
     override fun toString(): String = key
 

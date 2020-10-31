@@ -52,8 +52,8 @@ class DossierGetSubmissionStateByIdsDelegate(
         return dossierClient.getSubmissionStateByIds(
             id = commandId,
             params = GetSubmissionStateByIdsAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
                 submissionIds = submissions.map { it.id }
             )
         )

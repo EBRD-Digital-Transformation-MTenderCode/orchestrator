@@ -87,6 +87,9 @@ components:
   eAuction:
     host: 10.0.20.125
     port: 9191
+  eRequisition:
+    host: 10.0.20.125
+    port: 9451
 
 ribbon:
   eureka:

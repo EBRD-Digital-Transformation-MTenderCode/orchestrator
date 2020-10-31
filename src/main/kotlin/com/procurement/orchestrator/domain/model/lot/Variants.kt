@@ -1,12 +1,11 @@
 package com.procurement.orchestrator.domain.model.lot
 
 import com.procurement.orchestrator.domain.model.ComplexObjects
-import com.procurement.orchestrator.domain.model.ComplexObjects.Companion.merge
 import java.io.Serializable
 
 class Variants(values: List<Variant> = emptyList()) : List<Variant> by values,
-                                                      ComplexObjects<Variant, Variants>,
-                                                      Serializable {
+    ComplexObjects<Variant, Variants>,
+    Serializable {
 
     constructor(value: Variant) : this(listOf(value))
 
@@ -14,5 +13,5 @@ class Variants(values: List<Variant> = emptyList()) : List<Variant> by values,
 
     override operator fun plus(others: List<Variant>) = Variants(this as List<Variant> + others)
 
-    override fun combineBy(src: Variants) = Variants(merge(dst = this, src = src))
+    override fun combineBy(src: Variants) = Variants(ComplexObjects.merge(dst = this, src = src))
 }

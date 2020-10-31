@@ -1,6 +1,7 @@
 package com.procurement.orchestrator.infrastructure.configuration
 
 import com.procurement.orchestrator.application.client.AccessClient
+import com.procurement.orchestrator.application.client.AuctionClient
 import com.procurement.orchestrator.application.client.AuctionClientV1
 import com.procurement.orchestrator.application.client.ClarificationClient
 import com.procurement.orchestrator.application.client.ContractingClient
@@ -9,6 +10,7 @@ import com.procurement.orchestrator.application.client.EvaluationClient
 import com.procurement.orchestrator.application.client.MdmClient
 import com.procurement.orchestrator.application.client.NoticeClient
 import com.procurement.orchestrator.application.client.QualificationClient
+import com.procurement.orchestrator.application.client.RequisitionClient
 import com.procurement.orchestrator.application.client.RevisionClient
 import com.procurement.orchestrator.application.client.StorageClient
 import com.procurement.orchestrator.application.client.SubmissionClient
@@ -20,6 +22,7 @@ import com.procurement.orchestrator.infrastructure.client.web.RestClient
 import com.procurement.orchestrator.infrastructure.client.web.WebClient
 import com.procurement.orchestrator.infrastructure.client.web.WebClientV1
 import com.procurement.orchestrator.infrastructure.client.web.access.HttpAccessClient
+import com.procurement.orchestrator.infrastructure.client.web.auction.HttpAuctionClient
 import com.procurement.orchestrator.infrastructure.client.web.auction.HttpAuctionClientV1
 import com.procurement.orchestrator.infrastructure.client.web.clarification.HttpClarificationClient
 import com.procurement.orchestrator.infrastructure.client.web.contracting.HttpContractingClient
@@ -28,6 +31,7 @@ import com.procurement.orchestrator.infrastructure.client.web.evaluation.HttpEva
 import com.procurement.orchestrator.infrastructure.client.web.mdm.HttpMdmClient
 import com.procurement.orchestrator.infrastructure.client.web.notice.HttpNoticeClient
 import com.procurement.orchestrator.infrastructure.client.web.qualification.HttpQualificationClient
+import com.procurement.orchestrator.infrastructure.client.web.requisition.HttpRequisitionClient
 import com.procurement.orchestrator.infrastructure.client.web.revision.HttpRevisionClient
 import com.procurement.orchestrator.infrastructure.client.web.storage.HttpStorageClient
 import com.procurement.orchestrator.infrastructure.client.web.submission.HttpSubmissionClient
@@ -110,4 +114,12 @@ class WebClientConfiguration(
     @Bean
     fun auctionClientV1(): AuctionClientV1 =
         HttpAuctionClientV1(webClient = webClientV1(), properties = componentProperties["eAuction"])
+
+    @Bean
+    fun auctionClient(): AuctionClient =
+        HttpAuctionClient(webClient = webClient(), properties = componentProperties["eAuction"])
+
+    @Bean
+    fun requisitionClient(): RequisitionClient =
+        HttpRequisitionClient(webClient = webClient(), properties = componentProperties["eRequisition"])
 }

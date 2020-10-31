@@ -4,9 +4,12 @@ import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
+import com.procurement.orchestrator.infrastructure.client.web.mdm.action.EnrichClassificationsAction
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.EnrichCountryAction
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.EnrichLocalityAction
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.EnrichRegionAction
+import com.procurement.orchestrator.infrastructure.client.web.mdm.action.EnrichUnitsAction
+import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetClassification
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetCountry
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetCriteria
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetCriteriaAction
@@ -17,6 +20,7 @@ import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRequ
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRequirementGroupsAction
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRequirements
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRequirementsAction
+import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetUnit
 
 interface MdmClient {
 
@@ -36,5 +40,9 @@ interface MdmClient {
     suspend fun getCriteria(params: GetCriteriaAction.Params): Result<GetCriteria.Result.Success, Fail.Incident>
 
     suspend fun getRequirements(params: GetRequirementsAction.Params): Result<GetRequirements.Result.Success, Fail.Incident>
+
+    suspend fun enrichClassifications(params: EnrichClassificationsAction.Params): Result<GetClassification.Result, Fail.Incident>
+
+    suspend fun enrichUnits(params: EnrichUnitsAction.Params): Result<GetUnit.Result, Fail.Incident>
 
 }

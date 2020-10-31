@@ -60,7 +60,7 @@ abstract class AbstractBatchRestDelegate<P, T, R : Any>(
             .orReturnFail { fail -> execution.throwIncident(fail) }
             .also { result ->
                 if (execution.isUpdateGlobalContext) {
-                    updateGlobalContext(context = globalContext, result = result)
+                    updateGlobalContext(context = globalContext, parameters = parameters, result = result)
                         .doOnFail { fail -> execution.throwIncident(fail) }
                 }
             }
@@ -82,6 +82,7 @@ abstract class AbstractBatchRestDelegate<P, T, R : Any>(
 
     protected open fun updateGlobalContext(
         context: CamundaGlobalContext,
+        parameters: P,
         result: R
     ): MaybeFail<Fail.Incident> = MaybeFail.none()
 
@@ -104,7 +105,7 @@ abstract class AbstractBatchRestDelegate<P, T, R : Any>(
 
         return operationStepRepository.save(
             step = OperationStep(
-                cpid = processInfo.cpid,
+                cpid = processInfo.cpid!!,
                 operationId = requestInfo.operationId,
                 processId = processId,
                 taskId = taskId,

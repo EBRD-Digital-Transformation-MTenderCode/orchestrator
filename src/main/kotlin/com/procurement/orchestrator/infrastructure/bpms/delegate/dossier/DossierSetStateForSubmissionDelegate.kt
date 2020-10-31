@@ -76,8 +76,8 @@ class DossierSetStateForSubmissionDelegate(
         return dossierClient.setStateForSubmission(
             id = commandId,
             params = SetStateForSubmissionAction.Params(
-                cpid = processInfo.cpid,
-                ocid = processInfo.ocid,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
                 submission = SetStateForSubmissionAction.Params.Submission(
                     id = submission.id,
                     status = parameters.status
