@@ -45,7 +45,8 @@ class SubmissionPublishInvitationsInPcrDelegate(
         return client.publishInvitations(
             id = commandId,
             params = PublishInvitationsAction.Params(
-                cpid = processInfo.cpid!!
+                cpid = processInfo.cpid!!,
+                operationType = processInfo.operationType
             )
         )
     }
