@@ -12,6 +12,9 @@ import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.Context
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
+import com.procurement.orchestrator.domain.functional.Result
+import com.procurement.orchestrator.domain.functional.asFailure
+import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
 import com.procurement.orchestrator.infrastructure.web.controller.parseCpid
@@ -63,11 +66,9 @@ class ChronographMessageConsumer(
         val contextChronograph = transform.tryDeserialization(data.metadata, Context::class.java)
             .orReturnFail { return MaybeFail.fail(it) }
 
-        val stage = Ocid.SingleStage.tryCreateOrNull(contextChronograph.ocid)
-            ?.let { (it as Ocid.SingleStage).stage }
-            ?: return MaybeFail.fail(Fail.Incident.Bus.Consumer("Error of parsing ocid '${contextChronograph.ocid}'. Metadata: ${data.metadata}"))
+        val id = getIdForLoadingContext(context = contextChronograph, metadata = data.metadata)
+            .orReturnFail { return MaybeFail.fail(it) }
 
-        val id = getIdForLoadingContext(stage = stage, cpid = contextChronograph.cpid, ocid = contextChronograph.ocid)
         val prevContext: Context = requestService.getContext(id)
         val context = requestService.checkRulesAndProcessContext(
             prevContext,
@@ -83,18 +84,30 @@ class ChronographMessageConsumer(
         return MaybeFail.none()
     }
 
-    fun getIdForLoadingContext(stage: Stage, cpid: String, ocid: String): String = when (stage) {
-        Stage.AC,
-        Stage.AP,
-        Stage.EI,
-        Stage.EV,
-        Stage.FE,
-        Stage.FS,
-        Stage.NP,
-        Stage.PN,
-        Stage.TP -> cpid
+    fun getIdForLoadingContext(context: Context, metadata: String): Result<String, Fail> {
+        if (context.ocid == null)
+            return context.cpid.asSuccess()
 
-        Stage.PC -> ocid
+        val stage = Ocid.SingleStage.tryCreateOrNull(context.ocid)
+            ?.let { (it as Ocid.SingleStage).stage }
+            ?: return Fail.Incident.Bus.Consumer(
+                description = "Error of parsing ocid '${context.ocid}'. Metadata: $metadata",
+                exception = IllegalStateException()
+            ).asFailure()
+
+        return when (stage) {
+            Stage.AC,
+            Stage.AP,
+            Stage.EI,
+            Stage.EV,
+            Stage.FE,
+            Stage.FS,
+            Stage.NP,
+            Stage.PN,
+            Stage.TP -> context.cpid
+
+            Stage.PC -> context.ocid
+        }.asSuccess()
     }
 
     private fun processingNew(data: ChronographMessage.Data): MaybeFail<Fail> {
