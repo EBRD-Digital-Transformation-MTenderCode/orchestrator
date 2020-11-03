@@ -48,6 +48,7 @@ class SubmissionValidateBidDataDelegate(
         return submissionClient.validateBidData(
             id = commandId,
             params = ValidateBidDataAction.Params(
+                cpid = context.processInfo.cpid!!,
                 bids = bids.details.map { bid ->
                     ValidateBidDataAction.Params.Bids.Detail(
                         id = bid.id,
