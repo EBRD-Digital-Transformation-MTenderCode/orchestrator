@@ -18,7 +18,8 @@ public enum RequisitionCommandType {
     GET_TENDER_OWNER("getTenderOwner"),
     SET_LOTS_UNSUCCESSFUL("setLotsStatusUnsuccessful"),
     SET_TENDER_STATUS_DETAILS("setTenderStatusDetails"),
-    SET_TENDER_UNSUCCESSFUL("setTenderUnsuccessful");
+    SET_TENDER_UNSUCCESSFUL("setTenderUnsuccessful"),
+    SET_TENDER_UNSUSPENDED("setTenderUnsuspended");
 
     private static final Map<String, RequisitionCommandType> CONSTANTS = new HashMap<>();
     private final String value;
