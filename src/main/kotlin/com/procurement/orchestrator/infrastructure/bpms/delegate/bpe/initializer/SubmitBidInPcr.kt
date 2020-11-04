@@ -136,7 +136,7 @@ object SubmitBidInPcr {
                         @param:JsonProperty("faxNumber") @field:JsonProperty("faxNumber") val faxNumber: String?,
 
                         @JsonInclude(JsonInclude.Include.NON_NULL)
-                        @param:JsonProperty("url") @field:JsonProperty("url") val url: String
+                        @param:JsonProperty("url") @field:JsonProperty("url") val url: String?
                     )
 
                     data class Persone(
