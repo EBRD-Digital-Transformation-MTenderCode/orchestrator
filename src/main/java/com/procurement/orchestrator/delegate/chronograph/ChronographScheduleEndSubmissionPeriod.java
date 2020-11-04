@@ -26,6 +26,8 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import static com.procurement.orchestrator.domain.OperationType.CREATE_CN_ON_PN;
+
 @Component
 public class ChronographScheduleEndSubmissionPeriod implements JavaDelegate {
 
@@ -66,7 +68,7 @@ public class ChronographScheduleEndSubmissionPeriod implements JavaDelegate {
         metadataBuilder.requestId(uuid);
         metadataBuilder.operationId(uuid);
         metadataBuilder.cpid(context.getCpid());
-        metadataBuilder.ocid(context.getOcidCn());
+        setOcid(context, metadataBuilder);
         metadataBuilder.processType(PROCESS_TYPE);
         metadataBuilder.phase(PHASE);
 
@@ -91,6 +93,14 @@ public class ChronographScheduleEndSubmissionPeriod implements JavaDelegate {
         );
         messageProducer.sendToChronograph(task);
         operationService.saveOperationStep(execution, entity, jsonUtil.toJsonNode(task));
+    }
+
+    private void setOcid(Context context, Metadata.MetadataBuilder metadataBuilder) {
+        if (context.getOperationType().equals(CREATE_CN_ON_PN.toString())) {
+            metadataBuilder.ocid(context.getOcidCn());
+        } else {
+            metadataBuilder.ocid(context.getOcid());
+        }
     }
 
     @Builder
