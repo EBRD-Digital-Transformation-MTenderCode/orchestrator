@@ -60,7 +60,7 @@ abstract class ValidateBidDataAction : ProceduralAction<ValidateBidDataAction.Pa
                     @JsonInclude(JsonInclude.Include.NON_NULL)
                     @param:JsonProperty("identifier") @field:JsonProperty("identifier") val identifier: Identifier?,
 
-                    @JsonInclude(JsonInclude.Include.NON_NULL)
+                    @JsonInclude(JsonInclude.Include.NON_EMPTY)
                     @param:JsonProperty("additionalIdentifiers") @field:JsonProperty("additionalIdentifiers") val additionalIdentifiers: List<AdditionalIdentifier>?,
 
                     @JsonInclude(JsonInclude.Include.NON_NULL)
