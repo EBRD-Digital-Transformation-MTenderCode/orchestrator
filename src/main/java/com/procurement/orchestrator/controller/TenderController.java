@@ -9,6 +9,7 @@ import com.procurement.orchestrator.domain.Stage;
 import com.procurement.orchestrator.exception.OperationException;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.service.RequestService;
+import com.procurement.orchestrator.service.context.ContextProvider;
 import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
 import org.slf4j.Logger;
@@ -223,37 +224,11 @@ public class TenderController extends DoBaseController {
         requestService.validate(operationId, data);
 
         final Stage stage = Stage.fromOcid(ocid);
-        if (stage == null) throw new OperationException("Invalid ocid. Could not extract stage from ocid.");
-        Context context = getContextForCreateEnquiry(authorization, operationId, cpid, ocid, stage);
+        Context context = ContextProvider.getContext(requestService, stage, authorization, operationId, cpid, ocid, null, "enquiry");
 
         requestService.saveRequestAndCheckOperation(context, data);
         processService.startProcess(context, new HashMap<>());
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
-    }
-
-    private Context getContextForCreateEnquiry(String authorization, String operationId, String cpid, String ocid, Stage stage) {
-        final String process = "enquiry";
-        Context context = null;
-        switch (stage) {
-            case PC:
-                context = requestService.getContextForUpdateByOcid(authorization, operationId, cpid, ocid, null, process);
-                break;
-            case AC:
-            case AP:
-            case EI:
-            case EV:
-            case FE:
-            case FS:
-            case NP:
-            case PN:
-            case PQ:
-            case PS:
-            case TP:
-            case PIN:
-                context = requestService.getContextForUpdate(authorization, operationId, cpid, ocid, null, process);
-                break;
-        }
-        return context;
     }
 
     @RequestMapping(value = "/enquiry/{cpid}/{ocid}/{id}", method = RequestMethod.POST)
