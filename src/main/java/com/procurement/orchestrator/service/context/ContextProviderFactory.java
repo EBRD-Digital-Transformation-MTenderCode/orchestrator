@@ -9,7 +9,7 @@ public class ContextProviderFactory {
         ContextProvider provider = null;
         switch (stage) {
             case PC:
-                provider = PCContextProvider.getInstance();
+                provider = ContextProviderByOcid.getInstance();
                 break;
             case AC:
             case AP:
@@ -23,7 +23,7 @@ public class ContextProviderFactory {
             case PS:
             case TP:
             case PIN:
-                provider = GeneralContextProvider.getInstance();
+                provider = ContextProviderByCpid.getInstance();
                 break;
         }
         return provider;

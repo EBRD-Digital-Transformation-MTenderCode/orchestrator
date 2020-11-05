@@ -3,13 +3,13 @@ package com.procurement.orchestrator.service.context;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.service.RequestService;
 
-public class GeneralContextProvider implements ContextProvider {
+public class ContextProviderByCpid implements ContextProvider {
 
     private static class GeneralContextProviderHolder {
-        public static final GeneralContextProvider instance = new GeneralContextProvider();
+        public static final ContextProviderByCpid instance = new ContextProviderByCpid();
     }
 
-    public static GeneralContextProvider getInstance() {
+    public static ContextProviderByCpid getInstance() {
         return GeneralContextProviderHolder.instance;
     }
 
