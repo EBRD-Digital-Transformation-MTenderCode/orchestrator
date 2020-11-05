@@ -24,7 +24,7 @@ public class ContextProvider {
             case PS:
             case TP:
             case PIN:
-                context = requestService.getContextForUpdate(authorization, operationId, cpid, ocid, token, process);
+                context = requestService.getContextForUpdateByCpid(authorization, operationId, cpid, ocid, token, process);
                 break;
         }
         return context;

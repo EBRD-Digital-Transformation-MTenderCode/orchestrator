@@ -176,12 +176,12 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
-    public Context getContextForUpdate(final String authorization,
-                                       final String operationId,
-                                       final String cpid,
-                                       final String ocid,
-                                       final String token,
-                                       final String process) {
+    public Context getContextForUpdateByCpid(final String authorization,
+                                             final String operationId,
+                                             final String cpid,
+                                             final String ocid,
+                                             final String token,
+                                             final String process) {
         final Context prevContext = getContext(cpid);
         return getContextForUpdate(authorization, operationId, cpid, ocid, token, process, prevContext);
     }
