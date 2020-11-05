@@ -43,7 +43,6 @@ public class CancelController {
         requestService.validate(operationId, null);
 
         final Stage stage = Stage.fromOcid(ocid);
-        if (stage == null) throw new OperationException("Invalid ocid. Could not extract stage from ocid.");
         Context context = ContextProvider.getContext(requestService, stage, authorization, operationId, cpid, ocid, token, "bidWithdrawn");
         context.setId(id);
         requestService.saveRequestAndCheckOperation(context, jsonUtil.empty());
