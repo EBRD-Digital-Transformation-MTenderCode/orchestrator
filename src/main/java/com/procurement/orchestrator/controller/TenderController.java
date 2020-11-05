@@ -5,9 +5,11 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.ProcurementMethod;
+import com.procurement.orchestrator.domain.Stage;
 import com.procurement.orchestrator.exception.OperationException;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.service.RequestService;
+import com.procurement.orchestrator.service.context.ContextProvider;
 import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
 import org.slf4j.Logger;
@@ -220,7 +222,10 @@ public class TenderController extends DoBaseController {
                                                 @PathVariable("ocid") final String ocid,
                                                 @RequestBody final JsonNode data) {
         requestService.validate(operationId, data);
-        final Context context = requestService.getContextForUpdateByCpid(authorization, operationId, cpid, ocid, null, "enquiry");
+
+        final Stage stage = Stage.fromOcid(ocid);
+        Context context = ContextProvider.getContext(requestService, stage, authorization, operationId, cpid, ocid, null, "enquiry");
+
         requestService.saveRequestAndCheckOperation(context, data);
         processService.startProcess(context, new HashMap<>());
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
