@@ -3,6 +3,7 @@ package com.procurement.orchestrator.domain;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.procurement.orchestrator.exception.EnumException;
+import com.procurement.orchestrator.exception.OperationException;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -48,10 +49,14 @@ public enum Stage {
 
     public static Stage fromOcid(final String ocid) {
         final String[] ocidParts = ocid.split("-");
-        if (STAGE_POSITION >= ocid.length())
-            return null;
 
-        return CONSTANTS.get(ocidParts[STAGE_POSITION]);
+        if (STAGE_POSITION >= ocid.length())
+            throw new OperationException("Invalid ocid. Could not extract stage from ocid.");
+
+        Stage result = CONSTANTS.get(ocidParts[STAGE_POSITION]);
+        if (result == null)
+            throw new OperationException("Invalid ocid. Could not extract stage from ocid.");
+        else return result;
     }
 
     @Override
