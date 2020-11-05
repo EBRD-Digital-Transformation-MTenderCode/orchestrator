@@ -7,7 +7,6 @@ import com.procurement.orchestrator.exception.OperationException;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.service.RequestService;
 import com.procurement.orchestrator.service.context.ContextProvider;
-import com.procurement.orchestrator.service.context.ContextProviderFactory;
 import com.procurement.orchestrator.utils.JsonUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,10 +44,7 @@ public class CancelController {
 
         final Stage stage = Stage.fromOcid(ocid);
         if (stage == null) throw new OperationException("Invalid ocid. Could not extract stage from ocid.");
-
-        ContextProvider contextProvider = ContextProviderFactory.getContextProvider(stage);
-        Context context = contextProvider.getContext(requestService, authorization, operationId, cpid, ocid, token, "bidWithdrawn");
-
+        Context context = ContextProvider.getContext(requestService, stage, authorization, operationId, cpid, ocid, token, "bidWithdrawn");
         context.setId(id);
         requestService.saveRequestAndCheckOperation(context, jsonUtil.empty());
         final Map<String, Object> variables = new HashMap<>();
