@@ -29,4 +29,28 @@ public class ContextProvider {
         }
         return context;
     }
+
+    public static Context getContext(RequestService requestService, Stage stage, String cpid, String ocid) {
+        Context context = null;
+        switch (stage) {
+            case PC:
+                context = requestService.getContext(ocid);
+                break;
+            case AC:
+            case AP:
+            case EI:
+            case EV:
+            case FE:
+            case FS:
+            case NP:
+            case PN:
+            case PQ:
+            case PS:
+            case TP:
+            case PIN:
+                context = requestService.getContext(cpid);
+                break;
+        }
+        return context;
+    }
 }
