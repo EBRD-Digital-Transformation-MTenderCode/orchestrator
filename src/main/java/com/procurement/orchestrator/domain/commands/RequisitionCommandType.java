@@ -10,6 +10,7 @@ import java.util.Map;
 
 public enum RequisitionCommandType {
 
+    CHECK_LOT_AWARDED("checkLotAwarded"),
     CREATE_REQUESTS_FOR_EV_PANELS("createRequestsForEvPanels"),
     GET_ACTIVE_LOTS("getActiveLots"),
     GET_AWARD_CRITERIA_AND_CONVERSATIONS("getAwardCriteriaAndConversions"),
