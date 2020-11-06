@@ -175,6 +175,7 @@ public class RequestServiceImpl implements RequestService {
         return context;
     }
 
+    @Override
     public Context getContextForUpdate(final String authorization,
                                         final String operationId,
                                         final String cpid,
@@ -206,6 +207,7 @@ public class RequestServiceImpl implements RequestService {
         return context;
     }
 
+    @Override
     public String getContextKey(String cpid, String ocid){
         Stage stage = Stage.fromOcid(ocid);
         String id = null;
