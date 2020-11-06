@@ -61,7 +61,7 @@ class AuctionValidateAuctionsDataDelegate(
                     electronicAuctions = ValidateAuctionsDataAction.Params.Tender.ElectronicAuctions(
                         details = tender.electronicAuctions?.details?.map { detail ->
                             ValidateAuctionsDataAction.Params.Tender.ElectronicAuctions.Detail(
-                                id = detail.id,
+                                id = detail.id.toString(),
                                 relatedLot = detail.relatedLot,
                                 electronicAuctionModalities = detail.electronicAuctionModalities.map { modality ->
                                     ValidateAuctionsDataAction.Params.Tender.ElectronicAuctions.Detail.ElectronicAuctionModality(

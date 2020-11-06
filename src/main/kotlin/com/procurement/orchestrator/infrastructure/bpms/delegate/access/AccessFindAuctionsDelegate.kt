@@ -10,6 +10,7 @@ import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.model.tender.Tender
+import com.procurement.orchestrator.domain.model.tender.auction.AuctionId
 import com.procurement.orchestrator.domain.model.tender.auction.ElectronicAuctionModalities
 import com.procurement.orchestrator.domain.model.tender.auction.ElectronicAuctionModality
 import com.procurement.orchestrator.domain.model.tender.auction.ElectronicAuctions
@@ -75,7 +76,7 @@ class AccessFindAuctionsDelegate(
     }
 
     fun FindAuctionsAction.Result.Tender.ElectronicAuctions.Detail.toContextDetail() = ElectronicAuctionsDetail(
-        id = id,
+        id = AuctionId.create(id),
         relatedLot = relatedLot,
         electronicAuctionModalities = ElectronicAuctionModalities(
             electronicAuctionModalities.map { modality ->

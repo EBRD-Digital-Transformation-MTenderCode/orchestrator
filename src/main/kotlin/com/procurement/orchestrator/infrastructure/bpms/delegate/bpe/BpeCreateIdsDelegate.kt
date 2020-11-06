@@ -7,6 +7,7 @@ import com.procurement.orchestrator.application.model.context.extension.getAward
 import com.procurement.orchestrator.application.model.context.extension.getDetailsIfNotEmpty
 import com.procurement.orchestrator.application.model.context.extension.getRequirementResponseIfNotEmpty
 import com.procurement.orchestrator.application.model.context.extension.tryGetBids
+import com.procurement.orchestrator.application.model.context.extension.tryGetElectronicAuctions
 import com.procurement.orchestrator.application.model.context.extension.tryGetSubmissions
 import com.procurement.orchestrator.application.model.context.extension.tryGetTender
 import com.procurement.orchestrator.application.service.Logger
@@ -20,6 +21,7 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.functional.asOption
 import com.procurement.orchestrator.domain.functional.asSuccess
+import com.procurement.orchestrator.domain.functional.bind
 import com.procurement.orchestrator.domain.model.amendment.Amendment
 import com.procurement.orchestrator.domain.model.amendment.AmendmentId
 import com.procurement.orchestrator.domain.model.amendment.Amendments
@@ -30,6 +32,9 @@ import com.procurement.orchestrator.domain.model.requirement.response.Requiremen
 import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponses
 import com.procurement.orchestrator.domain.model.submission.Details
 import com.procurement.orchestrator.domain.model.submission.SubmissionId
+import com.procurement.orchestrator.domain.model.tender.auction.AuctionId
+import com.procurement.orchestrator.domain.model.tender.auction.ElectronicAuctions
+import com.procurement.orchestrator.domain.model.tender.auction.ElectronicAuctionsDetails
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractInternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
@@ -80,6 +85,7 @@ class BpeCreateIdsDelegate(
                 Location.SUBMISSION_REQUIREMENT_RESPONSE    -> generatePermanentSubmissionsRequirementResponseIds(context)
                 Location.QUALIFICATION_REQUIREMENT_RESPONSE -> generatePermanentQualificationsRequirementResponseIds(context)
                 Location.BID_REQUIREMENTRESPONSE            -> generatePermanentBidsRequirementResponseIds(context)
+                Location.AUCTION                            -> generatePermanentAuctionsIds(context)
             }
                 .orForwardFail { fail -> return fail }
         }
@@ -100,6 +106,7 @@ class BpeCreateIdsDelegate(
                 is Ids.SubmissionsRequirementResponses    -> updateSubmissionsRequirementResponseIds(context, permanentIds)
                 is Ids.QualificationsRequirementResponses -> updateQualificationRequirementResponseIds(context, permanentIds)
                 is Ids.BidsRequirementResponses           -> updateBidRequirementResponseIds(context, permanentIds)
+                is Ids.TenderAuctions                     -> updateTenderAuctionsIds(context, permanentIds)
             }
         }
 
@@ -199,6 +206,18 @@ class BpeCreateIdsDelegate(
             .let { Ids.BidsRequirementResponses(it) }
             .asSuccess()
 
+    private fun generatePermanentAuctionsIds(context: GlobalContext): Result<Ids, Fail.Incident> =
+        context.tryGetTender()
+            .bind { it.tryGetElectronicAuctions() }
+            .orForwardFail { fail -> return fail }
+            .details
+            .associate { auction ->
+                val temporal = auction.id
+                val permanent = AuctionId.generate()
+                temporal to permanent
+            }
+            .let { Ids.TenderAuctions(it) }
+            .asSuccess()
 
     private fun updateAwardRequirementResponsesIds(
         context: CamundaGlobalContext,
@@ -322,6 +341,28 @@ class BpeCreateIdsDelegate(
         return MaybeFail.none()
     }
 
+    private fun updateTenderAuctionsIds(
+        context: CamundaGlobalContext,
+        ids: Ids.TenderAuctions
+    ): MaybeFail<Fail.Incident.Bpms.Context> {
+
+        val tender = context.tryGetTender()
+            .orReturnFail { fail -> return MaybeFail.fail(fail) }
+
+        val updatedElectronicAuctions = tender.tryGetElectronicAuctions()
+            .orReturnFail { fail -> return MaybeFail.fail(fail) }
+            .details
+            .map { auctionsDetail ->
+                val permanentId = ids.getValue(auctionsDetail.id)
+                auctionsDetail.copy(id = permanentId)
+            }
+            .let { ElectronicAuctions(details = ElectronicAuctionsDetails(it)) }
+
+        context.tender = tender.copy(electronicAuctions = updatedElectronicAuctions)
+
+        return MaybeFail.none()
+    }
+
     private fun updateTenderAmendmentsIds(
         context: CamundaGlobalContext,
         ids: Ids.TenderAmendments
@@ -366,18 +407,22 @@ class BpeCreateIdsDelegate(
 
         class BidsRequirementResponses(values: Map<RequirementResponseId, RequirementResponseId> = emptyMap()) :
             Ids(), Map<RequirementResponseId, RequirementResponseId> by values, Serializable
+
+        class TenderAuctions(values: Map<AuctionId, AuctionId> = emptyMap()) :
+            Ids(), Map<AuctionId, AuctionId> by values, Serializable
     }
 
     class Parameters(val location: List<Location>)
 
     enum class Location(override val key: String) : EnumElementProvider.Key {
 
-        AWARD_REQUIREMENT_RESPONSE("award.requirementResponse"),
-        BID_REQUIREMENTRESPONSE("bid.requirementResponse"),
-        QUALIFICATION_REQUIREMENT_RESPONSE("qualification.requirementResponse"),
-        SUBMISSION_DETAILS("submission"),
-        SUBMISSION_REQUIREMENT_RESPONSE("submission.requirementResponse"),
-        TENDER_AMENDMENT("tender.amendment");
+        AWARD_REQUIREMENT_RESPONSE("AWARD.REQUIREMENTRESPONSE"),
+        AUCTION("AUCTION"),
+        BID_REQUIREMENTRESPONSE("BID.REQUIREMENTRESPONSE"),
+        QUALIFICATION_REQUIREMENT_RESPONSE("QUALIFICATION.REQUIREMENTRESPONSE"),
+        SUBMISSION_DETAILS("SUBMISSION"),
+        SUBMISSION_REQUIREMENT_RESPONSE("SUBMISSION.REQUIREMENTRESPONSE"),
+        TENDER_AMENDMENT("TENDER.AMENDMENT");
 
         override fun toString(): String = key
 
