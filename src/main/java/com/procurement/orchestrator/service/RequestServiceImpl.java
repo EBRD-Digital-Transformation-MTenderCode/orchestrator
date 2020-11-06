@@ -175,35 +175,13 @@ public class RequestServiceImpl implements RequestService {
         return context;
     }
 
-    @Override
-    public Context getContextForUpdateByCpid(final String authorization,
-                                             final String operationId,
-                                             final String cpid,
-                                             final String ocid,
-                                             final String token,
-                                             final String process) {
-        final Context prevContext = getContext(cpid);
-        return getContextForUpdate(authorization, operationId, cpid, ocid, token, process, prevContext);
-    }
-
-    @Override
-    public Context getContextForUpdateByOcid(final String authorization,
-                                       final String operationId,
-                                       final String cpid,
-                                       final String ocid,
-                                       final String token,
-                                       final String process) {
-        final Context prevContext = getContext(ocid);
-        return getContextForUpdate(authorization, operationId, cpid, ocid, token, process, prevContext);
-    }
-
-    private Context getContextForUpdate(final String authorization,
-                                       final String operationId,
-                                       final String cpid,
-                                       final String ocid,
-                                       final String token,
-                                       final String process,
-                                        Context prevContext ) {
+    public Context getContextForUpdate(final String authorization,
+                                        final String operationId,
+                                        final String cpid,
+                                        final String ocid,
+                                        final String token,
+                                        final String process) {
+        final Context prevContext = getContext(getContextKey(cpid, ocid));
         if (ocid != null) validateOcId(cpid, ocid, prevContext);
         final String processType = getProcessType(prevContext.getCountry(), prevContext.getPmd(), process);
         final Rule rule = checkAndGetRule(prevContext, processType);
@@ -226,6 +204,31 @@ public class RequestServiceImpl implements RequestService {
         context.setRequestId(UUIDs.timeBased().toString());
         context.setStartDate(dateUtil.nowFormatted());
         return context;
+    }
+
+    public String getContextKey(String cpid, String ocid){
+        Stage stage = Stage.fromOcid(ocid);
+        String id = null;
+        switch (stage) {
+            case PC:
+                id = ocid;
+                break;
+            case AC:
+            case AP:
+            case EI:
+            case EV:
+            case FE:
+            case FS:
+            case NP:
+            case PN:
+            case PQ:
+            case PS:
+            case TP:
+            case PIN:
+                id = cpid;
+                break;
+        }
+        return id;
     }
 
     @Override
