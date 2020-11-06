@@ -11,6 +11,7 @@ import com.procurement.orchestrator.domain.model.enquiry.Enquiry
 import com.procurement.orchestrator.domain.model.item.Item
 import com.procurement.orchestrator.domain.model.lot.Lot
 import com.procurement.orchestrator.domain.model.tender.Tender
+import com.procurement.orchestrator.domain.model.tender.auction.ElectronicAuctions
 import com.procurement.orchestrator.domain.model.tender.target.Target
 
 private const val PATH = "tender"
@@ -43,3 +44,8 @@ fun Tender.getDocumentsIfNotEmpty(): Result<List<Document>, Fail.Incident.Bpms.C
 
 fun Tender.getEnquiriesIfNotEmpty(): Result<List<Enquiry>, Fail.Incident.Bpms.Context> =
     this.enquiries.getIfNotEmpty(name = "enquiries", path = PATH)
+
+fun Tender.tryGetElectronicAuctions(): Result<ElectronicAuctions, Fail.Incident.Bpms.Context> =
+    this.electronicAuctions
+        ?.asSuccess()
+        ?: failure(Fail.Incident.Bpms.Context.Missing(name = "electronicAuctions", path = PATH))
