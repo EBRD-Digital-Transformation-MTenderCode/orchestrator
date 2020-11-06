@@ -185,12 +185,13 @@ class MdmEnrichLocalityDelegate(
 
     private fun Address.updateLocality(enrichedLocalitiesById: Map<LocalityDetails, LocalityDetails>): Address {
         val oldLocality = this.addressDetails!!.locality
-        val enrichedLocality = enrichedLocalitiesById.getValue(oldLocality)
-        return this.copy(
-            addressDetails = this.addressDetails.copy(
-                locality = enrichedLocality
-            )
-        )
+        val enrichedLocality = enrichedLocalitiesById[oldLocality]
+        return if (enrichedLocality != null)
+            this.copy(
+                addressDetails = this.addressDetails.copy(
+                    locality = enrichedLocality
+                )
+            ) else this
     }
 
     private fun getParams(language: String, address: LocalityInfo): EnrichLocalityAction.Params =
