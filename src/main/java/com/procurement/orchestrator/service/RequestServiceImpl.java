@@ -17,6 +17,7 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.StringUtils;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -208,7 +209,10 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
-    public String getContextKey(String cpid, String ocid){
+    public String getContextKey(@NotNull final String cpid, @NotNull final String ocid){
+        Objects.requireNonNull(cpid);
+        Objects.requireNonNull(ocid);
+
         Stage stage = Stage.fromOcid(ocid);
         String id = null;
         switch (stage) {
