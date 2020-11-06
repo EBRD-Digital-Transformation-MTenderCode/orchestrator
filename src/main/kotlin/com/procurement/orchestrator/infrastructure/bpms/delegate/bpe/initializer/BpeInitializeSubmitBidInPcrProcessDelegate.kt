@@ -107,7 +107,7 @@ class BpeInitializeSubmitBidInPcrProcessDelegate(
                 tenderers = bid.tenderers
                     .map { tenderer ->
                         Organization(
-                            id = tenderer.identifier.scheme + tenderer.identifier.id,
+                            id = "${tenderer.identifier.scheme}-${tenderer.identifier.id}",
                             name = tenderer.name,
                             identifier = tenderer.identifier
                                 .let { identifier ->
