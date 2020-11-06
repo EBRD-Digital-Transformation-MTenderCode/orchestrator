@@ -3,13 +3,11 @@ package com.procurement.orchestrator.delegate.kafka;
 import com.datastax.driver.core.utils.UUIDs;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
-import com.procurement.orchestrator.domain.Stage;
 import com.procurement.orchestrator.domain.commands.AgentResponseCommandType;
 import com.procurement.orchestrator.domain.commands.AuctionCommandType;
 import com.procurement.orchestrator.domain.commands.DocGeneratorCommandType;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.service.RequestService;
-import com.procurement.orchestrator.service.context.ContextProvider;
 import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
 import org.slf4j.Logger;
@@ -87,8 +85,8 @@ public class MessageConsumer {
     private Context getContext(String cpid, String ocid) {
         Context prevContext;
         if (ocid != null) {
-            final Stage stage = Stage.fromOcid(ocid);
-            prevContext = ContextProvider.getContext(requestService, stage, cpid, ocid);
+            String contextKey = requestService.getContextKey(cpid, ocid);
+            prevContext = requestService.getContext(contextKey);
         } else {
             prevContext = requestService.getContext(cpid);
         }

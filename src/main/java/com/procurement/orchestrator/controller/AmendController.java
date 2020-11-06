@@ -32,7 +32,7 @@ public class AmendController {
         requestService.validate(operationId, data);
         final String processType = "amendFE";
         final Context context =
-                requestService.getContextForUpdateByCpid(authorization, operationId, cpid, ocid, token, processType);
+                requestService.getContextForUpdate(authorization, operationId, cpid, ocid, token, processType);
         processService.setPreQualificationPeriodStartDate(data, context.getStartDate(), null);
         requestService.saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();

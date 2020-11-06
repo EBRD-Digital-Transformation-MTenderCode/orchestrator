@@ -2,11 +2,9 @@ package com.procurement.orchestrator.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
-import com.procurement.orchestrator.domain.Stage;
 import com.procurement.orchestrator.exception.OperationException;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.service.RequestService;
-import com.procurement.orchestrator.service.context.ContextProvider;
 import com.procurement.orchestrator.utils.JsonUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,9 +39,7 @@ public class CancelController {
                                                @PathVariable("id") final String id) {
 
         requestService.validate(operationId, null);
-
-        final Stage stage = Stage.fromOcid(ocid);
-        Context context = ContextProvider.getContext(requestService, stage, authorization, operationId, cpid, ocid, token, "bidWithdrawn");
+        Context context = requestService.getContextForUpdate(authorization, operationId, cpid, ocid, token, "bidWithdrawn");
         context.setId(id);
         requestService.saveRequestAndCheckOperation(context, jsonUtil.empty());
         final Map<String, Object> variables = new HashMap<>();
@@ -59,7 +55,7 @@ public class CancelController {
                                                  @PathVariable("ocid") final String ocid,
                                                  @RequestBody final JsonNode data) {
         requestService.validate(operationId, null);
-        final Context context = requestService.getContextForUpdateByCpid(authorization, operationId, cpid, ocid, token, "cnCancellation");
+        final Context context = requestService.getContextForUpdate(authorization, operationId, cpid, ocid, token, "cnCancellation");
         if (ocid.contains("PN") || ocid.contains("PIN")) throw new OperationException("Invalid ocid.");
         requestService.saveRequestAndCheckOperation(context, data);
         final Map<String, Object> variables = new HashMap<>();
@@ -76,7 +72,7 @@ public class CancelController {
                                                   @PathVariable("cpid") final String cpid,
                                                   @PathVariable("ocid") final String ocid) {
         requestService.validate(operationId, null);
-        final Context pinContext = requestService.getContextForUpdateByCpid(authorization, operationId, cpid, ocid, token, "pinCancellation");
+        final Context pinContext = requestService.getContextForUpdate(authorization, operationId, cpid, ocid, token, "pinCancellation");
         if (!ocid.contains("PIN")) throw new OperationException("Invalid ocid.");
         requestService.saveRequestAndCheckOperation(pinContext, jsonUtil.empty());
         final Map<String, Object> variables = new HashMap<>();
@@ -92,7 +88,7 @@ public class CancelController {
                                                  @PathVariable("cpid") final String cpid,
                                                  @PathVariable("ocid") final String ocid) {
         requestService.validate(operationId, null);
-        final Context pnContext = requestService.getContextForUpdateByCpid(authorization, operationId, cpid, ocid, token, "pnCancellation");
+        final Context pnContext = requestService.getContextForUpdate(authorization, operationId, cpid, ocid, token, "pnCancellation");
         if (!ocid.contains("PN")) throw new OperationException("Invalid ocid.");
         final Map<String, Object> variables = new HashMap<>();
         variables.put("operationType", pnContext.getOperationType());
@@ -110,7 +106,7 @@ public class CancelController {
                                                   @PathVariable("id") final String id,
                                                   @RequestBody final JsonNode data) {
         requestService.validate(operationId, data);
-        final Context context = requestService.getContextForUpdateByCpid(authorization, operationId, cpid, ocid, token, "cancelCan");
+        final Context context = requestService.getContextForUpdate(authorization, operationId, cpid, ocid, token, "cancelCan");
         context.setId(id);
         final Map<String, Object> variables = new HashMap<>();
         variables.put("operationType", context.getOperationType());
