@@ -177,14 +177,20 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
-    public Context getContextForUpdate(final String authorization,
-                                        final String operationId,
-                                        final String cpid,
-                                        final String ocid,
-                                        final String token,
-                                        final String process) {
+    public Context getContextForUpdate(@NotNull final String authorization,
+                                       @NotNull final String operationId,
+                                       @NotNull final String cpid,
+                                       @NotNull final String ocid,
+                                       final String token,
+                                       @NotNull final String process) {
+        Objects.requireNonNull(authorization);
+        Objects.requireNonNull(operationId);
+        Objects.requireNonNull(cpid);
+        Objects.requireNonNull(ocid);
+        Objects.requireNonNull(process);
+
         final Context prevContext = getContext(getContextKey(cpid, ocid));
-        if (ocid != null) validateOcId(cpid, ocid, prevContext);
+        validateOcId(cpid, ocid, prevContext);
         final String processType = getProcessType(prevContext.getCountry(), prevContext.getPmd(), process);
         final Rule rule = checkAndGetRule(prevContext, processType);
         final Context context = new Context();
