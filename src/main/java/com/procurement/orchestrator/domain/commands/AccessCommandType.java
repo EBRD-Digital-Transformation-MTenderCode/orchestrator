@@ -33,6 +33,7 @@ public enum AccessCommandType {
     GET_TENDER_OWNER("getTenderOwner"),
     START_NEW_STAGE("startNewStage"),
 
+    GET_AP_TITLE_AND_DESCRIPTION("getAPTitleAndDescription"),
     GET_ITEMS_BY_LOT("getItemsByLot"),
     GET_ACTIVE_LOTS("getActiveLots"),
     GET_LOT("getLot"),
