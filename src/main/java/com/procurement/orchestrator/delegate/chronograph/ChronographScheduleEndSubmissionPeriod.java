@@ -68,7 +68,7 @@ public class ChronographScheduleEndSubmissionPeriod implements JavaDelegate {
         metadataBuilder.requestId(uuid);
         metadataBuilder.operationId(uuid);
         metadataBuilder.cpid(context.getCpid());
-        setOcid(context, metadataBuilder);
+        metadataBuilder.ocid(getOcid(context));
         metadataBuilder.processType(PROCESS_TYPE);
         metadataBuilder.phase(PHASE);
 
@@ -95,11 +95,11 @@ public class ChronographScheduleEndSubmissionPeriod implements JavaDelegate {
         operationService.saveOperationStep(execution, entity, jsonUtil.toJsonNode(task));
     }
 
-    private void setOcid(Context context, Metadata.MetadataBuilder metadataBuilder) {
+    private String getOcid(Context context) {
         if (context.getOperationType().equals(CREATE_CN_ON_PN.toString())) {
-            metadataBuilder.ocid(context.getOcidCn());
+            return context.getOcidCn();
         } else {
-            metadataBuilder.ocid(context.getOcid());
+            return context.getOcid();
         }
     }
 
