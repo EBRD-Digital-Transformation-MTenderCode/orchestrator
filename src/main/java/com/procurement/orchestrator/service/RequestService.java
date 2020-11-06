@@ -34,19 +34,14 @@ public interface RequestService {
                                 String process,
                                 boolean testMode);
 
-    Context getContextForUpdateByCpid(String authorization,
-                                      String operationId,
-                                      String cpid,
-                                      String ocid,
-                                      String token,
-                                      String process);
-
-    Context getContextForUpdateByOcid(String authorization,
+    Context getContextForUpdate(String authorization,
                                 String operationId,
                                 String cpid,
                                 String ocid,
                                 String token,
                                 String process);
+
+    String getContextKey(String cpid, String ocid);
 
     Context getContextForContractUpdate(String authorization,
                                         String operationId,

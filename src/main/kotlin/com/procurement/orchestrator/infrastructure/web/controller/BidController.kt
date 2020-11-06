@@ -164,7 +164,7 @@ class BidController(
         ocid: Ocid.SingleStage
     ) {
         requestService.validate(operationId, data)
-        val context: Context = requestService.getContextForUpdateByCpid(
+        val context: Context = requestService.getContextForUpdate(
             authorization,
             operationId,
             cpid,
