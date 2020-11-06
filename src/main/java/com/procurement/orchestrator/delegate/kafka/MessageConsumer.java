@@ -3,11 +3,13 @@ package com.procurement.orchestrator.delegate.kafka;
 import com.datastax.driver.core.utils.UUIDs;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
+import com.procurement.orchestrator.domain.Stage;
 import com.procurement.orchestrator.domain.commands.AgentResponseCommandType;
 import com.procurement.orchestrator.domain.commands.AuctionCommandType;
 import com.procurement.orchestrator.domain.commands.DocGeneratorCommandType;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.service.RequestService;
+import com.procurement.orchestrator.service.context.ContextProvider;
 import com.procurement.orchestrator.utils.DateUtil;
 import com.procurement.orchestrator.utils.JsonUtil;
 import org.slf4j.Logger;
@@ -52,7 +54,8 @@ public class MessageConsumer {
                         final JsonNode data = response.get("data");
                         if (data != null) {
                             final String cpid = data.get("tender").get("id").asText();
-                            final Context prevContext = requestService.getContext(cpid);
+                            final String ocid = data.get("ocid").asText();
+                            Context prevContext = getContext(cpid, ocid);
                             final String uuid = UUIDs.timeBased().toString();
                             final Context context = requestService.checkRulesAndProcessContext(
                                     prevContext,
@@ -79,6 +82,17 @@ public class MessageConsumer {
             //TODO error processing
             LOG.error("Error while processing the message from the Auction (" + message + ").", e);
         }
+    }
+
+    private Context getContext(String cpid, String ocid) {
+        Context prevContext;
+        if (ocid != null) {
+            final Stage stage = Stage.fromOcid(ocid);
+            prevContext = ContextProvider.getContext(requestService, stage, cpid, ocid);
+        } else {
+            prevContext = requestService.getContext(cpid);
+        }
+        return prevContext;
     }
 
     @KafkaListener(topics = "document-generator-out")
