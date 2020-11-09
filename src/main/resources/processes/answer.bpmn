@@ -127,7 +127,7 @@
     <bpmn:startEvent id="StartEvent_1">
       <bpmn:outgoing>SequenceFlow_1gx4xfj</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:serviceTask id="SetValuesInCamundaContextTask" name="BPE: Set values in camunda context " camunda:asyncBefore="true" camunda:delegateExpression="${setValuesInCamundaContext}">
+    <bpmn:serviceTask id="SetValuesInCamundaContextTask" name="BPE: Set values in camunda context " camunda:asyncBefore="true" camunda:delegateExpression="${bpeSetValuesInCamundaContext}">
       <bpmn:incoming>Flow_1ovtxfb</bpmn:incoming>
       <bpmn:outgoing>Flow_1s2lq0p</bpmn:outgoing>
     </bpmn:serviceTask>
