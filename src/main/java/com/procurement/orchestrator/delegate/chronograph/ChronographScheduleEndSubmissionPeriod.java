@@ -27,6 +27,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static com.procurement.orchestrator.domain.OperationType.CREATE_CN_ON_PN;
+import static com.procurement.orchestrator.domain.OperationType.CREATE_FE;
 
 @Component
 public class ChronographScheduleEndSubmissionPeriod implements JavaDelegate {
@@ -95,8 +96,10 @@ public class ChronographScheduleEndSubmissionPeriod implements JavaDelegate {
         operationService.saveOperationStep(execution, entity, jsonUtil.toJsonNode(task));
     }
 
-    private String getOcid(Context context) {
-        if (context.getOperationType().equals(CREATE_CN_ON_PN.toString())) {
+    private String getOcid(final Context context) {
+        final String operationType = context.getOperationType();
+        if (operationType.equals(CREATE_CN_ON_PN.toString())
+                || operationType.equals(CREATE_FE.toString())) {
             return context.getOcidCn();
         } else {
             return context.getOcid();
