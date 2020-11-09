@@ -15,6 +15,7 @@
         "observations": [
           {
             "id": "001-1",
+            "period": {},
             "measure": "Unknown Type: number,integer,string,boolean",
             "unit": {
               "id": "string"
