@@ -86,7 +86,7 @@ object PlatformNotification {
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
         @field:JsonProperty("pc") @param:JsonProperty("pc") val pcr: List<PreAwardCatalogRequest> = emptyList(),
 
-        @JsonInclude(JsonInclude.Include.NON_NULL)
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
         @field:JsonProperty("bids") @param:JsonProperty("bids") val bids: List<Bid> = emptyList()
     ) {
 
