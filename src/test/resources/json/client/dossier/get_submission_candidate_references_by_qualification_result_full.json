@@ -28,14 +28,6 @@
               "scheme": "string",
               "uri": "string"
             },
-            "additionalIdentifiers": [
-              {
-                "id": "string",
-                "legalName": "string",
-                "scheme": "string",
-                "uri": "string"
-              }
-            ],
             "address": {
               "streetAddress": "string",
               "postalCode": "string",
@@ -98,63 +90,7 @@
               }
             ],
             "details": {
-              "typeOfSupplier": "company",
-              "mainEconomicActivities": [
-                {
-                  "scheme": "MD-CAEM",
-                  "id": "string",
-                  "description": "string",
-                  "uri": "string"
-                }
-              ],
-              "scale": "micro",
-              "bankAccounts": [
-                {
-                  "description": "string",
-                  "bankName": "string",
-                  "address": {
-                    "streetAddress": "string",
-                    "postalCode": "string",
-                    "addressDetails": {
-                      "country": {
-                        "id": "string",
-                        "description": "string",
-                        "scheme": "string"
-                      },
-                      "region": {
-                        "id": "string",
-                        "description": "string",
-                        "scheme": "string"
-                      },
-                      "locality": {
-                        "id": "string",
-                        "description": "string",
-                        "scheme": "string"
-                      }
-                    }
-                  },
-                  "identifier": {
-                    "scheme": "UA-MFO",
-                    "id": "string"
-                  },
-                  "accountIdentification": {
-                    "scheme": "IBAN",
-                    "id": "string"
-                  },
-                  "additionalAccountIdentifiers": [
-                    {
-                      "scheme": "fiscal",
-                      "id": "string"
-                    }
-                  ]
-                }
-              ],
-              "legalForm": {
-                "scheme": "MD-CFOJ",
-                "id": "string",
-                "description": "string",
-                "uri": "string"
-              }
+              "scale": "micro"
             }
           }
         ],
