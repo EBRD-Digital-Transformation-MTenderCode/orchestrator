@@ -89,7 +89,10 @@ abstract class GetSubmissionCandidateReferencesByQualificationIdsAction : Functi
                     @field:JsonProperty("id") @param:JsonProperty("id") val id: String,
                     @field:JsonProperty("name") @param:JsonProperty("name") val name: String,
                     @field:JsonProperty("identifier") @param:JsonProperty("identifier") val identifier: Identifier,
-                    @field:JsonProperty("additionalIdentifiers") @param:JsonProperty("additionalIdentifiers") val additionalIdentifiers: List<AdditionalIdentifier>,
+
+                    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+                    @field:JsonProperty("additionalIdentifiers") @param:JsonProperty("additionalIdentifiers") val additionalIdentifiers: List<AdditionalIdentifier>?,
+
                     @field:JsonProperty("address") @param:JsonProperty("address") val address: Address,
                     @field:JsonProperty("contactPoint") @param:JsonProperty("contactPoint") val contactPoint: ContactPoint,
                     @field:JsonProperty("details") @param:JsonProperty("details") val details: Details,
@@ -207,10 +210,16 @@ abstract class GetSubmissionCandidateReferencesByQualificationIdsAction : Functi
                         @JsonInclude(JsonInclude.Include.NON_NULL)
                         @field:JsonProperty("typeOfSupplier") @param:JsonProperty("typeOfSupplier") val typeOfSupplier: TypeOfSupplier?,
 
-                        @field:JsonProperty("mainEconomicActivities") @param:JsonProperty("mainEconomicActivities") val mainEconomicActivities: List<MainEconomicActivity>,
+                        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+                        @field:JsonProperty("mainEconomicActivities") @param:JsonProperty("mainEconomicActivities") val mainEconomicActivities: List<MainEconomicActivity>?,
+
                         @field:JsonProperty("scale") @param:JsonProperty("scale") val scale: Scale,
-                        @field:JsonProperty("bankAccounts") @param:JsonProperty("bankAccounts") val bankAccounts: List<BankAccount>,
-                        @field:JsonProperty("legalForm") @param:JsonProperty("legalForm") val legalForm: LegalForm
+
+                        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+                        @field:JsonProperty("bankAccounts") @param:JsonProperty("bankAccounts") val bankAccounts: List<BankAccount>?,
+
+                        @JsonInclude(JsonInclude.Include.NON_NULL)
+                        @field:JsonProperty("legalForm") @param:JsonProperty("legalForm") val legalForm: LegalForm?
                     ) : Serializable {
 
                         class MainEconomicActivity(
