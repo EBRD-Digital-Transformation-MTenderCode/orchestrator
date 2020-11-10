@@ -50,7 +50,6 @@
               "telephone": "string"
             },
             "details": {
-              "typeOfSupplier": "company",
               "mainEconomicActivities": [
                 {
                   "scheme": "MD-CAEM",
