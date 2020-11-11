@@ -22,6 +22,7 @@ abstract class CheckExistenceSignAuctionAction : ProceduralAction<CheckExistence
         @field:JsonProperty("tender") @param:JsonProperty("tender") var tender: Tender
     ) {
         data class Tender(
+            @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
             @field:JsonProperty("procurementMethodModalities") @param:JsonProperty("procurementMethodModalities") val procurementMethodModalities: List<ProcurementMethodModality>
         )
     }
