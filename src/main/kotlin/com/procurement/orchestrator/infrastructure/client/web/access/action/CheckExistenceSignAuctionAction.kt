@@ -19,7 +19,8 @@ abstract class CheckExistenceSignAuctionAction : ProceduralAction<CheckExistence
         @field:JsonInclude(JsonInclude.Include.NON_NULL)
         @field:JsonProperty("ocid") @param:JsonProperty("ocid") var ocid: Ocid?,
 
-        @field:JsonProperty("tender") @param:JsonProperty("tender") var tender: Tender
+        @field:JsonInclude(JsonInclude.Include.NON_NULL)
+        @field:JsonProperty("tender") @param:JsonProperty("tender") var tender: Tender?
     ) {
         data class Tender(
             @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
