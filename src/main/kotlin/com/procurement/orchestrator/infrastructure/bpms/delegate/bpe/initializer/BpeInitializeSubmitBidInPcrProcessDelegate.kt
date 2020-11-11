@@ -22,6 +22,7 @@ import com.procurement.orchestrator.domain.model.identifier.Identifier
 import com.procurement.orchestrator.domain.model.identifier.Identifiers
 import com.procurement.orchestrator.domain.model.item.Item
 import com.procurement.orchestrator.domain.model.item.Items
+import com.procurement.orchestrator.domain.model.lot.LotId
 import com.procurement.orchestrator.domain.model.lot.RelatedLots
 import com.procurement.orchestrator.domain.model.organization.ContactPoint
 import com.procurement.orchestrator.domain.model.organization.Organization
@@ -350,7 +351,10 @@ class BpeInitializeSubmitBidInPcrProcessDelegate(
                             documentType = document.documentType,
                             id = document.id,
                             title = document.title,
-                            description = document.description
+                            description = document.description,
+                            relatedLots = document.relatedLots.orEmpty()
+                                .map { LotId.create(it) }
+                                .let { RelatedLots(it) }
                         )
                     }
                     .orEmpty()
