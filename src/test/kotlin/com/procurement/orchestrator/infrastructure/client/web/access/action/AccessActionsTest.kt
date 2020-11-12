@@ -488,4 +488,24 @@ class AccessActionsTest {
             }
         }
     }
+
+    @Nested
+    inner class GetMainProcurementCategory {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetMainProcurementCategoryAction.Params>("json/client/access/get_main_procurement_category_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetMainProcurementCategoryAction.Result>("json/client/access/get_main_procurement_category_result_full.json")
+            }
+        }
+    }
 }

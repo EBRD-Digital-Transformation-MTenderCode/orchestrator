@@ -20,6 +20,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Find
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindCriteriaAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindLotIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotStateByIdsAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.GetMainProcurementCategoryAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetOrganizationAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetQualificationCriteriaAndMethodAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetTenderCurrencyAction
@@ -253,5 +254,14 @@ class HttpAccessClient(private val webClient: WebClient, properties: ComponentPr
     ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
         url = url,
         command = AccessCommands.CheckEqualityCurrencies.build(id = id, params = params)
+    )
+
+    override suspend fun getMainProcurementCategory(
+        id: CommandId,
+        params: GetMainProcurementCategoryAction.Params
+    ): Result<Reply<GetMainProcurementCategoryAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = AccessCommands.GetMainProcurementCategory.build(id = id, params = params),
+        target = AccessCommands.GetMainProcurementCategory.target
     )
 }

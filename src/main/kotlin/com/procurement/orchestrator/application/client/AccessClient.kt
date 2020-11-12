@@ -18,6 +18,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Find
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindCriteriaAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindLotIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotStateByIdsAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.GetMainProcurementCategoryAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetOrganizationAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetQualificationCriteriaAndMethodAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetTenderCurrencyAction
@@ -157,4 +158,9 @@ interface AccessClient {
         id: CommandId,
         params: CheckEqualityCurrenciesAction.Params
     ): Result<Reply<Unit>, Fail.Incident>
+
+    suspend fun getMainProcurementCategory(
+        id: CommandId,
+        params: GetMainProcurementCategoryAction.Params
+    ): Result<Reply<GetMainProcurementCategoryAction.Result>, Fail.Incident>
 }
