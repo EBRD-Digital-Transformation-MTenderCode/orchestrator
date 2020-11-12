@@ -51,6 +51,7 @@ public class RequisitionCheckLotAwarded implements JavaDelegate {
         final String lotId = execution.<StringValue>getVariableTyped("lotId").getValue();
         contextForCommand.setRequestId(context.getRequestId());
         contextForCommand.setCpid(context.getCpid());
+        contextForCommand.setOcid(context.getOcid());
         contextForCommand.setStage(context.getStage());
         contextForCommand.setId(lotId);
 
