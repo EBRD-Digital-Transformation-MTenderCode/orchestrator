@@ -192,6 +192,7 @@ class RequisitionValidatePcrDataDelegate(
                         documentType = document.documentType,
                         relatedLots = document.relatedLots.toList()
                     )
-                }
+                },
+            mainProcurementCategory = tender.mainProcurementCategory
         )
 }
