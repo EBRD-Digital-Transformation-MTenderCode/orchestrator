@@ -52,6 +52,7 @@ public class ClarificationCreatePeriod implements JavaDelegate {
         final String taskId = execution.getCurrentActivityId();
 
         final Context commandContext = new Context.Builder()
+                .setRequestId(context.getRequestId())
                 .setCpid(context.getCpid())
                 .setOcid(getOcid(context))
                 .setOwner(context.getOwner())
