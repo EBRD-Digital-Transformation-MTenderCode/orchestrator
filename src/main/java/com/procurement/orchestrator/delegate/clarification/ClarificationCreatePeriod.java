@@ -51,8 +51,16 @@ public class ClarificationCreatePeriod implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
 
+        final Context commandContext = new Context.Builder()
+                .setCpid(context.getCpid())
+                .setOcid(getOcid(context))
+                .setOwner(context.getOwner())
+                .setCountry(context.getCountry())
+                .setPmd(context.getPmd())
+                .build();
+
         final JsonNode period = getPeriod(jsonData, processId);
-        final JsonNode commandMessage = processService.getCommandMessage(CREATE_PERIOD, context, period);
+        final JsonNode commandMessage = processService.getCommandMessage(CREATE_PERIOD, commandContext, period);
         if (LOG.isDebugEnabled()) {
             LOG.debug("COMMAND ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(commandMessage));
         }
@@ -107,5 +115,12 @@ public class ClarificationCreatePeriod implements JavaDelegate {
             processService.terminateProcess(processId, e.getMessage());
             return null;
         }
+    }
+
+    public String getOcid(final Context context) {
+        if (context.getOcidCn() != null)
+            return context.getOcidCn();
+        else
+            return context.getOcid();
     }
 }
