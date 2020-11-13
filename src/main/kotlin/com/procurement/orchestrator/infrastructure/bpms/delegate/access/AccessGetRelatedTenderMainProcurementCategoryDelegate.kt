@@ -41,12 +41,12 @@ class AccessGetRelatedTenderMainProcurementCategoryDelegate(
         parameters: Unit
     ): Result<Reply<GetMainProcurementCategoryAction.Result>, Fail.Incident> {
 
-        val processInfo = context.processInfo
+        val relatedProcess = context.processInfo.relatedProcess!!
         return accessClient.getMainProcurementCategory(
             id = commandId,
             params = GetMainProcurementCategoryAction.Params(
-                cpid = processInfo.cpid!!,
-                ocid = processInfo.ocid!!
+                cpid = relatedProcess.cpid,
+                ocid = relatedProcess.ocid!!
             )
         )
     }
