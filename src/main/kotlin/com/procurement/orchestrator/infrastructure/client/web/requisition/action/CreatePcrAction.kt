@@ -43,6 +43,8 @@ import com.procurement.orchestrator.domain.model.tender.ProcurementMethodModalit
 import com.procurement.orchestrator.domain.model.tender.Tender
 import com.procurement.orchestrator.domain.model.tender.TenderStatus
 import com.procurement.orchestrator.domain.model.tender.TenderStatusDetails
+import com.procurement.orchestrator.domain.model.tender.auction.AuctionId
+import com.procurement.orchestrator.domain.model.tender.auction.ElectronicAuctionsDetail
 import com.procurement.orchestrator.domain.model.tender.conversion.Conversion
 import com.procurement.orchestrator.domain.model.tender.conversion.ConversionId
 import com.procurement.orchestrator.domain.model.tender.conversion.ConversionsRelatesTo
@@ -126,8 +128,10 @@ abstract class CreatePcrAction : FunctionalAction<CreatePcrAction.Params, Create
             @field:JsonProperty("procurementMethodModalities") @param:JsonProperty("procurementMethodModalities") val procurementMethodModalities: List<ProcurementMethodModality>?,
 
             @JsonInclude(JsonInclude.Include.NON_EMPTY)
-            @field:JsonProperty("conversions") @param:JsonProperty("conversions") val conversions: List<Conversion>?
+            @field:JsonProperty("conversions") @param:JsonProperty("conversions") val conversions: List<Conversion>?,
 
+            @JsonInclude(JsonInclude.Include.NON_NULL)
+            @field:JsonProperty("electronicAuctions") @param:JsonProperty("electronicAuctions") val electronicAuctions: ElectronicAuctions?
         ) {
 
             data class Classification(
@@ -338,6 +342,18 @@ abstract class CreatePcrAction : FunctionalAction<CreatePcrAction.Params, Create
                 @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
                 @field:JsonProperty("relatedLots") @param:JsonProperty("relatedLots") val relatedLots: List<LotId>?
             )
+
+            data class ElectronicAuctions(
+                @field:JsonProperty("details") @param:JsonProperty("details") val details: List<Detail>
+            ) {
+
+                data class Detail(
+                    @field:JsonProperty("id") @param:JsonProperty("id") val id: AuctionId,
+
+                    @JsonInclude(JsonInclude.Include.NON_NULL)
+                    @field:JsonProperty("relatedLot") @param:JsonProperty("relatedLot") val relatedLot: LotId?
+                )
+            }
         }
     }
 
@@ -381,7 +397,10 @@ abstract class CreatePcrAction : FunctionalAction<CreatePcrAction.Params, Create
             @field:JsonProperty("procurementMethodModalities") @param:JsonProperty("procurementMethodModalities") val procurementMethodModalities: List<ProcurementMethodModality>?,
 
             @JsonInclude(JsonInclude.Include.NON_EMPTY)
-            @field:JsonProperty("conversions") @param:JsonProperty("conversions") val conversions: List<Conversion>?
+            @field:JsonProperty("conversions") @param:JsonProperty("conversions") val conversions: List<Conversion>?,
+
+            @JsonInclude(JsonInclude.Include.NON_NULL)
+            @field:JsonProperty("electronicAuctions") @param:JsonProperty("electronicAuctions") val electronicAuctions: ElectronicAuctions?
 
         ) : Serializable {
 
@@ -563,6 +582,15 @@ abstract class CreatePcrAction : FunctionalAction<CreatePcrAction.Params, Create
                 @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
                 @field:JsonProperty("relatedLots") @param:JsonProperty("relatedLots") val relatedLots: List<LotId>?
             ) : Serializable
+
+            data class ElectronicAuctions(
+                @field:JsonProperty("details") @param:JsonProperty("details") val details: List<Detail>
+            ) : Serializable {
+                data class Detail(
+                    @field:JsonProperty("id") @param:JsonProperty("id") val id: AuctionId,
+                    @field:JsonProperty("relatedLot") @param:JsonProperty("relatedLot") val relatedLot: LotId
+                ) : Serializable
+            }
         }
 
         data class RelatedProcess(
@@ -742,6 +770,14 @@ abstract class CreatePcrAction : FunctionalAction<CreatePcrAction.Params, Create
                     relatedLots = RelatedLots(document.relatedLots.orEmpty())
                 )
         }
+
+        object ElectronicAuctionsDetails{
+            fun toDomain(detail: Result.Tender.ElectronicAuctions.Detail): ElectronicAuctionsDetail =
+                ElectronicAuctionsDetail(
+                    id = detail.id,
+                    relatedLot = detail.relatedLot
+                )
+        }
     }
 
     object RequestConverter {
@@ -899,7 +935,17 @@ abstract class CreatePcrAction : FunctionalAction<CreatePcrAction.Params, Create
                             documentType = document.documentType,
                             relatedLots = document.relatedLots.toList()
                         )
-                    }
+                    },
+                electronicAuctions = tender.electronicAuctions?.let {electronicAuctions ->
+                    Params.Tender.ElectronicAuctions(
+                        electronicAuctions.details.map { electronicAuctionsDetail ->
+                            Params.Tender.ElectronicAuctions.Detail(
+                                id = electronicAuctionsDetail.id,
+                                relatedLot = electronicAuctionsDetail.relatedLot
+                            )
+                        }
+                    )
+                }
             )
     }
 }
