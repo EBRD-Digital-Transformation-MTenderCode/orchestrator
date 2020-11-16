@@ -52,7 +52,11 @@ public class MessageConsumer {
                         final JsonNode data = response.get("data");
                         if (data != null) {
                             final String cpid = data.get("tender").get("id").asText();
-                            final String ocid = data.get("ocid").asText();
+                            final String ocid;
+                            if (data.has("ocid"))
+                                ocid = data.get("ocid").asText();
+                            else
+                                ocid = null;
                             Context prevContext = getContext(cpid, ocid);
                             final String uuid = UUIDs.timeBased().toString();
                             final Context context = requestService.checkRulesAndProcessContext(
