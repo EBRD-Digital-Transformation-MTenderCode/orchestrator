@@ -23,17 +23,16 @@ public class RequisitionSetTenderSuspended implements JavaDelegate {
     private static final Logger LOG = LoggerFactory.getLogger(RequisitionSetTenderSuspended.class);
 
     private final RequisitionRestClient requisitionRestClient;
-
     private final OperationService operationService;
-
     private final ProcessService processService;
-
     private final JsonUtil jsonUtil;
 
-    public RequisitionSetTenderSuspended(final RequisitionRestClient requisitionRestClient,
-                                         final OperationService operationService,
-                                         final ProcessService processService,
-                                         final JsonUtil jsonUtil) {
+    public RequisitionSetTenderSuspended(
+            final RequisitionRestClient requisitionRestClient,
+            final OperationService operationService,
+            final ProcessService processService,
+            final JsonUtil jsonUtil
+    ) {
         this.requisitionRestClient = requisitionRestClient;
         this.operationService = operationService;
         this.processService = processService;
