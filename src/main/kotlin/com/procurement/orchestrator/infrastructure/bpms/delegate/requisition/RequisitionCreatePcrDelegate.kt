@@ -17,6 +17,8 @@ import com.procurement.orchestrator.domain.model.document.Documents
 import com.procurement.orchestrator.domain.model.item.Items
 import com.procurement.orchestrator.domain.model.lot.Lots
 import com.procurement.orchestrator.domain.model.tender.ProcurementMethodModalities
+import com.procurement.orchestrator.domain.model.tender.auction.ElectronicAuctions
+import com.procurement.orchestrator.domain.model.tender.auction.ElectronicAuctionsDetails
 import com.procurement.orchestrator.domain.model.tender.conversion.Conversions
 import com.procurement.orchestrator.domain.model.tender.criteria.Criteria
 import com.procurement.orchestrator.domain.model.tender.target.Targets
@@ -103,6 +105,15 @@ class RequisitionCreatePcrDelegate(
             .map { CreatePcrAction.ResponseConverter.RelatedProcess.toDomain(it) }
             .let { RelatedProcesses(it) }
 
+        val receivedElectronicAuctions = data.tender.electronicAuctions?.details
+            ?.map { CreatePcrAction.ResponseConverter.ElectronicAuctionsDetails.toDomain(it) }
+            ?.let { ElectronicAuctions(ElectronicAuctionsDetails(it)) }
+
+        val updatedElectronicAuctions = if (receivedElectronicAuctions != null) {
+            tender.electronicAuctions?.updateBy(receivedElectronicAuctions) ?: receivedElectronicAuctions
+        } else
+            tender.electronicAuctions
+
         context.tender = tender.copy(
             id = data.tender.id,
             status = data.tender.status,
@@ -131,7 +142,8 @@ class RequisitionCreatePcrDelegate(
             procurementMethodModalities = ProcurementMethodModalities(data.tender.procurementMethodModalities.orEmpty()),
             documents = data.tender.documents.orEmpty()
                 .map { CreatePcrAction.ResponseConverter.Documents.toDomain(it) }
-                .let { Documents(it) }
+                .let { Documents(it) },
+            electronicAuctions = updatedElectronicAuctions
         )
 
         context.outcomes = createOutcomes(context, data)

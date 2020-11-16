@@ -17,6 +17,7 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.StringUtils;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -176,14 +177,20 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
-    public Context getContextForUpdate(final String authorization,
-                                       final String operationId,
-                                       final String cpid,
-                                       final String ocid,
+    public Context getContextForUpdate(@NotNull final String authorization,
+                                       @NotNull final String operationId,
+                                       @NotNull final String cpid,
+                                       @NotNull final String ocid,
                                        final String token,
-                                       final String process) {
-        final Context prevContext = getContext(cpid);
-        if (ocid != null) validateOcId(cpid, ocid, prevContext);
+                                       @NotNull final String process) {
+        Objects.requireNonNull(authorization);
+        Objects.requireNonNull(operationId);
+        Objects.requireNonNull(cpid);
+        Objects.requireNonNull(ocid);
+        Objects.requireNonNull(process);
+
+        final Context prevContext = getContext(getContextKey(cpid, ocid));
+        validateOcId(cpid, ocid, prevContext);
         final String processType = getProcessType(prevContext.getCountry(), prevContext.getPmd(), process);
         final Rule rule = checkAndGetRule(prevContext, processType);
         final Context context = new Context();
@@ -205,6 +212,35 @@ public class RequestServiceImpl implements RequestService {
         context.setRequestId(UUIDs.timeBased().toString());
         context.setStartDate(dateUtil.nowFormatted());
         return context;
+    }
+
+    @Override
+    public String getContextKey(@NotNull final String cpid, @NotNull final String ocid){
+        Objects.requireNonNull(cpid);
+        Objects.requireNonNull(ocid);
+
+        Stage stage = Stage.fromOcid(ocid);
+        String id = null;
+        switch (stage) {
+            case PC:
+                id = ocid;
+                break;
+            case AC:
+            case AP:
+            case EI:
+            case EV:
+            case FE:
+            case FS:
+            case NP:
+            case PN:
+            case PQ:
+            case PS:
+            case TP:
+            case PIN:
+                id = cpid;
+                break;
+        }
+        return id;
     }
 
     @Override

@@ -259,7 +259,7 @@ public class NotificationServiceImpl implements NotificationService {
             }
             case AMEND_FE: {
                 data.setOcid(context.getCpid());
-                data.setUrl(getTenderUri(context.getCpid(), null));
+                data.setUrl(getTenderUri(context.getCpid(), context.getOcid()));
                 break;
             }
             case UPDATE_AP: {

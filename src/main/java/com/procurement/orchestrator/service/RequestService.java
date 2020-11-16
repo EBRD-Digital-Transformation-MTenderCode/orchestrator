@@ -41,6 +41,8 @@ public interface RequestService {
                                 String token,
                                 String process);
 
+    String getContextKey(String cpid, String ocid);
+
     Context getContextForContractUpdate(String authorization,
                                         String operationId,
                                         String cpid,

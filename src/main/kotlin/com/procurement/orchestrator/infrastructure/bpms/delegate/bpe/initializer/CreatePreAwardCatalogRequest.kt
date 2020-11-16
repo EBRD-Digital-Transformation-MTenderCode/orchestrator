@@ -153,11 +153,13 @@ object CreatePreAwardCatalogRequest {
                         data class Period(
                             @JsonDeserialize(using = JsonDateTimeDeserializer::class)
                             @JsonSerialize(using = JsonDateTimeSerializer::class)
-                            @field:JsonProperty("startDate") @param:JsonProperty("startDate") val startDate: LocalDateTime,
+                            @JsonInclude(JsonInclude.Include.NON_NULL)
+                            @field:JsonProperty("startDate") @param:JsonProperty("startDate") val startDate: LocalDateTime?,
 
                             @JsonDeserialize(using = JsonDateTimeDeserializer::class)
                             @JsonSerialize(using = JsonDateTimeSerializer::class)
-                            @field:JsonProperty("endDate") @param:JsonProperty("endDate") val endDate: LocalDateTime
+                            @JsonInclude(JsonInclude.Include.NON_NULL)
+                            @field:JsonProperty("endDate") @param:JsonProperty("endDate") val endDate: LocalDateTime?
                         )
 
                         data class ObservationUnit(

@@ -120,7 +120,10 @@ data class Tender(
     @field:JsonProperty("targets") @param:JsonProperty("targets") val targets: Targets = Targets(),
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
-    @field:JsonProperty("classification") @param:JsonProperty("classification") val classification: Classification? = null
+    @field:JsonProperty("classification") @param:JsonProperty("classification") val classification: Classification? = null,
+
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonProperty("mainProcurementCategory") @param:JsonProperty("mainProcurementCategory") val mainProcurementCategory: MainProcurementCategory? = null
 
 ) : IdentifiableObject<Tender>, Serializable {
 
@@ -154,6 +157,7 @@ data class Tender(
         procurementMethodModalities = procurementMethodModalities combineBy src.procurementMethodModalities,
         electronicAuctions = electronicAuctions updateBy src.electronicAuctions,
         procedureOutsourcing = procedureOutsourcing updateBy src.procedureOutsourcing,
-        value = src.value or value
+        value = src.value or value,
+        mainProcurementCategory = src.mainProcurementCategory or mainProcurementCategory
     )
 }
