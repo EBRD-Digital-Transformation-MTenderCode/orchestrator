@@ -2,7 +2,6 @@ package com.procurement.orchestrator.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
-import com.procurement.orchestrator.domain.dto.cancellation.CancellationDto;
 import com.procurement.orchestrator.exception.OperationException;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.service.RequestService;
@@ -11,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,7 +39,7 @@ public class CancelController {
                                                @PathVariable("id") final String id) {
 
         requestService.validate(operationId, null);
-        final Context context = requestService.getContextForUpdate(authorization, operationId, cpid, ocid, token, "bidWithdrawn");
+        Context context = requestService.getContextForUpdate(authorization, operationId, cpid, ocid, token, "bidWithdrawn");
         context.setId(id);
         requestService.saveRequestAndCheckOperation(context, jsonUtil.empty());
         final Map<String, Object> variables = new HashMap<>();

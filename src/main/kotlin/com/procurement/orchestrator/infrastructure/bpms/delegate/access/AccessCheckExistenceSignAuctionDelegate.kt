@@ -47,9 +47,13 @@ class AccessCheckExistenceSignAuctionDelegate(
             params = CheckExistenceSignAuctionAction.Params(
                 cpid = relatedProcess?.cpid,
                 ocid = relatedProcess?.ocid,
-                tender = CheckExistenceSignAuctionAction.Params.Tender(
-                    procurementMethodModalities = tender.procurementMethodModalities
-                )
+                tender = tender.procurementMethodModalities
+                    .takeIf { it.isNotEmpty() }
+                    ?.let { procurementMethodModalities ->
+                        CheckExistenceSignAuctionAction.Params.Tender(
+                            procurementMethodModalities = procurementMethodModalities
+                        )
+                    }
             )
         )
     }

@@ -83,7 +83,7 @@ class OkHttpWebClient(
                         )
                     )
                     is WebClientFail.ResponseError -> failure(
-                        Fail.Incident.ResponseError(description = webClientFail.response.content)
+                        Fail.Incident.ResponseError(description = "Error of call by url: '$url' and payload: '$payload'. Reason: ${webClientFail.response.content}.")
                     )
                 }
             }

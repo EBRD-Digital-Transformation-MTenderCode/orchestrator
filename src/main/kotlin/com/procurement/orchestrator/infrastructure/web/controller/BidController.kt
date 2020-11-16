@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode
 import com.procurement.orchestrator.application.model.OperationId
 import com.procurement.orchestrator.application.model.PlatformId
 import com.procurement.orchestrator.application.model.Stage
-import com.procurement.orchestrator.application.model.Token
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.PlatformRequest
 import com.procurement.orchestrator.application.service.ProcessLauncher
@@ -22,7 +21,6 @@ import com.procurement.orchestrator.infrastructure.extension.http.getAuthorizati
 import com.procurement.orchestrator.infrastructure.extension.http.getOperationId
 import com.procurement.orchestrator.infrastructure.extension.http.getPayload
 import com.procurement.orchestrator.infrastructure.extension.http.getPlatformId
-import com.procurement.orchestrator.infrastructure.extension.http.getToken
 import com.procurement.orchestrator.infrastructure.web.extension.buildResponse
 import com.procurement.orchestrator.service.ProcessService
 import com.procurement.orchestrator.service.RequestService
@@ -108,9 +106,6 @@ class BidController(
         val operationId: OperationId = servlet.getOperationId()
             .orForwardFail { fail -> return fail }
 
-        val token: Token = servlet.getToken()
-            .orForwardFail { fail -> return fail }
-
         val payload: String = servlet.getPayload()
             .orForwardFail { fail -> return fail }
 
@@ -120,7 +115,7 @@ class BidController(
             context = PlatformRequest.Context(
                 cpid = verifiedCpid,
                 ocid = ocid,
-                token = token,
+                token = null,
                 owner = platformId,
                 uri = servlet.requestURI,
                 processName = PROCESS_NAME_V2

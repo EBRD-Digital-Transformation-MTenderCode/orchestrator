@@ -25,6 +25,7 @@ import com.procurement.orchestrator.domain.model.lot.Variants
 import com.procurement.orchestrator.domain.model.period.Period
 import com.procurement.orchestrator.domain.model.tender.ProcurementMethodModalities
 import com.procurement.orchestrator.domain.model.tender.Tender
+import com.procurement.orchestrator.domain.model.tender.auction.AuctionId
 import com.procurement.orchestrator.domain.model.tender.auction.ElectronicAuctionModalities
 import com.procurement.orchestrator.domain.model.tender.auction.ElectronicAuctionModality
 import com.procurement.orchestrator.domain.model.tender.auction.ElectronicAuctions
@@ -243,7 +244,7 @@ class BpeInitializeCreatePreAwardCatalogRequestProcessDelegate(
                     details = _electronicAuctions.details
                         .map { detail ->
                             ElectronicAuctionsDetail(
-                                id = detail.id,
+                                id = AuctionId.create(detail.id),
                                 relatedLot = LotId.create(detail.relatedLot),
                                 electronicAuctionModalities = detail.electronicAuctionModalities
                                     .map { modality ->

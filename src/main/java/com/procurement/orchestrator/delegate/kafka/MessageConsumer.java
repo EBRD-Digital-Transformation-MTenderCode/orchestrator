@@ -52,7 +52,12 @@ public class MessageConsumer {
                         final JsonNode data = response.get("data");
                         if (data != null) {
                             final String cpid = data.get("tender").get("id").asText();
-                            final Context prevContext = requestService.getContext(cpid);
+                            final String ocid;
+                            if (data.has("ocid"))
+                                ocid = data.get("ocid").asText();
+                            else
+                                ocid = null;
+                            Context prevContext = getContext(cpid, ocid);
                             final String uuid = UUIDs.timeBased().toString();
                             final Context context = requestService.checkRulesAndProcessContext(
                                     prevContext,
@@ -79,6 +84,17 @@ public class MessageConsumer {
             //TODO error processing
             LOG.error("Error while processing the message from the Auction (" + message + ").", e);
         }
+    }
+
+    private Context getContext(String cpid, String ocid) {
+        Context prevContext;
+        if (ocid != null) {
+            String contextKey = requestService.getContextKey(cpid, ocid);
+            prevContext = requestService.getContext(contextKey);
+        } else {
+            prevContext = requestService.getContext(cpid);
+        }
+        return prevContext;
     }
 
     @KafkaListener(topics = "document-generator-out")

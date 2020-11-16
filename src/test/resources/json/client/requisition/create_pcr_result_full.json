@@ -141,7 +141,15 @@
           "string"
         ]
       }
-    ]
+    ],
+    "electronicAuctions": {
+      "details": [
+        {
+          "id": "string",
+          "relatedLot": "string"
+        }
+      ]
+    }
   },
   "relatedProcesses": [
     {

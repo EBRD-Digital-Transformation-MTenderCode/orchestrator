@@ -3,6 +3,7 @@ package com.procurement.orchestrator.infrastructure.client.web.submission.action
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.procurement.orchestrator.application.service.ProceduralAction
+import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.bid.BidId
 import com.procurement.orchestrator.domain.model.document.DocumentId
 import com.procurement.orchestrator.domain.model.document.DocumentType
@@ -21,6 +22,7 @@ abstract class ValidateBidDataAction : ProceduralAction<ValidateBidDataAction.Pa
     override val name: String = "validateBidData"
 
     class Params(
+        @param:JsonProperty("cpid") @field:JsonProperty("cpid") val cpid: Cpid,
         @param:JsonProperty("bids") @field:JsonProperty("bids") val bids: Bids,
         @param:JsonProperty("tender") @field:JsonProperty("tender") val tender: Tender
     ) {
@@ -58,7 +60,7 @@ abstract class ValidateBidDataAction : ProceduralAction<ValidateBidDataAction.Pa
                     @JsonInclude(JsonInclude.Include.NON_NULL)
                     @param:JsonProperty("identifier") @field:JsonProperty("identifier") val identifier: Identifier?,
 
-                    @JsonInclude(JsonInclude.Include.NON_NULL)
+                    @JsonInclude(JsonInclude.Include.NON_EMPTY)
                     @param:JsonProperty("additionalIdentifiers") @field:JsonProperty("additionalIdentifiers") val additionalIdentifiers: List<AdditionalIdentifier>?,
 
                     @JsonInclude(JsonInclude.Include.NON_NULL)

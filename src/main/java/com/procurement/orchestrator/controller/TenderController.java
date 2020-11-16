@@ -220,7 +220,8 @@ public class TenderController extends DoBaseController {
                                                 @PathVariable("ocid") final String ocid,
                                                 @RequestBody final JsonNode data) {
         requestService.validate(operationId, data);
-        final Context context = requestService.getContextForUpdate(authorization, operationId, cpid, ocid, null, "enquiry");
+        Context context = requestService.getContextForUpdate(authorization, operationId, cpid, ocid, null, "enquiry");
+
         requestService.saveRequestAndCheckOperation(context, data);
         processService.startProcess(context, new HashMap<>());
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
@@ -441,8 +442,8 @@ public class TenderController extends DoBaseController {
                                                 @PathVariable("ocid") final String ocid,
                                                 @PathVariable("awardId") final String awardId) {
         requestService.validate(operationId, null);
-        final String process = getConsiderationProcessType(cpid);
-        final Context context = requestService.getContextForUpdate(authorization, operationId, cpid, ocid, token, process);
+
+        final Context context = requestService.getContextForUpdate(authorization, operationId, cpid, ocid, token, "startConsiderByAward");
         context.setId(awardId);
         requestService.saveRequestAndCheckOperation(context, null);
         final Map<String, Object> variables = new HashMap<>();
@@ -478,30 +479,6 @@ public class TenderController extends DoBaseController {
         requestService.saveRequestAndCheckOperation(context, data);
         processService.startProcess(context, new HashMap<>());
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
-    }
-
-    private String getConsiderationProcessType(String cpid) {
-        final Context prevContext = requestService.getContext(cpid);
-        final ProcurementMethod pmd = ProcurementMethod.valueOf(prevContext.getPmd());
-        final String process;
-        switch (pmd) {
-            case OT:
-            case TEST_OT:
-            case SV:
-            case TEST_SV:
-            case MV:
-            case TEST_MV:
-            case RT:
-            case TEST_RT:
-            case GPA:
-            case TEST_GPA:
-                process = "startConsiderByAward";
-                break;
-
-            default:
-                throw new OperationException("Invalid previous pmd: '" + pmd + "'");
-        }
-        return process;
     }
 
     @RequestMapping(value = "/fe/{cpid}/{ocid}", method = RequestMethod.POST)
