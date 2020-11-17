@@ -10,6 +10,7 @@ import com.procurement.orchestrator.domain.model.Ocid
 import com.procurement.orchestrator.domain.model.amendment.AmendmentId
 import com.procurement.orchestrator.domain.model.award.AwardId
 import com.procurement.orchestrator.domain.model.bid.BidId
+import com.procurement.orchestrator.domain.model.contract.ContractId
 import com.procurement.orchestrator.domain.model.qualification.QualificationId
 import com.procurement.orchestrator.domain.model.submission.SubmissionId
 import java.time.LocalDateTime
@@ -87,7 +88,10 @@ object PlatformNotification {
         @field:JsonProperty("pc") @param:JsonProperty("pc") val pcr: List<PreAwardCatalogRequest> = emptyList(),
 
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
-        @field:JsonProperty("bids") @param:JsonProperty("bids") val bids: List<Bid> = emptyList()
+        @field:JsonProperty("bids") @param:JsonProperty("bids") val bids: List<Bid> = emptyList(),
+
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        @field:JsonProperty("contracts") @param:JsonProperty("contracts") val contracts: List<Contract> = emptyList()
     ) {
 
         class Amendment(
@@ -118,6 +122,11 @@ object PlatformNotification {
 
         data class Bid(
             @field:JsonProperty("id") @param:JsonProperty("id") val id: BidId,
+            @field:JsonProperty("X-TOKEN") @param:JsonProperty("X-TOKEN") val token: Token
+        )
+
+        data class Contract(
+            @field:JsonProperty("id") @param:JsonProperty("id") val id: ContractId,
             @field:JsonProperty("X-TOKEN") @param:JsonProperty("X-TOKEN") val token: Token
         )
 
