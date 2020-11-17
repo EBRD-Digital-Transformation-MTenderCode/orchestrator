@@ -28,8 +28,8 @@ private const val QUERY_PARAM_COUNTRY = "country"
 private const val QUERY_PARAM_PMD = "pmd"
 private const val QUERY_FA = "FA"
 private const val QUERY_AP = "AP"
-private const val QUERY_PARAM_MS = "MS"
-private const val QUERY_OCID_PN = "ocidPN"
+private const val QUERY_CP = "CP"
+private const val QUERY_PN = "PN"
 
 private const val AUTH_TOKEN_TYPE = "Bearer"
 private const val START_AUTH_TOKEN_POSITION = AUTH_TOKEN_TYPE.length + 1
@@ -139,11 +139,11 @@ fun HttpServletRequest.getFA(): Result<Cpid, RequestErrors> =
 fun HttpServletRequest.getAP(): Result<Ocid, RequestErrors> =
     getRequiredQueryParam(QUERY_AP).bind { parseSingleStageOcid(it) }
 
-fun HttpServletRequest.getMs(): Result<Cpid, RequestErrors> =
-    getRequiredQueryParam(QUERY_PARAM_MS).bind { parseCpid(it) }
+fun HttpServletRequest.getCP(): Result<Cpid, RequestErrors> =
+    getRequiredQueryParam(QUERY_CP).bind { parseCpid(it) }
 
-fun HttpServletRequest.getOcidPn(): Result<Ocid, RequestErrors> =
-    getRequiredQueryParam(QUERY_OCID_PN).bind { parseSingleStageOcid(it) }
+fun HttpServletRequest.getPN(): Result<Ocid, RequestErrors> =
+    getRequiredQueryParam(QUERY_PN).bind { parseSingleStageOcid(it) }
 
 private fun HttpServletRequest.getRequiredHeader(name: String): Result<String, RequestErrors.Header> =
     this.getHeader(name)
