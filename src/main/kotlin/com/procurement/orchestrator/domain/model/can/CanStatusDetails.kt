@@ -5,10 +5,11 @@ import com.fasterxml.jackson.annotation.JsonValue
 import com.procurement.orchestrator.domain.EnumElementProvider
 
 enum class CanStatusDetails(@JsonValue override val key: String) : EnumElementProvider.Key {
+    ACTIVE("active"),
     CONTRACT_PROJECT("contractProject"),
-    UNSUCCESSFUL("unsuccessful"),
     EMPTY("empty"),
-    ACTIVE("active");
+    UNSUCCESSFUL("unsuccessful"),
+    WITHDRAWN_QUALIFICATION_PROTOCOL("withdrawnQualificationProtocol");
 
     override fun toString(): String = key
 

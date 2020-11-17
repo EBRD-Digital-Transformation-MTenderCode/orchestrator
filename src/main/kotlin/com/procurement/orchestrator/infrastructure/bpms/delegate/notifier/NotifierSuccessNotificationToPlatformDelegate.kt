@@ -161,8 +161,14 @@ class NotifierSuccessNotificationToPlatformDelegate(
                     id = bidDetails.id,
                     token = bidDetails.token
                 )
+            },
+        contracts = details.contracts
+            .map { contract ->
+                PlatformNotification.Outcomes.Contract(
+                    id = contract.id,
+                    token = contract.token
+                )
             }
-
     )
 
     private fun generateUrl(operationType: OperationTypeProcess, cpid: Cpid, ocid: Ocid): String =
