@@ -38,13 +38,19 @@ class RequisitionValidatePcrDataDelegate(
         parameters: Unit
     ): Result<Reply<Unit>, Fail.Incident> {
 
+        val requestInfo = context.requestInfo
+        val processInfo = context.processInfo
+
         val tender = context.tryGetTender()
             .orForwardFail { fail -> return fail }
 
         return requisitionClient.validatePcrData(
             id = commandId,
             params = ValidatePcrDataAction.Params(
-                tender = convertToParams(tender)
+                tender = convertToParams(tender),
+                country = requestInfo.country,
+                pmd = processInfo.pmd,
+                operationType = processInfo.operationType
             )
         )
     }
