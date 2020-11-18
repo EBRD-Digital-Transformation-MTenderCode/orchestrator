@@ -2,10 +2,10 @@ package com.procurement.orchestrator.domain.model
 
 import com.procurement.orchestrator.domain.EnumElementProvider
 
-infix fun <T : Any?> T.or(src: T): T = src ?: this
+infix fun <T : Any?> T.or(dst: T): T = this ?: dst
 
-infix fun <T> T?.or(src: T?): T? where T : Enum<T>,
-                                       T : EnumElementProvider.Key = src ?: this
+infix fun <T> T?.or(dst: T?): T? where T : Enum<T>,
+                                       T : EnumElementProvider.Key = this ?: dst
 
 infix fun <T : ComplexObject<T>> T?.updateBy(src: T?): T? {
     if (src == null) return this
