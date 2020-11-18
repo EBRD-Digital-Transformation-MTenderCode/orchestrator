@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
-import static com.procurement.orchestrator.domain.commands.ClarificationCommandType.CREATE_ENQUIRY;
+import static com.procurement.orchestrator.domain.commands.ClarificationCommandType.CREATE_PERIOD;
 
 @Component
 public class ClarificationCreateEnquiryPeriodFromTenderPeriod implements JavaDelegate {
@@ -47,7 +47,7 @@ public class ClarificationCreateEnquiryPeriodFromTenderPeriod implements JavaDel
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
 
-        final JsonNode commandMessage = processService.getCommandMessage(CREATE_ENQUIRY, context, getTenderPeriod(requestData, processId));
+        final JsonNode commandMessage = processService.getCommandMessage(CREATE_PERIOD, context, getTenderPeriod(requestData, processId));
         if (LOG.isDebugEnabled())
             LOG.debug("COMMAND ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(commandMessage));
 
