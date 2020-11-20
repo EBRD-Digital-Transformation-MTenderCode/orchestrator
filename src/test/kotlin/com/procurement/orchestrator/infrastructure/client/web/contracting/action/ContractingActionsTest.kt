@@ -55,4 +55,24 @@ class ContractingActionsTest {
             }
         }
     }
+
+    @Nested
+    inner class CancelContract {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CancelContractAction.Params>("json/client/contracting/cancel/cancel_contract_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result{
+            @Test
+            fun fully(){
+                testingBindingAndMapping<CancelContractAction.Result>("json/client/contracting/cancel/cancel_contract_result_full.json")
+            }
+        }
+    }
 }
