@@ -18,17 +18,17 @@ import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContai
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.contracting.ContractingCommands
-import com.procurement.orchestrator.infrastructure.client.web.contracting.action.DoContractAction
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreateContractAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ExternalServiceName
 import org.springframework.stereotype.Component
 
 @Component
-class ContractingDoContractDelegate(
+class ContractingCreateContractDelegate(
     logger: Logger,
     private val contractingClient: ContractingClient,
     operationStepRepository: OperationStepRepository,
     transform: Transform
-) : AbstractExternalDelegate<Unit, DoContractAction.Result>(
+) : AbstractExternalDelegate<Unit, CreateContractAction.Result>(
     logger = logger,
     transform = transform,
     operationStepRepository = operationStepRepository
@@ -41,21 +41,18 @@ class ContractingDoContractDelegate(
         commandId: CommandId,
         context: CamundaGlobalContext,
         parameters: Unit
-    ): Result<Reply<DoContractAction.Result>, Fail.Incident> {
+    ): Result<Reply<CreateContractAction.Result>, Fail.Incident> {
 
         val processInfo = context.processInfo
         val requestInfo = context.requestInfo
 
-        return contractingClient.doContract(
+        return contractingClient.createContract(
             id = commandId,
-            params = DoContractAction.Params(
+            params = CreateContractAction.Params(
                 cpid = processInfo.cpid!!,
                 ocid = processInfo.ocid!!,
                 date = requestInfo.timestamp,
-                owner = requestInfo.owner,
-                country = requestInfo.country,
-                pmd = processInfo.pmd,
-                operationType = processInfo.operationType
+                owner = requestInfo.owner
             )
         )
     }
@@ -63,28 +60,25 @@ class ContractingDoContractDelegate(
     override fun updateGlobalContext(
         context: CamundaGlobalContext,
         parameters: Unit,
-        result: Option<DoContractAction.Result>
+        result: Option<CreateContractAction.Result>
     ): MaybeFail<Fail.Incident> {
 
         val data = result.orNull
             ?: return MaybeFail.fail(
-                Fail.Incident.Response.Empty(ExternalServiceName.CONTRACTING, ContractingCommands.DoContract)
+                Fail.Incident.Response.Empty(ExternalServiceName.CONTRACTING, ContractingCommands.CreateContract)
             )
 
         val receivedContracts = data.contracts
-            .map { DoContractAction.ResponseConverter.Contract.toDomain(it) }
+            .map { CreateContractAction.ResponseConverter.Contract.toDomain(it) }
             .let { Contracts(it) }
 
         context.contracts = receivedContracts
-
-        if (data.token != null) {
-            context.outcomes = createOutcomes(context, data.contracts,  data.token)
-        }
+        context.outcomes = createOutcomes(context, data.contracts,  data.token)
 
         return MaybeFail.none()
     }
 
-    private fun createOutcomes(context: CamundaGlobalContext, contracts: List<DoContractAction.Result.Contact>, token: Token): Outcomes {
+    private fun createOutcomes(context: CamundaGlobalContext, contracts: List<CreateContractAction.Result.Contact>, token: Token): Outcomes {
         val platformId = context.requestInfo.platformId
         val outcomes = context.outcomes ?: Outcomes()
         val details = outcomes[platformId] ?: Outcomes.Details()

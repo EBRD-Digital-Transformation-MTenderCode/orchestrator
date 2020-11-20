@@ -32,13 +32,13 @@ class ContractingActionsTest {
     }
 
     @Nested
-    inner class DoContract {
+    inner class CreateContract {
 
         @Nested
         inner class Params {
             @Test
             fun fully() {
-                testingBindingAndMapping<DoContractAction.Params>("json/client/contracting/do/do_contract_params_full.json")
+                testingBindingAndMapping<CreateContractAction.Params>("json/client/contracting/do/create_contract_params_full.json")
             }
         }
 
@@ -46,12 +46,7 @@ class ContractingActionsTest {
         inner class Result{
             @Test
             fun fully(){
-                testingBindingAndMapping<DoContractAction.Result>("json/client/contracting/do/do_contract_result_full.json")
-            }
-
-            @Test
-            fun required1(){
-                testingBindingAndMapping<DoContractAction.Result>("json/client/contracting/do/do_contract_result_required_1.json")
+                testingBindingAndMapping<CreateContractAction.Result>("json/client/contracting/do/create_contract_result_full.json")
             }
         }
     }
