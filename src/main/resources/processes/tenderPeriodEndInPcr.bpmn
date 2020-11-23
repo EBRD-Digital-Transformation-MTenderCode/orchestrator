@@ -172,11 +172,11 @@
     <bpmn:sequenceFlow id="SequenceFlow_0jgrm91" sourceRef="StartEvent_1" targetRef="SaveFirstOperationTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1jqr2l5" name="true" sourceRef="ExclusiveGateway_0hg3tz9" targetRef="ClarificationCheckEnquiriesTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1rgtoi2" sourceRef="SubmissionCheckEndDateTask" targetRef="ExclusiveGateway_0hg3tz9" />
-    <bpmn:sequenceFlow id="SequenceFlow_1vmk2lo" name="false" sourceRef="ExclusiveGateway_0hg3tz9" targetRef="ChronographScheduleEndTenderPeriodTask">
+    <bpmn:sequenceFlow id="SequenceFlow_1vmk2lo" name="false" sourceRef="ExclusiveGateway_0hg3tz9" targetRef="ChronographScheduleEndTenderPeriodInPcrTask">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isTenderPeriodExpired==false}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_16on829" sourceRef="SaveFirstOperationTask" targetRef="SubmissionCheckEndDateTask" />
-    <bpmn:sequenceFlow id="Flow_1ot78d8" sourceRef="ChronographScheduleEndTenderPeriodTask" targetRef="EndEvent_0spf0c3" />
+    <bpmn:sequenceFlow id="Flow_1ot78d8" sourceRef="ChronographScheduleEndTenderPeriodInPcrTask" targetRef="EndEvent_0spf0c3" />
     <bpmn:sequenceFlow id="Flow_1arlv0y" name="allAnswered&#10;= false" sourceRef="Gateway_18rgoax" targetRef="RequisitionSetTenderSuspendedTask">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${allAnswered==false}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
@@ -222,7 +222,7 @@
       <bpmn:incoming>SequenceFlow_1jqr2l5</bpmn:incoming>
       <bpmn:outgoing>Flow_149sk3h</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="ChronographScheduleEndTenderPeriodTask" name="Chronograph Schedule End Tender Period" camunda:asyncBefore="true" camunda:delegateExpression="${chronographScheduleEndTenderPeriod}">
+    <bpmn:serviceTask id="ChronographScheduleEndTenderPeriodInPcrTask" name="Chronograph Schedule End Tender Period in Pcr" camunda:asyncBefore="true" camunda:delegateExpression="${chronographScheduleEndTenderPeriodInPcr}">
       <bpmn:incoming>SequenceFlow_1vmk2lo</bpmn:incoming>
       <bpmn:outgoing>Flow_1ot78d8</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -286,15 +286,14 @@ RS: id активных лотов</bpmn:text>
       <bpmndi:BPMNShape id="Participant_0920679_di" bpmnElement="Participant_0920679" isHorizontal="true">
         <dc:Bounds x="160" y="120" width="3580" height="590" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_1wxhs70_di" bpmnElement="TextAnnotation_1wxhs70">
-        <dc:Bounds x="845" y="336" width="130" height="84" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_1jq3gzy_di" bpmnElement="TextAnnotation_1jq3gzy">
-        <dc:Bounds x="640" y="344" width="100" height="68" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_05zqvay_di" bpmnElement="TextAnnotation_05zqvay">
-        <dc:Bounds x="823" y="640" width="205" height="50" />
-      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1ryv8ui_di" bpmnElement="Flow_1ryv8ui">
+        <di:waypoint x="968" y="471" />
+        <di:waypoint x="1000" y="471" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_149sk3h_di" bpmnElement="Flow_149sk3h">
+        <di:waypoint x="740" y="471" />
+        <di:waypoint x="785" y="471" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1kh7176_di" bpmnElement="Flow_1kh7176">
         <di:waypoint x="1230" y="590" />
         <di:waypoint x="1262" y="590" />
@@ -501,14 +500,6 @@ RS: id активных лотов</bpmn:text>
         <di:waypoint x="3260" y="471" />
         <di:waypoint x="3290" y="471" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_149sk3h_di" bpmnElement="Flow_149sk3h">
-        <di:waypoint x="740" y="471" />
-        <di:waypoint x="785" y="471" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1ryv8ui_di" bpmnElement="Flow_1ryv8ui">
-        <di:waypoint x="968" y="471" />
-        <di:waypoint x="1000" y="471" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ExclusiveGateway_0dq76qu_di" bpmnElement="ExclusiveGateway_0dq76qu" isMarkerVisible="true">
         <dc:Bounds x="1135" y="446" width="50" height="50" />
         <bpmndi:BPMNLabel>
@@ -617,6 +608,39 @@ RS: id активных лотов</bpmn:text>
       <bpmndi:BPMNShape id="ServiceTask_0woogxj_di" bpmnElement="EvaluationCreateUnsuccessfulAwardsTask" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="1620" y="338" width="100" height="80" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_18rgoax_di" bpmnElement="Gateway_18rgoax" isMarkerVisible="true">
+        <dc:Bounds x="785" y="446" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0tho5tq_di" bpmnElement="Event_0tho5tq">
+        <dc:Bounds x="1262" y="572" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1wbucmz_di" bpmnElement="RequisitionGetActiveLotsTask" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="868" y="431" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0xmxo3p_di" bpmnElement="RequisitionSetTenderSuspendedTask" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="868" y="550" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1juak62_di" bpmnElement="NoticeCreateSuspendReleaseTask" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="1000" y="550" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1rb22sj_di" bpmnElement="SaveContextSuspendPhaseTask">
+        <dc:Bounds x="1130" y="550" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0q0cyz3_di" bpmnElement="ClarificationCheckEnquiriesTask" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="640" y="431" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0ysozu0_di" bpmnElement="ChronographScheduleEndTenderPeriodInPcrTask">
+        <dc:Bounds x="640" y="560" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_0spf0c3_di" bpmnElement="EndEvent_0spf0c3">
+        <dc:Bounds x="762" y="582" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExclusiveGateway_0hg3tz9_di" bpmnElement="ExclusiveGateway_0hg3tz9" isMarkerVisible="true">
+        <dc:Bounds x="545" y="446" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="533" y="416" width="74" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_1kyp3lk_di" bpmnElement="TextAnnotation_1kyp3lk" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
         <dc:Bounds x="3265" y="530" width="150" height="40" />
       </bpmndi:BPMNShape>
@@ -641,38 +665,14 @@ RS: id активных лотов</bpmn:text>
       <bpmndi:BPMNShape id="TextAnnotation_1o0osp5_di" bpmnElement="TextAnnotation_1o0osp5">
         <dc:Bounds x="1615" y="260" width="130" height="66" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_18rgoax_di" bpmnElement="Gateway_18rgoax" isMarkerVisible="true">
-        <dc:Bounds x="785" y="446" width="50" height="50" />
+      <bpmndi:BPMNShape id="TextAnnotation_1wxhs70_di" bpmnElement="TextAnnotation_1wxhs70">
+        <dc:Bounds x="845" y="336" width="130" height="84" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_0tho5tq_di" bpmnElement="Event_0tho5tq">
-        <dc:Bounds x="1262" y="572" width="36" height="36" />
+      <bpmndi:BPMNShape id="TextAnnotation_1jq3gzy_di" bpmnElement="TextAnnotation_1jq3gzy">
+        <dc:Bounds x="640" y="344" width="100" height="68" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_1wbucmz_di" bpmnElement="RequisitionGetActiveLotsTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="868" y="431" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0xmxo3p_di" bpmnElement="RequisitionSetTenderSuspendedTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="868" y="550" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1juak62_di" bpmnElement="NoticeCreateSuspendReleaseTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="1000" y="550" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1rb22sj_di" bpmnElement="SaveContextSuspendPhaseTask">
-        <dc:Bounds x="1130" y="550" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0q0cyz3_di" bpmnElement="ClarificationCheckEnquiriesTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="640" y="431" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0ysozu0_di" bpmnElement="ChronographScheduleEndTenderPeriodTask">
-        <dc:Bounds x="640" y="560" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="EndEvent_0spf0c3_di" bpmnElement="EndEvent_0spf0c3">
-        <dc:Bounds x="762" y="582" width="36" height="36" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ExclusiveGateway_0hg3tz9_di" bpmnElement="ExclusiveGateway_0hg3tz9" isMarkerVisible="true">
-        <dc:Bounds x="545" y="446" width="50" height="50" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="533" y="416" width="74" height="27" />
-        </bpmndi:BPMNLabel>
+      <bpmndi:BPMNShape id="TextAnnotation_05zqvay_di" bpmnElement="TextAnnotation_05zqvay">
+        <dc:Bounds x="823" y="640" width="205" height="50" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Association_0xc7j9q_di" bpmnElement="Association_0xc7j9q">
         <di:waypoint x="3340" y="511" />
