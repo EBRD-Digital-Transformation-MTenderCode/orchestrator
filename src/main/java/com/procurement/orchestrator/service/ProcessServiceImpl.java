@@ -1422,6 +1422,9 @@ public class ProcessServiceImpl implements ProcessService {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
             final JsonNode auctionsDataNode = jsonData.get("auctionsData");
             if (auctionsDataNode != null) {
+                if (auctionsDataNode.has("ocid")) {
+                    mainNode.set("ocid", auctionsDataNode.get("ocid"));
+                }
                 mainNode.replace("tender", auctionsDataNode.get("tender"));
                 mainNode.replace("bids", auctionsDataNode.get("bids"));
             } else {

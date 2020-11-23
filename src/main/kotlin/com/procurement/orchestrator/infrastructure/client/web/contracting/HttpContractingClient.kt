@@ -8,6 +8,7 @@ import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.WebClient
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CancelFrameworkContractAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.DoContractAction
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreateFrameworkContractAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.FindCANIdsAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
 import java.net.URL
@@ -24,11 +25,11 @@ class HttpContractingClient(private val webClient: WebClient, properties: Compon
         target = ContractingCommands.FindCANIds.target
     )
 
-    override suspend fun doContract(id: CommandId, params: DoContractAction.Params):
-        Result<Reply<DoContractAction.Result>, Fail.Incident> = webClient.call(
+    override suspend fun createFrameworkContract(id: CommandId, params: CreateFrameworkContractAction.Params):
+        Result<Reply<CreateFrameworkContractAction.Result>, Fail.Incident> = webClient.call(
         url = url,
-        command = ContractingCommands.DoContract.build(id = id, params = params),
-        target = ContractingCommands.DoContract.target
+        command = ContractingCommands.CreateFrameworkContract.build(id = id, params = params),
+        target = ContractingCommands.CreateFrameworkContract.target
     )
 
     override suspend fun cancelFrameworkContract(id: CommandId, params: CancelFrameworkContractAction.Params):
