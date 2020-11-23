@@ -5,6 +5,8 @@ import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreateFrameworkContractAction
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CancelFrameworkContractAction
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.DoContractAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.FindCANIdsAction
 
 interface ContractingClient {
@@ -18,5 +20,10 @@ interface ContractingClient {
         id: CommandId,
         params: CreateFrameworkContractAction.Params
     ): Result<Reply<CreateFrameworkContractAction.Result>, Fail.Incident>
+
+    suspend fun cancelFrameworkContract(
+        id: CommandId,
+        params: CancelFrameworkContractAction.Params
+    ): Result<Reply<CancelFrameworkContractAction.Result>, Fail.Incident>
 
 }
