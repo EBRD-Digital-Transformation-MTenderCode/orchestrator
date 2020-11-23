@@ -38,7 +38,7 @@ class ContractingActionsTest {
         inner class Params {
             @Test
             fun fully() {
-                testingBindingAndMapping<CreateContractAction.Params>("json/client/contracting/do/create_contract_params_full.json")
+                testingBindingAndMapping<CreateFrameworkContractAction.Params>("json/client/contracting/do/create_framework_contract_params_full.json")
             }
         }
 
@@ -46,7 +46,7 @@ class ContractingActionsTest {
         inner class Result{
             @Test
             fun fully(){
-                testingBindingAndMapping<CreateContractAction.Result>("json/client/contracting/do/create_contract_result_full.json")
+                testingBindingAndMapping<CreateFrameworkContractAction.Result>("json/client/contracting/do/create_framework_contract_result_full.json")
             }
         }
     }

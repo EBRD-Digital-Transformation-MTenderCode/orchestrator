@@ -13,10 +13,10 @@ import java.io.Serializable
 import java.time.LocalDateTime
 import com.procurement.orchestrator.domain.model.contract.Contract as DomainContract
 
-abstract class CreateContractAction : FunctionalAction<CreateContractAction.Params, CreateContractAction.Result> {
+abstract class CreateFrameworkContractAction : FunctionalAction<CreateFrameworkContractAction.Params, CreateFrameworkContractAction.Result> {
 
     override val version: Version = Version.parse("2.0.0")
-    override val name: String = "createContract"
+    override val name: String = "createFrameworkContract"
     override val target: Target<Result> = Target.single()
 
     data class Params(

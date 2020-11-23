@@ -18,17 +18,17 @@ import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContai
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.contracting.ContractingCommands
-import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreateContractAction
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreateFrameworkContractAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ExternalServiceName
 import org.springframework.stereotype.Component
 
 @Component
-class ContractingCreateContractDelegate(
+class ContractingCreateFrameworkContractDelegate(
     logger: Logger,
     private val contractingClient: ContractingClient,
     operationStepRepository: OperationStepRepository,
     transform: Transform
-) : AbstractExternalDelegate<Unit, CreateContractAction.Result>(
+) : AbstractExternalDelegate<Unit, CreateFrameworkContractAction.Result>(
     logger = logger,
     transform = transform,
     operationStepRepository = operationStepRepository
@@ -41,14 +41,14 @@ class ContractingCreateContractDelegate(
         commandId: CommandId,
         context: CamundaGlobalContext,
         parameters: Unit
-    ): Result<Reply<CreateContractAction.Result>, Fail.Incident> {
+    ): Result<Reply<CreateFrameworkContractAction.Result>, Fail.Incident> {
 
         val processInfo = context.processInfo
         val requestInfo = context.requestInfo
 
-        return contractingClient.createContract(
+        return contractingClient.createFrameworkContract(
             id = commandId,
-            params = CreateContractAction.Params(
+            params = CreateFrameworkContractAction.Params(
                 cpid = processInfo.cpid!!,
                 ocid = processInfo.ocid!!,
                 date = requestInfo.timestamp,
@@ -60,16 +60,16 @@ class ContractingCreateContractDelegate(
     override fun updateGlobalContext(
         context: CamundaGlobalContext,
         parameters: Unit,
-        result: Option<CreateContractAction.Result>
+        result: Option<CreateFrameworkContractAction.Result>
     ): MaybeFail<Fail.Incident> {
 
         val data = result.orNull
             ?: return MaybeFail.fail(
-                Fail.Incident.Response.Empty(ExternalServiceName.CONTRACTING, ContractingCommands.CreateContract)
+                Fail.Incident.Response.Empty(ExternalServiceName.CONTRACTING, ContractingCommands.CreateFrameworkContract)
             )
 
         val receivedContracts = data.contracts
-            .map { CreateContractAction.ResponseConverter.Contract.toDomain(it) }
+            .map { CreateFrameworkContractAction.ResponseConverter.Contract.toDomain(it) }
             .let { Contracts(it) }
 
         context.contracts = receivedContracts
@@ -78,7 +78,7 @@ class ContractingCreateContractDelegate(
         return MaybeFail.none()
     }
 
-    private fun createOutcomes(context: CamundaGlobalContext, contracts: List<CreateContractAction.Result.Contact>, token: Token): Outcomes {
+    private fun createOutcomes(context: CamundaGlobalContext, contracts: List<CreateFrameworkContractAction.Result.Contact>, token: Token): Outcomes {
         val platformId = context.requestInfo.platformId
         val outcomes = context.outcomes ?: Outcomes()
         val details = outcomes[platformId] ?: Outcomes.Details()
