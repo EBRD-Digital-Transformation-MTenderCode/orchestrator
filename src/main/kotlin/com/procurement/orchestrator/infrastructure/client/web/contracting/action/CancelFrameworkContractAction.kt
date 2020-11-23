@@ -12,10 +12,10 @@ import com.procurement.orchestrator.infrastructure.model.Version
 import java.io.Serializable
 import com.procurement.orchestrator.domain.model.contract.Contract as DomainContract
 
-abstract class CancelContractAction : FunctionalAction<CancelContractAction.Params, CancelContractAction.Result> {
+abstract class CancelFrameworkContractAction : FunctionalAction<CancelFrameworkContractAction.Params, CancelFrameworkContractAction.Result> {
 
     override val version: Version = Version.parse("2.0.0")
-    override val name: String = "cancelContract"
+    override val name: String = "cancelFrameworkContract"
     override val target: Target<Result> = Target.single()
 
     data class Params(

@@ -1,6 +1,6 @@
 package com.procurement.orchestrator.infrastructure.client.web.contracting
 
-import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CancelContractAction
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CancelFrameworkContractAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.DoContractAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.FindCANIdsAction
 
@@ -10,5 +10,5 @@ object ContractingCommands {
 
     object DoContract : DoContractAction()
 
-    object CancelContract : CancelContractAction()
+    object CancelFrameworkContract : CancelFrameworkContractAction()
 }

@@ -16,17 +16,17 @@ import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContai
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.contracting.ContractingCommands
-import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CancelContractAction
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CancelFrameworkContractAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ExternalServiceName
 import org.springframework.stereotype.Component
 
 @Component
-class ContractingCancelContractDelegate(
+class ContractingCancelFrameworkContractDelegate(
     logger: Logger,
     private val contractingClient: ContractingClient,
     operationStepRepository: OperationStepRepository,
     transform: Transform
-) : AbstractExternalDelegate<Unit, CancelContractAction.Result>(
+) : AbstractExternalDelegate<Unit, CancelFrameworkContractAction.Result>(
     logger = logger,
     transform = transform,
     operationStepRepository = operationStepRepository
@@ -39,14 +39,14 @@ class ContractingCancelContractDelegate(
         commandId: CommandId,
         context: CamundaGlobalContext,
         parameters: Unit
-    ): Result<Reply<CancelContractAction.Result>, Fail.Incident> {
+    ): Result<Reply<CancelFrameworkContractAction.Result>, Fail.Incident> {
 
         val processInfo = context.processInfo
         val requestInfo = context.requestInfo
 
-        return contractingClient.cancelContract(
+        return contractingClient.cancelFrameworkContract(
             id = commandId,
-            params = CancelContractAction.Params(
+            params = CancelFrameworkContractAction.Params(
                 cpid = processInfo.cpid!!,
                 ocid = processInfo.ocid!!,
                 country = requestInfo.country,
@@ -59,16 +59,16 @@ class ContractingCancelContractDelegate(
     override fun updateGlobalContext(
         context: CamundaGlobalContext,
         parameters: Unit,
-        result: Option<CancelContractAction.Result>
+        result: Option<CancelFrameworkContractAction.Result>
     ): MaybeFail<Fail.Incident> {
 
         val data = result.orNull
             ?: return MaybeFail.fail(
-                Fail.Incident.Response.Empty(ExternalServiceName.CONTRACTING, ContractingCommands.CancelContract)
+                Fail.Incident.Response.Empty(ExternalServiceName.CONTRACTING, ContractingCommands.CancelFrameworkContract)
             )
 
         val receivedContracts = data.contracts
-            .map { CancelContractAction.ResponseConverter.Contract.toDomain(it) }
+            .map { CancelFrameworkContractAction.ResponseConverter.Contract.toDomain(it) }
             .let { Contracts(it) }
 
         context.contracts = receivedContracts
