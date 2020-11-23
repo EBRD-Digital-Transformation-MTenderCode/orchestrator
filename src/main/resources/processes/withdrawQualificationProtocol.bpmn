@@ -5,7 +5,7 @@
     <bpmn:group id="Group_0beqdmv" categoryValueRef="CategoryValue_1prrktp" />
   </bpmn:collaboration>
   <bpmn:process id="withdrawQualificationProtocol" name="withdrawQualificationProtocol" isExecutable="true" camunda:versionTag="1.00">
-    <bpmn:serviceTask id="ContractingDoContractTask" name="eContracting: Do contract" camunda:asyncBefore="true" camunda:delegateExpression="${contractingDoContractDelegate}">
+    <bpmn:serviceTask id="ContractingCancelFrameworkContractTask" name="eContracting: Cancel framework contract" camunda:asyncBefore="true" camunda:delegateExpression="${contractingCancelFrameworkContractDelegate}">
       <bpmn:incoming>Flow_0s4jg38</bpmn:incoming>
       <bpmn:outgoing>Flow_0eguqh5</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -217,8 +217,8 @@
     <bpmn:sequenceFlow id="SequenceFlow_0z8gujt" sourceRef="NoticeTask" targetRef="NotifierSuccessNotificationToPlatformTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1pek1qx" sourceRef="BpeAddUpdateRecordTaskInQueueTask" targetRef="NoticeTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0wu5lnz" sourceRef="SubModifyQualificationTenderTask" targetRef="BpeAddUpdateRecordTaskInQueueTask" />
-    <bpmn:sequenceFlow id="Flow_0eguqh5" sourceRef="ContractingDoContractTask" targetRef="Gateway_18fjq2r" />
-    <bpmn:sequenceFlow id="Flow_0s4jg38" name="FE" sourceRef="Gateway_0kk8gwa" targetRef="ContractingDoContractTask">
+    <bpmn:sequenceFlow id="Flow_0eguqh5" sourceRef="ContractingCancelFrameworkContractTask" targetRef="Gateway_18fjq2r" />
+    <bpmn:sequenceFlow id="Flow_0s4jg38" name="FE" sourceRef="Gateway_0kk8gwa" targetRef="ContractingCancelFrameworkContractTask">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${processInfo.stage == 'FE'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_1bftelb" sourceRef="Gateway_0kk8gwa" targetRef="Gateway_18fjq2r" />
@@ -229,7 +229,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_0xeubzm" sourceRef="BpeProcessInitializerTask" targetRef="AccessCheckAccessToTenderTask" />
     <bpmn:sequenceFlow id="Flow_11q1bdv" sourceRef="AccessCheckTenderStateTask" targetRef="Gateway_0kk8gwa" />
     <bpmn:textAnnotation id="TextAnnotation_04d31ee">
-      <bpmn:text>отмена контрактов в FE</bpmn:text>
+      <bpmn:text>отмена контракта в FE</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:textAnnotation id="TextAnnotation_0qxcj9t">
       <bpmn:text>Проверка состояния тендера</bpmn:text>
@@ -244,7 +244,7 @@
     <bpmn:textAnnotation id="TextAnnotation_123mh10">
       <bpmn:text>возврат тендера в квалификацию</bpmn:text>
     </bpmn:textAnnotation>
-    <bpmn:association id="Association_0l79hfi" sourceRef="ContractingDoContractTask" targetRef="TextAnnotation_04d31ee" />
+    <bpmn:association id="Association_0l79hfi" sourceRef="ContractingCancelFrameworkContractTask" targetRef="TextAnnotation_04d31ee" />
     <bpmn:association id="Association_1csm8xd" sourceRef="AccessCheckTenderStateTask" targetRef="TextAnnotation_0qxcj9t" />
     <bpmn:association id="Association_0nvnahj" sourceRef="AccessCheckAccessToTenderTask" targetRef="TextAnnotation_1j10bns" />
     <bpmn:association id="Association_1n523um" sourceRef="QualificationCheckQualificationPeriodTask" targetRef="TextAnnotation_01hpfk3" />
@@ -261,40 +261,35 @@
       <bpmndi:BPMNShape id="Participant_03tzbm9_di" bpmnElement="Participant_03tzbm9" isHorizontal="true">
         <dc:Bounds x="159" y="80" width="1731" height="470" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_04d31ee_di" bpmnElement="TextAnnotation_04d31ee">
-        <dc:Bounds x="950" y="138" width="110" height="40" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_0qxcj9t_di" bpmnElement="TextAnnotation_0qxcj9t">
-        <dc:Bounds x="730" y="117" width="100" height="54" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_1j10bns_di" bpmnElement="TextAnnotation_1j10bns">
-        <dc:Bounds x="450" y="110" width="100" height="68" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_01hpfk3_di" bpmnElement="TextAnnotation_01hpfk3">
-        <dc:Bounds x="590" y="103" width="100" height="82" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_123mh10_di" bpmnElement="TextAnnotation_123mh10">
-        <dc:Bounds x="1160" y="117" width="100" height="53" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="SequenceFlow_0z5o9i7_di" bpmnElement="SequenceFlow_0z5o9i7">
-        <di:waypoint x="1680" y="250" />
-        <di:waypoint x="1712" y="250" />
+      <bpmndi:BPMNEdge id="Flow_11q1bdv_di" bpmnElement="Flow_11q1bdv">
+        <di:waypoint x="830" y="250" />
+        <di:waypoint x="865" y="250" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_0z8gujt_di" bpmnElement="SequenceFlow_0z8gujt">
-        <di:waypoint x="1540" y="250" />
-        <di:waypoint x="1580" y="250" />
+      <bpmndi:BPMNEdge id="SequenceFlow_0xeubzm_di" bpmnElement="SequenceFlow_0xeubzm">
+        <di:waypoint x="410" y="250" />
+        <di:waypoint x="450" y="250" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_1pek1qx_di" bpmnElement="SequenceFlow_1pek1qx">
-        <di:waypoint x="1400" y="250" />
-        <di:waypoint x="1440" y="250" />
+      <bpmndi:BPMNEdge id="SequenceFlow_0ufizui_di" bpmnElement="SequenceFlow_0ufizui">
+        <di:waypoint x="265" y="250" />
+        <di:waypoint x="310" y="250" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_0wu5lnz_di" bpmnElement="SequenceFlow_0wu5lnz">
-        <di:waypoint x="1260" y="250" />
-        <di:waypoint x="1300" y="250" />
+      <bpmndi:BPMNEdge id="SequenceFlow_1p06v9m_di" bpmnElement="SequenceFlow_1p06v9m">
+        <di:waypoint x="550" y="250" />
+        <di:waypoint x="590" y="250" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0eguqh5_di" bpmnElement="Flow_0eguqh5">
-        <di:waypoint x="1050" y="250" />
-        <di:waypoint x="1085" y="250" />
+      <bpmndi:BPMNEdge id="SequenceFlow_1ni1rkp_di" bpmnElement="SequenceFlow_1ni1rkp">
+        <di:waypoint x="690" y="250" />
+        <di:waypoint x="730" y="250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0v1p81s_di" bpmnElement="Flow_0v1p81s">
+        <di:waypoint x="1135" y="250" />
+        <di:waypoint x="1160" y="250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1bftelb_di" bpmnElement="Flow_1bftelb">
+        <di:waypoint x="890" y="275" />
+        <di:waypoint x="890" y="320" />
+        <di:waypoint x="1110" y="320" />
+        <di:waypoint x="1110" y="275" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0s4jg38_di" bpmnElement="Flow_0s4jg38">
         <di:waypoint x="915" y="250" />
@@ -303,37 +298,27 @@
           <dc:Bounds x="923" y="223" width="15" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1bftelb_di" bpmnElement="Flow_1bftelb">
-        <di:waypoint x="890" y="275" />
-        <di:waypoint x="890" y="320" />
-        <di:waypoint x="1110" y="320" />
-        <di:waypoint x="1110" y="275" />
+      <bpmndi:BPMNEdge id="Flow_0eguqh5_di" bpmnElement="Flow_0eguqh5">
+        <di:waypoint x="1050" y="250" />
+        <di:waypoint x="1085" y="250" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0v1p81s_di" bpmnElement="Flow_0v1p81s">
-        <di:waypoint x="1135" y="250" />
-        <di:waypoint x="1160" y="250" />
+      <bpmndi:BPMNEdge id="SequenceFlow_0wu5lnz_di" bpmnElement="SequenceFlow_0wu5lnz">
+        <di:waypoint x="1260" y="250" />
+        <di:waypoint x="1300" y="250" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_1ni1rkp_di" bpmnElement="SequenceFlow_1ni1rkp">
-        <di:waypoint x="690" y="250" />
-        <di:waypoint x="730" y="250" />
+      <bpmndi:BPMNEdge id="SequenceFlow_1pek1qx_di" bpmnElement="SequenceFlow_1pek1qx">
+        <di:waypoint x="1400" y="250" />
+        <di:waypoint x="1440" y="250" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_1p06v9m_di" bpmnElement="SequenceFlow_1p06v9m">
-        <di:waypoint x="550" y="250" />
-        <di:waypoint x="590" y="250" />
+      <bpmndi:BPMNEdge id="SequenceFlow_0z8gujt_di" bpmnElement="SequenceFlow_0z8gujt">
+        <di:waypoint x="1540" y="250" />
+        <di:waypoint x="1580" y="250" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_0ufizui_di" bpmnElement="SequenceFlow_0ufizui">
-        <di:waypoint x="265" y="250" />
-        <di:waypoint x="310" y="250" />
+      <bpmndi:BPMNEdge id="SequenceFlow_0z5o9i7_di" bpmnElement="SequenceFlow_0z5o9i7">
+        <di:waypoint x="1680" y="250" />
+        <di:waypoint x="1712" y="250" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_0xeubzm_di" bpmnElement="SequenceFlow_0xeubzm">
-        <di:waypoint x="410" y="250" />
-        <di:waypoint x="450" y="250" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_11q1bdv_di" bpmnElement="Flow_11q1bdv">
-        <di:waypoint x="830" y="250" />
-        <di:waypoint x="865" y="250" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="Activity_15u82s3_di" bpmnElement="ContractingDoContractTask" bioc:stroke="black" bioc:fill="white">
+      <bpmndi:BPMNShape id="Activity_15u82s3_di" bpmnElement="ContractingCancelFrameworkContractTask" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="950" y="210" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_0kk8gwa_di" bpmnElement="Gateway_0kk8gwa" isMarkerVisible="true">
@@ -359,21 +344,6 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_1c6nxz2_di" bpmnElement="AccessCheckAccessToTenderTask" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="450" y="210" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="CallActivity_18xvic3_di" bpmnElement="SubModifyQualificationTenderTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="1160" y="210" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_1jgrjj3_di" bpmnElement="BpeAddUpdateRecordTaskInQueueTask">
-        <dc:Bounds x="1300" y="210" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_0llkhh1_di" bpmnElement="NoticeTask">
-        <dc:Bounds x="1440" y="210" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_0cw0k73_di" bpmnElement="NotifierSuccessNotificationToPlatformTask">
-        <dc:Bounds x="1580" y="210" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="EndEvent_1xtljys_di" bpmnElement="EndEvent_1xtljys">
-        <dc:Bounds x="1712" y="232" width="36" height="36" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="SubProcess_13pwcw6_di" bpmnElement="SubProcess_13pwcw6" isExpanded="true" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="320" y="370" width="610" height="140" />
@@ -471,6 +441,36 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="EndEvent_0chrkxf_di" bpmnElement="EndEvent_0chrkxf">
         <dc:Bounds x="1812" y="420" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="CallActivity_18xvic3_di" bpmnElement="SubModifyQualificationTenderTask" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="1160" y="210" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1jgrjj3_di" bpmnElement="BpeAddUpdateRecordTaskInQueueTask">
+        <dc:Bounds x="1300" y="210" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0llkhh1_di" bpmnElement="NoticeTask">
+        <dc:Bounds x="1440" y="210" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0cw0k73_di" bpmnElement="NotifierSuccessNotificationToPlatformTask">
+        <dc:Bounds x="1580" y="210" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_1xtljys_di" bpmnElement="EndEvent_1xtljys">
+        <dc:Bounds x="1712" y="232" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_04d31ee_di" bpmnElement="TextAnnotation_04d31ee">
+        <dc:Bounds x="950" y="138" width="109.99321952776005" height="39.99481493299298" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0qxcj9t_di" bpmnElement="TextAnnotation_0qxcj9t">
+        <dc:Bounds x="730" y="117" width="100" height="54" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_1j10bns_di" bpmnElement="TextAnnotation_1j10bns">
+        <dc:Bounds x="450" y="110" width="100" height="68" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_01hpfk3_di" bpmnElement="TextAnnotation_01hpfk3">
+        <dc:Bounds x="590" y="103" width="100" height="82" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_123mh10_di" bpmnElement="TextAnnotation_123mh10">
+        <dc:Bounds x="1160" y="117" width="100" height="53" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Association_0l79hfi_di" bpmnElement="Association_0l79hfi">
         <di:waypoint x="1000" y="210" />
