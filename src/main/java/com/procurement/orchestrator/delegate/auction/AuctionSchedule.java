@@ -58,6 +58,7 @@ public class AuctionSchedule implements JavaDelegate {
                 contextForCommand.setOcid(ocidCn);
             else
                 contextForCommand.setOcid(context.getOcid());
+            contextForCommand.setRequestId(context.getRequestId());
             contextForCommand.setOperationId(context.getOperationId());
             contextForCommand.setStartDate(context.getStartDate());
             contextForCommand.setPmd(context.getPmd());
