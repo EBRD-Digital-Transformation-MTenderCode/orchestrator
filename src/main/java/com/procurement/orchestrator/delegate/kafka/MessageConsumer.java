@@ -3,6 +3,7 @@ package com.procurement.orchestrator.delegate.kafka;
 import com.datastax.driver.core.utils.UUIDs;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
+import com.procurement.orchestrator.domain.Stage;
 import com.procurement.orchestrator.domain.commands.AgentResponseCommandType;
 import com.procurement.orchestrator.domain.commands.AuctionCommandType;
 import com.procurement.orchestrator.domain.commands.DocGeneratorCommandType;
@@ -58,10 +59,14 @@ public class MessageConsumer {
                             else
                                 ocid = null;
                             Context prevContext = getContext(cpid, ocid);
+
+                            final Stage stage = Stage.fromValue(prevContext.getStage());
+                            final String processName = getProcessName(stage);
+
                             final String uuid = UUIDs.timeBased().toString();
                             final Context context = requestService.checkRulesAndProcessContext(
                                     prevContext,
-                                    "auctionPeriodEnd",
+                                    processName,
                                     uuid);
                             requestService.saveRequestAndCheckOperation(context, data);
                             final Map<String, Object> variables = new HashMap<>();
@@ -95,6 +100,31 @@ public class MessageConsumer {
             prevContext = requestService.getContext(cpid);
         }
         return prevContext;
+    }
+
+    private String getProcessName(Stage stage) {
+        String processName = null;
+        switch (stage) {
+            case PC:
+                processName = "auctionPeriodEndInPcr";
+                break;
+
+            case AC:
+            case AP:
+            case EI:
+            case EV:
+            case FE:
+            case FS:
+            case NP:
+            case PIN:
+            case PN:
+            case PQ:
+            case PS:
+            case TP:
+                processName = "auctionPeriodEnd";
+                break;
+        }
+        return processName;
     }
 
     @KafkaListener(topics = "document-generator-out")

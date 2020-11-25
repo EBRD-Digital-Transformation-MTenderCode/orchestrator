@@ -11,9 +11,9 @@ import com.procurement.orchestrator.domain.fail.error.RequestErrors
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.asSuccess
-import com.procurement.orchestrator.infrastructure.extension.http.getMs
-import com.procurement.orchestrator.infrastructure.extension.http.getOcidPn
+import com.procurement.orchestrator.infrastructure.extension.http.getCP
 import com.procurement.orchestrator.infrastructure.extension.http.getOperationId
+import com.procurement.orchestrator.infrastructure.extension.http.getPN
 import com.procurement.orchestrator.infrastructure.extension.http.getPlatformId
 import com.procurement.orchestrator.infrastructure.extension.http.getToken
 import com.procurement.orchestrator.infrastructure.web.extension.buildResponse
@@ -81,10 +81,10 @@ class RelationApController(
         val token: Token = servlet.getToken()
             .orForwardFail { fail -> return fail }
 
-        val ms = servlet.getMs()
+        val cp = servlet.getCP()
             .orForwardFail { return it }
 
-        val ocidPn = servlet.getOcidPn()
+        val pn = servlet.getPN()
             .orForwardFail { return it }
 
         return PlatformRequest(
@@ -97,7 +97,7 @@ class RelationApController(
                 owner = platformId,
                 uri = servlet.requestURI,
                 processName = PROCESS_NAME,
-                relatedProcess = PlatformRequest.Context.RelatedProcess(cpid = ms, ocid = ocidPn)
+                relatedProcess = PlatformRequest.Context.RelatedProcess(cpid = cp, ocid = pn)
             ),
             payload = ""
         ).asSuccess()
