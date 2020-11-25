@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.procurement.orchestrator.application.model.process.OperationTypeProcess
 import com.procurement.orchestrator.application.service.ProceduralAction
+import com.procurement.orchestrator.domain.model.ProcurementMethodDetails
 import com.procurement.orchestrator.domain.model.contract.observation.ObservationId
 import com.procurement.orchestrator.domain.model.document.DocumentId
 import com.procurement.orchestrator.domain.model.document.DocumentType
@@ -39,7 +41,10 @@ abstract class ValidatePcrDataAction : ProceduralAction<ValidatePcrDataAction.Pa
     override val name: String = "validatePcrData"
 
     class Params(
-        @field:JsonProperty("tender") @param:JsonProperty("tender") val tender: Tender
+        @field:JsonProperty("tender") @param:JsonProperty("tender") val tender: Tender,
+        @field:JsonProperty("country") @param:JsonProperty("country") val country: String,
+        @field:JsonProperty("pmd") @param:JsonProperty("pmd") val pmd: ProcurementMethodDetails,
+        @field:JsonProperty("operationType") @param:JsonProperty("operationType") val operationType: OperationTypeProcess
     ) {
 
         data class Tender(

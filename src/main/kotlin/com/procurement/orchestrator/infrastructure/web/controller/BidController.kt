@@ -12,11 +12,13 @@ import com.procurement.orchestrator.application.service.ProcessLauncher
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.Context
 import com.procurement.orchestrator.domain.fail.Fail
+import com.procurement.orchestrator.domain.fail.error.BpeErrors
 import com.procurement.orchestrator.domain.fail.error.RequestErrors
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.domain.model.Ocid
+import com.procurement.orchestrator.exception.OperationException
 import com.procurement.orchestrator.infrastructure.extension.http.getAuthorizationHeader
 import com.procurement.orchestrator.infrastructure.extension.http.getOperationId
 import com.procurement.orchestrator.infrastructure.extension.http.getPayload
@@ -144,6 +146,12 @@ class BidController(
 
         try {
             validateAndLaunchV1(operationId, data, authorization, cpid, ocid)
+        } catch (exception: OperationException) {
+            return MaybeFail.fail(
+                BpeErrors.ImpossibleOperation(
+                    description = exception.message ?: "Failed starting process '$PROCESS_NAME_V1'.'"
+                )
+            )
         } catch (exception: Exception) {
             return MaybeFail.fail(
                 Fail.Incident.Bpe(

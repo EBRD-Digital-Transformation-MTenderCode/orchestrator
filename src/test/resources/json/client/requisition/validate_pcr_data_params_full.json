@@ -1,4 +1,7 @@
 {
+  "pmd": "GPA",
+  "country": "MD",
+  "operationType": "startSecondStage",
   "tender": {
     "title": "string",
     "description": "string",
