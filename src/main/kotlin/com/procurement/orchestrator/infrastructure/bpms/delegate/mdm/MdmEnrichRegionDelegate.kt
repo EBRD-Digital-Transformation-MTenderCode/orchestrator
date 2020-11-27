@@ -22,6 +22,7 @@ import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.domain.model.address.Address
 import com.procurement.orchestrator.domain.model.address.region.RegionDetails
+import com.procurement.orchestrator.domain.model.award.Awards
 import com.procurement.orchestrator.domain.model.bid.Bids
 import com.procurement.orchestrator.domain.model.bid.BidsDetails
 import com.procurement.orchestrator.domain.model.candidate.Candidates
@@ -82,6 +83,8 @@ class MdmEnrichRegionDelegate(
                     Location.SUBMISSION -> getSubmissionAddresses(context)
                     Location.BID -> getBidsAddresses(context)
                     Location.BID_BANK_ACCOUNTS -> getBidsBankAccountAddresses(context)
+                    Location.AWARD -> getAwardsAddresses(context)
+                    Location.AWARD_BANK_ACCOUNTS -> getAwardsBankAccountAddresses(context)
                 }
                     .orForwardFail { fail -> return fail }
             }
@@ -120,6 +123,8 @@ class MdmEnrichRegionDelegate(
                     Location.SUBMISSION -> updateSubmissions(context, regions)
                     Location.BID -> updateBids(context, regions)
                     Location.BID_BANK_ACCOUNTS -> updateBidsBankAccount(context, regions)
+                    Location.AWARD -> updateAwards(context, regions)
+                    Location.AWARD_BANK_ACCOUNTS -> updateAwardsBankAccount(context, regions)
                 }
             }
 
@@ -177,6 +182,37 @@ class MdmEnrichRegionDelegate(
         )
     }
 
+    private fun updateAwards(context: GlobalContext, countries: Map<RegionDetails, RegionDetails>) {
+        val updatedAwards = context.awards
+            .map { award ->
+                val updatedSuppliers = award.suppliers
+                    .map { supplier -> supplier.updateRegion(countries) }
+                award.copy(suppliers = Organizations(updatedSuppliers))
+            }
+
+        context.awards = Awards(updatedAwards)
+    }
+
+    private fun updateAwardsBankAccount(context: GlobalContext, countries: Map<RegionDetails, RegionDetails>) {
+        val updatedAwards = context.awards
+            .map { award ->
+                val updatedSuppliers = award.suppliers
+                    .map { supplier ->
+                        val updatedDetails = supplier.details!!
+                            .let { details ->
+                                val updatedBankAccounts = details.bankAccounts.map { bankAccount ->
+                                    val updatedAddress = bankAccount.address!!.updateRegion(countries)
+                                    bankAccount.copy(address = updatedAddress)
+                                }
+                                details.copy(bankAccounts = BankAccounts(updatedBankAccounts))
+                            }
+                        supplier.copy(details = updatedDetails)
+                    }
+                award.copy(suppliers = Organizations(updatedSuppliers))
+            }
+        context.awards = Awards(updatedAwards)
+    }
+
     private fun Organization.updateRegion(enrichedRegionesById: Map<RegionDetails, RegionDetails>): Organization =
         this.copy(address = this.address?.updateRegion(enrichedRegionesById))
 
@@ -222,6 +258,22 @@ class MdmEnrichRegionDelegate(
             .toList()
             .asSuccess()
     }
+
+    private fun getAwardsAddresses(context: GlobalContext): Result<List<RegionInfo>, Fail.Incident> =
+        context.awards.asSequence()
+            .flatMap { award -> award.suppliers.asSequence() }
+            .map { supplier -> getRegionInfo(supplier.address!!) }
+            .toList()
+            .asSuccess()
+
+    private fun getAwardsBankAccountAddresses(context: GlobalContext): Result<List<RegionInfo>, Fail.Incident> =
+        context.awards.asSequence()
+            .flatMap { award -> award.suppliers.asSequence() }
+            .map { supplier -> supplier.details!! }
+            .flatMap { details -> details.bankAccounts.asSequence() }
+            .map { bankAccount -> getRegionInfo(bankAccount.address!!) }
+            .toList()
+            .asSuccess()
 
     private val getRegionInfo: (Address) -> RegionInfo = { address ->
         val country = address.addressDetails!!.country
@@ -287,7 +339,9 @@ class MdmEnrichRegionDelegate(
 
         SUBMISSION("submission"),
         BID("bid"),
-        BID_BANK_ACCOUNTS("bid.bankAccounts");
+        BID_BANK_ACCOUNTS("bid.bankAccounts"),
+        AWARD("award"),
+        AWARD_BANK_ACCOUNTS("award.bankAccounts");
 
         override fun toString(): String = key
 
