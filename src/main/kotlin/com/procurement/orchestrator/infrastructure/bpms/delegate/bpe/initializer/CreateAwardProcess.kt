@@ -65,7 +65,9 @@ object CreateAwardProcess {
                         @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
                         @param:JsonProperty("legalName") @field:JsonProperty("legalName") val legalName: String,
                         @param:JsonProperty("scheme") @field:JsonProperty("scheme") val scheme: String,
-                        @param:JsonProperty("uri") @field:JsonProperty("uri") val uri: String
+
+                        @JsonInclude(JsonInclude.Include.NON_NULL)
+                        @param:JsonProperty("uri") @field:JsonProperty("uri") val uri: String?
                     )
 
                     data class Address(
@@ -166,13 +168,16 @@ object CreateAwardProcess {
                         @JsonInclude(JsonInclude.Include.NON_EMPTY)
                         @param:JsonProperty("bankAccounts") @field:JsonProperty("bankAccounts") val bankAccounts: List<BankAccount>?,
 
+                        @JsonInclude(JsonInclude.Include.NON_NULL)
                         @param:JsonProperty("legalForm") @field:JsonProperty("legalForm") val legalForm: LegalForm?
                     ) {
                         data class MainEconomicActivity(
                             @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
                             @param:JsonProperty("scheme") @field:JsonProperty("scheme") val scheme: String,
                             @param:JsonProperty("description") @field:JsonProperty("description") val description: String,
-                            @param:JsonProperty("uri") @field:JsonProperty("uri") val uri: String
+
+                            @JsonInclude(JsonInclude.Include.NON_NULL)
+                            @param:JsonProperty("uri") @field:JsonProperty("uri") val uri: String?
                         )
 
                         data class Permit(
@@ -200,7 +205,7 @@ object CreateAwardProcess {
                                     @param:JsonProperty("startDate") @field:JsonProperty("startDate") val startDate: LocalDateTime,
 
                                     @JsonInclude(JsonInclude.Include.NON_NULL)
-                                    @param:JsonProperty("endDate") @field:JsonProperty("endDate") val endDate: LocalDateTime
+                                    @param:JsonProperty("endDate") @field:JsonProperty("endDate") val endDate: LocalDateTime?
                                 )
                             }
                         }
