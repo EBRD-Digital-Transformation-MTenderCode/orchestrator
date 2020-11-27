@@ -11,6 +11,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Chec
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckEqualityCurrenciesAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckExistenceFaAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckExistenceSignAuctionAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckLotsStateAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckPersonesStructureAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckRelationAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckTenderStateAction
@@ -263,5 +264,13 @@ class HttpAccessClient(private val webClient: WebClient, properties: ComponentPr
         url = url,
         command = AccessCommands.GetMainProcurementCategory.build(id = id, params = params),
         target = AccessCommands.GetMainProcurementCategory.target
+    )
+
+    override suspend fun checkLotsState(
+        id: CommandId,
+        params: CheckLotsStateAction.Params
+    ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
+        url = url,
+        command = AccessCommands.CheckLotsState.build(id = id, params = params)
     )
 }
