@@ -18,6 +18,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Find
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindCriteriaAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindLotIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotStateByIdsAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotsValueAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetMainProcurementCategoryAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetOrganizationAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetQualificationCriteriaAndMethodAction
@@ -163,4 +164,9 @@ interface AccessClient {
         id: CommandId,
         params: GetMainProcurementCategoryAction.Params
     ): Result<Reply<GetMainProcurementCategoryAction.Result>, Fail.Incident>
+
+    suspend fun getLotsValue(
+        id: CommandId,
+        params: GetLotsValueAction.Params
+    ): Result<Reply<GetLotsValueAction.Result>, Fail.Incident>
 }
