@@ -6,6 +6,7 @@ import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CloseAwardPeriodAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CreateUnsuccessfulAwardsAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.GetAwardStateByIdsAction
+import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.StartAwardPeriodAction
 import com.procurement.orchestrator.json.testingBindingAndMapping
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -105,6 +106,26 @@ class EvaluationActionsTest {
             @Test
             fun fully() {
                 testingBindingAndMapping<CloseAwardPeriodAction.Result>("json/client/evaluation/create_close_award_period_result.json")
+            }
+        }
+    }
+
+    @Nested
+    inner class StartAwardPeriod {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<StartAwardPeriodAction.Params>("json/client/evaluation/start_award_period_params.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<StartAwardPeriodAction.Result>("json/client/evaluation/start_award_period_result.json")
             }
         }
     }
