@@ -9,6 +9,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Chec
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckEqualityCurrenciesAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckExistenceFaAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckExistenceSignAuctionAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckLotsStateAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckPersonesStructureAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckRelationAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckTenderStateAction
@@ -164,6 +165,8 @@ interface AccessClient {
         id: CommandId,
         params: GetMainProcurementCategoryAction.Params
     ): Result<Reply<GetMainProcurementCategoryAction.Result>, Fail.Incident>
+
+    suspend fun checkLotsState(id: CommandId, params: CheckLotsStateAction.Params): Result<Reply<Unit>, Fail.Incident>
 
     suspend fun getLotsValue(
         id: CommandId,

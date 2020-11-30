@@ -22,6 +22,7 @@ import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.domain.model.address.Address
 import com.procurement.orchestrator.domain.model.address.country.CountryDetails
+import com.procurement.orchestrator.domain.model.award.Awards
 import com.procurement.orchestrator.domain.model.bid.Bids
 import com.procurement.orchestrator.domain.model.bid.BidsDetails
 import com.procurement.orchestrator.domain.model.candidate.Candidates
@@ -82,6 +83,8 @@ class MdmEnrichCountryDelegate(
                     Location.SUBMISSION -> getSubmissionAddresses(context)
                     Location.BID -> getBidsAddresses(context)
                     Location.BID_BANK_ACCOUNTS -> getBidsBankAccountAddresses(context)
+                    Location.AWARD -> getAwardsAddresses(context)
+                    Location.AWARD_BANK_ACCOUNTS -> getAwardsBankAccountAddresses(context)
                 }
                     .orForwardFail { fail -> return fail }
             }
@@ -119,6 +122,8 @@ class MdmEnrichCountryDelegate(
                     Location.SUBMISSION -> updateSubmissions(context, countries)
                     Location.BID -> updateBids(context, countries)
                     Location.BID_BANK_ACCOUNTS -> updateBidsBankAccount(context, countries)
+                    Location.AWARD -> updateAwards(context, countries)
+                    Location.AWARD_BANK_ACCOUNTS -> updateAwardsBankAccount(context, countries)
                 }
             }
 
@@ -176,6 +181,38 @@ class MdmEnrichCountryDelegate(
         )
     }
 
+    private fun updateAwards(context: GlobalContext, countries: Map<CountryDetails, CountryDetails>) {
+        val updatedAwards = context.awards
+            .map { award ->
+                val updatedSuppliers = award.suppliers
+                    .map { supplier -> supplier.updateCountry(countries) }
+                award.copy(suppliers = Organizations(updatedSuppliers))
+            }
+
+        context.awards = Awards(updatedAwards)
+    }
+
+    private fun updateAwardsBankAccount(context: GlobalContext, countries: Map<CountryDetails, CountryDetails>) {
+        val updatedAwards = context.awards
+            .map { award ->
+                val updatedSuppliers = award.suppliers
+                    .map { supplier ->
+                        val updatedDetails = supplier.details!!
+                            .let { details ->
+                                val updatedBankAccounts = details.bankAccounts.map { bankAccount ->
+                                    val updatedAddress = bankAccount.address!!.updateCountry(countries)
+                                    bankAccount.copy(address = updatedAddress)
+                                }
+                                details.copy(bankAccounts = BankAccounts(updatedBankAccounts))
+                            }
+                        supplier.copy(details = updatedDetails)
+                    }
+                award.copy(suppliers = Organizations(updatedSuppliers))
+            }
+
+        context.awards = Awards(updatedAwards)
+    }
+
     private fun Organization.updateCountry(enrichedCountriesById: Map<CountryDetails, CountryDetails>): Organization =
         this.copy(address = this.address?.updateCountry(enrichedCountriesById))
 
@@ -228,6 +265,22 @@ class MdmEnrichCountryDelegate(
             .toList()
             .asSuccess()
     }
+
+    private fun getAwardsAddresses(context: GlobalContext): Result<List<CountryInfo>, Fail.Incident> =
+        context.awards.asSequence()
+            .flatMap { award -> award.suppliers.asSequence() }
+            .map { supplier -> getCountryInfo(supplier.address!!) }
+            .toList()
+            .asSuccess()
+
+    private fun getAwardsBankAccountAddresses(context: GlobalContext): Result<List<CountryInfo>, Fail.Incident> =
+        context.awards.asSequence()
+            .flatMap { award -> award.suppliers.asSequence() }
+            .map { supplier -> supplier.details!! }
+            .flatMap { details -> details.bankAccounts.asSequence() }
+            .map { bankAccount -> getCountryInfo(bankAccount.address!!) }
+            .toList()
+            .asSuccess()
 
     private val getCountryInfo: (Address) -> CountryInfo = { address ->
         val country = address.addressDetails!!.country
@@ -284,7 +337,9 @@ class MdmEnrichCountryDelegate(
 
         SUBMISSION("submission"),
         BID("bid"),
-        BID_BANK_ACCOUNTS("bid.bankAccounts");
+        BID_BANK_ACCOUNTS("bid.bankAccounts"),
+        AWARD("award"),
+        AWARD_BANK_ACCOUNTS("award.bankAccounts");
 
         override fun toString(): String = key
 

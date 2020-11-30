@@ -509,6 +509,19 @@ class AccessActionsTest {
         }
     }
 
+
+    @Nested
+    inner class CheckLotsState {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CheckLotsStateAction.Params>("json/client/access/check_lots_state_params_full.json")
+            }
+        }
+    }
+
     @Nested
     inner class GetLotsValue {
 

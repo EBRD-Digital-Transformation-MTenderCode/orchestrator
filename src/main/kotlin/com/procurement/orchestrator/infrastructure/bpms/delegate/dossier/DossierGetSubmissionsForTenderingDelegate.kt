@@ -344,6 +344,7 @@ class DossierGetSubmissionsForTenderingDelegate(
         when (operationType) {
             OperationTypeProcess.COMPLETE_QUALIFICATION -> PartyRoles(PartyRole.INVITED_CANDIDATE)
             OperationTypeProcess.APPLY_QUALIFICATION_PROTOCOL,
+            OperationTypeProcess.CREATE_AWARD,
             OperationTypeProcess.CREATE_PCR,
             OperationTypeProcess.CREATE_SUBMISSION,
             OperationTypeProcess.DECLARE_NON_CONFLICT_OF_INTEREST,

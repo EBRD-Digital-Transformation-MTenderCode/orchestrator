@@ -5,6 +5,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Chec
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckEqualityCurrenciesAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckExistenceFaAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckExistenceSignAuctionAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckLotsStateAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckPersonesStructureAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckRelationAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckTenderStateAction
@@ -82,6 +83,8 @@ object AccessCommands {
     object CheckEqualityCurrencies: CheckEqualityCurrenciesAction()
 
     object GetMainProcurementCategory: GetMainProcurementCategoryAction()
+
+    object CheckLotsState: CheckLotsStateAction()
 
     object GetLotsValue: GetLotsValueAction()
 }
