@@ -15,6 +15,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Find
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindCriteriaAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindLotIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotStateByIdsAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotsValueAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetMainProcurementCategoryAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetOrganizationAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetQualificationCriteriaAndMethodAction
@@ -84,4 +85,6 @@ object AccessCommands {
     object GetMainProcurementCategory: GetMainProcurementCategoryAction()
 
     object CheckLotsState: CheckLotsStateAction()
+
+    object GetLotsValue: GetLotsValueAction()
 }

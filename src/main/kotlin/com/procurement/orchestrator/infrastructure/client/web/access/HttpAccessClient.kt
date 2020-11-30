@@ -21,6 +21,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Find
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindCriteriaAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindLotIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotStateByIdsAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotsValueAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetMainProcurementCategoryAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetOrganizationAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetQualificationCriteriaAndMethodAction
@@ -272,5 +273,14 @@ class HttpAccessClient(private val webClient: WebClient, properties: ComponentPr
     ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
         url = url,
         command = AccessCommands.CheckLotsState.build(id = id, params = params)
+    )
+
+    override suspend fun getLotsValue(
+        id: CommandId,
+        params: GetLotsValueAction.Params
+    ): Result<Reply<GetLotsValueAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = AccessCommands.GetLotsValue.build(id = id, params = params),
+        target = AccessCommands.GetLotsValue.target
     )
 }
