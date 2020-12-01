@@ -7,6 +7,7 @@ import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CreateUnsuccessfulAwardsAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.GetAwardStateByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.StartAwardPeriodAction
+import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.ValidateAwardDataAction
 import com.procurement.orchestrator.json.testingBindingAndMapping
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -126,6 +127,33 @@ class EvaluationActionsTest {
             @Test
             fun fully() {
                 testingBindingAndMapping<StartAwardPeriodAction.Result>("json/client/evaluation/start_award_period_result.json")
+            }
+        }
+    }
+
+    @Nested
+    inner class ValidateAwardData {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<ValidateAwardDataAction.Params>("json/client/evaluation/validate_award_data_params_full.json")
+            }
+
+            @Test
+            fun required_1() {
+                testingBindingAndMapping<ValidateAwardDataAction.Params>("json/client/evaluation/validate_award_data_params_required_1.json")
+            }
+
+            @Test
+            fun required_2() {
+                testingBindingAndMapping<ValidateAwardDataAction.Params>("json/client/evaluation/validate_award_data_params_required_2.json")
+            }
+
+            @Test
+            fun required_3() {
+                testingBindingAndMapping<ValidateAwardDataAction.Params>("json/client/evaluation/validate_award_data_params_required_3.json")
             }
         }
     }
