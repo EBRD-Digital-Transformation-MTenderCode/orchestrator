@@ -28,6 +28,7 @@ import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.functional.ValidationResult
 import com.procurement.orchestrator.domain.functional.asSuccess
+import com.procurement.orchestrator.domain.functional.bind
 import com.procurement.orchestrator.domain.functional.validate
 import com.procurement.orchestrator.domain.model.amendment.Amendment
 import com.procurement.orchestrator.domain.model.amendment.Amendments
@@ -35,6 +36,7 @@ import com.procurement.orchestrator.domain.model.award.Awards
 import com.procurement.orchestrator.domain.model.document.Document
 import com.procurement.orchestrator.domain.model.document.DocumentId
 import com.procurement.orchestrator.domain.model.document.Documents
+import com.procurement.orchestrator.domain.model.organization.Organizations
 import com.procurement.orchestrator.domain.model.organization.person.BusinessFunctions
 import com.procurement.orchestrator.domain.model.party.Parties
 import com.procurement.orchestrator.domain.model.person.Persons
@@ -239,7 +241,44 @@ class StorageOpenAccessDelegate(
             }
             .asSuccess()
 
+    private fun Awards.updateDocuments(
+        entities: Map<EntityKey, EntityValue>,
+        documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document>
+    ): Result<Awards, Fail.Incident.Bpms> =
+        if (EntityKey.AWARD in entities)
+            this.updateDocuments(documentsByIds)
+        else this.asSuccess()
+
     private fun Awards.updateDocuments(documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document>): Result<Awards, Fail.Incident.Bpms> {
+        val updatedAwards = this.map { award ->
+            val updatedDocuments = award.documents.map { document ->
+                documentsByIds[document.id]
+                    ?.let {
+                        document.copy(datePublished = it.datePublished, url = it.uri)
+                    }
+                    ?: return failure(
+                        Fail.Incident.Bpms.Context.UnConsistency.Update(
+                            name = "document",
+                            path = "awards[id:${award.id}]",
+                            id = document.id.toString()
+                        )
+                    )
+            }
+            award.copy(documents = Documents(updatedDocuments))
+        }
+        return success(Awards(updatedAwards))
+    }
+
+    private fun Awards.updateRequirementRsDocuments(
+        entities: Map<EntityKey, EntityValue>,
+        documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document>
+    ): Result<Awards, Fail.Incident.Bpms> =
+        if (EntityKey.AWARD_REQUIREMENT_RESPONSE in entities)
+            this.updateRequirementRsDocuments(documentsByIds)
+        else
+            this.asSuccess()
+
+    private fun Awards.updateRequirementRsDocuments(documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document>): Result<Awards, Fail.Incident.Bpms> {
         val updatedAwards = this.map { award ->
             val requirementResponse = award.requirementResponses.getOrNull(0)
             if (requirementResponse != null) {
@@ -273,6 +312,47 @@ class StorageOpenAccessDelegate(
                 }
                 award.copy(requirementResponses = RequirementResponses(updatedRequirementResponse))
             } else award
+        }
+        return success(Awards(updatedAwards))
+    }
+
+    private fun Awards.updateSuppliersDocuments(
+        entities: Map<EntityKey, EntityValue>,
+        documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document>
+    ): Result<Awards, Fail.Incident.Bpms> =
+        if (EntityKey.AWARD_SUPPLIER in entities)
+            this.updateSuppliersDocuments(documentsByIds)
+        else
+            this.asSuccess()
+
+    private fun Awards.updateSuppliersDocuments(
+        documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document>
+    ): Result<Awards, Fail.Incident.Bpms> {
+        val updatedAwards = this.map { award ->
+            val suppliers = award.suppliers
+            val updatedSuppliers = suppliers.map { supplier ->
+                val updatedPersons = supplier.persons.map { person ->
+                    val updatedBusinessFunctions = person.businessFunctions
+                        .map { businessFunction ->
+                            val updatedDocuments = businessFunction.documents
+                                .map { document ->
+                                    documentsByIds[document.id]
+                                        ?.let { document.copy(datePublished = it.datePublished, url = it.uri) }
+                                        ?: return failure(
+                                            Fail.Incident.Bpms.Context.UnConsistency.Update(
+                                                name = "document",
+                                                path = "awards[id:${award.id}].suppliers[id:${supplier.id}].persons[id:${person.id}].businessFunctions[id:${businessFunction.id}]",
+                                                id = document.id.toString()
+                                            )
+                                        )
+                                }
+                            businessFunction.copy(documents = Documents(updatedDocuments))
+                        }
+                    person.copy(businessFunctions = BusinessFunctions(updatedBusinessFunctions))
+                }
+                supplier.copy(persons = Persons(updatedPersons))
+            }
+            award.copy(suppliers = Organizations(updatedSuppliers))
         }
         return success(Awards(updatedAwards))
     }
@@ -741,11 +821,10 @@ class StorageOpenAccessDelegate(
         documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document>,
         context: CamundaGlobalContext
     ): MaybeFail<Fail.Incident> {
-        val updatedAwards: Awards = if (EntityKey.AWARD_REQUIREMENT_RESPONSE in entities)
-            awards.updateDocuments(documentsByIds)
-                .orReturnFail { return MaybeFail.fail(it) }
-        else
-            awards
+        val updatedAwards = awards.updateDocuments(entities, documentsByIds)
+            .bind { it.updateRequirementRsDocuments(entities, documentsByIds) }
+            .bind { it.updateSuppliersDocuments(entities, documentsByIds) }
+            .orForwardFail { return it.asMaybeFail }
 
         context.awards = updatedAwards
 
