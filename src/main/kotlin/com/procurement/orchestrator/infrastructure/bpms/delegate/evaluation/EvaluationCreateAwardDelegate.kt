@@ -328,7 +328,7 @@ class EvaluationCreateAwardDelegate(
                                     CreateAwardAction.Params.Award.Supplier.Details.Permit(
                                         scheme = permit.scheme,
                                         id = permit.id,
-                                        uri = permit.url,
+                                        url = permit.url,
                                         permitDetails = permit.permitDetails
                                             ?.let { permitDetails ->
                                                 CreateAwardAction.Params.Award.Supplier.Details.Permit.PermitDetails(
