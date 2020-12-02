@@ -48,14 +48,20 @@ abstract class CreateAwardAction :
 
         data class Award(
             @param:JsonProperty("id") @field:JsonProperty("id") val id: AwardId,
-            @param:JsonProperty("internalId") @field:JsonProperty("internalId") val internalId: String,
-            @param:JsonProperty("description") @field:JsonProperty("description") val description: String,
+
+            @JsonInclude(JsonInclude.Include.NON_NULL)
+            @param:JsonProperty("internalId") @field:JsonProperty("internalId") val internalId: String?,
+
+            @JsonInclude(JsonInclude.Include.NON_NULL)
+            @param:JsonProperty("description") @field:JsonProperty("description") val description: String?,
 
             @JsonInclude(JsonInclude.Include.NON_NULL)
             @param:JsonProperty("value") @field:JsonProperty("value") val value: Value?,
 
             @param:JsonProperty("suppliers") @field:JsonProperty("suppliers") val suppliers: List<Supplier>,
-            @param:JsonProperty("documents") @field:JsonProperty("documents") val documents: List<Document>
+
+            @JsonInclude(JsonInclude.Include.NON_EMPTY)
+            @param:JsonProperty("documents") @field:JsonProperty("documents") val documents: List<Document>?
         ) {
             data class Value(
                 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -73,7 +79,8 @@ abstract class CreateAwardAction :
                 @JsonInclude(JsonInclude.Include.NON_NULL)
                 @param:JsonProperty("identifier") @field:JsonProperty("identifier") val identifier: Identifier?,
 
-                @param:JsonProperty("additionalIdentifiers") @field:JsonProperty("additionalIdentifiers") val additionalIdentifiers: List<AdditionalIdentifier>,
+                @JsonInclude(JsonInclude.Include.NON_EMPTY)
+                @param:JsonProperty("additionalIdentifiers") @field:JsonProperty("additionalIdentifiers") val additionalIdentifiers: List<AdditionalIdentifier>?,
 
                 @JsonInclude(JsonInclude.Include.NON_NULL)
                 @param:JsonProperty("address") @field:JsonProperty("address") val address: Address?,
@@ -81,7 +88,8 @@ abstract class CreateAwardAction :
                 @JsonInclude(JsonInclude.Include.NON_NULL)
                 @param:JsonProperty("contactPoint") @field:JsonProperty("contactPoint") val contactPoint: ContactPoint?,
 
-                @param:JsonProperty("persones") @field:JsonProperty("persones") val persones: List<Persone>,
+                @JsonInclude(JsonInclude.Include.NON_NULL)
+                @param:JsonProperty("persones") @field:JsonProperty("persones") val persones: List<Persone>?,
 
                 @JsonInclude(JsonInclude.Include.NON_NULL)
                 @param:JsonProperty("details") @field:JsonProperty("details") val details: Details?
@@ -214,7 +222,8 @@ abstract class CreateAwardAction :
                         @JsonInclude(JsonInclude.Include.NON_NULL)
                         @param:JsonProperty("period") @field:JsonProperty("period") val period: Period?,
 
-                        @param:JsonProperty("documents") @field:JsonProperty("documents") val documents: List<Document>
+                        @JsonInclude(JsonInclude.Include.NON_NULL)
+                        @param:JsonProperty("documents") @field:JsonProperty("documents") val documents: List<Document>?
                     ) {
                         data class Period(
                             @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -236,13 +245,18 @@ abstract class CreateAwardAction :
                     @JsonInclude(JsonInclude.Include.NON_NULL)
                     @param:JsonProperty("typeOfSupplier") @field:JsonProperty("typeOfSupplier") val typeOfSupplier: TypeOfSupplier?,
 
-                    @param:JsonProperty("mainEconomicActivities") @field:JsonProperty("mainEconomicActivities") val mainEconomicActivities: List<MainEconomicActivity>,
+                    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+                    @param:JsonProperty("mainEconomicActivities") @field:JsonProperty("mainEconomicActivities") val mainEconomicActivities: List<MainEconomicActivity>?,
 
                     @JsonInclude(JsonInclude.Include.NON_NULL)
                     @param:JsonProperty("scale") @field:JsonProperty("scale") val scale: Scale?,
 
-                    @param:JsonProperty("permits") @field:JsonProperty("permits") val permits: List<Permit>,
-                    @param:JsonProperty("bankAccounts") @field:JsonProperty("bankAccounts") val bankAccounts: List<BankAccount>,
+
+                    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+                    @param:JsonProperty("permits") @field:JsonProperty("permits") val permits: List<Permit>?,
+
+                    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+                    @param:JsonProperty("bankAccounts") @field:JsonProperty("bankAccounts") val bankAccounts: List<BankAccount>?,
 
                     @JsonInclude(JsonInclude.Include.NON_NULL)
                     @param:JsonProperty("legalForm") @field:JsonProperty("legalForm") val legalForm: LegalForm?
@@ -263,7 +277,7 @@ abstract class CreateAwardAction :
                         @param:JsonProperty("scheme") @field:JsonProperty("scheme") val scheme: String,
 
                         @JsonInclude(JsonInclude.Include.NON_NULL)
-                        @param:JsonProperty("uri") @field:JsonProperty("uri") val uri: String?,
+                        @param:JsonProperty("url") @field:JsonProperty("url") val url: String?,
 
                         @JsonInclude(JsonInclude.Include.NON_NULL)
                         @param:JsonProperty("permitDetails") @field:JsonProperty("permitDetails") val permitDetails: PermitDetails?
@@ -318,7 +332,8 @@ abstract class CreateAwardAction :
                         @JsonInclude(JsonInclude.Include.NON_NULL)
                         @param:JsonProperty("accountIdentification") @field:JsonProperty("accountIdentification") val accountIdentification: AccountIdentification?,
 
-                        @param:JsonProperty("additionalAccountIdentifiers") @field:JsonProperty("additionalAccountIdentifiers") val additionalAccountIdentifiers: List<AdditionalAccountIdentifier>
+                        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+                        @param:JsonProperty("additionalAccountIdentifiers") @field:JsonProperty("additionalAccountIdentifiers") val additionalAccountIdentifiers: List<AdditionalAccountIdentifier>?
                     ) {
                         data class Address(
                             @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -439,7 +454,9 @@ abstract class CreateAwardAction :
             @param:JsonProperty("documents") @field:JsonProperty("documents") val documents: List<Document>?
         ) {
             data class Value(
-                @param:JsonProperty("amount") @field:JsonProperty("amount") val amount: Amount,
+                @JsonInclude(JsonInclude.Include.NON_NULL)
+                @param:JsonProperty("amount") @field:JsonProperty("amount") val amount: Amount?,
+
                 @param:JsonProperty("currency") @field:JsonProperty("currency") val currency: String
             )
 
@@ -598,7 +615,7 @@ abstract class CreateAwardAction :
                         @param:JsonProperty("scheme") @field:JsonProperty("scheme") val scheme: String,
 
                         @JsonInclude(JsonInclude.Include.NON_NULL)
-                        @param:JsonProperty("uri") @field:JsonProperty("uri") val uri: String?,
+                        @param:JsonProperty("url") @field:JsonProperty("url") val url: String?,
 
                         @param:JsonProperty("permitDetails") @field:JsonProperty("permitDetails") val permitDetails: PermitDetails
                     ) {
