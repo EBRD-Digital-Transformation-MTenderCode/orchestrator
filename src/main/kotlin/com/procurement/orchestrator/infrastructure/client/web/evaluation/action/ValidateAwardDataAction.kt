@@ -267,7 +267,7 @@ abstract class ValidateAwardDataAction : ProceduralAction<ValidateAwardDataActio
                         @param:JsonProperty("scheme") @field:JsonProperty("scheme") val scheme: String,
 
                         @JsonInclude(JsonInclude.Include.NON_NULL)
-                        @param:JsonProperty("uri") @field:JsonProperty("uri") val uri: String?,
+                        @param:JsonProperty("url") @field:JsonProperty("url") val url: String?,
 
                         @JsonInclude(JsonInclude.Include.NON_NULL)
                         @param:JsonProperty("permitDetails") @field:JsonProperty("permitDetails") val permitDetails: PermitDetails?
