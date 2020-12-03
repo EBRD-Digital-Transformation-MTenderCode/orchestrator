@@ -84,6 +84,7 @@ data class Award(
 
     override fun updateBy(src: Award) = Award(
         id = id,
+        internalId = src.internalId or internalId,
         title = src.title or title,
         description = src.description or description,
         status = src.status or status,
