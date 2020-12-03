@@ -8,6 +8,7 @@ import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CreateUnsuccessfulAwardsAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.GetAwardStateByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.StartAwardPeriodAction
+import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.ValidateAwardDataAction
 
 object EvaluationCommands {
 
@@ -24,6 +25,8 @@ object EvaluationCommands {
     object CloseAwardPeriod : CloseAwardPeriodAction()
 
     object StartAwardPeriod: StartAwardPeriodAction()
+
+    object ValidateAwardData: ValidateAwardDataAction()
 
     object CreateAward: CreateAwardAction()
 }

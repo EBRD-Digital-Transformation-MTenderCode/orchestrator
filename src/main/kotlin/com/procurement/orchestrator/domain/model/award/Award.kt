@@ -101,6 +101,7 @@ data class Award(
         reviewProceedings = reviewProceedings updateBy src.reviewProceedings,
         relatedLots = relatedLots combineBy src.relatedLots,
         relatedBid = src.relatedBid or relatedBid,
-        weightedValue = src.weightedValue or weightedValue
+        weightedValue = src.weightedValue or weightedValue,
+        internalId = src.internalId or internalId
     )
 }

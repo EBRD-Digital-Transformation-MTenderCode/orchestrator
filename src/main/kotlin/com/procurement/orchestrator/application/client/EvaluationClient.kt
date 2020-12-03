@@ -12,6 +12,7 @@ import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CreateUnsuccessfulAwardsAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.GetAwardStateByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.StartAwardPeriodAction
+import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.ValidateAwardDataAction
 
 interface EvaluationClient {
 
@@ -49,6 +50,11 @@ interface EvaluationClient {
         id: CommandId,
         params: StartAwardPeriodAction.Params
     ): Result<Reply<StartAwardPeriodAction.Result>, Fail.Incident>
+
+    suspend fun validateAwardData(
+        id: CommandId,
+        params: ValidateAwardDataAction.Params
+    ): Result<Reply<Unit>, Fail.Incident>
 
     suspend fun createAward(
         id: CommandId,

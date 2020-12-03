@@ -78,6 +78,7 @@ class RevisionCreateAmendmentDelegate(
             OperationTypeProcess.SUBMISSION_PERIOD_END,
             OperationTypeProcess.TENDER_OR_LOT_AMENDMENT_CANCELLATION,
             OperationTypeProcess.TENDER_OR_LOT_AMENDMENT_CONFIRMATION,
+            OperationTypeProcess.UPDATE_AWARD,
             OperationTypeProcess.WITHDRAW_QUALIFICATION_PROTOCOL,
             OperationTypeProcess.WITHDRAW_SUBMISSION,
             OperationTypeProcess.OUTSOURCING_PN,
