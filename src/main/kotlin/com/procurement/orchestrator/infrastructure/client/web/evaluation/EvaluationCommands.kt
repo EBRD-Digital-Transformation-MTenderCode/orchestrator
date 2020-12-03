@@ -2,6 +2,7 @@ package com.procurement.orchestrator.infrastructure.client.web.evaluation
 
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.AddRequirementResponseAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CheckAccessToAwardAction
+import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CheckAwardsStateAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CheckRelatedTendererAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CloseAwardPeriodAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CreateAwardAction
@@ -29,4 +30,6 @@ object EvaluationCommands {
     object ValidateAwardData: ValidateAwardDataAction()
 
     object CreateAward: CreateAwardAction()
+
+    object CheckAwardsState: CheckAwardsStateAction()
 }
