@@ -48,7 +48,10 @@ class Outcomes(values: MutableMap<PlatformId, Details> = mutableMapOf()) :
         ) : Serializable
 
         data class Award(
-            @field:JsonProperty("id") @param:JsonProperty("id") val id: AwardId
+            @field:JsonProperty("id") @param:JsonProperty("id") val id: AwardId,
+
+            @JsonInclude(JsonInclude.Include.NON_NULL)
+            @field:JsonProperty("token") @param:JsonProperty("token") val token: Token? = null
         ) : Serializable
 
         data class Submission(
