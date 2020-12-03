@@ -2,9 +2,11 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.evaluation
 
 import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.EvaluationClient
+import com.procurement.orchestrator.application.model.Token
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.getAwardIfOnlyOne
 import com.procurement.orchestrator.application.model.context.extension.tryGetTender
+import com.procurement.orchestrator.application.model.context.members.Outcomes
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
@@ -18,6 +20,7 @@ import com.procurement.orchestrator.domain.model.address.country.CountryDetails
 import com.procurement.orchestrator.domain.model.address.locality.LocalityDetails
 import com.procurement.orchestrator.domain.model.address.region.RegionDetails
 import com.procurement.orchestrator.domain.model.award.Award
+import com.procurement.orchestrator.domain.model.award.AwardId
 import com.procurement.orchestrator.domain.model.award.Awards
 import com.procurement.orchestrator.domain.model.document.Document
 import com.procurement.orchestrator.domain.model.document.Documents
@@ -378,34 +381,45 @@ class EvaluationCreateAwardDelegate(
             )
 
         val receivedAward = data.awards.first()
+        val receivedParties = getParties(receivedAward)
+        val receivedSuppliers = getSuppliers(receivedAward)
 
-        val parties = receivedAward.suppliers.asSequence()
+        val updatedAward = context.awards.first().copy(
+            status = receivedAward.status,
+            statusDetails = receivedAward.statusDetails,
+            date = receivedAward.date,
+            suppliers = receivedSuppliers
+        )
+
+        context.awards = Awards(listOf(updatedAward))
+        context.parties = receivedParties
+        context.outcomes = createOutcomes(context, receivedAward.id,  data.token)
+
+        return MaybeFail.none()
+    }
+
+    private fun getParties(receivedAward: CreateAwardAction.Result.Award) =
+        receivedAward.suppliers.asSequence()
             .map { party -> party.toDomain() }
             .map { party -> party.copy(roles = PartyRoles(listOf(PartyRole.SUPPLIER))) }
             .toList()
             .let { Parties(it) }
 
-        val award = context.awards.first()
-        val updatedSuppliers = getUpdatedSuppliers(receivedAward, award)
+    private fun createOutcomes(context: CamundaGlobalContext, awardId: AwardId, token: Token): Outcomes {
+        val platformId = context.requestInfo.platformId
+        val outcomes = context.outcomes ?: Outcomes()
+        val details = outcomes[platformId] ?: Outcomes.Details()
 
-        val updatedAward = award.copy(
-            status = receivedAward.status,
-            statusDetails = receivedAward.statusDetails,
-            date = receivedAward.date,
-            suppliers = updatedSuppliers
-        )
+        val newOutcomes = listOf(Outcomes.Details.Award(id = awardId, token = token))
 
-        context.awards = Awards(listOf(updatedAward))
-        context.parties = parties
-
-        return MaybeFail.none()
+        val updatedDetails = details.copy(awards = newOutcomes)
+        outcomes[platformId] = updatedDetails
+        return outcomes
     }
 
-    private fun getUpdatedSuppliers(
-        receivedAward: CreateAwardAction.Result.Award,
-        award: Award
-    ): Organizations {
-        val receivedSuppliers = receivedAward.suppliers
+    private fun getSuppliers(
+        receivedAward: CreateAwardAction.Result.Award
+    ): Organizations =receivedAward.suppliers
             .map { supplier ->
                 Organization(
                     name = supplier.name,
@@ -414,9 +428,6 @@ class EvaluationCreateAwardDelegate(
             }
             .let { Organizations(it) }
 
-        val updatedSuppliers = award.suppliers updateBy receivedSuppliers
-        return updatedSuppliers
-    }
 
     private fun CreateAwardAction.Result.Award.Supplier.toDomain(): Party =
         Party(
