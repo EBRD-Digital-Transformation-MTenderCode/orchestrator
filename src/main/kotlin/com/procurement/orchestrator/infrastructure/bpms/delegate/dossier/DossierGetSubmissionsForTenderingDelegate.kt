@@ -11,6 +11,7 @@ import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
+import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.domain.model.address.Address
 import com.procurement.orchestrator.domain.model.address.AddressDetails
 import com.procurement.orchestrator.domain.model.address.country.CountryDetails
@@ -40,6 +41,7 @@ import com.procurement.orchestrator.domain.model.party.PartyRoles
 import com.procurement.orchestrator.domain.model.period.Period
 import com.procurement.orchestrator.domain.model.person.Person
 import com.procurement.orchestrator.domain.model.person.Persons
+import com.procurement.orchestrator.domain.util.extension.mapToResult
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
@@ -93,7 +95,8 @@ class DossierGetSubmissionsForTenderingDelegate(
             ?: return MaybeFail.none()
 
         val builtParties = data.flatMap { submission -> submission.candidates }
-            .map { candidate -> buildParty(candidate, context.processInfo.operationType) }
+            .mapToResult { candidate -> buildParty(candidate, context.processInfo.operationType) }
+            .orForwardFail { return it.asMaybeFail }
             .let { Parties(it) }
 
         val parties = context.parties
@@ -107,10 +110,10 @@ class DossierGetSubmissionsForTenderingDelegate(
     private fun buildParty(
         organization: GetSubmissionsForTenderingAction.Result.Submission.Candidate,
         operationType: OperationTypeProcess
-    ) = Party(
+    ): Result<Party, Fail.Incident.Bpe> = Party(
         id = organization.id,
         name = organization.name,
-        roles = getPartyRoles(operationType),
+        roles = getPartyRoles(operationType).orForwardFail { return it },
         address = organization.address
             .let { address ->
                 Address(
@@ -338,11 +341,11 @@ class DossierGetSubmissionsForTenderingDelegate(
                     scale = details.scale
                 )
             }
-    )
+    ).asSuccess()
 
-    fun getPartyRoles(operationType: OperationTypeProcess) =
+    fun getPartyRoles(operationType: OperationTypeProcess) : Result<PartyRoles, Fail.Incident.Bpe> =
         when (operationType) {
-            OperationTypeProcess.COMPLETE_QUALIFICATION -> PartyRoles(PartyRole.INVITED_CANDIDATE)
+            OperationTypeProcess.COMPLETE_QUALIFICATION -> PartyRoles(PartyRole.INVITED_CANDIDATE).asSuccess()
             OperationTypeProcess.APPLY_QUALIFICATION_PROTOCOL,
             OperationTypeProcess.CREATE_AWARD,
             OperationTypeProcess.CREATE_PCR,
@@ -362,7 +365,8 @@ class DossierGetSubmissionsForTenderingDelegate(
             OperationTypeProcess.TENDER_OR_LOT_AMENDMENT_CANCELLATION,
             OperationTypeProcess.TENDER_OR_LOT_AMENDMENT_CONFIRMATION,
             OperationTypeProcess.WITHDRAW_QUALIFICATION_PROTOCOL,
-            OperationTypeProcess.WITHDRAW_SUBMISSION -> PartyRoles(PartyRole.INVITED_TENDERER)
-
+            OperationTypeProcess.WITHDRAW_SUBMISSION -> PartyRoles(PartyRole.INVITED_TENDERER).asSuccess()
+            OperationTypeProcess.UPDATE_AWARD ->
+                Result.failure(Fail.Incident.Bpe(description = "Operation type: '${operationType.key}' in this delegate is not implemented."))
         }
 }

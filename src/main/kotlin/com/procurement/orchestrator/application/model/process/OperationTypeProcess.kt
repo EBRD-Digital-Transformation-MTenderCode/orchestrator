@@ -26,6 +26,7 @@ enum class OperationTypeProcess(@JsonValue override val key: String) : EnumEleme
     TENDER_OR_LOT_AMENDMENT_CANCELLATION("tenderOrLotAmendmentCancellation"),
     TENDER_OR_LOT_AMENDMENT_CONFIRMATION("tenderOrLotAmendmentConfirmation"),
     WITHDRAW_QUALIFICATION_PROTOCOL("withdrawQualificationProtocol"),
+    UPDATE_AWARD("updateAward"),
     WITHDRAW_SUBMISSION("withdrawSubmission");
 
     override fun toString(): String = key
