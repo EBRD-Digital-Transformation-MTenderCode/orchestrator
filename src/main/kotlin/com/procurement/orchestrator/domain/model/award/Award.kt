@@ -20,6 +20,8 @@ import java.time.LocalDateTime
 data class Award(
     @field:JsonProperty("id") @param:JsonProperty("id") val id: AwardId,
 
+    @field:JsonProperty("internalId") @param:JsonProperty("internalId") val internalId: String? = null,
+
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonProperty("title") @param:JsonProperty("title") val title: String? = null,
 
@@ -98,6 +100,7 @@ data class Award(
         reviewProceedings = reviewProceedings updateBy src.reviewProceedings,
         relatedLots = relatedLots combineBy src.relatedLots,
         relatedBid = src.relatedBid or relatedBid,
-        weightedValue = src.weightedValue or weightedValue
+        weightedValue = src.weightedValue or weightedValue,
+        internalId = src.internalId or internalId
     )
 }
