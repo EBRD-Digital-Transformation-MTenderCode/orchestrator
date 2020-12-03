@@ -9,11 +9,13 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.functional.asFailure
+import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.domain.functional.bind
 import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
 import com.procurement.orchestrator.domain.model.ProcurementMethodDetails
 import com.procurement.orchestrator.domain.model.address.country.CountryId
+import com.procurement.orchestrator.domain.model.lot.LotId
 import com.procurement.orchestrator.infrastructure.extension.jwt.PLATFORM_ID_CLAIM
 import com.procurement.orchestrator.infrastructure.extension.jwt.decodeJWT
 import com.procurement.orchestrator.infrastructure.extension.jwt.getPlatformId
@@ -26,6 +28,7 @@ private const val HEADER_OPERATION_ID = "X-OPERATION-ID"
 private const val HEADER_TOKEN = "X-TOKEN"
 private const val QUERY_PARAM_COUNTRY = "country"
 private const val QUERY_PARAM_PMD = "pmd"
+private const val LOT_ID = "lotId"
 private const val QUERY_FA = "FA"
 private const val QUERY_AP = "AP"
 private const val QUERY_CP = "CP"
@@ -144,6 +147,12 @@ fun HttpServletRequest.getCP(): Result<Cpid, RequestErrors> =
 
 fun HttpServletRequest.getPN(): Result<Ocid, RequestErrors> =
     getRequiredQueryParam(QUERY_PN).bind { parseSingleStageOcid(it) }
+
+fun HttpServletRequest.getLotId(): Result<LotId, RequestErrors> =
+    getRequiredQueryParam(LOT_ID)
+        .orForwardFail { return it }
+        .let { LotId.create(it) }
+        .asSuccess()
 
 private fun HttpServletRequest.getRequiredHeader(name: String): Result<String, RequestErrors.Header> =
     this.getHeader(name)

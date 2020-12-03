@@ -11,6 +11,7 @@ import com.procurement.orchestrator.domain.fail.error.RequestErrors
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.asSuccess
+import com.procurement.orchestrator.infrastructure.extension.http.getLotId
 import com.procurement.orchestrator.infrastructure.extension.http.getOperationId
 import com.procurement.orchestrator.infrastructure.extension.http.getPayload
 import com.procurement.orchestrator.infrastructure.extension.http.getPlatformId
@@ -67,6 +68,9 @@ class CreateAwardController(
         val verifiedOcid = parseSingleStageOcid(ocid)
             .orForwardFail { return it }
 
+        val verifiedLotId = servlet.getLotId()
+            .orForwardFail { return it }
+
         val platformId: PlatformId = servlet.getPlatformId()
             .orForwardFail { fail -> return fail }
 
@@ -85,6 +89,7 @@ class CreateAwardController(
             context = PlatformRequest.Context(
                 cpid = verifiedCpid,
                 ocid = verifiedOcid,
+                id = verifiedLotId.toString(),
                 token = token,
                 owner = platformId,
                 uri = servlet.requestURI,
