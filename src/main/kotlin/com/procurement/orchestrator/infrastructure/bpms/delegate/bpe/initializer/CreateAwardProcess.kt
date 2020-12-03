@@ -183,7 +183,7 @@ object CreateAwardProcess {
                         data class Permit(
                             @param:JsonProperty("scheme") @field:JsonProperty("scheme") val scheme: String,
                             @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
-                            @param:JsonProperty("uri") @field:JsonProperty("uri") val uri: String,
+                            @param:JsonProperty("url") @field:JsonProperty("url") val url: String,
                             @param:JsonProperty("permitDetails") @field:JsonProperty("permitDetails") val permitDetails: PermitDetails
                         ) {
                             data class PermitDetails(
