@@ -20,6 +20,7 @@ import org.springframework.messaging.handler.annotation.Header;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 public class MessageConsumer {
 
@@ -52,13 +53,16 @@ public class MessageConsumer {
                     case END: {
                         final JsonNode data = response.get("data");
                         if (data != null) {
-                            final String cpid = data.get("tender").get("id").asText();
-                            final String ocid;
-                            if (data.has("ocid"))
-                                ocid = data.get("ocid").asText();
-                            else
-                                ocid = null;
-                            Context prevContext = getContext(cpid, ocid);
+                            final String tenderId = data.get("tender").get("id").asText();
+                            final String ocidRegex = "^[a-z]{4}-[a-z0-9]{6}-[A-Z]{2}-[0-9]{13}$";
+                            final boolean tenderIdIsOcid = Pattern.matches(ocidRegex,tenderId);
+
+                            String id = null;
+                            if (tenderIdIsOcid) {
+                                getIdByStage(data, tenderId);
+                            } else
+                                id = tenderId;
+                            Context prevContext = requestService.getContext(id);
 
                             final Stage stage = Stage.fromValue(prevContext.getStage());
                             final String processName = getProcessName(stage);
@@ -91,15 +95,30 @@ public class MessageConsumer {
         }
     }
 
-    private Context getContext(String cpid, String ocid) {
-        Context prevContext;
-        if (ocid != null) {
-            String contextKey = requestService.getContextKey(cpid, ocid);
-            prevContext = requestService.getContext(contextKey);
-        } else {
-            prevContext = requestService.getContext(cpid);
+    private String getIdByStage(JsonNode data, String tenderId) {
+        String id = null;
+        final Stage stage = Stage.fromOcid(tenderId);
+        switch (stage) {
+            case PC:
+                id = tenderId;
+                break;
+
+            case AC:
+            case AP:
+            case EI:
+            case EV:
+            case FE:
+            case FS:
+            case NP:
+            case PIN:
+            case PN:
+            case PQ:
+            case PS:
+            case TP:
+                id = data.get("cpid").asText();
+                break;
         }
-        return prevContext;
+        return id;
     }
 
     private String getProcessName(Stage stage) {
