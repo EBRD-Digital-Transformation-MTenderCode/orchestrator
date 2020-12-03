@@ -11,7 +11,6 @@ import com.procurement.orchestrator.domain.fail.error.RequestErrors
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.asSuccess
-import com.procurement.orchestrator.domain.model.award.AwardId
 import com.procurement.orchestrator.infrastructure.extension.http.getOperationId
 import com.procurement.orchestrator.infrastructure.extension.http.getPayload
 import com.procurement.orchestrator.infrastructure.extension.http.getPlatformId
@@ -72,14 +71,8 @@ class UpdateAwardController(
         val verifiedOcid = parseSingleStageOcid(ocid)
             .orForwardFail { return it }
 
-        val verifiedAwardId = AwardId.tryCreateOrNull(awardId) //TODO: place into request.id
-            ?: return Result.failure(
-                RequestErrors.Common.DataFormatMismatch(
-                    name = "awardId",
-                    expectedFormat = AwardId.pattern,
-                    actualValue = awardId
-                )
-            )
+        val verifiedAwardId = parseAwardId(awardId)
+            .orForwardFail { return it }
 
         val platformId: PlatformId = servlet.getPlatformId()
             .orForwardFail { fail -> return fail }
@@ -101,6 +94,7 @@ class UpdateAwardController(
             context = PlatformRequest.Context(
                 cpid = verifiedCpid,
                 ocid = null,
+                id = verifiedAwardId.toString(),
                 token = token,
                 owner = platformId,
                 uri = servlet.requestURI,
