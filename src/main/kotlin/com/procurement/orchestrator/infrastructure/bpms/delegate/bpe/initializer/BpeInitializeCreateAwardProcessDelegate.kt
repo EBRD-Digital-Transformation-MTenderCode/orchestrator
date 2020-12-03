@@ -33,6 +33,10 @@ import com.procurement.orchestrator.domain.model.organization.datail.account.Acc
 import com.procurement.orchestrator.domain.model.organization.datail.account.BankAccount
 import com.procurement.orchestrator.domain.model.organization.datail.account.BankAccounts
 import com.procurement.orchestrator.domain.model.organization.datail.legalform.LegalForm
+import com.procurement.orchestrator.domain.model.organization.datail.permit.Issue
+import com.procurement.orchestrator.domain.model.organization.datail.permit.Permit
+import com.procurement.orchestrator.domain.model.organization.datail.permit.PermitDetails
+import com.procurement.orchestrator.domain.model.organization.datail.permit.Permits
 import com.procurement.orchestrator.domain.model.organization.person.BusinessFunction
 import com.procurement.orchestrator.domain.model.organization.person.BusinessFunctions
 import com.procurement.orchestrator.domain.model.period.Period
@@ -285,7 +289,43 @@ class BpeInitializeCreateAwardProcessDelegate(
                                             uri = legalForm.uri
                                         )
                                     },
-                                scale = details.scale
+                                scale = details.scale,
+                                permits = details.permits
+                                    ?.map { permit ->
+                                        Permit(
+                                            scheme = permit.scheme,
+                                            id = permit.id,
+                                            url = permit.url,
+                                            permitDetails = permit.permitDetails
+                                                .let { permitDetails ->
+                                                    PermitDetails(
+                                                        issuedBy = permitDetails.issuedBy
+                                                            .let { issuedBy ->
+                                                                Issue(
+                                                                    id = issuedBy.id,
+                                                                    name = issuedBy.name
+                                                                )
+                                                            },
+                                                        issuedThought = permitDetails.issuedThought
+                                                            .let { issuedThought ->
+                                                                Issue(
+                                                                    id = issuedThought.id,
+                                                                    name = issuedThought.name
+                                                                )
+                                                            },
+                                                        validityPeriod = permitDetails.validityPeriod
+                                                            .let { validityPeriod ->
+                                                                Period(
+                                                                    startDate = validityPeriod.startDate,
+                                                                    endDate = validityPeriod.startDate
+                                                                )
+                                                            }
+                                                    )
+                                                }
+                                        )
+                                    }.orEmpty()
+                                    .let { Permits(it) }
+                                
                             )
                         }
                 )
