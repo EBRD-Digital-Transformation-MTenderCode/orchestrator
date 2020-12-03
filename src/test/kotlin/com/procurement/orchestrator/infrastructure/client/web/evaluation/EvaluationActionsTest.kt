@@ -2,6 +2,7 @@ package com.procurement.orchestrator.infrastructure.client.web.evaluation
 
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.AddRequirementResponseAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CheckAccessToAwardAction
+import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CheckAwardsStateAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CheckRelatedTendererAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CloseAwardPeriodAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CreateAwardAction
@@ -205,6 +206,23 @@ class EvaluationActionsTest {
             @Test
             fun required_4() {
                 testingBindingAndMapping<CreateAwardAction.Result>("json/client/evaluation/create_award_result_required_3.json")
+            }
+        }
+    }
+
+    @Nested
+    inner class CheckAwardsState {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CheckAwardsStateAction.Params>("json/client/evaluation/check_awards_state_params.json")
+            }
+
+            @Test
+            fun required_1() {
+                testingBindingAndMapping<CheckAwardsStateAction.Params>("json/client/evaluation/check_awards_state_params_required_1.json")
             }
         }
     }
