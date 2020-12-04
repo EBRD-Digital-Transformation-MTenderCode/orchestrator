@@ -131,7 +131,8 @@ class NotifierSuccessNotificationToPlatformDelegate(
         awards = details.awards
             .map { award ->
                 PlatformNotification.Outcomes.Award(
-                    id = award.id
+                    id = award.id,
+                    token = award.token
                 )
             },
         submissions = details.submissions
