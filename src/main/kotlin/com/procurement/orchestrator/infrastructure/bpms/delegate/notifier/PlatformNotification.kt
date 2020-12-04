@@ -102,7 +102,10 @@ object PlatformNotification {
         )
 
         data class Award(
-            @field:JsonProperty("id") @param:JsonProperty("id") val id: AwardId
+            @field:JsonProperty("id") @param:JsonProperty("id") val id: AwardId,
+            
+            @JsonInclude(JsonInclude.Include.NON_NULL)
+            @field:JsonProperty("X-TOKEN") @param:JsonProperty("X-TOKEN") val token: Token? = null
         )
 
         data class Submission(
