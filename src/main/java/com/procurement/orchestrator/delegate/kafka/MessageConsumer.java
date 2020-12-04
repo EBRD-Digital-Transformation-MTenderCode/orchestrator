@@ -3,6 +3,7 @@ package com.procurement.orchestrator.delegate.kafka;
 import com.datastax.driver.core.utils.UUIDs;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
+import com.procurement.orchestrator.domain.OcidMatcher;
 import com.procurement.orchestrator.domain.Stage;
 import com.procurement.orchestrator.domain.commands.AgentResponseCommandType;
 import com.procurement.orchestrator.domain.commands.AuctionCommandType;
@@ -20,7 +21,6 @@ import org.springframework.messaging.handler.annotation.Header;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 public class MessageConsumer {
 
@@ -54,8 +54,7 @@ public class MessageConsumer {
                         final JsonNode data = response.get("data");
                         if (data != null) {
                             final String tenderId = data.get("tender").get("id").asText();
-                            final String ocidRegex = "^[a-z]{4}-[a-z0-9]{6}-[A-Z]{2}-[0-9]{13}$";
-                            final boolean tenderIdIsOcid = Pattern.matches(ocidRegex,tenderId);
+                            final boolean tenderIdIsOcid = OcidMatcher.isOcid(tenderId);
 
                             String id = null;
                             if (tenderIdIsOcid) {
