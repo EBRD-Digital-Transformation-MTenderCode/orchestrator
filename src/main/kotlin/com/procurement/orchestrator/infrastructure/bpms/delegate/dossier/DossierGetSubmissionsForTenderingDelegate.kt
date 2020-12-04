@@ -358,6 +358,7 @@ class DossierGetSubmissionsForTenderingDelegate(
             OperationTypeProcess.QUALIFICATION_DECLARE_NON_CONFLICT_OF_INTEREST,
             OperationTypeProcess.QUALIFICATION_PROTOCOL,
             OperationTypeProcess.RELATION_AP,
+            OperationTypeProcess.START_AWARD_PERIOD,
             OperationTypeProcess.START_SECOND_STAGE,
             OperationTypeProcess.SUBMISSION_PERIOD_END,
             OperationTypeProcess.SUBMIT_BID_IN_PCR,
