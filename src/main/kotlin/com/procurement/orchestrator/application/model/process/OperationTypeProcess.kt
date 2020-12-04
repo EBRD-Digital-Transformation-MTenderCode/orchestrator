@@ -13,20 +13,21 @@ enum class OperationTypeProcess(@JsonValue override val key: String) : EnumEleme
     CREATE_SUBMISSION("createSubmission"),
     DECLARE_NON_CONFLICT_OF_INTEREST("declareNonConflictOfInterest"),
     LOT_CANCELLATION("lotCancellation"),
+    OUTSOURCING_PN("outsourcingPN"),
     QUALIFICATION("qualification"),
     QUALIFICATION_CONSIDERATION("qualificationConsideration"),
     QUALIFICATION_DECLARE_NON_CONFLICT_OF_INTEREST("qualificationDeclareNonConflictOfInterest"),
     QUALIFICATION_PROTOCOL("qualificationProtocol"),
-    OUTSOURCING_PN("outsourcingPN"),
     RELATION_AP("relationAP"),
+    START_AWARD_PERIOD("startAwardPeriod"),
     START_SECOND_STAGE("startSecondStage"),
     SUBMISSION_PERIOD_END("submissionPeriodEnd"),
     SUBMIT_BID_IN_PCR("submitBidInPcr"),
     TENDER_CANCELLATION("tenderCancellation"),
     TENDER_OR_LOT_AMENDMENT_CANCELLATION("tenderOrLotAmendmentCancellation"),
     TENDER_OR_LOT_AMENDMENT_CONFIRMATION("tenderOrLotAmendmentConfirmation"),
-    WITHDRAW_QUALIFICATION_PROTOCOL("withdrawQualificationProtocol"),
     UPDATE_AWARD("updateAward"),
+    WITHDRAW_QUALIFICATION_PROTOCOL("withdrawQualificationProtocol"),
     WITHDRAW_SUBMISSION("withdrawSubmission");
 
     override fun toString(): String = key
