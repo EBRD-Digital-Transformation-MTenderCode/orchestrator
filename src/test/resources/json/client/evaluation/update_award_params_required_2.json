@@ -1,0 +1,71 @@
+{
+  "cpid": "ocds-b3wdp1-MD-1580458690892",
+  "ocid": "ocds-b3wdp1-MD-1580458690892-EV-1580458791896",
+  "awards": [
+    {
+      "id": "string",
+      "suppliers": [
+        {
+          "id": "string",
+          "name": "string",
+          "identifier": {
+            "id": "string",
+            "legalName": "string",
+            "scheme": "string"
+          },
+          "address": {
+            "streetAddress": "string",
+            "addressDetails": {
+              "country": {
+                "id": "string",
+                "description": "string",
+                "scheme": "string",
+                "uri": "string"
+              },
+              "region": {
+                "id": "string",
+                "description": "string",
+                "scheme": "string",
+                "uri": "string"
+              },
+              "locality": {
+                "id": "string",
+                "description": "string",
+                "scheme": "string"
+              }
+            }
+          },
+          "contactPoint": {
+            "name": "string",
+            "email": "string",
+            "telephone": "string"
+          },
+          "persones": [
+            {
+              "title": "Mr.",
+              "id": "string",
+              "name": "string",
+              "identifier": {
+                "scheme": "string",
+                "id": "string"
+              },
+              "businessFunctions": [
+                {
+                  "id": "string",
+                  "type": "chairman",
+                  "jobTitle": "string",
+                  "period": {
+                    "startDate": "2020-12-04T16:38:29Z"
+                  }
+                }
+              ]
+            }
+          ],
+          "details": {
+            "scale": "micro"
+          }
+        }
+      ]
+    }
+  ]
+}
