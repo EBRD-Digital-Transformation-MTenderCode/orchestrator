@@ -84,20 +84,17 @@ class UpdateAwardController(
         val payload: String = servlet.getPayload()
             .orForwardFail { fail -> return fail }
 
-        val relatedProcess = PlatformRequest.Context.RelatedProcess(cpid = verifiedCpid, ocid = verifiedOcid)
-
         return PlatformRequest(
             operationId = operationId,
             platformId = platformId,
             context = PlatformRequest.Context(
                 cpid = verifiedCpid,
-                ocid = null,
+                ocid = verifiedOcid,
                 id = verifiedAwardId.toString(),
                 token = token,
                 owner = platformId,
                 uri = servlet.requestURI,
-                processName = PROCESS_NAME,
-                relatedProcess = relatedProcess
+                processName = PROCESS_NAME
             ),
             payload = payload
         ).asSuccess()
