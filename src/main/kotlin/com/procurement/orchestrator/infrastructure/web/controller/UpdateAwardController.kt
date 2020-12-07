@@ -19,12 +19,10 @@ import com.procurement.orchestrator.infrastructure.web.extension.buildResponse
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import javax.servlet.http.HttpServletRequest
 
 @RestController
-@RequestMapping("/update/award")
 class UpdateAwardController(
     private val logger: Logger,
     private val processLauncher: ProcessLauncher
@@ -34,8 +32,8 @@ class UpdateAwardController(
         private const val PROCESS_NAME = "updateAward"
     }
 
-    @PostMapping("/{cpid}/{ocid}/{awardId}")
-    fun cancelTender(
+    @PostMapping("/update/award/{cpid}/{ocid}/{awardId}")
+    fun updateAward(
         servlet: HttpServletRequest,
         @PathVariable cpid: String,
         @PathVariable ocid: String,
