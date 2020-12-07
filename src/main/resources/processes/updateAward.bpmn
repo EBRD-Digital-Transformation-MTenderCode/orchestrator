@@ -13,8 +13,8 @@
         <camunda:inputOutput>
           <camunda:inputParameter name="location">
             <camunda:list>
-              <camunda:value>bid</camunda:value>
-              <camunda:value>bid.bankAccounts</camunda:value>
+              <camunda:value>award</camunda:value>
+              <camunda:value>award.bankAccounts</camunda:value>
             </camunda:list>
           </camunda:inputParameter>
         </camunda:inputOutput>
@@ -27,8 +27,8 @@
         <camunda:inputOutput>
           <camunda:inputParameter name="location">
             <camunda:list>
-              <camunda:value>bid</camunda:value>
-              <camunda:value>bid.bankAccounts</camunda:value>
+              <camunda:value>award</camunda:value>
+              <camunda:value>award.bankAccounts</camunda:value>
             </camunda:list>
           </camunda:inputParameter>
         </camunda:inputOutput>
@@ -41,8 +41,8 @@
         <camunda:inputOutput>
           <camunda:inputParameter name="location">
             <camunda:list>
-              <camunda:value>bid</camunda:value>
-              <camunda:value>bid.bankAccounts</camunda:value>
+              <camunda:value>award</camunda:value>
+              <camunda:value>award.bankAccounts</camunda:value>
             </camunda:list>
           </camunda:inputParameter>
         </camunda:inputOutput>
@@ -317,6 +317,14 @@
       <bpmndi:BPMNShape id="Participant_0eovmhh_di" bpmnElement="Participant_0eovmhh" isHorizontal="true">
         <dc:Bounds x="160" y="80" width="2290" height="420" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1tfe6jy_di" bpmnElement="Flow_1tfe6jy">
+        <di:waypoint x="2210" y="230" />
+        <di:waypoint x="2240" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0qnbdjq_di" bpmnElement="Flow_0qnbdjq">
+        <di:waypoint x="2080" y="230" />
+        <di:waypoint x="2110" y="230" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1p18mna_di" bpmnElement="Flow_1p18mna">
         <di:waypoint x="1940" y="230" />
         <di:waypoint x="1980" y="230" />
@@ -377,14 +385,6 @@
         <di:waypoint x="1160" y="230" />
         <di:waypoint x="1190" y="230" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0qnbdjq_di" bpmnElement="Flow_0qnbdjq">
-        <di:waypoint x="2080" y="230" />
-        <di:waypoint x="2110" y="230" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1tfe6jy_di" bpmnElement="Flow_1tfe6jy">
-        <di:waypoint x="2210" y="230" />
-        <di:waypoint x="2240" y="230" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Activity_1wifdpv_di" bpmnElement="MdmEnrichCountryTask" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="1321" y="190" width="100" height="80" />
       </bpmndi:BPMNShape>
@@ -429,12 +429,6 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1vshybs_di" bpmnElement="StorageOpenAccessTask" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="1840" y="190" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0xfz2hl_di" bpmnElement="BpeAddUpdateRecordTaskInQueueTask">
-        <dc:Bounds x="1980" y="190" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_04a9jhf_di" bpmnElement="NoticeTask">
-        <dc:Bounds x="2110" y="190" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1mrbf0i_di" bpmnElement="Activity_1mrbf0i" isExpanded="true">
         <dc:Bounds x="1140" y="330" width="440" height="140" />
@@ -535,6 +529,12 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0qs3kx5_di" bpmnElement="EvaluationUpdateAwardTask" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="1710" y="190" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0xfz2hl_di" bpmnElement="BpeAddUpdateRecordTaskInQueueTask">
+        <dc:Bounds x="1980" y="190" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_04a9jhf_di" bpmnElement="NoticeTask">
+        <dc:Bounds x="2110" y="190" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_0v59wy7_di" bpmnElement="TextAnnotation_0v59wy7">
         <dc:Bounds x="800" y="112" width="100" height="54" />
