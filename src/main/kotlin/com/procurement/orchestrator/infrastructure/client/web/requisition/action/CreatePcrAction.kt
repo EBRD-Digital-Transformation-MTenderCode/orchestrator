@@ -143,7 +143,8 @@ abstract class CreatePcrAction : FunctionalAction<CreatePcrAction.Params, Create
             )
 
             data class Value(
-                @field:JsonProperty("currency") @param:JsonProperty("currency") val currency: String
+                @JsonInclude(JsonInclude.Include.NON_NULL)
+                @field:JsonProperty("currency") @param:JsonProperty("currency") val currency: String?
             )
 
             data class Lot(
