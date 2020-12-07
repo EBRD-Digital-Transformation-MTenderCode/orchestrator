@@ -21,7 +21,7 @@ import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.
 import org.springframework.stereotype.Component
 
 @Component
-class EvaluationCheckAwardsState(
+class EvaluationCheckAwardsStateDelegate(
     logger: Logger,
     private val evaluationClient: EvaluationClient,
     operationStepRepository: OperationStepRepository,
