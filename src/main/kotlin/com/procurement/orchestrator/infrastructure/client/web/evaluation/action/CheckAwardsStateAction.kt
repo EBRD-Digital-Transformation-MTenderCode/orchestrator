@@ -33,6 +33,7 @@ abstract class CheckAwardsStateAction : ProceduralAction<CheckAwardsStateAction.
         )
 
         data class Tender(
+            @JsonInclude(JsonInclude.Include.NON_EMPTY)
             @param:JsonProperty("lots") @field:JsonProperty("lots") val lots: List<Lot>
         ) {
             data class Lot(

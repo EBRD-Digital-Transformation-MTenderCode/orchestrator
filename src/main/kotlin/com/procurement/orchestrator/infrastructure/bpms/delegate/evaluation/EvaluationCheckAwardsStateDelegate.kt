@@ -3,7 +3,6 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.evaluation
 import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.EvaluationClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
-import com.procurement.orchestrator.application.model.context.extension.tryGetTender
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
@@ -47,9 +46,6 @@ class EvaluationCheckAwardsStateDelegate(
         val cpid: Cpid = processInfo.cpid!!
         val ocid: Ocid = processInfo.ocid!!
 
-        val tender = context.tryGetTender()
-            .orForwardFail { return it }
-
         return evaluationClient.checkAwardsState(
             id = commandId,
             params = CheckAwardsStateAction.Params(
@@ -62,10 +58,10 @@ class EvaluationCheckAwardsStateDelegate(
                     CheckAwardsStateAction.Params.Award(award.id)
                 },
                 tender = CheckAwardsStateAction.Params.Tender(
-                    tender.lots.map { lot ->
-                        CheckAwardsStateAction.Params.Tender.Lot(lot.id)
-                    })
-
+                    lots = context.tender?.lots
+                        ?.map { lot -> CheckAwardsStateAction.Params.Tender.Lot(lot.id) }
+                        .orEmpty()
+                )
             )
         )
     }
