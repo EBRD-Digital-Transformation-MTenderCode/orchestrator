@@ -2,10 +2,12 @@ package com.procurement.orchestrator.infrastructure.client.web.evaluation
 
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.AddRequirementResponseAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CheckAccessToAwardAction
+import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CheckAwardsStateAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CheckRelatedTendererAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CloseAwardPeriodAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CreateAwardAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CreateUnsuccessfulAwardsAction
+import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.GetAwardByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.GetAwardStateByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.StartAwardPeriodAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.UpdateAwardAction
@@ -29,7 +31,11 @@ object EvaluationCommands {
 
     object ValidateAwardData : ValidateAwardDataAction()
 
-    object CreateAward : CreateAwardAction()
+    object CreateAward: CreateAwardAction()
+
+    object CheckAwardsState: CheckAwardsStateAction()
+
+    object GetAwardByIds: GetAwardByIdsAction()
 
     object UpdateAward : UpdateAwardAction()
 }

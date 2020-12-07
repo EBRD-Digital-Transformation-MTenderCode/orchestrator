@@ -107,7 +107,8 @@ abstract class CreateBidAction : FunctionalAction<CreateBidAction.Params, Create
                     @JsonInclude(JsonInclude.Include.NON_NULL)
                     @param:JsonProperty("amount") @field:JsonProperty("amount") val amount: Amount?,
 
-                    @param:JsonProperty("currency") @field:JsonProperty("currency") val currency: String
+                    @JsonInclude(JsonInclude.Include.NON_NULL)
+                    @param:JsonProperty("currency") @field:JsonProperty("currency") val currency: String?
                 )
 
                 data class Tenderer(
@@ -487,7 +488,8 @@ abstract class CreateBidAction : FunctionalAction<CreateBidAction.Params, Create
                             @JsonInclude(JsonInclude.Include.NON_NULL)
                             @param:JsonProperty("amount") @field:JsonProperty("amount") val amount: Amount?,
 
-                            @param:JsonProperty("currency") @field:JsonProperty("currency") val currency: String
+                            @JsonInclude(JsonInclude.Include.NON_NULL)
+                            @param:JsonProperty("currency") @field:JsonProperty("currency") val currency: String?
                         )
                     }
                 }

@@ -48,7 +48,8 @@ abstract class ValidateBidDataAction : ProceduralAction<ValidateBidDataAction.Pa
                     @JsonInclude(JsonInclude.Include.NON_NULL)
                     @param:JsonProperty("amount") @field:JsonProperty("amount") val amount: Amount?,
 
-                    @param:JsonProperty("currency") @field:JsonProperty("currency") val currency: String
+                    @JsonInclude(JsonInclude.Include.NON_NULL)
+                    @param:JsonProperty("currency") @field:JsonProperty("currency") val currency: String?
                 )
 
                 data class Tenderer(
@@ -406,7 +407,8 @@ abstract class ValidateBidDataAction : ProceduralAction<ValidateBidDataAction.Pa
                             @JsonInclude(JsonInclude.Include.NON_NULL)
                             @param:JsonProperty("amount") @field:JsonProperty("amount") val amount: Amount?,
 
-                            @param:JsonProperty("currency") @field:JsonProperty("currency") val currency: String
+                            @JsonInclude(JsonInclude.Include.NON_NULL)
+                            @param:JsonProperty("currency") @field:JsonProperty("currency") val currency: String?
                         )
                     }
                 }
@@ -424,7 +426,8 @@ abstract class ValidateBidDataAction : ProceduralAction<ValidateBidDataAction.Pa
             @param:JsonProperty("items") @field:JsonProperty("items") val items: List<Item>?
         ) {
             data class Value(
-                @param:JsonProperty("currency") @field:JsonProperty("currency") val currency: String
+                @JsonInclude(JsonInclude.Include.NON_NULL)
+                @param:JsonProperty("currency") @field:JsonProperty("currency") val currency: String?
             )
 
             data class Item(
