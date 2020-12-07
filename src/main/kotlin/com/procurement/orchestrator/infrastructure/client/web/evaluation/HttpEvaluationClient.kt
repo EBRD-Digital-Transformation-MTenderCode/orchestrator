@@ -13,6 +13,7 @@ import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CloseAwardPeriodAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CreateAwardAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CreateUnsuccessfulAwardsAction
+import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.GetAwardByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.GetAwardStateByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.StartAwardPeriodAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.ValidateAwardDataAction
@@ -107,5 +108,14 @@ class HttpEvaluationClient(private val webClient: WebClient, properties: Compone
     ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
         url = url,
         command = EvaluationCommands.CheckAwardsState.build(id = id, params = params)
+    )
+
+    override suspend fun getAwardByIds(
+        id: CommandId,
+        params: GetAwardByIdsAction.Params
+    ): Result<Reply<GetAwardByIdsAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = EvaluationCommands.GetAwardByIds.build(id = id, params = params),
+        target = EvaluationCommands.GetAwardByIds.target
     )
 }
