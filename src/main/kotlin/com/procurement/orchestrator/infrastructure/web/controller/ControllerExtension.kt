@@ -6,6 +6,7 @@ import com.procurement.orchestrator.domain.functional.Result.Companion.failure
 import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
+import com.procurement.orchestrator.domain.model.award.AwardId
 
 fun parseCpid(cpid: String): Result<Cpid, RequestErrors> = Cpid.tryCreateOrNull(cpid)
     ?.asSuccess()
@@ -26,4 +27,15 @@ fun parseSingleStageOcid(ocid: String): Result<Ocid, RequestErrors> = Ocid.Singl
             actualValue = ocid
         )
     )
+
+fun parseAwardId(awardId: String): Result<AwardId, RequestErrors> =
+    AwardId.tryCreateOrNull(awardId)
+        ?.asSuccess()
+        ?: failure(
+            RequestErrors.Common.DataFormatMismatch(
+                name = "awardId",
+                expectedFormat = AwardId.pattern,
+                actualValue = awardId
+            )
+        )
 
