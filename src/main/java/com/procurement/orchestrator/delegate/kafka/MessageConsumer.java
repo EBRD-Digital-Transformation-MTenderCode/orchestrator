@@ -56,9 +56,9 @@ public class MessageConsumer {
                             final String tenderId = data.get("tender").get("id").asText();
                             final boolean tenderIdIsOcid = OcidMatcher.isOcid(tenderId);
 
-                            String id = null;
+                            String id;
                             if (tenderIdIsOcid) {
-                                getIdByStage(data, tenderId);
+                                id = getIdByStage(data, tenderId);
                             } else
                                 id = tenderId;
                             Context prevContext = requestService.getContext(id);
