@@ -8,6 +8,7 @@ import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CreateUnsuccessfulAwardsAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.GetAwardStateByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.StartAwardPeriodAction
+import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.UpdateAwardAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.ValidateAwardDataAction
 import com.procurement.orchestrator.json.testingBindingAndMapping
 import org.junit.jupiter.api.Nested
@@ -205,6 +206,56 @@ class EvaluationActionsTest {
             @Test
             fun required_4() {
                 testingBindingAndMapping<CreateAwardAction.Result>("json/client/evaluation/create_award_result_required_3.json")
+            }
+        }
+    }
+
+    @Nested
+    inner class UpdateAward {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<UpdateAwardAction.Params>("json/client/evaluation/update_award_params_full.json")
+            }
+
+            @Test
+            fun required_1() {
+                testingBindingAndMapping<UpdateAwardAction.Params>("json/client/evaluation/update_award_params_required_1.json")
+            }
+
+            @Test
+            fun required_2() {
+                testingBindingAndMapping<UpdateAwardAction.Params>("json/client/evaluation/update_award_params_required_2.json")
+            }
+
+            @Test
+            fun required_3() {
+                testingBindingAndMapping<UpdateAwardAction.Params>("json/client/evaluation/update_award_params_required_3.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<UpdateAwardAction.Result>("json/client/evaluation/update_award_result_full.json")
+            }
+
+            @Test
+            fun required_1() {
+                testingBindingAndMapping<UpdateAwardAction.Result>("json/client/evaluation/update_award_result_required_1.json")
+            }
+
+            @Test
+            fun required_2() {
+                testingBindingAndMapping<UpdateAwardAction.Result>("json/client/evaluation/update_award_result_required_2.json")
+            }
+
+            @Test
+            fun required_4() {
+                testingBindingAndMapping<UpdateAwardAction.Result>("json/client/evaluation/update_award_result_required_3.json")
             }
         }
     }
