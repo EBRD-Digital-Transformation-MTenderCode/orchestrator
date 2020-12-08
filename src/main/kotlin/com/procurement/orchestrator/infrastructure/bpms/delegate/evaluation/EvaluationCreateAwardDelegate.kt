@@ -357,7 +357,7 @@ class EvaluationCreateAwardDelegate(
                                                         ?.let { validityPeriod ->
                                                             CreateAwardAction.Params.Award.Supplier.Details.Permit.PermitDetails.ValidityPeriod(
                                                                 startDate = validityPeriod.startDate,
-                                                                endDate = validityPeriod.startDate
+                                                                endDate = validityPeriod.endDate
                                                             )
                                                         }
                                                 )
@@ -665,7 +665,7 @@ class EvaluationCreateAwardDelegate(
                                                     .let { validityPeriod ->
                                                         Period(
                                                             startDate = validityPeriod.startDate,
-                                                            endDate = validityPeriod.startDate
+                                                            endDate = validityPeriod.endDate
                                                         )
                                                     }
                                             )
