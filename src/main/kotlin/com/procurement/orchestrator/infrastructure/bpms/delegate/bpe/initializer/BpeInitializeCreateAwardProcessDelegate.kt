@@ -317,7 +317,7 @@ class BpeInitializeCreateAwardProcessDelegate(
                                                             .let { validityPeriod ->
                                                                 Period(
                                                                     startDate = validityPeriod.startDate,
-                                                                    endDate = validityPeriod.startDate
+                                                                    endDate = validityPeriod.endDate
                                                                 )
                                                             }
                                                     )
