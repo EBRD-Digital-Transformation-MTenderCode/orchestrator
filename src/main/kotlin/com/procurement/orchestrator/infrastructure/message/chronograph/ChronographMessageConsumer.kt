@@ -75,6 +75,8 @@ class ChronographMessageConsumer(
             contextChronograph.processType,
             contextChronograph.requestId
         )
+        context.isAuction = contextChronograph.isAuction ?: prevContext.isAuction
+
         requestService.saveRequestAndCheckOperation(context, null)
         val variables: MutableMap<String, Any> = mutableMapOf(
             "operationType" to context.operationType
