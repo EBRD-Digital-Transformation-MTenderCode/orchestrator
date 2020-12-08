@@ -83,7 +83,6 @@
             {
               "scheme": "string",
               "id": "string",
-              "url": "string",
               "permitDetails": {
                 "issuedBy": {
                   "id": "string",
