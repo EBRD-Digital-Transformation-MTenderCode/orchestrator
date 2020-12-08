@@ -24,6 +24,9 @@ abstract class CreateRelationToOtherProcessAction : FunctionalAction<CreateRelat
         @JsonInclude(JsonInclude.Include.NON_NULL)
         @field:JsonProperty("relatedCpid") @param:JsonProperty("relatedCpid") val relatedCpid: Cpid?,
 
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        @field:JsonProperty("relatedOcid") @param:JsonProperty("relatedOcid") val relatedOcid: Ocid?,
+
         @field:JsonProperty("operationType") @param:JsonProperty("operationType") val operationType: OperationTypeProcess
     )
 
