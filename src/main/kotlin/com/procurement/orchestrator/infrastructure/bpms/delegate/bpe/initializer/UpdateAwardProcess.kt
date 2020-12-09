@@ -3,7 +3,6 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.bpe.initialize
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.procurement.orchestrator.domain.model.document.DocumentId
-import com.procurement.orchestrator.domain.model.document.DocumentType
 import com.procurement.orchestrator.domain.model.measure.Amount
 import com.procurement.orchestrator.domain.model.organization.datail.Scale
 import com.procurement.orchestrator.domain.model.organization.datail.TypeOfSupplier
@@ -142,7 +141,7 @@ object UpdateAwardProcess {
                             )
 
                             data class Document(
-                                @param:JsonProperty("documentType") @field:JsonProperty("documentType") val documentType: DocumentType,
+                                @param:JsonProperty("documentType") @field:JsonProperty("documentType") val documentType: String,
                                 @param:JsonProperty("id") @field:JsonProperty("id") val id: DocumentId,
                                 @param:JsonProperty("title") @field:JsonProperty("title") val title: String,
 
@@ -289,7 +288,7 @@ object UpdateAwardProcess {
                     @JsonInclude(JsonInclude.Include.NON_NULL)
                     @param:JsonProperty("description") @field:JsonProperty("description") val description: String?,
 
-                    @param:JsonProperty("documentType") @field:JsonProperty("documentType") val documentType: DocumentType
+                    @param:JsonProperty("documentType") @field:JsonProperty("documentType") val documentType: String
                 )
             }
         }

@@ -6,8 +6,12 @@ import com.procurement.orchestrator.application.model.context.extension.tryGetId
 import com.procurement.orchestrator.application.repository.ProcessInitializerRepository
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
+import com.procurement.orchestrator.domain.EnumElementProvider.Companion.keysAsStrings
 import com.procurement.orchestrator.domain.fail.Fail
+import com.procurement.orchestrator.domain.fail.error.DataValidationErrors
 import com.procurement.orchestrator.domain.functional.MaybeFail
+import com.procurement.orchestrator.domain.functional.Result
+import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.domain.model.address.Address
 import com.procurement.orchestrator.domain.model.address.AddressDetails
 import com.procurement.orchestrator.domain.model.address.country.CountryDetails
@@ -17,6 +21,7 @@ import com.procurement.orchestrator.domain.model.award.Award
 import com.procurement.orchestrator.domain.model.award.AwardId
 import com.procurement.orchestrator.domain.model.award.Awards
 import com.procurement.orchestrator.domain.model.document.Document
+import com.procurement.orchestrator.domain.model.document.DocumentType
 import com.procurement.orchestrator.domain.model.document.Documents
 import com.procurement.orchestrator.domain.model.identifier.Identifier
 import com.procurement.orchestrator.domain.model.identifier.Identifiers
@@ -70,13 +75,14 @@ class BpeInitializeCreateAwardProcessDelegate(
         val lotId = LotId.create(requestId)
         globalContext.tender = Tender(lots = Lots(listOf(Lot(id = lotId))))
         globalContext.awards = buildAwards(payload)
+            .orReturnFail { return MaybeFail.fail(it) }
 
         return MaybeFail.none()
     }
 
     private fun buildAwards(
         payload: CreateAwardProcess.Request.Payload
-    ): Awards = payload.award.let { award ->
+    ): Result<Awards, Fail> = payload.award.let { award ->
         Award(
             id = AwardId.generate(),
             internalId = award.internalId,
@@ -186,7 +192,14 @@ class BpeInitializeCreateAwardProcessDelegate(
                                             documents = businessFunction.documents
                                                 ?.map { document ->
                                                     Document(
-                                                        documentType = document.documentType,
+                                                        documentType = DocumentType.orNull(document.documentType)
+                                                            ?: return Result.failure(
+                                                                DataValidationErrors.UnknownValue(
+                                                                    name = "businessFunctions[id:${businessFunction.id}].documents[id:${document.id}].documentType",
+                                                                    expectedValues = DocumentType.allowedElements.keysAsStrings(),
+                                                                    actualValue = document.documentType
+                                                                )
+                                                            ),
                                                         id = document.id,
                                                         title = document.title,
                                                         description = document.description
@@ -333,7 +346,14 @@ class BpeInitializeCreateAwardProcessDelegate(
             documents = payload.award.documents
                 ?.map { document ->
                     Document(
-                        documentType = document.documentType,
+                        documentType = DocumentType.orNull(document.documentType)
+                            ?: return Result.failure(
+                                DataValidationErrors.UnknownValue(
+                                    name = "#award.documents[id:${document.id}].documentType",
+                                    expectedValues = DocumentType.allowedElements.keysAsStrings(),
+                                    actualValue = document.documentType
+                                )
+                            ),
                         id = document.id,
                         title = document.title,
                         description = document.description
@@ -342,5 +362,6 @@ class BpeInitializeCreateAwardProcessDelegate(
                 .let { Documents(it) }
         )
     }
-        .let { Awards(listOf(it)) }
+        .let { Awards(it) }
+        .asSuccess()
 }
