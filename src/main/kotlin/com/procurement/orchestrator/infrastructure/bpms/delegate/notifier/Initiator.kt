@@ -23,6 +23,7 @@ enum class Initiator(@JsonValue override val key: String) : EnumElementProvider.
 fun initiator(operationType: OperationTypeProcess): Initiator = when (operationType) {
     OperationTypeProcess.APPLY_QUALIFICATION_PROTOCOL -> Initiator.PLATFORM
     OperationTypeProcess.COMPLETE_QUALIFICATION -> Initiator.PLATFORM
+    OperationTypeProcess.CREATE_AWARD -> Initiator.PLATFORM
     OperationTypeProcess.CREATE_PCR -> Initiator.PLATFORM
     OperationTypeProcess.CREATE_SUBMISSION -> Initiator.PLATFORM
     OperationTypeProcess.DECLARE_NON_CONFLICT_OF_INTEREST,
@@ -33,12 +34,14 @@ fun initiator(operationType: OperationTypeProcess): Initiator = when (operationT
     OperationTypeProcess.QUALIFICATION_DECLARE_NON_CONFLICT_OF_INTEREST -> Initiator.PLATFORM
     OperationTypeProcess.QUALIFICATION_PROTOCOL -> Initiator.PLATFORM
     OperationTypeProcess.RELATION_AP -> Initiator.PLATFORM
+    OperationTypeProcess.START_AWARD_PERIOD -> Initiator.PLATFORM
     OperationTypeProcess.START_SECOND_STAGE -> Initiator.PLATFORM
-    OperationTypeProcess.SUBMIT_BID_IN_PCR -> Initiator.PLATFORM
     OperationTypeProcess.SUBMISSION_PERIOD_END -> Initiator.BPE
+    OperationTypeProcess.SUBMIT_BID_IN_PCR -> Initiator.PLATFORM
     OperationTypeProcess.TENDER_CANCELLATION -> Initiator.PLATFORM
     OperationTypeProcess.TENDER_OR_LOT_AMENDMENT_CANCELLATION,
     OperationTypeProcess.TENDER_OR_LOT_AMENDMENT_CONFIRMATION -> Initiator.PLATFORM
+    OperationTypeProcess.UPDATE_AWARD -> Initiator.PLATFORM
     OperationTypeProcess.WITHDRAW_QUALIFICATION_PROTOCOL -> Initiator.PLATFORM
     OperationTypeProcess.WITHDRAW_SUBMISSION -> Initiator.PLATFORM
 

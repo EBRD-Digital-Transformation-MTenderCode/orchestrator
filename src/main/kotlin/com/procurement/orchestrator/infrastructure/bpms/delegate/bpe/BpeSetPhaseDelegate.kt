@@ -70,6 +70,7 @@ class BpeSetPhaseDelegate(
     enum class Phases(@JsonValue override val key: String) : EnumElementProvider.Key {
         AGGREGATED("aggregated"),
         AGGREGATION_PENDING("aggregationPending"),
+        AWARDING("awarding"),
         EMPTY("empty"),
         EVALUATION("evaluation"),
         QUALIFICATION("qualification"),
