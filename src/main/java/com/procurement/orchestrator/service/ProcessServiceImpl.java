@@ -22,7 +22,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
 
 @Service
 public class ProcessServiceImpl implements ProcessService {
@@ -1422,8 +1428,8 @@ public class ProcessServiceImpl implements ProcessService {
             final ObjectNode mainNode = jsonUtil.createObjectNode();
             final JsonNode auctionsDataNode = jsonData.get("auctionsData");
             if (auctionsDataNode != null) {
-                if (auctionsDataNode.has("ocid")) {
-                    mainNode.set("ocid", auctionsDataNode.get("ocid"));
+                if (auctionsDataNode.has("cpid")) {
+                    mainNode.set("cpid", auctionsDataNode.get("cpid"));
                 }
                 mainNode.replace("tender", auctionsDataNode.get("tender"));
                 mainNode.replace("bids", auctionsDataNode.get("bids"));

@@ -264,31 +264,6 @@ public class TenderController extends DoBaseController {
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
-    @RequestMapping(value = "/award/{cpid}/{ocid}", method = RequestMethod.POST)
-    public ResponseEntity<String> createAward(@RequestHeader("Authorization") final String authorization,
-                                             @RequestHeader("X-OPERATION-ID") final String operationId,
-                                             @RequestHeader("X-TOKEN") final String token,
-                                             @PathVariable("cpid") final String cpid,
-                                             @PathVariable("ocid") final String ocid,
-                                             @RequestParam("lotId") final String lotId,
-                                             @RequestBody final String body) {
-        if(LOG.isDebugEnabled())
-            LOG.debug("Received request to endpoint '/award/{cpid}/{ocid}?lotId' (operation id: '{}', cpid: '{}', ocid: '{}', lot id: '{}', body: '{}').", operationId, cpid, ocid, lotId, body);
-
-        final JsonNode data = jsonUtil.toJsonNode(body);
-        requestService.validate(operationId, data);
-        final Context context = requestService.getContextForUpdate(authorization, operationId, cpid, ocid, token, "createAward");
-        context.setId(lotId);
-        requestService.saveRequestAndCheckOperation(context, data);
-
-        final Map<String, Object> variables = new HashMap<>();
-        variables.put("operationType", context.getOperationType());
-        variables.put("lotId", context.getId());
-        processService.startProcess(context, variables);
-
-        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
-    }
-
     @RequestMapping(value = "/protocol/{cpid}/{ocid}/{id}", method = RequestMethod.POST)
     public ResponseEntity<String> createCan(@RequestHeader("Authorization") final String authorization,
                                             @RequestHeader("X-OPERATION-ID") final String operationId,

@@ -20,6 +20,8 @@ import java.time.LocalDateTime
 data class Award(
     @field:JsonProperty("id") @param:JsonProperty("id") val id: AwardId,
 
+    @field:JsonProperty("internalId") @param:JsonProperty("internalId") val internalId: String? = null,
+
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonProperty("title") @param:JsonProperty("title") val title: String? = null,
 
@@ -82,6 +84,7 @@ data class Award(
 
     override fun updateBy(src: Award) = Award(
         id = id,
+        internalId = src.internalId or internalId,
         title = src.title or title,
         description = src.description or description,
         status = src.status or status,

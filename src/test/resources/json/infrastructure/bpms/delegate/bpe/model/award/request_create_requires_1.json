@@ -1,0 +1,151 @@
+{
+  "award": {
+    "value": {
+      "currency": "string"
+    },
+    "suppliers": [
+      {
+        "name": "string",
+        "identifier": {
+          "id": "string",
+          "legalName": "string",
+          "scheme": "string"
+        },
+        "additionalIdentifiers": [
+          {
+            "id": "string",
+            "legalName": "string",
+            "scheme": "string"
+          }
+        ],
+        "address": {
+          "streetAddress": "string",
+          "addressDetails": {
+            "country": {
+              "id": "string",
+              "description": "string",
+              "scheme": "string"
+            },
+            "region": {
+              "id": "string",
+              "description": "string",
+              "scheme": "string"
+            },
+            "locality": {
+              "id": "string",
+              "description": "string",
+              "scheme": "string"
+            }
+          }
+        },
+        "contactPoint": {
+          "name": "string",
+          "email": "string",
+          "telephone": "string"
+        },
+        "persones": [
+          {
+            "title": "Mr",
+            "name": "string",
+            "identifier": {
+              "scheme": "string",
+              "id": "string"
+            },
+            "businessFunctions": [
+              {
+                "id": "string",
+                "type": "authority",
+                "jobTitle": "string",
+                "period": {
+                  "startDate": "2020-11-27T10:01:22Z"
+                },
+                "documents": [
+                  {
+                    "documentType": "regulatoryDocument",
+                    "id": "string",
+                    "title": "string"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "details": {
+          "mainEconomicActivities": [
+            {
+              "id": "string",
+              "scheme": "string",
+              "description": "string"
+            }
+          ],
+          "scale": "micro",
+          "permits": [
+            {
+              "scheme": "string",
+              "id": "string",
+              "permitDetails": {
+                "issuedBy": {
+                  "id": "string",
+                  "name": "string"
+                },
+                "issuedThought": {
+                  "id": "string",
+                  "name": "string"
+                },
+                "validityPeriod": {
+                  "startDate": "2020-11-27T10:01:22Z"
+                }
+              }
+            }
+          ],
+          "bankAccounts": [
+            {
+              "description": "string",
+              "bankName": "string",
+              "address": {
+                "streetAddress": "string",
+                "addressDetails": {
+                  "country": {
+                    "id": "string",
+                    "description": "string",
+                    "scheme": "string"
+                  },
+                  "region": {
+                    "id": "string",
+                    "description": "string",
+                    "scheme": "string"
+                  },
+                  "locality": {
+                    "id": "string",
+                    "description": "string",
+                    "scheme": "string"
+                  }
+                }
+              },
+              "identifier": {
+                "scheme": "UA-MFO",
+                "id": "string"
+              },
+              "accountIdentification": {
+                "scheme": "IBAN",
+                "id": "string"
+              }
+            }
+          ],
+          "legalForm": {
+            "scheme": "MD-CFOJ",
+            "id": "string",
+            "description": "string"
+          }
+        }
+      }
+    ],
+    "documents": [
+      {
+        "id": "string",
+        "title": "string",
+        "documentType": "awardNotice"
+      }
+    ]
+  }
+}

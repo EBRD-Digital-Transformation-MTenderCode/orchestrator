@@ -508,4 +508,37 @@ class AccessActionsTest {
             }
         }
     }
+
+
+    @Nested
+    inner class CheckLotsState {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CheckLotsStateAction.Params>("json/client/access/check_lots_state_params_full.json")
+            }
+        }
+    }
+
+    @Nested
+    inner class GetLotsValue {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetLotsValueAction.Params>("json/client/access/get_lots_value_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetLotsValueAction.Result>("json/client/access/get_lots_value_result_full.json")
+            }
+        }
+    }
 }

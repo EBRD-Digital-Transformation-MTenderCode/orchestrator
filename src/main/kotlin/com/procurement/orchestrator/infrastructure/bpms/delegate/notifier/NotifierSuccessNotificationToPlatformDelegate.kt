@@ -131,7 +131,8 @@ class NotifierSuccessNotificationToPlatformDelegate(
         awards = details.awards
             .map { award ->
                 PlatformNotification.Outcomes.Award(
-                    id = award.id
+                    id = award.id,
+                    token = award.token
                 )
             },
         submissions = details.submissions
@@ -175,6 +176,7 @@ class NotifierSuccessNotificationToPlatformDelegate(
         when (operationType) {
             OperationTypeProcess.APPLY_QUALIFICATION_PROTOCOL -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.COMPLETE_QUALIFICATION -> "$tenderUri/$cpid/$ocid"
+            OperationTypeProcess.CREATE_AWARD -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.CREATE_PCR -> "$tenderUri/$cpid"
             OperationTypeProcess.CREATE_SUBMISSION -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.DECLARE_NON_CONFLICT_OF_INTEREST -> "$tenderUri/$cpid/$ocid"
@@ -185,12 +187,14 @@ class NotifierSuccessNotificationToPlatformDelegate(
             OperationTypeProcess.QUALIFICATION_DECLARE_NON_CONFLICT_OF_INTEREST -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.QUALIFICATION_PROTOCOL -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.RELATION_AP -> "$tenderUri/$cpid/$ocid"
+            OperationTypeProcess.START_AWARD_PERIOD -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.START_SECOND_STAGE -> "$tenderUri/$cpid/$ocid"
-            OperationTypeProcess.SUBMIT_BID_IN_PCR -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.SUBMISSION_PERIOD_END -> "$tenderUri/$cpid/$ocid"
+            OperationTypeProcess.SUBMIT_BID_IN_PCR -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.TENDER_CANCELLATION -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.TENDER_OR_LOT_AMENDMENT_CANCELLATION -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.TENDER_OR_LOT_AMENDMENT_CONFIRMATION -> "$tenderUri/$cpid/$ocid"
+            OperationTypeProcess.UPDATE_AWARD -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.WITHDRAW_QUALIFICATION_PROTOCOL -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.WITHDRAW_SUBMISSION -> "$tenderUri/$cpid/$ocid"
         }
