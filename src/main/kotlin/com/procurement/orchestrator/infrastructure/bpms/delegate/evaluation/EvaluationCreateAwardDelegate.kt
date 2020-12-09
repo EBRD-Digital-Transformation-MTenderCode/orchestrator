@@ -26,6 +26,7 @@ import com.procurement.orchestrator.domain.model.document.Document
 import com.procurement.orchestrator.domain.model.document.Documents
 import com.procurement.orchestrator.domain.model.identifier.Identifier
 import com.procurement.orchestrator.domain.model.identifier.Identifiers
+import com.procurement.orchestrator.domain.model.lot.RelatedLots
 import com.procurement.orchestrator.domain.model.organization.ContactPoint
 import com.procurement.orchestrator.domain.model.organization.Organization
 import com.procurement.orchestrator.domain.model.organization.Organizations
@@ -392,6 +393,7 @@ class EvaluationCreateAwardDelegate(
             status = receivedAward.status,
             statusDetails = receivedAward.statusDetails,
             date = receivedAward.date,
+            relatedLots = RelatedLots(receivedAward.relatedLots),
             suppliers = receivedSuppliers
         )
 
