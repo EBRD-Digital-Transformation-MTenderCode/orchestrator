@@ -34,6 +34,10 @@ import com.procurement.orchestrator.domain.model.organization.datail.account.Acc
 import com.procurement.orchestrator.domain.model.organization.datail.account.BankAccount
 import com.procurement.orchestrator.domain.model.organization.datail.account.BankAccounts
 import com.procurement.orchestrator.domain.model.organization.datail.legalform.LegalForm
+import com.procurement.orchestrator.domain.model.organization.datail.permit.Issue
+import com.procurement.orchestrator.domain.model.organization.datail.permit.Permit
+import com.procurement.orchestrator.domain.model.organization.datail.permit.PermitDetails
+import com.procurement.orchestrator.domain.model.organization.datail.permit.Permits
 import com.procurement.orchestrator.domain.model.organization.person.BusinessFunction
 import com.procurement.orchestrator.domain.model.organization.person.BusinessFunctions
 import com.procurement.orchestrator.domain.model.party.Parties
@@ -428,6 +432,12 @@ class EvaluationUpdateAwardDelegate(
         Party(
             id = id,
             name = name,
+            identifier = Identifier(
+                id = identifier.id,
+                uri = identifier.uri,
+                legalName = identifier.legalName,
+                scheme = identifier.scheme
+            ),
             additionalIdentifiers = additionalIdentifiers
                 ?.map { additionalIdentifier ->
                     Identifier(
@@ -560,7 +570,8 @@ class EvaluationUpdateAwardDelegate(
                                                                     CountryDetails(
                                                                         scheme = country.scheme,
                                                                         id = country.id,
-                                                                        description = country.description
+                                                                        description = country.description,
+                                                                        uri = country.uri
                                                                     )
                                                                 },
                                                             region = addressDetails.region
@@ -568,7 +579,8 @@ class EvaluationUpdateAwardDelegate(
                                                                     RegionDetails(
                                                                         scheme = region.scheme,
                                                                         id = region.id,
-                                                                        description = region.description
+                                                                        description = region.description,
+                                                                        uri = region.uri
                                                                     )
                                                                 },
                                                             locality = addressDetails.locality
@@ -576,7 +588,8 @@ class EvaluationUpdateAwardDelegate(
                                                                     LocalityDetails(
                                                                         scheme = locality.scheme,
                                                                         id = locality.id,
-                                                                        description = locality.description
+                                                                        description = locality.description,
+                                                                        uri = locality.uri
                                                                     )
                                                                 }
                                                         )
@@ -620,7 +633,43 @@ class EvaluationUpdateAwardDelegate(
                                     uri = legalForm.uri
                                 )
                             },
-                        scale = details.scale
+                        scale = details.scale,
+                        permits = details.permits
+                            ?.map { permit ->
+                                Permit(
+                                    scheme = permit.scheme,
+                                    id = permit.id,
+                                    url = permit.url,
+                                    permitDetails = permit.permitDetails
+                                        .let { permitDetails ->
+                                            PermitDetails(
+                                                issuedBy = permitDetails.issuedBy
+                                                    .let { issuedBy ->
+                                                        Issue(
+                                                            id = issuedBy.id,
+                                                            name = issuedBy.name
+                                                        )
+                                                    },
+                                                issuedThought = permitDetails.issuedThought
+                                                    .let { issuedThought ->
+                                                        Issue(
+                                                            id = issuedThought.id,
+                                                            name = issuedThought.name
+                                                        )
+                                                    },
+                                                validityPeriod = permitDetails.validityPeriod
+                                                    .let { validityPeriod ->
+                                                        Period(
+                                                            startDate = validityPeriod.startDate,
+                                                            endDate = validityPeriod.startDate
+                                                        )
+                                                    }
+                                            )
+                                        }
+                                )
+                            }
+                            .orEmpty()
+                            .let { Permits(it) }
                     )
                 }
 
