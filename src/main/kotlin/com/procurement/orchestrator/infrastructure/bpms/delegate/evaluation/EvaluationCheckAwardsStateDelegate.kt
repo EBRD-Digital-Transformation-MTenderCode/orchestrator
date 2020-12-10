@@ -54,14 +54,10 @@ class EvaluationCheckAwardsStateDelegate(
                 pmd = processInfo.pmd,
                 operationType = processInfo.operationType,
                 country = requestInfo.country,
-                awards = context.awards.map { award ->
-                    CheckAwardsStateAction.Params.Award(award.id)
-                },
-                tender = CheckAwardsStateAction.Params.Tender(
-                    lots = context.tender?.lots
-                        ?.map { lot -> CheckAwardsStateAction.Params.Tender.Lot(lot.id) }
-                        .orEmpty()
-                )
+                awards = context.awards.map { award -> CheckAwardsStateAction.Params.Award(award.id) },
+                tender = context.tender?.lots
+                    ?.map { lot -> CheckAwardsStateAction.Params.Tender.Lot(lot.id) }
+                    ?.let { lots -> CheckAwardsStateAction.Params.Tender(lots = lots) }
             )
         )
     }
