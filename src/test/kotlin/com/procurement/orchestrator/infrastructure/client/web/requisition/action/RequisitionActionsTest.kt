@@ -201,4 +201,16 @@ class RequisitionActionsTest {
         }
     }
 
+    @Nested
+    inner class CheckAccessToTender {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CheckAccessToTenderAction.Params>("json/client/requisition/check_access_to_tender_params_full.json")
+            }
+        }
+    }
+
 }
