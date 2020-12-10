@@ -11,6 +11,7 @@ import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CloseAwardPeriodAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CreateAwardAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CreateUnsuccessfulAwardsAction
+import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.FindAwardsForProtocolAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.GetAwardByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.GetAwardStateByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.StartAwardPeriodAction
@@ -78,4 +79,9 @@ interface EvaluationClient {
         id: CommandId,
         params: UpdateAwardAction.Params
     ): Result<Reply<UpdateAwardAction.Result>, Fail.Incident>
+
+    suspend fun findAwardsForProtocol(
+        id: CommandId,
+        params: FindAwardsForProtocolAction.Params
+    ): Result<Reply<FindAwardsForProtocolAction.Result>, Fail.Incident>
 }
