@@ -15,6 +15,7 @@ import com.procurement.orchestrator.domain.model.document.Documents
 import com.procurement.orchestrator.domain.model.item.Items
 import com.procurement.orchestrator.domain.model.lot.RelatedLots
 import com.procurement.orchestrator.domain.model.or
+import com.procurement.orchestrator.domain.model.organization.Organizations
 import com.procurement.orchestrator.domain.model.period.Period
 import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponses
 import com.procurement.orchestrator.domain.model.updateBy
@@ -104,8 +105,12 @@ data class Contract(
     @field:JsonProperty("confirmationRequests") @param:JsonProperty("confirmationRequests") val confirmationRequests: ConfirmationRequests = ConfirmationRequests(),
 
     @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
-    @field:JsonProperty("confirmationResponses") @param:JsonProperty("confirmationResponses") val confirmationResponses: ConfirmationResponses = ConfirmationResponses()
-) : IdentifiableObject<Contract>, Serializable {
+    @field:JsonProperty("confirmationResponses") @param:JsonProperty("confirmationResponses") val confirmationResponses: ConfirmationResponses = ConfirmationResponses(),
+
+    @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
+    @field:JsonProperty("suppliers") @param:JsonProperty("suppliers") val suppliers: Organizations = Organizations()
+
+    ) : IdentifiableObject<Contract>, Serializable {
 
     override fun equals(other: Any?): Boolean = if (this === other)
         true
@@ -143,6 +148,7 @@ data class Contract(
         agreedMetrics = agreedMetrics updateBy src.agreedMetrics,
         milestones = milestones updateBy src.milestones,
         confirmationRequests = confirmationRequests updateBy src.confirmationRequests,
-        confirmationResponses = confirmationResponses updateBy src.confirmationResponses
+        confirmationResponses = confirmationResponses updateBy src.confirmationResponses,
+        suppliers = suppliers updateBy src.suppliers
     )
 }
