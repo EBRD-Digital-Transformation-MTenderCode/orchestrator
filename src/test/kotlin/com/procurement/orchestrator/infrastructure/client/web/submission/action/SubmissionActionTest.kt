@@ -177,4 +177,33 @@ class SubmissionActionTest {
             }
         }
     }
+
+    @Nested
+    inner class GetBidsForPacs {
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetBidsForPacsAction.Params>("json/client/submission/get_bids_for_pacs_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetBidsForPacsAction.Result>("json/client/submission/get_bids_for_pacs_result_full.json")
+            }
+
+            @Test
+            fun required() {
+                testingBindingAndMapping<GetBidsForPacsAction.Result>("json/client/submission/get_bids_for_pacs_result_required_1.json")
+            }
+
+            @Test
+            fun required_1() {
+                testingBindingAndMapping<GetBidsForPacsAction.Result>("json/client/submission/get_bids_for_pacs_result_required_2.json")
+            }
+        }
+    }
 }
