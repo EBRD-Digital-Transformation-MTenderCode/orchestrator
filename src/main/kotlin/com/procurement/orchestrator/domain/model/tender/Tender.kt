@@ -123,7 +123,10 @@ data class Tender(
     @field:JsonProperty("classification") @param:JsonProperty("classification") val classification: Classification? = null,
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
-    @field:JsonProperty("mainProcurementCategory") @param:JsonProperty("mainProcurementCategory") val mainProcurementCategory: MainProcurementCategory? = null
+    @field:JsonProperty("mainProcurementCategory") @param:JsonProperty("mainProcurementCategory") val mainProcurementCategory: ProcurementCategory? = null,
+
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonProperty("additionalProcurementCategories") @param:JsonProperty("additionalProcurementCategories") val additionalProcurementCategories: AdditionalProcurementCategories = AdditionalProcurementCategories()
 
 ) : IdentifiableObject<Tender>, Serializable {
 
