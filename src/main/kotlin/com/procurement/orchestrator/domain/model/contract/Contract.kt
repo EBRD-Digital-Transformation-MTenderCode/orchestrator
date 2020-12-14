@@ -124,6 +124,7 @@ data class Contract(
         date = src.date or date,
         awardId = src.awardId or awardId,
         relatedLots = relatedLots combineBy src.relatedLots,
+        suppliers = suppliers updateBy src.suppliers,
         title = src.title or title,
         description = src.description or description,
         status = src.status or status,
