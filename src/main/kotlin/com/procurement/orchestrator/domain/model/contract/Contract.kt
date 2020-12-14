@@ -15,6 +15,7 @@ import com.procurement.orchestrator.domain.model.document.Documents
 import com.procurement.orchestrator.domain.model.item.Items
 import com.procurement.orchestrator.domain.model.lot.RelatedLots
 import com.procurement.orchestrator.domain.model.or
+import com.procurement.orchestrator.domain.model.organization.OrganizationReferences
 import com.procurement.orchestrator.domain.model.period.Period
 import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponses
 import com.procurement.orchestrator.domain.model.updateBy
@@ -32,6 +33,9 @@ data class Contract(
 
     @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
     @field:JsonProperty("relatedLots") @param:JsonProperty("relatedLots") val relatedLots: RelatedLots = RelatedLots(),
+
+    @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
+    @field:JsonProperty("suppliers") @param:JsonProperty("suppliers") val suppliers: OrganizationReferences = OrganizationReferences(),
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonProperty("title") @param:JsonProperty("title") val title: String? = null,
