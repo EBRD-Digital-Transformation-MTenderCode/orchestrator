@@ -161,6 +161,7 @@ data class Tender(
         electronicAuctions = electronicAuctions updateBy src.electronicAuctions,
         procedureOutsourcing = procedureOutsourcing updateBy src.procedureOutsourcing,
         value = src.value or value,
-        mainProcurementCategory = src.mainProcurementCategory or mainProcurementCategory
+        mainProcurementCategory = src.mainProcurementCategory or mainProcurementCategory,
+        additionalProcurementCategories = additionalProcurementCategories combineBy src.additionalProcurementCategories
     )
 }
