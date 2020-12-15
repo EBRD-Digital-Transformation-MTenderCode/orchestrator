@@ -12,6 +12,7 @@ enum class OperationTypeProcess(@JsonValue override val key: String) : EnumEleme
     CREATE_PCR("createPcr"),
     CREATE_SUBMISSION("createSubmission"),
     DECLARE_NON_CONFLICT_OF_INTEREST("declareNonConflictOfInterest"),
+    DIVIDE_LOT("divideLot"),
     LOT_CANCELLATION("lotCancellation"),
     OUTSOURCING_PN("outsourcingPN"),
     QUALIFICATION("qualification"),

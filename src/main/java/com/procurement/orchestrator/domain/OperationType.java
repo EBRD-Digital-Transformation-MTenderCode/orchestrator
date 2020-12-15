@@ -44,6 +44,7 @@ public enum OperationType {
     CREATE_PIN_ON_PN("createPINonPN"),
     CREATE_PN("createPN"),
     CREATE_PROTOCOL("createProtocol"),
+    DIVIDE_LOT("divideLot"),
     DO_AWARD_CONSIDERATION("doAwardConsideration"),
     END_AWARD_PERIOD("endAwardPeriod"),
     END_CONTRACT_PROCESS("endContractingProcess"),
