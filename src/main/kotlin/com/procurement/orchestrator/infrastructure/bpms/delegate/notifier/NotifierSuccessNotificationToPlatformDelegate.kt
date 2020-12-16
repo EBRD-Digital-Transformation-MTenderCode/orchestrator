@@ -187,6 +187,7 @@ class NotifierSuccessNotificationToPlatformDelegate(
             OperationTypeProcess.QUALIFICATION_CONSIDERATION -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.QUALIFICATION_DECLARE_NON_CONFLICT_OF_INTEREST -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.QUALIFICATION_PROTOCOL -> "$tenderUri/$cpid/$ocid"
+            OperationTypeProcess.PCR_PROTOCOL -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.RELATION_AP -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.START_AWARD_PERIOD -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.START_SECOND_STAGE -> "$tenderUri/$cpid/$ocid"
