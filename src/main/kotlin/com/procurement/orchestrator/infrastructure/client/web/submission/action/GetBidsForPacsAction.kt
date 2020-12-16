@@ -33,6 +33,7 @@ abstract class GetBidsForPacsAction : FunctionalAction<GetBidsForPacsAction.Para
         @param:JsonProperty("tender") @field:JsonProperty("tender") val tender: Tender
     ) {
         class Tender(
+            @JsonInclude(JsonInclude.Include.NON_EMPTY)
             @param:JsonProperty("lots") @field:JsonProperty("lots") val lots: List<Lot>
         ) {
             class Lot(
