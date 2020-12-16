@@ -4,6 +4,7 @@ import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
+import com.procurement.orchestrator.infrastructure.client.web.requisition.action.CheckAccessToTenderAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.CheckLotsStateAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.CheckTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.CreatePcrAction
@@ -64,6 +65,11 @@ interface RequisitionClient {
     suspend fun validateRequirementResponses(
         id: CommandId,
         params: ValidateRequirementResponsesAction.Params
+    ): Result<Reply<Unit>, Fail.Incident>
+
+    suspend fun checkAccessToTender(
+        id: CommandId,
+        params: CheckAccessToTenderAction.Params
     ): Result<Reply<Unit>, Fail.Incident>
 
     suspend fun setStateForLots(

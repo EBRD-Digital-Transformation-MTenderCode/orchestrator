@@ -69,11 +69,12 @@ class RequisitionCheckLotsStateDelegate(
                 pmd = processInfo.pmd,
                 operationType = processInfo.operationType,
                 tender = CheckLotsStateAction.Params.Tender(
-                    when(parameters.location){
+                    when (parameters.location) {
                         Location.BID -> context.bids?.details?.asSequence()
                             ?.flatMap { it.relatedLots.asSequence() }
                             ?.map { CheckLotsStateAction.Params.Tender.Lot(it) }
                             ?.toList()
+                        Location.TENDER -> context.tender?.lots?.map { CheckLotsStateAction.Params.Tender.Lot(it.id) }
                     }
                 )
             )
@@ -83,7 +84,8 @@ class RequisitionCheckLotsStateDelegate(
     class Parameters(val location: Location)
 
     enum class Location(override val key: String) : EnumElementProvider.Key {
-        BID("bid");
+        BID("bid"),
+        TENDER("tender");
 
         override fun toString(): String = key
 
