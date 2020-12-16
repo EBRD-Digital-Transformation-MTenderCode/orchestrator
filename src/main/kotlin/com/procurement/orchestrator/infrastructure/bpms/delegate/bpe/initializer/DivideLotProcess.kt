@@ -18,7 +18,6 @@ object DivideLotProcess {
                 @field:JsonProperty("items") @param:JsonProperty("items") val items: List<Item>?
             ) {
 
-
                 data class Lot(
                     @field:JsonProperty("id") @param:JsonProperty("id") val id: String,
 
