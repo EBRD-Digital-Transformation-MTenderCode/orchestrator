@@ -1,6 +1,5 @@
 package com.procurement.orchestrator.infrastructure.client.web.requisition.action
 
-import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.procurement.orchestrator.application.model.Owner
 import com.procurement.orchestrator.application.model.Token
@@ -16,10 +15,7 @@ abstract class CheckAccessToTenderAction : ProceduralAction<CheckAccessToTenderA
     class Params(
         @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid,
         @field:JsonProperty("ocid") @param:JsonProperty("ocid") val ocid: Ocid,
-
-        @JsonInclude(JsonInclude.Include.NON_NULL)
-        @field:JsonProperty("token") @param:JsonProperty("token") val token: Token?,
-
+        @field:JsonProperty("token") @param:JsonProperty("token") val token: Token,
         @field:JsonProperty("owner") @param:JsonProperty("owner") val owner: Owner
     )
 }

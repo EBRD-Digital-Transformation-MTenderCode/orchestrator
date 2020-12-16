@@ -2,6 +2,7 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.requisition
 
 import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.RequisitionClient
+import com.procurement.orchestrator.application.model.Token
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
@@ -38,13 +39,15 @@ class RequisitionCheckAccessToTenderDelegate(
 
         val processInfo = context.processInfo
         val requestInfo = context.requestInfo
+        val token: Token = requestInfo.token
+            ?: return Result.failure(Fail.Incident.Bpms.Context.Missing(name = "token", path = "requestInfo"))
 
         return requisitionClient.checkAccessToTender(
             id = commandId,
             params = CheckAccessToTenderAction.Params(
                 cpid = processInfo.cpid!!,
                 ocid = processInfo.ocid!!,
-                token = requestInfo.token,
+                token = token,
                 owner = requestInfo.owner
             )
         )
