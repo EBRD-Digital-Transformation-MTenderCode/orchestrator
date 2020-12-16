@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.infrastructure.client.web.requisition.action
 
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.procurement.orchestrator.application.model.process.OperationTypeProcess
 import com.procurement.orchestrator.application.service.FunctionalAction
@@ -28,6 +29,7 @@ abstract class SetStateForLotsAction : FunctionalAction<SetStateForLotsAction.Pa
         @param:JsonProperty("operationType") @field:JsonProperty("operationType") val operationType: OperationTypeProcess
     ) {
         data class Tender(
+            @JsonInclude(JsonInclude.Include.NON_EMPTY)
             @param:JsonProperty("lots") @field:JsonProperty("lots") val lots: List<Lot>
         ) {
             data class Lot(
