@@ -14,8 +14,7 @@ object DivideLotProcess {
             data class Tender(
                 @field:JsonProperty("lots") @param:JsonProperty("lots") val lots: List<Lot>,
 
-                @JsonInclude(JsonInclude.Include.NON_EMPTY)
-                @field:JsonProperty("items") @param:JsonProperty("items") val items: List<Item>?
+                @field:JsonProperty("items") @param:JsonProperty("items") val items: List<Item>
             ) {
 
                 data class Lot(

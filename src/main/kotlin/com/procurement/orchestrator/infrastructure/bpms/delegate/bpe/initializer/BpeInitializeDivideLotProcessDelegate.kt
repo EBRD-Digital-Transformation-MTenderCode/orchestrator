@@ -56,7 +56,7 @@ class BpeInitializeDivideLotProcessDelegate(
                 lots = tender.lots
                     .map { lot -> lot.toDomain().orForwardFail { return it } }
                     .let { Lots((it)) },
-                items = tender.items.orEmpty()
+                items = tender.items
                     .map { item -> item.toDomain() }
                     .let { Items(it) }
             ).asSuccess()
