@@ -13,7 +13,6 @@ object DivideLotProcess {
         ) {
             data class Tender(
                 @field:JsonProperty("lots") @param:JsonProperty("lots") val lots: List<Lot>,
-
                 @field:JsonProperty("items") @param:JsonProperty("items") val items: List<Item>
             ) {
 
