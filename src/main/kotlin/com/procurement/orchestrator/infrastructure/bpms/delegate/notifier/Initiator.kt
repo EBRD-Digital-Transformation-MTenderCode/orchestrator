@@ -33,6 +33,7 @@ fun initiator(operationType: OperationTypeProcess): Initiator = when (operationT
     OperationTypeProcess.QUALIFICATION_CONSIDERATION -> Initiator.PLATFORM
     OperationTypeProcess.QUALIFICATION_DECLARE_NON_CONFLICT_OF_INTEREST -> Initiator.PLATFORM
     OperationTypeProcess.QUALIFICATION_PROTOCOL -> Initiator.PLATFORM
+    OperationTypeProcess.PCR_PROTOCOL -> Initiator.PLATFORM
     OperationTypeProcess.RELATION_AP -> Initiator.PLATFORM
     OperationTypeProcess.START_AWARD_PERIOD -> Initiator.PLATFORM
     OperationTypeProcess.START_SECOND_STAGE -> Initiator.PLATFORM

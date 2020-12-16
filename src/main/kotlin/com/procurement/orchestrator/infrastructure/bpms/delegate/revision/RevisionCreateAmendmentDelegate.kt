@@ -73,6 +73,7 @@ class RevisionCreateAmendmentDelegate(
             OperationTypeProcess.QUALIFICATION_CONSIDERATION,
             OperationTypeProcess.QUALIFICATION_DECLARE_NON_CONFLICT_OF_INTEREST,
             OperationTypeProcess.QUALIFICATION_PROTOCOL,
+            OperationTypeProcess.PCR_PROTOCOL,
             OperationTypeProcess.START_AWARD_PERIOD,
             OperationTypeProcess.START_SECOND_STAGE,
             OperationTypeProcess.SUBMISSION_PERIOD_END,
