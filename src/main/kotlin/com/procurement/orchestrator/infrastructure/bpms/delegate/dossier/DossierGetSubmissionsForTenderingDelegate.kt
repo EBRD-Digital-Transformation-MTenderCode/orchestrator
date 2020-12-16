@@ -367,6 +367,8 @@ class DossierGetSubmissionsForTenderingDelegate(
             OperationTypeProcess.TENDER_OR_LOT_AMENDMENT_CONFIRMATION,
             OperationTypeProcess.WITHDRAW_QUALIFICATION_PROTOCOL,
             OperationTypeProcess.WITHDRAW_SUBMISSION -> PartyRoles(PartyRole.INVITED_TENDERER).asSuccess()
+
+            OperationTypeProcess.DIVIDE_LOT,
             OperationTypeProcess.PCR_PROTOCOL,
             OperationTypeProcess.UPDATE_AWARD ->
                 Result.failure(Fail.Incident.Bpe(description = "Operation type: '${operationType.key}' in this delegate is not implemented."))
