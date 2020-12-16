@@ -49,8 +49,13 @@ abstract class CreatePacsAction : FunctionalAction<CreatePacsAction.Params, Crea
         @param:JsonProperty("owner") @field:JsonProperty("owner") val owner: Owner
     ) {
         data class Tender(
+            @JsonInclude(JsonInclude.Include.NON_EMPTY)
             @param:JsonProperty("lots") @field:JsonProperty("lots") val lots: List<Lot>,
+
+            @JsonInclude(JsonInclude.Include.NON_EMPTY)
             @param:JsonProperty("targets") @field:JsonProperty("targets") val targets: List<Target>,
+
+            @JsonInclude(JsonInclude.Include.NON_EMPTY)
             @param:JsonProperty("criteria") @field:JsonProperty("criteria") val criteria: List<Criteria>
         ) {
             data class Lot(
@@ -59,6 +64,8 @@ abstract class CreatePacsAction : FunctionalAction<CreatePacsAction.Params, Crea
 
             data class Target(
                 @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
+
+                @JsonInclude(JsonInclude.Include.NON_EMPTY)
                 @param:JsonProperty("observations") @field:JsonProperty("observations") val observations: List<Observation>
             ) {
                 data class Observation(
@@ -91,10 +98,13 @@ abstract class CreatePacsAction : FunctionalAction<CreatePacsAction.Params, Crea
                 @JsonInclude(JsonInclude.Include.NON_NULL)
                 @param:JsonProperty("relatedItem") @field:JsonProperty("relatedItem") val relatedItem: String?,
 
+                @JsonInclude(JsonInclude.Include.NON_EMPTY)
                 @param:JsonProperty("requirementGroups") @field:JsonProperty("requirementGroups") val requirementGroups: List<RequirementGroup>
             ) {
                 data class RequirementGroup(
                     @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
+
+                    @JsonInclude(JsonInclude.Include.NON_EMPTY)
                     @param:JsonProperty("requirements") @field:JsonProperty("requirements") val requirements: List<Requirement>
                 ) {
                     data class Requirement(
@@ -107,6 +117,8 @@ abstract class CreatePacsAction : FunctionalAction<CreatePacsAction.Params, Crea
 
         data class Award(
             @param:JsonProperty("id") @field:JsonProperty("id") val id: AwardId,
+
+            @JsonInclude(JsonInclude.Include.NON_EMPTY)
             @param:JsonProperty("suppliers") @field:JsonProperty("suppliers") val suppliers: List<Supplier>
         ) {
             data class Supplier(
@@ -118,10 +130,13 @@ abstract class CreatePacsAction : FunctionalAction<CreatePacsAction.Params, Crea
         }
 
         data class Bids(
+            @JsonInclude(JsonInclude.Include.NON_EMPTY)
             @param:JsonProperty("details") @field:JsonProperty("details") val details: List<Detail>
         ) {
             data class Detail(
                 @param:JsonProperty("id") @field:JsonProperty("id") val id: BidId,
+
+                @JsonInclude(JsonInclude.Include.NON_EMPTY)
                 @param:JsonProperty("tenderers") @field:JsonProperty("tenderers") val tenderers: List<Tenderer>,
 
                 @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -163,6 +178,7 @@ abstract class CreatePacsAction : FunctionalAction<CreatePacsAction.Params, Crea
     }
 
     data class Result(
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
         @param:JsonProperty("contracts") @field:JsonProperty("contracts") val contracts: List<Contract>,
 
         @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -173,6 +189,8 @@ abstract class CreatePacsAction : FunctionalAction<CreatePacsAction.Params, Crea
             @param:JsonProperty("status") @field:JsonProperty("status") val status: String,
             @param:JsonProperty("statusDetails") @field:JsonProperty("statusDetails") val statusDetails: String,
             @param:JsonProperty("date") @field:JsonProperty("date") val date: LocalDateTime,
+
+            @JsonInclude(JsonInclude.Include.NON_EMPTY)
             @param:JsonProperty("relatedLots") @field:JsonProperty("relatedLots") val relatedLots: List<LotId>,
 
             @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -192,6 +210,8 @@ abstract class CreatePacsAction : FunctionalAction<CreatePacsAction.Params, Crea
             data class AgreedMetric(
                 @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
                 @param:JsonProperty("title") @field:JsonProperty("title") val title: String,
+
+                @JsonInclude(JsonInclude.Include.NON_EMPTY)
                 @param:JsonProperty("observations") @field:JsonProperty("observations") val observations: List<Observation>
             ) {
                 data class Observation(
