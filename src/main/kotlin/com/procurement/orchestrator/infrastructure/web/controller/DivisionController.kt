@@ -11,7 +11,6 @@ import com.procurement.orchestrator.domain.fail.error.RequestErrors
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.asSuccess
-import com.procurement.orchestrator.infrastructure.extension.http.getLotId
 import com.procurement.orchestrator.infrastructure.extension.http.getOperationId
 import com.procurement.orchestrator.infrastructure.extension.http.getPayload
 import com.procurement.orchestrator.infrastructure.extension.http.getPlatformId
@@ -33,12 +32,13 @@ class DivisionController(
         private const val PROCESS_NAME = "divideLot"
     }
 
-    @PostMapping("/do/division/lot/{cpid}/{ocid}")
+    @PostMapping("/do/division/lot/{cpid}/{ocid}/{lotId}")
     fun divideLot(
         servlet: HttpServletRequest,
         @PathVariable cpid: String,
-        @PathVariable ocid: String
-    ): ResponseEntity<String> = perform(servlet = servlet, cpid = cpid, ocid = ocid)
+        @PathVariable ocid: String,
+        @PathVariable lotId: String
+    ): ResponseEntity<String> = perform(servlet = servlet, cpid = cpid, ocid = ocid, lotId = lotId)
         .also { fail -> fail.logging(logger) }
         .buildResponse()
         .also { response ->
@@ -46,8 +46,8 @@ class DivisionController(
                 logger.debug("Response: status '${response.statusCode}', body '${response.body}'.")
         }
 
-    private fun perform(servlet: HttpServletRequest, cpid: String, ocid: String): MaybeFail<Fail> {
-        val request: PlatformRequest = buildRequest(servlet = servlet, cpid = cpid, ocid = ocid)
+    private fun perform(servlet: HttpServletRequest, cpid: String, ocid: String, lotId: String): MaybeFail<Fail> {
+        val request: PlatformRequest = buildRequest(servlet = servlet, cpid = cpid, ocid = ocid, lotId = lotId)
             .orReturnFail { return MaybeFail.fail(it) }
             .also { request ->
                 if (logger.isDebugEnabled)
@@ -59,16 +59,14 @@ class DivisionController(
     private fun buildRequest(
         servlet: HttpServletRequest,
         cpid: String,
-        ocid: String
+        ocid: String,
+        lotId: String
     ): Result<PlatformRequest, RequestErrors> {
 
         val verifiedCpid = parseCpid(cpid)
             .orForwardFail { return it }
 
         val verifiedOcid = parseSingleStageOcid(ocid)
-            .orForwardFail { return it }
-
-        val verifiedLotId = servlet.getLotId()
             .orForwardFail { return it }
 
         val platformId: PlatformId = servlet.getPlatformId()
@@ -89,7 +87,7 @@ class DivisionController(
             context = PlatformRequest.Context(
                 cpid = verifiedCpid,
                 ocid = verifiedOcid,
-                id = verifiedLotId.toString(),
+                id = lotId,
                 token = token,
                 owner = platformId,
                 uri = servlet.requestURI,
