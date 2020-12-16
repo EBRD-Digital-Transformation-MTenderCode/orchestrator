@@ -110,7 +110,8 @@ class ProcessLauncherImpl(
                                 cpid = relatedProcess.cpid,
                                 ocid = relatedProcess.ocid
                             )
-                        }
+                        },
+                    entityId = request.context.id
                 )
             }
 
@@ -185,7 +186,8 @@ class ProcessLauncherImpl(
                     isAuction = prevProcessContext.isAuction,
                     mainProcurementCategory = prevProcessContext.mainProcurementCategory,
                     awardCriteria = prevProcessContext.awardCriteria,
-                    relatedProcess = null
+                    relatedProcess = null,
+                    entityId = null
                 )
             }
 
