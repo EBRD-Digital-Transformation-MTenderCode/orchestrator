@@ -541,4 +541,22 @@ class AccessActionsTest {
             }
         }
     }
+
+    @Nested
+    inner class ValidateLotsData {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<ValidateLotsDataAction.Params>("json/client/access/validate_lots_data_params_full.json")
+            }
+
+            @Test
+            fun required1() {
+                testingBindingAndMapping<ValidateLotsDataAction.Params>("json/client/access/validate_lots_data_params_required_1.json")
+            }
+        }
+
+    }
 }
