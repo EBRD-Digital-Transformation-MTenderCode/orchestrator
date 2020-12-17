@@ -6,6 +6,7 @@ import com.procurement.orchestrator.application.client.MdmClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.GlobalContext
 import com.procurement.orchestrator.application.model.context.extension.tryGetSubmissions
+import com.procurement.orchestrator.application.model.context.extension.tryGetTender
 import com.procurement.orchestrator.application.model.context.members.Errors
 import com.procurement.orchestrator.application.model.context.members.Incident
 import com.procurement.orchestrator.application.service.Logger
@@ -26,6 +27,7 @@ import com.procurement.orchestrator.domain.model.award.Awards
 import com.procurement.orchestrator.domain.model.bid.Bids
 import com.procurement.orchestrator.domain.model.bid.BidsDetails
 import com.procurement.orchestrator.domain.model.candidate.Candidates
+import com.procurement.orchestrator.domain.model.lot.Lots
 import com.procurement.orchestrator.domain.model.organization.Organization
 import com.procurement.orchestrator.domain.model.organization.Organizations
 import com.procurement.orchestrator.domain.model.organization.datail.account.BankAccounts
@@ -85,6 +87,7 @@ class MdmEnrichCountryDelegate(
                     Location.BID_BANK_ACCOUNTS -> getBidsBankAccountAddresses(context)
                     Location.AWARD -> getAwardsAddresses(context)
                     Location.AWARD_BANK_ACCOUNTS -> getAwardsBankAccountAddresses(context)
+                    Location.LOT -> getLotsAddresses(context)
                 }
                     .orForwardFail { fail -> return fail }
             }
@@ -124,6 +127,7 @@ class MdmEnrichCountryDelegate(
                     Location.BID_BANK_ACCOUNTS -> updateBidsBankAccount(context, countries)
                     Location.AWARD -> updateAwards(context, countries)
                     Location.AWARD_BANK_ACCOUNTS -> updateAwardsBankAccount(context, countries)
+                    Location.LOT -> updateTenderLots(context, countries)
                 }
             }
 
@@ -213,6 +217,21 @@ class MdmEnrichCountryDelegate(
         context.awards = Awards(updatedAwards)
     }
 
+    private fun updateTenderLots(context: GlobalContext, countries: Map<CountryDetails, CountryDetails>) {
+        val updatedTender = context.tender!!.let {tender ->
+            val updatedLots = tender.lots.map { lot ->
+                val updatedPlaceOfPerformance = lot.placeOfPerformance.let { placeOfPerformance ->
+                    val updatedAddress = placeOfPerformance!!.address!!.updateCountry(countries)
+                    placeOfPerformance.copy(address = updatedAddress)
+                }
+                lot.copy(placeOfPerformance = updatedPlaceOfPerformance)
+            }
+            tender.copy(lots = Lots(updatedLots))
+        }
+
+        context.tender = updatedTender
+    }
+
     private fun Organization.updateCountry(enrichedCountriesById: Map<CountryDetails, CountryDetails>): Organization =
         this.copy(address = this.address?.updateCountry(enrichedCountriesById))
 
@@ -282,6 +301,16 @@ class MdmEnrichCountryDelegate(
             .toList()
             .asSuccess()
 
+    private fun getLotsAddresses(context: GlobalContext): Result<List<CountryInfo>, Fail.Incident> {
+        val tender = context.tryGetTender()
+            .orForwardFail { return it }
+
+        return tender.lots.map { lot ->
+            val lotAddress = lot.placeOfPerformance!!.address!!
+            getCountryInfo(lotAddress)
+        }.asSuccess()
+    }
+
     private val getCountryInfo: (Address) -> CountryInfo = { address ->
         val country = address.addressDetails!!.country
         CountryInfo(id = country.id, scheme = country.scheme)
@@ -335,11 +364,12 @@ class MdmEnrichCountryDelegate(
 
     enum class Location(@JsonValue override val key: String) : EnumElementProvider.Key {
 
-        SUBMISSION("submission"),
+        AWARD("award"),
+        AWARD_BANK_ACCOUNTS("award.bankAccounts"),
         BID("bid"),
         BID_BANK_ACCOUNTS("bid.bankAccounts"),
-        AWARD("award"),
-        AWARD_BANK_ACCOUNTS("award.bankAccounts");
+        LOT("lot"),
+        SUBMISSION("submission");
 
         override fun toString(): String = key
 
