@@ -29,6 +29,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Outs
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ResponderProcessingAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForLotsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForTenderAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateLotsDataAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateRelatedTenderClassificationAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateRequirementResponsesAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.VerifyRequirementResponseAction
@@ -172,4 +173,9 @@ interface AccessClient {
         id: CommandId,
         params: GetLotsValueAction.Params
     ): Result<Reply<GetLotsValueAction.Result>, Fail.Incident>
+
+    suspend fun validateLotsDataAction(
+        id: CommandId,
+        params: ValidateLotsDataAction.Params
+    ): Result<Reply<Unit>, Fail.Incident>
 }
