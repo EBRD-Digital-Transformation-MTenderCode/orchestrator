@@ -541,4 +541,36 @@ class AccessActionsTest {
             }
         }
     }
+
+    @Nested
+    inner class DivideLot {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<DivideLotAction.Params>("json/client/access/divide_lot_params_full.json")
+            }
+
+            @Test
+            fun required1() {
+                testingBindingAndMapping<DivideLotAction.Params>("json/client/access/divide_lot_params_required_1.json")
+            }
+
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<DivideLotAction.Result>("json/client/access/divide_lot_result_full.json")
+            }
+
+            @Test
+            fun required1() {
+                testingBindingAndMapping<DivideLotAction.Result>("json/client/access/divide_lot_result_required_1.json")
+            }
+
+        }
+    }
 }
