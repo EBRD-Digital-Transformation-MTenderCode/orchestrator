@@ -4,12 +4,7 @@ import com.datastax.driver.core.utils.UUIDs;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.procurement.orchestrator.domain.Context;
-import com.procurement.orchestrator.domain.Notification;
-import com.procurement.orchestrator.domain.OperationType;
-import com.procurement.orchestrator.domain.Outcome;
-import com.procurement.orchestrator.domain.PlatformMessage;
-import com.procurement.orchestrator.domain.PlatformMessageData;
+import com.procurement.orchestrator.domain.*;
 import com.procurement.orchestrator.domain.dto.command.CommandMessage;
 import com.procurement.orchestrator.utils.JsonUtil;
 import org.slf4j.Logger;
@@ -17,12 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class NotificationServiceImpl implements NotificationService {
@@ -392,7 +382,6 @@ public class NotificationServiceImpl implements NotificationService {
             case CANCEL_PLAN: {
                 data.setOcid(context.getCpid());
                 data.setUrl(getTenderUri(context.getCpid(), null));
-                data.setOutcomes(buildOutcomes(context.getStage(), context.getOcid(), null));
                 break;
             }
             case UPDATE_BID_DOCS: {
