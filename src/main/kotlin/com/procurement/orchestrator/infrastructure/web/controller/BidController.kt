@@ -184,8 +184,11 @@ class BidController(
         requestService.saveRequestAndCheckOperation(context, data)
         val variables: MutableMap<String, Any> = HashMap()
         variables["operationType"] = PROCESS_NAME_V1
-        val bidNode = data["bid"] as ObjectNode
-        val relatedLotId = (bidNode["relatedLots"] as ArrayNode)[0].asText()
+
+        val bid = data["bid"] ?: throw OperationException("Missing bid.")
+        val bidNode = bid as ObjectNode
+        val relatedLots = bidNode["relatedLots"] ?: throw OperationException("Missing relatedLots.")
+        val relatedLotId = (relatedLots as ArrayNode)[0].asText()
         variables["lotId"] = relatedLotId
 
         processService.startProcess(context, variables)
