@@ -19,7 +19,9 @@ abstract class DataValidationAction : ProceduralAction<DataValidationAction.Para
         @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid,
         @field:JsonProperty("ocid") @param:JsonProperty("ocid") val ocid: Ocid,
         @field:JsonProperty("operationType") @param:JsonProperty("operationType") val operationType: OperationTypeProcess,
-        @field:JsonProperty("amendment") @param:JsonProperty("amendment") val amendment: Amendment
+
+        @field:JsonInclude(JsonInclude.Include.NON_NULL)
+        @field:JsonProperty("amendment") @param:JsonProperty("amendment") val amendment: Amendment?
     ) {
 
         class Amendment(
