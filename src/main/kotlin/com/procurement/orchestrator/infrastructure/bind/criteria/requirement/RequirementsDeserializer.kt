@@ -15,6 +15,9 @@ import com.procurement.orchestrator.domain.model.tender.criteria.requirement.Req
 import com.procurement.orchestrator.domain.model.tender.criteria.requirement.RequirementDataType
 import com.procurement.orchestrator.domain.model.tender.criteria.requirement.RequirementValue
 import com.procurement.orchestrator.domain.model.tender.criteria.requirement.Requirements
+import com.procurement.orchestrator.domain.model.tender.criteria.requirement.eligible.evidence.EligibleEvidence
+import com.procurement.orchestrator.domain.model.tender.criteria.requirement.eligible.evidence.EligibleEvidenceType
+import com.procurement.orchestrator.domain.model.tender.criteria.requirement.eligible.evidence.EligibleEvidences
 import com.procurement.orchestrator.exceptions.ErrorException
 import com.procurement.orchestrator.exceptions.ErrorType
 import com.procurement.orchestrator.infrastructure.bind.date.JsonDateTimeDeserializer
@@ -43,6 +46,20 @@ class RequirementsDeserializer : JsonDeserializer<Requirements>() {
                             endDate = endDate
                         )
                     }
+                val eligibleEvidencesNode = requirement.get("eligibleEvidences")?.let { it as ArrayNode }
+
+                val eligibleEvidences: EligibleEvidences = eligibleEvidencesNode
+                    ?.map {
+                        EligibleEvidence(
+                            id = it.get("id").asText(),
+                            title = it.get("title").asText(),
+                            description = it.takeIf { it.has("description") }?.get("description")?.asText(),
+                            type = EligibleEvidenceType.orThrow(it.get("type").asText()),
+                            relatedDocument = it.takeIf { it.has("relatedDocument") }?.get("relatedDocument")?.asText()
+                        )
+                    }
+                    .orEmpty()
+                    .let { EligibleEvidences(it) }
 
                 Requirement(
                     id = id,
@@ -50,7 +67,8 @@ class RequirementsDeserializer : JsonDeserializer<Requirements>() {
                     description = description,
                     period = period,
                     dataType = dataType,
-                    value = requirementValue(requirement)
+                    value = requirementValue(requirement),
+                    eligibleEvidences = eligibleEvidences
                 )
             }
         }
