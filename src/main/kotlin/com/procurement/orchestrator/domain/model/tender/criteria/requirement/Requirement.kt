@@ -3,6 +3,7 @@ package com.procurement.orchestrator.domain.model.tender.criteria.requirement
 import com.procurement.orchestrator.domain.model.ComplexObject
 import com.procurement.orchestrator.domain.model.IdentifiableObject
 import com.procurement.orchestrator.domain.model.or
+import com.procurement.orchestrator.domain.model.tender.criteria.requirement.eligible.evidence.EligibleEvidences
 import com.procurement.orchestrator.domain.model.updateBy
 import java.io.Serializable
 import java.math.BigDecimal
@@ -14,7 +15,8 @@ class Requirement(
     val description: String?,
     val period: Period?,
     val dataType: RequirementDataType?,
-    val value: RequirementValue = NoneValue
+    val value: RequirementValue = NoneValue,
+    val eligibleEvidences: EligibleEvidences = EligibleEvidences()
 ) : IdentifiableObject<Requirement>, Serializable {
 
     override fun updateBy(src: Requirement) = Requirement(
@@ -23,7 +25,8 @@ class Requirement(
         description = src.description or description,
         period = period updateBy src.period,
         dataType = src.dataType,
-        value = src.value
+        value = src.value,
+        eligibleEvidences = eligibleEvidences updateBy src.eligibleEvidences
     )
 
     data class Period(
