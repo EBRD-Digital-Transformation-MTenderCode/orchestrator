@@ -3,7 +3,6 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.revision
 import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.RevisionClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
-import com.procurement.orchestrator.application.model.context.extension.getAmendmentIfOnlyOne
 import com.procurement.orchestrator.application.model.context.extension.tryGetTender
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
@@ -43,8 +42,7 @@ class RevisionDataValidationDelegate(
         val tender = context.tryGetTender()
             .orForwardFail { fail -> return fail }
 
-        val amendment = tender.getAmendmentIfOnlyOne()
-            .orForwardFail { fail -> return fail }
+        val amendment = tender.amendments.firstOrNull()
 
         val processInfo = context.processInfo
 
@@ -54,20 +52,22 @@ class RevisionDataValidationDelegate(
                 cpid = processInfo.cpid!!,
                 ocid = processInfo.ocid!!,
                 operationType = processInfo.operationType,
-                amendment = DataValidationAction.Params.Amendment(
-                    id = amendment.id,
-                    rationale = amendment.rationale,
-                    description = amendment.description,
-                    documents = amendment.documents
-                        .map { document ->
-                            DataValidationAction.Params.Amendment.Document(
-                                id = document.id,
-                                documentType = document.documentType,
-                                title = document.title,
-                                description = document.description
-                            )
-                        }
-                )
+                amendment = amendment?.let { amendment ->
+                    DataValidationAction.Params.Amendment(
+                        id = amendment.id,
+                        rationale = amendment.rationale,
+                        description = amendment.description,
+                        documents = amendment.documents
+                            .map { document ->
+                                DataValidationAction.Params.Amendment.Document(
+                                    id = document.id,
+                                    documentType = document.documentType,
+                                    title = document.title,
+                                    description = document.description
+                                )
+                            }
+                    )
+                }
             )
         )
     }
