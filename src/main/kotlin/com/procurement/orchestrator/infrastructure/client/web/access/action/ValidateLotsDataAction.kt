@@ -21,7 +21,10 @@ abstract class ValidateLotsDataAction : ProceduralAction<ValidateLotsDataAction.
         @param:JsonProperty("tender") @field:JsonProperty("tender") val tender: Tender
     ) {
         data class Tender(
+            @JsonInclude(JsonInclude.Include.NON_EMPTY)
             @param:JsonProperty("lots") @field:JsonProperty("lots") val lots: List<Lot>,
+
+            @JsonInclude(JsonInclude.Include.NON_EMPTY)
             @param:JsonProperty("items") @field:JsonProperty("items") val items: List<Item>
         ) {
             data class Lot(
