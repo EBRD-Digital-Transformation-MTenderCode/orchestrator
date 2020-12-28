@@ -16,8 +16,8 @@ import com.procurement.orchestrator.domain.model.contract.observation.Observatio
 import com.procurement.orchestrator.domain.model.contract.observation.Observations
 import com.procurement.orchestrator.domain.model.lot.LotId
 import com.procurement.orchestrator.domain.model.lot.RelatedLots
-import com.procurement.orchestrator.domain.model.organization.Organization
-import com.procurement.orchestrator.domain.model.organization.Organizations
+import com.procurement.orchestrator.domain.model.organization.OrganizationReference
+import com.procurement.orchestrator.domain.model.organization.OrganizationReferences
 import com.procurement.orchestrator.domain.model.period.Period
 import com.procurement.orchestrator.domain.model.requirement.RequirementId
 import com.procurement.orchestrator.domain.model.requirement.RequirementResponseValue
@@ -249,13 +249,13 @@ fun CreatePacsAction.Result.Contract.toDomain(): com.procurement.orchestrator.do
         date = date,
         relatedLots = relatedLots.let { relatedLots -> RelatedLots(relatedLots) },
         suppliers = suppliers?.map { supplier ->
-            Organization(
+            OrganizationReference(
                 id = supplier.id,
                 name = supplier.name
             )
         }
             .orEmpty()
-            .let { Organizations(it) },
+            .let { OrganizationReferences(it) },
         awardId = awardId,
         agreedMetrics = agreedMetrics
             ?.map { agreedMetric ->
