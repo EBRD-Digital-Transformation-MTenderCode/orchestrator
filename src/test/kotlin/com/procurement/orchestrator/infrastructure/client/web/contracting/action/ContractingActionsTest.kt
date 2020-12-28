@@ -70,4 +70,49 @@ class ContractingActionsTest {
             }
         }
     }
+
+    @Nested
+    inner class CreatePacs {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CreatePacsAction.Params>("json/client/contracting/create_pacs_params_fully.json")
+            }
+
+            @Test
+            fun requires_1() {
+                testingBindingAndMapping<CreatePacsAction.Params>("json/client/contracting/create_pacs_params_required_1.json")
+            }
+
+            @Test
+            fun requires_2() {
+                testingBindingAndMapping<CreatePacsAction.Params>("json/client/contracting/create_pacs_params_required_2.json")
+            }
+
+            @Test
+            fun requires_3() {
+                testingBindingAndMapping<CreatePacsAction.Params>("json/client/contracting/create_pacs_params_required_3.json")
+            }
+        }
+
+        @Nested
+        inner class Result{
+            @Test
+            fun fully(){
+                testingBindingAndMapping<CreatePacsAction.Result>("json/client/contracting/create_pacs_result_full.json")
+            }
+
+            @Test
+            fun required1(){
+                testingBindingAndMapping<CreatePacsAction.Result>("json/client/contracting/create_pacs_result_required_1.json")
+            }
+
+            @Test
+            fun required2(){
+                testingBindingAndMapping<CreatePacsAction.Result>("json/client/contracting/create_pacs_result_required_2.json")
+            }
+        }
+    }
 }

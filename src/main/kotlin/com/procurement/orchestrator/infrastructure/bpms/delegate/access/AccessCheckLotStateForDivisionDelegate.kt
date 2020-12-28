@@ -1,27 +1,27 @@
-package com.procurement.orchestrator.infrastructure.bpms.delegate.revision
+package com.procurement.orchestrator.infrastructure.bpms.delegate.access
 
 import com.procurement.orchestrator.application.CommandId
-import com.procurement.orchestrator.application.client.RevisionClient
+import com.procurement.orchestrator.application.client.AccessClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
-import com.procurement.orchestrator.application.model.context.extension.tryGetTender
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
-import com.procurement.orchestrator.domain.functional.Result.Companion.success
+import com.procurement.orchestrator.domain.functional.Result.Companion.failure
+import com.procurement.orchestrator.domain.model.lot.LotId
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
-import com.procurement.orchestrator.infrastructure.client.web.revision.action.DataValidationAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckLotsStateAction
 import org.springframework.stereotype.Component
 
 @Component
-class RevisionDataValidationDelegate(
+class AccessCheckLotStateForDivisionDelegate(
     logger: Logger,
-    private val client: RevisionClient,
+    private val accessClient: AccessClient,
     operationStepRepository: OperationStepRepository,
     transform: Transform
 ) : AbstractExternalDelegate<Unit, Unit>(
@@ -31,43 +31,29 @@ class RevisionDataValidationDelegate(
 ) {
 
     override fun parameters(parameterContainer: ParameterContainer): Result<Unit, Fail.Incident.Bpmn.Parameter> =
-        success(Unit)
+        Result.success(Unit)
 
     override suspend fun execute(
         commandId: CommandId,
         context: CamundaGlobalContext,
         parameters: Unit
     ): Result<Reply<Unit>, Fail.Incident> {
-
-        val tender = context.tryGetTender()
-            .orForwardFail { fail -> return fail }
-
-        val amendment = tender.amendments.firstOrNull()
-
         val processInfo = context.processInfo
+        val requestInfo = context.requestInfo
 
-        return client.dataValidation(
+        val entityId = processInfo.entityId
+            ?: return failure(Fail.Incident.Bpms.Context.Missing(name = "entityId", path = "processInfo"))
+        val lots = listOf(CheckLotsStateAction.Params.Tender.Lot(LotId.create(entityId)))
+
+        return accessClient.checkLotsState(
             id = commandId,
-            params = DataValidationAction.Params(
+            params = CheckLotsStateAction.Params(
                 cpid = processInfo.cpid!!,
                 ocid = processInfo.ocid!!,
+                country = requestInfo.country,
                 operationType = processInfo.operationType,
-                amendment = amendment?.let { amendment ->
-                    DataValidationAction.Params.Amendment(
-                        id = amendment.id,
-                        rationale = amendment.rationale,
-                        description = amendment.description,
-                        documents = amendment.documents
-                            .map { document ->
-                                DataValidationAction.Params.Amendment.Document(
-                                    id = document.id,
-                                    documentType = document.documentType,
-                                    title = document.title,
-                                    description = document.description
-                                )
-                            }
-                    )
-                }
+                pmd = processInfo.pmd,
+                tender = CheckLotsStateAction.Params.Tender(lots)
             )
         )
     }

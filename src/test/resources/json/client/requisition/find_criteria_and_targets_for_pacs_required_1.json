@@ -1,0 +1,35 @@
+{
+  "tender": {
+    "criteria": [
+      {
+        "id": "string",
+        "title": "string",
+        "requirementGroups": [
+          {
+            "id": "string",
+            "requirements": [
+              {
+                "id": "string",
+                "title": "string"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "targets": [
+      {
+        "id": "string",
+        "observations": [
+          {
+            "id": "string",
+            "unit": {
+              "id": "string",
+              "name": "string"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

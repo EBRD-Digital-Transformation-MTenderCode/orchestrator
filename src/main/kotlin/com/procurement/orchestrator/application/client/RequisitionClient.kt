@@ -9,10 +9,12 @@ import com.procurement.orchestrator.infrastructure.client.web.requisition.action
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.CheckTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.CreatePcrAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.CreateRelationToContractProcessStageAction
+import com.procurement.orchestrator.infrastructure.client.web.requisition.action.FindCriteriaAndTargetsForPacsAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.FindItemsByLotIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.FindProcurementMethodModalitiesAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.GetCurrencyAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.GetTenderStateAction
+import com.procurement.orchestrator.infrastructure.client.web.requisition.action.SetStateForLotsAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.ValidatePcrDataAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.ValidateRequirementResponsesAction
 
@@ -60,6 +62,7 @@ interface RequisitionClient {
         id: CommandId,
         params: FindItemsByLotIdsAction.Params
     ): Result<Reply<FindItemsByLotIdsAction.Result>, Fail.Incident>
+
     suspend fun validateRequirementResponses(
         id: CommandId,
         params: ValidateRequirementResponsesAction.Params
@@ -69,4 +72,14 @@ interface RequisitionClient {
         id: CommandId,
         params: CheckAccessToTenderAction.Params
     ): Result<Reply<Unit>, Fail.Incident>
+
+    suspend fun setStateForLots(
+        id: CommandId,
+        params: SetStateForLotsAction.Params
+    ): Result<Reply<SetStateForLotsAction.Result>, Fail.Incident>
+
+    suspend fun findCriteriaAndTargetsForPacs(
+        id: CommandId,
+        params: FindCriteriaAndTargetsForPacsAction.Params
+    ): Result<Reply<FindCriteriaAndTargetsForPacsAction.Result>, Fail.Incident>
 }
