@@ -13,6 +13,7 @@ import com.procurement.orchestrator.infrastructure.client.web.requisition.action
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.FindProcurementMethodModalitiesAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.GetCurrencyAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.GetTenderStateAction
+import com.procurement.orchestrator.infrastructure.client.web.requisition.action.SetStateForLotsAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.ValidatePcrDataAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.ValidateRequirementResponsesAction
 
@@ -60,6 +61,7 @@ interface RequisitionClient {
         id: CommandId,
         params: FindItemsByLotIdsAction.Params
     ): Result<Reply<FindItemsByLotIdsAction.Result>, Fail.Incident>
+
     suspend fun validateRequirementResponses(
         id: CommandId,
         params: ValidateRequirementResponsesAction.Params
@@ -69,4 +71,9 @@ interface RequisitionClient {
         id: CommandId,
         params: CheckAccessToTenderAction.Params
     ): Result<Reply<Unit>, Fail.Incident>
+
+    suspend fun setStateForLots(
+        id: CommandId,
+        params: SetStateForLotsAction.Params
+    ): Result<Reply<SetStateForLotsAction.Result>, Fail.Incident>
 }

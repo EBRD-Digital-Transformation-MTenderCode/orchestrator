@@ -15,6 +15,7 @@ import com.procurement.orchestrator.infrastructure.client.web.requisition.action
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.FindProcurementMethodModalitiesAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.GetCurrencyAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.GetTenderStateAction
+import com.procurement.orchestrator.infrastructure.client.web.requisition.action.SetStateForLotsAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.ValidatePcrDataAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.ValidateRequirementResponsesAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
@@ -117,5 +118,14 @@ class HttpRequisitionClient(private val webClient: WebClient, properties: Compon
     ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
         url = url,
         command = RequisitionCommands.CheckAccessToTender.build(id = id, params = params)
+    )
+
+    override suspend fun setStateForLots(
+        id: CommandId,
+        params: SetStateForLotsAction.Params
+    ): Result<Reply<SetStateForLotsAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = RequisitionCommands.SetStateForLots.build(id = id, params = params),
+        target = RequisitionCommands.SetStateForLots.target
     )
 }
