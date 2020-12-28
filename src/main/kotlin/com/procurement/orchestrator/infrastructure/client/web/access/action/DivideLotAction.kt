@@ -27,7 +27,10 @@ abstract class DivideLotAction : FunctionalAction<DivideLotAction.Params, Divide
         @param:JsonProperty("tender") @field:JsonProperty("tender") val tender: Tender
     ) {
         data class Tender(
+            @JsonInclude(JsonInclude.Include.NON_EMPTY)
             @param:JsonProperty("lots") @field:JsonProperty("lots") val lots: List<Lot>,
+
+            @JsonInclude(JsonInclude.Include.NON_EMPTY)
             @param:JsonProperty("items") @field:JsonProperty("items") val items: List<Item>
         ) {
             data class Lot(
@@ -139,7 +142,10 @@ abstract class DivideLotAction : FunctionalAction<DivideLotAction.Params, Divide
         @param:JsonProperty("tender") @field:JsonProperty("tender") val tender: Tender
     ) : Serializable {
         data class Tender(
+            @JsonInclude(JsonInclude.Include.NON_EMPTY)
             @param:JsonProperty("lots") @field:JsonProperty("lots") val lots: List<Lot>,
+
+            @JsonInclude(JsonInclude.Include.NON_EMPTY)
             @param:JsonProperty("items") @field:JsonProperty("items") val items: List<Item>
         ) : Serializable {
             data class Lot(
@@ -217,7 +223,7 @@ abstract class DivideLotAction : FunctionalAction<DivideLotAction.Params, Divide
 
                 @param:JsonProperty("classification") @field:JsonProperty("classification") val classification: Classification,
 
-                @JsonInclude(JsonInclude.Include.NON_NULL)
+                @JsonInclude(JsonInclude.Include.NON_EMPTY)
                 @param:JsonProperty("additionalClassifications") @field:JsonProperty("additionalClassifications") val additionalClassifications: List<AdditionalClassification>?,
 
                 @param:JsonProperty("quantity") @field:JsonProperty("quantity") val quantity: Quantity,
