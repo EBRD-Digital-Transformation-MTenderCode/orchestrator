@@ -8,6 +8,7 @@ import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.WebClient
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CancelFrameworkContractAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreateFrameworkContractAction
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreatePacsAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.FindCANIdsAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
 import java.net.URL
@@ -38,4 +39,12 @@ class HttpContractingClient(private val webClient: WebClient, properties: Compon
         target = ContractingCommands.CancelFrameworkContract.target
     )
 
+    override suspend fun createPacs(
+        id: CommandId,
+        params: CreatePacsAction.Params
+    ): Result<Reply<CreatePacsAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = ContractingCommands.CreatePacs.build(id = id, params = params),
+        target = ContractingCommands.CreatePacs.target
+    )
 }
