@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.controller;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.service.RequestService;
@@ -32,18 +33,23 @@ public class IssueController {
     }
 
     @RequestMapping(value = "/contract/{cpid}/{ocid}", method = RequestMethod.POST)
-    public ResponseEntity<String> issuingAC(@RequestHeader("Authorization") final String authorization,
-                                            @RequestHeader("X-OPERATION-ID") final String operationId,
-                                            @RequestHeader("X-TOKEN") final String token,
-                                            @PathVariable("cpid") final String cpid,
-                                            @PathVariable("ocid") final String ocid) {
-        requestService.validate(operationId, null);
-        final Context context = requestService.getContextForContractUpdate(authorization, operationId,
-                cpid, ocid, token, "issuingAC");
-        requestService.saveRequestAndCheckOperation(context, null);
+    public ResponseEntity<String> issuingAC(
+            @RequestHeader("Authorization") final String authorization,
+            @RequestHeader("X-OPERATION-ID") final String operationId,
+            @RequestHeader("X-TOKEN") final String token,
+            @PathVariable("cpid") final String cpid,
+            @PathVariable("ocid") final String ocid,
+            @RequestBody final JsonNode data
+    ) {
+
+        requestService.validate(operationId, data);
+        final Context context = requestService.getContextForContractUpdate(authorization, operationId, cpid, ocid, token, "issuingAC");
+        requestService.saveRequestAndCheckOperation(context, data);
+
         final Map<String, Object> variables = new HashMap<>();
         variables.put("operationType", context.getOperationType());
         processService.startProcess(context, variables);
+
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 }

@@ -1,7 +1,7 @@
-package com.procurement.orchestrator.infrastructure.bpms.delegate.revision
+package com.procurement.orchestrator.infrastructure.bpms.delegate.evaluation
 
 import com.procurement.orchestrator.application.CommandId
-import com.procurement.orchestrator.application.client.RevisionClient
+import com.procurement.orchestrator.application.client.EvaluationClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.tryGetTender
 import com.procurement.orchestrator.application.service.Logger
@@ -11,20 +11,22 @@ import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
+import com.procurement.orchestrator.domain.model.award.Awards
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
-import com.procurement.orchestrator.infrastructure.client.web.revision.action.DataValidationAction
+import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.FindAwardsForProtocolAction
+import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.toDomain
 import org.springframework.stereotype.Component
 
 @Component
-class RevisionDataValidationDelegate(
+class EvaluationFindAwardsForProtocolDelegate(
     logger: Logger,
-    private val client: RevisionClient,
+    private val evaluationClient: EvaluationClient,
     operationStepRepository: OperationStepRepository,
     transform: Transform
-) : AbstractExternalDelegate<Unit, Unit>(
+) : AbstractExternalDelegate<Unit, FindAwardsForProtocolAction.Result>(
     logger = logger,
     transform = transform,
     operationStepRepository = operationStepRepository
@@ -37,37 +39,22 @@ class RevisionDataValidationDelegate(
         commandId: CommandId,
         context: CamundaGlobalContext,
         parameters: Unit
-    ): Result<Reply<Unit>, Fail.Incident> {
+    ): Result<Reply<FindAwardsForProtocolAction.Result>, Fail.Incident> {
 
         val tender = context.tryGetTender()
             .orForwardFail { fail -> return fail }
 
-        val amendment = tender.amendments.firstOrNull()
-
         val processInfo = context.processInfo
-
-        return client.dataValidation(
+        return evaluationClient.findAwardsForProtocol(
             id = commandId,
-            params = DataValidationAction.Params(
+            params = FindAwardsForProtocolAction.Params(
                 cpid = processInfo.cpid!!,
                 ocid = processInfo.ocid!!,
-                operationType = processInfo.operationType,
-                amendment = amendment?.let { amendment ->
-                    DataValidationAction.Params.Amendment(
-                        id = amendment.id,
-                        rationale = amendment.rationale,
-                        description = amendment.description,
-                        documents = amendment.documents
-                            .map { document ->
-                                DataValidationAction.Params.Amendment.Document(
-                                    id = document.id,
-                                    documentType = document.documentType,
-                                    title = document.title,
-                                    description = document.description
-                                )
-                            }
-                    )
-                }
+                tender = FindAwardsForProtocolAction.Params.Tender(
+                    tender.lots.map { lot ->
+                        FindAwardsForProtocolAction.Params.Tender.Lot(lot.id)
+                    }
+                )
             )
         )
     }
@@ -75,6 +62,16 @@ class RevisionDataValidationDelegate(
     override fun updateGlobalContext(
         context: CamundaGlobalContext,
         parameters: Unit,
-        result: Option<Unit>
-    ): MaybeFail<Fail.Incident.Bpmn> = MaybeFail.none()
+        result: Option<FindAwardsForProtocolAction.Result>
+    ): MaybeFail<Fail.Incident> {
+
+        val data = result.orNull
+            ?: return MaybeFail.none()
+
+        val awards = data.awards.map { award -> award.toDomain() }
+
+        context.awards = Awards(awards)
+
+        return MaybeFail.none()
+    }
 }

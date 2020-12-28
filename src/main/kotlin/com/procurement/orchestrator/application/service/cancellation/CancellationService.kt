@@ -117,7 +117,8 @@ class CancellationServiceImpl(
                     isAuction = prevProcessContext.isAuction,
                     mainProcurementCategory = prevProcessContext.mainProcurementCategory,
                     awardCriteria = prevProcessContext.awardCriteria,
-                    relatedProcess = null
+                    relatedProcess = null,
+                    entityId = null
                 )
 
                 tender = Tender(
@@ -221,7 +222,8 @@ class CancellationServiceImpl(
                     isAuction = prevProcessContext.isAuction,
                     mainProcurementCategory = prevProcessContext.mainProcurementCategory,
                     awardCriteria = prevProcessContext.awardCriteria,
-                    relatedProcess = null
+                    relatedProcess = null,
+                    entityId = null
                 )
 
                 tender = Tender(
@@ -325,7 +327,8 @@ class CancellationServiceImpl(
                     isAuction = prevProcessContext.isAuction,
                     mainProcurementCategory = prevProcessContext.mainProcurementCategory,
                     awardCriteria = prevProcessContext.awardCriteria,
-                    relatedProcess = null
+                    relatedProcess = null,
+                    entityId = null
                 )
 
                 tender = Tender(

@@ -202,6 +202,38 @@ class RequisitionActionsTest {
     }
 
     @Nested
+    inner class CheckAccessToTender {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CheckAccessToTenderAction.Params>("json/client/requisition/check_access_to_tender_params_full.json")
+            }
+        }
+    }
+
+    @Nested
+    inner class SetStateForLots {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<SetStateForLotsAction.Params>("json/client/requisition/set_state_for_lots_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<SetStateForLotsAction.Result>("json/client/requisition/set_state_for_lots_result_full.json")
+            }
+        }
+    }
+
+    @Nested
     inner class FindCriteriaAndTargetsForPacs {
 
         @Nested
