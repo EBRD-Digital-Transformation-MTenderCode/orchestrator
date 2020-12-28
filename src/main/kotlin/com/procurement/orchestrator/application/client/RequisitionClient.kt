@@ -9,6 +9,7 @@ import com.procurement.orchestrator.infrastructure.client.web.requisition.action
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.CheckTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.CreatePcrAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.CreateRelationToContractProcessStageAction
+import com.procurement.orchestrator.infrastructure.client.web.requisition.action.FindCriteriaAndTargetsForPacsAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.FindItemsByLotIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.FindProcurementMethodModalitiesAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.GetCurrencyAction
@@ -76,4 +77,9 @@ interface RequisitionClient {
         id: CommandId,
         params: SetStateForLotsAction.Params
     ): Result<Reply<SetStateForLotsAction.Result>, Fail.Incident>
+
+    suspend fun findCriteriaAndTargetsForPacs(
+        id: CommandId,
+        params: FindCriteriaAndTargetsForPacsAction.Params
+    ): Result<Reply<FindCriteriaAndTargetsForPacsAction.Result>, Fail.Incident>
 }

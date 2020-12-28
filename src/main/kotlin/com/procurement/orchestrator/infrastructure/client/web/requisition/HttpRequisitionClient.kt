@@ -11,6 +11,7 @@ import com.procurement.orchestrator.infrastructure.client.web.requisition.action
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.CheckTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.CreatePcrAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.CreateRelationToContractProcessStageAction
+import com.procurement.orchestrator.infrastructure.client.web.requisition.action.FindCriteriaAndTargetsForPacsAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.FindItemsByLotIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.FindProcurementMethodModalitiesAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.GetCurrencyAction
@@ -127,5 +128,14 @@ class HttpRequisitionClient(private val webClient: WebClient, properties: Compon
         url = url,
         command = RequisitionCommands.SetStateForLots.build(id = id, params = params),
         target = RequisitionCommands.SetStateForLots.target
+    )
+
+    override suspend fun findCriteriaAndTargetsForPacs(
+        id: CommandId,
+        params: FindCriteriaAndTargetsForPacsAction.Params
+    ): Result<Reply<FindCriteriaAndTargetsForPacsAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = RequisitionCommands.FindCriteriaAndTargetsForPacs.build(id = id, params = params),
+        target = RequisitionCommands.FindCriteriaAndTargetsForPacs.target
     )
 }

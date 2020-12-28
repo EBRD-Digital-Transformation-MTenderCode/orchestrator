@@ -1,0 +1,38 @@
+{
+  "tender": {
+    "criteria": [
+      {
+        "id": "string",
+        "title": "string",
+        "relatesTo": "lot",
+        "relatedItem": "string",
+        "requirementGroups": [
+          {
+            "id": "string",
+            "requirements": [
+              {
+                "id": "string",
+                "title": "string"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "targets": [
+      {
+        "id": "string",
+        "observations": [
+          {
+            "id": "string",
+            "unit": {
+              "id": "string",
+              "name": "string"
+            },
+            "relatedRequirementId": "string"
+          }
+        ]
+      }
+    ]
+  }
+}
