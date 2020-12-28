@@ -1,0 +1,15 @@
+{
+  "bids": {
+    "details": [
+      {
+        "id": "23244bf4-41c2-4b20-a473-944bf5a238d4",
+        "tenderers": [
+          {
+            "id": "string",
+            "name": "string"
+          }
+        ]
+      }
+    ]
+  }
+}
