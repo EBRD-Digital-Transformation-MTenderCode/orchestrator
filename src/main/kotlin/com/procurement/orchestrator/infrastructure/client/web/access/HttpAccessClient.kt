@@ -31,6 +31,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Outs
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ResponderProcessingAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForLotsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForTenderAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateLotsDataAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateRelatedTenderClassificationAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateRequirementResponsesAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.VerifyRequirementResponseAction
@@ -282,5 +283,13 @@ class HttpAccessClient(private val webClient: WebClient, properties: ComponentPr
         url = url,
         command = AccessCommands.GetLotsValue.build(id = id, params = params),
         target = AccessCommands.GetLotsValue.target
+    )
+
+    override suspend fun validateLotsDataAction(
+        id: CommandId,
+        params: ValidateLotsDataAction.Params
+    ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
+        url = url,
+        command = AccessCommands.ValidateLotsData.build(id = id, params = params)
     )
 }
