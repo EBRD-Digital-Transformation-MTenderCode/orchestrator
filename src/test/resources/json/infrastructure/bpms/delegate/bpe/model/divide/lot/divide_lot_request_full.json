@@ -1,0 +1,50 @@
+{
+  "tender": {
+    "lots": [
+      {
+        "id": "string",
+        "internalId": "string",
+        "title": "string",
+        "description": "string",
+        "value": {
+          "amount": 12.00,
+          "currency": "string"
+        },
+        "contractPeriod": {
+          "startDate": "2020-12-16T08:33:00.306Z",
+          "endDate": "2020-12-16T08:33:00.306Z"
+        },
+        "placeOfPerformance": {
+          "address": {
+            "streetAddress": "string",
+            "postalCode": "string",
+            "addressDetails": {
+              "country": {
+                "id": "string",
+                "description": "string",
+                "scheme": "string"
+              },
+              "region": {
+                "id": "string",
+                "description": "string",
+                "scheme": "string"
+              },
+              "locality": {
+                "id": "string",
+                "description": "string",
+                "scheme": "string"
+              }
+            }
+          },
+          "description": "string"
+        }
+      }
+    ],
+    "items": [
+      {
+        "id": "string",
+        "relatedLot": "string"
+      }
+    ]
+  }
+}

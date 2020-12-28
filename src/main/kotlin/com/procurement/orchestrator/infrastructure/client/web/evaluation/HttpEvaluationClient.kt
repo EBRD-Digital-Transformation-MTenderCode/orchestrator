@@ -13,6 +13,7 @@ import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CloseAwardPeriodAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CreateAwardAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CreateUnsuccessfulAwardsAction
+import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.FindAwardsForProtocolAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.GetAwardByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.GetAwardStateByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.StartAwardPeriodAction
@@ -127,5 +128,14 @@ class HttpEvaluationClient(private val webClient: WebClient, properties: Compone
         url = url,
         command = EvaluationCommands.UpdateAward.build(id = id, params = params),
         target = EvaluationCommands.UpdateAward.target
+    )
+
+    override suspend fun findAwardsForProtocol(
+        id: CommandId,
+        params: FindAwardsForProtocolAction.Params
+    ): Result<Reply<FindAwardsForProtocolAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = EvaluationCommands.FindAwardsForProtocol.build(id = id, params = params),
+        target = EvaluationCommands.FindAwardsForProtocol.target
     )
 }

@@ -15,7 +15,7 @@ import com.procurement.orchestrator.domain.model.document.Documents
 import com.procurement.orchestrator.domain.model.item.Items
 import com.procurement.orchestrator.domain.model.lot.RelatedLots
 import com.procurement.orchestrator.domain.model.or
-import com.procurement.orchestrator.domain.model.organization.Organizations
+import com.procurement.orchestrator.domain.model.organization.OrganizationReferences
 import com.procurement.orchestrator.domain.model.period.Period
 import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponses
 import com.procurement.orchestrator.domain.model.updateBy
@@ -33,6 +33,9 @@ data class Contract(
 
     @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
     @field:JsonProperty("relatedLots") @param:JsonProperty("relatedLots") val relatedLots: RelatedLots = RelatedLots(),
+
+    @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
+    @field:JsonProperty("suppliers") @param:JsonProperty("suppliers") val suppliers: OrganizationReferences = OrganizationReferences(),
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonProperty("title") @param:JsonProperty("title") val title: String? = null,
@@ -105,12 +108,8 @@ data class Contract(
     @field:JsonProperty("confirmationRequests") @param:JsonProperty("confirmationRequests") val confirmationRequests: ConfirmationRequests = ConfirmationRequests(),
 
     @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
-    @field:JsonProperty("confirmationResponses") @param:JsonProperty("confirmationResponses") val confirmationResponses: ConfirmationResponses = ConfirmationResponses(),
-
-    @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
-    @field:JsonProperty("suppliers") @param:JsonProperty("suppliers") val suppliers: Organizations = Organizations()
-
-    ) : IdentifiableObject<Contract>, Serializable {
+    @field:JsonProperty("confirmationResponses") @param:JsonProperty("confirmationResponses") val confirmationResponses: ConfirmationResponses = ConfirmationResponses()
+) : IdentifiableObject<Contract>, Serializable {
 
     override fun equals(other: Any?): Boolean = if (this === other)
         true
@@ -125,6 +124,7 @@ data class Contract(
         date = src.date or date,
         awardId = src.awardId or awardId,
         relatedLots = relatedLots combineBy src.relatedLots,
+        suppliers = suppliers updateBy src.suppliers,
         title = src.title or title,
         description = src.description or description,
         status = src.status or status,
@@ -148,7 +148,6 @@ data class Contract(
         agreedMetrics = agreedMetrics updateBy src.agreedMetrics,
         milestones = milestones updateBy src.milestones,
         confirmationRequests = confirmationRequests updateBy src.confirmationRequests,
-        confirmationResponses = confirmationResponses updateBy src.confirmationResponses,
-        suppliers = suppliers updateBy src.suppliers
+        confirmationResponses = confirmationResponses updateBy src.confirmationResponses
     )
 }
