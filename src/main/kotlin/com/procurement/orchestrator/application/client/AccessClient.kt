@@ -15,6 +15,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Chec
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateCriteriaForProcuringEntityAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateRelationToOtherProcessAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.DivideLotAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindAuctionsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindCriteriaAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindLotIdsAction
@@ -178,4 +179,9 @@ interface AccessClient {
         id: CommandId,
         params: ValidateLotsDataAction.Params
     ): Result<Reply<Unit>, Fail.Incident>
+
+    suspend fun divideLot(
+        id: CommandId,
+        params: DivideLotAction.Params
+    ): Result<Reply<DivideLotAction.Result>, Fail.Incident>
 }

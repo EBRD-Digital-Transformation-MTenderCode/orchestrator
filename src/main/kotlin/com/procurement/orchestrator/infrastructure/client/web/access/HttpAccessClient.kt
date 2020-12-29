@@ -17,6 +17,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Chec
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateCriteriaForProcuringEntityAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateRelationToOtherProcessAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.DivideLotAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindAuctionsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindCriteriaAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindLotIdsAction
@@ -291,5 +292,14 @@ class HttpAccessClient(private val webClient: WebClient, properties: ComponentPr
     ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
         url = url,
         command = AccessCommands.ValidateLotsData.build(id = id, params = params)
+    )
+
+    override suspend fun divideLot(
+        id: CommandId,
+        params: DivideLotAction.Params
+    ): Result<Reply<DivideLotAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = AccessCommands.DivideLot.build(id = id, params = params),
+        target = AccessCommands.DivideLot.target
     )
 }
