@@ -15,7 +15,7 @@ import com.procurement.orchestrator.domain.model.lot.LotId
 import com.procurement.orchestrator.domain.model.measure.Quantity
 import com.procurement.orchestrator.domain.model.tender.AwardCriteria
 import com.procurement.orchestrator.domain.model.tender.AwardCriteriaDetails
-import com.procurement.orchestrator.domain.model.tender.MainProcurementCategory
+import com.procurement.orchestrator.domain.model.tender.ProcurementCategory
 import com.procurement.orchestrator.domain.model.tender.ProcurementMethodModality
 import com.procurement.orchestrator.domain.model.tender.conversion.ConversionId
 import com.procurement.orchestrator.domain.model.tender.conversion.ConversionsRelatesTo
@@ -84,7 +84,7 @@ abstract class ValidatePcrDataAction : ProceduralAction<ValidatePcrDataAction.Pa
             @field:JsonProperty("conversions") @param:JsonProperty("conversions") val conversions: List<Conversion>?,
 
             @JsonInclude(JsonInclude.Include.NON_NULL)
-            @field:JsonProperty("mainProcurementCategory") @param:JsonProperty("mainProcurementCategory") val mainProcurementCategory: MainProcurementCategory?
+            @field:JsonProperty("mainProcurementCategory") @param:JsonProperty("mainProcurementCategory") val mainProcurementCategory: ProcurementCategory?
 
         ) {
 

@@ -1,0 +1,60 @@
+{
+  "cpid": "ocds-b3wdp1-MD-1580458690892",
+  "ocid": "ocds-b3wdp1-MD-1580458690892-EV-1580458791896",
+  "tender": {
+    "lots": [
+      {
+        "id": "string"
+      }
+    ],
+    "targets": [
+      {
+        "id": "string",
+        "observations": [
+          {
+            "id": "string",
+            "unit": {
+              "id": "string",
+              "name": "string"
+            },
+            "relatedRequirementId": "string"
+          }
+        ]
+      }
+    ],
+    "criteria": [
+      {
+        "id": "string",
+        "title": "string",
+        "relatesTo": "lot",
+        "relatedItem": "string",
+        "requirementGroups": [
+          {
+            "id": "string",
+            "requirements": [
+              {
+                "id": "string",
+                "title": "string"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "date": "2020-12-11T15:11:37Z",
+  "bids": {
+    "details": [
+      {
+        "id": "a320ebf5-254e-4c1f-ac94-24e9fefd9838",
+        "tenderers": [
+          {
+            "id": "string",
+            "name": "string"
+          }
+        ]
+      }
+    ]
+  },
+  "owner": "128cb525-8f0c-42ce-b130-ec0b770b1ea5"
+}

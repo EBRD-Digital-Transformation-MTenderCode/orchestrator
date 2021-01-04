@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.procurement.orchestrator.application.service.FunctionalAction
 import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
-import com.procurement.orchestrator.domain.model.tender.MainProcurementCategory
+import com.procurement.orchestrator.domain.model.tender.ProcurementCategory
 import com.procurement.orchestrator.infrastructure.client.web.Target
 import com.procurement.orchestrator.infrastructure.model.Version
 import java.io.Serializable
@@ -23,7 +23,7 @@ abstract class GetMainProcurementCategoryAction : FunctionalAction<GetMainProcur
         @field:JsonProperty("tender") @param:JsonProperty("tender") val tender: Tender
     ) : Serializable {
         data class Tender(
-            @field:JsonProperty("mainProcurementCategory") @param:JsonProperty("mainProcurementCategory") val mainProcurementCategory: MainProcurementCategory
+            @field:JsonProperty("mainProcurementCategory") @param:JsonProperty("mainProcurementCategory") val mainProcurementCategory: ProcurementCategory
         ) : Serializable
     }
 }

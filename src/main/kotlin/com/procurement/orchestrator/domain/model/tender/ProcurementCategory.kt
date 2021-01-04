@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonValue
 import com.procurement.orchestrator.domain.EnumElementProvider
 
-enum class MainProcurementCategory(@JsonValue override val key: String) : EnumElementProvider.Key {
+enum class ProcurementCategory(@JsonValue override val key: String) : EnumElementProvider.Key {
 
     GOODS("goods"),
     WORKS("works"),
@@ -12,7 +12,7 @@ enum class MainProcurementCategory(@JsonValue override val key: String) : EnumEl
 
     override fun toString(): String = key
 
-    companion object : EnumElementProvider<MainProcurementCategory>(info = info()) {
+    companion object : EnumElementProvider<ProcurementCategory>(info = info()) {
 
         @JvmStatic
         @JsonCreator
