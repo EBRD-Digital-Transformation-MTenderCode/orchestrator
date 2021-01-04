@@ -130,7 +130,9 @@ object PlatformNotification {
 
         data class Contract(
             @field:JsonProperty("id") @param:JsonProperty("id") val id: ContractId,
-            @field:JsonProperty("X-TOKEN") @param:JsonProperty("X-TOKEN") val token: Token
+
+            @JsonInclude(JsonInclude.Include.NON_NULL)
+            @field:JsonProperty("X-TOKEN") @param:JsonProperty("X-TOKEN") val token: Token?
         )
 
     }

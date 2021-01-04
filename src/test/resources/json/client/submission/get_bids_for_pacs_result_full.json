@@ -1,0 +1,28 @@
+{
+  "bids": {
+    "details": [
+      {
+        "id": "23244bf4-41c2-4b20-a473-944bf5a238d4",
+        "tenderers": [
+          {
+            "id": "string",
+            "name": "string"
+          }
+        ],
+        "requirementResponses": [
+          {
+            "id": "string",
+            "value": "Unknown Type: string,number,integer,boolean",
+            "requirement": {
+              "id": "string"
+            },
+            "period": {
+              "startDate": "2020-12-11T10:31:13Z",
+              "endDate": "2020-12-11T10:31:13Z"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

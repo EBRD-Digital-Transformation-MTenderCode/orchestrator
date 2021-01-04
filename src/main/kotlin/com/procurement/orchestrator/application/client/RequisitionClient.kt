@@ -4,14 +4,17 @@ import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
+import com.procurement.orchestrator.infrastructure.client.web.requisition.action.CheckAccessToTenderAction
+import com.procurement.orchestrator.infrastructure.client.web.requisition.action.CheckLotsStateAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.CheckTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.CreatePcrAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.CreateRelationToContractProcessStageAction
-import com.procurement.orchestrator.infrastructure.client.web.requisition.action.GetTenderStateAction
-import com.procurement.orchestrator.infrastructure.client.web.requisition.action.CheckLotsStateAction
+import com.procurement.orchestrator.infrastructure.client.web.requisition.action.FindCriteriaAndTargetsForPacsAction
+import com.procurement.orchestrator.infrastructure.client.web.requisition.action.FindItemsByLotIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.FindProcurementMethodModalitiesAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.GetCurrencyAction
-import com.procurement.orchestrator.infrastructure.client.web.requisition.action.FindItemsByLotIdsAction
+import com.procurement.orchestrator.infrastructure.client.web.requisition.action.GetTenderStateAction
+import com.procurement.orchestrator.infrastructure.client.web.requisition.action.SetStateForLotsAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.ValidatePcrDataAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.ValidateRequirementResponsesAction
 
@@ -59,8 +62,24 @@ interface RequisitionClient {
         id: CommandId,
         params: FindItemsByLotIdsAction.Params
     ): Result<Reply<FindItemsByLotIdsAction.Result>, Fail.Incident>
+
     suspend fun validateRequirementResponses(
         id: CommandId,
         params: ValidateRequirementResponsesAction.Params
     ): Result<Reply<Unit>, Fail.Incident>
+
+    suspend fun checkAccessToTender(
+        id: CommandId,
+        params: CheckAccessToTenderAction.Params
+    ): Result<Reply<Unit>, Fail.Incident>
+
+    suspend fun setStateForLots(
+        id: CommandId,
+        params: SetStateForLotsAction.Params
+    ): Result<Reply<SetStateForLotsAction.Result>, Fail.Incident>
+
+    suspend fun findCriteriaAndTargetsForPacs(
+        id: CommandId,
+        params: FindCriteriaAndTargetsForPacsAction.Params
+    ): Result<Reply<FindCriteriaAndTargetsForPacsAction.Result>, Fail.Incident>
 }

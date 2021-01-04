@@ -7,6 +7,7 @@ import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CloseAwardPeriodAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CreateAwardAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CreateUnsuccessfulAwardsAction
+import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.FindAwardsForProtocolAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.GetAwardByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.GetAwardStateByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.StartAwardPeriodAction
@@ -310,6 +311,26 @@ class EvaluationActionsTest {
             @Test
             fun required_4() {
                 testingBindingAndMapping<UpdateAwardAction.Result>("json/client/evaluation/update_award_result_required_3.json")
+            }
+        }
+    }
+
+    @Nested
+    inner class EvaluationFindAwardsForProtocol{
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<FindAwardsForProtocolAction.Params>("json/client/evaluation/find_awards_for_protocol_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<FindAwardsForProtocolAction.Result>("json/client/evaluation/find_awards_for_protocol_result_full.json")
             }
         }
     }

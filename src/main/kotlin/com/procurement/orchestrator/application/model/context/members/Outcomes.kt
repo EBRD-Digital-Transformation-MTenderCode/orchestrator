@@ -80,7 +80,9 @@ class Outcomes(values: MutableMap<PlatformId, Details> = mutableMapOf()) :
 
         data class Contract(
             @field:JsonProperty("id") @param:JsonProperty("id") val id: ContractId,
-            @field:JsonProperty("token") @param:JsonProperty("token") val token: Token
+
+            @JsonInclude(JsonInclude.Include.NON_NULL)
+            @field:JsonProperty("token") @param:JsonProperty("token") val token: Token?
         ) : Serializable
     }
 }
