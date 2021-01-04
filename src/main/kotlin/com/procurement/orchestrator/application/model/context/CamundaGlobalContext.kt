@@ -17,6 +17,7 @@ import com.procurement.orchestrator.domain.model.bid.Bids
 import com.procurement.orchestrator.domain.model.contract.Contracts
 import com.procurement.orchestrator.domain.model.contract.RelatedProcesses
 import com.procurement.orchestrator.domain.model.invitation.Invitations
+import com.procurement.orchestrator.domain.model.mdm.ProcessMasterData
 import com.procurement.orchestrator.domain.model.party.Parties
 import com.procurement.orchestrator.domain.model.qualification.PreQualification
 import com.procurement.orchestrator.domain.model.qualification.Qualifications
@@ -54,6 +55,8 @@ class CamundaGlobalContext(propertyContainer: PropertyContainer) : GlobalContext
     override var invitations: Invitations by collectionPropertyDelegate(propertyContainer) {Invitations() }
 
     override var relatedProcesses: RelatedProcesses by collectionPropertyDelegate(propertyContainer) {RelatedProcesses() }
+
+    override var processMasterData: ProcessMasterData? by nullablePropertyDelegate(propertyContainer)
 }
 
 fun CamundaGlobalContext.serialize(transform: Transform): Result<String, Fail.Incident.Transform.Serialization> =
@@ -73,6 +76,7 @@ fun CamundaGlobalContext.serialize(transform: Transform): Result<String, Fail.In
         override var qualifications: Qualifications = this@serialize.qualifications
         override var invitations: Invitations = this@serialize.invitations
         override var relatedProcesses: RelatedProcesses = this@serialize.relatedProcesses
+        override var processMasterData: ProcessMasterData? = this@serialize.processMasterData
     }.let { context ->
         transform.trySerialization(context)
     }
