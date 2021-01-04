@@ -25,7 +25,7 @@ abstract class CheckAwardsStateAction : ProceduralAction<CheckAwardsStateAction.
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
         @param:JsonProperty("awards") @field:JsonProperty("awards") val awards: List<Award>?,
 
-        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        @JsonInclude(JsonInclude.Include.NON_NULL)
         @param:JsonProperty("tender") @field:JsonProperty("tender") val tender: Tender?
     ) {
         data class Award(
