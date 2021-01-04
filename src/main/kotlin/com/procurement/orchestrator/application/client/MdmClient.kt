@@ -20,6 +20,8 @@ import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRequ
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRequirementGroupsAction
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRequirements
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRequirementsAction
+import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetStandardCriteria
+import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetStandardCriteriaAction
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetUnit
 
 interface MdmClient {
@@ -38,6 +40,8 @@ interface MdmClient {
     suspend fun getRequirementGroups(params: GetRequirementGroupsAction.Params): Result<GetRequirementGroups.Result.Success, Fail.Incident>
 
     suspend fun getCriteria(params: GetCriteriaAction.Params): Result<GetCriteria.Result.Success, Fail.Incident>
+
+    suspend fun getStandardCriteria(params: GetStandardCriteriaAction.Params): Result<GetStandardCriteria.Result.Success, Fail.Incident>
 
     suspend fun getRequirements(params: GetRequirementsAction.Params): Result<GetRequirements.Result.Success, Fail.Incident>
 
