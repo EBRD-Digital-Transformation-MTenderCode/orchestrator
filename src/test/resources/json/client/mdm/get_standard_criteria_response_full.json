@@ -1,0 +1,27 @@
+{
+  "data": [
+    {
+      "id": "string",
+      "title": "string",
+      "classification": {
+        "id": "string",
+        "scheme": "string"
+      },
+      "description": "string",
+      "requirementGroups": [
+        {
+          "id": "string",
+          "description": "string",
+          "requirements": [
+            {
+              "id": "string",
+              "title": "string",
+              "description": "string",
+              "dataType": "boolean"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
