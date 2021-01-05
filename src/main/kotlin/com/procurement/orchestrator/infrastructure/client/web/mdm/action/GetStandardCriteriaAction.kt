@@ -57,7 +57,9 @@ abstract class GetStandardCriteriaAction {
                     data class Requirement(
                         @param:JsonProperty("id") @field:JsonProperty("id") val id: RequirementId,
                         @param:JsonProperty("title") @field:JsonProperty("title") val title: String,
-                        @param:JsonProperty("description") @field:JsonProperty("description") val description: String,
+                        @field:JsonInclude(JsonInclude.Include.NON_NULL)
+                        @param:JsonProperty("description") @field:JsonProperty("description") val description: String?,
+
                         @param:JsonProperty("dataType") @field:JsonProperty("dataType") val dataType: RequirementDataType
                     ) : Serializable
                 }
@@ -90,7 +92,7 @@ object GetStandardCriteria {
                     data class Requirement(
                         val id: RequirementId,
                         val title: String,
-                        val description: String,
+                        val description: String?,
                         val dataType: RequirementDataType
                     )
                 }
