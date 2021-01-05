@@ -8,7 +8,7 @@ import java.io.Serializable
 
 data class ProcessMasterData(
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
-    @field:JsonProperty("mdm") @param:JsonProperty("mdm") val mdm: Mdm?
+    @field:JsonProperty("mdm") @param:JsonProperty("mdm") val mdm: Mdm? = null
 ) : ComplexObject<ProcessMasterData>, Serializable {
 
     override fun updateBy(src: ProcessMasterData) = ProcessMasterData(
