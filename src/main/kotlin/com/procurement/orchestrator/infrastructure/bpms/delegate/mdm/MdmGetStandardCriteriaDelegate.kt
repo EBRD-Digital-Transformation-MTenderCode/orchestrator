@@ -26,12 +26,12 @@ import com.procurement.orchestrator.infrastructure.client.web.mdm.action.convert
 import org.springframework.stereotype.Component
 
 @Component
-class MdmGetStandartCriteriaDelegate(
+class MdmGetStandardCriteriaDelegate(
     logger: Logger,
     operationStepRepository: OperationStepRepository,
     transform: Transform,
     private val mdmClient: MdmClient
-) : AbstractBatchRestDelegate<MdmGetStandartCriteriaDelegate.Parameters, GetStandardCriteriaAction.Params, List<Criterion>>(
+) : AbstractBatchRestDelegate<MdmGetStandardCriteriaDelegate.Parameters, GetStandardCriteriaAction.Params, List<Criterion>>(
     logger = logger,
     transform = transform,
     operationStepRepository = operationStepRepository
