@@ -23,6 +23,7 @@ import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStep
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetStandardCriteria
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetStandardCriteriaAction
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.convertToGlobalContextEntity
+import com.procurement.orchestrator.infrastructure.configuration.property.ExternalServiceName
 import org.springframework.stereotype.Component
 
 @Component
@@ -117,7 +118,7 @@ class MdmGetStandardCriteriaDelegate(
         result: List<Criterion>
     ): MaybeFail<Fail.Incident> {
         if (result.isEmpty())
-            return MaybeFail.none()
+            return MaybeFail.fail(Fail.Incident.Response.Empty(ExternalServiceName.MDM, "getStandardCriteria"))
 
         context.processMasterData = ProcessMasterData(Mdm(Criteria(generateCriteria(result))))
 
