@@ -14,6 +14,7 @@ public enum DossierCommandType {
     CREATE_CRITERIA("createCriteria"),
     CHECK_RESPONSES("checkResponses"),
     CREATE_REQUESTS_FOR_EV_PANELS("createRequestsForEvPanels"),
+    GET_PRE_QUALIFICATION_PERIOD_END("getPreQualificationPeriodEnd"),
     VALIDATE_PERIOD("validatePeriod"),
     CHECK_PERIOD("checkPeriod"),
     SAVE_PERIOD("savePeriod"),
