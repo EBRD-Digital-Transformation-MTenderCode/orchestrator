@@ -3,6 +3,7 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.mdm
 import com.procurement.orchestrator.application.client.MdmClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.tryGetTender
+import com.procurement.orchestrator.application.model.context.members.RequestInfo
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.EnumElementProvider
@@ -13,6 +14,7 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.domain.model.mdm.Mdm
 import com.procurement.orchestrator.domain.model.mdm.ProcessMasterData
+import com.procurement.orchestrator.domain.model.tender.Tender
 import com.procurement.orchestrator.domain.model.tender.criteria.Criteria
 import com.procurement.orchestrator.domain.model.tender.criteria.Criterion
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractBatchRestDelegate
@@ -63,7 +65,30 @@ class MdmGetStandartCriteriaDelegate(
         val tender = context.tryGetTender()
             .orForwardFail { return it }
 
-        return parameters.criteriaCategories
+        return if (parameters.criteriaCategories.isEmpty())
+            generateParams(requestInfo, tender)
+        else generateParamsWithCriteria(parameters, requestInfo, tender)
+    }
+
+    private fun generateParams(
+        requestInfo: RequestInfo,
+        tender: Tender
+    ): Result<List<GetStandardCriteriaAction.Params>, Fail.Incident> =
+        GetStandardCriteriaAction.Params(
+            lang = requestInfo.language,
+            country = requestInfo.country,
+            mainProcurementCategory = tender.mainProcurementCategory,
+            criteriaCategory = null
+        )
+            .let { listOf(it) }
+            .asSuccess()
+
+    private fun generateParamsWithCriteria(
+        parameters: Parameters,
+        requestInfo: RequestInfo,
+        tender: Tender
+    ): Result<List<GetStandardCriteriaAction.Params>, Fail.Incident> =
+        parameters.criteriaCategories
             .map { criteriaCategory ->
                 GetStandardCriteriaAction.Params(
                     lang = requestInfo.language,
@@ -72,7 +97,6 @@ class MdmGetStandartCriteriaDelegate(
                     criteriaCategory = criteriaCategory.key
                 )
             }.asSuccess()
-    }
 
     override suspend fun execute(
         elements: List<GetStandardCriteriaAction.Params>,
