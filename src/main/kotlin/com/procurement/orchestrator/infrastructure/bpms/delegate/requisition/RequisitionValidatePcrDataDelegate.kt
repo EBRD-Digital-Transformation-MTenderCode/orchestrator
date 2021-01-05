@@ -44,13 +44,18 @@ class RequisitionValidatePcrDataDelegate(
         val tender = context.tryGetTender()
             .orForwardFail { fail -> return fail }
 
+        val processMasterData = context.
+
         return requisitionClient.validatePcrData(
             id = commandId,
             params = ValidatePcrDataAction.Params(
                 tender = convertToParams(tender),
                 country = requestInfo.country,
                 pmd = processInfo.pmd,
-                operationType = processInfo.operationType
+                operationType = processInfo.operationType,
+                mdm = ValidatePcrDataAction.Params.Mdm(
+                    criteria =
+                )
             )
         )
     }
@@ -156,6 +161,13 @@ class RequisitionValidatePcrDataDelegate(
                     ValidatePcrDataAction.Params.Tender.Criterion(
                         id = criterion.id,
                         title = criterion.title,
+                        classification = criterion.classification
+                            ?.let { classification ->
+                                ValidatePcrDataAction.Params.Tender.Criterion.Classification(
+                                    id = classification.id,
+                                    scheme = classification.scheme
+                                )
+                            },
                         description = criterion.description,
                         relatedItem = criterion.relatedItem,
                         relatesTo = criterion.relatesTo,
