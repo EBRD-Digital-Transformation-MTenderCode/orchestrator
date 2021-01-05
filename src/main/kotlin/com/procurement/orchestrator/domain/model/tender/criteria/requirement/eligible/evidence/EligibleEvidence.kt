@@ -17,6 +17,6 @@ class EligibleEvidence(
         title = src.title,
         description = src.description or description,
         type = src.type,
-        relatedDocument = relatedDocument or src.relatedDocument
+        relatedDocument = src.relatedDocument or relatedDocument
     )
 }
