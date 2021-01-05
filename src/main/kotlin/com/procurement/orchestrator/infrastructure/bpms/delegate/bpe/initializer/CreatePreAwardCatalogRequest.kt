@@ -171,12 +171,12 @@ object CreatePreAwardCatalogRequest {
                 data class Criteria(
                     @field:JsonProperty("id") @param:JsonProperty("id") val id: String,
                     @field:JsonProperty("title") @param:JsonProperty("title") val title: String,
+                    @field:JsonProperty("classification") @param:JsonProperty("classification") val classification: Classification,
 
                     @JsonInclude(JsonInclude.Include.NON_NULL)
                     @field:JsonProperty("description") @param:JsonProperty("description") val description: String?,
 
-                    @JsonInclude(JsonInclude.Include.NON_NULL)
-                    @field:JsonProperty("relatesTo") @param:JsonProperty("relatesTo") val relatesTo: CriteriaRelatesTo?,
+                    @field:JsonProperty("relatesTo") @param:JsonProperty("relatesTo") val relatesTo: CriteriaRelatesTo,
 
                     @field:JsonProperty("requirementGroups") @param:JsonProperty("requirementGroups") val requirementGroups: List<RequirementGroup>,
 

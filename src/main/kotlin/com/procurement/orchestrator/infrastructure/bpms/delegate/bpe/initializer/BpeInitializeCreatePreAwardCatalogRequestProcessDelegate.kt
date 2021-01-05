@@ -96,6 +96,9 @@ class BpeInitializeCreatePreAwardCatalogRequestProcessDelegate(
                     id = criterion.id,
                     title = criterion.title,
                     description = criterion.description,
+                    classification = criterion.classification.let { classification ->
+                      Classification(id = classification.id, scheme = classification.scheme)
+                    },
                     relatesTo = criterion.relatesTo,
                     source = null,
                     relatedItem = criterion.relatedItem,
