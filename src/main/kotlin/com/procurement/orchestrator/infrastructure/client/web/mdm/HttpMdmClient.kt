@@ -185,8 +185,8 @@ class HttpMdmClient(
             .apply {
                 addQueryParameter("lang", params.lang)
                 addQueryParameter("country", params.country)
-                addQueryParameter("mainProcurementCategory", params.mainProcurementCategory.toString())
-                addQueryParameter("criteriaCategory", params.criteriaCategory)
+                params.mainProcurementCategory?.let { addQueryParameter("mainProcurementCategory", it.toString()) }
+                params.criteriaCategory?.let { addQueryParameter("criteriaCategory", it) }
             }
             .build()
 

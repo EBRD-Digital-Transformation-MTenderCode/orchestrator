@@ -21,7 +21,7 @@ abstract class GetStandardCriteriaAction {
         @field:JsonProperty("lang") @param:JsonProperty("lang") val lang: String,
         @field:JsonProperty("country") @param:JsonProperty("country") val country: String,
         @field:JsonProperty("mainProcurementCategory") @param:JsonProperty("mainProcurementCategory") val mainProcurementCategory: ProcurementCategory?,
-        @field:JsonProperty("criteriaCategory") @param:JsonProperty("criteriaCategory") val criteriaCategory: String
+        @field:JsonProperty("criteriaCategory") @param:JsonProperty("criteriaCategory") val criteriaCategory: String?
     )
 
     sealed class Response {
