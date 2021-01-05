@@ -101,43 +101,36 @@ class MdmGetStandartCriteriaDelegate(
     override suspend fun execute(
         elements: List<GetStandardCriteriaAction.Params>,
         executionInterceptor: ExecutionInterceptor
-    ): Result<Criteria, Fail.Incident> {
-
-        return elements.flatMap { params ->
+    ): Result<Criteria, Fail.Incident> =
+        elements.flatMap { params ->
             mdmClient.getStandardCriteria(params = params)
                 .orForwardFail { error -> return error }
                 .let { result -> handleResult(result) }
         }
             .let { Criteria(it) }
             .asSuccess()
-    }
+
 
     override fun updateGlobalContext(
         context: CamundaGlobalContext,
         parameters: Parameters,
         result: List<Criterion>
     ): MaybeFail<Fail.Incident> {
-
         if (result.isEmpty())
             return MaybeFail.none()
 
-        context.processMasterData =
-            ProcessMasterData(
-                Mdm(
-                    Criteria(
-                        result.map { criterion ->
-                            Criterion(
-                                id = criterion.id,
-                                classification = criterion.classification
-                            )
-                        }
-                    )
-                )
-            )
-
+        context.processMasterData = ProcessMasterData(Mdm(Criteria(generateCriteria(result))))
 
         return MaybeFail.none()
     }
+
+    private fun generateCriteria(result: List<Criterion>) =
+        result.map { criterion ->
+            Criterion(
+                id = criterion.id,
+                classification = criterion.classification
+            )
+        }
 
     private fun handleResult(result: GetStandardCriteria.Result.Success): List<Criterion> =
         result.criteria.map { criterion -> criterion.convertToGlobalContextEntity() }
