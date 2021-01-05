@@ -13,7 +13,6 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.domain.model.lot.LotId
 import com.procurement.orchestrator.infrastructure.extension.http.getOperationId
-import com.procurement.orchestrator.infrastructure.extension.http.getPayload
 import com.procurement.orchestrator.infrastructure.extension.http.getPlatformId
 import com.procurement.orchestrator.infrastructure.extension.http.getToken
 import com.procurement.orchestrator.infrastructure.web.extension.buildResponse
@@ -81,9 +80,6 @@ class PcrProtocolController(
         val token: Token = servlet.getToken()
             .orForwardFail { fail -> return fail }
 
-        val payload: String = servlet.getPayload()
-            .orForwardFail { fail -> return fail }
-
         return PlatformRequest(
             operationId = operationId,
             platformId = platformId,
@@ -96,7 +92,7 @@ class PcrProtocolController(
                 uri = servlet.requestURI,
                 processName = PROCESS_NAME
             ),
-            payload = payload
+            payload = ""
         ).asSuccess()
     }
 }
