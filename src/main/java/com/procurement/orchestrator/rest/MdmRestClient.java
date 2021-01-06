@@ -45,4 +45,12 @@ public interface MdmRestClient {
 
     @RequestMapping(method = RequestMethod.GET, path = "/organization/scales")
     ResponseEntity<String> getOrganizationScales(@RequestParam("country") String country);
+
+    @RequestMapping(method = RequestMethod.GET, path = "/standardCriteria")
+    ResponseEntity<String> getStandardCriteria(
+            @RequestParam("country") String country,
+            @RequestParam("lang") String lang,
+            @RequestParam("mainProcurementCategory") String mainProcurementCategory,
+            @RequestParam("criteriaCategory") String criteriaCategory
+    );
 }
