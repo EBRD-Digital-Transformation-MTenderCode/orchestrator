@@ -46,7 +46,11 @@ class RequirementsSerializer : JsonSerializer<Requirements>() {
                         eligibleEvidenceNode.put("title", it.title)
                         it.description?.let { description -> eligibleEvidenceNode.put("description", description) }
                         eligibleEvidenceNode.put("type", it.type.key)
-                        it.relatedDocument?.let{relatedDocument -> eligibleEvidenceNode.put("relatedDocument", relatedDocument)}
+
+                        it.relatedDocument?.let { relatedDocument ->
+                            eligibleEvidenceNode.putObject("relatedDocument")
+                                .put("id", relatedDocument.id.toString())
+                        }
 
                         eligibleEvidencesNode.add(eligibleEvidenceNode)
                     }
