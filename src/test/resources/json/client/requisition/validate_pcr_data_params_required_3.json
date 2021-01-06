@@ -1,0 +1,42 @@
+{
+  "tender": {
+    "title": "string",
+    "description": "string",
+    "classification": {
+      "id": "string",
+      "scheme": "string"
+    },
+    "lots": [
+      {
+        "id": "string",
+        "title": "string",
+        "classification": {
+          "id": "string",
+          "scheme": "string"
+        },
+        "variants": [
+          {
+            "hasVariants": true
+          }
+        ]
+      }
+    ],
+    "awardCriteria": "priceOnly",
+    "awardCriteriaDetails": "automated",
+    "mainProcurementCategory": "goods"
+  },
+  "pmd": "CF",
+  "country": "string",
+  "operationType": "createPcr",
+  "mdm": {
+    "criteria": [
+      {
+        "id": "string",
+        "classification": {
+          "id": "string",
+          "scheme": "string"
+        }
+      }
+    ]
+  }
+}
