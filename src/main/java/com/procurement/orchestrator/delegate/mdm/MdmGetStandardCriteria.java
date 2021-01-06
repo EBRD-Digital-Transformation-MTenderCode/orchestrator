@@ -22,13 +22,9 @@ import org.springframework.stereotype.Component;
 public class MdmGetStandardCriteria implements JavaDelegate {
 
     private static final Logger LOG = LoggerFactory.getLogger(MdmGetStandardCriteria.class);
-
     private final MdmRestClient mdmRestClient;
-
     private final OperationService operationService;
-
     private final ProcessService processService;
-
     private final JsonUtil jsonUtil;
 
     public MdmGetStandardCriteria(final MdmRestClient mdmRestClient,
@@ -59,7 +55,6 @@ public class MdmGetStandardCriteria implements JavaDelegate {
         } catch (Exception e) {
             processService.terminateProcess(processId, e.getMessage());
         }
-
     }
 
     private ArrayNode getStandardCriteria(Context context, String mainProcurementCategory) {
