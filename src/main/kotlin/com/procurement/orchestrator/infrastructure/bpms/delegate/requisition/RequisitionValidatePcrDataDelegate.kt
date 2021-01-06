@@ -3,12 +3,14 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.requisition
 import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.RequisitionClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
+import com.procurement.orchestrator.application.model.context.extension.tryGetProcessMasterData
 import com.procurement.orchestrator.application.model.context.extension.tryGetTender
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
+import com.procurement.orchestrator.domain.model.mdm.ProcessMasterData
 import com.procurement.orchestrator.domain.model.tender.Tender
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
@@ -44,7 +46,8 @@ class RequisitionValidatePcrDataDelegate(
         val tender = context.tryGetTender()
             .orForwardFail { fail -> return fail }
 
-        val processMasterData = context.
+        val processMasterData = context.tryGetProcessMasterData()
+            .orForwardFail { fail -> return fail }
 
         return requisitionClient.validatePcrData(
             id = commandId,
@@ -53,12 +56,27 @@ class RequisitionValidatePcrDataDelegate(
                 country = requestInfo.country,
                 pmd = processInfo.pmd,
                 operationType = processInfo.operationType,
-                mdm = ValidatePcrDataAction.Params.Mdm(
-                    criteria =
-                )
+                mdm = convertToParams(processMasterData)
             )
         )
     }
+
+    private fun convertToParams(processMasterData: ProcessMasterData) =
+        ValidatePcrDataAction.Params.Mdm(
+            criteria = processMasterData.mdm?.criteria
+                ?.map { criterion ->
+                    ValidatePcrDataAction.Params.Mdm.Criterion(
+                        id = criterion.id,
+                        classification = criterion.classification
+                            ?.let { classification ->
+                                ValidatePcrDataAction.Params.Mdm.Criterion.Classification(
+                                    id = classification.id,
+                                    scheme = classification.scheme
+                                )
+                            }
+                    )
+                }
+        )
 
     private fun convertToParams(tender: Tender): ValidatePcrDataAction.Params.Tender =
         ValidatePcrDataAction.Params.Tender(
