@@ -9,17 +9,14 @@
     "lots": [
       {
         "id": "string",
-        "internalId": "string",
         "title": "string",
-        "description": "string",
         "classification": {
           "id": "string",
           "scheme": "string"
         },
         "variants": [
           {
-            "hasVariants": true,
-            "variantsDetails": "string"
+            "hasVariants": true
           }
         ]
       }
@@ -27,7 +24,6 @@
     "items": [
       {
         "id": "string",
-        "internalId": "string",
         "description": "string",
         "quantity": 0.000,
         "classification": {
@@ -49,19 +45,12 @@
         "observations": [
           {
             "id": "string",
-            "period": {
-              "startDate": "2021-01-06T15:48:37Z",
-              "endDate": "2021-01-06T15:48:37Z"
-            },
+            "period": {},
             "measure": "Unknown Type: string,number,integer,boolean",
             "unit": {
               "id": "string"
             },
-            "dimensions": {
-              "requirementClassIdPR": "string"
-            },
-            "notes": "string",
-            "relatedRequirementId": "string"
+            "notes": "string"
           }
         ]
       }
@@ -71,32 +60,20 @@
         "id": "string",
         "title": "string",
         "description": "string",
-        "relatedItem": "string",
         "relatesTo": "lot",
         "requirementGroups": [
           {
             "id": "string",
-            "description": "string",
             "requirements": [
               {
                 "id": "string",
                 "title": "string",
-                "description": "string",
-                "period": {
-                  "startDate": "2021-01-06T15:48:37Z",
-                  "endDate": "2021-01-06T15:48:37Z"
-                },
                 "dataType": "string",
-                "expectedValue": "Unknown Type: string,number,integer,boolean",
                 "eligibleEvidences": [
                   {
                     "id": "string",
                     "title": "string",
-                    "description": "string",
-                    "type": "reference",
-                    "relatedDocument": {
-                      "id": "string"
-                    }
+                    "type": "reference"
                   }
                 ]
               }
@@ -114,7 +91,6 @@
         "id": "string",
         "relatedItem": "string",
         "relatesTo": "requirement",
-        "description": "string",
         "rationale": "string",
         "coefficients": [
           {
@@ -125,18 +101,11 @@
         ]
       }
     ],
-    "procurementMethodModalities": [
-      "requiresElectronicCatalogue"
-    ],
     "documents": [
       {
         "id": "string",
         "title": "string",
-        "documentType": "tenderNotice",
-        "description": "string",
-        "relatedLots": [
-          "string"
-        ]
+        "documentType": "tenderNotice"
       }
     ],
     "awardCriteria": "priceOnly",
