@@ -293,11 +293,14 @@ abstract class ValidatePcrDataAction : ProceduralAction<ValidatePcrDataAction.Pa
         }
 
         data class Mdm(
-            @field:JsonProperty("criteria") @param:JsonProperty("criteria") val criteria: List<Criterion>
+            @JsonInclude(JsonInclude.Include.NON_EMPTY)
+            @field:JsonProperty("criteria") @param:JsonProperty("criteria") val criteria: List<Criterion>?
         ) {
             data class Criterion(
                 @field:JsonProperty("id") @param:JsonProperty("id") val id: String,
-                @field:JsonProperty("classification") @param:JsonProperty("classification") val classification: Classification
+
+                @JsonInclude(JsonInclude.Include.NON_NULL)
+                @field:JsonProperty("classification") @param:JsonProperty("classification") val classification: Classification?
             ) {
                 data class Classification(
                     @field:JsonProperty("id") @param:JsonProperty("id") val id: String,
