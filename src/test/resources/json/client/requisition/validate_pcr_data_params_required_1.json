@@ -79,11 +79,7 @@
               }
             ]
           }
-        ],
-        "classification": {
-          "id": "string",
-          "scheme": "string"
-        }
+        ]
       }
     ],
     "conversions": [
@@ -114,16 +110,5 @@
   },
   "pmd": "CF",
   "country": "string",
-  "operationType": "createPcr",
-  "mdm": {
-    "criteria": [
-      {
-        "id": "string",
-        "classification": {
-          "id": "string",
-          "scheme": "string"
-        }
-      }
-    ]
-  }
+  "operationType": "createPcr"
 }
