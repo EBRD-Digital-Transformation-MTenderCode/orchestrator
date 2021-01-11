@@ -15,6 +15,20 @@ class RequisitionActionsTest {
             fun fully() {
                 testingBindingAndMapping<ValidatePcrDataAction.Params>("json/client/requisition/validate_pcr_data_params_full.json")
             }
+            @Test
+            fun required_1() {
+                testingBindingAndMapping<ValidatePcrDataAction.Params>("json/client/requisition/validate_pcr_data_params_required_1.json")
+            }
+
+            @Test
+            fun required_2() {
+                testingBindingAndMapping<ValidatePcrDataAction.Params>("json/client/requisition/validate_pcr_data_params_required_2.json")
+            }
+
+            @Test
+            fun required_3() {
+                testingBindingAndMapping<ValidatePcrDataAction.Params>("json/client/requisition/validate_pcr_data_params_required_3.json")
+            }
         }
     }
 

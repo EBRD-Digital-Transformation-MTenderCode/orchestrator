@@ -6,6 +6,8 @@ import com.fasterxml.jackson.databind.DeserializationContext
 import com.fasterxml.jackson.databind.JsonDeserializer
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.node.ArrayNode
+import com.procurement.orchestrator.domain.model.document.DocumentId
+import com.procurement.orchestrator.domain.model.document.DocumentReference
 import com.procurement.orchestrator.domain.model.tender.criteria.requirement.ExpectedValue
 import com.procurement.orchestrator.domain.model.tender.criteria.requirement.MaxValue
 import com.procurement.orchestrator.domain.model.tender.criteria.requirement.MinValue
@@ -55,7 +57,11 @@ class RequirementsDeserializer : JsonDeserializer<Requirements>() {
                             title = it.get("title").asText(),
                             description = it.takeIf { it.has("description") }?.get("description")?.asText(),
                             type = EligibleEvidenceType.orThrow(it.get("type").asText()),
-                            relatedDocument = it.takeIf { it.has("relatedDocument") }?.get("relatedDocument")?.asText()
+                            relatedDocument = it.takeIf { it.has("relatedDocument") }
+                                ?.get("relatedDocument")
+                                ?.get("id")
+                                ?.let {relatedDocument -> DocumentId.create(relatedDocument.asText()) }
+                                ?.let {relatedDocument -> DocumentReference(relatedDocument) }
                         )
                     }
                     .orEmpty()

@@ -1,0 +1,69 @@
+{
+  "tender": {
+    "title": "string",
+    "description": "string",
+    "classification": {
+      "id": "string",
+      "scheme": "string"
+    },
+    "lots": [
+      {
+        "id": "string",
+        "title": "string",
+        "classification": {
+          "id": "string",
+          "scheme": "string"
+        },
+        "variants": [
+          {
+            "hasVariants": true
+          }
+        ]
+      }
+    ],
+    "targets": [
+      {
+        "id": "string",
+        "title": "string",
+        "relatesTo": "lot",
+        "relatedItem": "string",
+        "observations": [
+          {
+            "id": "string",
+            "measure": "Unknown Type: string,number,integer,boolean",
+            "unit": {
+              "id": "string"
+            },
+            "notes": "string"
+          }
+        ]
+      }
+    ],
+    "criteria": [
+      {
+        "id": "string",
+        "title": "string",
+        "description": "string",
+        "relatesTo": "lot",
+        "requirementGroups": [
+          {
+            "id": "string",
+            "requirements": [
+              {
+                "id": "string",
+                "title": "string",
+                "dataType": "string"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "awardCriteria": "priceOnly",
+    "awardCriteriaDetails": "automated",
+    "mainProcurementCategory": "goods"
+  },
+  "pmd": "CF",
+  "country": "string",
+  "operationType": "createPcr"
+}
