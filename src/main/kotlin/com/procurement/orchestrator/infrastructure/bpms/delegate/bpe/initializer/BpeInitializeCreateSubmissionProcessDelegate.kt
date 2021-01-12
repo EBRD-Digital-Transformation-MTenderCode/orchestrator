@@ -14,6 +14,7 @@ import com.procurement.orchestrator.domain.model.address.locality.LocalityDetail
 import com.procurement.orchestrator.domain.model.address.region.RegionDetails
 import com.procurement.orchestrator.domain.model.candidate.Candidates
 import com.procurement.orchestrator.domain.model.document.Document
+import com.procurement.orchestrator.domain.model.document.DocumentReference
 import com.procurement.orchestrator.domain.model.document.Documents
 import com.procurement.orchestrator.domain.model.identifier.Identifier
 import com.procurement.orchestrator.domain.model.identifier.Identifiers
@@ -39,6 +40,8 @@ import com.procurement.orchestrator.domain.model.requirement.response.Requiremen
 import com.procurement.orchestrator.domain.model.submission.Details
 import com.procurement.orchestrator.domain.model.submission.Submission
 import com.procurement.orchestrator.domain.model.submission.Submissions
+import com.procurement.orchestrator.domain.model.tender.criteria.requirement.eligible.evidence.EligibleEvidence
+import com.procurement.orchestrator.domain.model.tender.criteria.requirement.eligible.evidence.EligibleEvidences
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import org.springframework.stereotype.Component
 
@@ -85,7 +88,21 @@ class BpeInitializeCreateSubmissionProcessDelegate(
                                                     },
                                                 name = relatedCandidate.name
                                             )
+                                        },
+                                    evidences = EligibleEvidences(
+                                        requirementResponse.evidences.map { evidence ->
+                                            EligibleEvidence(
+                                                id = evidence.id,
+                                                description = evidence.description,
+                                                title = evidence.title,
+                                                type = evidence.type,
+                                                relatedDocument = evidence.relatedDocument
+                                                    ?.let { relatedDocument ->
+                                                        DocumentReference(relatedDocument.id)
+                                                    }
+                                            )
                                         }
+                                    )
                                 )
                             }
                             .let {
