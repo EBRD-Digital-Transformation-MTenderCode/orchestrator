@@ -18,7 +18,6 @@ public enum RequisitionCommandType {
     GET_CURRENCY("getCurrency"),
     GET_LOTS_AUCTION("getLotsAuction"),
     GET_TENDER_OWNER("getTenderOwner"),
-    GET_TENDER_PERIOD_END("getTenderPeriodEnd"),
     SET_LOTS_UNSUCCESSFUL("setLotsStatusUnsuccessful"),
     SET_TENDER_STATUS_DETAILS("setTenderStatusDetails"),
     SET_TENDER_SUSPENDED("setTenderSuspended"),
