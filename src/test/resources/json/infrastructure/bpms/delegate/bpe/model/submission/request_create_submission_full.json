@@ -14,7 +14,18 @@
             "id": "string",
             "scheme": "string"
           }
-        }
+        },
+        "evidences": [
+          {
+            "id": "string",
+            "title": "string",
+            "description": "string",
+            "type": "reference",
+            "relatedDocument": {
+              "id": "string"
+            }
+          }
+        ]
       }
     ],
     "candidates": [
