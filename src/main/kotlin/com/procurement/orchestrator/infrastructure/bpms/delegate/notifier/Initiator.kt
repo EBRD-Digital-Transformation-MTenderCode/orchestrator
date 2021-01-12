@@ -39,6 +39,7 @@ fun initiator(operationType: OperationTypeProcess): Initiator = when (operationT
     OperationTypeProcess.START_AWARD_PERIOD -> Initiator.PLATFORM
     OperationTypeProcess.START_SECOND_STAGE -> Initiator.PLATFORM
     OperationTypeProcess.SUBMISSION_PERIOD_END -> Initiator.BPE
+    OperationTypeProcess.SUBMIT_BID -> Initiator.PLATFORM
     OperationTypeProcess.SUBMIT_BID_IN_PCR -> Initiator.PLATFORM
     OperationTypeProcess.TENDER_CANCELLATION -> Initiator.PLATFORM
     OperationTypeProcess.TENDER_OR_LOT_AMENDMENT_CANCELLATION,
