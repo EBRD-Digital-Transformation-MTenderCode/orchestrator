@@ -11,6 +11,7 @@ import com.procurement.orchestrator.domain.model.period.Period
 import com.procurement.orchestrator.domain.model.person.Person
 import com.procurement.orchestrator.domain.model.requirement.RequirementReference
 import com.procurement.orchestrator.domain.model.requirement.RequirementResponseValue
+import com.procurement.orchestrator.domain.model.tender.criteria.requirement.eligible.evidence.EligibleEvidences
 import com.procurement.orchestrator.domain.model.updateBy
 import com.procurement.orchestrator.infrastructure.bind.criteria.requirement.value.RequirementValueDeserializer
 import com.procurement.orchestrator.infrastructure.bind.criteria.requirement.value.RequirementValueSerializer
@@ -43,7 +44,10 @@ data class RequirementResponse(
     @field:JsonProperty("relatedCandidate") @param:JsonProperty("relatedCandidate") val relatedCandidate: OrganizationReference? = null,
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
-    @field:JsonProperty("responder") @param:JsonProperty("responder") val responder: Person? = null
+    @field:JsonProperty("responder") @param:JsonProperty("responder") val responder: Person? = null,
+
+    @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
+    @field:JsonProperty("evidences") @param:JsonProperty("evidences") val evidences: EligibleEvidences = EligibleEvidences()
 ) : IdentifiableObject<RequirementResponse>, Serializable {
 
     override fun equals(other: Any?): Boolean = if (this === other)
@@ -63,6 +67,7 @@ data class RequirementResponse(
         requirement = requirement updateBy src.requirement,
         relatedTenderer = relatedTenderer updateBy src.relatedTenderer,
         responder = responder updateBy src.responder,
-        relatedCandidate = relatedCandidate updateBy src.relatedCandidate
+        relatedCandidate = relatedCandidate updateBy src.relatedCandidate,
+        evidences = evidences updateBy src.evidences
     )
 }
