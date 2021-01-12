@@ -26,6 +26,7 @@ public enum SubmissionCommandType {
     GET_BIDS_FOR_EVALUATION("getBidsForEvaluation"),
     GET_DOCS_OF_CONSIDERED_BID("getDocsOfConsideredBid"),
     GET_PERIOD("getPeriod"),
+    GET_TENDER_PERIOD_END("getTenderPeriodEnd"),
     OPEN_BIDS_FOR_PUBLISHING("openBidsForPublishing"),
     OPEN_BID_DOCS("openBidDocs"),
     PREPARE_BIDS_CANCELLATION("prepareBidsCancellation"),
