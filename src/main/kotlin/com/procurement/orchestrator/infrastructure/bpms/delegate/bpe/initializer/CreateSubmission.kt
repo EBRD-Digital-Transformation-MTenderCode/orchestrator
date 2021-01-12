@@ -67,7 +67,8 @@ object CreateSubmission {
                     @field:JsonProperty("requirement") @param:JsonProperty("requirement") val requirement: Requirement,
                     @field:JsonProperty("relatedCandidate") @param:JsonProperty("relatedCandidate") val relatedCandidate: RelatedCandidate,
 
-                    @field:JsonProperty("evidences") @param:JsonProperty("evidences") val evidences: List<Evidence>
+                    @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
+                    @field:JsonProperty("evidences") @param:JsonProperty("evidences") val evidences: List<Evidence> = emptyList()
                 ) {
 
                     data class Requirement(
