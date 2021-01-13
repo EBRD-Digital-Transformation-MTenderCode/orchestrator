@@ -1,6 +1,5 @@
 {
   "submission": {
-    "id": "string",
     "requirementResponses": [
       {
         "id": "cae8b658-eae0-46d9-a13e-f0d496930331",
@@ -20,7 +19,6 @@
             "id": "string",
             "title": "string",
             "description": "string",
-            "type": "reference",
             "relatedDocument": {
               "id": "string"
             }
