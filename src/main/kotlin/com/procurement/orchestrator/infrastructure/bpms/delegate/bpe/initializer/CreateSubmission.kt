@@ -30,8 +30,6 @@ import com.procurement.orchestrator.domain.model.organization.person.BusinessFun
 import com.procurement.orchestrator.domain.model.requirement.RequirementId
 import com.procurement.orchestrator.domain.model.requirement.RequirementResponseValue
 import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponseId
-import com.procurement.orchestrator.domain.model.submission.SubmissionId
-import com.procurement.orchestrator.domain.model.tender.criteria.requirement.eligible.evidence.EligibleEvidenceType
 import com.procurement.orchestrator.infrastructure.bind.criteria.requirement.value.RequirementValueDeserializer
 import com.procurement.orchestrator.infrastructure.bind.criteria.requirement.value.RequirementValueSerializer
 import java.time.LocalDateTime
@@ -45,8 +43,6 @@ object CreateSubmission {
         ) {
 
             data class Submission(
-                @field:JsonProperty("id") @param:JsonProperty("id") val id: SubmissionId,
-
                 @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
                 @field:JsonProperty("requirementResponses") @param:JsonProperty("requirementResponses") val requirementResponses: List<RequirementResponse> = emptyList(),
 
@@ -92,7 +88,6 @@ object CreateSubmission {
 
                         @field:JsonInclude(JsonInclude.Include.NON_NULL)
                         @field:JsonProperty("description") @param:JsonProperty("description") val description: String?,
-                        @field:JsonProperty("type") @param:JsonProperty("type") val type: EligibleEvidenceType,
 
                         @field:JsonInclude(JsonInclude.Include.NON_NULL)
                         @field:JsonProperty("relatedDocument") @param:JsonProperty("relatedDocument") val relatedDocument: DocumentReference?
