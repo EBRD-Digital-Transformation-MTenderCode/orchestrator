@@ -13,16 +13,16 @@ class SubmitBidRequestTest {
 
     @Test
     fun required1() {
-        testingBindingAndMapping<SubmitBid.Request.Payload>("json/infrastructure/bpms/delegate/bpe/model/award/request_update_award_required_1.json")
+        testingBindingAndMapping<SubmitBid.Request.Payload>("json/infrastructure/bpms/delegate/bpe/model/bid/request_submit_bid_required_1.json")
     }
 
    @Test
     fun required2() {
-        testingBindingAndMapping<SubmitBid.Request.Payload>("json/infrastructure/bpms/delegate/bpe/model/award/request_update_award_required_2.json")
+        testingBindingAndMapping<SubmitBid.Request.Payload>("json/infrastructure/bpms/delegate/bpe/model/bid/request_submit_bid_required_2.json")
     }
 
     @Test
     fun required3() {
-        testingBindingAndMapping<SubmitBid.Request.Payload>("json/infrastructure/bpms/delegate/bpe/model/award/request_update_award_required_3.json")
+        testingBindingAndMapping<SubmitBid.Request.Payload>("json/infrastructure/bpms/delegate/bpe/model/bid/request_submit_bid_required_3.json")
     }
 }
