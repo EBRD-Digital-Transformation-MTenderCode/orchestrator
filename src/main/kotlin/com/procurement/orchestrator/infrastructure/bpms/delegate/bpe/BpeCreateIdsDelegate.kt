@@ -4,6 +4,7 @@ import com.procurement.orchestrator.application.model.context.CamundaGlobalConte
 import com.procurement.orchestrator.application.model.context.GlobalContext
 import com.procurement.orchestrator.application.model.context.extension.getAmendmentsIfNotEmpty
 import com.procurement.orchestrator.application.model.context.extension.getAwardsIfNotEmpty
+import com.procurement.orchestrator.application.model.context.extension.getBidsDetailIfNotEmpty
 import com.procurement.orchestrator.application.model.context.extension.getDetailsIfNotEmpty
 import com.procurement.orchestrator.application.model.context.extension.getRequirementResponseIfNotEmpty
 import com.procurement.orchestrator.application.model.context.extension.tryGetBids
@@ -26,12 +27,25 @@ import com.procurement.orchestrator.domain.model.amendment.Amendment
 import com.procurement.orchestrator.domain.model.amendment.AmendmentId
 import com.procurement.orchestrator.domain.model.amendment.Amendments
 import com.procurement.orchestrator.domain.model.award.Awards
+import com.procurement.orchestrator.domain.model.bid.Bid
 import com.procurement.orchestrator.domain.model.bid.BidsDetails
+import com.procurement.orchestrator.domain.model.candidate.Candidates
+import com.procurement.orchestrator.domain.model.organization.Organization
+import com.procurement.orchestrator.domain.model.organization.Organizations
+import com.procurement.orchestrator.domain.model.organization.person.BusinessFunction
+import com.procurement.orchestrator.domain.model.organization.person.BusinessFunctionId
+import com.procurement.orchestrator.domain.model.organization.person.BusinessFunctions
+import com.procurement.orchestrator.domain.model.person.Person
+import com.procurement.orchestrator.domain.model.person.Persons
 import com.procurement.orchestrator.domain.model.qualification.Qualifications
+import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponse
 import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponseId
 import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponses
+import com.procurement.orchestrator.domain.model.requirement.response.evidence.Evidence
+import com.procurement.orchestrator.domain.model.requirement.response.evidence.EvidenceId
+import com.procurement.orchestrator.domain.model.requirement.response.evidence.Evidences
 import com.procurement.orchestrator.domain.model.submission.Details
-import com.procurement.orchestrator.domain.model.submission.SubmissionId
+import com.procurement.orchestrator.domain.model.submission.Submission
 import com.procurement.orchestrator.domain.model.tender.auction.AuctionId
 import com.procurement.orchestrator.domain.model.tender.auction.ElectronicAuctions
 import com.procurement.orchestrator.domain.model.tender.auction.ElectronicAuctionsDetails
@@ -79,13 +93,18 @@ class BpeCreateIdsDelegate(
     ): Result<Option<List<Ids>>, Fail.Incident> = parameters.location
         .map { location ->
             when (location) {
-                Location.AWARD_REQUIREMENT_RESPONSE         -> generatePermanentAwardRequirementResponsesIds(context)
-                Location.SUBMISSION_DETAILS                 -> generatePermanentSubmissionsIds(context)
-                Location.TENDER_AMENDMENT                   -> generatePermanentTenderAmendmentsIds(context)
-                Location.SUBMISSION_REQUIREMENT_RESPONSE    -> generatePermanentSubmissionsRequirementResponseIds(context)
-                Location.QUALIFICATION_REQUIREMENT_RESPONSE -> generatePermanentQualificationsRequirementResponseIds(context)
-                Location.BID_REQUIREMENTRESPONSE            -> generatePermanentBidsRequirementResponseIds(context)
-                Location.AUCTION                            -> generatePermanentAuctionsIds(context)
+                Location.AUCTION -> generatePermanentAuctionsIds(context)
+                Location.AWARD_REQUIREMENT_RESPONSE -> generatePermanentAwardRequirementResponsesIds(context)
+                Location.BID_BUSINESS_FUNCTION -> generatePermanentBidBusinessFunctionIds(context)
+                Location.BID_EVIDENCE -> generatePermanentBidEvidenceIds(context)
+                Location.BID_REQUIREMENT_RESPONSE -> generatePermanentBidsRequirementResponseIds(context)
+                Location.QUALIFICATION_REQUIREMENT_RESPONSE -> generatePermanentQualificationsRequirementResponseIds(
+                    context
+                )
+                Location.SUBMISSION_BUSINESS_FUNCTION -> generatePermanentSubmissionBusinessFunctionIds(context)
+                Location.SUBMISSION_EVIDENCE -> generatePermanentSubmissionEvidenceIds(context)
+                Location.SUBMISSION_REQUIREMENT_RESPONSE -> generatePermanentSubmissionsRequirementResponseIds(context)
+                Location.TENDER_AMENDMENT -> generatePermanentTenderAmendmentsIds(context)
             }
                 .orForwardFail { fail -> return fail }
         }
@@ -96,17 +115,23 @@ class BpeCreateIdsDelegate(
         context: CamundaGlobalContext,
         parameters: Parameters,
         data: List<Ids>
-    ): MaybeFail<Fail.Incident>  {
+    ): MaybeFail<Fail.Incident> {
 
         data.forEach { permanentIds ->
             when (permanentIds) {
-                is Ids.AwardRequirementResponses          -> updateAwardRequirementResponsesIds(context, permanentIds)
-                is Ids.Submissions                        -> updateSubmissionsIds(context, permanentIds)
-                is Ids.TenderAmendments                   -> updateTenderAmendmentsIds(context, permanentIds)
-                is Ids.SubmissionsRequirementResponses    -> updateSubmissionsRequirementResponseIds(context, permanentIds)
-                is Ids.QualificationsRequirementResponses -> updateQualificationRequirementResponseIds(context, permanentIds)
-                is Ids.BidsRequirementResponses           -> updateBidRequirementResponseIds(context, permanentIds)
-                is Ids.TenderAuctions                     -> updateTenderAuctionsIds(context, permanentIds)
+                is Ids.AwardRequirementResponses -> updateAwardRequirementResponsesIds(context, permanentIds)
+                is Ids.BidsBusinessFunctions -> updateBidBusinessFunctionIds(context, permanentIds)
+                is Ids.BidsEvidences -> updateBidEvidenceIds(context, permanentIds)
+                is Ids.BidsRequirementResponses -> updateBidRequirementResponseIds(context, permanentIds)
+                is Ids.QualificationsRequirementResponses -> updateQualificationRequirementResponseIds(
+                    context,
+                    permanentIds
+                )
+                is Ids.SubmissionBusinessFunctions -> updateSubmissionsBusinessFunctionIds(context, permanentIds)
+                is Ids.SubmissionEvidence -> updateSubmissionEvidenceIds(context, permanentIds)
+                is Ids.SubmissionsRequirementResponses -> updateSubmissionsRequirementResponseIds(context, permanentIds)
+                is Ids.TenderAmendments -> updateTenderAmendmentsIds(context, permanentIds)
+                is Ids.TenderAuctions -> updateTenderAuctionsIds(context, permanentIds)
             }
         }
 
@@ -131,20 +156,80 @@ class BpeCreateIdsDelegate(
                 success(Ids.AwardRequirementResponses(it))
             }
 
-    private fun generatePermanentSubmissionsIds(context: GlobalContext): Result<Ids, Fail.Incident> =
+    private fun generatePermanentBidBusinessFunctionIds(context: GlobalContext): Result<Ids, Fail.Incident> =
+        context.tryGetBids()
+            .orForwardFail { fail -> return fail }
+            .getBidsDetailIfNotEmpty()
+            .orForwardFail { fail -> return fail }
+            .asSequence()
+            .flatMap { bid -> bid.tenderers.asSequence() }
+            .flatMap { tenderer -> tenderer.persons.asSequence() }
+            .flatMap { person -> person.businessFunctions.asSequence() }
+            .map { businessFunction ->
+                val temporal = businessFunction.id
+                val permanent = BusinessFunctionId.generate()
+                temporal to permanent
+            }
+
+            .toMap()
+            .let {
+                success(Ids.BidsBusinessFunctions(it))
+            }
+
+    private fun generatePermanentBidEvidenceIds(context: GlobalContext): Result<Ids, Fail.Incident> =
+        context.tryGetBids()
+            .orForwardFail { fail -> return fail }
+            .getBidsDetailIfNotEmpty()
+            .orForwardFail { fail -> return fail }
+            .asSequence()
+            .flatMap { bid -> bid.requirementResponses.asSequence() }
+            .flatMap { requirementResponse -> requirementResponse.evidences.asSequence() }
+            .map { evidence ->
+                val temporal = evidence.id
+                val permanent = EvidenceId.generate()
+                temporal to permanent
+            }
+            .toMap()
+            .let {
+                success(Ids.BidsEvidences(it))
+            }
+
+    private fun generatePermanentSubmissionBusinessFunctionIds(context: GlobalContext): Result<Ids, Fail.Incident> =
         context.tryGetSubmissions()
             .orForwardFail { fail -> return fail }
             .getDetailsIfNotEmpty()
             .orForwardFail { fail -> return fail }
             .asSequence()
-            .map { submission ->
-                val temporal = submission.id
-                val permanent = SubmissionId.generate()
+            .flatMap { submission -> submission.candidates.asSequence() }
+            .flatMap { candidate -> candidate.persons.asSequence() }
+            .flatMap { person -> person.businessFunctions.asSequence() }
+            .map { businessFunction ->
+                val temporal = businessFunction.id
+                val permanent = BusinessFunctionId.generate()
+                temporal to permanent
+            }
+
+            .toMap()
+            .let {
+                success(Ids.SubmissionBusinessFunctions(it))
+            }
+
+    private fun generatePermanentSubmissionEvidenceIds(context: GlobalContext): Result<Ids, Fail.Incident> =
+        context.tryGetSubmissions()
+            .orForwardFail { fail -> return fail }
+            .getDetailsIfNotEmpty()
+            .orForwardFail { fail -> return fail }
+            .asSequence()
+            .flatMap { submission -> submission.requirementResponses.asSequence() }
+            .flatMap { requirementResponse -> requirementResponse.evidences.asSequence() }
+            .map { evidence ->
+                val temporal = evidence.id
+                val permanent = EvidenceId.generate()
                 temporal to permanent
             }
             .toMap()
             .let {
-                success(Ids.Submissions(it))
+                success(Ids.SubmissionEvidence(it))
             }
 
     private fun generatePermanentTenderAmendmentsIds(context: GlobalContext): Result<Ids, Fail.Incident> =
@@ -244,20 +329,149 @@ class BpeCreateIdsDelegate(
         return MaybeFail.none()
     }
 
-    private fun updateSubmissionsIds(
+    private fun updateSubmissionsBusinessFunctionIds(
         context: CamundaGlobalContext,
-        ids: Ids.Submissions
+        ids: Ids.SubmissionBusinessFunctions
     ): MaybeFail<Fail.Incident.Bpms.Context> {
+        fun BusinessFunction.update(ids: Ids.SubmissionBusinessFunctions) = copy(id = ids.getValue(id))
+
+        fun Person.update(ids: Ids.SubmissionBusinessFunctions) = copy(
+            businessFunctions = businessFunctions
+                .map { person -> person.update(ids) }
+                .let { BusinessFunctions(it) }
+        )
+
+        fun Organization.update(ids: Ids.SubmissionBusinessFunctions) = copy(
+            persons = persons
+                .map { person -> person.update(ids) }
+                .let { Persons(it) }
+        )
+
+        fun Submission.update(ids: Ids.SubmissionBusinessFunctions) = copy(
+            candidates = candidates
+                .map { candidate -> candidate.update(ids) }
+                .let { Candidates(it) }
+        )
+
         val submissions = context.tryGetSubmissions()
             .orReturnFail { return MaybeFail.fail(it) }
 
         val updatedDetails = submissions.getDetailsIfNotEmpty()
             .orReturnFail { return MaybeFail.fail(it) }
-            .map { submission ->
-                ids.getValue(submission.id)
-                    .let { submission.copy(id = it) }
+            .map { submission -> submission.update(ids) }
+            .let { Details(it) }
 
-            }
+        val updatedSubmissions = submissions.copy(
+            details = updatedDetails
+        )
+
+        context.submissions = updatedSubmissions
+
+        return MaybeFail.none()
+    }
+
+    private fun updateBidBusinessFunctionIds(
+        context: CamundaGlobalContext,
+        ids: Ids.BidsBusinessFunctions
+    ): MaybeFail<Fail.Incident.Bpms.Context> {
+        fun BusinessFunction.update(ids: Ids.BidsBusinessFunctions) = copy(id = ids.getValue(id))
+
+        fun Person.update(ids: Ids.BidsBusinessFunctions) = copy(
+            businessFunctions = businessFunctions
+                .map { person -> person.update(ids) }
+                .let { BusinessFunctions(it) }
+        )
+
+        fun Organization.update(ids: Ids.BidsBusinessFunctions) = copy(
+            persons = persons
+                .map { person -> person.update(ids) }
+                .let { Persons(it) }
+        )
+
+        fun Bid.update(ids: Ids.BidsBusinessFunctions) = copy(
+            tenderers = tenderers
+                .map { tenderer -> tenderer.update(ids) }
+                .let { Organizations(it) }
+        )
+
+        val bids = context.tryGetBids()
+            .orReturnFail { return MaybeFail.fail(it) }
+
+        val updatedDetails = bids.getBidsDetailIfNotEmpty()
+            .orReturnFail { return MaybeFail.fail(it) }
+            .map { bid -> bid.update(ids) }
+            .let { BidsDetails(it) }
+
+        val updatedBids = bids.copy(
+            details = updatedDetails
+        )
+
+        context.bids = updatedBids
+
+        return MaybeFail.none()
+    }
+
+    private fun updateBidEvidenceIds(
+        context: CamundaGlobalContext,
+        ids: Ids.BidsEvidences
+    ): MaybeFail<Fail.Incident.Bpms.Context> {
+
+        fun Evidence.update(ids: Ids.BidsEvidences) = copy(id = ids.getValue(id))
+
+        fun RequirementResponse.update(ids: Ids.BidsEvidences) = copy(
+            evidences = evidences
+                .map { evidence -> evidence.update(ids) }
+                .let { Evidences(it) }
+        )
+
+        fun Bid.update(ids: Ids.BidsEvidences) = copy(
+            requirementResponses = requirementResponses
+                .map { requirementResponse -> requirementResponse.update(ids) }
+                .let { RequirementResponses(it) }
+        )
+
+        val bids = context.tryGetBids()
+            .orReturnFail { return MaybeFail.fail(it) }
+
+        val updatedDetails = bids.getBidsDetailIfNotEmpty()
+            .orReturnFail { return MaybeFail.fail(it) }
+            .map { submission -> submission.update(ids) }
+            .let { BidsDetails(it) }
+
+        val updatedBids = bids.copy(
+            details = updatedDetails
+        )
+
+        context.bids = updatedBids
+
+        return MaybeFail.none()
+    }
+
+    private fun updateSubmissionEvidenceIds(
+        context: CamundaGlobalContext,
+        ids: Ids.SubmissionEvidence
+    ): MaybeFail<Fail.Incident.Bpms.Context> {
+
+        fun Evidence.update(ids: Ids.SubmissionEvidence) = copy(id = ids.getValue(id))
+
+        fun RequirementResponse.update(ids: Ids.SubmissionEvidence) = copy(
+            evidences = evidences
+                .map { evidence -> evidence.update(ids) }
+                .let { Evidences(it) }
+        )
+
+        fun Submission.update(ids: Ids.SubmissionEvidence) = copy(
+            requirementResponses = requirementResponses
+                .map { requirementResponse -> requirementResponse.update(ids) }
+                .let { RequirementResponses(it) }
+        )
+
+        val submissions = context.tryGetSubmissions()
+            .orReturnFail { return MaybeFail.fail(it) }
+
+        val updatedDetails = submissions.getDetailsIfNotEmpty()
+            .orReturnFail { return MaybeFail.fail(it) }
+            .map { submission -> submission.update(ids) }
             .let { Details(it) }
 
         val updatedSubmissions = submissions.copy(
@@ -389,24 +603,32 @@ class BpeCreateIdsDelegate(
     }
 
     sealed class Ids : Serializable {
-
         class AwardRequirementResponses(values: Map<RequirementResponseId, RequirementResponseId> = emptyMap()) :
             Ids(), Map<RequirementResponseId, RequirementResponseId> by values, Serializable
 
-        class Submissions(values: Map<SubmissionId, SubmissionId> = emptyMap()) :
-            Ids(), Map<SubmissionId, SubmissionId> by values, Serializable
+        class BidsBusinessFunctions(values: Map<BusinessFunctionId, BusinessFunctionId> = emptyMap()) :
+            Ids(), Map<BusinessFunctionId, BusinessFunctionId> by values, Serializable
 
-        class TenderAmendments(values: Map<AmendmentId, AmendmentId> = emptyMap()) :
-            Ids(), Map<AmendmentId, AmendmentId> by values, Serializable
+        class BidsEvidences(values: Map<EvidenceId, EvidenceId> = emptyMap()) :
+            Ids(), Map<EvidenceId, EvidenceId> by values, Serializable
 
-        class SubmissionsRequirementResponses(values: Map<RequirementResponseId, RequirementResponseId> = emptyMap()) :
+        class BidsRequirementResponses(values: Map<RequirementResponseId, RequirementResponseId> = emptyMap()) :
             Ids(), Map<RequirementResponseId, RequirementResponseId> by values, Serializable
 
         class QualificationsRequirementResponses(values: Map<RequirementResponseId, RequirementResponseId> = emptyMap()) :
             Ids(), Map<RequirementResponseId, RequirementResponseId> by values, Serializable
 
-        class BidsRequirementResponses(values: Map<RequirementResponseId, RequirementResponseId> = emptyMap()) :
+        class SubmissionBusinessFunctions(values: Map<BusinessFunctionId, BusinessFunctionId> = emptyMap()) :
+            Ids(), Map<BusinessFunctionId, BusinessFunctionId> by values, Serializable
+
+        class SubmissionEvidence(values: Map<EvidenceId, EvidenceId> = emptyMap()) :
+            Ids(), Map<EvidenceId, EvidenceId> by values, Serializable
+
+        class SubmissionsRequirementResponses(values: Map<RequirementResponseId, RequirementResponseId> = emptyMap()) :
             Ids(), Map<RequirementResponseId, RequirementResponseId> by values, Serializable
+
+        class TenderAmendments(values: Map<AmendmentId, AmendmentId> = emptyMap()) :
+            Ids(), Map<AmendmentId, AmendmentId> by values, Serializable
 
         class TenderAuctions(values: Map<AuctionId, AuctionId> = emptyMap()) :
             Ids(), Map<AuctionId, AuctionId> by values, Serializable
@@ -416,11 +638,14 @@ class BpeCreateIdsDelegate(
 
     enum class Location(override val key: String) : EnumElementProvider.Key {
 
-        AWARD_REQUIREMENT_RESPONSE("AWARD.REQUIREMENTRESPONSE"),
         AUCTION("AUCTION"),
-        BID_REQUIREMENTRESPONSE("BID.REQUIREMENTRESPONSE"),
+        AWARD_REQUIREMENT_RESPONSE("AWARD.REQUIREMENTRESPONSE"),
+        BID_BUSINESS_FUNCTION("BID.BUSINESSFUNCTION"),
+        BID_EVIDENCE("BID.EVIDENCE"),
+        BID_REQUIREMENT_RESPONSE("BID.REQUIREMENTRESPONSE"),
         QUALIFICATION_REQUIREMENT_RESPONSE("QUALIFICATION.REQUIREMENTRESPONSE"),
-        SUBMISSION_DETAILS("SUBMISSION"),
+        SUBMISSION_BUSINESS_FUNCTION("SUBMISSION.BUSINESSFUNCTION"),
+        SUBMISSION_EVIDENCE("SUBMISSION.EVIDENCE"),
         SUBMISSION_REQUIREMENT_RESPONSE("SUBMISSION.REQUIREMENTRESPONSE"),
         TENDER_AMENDMENT("TENDER.AMENDMENT");
 

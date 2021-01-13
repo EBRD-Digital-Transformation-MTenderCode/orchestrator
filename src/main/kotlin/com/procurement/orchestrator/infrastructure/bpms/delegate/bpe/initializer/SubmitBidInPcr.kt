@@ -9,6 +9,7 @@ import com.procurement.orchestrator.domain.model.lot.LotId
 import com.procurement.orchestrator.domain.model.measure.Amount
 import com.procurement.orchestrator.domain.model.organization.datail.Scale
 import com.procurement.orchestrator.domain.model.organization.datail.TypeOfSupplier
+import com.procurement.orchestrator.domain.model.organization.person.BusinessFunctionId
 import com.procurement.orchestrator.domain.model.organization.person.BusinessFunctionType
 import com.procurement.orchestrator.domain.model.requirement.RequirementResponseValue
 import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponseId
@@ -154,7 +155,7 @@ object SubmitBidInPcr {
                         )
 
                         data class BusinessFunction(
-                            @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
+                            @param:JsonProperty("id") @field:JsonProperty("id") val id: BusinessFunctionId,
                             @param:JsonProperty("type") @field:JsonProperty("type") val type: BusinessFunctionType,
                             @param:JsonProperty("jobTitle") @field:JsonProperty("jobTitle") val jobTitle: String,
                             @param:JsonProperty("period") @field:JsonProperty("period") val period: Period,

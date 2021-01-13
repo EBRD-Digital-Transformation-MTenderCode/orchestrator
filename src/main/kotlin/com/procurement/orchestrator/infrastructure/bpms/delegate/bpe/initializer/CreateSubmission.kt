@@ -30,6 +30,7 @@ import com.procurement.orchestrator.domain.model.organization.person.BusinessFun
 import com.procurement.orchestrator.domain.model.requirement.RequirementId
 import com.procurement.orchestrator.domain.model.requirement.RequirementResponseValue
 import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponseId
+import com.procurement.orchestrator.domain.model.requirement.response.evidence.EvidenceId
 import com.procurement.orchestrator.infrastructure.bind.criteria.requirement.value.RequirementValueDeserializer
 import com.procurement.orchestrator.infrastructure.bind.criteria.requirement.value.RequirementValueSerializer
 import java.time.LocalDateTime
@@ -83,7 +84,7 @@ object CreateSubmission {
                     }
 
                     data class Evidence(
-                        @field:JsonProperty("id") @param:JsonProperty("id") val id: String,
+                        @field:JsonProperty("id") @param:JsonProperty("id") val id: EvidenceId,
                         @field:JsonProperty("title") @param:JsonProperty("title") val title: String,
 
                         @field:JsonInclude(JsonInclude.Include.NON_NULL)

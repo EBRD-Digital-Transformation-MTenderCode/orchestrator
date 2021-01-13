@@ -7,6 +7,7 @@ import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
 import com.procurement.orchestrator.domain.model.document.DocumentId
 import com.procurement.orchestrator.domain.model.document.DocumentType
+import com.procurement.orchestrator.domain.model.organization.person.BusinessFunctionId
 import com.procurement.orchestrator.domain.model.organization.person.BusinessFunctionType
 import com.procurement.orchestrator.domain.model.party.PartyRole
 import com.procurement.orchestrator.domain.model.person.PersonId
@@ -126,7 +127,7 @@ abstract class GetOrganizationAction : FunctionalAction<GetOrganizationAction.Pa
             ) : Serializable
 
             data class BusinessFunction(
-                @field:JsonProperty("id") @param:JsonProperty("id") val id: String,
+                @field:JsonProperty("id") @param:JsonProperty("id") val id: BusinessFunctionId,
                 @field:JsonProperty("type") @param:JsonProperty("type") val type: BusinessFunctionType,
                 @field:JsonProperty("jobTitle") @param:JsonProperty("jobTitle") val jobTitle: String,
                 @field:JsonProperty("period") @param:JsonProperty("period") val period: Period,
