@@ -236,7 +236,10 @@ object SubmitBid {
                         data class Permit(
                             @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
                             @param:JsonProperty("scheme") @field:JsonProperty("scheme") val scheme: String,
-                            @param:JsonProperty("url") @field:JsonProperty("url") val url: String,
+
+                            @JsonInclude(JsonInclude.Include.NON_NULL)
+                            @param:JsonProperty("url") @field:JsonProperty("url") val url: String?,
+
                             @param:JsonProperty("permitDetails") @field:JsonProperty("permitDetails") val permitDetails: PermitDetails
                         ) {
                             data class PermitDetails(
@@ -336,7 +339,9 @@ object SubmitBid {
                 data class Document(
                     @param:JsonProperty("id") @field:JsonProperty("id") val id: DocumentId,
                     @param:JsonProperty("title") @field:JsonProperty("title") val title: String,
-                    @param:JsonProperty("description") @field:JsonProperty("description") val description: String,
+
+                    @JsonInclude(JsonInclude.Include.NON_NULL)
+                    @param:JsonProperty("description") @field:JsonProperty("description") val description: String?,
 
                     @JsonInclude(JsonInclude.Include.NON_EMPTY)
                     @param:JsonProperty("relatedLots") @field:JsonProperty("relatedLots") val relatedLots: List<String>?,
