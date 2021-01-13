@@ -11,7 +11,7 @@ import com.procurement.orchestrator.domain.model.period.Period
 import com.procurement.orchestrator.domain.model.person.Person
 import com.procurement.orchestrator.domain.model.requirement.RequirementReference
 import com.procurement.orchestrator.domain.model.requirement.RequirementResponseValue
-import com.procurement.orchestrator.domain.model.tender.criteria.requirement.eligible.evidence.EligibleEvidences
+import com.procurement.orchestrator.domain.model.requirement.response.evidence.Evidences
 import com.procurement.orchestrator.domain.model.updateBy
 import com.procurement.orchestrator.infrastructure.bind.criteria.requirement.value.RequirementValueDeserializer
 import com.procurement.orchestrator.infrastructure.bind.criteria.requirement.value.RequirementValueSerializer
@@ -47,7 +47,7 @@ data class RequirementResponse(
     @field:JsonProperty("responder") @param:JsonProperty("responder") val responder: Person? = null,
 
     @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
-    @field:JsonProperty("evidences") @param:JsonProperty("evidences") val evidences: EligibleEvidences = EligibleEvidences()
+    @field:JsonProperty("evidences") @param:JsonProperty("evidences") val evidences: Evidences = Evidences()
 ) : IdentifiableObject<RequirementResponse>, Serializable {
 
     override fun equals(other: Any?): Boolean = if (this === other)
