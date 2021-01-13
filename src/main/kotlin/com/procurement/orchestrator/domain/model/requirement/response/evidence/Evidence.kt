@@ -8,7 +8,7 @@ import com.procurement.orchestrator.domain.model.or
 import java.io.Serializable
 
 data class Evidence(
-    @field:JsonProperty("id") @param:JsonProperty("id") val id: String,
+    @field:JsonProperty("id") @param:JsonProperty("id") val id: EvidenceId,
     @field:JsonProperty("title") @param:JsonProperty("title") val title: String,
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
