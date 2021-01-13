@@ -591,4 +591,30 @@ class AccessActionsTest {
 
         }
     }
+
+    @Nested
+    inner class GetItemsByLotIds {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetItemsByLotIdsAction.Params>("json/client/access/get_items_by_lot_ids_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetItemsByLotIdsAction.Result>("json/client/access/get_items_by_lot_ids_result_full.json")
+            }
+
+            @Test
+            fun required1() {
+                testingBindingAndMapping<GetItemsByLotIdsAction.Result>("json/client/access/get_items_by_lot_ids_result_required_1.json")
+            }
+
+        }
+    }
 }
