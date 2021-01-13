@@ -37,11 +37,12 @@ import com.procurement.orchestrator.domain.model.person.Persons
 import com.procurement.orchestrator.domain.model.requirement.RequirementReference
 import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponse
 import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponses
+import com.procurement.orchestrator.domain.model.requirement.response.evidence.Evidence
+import com.procurement.orchestrator.domain.model.requirement.response.evidence.Evidences
 import com.procurement.orchestrator.domain.model.submission.Details
 import com.procurement.orchestrator.domain.model.submission.Submission
+import com.procurement.orchestrator.domain.model.submission.SubmissionId
 import com.procurement.orchestrator.domain.model.submission.Submissions
-import com.procurement.orchestrator.domain.model.tender.criteria.requirement.eligible.evidence.EligibleEvidence
-import com.procurement.orchestrator.domain.model.tender.criteria.requirement.eligible.evidence.EligibleEvidences
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import org.springframework.stereotype.Component
 
@@ -70,7 +71,7 @@ class BpeInitializeCreateSubmissionProcessDelegate(
             payload.submission
                 .let { submission ->
                     Submission(
-                        id = submission.id,
+                        id = SubmissionId.generate(),
                         requirementResponses = submission.requirementResponses
                             .map { requirementResponse ->
                                 RequirementResponse(
@@ -89,13 +90,12 @@ class BpeInitializeCreateSubmissionProcessDelegate(
                                                 name = relatedCandidate.name
                                             )
                                         },
-                                    evidences = EligibleEvidences(
+                                    evidences = Evidences(
                                         requirementResponse.evidences.map { evidence ->
-                                            EligibleEvidence(
+                                            Evidence(
                                                 id = evidence.id,
                                                 description = evidence.description,
                                                 title = evidence.title,
-                                                type = evidence.type,
                                                 relatedDocument = evidence.relatedDocument
                                                     ?.let { relatedDocument ->
                                                         DocumentReference(relatedDocument.id)
