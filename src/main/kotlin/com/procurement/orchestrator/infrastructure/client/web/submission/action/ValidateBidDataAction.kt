@@ -12,6 +12,7 @@ import com.procurement.orchestrator.domain.model.lot.LotId
 import com.procurement.orchestrator.domain.model.measure.Amount
 import com.procurement.orchestrator.domain.model.organization.datail.Scale
 import com.procurement.orchestrator.domain.model.organization.datail.TypeOfSupplier
+import com.procurement.orchestrator.domain.model.organization.person.BusinessFunctionId
 import com.procurement.orchestrator.domain.model.organization.person.BusinessFunctionType
 import com.procurement.orchestrator.domain.model.person.PersonId
 import com.procurement.orchestrator.infrastructure.model.Version
@@ -183,7 +184,7 @@ abstract class ValidateBidDataAction : ProceduralAction<ValidateBidDataAction.Pa
                         )
 
                         data class BusinessFunction(
-                            @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
+                            @param:JsonProperty("id") @field:JsonProperty("id") val id: BusinessFunctionId,
 
                             @JsonInclude(JsonInclude.Include.NON_NULL)
                             @param:JsonProperty("type") @field:JsonProperty("type") val type: BusinessFunctionType?,
