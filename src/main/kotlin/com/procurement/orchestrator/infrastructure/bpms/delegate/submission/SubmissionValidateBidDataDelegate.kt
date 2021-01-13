@@ -44,11 +44,13 @@ class SubmissionValidateBidDataDelegate(
             .orForwardFail { fail -> return fail }
         val tender = context.tryGetTender()
             .orForwardFail { fail -> return fail }
+        val processInfo = context.processInfo
 
         return submissionClient.validateBidData(
             id = commandId,
             params = ValidateBidDataAction.Params(
-                cpid = context.processInfo.cpid!!,
+                cpid = processInfo.cpid!!,
+                pmd = processInfo.pmd,
                 bids = bids.details.map { bid ->
                     ValidateBidDataAction.Params.Bids.Detail(
                         id = bid.id,
