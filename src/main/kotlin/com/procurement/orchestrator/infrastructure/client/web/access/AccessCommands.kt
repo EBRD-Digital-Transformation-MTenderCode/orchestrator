@@ -15,6 +15,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Divi
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindAuctionsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindCriteriaAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindLotIdsAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.GetItemsByLotIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotStateByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotsValueAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetMainProcurementCategoryAction
@@ -93,4 +94,6 @@ object AccessCommands {
     object ValidateLotsData : ValidateLotsDataAction()
 
     object DivideLot: DivideLotAction()
+
+    object GetItemsByLotIds : GetItemsByLotIdsAction()
 }
