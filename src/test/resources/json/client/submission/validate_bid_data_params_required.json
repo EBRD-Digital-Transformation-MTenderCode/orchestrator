@@ -159,6 +159,21 @@
             "title": "string",
             "documentType": "illustration"
           }
+        ],
+        "requirementResponses": [
+          {
+            "id": "string",
+            "value": "Unknown Type: string,number,integer,boolean",
+            "requirement": {
+              "id": "string"
+            },
+            "evidences": [
+              {
+                "id": "string",
+                "title": "string"
+              }
+            ]
+          }
         ]
       }
     ]

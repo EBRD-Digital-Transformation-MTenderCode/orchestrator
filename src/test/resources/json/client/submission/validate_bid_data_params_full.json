@@ -192,6 +192,33 @@
               }
             }
           }
+        ],
+        "requirementResponses": [
+          {
+            "id": "string",
+            "value": "Unknown Type: string,number,integer,boolean",
+            "requirement": {
+              "id": "string"
+            },
+            "relatedTenderer": {
+              "id": "string",
+              "name": "string"
+            },
+            "evidences": [
+              {
+                "id": "string",
+                "title": "string",
+                "description": "string",
+                "relatedDocument": {
+                  "id": "string"
+                }
+              }
+            ],
+            "period": {
+              "startDate": "2021-01-14T11:29:33Z",
+              "endDate": "2021-01-14T11:29:33Z"
+            }
+          }
         ]
       }
     ]
