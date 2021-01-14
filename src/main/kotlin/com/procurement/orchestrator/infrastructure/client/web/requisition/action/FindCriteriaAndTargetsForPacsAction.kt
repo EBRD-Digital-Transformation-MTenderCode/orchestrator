@@ -22,6 +22,7 @@ import com.procurement.orchestrator.domain.model.tender.target.Targets
 import com.procurement.orchestrator.domain.model.unit.Unit
 import com.procurement.orchestrator.infrastructure.client.web.Target
 import com.procurement.orchestrator.infrastructure.model.Version
+import java.io.Serializable
 
 abstract class FindCriteriaAndTargetsForPacsAction : FunctionalAction<FindCriteriaAndTargetsForPacsAction.Params, FindCriteriaAndTargetsForPacsAction.Result> {
     override val version: Version = Version.parse("2.0.0")
@@ -42,18 +43,19 @@ abstract class FindCriteriaAndTargetsForPacsAction : FunctionalAction<FindCriter
         }
     }
 
-
     class Result(
         @JsonInclude(JsonInclude.Include.NON_NULL)
         @param:JsonProperty("tender") @field:JsonProperty("tender") val tender: Tender?
-    ) {
+    ) : Serializable {
+
         data class Tender(
             @JsonInclude(JsonInclude.Include.NON_EMPTY)
             @param:JsonProperty("criteria") @field:JsonProperty("criteria") val criteria: List<Criteria>?,
 
             @JsonInclude(JsonInclude.Include.NON_EMPTY)
             @param:JsonProperty("targets") @field:JsonProperty("targets") val targets: List<Target>?
-        ) {
+        ) : Serializable {
+
             data class Criteria(
                 @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
                 @param:JsonProperty("title") @field:JsonProperty("title") val title: String,
@@ -65,33 +67,37 @@ abstract class FindCriteriaAndTargetsForPacsAction : FunctionalAction<FindCriter
                 @param:JsonProperty("relatedItem") @field:JsonProperty("relatedItem") val relatedItem: String?,
 
                 @param:JsonProperty("requirementGroups") @field:JsonProperty("requirementGroups") val requirementGroups: List<RequirementGroup>
-            ) {
+            ) : Serializable {
+
                 data class RequirementGroup(
                     @param:JsonProperty("id") @field:JsonProperty("id") val id: RequirementGroupId,
                     @param:JsonProperty("requirements") @field:JsonProperty("requirements") val requirements: List<Requirement>
-                ) {
+                ) : Serializable {
+
                     data class Requirement(
                         @param:JsonProperty("id") @field:JsonProperty("id") val id: RequirementId,
                         @param:JsonProperty("title") @field:JsonProperty("title") val title: String
-                    )
+                    ) : Serializable
                 }
             }
 
             data class Target(
                 @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
                 @param:JsonProperty("observations") @field:JsonProperty("observations") val observations: List<Observation>
-            ) {
+            ) : Serializable {
+
                 data class Observation(
                     @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
                     @param:JsonProperty("unit") @field:JsonProperty("unit") val unit: Unit,
 
                     @JsonInclude(JsonInclude.Include.NON_NULL)
                     @param:JsonProperty("relatedRequirementId") @field:JsonProperty("relatedRequirementId") val relatedRequirementId: String?
-                ) {
+                ) : Serializable {
+
                     data class Unit(
                         @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
                         @param:JsonProperty("name") @field:JsonProperty("name") val name: String
-                    )
+                    ) : Serializable
                 }
             }
         }
