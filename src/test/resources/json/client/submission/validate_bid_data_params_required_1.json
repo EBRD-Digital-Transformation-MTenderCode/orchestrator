@@ -73,6 +73,15 @@
         ],
         "relatedLots": [
           "string"
+        ],
+        "requirementResponses": [
+          {
+            "id": "string",
+            "value": "Unknown Type: string,number,integer,boolean",
+            "requirement": {
+              "id": "string"
+            }
+          }
         ]
       }
     ]
