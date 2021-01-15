@@ -11,7 +11,17 @@
         "relatedCandidate": {
           "id": "string",
           "name": "string"
-        }
+        },
+        "evidences": [
+          {
+            "id": "string",
+            "title": "string",
+            "description": "string",
+            "relatedDocument": {
+              "id": "string"
+            }
+          }
+        ]
       }
     ],
     "candidates": [
