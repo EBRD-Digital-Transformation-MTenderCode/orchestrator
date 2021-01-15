@@ -60,7 +60,40 @@ class DossierValidateSubmissionDelegate(
                 ocid = processInfo.ocid!!,
                 id = submission.id,
                 candidates = Candidates(submissionCandidates),
-                documents = submission.documents
+                documents = submission.documents,
+                requirementResponses = submission.requirementResponses
+                    .map { requirementResponse ->
+                        ValidateSubmissionAction.Params.RequirementResponse(
+                            id = requirementResponse.id,
+                            value = requirementResponse.value,
+                            requirement = requirementResponse.requirement
+                                ?.let { requirement ->
+                                    ValidateSubmissionAction.Params.RequirementResponse.Requirement(
+                                        requirement.id
+                                    )
+                                },
+                            relatedCandidate = requirementResponse.relatedCandidate
+                                ?.let { tenderer ->
+                                    ValidateSubmissionAction.Params.RequirementResponse.RelatedCandidate(
+                                        name = tenderer.name,
+                                        id = tenderer.id
+                                    )
+                                },
+                            evidences = requirementResponse.evidences
+                                .map { evidence ->
+                                    ValidateSubmissionAction.Params.RequirementResponse.Evidence(
+                                        id = evidence.id,
+                                        description = evidence.description,
+                                        title = evidence.title,
+                                        relatedDocument = evidence.relatedDocument?.let { relatedDocument ->
+                                            ValidateSubmissionAction.Params.RequirementResponse.Evidence.RelatedDocument(
+                                                id = relatedDocument.id
+                                            )
+                                        }
+                                    )
+                                }
+                        )
+                    }
             )
         )
     }
