@@ -37,15 +37,15 @@ class AccessValidateLotsDataDelegate(
         parameters: Unit
     ): Result<Reply<Unit>, Fail.Incident> {
 
-        val relatedProcess = context.processInfo.relatedProcess!!
+        val processInfo = context.processInfo
         val tender = context.tryGetTender()
             .orForwardFail { failure -> return failure }
 
         return accessClient.validateLotsDataAction(
             id = commandId,
             params = ValidateLotsDataAction.Params(
-                cpid = relatedProcess.cpid,
-                ocid = relatedProcess.ocid!!,
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid!!,
                 tender = ValidateLotsDataAction.Params.Tender(
                     tender.lots.map { lot ->
                         ValidateLotsDataAction.Params.Tender.Lot(
