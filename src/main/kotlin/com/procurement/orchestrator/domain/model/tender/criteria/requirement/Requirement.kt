@@ -3,6 +3,7 @@ package com.procurement.orchestrator.domain.model.tender.criteria.requirement
 import com.procurement.orchestrator.domain.model.ComplexObject
 import com.procurement.orchestrator.domain.model.IdentifiableObject
 import com.procurement.orchestrator.domain.model.or
+import com.procurement.orchestrator.domain.model.requirement.RequirementStatus
 import com.procurement.orchestrator.domain.model.tender.criteria.requirement.eligible.evidence.EligibleEvidences
 import com.procurement.orchestrator.domain.model.updateBy
 import java.io.Serializable
@@ -14,6 +15,8 @@ class Requirement(
     val title: String,
     val description: String?,
     val period: Period?,
+    val status: RequirementStatus?,
+    val datePublished: LocalDateTime?,
     val dataType: RequirementDataType?,
     val value: RequirementValue = NoneValue,
     val eligibleEvidences: EligibleEvidences = EligibleEvidences()
@@ -25,6 +28,8 @@ class Requirement(
         description = src.description or description,
         period = period updateBy src.period,
         dataType = src.dataType,
+        status = src.status or status,
+        datePublished = src.datePublished or datePublished,
         value = src.value,
         eligibleEvidences = eligibleEvidences updateBy src.eligibleEvidences
     )

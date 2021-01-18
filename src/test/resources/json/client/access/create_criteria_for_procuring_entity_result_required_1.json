@@ -3,6 +3,10 @@
     "id": "MD.TEST_GPA.1",
     "title": "string",
     "source": "procuringEntity",
+    "classification": {
+      "id": "string",
+      "scheme": "string"
+    },
     "requirementGroups": [
       {
         "id": "MD.TEST_GPA.1.1",
@@ -10,7 +14,9 @@
           {
             "id": "MD.TEST_GPA.1.1.1",
             "title": "string",
-            "dataType": "boolean"
+            "dataType": "boolean",
+            "status": "active",
+            "datePublished": "2021-01-18T08:38:06Z"
           }
         ]
       }

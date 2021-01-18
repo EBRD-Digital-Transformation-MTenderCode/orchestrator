@@ -53,5 +53,7 @@ fun GetRequirements.Result.Success.Requirement.convertToGlobalContextEntity(): R
         description = this.description,
         value = NoneValue,
         period = null,
-        dataType = null
+        dataType = null,
+        status = null,
+        datePublished = null
     )
