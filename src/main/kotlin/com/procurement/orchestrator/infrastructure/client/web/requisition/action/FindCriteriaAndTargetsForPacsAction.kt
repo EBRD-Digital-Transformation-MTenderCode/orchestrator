@@ -122,7 +122,9 @@ fun FindCriteriaAndTargetsForPacsAction.Result.Tender.toDomain(): Tender {
                                     title = requirement.title,
                                     period = null,
                                     description = null,
-                                    dataType = null
+                                    dataType = null,
+                                    status = null,
+                                    datePublished = null
                                 )
                             }
                                 .let { Requirements(it) }
