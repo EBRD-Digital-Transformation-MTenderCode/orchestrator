@@ -2,7 +2,11 @@
   "data": [
     {
       "id": "string",
-      "title": "title"
+      "title": "title",
+      "classification": {
+        "id": "string",
+        "scheme": "string"
+      }
     }
   ]
 }
