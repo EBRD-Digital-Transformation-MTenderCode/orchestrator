@@ -44,17 +44,21 @@ class BpeInitializeDivideLotProcessDelegate(
             parsePayload(camundaContext.request.payload, DivideLotProcess.Request.Payload::class.java)
                 .orReturnFail { return MaybeFail.fail(it) }
 
-        globalContext.tender = initializeTender(payload)
+        val entityId = globalContext.processInfo.entityId
+        val dividedLotId = entityId?.let { LotId.create(entityId) }
+
+        globalContext.tender = initializeTender(payload, dividedLotId)
             .orReturnFail { return MaybeFail.fail(it) }
 
         return MaybeFail.none()
     }
 
-    private fun initializeTender(payload: DivideLotProcess.Request.Payload): Result<Tender, Fail> =
+    private fun initializeTender(payload: DivideLotProcess.Request.Payload, dividedLotId: LotId?): Result<Tender, Fail> =
         payload.tender.let { tender ->
             Tender(
                 lots = tender.lots
                     .map { lot -> lot.toDomain().orForwardFail { return it } }
+                    .let { lots -> dividedLotId?.let { id -> lots + Lot(id = id) } ?: lots }
                     .let { Lots((it)) },
                 items = tender.items
                     .map { item -> item.toDomain() }
