@@ -3,7 +3,11 @@
     {
       "id": "string",
       "title": "title",
-      "description": "string"
+      "description": "string",
+      "classification": {
+        "id": "string",
+        "scheme": "string"
+      }
     }
   ]
 }
