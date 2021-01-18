@@ -38,13 +38,16 @@ class BpeInitializeDivideLotProcessDelegate(
     processInitializerRepository: ProcessInitializerRepository
 ) : AbstractInitializeProcessDelegate(logger, transform, operationStepRepository, processInitializerRepository) {
 
-    override fun updateGlobalContext(camundaContext: CamundaContext, globalContext: CamundaGlobalContext): MaybeFail<Fail> {
+    override fun updateGlobalContext(
+        camundaContext: CamundaContext,
+        globalContext: CamundaGlobalContext
+    ): MaybeFail<Fail> {
 
         val payload: DivideLotProcess.Request.Payload =
             parsePayload(camundaContext.request.payload, DivideLotProcess.Request.Payload::class.java)
                 .orReturnFail { return MaybeFail.fail(it) }
 
-        val dividedLotId = globalContext.processInfo.entityId?.let { LotId.create(it) }
+        val dividedLotId = LotId.create(globalContext.processInfo.entityId!!)
 
         globalContext.tender = initializeTender(payload, dividedLotId)
             .orReturnFail { return MaybeFail.fail(it) }
@@ -52,12 +55,12 @@ class BpeInitializeDivideLotProcessDelegate(
         return MaybeFail.none()
     }
 
-    private fun initializeTender(payload: DivideLotProcess.Request.Payload, dividedLotId: LotId?): Result<Tender, Fail> =
+    private fun initializeTender(payload: DivideLotProcess.Request.Payload, dividedLotId: LotId): Result<Tender, Fail> =
         payload.tender.let { tender ->
             Tender(
                 lots = tender.lots
                     .map { lot -> lot.toDomain().orForwardFail { return it } }
-                    .let { lots -> dividedLotId?.let { id -> lots + Lot(id = id) } ?: lots }
+                    .let { lots -> lots + Lot(id = dividedLotId) }
                     .let { Lots((it)) },
                 items = tender.items
                     .map { item -> item.toDomain() }
