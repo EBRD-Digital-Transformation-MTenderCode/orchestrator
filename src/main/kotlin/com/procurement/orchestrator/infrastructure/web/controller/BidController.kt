@@ -49,15 +49,14 @@ class BidController(
                     logger.debug("Response: status '${response.statusCode}', body '${response.body}'.")
             }
 
-    private fun perform(servlet: HttpServletRequest, cpid: String, ocid: String): MaybeFail<Fail> {
-        val request: PlatformRequest = buildRequest(servlet = servlet, cpid = cpid, ocid = ocid)
+    private fun perform(servlet: HttpServletRequest, cpid: String, ocid: String): MaybeFail<Fail> =
+        buildRequest(servlet = servlet, cpid = cpid, ocid = ocid)
             .orReturnFail { return MaybeFail.fail(it) }
             .also { request ->
                 if (logger.isDebugEnabled)
                     logger.debug("Request: platform '${request.platformId}', operation-id '${request.operationId}', uri '${servlet.requestURI}', payload '${request.payload}'.")
             }
-        return processLauncher.launchWithContextByOcid(request)
-    }
+            .let { request -> launch(request) }
 
     private fun buildRequest(
         servlet: HttpServletRequest,
@@ -79,18 +78,7 @@ class BidController(
         val payload: String = servlet.getPayload()
             .orForwardFail { fail -> return fail }
 
-        val processName = when (verifiedOcid.stage) {
-            Stage.PC -> PROCESS_NAME_SUBMIT_BID_IN_PCR
-            Stage.AC,
-            Stage.AP,
-            Stage.EI,
-            Stage.EV,
-            Stage.FE,
-            Stage.FS,
-            Stage.NP,
-            Stage.PN,
-            Stage.TP -> PROCESS_NAME_SUBMIT_BID
-        }
+        val processName = getProcessName(verifiedOcid.stage)
 
         return PlatformRequest(
             operationId = operationId,
@@ -106,4 +94,31 @@ class BidController(
             payload = payload
         ).asSuccess()
     }
+
+    fun getProcessName(stage: Stage) = when (stage) {
+        Stage.AC,
+        Stage.AP,
+        Stage.EI,
+        Stage.EV,
+        Stage.FE,
+        Stage.FS,
+        Stage.NP,
+        Stage.PN,
+        Stage.TP -> PROCESS_NAME_SUBMIT_BID
+        Stage.PC -> PROCESS_NAME_SUBMIT_BID_IN_PCR
+    }
+
+    fun launch(request: PlatformRequest): MaybeFail<Fail> =
+        when ((request.context.ocid as Ocid.SingleStage).stage) {
+            Stage.AC,
+            Stage.AP,
+            Stage.EI,
+            Stage.EV,
+            Stage.FE,
+            Stage.FS,
+            Stage.NP,
+            Stage.PN,
+            Stage.TP -> processLauncher.launchWithContextByCpid(request)
+            Stage.PC -> processLauncher.launchWithContextByOcid(request)
+        }
 }
