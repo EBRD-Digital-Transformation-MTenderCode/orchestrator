@@ -452,7 +452,13 @@ class HttpMdmClient(
                             GetCriteria.Result.Success.Criterion(
                                 id = criterion.id,
                                 title = criterion.title,
-                                description = criterion.description
+                                description = criterion.description,
+                                classification = criterion.classification.let { classification ->
+                                    GetCriteria.Result.Success.Criterion.Classification(
+                                        id = classification.id,
+                                        scheme = classification.scheme
+                                    )
+                                }
                             )
                         }
                         .orEmpty()
