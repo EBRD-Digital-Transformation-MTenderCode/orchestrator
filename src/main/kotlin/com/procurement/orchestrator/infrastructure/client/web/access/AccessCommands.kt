@@ -27,7 +27,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Outs
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ResponderProcessingAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForLotsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForTenderAction
-import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateLotsDataAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateLotsDataForDivisionAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateRelatedTenderClassificationAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateRequirementResponsesAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.VerifyRequirementResponseAction
@@ -91,7 +91,7 @@ object AccessCommands {
 
     object GetLotsValue: GetLotsValueAction()
 
-    object ValidateLotsData : ValidateLotsDataAction()
+    object ValidateLotsDataForDivision : ValidateLotsDataForDivisionAction()
 
     object DivideLot: DivideLotAction()
 
