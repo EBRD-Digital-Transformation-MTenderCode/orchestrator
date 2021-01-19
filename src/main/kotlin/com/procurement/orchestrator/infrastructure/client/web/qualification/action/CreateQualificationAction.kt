@@ -13,6 +13,7 @@ import com.procurement.orchestrator.domain.model.qualification.QualificationId
 import com.procurement.orchestrator.domain.model.qualification.QualificationStatus
 import com.procurement.orchestrator.domain.model.requirement.RequirementId
 import com.procurement.orchestrator.domain.model.requirement.RequirementResponseValue
+import com.procurement.orchestrator.domain.model.requirement.RequirementStatus
 import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponseId
 import com.procurement.orchestrator.domain.model.submission.SubmissionId
 import com.procurement.orchestrator.domain.model.tender.conversion.ConversionId
@@ -20,8 +21,13 @@ import com.procurement.orchestrator.domain.model.tender.conversion.ConversionsRe
 import com.procurement.orchestrator.domain.model.tender.conversion.coefficient.CoefficientId
 import com.procurement.orchestrator.domain.model.tender.conversion.coefficient.CoefficientRate
 import com.procurement.orchestrator.domain.model.tender.conversion.coefficient.CoefficientValue
+import com.procurement.orchestrator.domain.model.tender.criteria.CriteriaRelatesTo
+import com.procurement.orchestrator.domain.model.tender.criteria.CriteriaSource
+import com.procurement.orchestrator.domain.model.tender.criteria.CriterionId
 import com.procurement.orchestrator.domain.model.tender.criteria.QualificationSystemMethod
 import com.procurement.orchestrator.domain.model.tender.criteria.ReductionCriteria
+import com.procurement.orchestrator.domain.model.tender.criteria.requirement.RequirementDataType
+import com.procurement.orchestrator.domain.model.tender.criteria.requirement.RequirementGroupId
 import com.procurement.orchestrator.infrastructure.client.web.Target
 import com.procurement.orchestrator.infrastructure.model.Version
 import java.io.Serializable
@@ -71,8 +77,50 @@ abstract class CreateQualificationAction : FunctionalAction<CreateQualificationA
             @param:JsonProperty("otherCriteria") @field:JsonProperty("otherCriteria") val otherCriteria: OtherCriteria,
 
             @JsonInclude(JsonInclude.Include.NON_EMPTY)
-            @param:JsonProperty("conversions") @field:JsonProperty("conversions") val conversions: List<Conversion>?
+            @param:JsonProperty("conversions") @field:JsonProperty("conversions") val conversions: List<Conversion>?,
+
+            @JsonInclude(JsonInclude.Include.NON_EMPTY)
+            @field:JsonProperty("criteria") @param:JsonProperty("criteria") val criteria: List<Criterion>?
         ) {
+
+            data class Criterion(
+                @field:JsonProperty("id") @param:JsonProperty("id") val id: CriterionId,
+
+                @JsonInclude(JsonInclude.Include.NON_NULL)
+                @field:JsonProperty("source") @param:JsonProperty("source") val source: CriteriaSource?,
+
+                @JsonInclude(JsonInclude.Include.NON_NULL)
+                @field:JsonProperty("relatesTo") @param:JsonProperty("relatesTo") val relatesTo: CriteriaRelatesTo?,
+
+                @JsonInclude(JsonInclude.Include.NON_NULL)
+                @field:JsonProperty("classification") @param:JsonProperty("classification") val classification: Classification?,
+
+                @JsonInclude(JsonInclude.Include.NON_EMPTY)
+                @field:JsonProperty("requirementGroups") @param:JsonProperty("requirementGroups") val requirementGroups: List<RequirementGroup>
+            ) {
+
+                data class Classification(
+                    @field:JsonProperty("id") @param:JsonProperty("id") val id: String,
+                    @field:JsonProperty("scheme") @param:JsonProperty("scheme") val scheme: String
+                )
+
+                data class RequirementGroup(
+                    @field:JsonProperty("id") @param:JsonProperty("id") val id: RequirementGroupId,
+
+                    @field:JsonProperty("requirements") @param:JsonProperty("requirements") val requirements: List<Requirement>
+                ) {
+                    data class Requirement(
+                        @field:JsonProperty("id") @param:JsonProperty("id") val id: RequirementId,
+
+                        @JsonInclude(JsonInclude.Include.NON_NULL)
+                        @field:JsonProperty("status") @param:JsonProperty("status") val status: RequirementStatus?,
+
+                        @JsonInclude(JsonInclude.Include.NON_NULL)
+                        @field:JsonProperty("dataType") @param:JsonProperty("dataType") val dataType: RequirementDataType?
+                    )
+                }
+            }
+
             data class Conversion(
                 @param:JsonProperty("id") @field:JsonProperty("id") val id: ConversionId,
                 @JsonInclude(JsonInclude.Include.NON_NULL)
