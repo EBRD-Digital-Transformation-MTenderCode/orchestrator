@@ -13,11 +13,11 @@ import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExterna
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
-import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateLotsDataAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateLotsDataForDivisionAction
 import org.springframework.stereotype.Component
 
 @Component
-class AccessValidateLotsDataDelegate(
+class AccessValidateLotsDataForDivisionDelegate(
     logger: Logger,
     private val accessClient: AccessClient,
     operationStepRepository: OperationStepRepository,
@@ -41,44 +41,44 @@ class AccessValidateLotsDataDelegate(
         val tender = context.tryGetTender()
             .orForwardFail { failure -> return failure }
 
-        return accessClient.validateLotsDataAction(
+        return accessClient.validateLotsDataForDivision(
             id = commandId,
-            params = ValidateLotsDataAction.Params(
+            params = ValidateLotsDataForDivisionAction.Params(
                 cpid = processInfo.cpid!!,
                 ocid = processInfo.ocid!!,
-                tender = ValidateLotsDataAction.Params.Tender(
+                tender = ValidateLotsDataForDivisionAction.Params.Tender(
                     tender.lots.map { lot ->
-                        ValidateLotsDataAction.Params.Tender.Lot(
+                        ValidateLotsDataForDivisionAction.Params.Tender.Lot(
                             id = lot.id,
                             title = lot.title,
                             description = lot.description,
                             internalId = lot.internalId,
                             value = lot.value?.let { value ->
-                                ValidateLotsDataAction.Params.Tender.Lot.Value(
+                                ValidateLotsDataForDivisionAction.Params.Tender.Lot.Value(
                                     amount = value.amount,
                                     currency = value.currency
                                 )
                             },
                             contractPeriod = lot.contractPeriod
                                 ?.let { contractPeriod ->
-                                    ValidateLotsDataAction.Params.Tender.Lot.ContractPeriod(
+                                    ValidateLotsDataForDivisionAction.Params.Tender.Lot.ContractPeriod(
                                         startDate = contractPeriod.startDate,
                                         endDate = contractPeriod.endDate
                                     )
                                 },
                             placeOfPerformance = lot.placeOfPerformance?.let { placeOfPerformance ->
-                                ValidateLotsDataAction.Params.Tender.Lot.PlaceOfPerformance(
+                                ValidateLotsDataForDivisionAction.Params.Tender.Lot.PlaceOfPerformance(
                                     address = placeOfPerformance.address
                                         ?.let { address ->
-                                            ValidateLotsDataAction.Params.Tender.Lot.PlaceOfPerformance.Address(
+                                            ValidateLotsDataForDivisionAction.Params.Tender.Lot.PlaceOfPerformance.Address(
                                                 streetAddress = address.streetAddress,
                                                 postalCode = address.postalCode,
                                                 addressDetails = address.addressDetails
                                                     ?.let { addressDetails ->
-                                                        ValidateLotsDataAction.Params.Tender.Lot.PlaceOfPerformance.Address.AddressDetails(
+                                                        ValidateLotsDataForDivisionAction.Params.Tender.Lot.PlaceOfPerformance.Address.AddressDetails(
                                                             country = addressDetails.country
                                                                 .let { country ->
-                                                                    ValidateLotsDataAction.Params.Tender.Lot.PlaceOfPerformance.Address.AddressDetails.Country(
+                                                                    ValidateLotsDataForDivisionAction.Params.Tender.Lot.PlaceOfPerformance.Address.AddressDetails.Country(
                                                                         scheme = country.scheme,
                                                                         id = country.id,
                                                                         description = country.description
@@ -86,7 +86,7 @@ class AccessValidateLotsDataDelegate(
                                                                 },
                                                             region = addressDetails.region
                                                                 .let { region ->
-                                                                    ValidateLotsDataAction.Params.Tender.Lot.PlaceOfPerformance.Address.AddressDetails.Region(
+                                                                    ValidateLotsDataForDivisionAction.Params.Tender.Lot.PlaceOfPerformance.Address.AddressDetails.Region(
                                                                         scheme = region.scheme,
                                                                         id = region.id,
                                                                         description = region.description
@@ -94,7 +94,7 @@ class AccessValidateLotsDataDelegate(
                                                                 },
                                                             locality = addressDetails.locality
                                                                 .let { locality ->
-                                                                    ValidateLotsDataAction.Params.Tender.Lot.PlaceOfPerformance.Address.AddressDetails.Locality(
+                                                                    ValidateLotsDataForDivisionAction.Params.Tender.Lot.PlaceOfPerformance.Address.AddressDetails.Locality(
                                                                         scheme = locality.scheme,
                                                                         id = locality.id,
                                                                         description = locality.description
@@ -110,7 +110,7 @@ class AccessValidateLotsDataDelegate(
                         )
                     },
                     items = tender.items.map { item ->
-                        ValidateLotsDataAction.Params.Tender.Item(
+                        ValidateLotsDataForDivisionAction.Params.Tender.Item(
                             id = item.id,
                             relatedLot = item.relatedLot
                         )
