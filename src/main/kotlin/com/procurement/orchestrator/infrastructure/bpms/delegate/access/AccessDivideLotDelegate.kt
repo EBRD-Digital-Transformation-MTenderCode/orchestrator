@@ -4,6 +4,7 @@ import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.AccessClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.tryGetTender
+import com.procurement.orchestrator.application.model.context.members.ProcessInfo
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
@@ -16,6 +17,7 @@ import com.procurement.orchestrator.domain.model.address.country.CountryDetails
 import com.procurement.orchestrator.domain.model.address.locality.LocalityDetails
 import com.procurement.orchestrator.domain.model.address.region.RegionDetails
 import com.procurement.orchestrator.domain.model.lot.Lot
+import com.procurement.orchestrator.domain.model.lot.LotId
 import com.procurement.orchestrator.domain.model.lot.PlaceOfPerformance
 import com.procurement.orchestrator.domain.model.period.Period
 import com.procurement.orchestrator.domain.model.value.Value
@@ -54,77 +56,17 @@ class AccessDivideLotDelegate(
         val tender = context.tryGetTender()
             .orForwardFail { failure -> return failure }
 
+        val dividedLot = generateDividedLot(processInfo)
+
         return accessClient.divideLot(
             id = commandId,
             params = DivideLotAction.Params(
                 cpid = processInfo.cpid!!,
                 ocid = processInfo.ocid!!,
                 tender = DivideLotAction.Params.Tender(
-                    tender.lots.map { lot ->
-                        DivideLotAction.Params.Tender.Lot(
-                            id = lot.id,
-                            title = lot.title,
-                            description = lot.description,
-                            internalId = lot.internalId,
-                            value = lot.value?.let { value ->
-                                DivideLotAction.Params.Tender.Lot.Value(
-                                    amount = value.amount,
-                                    currency = value.currency
-                                )
-                            },
-                            contractPeriod = lot.contractPeriod
-                                ?.let { contractPeriod ->
-                                    DivideLotAction.Params.Tender.Lot.ContractPeriod(
-                                        startDate = contractPeriod.startDate,
-                                        endDate = contractPeriod.endDate
-                                    )
-                                },
-                            placeOfPerformance = lot.placeOfPerformance
-                                ?.let { placeOfPerformance ->
-                                    DivideLotAction.Params.Tender.Lot.PlaceOfPerformance(
-                                        address = placeOfPerformance.address
-                                            ?.let { address ->
-                                                DivideLotAction.Params.Tender.Lot.PlaceOfPerformance.Address(
-                                                    streetAddress = address.streetAddress,
-                                                    postalCode = address.postalCode,
-                                                    addressDetails = address.addressDetails
-                                                        ?.let { addressDetails ->
-                                                            DivideLotAction.Params.Tender.Lot.PlaceOfPerformance.Address.AddressDetails(
-                                                                country = addressDetails.country
-                                                                    .let { country ->
-                                                                        DivideLotAction.Params.Tender.Lot.PlaceOfPerformance.Address.AddressDetails.Country(
-                                                                            scheme = country.scheme,
-                                                                            id = country.id,
-                                                                            description = country.description,
-                                                                            uri = country.uri
-                                                                        )
-                                                                    },
-                                                                region = addressDetails.region
-                                                                    .let { region ->
-                                                                        DivideLotAction.Params.Tender.Lot.PlaceOfPerformance.Address.AddressDetails.Region(
-                                                                            scheme = region.scheme,
-                                                                            id = region.id,
-                                                                            description = region.description,
-                                                                            uri = region.uri
-                                                                        )
-                                                                    },
-                                                                locality = addressDetails.locality
-                                                                    .let { locality ->
-                                                                        DivideLotAction.Params.Tender.Lot.PlaceOfPerformance.Address.AddressDetails.Locality(
-                                                                            scheme = locality.scheme,
-                                                                            id = locality.id,
-                                                                            description = locality.description,
-                                                                            uri = locality.uri
-                                                                        )
-                                                                    }
-                                                            )
-                                                        }
-                                                )
-                                            }
-                                    )
-                                }
-                        )
-                    },
+                    tender.lots
+                        .map { lot -> lot.convert() }
+                        .let { it + dividedLot },
                     items = tender.items.map { item ->
                         DivideLotAction.Params.Tender.Item(
                             id = item.id,
@@ -136,6 +78,81 @@ class AccessDivideLotDelegate(
             )
         )
     }
+
+    private fun generateDividedLot(processInfo: ProcessInfo) =
+        DivideLotAction.Params.Tender.Lot(
+            id = LotId.create(processInfo.entityId!!),
+            description = null,
+            title = null,
+            value = null,
+            internalId = null,
+            placeOfPerformance = null,
+            contractPeriod = null
+        )
+
+    private fun Lot.convert() = DivideLotAction.Params.Tender.Lot(
+        id = id,
+        title = title,
+        description = description,
+        internalId = internalId,
+        value = value?.let { value ->
+            DivideLotAction.Params.Tender.Lot.Value(
+                amount = value.amount,
+                currency = value.currency
+            )
+        },
+        contractPeriod = contractPeriod
+            ?.let { contractPeriod ->
+                DivideLotAction.Params.Tender.Lot.ContractPeriod(
+                    startDate = contractPeriod.startDate,
+                    endDate = contractPeriod.endDate
+                )
+            },
+        placeOfPerformance = placeOfPerformance
+            ?.let { placeOfPerformance ->
+                DivideLotAction.Params.Tender.Lot.PlaceOfPerformance(
+                    address = placeOfPerformance.address
+                        ?.let { address ->
+                            DivideLotAction.Params.Tender.Lot.PlaceOfPerformance.Address(
+                                streetAddress = address.streetAddress,
+                                postalCode = address.postalCode,
+                                addressDetails = address.addressDetails
+                                    ?.let { addressDetails ->
+                                        DivideLotAction.Params.Tender.Lot.PlaceOfPerformance.Address.AddressDetails(
+                                            country = addressDetails.country
+                                                .let { country ->
+                                                    DivideLotAction.Params.Tender.Lot.PlaceOfPerformance.Address.AddressDetails.Country(
+                                                        scheme = country.scheme,
+                                                        id = country.id,
+                                                        description = country.description,
+                                                        uri = country.uri
+                                                    )
+                                                },
+                                            region = addressDetails.region
+                                                .let { region ->
+                                                    DivideLotAction.Params.Tender.Lot.PlaceOfPerformance.Address.AddressDetails.Region(
+                                                        scheme = region.scheme,
+                                                        id = region.id,
+                                                        description = region.description,
+                                                        uri = region.uri
+                                                    )
+                                                },
+                                            locality = addressDetails.locality
+                                                .let { locality ->
+                                                    DivideLotAction.Params.Tender.Lot.PlaceOfPerformance.Address.AddressDetails.Locality(
+                                                        scheme = locality.scheme,
+                                                        id = locality.id,
+                                                        description = locality.description,
+                                                        uri = locality.uri
+                                                    )
+                                                }
+                                        )
+                                    }
+                            )
+                        }
+                )
+            }
+    )
 
     override fun updateGlobalContext(
         context: CamundaGlobalContext,
