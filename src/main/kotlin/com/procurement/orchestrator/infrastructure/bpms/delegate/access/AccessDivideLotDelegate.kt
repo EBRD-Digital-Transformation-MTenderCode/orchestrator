@@ -18,8 +18,10 @@ import com.procurement.orchestrator.domain.model.address.locality.LocalityDetail
 import com.procurement.orchestrator.domain.model.address.region.RegionDetails
 import com.procurement.orchestrator.domain.model.lot.Lot
 import com.procurement.orchestrator.domain.model.lot.LotId
+import com.procurement.orchestrator.domain.model.lot.Lots
 import com.procurement.orchestrator.domain.model.lot.PlaceOfPerformance
 import com.procurement.orchestrator.domain.model.period.Period
+import com.procurement.orchestrator.domain.model.tender.Tender
 import com.procurement.orchestrator.domain.model.value.Value
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
@@ -165,9 +167,11 @@ class AccessDivideLotDelegate(
                 Fail.Incident.Response.Empty(service = ExternalServiceName.ACCESS, action = AccessCommands.DivideLot)
             )
 
-        val lots = data.tender.lots.map { lot ->
-            lot.toDomain()
-        }
+        val lots = data.tender.lots
+            .map { lot -> lot.toDomain() }
+            .let { Lots(it) }
+
+        context.tender = context.tender?.copy(lots = lots) ?: Tender(lots = lots)
 
         return MaybeFail.none()
     }
