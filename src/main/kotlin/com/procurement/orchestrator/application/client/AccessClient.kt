@@ -31,7 +31,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Outs
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ResponderProcessingAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForLotsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForTenderAction
-import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateLotsDataAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateLotsDataForDivisionAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateRelatedTenderClassificationAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateRequirementResponsesAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.VerifyRequirementResponseAction
@@ -176,9 +176,9 @@ interface AccessClient {
         params: GetLotsValueAction.Params
     ): Result<Reply<GetLotsValueAction.Result>, Fail.Incident>
 
-    suspend fun validateLotsDataAction(
+    suspend fun validateLotsDataForDivision(
         id: CommandId,
-        params: ValidateLotsDataAction.Params
+        params: ValidateLotsDataForDivisionAction.Params
     ): Result<Reply<Unit>, Fail.Incident>
 
     suspend fun divideLot(
