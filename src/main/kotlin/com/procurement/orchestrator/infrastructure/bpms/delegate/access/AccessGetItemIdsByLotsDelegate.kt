@@ -3,16 +3,21 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.access
 import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.AccessClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
+import com.procurement.orchestrator.application.model.context.extension.getBidsDetailIfOnlyOne
+import com.procurement.orchestrator.application.model.context.extension.getRelatedLotsIfOnlyOne
+import com.procurement.orchestrator.application.model.context.extension.tryGetBids
 import com.procurement.orchestrator.application.model.context.extension.tryGetTender
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
+import com.procurement.orchestrator.domain.EnumElementProvider
+import com.procurement.orchestrator.domain.EnumElementProvider.Companion.keysAsStrings
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
-import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.model.item.Item
 import com.procurement.orchestrator.domain.model.item.Items
+import com.procurement.orchestrator.domain.model.tender.Tender
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
@@ -28,41 +33,70 @@ class AccessGetItemIdsByLotsDelegate(
     private val accessClient: AccessClient,
     operationStepRepository: OperationStepRepository,
     transform: Transform
-) : AbstractExternalDelegate<Unit, GetItemsByLotIdsAction.Result>(
+) : AbstractExternalDelegate<AccessGetItemIdsByLotsDelegate.Parameters, GetItemsByLotIdsAction.Result>(
     logger = logger,
     transform = transform,
     operationStepRepository = operationStepRepository
 ) {
 
-    override fun parameters(parameterContainer: ParameterContainer): Result<Unit, Fail.Incident.Bpmn.Parameter> =
-        success(Unit)
+    companion object {
+        private const val PARAMETER_NAME_LOCATION = "location"
+    }
+
+    override fun parameters(parameterContainer: ParameterContainer): Result<Parameters, Fail.Incident.Bpmn.Parameter> {
+        val location: Location? = parameterContainer.getStringOrNull(PARAMETER_NAME_LOCATION)
+            .orForwardFail { fail -> return fail }
+            ?.let {
+                Location.orNull(it)
+                    ?: return Result.failure(
+                        Fail.Incident.Bpmn.Parameter.UnknownValue(
+                            name = PARAMETER_NAME_LOCATION,
+                            expectedValues = Location.allowedElements.keysAsStrings(),
+                            actualValue = it
+                        )
+                    )
+            }
+
+        return Result.success(Parameters(location = location))
+    }
 
     override suspend fun execute(
         commandId: CommandId,
         context: CamundaGlobalContext,
-        parameters: Unit
+        parameters: Parameters
     ): Result<Reply<GetItemsByLotIdsAction.Result>, Fail.Incident> {
 
-        val tender = context.tryGetTender()
-            .orForwardFail { fail -> return fail }
-
         val processInfo = context.processInfo
+
+        val lots: List<GetItemsByLotIdsAction.Params.Tender.Lot> = when (parameters.location) {
+            Location.BID -> context.tryGetBids()
+                .orForwardFail { return it }
+                .getBidsDetailIfOnlyOne()
+                .orForwardFail { return it }
+                .getRelatedLotsIfOnlyOne()
+                .orForwardFail { return it }
+                .let { relatedLotId -> GetItemsByLotIdsAction.Params.Tender.Lot(relatedLotId) }
+                .let { lot -> listOf(lot) }
+
+            null -> context.tryGetTender()
+                .orForwardFail { return it }
+                .lots
+                .map { lot -> GetItemsByLotIdsAction.Params.Tender.Lot(lot.id) }
+        }
+
         return accessClient.getItemsByLotIdsAction(
             id = commandId,
             params = GetItemsByLotIdsAction.Params(
                 cpid = processInfo.cpid!!,
                 ocid = processInfo.ocid!!,
-                tender = GetItemsByLotIdsAction.Params.Tender(
-                    tender.lots.map {
-                        GetItemsByLotIdsAction.Params.Tender.Lot(it.id)
-                    })
+                tender = GetItemsByLotIdsAction.Params.Tender(lots = lots)
             )
         )
     }
 
     override fun updateGlobalContext(
         context: CamundaGlobalContext,
-        parameters: Unit,
+        parameters: Parameters,
         result: Option<GetItemsByLotIdsAction.Result>
     ): MaybeFail<Fail.Incident> {
         val data = result.orNull
@@ -73,13 +107,25 @@ class AccessGetItemIdsByLotsDelegate(
                 )
             )
 
-        val tender = context.tryGetTender()
-            .orReturnFail { return MaybeFail.fail(it) }
-
-        val receivedItems = data.tender.items.map { Item(it.id) }.let { Items(it) }
-
+        val receivedItems = data.tender.items
+            .map { Item(it.id) }
+            .let { Items(it) }
+        val tender = context.tender ?: Tender()
         context.tender = tender.copy(items = receivedItems)
 
         return MaybeFail.none()
+    }
+
+    class Parameters(
+        val location: Location?
+    )
+
+    enum class Location(override val key: String) : EnumElementProvider.Key {
+
+        BID("bid");
+
+        override fun toString(): String = key
+
+        companion object : EnumElementProvider<Location>(info = info())
     }
 }
