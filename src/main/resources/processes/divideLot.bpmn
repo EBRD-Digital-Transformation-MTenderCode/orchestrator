@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" id="Definitions_0eiq4ir" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.1.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" id="Definitions_0eiq4ir" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.5.0">
   <bpmn:category id="Category_1i1sozi">
     <bpmn:categoryValue id="CategoryValue_19qwyvi" value="ending" />
   </bpmn:category>
@@ -21,7 +21,7 @@
     <bpmn:sequenceFlow id="Flow_19gibei" sourceRef="StartEvent_1" targetRef="BpeInitializeDivideLotProcessTask" />
     <bpmn:sequenceFlow id="Flow_1np4iz6" sourceRef="BpeInitializeDivideLotProcessTask" targetRef="AccessCheckAccessToTenderTask" />
     <bpmn:sequenceFlow id="Flow_03y1qt6" sourceRef="AccessCheckTenderStateTasl" targetRef="AccessCheckLotStateForDivisionTask" />
-    <bpmn:sequenceFlow id="Flow_0ok5ksg" sourceRef="AccessCheckLotStateForDivisionTask" targetRef="AccessValidateLotsDataTask" />
+    <bpmn:sequenceFlow id="Flow_0ok5ksg" sourceRef="AccessCheckLotStateForDivisionTask" targetRef="AccessValidateLotsDataForDivisionTask" />
     <bpmn:serviceTask id="AccessCheckAccessToTenderTask" name="eAccess:&#10;Check access to tender" camunda:asyncBefore="true" camunda:delegateExpression="${accessCheckAccessToTenderDelegate}">
       <bpmn:incoming>Flow_1np4iz6</bpmn:incoming>
       <bpmn:outgoing>Flow_1xph18a</bpmn:outgoing>
@@ -228,7 +228,7 @@
       <bpmn:sequenceFlow id="Flow_0ztsark" sourceRef="Event_1lj8g92" targetRef="BpeValidationErrorDescriptionModifierTask" />
       <bpmn:sequenceFlow id="Flow_1aa8sas" sourceRef="NotifierValidationErrorNotificationToPlatformTask" targetRef="Event_0qycfnz" />
     </bpmn:subProcess>
-    <bpmn:sequenceFlow id="Flow_1j8zyh3" sourceRef="AccessValidateLotsDataTask" targetRef="MdmEnrichCountryTask" />
+    <bpmn:sequenceFlow id="Flow_1j8zyh3" sourceRef="AccessValidateLotsDataForDivisionTask" targetRef="MdmEnrichCountryTask" />
     <bpmn:sequenceFlow id="Flow_107y4u1" sourceRef="MdmEnrichCountryTask" targetRef="MdmEnrichRegionTask" />
     <bpmn:sequenceFlow id="Flow_0djsklm" sourceRef="MdmEnrichRegionTask" targetRef="MdmEnrichLocalityTask" />
     <bpmn:sequenceFlow id="Flow_0pges70" sourceRef="MdmEnrichLocalityTask" targetRef="AccessDivideLotTask" />
@@ -236,11 +236,7 @@
       <bpmn:incoming>Flow_1xph18a</bpmn:incoming>
       <bpmn:outgoing>Flow_03y1qt6</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="AccessCheckLotStateForDivisionTask" name="eAccess: Check lots state" camunda:asyncBefore="true" camunda:delegateExpression="${accessCheckLotStateForDivisionDelegate}">
-      <bpmn:incoming>Flow_03y1qt6</bpmn:incoming>
-      <bpmn:outgoing>Flow_0ok5ksg</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:serviceTask id="AccessValidateLotsDataTask" name="eAccess: Validate lots data" camunda:asyncBefore="true" camunda:delegateExpression="${accessValidateLotsDataDelegate}">
+    <bpmn:serviceTask id="AccessValidateLotsDataForDivisionTask" name="eAccess: Validate lots data for division" camunda:asyncBefore="true" camunda:delegateExpression="${accessValidateLotsDataForDivisionDelegate}">
       <bpmn:incoming>Flow_0ok5ksg</bpmn:incoming>
       <bpmn:outgoing>Flow_1j8zyh3</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -248,25 +244,26 @@
       <bpmn:incoming>Flow_0pges70</bpmn:incoming>
       <bpmn:outgoing>Flow_0ltmuy2</bpmn:outgoing>
     </bpmn:serviceTask>
+    <bpmn:serviceTask id="AccessCheckLotStateForDivisionTask" name="eAccess: Check lots state for division" camunda:asyncBefore="true" camunda:delegateExpression="${accessCheckLotStateForDivisionDelegate}">
+      <bpmn:incoming>Flow_03y1qt6</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ok5ksg</bpmn:outgoing>
+    </bpmn:serviceTask>
     <bpmn:textAnnotation id="TextAnnotation_04pfvtr">
       <bpmn:text>проверка состояния разделяемого лота</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:association id="Association_1aqhcir" sourceRef="AccessCheckLotStateForDivisionTask" targetRef="TextAnnotation_04pfvtr" />
     <bpmn:textAnnotation id="TextAnnotation_1jfo927">
-      <bpmn:text>основные проверки</bpmn:text>
+      <bpmn:text>основные проверки присланных лотов</bpmn:text>
     </bpmn:textAnnotation>
-    <bpmn:association id="Association_1u6xlig" sourceRef="AccessValidateLotsDataTask" targetRef="TextAnnotation_1jfo927" />
+    <bpmn:association id="Association_1u6xlig" sourceRef="AccessValidateLotsDataForDivisionTask" targetRef="TextAnnotation_1jfo927" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1mab2wx">
       <bpmndi:BPMNShape id="Participant_1kpas0l_di" bpmnElement="Participant_1kpas0l" isHorizontal="true">
         <dc:Bounds x="190" y="80" width="1770" height="440" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_04pfvtr_di" bpmnElement="TextAnnotation_04pfvtr">
-        <dc:Bounds x="700" y="150" width="120" height="52" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_1jfo927_di" bpmnElement="TextAnnotation_1jfo927">
-        <dc:Bounds x="840" y="156" width="99.98924268502583" height="39.586919104991395" />
+        <dc:Bounds x="840" y="142" width="100" height="68" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_0pges70_di" bpmnElement="Flow_0pges70">
         <di:waypoint x="1330" y="260" />
@@ -349,15 +346,6 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0nspgw9_di" bpmnElement="BpeAddUpdateRecordTaskInQueueTask">
         <dc:Bounds x="1490" y="220" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1ssb8nl_di" bpmnElement="AccessCheckLotStateForDivisionTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="710" y="220" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1eac4op_di" bpmnElement="AccessValidateLotsDataTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="840" y="220" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1hpejif_di" bpmnElement="AccessDivideLotTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="1360" y="220" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_118cf99_di" bpmnElement="Activity_118cf99" isExpanded="true">
         <dc:Bounds x="950" y="350" width="440" height="140" />
@@ -459,13 +447,25 @@
       <bpmndi:BPMNShape id="Activity_1aitdh3_di" bpmnElement="AccessCheckTenderStateTasl" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="580" y="220" width="100" height="80" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1ssb8nl_di" bpmnElement="AccessCheckLotStateForDivisionTask" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="710" y="220" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1eac4op_di" bpmnElement="AccessValidateLotsDataForDivisionTask" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="840" y="220" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1hpejif_di" bpmnElement="AccessDivideLotTask" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="1360" y="220" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_04pfvtr_di" bpmnElement="TextAnnotation_04pfvtr">
+        <dc:Bounds x="700" y="150" width="120" height="52" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Association_1aqhcir_di" bpmnElement="Association_1aqhcir">
         <di:waypoint x="760" y="220" />
         <di:waypoint x="760" y="202" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Association_1u6xlig_di" bpmnElement="Association_1u6xlig">
         <di:waypoint x="890" y="220" />
-        <di:waypoint x="890" y="196" />
+        <di:waypoint x="890" y="210" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Group_1pgn1d5_di" bpmnElement="Group_1pgn1d5" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="1470" y="177" width="460" height="153" />
