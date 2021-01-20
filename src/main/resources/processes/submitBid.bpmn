@@ -37,7 +37,7 @@
     <bpmn:startEvent id="Event_1ogxxw2">
       <bpmn:outgoing>Flow_0yb2ror</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:serviceTask id="AccessGetCurrencyTask" name="eAccess: Get Currency" camunda:asyncBefore="true" camunda:delegateExpression="${accessGetCurrencyDelegate}">
+    <bpmn:serviceTask id="AccessGetCurrencyTask" name="eAccess: Get Currency" camunda:asyncBefore="true" camunda:delegateExpression="${accessGetTenderCurrencyDelegate}">
       <bpmn:incoming>Flow_0pm87k3</bpmn:incoming>
       <bpmn:outgoing>Flow_0yf91jh</bpmn:outgoing>
     </bpmn:serviceTask>
