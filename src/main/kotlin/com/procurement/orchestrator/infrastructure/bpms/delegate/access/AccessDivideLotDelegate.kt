@@ -16,6 +16,10 @@ import com.procurement.orchestrator.domain.model.address.AddressDetails
 import com.procurement.orchestrator.domain.model.address.country.CountryDetails
 import com.procurement.orchestrator.domain.model.address.locality.LocalityDetails
 import com.procurement.orchestrator.domain.model.address.region.RegionDetails
+import com.procurement.orchestrator.domain.model.classification.Classification
+import com.procurement.orchestrator.domain.model.classification.Classifications
+import com.procurement.orchestrator.domain.model.item.Item
+import com.procurement.orchestrator.domain.model.item.Items
 import com.procurement.orchestrator.domain.model.lot.Lot
 import com.procurement.orchestrator.domain.model.lot.LotId
 import com.procurement.orchestrator.domain.model.lot.Lots
@@ -171,7 +175,11 @@ class AccessDivideLotDelegate(
             .map { lot -> lot.toDomain() }
             .let { Lots(it) }
 
-        context.tender = context.tender?.copy(lots = lots) ?: Tender(lots = lots)
+        val items = data.tender.items
+            .map { item -> item.toDomain() }
+            .let { Items(it) }
+
+        context.tender = context.tender?.copy(lots = lots, items = items) ?: Tender(lots = lots, items = items)
 
         return MaybeFail.none()
     }
@@ -233,5 +241,36 @@ private fun DivideLotAction.Result.Tender.Lot.toDomain(): Lot =
                 )
             }
         )
+    )
+
+private fun DivideLotAction.Result.Tender.Item.toDomain(): Item =
+    Item(
+        id = id,
+        internalId = internalId,
+        classification = classification.let { classification ->
+            Classification(
+                id = classification.id,
+                scheme = classification.scheme,
+                description = classification.description
+            )
+        },
+        additionalClassifications = additionalClassifications
+            ?.map { additionalClassification ->
+                Classification(
+                    id = additionalClassification.id,
+                    description = additionalClassification.description,
+                    scheme = additionalClassification.scheme
+                )
+            }.orEmpty()
+            .let { Classifications(it) },
+        quantity = quantity,
+        unit = unit.let { unit ->
+            com.procurement.orchestrator.domain.model.unit.Unit(
+                id = unit.id,
+                name = unit.name
+            )
+        },
+        description = description,
+        relatedLot = relatedLot
     )
 
