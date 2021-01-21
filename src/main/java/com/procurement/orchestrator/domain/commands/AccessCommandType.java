@@ -36,6 +36,7 @@ public enum AccessCommandType {
     GET_AP_TITLE_AND_DESCRIPTION("getAPTitleAndDescription"),
     GET_ITEMS_BY_LOT("getItemsByLot"),
     GET_ACTIVE_LOTS("getActiveLots"),
+    GET_CRITERIA_FOR_TENDERER("getCriteriaForTenderer"),
     GET_LOT("getLot"),
     GET_LOTS_AUCTION("getLotsAuction"),
     GET_LOTS_FOR_AUCTION("getLotsForAuction"),
