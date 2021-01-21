@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.1.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.5.0">
   <bpmn:error id="tr_exception" name="TR_EXCEPTION" errorCode="TR_EXCEPTION" />
   <bpmn:collaboration id="Collaboration_1squk6k">
     <bpmn:participant id="Participant_0920679" name="TenderPeriodEnd" processRef="tenderPeriodEnd" />
@@ -98,8 +98,57 @@
       <bpmn:incoming>SequenceFlow_0ftnspq</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_16ao8ei</bpmn:outgoing>
     </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_0obwqq3" name="false" sourceRef="ExclusiveGateway_1b1ms1j" targetRef="AccessGetActiveLotsAgainTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${execution.hasVariable('isTenderUnsuccessful')==false}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_12ozf0g" name="true" sourceRef="ExclusiveGateway_1b1ms1j" targetRef="ExclusiveGateway_1ibd2ci">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${execution.hasVariable('isTenderUnsuccessful')==true}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_1o06rcg" name="true" sourceRef="ExclusiveGateway_0c1qj5j" targetRef="ExclusiveGateway_11cre25">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${availabilityOfAwardCriteria==true}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_0ftnspq" sourceRef="AccessGetAwardCriteriaTask" targetRef="BpeSetAwardCriteriaDetailsTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0xlvp32" name="false" sourceRef="ExclusiveGateway_0c1qj5j" targetRef="AccessGetAwardCriteriaTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${availabilityOfAwardCriteria==false}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_1m6tuf3" sourceRef="AccessGetAwardCriteriaAndConversionsTask" targetRef="ExclusiveGateway_0c1qj5j" />
+    <bpmn:sequenceFlow id="SequenceFlow_0xmu07e" sourceRef="AccessGetTenderOwnerTask" targetRef="AccessGetAwardCriteriaAndConversionsTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1qc0r88" sourceRef="AccessGetActiveLotsAgainTask" targetRef="AccessGetTenderOwnerTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0gjiw80" name="false" sourceRef="ExclusiveGateway_13vgi9x" targetRef="ExclusiveGateway_1b1ms1j">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${availabilityOfUnsuccessfulLots==false}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_1qugb81" sourceRef="EvaluationCreateUnsuccessfulAwardsTask" targetRef="ExclusiveGateway_1b1ms1j" />
+    <bpmn:sequenceFlow id="SequenceFlow_0m9scwu" sourceRef="AccessSetLotsUnsuccessfulTask" targetRef="EvaluationCreateUnsuccessfulAwardsTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0mf5tay" name="true" sourceRef="ExclusiveGateway_13vgi9x" targetRef="AccessSetLotsUnsuccessfulTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${availabilityOfUnsuccessfulLots==true}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_0tqsdic" sourceRef="EvaluationDetermineUnsuccessfulLotsTask" targetRef="ExclusiveGateway_13vgi9x" />
+    <bpmn:sequenceFlow id="SequenceFlow_0j7ijut" name="true" sourceRef="ExclusiveGateway_0dq76qu" targetRef="EvaluationDetermineUnsuccessfulLotsTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${availabilityOfBidsForOpening==true}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_1n2sly8" sourceRef="SubmissionGetBidsForEvaluationTask" targetRef="ExclusiveGateway_0dq76qu" />
+    <bpmn:sequenceFlow id="SequenceFlow_1ul6dlj" sourceRef="AccessGetActiveLotsTask" targetRef="SubmissionGetBidsForEvaluationTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1jqr2l5" name="true" sourceRef="ExclusiveGateway_0hg3tz9" targetRef="AccessGetActiveLotsTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0zusbis" sourceRef="EvaluationCreateUnsuccessfulAwardsTask2" targetRef="ExclusiveGateway_10pet4h" />
+    <bpmn:sequenceFlow id="SequenceFlow_1rgtoi2" sourceRef="SubmissionCheckEndDateTask" targetRef="ExclusiveGateway_0hg3tz9" />
+    <bpmn:sequenceFlow id="SequenceFlow_0jgrm91" sourceRef="StartEvent_1" targetRef="SaveFirstOperationTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_16on829" sourceRef="SaveFirstOperationTask" targetRef="SubmissionCheckEndDateTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1vmk2lo" name="false" sourceRef="ExclusiveGateway_0hg3tz9" targetRef="ChronographScheduleEndTenderPeriodTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isTenderPeriodExpired==false}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_0oqpftm" sourceRef="AccessSetTenderUnsuccessfulTask" targetRef="EvaluationCreateUnsuccessfulAwardsTask2" />
+    <bpmn:sequenceFlow id="SequenceFlow_18ohyhi" name="false" sourceRef="ExclusiveGateway_0dq76qu" targetRef="AccessSetTenderUnsuccessfulTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${availabilityOfBidsForOpening==false}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_16ao8ei" sourceRef="BpeSetAwardCriteriaDetailsTask" targetRef="ExclusiveGateway_11cre25" />
+    <bpmn:sequenceFlow id="SequenceFlow_1dd9sjx" sourceRef="ExclusiveGateway_11cre25" targetRef="AccessGetCriteriaForTendererTask" />
+    <bpmn:serviceTask id="ChronographScheduleEndTenderPeriodTask" name="Chronograph Schedule End Tender Period" camunda:asyncBefore="true" camunda:delegateExpression="${chronographScheduleEndTenderPeriod}">
+      <bpmn:incoming>SequenceFlow_1vmk2lo</bpmn:incoming>
+      <bpmn:outgoing>Flow_0uyuel6</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0uyuel6" sourceRef="ChronographScheduleEndTenderPeriodTask" targetRef="EndEvent_0spf0c3" />
     <bpmn:serviceTask id="EvaluationCreateAwardsTask" name="Evaluation Create Awards" camunda:asyncBefore="true" camunda:delegateExpression="${evaluationCreateAwards}">
-      <bpmn:incoming>SequenceFlow_1dd9sjx</bpmn:incoming>
+      <bpmn:incoming>Flow_03y9prh</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0yeu2fw</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="EvaluationSetAwardForEvaluationTask" name="eEvaluation:&#10;Set Award for Evaluation" camunda:asyncBefore="true" camunda:delegateExpression="${evaluationSetAwardForEvaluation}">
@@ -155,56 +204,12 @@
       <bpmn:incoming>SequenceFlow_0elpj0r</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0bemoi3</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="SequenceFlow_0obwqq3" name="false" sourceRef="ExclusiveGateway_1b1ms1j" targetRef="AccessGetActiveLotsAgainTask">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${execution.hasVariable('isTenderUnsuccessful')==false}</bpmn:conditionExpression>
-    </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_12ozf0g" name="true" sourceRef="ExclusiveGateway_1b1ms1j" targetRef="ExclusiveGateway_1ibd2ci">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${execution.hasVariable('isTenderUnsuccessful')==true}</bpmn:conditionExpression>
-    </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_0tobr9q" sourceRef="SubmissionOpenBidsForPublishingTask" targetRef="ExclusiveGateway_1ibd2ci" />
-    <bpmn:sequenceFlow id="SequenceFlow_0ejlj2u" sourceRef="AccessSetTenderStatusDetailsTask" targetRef="SubmissionOpenBidsForPublishingTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_051i4d8" sourceRef="EvaluationStartAwardPeriodTask" targetRef="AccessSetTenderStatusDetailsTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1ir4h5p" sourceRef="AccessCreateRequestForEvaluationPanelsTask" targetRef="EvaluationStartAwardPeriodTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0k5gepm" sourceRef="EvaluationSetAwardForEvaluationTask" targetRef="AccessCreateRequestForEvaluationPanelsTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1o06rcg" name="true" sourceRef="ExclusiveGateway_0c1qj5j" targetRef="ExclusiveGateway_11cre25">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${availabilityOfAwardCriteria==true}</bpmn:conditionExpression>
-    </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_0yeu2fw" sourceRef="EvaluationCreateAwardsTask" targetRef="EvaluationSetAwardForEvaluationTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0ftnspq" sourceRef="AccessGetAwardCriteriaTask" targetRef="BpeSetAwardCriteriaDetailsTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0xlvp32" name="false" sourceRef="ExclusiveGateway_0c1qj5j" targetRef="AccessGetAwardCriteriaTask">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${availabilityOfAwardCriteria==false}</bpmn:conditionExpression>
-    </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_1m6tuf3" sourceRef="AccessGetAwardCriteriaAndConversionsTask" targetRef="ExclusiveGateway_0c1qj5j" />
-    <bpmn:sequenceFlow id="SequenceFlow_0xmu07e" sourceRef="AccessGetTenderOwnerTask" targetRef="AccessGetAwardCriteriaAndConversionsTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1qc0r88" sourceRef="AccessGetActiveLotsAgainTask" targetRef="AccessGetTenderOwnerTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0gjiw80" name="false" sourceRef="ExclusiveGateway_13vgi9x" targetRef="ExclusiveGateway_1b1ms1j">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${availabilityOfUnsuccessfulLots==false}</bpmn:conditionExpression>
-    </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_1qugb81" sourceRef="EvaluationCreateUnsuccessfulAwardsTask" targetRef="ExclusiveGateway_1b1ms1j" />
-    <bpmn:sequenceFlow id="SequenceFlow_0m9scwu" sourceRef="AccessSetLotsUnsuccessfulTask" targetRef="EvaluationCreateUnsuccessfulAwardsTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0mf5tay" name="true" sourceRef="ExclusiveGateway_13vgi9x" targetRef="AccessSetLotsUnsuccessfulTask">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${availabilityOfUnsuccessfulLots==true}</bpmn:conditionExpression>
-    </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_0tqsdic" sourceRef="EvaluationDetermineUnsuccessfulLotsTask" targetRef="ExclusiveGateway_13vgi9x" />
-    <bpmn:sequenceFlow id="SequenceFlow_0j7ijut" name="true" sourceRef="ExclusiveGateway_0dq76qu" targetRef="EvaluationDetermineUnsuccessfulLotsTask">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${availabilityOfBidsForOpening==true}</bpmn:conditionExpression>
-    </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_1n2sly8" sourceRef="SubmissionGetBidsForEvaluationTask" targetRef="ExclusiveGateway_0dq76qu" />
-    <bpmn:sequenceFlow id="SequenceFlow_1ul6dlj" sourceRef="AccessGetActiveLotsTask" targetRef="SubmissionGetBidsForEvaluationTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1jqr2l5" name="true" sourceRef="ExclusiveGateway_0hg3tz9" targetRef="AccessGetActiveLotsTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_0zusbis" sourceRef="EvaluationCreateUnsuccessfulAwardsTask2" targetRef="ExclusiveGateway_10pet4h" />
-    <bpmn:sequenceFlow id="SequenceFlow_1rgtoi2" sourceRef="SubmissionCheckEndDateTask" targetRef="ExclusiveGateway_0hg3tz9" />
-    <bpmn:sequenceFlow id="SequenceFlow_0jgrm91" sourceRef="StartEvent_1" targetRef="SaveFirstOperationTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_16on829" sourceRef="SaveFirstOperationTask" targetRef="SubmissionCheckEndDateTask" />
-    <bpmn:sequenceFlow id="SequenceFlow_1vmk2lo" name="false" sourceRef="ExclusiveGateway_0hg3tz9" targetRef="ChronographScheduleEndTenderPeriodTask">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isTenderPeriodExpired==false}</bpmn:conditionExpression>
-    </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_0oqpftm" sourceRef="AccessSetTenderUnsuccessfulTask" targetRef="EvaluationCreateUnsuccessfulAwardsTask2" />
-    <bpmn:sequenceFlow id="SequenceFlow_18ohyhi" name="false" sourceRef="ExclusiveGateway_0dq76qu" targetRef="AccessSetTenderUnsuccessfulTask">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${availabilityOfBidsForOpening==false}</bpmn:conditionExpression>
-    </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_16ao8ei" sourceRef="BpeSetAwardCriteriaDetailsTask" targetRef="ExclusiveGateway_11cre25" />
-    <bpmn:sequenceFlow id="SequenceFlow_1dd9sjx" sourceRef="ExclusiveGateway_11cre25" targetRef="EvaluationCreateAwardsTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0k5gepm" sourceRef="EvaluationSetAwardForEvaluationTask" targetRef="AccessCreateRequestForEvaluationPanelsTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_1ir4h5p" sourceRef="AccessCreateRequestForEvaluationPanelsTask" targetRef="EvaluationStartAwardPeriodTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_051i4d8" sourceRef="EvaluationStartAwardPeriodTask" targetRef="AccessSetTenderStatusDetailsTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0ejlj2u" sourceRef="AccessSetTenderStatusDetailsTask" targetRef="SubmissionOpenBidsForPublishingTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0tobr9q" sourceRef="SubmissionOpenBidsForPublishingTask" targetRef="ExclusiveGateway_1ibd2ci" />
     <bpmn:sequenceFlow id="SequenceFlow_1je78pv" sourceRef="SendMessageTask" targetRef="EndEvent_1" />
     <bpmn:sequenceFlow id="SequenceFlow_1almqeo" sourceRef="SaveContextTask" targetRef="SendMessageTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0bemoi3" sourceRef="ExclusiveGateway_10pet4h" targetRef="NoticeCreateReleaseTask" />
@@ -212,47 +217,20 @@
     <bpmn:sequenceFlow id="SequenceFlow_1pkzrhq" sourceRef="ExclusiveGateway_1ibd2ci" targetRef="StorageOpenDocsOfBidsTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1ypi43u" sourceRef="StorageOpenDocsOfBidsTask" targetRef="StorageOpenDocsOfBidPersonesTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0elpj0r" sourceRef="StorageOpenDocsOfBidPersonesTask" targetRef="ExclusiveGateway_10pet4h" />
-    <bpmn:serviceTask id="ChronographScheduleEndTenderPeriodTask" name="Chronograph Schedule End Tender Period" camunda:asyncBefore="true" camunda:delegateExpression="${chronographScheduleEndTenderPeriod}">
-      <bpmn:incoming>SequenceFlow_1vmk2lo</bpmn:incoming>
-      <bpmn:outgoing>Flow_0uyuel6</bpmn:outgoing>
+    <bpmn:sequenceFlow id="Flow_03y9prh" sourceRef="AccessGetCriteriaForTendererTask" targetRef="EvaluationCreateAwardsTask" />
+    <bpmn:serviceTask id="AccessGetCriteriaForTendererTask" name="eAcсess: Get criteria for tenderer" camunda:asyncBefore="true" camunda:delegateExpression="${acсessGetCriteriaForTenderer}">
+      <bpmn:incoming>SequenceFlow_1dd9sjx</bpmn:incoming>
+      <bpmn:outgoing>Flow_03y9prh</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="Flow_0uyuel6" sourceRef="ChronographScheduleEndTenderPeriodTask" targetRef="EndEvent_0spf0c3" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1squk6k">
       <bpmndi:BPMNShape id="Participant_0920679_di" bpmnElement="Participant_0920679" isHorizontal="true">
-        <dc:Bounds x="160" y="80" width="4240" height="520" />
+        <dc:Bounds x="160" y="80" width="4390" height="520" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="SequenceFlow_0elpj0r_di" bpmnElement="SequenceFlow_0elpj0r">
-        <di:waypoint x="3800" y="371" />
-        <di:waypoint x="3835" y="371" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_1ypi43u_di" bpmnElement="SequenceFlow_1ypi43u">
-        <di:waypoint x="3650" y="371" />
-        <di:waypoint x="3700" y="371" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_1pkzrhq_di" bpmnElement="SequenceFlow_1pkzrhq">
-        <di:waypoint x="3515" y="371" />
-        <di:waypoint x="3550" y="371" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_0zua4gv_di" bpmnElement="SequenceFlow_0zua4gv">
-        <di:waypoint x="4020" y="371" />
-        <di:waypoint x="4060" y="371" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_0bemoi3_di" bpmnElement="SequenceFlow_0bemoi3">
-        <di:waypoint x="3885" y="371" />
-        <di:waypoint x="3920" y="371" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_1almqeo_di" bpmnElement="SequenceFlow_1almqeo">
-        <di:waypoint x="4160" y="371" />
-        <di:waypoint x="4200" y="371" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_1je78pv_di" bpmnElement="SequenceFlow_1je78pv">
-        <di:waypoint x="4300" y="371" />
-        <di:waypoint x="4342" y="371" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="2250.5" y="131" width="90" height="12" />
-        </bpmndi:BPMNLabel>
+      <bpmndi:BPMNEdge id="Flow_0uyuel6_di" bpmnElement="Flow_0uyuel6">
+        <di:waypoint x="770" y="500" />
+        <di:waypoint x="812" y="500" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1dd9sjx_di" bpmnElement="SequenceFlow_1dd9sjx">
         <di:waypoint x="2565" y="371" />
@@ -306,8 +284,8 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0zusbis_di" bpmnElement="SequenceFlow_0zusbis">
         <di:waypoint x="1304" y="140" />
-        <di:waypoint x="3860" y="140" />
-        <di:waypoint x="3860" y="346" />
+        <di:waypoint x="4000" y="140" />
+        <di:waypoint x="4000" y="346" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1jqr2l5_di" bpmnElement="SequenceFlow_1jqr2l5">
         <di:waypoint x="625" y="371" />
@@ -383,10 +361,6 @@
         <di:waypoint x="2360" y="240" />
         <di:waypoint x="2400" y="240" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_0yeu2fw_di" bpmnElement="SequenceFlow_0yeu2fw">
-        <di:waypoint x="2710" y="371" />
-        <di:waypoint x="2750" y="371" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1o06rcg_di" bpmnElement="SequenceFlow_1o06rcg">
         <di:waypoint x="2225" y="371" />
         <di:waypoint x="2515" y="371" />
@@ -394,31 +368,11 @@
           <dc:Bounds x="2391" y="353" width="18" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_0k5gepm_di" bpmnElement="SequenceFlow_0k5gepm">
-        <di:waypoint x="2850" y="371" />
-        <di:waypoint x="2890" y="371" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_1ir4h5p_di" bpmnElement="SequenceFlow_1ir4h5p">
-        <di:waypoint x="2990" y="371" />
-        <di:waypoint x="3030" y="371" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_051i4d8_di" bpmnElement="SequenceFlow_051i4d8">
-        <di:waypoint x="3130" y="371" />
-        <di:waypoint x="3170" y="371" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_0ejlj2u_di" bpmnElement="SequenceFlow_0ejlj2u">
-        <di:waypoint x="3270" y="371" />
-        <di:waypoint x="3320" y="371" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_0tobr9q_di" bpmnElement="SequenceFlow_0tobr9q">
-        <di:waypoint x="3420" y="371" />
-        <di:waypoint x="3465" y="371" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_12ozf0g_di" bpmnElement="SequenceFlow_12ozf0g">
         <di:waypoint x="1610" y="396" />
         <di:waypoint x="1610" y="480" />
-        <di:waypoint x="3490" y="480" />
-        <di:waypoint x="3490" y="396" />
+        <di:waypoint x="3630" y="480" />
+        <di:waypoint x="3630" y="396" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1621" y="433" width="18" height="14" />
         </bpmndi:BPMNLabel>
@@ -430,9 +384,64 @@
           <dc:Bounds x="1652" y="353" width="23" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0uyuel6_di" bpmnElement="Flow_0uyuel6">
-        <di:waypoint x="770" y="500" />
-        <di:waypoint x="812" y="500" />
+      <bpmndi:BPMNEdge id="SequenceFlow_0yeu2fw_di" bpmnElement="SequenceFlow_0yeu2fw">
+        <di:waypoint x="2850" y="371" />
+        <di:waypoint x="2890" y="371" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0k5gepm_di" bpmnElement="SequenceFlow_0k5gepm">
+        <di:waypoint x="2990" y="371" />
+        <di:waypoint x="3030" y="371" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1ir4h5p_di" bpmnElement="SequenceFlow_1ir4h5p">
+        <di:waypoint x="3130" y="371" />
+        <di:waypoint x="3170" y="371" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_051i4d8_di" bpmnElement="SequenceFlow_051i4d8">
+        <di:waypoint x="3270" y="371" />
+        <di:waypoint x="3310" y="371" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0ejlj2u_di" bpmnElement="SequenceFlow_0ejlj2u">
+        <di:waypoint x="3410" y="371" />
+        <di:waypoint x="3460" y="371" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0tobr9q_di" bpmnElement="SequenceFlow_0tobr9q">
+        <di:waypoint x="3560" y="371" />
+        <di:waypoint x="3605" y="371" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1je78pv_di" bpmnElement="SequenceFlow_1je78pv">
+        <di:waypoint x="4440" y="371" />
+        <di:waypoint x="4482" y="371" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2250.5" y="131" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1almqeo_di" bpmnElement="SequenceFlow_1almqeo">
+        <di:waypoint x="4300" y="371" />
+        <di:waypoint x="4340" y="371" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0bemoi3_di" bpmnElement="SequenceFlow_0bemoi3">
+        <di:waypoint x="4025" y="371" />
+        <di:waypoint x="4060" y="371" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0zua4gv_di" bpmnElement="SequenceFlow_0zua4gv">
+        <di:waypoint x="4160" y="371" />
+        <di:waypoint x="4200" y="371" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1pkzrhq_di" bpmnElement="SequenceFlow_1pkzrhq">
+        <di:waypoint x="3655" y="371" />
+        <di:waypoint x="3690" y="371" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1ypi43u_di" bpmnElement="SequenceFlow_1ypi43u">
+        <di:waypoint x="3790" y="371" />
+        <di:waypoint x="3840" y="371" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0elpj0r_di" bpmnElement="SequenceFlow_0elpj0r">
+        <di:waypoint x="3940" y="371" />
+        <di:waypoint x="3975" y="371" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_03y9prh_di" bpmnElement="Flow_03y9prh">
+        <di:waypoint x="2710" y="371" />
+        <di:waypoint x="2750" y="371" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
         <dc:Bounds x="212" y="353" width="36" height="36" />
@@ -518,53 +527,56 @@
       <bpmndi:BPMNShape id="ServiceTask_07vkfd9_di" bpmnElement="BpeSetAwardCriteriaDetailsTask">
         <dc:Bounds x="2400" y="200" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_0ryshkj_di" bpmnElement="EvaluationCreateAwardsTask">
-        <dc:Bounds x="2610" y="331" width="100" height="80" />
+      <bpmndi:BPMNShape id="Activity_1htpnms_di" bpmnElement="ChronographScheduleEndTenderPeriodTask">
+        <dc:Bounds x="670" y="460" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_1dhupzk_di" bpmnElement="EvaluationSetAwardForEvaluationTask">
+      <bpmndi:BPMNShape id="ServiceTask_0ryshkj_di" bpmnElement="EvaluationCreateAwardsTask">
         <dc:Bounds x="2750" y="331" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_0tsgj6k_di" bpmnElement="AccessCreateRequestForEvaluationPanelsTask">
+      <bpmndi:BPMNShape id="ServiceTask_1dhupzk_di" bpmnElement="EvaluationSetAwardForEvaluationTask">
         <dc:Bounds x="2890" y="331" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_0by0y4l_di" bpmnElement="EvaluationStartAwardPeriodTask">
+      <bpmndi:BPMNShape id="ServiceTask_0tsgj6k_di" bpmnElement="AccessCreateRequestForEvaluationPanelsTask">
         <dc:Bounds x="3030" y="331" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_0f0d8yt_di" bpmnElement="AccessSetTenderStatusDetailsTask">
+      <bpmndi:BPMNShape id="ServiceTask_0by0y4l_di" bpmnElement="EvaluationStartAwardPeriodTask">
         <dc:Bounds x="3170" y="331" width="100" height="80" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0f0d8yt_di" bpmnElement="AccessSetTenderStatusDetailsTask">
+        <dc:Bounds x="3310" y="331" width="100" height="80" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_06uqc46_di" bpmnElement="SubmissionOpenBidsForPublishingTask">
-        <dc:Bounds x="3320" y="331" width="100" height="80" />
+        <dc:Bounds x="3460" y="331" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="EndEvent_0wpvj65_di" bpmnElement="EndEvent_1">
-        <dc:Bounds x="4342" y="353" width="36" height="36" />
+        <dc:Bounds x="4482" y="353" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1779" y="182" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_02g673z_di" bpmnElement="SendMessageTask">
-        <dc:Bounds x="4200" y="331" width="100" height="80" />
+        <dc:Bounds x="4340" y="331" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_1tvffuw_di" bpmnElement="NoticeCreateReleaseTask">
-        <dc:Bounds x="3920" y="331" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_13to6ht_di" bpmnElement="StorageOpenDocsOfBidsTask">
-        <dc:Bounds x="3550" y="331" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_15n70vl_di" bpmnElement="SaveContextTask">
         <dc:Bounds x="4060" y="331" width="100" height="80" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_13to6ht_di" bpmnElement="StorageOpenDocsOfBidsTask">
+        <dc:Bounds x="3690" y="331" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_15n70vl_di" bpmnElement="SaveContextTask">
+        <dc:Bounds x="4200" y="331" width="100" height="80" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_17376vo_di" bpmnElement="StorageOpenDocsOfBidPersonesTask">
-        <dc:Bounds x="3700" y="331" width="100" height="80" />
+        <dc:Bounds x="3840" y="331" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ExclusiveGateway_1ibd2ci_di" bpmnElement="ExclusiveGateway_1ibd2ci" isMarkerVisible="true">
-        <dc:Bounds x="3465" y="346" width="50" height="50" />
+        <dc:Bounds x="3605" y="346" width="50" height="50" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ExclusiveGateway_10pet4h_di" bpmnElement="ExclusiveGateway_10pet4h" isMarkerVisible="true">
-        <dc:Bounds x="3835" y="346" width="50" height="50" />
+        <dc:Bounds x="3975" y="346" width="50" height="50" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1htpnms_di" bpmnElement="ChronographScheduleEndTenderPeriodTask">
-        <dc:Bounds x="670" y="460" width="100" height="80" />
+      <bpmndi:BPMNShape id="Activity_1rikdkq_di" bpmnElement="AccessGetCriteriaForTendererTask">
+        <dc:Bounds x="2610" y="331" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
