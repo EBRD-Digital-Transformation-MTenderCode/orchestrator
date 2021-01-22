@@ -912,7 +912,7 @@ abstract class CreateBidAction : FunctionalAction<CreateBidAction.Params, Create
                     ) : Serializable {
                         data class RelatedDocument(
                             @param:JsonProperty("id") @field:JsonProperty("id") val id: DocumentId
-                        )
+                        ) : Serializable
                     }
 
                     data class Period(
