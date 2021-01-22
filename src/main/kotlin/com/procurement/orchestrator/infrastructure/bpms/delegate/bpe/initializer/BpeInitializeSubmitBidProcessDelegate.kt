@@ -103,7 +103,7 @@ class BpeInitializeSubmitBidProcessDelegate(
                                 ?.let { relatedTenderer ->
                                     OrganizationReference(
                                         name = relatedTenderer.name,
-                                        id = "${relatedTenderer.identifier.id}-${relatedTenderer.identifier.scheme}"
+                                        id = "${relatedTenderer.identifier.scheme}-${relatedTenderer.identifier.id}"
                                     )
                                 },
                             evidences = Evidences(
