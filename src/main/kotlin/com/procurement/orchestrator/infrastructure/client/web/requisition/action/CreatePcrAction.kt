@@ -284,8 +284,10 @@ abstract class CreatePcrAction : FunctionalAction<CreatePcrAction.Params, Create
                 @JsonInclude(JsonInclude.Include.NON_NULL)
                 @field:JsonProperty("relatesTo") @param:JsonProperty("relatesTo") val relatesTo: CriteriaRelatesTo?,
 
-                @field:JsonProperty("requirementGroups") @param:JsonProperty("requirementGroups") val requirementGroups: List<RequirementGroup>
+                @field:JsonProperty("requirementGroups") @param:JsonProperty("requirementGroups") val requirementGroups: List<RequirementGroup>,
 
+                @JsonInclude(JsonInclude.Include.NON_NULL)
+                @field:JsonProperty("classification") @param:JsonProperty("classification") val classification: Classification?
             ) {
                 data class RequirementGroup(
                     @field:JsonProperty("id") @param:JsonProperty("id") val id: String,
@@ -296,6 +298,11 @@ abstract class CreatePcrAction : FunctionalAction<CreatePcrAction.Params, Create
                     @JsonDeserialize(using = RequirementsDeserializer::class)
                     @JsonSerialize(using = RequirementsSerializer::class)
                     @field:JsonProperty("requirements") @param:JsonProperty("requirements") val requirements: List<Requirement>
+                )
+
+                data class Classification(
+                    @field:JsonProperty("id") @param:JsonProperty("id") val id: String,
+                    @field:JsonProperty("scheme") @param:JsonProperty("scheme") val scheme: String
                 )
             }
 
@@ -524,12 +531,13 @@ abstract class CreatePcrAction : FunctionalAction<CreatePcrAction.Params, Create
                 @JsonInclude(JsonInclude.Include.NON_NULL)
                 @field:JsonProperty("relatedItem") @param:JsonProperty("relatedItem") val relatedItem: String?,
 
-                @JsonInclude(JsonInclude.Include.NON_NULL)
-                @field:JsonProperty("relatesTo") @param:JsonProperty("relatesTo") val relatesTo: CriteriaRelatesTo?,
+                @field:JsonProperty("relatesTo") @param:JsonProperty("relatesTo") val relatesTo: CriteriaRelatesTo,
 
                 @field:JsonProperty("source") @param:JsonProperty("source") val source: CriteriaSource,
 
-                @field:JsonProperty("requirementGroups") @param:JsonProperty("requirementGroups") val requirementGroups: List<RequirementGroup>
+                @field:JsonProperty("requirementGroups") @param:JsonProperty("requirementGroups") val requirementGroups: List<RequirementGroup>,
+
+                @field:JsonProperty("classification") @param:JsonProperty("classification") val classification: Classification
 
             ) : Serializable {
                 data class RequirementGroup(
@@ -541,6 +549,11 @@ abstract class CreatePcrAction : FunctionalAction<CreatePcrAction.Params, Create
                     @JsonDeserialize(using = RequirementsDeserializer::class)
                     @JsonSerialize(using = RequirementsSerializer::class)
                     @field:JsonProperty("requirements") @param:JsonProperty("requirements") val requirements: List<Requirement>
+                ) : Serializable
+
+                data class Classification(
+                    @field:JsonProperty("id") @param:JsonProperty("id") val id: String,
+                    @field:JsonProperty("scheme") @param:JsonProperty("scheme") val scheme: String
                 ) : Serializable
             }
 
@@ -729,7 +742,14 @@ abstract class CreatePcrAction : FunctionalAction<CreatePcrAction.Params, Create
                     requirementGroups = criterion.requirementGroups
                         .map { it.convert() }
                         .let { RequirementGroups(it) },
-                    source = criterion.source
+                    source = criterion.source,
+                    classification = criterion.classification
+                        .let { classification ->
+                            Classification(
+                                id = classification.id,
+                                scheme = classification.scheme
+                            )
+                        }
                 )
 
             private fun Result.Tender.Criterion.RequirementGroup.convert(): RequirementGroup =
@@ -772,7 +792,7 @@ abstract class CreatePcrAction : FunctionalAction<CreatePcrAction.Params, Create
                 )
         }
 
-        object ElectronicAuctionsDetails{
+        object ElectronicAuctionsDetails {
             fun toDomain(detail: Result.Tender.ElectronicAuctions.Detail): ElectronicAuctionsDetail =
                 ElectronicAuctionsDetail(
                     id = detail.id,
@@ -904,6 +924,13 @@ abstract class CreatePcrAction : FunctionalAction<CreatePcrAction.Params, Create
                                         description = requirementGroup.description,
                                         requirements = requirementGroup.requirements
                                     )
+                                },
+                            classification = criterion.classification
+                                ?.let { classification ->
+                                    Params.Tender.Criterion.Classification(
+                                        id = classification.id,
+                                        scheme = classification.scheme
+                                    )
                                 }
 
                         )
@@ -937,7 +964,7 @@ abstract class CreatePcrAction : FunctionalAction<CreatePcrAction.Params, Create
                             relatedLots = document.relatedLots.toList()
                         )
                     },
-                electronicAuctions = tender.electronicAuctions?.let {electronicAuctions ->
+                electronicAuctions = tender.electronicAuctions?.let { electronicAuctions ->
                     Params.Tender.ElectronicAuctions(
                         electronicAuctions.details.map { electronicAuctionsDetail ->
                             Params.Tender.ElectronicAuctions.Detail(
