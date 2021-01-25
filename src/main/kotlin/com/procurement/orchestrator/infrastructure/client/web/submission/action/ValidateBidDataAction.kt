@@ -34,6 +34,7 @@ abstract class ValidateBidDataAction : ProceduralAction<ValidateBidDataAction.Pa
         @param:JsonProperty("tender") @field:JsonProperty("tender") val tender: Tender
     ) {
         data class Bids(
+            @JsonInclude(JsonInclude.Include.NON_EMPTY)
             @param:JsonProperty("details") @field:JsonProperty("details") val details: List<Detail>
         ) {
             data class Detail(
@@ -45,7 +46,10 @@ abstract class ValidateBidDataAction : ProceduralAction<ValidateBidDataAction.Pa
                 @JsonInclude(JsonInclude.Include.NON_EMPTY)
                 @param:JsonProperty("requirementResponses") @field:JsonProperty("requirementResponses") val requirementResponses: List<RequirementResponse>?,
 
-                 @param:JsonProperty("tenderers") @field:JsonProperty("tenderers") val tenderers: List<Tenderer>,
+                @JsonInclude(JsonInclude.Include.NON_EMPTY)
+                @param:JsonProperty("tenderers") @field:JsonProperty("tenderers") val tenderers: List<Tenderer>,
+
+                @JsonInclude(JsonInclude.Include.NON_EMPTY)
                 @param:JsonProperty("relatedLots") @field:JsonProperty("relatedLots") val relatedLots: List<LotId>,
 
                 @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -235,6 +239,7 @@ abstract class ValidateBidDataAction : ProceduralAction<ValidateBidDataAction.Pa
                         @JsonInclude(JsonInclude.Include.NON_NULL)
                         @param:JsonProperty("identifier") @field:JsonProperty("identifier") val identifier: Identifier?,
 
+                        @JsonInclude(JsonInclude.Include.NON_EMPTY)
                         @param:JsonProperty("businessFunctions") @field:JsonProperty("businessFunctions") val businessFunctions: List<BusinessFunction>
                     ) {
                         data class Identifier(
@@ -366,6 +371,7 @@ abstract class ValidateBidDataAction : ProceduralAction<ValidateBidDataAction.Pa
                             @JsonInclude(JsonInclude.Include.NON_NULL)
                             @param:JsonProperty("accountIdentification") @field:JsonProperty("accountIdentification") val accountIdentification: AccountIdentification?,
 
+                            @JsonInclude(JsonInclude.Include.NON_EMPTY)
                             @param:JsonProperty("additionalAccountIdentifiers") @field:JsonProperty("additionalAccountIdentifiers") val additionalAccountIdentifiers: List<AdditionalAccountIdentifier>
                         ) {
                             data class Address(
