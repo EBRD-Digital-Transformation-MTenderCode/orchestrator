@@ -19,7 +19,7 @@ import com.procurement.orchestrator.infrastructure.bpms.repository.RequestRecord
 import com.procurement.orchestrator.infrastructure.bpms.repository.RequestRepository
 
 interface ProcessLauncher {
-    fun launch(request: PlatformRequest): MaybeFail<Fail>
+    fun launchWithContextByCpid(request: PlatformRequest): MaybeFail<Fail>
     fun launchWithContextByOcid(request: PlatformRequest): MaybeFail<Fail>
     fun launch(event: ChronographEvent): MaybeFail<Fail>
 }
@@ -31,7 +31,7 @@ class ProcessLauncherImpl(
     private val ruleRepository: RuleRepository
 ) : ProcessLauncher {
 
-    override fun launch(request: PlatformRequest): MaybeFail<Fail> {
+    override fun launchWithContextByCpid(request: PlatformRequest): MaybeFail<Fail> {
         val prevProcessContext: LatestProcessContext = processService.getProcessContext(cpid = request.context.cpid!!)
             .orReturnFail { return MaybeFail.fail(it) }
             ?: return MaybeFail.fail(Fail.Incident.Bpe(description = "The process context by cpid '${request.context.cpid}' does not found."))

@@ -3,6 +3,11 @@
     "id": "d3732c09-7d62-4edc-a172-241da6636e7c",
     "title": "Bankruptcy",
     "source": "tenderer",
+    "relatesTo": "item",
+    "classification": {
+      "id": "string",
+      "scheme": "string"
+    },
     "requirementGroups": [
       {
         "id": "d91c11a1-f19e-4b83-8ade-c4be2bf00555",
@@ -10,7 +15,20 @@
           {
             "id": "974c8196-9d1c-419c-9ca9-45bb9f5fd59a",
             "title": "Your answer?",
-            "dataType": "boolean"
+            "dataType": "boolean",
+            "status": "active",
+            "datePublished": "2021-01-18T08:38:06Z",
+            "eligibleEvidences": [
+              {
+                "id": "string",
+                "title": "string",
+                "description": "string",
+                "type": "reference",
+                "relatedDocument": {
+                  "id": "string"
+                }
+              }
+            ]
           }
         ]
       }

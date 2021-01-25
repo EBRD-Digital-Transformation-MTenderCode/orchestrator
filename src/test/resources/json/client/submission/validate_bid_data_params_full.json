@@ -1,5 +1,6 @@
 {
   "cpid": "ocds-b3wdp1-MD-1543419347940",
+  "pmd": "OT",
   "bids": {
     "details": [
       {
@@ -189,6 +190,33 @@
                 "amount": 0.00,
                 "currency": "string"
               }
+            }
+          }
+        ],
+        "requirementResponses": [
+          {
+            "id": "string",
+            "value": "Unknown Type: string,number,integer,boolean",
+            "requirement": {
+              "id": "string"
+            },
+            "relatedTenderer": {
+              "id": "string",
+              "name": "string"
+            },
+            "evidences": [
+              {
+                "id": "string",
+                "title": "string",
+                "description": "string",
+                "relatedDocument": {
+                  "id": "string"
+                }
+              }
+            ],
+            "period": {
+              "startDate": "2021-01-14T11:29:33Z",
+              "endDate": "2021-01-14T11:29:33Z"
             }
           }
         ]

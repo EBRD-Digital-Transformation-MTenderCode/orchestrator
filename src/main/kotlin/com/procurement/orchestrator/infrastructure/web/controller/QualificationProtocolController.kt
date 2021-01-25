@@ -53,7 +53,7 @@ class QualificationProtocolController(
                 if (logger.isDebugEnabled)
                     logger.debug("Request: platform '${request.platformId}', operation-id '${request.operationId}', uri '${servlet.requestURI}', payload '${request.payload}'.")
             }
-        return processLauncher.launch(request)
+        return processLauncher.launchWithContextByCpid(request)
     }
 
     private fun buildRequest(

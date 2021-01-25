@@ -96,6 +96,35 @@ class QualificationCreateQualificationsDelegate(
                                     qualificationSystemMethods = otherCriteria?.qualificationSystemMethods
                                 )
                             },
+                        criteria = tender.criteria
+                            .map { criterion ->
+                                CreateQualificationAction.Params.Tender.Criterion(
+                                    id = criterion.id,
+                                    relatesTo = criterion.relatesTo,
+                                    source = criterion.source,
+                                    classification = criterion.classification
+                                        ?.let { classification ->
+                                            CreateQualificationAction.Params.Tender.Criterion.Classification(
+                                                id = classification.id,
+                                                scheme = classification.scheme
+                                            )
+                                        },
+                                    requirementGroups = criterion.requirementGroups
+                                        .map { requirementGroup ->
+                                            CreateQualificationAction.Params.Tender.Criterion.RequirementGroup(
+                                                id = requirementGroup.id,
+                                                requirements = requirementGroup.requirements
+                                                    .map { requirement ->
+                                                        CreateQualificationAction.Params.Tender.Criterion.RequirementGroup.Requirement(
+                                                            id = requirement.id,
+                                                            dataType = requirement.dataType,
+                                                            status = requirement.status
+                                                        )
+                                                    }
+                                            )
+                                        }
+                                )
+                            },
                         conversions = tender.conversions
                             .map { conversion ->
                                 CreateQualificationAction.Params.Tender.Conversion(

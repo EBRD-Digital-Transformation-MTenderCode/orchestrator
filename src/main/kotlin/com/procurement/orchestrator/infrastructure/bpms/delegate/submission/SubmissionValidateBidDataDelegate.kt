@@ -44,11 +44,13 @@ class SubmissionValidateBidDataDelegate(
             .orForwardFail { fail -> return fail }
         val tender = context.tryGetTender()
             .orForwardFail { fail -> return fail }
+        val processInfo = context.processInfo
 
         return submissionClient.validateBidData(
             id = commandId,
             params = ValidateBidDataAction.Params(
-                cpid = context.processInfo.cpid!!,
+                cpid = processInfo.cpid!!,
+                pmd = processInfo.pmd,
                 bids = bids.details.map { bid ->
                     ValidateBidDataAction.Params.Bids.Detail(
                         id = bid.id,
@@ -319,7 +321,42 @@ class SubmissionValidateBidDataDelegate(
                                         )
                                     }
                                 )
-                            }
+                            },
+                        requirementResponses = bid.requirementResponses.map { requirementResponse ->
+                            ValidateBidDataAction.Params.Bids.Detail.RequirementResponse(
+                                id = requirementResponse.id,
+                                evidences = requirementResponse.evidences.map { evidence ->
+                                    ValidateBidDataAction.Params.Bids.Detail.RequirementResponse.Evidence(
+                                        id = evidence.id,
+                                        description = evidence.description,
+                                        title = evidence.title,
+                                        relatedDocument = evidence.relatedDocument?.let { relatedDocument ->
+                                            ValidateBidDataAction.Params.Bids.Detail.RequirementResponse.Evidence.RelatedDocument(
+                                                id = relatedDocument.id
+                                            )
+                                        }
+                                    )
+                                },
+                                period = requirementResponse.period?.let { period ->
+                                    ValidateBidDataAction.Params.Bids.Detail.RequirementResponse.Period(
+                                        startDate = period.startDate,
+                                        endDate = period.endDate
+                                    )
+                                },
+                                value = requirementResponse.value,
+                                relatedTenderer = requirementResponse.relatedTenderer?.let { tenderer ->
+                                    ValidateBidDataAction.Params.Bids.Detail.RequirementResponse.RelatedTenderer(
+                                        name = tenderer.name,
+                                        id = tenderer.id
+                                    )
+                                },
+                                requirement = requirementResponse.requirement?.let { requirement ->
+                                    ValidateBidDataAction.Params.Bids.Detail.RequirementResponse.Requirement(
+                                        id = requirement.id
+                                    )
+                                }
+                            )
+                        }
                     )
                 }
                     .let { ValidateBidDataAction.Params.Bids(it) },

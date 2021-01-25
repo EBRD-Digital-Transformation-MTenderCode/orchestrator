@@ -1,11 +1,11 @@
-package com.procurement.orchestrator.delegate.requisition;
+package com.procurement.orchestrator.delegate.submission;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.dto.command.ResponseDto;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
-import com.procurement.orchestrator.rest.RequisitionRestClient;
+import com.procurement.orchestrator.rest.SubmissionRestClient;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.utils.JsonUtil;
@@ -18,23 +18,25 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.procurement.orchestrator.domain.commands.RequisitionCommandType.GET_TENDER_PERIOD_END;
+import static com.procurement.orchestrator.domain.commands.SubmissionCommandType.GET_TENDER_PERIOD_END;
 
 @Component
-public class RequisitionGetTenderPeriodEnd implements JavaDelegate {
+public class SubmissionGetTenderPeriodEnd implements JavaDelegate {
 
-    private static final Logger LOG = LoggerFactory.getLogger(RequisitionGetTenderPeriodEnd.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SubmissionGetTenderPeriodEnd.class);
 
-    private final RequisitionRestClient requisitionClient;
+    private final SubmissionRestClient submissionClient;
     private final OperationService operationService;
     private final ProcessService processService;
     private final JsonUtil jsonUtil;
 
-    public RequisitionGetTenderPeriodEnd(final RequisitionRestClient requisitionClient,
-                                         final OperationService operationService,
-                                         final ProcessService processService,
-                                         final JsonUtil jsonUtil) {
-        this.requisitionClient = requisitionClient;
+    public SubmissionGetTenderPeriodEnd(
+            final SubmissionRestClient submissionClient,
+            final OperationService operationService,
+            final ProcessService processService,
+            final JsonUtil jsonUtil
+    ) {
+        this.submissionClient = submissionClient;
         this.operationService = operationService;
         this.processService = processService;
         this.jsonUtil = jsonUtil;
@@ -53,7 +55,7 @@ public class RequisitionGetTenderPeriodEnd implements JavaDelegate {
         if (LOG.isDebugEnabled())
             LOG.debug("COMMAND ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(commandMessage));
 
-        final ResponseEntity<ResponseDto> response = requisitionClient.execute(commandMessage);
+        final ResponseEntity<ResponseDto> response = submissionClient.execute(commandMessage);
         if (LOG.isDebugEnabled())
             LOG.debug("RESPONSE FROM SERVICE ({}): '{}'.", context.getOperationId(), jsonUtil.toJson(response.getBody()));
 

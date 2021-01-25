@@ -12,12 +12,17 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.model.candidate.Candidates
 import com.procurement.orchestrator.domain.model.document.Document
+import com.procurement.orchestrator.domain.model.document.DocumentId
+import com.procurement.orchestrator.domain.model.document.DocumentReference
 import com.procurement.orchestrator.domain.model.document.Documents
 import com.procurement.orchestrator.domain.model.organization.Organization
 import com.procurement.orchestrator.domain.model.organization.OrganizationReference
 import com.procurement.orchestrator.domain.model.requirement.RequirementReference
 import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponse
 import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponses
+import com.procurement.orchestrator.domain.model.requirement.response.evidence.Evidence
+import com.procurement.orchestrator.domain.model.requirement.response.evidence.EvidenceId
+import com.procurement.orchestrator.domain.model.requirement.response.evidence.Evidences
 import com.procurement.orchestrator.domain.model.submission.Details
 import com.procurement.orchestrator.domain.model.submission.Submission
 import com.procurement.orchestrator.domain.model.submission.Submissions
@@ -141,7 +146,20 @@ class DossierFindSubmissionsForOpeningDelegate(
                                             id = relatedCandidate.id,
                                             name = relatedCandidate.name
                                         )
+                                    },
+                                evidences = requirementResponse.evidences.orEmpty()
+                                    .map { evidence ->
+                                        Evidence(
+                                            id = EvidenceId.create(evidence.id),
+                                            title = evidence.title,
+                                            description = evidence.description,
+                                            relatedDocument = evidence.relatedDocument
+                                                ?.let { relatedDocument ->
+                                                    DocumentReference(id = DocumentId.create(relatedDocument.id))
+                                                }
+                                        )
                                     }
+                                    .let { Evidences(it) }
                             )
                         }.orEmpty()
                 )

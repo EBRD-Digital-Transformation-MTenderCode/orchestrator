@@ -11,9 +11,9 @@ import com.procurement.orchestrator.domain.model.measure.Amount
 import com.procurement.orchestrator.infrastructure.model.Version
 import java.time.LocalDateTime
 
-abstract class ValidateLotsDataAction : ProceduralAction<ValidateLotsDataAction.Params> {
+abstract class ValidateLotsDataForDivisionAction : ProceduralAction<ValidateLotsDataForDivisionAction.Params> {
     override val version: Version = Version.parse("2.0.0")
-    override val name: String = "validateLotsData"
+    override val name: String = "validateLotsDataForDivision"
 
     class Params(
         @param:JsonProperty("cpid") @field:JsonProperty("cpid") val cpid: Cpid,
