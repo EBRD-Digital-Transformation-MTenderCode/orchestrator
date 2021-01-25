@@ -130,4 +130,22 @@ class MdmActionsTest {
         }
     }
 
+    @Nested
+    inner class GetStandardCriteria {
+
+        @Nested
+        inner class Result {
+
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetStandardCriteriaAction.Response.Success>("json/client/mdm/get_standard_criteria_response_full.json")
+            }
+
+            @Test
+            fun required_1() {
+                testingBindingAndMapping<GetStandardCriteriaAction.Response.Success>("json/client/mdm/get_standard_criteria_response_required_1.json")
+            }
+        }
+    }
+
 }
