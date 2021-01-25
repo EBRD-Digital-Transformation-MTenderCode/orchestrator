@@ -125,7 +125,9 @@ fun GetStandardCriteria.Result.Success.Criterion.convertToGlobalContextEntity():
                         description = requirement.description,
                         dataType = requirement.dataType,
                         value = NoneValue,
-                        period = null
+                        period = null,
+                        status = null,
+                        datePublished = null
                     )
                 }
                     .let { Requirements(it) }
