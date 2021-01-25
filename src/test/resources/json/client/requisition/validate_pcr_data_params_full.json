@@ -79,7 +79,7 @@
             "description": "string",
             "requirements": [
               {
-                "id": "string",
+                "id": "d3732c09-7d62-4edc-a172-241da6636e7c",
                 "title": "string",
                 "description": "string",
                 "period": {
@@ -102,12 +102,16 @@
               }
             ]
           }
-        ]
+        ],
+        "classification": {
+          "id": "string",
+          "scheme": "string"
+        }
       }
     ],
     "conversions": [
       {
-        "id": "string",
+        "id": "d3732c09-7d62-4edc-a172-241da6636e7c",
         "relatedItem": "string",
         "relatesTo": "requirement",
         "description": "string",
@@ -141,5 +145,16 @@
   },
   "pmd": "CF",
   "country": "string",
-  "operationType": "createPcr"
+  "operationType": "createPcr",
+  "mdm": {
+    "criteria": [
+      {
+        "id": "string",
+        "classification": {
+          "id": "string",
+          "scheme": "string"
+        }
+      }
+    ]
+  }
 }

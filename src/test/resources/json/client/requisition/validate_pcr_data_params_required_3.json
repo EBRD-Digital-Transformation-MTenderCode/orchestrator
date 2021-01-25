@@ -27,5 +27,16 @@
   },
   "pmd": "CF",
   "country": "string",
-  "operationType": "createPcr"
+  "operationType": "createPcr",
+  "mdm": {
+    "criteria": [
+      {
+        "id": "string",
+        "classification": {
+          "id": "string",
+          "scheme": "string"
+        }
+      }
+    ]
+  }
 }

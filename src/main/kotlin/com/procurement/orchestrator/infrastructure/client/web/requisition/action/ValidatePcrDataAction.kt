@@ -44,7 +44,8 @@ abstract class ValidatePcrDataAction : ProceduralAction<ValidatePcrDataAction.Pa
         @field:JsonProperty("tender") @param:JsonProperty("tender") val tender: Tender,
         @field:JsonProperty("country") @param:JsonProperty("country") val country: String,
         @field:JsonProperty("pmd") @param:JsonProperty("pmd") val pmd: ProcurementMethodDetails,
-        @field:JsonProperty("operationType") @param:JsonProperty("operationType") val operationType: OperationTypeProcess
+        @field:JsonProperty("operationType") @param:JsonProperty("operationType") val operationType: OperationTypeProcess,
+        @field:JsonProperty("mdm") @param:JsonProperty("mdm") val mdm: Mdm
     ) {
 
         data class Tender(
@@ -215,6 +216,9 @@ abstract class ValidatePcrDataAction : ProceduralAction<ValidatePcrDataAction.Pa
                 @field:JsonProperty("title") @param:JsonProperty("title") val title: String?,
 
                 @JsonInclude(JsonInclude.Include.NON_NULL)
+                @field:JsonProperty("classification") @param:JsonProperty("classification") val classification: Classification?,
+
+                @JsonInclude(JsonInclude.Include.NON_NULL)
                 @field:JsonProperty("description") @param:JsonProperty("description") val description: String?,
 
                 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -225,6 +229,11 @@ abstract class ValidatePcrDataAction : ProceduralAction<ValidatePcrDataAction.Pa
                 @JsonInclude(JsonInclude.Include.NON_NULL)
                 @field:JsonProperty("relatedItem") @param:JsonProperty("relatedItem") val relatedItem: String?
             ) {
+                data class Classification(
+                    @field:JsonProperty("id") @param:JsonProperty("id") val id: String,
+                    @field:JsonProperty("scheme") @param:JsonProperty("scheme") val scheme: String
+                )
+
                 data class RequirementGroup(
                     @field:JsonProperty("id") @param:JsonProperty("id") val id: String,
 
@@ -281,6 +290,23 @@ abstract class ValidatePcrDataAction : ProceduralAction<ValidatePcrDataAction.Pa
                 @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
                 @field:JsonProperty("relatedLots") @param:JsonProperty("relatedLots") val relatedLots: List<LotId>?
             )
+        }
+
+        data class Mdm(
+            @JsonInclude(JsonInclude.Include.NON_EMPTY)
+            @field:JsonProperty("criteria") @param:JsonProperty("criteria") val criteria: List<Criterion>?
+        ) {
+            data class Criterion(
+                @field:JsonProperty("id") @param:JsonProperty("id") val id: String,
+
+                @JsonInclude(JsonInclude.Include.NON_NULL)
+                @field:JsonProperty("classification") @param:JsonProperty("classification") val classification: Classification?
+            ) {
+                data class Classification(
+                    @field:JsonProperty("id") @param:JsonProperty("id") val id: String,
+                    @field:JsonProperty("scheme") @param:JsonProperty("scheme") val scheme: String
+                )
+            }
         }
     }
 }
