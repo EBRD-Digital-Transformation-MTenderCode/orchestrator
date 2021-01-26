@@ -31,7 +31,7 @@ class ConfirmQualificationController(
         private const val PROCESS_NAME = "completeQualification"
     }
 
-    @PostMapping("/confirm/qualification/{cpid}/{ocid}")
+    @PostMapping("/complete/qualification/{cpid}/{ocid}")
     fun doQualificationProtocol(
         servlet: HttpServletRequest,
         @PathVariable cpid: String,
