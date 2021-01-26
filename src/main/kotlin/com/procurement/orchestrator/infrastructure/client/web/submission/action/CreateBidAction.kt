@@ -1130,7 +1130,7 @@ fun CreateBidAction.Result.Bids.convertToDomainObject(): Bids =
                                                             .let { validityPeriod ->
                                                                 Period(
                                                                     startDate = validityPeriod.startDate,
-                                                                    endDate = validityPeriod.startDate
+                                                                    endDate = validityPeriod.endDate
                                                                 )
                                                             }
                                                     )
