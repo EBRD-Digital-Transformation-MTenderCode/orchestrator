@@ -215,7 +215,7 @@ class SubmissionCreateBidDelegate(
                                                                         ?.let { validityPeriod ->
                                                                             CreateBidAction.Params.Bids.Detail.Tenderer.Details.Permit.PermitDetails.ValidityPeriod(
                                                                                 startDate = validityPeriod.startDate,
-                                                                                endDate = validityPeriod.startDate
+                                                                                endDate = validityPeriod.endDate
                                                                             )
                                                                         }
                                                                 )
