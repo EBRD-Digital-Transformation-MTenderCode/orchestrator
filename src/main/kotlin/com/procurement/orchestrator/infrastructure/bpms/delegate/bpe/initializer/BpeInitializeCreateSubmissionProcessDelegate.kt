@@ -14,6 +14,7 @@ import com.procurement.orchestrator.domain.model.address.locality.LocalityDetail
 import com.procurement.orchestrator.domain.model.address.region.RegionDetails
 import com.procurement.orchestrator.domain.model.candidate.Candidates
 import com.procurement.orchestrator.domain.model.document.Document
+import com.procurement.orchestrator.domain.model.document.DocumentReference
 import com.procurement.orchestrator.domain.model.document.Documents
 import com.procurement.orchestrator.domain.model.identifier.Identifier
 import com.procurement.orchestrator.domain.model.identifier.Identifiers
@@ -36,8 +37,11 @@ import com.procurement.orchestrator.domain.model.person.Persons
 import com.procurement.orchestrator.domain.model.requirement.RequirementReference
 import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponse
 import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponses
+import com.procurement.orchestrator.domain.model.requirement.response.evidence.Evidence
+import com.procurement.orchestrator.domain.model.requirement.response.evidence.Evidences
 import com.procurement.orchestrator.domain.model.submission.Details
 import com.procurement.orchestrator.domain.model.submission.Submission
+import com.procurement.orchestrator.domain.model.submission.SubmissionId
 import com.procurement.orchestrator.domain.model.submission.Submissions
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import org.springframework.stereotype.Component
@@ -67,7 +71,7 @@ class BpeInitializeCreateSubmissionProcessDelegate(
             payload.submission
                 .let { submission ->
                     Submission(
-                        id = submission.id,
+                        id = SubmissionId.generate(),
                         requirementResponses = submission.requirementResponses
                             .map { requirementResponse ->
                                 RequirementResponse(
@@ -85,7 +89,20 @@ class BpeInitializeCreateSubmissionProcessDelegate(
                                                     },
                                                 name = relatedCandidate.name
                                             )
+                                        },
+                                    evidences = Evidences(
+                                        requirementResponse.evidences.map { evidence ->
+                                            Evidence(
+                                                id = evidence.id,
+                                                description = evidence.description,
+                                                title = evidence.title,
+                                                relatedDocument = evidence.relatedDocument
+                                                    ?.let { relatedDocument ->
+                                                        DocumentReference(relatedDocument.id)
+                                                    }
+                                            )
                                         }
+                                    )
                                 )
                             }
                             .let {

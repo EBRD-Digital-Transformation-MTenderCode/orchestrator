@@ -6,6 +6,7 @@ import com.procurement.orchestrator.application.model.process.OperationTypeProce
 import com.procurement.orchestrator.application.service.FunctionalAction
 import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
+import com.procurement.orchestrator.domain.model.classification.Classification
 import com.procurement.orchestrator.domain.model.requirement.RequirementId
 import com.procurement.orchestrator.domain.model.tender.criteria.CriteriaSource
 import com.procurement.orchestrator.domain.model.tender.criteria.Criterion
@@ -18,6 +19,7 @@ import com.procurement.orchestrator.domain.model.tender.criteria.requirement.Req
 import com.procurement.orchestrator.infrastructure.client.web.Target
 import com.procurement.orchestrator.infrastructure.model.Version
 import java.io.Serializable
+import java.time.LocalDateTime
 
 abstract class CreateCriteriaForProcuringEntityAction :
     FunctionalAction<CreateCriteriaForProcuringEntityAction.Params, CreateCriteriaForProcuringEntityAction.Result> {
@@ -28,6 +30,7 @@ abstract class CreateCriteriaForProcuringEntityAction :
     class Params(
         @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid,
         @field:JsonProperty("ocid") @param:JsonProperty("ocid") val ocid: Ocid,
+        @field:JsonProperty("date") @param:JsonProperty("date") val date: LocalDateTime,
         @field:JsonProperty("operationType") @param:JsonProperty("operationType") val operationType: OperationTypeProcess,
         @field:JsonProperty("criteria") @param:JsonProperty("criteria") val criteria: List<Criterion>
     ) {
@@ -38,9 +41,18 @@ abstract class CreateCriteriaForProcuringEntityAction :
             @JsonInclude(JsonInclude.Include.NON_NULL)
             @field:JsonProperty("description") @param:JsonProperty("description") val description: String?,
 
+            @JsonInclude(JsonInclude.Include.NON_NULL)
+            @field:JsonProperty("classification") @param:JsonProperty("classification") val classification: Classification?,
+
             @JsonInclude(JsonInclude.Include.NON_EMPTY)
             @field:JsonProperty("requirementGroups") @param:JsonProperty("requirementGroups") val requirementGroups: List<RequirementGroup>
         ) {
+
+            data class Classification(
+                @field:JsonProperty("id") @param:JsonProperty("id") val id: String,
+                @field:JsonProperty("scheme") @param:JsonProperty("scheme") val scheme: String
+            )
+
             data class RequirementGroup(
                 @field:JsonProperty("id") @param:JsonProperty("id") val id: RequirementGroupId,
 
@@ -70,9 +82,17 @@ abstract class CreateCriteriaForProcuringEntityAction :
             @JsonInclude(JsonInclude.Include.NON_NULL)
             @field:JsonProperty("description") @param:JsonProperty("description") val description: String?,
 
+            @field:JsonProperty("classification") @param:JsonProperty("classification") val classification: Classification,
+
             @JsonInclude(JsonInclude.Include.NON_EMPTY)
             @field:JsonProperty("requirementGroups") @param:JsonProperty("requirementGroups") val requirementGroups: List<RequirementGroup>
         ) : Serializable {
+
+
+            data class Classification(
+                @field:JsonProperty("id") @param:JsonProperty("id") val id: String,
+                @field:JsonProperty("scheme") @param:JsonProperty("scheme") val scheme: String
+            ) : Serializable
 
             data class RequirementGroup(
                 @field:JsonProperty("id") @param:JsonProperty("id") val id: RequirementGroupId,
@@ -96,6 +116,7 @@ fun CreateCriteriaForProcuringEntityAction.Result.Criterion.convertToGlobalConte
         description = this.description,
         source = this.source,
         title = this.title,
+        classification = this.classification.convertToGlobalContextEntity(),
         requirementGroups = RequirementGroups(requirementGroups)
     )
 }
@@ -107,17 +128,32 @@ private fun CreateCriteriaForProcuringEntityAction.Result.Criterion.RequirementG
         requirements = Requirements(this.requirements)
     )
 
+private fun CreateCriteriaForProcuringEntityAction.Result.Criterion.Classification.convertToGlobalContextEntity() =
+    Classification(
+        id = this.id,
+        scheme = this.scheme
+    )
+
 fun Criterion.convertToRequestEntity(): CreateCriteriaForProcuringEntityAction.Params.Criterion {
     val requirementGroups = this.requirementGroups
         .map { it.convertToRequestEntity() }
+
+    val classification = this.classification?.convertToRequestEntity()
 
     return CreateCriteriaForProcuringEntityAction.Params.Criterion(
         id = this.id,
         title = this.title!!,
         description = this.description,
-        requirementGroups = requirementGroups
+        requirementGroups = requirementGroups,
+        classification = classification
     )
 }
+
+private fun Classification.convertToRequestEntity(): CreateCriteriaForProcuringEntityAction.Params.Criterion.Classification =
+    CreateCriteriaForProcuringEntityAction.Params.Criterion.Classification(
+        id = this.id,
+        scheme = this.scheme
+    )
 
 private fun RequirementGroup.convertToRequestEntity(): CreateCriteriaForProcuringEntityAction.Params.Criterion.RequirementGroup {
     val requirements = this.requirements

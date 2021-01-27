@@ -1,0 +1,49 @@
+{
+  "bid": {
+    "value": {
+      "amount": 0.00,
+      "currency": "string"
+    },
+    "tenderers": [
+      {
+        "name": "string",
+        "identifier": {
+          "id": "string",
+          "legalName": "string",
+          "scheme": "string"
+        },
+        "address": {
+          "streetAddress": "string",
+          "addressDetails": {
+            "country": {
+              "id": "string",
+              "description": "string",
+              "scheme": "string"
+            },
+            "region": {
+              "id": "string",
+              "description": "string",
+              "scheme": "string"
+            },
+            "locality": {
+              "id": "string",
+              "description": "string",
+              "scheme": "string"
+            }
+          }
+        },
+        "contactPoint": {
+          "name": "string",
+          "email": "string",
+          "telephone": "string"
+        },
+        "details": {
+          "scale": "micro"
+        }
+      }
+    ],
+    "relatedLots": [
+      "string"
+    ]
+  }
+}

@@ -23,7 +23,7 @@ fun <T> List<T>.getElementIfOnlyOne(name: String, path: String? = null): Result<
         success(this[0])
 }
 
-fun <T> List<T>.getIfNotEmpty(name: String, path: String? = null): Result<List<T>, Fail.Incident.Bpms.Context> =
+fun <T, C : List<T>> C.getIfNotEmpty(name: String, path: String? = null): Result<C, Fail.Incident.Bpms.Context> =
     if (this.isEmpty())
         failure(Fail.Incident.Bpms.Context.Empty(name = name, path = path))
     else

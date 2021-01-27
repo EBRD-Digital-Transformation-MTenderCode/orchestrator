@@ -52,12 +52,27 @@
                   "startDate": "2019-05-06T12:00:00Z",
                   "endDate": "2019-05-08T12:00:00Z"
                 },
-                "expectedValue": "Unknown Type: string,number,integer,boolean"
+                "expectedValue": "Unknown Type: string,number,integer,boolean",
+                "eligibleEvidences": [
+                  {
+                    "id": "string",
+                    "title": "string",
+                    "description": "string",
+                    "type": "reference",
+                    "relatedDocument": {
+                      "id": "string"
+                    }
+                  }
+                ]
               }
             ]
           }
         ],
-        "relatedItem": "string"
+        "relatedItem": "string",
+        "classification": {
+          "id": "string",
+          "scheme": "string"
+        }
       }
     ],
     "lots": [

@@ -19,6 +19,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Divi
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindAuctionsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindCriteriaAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindLotIdsAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.GetItemsByLotIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotStateByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotsValueAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetMainProcurementCategoryAction
@@ -30,7 +31,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Outs
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ResponderProcessingAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForLotsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForTenderAction
-import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateLotsDataAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateLotsDataForDivisionAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateRelatedTenderClassificationAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateRequirementResponsesAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.VerifyRequirementResponseAction
@@ -175,13 +176,18 @@ interface AccessClient {
         params: GetLotsValueAction.Params
     ): Result<Reply<GetLotsValueAction.Result>, Fail.Incident>
 
-    suspend fun validateLotsDataAction(
+    suspend fun validateLotsDataForDivision(
         id: CommandId,
-        params: ValidateLotsDataAction.Params
+        params: ValidateLotsDataForDivisionAction.Params
     ): Result<Reply<Unit>, Fail.Incident>
 
     suspend fun divideLot(
         id: CommandId,
         params: DivideLotAction.Params
     ): Result<Reply<DivideLotAction.Result>, Fail.Incident>
+
+    suspend fun getItemsByLotIdsAction(
+        id: CommandId,
+        params: GetItemsByLotIdsAction.Params
+    ): Result<Reply<GetItemsByLotIdsAction.Result>, Fail.Incident>
 }

@@ -78,27 +78,7 @@ class QualificationRankQualificationsDelegate(
                             .map { criterion ->
                                 RankQualificationsAction.Params.Tender.Criteria(
                                     id = criterion.id,
-                                    description = criterion.description,
-                                    relatedItem = criterion.relatedItem,
-                                    relatesTo = criterion.relatesTo,
-                                    source = criterion.source,
-                                    title = criterion.title,
-                                    requirementGroups = criterion.requirementGroups
-                                        .map {requirementGroup->
-                                            RankQualificationsAction.Params.Tender.Criteria.RequirementGroup(
-                                                id = requirementGroup.id,
-                                                description = requirementGroup.description,
-                                                requirements = requirementGroup.requirements
-                                                    .map {requirement->
-                                                        RankQualificationsAction.Params.Tender.Criteria.RequirementGroup.Requirement(
-                                                            id = requirement.id,
-                                                            description = requirement.description,
-                                                            dataType = requirement.dataType,
-                                                            title = requirement.title
-                                                        )
-                                                    }
-                                            )
-                                        }
+                                    source = criterion.source
                                 )
                             }
                     )

@@ -215,7 +215,7 @@ class SubmissionCreateBidDelegate(
                                                                         ?.let { validityPeriod ->
                                                                             CreateBidAction.Params.Bids.Detail.Tenderer.Details.Permit.PermitDetails.ValidityPeriod(
                                                                                 startDate = validityPeriod.startDate,
-                                                                                endDate = validityPeriod.startDate
+                                                                                endDate = validityPeriod.endDate
                                                                             )
                                                                         }
                                                                 )
@@ -350,7 +350,25 @@ class SubmissionCreateBidDelegate(
                                             CreateBidAction.Params.Bids.Detail.RequirementResponse.Requirement(
                                                 requirement.id
                                             )
-                                        }
+                                        },
+                                    relatedTenderer = requirementResponse.relatedTenderer?.let { tenderer ->
+                                        CreateBidAction.Params.Bids.Detail.RequirementResponse.RelatedTenderer(
+                                            name = tenderer.name,
+                                            id = tenderer.id
+                                        )
+                                    },
+                                    evidences = requirementResponse.evidences.map { evidence ->
+                                        CreateBidAction.Params.Bids.Detail.RequirementResponse.Evidence(
+                                            id = evidence.id,
+                                            description = evidence.description,
+                                            title = evidence.title,
+                                            relatedDocument = evidence.relatedDocument?.let { relatedDocument ->
+                                                CreateBidAction.Params.Bids.Detail.RequirementResponse.Evidence.RelatedDocument(
+                                                    id = relatedDocument.id
+                                                )
+                                            }
+                                        )
+                                    }
                                 )
                             }
                     )

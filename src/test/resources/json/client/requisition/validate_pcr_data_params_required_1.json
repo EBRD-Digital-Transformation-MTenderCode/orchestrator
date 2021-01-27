@@ -1,0 +1,129 @@
+{
+  "tender": {
+    "title": "string",
+    "description": "string",
+    "classification": {
+      "id": "string",
+      "scheme": "string"
+    },
+    "lots": [
+      {
+        "id": "string",
+        "title": "string",
+        "classification": {
+          "id": "string",
+          "scheme": "string"
+        },
+        "variants": [
+          {
+            "hasVariants": true
+          }
+        ]
+      }
+    ],
+    "items": [
+      {
+        "id": "string",
+        "description": "string",
+        "quantity": 0.000,
+        "classification": {
+          "id": "string",
+          "scheme": "string"
+        },
+        "unit": {
+          "id": "string"
+        },
+        "relatedLot": "string"
+      }
+    ],
+    "targets": [
+      {
+        "id": "string",
+        "title": "string",
+        "relatesTo": "lot",
+        "relatedItem": "string",
+        "observations": [
+          {
+            "id": "string",
+            "period": {},
+            "measure": "Unknown Type: string,number,integer,boolean",
+            "unit": {
+              "id": "string"
+            },
+            "notes": "string"
+          }
+        ]
+      }
+    ],
+    "criteria": [
+      {
+        "id": "string",
+        "title": "string",
+        "description": "string",
+        "relatesTo": "lot",
+        "requirementGroups": [
+          {
+            "id": "string",
+            "requirements": [
+              {
+                "id": "string",
+                "title": "string",
+                "dataType": "string",
+                "eligibleEvidences": [
+                  {
+                    "id": "string",
+                    "title": "string",
+                    "type": "reference"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "classification": {
+          "id": "string",
+          "scheme": "string"
+        }
+      }
+    ],
+    "conversions": [
+      {
+        "id": "string",
+        "relatedItem": "string",
+        "relatesTo": "requirement",
+        "rationale": "string",
+        "coefficients": [
+          {
+            "value": "Unknown Type: number,integer,boolean",
+            "id": "string",
+            "coefficient": 0
+          }
+        ]
+      }
+    ],
+    "documents": [
+      {
+        "id": "string",
+        "title": "string",
+        "documentType": "tenderNotice"
+      }
+    ],
+    "awardCriteria": "priceOnly",
+    "awardCriteriaDetails": "automated",
+    "mainProcurementCategory": "goods"
+  },
+  "pmd": "CF",
+  "country": "string",
+  "operationType": "createPcr",
+  "mdm": {
+    "criteria": [
+      {
+        "id": "string",
+        "classification": {
+          "id": "string",
+          "scheme": "string"
+        }
+      }
+    ]
+  }
+}

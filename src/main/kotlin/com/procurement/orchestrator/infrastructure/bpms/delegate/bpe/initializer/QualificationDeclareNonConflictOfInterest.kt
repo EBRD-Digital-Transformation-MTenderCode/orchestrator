@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.procurement.orchestrator.domain.model.organization.person.BusinessFunctionId
 import com.procurement.orchestrator.domain.model.requirement.RequirementResponseValue
 import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponseId
 import com.procurement.orchestrator.infrastructure.bind.criteria.requirement.value.RequirementValueDeserializer
@@ -50,7 +51,7 @@ object QualificationDeclareNonConflictOfInterest {
                     )
 
                     data class BusinessFunction(
-                        @field:JsonProperty("id") @param:JsonProperty("id") val id: String,
+                        @field:JsonProperty("id") @param:JsonProperty("id") val id: BusinessFunctionId,
                         @field:JsonProperty("type") @param:JsonProperty("type") val type: String,
                         @field:JsonProperty("jobTitle") @param:JsonProperty("jobTitle") val jobTitle: String,
                         @field:JsonProperty("period") @param:JsonProperty("period") val period: Period,

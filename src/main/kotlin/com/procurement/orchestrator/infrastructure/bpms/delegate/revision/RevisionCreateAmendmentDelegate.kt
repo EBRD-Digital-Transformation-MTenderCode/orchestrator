@@ -78,6 +78,7 @@ class RevisionCreateAmendmentDelegate(
             OperationTypeProcess.START_AWARD_PERIOD,
             OperationTypeProcess.START_SECOND_STAGE,
             OperationTypeProcess.SUBMISSION_PERIOD_END,
+            OperationTypeProcess.SUBMIT_BID,
             OperationTypeProcess.SUBMIT_BID_IN_PCR,
             OperationTypeProcess.TENDER_OR_LOT_AMENDMENT_CANCELLATION,
             OperationTypeProcess.TENDER_OR_LOT_AMENDMENT_CONFIRMATION,

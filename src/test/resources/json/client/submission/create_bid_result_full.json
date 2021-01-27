@@ -209,6 +209,20 @@
             "requirement": {
               "id": "string"
             },
+            "relatedTenderer": {
+              "id": "string",
+              "name": "string"
+            },
+            "evidences": [
+              {
+                "id": "string",
+                "title": "string",
+                "description": "string",
+                "relatedDocument": {
+                  "id": "string"
+                }
+              }
+            ],
             "period": {
               "startDate": "2020-10-26T18:11:40Z",
               "endDate": "2020-10-26T18:11:40Z"

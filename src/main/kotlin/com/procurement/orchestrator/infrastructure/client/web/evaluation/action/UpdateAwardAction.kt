@@ -197,7 +197,7 @@ abstract class UpdateAwardAction :
                     )
 
                     data class BusinessFunction(
-                        @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
+                        @param:JsonProperty("id") @field:JsonProperty("id") val id: BusinessFunctionId,
 
                         @JsonInclude(JsonInclude.Include.NON_NULL)
                         @param:JsonProperty("type") @field:JsonProperty("type") val type: BusinessFunctionType?,

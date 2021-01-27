@@ -20,6 +20,7 @@ import com.procurement.orchestrator.domain.model.bid.Bids
 import com.procurement.orchestrator.domain.model.bid.BidsDetails
 import com.procurement.orchestrator.domain.model.document.Document
 import com.procurement.orchestrator.domain.model.document.DocumentId
+import com.procurement.orchestrator.domain.model.document.DocumentReference
 import com.procurement.orchestrator.domain.model.document.DocumentType
 import com.procurement.orchestrator.domain.model.document.Documents
 import com.procurement.orchestrator.domain.model.identifier.Identifier
@@ -32,6 +33,7 @@ import com.procurement.orchestrator.domain.model.lot.RelatedLots
 import com.procurement.orchestrator.domain.model.measure.Amount
 import com.procurement.orchestrator.domain.model.organization.ContactPoint
 import com.procurement.orchestrator.domain.model.organization.Organization
+import com.procurement.orchestrator.domain.model.organization.OrganizationReference
 import com.procurement.orchestrator.domain.model.organization.Organizations
 import com.procurement.orchestrator.domain.model.organization.datail.Details
 import com.procurement.orchestrator.domain.model.organization.datail.MainEconomicActivities
@@ -48,6 +50,7 @@ import com.procurement.orchestrator.domain.model.organization.datail.permit.Perm
 import com.procurement.orchestrator.domain.model.organization.datail.permit.PermitDetails
 import com.procurement.orchestrator.domain.model.organization.datail.permit.Permits
 import com.procurement.orchestrator.domain.model.organization.person.BusinessFunction
+import com.procurement.orchestrator.domain.model.organization.person.BusinessFunctionId
 import com.procurement.orchestrator.domain.model.organization.person.BusinessFunctionType
 import com.procurement.orchestrator.domain.model.organization.person.BusinessFunctions
 import com.procurement.orchestrator.domain.model.period.Period
@@ -59,6 +62,9 @@ import com.procurement.orchestrator.domain.model.requirement.RequirementResponse
 import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponse
 import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponseId
 import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponses
+import com.procurement.orchestrator.domain.model.requirement.response.evidence.Evidence
+import com.procurement.orchestrator.domain.model.requirement.response.evidence.EvidenceId
+import com.procurement.orchestrator.domain.model.requirement.response.evidence.Evidences
 import com.procurement.orchestrator.domain.model.unit.Unit
 import com.procurement.orchestrator.domain.model.value.Value
 import com.procurement.orchestrator.infrastructure.client.web.Target
@@ -251,7 +257,7 @@ abstract class CreateBidAction : FunctionalAction<CreateBidAction.Params, Create
                         )
 
                         data class BusinessFunction(
-                            @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
+                            @param:JsonProperty("id") @field:JsonProperty("id") val id: BusinessFunctionId,
 
                             @JsonInclude(JsonInclude.Include.NON_NULL)
                             @param:JsonProperty("type") @field:JsonProperty("type") val type: BusinessFunctionType?,
@@ -504,6 +510,12 @@ abstract class CreateBidAction : FunctionalAction<CreateBidAction.Params, Create
                     @param:JsonProperty("requirement") @field:JsonProperty("requirement") val requirement: Requirement?,
 
                     @JsonInclude(JsonInclude.Include.NON_NULL)
+                    @param:JsonProperty("relatedTenderer") @field:JsonProperty("relatedTenderer") val relatedTenderer: RelatedTenderer?,
+
+                    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+                    @param:JsonProperty("evidences") @field:JsonProperty("evidences") val evidences: List<Evidence>?,
+
+                    @JsonInclude(JsonInclude.Include.NON_NULL)
                     @param:JsonProperty("period") @field:JsonProperty("period") val period: Period?
                 ) {
                     data class Requirement(
@@ -517,6 +529,28 @@ abstract class CreateBidAction : FunctionalAction<CreateBidAction.Params, Create
                         @JsonInclude(JsonInclude.Include.NON_NULL)
                         @param:JsonProperty("endDate") @field:JsonProperty("endDate") val endDate: LocalDateTime?
                     )
+
+                    data class RelatedTenderer(
+                        @JsonInclude(JsonInclude.Include.NON_NULL)
+                        @param:JsonProperty("name") @field:JsonProperty("name") val name: String?,
+
+                        @param:JsonProperty("id") @field:JsonProperty("id") val id: String
+                    )
+
+                    data class Evidence(
+                        @param:JsonProperty("id") @field:JsonProperty("id") val id: EvidenceId,
+                        @param:JsonProperty("title") @field:JsonProperty("title") val title: String,
+
+                        @JsonInclude(JsonInclude.Include.NON_NULL)
+                        @param:JsonProperty("description") @field:JsonProperty("description") val description: String?,
+
+                        @JsonInclude(JsonInclude.Include.NON_NULL)
+                        @param:JsonProperty("relatedDocument") @field:JsonProperty("relatedDocument") val relatedDocument: RelatedDocument?
+                    ) {
+                        data class RelatedDocument(
+                            @param:JsonProperty("id") @field:JsonProperty("id") val id: DocumentId
+                        )
+                    }
                 }
             }
         }
@@ -657,7 +691,7 @@ abstract class CreateBidAction : FunctionalAction<CreateBidAction.Params, Create
                         ) : Serializable
 
                         data class BusinessFunction(
-                            @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
+                            @param:JsonProperty("id") @field:JsonProperty("id") val id: BusinessFunctionId,
                             @param:JsonProperty("type") @field:JsonProperty("type") val type: BusinessFunctionType,
                             @param:JsonProperty("jobTitle") @field:JsonProperty("jobTitle") val jobTitle: String,
                             @param:JsonProperty("period") @field:JsonProperty("period") val period: Period,
@@ -848,11 +882,38 @@ abstract class CreateBidAction : FunctionalAction<CreateBidAction.Params, Create
                     @param:JsonProperty("requirement") @field:JsonProperty("requirement") val requirement: Requirement,
 
                     @JsonInclude(JsonInclude.Include.NON_NULL)
+                    @param:JsonProperty("relatedTenderer") @field:JsonProperty("relatedTenderer") val relatedTenderer: RelatedTenderer?,
+
+                    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+                    @param:JsonProperty("evidences") @field:JsonProperty("evidences") val evidences: List<Evidence>?,
+
+                    @JsonInclude(JsonInclude.Include.NON_NULL)
                     @param:JsonProperty("period") @field:JsonProperty("period") val period: Period?
                 ) : Serializable {
                     data class Requirement(
                         @param:JsonProperty("id") @field:JsonProperty("id") val id: String
                     ) : Serializable
+
+                    data class RelatedTenderer(
+                        @param:JsonProperty("name") @field:JsonProperty("name") val name: String,
+
+                        @param:JsonProperty("id") @field:JsonProperty("id") val id: String
+                    ) : Serializable
+
+                    data class Evidence(
+                        @param:JsonProperty("id") @field:JsonProperty("id") val id: EvidenceId,
+                        @param:JsonProperty("title") @field:JsonProperty("title") val title: String,
+
+                        @JsonInclude(JsonInclude.Include.NON_NULL)
+                        @param:JsonProperty("description") @field:JsonProperty("description") val description: String?,
+
+                        @JsonInclude(JsonInclude.Include.NON_NULL)
+                        @param:JsonProperty("relatedDocument") @field:JsonProperty("relatedDocument") val relatedDocument: RelatedDocument?
+                    ) : Serializable {
+                        data class RelatedDocument(
+                            @param:JsonProperty("id") @field:JsonProperty("id") val id: DocumentId
+                        ) : Serializable
+                    }
 
                     data class Period(
                         @param:JsonProperty("startDate") @field:JsonProperty("startDate") val startDate: LocalDateTime,
@@ -866,313 +927,333 @@ abstract class CreateBidAction : FunctionalAction<CreateBidAction.Params, Create
     }
 }
 
-fun CreateBidAction.Result.Bids.convertToDomainObject() : Bids =
+fun CreateBidAction.Result.Bids.convertToDomainObject(): Bids =
     details.map { bid ->
-            Bid(
-                id = bid.id,
-                status = bid.status,
-                statusDetails = bid.statusDetails,
-                date = bid.date,
-                value = bid.value
-                    ?.let { value ->
-                        Value(
-                            amount = value.amount,
-                            currency = value.currency
-                        )
-                    },
-                requirementResponses = bid.requirementResponses
-                    ?.map { requirementResponse ->
-                        RequirementResponse(
-                            id = requirementResponse.id,
-                            value = requirementResponse.value,
-                            requirement = RequirementReference(requirementResponse.requirement.id),
-                            period = requirementResponse.period
-                                ?.let { period ->
-                                    Period(
-                                        startDate = period.startDate,
-                                        endDate = period.endDate
-                                    )
-                                }
-                        )
-                    }.orEmpty()
-                    .let { RequirementResponses(it) },
-                tenderers = bid.tenderers
-                    .map { tenderer ->
-                        Organization(
-                            id = tenderer.id,
-                            name = tenderer.name,
-                            identifier = tenderer.identifier
-                                .let { identifier ->
-                                    Identifier(
-                                        id = identifier.id,
-                                        legalName = identifier.legalName,
-                                        scheme = identifier.scheme,
-                                        uri = identifier.uri
-                                    )
-                                },
-                            additionalIdentifiers = tenderer.additionalIdentifiers
-                                ?.map { additionalIdentifier ->
-                                    Identifier(
-                                        id = additionalIdentifier.id,
-                                        legalName = additionalIdentifier.legalName,
-                                        scheme = additionalIdentifier.scheme,
-                                        uri = additionalIdentifier.uri
-                                    )
-                                }.orEmpty()
-                                .let { Identifiers(it) },
-                            address = tenderer.address
-                                ?.let { address ->
-                                    Address(
-                                        streetAddress = address.streetAddress,
-                                        postalCode = address.postalCode,
-                                        addressDetails = address.addressDetails
-                                            .let { addressDetails ->
-                                                AddressDetails(
-                                                    country = addressDetails.country
-                                                        .let { country ->
-                                                            CountryDetails(
-                                                                scheme = country.scheme,
-                                                                id = country.id,
-                                                                description = country.description,
-                                                                uri = country.uri
-                                                            )
-                                                        },
-                                                    region = addressDetails.region
-                                                        .let { region ->
-                                                            RegionDetails(
-                                                                scheme = region.scheme,
-                                                                id = region.id,
-                                                                description = region.description,
-                                                                uri = region.uri
-                                                            )
-                                                        },
-                                                    locality = addressDetails.locality
-                                                        .let { locality ->
-                                                            LocalityDetails(
-                                                                scheme = locality.scheme,
-                                                                id = locality.id,
-                                                                description = locality.description,
-                                                                uri = locality.uri
-                                                            )
-                                                        }
-                                                )
-                                            }
-                                    )
-                                },
-                            contactPoint = tenderer.contactPoint
-                                .let { contactPoint ->
-                                    ContactPoint(
-                                        name = contactPoint.name,
-                                        email = contactPoint.email,
-                                        telephone = contactPoint.telephone,
-                                        faxNumber = contactPoint.faxNumber,
-                                        url = contactPoint.url
-                                    )
-                                },
-                            persons = tenderer.persones
-                                ?.map { person ->
-                                    Person(
-                                        id = PersonId.generate(
-                                            scheme = person.identifier.scheme,
-                                            id = person.identifier.id
-                                        ),
-                                        identifier = person.identifier
-                                            .let { identifier ->
-                                                Identifier(
-                                                    scheme = identifier.scheme,
-                                                    id = identifier.id,
-                                                    uri = identifier.uri
-                                                )
-                                            },
-                                        name = person.name,
-                                        title = person.title,
-                                        businessFunctions = person.businessFunctions
-                                            .map { businessFunction ->
-                                                BusinessFunction(
-                                                    id = businessFunction.id,
-                                                    type = businessFunction.type,
-                                                    jobTitle = businessFunction.jobTitle,
-                                                    period = Period(startDate = businessFunction.period.startDate),
-                                                    documents = businessFunction.documents
-                                                        ?.map { document ->
-                                                            Document(
-                                                                documentType = document.documentType,
-                                                                id = document.id,
-                                                                title = document.title,
-                                                                description = document.description
-                                                            )
-                                                        }.orEmpty()
-                                                        .let { Documents(it) }
-                                                )
-                                            }.let { BusinessFunctions(it) }
-                                    )
-                                }.orEmpty()
-                                .let { Persons(it) },
-                            details = tenderer.details
-                                .let { detail ->
-                                    Details(
-                                        typeOfSupplier = detail.typeOfSupplier,
-                                        mainEconomicActivities = detail.mainEconomicActivities
-                                            ?.map { mainEconomicActivity ->
-                                                MainEconomicActivity(
-                                                    id = mainEconomicActivity.id,
-                                                    scheme = mainEconomicActivity.scheme,
-                                                    uri = mainEconomicActivity.uri,
-                                                    description = mainEconomicActivity.description
-                                                )
-                                            }.orEmpty()
-                                            .let { MainEconomicActivities(it) },
-                                        scale = detail.scale,
-                                        permits = detail.permits?.map { permit ->
-                                            Permit(
-                                                scheme = permit.scheme,
-                                                id = permit.id,
-                                                url = permit.url,
-                                                permitDetails = permit.permitDetails
-                                                    .let { permitDetails ->
-                                                        PermitDetails(
-                                                            issuedBy = permitDetails.issuedBy
-                                                                .let { issuedBy ->
-                                                                    Issue(
-                                                                        id = issuedBy.id,
-                                                                        name = issuedBy.name
-                                                                    )
-                                                                },
-                                                            issuedThought = permitDetails.issuedThought
-                                                                .let { issuedThought ->
-                                                                    Issue(
-                                                                        id = issuedThought.id,
-                                                                        name = issuedThought.name
-                                                                    )
-                                                                },
-                                                            validityPeriod = permitDetails.validityPeriod
-                                                                .let { validityPeriod ->
-                                                                    Period(
-                                                                        startDate = validityPeriod.startDate,
-                                                                        endDate = validityPeriod.startDate
-                                                                    )
-                                                                }
+        Bid(
+            id = bid.id,
+            status = bid.status,
+            statusDetails = bid.statusDetails,
+            date = bid.date,
+            value = bid.value
+                ?.let { value ->
+                    Value(
+                        amount = value.amount,
+                        currency = value.currency
+                    )
+                },
+            requirementResponses = bid.requirementResponses
+                ?.map { requirementResponse ->
+                    RequirementResponse(
+                        id = requirementResponse.id,
+                        value = requirementResponse.value,
+                        requirement = RequirementReference(requirementResponse.requirement.id),
+                        relatedTenderer = requirementResponse.relatedTenderer?.let { tenderer ->
+                            OrganizationReference(
+                                name = tenderer.name,
+                                id = tenderer.id
+                            )
+                        },
+                        evidences = requirementResponse.evidences
+                            ?.map { evidence ->
+                                Evidence(
+                                    id = evidence.id,
+                                    description = evidence.description,
+                                    title = evidence.title,
+                                    relatedDocument = evidence.relatedDocument
+                                        ?.let { relatedDocument ->
+                                            DocumentReference(id = relatedDocument.id)
+                                        }
+                                )
+                            }
+                            .orEmpty()
+                            .let { Evidences(it) },
+                        period = requirementResponse.period
+                            ?.let { period ->
+                                Period(
+                                    startDate = period.startDate,
+                                    endDate = period.endDate
+                                )
+                            }
+                    )
+                }.orEmpty()
+                .let { RequirementResponses(it) },
+            tenderers = bid.tenderers
+                .map { tenderer ->
+                    Organization(
+                        id = tenderer.id,
+                        name = tenderer.name,
+                        identifier = tenderer.identifier
+                            .let { identifier ->
+                                Identifier(
+                                    id = identifier.id,
+                                    legalName = identifier.legalName,
+                                    scheme = identifier.scheme,
+                                    uri = identifier.uri
+                                )
+                            },
+                        additionalIdentifiers = tenderer.additionalIdentifiers
+                            ?.map { additionalIdentifier ->
+                                Identifier(
+                                    id = additionalIdentifier.id,
+                                    legalName = additionalIdentifier.legalName,
+                                    scheme = additionalIdentifier.scheme,
+                                    uri = additionalIdentifier.uri
+                                )
+                            }.orEmpty()
+                            .let { Identifiers(it) },
+                        address = tenderer.address
+                            ?.let { address ->
+                                Address(
+                                    streetAddress = address.streetAddress,
+                                    postalCode = address.postalCode,
+                                    addressDetails = address.addressDetails
+                                        .let { addressDetails ->
+                                            AddressDetails(
+                                                country = addressDetails.country
+                                                    .let { country ->
+                                                        CountryDetails(
+                                                            scheme = country.scheme,
+                                                            id = country.id,
+                                                            description = country.description,
+                                                            uri = country.uri
+                                                        )
+                                                    },
+                                                region = addressDetails.region
+                                                    .let { region ->
+                                                        RegionDetails(
+                                                            scheme = region.scheme,
+                                                            id = region.id,
+                                                            description = region.description,
+                                                            uri = region.uri
+                                                        )
+                                                    },
+                                                locality = addressDetails.locality
+                                                    .let { locality ->
+                                                        LocalityDetails(
+                                                            scheme = locality.scheme,
+                                                            id = locality.id,
+                                                            description = locality.description,
+                                                            uri = locality.uri
                                                         )
                                                     }
                                             )
                                         }
-                                            .orEmpty()
-                                            .let { Permits(it) },
-                                        bankAccounts = detail.bankAccounts
-                                            ?.map { bankAccount ->
-                                                BankAccount(
-                                                    description = bankAccount.description,
-                                                    bankName = bankAccount.bankName,
-                                                    address = bankAccount.address
-                                                        .let { address ->
-                                                            Address(
-                                                                streetAddress = address.streetAddress,
-                                                                postalCode = address.postalCode,
-                                                                addressDetails = address.addressDetails
-                                                                    .let { addressDetails ->
-                                                                        AddressDetails(
-                                                                            country = addressDetails.country
-                                                                                .let { country ->
-                                                                                    CountryDetails(
-                                                                                        scheme = country.scheme,
-                                                                                        id = country.id,
-                                                                                        description = country.description,
-                                                                                        uri = country.uri
-                                                                                    )
-                                                                                },
-                                                                            region = addressDetails.region
-                                                                                .let { region ->
-                                                                                    RegionDetails(
-                                                                                        scheme = region.scheme,
-                                                                                        id = region.id,
-                                                                                        description = region.description,
-                                                                                        uri = region.uri
-                                                                                    )
-                                                                                },
-                                                                            locality = addressDetails.locality
-                                                                                .let { locality ->
-                                                                                    LocalityDetails(
-                                                                                        scheme = locality.scheme,
-                                                                                        id = locality.id,
-                                                                                        description = locality.description,
-                                                                                        uri = locality.uri
-                                                                                    )
-                                                                                }
-                                                                        )
-                                                                    }
-                                                            )
-                                                        },
-                                                    identifier = bankAccount.identifier
-                                                        .let { accountIdentifier ->
-                                                            AccountIdentifier(
-                                                                scheme = accountIdentifier.scheme,
-                                                                id = accountIdentifier.id
-                                                            )
-                                                        },
-                                                    accountIdentification = bankAccount.accountIdentification
-                                                        .let { accountIdentifier ->
-                                                            AccountIdentifier(
-                                                                scheme = accountIdentifier.scheme,
-                                                                id = accountIdentifier.id
-                                                            )
+                                )
+                            },
+                        contactPoint = tenderer.contactPoint
+                            .let { contactPoint ->
+                                ContactPoint(
+                                    name = contactPoint.name,
+                                    email = contactPoint.email,
+                                    telephone = contactPoint.telephone,
+                                    faxNumber = contactPoint.faxNumber,
+                                    url = contactPoint.url
+                                )
+                            },
+                        persons = tenderer.persones
+                            ?.map { person ->
+                                Person(
+                                    id = PersonId.generate(
+                                        scheme = person.identifier.scheme,
+                                        id = person.identifier.id
+                                    ),
+                                    identifier = person.identifier
+                                        .let { identifier ->
+                                            Identifier(
+                                                scheme = identifier.scheme,
+                                                id = identifier.id,
+                                                uri = identifier.uri
+                                            )
+                                        },
+                                    name = person.name,
+                                    title = person.title,
+                                    businessFunctions = person.businessFunctions
+                                        .map { businessFunction ->
+                                            BusinessFunction(
+                                                id = businessFunction.id,
+                                                type = businessFunction.type,
+                                                jobTitle = businessFunction.jobTitle,
+                                                period = Period(startDate = businessFunction.period.startDate),
+                                                documents = businessFunction.documents
+                                                    ?.map { document ->
+                                                        Document(
+                                                            documentType = document.documentType,
+                                                            id = document.id,
+                                                            title = document.title,
+                                                            description = document.description
+                                                        )
+                                                    }.orEmpty()
+                                                    .let { Documents(it) }
+                                            )
+                                        }.let { BusinessFunctions(it) }
+                                )
+                            }.orEmpty()
+                            .let { Persons(it) },
+                        details = tenderer.details
+                            .let { detail ->
+                                Details(
+                                    typeOfSupplier = detail.typeOfSupplier,
+                                    mainEconomicActivities = detail.mainEconomicActivities
+                                        ?.map { mainEconomicActivity ->
+                                            MainEconomicActivity(
+                                                id = mainEconomicActivity.id,
+                                                scheme = mainEconomicActivity.scheme,
+                                                uri = mainEconomicActivity.uri,
+                                                description = mainEconomicActivity.description
+                                            )
+                                        }.orEmpty()
+                                        .let { MainEconomicActivities(it) },
+                                    scale = detail.scale,
+                                    permits = detail.permits?.map { permit ->
+                                        Permit(
+                                            scheme = permit.scheme,
+                                            id = permit.id,
+                                            url = permit.url,
+                                            permitDetails = permit.permitDetails
+                                                .let { permitDetails ->
+                                                    PermitDetails(
+                                                        issuedBy = permitDetails.issuedBy
+                                                            .let { issuedBy ->
+                                                                Issue(
+                                                                    id = issuedBy.id,
+                                                                    name = issuedBy.name
+                                                                )
+                                                            },
+                                                        issuedThought = permitDetails.issuedThought
+                                                            .let { issuedThought ->
+                                                                Issue(
+                                                                    id = issuedThought.id,
+                                                                    name = issuedThought.name
+                                                                )
+                                                            },
+                                                        validityPeriod = permitDetails.validityPeriod
+                                                            .let { validityPeriod ->
+                                                                Period(
+                                                                    startDate = validityPeriod.startDate,
+                                                                    endDate = validityPeriod.endDate
+                                                                )
+                                                            }
+                                                    )
+                                                }
+                                        )
+                                    }
+                                        .orEmpty()
+                                        .let { Permits(it) },
+                                    bankAccounts = detail.bankAccounts
+                                        ?.map { bankAccount ->
+                                            BankAccount(
+                                                description = bankAccount.description,
+                                                bankName = bankAccount.bankName,
+                                                address = bankAccount.address
+                                                    .let { address ->
+                                                        Address(
+                                                            streetAddress = address.streetAddress,
+                                                            postalCode = address.postalCode,
+                                                            addressDetails = address.addressDetails
+                                                                .let { addressDetails ->
+                                                                    AddressDetails(
+                                                                        country = addressDetails.country
+                                                                            .let { country ->
+                                                                                CountryDetails(
+                                                                                    scheme = country.scheme,
+                                                                                    id = country.id,
+                                                                                    description = country.description,
+                                                                                    uri = country.uri
+                                                                                )
+                                                                            },
+                                                                        region = addressDetails.region
+                                                                            .let { region ->
+                                                                                RegionDetails(
+                                                                                    scheme = region.scheme,
+                                                                                    id = region.id,
+                                                                                    description = region.description,
+                                                                                    uri = region.uri
+                                                                                )
+                                                                            },
+                                                                        locality = addressDetails.locality
+                                                                            .let { locality ->
+                                                                                LocalityDetails(
+                                                                                    scheme = locality.scheme,
+                                                                                    id = locality.id,
+                                                                                    description = locality.description,
+                                                                                    uri = locality.uri
+                                                                                )
+                                                                            }
+                                                                    )
+                                                                }
+                                                        )
+                                                    },
+                                                identifier = bankAccount.identifier
+                                                    .let { accountIdentifier ->
+                                                        AccountIdentifier(
+                                                            scheme = accountIdentifier.scheme,
+                                                            id = accountIdentifier.id
+                                                        )
+                                                    },
+                                                accountIdentification = bankAccount.accountIdentification
+                                                    .let { accountIdentifier ->
+                                                        AccountIdentifier(
+                                                            scheme = accountIdentifier.scheme,
+                                                            id = accountIdentifier.id
+                                                        )
 
-                                                        },
-                                                    additionalAccountIdentifiers = bankAccount.additionalAccountIdentifiers
-                                                        ?.map { accountIdentifier ->
-                                                            AccountIdentifier(
-                                                                scheme = accountIdentifier.scheme,
-                                                                id = accountIdentifier.id
-                                                            )
-                                                        }.orEmpty()
-                                                        .let { AccountIdentifiers(it) }
-                                                )
-                                            }.orEmpty()
-                                            .let { BankAccounts(it) },
-                                        legalForm = detail.legalForm
-                                            ?.let { legalForm ->
-                                                LegalForm(
-                                                    scheme = legalForm.scheme,
-                                                    id = legalForm.id,
-                                                    description = legalForm.description,
-                                                    uri = legalForm.uri
-                                                )
-                                            }
-                                    )
-                                }
-                        )
-                    }.let { Organizations() },
-                relatedLots = RelatedLots(bid.relatedLots),
-                documents = bid.documents
-                    ?.map { document ->
-                        Document(
-                            documentType = document.documentType,
-                            id = document.id,
-                            title = document.title,
-                            description = document.description,
-                            relatedLots = RelatedLots(document.relatedLots.orEmpty())
-                        )
-                    }
-                    .orEmpty()
-                    .let { Documents(it) },
-                items = bid.items
-                    ?.map { item ->
-                        Item(
-                            id = item.id,
-                            unit = item.unit.let { unit ->
-                                Unit(
-                                    id = unit.id,
-                                    name = unit.name,
-                                    value = unit.value
-                                        .let { value ->
-                                            Value(
-                                                amount = value.amount,
-                                                currency = value.currency
+                                                    },
+                                                additionalAccountIdentifiers = bankAccount.additionalAccountIdentifiers
+                                                    ?.map { accountIdentifier ->
+                                                        AccountIdentifier(
+                                                            scheme = accountIdentifier.scheme,
+                                                            id = accountIdentifier.id
+                                                        )
+                                                    }.orEmpty()
+                                                    .let { AccountIdentifiers(it) }
+                                            )
+                                        }.orEmpty()
+                                        .let { BankAccounts(it) },
+                                    legalForm = detail.legalForm
+                                        ?.let { legalForm ->
+                                            LegalForm(
+                                                scheme = legalForm.scheme,
+                                                id = legalForm.id,
+                                                description = legalForm.description,
+                                                uri = legalForm.uri
                                             )
                                         }
                                 )
                             }
-                        )
-                    }.orEmpty()
-                    .let { Items(it) }
-            )
-        }.let { Bids(details = BidsDetails(it)) }
+                    )
+                }.let { Organizations() },
+            relatedLots = RelatedLots(bid.relatedLots),
+            documents = bid.documents
+                ?.map { document ->
+                    Document(
+                        documentType = document.documentType,
+                        id = document.id,
+                        title = document.title,
+                        description = document.description,
+                        relatedLots = RelatedLots(document.relatedLots.orEmpty())
+                    )
+                }
+                .orEmpty()
+                .let { Documents(it) },
+            items = bid.items
+                ?.map { item ->
+                    Item(
+                        id = item.id,
+                        unit = item.unit.let { unit ->
+                            Unit(
+                                id = unit.id,
+                                name = unit.name,
+                                value = unit.value
+                                    .let { value ->
+                                        Value(
+                                            amount = value.amount,
+                                            currency = value.currency
+                                        )
+                                    }
+                            )
+                        }
+                    )
+                }.orEmpty()
+                .let { Items(it) }
+        )
+    }.let { Bids(details = BidsDetails(it)) }

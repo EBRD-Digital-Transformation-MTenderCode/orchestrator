@@ -1,7 +1,4 @@
 {
-  "pmd": "GPA",
-  "country": "MD",
-  "operationType": "startSecondStage",
   "tender": {
     "title": "string",
     "description": "string",
@@ -9,8 +6,6 @@
       "id": "string",
       "scheme": "string"
     },
-    "awardCriteria": "priceOnly",
-    "awardCriteriaDetails": "manual",
     "lots": [
       {
         "id": "string",
@@ -34,7 +29,7 @@
         "id": "string",
         "internalId": "string",
         "description": "string",
-        "quantity": 12.321,
+        "quantity": 0.000,
         "classification": {
           "id": "string",
           "scheme": "string"
@@ -49,16 +44,16 @@
       {
         "id": "string",
         "title": "string",
-        "relatesTo": "string",
+        "relatesTo": "lot",
         "relatedItem": "string",
         "observations": [
           {
             "id": "string",
             "period": {
-              "startDate": "2019-05-06T12:00:00Z",
-              "endDate": "2019-05-08T12:00:00Z"
+              "startDate": "2021-01-06T15:48:37Z",
+              "endDate": "2021-01-06T15:48:37Z"
             },
-            "measure": "string",
+            "measure": "Unknown Type: string,number,integer,boolean",
             "unit": {
               "id": "string"
             },
@@ -77,7 +72,7 @@
         "title": "string",
         "description": "string",
         "relatedItem": "string",
-        "relatesTo": "tenderer",
+        "relatesTo": "lot",
         "requirementGroups": [
           {
             "id": "string",
@@ -88,15 +83,30 @@
                 "title": "string",
                 "description": "string",
                 "period": {
-                  "startDate": "2019-05-06T12:00:00Z",
-                  "endDate": "2019-05-09T12:00:00Z"
+                  "startDate": "2021-01-06T15:48:37Z",
+                  "endDate": "2021-01-06T15:48:37Z"
                 },
                 "dataType": "string",
-                "expectedValue": "string"
+                "expectedValue": "Unknown Type: string,number,integer,boolean",
+                "eligibleEvidences": [
+                  {
+                    "id": "string",
+                    "title": "string",
+                    "description": "string",
+                    "type": "reference",
+                    "relatedDocument": {
+                      "id": "string"
+                    }
+                  }
+                ]
               }
             ]
           }
-        ]
+        ],
+        "classification": {
+          "id": "string",
+          "scheme": "string"
+        }
       }
     ],
     "conversions": [
@@ -108,27 +118,43 @@
         "rationale": "string",
         "coefficients": [
           {
-            "value": 1,
+            "value": "Unknown Type: number,integer,boolean",
             "id": "string",
-            "coefficient": 1.2
+            "coefficient": 0
           }
         ]
       }
     ],
     "procurementMethodModalities": [
-      "string"
+      "requiresElectronicCatalogue"
     ],
     "documents": [
       {
         "id": "string",
         "title": "string",
-        "documentType": "clarifications",
+        "documentType": "tenderNotice",
         "description": "string",
         "relatedLots": [
           "string"
         ]
       }
     ],
+    "awardCriteria": "priceOnly",
+    "awardCriteriaDetails": "automated",
     "mainProcurementCategory": "goods"
+  },
+  "pmd": "CF",
+  "country": "string",
+  "operationType": "createPcr",
+  "mdm": {
+    "criteria": [
+      {
+        "id": "string",
+        "classification": {
+          "id": "string",
+          "scheme": "string"
+        }
+      }
+    ]
   }
 }

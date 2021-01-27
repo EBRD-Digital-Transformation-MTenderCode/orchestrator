@@ -38,7 +38,10 @@ class BpeInitializeDivideLotProcessDelegate(
     processInitializerRepository: ProcessInitializerRepository
 ) : AbstractInitializeProcessDelegate(logger, transform, operationStepRepository, processInitializerRepository) {
 
-    override fun updateGlobalContext(camundaContext: CamundaContext, globalContext: CamundaGlobalContext): MaybeFail<Fail> {
+    override fun updateGlobalContext(
+        camundaContext: CamundaContext,
+        globalContext: CamundaGlobalContext
+    ): MaybeFail<Fail> {
 
         val payload: DivideLotProcess.Request.Payload =
             parsePayload(camundaContext.request.payload, DivideLotProcess.Request.Payload::class.java)
