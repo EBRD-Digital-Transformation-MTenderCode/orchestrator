@@ -85,14 +85,19 @@ abstract class FindSubmissionsAction : FunctionalAction<FindSubmissionsAction.Pa
             @param:JsonProperty("status") @field:JsonProperty("status") val status: SubmissionStatus,
             @param:JsonProperty("date") @field:JsonProperty("date") val date: LocalDateTime
         ) : Serializable {
+
             data class RequirementResponse(
                 @param:JsonProperty("id") @field:JsonProperty("id") val id: RequirementResponseId,
                 @JsonDeserialize(using = RequirementValueDeserializer::class)
                 @JsonSerialize(using = RequirementValueSerializer::class)
                 @param:JsonProperty("value") @field:JsonProperty("value") val value: RequirementResponseValue,
                 @param:JsonProperty("requirement") @field:JsonProperty("requirement") val requirement: Requirement,
-                @param:JsonProperty("relatedCandidate") @field:JsonProperty("relatedCandidate") val relatedCandidate: RelatedCandidate
+                @param:JsonProperty("relatedCandidate") @field:JsonProperty("relatedCandidate") val relatedCandidate: RelatedCandidate,
+
+                @JsonInclude(JsonInclude.Include.NON_EMPTY)
+                @field:JsonProperty("evidences") @param:JsonProperty("evidences") val evidences: List<Evidence>?
             ) : Serializable {
+
                 data class Requirement(
                     @param:JsonProperty("id") @field:JsonProperty("id") val id: RequirementId
                 ) : Serializable
@@ -101,6 +106,26 @@ abstract class FindSubmissionsAction : FunctionalAction<FindSubmissionsAction.Pa
                     @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
                     @param:JsonProperty("name") @field:JsonProperty("name") val name: String
                 ) : Serializable
+
+                data class Evidence(
+                    @field:JsonProperty("id") @param:JsonProperty("id") val id: String,
+                    @field:JsonProperty("title") @param:JsonProperty("title") val title: String,
+
+                    @JsonInclude(JsonInclude.Include.NON_NULL)
+                    @field:JsonProperty("description") @param:JsonProperty("description") val description: String?,
+
+                    @JsonInclude(JsonInclude.Include.NON_NULL)
+                    @field:JsonProperty("relatedDocument") @param:JsonProperty("relatedDocument") val relatedDocument: RelatedDocument?
+                ): Serializable {
+                    data class RelatedDocument(
+                        @field:JsonProperty("id") @param:JsonProperty("id") val id: String
+                    ): Serializable
+                }
+
+                data class OrganizationReference(
+                    @field:JsonProperty("id") @param:JsonProperty("id") val id: String,
+                    @field:JsonProperty("name") @param:JsonProperty("name") val name: String
+                ): Serializable
             }
 
             data class Candidate(
@@ -117,6 +142,7 @@ abstract class FindSubmissionsAction : FunctionalAction<FindSubmissionsAction.Pa
                 @param:JsonProperty("persones") @field:JsonProperty("persones") val persones: List<Person>?,
                 @param:JsonProperty("details") @field:JsonProperty("details") val details: Details
             ) : Serializable {
+
                 data class Identifier(
                     @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
                     @param:JsonProperty("legalName") @field:JsonProperty("legalName") val legalName: String,

@@ -192,6 +192,7 @@ class NotifierSuccessNotificationToPlatformDelegate(
             OperationTypeProcess.START_AWARD_PERIOD -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.START_SECOND_STAGE -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.SUBMISSION_PERIOD_END -> "$tenderUri/$cpid/$ocid"
+            OperationTypeProcess.SUBMIT_BID -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.SUBMIT_BID_IN_PCR -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.TENDER_CANCELLATION -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.TENDER_OR_LOT_AMENDMENT_CANCELLATION -> "$tenderUri/$cpid/$ocid"

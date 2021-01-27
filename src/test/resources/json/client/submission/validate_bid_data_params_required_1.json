@@ -1,5 +1,6 @@
 {
   "cpid": "ocds-b3wdp1-MD-1543419347940",
+  "pmd": "OT",
   "bids": {
     "details": [
       {
@@ -72,6 +73,15 @@
         ],
         "relatedLots": [
           "string"
+        ],
+        "requirementResponses": [
+          {
+            "id": "string",
+            "value": "Unknown Type: string,number,integer,boolean",
+            "requirement": {
+              "id": "string"
+            }
+          }
         ]
       }
     ]

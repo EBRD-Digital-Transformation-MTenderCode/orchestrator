@@ -24,6 +24,7 @@ enum class OperationTypeProcess(@JsonValue override val key: String) : EnumEleme
     START_AWARD_PERIOD("startAwardPeriod"),
     START_SECOND_STAGE("startSecondStage"),
     SUBMISSION_PERIOD_END("submissionPeriodEnd"),
+    SUBMIT_BID("submitBid"),
     SUBMIT_BID_IN_PCR("submitBidInPcr"),
     TENDER_CANCELLATION("tenderCancellation"),
     TENDER_OR_LOT_AMENDMENT_CANCELLATION("tenderOrLotAmendmentCancellation"),

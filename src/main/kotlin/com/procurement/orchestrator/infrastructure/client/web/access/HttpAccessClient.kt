@@ -21,6 +21,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Divi
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindAuctionsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindCriteriaAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindLotIdsAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.GetItemsByLotIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotStateByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotsValueAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetMainProcurementCategoryAction
@@ -32,7 +33,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Outs
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ResponderProcessingAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForLotsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForTenderAction
-import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateLotsDataAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateLotsDataForDivisionAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateRelatedTenderClassificationAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateRequirementResponsesAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.VerifyRequirementResponseAction
@@ -286,12 +287,12 @@ class HttpAccessClient(private val webClient: WebClient, properties: ComponentPr
         target = AccessCommands.GetLotsValue.target
     )
 
-    override suspend fun validateLotsDataAction(
+    override suspend fun validateLotsDataForDivision(
         id: CommandId,
-        params: ValidateLotsDataAction.Params
+        params: ValidateLotsDataForDivisionAction.Params
     ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
         url = url,
-        command = AccessCommands.ValidateLotsData.build(id = id, params = params)
+        command = AccessCommands.ValidateLotsDataForDivision.build(id = id, params = params)
     )
 
     override suspend fun divideLot(
@@ -301,5 +302,14 @@ class HttpAccessClient(private val webClient: WebClient, properties: ComponentPr
         url = url,
         command = AccessCommands.DivideLot.build(id = id, params = params),
         target = AccessCommands.DivideLot.target
+    )
+
+    override suspend fun getItemsByLotIdsAction(
+        id: CommandId,
+        params: GetItemsByLotIdsAction.Params
+    ): Result<Reply<GetItemsByLotIdsAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = AccessCommands.GetItemsByLotIds.build(id = id, params = params),
+        target = AccessCommands.GetItemsByLotIds.target
     )
 }

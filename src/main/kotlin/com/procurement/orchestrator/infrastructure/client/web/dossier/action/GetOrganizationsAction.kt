@@ -21,6 +21,7 @@ import com.procurement.orchestrator.domain.model.organization.datail.account.Acc
 import com.procurement.orchestrator.domain.model.organization.datail.account.AccountIdentifierScheme
 import com.procurement.orchestrator.domain.model.organization.datail.legalform.LegalFormId
 import com.procurement.orchestrator.domain.model.organization.datail.legalform.LegalFormScheme
+import com.procurement.orchestrator.domain.model.organization.person.BusinessFunctionId
 import com.procurement.orchestrator.domain.model.organization.person.BusinessFunctionType
 import com.procurement.orchestrator.domain.model.person.PersonId
 import com.procurement.orchestrator.infrastructure.client.web.Target
@@ -144,7 +145,7 @@ abstract class GetOrganizationsAction : FunctionalAction<GetOrganizationsAction.
                 ) : Serializable
 
                 data class BusinessFunction(
-                    @field:JsonProperty("id") @param:JsonProperty("id") val id: String,
+                    @field:JsonProperty("id") @param:JsonProperty("id") val id: BusinessFunctionId,
                     @field:JsonProperty("type") @param:JsonProperty("type") val type: BusinessFunctionType,
                     @field:JsonProperty("jobTitle") @param:JsonProperty("jobTitle") val jobTitle: String,
                     @field:JsonProperty("period") @param:JsonProperty("period") val period: Period,

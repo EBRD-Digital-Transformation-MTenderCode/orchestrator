@@ -6,6 +6,9 @@ import com.fasterxml.jackson.databind.DeserializationContext
 import com.fasterxml.jackson.databind.JsonDeserializer
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.node.ArrayNode
+import com.procurement.orchestrator.domain.model.document.DocumentId
+import com.procurement.orchestrator.domain.model.document.DocumentReference
+import com.procurement.orchestrator.domain.model.requirement.RequirementStatus
 import com.procurement.orchestrator.domain.model.tender.criteria.requirement.ExpectedValue
 import com.procurement.orchestrator.domain.model.tender.criteria.requirement.MaxValue
 import com.procurement.orchestrator.domain.model.tender.criteria.requirement.MinValue
@@ -15,11 +18,15 @@ import com.procurement.orchestrator.domain.model.tender.criteria.requirement.Req
 import com.procurement.orchestrator.domain.model.tender.criteria.requirement.RequirementDataType
 import com.procurement.orchestrator.domain.model.tender.criteria.requirement.RequirementValue
 import com.procurement.orchestrator.domain.model.tender.criteria.requirement.Requirements
+import com.procurement.orchestrator.domain.model.tender.criteria.requirement.eligible.evidence.EligibleEvidence
+import com.procurement.orchestrator.domain.model.tender.criteria.requirement.eligible.evidence.EligibleEvidenceType
+import com.procurement.orchestrator.domain.model.tender.criteria.requirement.eligible.evidence.EligibleEvidences
 import com.procurement.orchestrator.exceptions.ErrorException
 import com.procurement.orchestrator.exceptions.ErrorType
 import com.procurement.orchestrator.infrastructure.bind.date.JsonDateTimeDeserializer
 import java.io.IOException
 import java.math.BigDecimal
+import java.time.LocalDateTime
 
 class RequirementsDeserializer : JsonDeserializer<Requirements>() {
     companion object {
@@ -29,6 +36,12 @@ class RequirementsDeserializer : JsonDeserializer<Requirements>() {
                 val id: String = requirement.get("id").asText()
                 val title: String = requirement.get("title").asText()
                 val description: String? = requirement.takeIf { it.has("description") }?.get("description")?.asText()
+                val status: RequirementStatus? = requirement.takeIf { it.has("status") }
+                    ?.let { RequirementStatus.orThrow(requirement.get("status").asText()) }
+
+                val datePublished: LocalDateTime? = requirement
+                    .takeIf { it.has("datePublished") }
+                    ?.let { dateNode -> JsonDateTimeDeserializer.deserialize(dateNode.get("datePublished").asText()) }
 
                 val dataType: RequirementDataType? = requirement.takeIf { it.has("dataType") }
                     ?.let { RequirementDataType.orThrow(requirement.get("dataType").asText()) }
@@ -43,6 +56,24 @@ class RequirementsDeserializer : JsonDeserializer<Requirements>() {
                             endDate = endDate
                         )
                     }
+                val eligibleEvidencesNode = requirement.get("eligibleEvidences")?.let { it as ArrayNode }
+
+                val eligibleEvidences: EligibleEvidences = eligibleEvidencesNode
+                    ?.map {
+                        EligibleEvidence(
+                            id = it.get("id").asText(),
+                            title = it.get("title").asText(),
+                            description = it.takeIf { it.has("description") }?.get("description")?.asText(),
+                            type = EligibleEvidenceType.orThrow(it.get("type").asText()),
+                            relatedDocument = it.takeIf { it.has("relatedDocument") }
+                                ?.get("relatedDocument")
+                                ?.get("id")
+                                ?.let {relatedDocument -> DocumentId.create(relatedDocument.asText()) }
+                                ?.let {relatedDocument -> DocumentReference(relatedDocument) }
+                        )
+                    }
+                    .orEmpty()
+                    .let { EligibleEvidences(it) }
 
                 Requirement(
                     id = id,
@@ -50,7 +81,10 @@ class RequirementsDeserializer : JsonDeserializer<Requirements>() {
                     description = description,
                     period = period,
                     dataType = dataType,
-                    value = requirementValue(requirement)
+                    status = status,
+                    datePublished = datePublished,
+                    value = requirementValue(requirement),
+                    eligibleEvidences = eligibleEvidences
                 )
             }
         }

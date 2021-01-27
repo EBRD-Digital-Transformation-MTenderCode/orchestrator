@@ -46,6 +46,7 @@ class AccessCreateCriteriaForProcuringEntityDelegate(
     ): Result<Reply<CreateCriteriaForProcuringEntityAction.Result>, Fail.Incident> {
 
         val processInfo = context.processInfo
+        val requestInfo = context.requestInfo
         val tender = context.tryGetTender()
             .orForwardFail { error -> return error }
 
@@ -57,6 +58,7 @@ class AccessCreateCriteriaForProcuringEntityDelegate(
             params = Params(
                 cpid = processInfo.cpid!!,
                 ocid = processInfo.ocid!!,
+                date = requestInfo.timestamp,
                 criteria = criteriaFromContext,
                 operationType = processInfo.operationType
             )

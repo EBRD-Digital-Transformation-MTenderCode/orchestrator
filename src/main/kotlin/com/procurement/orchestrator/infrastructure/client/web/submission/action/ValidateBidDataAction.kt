@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.procurement.orchestrator.application.service.ProceduralAction
 import com.procurement.orchestrator.domain.model.Cpid
+import com.procurement.orchestrator.domain.model.ProcurementMethodDetails
 import com.procurement.orchestrator.domain.model.bid.BidId
 import com.procurement.orchestrator.domain.model.document.DocumentId
 import com.procurement.orchestrator.domain.model.document.DocumentType
@@ -12,8 +13,13 @@ import com.procurement.orchestrator.domain.model.lot.LotId
 import com.procurement.orchestrator.domain.model.measure.Amount
 import com.procurement.orchestrator.domain.model.organization.datail.Scale
 import com.procurement.orchestrator.domain.model.organization.datail.TypeOfSupplier
+import com.procurement.orchestrator.domain.model.organization.person.BusinessFunctionId
 import com.procurement.orchestrator.domain.model.organization.person.BusinessFunctionType
 import com.procurement.orchestrator.domain.model.person.PersonId
+import com.procurement.orchestrator.domain.model.requirement.RequirementId
+import com.procurement.orchestrator.domain.model.requirement.RequirementResponseValue
+import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponseId
+import com.procurement.orchestrator.domain.model.requirement.response.evidence.EvidenceId
 import com.procurement.orchestrator.infrastructure.model.Version
 import java.time.LocalDateTime
 
@@ -23,10 +29,12 @@ abstract class ValidateBidDataAction : ProceduralAction<ValidateBidDataAction.Pa
 
     class Params(
         @param:JsonProperty("cpid") @field:JsonProperty("cpid") val cpid: Cpid,
+        @param:JsonProperty("pmd") @field:JsonProperty("pmd") val pmd: ProcurementMethodDetails,
         @param:JsonProperty("bids") @field:JsonProperty("bids") val bids: Bids,
         @param:JsonProperty("tender") @field:JsonProperty("tender") val tender: Tender
     ) {
         data class Bids(
+            @JsonInclude(JsonInclude.Include.NON_EMPTY)
             @param:JsonProperty("details") @field:JsonProperty("details") val details: List<Detail>
         ) {
             data class Detail(
@@ -35,7 +43,13 @@ abstract class ValidateBidDataAction : ProceduralAction<ValidateBidDataAction.Pa
                 @JsonInclude(JsonInclude.Include.NON_NULL)
                 @param:JsonProperty("value") @field:JsonProperty("value") val value: Value?,
 
+                @JsonInclude(JsonInclude.Include.NON_EMPTY)
+                @param:JsonProperty("requirementResponses") @field:JsonProperty("requirementResponses") val requirementResponses: List<RequirementResponse>?,
+
+                @JsonInclude(JsonInclude.Include.NON_EMPTY)
                 @param:JsonProperty("tenderers") @field:JsonProperty("tenderers") val tenderers: List<Tenderer>,
+
+                @JsonInclude(JsonInclude.Include.NON_EMPTY)
                 @param:JsonProperty("relatedLots") @field:JsonProperty("relatedLots") val relatedLots: List<LotId>,
 
                 @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -44,6 +58,59 @@ abstract class ValidateBidDataAction : ProceduralAction<ValidateBidDataAction.Pa
                 @JsonInclude(JsonInclude.Include.NON_EMPTY)
                 @param:JsonProperty("items") @field:JsonProperty("items") val items: List<Item>?
             ) {
+                data class RequirementResponse(
+                    @param:JsonProperty("id") @field:JsonProperty("id") val id: RequirementResponseId,
+
+                    @JsonInclude(JsonInclude.Include.NON_NULL)
+                    @param:JsonProperty("value") @field:JsonProperty("value") val value: RequirementResponseValue?,
+
+                    @JsonInclude(JsonInclude.Include.NON_NULL)
+                    @param:JsonProperty("requirement") @field:JsonProperty("requirement") val requirement: Requirement?,
+
+                    @JsonInclude(JsonInclude.Include.NON_NULL)
+                    @param:JsonProperty("relatedTenderer") @field:JsonProperty("relatedTenderer") val relatedTenderer: RelatedTenderer?,
+
+                    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+                    @param:JsonProperty("evidences") @field:JsonProperty("evidences") val evidences: List<Evidence>?,
+
+                    @JsonInclude(JsonInclude.Include.NON_NULL)
+                    @param:JsonProperty("period") @field:JsonProperty("period") val period: Period?
+                ) {
+                    data class Requirement(
+                        @param:JsonProperty("id") @field:JsonProperty("id") val id: RequirementId
+                    )
+
+                    data class RelatedTenderer(
+                        @JsonInclude(JsonInclude.Include.NON_NULL)
+                        @param:JsonProperty("name") @field:JsonProperty("name") val name: String?,
+
+                        @param:JsonProperty("id") @field:JsonProperty("id") val id: String
+                    )
+
+                    data class Evidence(
+                        @param:JsonProperty("id") @field:JsonProperty("id") val id: EvidenceId,
+                        @param:JsonProperty("title") @field:JsonProperty("title") val title: String,
+
+                        @JsonInclude(JsonInclude.Include.NON_NULL)
+                        @param:JsonProperty("description") @field:JsonProperty("description") val description: String?,
+
+                        @JsonInclude(JsonInclude.Include.NON_NULL)
+                        @param:JsonProperty("relatedDocument") @field:JsonProperty("relatedDocument") val relatedDocument: RelatedDocument?
+                    ) {
+                        data class RelatedDocument(
+                            @param:JsonProperty("id") @field:JsonProperty("id") val id: DocumentId
+                        )
+                    }
+
+                    data class Period(
+                        @field:JsonInclude(JsonInclude.Include.NON_NULL)
+                        @param:JsonProperty("startDate") @field:JsonProperty("startDate") val startDate: LocalDateTime?,
+
+                        @field:JsonInclude(JsonInclude.Include.NON_NULL)
+                        @param:JsonProperty("endDate") @field:JsonProperty("endDate") val endDate: LocalDateTime?
+                    )
+                }
+
                 data class Value(
                     @JsonInclude(JsonInclude.Include.NON_NULL)
                     @param:JsonProperty("amount") @field:JsonProperty("amount") val amount: Amount?,
@@ -172,6 +239,7 @@ abstract class ValidateBidDataAction : ProceduralAction<ValidateBidDataAction.Pa
                         @JsonInclude(JsonInclude.Include.NON_NULL)
                         @param:JsonProperty("identifier") @field:JsonProperty("identifier") val identifier: Identifier?,
 
+                        @JsonInclude(JsonInclude.Include.NON_EMPTY)
                         @param:JsonProperty("businessFunctions") @field:JsonProperty("businessFunctions") val businessFunctions: List<BusinessFunction>
                     ) {
                         data class Identifier(
@@ -183,7 +251,7 @@ abstract class ValidateBidDataAction : ProceduralAction<ValidateBidDataAction.Pa
                         )
 
                         data class BusinessFunction(
-                            @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
+                            @param:JsonProperty("id") @field:JsonProperty("id") val id: BusinessFunctionId,
 
                             @JsonInclude(JsonInclude.Include.NON_NULL)
                             @param:JsonProperty("type") @field:JsonProperty("type") val type: BusinessFunctionType?,
@@ -303,6 +371,7 @@ abstract class ValidateBidDataAction : ProceduralAction<ValidateBidDataAction.Pa
                             @JsonInclude(JsonInclude.Include.NON_NULL)
                             @param:JsonProperty("accountIdentification") @field:JsonProperty("accountIdentification") val accountIdentification: AccountIdentification?,
 
+                            @JsonInclude(JsonInclude.Include.NON_EMPTY)
                             @param:JsonProperty("additionalAccountIdentifiers") @field:JsonProperty("additionalAccountIdentifiers") val additionalAccountIdentifiers: List<AdditionalAccountIdentifier>
                         ) {
                             data class Address(
@@ -435,7 +504,7 @@ abstract class ValidateBidDataAction : ProceduralAction<ValidateBidDataAction.Pa
 
                 @JsonInclude(JsonInclude.Include.NON_NULL)
                 @param:JsonProperty("unit") @field:JsonProperty("unit") val unit: Unit?
-            ){
+            ) {
                 data class Unit(
                     @JsonInclude(JsonInclude.Include.NON_NULL)
                     @param:JsonProperty("id") @field:JsonProperty("id") val id: String?

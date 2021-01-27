@@ -37,14 +37,16 @@ abstract class FindAwardsForProtocolAction :
     class Result(
         @param:JsonProperty("awards") @field:JsonProperty("awards") val awards: List<Award>
     ) : Serializable {
+
         data class Award(
             @param:JsonProperty("id") @field:JsonProperty("id") val id: AwardId,
             @param:JsonProperty("suppliers") @field:JsonProperty("suppliers") val suppliers: List<Supplier>
         ) : Serializable {
+
             data class Supplier(
                 @param:JsonProperty("id") @field:JsonProperty("id") val id: OrganizationId,
                 @param:JsonProperty("name") @field:JsonProperty("name") val name: String
-            )
+            ) : Serializable
         }
     }
 }

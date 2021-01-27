@@ -30,6 +30,8 @@ import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRequ
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRequirementGroupsAction
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRequirements
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRequirementsAction
+import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetStandardCriteria
+import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetStandardCriteriaAction
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetUnit
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
 import com.procurement.orchestrator.infrastructure.model.Version
@@ -175,6 +177,26 @@ class HttpMdmClient(
     }
 
     private fun getCriteriaEndpoint(): String = "$baseUrl/criteria"
+
+    override suspend fun getStandardCriteria(params: GetStandardCriteriaAction.Params): Result<GetStandardCriteria.Result.Success, Fail.Incident> {
+        val httpUrl: HttpUrl = getStandardCriteriaEndpoint()
+            .toHttpUrl()
+            .newBuilder()
+            .apply {
+                addQueryParameter("lang", params.lang)
+                addQueryParameter("country", params.country)
+                params.mainProcurementCategory?.let { addQueryParameter("mainProcurementCategory", it.toString()) }
+                params.criteriaCategory?.let { addQueryParameter("criteriaCategory", it) }
+            }
+            .build()
+
+        val response = restClient.call(url = httpUrl)
+            .orForwardFail { error -> return error }
+
+        return processGetStandardCriteria(response, transform)
+    }
+
+    private fun getStandardCriteriaEndpoint(): String = "$baseUrl/standardCriteria"
 
     override suspend fun getRequirements(params: GetRequirementsAction.Params): Result<GetRequirements.Result.Success, Fail.Incident> {
 
@@ -452,7 +474,69 @@ class HttpMdmClient(
                             GetCriteria.Result.Success.Criterion(
                                 id = criterion.id,
                                 title = criterion.title,
-                                description = criterion.description
+                                description = criterion.description,
+                                classification = criterion.classification.let { classification ->
+                                    GetCriteria.Result.Success.Criterion.Classification(
+                                        id = classification.id,
+                                        scheme = classification.scheme
+                                    )
+                                }
+                            )
+                        }
+                        .orEmpty()
+                )
+            }
+            .asSuccess()
+
+        else -> failure(Fail.Incident.BadResponse(description = "Invalid response code.", body = response.content))
+
+    }
+
+    private fun processGetStandardCriteria(
+        response: CallResponse,
+        transform: Transform
+    ): Result<GetStandardCriteria.Result.Success, Fail.Incident> = when (response.code) {
+        HTTP_CODE_200 -> transform
+            .tryDeserialization(
+                value = response.content,
+                target = GetStandardCriteriaAction.Response.Success::class.java
+            )
+            .orReturnFail { fail ->
+                return failure(
+                    Fail.Incident.BadResponse(description = fail.description, body = response.content)
+                )
+            }
+            .let { result ->
+                GetStandardCriteria.Result.Success(
+                    criteria = result.data
+                        ?.map { criterion ->
+                            GetStandardCriteria.Result.Success.Criterion(
+                                id = criterion.id,
+                                title = criterion.title,
+                                description = criterion.description,
+                                classification = criterion.classification
+                                    .let { classification ->
+                                        GetStandardCriteria.Result.Success.Criterion.Classification(
+                                            id = classification.id,
+                                            scheme = classification.scheme
+                                        )
+                                    },
+                                requirementGroups = criterion.requirementGroups
+                                    .map { requirementGroup ->
+                                        GetStandardCriteria.Result.Success.Criterion.RequirementGroup(
+                                            id = requirementGroup.id,
+                                            description = requirementGroup.description,
+                                            requirements = requirementGroup.requirements
+                                                .map { requirement ->
+                                                    GetStandardCriteria.Result.Success.Criterion.RequirementGroup.Requirement(
+                                                        id = requirement.id,
+                                                        description = requirement.description,
+                                                        title = requirement.title,
+                                                        dataType = requirement.dataType
+                                                    )
+                                                }
+                                        )
+                                    }
                             )
                         }
                         .orEmpty()
@@ -578,5 +662,4 @@ class HttpMdmClient(
         else -> failure(Fail.Incident.BadResponse(description = "Invalid response code.", body = response.content))
 
     }
-
 }

@@ -28,6 +28,9 @@ class RequirementsSerializer : JsonSerializer<Requirements>() {
                 requirementNode.put("id", requirement.id)
                 requirementNode.put("title", requirement.title)
 
+                requirement.status?.let { requirementNode.put("status", it.key) }
+                requirement.datePublished?.let { requirementNode.put("datePublished", JsonDateTimeSerializer.serialize(it)) }
+
                 requirement.dataType?.let { requirementNode.put("dataType", it.key) }
 
                 requirement.description?.let { requirementNode.put("description", it) }
@@ -37,6 +40,24 @@ class RequirementsSerializer : JsonSerializer<Requirements>() {
                         .put("endDate", JsonDateTimeSerializer.serialize(it.endDate))
                 }
 
+                if (requirement.eligibleEvidences.isNotEmpty()) {
+                    val eligibleEvidencesNode = requirementNode.putArray("eligibleEvidences")
+                    requirement.eligibleEvidences.map {
+                        val eligibleEvidenceNode = JsonNodeFactory.withExactBigDecimals(true).objectNode()
+
+                        eligibleEvidenceNode.put("id", it.id)
+                        eligibleEvidenceNode.put("title", it.title)
+                        it.description?.let { description -> eligibleEvidenceNode.put("description", description) }
+                        eligibleEvidenceNode.put("type", it.type.key)
+
+                        it.relatedDocument?.let { relatedDocument ->
+                            eligibleEvidenceNode.putObject("relatedDocument")
+                                .put("id", relatedDocument.id.toString())
+                        }
+
+                        eligibleEvidencesNode.add(eligibleEvidenceNode)
+                    }
+                }
 
                 when (requirement.value) {
 

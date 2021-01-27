@@ -41,9 +41,9 @@ class AccessFindCriteriaDelegate(
     }
 
     override fun parameters(parameterContainer: ParameterContainer): Result<Parameters, Fail.Incident.Bpmn.Parameter> {
-        val source: CriteriaSource = parameterContainer.getString(PARAMETER_NAME_SOURCE)
+        val source: List<CriteriaSource> = parameterContainer.getListString(PARAMETER_NAME_SOURCE)
             .orForwardFail { fail -> return fail }
-            .let { source ->
+            .map { source ->
                 CriteriaSource.orNull(source)
                     ?: return Result.failure(
                         Fail.Incident.Bpmn.Parameter.UnknownValue(
@@ -116,5 +116,5 @@ class AccessFindCriteriaDelegate(
         return MaybeFail.none()
     }
 
-    data class Parameters(val source: CriteriaSource)
+    data class Parameters(val source: List<CriteriaSource>)
 }

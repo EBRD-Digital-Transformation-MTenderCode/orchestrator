@@ -12,6 +12,7 @@ import com.procurement.orchestrator.domain.model.bid.Bids
 import com.procurement.orchestrator.domain.model.contract.Contracts
 import com.procurement.orchestrator.domain.model.contract.RelatedProcesses
 import com.procurement.orchestrator.domain.model.invitation.Invitations
+import com.procurement.orchestrator.domain.model.mdm.ProcessMasterData
 import com.procurement.orchestrator.domain.model.party.Parties
 import com.procurement.orchestrator.domain.model.qualification.PreQualification
 import com.procurement.orchestrator.domain.model.qualification.Qualifications
@@ -77,4 +78,8 @@ interface GlobalContext {
     @get:JsonInclude(JsonInclude.Include.NON_EMPTY)
     @get:JsonProperty("relatedProcesses")
     var relatedProcesses: RelatedProcesses
+
+    @get:JsonInclude(JsonInclude.Include.NON_EMPTY)
+    @get:JsonProperty("processMasterData")
+    var processMasterData: ProcessMasterData?
 }
