@@ -15,6 +15,7 @@ import com.procurement.orchestrator.infrastructure.client.web.requisition.action
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.FindItemsByLotIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.FindProcurementMethodModalitiesAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.GetCurrencyAction
+import com.procurement.orchestrator.infrastructure.client.web.requisition.action.GetOcidFromRelatedProcessAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.GetTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.SetStateForLotsAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.ValidatePcrDataAction
@@ -137,5 +138,14 @@ class HttpRequisitionClient(private val webClient: WebClient, properties: Compon
         url = url,
         command = RequisitionCommands.FindCriteriaAndTargetsForPacs.build(id = id, params = params),
         target = RequisitionCommands.FindCriteriaAndTargetsForPacs.target
+    )
+
+    override suspend fun fetOcidFromRelatedProcess(
+        id: CommandId,
+        params: GetOcidFromRelatedProcessAction.Params
+    ): Result<Reply<GetOcidFromRelatedProcessAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = RequisitionCommands.GetOcidFromRelatedProcess.build(id = id, params = params),
+        target = RequisitionCommands.GetOcidFromRelatedProcess.target
     )
 }
