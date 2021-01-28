@@ -65,6 +65,7 @@ class RevisionCreateAmendmentDelegate(
 
             OperationTypeProcess.APPLY_QUALIFICATION_PROTOCOL,
             OperationTypeProcess.COMPLETE_QUALIFICATION,
+            OperationTypeProcess.COMPLETE_SOURCING,
             OperationTypeProcess.CREATE_AWARD,
             OperationTypeProcess.CREATE_PCR,
             OperationTypeProcess.CREATE_SUBMISSION,

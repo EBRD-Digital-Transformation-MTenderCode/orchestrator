@@ -368,6 +368,7 @@ class DossierGetSubmissionsForTenderingDelegate(
             OperationTypeProcess.WITHDRAW_QUALIFICATION_PROTOCOL,
             OperationTypeProcess.WITHDRAW_SUBMISSION -> PartyRoles(PartyRole.INVITED_TENDERER).asSuccess()
 
+            OperationTypeProcess.COMPLETE_SOURCING,
             OperationTypeProcess.DIVIDE_LOT,
             OperationTypeProcess.PCR_PROTOCOL,
             OperationTypeProcess.SUBMIT_BID,
