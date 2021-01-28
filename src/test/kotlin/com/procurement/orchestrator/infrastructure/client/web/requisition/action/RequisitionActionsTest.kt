@@ -60,6 +60,11 @@ class RequisitionActionsTest {
             fun required_2() {
                 testingBindingAndMapping<CreatePcrAction.Result>("json/client/requisition/create_pcr_result_required_2.json")
             }
+
+            @Test
+            fun required_3() {
+                testingBindingAndMapping<CreatePcrAction.Result>("json/client/requisition/create_pcr_result_required_3.json")
+            }
         }
     }
 

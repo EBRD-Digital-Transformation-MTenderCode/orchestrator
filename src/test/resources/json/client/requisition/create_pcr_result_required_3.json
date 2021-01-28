@@ -34,35 +34,6 @@
         ],
         "status": "active"
       }
-    ],
-    "criteria": [
-      {
-        "id": "string",
-        "title": "string",
-        "relatesTo": "lot",
-        "source": "tenderer",
-        "requirementGroups": [
-          {
-            "id": "string",
-            "requirements": [
-              {
-                "id": "d3732c09-7d62-4edc-a172-241da6636e7c",
-                "title": "string",
-                "period": {
-                  "startDate": "2019-05-06T12:00:00Z",
-                  "endDate": "2019-05-09T12:00:00Z"
-                },
-                "dataType": "string",
-                "expectedValue": "string"
-              }
-            ]
-          }
-        ],
-        "classification": {
-          "id": "string",
-          "scheme": "string"
-        }
-      }
     ]
   },
   "relatedProcesses": [

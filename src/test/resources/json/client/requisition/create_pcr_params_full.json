@@ -93,11 +93,26 @@
                   "endDate": "2019-05-09T12:00:00Z"
                 },
                 "dataType": "string",
-                "expectedValue": "string"
+                "expectedValue": "string",
+                "eligibleEvidences": [
+                  {
+                    "id": "string",
+                    "title": "string",
+                    "description": "string",
+                    "type": "reference",
+                    "relatedDocument": {
+                      "id": "string"
+                    }
+                  }
+                ]
               }
             ]
           }
-        ]
+        ],
+        "classification": {
+          "id": "string",
+          "scheme": "string"
+        }
       }
     ],
     "conversions": [
