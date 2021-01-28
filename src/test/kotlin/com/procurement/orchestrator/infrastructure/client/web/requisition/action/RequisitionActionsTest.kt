@@ -277,4 +277,23 @@ class RequisitionActionsTest {
         }
     }
 
+    @Nested
+    inner class GetOcidFromRelatedProcess{
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetOcidFromRelatedProcessAction.Params>("json/client/requisition/get_ocid_from_related_process_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result{
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetOcidFromRelatedProcessAction.Result>("json/client/requisition/get_ocid_from_related_process_result_full.json")
+            }
+        }
+    }
+
 }
