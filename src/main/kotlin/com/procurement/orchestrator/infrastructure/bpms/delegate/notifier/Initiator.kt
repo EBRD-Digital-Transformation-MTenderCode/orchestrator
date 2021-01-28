@@ -23,6 +23,7 @@ enum class Initiator(@JsonValue override val key: String) : EnumElementProvider.
 fun initiator(operationType: OperationTypeProcess): Initiator = when (operationType) {
     OperationTypeProcess.APPLY_QUALIFICATION_PROTOCOL -> Initiator.PLATFORM
     OperationTypeProcess.COMPLETE_QUALIFICATION -> Initiator.PLATFORM
+    OperationTypeProcess.COMPLETE_SOURCING -> Initiator.PLATFORM
     OperationTypeProcess.CREATE_AWARD -> Initiator.PLATFORM
     OperationTypeProcess.CREATE_PCR -> Initiator.PLATFORM
     OperationTypeProcess.CREATE_SUBMISSION -> Initiator.PLATFORM
@@ -30,11 +31,11 @@ fun initiator(operationType: OperationTypeProcess): Initiator = when (operationT
     OperationTypeProcess.DIVIDE_LOT -> Initiator.PLATFORM
     OperationTypeProcess.LOT_CANCELLATION -> Initiator.PLATFORM
     OperationTypeProcess.OUTSOURCING_PN -> Initiator.PLATFORM
+    OperationTypeProcess.PCR_PROTOCOL -> Initiator.PLATFORM
     OperationTypeProcess.QUALIFICATION -> Initiator.PLATFORM
     OperationTypeProcess.QUALIFICATION_CONSIDERATION -> Initiator.PLATFORM
     OperationTypeProcess.QUALIFICATION_DECLARE_NON_CONFLICT_OF_INTEREST -> Initiator.PLATFORM
     OperationTypeProcess.QUALIFICATION_PROTOCOL -> Initiator.PLATFORM
-    OperationTypeProcess.PCR_PROTOCOL -> Initiator.PLATFORM
     OperationTypeProcess.RELATION_AP -> Initiator.PLATFORM
     OperationTypeProcess.START_AWARD_PERIOD -> Initiator.PLATFORM
     OperationTypeProcess.START_SECOND_STAGE -> Initiator.PLATFORM
@@ -45,7 +46,7 @@ fun initiator(operationType: OperationTypeProcess): Initiator = when (operationT
     OperationTypeProcess.TENDER_OR_LOT_AMENDMENT_CANCELLATION,
     OperationTypeProcess.TENDER_OR_LOT_AMENDMENT_CONFIRMATION -> Initiator.PLATFORM
     OperationTypeProcess.UPDATE_AWARD -> Initiator.PLATFORM
+    OperationTypeProcess.WITHDRAW_PCR_PROTOCOL -> Initiator.PLATFORM
     OperationTypeProcess.WITHDRAW_QUALIFICATION_PROTOCOL -> Initiator.PLATFORM
     OperationTypeProcess.WITHDRAW_SUBMISSION -> Initiator.PLATFORM
-
 }

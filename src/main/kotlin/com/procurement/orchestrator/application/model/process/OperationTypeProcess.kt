@@ -8,6 +8,7 @@ enum class OperationTypeProcess(@JsonValue override val key: String) : EnumEleme
 
     APPLY_QUALIFICATION_PROTOCOL("applyQualificationProtocol"),
     COMPLETE_QUALIFICATION("completeQualification"),
+    COMPLETE_SOURCING("completeSourcing"),
     CREATE_AWARD("createAward"),
     CREATE_PCR("createPcr"),
     CREATE_SUBMISSION("createSubmission"),
@@ -15,11 +16,11 @@ enum class OperationTypeProcess(@JsonValue override val key: String) : EnumEleme
     DIVIDE_LOT("divideLot"),
     LOT_CANCELLATION("lotCancellation"),
     OUTSOURCING_PN("outsourcingPN"),
+    PCR_PROTOCOL("pcrProtocol"),
     QUALIFICATION("qualification"),
     QUALIFICATION_CONSIDERATION("qualificationConsideration"),
     QUALIFICATION_DECLARE_NON_CONFLICT_OF_INTEREST("qualificationDeclareNonConflictOfInterest"),
     QUALIFICATION_PROTOCOL("qualificationProtocol"),
-    PCR_PROTOCOL("pcrProtocol"),
     RELATION_AP("relationAP"),
     START_AWARD_PERIOD("startAwardPeriod"),
     START_SECOND_STAGE("startSecondStage"),
@@ -30,6 +31,7 @@ enum class OperationTypeProcess(@JsonValue override val key: String) : EnumEleme
     TENDER_OR_LOT_AMENDMENT_CANCELLATION("tenderOrLotAmendmentCancellation"),
     TENDER_OR_LOT_AMENDMENT_CONFIRMATION("tenderOrLotAmendmentConfirmation"),
     UPDATE_AWARD("updateAward"),
+    WITHDRAW_PCR_PROTOCOL("withdrawPcrProtocol"),
     WITHDRAW_QUALIFICATION_PROTOCOL("withdrawQualificationProtocol"),
     WITHDRAW_SUBMISSION("withdrawSubmission");
 
