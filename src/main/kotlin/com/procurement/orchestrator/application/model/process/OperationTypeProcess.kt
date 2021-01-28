@@ -9,6 +9,7 @@ enum class OperationTypeProcess(@JsonValue override val key: String) : EnumEleme
     APPLY_QUALIFICATION_PROTOCOL("applyQualificationProtocol"),
     COMPLETE_QUALIFICATION("completeQualification"),
     CREATE_AWARD("createAward"),
+    COMPLETE_SOURCING("completeSourcing"),
     CREATE_PCR("createPcr"),
     CREATE_SUBMISSION("createSubmission"),
     DECLARE_NON_CONFLICT_OF_INTEREST("declareNonConflictOfInterest"),
