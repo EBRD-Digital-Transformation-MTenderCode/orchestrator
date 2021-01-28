@@ -19,18 +19,18 @@ import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContai
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.contracting.ContractingCommands
-import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreatePacsAction
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.DoPacsAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.toDomain
 import com.procurement.orchestrator.infrastructure.configuration.property.ExternalServiceName
 import org.springframework.stereotype.Component
 
 @Component
-class ContractingCreatePacsDelegate(
+class ContractingDoPacsDelegate(
     logger: Logger,
     private val contractingClient: ContractingClient,
     operationStepRepository: OperationStepRepository,
     transform: Transform
-) : AbstractExternalDelegate<Unit, CreatePacsAction.Result>(
+) : AbstractExternalDelegate<Unit, DoPacsAction.Result>(
     logger = logger,
     transform = transform,
     operationStepRepository = operationStepRepository
@@ -43,7 +43,7 @@ class ContractingCreatePacsDelegate(
         commandId: CommandId,
         context: CamundaGlobalContext,
         parameters: Unit
-    ): Result<Reply<CreatePacsAction.Result>, Fail.Incident> {
+    ): Result<Reply<DoPacsAction.Result>, Fail.Incident> {
 
         val processInfo = context.processInfo
         val requestInfo = context.requestInfo
@@ -51,18 +51,18 @@ class ContractingCreatePacsDelegate(
         val tender = context.tryGetTender()
             .orForwardFail { return it }
 
-        return contractingClient.createPacs(
+        return contractingClient.doPacs(
             id = commandId,
-            params = CreatePacsAction.Params(
+            params = DoPacsAction.Params(
                 cpid = processInfo.cpid!!,
                 ocid = processInfo.ocid!!,
                 date = requestInfo.timestamp,
                 owner = requestInfo.owner,
                 awards = context.awards.map { award ->
-                    CreatePacsAction.Params.Award(
+                    DoPacsAction.Params.Award(
                         id = award.id,
                         suppliers = award.suppliers.map { supplier ->
-                            CreatePacsAction.Params.Award.Supplier(
+                            DoPacsAction.Params.Award.Supplier(
                                 id = supplier.id,
                                 name = supplier.name
                             )
@@ -71,30 +71,30 @@ class ContractingCreatePacsDelegate(
                 },
                 bids = context.bids?.details
                     ?.map { bid ->
-                        CreatePacsAction.Params.Bids.Detail(
+                        DoPacsAction.Params.Bids.Detail(
                             id = bid.id,
                             tenderers = bid.tenderers
                                 .map { tenderer ->
-                                    CreatePacsAction.Params.Bids.Detail.Tenderer(
+                                    DoPacsAction.Params.Bids.Detail.Tenderer(
                                         id = tenderer.id,
                                         name = tenderer.name
                                     )
                                 },
                             requirementResponses = bid.requirementResponses
                                 .map { requirementResponse ->
-                                    CreatePacsAction.Params.Bids.Detail.RequirementResponse(
+                                    DoPacsAction.Params.Bids.Detail.RequirementResponse(
                                         id = requirementResponse.id,
                                         value = requirementResponse.value,
                                         period = requirementResponse.period
                                             ?.let { period ->
-                                                CreatePacsAction.Params.Bids.Detail.RequirementResponse.Period(
+                                                DoPacsAction.Params.Bids.Detail.RequirementResponse.Period(
                                                     startDate = period.startDate,
                                                     endDate = period.endDate
                                                 )
                                             },
                                         requirement = requirementResponse.requirement
                                             ?.let { requirement ->
-                                                CreatePacsAction.Params.Bids.Detail.RequirementResponse.Requirement(
+                                                DoPacsAction.Params.Bids.Detail.RequirementResponse.Requirement(
                                                     requirement.id
                                                 )
                                             }
@@ -102,23 +102,23 @@ class ContractingCreatePacsDelegate(
                                 }
                         )
                     }
-                    ?.let { CreatePacsAction.Params.Bids(it) },
+                    ?.let { DoPacsAction.Params.Bids(it) },
                 tender = tender.let { tender ->
-                    CreatePacsAction.Params.Tender(
+                    DoPacsAction.Params.Tender(
                         lots = tender.lots.map { lot ->
-                            CreatePacsAction.Params.Tender.Lot(lot.id)
+                            DoPacsAction.Params.Tender.Lot(lot.id)
                         },
                         criteria = tender.criteria.map { criterion ->
-                            CreatePacsAction.Params.Tender.Criteria(
+                            DoPacsAction.Params.Tender.Criteria(
                                 id = criterion.id,
                                 title = criterion.title,
                                 relatedItem = criterion.relatedItem,
                                 relatesTo = criterion.relatesTo,
                                 requirementGroups = criterion.requirementGroups.map { requirementGroup ->
-                                    CreatePacsAction.Params.Tender.Criteria.RequirementGroup(
+                                    DoPacsAction.Params.Tender.Criteria.RequirementGroup(
                                         id = requirementGroup.id,
                                         requirements = requirementGroup.requirements.map { requirement ->
-                                            CreatePacsAction.Params.Tender.Criteria.RequirementGroup.Requirement(
+                                            DoPacsAction.Params.Tender.Criteria.RequirementGroup.Requirement(
                                                 id = requirement.id,
                                                 title = requirement.title
                                             )
@@ -128,14 +128,14 @@ class ContractingCreatePacsDelegate(
                             )
                         },
                         targets = tender.targets.map { target ->
-                            CreatePacsAction.Params.Tender.Target(
+                            DoPacsAction.Params.Tender.Target(
                                 id = target.id,
                                 observations = target.observations.map { observation ->
-                                    CreatePacsAction.Params.Tender.Target.Observation(
+                                    DoPacsAction.Params.Tender.Target.Observation(
                                         id = observation.id,
                                         relatedRequirementId = observation.relatedRequirementId,
                                         unit = observation.unit?.let { unit ->
-                                            CreatePacsAction.Params.Tender.Target.Observation.Unit(
+                                            DoPacsAction.Params.Tender.Target.Observation.Unit(
                                                 id = unit.id,
                                                 name = unit.name
                                             )
@@ -154,14 +154,14 @@ class ContractingCreatePacsDelegate(
     override fun updateGlobalContext(
         context: CamundaGlobalContext,
         parameters: Unit,
-        result: Option<CreatePacsAction.Result>
+        result: Option<DoPacsAction.Result>
     ): MaybeFail<Fail.Incident> {
 
         val data = result.orNull
             ?: return MaybeFail.fail(
                 Fail.Incident.Response.Empty(
                     ExternalServiceName.CONTRACTING,
-                    ContractingCommands.CreatePacs
+                    ContractingCommands.DoPacs
                 )
             )
 
