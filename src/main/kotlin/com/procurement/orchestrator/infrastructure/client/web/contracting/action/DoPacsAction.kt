@@ -28,10 +28,10 @@ import com.procurement.orchestrator.infrastructure.client.web.Target
 import com.procurement.orchestrator.infrastructure.model.Version
 import java.time.LocalDateTime
 
-abstract class CreatePacsAction : FunctionalAction<CreatePacsAction.Params, CreatePacsAction.Result> {
+abstract class DoPacsAction : FunctionalAction<DoPacsAction.Params, DoPacsAction.Result> {
 
     override val version: Version = Version.parse("2.0.0")
-    override val name: String = "createPacs"
+    override val name: String = "doPacs"
     override val target: Target<Result> = Target.single()
 
     data class Params(
@@ -241,7 +241,7 @@ abstract class CreatePacsAction : FunctionalAction<CreatePacsAction.Params, Crea
     }
 }
 
-fun CreatePacsAction.Result.Contract.toDomain(): com.procurement.orchestrator.domain.model.contract.Contract {
+fun DoPacsAction.Result.Contract.toDomain(): com.procurement.orchestrator.domain.model.contract.Contract {
     return com.procurement.orchestrator.domain.model.contract.Contract(
         id = id,
         status = status,

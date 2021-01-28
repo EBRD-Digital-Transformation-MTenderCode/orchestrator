@@ -72,28 +72,28 @@ class ContractingActionsTest {
     }
 
     @Nested
-    inner class CreatePacs {
+    inner class DoPacs {
 
         @Nested
         inner class Params {
             @Test
             fun fully() {
-                testingBindingAndMapping<CreatePacsAction.Params>("json/client/contracting/create_pacs_params_fully.json")
+                testingBindingAndMapping<DoPacsAction.Params>("json/client/contracting/do_pacs_params_fully.json")
             }
 
             @Test
             fun requires_1() {
-                testingBindingAndMapping<CreatePacsAction.Params>("json/client/contracting/create_pacs_params_required_1.json")
+                testingBindingAndMapping<DoPacsAction.Params>("json/client/contracting/do_pacs_params_required_1.json")
             }
 
             @Test
             fun requires_2() {
-                testingBindingAndMapping<CreatePacsAction.Params>("json/client/contracting/create_pacs_params_required_2.json")
+                testingBindingAndMapping<DoPacsAction.Params>("json/client/contracting/do_pacs_params_required_2.json")
             }
 
             @Test
             fun requires_3() {
-                testingBindingAndMapping<CreatePacsAction.Params>("json/client/contracting/create_pacs_params_required_3.json")
+                testingBindingAndMapping<DoPacsAction.Params>("json/client/contracting/do_pacs_params_required_3.json")
             }
         }
 
@@ -101,17 +101,17 @@ class ContractingActionsTest {
         inner class Result{
             @Test
             fun fully(){
-                testingBindingAndMapping<CreatePacsAction.Result>("json/client/contracting/create_pacs_result_full.json")
+                testingBindingAndMapping<DoPacsAction.Result>("json/client/contracting/do_pacs_result_full.json")
             }
 
             @Test
             fun required1(){
-                testingBindingAndMapping<CreatePacsAction.Result>("json/client/contracting/create_pacs_result_required_1.json")
+                testingBindingAndMapping<DoPacsAction.Result>("json/client/contracting/do_pacs_result_required_1.json")
             }
 
             @Test
             fun required2(){
-                testingBindingAndMapping<CreatePacsAction.Result>("json/client/contracting/create_pacs_result_required_2.json")
+                testingBindingAndMapping<DoPacsAction.Result>("json/client/contracting/do_pacs_result_required_2.json")
             }
         }
     }
