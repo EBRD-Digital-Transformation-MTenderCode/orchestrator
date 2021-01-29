@@ -9,6 +9,7 @@ import com.procurement.orchestrator.infrastructure.client.web.requisition.action
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.FindItemsByLotIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.FindProcurementMethodModalitiesAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.GetCurrencyAction
+import com.procurement.orchestrator.infrastructure.client.web.requisition.action.GetOcidFromRelatedProcessAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.GetTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.SetStateForLotsAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.ValidatePcrDataAction
@@ -41,4 +42,6 @@ object RequisitionCommands {
     object SetStateForLots: SetStateForLotsAction()
 
     object FindCriteriaAndTargetsForPacs: FindCriteriaAndTargetsForPacsAction()
+
+    object GetOcidFromRelatedProcess: GetOcidFromRelatedProcessAction()
 }

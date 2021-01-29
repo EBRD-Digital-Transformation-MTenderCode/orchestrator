@@ -13,6 +13,7 @@ import com.procurement.orchestrator.infrastructure.client.web.requisition.action
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.FindItemsByLotIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.FindProcurementMethodModalitiesAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.GetCurrencyAction
+import com.procurement.orchestrator.infrastructure.client.web.requisition.action.GetOcidFromRelatedProcessAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.GetTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.SetStateForLotsAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.ValidatePcrDataAction
@@ -82,4 +83,9 @@ interface RequisitionClient {
         id: CommandId,
         params: FindCriteriaAndTargetsForPacsAction.Params
     ): Result<Reply<FindCriteriaAndTargetsForPacsAction.Result>, Fail.Incident>
+
+    suspend fun fetOcidFromRelatedProcess(
+        id: CommandId,
+        params: GetOcidFromRelatedProcessAction.Params
+    ): Result<Reply<GetOcidFromRelatedProcessAction.Result>, Fail.Incident>
 }
