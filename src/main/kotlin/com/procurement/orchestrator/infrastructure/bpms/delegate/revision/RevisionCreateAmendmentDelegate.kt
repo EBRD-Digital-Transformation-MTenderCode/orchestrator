@@ -65,16 +65,19 @@ class RevisionCreateAmendmentDelegate(
 
             OperationTypeProcess.APPLY_QUALIFICATION_PROTOCOL,
             OperationTypeProcess.COMPLETE_QUALIFICATION,
+            OperationTypeProcess.COMPLETE_SOURCING,
             OperationTypeProcess.CREATE_AWARD,
             OperationTypeProcess.CREATE_PCR,
             OperationTypeProcess.CREATE_SUBMISSION,
             OperationTypeProcess.DECLARE_NON_CONFLICT_OF_INTEREST,
             OperationTypeProcess.DIVIDE_LOT,
+            OperationTypeProcess.OUTSOURCING_PN,
+            OperationTypeProcess.PCR_PROTOCOL,
             OperationTypeProcess.QUALIFICATION,
             OperationTypeProcess.QUALIFICATION_CONSIDERATION,
             OperationTypeProcess.QUALIFICATION_DECLARE_NON_CONFLICT_OF_INTEREST,
             OperationTypeProcess.QUALIFICATION_PROTOCOL,
-            OperationTypeProcess.PCR_PROTOCOL,
+            OperationTypeProcess.RELATION_AP,
             OperationTypeProcess.START_AWARD_PERIOD,
             OperationTypeProcess.START_SECOND_STAGE,
             OperationTypeProcess.SUBMISSION_PERIOD_END,
@@ -83,10 +86,9 @@ class RevisionCreateAmendmentDelegate(
             OperationTypeProcess.TENDER_OR_LOT_AMENDMENT_CANCELLATION,
             OperationTypeProcess.TENDER_OR_LOT_AMENDMENT_CONFIRMATION,
             OperationTypeProcess.UPDATE_AWARD,
+            OperationTypeProcess.WITHDRAW_PCR_PROTOCOL,
             OperationTypeProcess.WITHDRAW_QUALIFICATION_PROTOCOL,
-            OperationTypeProcess.WITHDRAW_SUBMISSION,
-            OperationTypeProcess.OUTSOURCING_PN,
-            OperationTypeProcess.RELATION_AP ->
+            OperationTypeProcess.WITHDRAW_SUBMISSION ->
                 return failure(Fail.Incident.Bpe(description = "Operation type: '${processInfo.operationType.key}' in this delegate do not implemented."))
         }
 
