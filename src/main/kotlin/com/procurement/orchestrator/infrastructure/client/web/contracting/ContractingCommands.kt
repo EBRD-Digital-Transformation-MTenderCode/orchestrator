@@ -4,10 +4,13 @@ import com.procurement.orchestrator.infrastructure.client.web.contracting.action
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreateFrameworkContractAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.DoPacsAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.FindCANIdsAction
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.FindSupplierReferencesOfActivePacsAction
 
 object ContractingCommands {
 
     object FindCANIds : FindCANIdsAction()
+
+    object FindSupplierReferencesOfActivePacs : FindSupplierReferencesOfActivePacsAction()
 
     object CreateFrameworkContract : CreateFrameworkContractAction()
 

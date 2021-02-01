@@ -8,6 +8,7 @@ import com.procurement.orchestrator.infrastructure.client.web.contracting.action
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreateFrameworkContractAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.DoPacsAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.FindCANIdsAction
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.FindSupplierReferencesOfActivePacsAction
 
 interface ContractingClient {
 
@@ -15,6 +16,11 @@ interface ContractingClient {
         id: CommandId,
         params: FindCANIdsAction.Params
     ): Result<Reply<FindCANIdsAction.Result>, Fail.Incident>
+
+    suspend fun findSupplierReferencesOfActivePacs(
+        id: CommandId,
+        params: FindSupplierReferencesOfActivePacsAction.Params
+    ): Result<Reply<FindSupplierReferencesOfActivePacsAction.Result>, Fail.Incident>
 
     suspend fun createFrameworkContract(
         id: CommandId,

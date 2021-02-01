@@ -10,6 +10,7 @@ import com.procurement.orchestrator.infrastructure.client.web.contracting.action
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreateFrameworkContractAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.DoPacsAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.FindCANIdsAction
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.FindSupplierReferencesOfActivePacsAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
 import java.net.URL
 
@@ -23,6 +24,13 @@ class HttpContractingClient(private val webClient: WebClient, properties: Compon
         url = url,
         command = ContractingCommands.FindCANIds.build(id = id, params = params),
         target = ContractingCommands.FindCANIds.target
+    )
+
+    override suspend fun findSupplierReferencesOfActivePacs(id: CommandId, params: FindSupplierReferencesOfActivePacsAction.Params):
+        Result<Reply<FindSupplierReferencesOfActivePacsAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = ContractingCommands.FindSupplierReferencesOfActivePacs.build(id = id, params = params),
+        target = ContractingCommands.FindSupplierReferencesOfActivePacs.target
     )
 
     override suspend fun createFrameworkContract(id: CommandId, params: CreateFrameworkContractAction.Params):

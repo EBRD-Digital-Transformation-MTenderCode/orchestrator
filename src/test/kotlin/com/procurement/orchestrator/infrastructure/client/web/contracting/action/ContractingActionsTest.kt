@@ -32,6 +32,36 @@ class ContractingActionsTest {
     }
 
     @Nested
+    inner class FindSupplierReferencesOfActivePacs {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<FindSupplierReferencesOfActivePacsAction.Params>("json/client/contracting/find_supplier_references_of_active_pacs_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result{
+            @Test
+            fun fully(){
+                testingBindingAndMapping<FindSupplierReferencesOfActivePacsAction.Result>("json/client/contracting/find_supplier_references_of_active_pacs_result_full.json")
+            }
+
+            @Test
+            fun required1(){
+                testingBindingAndMapping<FindSupplierReferencesOfActivePacsAction.Result>("json/client/contracting/find_supplier_references_of_active_pacs_result_required_1.json")
+            }
+
+            @Test
+            fun required2(){
+                testingBindingAndMapping<FindSupplierReferencesOfActivePacsAction.Result>("json/client/contracting/find_supplier_references_of_active_pacs_result_required_2.json")
+            }
+        }
+    }
+
+    @Nested
     inner class CreateContract {
 
         @Nested
