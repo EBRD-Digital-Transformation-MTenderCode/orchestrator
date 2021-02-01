@@ -13,6 +13,7 @@ import com.procurement.orchestrator.domain.model.organization.person.BusinessFun
 import com.procurement.orchestrator.domain.model.organization.person.BusinessFunctionType
 import com.procurement.orchestrator.domain.model.requirement.RequirementResponseValue
 import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponseId
+import com.procurement.orchestrator.domain.model.requirement.response.evidence.EvidenceId
 import java.time.LocalDateTime
 
 object SubmitBidInPcr {
@@ -46,11 +47,43 @@ object SubmitBidInPcr {
                 data class RequirementResponse(
                     @param:JsonProperty("id") @field:JsonProperty("id") val id: RequirementResponseId,
                     @param:JsonProperty("value") @field:JsonProperty("value") val value: RequirementResponseValue,
+
+                    @JsonInclude(JsonInclude.Include.NON_NULL)
+                    @param:JsonProperty("relatedTenderer") @field:JsonProperty("relatedTenderer") val relatedTenderer: RelatedTenderer?,
+
+                    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+                    @field:JsonProperty("evidences") @param:JsonProperty("evidences") val evidences: List<Evidence>?,
+
                     @param:JsonProperty("requirement") @field:JsonProperty("requirement") val requirement: Requirement,
 
                     @JsonInclude(JsonInclude.Include.NON_NULL)
                     @param:JsonProperty("period") @field:JsonProperty("period") val period: Period?
                 ) {
+                    data class RelatedTenderer(
+                        @param:JsonProperty("name") @field:JsonProperty("name") val name: String,
+                        @param:JsonProperty("identifier") @field:JsonProperty("identifier") val identifier: Identifier
+                    ) {
+                        data class Identifier(
+                            @param:JsonProperty("scheme") @field:JsonProperty("scheme") val scheme: String,
+                            @param:JsonProperty("id") @field:JsonProperty("id") val id: String
+                        )
+                    }
+
+                    data class Evidence(
+                        @param:JsonProperty("id") @field:JsonProperty("id") val id: EvidenceId,
+                        @param:JsonProperty("title") @field:JsonProperty("title") val title: String,
+
+                        @JsonInclude(JsonInclude.Include.NON_NULL)
+                        @param:JsonProperty("description") @field:JsonProperty("description") val description: String?,
+
+                        @JsonInclude(JsonInclude.Include.NON_NULL)
+                        @param:JsonProperty("relatedDocument") @field:JsonProperty("relatedDocument") val relatedDocument: RelatedDocument?
+                    ) {
+                        data class RelatedDocument(
+                            @param:JsonProperty("id") @field:JsonProperty("id") val id: DocumentId
+                        )
+                    }
+
                     data class Requirement(
                         @param:JsonProperty("id") @field:JsonProperty("id") val id: String
                     )
