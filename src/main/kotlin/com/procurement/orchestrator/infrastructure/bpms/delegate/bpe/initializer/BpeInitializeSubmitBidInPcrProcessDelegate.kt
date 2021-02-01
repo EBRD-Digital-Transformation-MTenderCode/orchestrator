@@ -17,6 +17,7 @@ import com.procurement.orchestrator.domain.model.bid.BidId
 import com.procurement.orchestrator.domain.model.bid.Bids
 import com.procurement.orchestrator.domain.model.bid.BidsDetails
 import com.procurement.orchestrator.domain.model.document.Document
+import com.procurement.orchestrator.domain.model.document.DocumentReference
 import com.procurement.orchestrator.domain.model.document.Documents
 import com.procurement.orchestrator.domain.model.identifier.Identifier
 import com.procurement.orchestrator.domain.model.identifier.Identifiers
@@ -26,6 +27,7 @@ import com.procurement.orchestrator.domain.model.lot.LotId
 import com.procurement.orchestrator.domain.model.lot.RelatedLots
 import com.procurement.orchestrator.domain.model.organization.ContactPoint
 import com.procurement.orchestrator.domain.model.organization.Organization
+import com.procurement.orchestrator.domain.model.organization.OrganizationReference
 import com.procurement.orchestrator.domain.model.organization.Organizations
 import com.procurement.orchestrator.domain.model.organization.datail.Details
 import com.procurement.orchestrator.domain.model.organization.datail.MainEconomicActivities
@@ -48,6 +50,8 @@ import com.procurement.orchestrator.domain.model.person.Persons
 import com.procurement.orchestrator.domain.model.requirement.RequirementReference
 import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponse
 import com.procurement.orchestrator.domain.model.requirement.response.RequirementResponses
+import com.procurement.orchestrator.domain.model.requirement.response.evidence.Evidence
+import com.procurement.orchestrator.domain.model.requirement.response.evidence.Evidences
 import com.procurement.orchestrator.domain.model.unit.Unit
 import com.procurement.orchestrator.domain.model.value.Value
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
@@ -94,6 +98,29 @@ class BpeInitializeSubmitBidInPcrProcessDelegate(
                         RequirementResponse(
                             id = requirementResponse.id,
                             value = requirementResponse.value,
+                            relatedTenderer = requirementResponse.relatedTenderer
+                                ?.let { tenderer ->
+                                    OrganizationReference(
+                                        id = "${tenderer.identifier.scheme}-${tenderer.identifier.id}",
+                                        name = tenderer.name
+                                    )
+                                },
+                            evidences = requirementResponse.evidences
+                                ?.map { evidence ->
+                                    Evidence(
+                                        id = evidence.id,
+                                        title = evidence.title,
+                                        description = evidence.description,
+                                        relatedDocument = evidence.relatedDocument
+                                            ?.let { document ->
+                                                DocumentReference(
+                                                    id = document.id
+                                                )
+                                            }
+                                    )
+                                }
+                                .orEmpty()
+                                .let { Evidences(it) },
                             requirement = RequirementReference(requirementResponse.requirement.id),
                             period = requirementResponse.period
                                 ?.let { period ->
