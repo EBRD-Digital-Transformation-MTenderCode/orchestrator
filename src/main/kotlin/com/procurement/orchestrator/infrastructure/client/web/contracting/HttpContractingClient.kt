@@ -11,6 +11,7 @@ import com.procurement.orchestrator.infrastructure.client.web.contracting.action
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.DoPacsAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.FindCANIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.FindSupplierReferencesOfActivePacsAction
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.SetStateForContractsAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
 import java.net.URL
 
@@ -54,5 +55,14 @@ class HttpContractingClient(private val webClient: WebClient, properties: Compon
         url = url,
         command = ContractingCommands.DoPacs.build(id = id, params = params),
         target = ContractingCommands.DoPacs.target
+    )
+
+    override suspend fun setStateForContracts(
+        id: CommandId,
+        params: SetStateForContractsAction.Params
+    ): Result<Reply<SetStateForContractsAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = ContractingCommands.SetStateForContracts.build(id = id, params = params),
+        target = ContractingCommands.SetStateForContracts.target
     )
 }

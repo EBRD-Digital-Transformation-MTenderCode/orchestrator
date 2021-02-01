@@ -9,6 +9,7 @@ import com.procurement.orchestrator.infrastructure.client.web.contracting.action
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.DoPacsAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.FindCANIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.FindSupplierReferencesOfActivePacsAction
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.SetStateForContractsAction
 
 interface ContractingClient {
 
@@ -36,4 +37,9 @@ interface ContractingClient {
         id: CommandId,
         params: DoPacsAction.Params
     ): Result<Reply<DoPacsAction.Result>, Fail.Incident>
+
+    suspend fun setStateForContracts(
+        id: CommandId,
+        params: SetStateForContractsAction.Params
+    ): Result<Reply<SetStateForContractsAction.Result>, Fail.Incident>
 }
