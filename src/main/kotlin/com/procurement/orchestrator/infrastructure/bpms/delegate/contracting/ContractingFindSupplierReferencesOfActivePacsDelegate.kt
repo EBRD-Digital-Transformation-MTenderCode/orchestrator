@@ -31,13 +31,6 @@ class ContractingFindSupplierReferencesOfActivePacsDelegate(
     operationStepRepository = operationStepRepository
 ) {
 
-    companion object {
-        private const val NAME_PARAMETER_OF_STATUS = "status"
-        private const val NAME_PARAMETER_OF_STATUS_DETAILS = "statusDetails"
-        private const val NAME_PARAMETER_OF_STATES = "states"
-        private const val LOCATION_OF_LOTS = "locationOfLots"
-    }
-
     override fun parameters(parameterContainer: ParameterContainer): Result<Unit, Fail.Incident.Bpmn.Parameter> =
         success(Unit)
 
