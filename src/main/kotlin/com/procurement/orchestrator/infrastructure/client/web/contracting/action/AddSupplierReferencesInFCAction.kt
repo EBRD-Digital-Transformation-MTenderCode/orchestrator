@@ -1,10 +1,14 @@
 package com.procurement.orchestrator.infrastructure.client.web.contracting.action
 
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.procurement.orchestrator.application.service.FunctionalAction
 import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
+import com.procurement.orchestrator.domain.model.contract.Contract
 import com.procurement.orchestrator.domain.model.contract.ContractId
+import com.procurement.orchestrator.domain.model.organization.OrganizationReference
+import com.procurement.orchestrator.domain.model.organization.OrganizationReferences
 import com.procurement.orchestrator.infrastructure.client.web.Target
 import com.procurement.orchestrator.infrastructure.model.Version
 import java.io.Serializable
@@ -23,7 +27,9 @@ abstract class AddSupplierReferencesInFCAction : FunctionalAction<AddSupplierRef
     ) {
         data class Party(
             @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
-            @param:JsonProperty("name") @field:JsonProperty("name") val name: String
+
+            @field:JsonInclude(JsonInclude.Include.NON_NULL)
+            @param:JsonProperty("name") @field:JsonProperty("name") val name: String?
         )
     }
 
@@ -40,6 +46,24 @@ abstract class AddSupplierReferencesInFCAction : FunctionalAction<AddSupplierRef
             @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
             @param:JsonProperty("name") @field:JsonProperty("name") val name: String
         ) : Serializable
+
+        fun toDomain(): Contract =
+            Contract(
+                id = id,
+                status = status,
+                statusDetails = statusDetails,
+                date = date,
+                isFrameworkOrDynamic = isFrameworkOrDynamic,
+                suppliers = suppliers
+                    .map { it.convert() }
+                    .let { OrganizationReferences(it) }
+            )
+
+        private fun Supplier.convert(): OrganizationReference =
+            OrganizationReference(
+                id = id,
+                name = name
+            )
     }
 }
 

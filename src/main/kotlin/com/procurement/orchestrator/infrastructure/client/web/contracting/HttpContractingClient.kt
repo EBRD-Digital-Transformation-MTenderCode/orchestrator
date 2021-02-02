@@ -6,6 +6,7 @@ import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.WebClient
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.AddSupplierReferencesInFCAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CancelFrameworkContractAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreateFrameworkContractAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.DoPacsAction
@@ -55,6 +56,15 @@ class HttpContractingClient(private val webClient: WebClient, properties: Compon
         url = url,
         command = ContractingCommands.DoPacs.build(id = id, params = params),
         target = ContractingCommands.DoPacs.target
+    )
+
+    override suspend fun addSupplierReferencesInFC(
+        id: CommandId,
+        params: AddSupplierReferencesInFCAction.Params
+    ): Result<Reply<AddSupplierReferencesInFCAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = ContractingCommands.AddSupplierReferencesInFC.build(id = id, params = params),
+        target = ContractingCommands.AddSupplierReferencesInFC.target
     )
 
     override suspend fun setStateForContracts(

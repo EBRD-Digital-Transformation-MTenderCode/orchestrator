@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.infrastructure.client.web.contracting
 
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.AddSupplierReferencesInFCAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CancelFrameworkContractAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreateFrameworkContractAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.DoPacsAction
@@ -18,6 +19,8 @@ object ContractingCommands {
     object CancelFrameworkContract : CancelFrameworkContractAction()
 
     object DoPacs: DoPacsAction()
+
+    object AddSupplierReferencesInFC: AddSupplierReferencesInFCAction()
 
     object SetStateForContracts: SetStateForContractsAction()
 }
