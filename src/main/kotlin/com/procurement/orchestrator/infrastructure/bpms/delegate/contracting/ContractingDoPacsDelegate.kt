@@ -2,7 +2,6 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.contracting
 
 import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.ContractingClient
-import com.procurement.orchestrator.application.model.Token
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.tryGetTender
 import com.procurement.orchestrator.application.model.context.members.Outcomes
@@ -103,50 +102,49 @@ class ContractingDoPacsDelegate(
                         )
                     }
                     ?.let { DoPacsAction.Params.Bids(it) },
-                tender = tender.let { tender ->
-                    DoPacsAction.Params.Tender(
-                        lots = tender.lots.map { lot ->
-                            DoPacsAction.Params.Tender.Lot(lot.id)
-                        },
-                        criteria = tender.criteria.map { criterion ->
-                            DoPacsAction.Params.Tender.Criteria(
-                                id = criterion.id,
-                                title = criterion.title,
-                                relatedItem = criterion.relatedItem,
-                                relatesTo = criterion.relatesTo,
-                                requirementGroups = criterion.requirementGroups.map { requirementGroup ->
-                                    DoPacsAction.Params.Tender.Criteria.RequirementGroup(
-                                        id = requirementGroup.id,
-                                        requirements = requirementGroup.requirements.map { requirement ->
-                                            DoPacsAction.Params.Tender.Criteria.RequirementGroup.Requirement(
-                                                id = requirement.id,
-                                                title = requirement.title
-                                            )
-                                        }
-                                    )
-                                }
-                            )
-                        },
-                        targets = tender.targets.map { target ->
-                            DoPacsAction.Params.Tender.Target(
-                                id = target.id,
-                                observations = target.observations.map { observation ->
-                                    DoPacsAction.Params.Tender.Target.Observation(
-                                        id = observation.id,
-                                        relatedRequirementId = observation.relatedRequirementId,
-                                        unit = observation.unit?.let { unit ->
-                                            DoPacsAction.Params.Tender.Target.Observation.Unit(
-                                                id = unit.id,
-                                                name = unit.name
-                                            )
-                                        }
+                tender = DoPacsAction.Params.Tender(
+                    lots = tender.lots.map { lot ->
+                        DoPacsAction.Params.Tender.Lot(lot.id)
+                    },
+                    criteria = tender.criteria.map { criterion ->
+                        DoPacsAction.Params.Tender.Criteria(
+                            id = criterion.id,
+                            title = criterion.title,
+                            relatedItem = criterion.relatedItem,
+                            relatesTo = criterion.relatesTo,
+                            requirementGroups = criterion.requirementGroups.map { requirementGroup ->
+                                DoPacsAction.Params.Tender.Criteria.RequirementGroup(
+                                    id = requirementGroup.id,
+                                    requirements = requirementGroup.requirements.map { requirement ->
+                                        DoPacsAction.Params.Tender.Criteria.RequirementGroup.Requirement(
+                                            id = requirement.id,
+                                            title = requirement.title
+                                        )
+                                    }
+                                )
+                            }
+                        )
+                    },
+                    targets = tender.targets.map { target ->
+                        DoPacsAction.Params.Tender.Target(
+                            id = target.id,
+                            observations = target.observations.map { observation ->
+                                DoPacsAction.Params.Tender.Target.Observation(
+                                    id = observation.id,
+                                    relatedRequirementId = observation.relatedRequirementId,
+                                    unit = observation.unit?.let { unit ->
+                                        DoPacsAction.Params.Tender.Target.Observation.Unit(
+                                            id = unit.id,
+                                            name = unit.name
+                                        )
+                                    }
 
-                                    )
-                                }
-                            )
-                        }
-                    )
-                }
+                                )
+                            }
+                        )
+                    }
+                )
+
             )
         )
     }
@@ -170,22 +168,21 @@ class ContractingDoPacsDelegate(
             .let { Contracts(it) }
 
         context.contracts = receivedContracts
-        context.outcomes = createOutcomes(context, receivedContracts, data.token)
+        context.outcomes = createOutcomes(context, receivedContracts)
 
         return MaybeFail.none()
     }
 
     private fun createOutcomes(
         context: CamundaGlobalContext,
-        contracts: Contracts,
-        token: Token?
+        contracts: Contracts
     ): Outcomes {
         val platformId = context.requestInfo.platformId
         val outcomes = context.outcomes ?: Outcomes()
         val details = outcomes[platformId] ?: Outcomes.Details()
 
         val newOutcomes = contracts
-            .map { contract -> Outcomes.Details.Contract(id = contract.id, token = token) }
+            .map { contract -> Outcomes.Details.Contract(id = contract.id, token = null) }
 
         val updatedDetails = details.copy(contracts = newOutcomes)
         outcomes[platformId] = updatedDetails

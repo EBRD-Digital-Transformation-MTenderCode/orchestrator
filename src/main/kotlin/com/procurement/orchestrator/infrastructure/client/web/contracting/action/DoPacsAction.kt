@@ -3,7 +3,6 @@ package com.procurement.orchestrator.infrastructure.client.web.contracting.actio
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.procurement.orchestrator.application.model.Owner
-import com.procurement.orchestrator.application.model.Token
 import com.procurement.orchestrator.application.service.FunctionalAction
 import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
@@ -179,10 +178,7 @@ abstract class DoPacsAction : FunctionalAction<DoPacsAction.Params, DoPacsAction
 
     data class Result(
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
-        @param:JsonProperty("contracts") @field:JsonProperty("contracts") val contracts: List<Contract>,
-
-        @JsonInclude(JsonInclude.Include.NON_NULL)
-        @param:JsonProperty("token") @field:JsonProperty("token") val token: Token?
+        @param:JsonProperty("contracts") @field:JsonProperty("contracts") val contracts: List<Contract>
     ) {
         data class Contract(
             @param:JsonProperty("id") @field:JsonProperty("id") val id: ContractId,
