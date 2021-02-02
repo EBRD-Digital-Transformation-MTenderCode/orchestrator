@@ -4,6 +4,7 @@ import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.AddSupplierReferencesInFCAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CancelFrameworkContractAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreateFrameworkContractAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.DoPacsAction
@@ -37,6 +38,11 @@ interface ContractingClient {
         id: CommandId,
         params: DoPacsAction.Params
     ): Result<Reply<DoPacsAction.Result>, Fail.Incident>
+
+    suspend fun addSupplierReferencesInFC(
+        id: CommandId,
+        params: AddSupplierReferencesInFCAction.Params
+    ): Result<Reply<AddSupplierReferencesInFCAction.Result>, Fail.Incident>
 
     suspend fun setStateForContracts(
         id: CommandId,

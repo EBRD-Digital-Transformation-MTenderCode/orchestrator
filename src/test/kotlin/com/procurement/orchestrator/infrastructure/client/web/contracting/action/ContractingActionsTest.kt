@@ -147,6 +147,26 @@ class ContractingActionsTest {
     }
 
     @Nested
+    inner class AddSupplierReferencesInFC {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<AddSupplierReferencesInFCAction.Params>("json/client/contracting/add_supplier_references_in_fc_params_fully.json")
+            }
+        }
+
+        @Nested
+        inner class Result{
+            @Test
+            fun fully(){
+                testingBindingAndMapping<AddSupplierReferencesInFCAction.Result>("json/client/contracting/add_supplier_references_in_fc_result_fully.json")
+            }
+        }
+    }
+
+    @Nested
     inner class SetStateForContracts {
 
         @Nested
