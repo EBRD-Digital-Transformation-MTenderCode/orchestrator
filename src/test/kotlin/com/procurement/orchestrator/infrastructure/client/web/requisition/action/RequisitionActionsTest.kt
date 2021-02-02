@@ -69,6 +69,26 @@ class RequisitionActionsTest {
     }
 
     @Nested
+    inner class SetUnsuccessfulStateForLots {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<SetUnsuccessfulStateForLotsAction.Params>("json/client/requisition/set_unsuccessful_state_for_lots_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<SetUnsuccessfulStateForLotsAction.Result>("json/client/requisition/set_unsuccessful_state_for_lots_result_full.json")
+            }
+        }
+    }
+
+    @Nested
     inner class CheckTenderState {
 
         @Nested
