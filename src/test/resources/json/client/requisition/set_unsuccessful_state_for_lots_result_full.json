@@ -1,0 +1,11 @@
+{
+  "tender": {
+    "lots": [
+      {
+        "id": "string",
+        "status": "unsuccessful",
+        "statusDetails": "allRejected"
+      }
+    ]
+  }
+}

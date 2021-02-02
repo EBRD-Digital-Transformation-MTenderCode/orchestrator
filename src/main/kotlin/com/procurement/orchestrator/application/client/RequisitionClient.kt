@@ -16,6 +16,7 @@ import com.procurement.orchestrator.infrastructure.client.web.requisition.action
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.GetOcidFromRelatedProcessAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.GetTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.SetStateForLotsAction
+import com.procurement.orchestrator.infrastructure.client.web.requisition.action.SetUnsuccessfulStateForLotsAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.ValidatePcrDataAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.ValidateRequirementResponsesAction
 
@@ -30,6 +31,11 @@ interface RequisitionClient {
         id: CommandId,
         params: CreatePcrAction.Params
     ): Result<Reply<CreatePcrAction.Result>, Fail.Incident>
+
+    suspend fun setUnsuccessfulStateForLots(
+        id: CommandId,
+        params: SetUnsuccessfulStateForLotsAction.Params
+    ): Result<Reply<SetUnsuccessfulStateForLotsAction.Result>, Fail.Incident>
 
     suspend fun checkTenderState(
         id: CommandId,

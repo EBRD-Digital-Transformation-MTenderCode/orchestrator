@@ -12,6 +12,7 @@ import com.procurement.orchestrator.infrastructure.client.web.requisition.action
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.GetOcidFromRelatedProcessAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.GetTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.SetStateForLotsAction
+import com.procurement.orchestrator.infrastructure.client.web.requisition.action.SetUnsuccessfulStateForLotsAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.ValidatePcrDataAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.ValidateRequirementResponsesAction
 
@@ -20,6 +21,8 @@ object RequisitionCommands {
     object ValidatePcrData : ValidatePcrDataAction()
 
     object CreatePcr : CreatePcrAction()
+
+    object SetUnsuccessfulStateForLots : SetUnsuccessfulStateForLotsAction()
 
     object CheckTenderState: CheckTenderStateAction()
 
