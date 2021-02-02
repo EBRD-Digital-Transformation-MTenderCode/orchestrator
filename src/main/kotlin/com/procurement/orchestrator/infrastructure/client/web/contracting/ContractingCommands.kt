@@ -5,6 +5,7 @@ import com.procurement.orchestrator.infrastructure.client.web.contracting.action
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.DoPacsAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.FindCANIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.FindSupplierReferencesOfActivePacsAction
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.SetStateForContractsAction
 
 object ContractingCommands {
 
@@ -17,4 +18,6 @@ object ContractingCommands {
     object CancelFrameworkContract : CancelFrameworkContractAction()
 
     object DoPacs: DoPacsAction()
+
+    object SetStateForContracts: SetStateForContractsAction()
 }

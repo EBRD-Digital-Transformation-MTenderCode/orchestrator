@@ -145,4 +145,26 @@ class ContractingActionsTest {
             }
         }
     }
+
+    @Nested
+    inner class SetStateForContracts {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<SetStateForContractsAction.Params>("json/client/contracting/set_state_for_contracts_params_fully.json")
+            }
+        }
+
+        @Nested
+        inner class Result{
+            @Test
+            fun fully(){
+                testingBindingAndMapping<SetStateForContractsAction.Result>("json/client/contracting/set_state_for_contracts_result_fully.json")
+            }
+
+        }
+    }
+
 }
