@@ -18,6 +18,7 @@ import com.procurement.orchestrator.infrastructure.client.web.requisition.action
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.GetOcidFromRelatedProcessAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.GetTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.SetStateForLotsAction
+import com.procurement.orchestrator.infrastructure.client.web.requisition.action.SetUnsuccessfulStateForLotsAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.ValidatePcrDataAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.ValidateRequirementResponsesAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
@@ -43,6 +44,15 @@ class HttpRequisitionClient(private val webClient: WebClient, properties: Compon
         url = url,
         command = RequisitionCommands.CreatePcr.build(id = id, params = params),
         target = RequisitionCommands.CreatePcr.target
+    )
+
+    override suspend fun setUnsuccessfulStateForLots(
+        id: CommandId,
+        params: SetUnsuccessfulStateForLotsAction.Params
+    ): Result<Reply<SetUnsuccessfulStateForLotsAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = RequisitionCommands.SetUnsuccessfulStateForLots.build(id = id, params = params),
+        target = RequisitionCommands.SetUnsuccessfulStateForLots.target
     )
 
     override suspend fun checkTenderState(
