@@ -14,6 +14,7 @@ import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.domain.model.bid.Bids
+import com.procurement.orchestrator.domain.model.mdm.Mdm
 import com.procurement.orchestrator.domain.model.mdm.ProcessMasterData
 import com.procurement.orchestrator.domain.model.scheme.RegistrationScheme
 import com.procurement.orchestrator.domain.model.scheme.RegistrationSchemes
@@ -86,9 +87,13 @@ class MdmGetOrganizationSchemesDelegate(
         if (result.isEmpty())
             return MaybeFail.fail(Fail.Incident.Response.Empty(ExternalServiceName.MDM, "getOrganizationSchemes"))
 
-        context.processMasterData = context.processMasterData
+        val mdm = context.processMasterData?.mdm
             ?.copy(registrationSchemes = RegistrationSchemes(result))
-            ?: ProcessMasterData(registrationSchemes = RegistrationSchemes(result))
+            ?: Mdm(registrationSchemes = RegistrationSchemes(result))
+
+        context.processMasterData = context.processMasterData
+            ?.copy(mdm = mdm)
+            ?: ProcessMasterData(mdm)
 
         return MaybeFail.none()
     }
