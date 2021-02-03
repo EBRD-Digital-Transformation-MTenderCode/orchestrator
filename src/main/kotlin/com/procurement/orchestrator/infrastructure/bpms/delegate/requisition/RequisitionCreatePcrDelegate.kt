@@ -71,6 +71,7 @@ class RequisitionCreatePcrDelegate(
             id = commandId,
             params = CreatePcrAction.Params(
                 cpid = relatedProcess?.cpid,
+                ocid = relatedProcess?.ocid,
                 date = requestInfo.timestamp,
                 owner = requestInfo.owner,
                 stateFE = parameters.state,
