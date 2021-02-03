@@ -17,6 +17,7 @@ public enum RequisitionCommandType {
     GET_AWARD_CRITERIA_AND_CONVERSATIONS("getAwardCriteriaAndConversions"),
     GET_CRITERIA_FOR_TENDERER("getCriteriaForTenderer"),
     GET_CURRENCY("getCurrency"),
+    GET_ITEMS_BY_LOT_IDS("getItemsByLotIds"),
     GET_LOTS_AUCTION("getLotsAuction"),
     GET_TENDER_OWNER("getTenderOwner"),
     SET_LOTS_UNSUCCESSFUL("setLotsStatusUnsuccessful"),
