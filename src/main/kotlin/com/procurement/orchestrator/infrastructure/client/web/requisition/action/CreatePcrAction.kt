@@ -85,6 +85,9 @@ abstract class CreatePcrAction : FunctionalAction<CreatePcrAction.Params, Create
         @JsonInclude(JsonInclude.Include.NON_NULL)
         @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid?,
 
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        @field:JsonProperty("ocid") @param:JsonProperty("ocid") val ocid: Ocid?,
+
         @field:JsonProperty("date") @param:JsonProperty("date") val date: LocalDateTime,
         @field:JsonProperty("owner") @param:JsonProperty("owner") val owner: Owner,
         @field:JsonProperty("stateFE") @param:JsonProperty("stateFE") val stateFE: String,
