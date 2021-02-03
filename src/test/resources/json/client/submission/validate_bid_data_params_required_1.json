@@ -1,6 +1,16 @@
 {
   "cpid": "ocds-b3wdp1-MD-1543419347940",
   "pmd": "OT",
+  "mdm": {
+    "registrationSchemes": [
+      {
+        "country": "string",
+        "schemes": [
+          "string"
+        ]
+      }
+    ]
+  },
   "bids": {
     "details": [
       {

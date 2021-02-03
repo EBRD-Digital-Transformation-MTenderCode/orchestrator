@@ -4,6 +4,7 @@ import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.SubmissionClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.tryGetBids
+import com.procurement.orchestrator.application.model.context.extension.tryGetProcessMasterData
 import com.procurement.orchestrator.application.model.context.extension.tryGetTender
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
@@ -42,15 +43,31 @@ class SubmissionValidateBidDataDelegate(
 
         val bids = context.tryGetBids()
             .orForwardFail { fail -> return fail }
+
         val tender = context.tryGetTender()
             .orForwardFail { fail -> return fail }
+
         val processInfo = context.processInfo
+        val processMasterData = context.tryGetProcessMasterData()
+            .orForwardFail { fail -> return fail }
 
         return submissionClient.validateBidData(
             id = commandId,
             params = ValidateBidDataAction.Params(
                 cpid = processInfo.cpid!!,
                 pmd = processInfo.pmd,
+                mdm = processMasterData.mdm
+                    ?.let { mdm ->
+                        ValidateBidDataAction.Params.Mdm(
+                            registrationSchemes = mdm.registrationSchemes
+                                .map { registrationScheme ->
+                                    ValidateBidDataAction.Params.Mdm.RegistrationScheme(
+                                        country = registrationScheme.country,
+                                        schemes = registrationScheme.schemes
+                                    )
+                                }
+                        )
+                    },
                 bids = bids.details.map { bid ->
                     ValidateBidDataAction.Params.Bids.Detail(
                         id = bid.id,
