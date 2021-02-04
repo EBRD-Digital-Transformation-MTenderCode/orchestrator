@@ -24,17 +24,17 @@ import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractSingleR
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetOrganizationSchemes
-import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetOrganizationSchemesAction
+import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRegistrationSchemesAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ExternalServiceName
 import org.springframework.stereotype.Component
 
 @Component
-class MdmGetOrganizationSchemesDelegate(
+class MdmGetRegistrationSchemesDelegate(
     logger: Logger,
     operationStepRepository: OperationStepRepository,
     transform: Transform,
     private val mdmClient: MdmClient
-) : AbstractSingleRestDelegate<MdmGetOrganizationSchemesDelegate.Parameters, List<RegistrationScheme>>(
+) : AbstractSingleRestDelegate<MdmGetRegistrationSchemesDelegate.Parameters, List<RegistrationScheme>>(
     logger = logger,
     transform = transform,
     operationStepRepository = operationStepRepository
@@ -98,17 +98,17 @@ class MdmGetOrganizationSchemesDelegate(
         return MaybeFail.none()
     }
 
-    private fun getCountriesIdFromBid(bids: Bids): GetOrganizationSchemesAction.Params =
+    private fun getCountriesIdFromBid(bids: Bids): GetRegistrationSchemesAction.Params =
         bids.details
             .flatMap { it.tenderers }
             .mapNotNull { it.address?.addressDetails?.country?.id }
-            .let { countryIds -> GetOrganizationSchemesAction.Params(countryId = countryIds) }
+            .let { countryIds -> GetRegistrationSchemesAction.Params(countryId = countryIds) }
 
-    private fun getCountriesIdFromSubmission(submissions: Submissions): GetOrganizationSchemesAction.Params =
+    private fun getCountriesIdFromSubmission(submissions: Submissions): GetRegistrationSchemesAction.Params =
         submissions.details
             .flatMap { it.candidates }
             .mapNotNull { it.address?.addressDetails?.country?.id }
-            .let { countryIds -> GetOrganizationSchemesAction.Params(countryId = countryIds) }
+            .let { countryIds -> GetRegistrationSchemesAction.Params(countryId = countryIds) }
 
     private fun handleResult(
         result: GetOrganizationSchemes.Result,
@@ -123,7 +123,7 @@ class MdmGetOrganizationSchemesDelegate(
         }
     }
 
-    private fun List<GetOrganizationSchemesAction.Response.Error.Details>.convertErrors(): List<Errors.Error> =
+    private fun List<GetRegistrationSchemesAction.Response.Error.Details>.convertErrors(): List<Errors.Error> =
         this.map { error ->
             Errors.Error(code = error.code, description = error.description)
         }
