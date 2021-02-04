@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import java.io.Serializable
 
-abstract class GetOrganizationSchemesAction {
+abstract class GetRegistrationSchemesAction {
 
     class Params(
         @field:JsonProperty("countryId") @param:JsonProperty("countryId") val countryId: List<String>
@@ -43,7 +43,7 @@ object GetOrganizationSchemes {
         }
 
         sealed class Fail : Result() {
-            data class AnotherError(val details: GetOrganizationSchemesAction.Response.Error) : Fail()
+            data class AnotherError(val details: GetRegistrationSchemesAction.Response.Error) : Fail()
         }
     }
 }

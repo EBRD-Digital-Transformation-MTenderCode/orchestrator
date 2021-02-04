@@ -26,8 +26,8 @@ import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetCrit
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetErrorDescriptionsAction
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetLocality
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetOrganizationSchemes
-import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetOrganizationSchemesAction
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRegion
+import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRegistrationSchemesAction
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRequirementGroups
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRequirementGroupsAction
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRequirements
@@ -200,7 +200,7 @@ class HttpMdmClient(
 
     private fun getStandardCriteriaEndpoint(): String = "$baseUrl/standardCriteria"
 
-    override suspend fun getOrganizationSchemes(params: GetOrganizationSchemesAction.Params): Result<GetOrganizationSchemes.Result, Fail.Incident> {
+    override suspend fun getOrganizationSchemes(params: GetRegistrationSchemesAction.Params): Result<GetOrganizationSchemes.Result, Fail.Incident> {
         val IdsQueryParam = params.countryId.joinToString(separator = ",")
 
         val httpUrl: HttpUrl = getOrganizationSchemesEndpoint()
@@ -577,7 +577,7 @@ class HttpMdmClient(
         HTTP_CODE_200 -> transform
             .tryDeserialization(
                 value = response.content,
-                target = GetOrganizationSchemesAction.Response.Success::class.java
+                target = GetRegistrationSchemesAction.Response.Success::class.java
             )
             .orReturnFail { fail ->
                 return failure(
@@ -599,7 +599,7 @@ class HttpMdmClient(
             .asSuccess()
 
         HTTP_CODE_404 -> transform
-            .tryDeserialization(response.content, GetOrganizationSchemesAction.Response.Error::class.java)
+            .tryDeserialization(response.content, GetRegistrationSchemesAction.Response.Error::class.java)
             .orForwardFail { error -> return error }
             .let { responseError -> success(GetOrganizationSchemes.Result.Fail.AnotherError(responseError)) }
 
