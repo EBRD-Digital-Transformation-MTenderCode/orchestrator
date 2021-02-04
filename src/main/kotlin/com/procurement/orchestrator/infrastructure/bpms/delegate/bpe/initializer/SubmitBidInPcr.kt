@@ -241,7 +241,10 @@ object SubmitBidInPcr {
                         data class Permit(
                             @param:JsonProperty("scheme") @field:JsonProperty("scheme") val scheme: String,
                             @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
-                            @param:JsonProperty("url") @field:JsonProperty("url") val url: String,
+
+                            @JsonInclude(JsonInclude.Include.NON_NULL)
+                            @param:JsonProperty("url") @field:JsonProperty("url") val url: String?,
+
                             @param:JsonProperty("permitDetails") @field:JsonProperty("permitDetails") val permitDetails: PermitDetails
                         ) {
                             data class PermitDetails(
