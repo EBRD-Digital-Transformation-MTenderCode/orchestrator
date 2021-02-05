@@ -183,7 +183,6 @@ abstract class DoPacsAction : FunctionalAction<DoPacsAction.Params, DoPacsAction
         data class Contract(
             @param:JsonProperty("id") @field:JsonProperty("id") val id: ContractId,
             @param:JsonProperty("status") @field:JsonProperty("status") val status: String,
-            @param:JsonProperty("statusDetails") @field:JsonProperty("statusDetails") val statusDetails: String,
             @param:JsonProperty("date") @field:JsonProperty("date") val date: LocalDateTime,
 
             @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -241,7 +240,6 @@ fun DoPacsAction.Result.Contract.toDomain(): com.procurement.orchestrator.domain
     return com.procurement.orchestrator.domain.model.contract.Contract(
         id = id,
         status = status,
-        statusDetails = statusDetails,
         date = date,
         relatedLots = relatedLots.let { relatedLots -> RelatedLots(relatedLots) },
         suppliers = suppliers?.map { supplier ->
