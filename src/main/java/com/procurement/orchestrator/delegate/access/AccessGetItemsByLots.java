@@ -48,7 +48,7 @@ public class AccessGetItemsByLots implements JavaDelegate {
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
 
-        final JsonNode lots = jsonData.get("lots");
+        final JsonNode lots = processService.getLots(jsonData, processId);
         final JsonNode commandMessage = processService.getCommandMessage(GET_ITEMS_BY_LOTS, context, lots);
         if (LOG.isDebugEnabled())
             LOG.debug("COMMAND (" + context.getOperationId() + "): '" + jsonUtil.toJsonOrEmpty(commandMessage) + "'.");
