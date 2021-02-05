@@ -85,8 +85,7 @@ public class RequisitionGetItemsByLotIds implements JavaDelegate {
     private JsonNode createPayload(final JsonNode jsonData, final String processId) {
         try {
             ObjectNode payload = jsonUtil.createObjectNode();
-            JsonNode tenderNode = jsonData.get("tender");
-            payload.set("lots", tenderNode.get("lots"));
+            payload.set("lots", jsonData.get("lots"));
             return payload;
         } catch (Exception e) {
             processService.terminateProcess(processId, e.getMessage());
