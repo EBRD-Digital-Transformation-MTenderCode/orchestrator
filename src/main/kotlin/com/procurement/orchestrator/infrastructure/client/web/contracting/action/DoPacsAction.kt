@@ -25,6 +25,7 @@ import com.procurement.orchestrator.domain.model.tender.criteria.CriteriaRelates
 import com.procurement.orchestrator.domain.model.unit.Unit
 import com.procurement.orchestrator.infrastructure.client.web.Target
 import com.procurement.orchestrator.infrastructure.model.Version
+import java.io.Serializable
 import java.time.LocalDateTime
 
 abstract class DoPacsAction : FunctionalAction<DoPacsAction.Params, DoPacsAction.Result> {
@@ -179,7 +180,7 @@ abstract class DoPacsAction : FunctionalAction<DoPacsAction.Params, DoPacsAction
     data class Result(
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
         @param:JsonProperty("contracts") @field:JsonProperty("contracts") val contracts: List<Contract>
-    ) {
+    ) : Serializable {
         data class Contract(
             @param:JsonProperty("id") @field:JsonProperty("id") val id: ContractId,
             @param:JsonProperty("status") @field:JsonProperty("status") val status: String,
@@ -196,11 +197,11 @@ abstract class DoPacsAction : FunctionalAction<DoPacsAction.Params, DoPacsAction
 
             @JsonInclude(JsonInclude.Include.NON_EMPTY)
             @param:JsonProperty("agreedMetrics ") @field:JsonProperty("agreedMetrics ") val agreedMetrics: List<AgreedMetric>?
-        ) {
+        ) : Serializable {
             data class Supplier(
                 @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
                 @param:JsonProperty("name") @field:JsonProperty("name") val name: String
-            )
+            ) : Serializable
 
             data class AgreedMetric(
                 @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
@@ -208,7 +209,7 @@ abstract class DoPacsAction : FunctionalAction<DoPacsAction.Params, DoPacsAction
 
                 @JsonInclude(JsonInclude.Include.NON_EMPTY)
                 @param:JsonProperty("observations") @field:JsonProperty("observations") val observations: List<Observation>
-            ) {
+            ) : Serializable {
                 data class Observation(
                     @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
                     @param:JsonProperty("notes") @field:JsonProperty("notes") val notes: String,
@@ -220,16 +221,16 @@ abstract class DoPacsAction : FunctionalAction<DoPacsAction.Params, DoPacsAction
 
                     @JsonInclude(JsonInclude.Include.NON_NULL)
                     @param:JsonProperty("unit") @field:JsonProperty("unit") val unit: Unit?
-                ) {
+                ) : Serializable {
                     data class Period(
                         @param:JsonProperty("startDate") @field:JsonProperty("startDate") val startDate: LocalDateTime,
                         @param:JsonProperty("endDate") @field:JsonProperty("endDate") val endDate: LocalDateTime
-                    )
+                    ) : Serializable
 
                     data class Unit(
                         @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
                         @param:JsonProperty("name") @field:JsonProperty("name") val name: String
-                    )
+                    ) : Serializable
                 }
             }
         }
