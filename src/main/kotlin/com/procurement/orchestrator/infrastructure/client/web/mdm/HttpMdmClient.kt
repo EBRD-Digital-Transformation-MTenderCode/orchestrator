@@ -25,7 +25,9 @@ import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetCrit
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetCriteriaAction
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetErrorDescriptionsAction
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetLocality
+import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetOrganizationSchemes
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRegion
+import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRegistrationSchemesAction
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRequirementGroups
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRequirementGroupsAction
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRequirements
@@ -197,6 +199,26 @@ class HttpMdmClient(
     }
 
     private fun getStandardCriteriaEndpoint(): String = "$baseUrl/standardCriteria"
+
+    override suspend fun getOrganizationSchemes(params: GetRegistrationSchemesAction.Params): Result<GetOrganizationSchemes.Result, Fail.Incident> {
+        val IdsQueryParam = params.countryId.joinToString(separator = ",")
+
+        val httpUrl: HttpUrl = getOrganizationSchemesEndpoint()
+            .toHttpUrl()
+            .newBuilder()
+            .apply {
+                addEncodedQueryParameter("countryId", IdsQueryParam)
+            }
+            .build()
+
+        val response = restClient.call(url = httpUrl)
+            .orForwardFail { error -> return error }
+
+        return processGetOrganizationSchemes(response, transform)
+    }
+
+    private fun getOrganizationSchemesEndpoint(): String = "$baseUrl/organization/schemes"
+
 
     override suspend fun getRequirements(params: GetRequirementsAction.Params): Result<GetRequirements.Result.Success, Fail.Incident> {
 
@@ -543,6 +565,43 @@ class HttpMdmClient(
                 )
             }
             .asSuccess()
+
+        else -> failure(Fail.Incident.BadResponse(description = "Invalid response code.", body = response.content))
+
+    }
+
+    private fun processGetOrganizationSchemes(
+        response: CallResponse,
+        transform: Transform
+    ): Result<GetOrganizationSchemes.Result, Fail.Incident> = when (response.code) {
+        HTTP_CODE_200 -> transform
+            .tryDeserialization(
+                value = response.content,
+                target = GetRegistrationSchemesAction.Response.Success::class.java
+            )
+            .orReturnFail { fail ->
+                return failure(
+                    Fail.Incident.BadResponse(description = fail.description, body = response.content)
+                )
+            }
+            .let { result ->
+                GetOrganizationSchemes.Result.Success(
+                    registrationSchemes = result.data
+                        ?.map { registrationScheme ->
+                            GetOrganizationSchemes.Result.Success.RegistrationScheme(
+                                country = registrationScheme.country,
+                                schemes = registrationScheme.schemes
+                            )
+                        }
+                        .orEmpty()
+                )
+            }
+            .asSuccess()
+
+        HTTP_CODE_404 -> transform
+            .tryDeserialization(response.content, GetRegistrationSchemesAction.Response.Error::class.java)
+            .orForwardFail { error -> return error }
+            .let { responseError -> success(GetOrganizationSchemes.Result.Fail.AnotherError(responseError)) }
 
         else -> failure(Fail.Incident.BadResponse(description = "Invalid response code.", body = response.content))
 

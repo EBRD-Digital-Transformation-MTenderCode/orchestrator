@@ -9,6 +9,7 @@ enum class LotStatusDetails(@JsonValue override val key: String) : EnumElementPr
     AWARDED("awarded"),
     CANCELLED("cancelled"),
     EMPTY("empty"),
+    ALL_REJECTED("allRejected"),
     UNSUCCESSFUL("unsuccessful");
 
     override fun toString(): String = key

@@ -30,9 +30,23 @@ abstract class ValidateBidDataAction : ProceduralAction<ValidateBidDataAction.Pa
     class Params(
         @param:JsonProperty("cpid") @field:JsonProperty("cpid") val cpid: Cpid,
         @param:JsonProperty("pmd") @field:JsonProperty("pmd") val pmd: ProcurementMethodDetails,
+
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        @param:JsonProperty("mdm") @field:JsonProperty("mdm") val mdm: Mdm?,
+
         @param:JsonProperty("bids") @field:JsonProperty("bids") val bids: Bids,
         @param:JsonProperty("tender") @field:JsonProperty("tender") val tender: Tender
     ) {
+
+        data class Mdm(
+            @param:JsonProperty("registrationSchemes") @field:JsonProperty("registrationSchemes") val registrationSchemes: List<RegistrationScheme>
+        ) {
+            data class RegistrationScheme(
+                @param:JsonProperty("country") @field:JsonProperty("country") val country: String,
+                @param:JsonProperty("schemes") @field:JsonProperty("schemes") val schemes: List<String>
+            )
+        }
+
         data class Bids(
             @JsonInclude(JsonInclude.Include.NON_EMPTY)
             @param:JsonProperty("details") @field:JsonProperty("details") val details: List<Detail>

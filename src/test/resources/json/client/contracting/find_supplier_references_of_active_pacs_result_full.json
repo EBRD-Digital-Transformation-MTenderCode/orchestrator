@@ -3,7 +3,6 @@
     {
       "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
       "status": "pending",
-      "statusDetails": "concluded",
       "date": "2020-12-11T15:11:37Z",
       "relatedLots": [
         "string"
@@ -14,7 +13,7 @@
           "name": "string"
         }
       ],
-      "awardId": "string",
+      "awardId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
       "agreedMetrics ": [
         {
           "id": "string",
@@ -26,8 +25,8 @@
               "measure": "Unknown Type: string,number,integer",
               "relatedRequirementId": "string",
               "period": {
-                "startDate": "2020-12-11T15:11:37Z",
-                "endDate": "2020-12-11T15:11:37Z"
+                "startDate": "2020-02-12T12:14:12Z",
+                "endDate": "2020-03-12T12:14:12Z"
               },
               "unit": {
                 "id": "string",
@@ -38,6 +37,5 @@
         }
       ]
     }
-  ],
-  "token": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+  ]
 }

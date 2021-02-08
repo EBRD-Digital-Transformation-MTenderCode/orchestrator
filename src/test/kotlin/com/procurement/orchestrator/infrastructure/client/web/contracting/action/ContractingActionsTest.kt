@@ -32,6 +32,36 @@ class ContractingActionsTest {
     }
 
     @Nested
+    inner class FindSupplierReferencesOfActivePacs {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<FindSupplierReferencesOfActivePacsAction.Params>("json/client/contracting/find_supplier_references_of_active_pacs_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result{
+            @Test
+            fun fully(){
+                testingBindingAndMapping<FindSupplierReferencesOfActivePacsAction.Result>("json/client/contracting/find_supplier_references_of_active_pacs_result_full.json")
+            }
+
+            @Test
+            fun required1(){
+                testingBindingAndMapping<FindSupplierReferencesOfActivePacsAction.Result>("json/client/contracting/find_supplier_references_of_active_pacs_result_required_1.json")
+            }
+
+            @Test
+            fun required2(){
+                testingBindingAndMapping<FindSupplierReferencesOfActivePacsAction.Result>("json/client/contracting/find_supplier_references_of_active_pacs_result_required_2.json")
+            }
+        }
+    }
+
+    @Nested
     inner class CreateContract {
 
         @Nested
@@ -72,28 +102,28 @@ class ContractingActionsTest {
     }
 
     @Nested
-    inner class CreatePacs {
+    inner class DoPacs {
 
         @Nested
         inner class Params {
             @Test
             fun fully() {
-                testingBindingAndMapping<CreatePacsAction.Params>("json/client/contracting/create_pacs_params_fully.json")
+                testingBindingAndMapping<DoPacsAction.Params>("json/client/contracting/do_pacs_params_fully.json")
             }
 
             @Test
             fun requires_1() {
-                testingBindingAndMapping<CreatePacsAction.Params>("json/client/contracting/create_pacs_params_required_1.json")
+                testingBindingAndMapping<DoPacsAction.Params>("json/client/contracting/do_pacs_params_required_1.json")
             }
 
             @Test
             fun requires_2() {
-                testingBindingAndMapping<CreatePacsAction.Params>("json/client/contracting/create_pacs_params_required_2.json")
+                testingBindingAndMapping<DoPacsAction.Params>("json/client/contracting/do_pacs_params_required_2.json")
             }
 
             @Test
             fun requires_3() {
-                testingBindingAndMapping<CreatePacsAction.Params>("json/client/contracting/create_pacs_params_required_3.json")
+                testingBindingAndMapping<DoPacsAction.Params>("json/client/contracting/do_pacs_params_required_3.json")
             }
         }
 
@@ -101,18 +131,60 @@ class ContractingActionsTest {
         inner class Result{
             @Test
             fun fully(){
-                testingBindingAndMapping<CreatePacsAction.Result>("json/client/contracting/create_pacs_result_full.json")
+                testingBindingAndMapping<DoPacsAction.Result>("json/client/contracting/do_pacs_result_full.json")
             }
 
             @Test
             fun required1(){
-                testingBindingAndMapping<CreatePacsAction.Result>("json/client/contracting/create_pacs_result_required_1.json")
+                testingBindingAndMapping<DoPacsAction.Result>("json/client/contracting/do_pacs_result_required_1.json")
             }
 
             @Test
             fun required2(){
-                testingBindingAndMapping<CreatePacsAction.Result>("json/client/contracting/create_pacs_result_required_2.json")
+                testingBindingAndMapping<DoPacsAction.Result>("json/client/contracting/do_pacs_result_required_2.json")
             }
         }
     }
+
+    @Nested
+    inner class AddSupplierReferencesInFC {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<AddSupplierReferencesInFCAction.Params>("json/client/contracting/add_supplier_references_in_fc_params_fully.json")
+            }
+        }
+
+        @Nested
+        inner class Result{
+            @Test
+            fun fully(){
+                testingBindingAndMapping<AddSupplierReferencesInFCAction.Result>("json/client/contracting/add_supplier_references_in_fc_result_fully.json")
+            }
+        }
+    }
+
+    @Nested
+    inner class SetStateForContracts {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<SetStateForContractsAction.Params>("json/client/contracting/set_state_for_contracts_params_fully.json")
+            }
+        }
+
+        @Nested
+        inner class Result{
+            @Test
+            fun fully(){
+                testingBindingAndMapping<SetStateForContractsAction.Result>("json/client/contracting/set_state_for_contracts_result_fully.json")
+            }
+
+        }
+    }
+
 }

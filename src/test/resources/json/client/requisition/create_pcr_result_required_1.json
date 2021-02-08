@@ -80,6 +80,7 @@
         "id": "string",
         "title": "string",
         "source": "tenderer",
+        "relatesTo": "lot",
         "requirementGroups": [
           {
             "id": "string",
@@ -92,11 +93,23 @@
                   "endDate": "2019-05-09T12:00:00Z"
                 },
                 "dataType": "string",
-                "expectedValue": "string"
+                "expectedValue": "string",
+                "eligibleEvidences": [
+                  {
+                    "id": "string",
+                    "title": "string",
+                    "type": "reference"
+                  }
+                ]
+
               }
             ]
           }
-        ]
+        ],
+        "classification": {
+          "id": "string",
+          "scheme": "string"
+        }
       }
     ],
     "conversions": [

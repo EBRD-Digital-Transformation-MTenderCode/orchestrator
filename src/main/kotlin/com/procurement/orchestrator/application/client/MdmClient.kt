@@ -15,7 +15,9 @@ import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetCrit
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetCriteriaAction
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetErrorDescriptionsAction
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetLocality
+import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetOrganizationSchemes
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRegion
+import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRegistrationSchemesAction
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRequirementGroups
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRequirementGroupsAction
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRequirements
@@ -42,6 +44,8 @@ interface MdmClient {
     suspend fun getCriteria(params: GetCriteriaAction.Params): Result<GetCriteria.Result.Success, Fail.Incident>
 
     suspend fun getStandardCriteria(params: GetStandardCriteriaAction.Params): Result<GetStandardCriteria.Result.Success, Fail.Incident>
+
+    suspend fun getOrganizationSchemes(params: GetRegistrationSchemesAction.Params): Result<GetOrganizationSchemes.Result, Fail.Incident>
 
     suspend fun getRequirements(params: GetRequirementsAction.Params): Result<GetRequirements.Result.Success, Fail.Incident>
 
