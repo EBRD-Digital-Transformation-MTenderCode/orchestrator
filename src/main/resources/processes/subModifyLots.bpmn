@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0h72vmh" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.1.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0h72vmh" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.5.0">
   <bpmn:collaboration id="Collaboration_18cgj4j">
     <bpmn:participant id="Participant_0vnpgl6" name="SubModifyLots" processRef="subModifyLots" />
   </bpmn:collaboration>
@@ -188,6 +188,16 @@
     <bpmn:endEvent id="EndEvent_0b2v92t">
       <bpmn:incoming>SequenceFlow_0pr8uer</bpmn:incoming>
     </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0jopbnz" name="pcrProtocol&#10;&#10;&#10;withdraw&#10;PcrProtocol&#10;&#10;completeSourcing" sourceRef="ExclusiveGateway_04tlvke" targetRef="RequisitionSetStateForLotsTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${processInfo.operationType == 'PCR_PROTOCOL' || processInfo.operationType == 'WITHDRAW_PCR_PROTOCOL' || processInfo.operationType == 'COMPLETE_SOURCING'}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1c8w1th" sourceRef="RequisitionSetStateForLotsTask" targetRef="Gateway_0ie7op4" />
+    <bpmn:sequenceFlow id="Flow_0cq9gbm" sourceRef="Gateway_0ie7op4" targetRef="ExclusiveGateway_1ojjv4q" />
+    <bpmn:exclusiveGateway id="Gateway_0ie7op4">
+      <bpmn:incoming>Flow_1c8w1th</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_0ya7wy5</bpmn:incoming>
+      <bpmn:outgoing>Flow_0cq9gbm</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
     <bpmn:subProcess id="SubProcess_0s8osww" triggeredByEvent="true">
       <bpmn:startEvent id="StartEvent_1qloljb" name="Internal Incident">
         <bpmn:extensionElements>
@@ -311,17 +321,7 @@
       <bpmn:sequenceFlow id="SequenceFlow_1x8pt1e" sourceRef="RecoveryAfterExternalIncidentTask" targetRef="EndEvent_0gdym4w" />
       <bpmn:sequenceFlow id="SequenceFlow_15rovjd" sourceRef="FixExternalIncidentTask" targetRef="RecoveryAfterExternalIncidentTask" />
     </bpmn:subProcess>
-    <bpmn:sequenceFlow id="Flow_0jopbnz" name="pcrProtocol" sourceRef="ExclusiveGateway_04tlvke" targetRef="RequisitionSetAwardedStateForLotsTask">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${processInfo.operationType == 'PCR_PROTOCOL'}</bpmn:conditionExpression>
-    </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="Flow_1c8w1th" sourceRef="RequisitionSetAwardedStateForLotsTask" targetRef="Gateway_0ie7op4" />
-    <bpmn:sequenceFlow id="Flow_0cq9gbm" sourceRef="Gateway_0ie7op4" targetRef="ExclusiveGateway_1ojjv4q" />
-    <bpmn:exclusiveGateway id="Gateway_0ie7op4">
-      <bpmn:incoming>Flow_1c8w1th</bpmn:incoming>
-      <bpmn:incoming>SequenceFlow_0ya7wy5</bpmn:incoming>
-      <bpmn:outgoing>Flow_0cq9gbm</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
-    <bpmn:serviceTask id="RequisitionSetAwardedStateForLotsTask" name="eRequisition:&#10;Set &#39;awarded&#39; state for lots" camunda:asyncBefore="true" camunda:delegateExpression="${requisitionSetStateForLotsDelegate}">
+    <bpmn:serviceTask id="RequisitionSetStateForLotsTask" name="eRequisition:&#10;Set state for lots" camunda:asyncBefore="true" camunda:delegateExpression="${requisitionSetStateForLotsDelegate}">
       <bpmn:incoming>Flow_0jopbnz</bpmn:incoming>
       <bpmn:outgoing>Flow_1c8w1th</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -332,7 +332,7 @@
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_18cgj4j">
       <bpmndi:BPMNShape id="Participant_0vnpgl6_di" bpmnElement="Participant_0vnpgl6" isHorizontal="true">
-        <dc:Bounds x="160" y="80" width="1460" height="720" />
+        <dc:Bounds x="160" y="80" width="1460" height="790" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_0cq9gbm_di" bpmnElement="Flow_0cq9gbm">
         <di:waypoint x="1370" y="455" />
@@ -348,7 +348,7 @@
         <di:waypoint x="304" y="550" />
         <di:waypoint x="430" y="550" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="341" y="523" width="57" height="14" />
+          <dc:Bounds x="326" y="523" width="89" height="93" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0ya7wy5_di" bpmnElement="SequenceFlow_0ya7wy5">
@@ -524,78 +524,78 @@
       <bpmndi:BPMNShape id="EndEvent_0b2v92t_di" bpmnElement="EndEvent_0b2v92t">
         <dc:Bounds x="1552" y="322" width="36" height="36" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="SubProcess_0s8osww_di" bpmnElement="SubProcess_0s8osww" isExpanded="true">
-        <dc:Bounds x="318" y="610" width="571" height="170" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="SequenceFlow_0todamc_di" bpmnElement="SequenceFlow_0todamc">
-        <di:waypoint x="669" y="690" />
-        <di:waypoint x="699" y="690" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_0x2k52c_di" bpmnElement="SequenceFlow_0x2k52c">
-        <di:waypoint x="539" y="690" />
-        <di:waypoint x="569" y="690" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_1b1hal5_di" bpmnElement="SequenceFlow_1b1hal5">
-        <di:waypoint x="799" y="690" />
-        <di:waypoint x="831" y="690" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_1ya4n43_di" bpmnElement="SequenceFlow_1ya4n43">
-        <di:waypoint x="403" y="690" />
-        <di:waypoint x="439" y="690" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="StartEvent_1qloljb_di" bpmnElement="StartEvent_1qloljb" bioc:stroke="rgb(142, 36, 170)" bioc:fill="rgb(225, 190, 231)">
-        <dc:Bounds x="367" y="672" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="346" y="715" width="80" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_0gnfo4f_di" bpmnElement="NotifierBpeIncidentTask">
-        <dc:Bounds x="439" y="650" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="UserTask_1h902yq_di" bpmnElement="FixInternalIncidentTask">
-        <dc:Bounds x="569" y="650" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_13txn2e_di" bpmnElement="RecoveryAfterInternalIncidentTask">
-        <dc:Bounds x="699" y="650" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="EndEvent_0isedxp_di" bpmnElement="EndEvent_0isedxp">
-        <dc:Bounds x="831" y="672" width="36" height="36" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="SubProcess_1fp7sxw_di" bpmnElement="SubProcess_1fp7sxw" isExpanded="true">
-        <dc:Bounds x="919" y="610" width="441" height="170" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="SequenceFlow_15rovjd_di" bpmnElement="SequenceFlow_15rovjd">
-        <di:waypoint x="1140" y="694" />
-        <di:waypoint x="1170" y="694" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_1x8pt1e_di" bpmnElement="SequenceFlow_1x8pt1e">
-        <di:waypoint x="1270" y="694" />
-        <di:waypoint x="1302" y="694" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_1rzh9n6_di" bpmnElement="SequenceFlow_1rzh9n6">
-        <di:waypoint x="1004" y="694" />
-        <di:waypoint x="1040" y="694" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="StartEvent_09w4quf_di" bpmnElement="StartEvent_09w4quf" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
-        <dc:Bounds x="968" y="676" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="947" y="719" width="83" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="UserTask_1g0u996_di" bpmnElement="FixExternalIncidentTask">
-        <dc:Bounds x="1040" y="654" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_00ur6at_di" bpmnElement="RecoveryAfterExternalIncidentTask">
-        <dc:Bounds x="1170" y="654" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="EndEvent_0gdym4w_di" bpmnElement="EndEvent_0gdym4w">
-        <dc:Bounds x="1302" y="676" width="36" height="36" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_0ie7op4_di" bpmnElement="Gateway_0ie7op4" isMarkerVisible="true">
         <dc:Bounds x="1345" y="455" width="50" height="50" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0iabhw7_di" bpmnElement="RequisitionSetAwardedStateForLotsTask" bioc:stroke="black" bioc:fill="white">
+      <bpmndi:BPMNShape id="Activity_0iabhw7_di" bpmnElement="RequisitionSetStateForLotsTask" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="430" y="510" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="SubProcess_0s8osww_di" bpmnElement="SubProcess_0s8osww" isExpanded="true">
+        <dc:Bounds x="318" y="640" width="571" height="170" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0todamc_di" bpmnElement="SequenceFlow_0todamc">
+        <di:waypoint x="669" y="720" />
+        <di:waypoint x="699" y="720" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0x2k52c_di" bpmnElement="SequenceFlow_0x2k52c">
+        <di:waypoint x="539" y="720" />
+        <di:waypoint x="569" y="720" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1b1hal5_di" bpmnElement="SequenceFlow_1b1hal5">
+        <di:waypoint x="799" y="720" />
+        <di:waypoint x="831" y="720" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1ya4n43_di" bpmnElement="SequenceFlow_1ya4n43">
+        <di:waypoint x="403" y="720" />
+        <di:waypoint x="439" y="720" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="StartEvent_1qloljb_di" bpmnElement="StartEvent_1qloljb" bioc:stroke="rgb(142, 36, 170)" bioc:fill="rgb(225, 190, 231)">
+        <dc:Bounds x="367" y="702" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="346" y="745" width="80" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0gnfo4f_di" bpmnElement="NotifierBpeIncidentTask">
+        <dc:Bounds x="439" y="680" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_1h902yq_di" bpmnElement="FixInternalIncidentTask">
+        <dc:Bounds x="569" y="680" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_13txn2e_di" bpmnElement="RecoveryAfterInternalIncidentTask">
+        <dc:Bounds x="699" y="680" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_0isedxp_di" bpmnElement="EndEvent_0isedxp">
+        <dc:Bounds x="831" y="702" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="SubProcess_1fp7sxw_di" bpmnElement="SubProcess_1fp7sxw" isExpanded="true">
+        <dc:Bounds x="919" y="640" width="441" height="170" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_15rovjd_di" bpmnElement="SequenceFlow_15rovjd">
+        <di:waypoint x="1140" y="724" />
+        <di:waypoint x="1170" y="724" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1x8pt1e_di" bpmnElement="SequenceFlow_1x8pt1e">
+        <di:waypoint x="1270" y="724" />
+        <di:waypoint x="1302" y="724" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1rzh9n6_di" bpmnElement="SequenceFlow_1rzh9n6">
+        <di:waypoint x="1004" y="724" />
+        <di:waypoint x="1040" y="724" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="StartEvent_09w4quf_di" bpmnElement="StartEvent_09w4quf" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
+        <dc:Bounds x="968" y="706" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="947" y="749" width="83" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_1g0u996_di" bpmnElement="FixExternalIncidentTask">
+        <dc:Bounds x="1040" y="684" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_00ur6at_di" bpmnElement="RecoveryAfterExternalIncidentTask">
+        <dc:Bounds x="1170" y="684" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_0gdym4w_di" bpmnElement="EndEvent_0gdym4w">
+        <dc:Bounds x="1302" y="706" width="36" height="36" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

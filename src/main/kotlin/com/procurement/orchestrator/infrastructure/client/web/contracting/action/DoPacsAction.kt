@@ -3,7 +3,6 @@ package com.procurement.orchestrator.infrastructure.client.web.contracting.actio
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.procurement.orchestrator.application.model.Owner
-import com.procurement.orchestrator.application.model.Token
 import com.procurement.orchestrator.application.service.FunctionalAction
 import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
@@ -26,12 +25,13 @@ import com.procurement.orchestrator.domain.model.tender.criteria.CriteriaRelates
 import com.procurement.orchestrator.domain.model.unit.Unit
 import com.procurement.orchestrator.infrastructure.client.web.Target
 import com.procurement.orchestrator.infrastructure.model.Version
+import java.io.Serializable
 import java.time.LocalDateTime
 
-abstract class CreatePacsAction : FunctionalAction<CreatePacsAction.Params, CreatePacsAction.Result> {
+abstract class DoPacsAction : FunctionalAction<DoPacsAction.Params, DoPacsAction.Result> {
 
     override val version: Version = Version.parse("2.0.0")
-    override val name: String = "createPacs"
+    override val name: String = "doPacs"
     override val target: Target<Result> = Target.single()
 
     data class Params(
@@ -179,15 +179,11 @@ abstract class CreatePacsAction : FunctionalAction<CreatePacsAction.Params, Crea
 
     data class Result(
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
-        @param:JsonProperty("contracts") @field:JsonProperty("contracts") val contracts: List<Contract>,
-
-        @JsonInclude(JsonInclude.Include.NON_NULL)
-        @param:JsonProperty("token") @field:JsonProperty("token") val token: Token?
-    ) {
+        @param:JsonProperty("contracts") @field:JsonProperty("contracts") val contracts: List<Contract>
+    ) : Serializable {
         data class Contract(
             @param:JsonProperty("id") @field:JsonProperty("id") val id: ContractId,
             @param:JsonProperty("status") @field:JsonProperty("status") val status: String,
-            @param:JsonProperty("statusDetails") @field:JsonProperty("statusDetails") val statusDetails: String,
             @param:JsonProperty("date") @field:JsonProperty("date") val date: LocalDateTime,
 
             @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -201,11 +197,11 @@ abstract class CreatePacsAction : FunctionalAction<CreatePacsAction.Params, Crea
 
             @JsonInclude(JsonInclude.Include.NON_EMPTY)
             @param:JsonProperty("agreedMetrics ") @field:JsonProperty("agreedMetrics ") val agreedMetrics: List<AgreedMetric>?
-        ) {
+        ) : Serializable {
             data class Supplier(
                 @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
                 @param:JsonProperty("name") @field:JsonProperty("name") val name: String
-            )
+            ) : Serializable
 
             data class AgreedMetric(
                 @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
@@ -213,7 +209,7 @@ abstract class CreatePacsAction : FunctionalAction<CreatePacsAction.Params, Crea
 
                 @JsonInclude(JsonInclude.Include.NON_EMPTY)
                 @param:JsonProperty("observations") @field:JsonProperty("observations") val observations: List<Observation>
-            ) {
+            ) : Serializable {
                 data class Observation(
                     @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
                     @param:JsonProperty("notes") @field:JsonProperty("notes") val notes: String,
@@ -225,27 +221,26 @@ abstract class CreatePacsAction : FunctionalAction<CreatePacsAction.Params, Crea
 
                     @JsonInclude(JsonInclude.Include.NON_NULL)
                     @param:JsonProperty("unit") @field:JsonProperty("unit") val unit: Unit?
-                ) {
+                ) : Serializable {
                     data class Period(
                         @param:JsonProperty("startDate") @field:JsonProperty("startDate") val startDate: LocalDateTime,
                         @param:JsonProperty("endDate") @field:JsonProperty("endDate") val endDate: LocalDateTime
-                    )
+                    ) : Serializable
 
                     data class Unit(
                         @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
                         @param:JsonProperty("name") @field:JsonProperty("name") val name: String
-                    )
+                    ) : Serializable
                 }
             }
         }
     }
 }
 
-fun CreatePacsAction.Result.Contract.toDomain(): com.procurement.orchestrator.domain.model.contract.Contract {
+fun DoPacsAction.Result.Contract.toDomain(): com.procurement.orchestrator.domain.model.contract.Contract {
     return com.procurement.orchestrator.domain.model.contract.Contract(
         id = id,
         status = status,
-        statusDetails = statusDetails,
         date = date,
         relatedLots = relatedLots.let { relatedLots -> RelatedLots(relatedLots) },
         suppliers = suppliers?.map { supplier ->

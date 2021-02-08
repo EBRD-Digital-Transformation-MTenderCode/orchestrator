@@ -1,6 +1,7 @@
 package com.procurement.orchestrator.delegate.access;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.dto.command.ResponseDto;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
@@ -48,10 +49,10 @@ public class AccessCheckFEData implements JavaDelegate {
         final OperationStepEntity entity = operationService.getPreviousOperationStep(execution);
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
-        final JsonNode tender = processService.getFullTender(jsonData, processId);
+        final JsonNode payload = createPayload(jsonData, processId);
 
-        if (tender != null) {
-            final JsonNode commandMessage = processService.getCommandMessage(CHECK_FE_DATA, context, tender);
+        if (payload != null) {
+            final JsonNode commandMessage = processService.getCommandMessage(CHECK_FE_DATA, context, payload);
             if (LOG.isDebugEnabled())
                 LOG.debug("COMMAND ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(commandMessage));
 
@@ -68,5 +69,18 @@ public class AccessCheckFEData implements JavaDelegate {
             }
         }
     }
+
+    private JsonNode createPayload(final JsonNode storedNode, final String processId) {
+        try {
+            final ObjectNode payloadNode = jsonUtil.createObjectNode();
+            payloadNode.set("tender", storedNode.get("tender"));
+            payloadNode.set("criteria", storedNode.get("criteria"));
+            return payloadNode;
+        } catch (Exception e) {
+            processService.terminateProcess(processId, e.getMessage());
+            return null;
+        }
+    }
+
 }
 

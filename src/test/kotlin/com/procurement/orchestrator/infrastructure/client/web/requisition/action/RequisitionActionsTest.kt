@@ -60,6 +60,31 @@ class RequisitionActionsTest {
             fun required_2() {
                 testingBindingAndMapping<CreatePcrAction.Result>("json/client/requisition/create_pcr_result_required_2.json")
             }
+
+            @Test
+            fun required_3() {
+                testingBindingAndMapping<CreatePcrAction.Result>("json/client/requisition/create_pcr_result_required_3.json")
+            }
+        }
+    }
+
+    @Nested
+    inner class SetUnsuccessfulStateForLots {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<SetUnsuccessfulStateForLotsAction.Params>("json/client/requisition/set_unsuccessful_state_for_lots_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<SetUnsuccessfulStateForLotsAction.Result>("json/client/requisition/set_unsuccessful_state_for_lots_result_full.json")
+            }
         }
     }
 
@@ -273,6 +298,25 @@ class RequisitionActionsTest {
             @Test
             fun required2() {
                 testingBindingAndMapping<FindCriteriaAndTargetsForPacsAction.Result>("json/client/requisition/find_criteria_and_targets_for_pacs_required_2.json")
+            }
+        }
+    }
+
+    @Nested
+    inner class GetOcidFromRelatedProcess{
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetOcidFromRelatedProcessAction.Params>("json/client/requisition/get_ocid_from_related_process_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result{
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetOcidFromRelatedProcessAction.Result>("json/client/requisition/get_ocid_from_related_process_result_full.json")
             }
         }
     }

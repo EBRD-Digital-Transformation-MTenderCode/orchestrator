@@ -1,0 +1,13 @@
+{
+  "id": "string",
+  "status": "pending",
+  "statusDetails": "contractProject",
+  "date": "2021-02-02T09:18:19Z",
+  "isFrameworkOrDynamic": true,
+  "suppliers": [
+    {
+      "id": "string",
+      "name": "string"
+    }
+  ]
+}
