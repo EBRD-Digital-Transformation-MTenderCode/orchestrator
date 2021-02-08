@@ -94,8 +94,12 @@ class RequirementsDeserializer : JsonDeserializer<Requirements>() {
                 ErrorType.INVALID_REQUIREMENT_VALUE,
                 message = "Requirement.dataType mismatch with datatype in expectedValue || minValue || maxValue."
             )
+            fun datatypeMissingException(): Nothing = throw ErrorException(
+                ErrorType.INVALID_REQUIREMENT_VALUE,
+                message = "Missing 'requirement.dataType'."
+            )
 
-            val dataType = RequirementDataType.orThrow(requirementNode.get("dataType").asText())
+            val dataType = requirementNode.get("dataType")?.let { RequirementDataType.orThrow(it.asText())  }
             return when {
                 isExpectedValue(requirementNode) -> {
                     when (dataType) {
@@ -124,6 +128,8 @@ class RequirementsDeserializer : JsonDeserializer<Requirements>() {
                                 ExpectedValue.of(requirementNode.get("expectedValue").longValue())
                             else
                                 datatypeMismatchException()
+
+                        null -> datatypeMissingException()
                     }
                 }
                 isRange(requirementNode) -> {
@@ -156,6 +162,8 @@ class RequirementsDeserializer : JsonDeserializer<Requirements>() {
                                 ErrorType.INVALID_REQUIREMENT_VALUE,
                                 message = "Boolean or String datatype cannot have a range"
                             )
+
+                        null -> datatypeMissingException()
                     }
                 }
                 isOnlyMax(requirementNode) -> {
@@ -176,6 +184,8 @@ class RequirementsDeserializer : JsonDeserializer<Requirements>() {
                                 ErrorType.INVALID_REQUIREMENT_VALUE,
                                 message = "Boolean or String datatype cannot have a max value"
                             )
+
+                        null -> datatypeMissingException()
                     }
                 }
                 isOnlyMin(requirementNode) -> {
@@ -198,6 +208,8 @@ class RequirementsDeserializer : JsonDeserializer<Requirements>() {
                                 ErrorType.INVALID_REQUIREMENT_VALUE,
                                 message = "Boolean or String datatype cannot have a min value"
                             )
+
+                        null -> datatypeMissingException()
                     }
                 }
                 isNotBounded(requirementNode) -> {
