@@ -2,6 +2,7 @@ package com.procurement.orchestrator.infrastructure.client.web.contracting
 
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.AddSupplierReferencesInFCAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CancelFrameworkContractAction
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckContractStateAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckExistenceSupplierReferencesInFCAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreateFrameworkContractAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.DoPacsAction
@@ -24,6 +25,8 @@ object ContractingCommands {
     object AddSupplierReferencesInFC: AddSupplierReferencesInFCAction()
 
     object SetStateForContracts: SetStateForContractsAction()
+
+    object CheckContractState: CheckContractStateAction()
 
     object CheckExistenceSupplierReferencesInFC: CheckExistenceSupplierReferencesInFCAction()
 }

@@ -11,7 +11,7 @@ import org.camunda.bpm.engine.variable.VariableMap
 import org.springframework.stereotype.Component
 
 @Component
-class TransferPartiesToOtherProcess : DelegateVariableMapping {
+class TransferPartiesToOtherProcessDelegate : DelegateVariableMapping {
 
     companion object {
         private const val VARIABLE_PARTIES = "parties"

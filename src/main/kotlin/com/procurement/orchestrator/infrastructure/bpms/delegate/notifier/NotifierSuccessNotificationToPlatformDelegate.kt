@@ -182,6 +182,7 @@ class NotifierSuccessNotificationToPlatformDelegate(
             OperationTypeProcess.CREATE_SUBMISSION -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.DECLARE_NON_CONFLICT_OF_INTEREST -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.DIVIDE_LOT -> "$tenderUri/$cpid/$ocid"
+            OperationTypeProcess.ISSUING_FRAMEWORK_CONTRACT -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.LOT_CANCELLATION -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.OUTSOURCING_PN -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.PCR_PROTOCOL -> "$tenderUri/$cpid/$ocid"
