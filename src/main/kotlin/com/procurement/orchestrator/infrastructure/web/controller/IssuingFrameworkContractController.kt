@@ -32,7 +32,7 @@ class IssuingFrameworkContractController(
         private const val PROCESS_NAME = "issuingFrameworkContract"
     }
 
-    @PostMapping("/issue/contract/{cpid}/{ocid}")
+    @PostMapping("/issue/fc/{cpid}/{ocid}")
     fun issuingFrameworkContract(
         servlet: HttpServletRequest,
         @PathVariable cpid: String,
