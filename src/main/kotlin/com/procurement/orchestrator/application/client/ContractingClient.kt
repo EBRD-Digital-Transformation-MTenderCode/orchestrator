@@ -6,6 +6,7 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.AddSupplierReferencesInFCAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CancelFrameworkContractAction
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckExistenceSupplierReferencesInFCAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreateFrameworkContractAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.DoPacsAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.FindCANIdsAction
@@ -48,4 +49,9 @@ interface ContractingClient {
         id: CommandId,
         params: SetStateForContractsAction.Params
     ): Result<Reply<SetStateForContractsAction.Result>, Fail.Incident>
+
+    suspend fun checkExistenceSupplierReferencesInFC(
+        id: CommandId,
+        params: CheckExistenceSupplierReferencesInFCAction.Params
+    ): Result<Reply<Unit>, Fail.Incident>
 }
