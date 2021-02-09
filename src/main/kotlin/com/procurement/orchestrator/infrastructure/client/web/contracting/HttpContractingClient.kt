@@ -9,6 +9,7 @@ import com.procurement.orchestrator.infrastructure.client.web.WebClient
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.AddSupplierReferencesInFCAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CancelFrameworkContractAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckContractStateAction
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckExistenceSupplierReferencesInFCAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreateFrameworkContractAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.DoPacsAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.FindCANIdsAction
@@ -86,5 +87,13 @@ class HttpContractingClient(private val webClient: WebClient, properties: Compon
     ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
         url = url,
         command = ContractingCommands.CheckContractState.build(id = id, params = params)
+    )
+
+    override suspend fun checkExistenceSupplierReferencesInFC(
+        id: CommandId,
+        params: CheckExistenceSupplierReferencesInFCAction.Params
+    ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
+        url = url,
+        command = ContractingCommands.CheckExistenceSupplierReferencesInFC.build(id = id, params = params)
     )
 }

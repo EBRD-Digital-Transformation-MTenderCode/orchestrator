@@ -199,4 +199,16 @@ class ContractingActionsTest {
         }
     }
 
+    @Nested
+    inner class CheckExistenceSupplierReferencesInFC {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CheckExistenceSupplierReferencesInFCAction.Params>("json/client/contracting/check_existence_supplier_references_in_fc_params_fully.json")
+            }
+        }
+    }
+
 }
