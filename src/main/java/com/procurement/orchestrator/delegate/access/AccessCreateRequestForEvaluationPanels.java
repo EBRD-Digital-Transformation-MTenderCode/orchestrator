@@ -1,6 +1,7 @@
 package com.procurement.orchestrator.delegate.access;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.procurement.orchestrator.domain.Context;
 import com.procurement.orchestrator.domain.dto.command.ResponseDto;
@@ -78,7 +79,10 @@ public class AccessCreateRequestForEvaluationPanels implements JavaDelegate {
 
     private JsonNode addCriteria(final JsonNode jsonData, final JsonNode criteriaData, final String processId) {
         try {
-            ((ObjectNode) jsonData).replace("criteria", criteriaData.get("criteria"));
+            ArrayNode criteriaNode = jsonUtil.createArrayNode();
+            criteriaNode.add(criteriaData.get("criteria")); // wrap criteria object(!) from response into array
+
+            ((ObjectNode) jsonData).replace("criteria", criteriaNode);
             return jsonData;
         } catch (Exception e) {
             processService.terminateProcess(processId, e.getMessage());
