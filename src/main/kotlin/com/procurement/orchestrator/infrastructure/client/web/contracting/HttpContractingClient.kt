@@ -8,6 +8,7 @@ import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.WebClient
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.AddSupplierReferencesInFCAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CancelFrameworkContractAction
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckContractStateAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreateFrameworkContractAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.DoPacsAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.FindCANIdsAction
@@ -28,7 +29,10 @@ class HttpContractingClient(private val webClient: WebClient, properties: Compon
         target = ContractingCommands.FindCANIds.target
     )
 
-    override suspend fun findSupplierReferencesOfActivePacs(id: CommandId, params: FindSupplierReferencesOfActivePacsAction.Params):
+    override suspend fun findSupplierReferencesOfActivePacs(
+        id: CommandId,
+        params: FindSupplierReferencesOfActivePacsAction.Params
+    ):
         Result<Reply<FindSupplierReferencesOfActivePacsAction.Result>, Fail.Incident> = webClient.call(
         url = url,
         command = ContractingCommands.FindSupplierReferencesOfActivePacs.build(id = id, params = params),
@@ -74,5 +78,13 @@ class HttpContractingClient(private val webClient: WebClient, properties: Compon
         url = url,
         command = ContractingCommands.SetStateForContracts.build(id = id, params = params),
         target = ContractingCommands.SetStateForContracts.target
+    )
+
+    override suspend fun checkContractState(
+        id: CommandId,
+        params: CheckContractStateAction.Params
+    ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
+        url = url,
+        command = ContractingCommands.CheckContractState.build(id = id, params = params)
     )
 }
