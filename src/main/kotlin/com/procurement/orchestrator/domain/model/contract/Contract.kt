@@ -25,6 +25,7 @@ import java.time.LocalDateTime
 data class Contract(
     @field:JsonProperty("id") @param:JsonProperty("id") val id: ContractId,
 
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonProperty("internalId") @param:JsonProperty("internalId") val internalId: String? = null,
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
