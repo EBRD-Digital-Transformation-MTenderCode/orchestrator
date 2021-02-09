@@ -2,6 +2,7 @@ package com.procurement.orchestrator.infrastructure.client.web.contracting
 
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.AddSupplierReferencesInFCAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CancelFrameworkContractAction
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckContractStateAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreateFrameworkContractAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.DoPacsAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.FindCANIdsAction
@@ -23,4 +24,6 @@ object ContractingCommands {
     object AddSupplierReferencesInFC: AddSupplierReferencesInFCAction()
 
     object SetStateForContracts: SetStateForContractsAction()
+
+    object CheckContractState: CheckContractStateAction()
 }
