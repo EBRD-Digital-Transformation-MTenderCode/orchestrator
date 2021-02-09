@@ -29,6 +29,7 @@ fun initiator(operationType: OperationTypeProcess): Initiator = when (operationT
     OperationTypeProcess.CREATE_SUBMISSION -> Initiator.PLATFORM
     OperationTypeProcess.DECLARE_NON_CONFLICT_OF_INTEREST,
     OperationTypeProcess.DIVIDE_LOT -> Initiator.PLATFORM
+    OperationTypeProcess.ISSUING_FRAMEWORK_CONTRACT -> Initiator.PLATFORM
     OperationTypeProcess.LOT_CANCELLATION -> Initiator.PLATFORM
     OperationTypeProcess.OUTSOURCING_PN -> Initiator.PLATFORM
     OperationTypeProcess.PCR_PROTOCOL -> Initiator.PLATFORM
