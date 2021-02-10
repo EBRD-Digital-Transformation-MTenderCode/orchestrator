@@ -6,10 +6,11 @@ import com.procurement.orchestrator.domain.EnumElementProvider
 
 enum class LotStatusDetails(@JsonValue override val key: String) : EnumElementProvider.Key {
 
+    ALL_REJECTED("allRejected"),
     AWARDED("awarded"),
     CANCELLED("cancelled"),
     EMPTY("empty"),
-    ALL_REJECTED("allRejected"),
+    RECONSIDERATION("reconsideration"),
     UNSUCCESSFUL("unsuccessful");
 
     override fun toString(): String = key
