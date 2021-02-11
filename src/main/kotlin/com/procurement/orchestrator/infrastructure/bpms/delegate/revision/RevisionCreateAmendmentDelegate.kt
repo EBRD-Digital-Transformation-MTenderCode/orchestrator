@@ -71,6 +71,7 @@ class RevisionCreateAmendmentDelegate(
             OperationTypeProcess.CREATE_SUBMISSION,
             OperationTypeProcess.DECLARE_NON_CONFLICT_OF_INTEREST,
             OperationTypeProcess.DIVIDE_LOT,
+            OperationTypeProcess.ISSUING_FRAMEWORK_CONTRACT,
             OperationTypeProcess.OUTSOURCING_PN,
             OperationTypeProcess.PCR_PROTOCOL,
             OperationTypeProcess.QUALIFICATION,

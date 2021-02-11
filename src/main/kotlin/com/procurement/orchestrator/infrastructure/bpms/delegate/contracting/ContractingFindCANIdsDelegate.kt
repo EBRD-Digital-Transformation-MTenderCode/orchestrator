@@ -21,6 +21,7 @@ import com.procurement.orchestrator.domain.model.amendment.AmendmentRelatesTo
 import com.procurement.orchestrator.domain.model.can.CanStatus
 import com.procurement.orchestrator.domain.model.can.CanStatusDetails
 import com.procurement.orchestrator.domain.model.contract.Contract
+import com.procurement.orchestrator.domain.model.contract.ContractId
 import com.procurement.orchestrator.domain.model.lot.LotId
 import com.procurement.orchestrator.domain.util.extension.getNewElements
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
@@ -179,11 +180,11 @@ class ContractingFindCANIdsDelegate(
 
         val contextContracts = context.contracts
 
-        val knownContractsIds = contextContracts.map { it.id }
+        val knownContractsIds = contextContracts.map { it.id.toString() }
         val receivedCansIds = data.map { it.toString() }
 
         val newContracts = getNewElements(received = receivedCansIds, known = knownContractsIds)
-            .map { Contract(id = it) }
+            .map { Contract(id = ContractId.create(it)) }
 
         context.contracts = contextContracts.plus(newContracts)
 
