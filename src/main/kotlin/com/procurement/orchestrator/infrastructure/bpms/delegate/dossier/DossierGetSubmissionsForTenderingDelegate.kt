@@ -370,6 +370,7 @@ class DossierGetSubmissionsForTenderingDelegate(
 
             OperationTypeProcess.COMPLETE_SOURCING,
             OperationTypeProcess.DIVIDE_LOT,
+            OperationTypeProcess.ISSUING_FRAMEWORK_CONTRACT,
             OperationTypeProcess.PCR_PROTOCOL,
             OperationTypeProcess.SUBMIT_BID,
             OperationTypeProcess.UPDATE_AWARD,

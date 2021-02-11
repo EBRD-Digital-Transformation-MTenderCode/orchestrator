@@ -32,6 +32,9 @@ interface Transform {
      */
     fun <R> trySerialization(value: R): Result<String, Fail.Incident.Transform.Serialization>
 
+    fun <R> tryToJsonNode(value: R): Result<JsonNode, Fail.Incident.Transform.Serialization>
+
+
     /**
      * ???
      */

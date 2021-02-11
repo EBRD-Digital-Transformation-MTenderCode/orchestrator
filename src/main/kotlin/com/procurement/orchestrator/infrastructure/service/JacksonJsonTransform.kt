@@ -76,6 +76,12 @@ class JacksonJsonTransform(private val mapper: ObjectMapper) :
         failure(Fail.Incident.Transform.Serialization(description = "Error of serialization.", exception = expected))
     }
 
+    override fun <R> tryToJsonNode(value: R): Result<JsonNode, Fail.Incident.Transform.Serialization> = try {
+        success(mapper.valueToTree(value))
+    } catch (expected: Exception) {
+        failure(Fail.Incident.Transform.Serialization(description = "Error of serialization.", exception = expected))
+    }
+
     /**
      * ???
      */

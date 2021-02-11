@@ -68,12 +68,12 @@
     <bpmn:sequenceFlow id="Flow_12mzpor" sourceRef="RequistionSetUnsuccessfulStateForLotsTask" targetRef="Gateway_0dnjrrr" />
     <bpmn:callActivity id="SubTransferSuppliersToFETask" name="Transfer suppliers to FE" camunda:asyncBefore="true" calledElement="subTransferSuppliersToFE" camunda:variableMappingDelegateExpression="${transferPartiesToOtherProcessDelegate}">
       <bpmn:extensionElements>
-        <camunda:in source="errors" target="errors" />
+        <camunda:out source="errors" target="errors" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1u1xblw</bpmn:incoming>
       <bpmn:outgoing>Flow_0watru8</bpmn:outgoing>
     </bpmn:callActivity>
-    <bpmn:callActivity id="SubModifyLotsTask" name="Modify Lots" camunda:asyncBefore="true" calledElement="subModifyTender" camunda:variableMappingDelegateExpression="${transferLotIdsDelegate}">
+    <bpmn:callActivity id="SubModifyLotsTask" name="Modify Lots" camunda:asyncBefore="true" calledElement="subModifyLots" camunda:variableMappingDelegateExpression="${transferLotIdsDelegate}">
       <bpmn:extensionElements>
         <camunda:out source="errors" target="errors" />
       </bpmn:extensionElements>
@@ -302,10 +302,7 @@
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1bx16uc">
       <bpmndi:BPMNShape id="Participant_15wmepx_di" bpmnElement="Participant_15wmepx" isHorizontal="true">
-        <dc:Bounds x="170" y="79" width="1980" height="541" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_07sm0kg_di" bpmnElement="TextAnnotation_07sm0kg">
-        <dc:Bounds x="1320" y="350" width="120" height="40" />
+        <dc:Bounds x="180" y="120" width="1970" height="500" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_1muv9wm_di" bpmnElement="Flow_1muv9wm" bioc:stroke="black" bioc:fill="white">
         <di:waypoint x="2060" y="294" />
@@ -434,9 +431,6 @@
       <bpmndi:BPMNShape id="Activity_01jnyqe_di" bpmnElement="ContractingSetStateForContractsTask" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="1330" y="254" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0u89h31_di" bpmnElement="RequistionSetUnsuccessfulStateForLotsTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="1460" y="370" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1hgr886_di" bpmnElement="Activity_1hgr886" isExpanded="true">
         <dc:Bounds x="1011" y="460" width="440" height="140" />
       </bpmndi:BPMNShape>
@@ -534,6 +528,9 @@
       <bpmndi:BPMNShape id="Event_1ini9v4_di" bpmnElement="Event_1ini9v4">
         <dc:Bounds x="1873" y="510" width="36" height="36" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0u89h31_di" bpmnElement="RequistionSetUnsuccessfulStateForLotsTask" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="1460" y="370" width="100" height="80" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_00jrs1r_di" bpmnElement="TextAnnotation_00jrs1r">
         <dc:Bounds x="321" y="181" width="100" height="54" />
       </bpmndi:BPMNShape>
@@ -560,6 +557,9 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_0glkg2z_di" bpmnElement="TextAnnotation_0glkg2z">
         <dc:Bounds x="1190" y="185" width="120" height="46" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_07sm0kg_di" bpmnElement="TextAnnotation_07sm0kg">
+        <dc:Bounds x="1320" y="350" width="120" height="40" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Association_0dhc7on_di" bpmnElement="Association_0dhc7on">
         <di:waypoint x="371" y="254" />

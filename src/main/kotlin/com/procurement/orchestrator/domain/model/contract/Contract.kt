@@ -26,6 +26,9 @@ data class Contract(
     @field:JsonProperty("id") @param:JsonProperty("id") val id: ContractId,
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonProperty("internalId") @param:JsonProperty("internalId") val internalId: String? = null,
+
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonProperty("date") @param:JsonProperty("date") val date: LocalDateTime? = null,
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
@@ -121,6 +124,7 @@ data class Contract(
 
     override fun updateBy(src: Contract) = Contract(
         id = id,
+        internalId = src.internalId or internalId,
         date = src.date or date,
         awardId = src.awardId or awardId,
         relatedLots = relatedLots combineBy src.relatedLots,
