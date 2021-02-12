@@ -169,5 +169,15 @@
         }
       ]
     }
-  ]
+  ],
+  "mdm": {
+    "registrationSchemes": [
+      {
+        "country": "string",
+        "schemes": [
+          "string"
+        ]
+      }
+    ]
+  }
 }

@@ -29,7 +29,11 @@ abstract class ValidateSubmissionAction : ProceduralAction<ValidateSubmissionAct
         @field:JsonProperty("documents") @param:JsonProperty("documents") val documents: Documents = Documents(),
 
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
-        @param:JsonProperty("requirementResponses") @field:JsonProperty("requirementResponses") val requirementResponses: List<RequirementResponse>?
+        @param:JsonProperty("requirementResponses") @field:JsonProperty("requirementResponses") val requirementResponses: List<RequirementResponse>?,
+
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        @param:JsonProperty("mdm") @field:JsonProperty("mdm") val mdm: Mdm?
+
     ) {
         data class RequirementResponse(
             @param:JsonProperty("id") @field:JsonProperty("id") val id: RequirementResponseId,
@@ -71,6 +75,16 @@ abstract class ValidateSubmissionAction : ProceduralAction<ValidateSubmissionAct
                     @param:JsonProperty("id") @field:JsonProperty("id") val id: DocumentId
                 )
             }
+        }
+
+        data class Mdm(
+            @param:JsonProperty("registrationSchemes") @field:JsonProperty("registrationSchemes") val registrationSchemes: List<RegistrationScheme>
+        ) {
+            data class RegistrationScheme(
+                @param:JsonProperty("country") @field:JsonProperty("country") val country: String,
+                @param:JsonProperty("schemes") @field:JsonProperty("schemes") val schemes: List<String>
+
+            )
         }
     }
 }
