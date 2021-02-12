@@ -94,16 +94,18 @@ class DossierValidateSubmissionDelegate(
                                 }
                         )
                     },
-                mdm = context.processMasterData?.mdm?.let { mdm ->
-                    ValidateSubmissionAction.Params.Mdm(
-                        registrationSchemes = mdm.registrationSchemes.map { registrationScheme ->
-                            ValidateSubmissionAction.Params.Mdm.RegistrationScheme(
-                                country = registrationScheme.country,
-                                schemes = registrationScheme.schemes.map { it }
-                            )
-                        }
-                    )
-                }
+                mdm = context.processMasterData?.mdm
+                    ?.let { mdm ->
+                        ValidateSubmissionAction.Params.Mdm(
+                            registrationSchemes = mdm.registrationSchemes
+                                .map { registrationScheme ->
+                                    ValidateSubmissionAction.Params.Mdm.RegistrationScheme(
+                                        country = registrationScheme.country,
+                                        schemes = registrationScheme.schemes.map { it }
+                                    )
+                                }
+                        )
+                    }
             )
         )
     }
