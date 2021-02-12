@@ -17,10 +17,8 @@ import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExterna
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
-import com.procurement.orchestrator.infrastructure.client.web.contracting.ContractingCommands
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.DoPacsAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.toDomain
-import com.procurement.orchestrator.infrastructure.configuration.property.ExternalServiceName
 import org.springframework.stereotype.Component
 
 @Component
@@ -156,12 +154,7 @@ class ContractingDoPacsDelegate(
     ): MaybeFail<Fail.Incident> {
 
         val data = result.orNull
-            ?: return MaybeFail.fail(
-                Fail.Incident.Response.Empty(
-                    ExternalServiceName.CONTRACTING,
-                    ContractingCommands.DoPacs
-                )
-            )
+            ?: return MaybeFail.none()
 
         val receivedContracts = data.contracts
             .map { contract -> contract.toDomain() }
