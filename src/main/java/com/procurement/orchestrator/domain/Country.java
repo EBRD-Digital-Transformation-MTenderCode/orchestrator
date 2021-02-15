@@ -11,6 +11,7 @@ import java.util.Map;
 public enum Country {
 
     MD("MD"),
+    UZ("UZ"),
     TEST("TEST");
 
     private static final Map<String, Country> CONSTANTS = new HashMap<>();
