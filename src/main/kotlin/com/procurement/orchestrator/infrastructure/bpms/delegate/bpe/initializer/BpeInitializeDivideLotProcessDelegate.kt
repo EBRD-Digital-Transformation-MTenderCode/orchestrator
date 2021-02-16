@@ -23,8 +23,13 @@ import com.procurement.orchestrator.domain.model.item.Items
 import com.procurement.orchestrator.domain.model.lot.Lot
 import com.procurement.orchestrator.domain.model.lot.LotId
 import com.procurement.orchestrator.domain.model.lot.Lots
+import com.procurement.orchestrator.domain.model.lot.Option
+import com.procurement.orchestrator.domain.model.lot.Options
 import com.procurement.orchestrator.domain.model.lot.PlaceOfPerformance
+import com.procurement.orchestrator.domain.model.lot.RecurrentProcurement
+import com.procurement.orchestrator.domain.model.lot.Renewal
 import com.procurement.orchestrator.domain.model.period.Period
+import com.procurement.orchestrator.domain.model.period.Periods
 import com.procurement.orchestrator.domain.model.tender.Tender
 import com.procurement.orchestrator.domain.model.value.Value
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
@@ -73,9 +78,102 @@ class BpeInitializeDivideLotProcessDelegate(
             description = this.description,
             value = this.value.toDomain(),
             contractPeriod = this.contractPeriod.toDomain().orForwardFail { return it },
-            placeOfPerformance = this.placeOfPerformance.toDomain()
+            placeOfPerformance = this.placeOfPerformance.toDomain(),
+            hasOptions = this.hasOptions,
+            options = this.options
+                ?.map { option -> option.toDomain().orForwardFail { return it } }
+                .orEmpty()
+                .let { Options(it) },
+            hasRenewal = this.hasRenewal,
+            renewal = this.renewal?.toDomain()?.orForwardFail { return it },
+            hasRecurrence = this.hasRecurrence,
+            recurrence = this.recurrence?.toDomain()?.orForwardFail { return it }
         )
             .asSuccess()
+
+    private fun DivideLotProcess.Request.Payload.Tender.Lot.Renewal.toDomain():  Result<Renewal, Fail> {
+        return Renewal(
+            description = description,
+            minimumRenewals = minimumRenewals,
+            maximumRenewals = maximumRenewals,
+            period = period?.toDomain()?.orForwardFail { return it }
+        ).asSuccess()
+    }
+
+    private fun DivideLotProcess.Request.Payload.Tender.Lot.Renewal.Period.toDomain(): Result<Period, Fail> {
+        val startDateParsed = startDate?.tryParseLocalDateTime()
+            ?.orReturnFail { format ->
+                return failure(DataValidationErrors.DataFormatMismatch("tender.lot.option.renewal.startDate", format, startDate))
+            }
+
+        val endDateParsed = endDate?.tryParseLocalDateTime()
+            ?.orReturnFail { format ->
+                return failure(DataValidationErrors.DataFormatMismatch("tender.lot.option.renewal.endDate", format, endDate))
+            }
+
+        val maxExtentDateParsed = maxExtentDate?.tryParseLocalDateTime()
+            ?.orReturnFail { format ->
+                return failure(DataValidationErrors.DataFormatMismatch("tender.lot.option.renewal.maxExtentDate", format, maxExtentDate))
+            }
+
+        return Period(
+            startDate = startDateParsed,
+            endDate = endDateParsed,
+            maxExtentDate = maxExtentDateParsed,
+            durationInDays = durationInDays
+        ).asSuccess()
+    }
+
+    private fun DivideLotProcess.Request.Payload.Tender.Lot.Option.toDomain(): Result<Option, Fail> =
+        Option(
+            description = description,
+            period = period?.toDomain()?.orForwardFail { return it }
+        ).asSuccess()
+
+    private fun DivideLotProcess.Request.Payload.Tender.Lot.Recurrence.toDomain(): Result<RecurrentProcurement, Fail> {
+        return RecurrentProcurement(
+            description = description,
+            dates = dates?.map { date -> date.toDomain().orForwardFail { return it } }
+                .orEmpty()
+                .let { Periods(it) }
+
+        ).asSuccess()
+    }
+
+    private fun DivideLotProcess.Request.Payload.Tender.Lot.Recurrence.Date.toDomain(): Result<Period, Fail> = Period(
+        startDate = startDate?.tryParseLocalDateTime()
+            ?.orReturnFail { format ->
+                return failure(
+                    DataValidationErrors.DataFormatMismatch(
+                        "tender.lot.option.recurrence.dates.startDate", format, startDate
+                    )
+                )
+            }
+    ).asSuccess()
+
+    private fun DivideLotProcess.Request.Payload.Tender.Lot.Option.Period.toDomain(): Result<Period, Fail> {
+        val startDateParsed = startDate?.tryParseLocalDateTime()
+            ?.orReturnFail { format ->
+                return failure(DataValidationErrors.DataFormatMismatch("tender.lot.option.period.startDate", format, startDate))
+            }
+
+        val endDateParsed = endDate?.tryParseLocalDateTime()
+            ?.orReturnFail { format ->
+                return failure(DataValidationErrors.DataFormatMismatch("tender.lot.option.period.endDate", format, endDate))
+            }
+
+        val maxExtentDateParsed = maxExtentDate?.tryParseLocalDateTime()
+            ?.orReturnFail { format ->
+                return failure(DataValidationErrors.DataFormatMismatch("tender.lot.option.period.maxExtentDate", format, maxExtentDate))
+            }
+
+        return Period(
+            startDate = startDateParsed,
+            endDate = endDateParsed,
+            maxExtentDate = maxExtentDateParsed,
+            durationInDays = durationInDays
+        ).asSuccess()
+    }
 
     private fun DivideLotProcess.Request.Payload.Tender.Lot.Value.toDomain(): Value =
         Value(amount = this.amount, currency = this.currency)
