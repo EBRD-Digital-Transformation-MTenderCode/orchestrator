@@ -37,6 +37,20 @@
             }
           }
         },
+        "hasOptions": true,
+        "options": [
+          {
+            "period": {}
+          }
+        ],
+        "hasRecurrence": true,
+        "recurrence": {
+          "dates": []
+        },
+        "hasRenewal": true,
+        "renewal": {
+          "period": {}
+        },
         "status": "cancelled",
         "statusDetails": "empty"
       }
