@@ -556,6 +556,16 @@ class AccessActionsTest {
             fun required1() {
                 testingBindingAndMapping<ValidateLotsDataForDivisionAction.Params>("json/client/access/validate_lots_data_params_required_1.json")
             }
+
+            @Test
+            fun required2() {
+                testingBindingAndMapping<ValidateLotsDataForDivisionAction.Params>("json/client/access/validate_lots_data_params_required_2.json")
+            }
+
+            @Test
+            fun required3() {
+                testingBindingAndMapping<ValidateLotsDataForDivisionAction.Params>("json/client/access/validate_lots_data_params_required_3.json")
+            }
         }
 
     }
