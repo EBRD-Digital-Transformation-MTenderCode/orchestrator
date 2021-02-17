@@ -9,7 +9,6 @@ import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
-import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.model.address.Address
 import com.procurement.orchestrator.domain.model.address.AddressDetails
@@ -23,8 +22,13 @@ import com.procurement.orchestrator.domain.model.item.Items
 import com.procurement.orchestrator.domain.model.lot.Lot
 import com.procurement.orchestrator.domain.model.lot.LotId
 import com.procurement.orchestrator.domain.model.lot.Lots
+import com.procurement.orchestrator.domain.model.lot.Option
+import com.procurement.orchestrator.domain.model.lot.Options
 import com.procurement.orchestrator.domain.model.lot.PlaceOfPerformance
+import com.procurement.orchestrator.domain.model.lot.RecurrentProcurement
+import com.procurement.orchestrator.domain.model.lot.Renewal
 import com.procurement.orchestrator.domain.model.period.Period
+import com.procurement.orchestrator.domain.model.period.Periods
 import com.procurement.orchestrator.domain.model.tender.Tender
 import com.procurement.orchestrator.domain.model.value.Value
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
@@ -93,7 +97,13 @@ class AccessDivideLotDelegate(
             value = null,
             internalId = null,
             placeOfPerformance = null,
-            contractPeriod = null
+            contractPeriod = null,
+            hasRecurrence = null,
+            recurrence = null,
+            hasRenewal = null,
+            renewal = null,
+            hasOptions = null,
+            options = null
         )
 
     private fun Lot.convert() = DivideLotAction.Params.Tender.Lot(
@@ -157,13 +167,58 @@ class AccessDivideLotDelegate(
                             )
                         }
                 )
+            },
+        hasOptions = hasOptions,
+        options = options
+            .map { option ->
+                DivideLotAction.Params.Tender.Lot.Option(
+                    description = option.description,
+                    period = option.period
+                        ?.let { period ->
+                            DivideLotAction.Params.Tender.Lot.Option.Period(
+                                startDate = period.startDate,
+                                endDate = period.endDate,
+                                maxExtentDate = period.maxExtentDate,
+                                durationInDays = period.durationInDays
+                            )
+                        }
+                )
+            },
+        hasRenewal = hasRenewal,
+        renewal = renewal?.let { renewal ->
+            DivideLotAction.Params.Tender.Lot.Renewal(
+                description = renewal.description,
+                period = renewal.period
+                    ?.let { period ->
+                        DivideLotAction.Params.Tender.Lot.Renewal.Period(
+                            startDate = period.startDate,
+                            endDate = period.endDate,
+                            maxExtentDate = period.maxExtentDate,
+                            durationInDays = period.durationInDays
+                        )
+                    },
+                minimumRenewals = renewal.minimumRenewals,
+                maximumRenewals = renewal.maximumRenewals
+            )
+        },
+        hasRecurrence = hasRecurrence,
+        recurrence = recurrence
+            ?.let { recurrence ->
+                DivideLotAction.Params.Tender.Lot.Recurrence(
+                    description = recurrence.description,
+                    dates = recurrence.dates.map { date ->
+                        DivideLotAction.Params.Tender.Lot.Recurrence.Date(
+                            startDate = date.startDate
+                        )
+                    }
+                )
             }
     )
 
     override fun updateGlobalContext(
         context: CamundaGlobalContext,
         parameters: Unit,
-        result: Option<DivideLotAction.Result>
+        result: com.procurement.orchestrator.domain.functional.Option<DivideLotAction.Result>
     ): MaybeFail<Fail.Incident> {
 
         val data = result.orNull
@@ -240,7 +295,55 @@ private fun DivideLotAction.Result.Tender.Lot.toDomain(): Lot =
                         }
                 )
             }
-        )
+        ),
+        hasOptions = hasOptions,
+        options = options
+            ?.map { option ->
+                Option(
+                    description = option.description,
+                    period = option.period
+                        ?.let { period ->
+                            Period(
+                                startDate = period.startDate,
+                                endDate = period.endDate,
+                                maxExtentDate = period.maxExtentDate,
+                                durationInDays = period.durationInDays
+                            )
+                        }
+                )
+            }
+            .orEmpty()
+            .let { Options(it) },
+        hasRenewal = hasRenewal,
+        renewal = renewal?.let { renewal ->
+            Renewal(
+                description = renewal.description,
+                period = renewal.period
+                    ?.let { period ->
+                        Period(
+                            startDate = period.startDate,
+                            endDate = period.endDate,
+                            maxExtentDate = period.maxExtentDate,
+                            durationInDays = period.durationInDays
+                        )
+                    },
+                minimumRenewals = renewal.minimumRenewals,
+                maximumRenewals = renewal.maximumRenewals
+            )
+        },
+        hasRecurrence = hasRecurrence,
+        recurrence = recurrence
+            ?.let { recurrence ->
+                RecurrentProcurement(
+                    description = recurrence.description,
+                    dates = recurrence.dates
+                        ?.map { date ->
+                            Period(startDate = date.startDate)
+                        }
+                        .orEmpty()
+                        .let { Periods(it) }
+                )
+            }
     )
 
 private fun DivideLotAction.Result.Tender.Item.toDomain(): Item =

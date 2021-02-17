@@ -1,6 +1,4 @@
 {
-  "cpid": "ocds-b3wdp1-MD-1580458690892",
-  "ocid": "ocds-b3wdp1-MD-1580458690892-EV-1580458791896",
   "tender": {
     "lots": [
       {
@@ -39,22 +37,30 @@
             }
           }
         },
-        "options": [
-          {
-            "period": {}
-          }
-        ],
-        "recurrence": {
-          "dates": []
-        },
-        "renewal": {
-          "period": {}
-        }
+        "hasOptions": true,
+        "options": [],
+        "hasRecurrence": true,
+        "recurrence": {},
+        "hasRenewal": true,
+        "renewal": {},
+        "status": "cancelled",
+        "statusDetails": "empty"
       }
     ],
     "items": [
       {
         "id": "string",
+        "classification": {
+          "id": "string",
+          "scheme": "string",
+          "description": "string"
+        },
+        "quantity": 0.000,
+        "unit": {
+          "id": "string",
+          "name": "string"
+        },
+        "description": "string",
         "relatedLot": "string"
       }
     ]
