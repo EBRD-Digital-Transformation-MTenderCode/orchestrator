@@ -316,7 +316,7 @@ abstract class DivideLotAction : FunctionalAction<DivideLotAction.Params, Divide
 
                     @JsonInclude(JsonInclude.Include.NON_NULL)
                     @param:JsonProperty("period") @field:JsonProperty("period") val period: Period?
-                ) {
+                ) : Serializable {
                     data class Period(
                         @JsonInclude(JsonInclude.Include.NON_NULL)
                         @param:JsonProperty("durationInDays") @field:JsonProperty("durationInDays") val durationInDays: Int?,
@@ -329,7 +329,7 @@ abstract class DivideLotAction : FunctionalAction<DivideLotAction.Params, Divide
 
                         @JsonInclude(JsonInclude.Include.NON_NULL)
                         @param:JsonProperty("maxExtentDate") @field:JsonProperty("maxExtentDate") val maxExtentDate: LocalDateTime?
-                    )
+                    ) : Serializable
                 }
 
                 data class Recurrence(
@@ -338,11 +338,11 @@ abstract class DivideLotAction : FunctionalAction<DivideLotAction.Params, Divide
 
                     @JsonInclude(JsonInclude.Include.NON_NULL)
                     @param:JsonProperty("description") @field:JsonProperty("description") val description: String?
-                ) {
+                ) : Serializable {
                     data class Date(
                         @JsonInclude(JsonInclude.Include.NON_NULL)
                         @param:JsonProperty("startDate") @field:JsonProperty("startDate") val startDate: LocalDateTime?
-                    )
+                    ) : Serializable
                 }
 
                 data class Renewal(
@@ -357,7 +357,7 @@ abstract class DivideLotAction : FunctionalAction<DivideLotAction.Params, Divide
 
                     @JsonInclude(JsonInclude.Include.NON_NULL)
                     @param:JsonProperty("period") @field:JsonProperty("period") val period: Period?
-                ) {
+                ) : Serializable {
                     data class Period(
                         @JsonInclude(JsonInclude.Include.NON_NULL)
                         @param:JsonProperty("durationInDays") @field:JsonProperty("durationInDays") val durationInDays: Int?,
@@ -370,7 +370,7 @@ abstract class DivideLotAction : FunctionalAction<DivideLotAction.Params, Divide
 
                         @JsonInclude(JsonInclude.Include.NON_NULL)
                         @param:JsonProperty("maxExtentDate") @field:JsonProperty("maxExtentDate") val maxExtentDate: LocalDateTime?
-                    )
+                    ) : Serializable
                 }
             }
 
