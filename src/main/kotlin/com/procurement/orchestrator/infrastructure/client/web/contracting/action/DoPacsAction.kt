@@ -276,7 +276,8 @@ fun DoPacsAction.Result.Contract.toDomain(): com.procurement.orchestrator.domain
                                             endDate = period.endDate
                                         )
                                     },
-                                measure = observation.measure
+                                measure = observation.measure,
+                                notes = observation.notes
                             )
                         }.let { Observations(it) }
                 )

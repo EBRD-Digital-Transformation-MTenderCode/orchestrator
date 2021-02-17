@@ -1,6 +1,4 @@
 {
-  "cpid": "ocds-b3wdp1-MD-1580458690892",
-  "ocid": "ocds-b3wdp1-MD-1580458690892-EV-1580458791896",
   "tender": {
     "lots": [
       {
@@ -8,28 +6,27 @@
         "title": "string",
         "description": "string",
         "value": {
-          "amount": 0.00,
+          "amount": 12.00,
           "currency": "string"
         },
         "contractPeriod": {
-          "startDate": "2020-12-17T12:56:39Z",
-          "endDate": "2020-12-17T12:56:39Z"
+          "startDate": "2020-12-16T08:33:00Z",
+          "endDate": "2020-12-16T08:33:00Z"
         },
         "placeOfPerformance": {
           "address": {
             "streetAddress": "string",
+            "postalCode": "string",
             "addressDetails": {
               "country": {
                 "id": "string",
                 "description": "string",
-                "scheme": "string",
-                "uri": "string"
+                "scheme": "string"
               },
               "region": {
                 "id": "string",
                 "description": "string",
-                "scheme": "string",
-                "uri": "string"
+                "scheme": "string"
               },
               "locality": {
                 "id": "string",
@@ -38,17 +35,6 @@
               }
             }
           }
-        },
-        "options": [
-          {
-            "period": {}
-          }
-        ],
-        "recurrence": {
-          "dates": []
-        },
-        "renewal": {
-          "period": {}
         }
       }
     ],

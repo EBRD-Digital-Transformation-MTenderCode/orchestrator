@@ -74,7 +74,13 @@ class AccessValidateLotsDataForDivisionDelegate(
             value = null,
             internalId = null,
             placeOfPerformance = null,
-            contractPeriod = null
+            contractPeriod = null,
+            hasRecurrence = null,
+            recurrence = null,
+            hasRenewal = null,
+            renewal = null,
+            hasOptions = null,
+            options = null
         )
 
     private fun Lot.convert() =
@@ -136,6 +142,51 @@ class AccessValidateLotsDataForDivisionDelegate(
                         },
                     description = placeOfPerformance.description
                 )
-            }
+            },
+            hasOptions = hasOptions,
+            options = options
+                .map { option ->
+                    ValidateLotsDataForDivisionAction.Params.Tender.Lot.Option(
+                        description = option.description,
+                        period = option.period
+                            ?.let { period ->
+                                ValidateLotsDataForDivisionAction.Params.Tender.Lot.Option.Period(
+                                    startDate = period.startDate,
+                                    endDate = period.endDate,
+                                    maxExtentDate = period.maxExtentDate,
+                                    durationInDays = period.durationInDays
+                                )
+                            }
+                    )
+                },
+            hasRenewal = hasRenewal,
+            renewal = renewal?.let { renewal ->
+                ValidateLotsDataForDivisionAction.Params.Tender.Lot.Renewal(
+                    description = renewal.description,
+                    period = renewal.period
+                        ?.let { period ->
+                            ValidateLotsDataForDivisionAction.Params.Tender.Lot.Renewal.Period(
+                                startDate = period.startDate,
+                                endDate = period.endDate,
+                                maxExtentDate = period.maxExtentDate,
+                                durationInDays = period.durationInDays
+                            )
+                        },
+                    minimumRenewals = renewal.minimumRenewals,
+                    maximumRenewals = renewal.maximumRenewals
+                )
+            },
+            hasRecurrence = hasRecurrence,
+            recurrence = recurrence
+                ?.let { recurrence ->
+                    ValidateLotsDataForDivisionAction.Params.Tender.Lot.Recurrence(
+                        description = recurrence.description,
+                        dates = recurrence.dates.map { date ->
+                            ValidateLotsDataForDivisionAction.Params.Tender.Lot.Recurrence.Date(
+                                startDate = date.startDate
+                            )
+                        }
+                    )
+                }
         )
 }
