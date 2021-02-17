@@ -15,4 +15,9 @@ class DivideLotProcessRequestTest {
     fun required1() {
         testingBindingAndMapping<DivideLotProcess.Request.Payload>("json/infrastructure/bpms/delegate/bpe/model/divide/lot/divide_lot_request_required_1.json")
     }
+
+    @Test
+    fun required2() {
+        testingBindingAndMapping<DivideLotProcess.Request.Payload>("json/infrastructure/bpms/delegate/bpe/model/divide/lot/divide_lot_request_required_2.json")
+    }
 }

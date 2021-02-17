@@ -39,17 +39,9 @@
             }
           }
         },
-        "options": [
-          {
-            "period": {}
-          }
-        ],
-        "recurrence": {
-          "dates": []
-        },
-        "renewal": {
-          "period": {}
-        }
+        "options": [],
+        "recurrence": {},
+        "renewal": {}
       }
     ],
     "items": [

@@ -34,11 +34,26 @@ data class Lot(
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonProperty("classification") @param:JsonProperty("classification") val classification: Classification? = null,
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @param:JsonProperty("hasOptions") @field:JsonProperty("hasOptions") val hasOptions: Boolean? = null,
+
     @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
     @field:JsonProperty("options") @param:JsonProperty("options") val options: Options = Options(),
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @param:JsonProperty("hasRecurrence") @field:JsonProperty("hasRecurrence") val hasRecurrence: Boolean? = null,
+
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonProperty("recurrence") @param:JsonProperty("recurrence") val recurrence: RecurrentProcurement? = null,
+
     @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
     @field:JsonProperty("recurrentProcurement") @param:JsonProperty("recurrentProcurement") val recurrentProcurement: RecurrentProcurements = RecurrentProcurements(),
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @param:JsonProperty("hasRenewal") @field:JsonProperty("hasRenewal") val hasRenewal: Boolean? = null,
+
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonProperty("renewal") @param:JsonProperty("renewal") val renewal: Renewal? = null,
 
     @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
     @field:JsonProperty("renewals") @param:JsonProperty("renewals") val renewals: Renewals = Renewals(),
@@ -74,6 +89,12 @@ data class Lot(
         renewals = renewals combineBy src.renewals,
         variants = variants combineBy src.variants,
         contractPeriod = contractPeriod updateBy src.contractPeriod,
-        placeOfPerformance = placeOfPerformance updateBy src.placeOfPerformance
+        placeOfPerformance = placeOfPerformance updateBy src.placeOfPerformance,
+        classification = classification updateBy src.classification,
+        hasOptions = src.hasOptions or hasOptions,
+        hasRecurrence = src.hasRecurrence or hasRecurrence,
+        hasRenewal = src.hasRenewal or hasRenewal,
+        recurrence = src.recurrence updateBy recurrence,
+        renewal = src.renewal updateBy  renewal
     )
 }

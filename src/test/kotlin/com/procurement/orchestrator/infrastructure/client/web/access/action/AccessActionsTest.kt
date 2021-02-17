@@ -556,6 +556,16 @@ class AccessActionsTest {
             fun required1() {
                 testingBindingAndMapping<ValidateLotsDataForDivisionAction.Params>("json/client/access/validate_lots_data_params_required_1.json")
             }
+
+            @Test
+            fun required2() {
+                testingBindingAndMapping<ValidateLotsDataForDivisionAction.Params>("json/client/access/validate_lots_data_params_required_2.json")
+            }
+
+            @Test
+            fun required3() {
+                testingBindingAndMapping<ValidateLotsDataForDivisionAction.Params>("json/client/access/validate_lots_data_params_required_3.json")
+            }
         }
 
     }
@@ -575,6 +585,16 @@ class AccessActionsTest {
                 testingBindingAndMapping<DivideLotAction.Params>("json/client/access/divide_lot_params_required_1.json")
             }
 
+            @Test
+            fun required2() {
+                testingBindingAndMapping<DivideLotAction.Params>("json/client/access/divide_lot_params_required_2.json")
+            }
+
+            @Test
+            fun required3() {
+                testingBindingAndMapping<DivideLotAction.Params>("json/client/access/divide_lot_params_required_3.json")
+            }
+
         }
 
         @Nested
@@ -587,6 +607,16 @@ class AccessActionsTest {
             @Test
             fun required1() {
                 testingBindingAndMapping<DivideLotAction.Result>("json/client/access/divide_lot_result_required_1.json")
+            }
+
+            @Test
+            fun required2() {
+                testingBindingAndMapping<DivideLotAction.Result>("json/client/access/divide_lot_result_required_2.json")
+            }
+
+            @Test
+            fun required3() {
+                testingBindingAndMapping<DivideLotAction.Result>("json/client/access/divide_lot_result_required_3.json")
             }
 
         }
