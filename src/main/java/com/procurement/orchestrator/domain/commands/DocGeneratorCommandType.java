@@ -11,7 +11,7 @@ import java.util.Map;
 public enum DocGeneratorCommandType {
 
     GENERATE("generateACDoc"),
-    GENERATE_FC_DOC("generateFCDoc"),
+    GENERATE_DOCUMENT("generateDocument"),
     CONTRACT_FINALIZATION("contractFinalization");
 
     private static final Map<String, DocGeneratorCommandType> CONSTANTS = new HashMap<>();
