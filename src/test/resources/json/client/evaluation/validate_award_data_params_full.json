@@ -189,5 +189,15 @@
       ]
     }
   ],
-  "operationType": "createAward"
+  "operationType": "createAward",
+  "mdm": {
+    "registrationSchemes": [
+      {
+        "country": "string",
+        "schemes": [
+          "string"
+        ]
+      }
+    ]
+  }
 }

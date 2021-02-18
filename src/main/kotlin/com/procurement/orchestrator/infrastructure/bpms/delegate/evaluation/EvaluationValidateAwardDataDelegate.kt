@@ -15,6 +15,7 @@ import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
 import com.procurement.orchestrator.domain.model.award.Award
+import com.procurement.orchestrator.domain.model.mdm.Mdm
 import com.procurement.orchestrator.domain.model.tender.Tender
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
@@ -45,6 +46,7 @@ class EvaluationValidateAwardDataDelegate(
     ): Result<Reply<Unit>, Fail.Incident> {
 
         val processInfo = context.processInfo
+        val mdm = context.processMasterData?.mdm
         val cpid: Cpid = processInfo.cpid!!
         val ocid: Ocid = processInfo.ocid!!
 
@@ -61,7 +63,8 @@ class EvaluationValidateAwardDataDelegate(
                 ocid = ocid,
                 operationType = processInfo.operationType,
                 tender = tender.toRequest(),
-                awards = listOf(award.toRequest())
+                awards = listOf(award.toRequest()),
+                mdm = mdm?.toRequest()
             )
         )
     }
@@ -79,6 +82,15 @@ class EvaluationValidateAwardDataDelegate(
                     }
                 )
             }.let { listOf(it) }
+    )
+
+    private fun Mdm.toRequest() = ValidateAwardDataAction.Params.Mdm(
+        registrationSchemes = registrationSchemes.map { registrationScheme ->
+            ValidateAwardDataAction.Params.Mdm.RegistrationScheme(
+                country = registrationScheme.country,
+                schemes = registrationScheme.schemes
+            )
+        }
     )
 
     private fun Award.toRequest() = ValidateAwardDataAction.Params.Award(
