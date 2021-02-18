@@ -41,8 +41,6 @@ class BpeSendMessageToDocGeneratorDelegate(
         val processInfo = context.processInfo
         val requestInfo = context.requestInfo
 
-        val contracts = context.contracts
-
         val data = BpeSendMessageToDocGeneratorAction.Data(
             country = requestInfo.country,
             language = requestInfo.language,
@@ -50,8 +48,8 @@ class BpeSendMessageToDocGeneratorDelegate(
             ocid = processInfo.ocid!!,
             operationId = requestInfo.operationId,
             startDate = requestInfo.timestamp,
-            contracts = contracts.firstOrNull()?.internalId
-                ?.let { listOf(BpeSendMessageToDocGeneratorAction.Data.Contract(internalId = it)) }
+            pmd = processInfo.pmd,
+            documentInitiator = processInfo.operationType
         )
         val serializedData = transform.tryToJsonNode(data)
             .orForwardFail { fail -> return fail }
@@ -66,7 +64,7 @@ class BpeSendMessageToDocGeneratorDelegate(
     ): Result<Unit, Fail.Incident.Bus.Producer> {
         val commandMessage = CommandMessage(
             "",
-            DocGeneratorCommandType.GENERATE_FC_DOC,
+            DocGeneratorCommandType.GENERATE_DOCUMENT,
             null,
             serializedData,
             CommandMessage.ApiVersion.V_0_0_1
