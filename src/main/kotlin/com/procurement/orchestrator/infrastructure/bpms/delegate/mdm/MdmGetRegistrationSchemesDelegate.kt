@@ -13,6 +13,7 @@ import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.asSuccess
+import com.procurement.orchestrator.domain.model.award.Awards
 import com.procurement.orchestrator.domain.model.bid.Bids
 import com.procurement.orchestrator.domain.model.mdm.Mdm
 import com.procurement.orchestrator.domain.model.mdm.ProcessMasterData
@@ -74,6 +75,7 @@ class MdmGetRegistrationSchemesDelegate(
                 val submissions = context.tryGetSubmissions().orForwardFail { return it }
                 getCountriesIdFromSubmission(submissions)
             }
+            Location.AWARD -> getCountriesIdFromAwards(context.awards)
         }
 
         return mdmClient.getOrganizationSchemes(params = registrationSchemes)
@@ -110,6 +112,12 @@ class MdmGetRegistrationSchemesDelegate(
             .mapNotNull { it.address?.addressDetails?.country?.id }
             .let { countryIds -> GetRegistrationSchemesAction.Params(countryId = countryIds) }
 
+    private fun getCountriesIdFromAwards(awards: Awards): GetRegistrationSchemesAction.Params =
+        awards
+            .flatMap { it.suppliers }
+            .mapNotNull { it.address?.addressDetails?.country?.id }
+            .let { countryIds -> GetRegistrationSchemesAction.Params(countryId = countryIds) }
+
     private fun handleResult(
         result: GetOrganizationSchemes.Result,
         executionInterceptor: ExecutionInterceptor
@@ -131,6 +139,7 @@ class MdmGetRegistrationSchemesDelegate(
     data class Parameters(val location: Location)
 
     enum class Location(override val key: String) : EnumElementProvider.Key {
+        AWARD("award"),
         BID("bid"),
         SUBMISSION("submission");
 
