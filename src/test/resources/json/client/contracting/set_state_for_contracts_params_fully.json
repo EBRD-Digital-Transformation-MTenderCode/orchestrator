@@ -10,5 +10,10 @@
   },
   "pmd": "CF",
   "country": "string",
-  "operationType": "completeSourcing"
+  "operationType": "completeSourcing",
+  "contracts": [
+    {
+      "id": "string"
+    }
+  ]
 }

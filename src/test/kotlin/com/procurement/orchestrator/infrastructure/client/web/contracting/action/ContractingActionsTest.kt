@@ -175,6 +175,11 @@ class ContractingActionsTest {
             fun fully() {
                 testingBindingAndMapping<SetStateForContractsAction.Params>("json/client/contracting/set_state_for_contracts_params_fully.json")
             }
+
+            @Test
+            fun required() {
+                testingBindingAndMapping<SetStateForContractsAction.Params>("json/client/contracting/set_state_for_contracts_params_required.json")
+            }
         }
 
         @Nested
