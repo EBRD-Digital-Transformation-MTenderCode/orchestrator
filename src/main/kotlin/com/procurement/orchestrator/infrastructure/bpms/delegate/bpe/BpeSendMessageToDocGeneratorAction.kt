@@ -1,10 +1,11 @@
 package com.procurement.orchestrator.infrastructure.bpms.delegate.bpe
 
-import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.procurement.orchestrator.application.model.OperationId
+import com.procurement.orchestrator.application.model.process.OperationTypeProcess
 import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
+import com.procurement.orchestrator.domain.model.ProcurementMethodDetails
 import java.time.LocalDateTime
 
 abstract class BpeSendMessageToDocGeneratorAction {
@@ -16,12 +17,7 @@ abstract class BpeSendMessageToDocGeneratorAction {
         @field:JsonProperty("ocid") @param:JsonProperty("ocid") val ocid: Ocid,
         @field:JsonProperty("operationId") @param:JsonProperty("operationId") val operationId: OperationId,
         @field:JsonProperty("startDate") @param:JsonProperty("startDate") val startDate: LocalDateTime,
-
-        @JsonInclude(JsonInclude.Include.NON_EMPTY)
-        @field:JsonProperty("contracts") @param:JsonProperty("contracts") val contracts: List<Contract>?
-    ) {
-        data class Contract(
-            @field:JsonProperty("internalId") @param:JsonProperty("internalId") val internalId: String
-        )
-    }
+        @field:JsonProperty("pmd") @param:JsonProperty("pmd") val pmd: ProcurementMethodDetails,
+        @field:JsonProperty("documentInitiator") @param:JsonProperty("documentInitiator") val documentInitiator: OperationTypeProcess
+    )
 }
