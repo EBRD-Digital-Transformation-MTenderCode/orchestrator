@@ -3,7 +3,6 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.contracting
 import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.ContractingClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
-import com.procurement.orchestrator.application.model.context.extension.tryGetTender
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
@@ -45,8 +44,6 @@ class ContractingSetStateForContractsDelegate(
         val processInfo = context.processInfo
         val requestInfo = context.requestInfo
 
-        val tender = context.tryGetTender()
-            .orForwardFail { return it }
 
         return contractingClient.setStateForContracts(
             id = commandId,
@@ -56,11 +53,17 @@ class ContractingSetStateForContractsDelegate(
                 country = requestInfo.country,
                 pmd = processInfo.pmd,
                 operationType = processInfo.operationType,
-                tender = SetStateForContractsAction.Params.Tender(
-                    tender.lots.map { lot ->
-                        SetStateForContractsAction.Params.Tender.Lot(lot.id)
-                    }
-                )
+                tender = context.tender
+                    ?.let { tender ->
+                        SetStateForContractsAction.Params.Tender(
+                            tender.lots.map { lot ->
+                                SetStateForContractsAction.Params.Tender.Lot(lot.id)
+                            }
+                        )
+                    },
+                contracts = context.contracts.map { contract ->
+                    SetStateForContractsAction.Params.Contract(contract.id)
+                }
             )
         )
     }
@@ -80,7 +83,7 @@ class ContractingSetStateForContractsDelegate(
             .map { SetStateForContractsAction.ResponseConverter.Contract.toDomain(it) }
             .let { Contracts(it) }
 
-        context.contracts = receivedContracts
+        context.contracts = context.contracts updateBy receivedContracts
 
         return MaybeFail.none()
     }
