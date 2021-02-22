@@ -4,6 +4,7 @@ import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.AddGeneratedDocumentToContractAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.AddSupplierReferencesInFCAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CancelFrameworkContractAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckContractStateAction
@@ -45,6 +46,11 @@ interface ContractingClient {
         id: CommandId,
         params: AddSupplierReferencesInFCAction.Params
     ): Result<Reply<AddSupplierReferencesInFCAction.Result>, Fail.Incident>
+
+    suspend fun addGeneratedDocumentToContract(
+        id: CommandId,
+        params: AddGeneratedDocumentToContractAction.Params
+    ): Result<Reply<AddGeneratedDocumentToContractAction.Result>, Fail.Incident>
 
     suspend fun setStateForContracts(
         id: CommandId,

@@ -103,7 +103,8 @@ class ConfirmationServiceImpl(
                     mainProcurementCategory = prevProcessContext.mainProcurementCategory,
                     awardCriteria = prevProcessContext.awardCriteria,
                     relatedProcess = null,
-                    entityId = null
+                    entityId = null,
+                    documentInitiator = null
                 )
 
                 tender = Tender(

@@ -9,6 +9,7 @@ import com.procurement.orchestrator.application.model.process.ProcessDefinitionK
 import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
 import com.procurement.orchestrator.domain.model.ProcurementMethodDetails
+import com.procurement.orchestrator.domain.model.document.DocumentInitiator
 import com.procurement.orchestrator.domain.model.tender.AwardCriteria
 import java.io.Serializable
 
@@ -41,7 +42,10 @@ data class ProcessInfo(
     @field:JsonProperty("relatedProcess") @param:JsonProperty("relatedProcess") val relatedProcess: RelatedProcess?,
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
-    @field:JsonProperty("entityId") @param:JsonProperty("entityId") val entityId: String?
+    @field:JsonProperty("entityId") @param:JsonProperty("entityId") val entityId: String?,
+
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonProperty("documentInitiator") @param:JsonProperty("documentInitiator") val documentInitiator: DocumentInitiator?
 
 ) : Serializable {
 
