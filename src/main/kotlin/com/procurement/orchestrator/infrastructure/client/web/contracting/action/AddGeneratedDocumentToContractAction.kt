@@ -69,7 +69,6 @@ abstract class AddGeneratedDocumentToContractAction : FunctionalAction<AddGenera
             private fun Document.convert(): DomainDocument =
                 DomainDocument(
                     id = DocumentId.create(id),
-                    title = "",
                     documentType = DocumentType.creator(documentType)
                 )
         }
