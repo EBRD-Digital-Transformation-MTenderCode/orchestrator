@@ -2,42 +2,9 @@
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_00jxfma" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.5.0">
   <bpmn:collaboration id="Collaboration_1tavez2">
     <bpmn:participant id="Participant_1y9z92f" name="IssuingFrameworkContract" processRef="issuingFrameworkContract" />
+    <bpmn:group id="Group_1fz3csq" categoryValueRef="CategoryValue_0ic8tvv" />
   </bpmn:collaboration>
   <bpmn:process id="issuingFrameworkContract" name="issuingFrameworkContract" isExecutable="true">
-    <bpmn:startEvent id="Event_0yuo1np">
-      <bpmn:outgoing>Flow_1pkjjb5</bpmn:outgoing>
-    </bpmn:startEvent>
-    <bpmn:serviceTask id="BpeInitializeIssuingFrameworkContractProcessTask" name="BPE: Initialize issuing framework contract process" camunda:asyncBefore="true" camunda:delegateExpression="${bpeInitializeIssuingFrameworkContractProcessDelegate}">
-      <bpmn:incoming>Flow_1pkjjb5</bpmn:incoming>
-      <bpmn:outgoing>Flow_01gt631</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:serviceTask id="AccessCheckAccessToTenderTask" name="eAccess:&#10;Check access to FE" camunda:asyncBefore="true" camunda:delegateExpression="${accessCheckAccessToTenderDelegate}">
-      <bpmn:incoming>Flow_01gt631</bpmn:incoming>
-      <bpmn:outgoing>Flow_0jrrpeu</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:serviceTask id="AccessCheckTenderStateTask" name="eAccess: Check FE state" camunda:asyncBefore="true" camunda:delegateExpression="${accessCheckTenderStateDelegate}">
-      <bpmn:incoming>Flow_0jrrpeu</bpmn:incoming>
-      <bpmn:outgoing>Flow_0yv9skk</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:serviceTask id="ContractingCheckContractStateTask" name="eContracting: Check FC state" camunda:asyncBefore="true" camunda:delegateExpression="${contractingCheckContractStateDelegate}">
-      <bpmn:incoming>Flow_0yv9skk</bpmn:incoming>
-      <bpmn:outgoing>Flow_11lklsg</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:serviceTask id="ContractingCheckExistenceSupplierReferencesInFCTask" name="eContracting: Сheck existence supplier references in FC" camunda:asyncBefore="true" camunda:delegateExpression="${contractingCheckExistenceSupplierReferencesInFCDelegate}">
-      <bpmn:incoming>Flow_11lklsg</bpmn:incoming>
-      <bpmn:outgoing>Flow_0wjif5p</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:serviceTask id="BpeSendMessageToDocGeneratorTask" name="BPE:Send message to generate contract doc" camunda:asyncBefore="true" camunda:delegateExpression="${bpeSendMessageToDocGeneratorDelegate}">
-      <bpmn:incoming>Flow_0wjif5p</bpmn:incoming>
-      <bpmn:outgoing>Flow_1smq13y</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:serviceTask id="NotifierSuccessNotificationToPlatformTask" name="iNotifier Kafka:&#10;Success notification to platform" camunda:asyncBefore="true" camunda:delegateExpression="${notifierSuccessNotificationToPlatformDelegate}">
-      <bpmn:incoming>Flow_1smq13y</bpmn:incoming>
-      <bpmn:outgoing>Flow_1lson3e</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:endEvent id="Event_0tdam6e">
-      <bpmn:incoming>Flow_1lson3e</bpmn:incoming>
-    </bpmn:endEvent>
     <bpmn:subProcess id="SubProcess_1891o8r" triggeredByEvent="true">
       <bpmn:startEvent id="StartEvent_11bgihv" name="External Incident">
         <bpmn:extensionElements>
@@ -181,14 +148,63 @@
       <bpmn:sequenceFlow id="SequenceFlow_0tjbmut" sourceRef="StartEvent_1pk3npo" targetRef="BpeValidationErrorDescriptionModifierTask" />
       <bpmn:sequenceFlow id="SequenceFlow_1cemjdy" sourceRef="NotifierValidationErrorNotificationToPlatformTask" targetRef="EndEvent_1mv4snj" />
     </bpmn:subProcess>
+    <bpmn:startEvent id="Event_0yuo1np">
+      <bpmn:outgoing>Flow_1pkjjb5</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="BpeInitializeIssuingFrameworkContractProcessTask" name="BPE: Initialize issuing framework contract process" camunda:asyncBefore="true" camunda:delegateExpression="${bpeInitializeIssuingFrameworkContractProcessDelegate}">
+      <bpmn:incoming>Flow_1pkjjb5</bpmn:incoming>
+      <bpmn:outgoing>Flow_01gt631</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="AccessCheckAccessToTenderTask" name="eAccess:&#10;Check access to FE" camunda:asyncBefore="true" camunda:delegateExpression="${accessCheckAccessToTenderDelegate}">
+      <bpmn:incoming>Flow_01gt631</bpmn:incoming>
+      <bpmn:outgoing>Flow_0jrrpeu</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="AccessCheckTenderStateTask" name="eAccess: Check FE state" camunda:asyncBefore="true" camunda:delegateExpression="${accessCheckTenderStateDelegate}">
+      <bpmn:incoming>Flow_0jrrpeu</bpmn:incoming>
+      <bpmn:outgoing>Flow_0yv9skk</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="ContractingCheckContractStateTask" name="eContracting: Check FC state" camunda:asyncBefore="true" camunda:delegateExpression="${contractingCheckContractStateDelegate}">
+      <bpmn:incoming>Flow_0yv9skk</bpmn:incoming>
+      <bpmn:outgoing>Flow_11lklsg</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="ContractingCheckExistenceSupplierReferencesInFCTask" name="eContracting: Сheck existence supplier references in FC" camunda:asyncBefore="true" camunda:delegateExpression="${contractingCheckExistenceSupplierReferencesInFCDelegate}">
+      <bpmn:incoming>Flow_11lklsg</bpmn:incoming>
+      <bpmn:outgoing>Flow_0wjif5p</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="BpeSendMessageToDocGeneratorTask" name="BPE:Send message to generate contract doc" camunda:asyncBefore="true" camunda:delegateExpression="${bpeSendMessageToDocGeneratorDelegate}">
+      <bpmn:incoming>Flow_0wjif5p</bpmn:incoming>
+      <bpmn:outgoing>Flow_1laotr7</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="NoticeTask" name="eNotice:&#10;UpdateRecord" camunda:asyncBefore="true" camunda:delegateExpression="${noticeDelegate}">
+      <bpmn:incoming>Flow_0az022t</bpmn:incoming>
+      <bpmn:outgoing>Flow_01t5vfa</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="BpeAddUpdateRecordTaskInQueueTask" name="BPE:&#10;Add update record task to queue" camunda:asyncBefore="true" camunda:delegateExpression="${bpeAddUpdateRecordTaskInQueueDelegate}">
+      <bpmn:incoming>Flow_1xlfk1p</bpmn:incoming>
+      <bpmn:outgoing>Flow_0az022t</bpmn:outgoing>
+    </bpmn:serviceTask>
     <bpmn:sequenceFlow id="Flow_1pkjjb5" sourceRef="Event_0yuo1np" targetRef="BpeInitializeIssuingFrameworkContractProcessTask" />
     <bpmn:sequenceFlow id="Flow_01gt631" sourceRef="BpeInitializeIssuingFrameworkContractProcessTask" targetRef="AccessCheckAccessToTenderTask" />
     <bpmn:sequenceFlow id="Flow_0jrrpeu" sourceRef="AccessCheckAccessToTenderTask" targetRef="AccessCheckTenderStateTask" />
     <bpmn:sequenceFlow id="Flow_0yv9skk" sourceRef="AccessCheckTenderStateTask" targetRef="ContractingCheckContractStateTask" />
     <bpmn:sequenceFlow id="Flow_11lklsg" sourceRef="ContractingCheckContractStateTask" targetRef="ContractingCheckExistenceSupplierReferencesInFCTask" />
     <bpmn:sequenceFlow id="Flow_0wjif5p" sourceRef="ContractingCheckExistenceSupplierReferencesInFCTask" targetRef="BpeSendMessageToDocGeneratorTask" />
-    <bpmn:sequenceFlow id="Flow_1smq13y" sourceRef="BpeSendMessageToDocGeneratorTask" targetRef="NotifierSuccessNotificationToPlatformTask" />
-    <bpmn:sequenceFlow id="Flow_1lson3e" sourceRef="NotifierSuccessNotificationToPlatformTask" targetRef="Event_0tdam6e" />
+    <bpmn:sequenceFlow id="Flow_0az022t" sourceRef="BpeAddUpdateRecordTaskInQueueTask" targetRef="NoticeTask" />
+    <bpmn:sequenceFlow id="Flow_01t5vfa" sourceRef="NoticeTask" targetRef="NotifierSuccessNotificationToPlatformTask" />
+    <bpmn:sequenceFlow id="Flow_1laotr7" sourceRef="BpeSendMessageToDocGeneratorTask" targetRef="ContractingSetStateForContractsTask" />
+    <bpmn:sequenceFlow id="Flow_1xlfk1p" sourceRef="ContractingSetStateForContractsTask" targetRef="BpeAddUpdateRecordTaskInQueueTask" />
+    <bpmn:serviceTask id="ContractingSetStateForContractsTask" name="eContracting: Set state for contracts" camunda:asyncBefore="true" camunda:delegateExpression="${contractingSetStateForContractsDelegate}">
+      <bpmn:incoming>Flow_1laotr7</bpmn:incoming>
+      <bpmn:outgoing>Flow_1xlfk1p</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0n855zc" sourceRef="NotifierSuccessNotificationToPlatformTask" targetRef="Event_0b4z7oe" />
+    <bpmn:serviceTask id="NotifierSuccessNotificationToPlatformTask" name="iNotifier Kafka:&#10;Success notification to platform" camunda:asyncBefore="true" camunda:delegateExpression="${notifierSuccessNotificationToPlatformDelegate}">
+      <bpmn:incoming>Flow_01t5vfa</bpmn:incoming>
+      <bpmn:outgoing>Flow_0n855zc</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Event_0b4z7oe">
+      <bpmn:incoming>Flow_0n855zc</bpmn:incoming>
+    </bpmn:endEvent>
     <bpmn:textAnnotation id="TextAnnotation_0o6wb2r">
       <bpmn:text>проверка состояния FE</bpmn:text>
     </bpmn:textAnnotation>
@@ -204,94 +220,77 @@
     <bpmn:textAnnotation id="TextAnnotation_0g6wn7z">
       <bpmn:text>отправка сообщения в Doc Generator с новой командой для генерации PDF контракта</bpmn:text>
     </bpmn:textAnnotation>
+    <bpmn:association id="Association_1k07oyq" sourceRef="AccessCheckAccessToTenderTask" targetRef="TextAnnotation_0kyusxo" />
     <bpmn:association id="Association_0ylnacw" sourceRef="AccessCheckTenderStateTask" targetRef="TextAnnotation_0o6wb2r" />
     <bpmn:association id="Association_1ivg4r3" sourceRef="ContractingCheckContractStateTask" targetRef="TextAnnotation_1vjw4nx" />
     <bpmn:association id="Association_02idiqa" sourceRef="ContractingCheckExistenceSupplierReferencesInFCTask" targetRef="TextAnnotation_0u9ihk4" />
-    <bpmn:association id="Association_1k07oyq" sourceRef="AccessCheckAccessToTenderTask" targetRef="TextAnnotation_0kyusxo" />
     <bpmn:association id="Association_0swl7f9" sourceRef="BpeSendMessageToDocGeneratorTask" targetRef="TextAnnotation_0g6wn7z" />
+    <bpmn:textAnnotation id="TextAnnotation_1kg14g9">
+      <bpmn:text>Перевод FC в новое состояние генерации документа</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1vdpym8" sourceRef="ContractingSetStateForContractsTask" targetRef="TextAnnotation_1kg14g9" />
   </bpmn:process>
   <bpmn:error id="Error_113ectg" />
   <bpmn:error id="Error_0n5fckx" name="Internal Incident" errorCode="InternalIncident" />
   <bpmn:error id="Error_0gj6qy9" name="External Incident" errorCode="ExternalIncident" />
   <bpmn:error id="Error_1ih9qrl" name="Validation error from service" errorCode="ValidationError" camunda:errorMessage="ValidationError" />
+  <bpmn:category id="Category_10fuxh8">
+    <bpmn:categoryValue id="CategoryValue_0ic8tvv" value="ending" />
+  </bpmn:category>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1tavez2">
       <bpmndi:BPMNShape id="Participant_1y9z92f_di" bpmnElement="Participant_1y9z92f" isHorizontal="true">
-        <dc:Bounds x="160" y="110" width="1660" height="410" />
+        <dc:Bounds x="160" y="100" width="1758" height="430" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_0o6wb2r_di" bpmnElement="TextAnnotation_0o6wb2r">
-        <dc:Bounds x="830" y="161" width="100" height="40" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_1vjw4nx_di" bpmnElement="TextAnnotation_1vjw4nx">
-        <dc:Bounds x="960" y="147" width="100" height="68" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_0u9ihk4_di" bpmnElement="TextAnnotation_0u9ihk4">
-        <dc:Bounds x="1080" y="140" width="120" height="82" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_0kyusxo_di" bpmnElement="TextAnnotation_0kyusxo">
-        <dc:Bounds x="700" y="154" width="100" height="54" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_0g6wn7z_di" bpmnElement="TextAnnotation_0g6wn7z">
-        <dc:Bounds x="1210" y="134" width="120" height="93" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="Flow_1pkjjb5_di" bpmnElement="Flow_1pkjjb5">
-        <di:waypoint x="538" y="280" />
-        <di:waypoint x="570" y="280" />
+      <bpmndi:BPMNEdge id="Flow_0n855zc_di" bpmnElement="Flow_0n855zc">
+        <di:waypoint x="1650" y="270" />
+        <di:waypoint x="1682" y="270" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_01gt631_di" bpmnElement="Flow_01gt631">
-        <di:waypoint x="670" y="280" />
-        <di:waypoint x="700" y="280" />
+      <bpmndi:BPMNEdge id="Flow_1xlfk1p_di" bpmnElement="Flow_1xlfk1p">
+        <di:waypoint x="1250" y="270" />
+        <di:waypoint x="1290" y="270" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0jrrpeu_di" bpmnElement="Flow_0jrrpeu">
-        <di:waypoint x="800" y="280" />
-        <di:waypoint x="830" y="280" />
+      <bpmndi:BPMNEdge id="Flow_1laotr7_di" bpmnElement="Flow_1laotr7">
+        <di:waypoint x="1120" y="270" />
+        <di:waypoint x="1150" y="270" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0yv9skk_di" bpmnElement="Flow_0yv9skk">
-        <di:waypoint x="930" y="280" />
-        <di:waypoint x="960" y="280" />
+      <bpmndi:BPMNEdge id="Flow_01t5vfa_di" bpmnElement="Flow_01t5vfa">
+        <di:waypoint x="1520" y="270" />
+        <di:waypoint x="1550" y="270" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_11lklsg_di" bpmnElement="Flow_11lklsg">
-        <di:waypoint x="1060" y="280" />
-        <di:waypoint x="1090" y="280" />
+      <bpmndi:BPMNEdge id="Flow_0az022t_di" bpmnElement="Flow_0az022t">
+        <di:waypoint x="1390" y="270" />
+        <di:waypoint x="1420" y="270" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0wjif5p_di" bpmnElement="Flow_0wjif5p">
-        <di:waypoint x="1190" y="280" />
-        <di:waypoint x="1220" y="280" />
+        <di:waypoint x="990" y="270" />
+        <di:waypoint x="1020" y="270" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1smq13y_di" bpmnElement="Flow_1smq13y">
-        <di:waypoint x="1320" y="280" />
-        <di:waypoint x="1350" y="280" />
+      <bpmndi:BPMNEdge id="Flow_11lklsg_di" bpmnElement="Flow_11lklsg">
+        <di:waypoint x="860" y="270" />
+        <di:waypoint x="890" y="270" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1lson3e_di" bpmnElement="Flow_1lson3e">
-        <di:waypoint x="1450" y="280" />
-        <di:waypoint x="1492" y="280" />
+      <bpmndi:BPMNEdge id="Flow_0yv9skk_di" bpmnElement="Flow_0yv9skk">
+        <di:waypoint x="730" y="270" />
+        <di:waypoint x="760" y="270" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="Event_0yuo1np_di" bpmnElement="Event_0yuo1np">
-        <dc:Bounds x="502" y="262" width="36" height="36" />
+      <bpmndi:BPMNEdge id="Flow_0jrrpeu_di" bpmnElement="Flow_0jrrpeu">
+        <di:waypoint x="600" y="270" />
+        <di:waypoint x="630" y="270" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_01gt631_di" bpmnElement="Flow_01gt631">
+        <di:waypoint x="470" y="270" />
+        <di:waypoint x="500" y="270" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1pkjjb5_di" bpmnElement="Flow_1pkjjb5">
+        <di:waypoint x="338" y="270" />
+        <di:waypoint x="370" y="270" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Activity_1vj93hb_di" bpmnElement="NotifierSuccessNotificationToPlatformTask" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="1550" y="230" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_19vv7y7_di" bpmnElement="BpeInitializeIssuingFrameworkContractProcessTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="570" y="240" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0macesb_di" bpmnElement="AccessCheckAccessToTenderTask">
-        <dc:Bounds x="700" y="240" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1e5jawr_di" bpmnElement="AccessCheckTenderStateTask">
-        <dc:Bounds x="830" y="240" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_03ftnd2_di" bpmnElement="ContractingCheckContractStateTask">
-        <dc:Bounds x="960" y="240" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1mb97mt_di" bpmnElement="ContractingCheckExistenceSupplierReferencesInFCTask">
-        <dc:Bounds x="1090" y="240" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1hm5m00_di" bpmnElement="BpeSendMessageToDocGeneratorTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="1220" y="240" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1ypckv7_di" bpmnElement="NotifierSuccessNotificationToPlatformTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="1350" y="240" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_0tdam6e_di" bpmnElement="Event_0tdam6e">
-        <dc:Bounds x="1492" y="262" width="36" height="36" />
+      <bpmndi:BPMNShape id="Event_0b4z7oe_di" bpmnElement="Event_0b4z7oe" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="1682" y="252" width="36" height="36" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="SubProcess_1891o8r_di" bpmnElement="SubProcess_1891o8r" isExpanded="true">
         <dc:Bounds x="860" y="360" width="440" height="140" />
@@ -390,26 +389,84 @@
       <bpmndi:BPMNShape id="ServiceTask_17bjo3o_di" bpmnElement="NotifierValidationErrorNotificationToPlatformTask">
         <dc:Bounds x="1590" y="388" width="100" height="80" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0yuo1np_di" bpmnElement="Event_0yuo1np">
+        <dc:Bounds x="302" y="252" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_19vv7y7_di" bpmnElement="BpeInitializeIssuingFrameworkContractProcessTask" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="370" y="230" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0macesb_di" bpmnElement="AccessCheckAccessToTenderTask">
+        <dc:Bounds x="500" y="230" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1e5jawr_di" bpmnElement="AccessCheckTenderStateTask">
+        <dc:Bounds x="630" y="230" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_03ftnd2_di" bpmnElement="ContractingCheckContractStateTask">
+        <dc:Bounds x="760" y="230" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1mb97mt_di" bpmnElement="ContractingCheckExistenceSupplierReferencesInFCTask">
+        <dc:Bounds x="890" y="230" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1hm5m00_di" bpmnElement="BpeSendMessageToDocGeneratorTask" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="1020" y="230" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_01sget2_di" bpmnElement="NoticeTask" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="1420" y="230" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1gwz5ly_di" bpmnElement="BpeAddUpdateRecordTaskInQueueTask" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="1290" y="230" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0tm386u_di" bpmnElement="ContractingSetStateForContractsTask" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="1150" y="230" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0o6wb2r_di" bpmnElement="TextAnnotation_0o6wb2r">
+        <dc:Bounds x="630" y="151" width="100" height="40" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_1vjw4nx_di" bpmnElement="TextAnnotation_1vjw4nx">
+        <dc:Bounds x="760" y="137" width="100" height="68" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0u9ihk4_di" bpmnElement="TextAnnotation_0u9ihk4">
+        <dc:Bounds x="880" y="130" width="120" height="82" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0kyusxo_di" bpmnElement="TextAnnotation_0kyusxo">
+        <dc:Bounds x="500" y="144" width="100" height="54" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0g6wn7z_di" bpmnElement="TextAnnotation_0g6wn7z">
+        <dc:Bounds x="1010" y="124" width="120" height="93" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_1kg14g9_di" bpmnElement="TextAnnotation_1kg14g9">
+        <dc:Bounds x="1150" y="130" width="100" height="82" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_1k07oyq_di" bpmnElement="Association_1k07oyq">
+        <di:waypoint x="550" y="230" />
+        <di:waypoint x="550" y="198" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Association_0ylnacw_di" bpmnElement="Association_0ylnacw">
-        <di:waypoint x="880" y="240" />
-        <di:waypoint x="880" y="201" />
+        <di:waypoint x="680" y="230" />
+        <di:waypoint x="680" y="191" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Association_1ivg4r3_di" bpmnElement="Association_1ivg4r3">
-        <di:waypoint x="1010" y="240" />
-        <di:waypoint x="1010" y="215" />
+        <di:waypoint x="810" y="230" />
+        <di:waypoint x="810" y="205" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Association_02idiqa_di" bpmnElement="Association_02idiqa">
-        <di:waypoint x="1140" y="240" />
-        <di:waypoint x="1140" y="222" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Association_1k07oyq_di" bpmnElement="Association_1k07oyq">
-        <di:waypoint x="750" y="240" />
-        <di:waypoint x="750" y="208" />
+        <di:waypoint x="940" y="230" />
+        <di:waypoint x="940" y="212" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Association_0swl7f9_di" bpmnElement="Association_0swl7f9">
-        <di:waypoint x="1270" y="240" />
-        <di:waypoint x="1270" y="227" />
+        <di:waypoint x="1070" y="230" />
+        <di:waypoint x="1070" y="217" />
       </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_1vdpym8_di" bpmnElement="Association_1vdpym8">
+        <di:waypoint x="1200" y="230" />
+        <di:waypoint x="1200" y="212" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Group_1fz3csq_di" bpmnElement="Group_1fz3csq" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="1264" y="189" width="476" height="153" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1493" y="196" width="34" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn:definitions>
