@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.application.model.process
 
+import com.procurement.orchestrator.application.model.Owner
 import com.procurement.orchestrator.application.model.Phase
 import com.procurement.orchestrator.application.model.Stage
 import com.procurement.orchestrator.domain.model.Cpid
@@ -17,6 +18,7 @@ class LatestProcessContext(
     val pmd: ProcurementMethodDetails,
     val isAuction: Boolean,
     val mainProcurementCategory: String? = null,
-    val awardCriteria: AwardCriteria? = null
+    val awardCriteria: AwardCriteria? = null,
+    val owner: Owner
 )
 
