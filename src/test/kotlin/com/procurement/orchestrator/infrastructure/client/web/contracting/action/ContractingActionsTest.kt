@@ -167,6 +167,26 @@ class ContractingActionsTest {
     }
 
     @Nested
+    inner class IssuingFrameworkContract {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<AddGeneratedDocumentToContractAction.Params>("json/client/contracting/add_generated_document_to_contract_params_fully.json")
+            }
+        }
+
+        @Nested
+        inner class Result{
+            @Test
+            fun fully(){
+                testingBindingAndMapping<AddGeneratedDocumentToContractAction.Result>("json/client/contracting/add_generated_document_to_contract_result_fully.json")
+            }
+        }
+    }
+
+    @Nested
     inner class SetStateForContracts {
 
         @Nested

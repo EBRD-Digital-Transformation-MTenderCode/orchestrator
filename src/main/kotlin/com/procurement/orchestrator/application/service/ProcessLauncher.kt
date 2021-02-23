@@ -111,7 +111,8 @@ class ProcessLauncherImpl(
                                 ocid = relatedProcess.ocid
                             )
                         },
-                    entityId = request.context.id
+                    entityId = request.context.id,
+                    documentInitiator = null
                 )
             }
 
@@ -187,7 +188,8 @@ class ProcessLauncherImpl(
                     mainProcurementCategory = prevProcessContext.mainProcurementCategory,
                     awardCriteria = prevProcessContext.awardCriteria,
                     relatedProcess = null,
-                    entityId = null
+                    entityId = null,
+                    documentInitiator = null
                 )
             }
 

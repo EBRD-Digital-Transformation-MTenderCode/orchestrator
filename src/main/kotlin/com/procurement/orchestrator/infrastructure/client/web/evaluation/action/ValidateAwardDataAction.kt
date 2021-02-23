@@ -229,7 +229,9 @@ abstract class ValidateAwardDataAction : ProceduralAction<ValidateAwardDataActio
                         data class Document(
                             @param:JsonProperty("id") @field:JsonProperty("id") val id: DocumentId,
                             @param:JsonProperty("documentType") @field:JsonProperty("documentType") val documentType: DocumentType,
-                            @param:JsonProperty("title") @field:JsonProperty("title") val title: String,
+
+                            @JsonInclude(JsonInclude.Include.NON_NULL)
+                            @param:JsonProperty("title") @field:JsonProperty("title") val title: String?,
 
                             @JsonInclude(JsonInclude.Include.NON_NULL)
                             @param:JsonProperty("description") @field:JsonProperty("description") val description: String?
@@ -405,7 +407,9 @@ abstract class ValidateAwardDataAction : ProceduralAction<ValidateAwardDataActio
 
             data class Document(
                 @param:JsonProperty("id") @field:JsonProperty("id") val id: DocumentId,
-                @param:JsonProperty("title") @field:JsonProperty("title") val title: String,
+
+                @JsonInclude(JsonInclude.Include.NON_NULL)
+                @param:JsonProperty("title") @field:JsonProperty("title") val title: String?,
 
                 @JsonInclude(JsonInclude.Include.NON_NULL)
                 @param:JsonProperty("description") @field:JsonProperty("description") val description: String?,

@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.infrastructure.client.web.contracting
 
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.AddGeneratedDocumentToContractAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.AddSupplierReferencesInFCAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CancelFrameworkContractAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckContractStateAction
@@ -23,6 +24,8 @@ object ContractingCommands {
     object DoPacs: DoPacsAction()
 
     object AddSupplierReferencesInFC: AddSupplierReferencesInFCAction()
+
+    object AddGeneratedDocumentToContract: AddGeneratedDocumentToContractAction()
 
     object SetStateForContracts: SetStateForContractsAction()
 
