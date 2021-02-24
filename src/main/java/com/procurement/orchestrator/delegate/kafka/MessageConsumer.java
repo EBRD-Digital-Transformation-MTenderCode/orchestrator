@@ -7,7 +7,6 @@ import com.procurement.orchestrator.domain.OcidMatcher;
 import com.procurement.orchestrator.domain.Stage;
 import com.procurement.orchestrator.domain.commands.AgentResponseCommandType;
 import com.procurement.orchestrator.domain.commands.AuctionCommandType;
-import com.procurement.orchestrator.domain.commands.DocGeneratorCommandType;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.service.RequestService;
 import com.procurement.orchestrator.utils.DateUtil;
@@ -143,48 +142,6 @@ public class MessageConsumer {
                 break;
         }
         return processName;
-    }
-
-    @KafkaListener(topics = "document-generator-out")
-    public void onDocGenerator(final String message, @Header(KafkaHeaders.ACKNOWLEDGMENT) final Acknowledgment ac) {
-        try {
-            LOG.info("Received a message from the Document-Generator (" + message + ").");
-            ac.acknowledge();
-            final JsonNode response = jsonUtil.toJsonNode(message);
-            if (response.get("errors") == null) {
-                final String command = response.get("command").asText();
-                switch (DocGeneratorCommandType.fromValue(command)) {
-                    case CONTRACT_FINALIZATION: {
-                        final JsonNode data = response.get("data");
-                        if (data != null) {
-                            final String ocid = data.get("ocid").asText();
-                            final Context prevContext = requestService.getContext(ocid);
-                            final String uuid = UUIDs.timeBased().toString();
-                            final Context context = requestService.checkRulesAndProcessContext(
-                                    prevContext,
-                                    "finalUpdateAC",
-                                    uuid);
-                            requestService.saveRequestAndCheckOperation(context, data);
-                            final Map<String, Object> variables = new HashMap<>();
-                            variables.put("operationType", context.getOperationType());
-                            processService.startProcess(context, variables);
-                        }
-                        break;
-                    }
-                    default: {
-                        final String uuid = UUIDs.timeBased().toString();
-                        requestService.saveRequest(uuid, uuid, null, response.get("data"));
-                        break;
-                    }
-                }
-            } else {
-                final String uuid = UUIDs.timeBased().toString();
-                requestService.saveRequest(uuid, uuid, null, response.get("errors"));
-            }
-        } catch (Exception e) {
-            //TODO error processing
-            LOG.error("Error while processing the message from the Document-Generator (" + message + ").", e);
-        }
     }
 
     @KafkaListener(topics = "mconnect-bus-out")
