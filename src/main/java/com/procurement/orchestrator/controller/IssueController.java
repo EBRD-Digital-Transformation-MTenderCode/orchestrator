@@ -39,7 +39,7 @@ public class IssueController {
             @RequestHeader("X-TOKEN") final String token,
             @PathVariable("cpid") final String cpid,
             @PathVariable("ocid") final String ocid,
-            @RequestBody final JsonNode data
+            @RequestBody(required = false) final JsonNode data
     ) {
 
         requestService.validate(operationId, data);
