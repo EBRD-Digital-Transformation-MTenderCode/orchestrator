@@ -39,7 +39,9 @@ abstract class DataValidationAction : ProceduralAction<DataValidationAction.Para
 
             data class Document(
                 @field:JsonProperty("id") @param:JsonProperty("id") val id: DocumentId,
-                @field:JsonProperty("documentType") @param:JsonProperty("documentType") val documentType: DocumentType,
+
+                @JsonInclude(JsonInclude.Include.NON_NULL)
+                @field:JsonProperty("documentType") @param:JsonProperty("documentType") val documentType: DocumentType?,
 
                 @JsonInclude(JsonInclude.Include.NON_NULL)
                 @field:JsonProperty("title") @param:JsonProperty("title") val title: String?,
