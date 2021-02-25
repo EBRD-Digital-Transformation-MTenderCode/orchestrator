@@ -172,6 +172,11 @@
       <bpmn:outgoing>Flow_0wjif5p</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="BpeSendMessageToDocGeneratorTask" name="BPE:Send message to generate contract doc" camunda:asyncBefore="true" camunda:delegateExpression="${bpeSendMessageToDocGeneratorDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="location">contract</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
       <bpmn:incoming>Flow_0wjif5p</bpmn:incoming>
       <bpmn:outgoing>Flow_1laotr7</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -286,12 +291,6 @@
         <di:waypoint x="338" y="270" />
         <di:waypoint x="370" y="270" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="Activity_1vj93hb_di" bpmnElement="NotifierSuccessNotificationToPlatformTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="1550" y="230" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_0b4z7oe_di" bpmnElement="Event_0b4z7oe" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="1682" y="252" width="36" height="36" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="SubProcess_1891o8r_di" bpmnElement="SubProcess_1891o8r" isExpanded="true">
         <dc:Bounds x="860" y="360" width="440" height="140" />
       </bpmndi:BPMNShape>
@@ -418,6 +417,12 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0tm386u_di" bpmnElement="ContractingSetStateForContractsTask" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="1150" y="230" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1vj93hb_di" bpmnElement="NotifierSuccessNotificationToPlatformTask" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="1550" y="230" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0b4z7oe_di" bpmnElement="Event_0b4z7oe" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="1682" y="252" width="36" height="36" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_0o6wb2r_di" bpmnElement="TextAnnotation_0o6wb2r">
         <dc:Bounds x="630" y="151" width="100" height="40" />
