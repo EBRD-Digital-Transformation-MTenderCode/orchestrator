@@ -32,12 +32,13 @@ class IssuingFrameworkContractController(
         private const val PROCESS_NAME = "issuingFrameworkContract"
     }
 
-    @PostMapping("/issue/fc/{cpid}/{ocid}")
+    @PostMapping("/issue/fc/{cpid}/{ocid}/{contractId}")
     fun issuingFrameworkContract(
         servlet: HttpServletRequest,
         @PathVariable cpid: String,
-        @PathVariable ocid: String
-    ): ResponseEntity<String> = perform(servlet = servlet, cpid = cpid, ocid = ocid)
+        @PathVariable ocid: String,
+        @PathVariable contractId: String
+    ): ResponseEntity<String> = perform(servlet = servlet, cpid = cpid, ocid = ocid, contractId = contractId)
         .also { fail -> fail.logging(logger) }
         .buildResponse()
         .also { response ->
@@ -45,8 +46,8 @@ class IssuingFrameworkContractController(
                 logger.debug("Response: status '${response.statusCode}', body '${response.body}'.")
         }
 
-    private fun perform(servlet: HttpServletRequest, cpid: String, ocid: String): MaybeFail<Fail> {
-        val request: PlatformRequest = buildRequest(servlet = servlet, cpid = cpid, ocid = ocid)
+    private fun perform(servlet: HttpServletRequest, cpid: String, ocid: String, contractId: String): MaybeFail<Fail> {
+        val request: PlatformRequest = buildRequest(servlet = servlet, cpid = cpid, ocid = ocid, contractId = contractId)
             .orReturnFail { return MaybeFail.fail(it) }
             .also { request ->
                 if (logger.isDebugEnabled)
@@ -58,7 +59,8 @@ class IssuingFrameworkContractController(
     private fun buildRequest(
         servlet: HttpServletRequest,
         cpid: String,
-        ocid: String
+        ocid: String,
+        contractId: String
     ): Result<PlatformRequest, RequestErrors> {
 
         val verifiedCpid = parseCpid(cpid)
@@ -88,7 +90,8 @@ class IssuingFrameworkContractController(
                 token = token,
                 owner = platformId,
                 uri = servlet.requestURI,
-                processName = PROCESS_NAME
+                processName = PROCESS_NAME,
+                id = contractId
             ),
             payload = payload
         ).asSuccess()
