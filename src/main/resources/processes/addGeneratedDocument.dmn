@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" id="Definitions_1mq4dx5" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="4.5.0">
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/1.0" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" id="Definitions_1mq4dx5" name="DRD" namespace="http://camunda.org/schema/1.0/dmn">
   <decision id="DecisionByDocumentInitiator" name="DecisionByDocumentInitiator">
+    <extensionElements>
+      <biodi:bounds x="150" y="150" width="180" height="80" />
+    </extensionElements>
     <decisionTable id="DecisionTable_1l9iy4b">
       <input id="Input_1" label="documentInitiator">
         <inputExpression id="InputExpression_1" typeRef="string" expressionLanguage="javascript">
@@ -71,11 +74,4 @@
       </rule>
     </decisionTable>
   </decision>
-  <dmndi:DMNDI>
-    <dmndi:DMNDiagram>
-      <dmndi:DMNShape dmnElementRef="DecisionByDocumentInitiator">
-        <dc:Bounds height="80" width="180" x="160" y="100" />
-      </dmndi:DMNShape>
-    </dmndi:DMNDiagram>
-  </dmndi:DMNDI>
 </definitions>
