@@ -18,6 +18,7 @@ abstract class BpeSendMessageToDocGeneratorAction {
         @field:JsonProperty("operationId") @param:JsonProperty("operationId") val operationId: OperationId,
         @field:JsonProperty("startDate") @param:JsonProperty("startDate") val startDate: LocalDateTime,
         @field:JsonProperty("pmd") @param:JsonProperty("pmd") val pmd: ProcurementMethodDetails,
-        @field:JsonProperty("documentInitiator") @param:JsonProperty("documentInitiator") val documentInitiator: OperationTypeProcess
+        @field:JsonProperty("documentInitiator") @param:JsonProperty("documentInitiator") val documentInitiator: OperationTypeProcess,
+        @field:JsonProperty("objectId") @param:JsonProperty("objectId") val objectId: String
     )
 }

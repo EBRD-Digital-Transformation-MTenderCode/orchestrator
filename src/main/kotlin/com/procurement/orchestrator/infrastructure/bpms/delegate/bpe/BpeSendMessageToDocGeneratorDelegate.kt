@@ -6,10 +6,13 @@ import com.procurement.orchestrator.application.model.context.CamundaGlobalConte
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.delegate.kafka.MessageProducer
+import com.procurement.orchestrator.domain.EnumElementProvider
+import com.procurement.orchestrator.domain.EnumElementProvider.Companion.keysAsStrings
 import com.procurement.orchestrator.domain.commands.DocGeneratorCommandType
 import com.procurement.orchestrator.domain.dto.command.CommandMessage
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
+import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
@@ -23,23 +26,44 @@ class BpeSendMessageToDocGeneratorDelegate(
     operationStepRepository: OperationStepRepository,
     private val transform: Transform,
     private val messageProducer: MessageProducer
-) : AbstractExternalDelegate<Unit, Unit>(
+) : AbstractExternalDelegate<BpeSendMessageToDocGeneratorDelegate.Parameters, Unit>(
     logger = logger,
     transform = transform,
     operationStepRepository = operationStepRepository
 ) {
 
-    override fun parameters(parameterContainer: ParameterContainer): Result<Unit, Fail.Incident.Bpmn.Parameter> =
-        Result.success(Unit)
+    companion object {
+        private const val PARAMETER_NAME_LOCATION = "location"
+    }
+
+    override fun parameters(parameterContainer: ParameterContainer): Result<Parameters, Fail.Incident.Bpmn.Parameter> {
+        val location: Location = parameterContainer
+            .getString(PARAMETER_NAME_LOCATION)
+            .orForwardFail { fail -> return fail }
+            .let {
+                Location.orNull(it)
+                    ?: return Result.failure(
+                        Fail.Incident.Bpmn.Parameter.UnknownValue(
+                            name = PARAMETER_NAME_LOCATION,
+                            expectedValues = Location.allowedElements.keysAsStrings(),
+                            actualValue = it
+                        )
+                    )
+            }
+
+        return success(Parameters(location))
+    }
 
     override suspend fun execute(
         commandId: CommandId,
         context: CamundaGlobalContext,
-        parameters: Unit
+        parameters: Parameters
     ): Result<Reply<Unit>, Fail.Incident> {
 
         val processInfo = context.processInfo
         val requestInfo = context.requestInfo
+
+        val objectId = defineObjectId(context, parameters.location)
 
         val data = BpeSendMessageToDocGeneratorAction.Data(
             country = requestInfo.country,
@@ -49,19 +73,18 @@ class BpeSendMessageToDocGeneratorDelegate(
             operationId = requestInfo.operationId,
             startDate = requestInfo.timestamp,
             pmd = processInfo.pmd,
-            documentInitiator = processInfo.operationType
+            documentInitiator = processInfo.operationType,
+            objectId = objectId
         )
         val serializedData = transform.tryToJsonNode(data)
             .orForwardFail { fail -> return fail }
         sendToDocGenerator(serializedData)
             .orForwardFail { fail -> return fail }
 
-        return Result.success(Reply.None)
+        return success(Reply.None)
     }
 
-    private fun sendToDocGenerator(
-        serializedData: JsonNode
-    ): Result<Unit, Fail.Incident.Bus.Producer> {
+    private fun sendToDocGenerator(serializedData: JsonNode): Result<Unit, Fail.Incident.Bus.Producer> {
         val commandMessage = CommandMessage(
             "",
             DocGeneratorCommandType.GENERATE_DOCUMENT,
@@ -80,5 +103,20 @@ class BpeSendMessageToDocGeneratorDelegate(
                 )
             )
         }
+    }
+
+    private fun defineObjectId(context: CamundaGlobalContext, location: Location): String =
+        when (location) {
+            Location.CONTRACT -> context.contracts.first().id.toString()
+        }
+
+    class Parameters(val location: Location)
+
+    enum class Location(override val key: String) : EnumElementProvider.Key {
+        CONTRACT("contract");
+
+        override fun toString(): String = key
+
+        companion object : EnumElementProvider<Location>(info = info())
     }
 }
