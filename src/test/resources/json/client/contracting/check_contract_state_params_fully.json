@@ -4,4 +4,9 @@
   "pmd": "CF",
   "country": "string",
   "operationType": "issuingFrameworkContract"
+  "contracts": [
+    {
+      "id": "contract-id"
+    }
+  ]
 }
