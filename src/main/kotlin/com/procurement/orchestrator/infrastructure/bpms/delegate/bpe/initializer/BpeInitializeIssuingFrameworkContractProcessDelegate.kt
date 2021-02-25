@@ -30,10 +30,12 @@ class BpeInitializeIssuingFrameworkContractProcessDelegate(
             parsePayload(camundaContext.request.payload, IssuingFrameworkContract.Request.Payload::class.java)
                 .orReturnFail { return MaybeFail.fail(it) }
 
+        val contractId = ContractId.create(camundaContext.request.id!!)
+
         globalContext.contracts = Contracts(
             listOf(
                 Contract(
-                    id = ContractId.generate(),
+                    id = contractId,
                     internalId = payload.contract?.internalId
                 )
             )
