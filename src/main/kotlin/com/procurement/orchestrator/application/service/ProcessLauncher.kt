@@ -306,8 +306,8 @@ class ProcessLauncherImpl(
         CamundaContext(propertyContainer)
             .apply {
                 this.request = CamundaContext.Request(
-                    id = event.documents.first().id,
-                    payload = ""
+                    id = event.objectId,
+                    payload = event.data.toString()
                 )
             }
 

@@ -62,7 +62,8 @@ class DocGeneratorMessageConsumer(
     private fun startContractFinalication(response: JsonNode) = launchProcessByV1(response, "finalUpdateAC")
 
     private fun startAddingGeneratedDocument(response: JsonNode) {
-        val ocid = response.get("ocid").asText()
+        val dataNode = response.get("data")
+        val ocid = dataNode.get("ocid").asText()
         val parsedOcid = Ocid.SingleStage.tryCreateOrNull(ocid)
             ?: throw ErrorException(
                 error = ErrorType.INVALID_ATTRIBUTE_VALUE,
@@ -70,22 +71,22 @@ class DocGeneratorMessageConsumer(
             )
         val parsedSingleStageOcid = parsedOcid as Ocid.SingleStage
 
-        val parsedCpid = Cpid.tryCreateOrNull(response.get("cpid").asText())
+        val parsedCpid = Cpid.tryCreateOrNull(dataNode.get("cpid").asText())
             ?: throw ErrorException(
                 error = ErrorType.INVALID_ATTRIBUTE_VALUE,
                 message = "Invalid cpid"
             )
 
-        val documentInitiator = DocumentInitiator.creator(response.get("documentInitiator").asText())
-        val documents = response.get("documents")
-            .map { DocumentGenerated.Document(id = response.get("id").asText()) }
+        val documentInitiator = DocumentInitiator.creator(dataNode.get("documentInitiator").asText())
+        val objectId = dataNode.get("objectId").asText()
 
         val event = DocumentGenerated(
             cpid = parsedCpid,
             ocid = parsedSingleStageOcid,
             documentInitiator = documentInitiator,
-            documents = documents,
-            processName = "addGeneratedDocument"
+            processName = "addGeneratedDocument",
+            objectId = objectId,
+            data = dataNode
         )
 
         processLauncher.launch(event)
