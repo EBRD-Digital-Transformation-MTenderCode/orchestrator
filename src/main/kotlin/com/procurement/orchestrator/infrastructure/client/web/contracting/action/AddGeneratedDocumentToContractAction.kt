@@ -32,6 +32,7 @@ abstract class AddGeneratedDocumentToContractAction : FunctionalAction<AddGenera
         @param:JsonProperty("contracts") @field:JsonProperty("contracts") val contracts: List<Contract>
     ) {
         data class Contract(
+            @param:JsonProperty("id") @field:JsonProperty("id") val id: ContractId,
             @param:JsonProperty("documents") @field:JsonProperty("documents") val documents: List<Document>
         ) {
             data class Document(
