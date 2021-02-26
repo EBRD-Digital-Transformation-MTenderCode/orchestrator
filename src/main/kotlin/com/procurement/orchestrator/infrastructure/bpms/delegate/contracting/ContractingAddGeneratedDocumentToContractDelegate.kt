@@ -77,7 +77,7 @@ class ContractingAddGeneratedDocumentToContractDelegate(
     }
 
     private fun Contract.toRequest() =
-        AddGeneratedDocumentToContractAction.Params.Contract(documents = this.documents.map { it.toRequest() })
+        AddGeneratedDocumentToContractAction.Params.Contract(id = this.id, documents = this.documents.map { it.toRequest() })
 
     private fun Document.toRequest() =
         AddGeneratedDocumentToContractAction.Params.Contract.Document(id = this.id)
