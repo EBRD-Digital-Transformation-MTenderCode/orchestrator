@@ -277,7 +277,9 @@ abstract class CreateBidAction : FunctionalAction<CreateBidAction.Params, Create
                             )
 
                             data class Document(
-                                @param:JsonProperty("documentType") @field:JsonProperty("documentType") val documentType: DocumentType,
+                                @JsonInclude(JsonInclude.Include.NON_NULL)
+                                @param:JsonProperty("documentType") @field:JsonProperty("documentType") val documentType: DocumentType?,
+
                                 @param:JsonProperty("id") @field:JsonProperty("id") val id: DocumentId,
 
                                 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -476,7 +478,8 @@ abstract class CreateBidAction : FunctionalAction<CreateBidAction.Params, Create
                     @JsonInclude(JsonInclude.Include.NON_EMPTY)
                     @param:JsonProperty("relatedLots") @field:JsonProperty("relatedLots") val relatedLots: List<LotId>?,
 
-                    @param:JsonProperty("documentType") @field:JsonProperty("documentType") val documentType: DocumentType
+                    @JsonInclude(JsonInclude.Include.NON_NULL)
+                    @param:JsonProperty("documentType") @field:JsonProperty("documentType") val documentType: DocumentType?
                 )
 
                 data class Item(
