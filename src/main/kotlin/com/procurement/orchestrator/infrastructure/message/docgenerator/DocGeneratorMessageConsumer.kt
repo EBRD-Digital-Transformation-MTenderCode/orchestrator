@@ -35,7 +35,7 @@ class DocGeneratorMessageConsumer(
     fun onDocGenerator(message: String, @Header(KafkaHeaders.ACKNOWLEDGMENT) ack: Acknowledgment) {
         try {
             LOG.info("Received a message from the Document-Generator ($message).")
-            val response: JsonNode = transform.tryToJsonNode(message).orThrow { it.exception }
+            val response: JsonNode = transform.tryParse(message).orThrow { it.exception }
             if (response.get("errors") == null) {
                 val command = response.get("command").asText()
                 when (DocGeneratorCommandType.fromValue(command)) {
@@ -57,7 +57,6 @@ class DocGeneratorMessageConsumer(
             LOG.error("Error while processing the message from the Document-Generator ($message).", e)
         }
     }
-
 
     private fun startContractFinalication(response: JsonNode) = launchProcessByV1(response, "finalUpdateAC")
 
@@ -92,7 +91,6 @@ class DocGeneratorMessageConsumer(
         processLauncher.launch(event)
     }
 
-
     private fun launchProcessByV1(response: JsonNode, processType: String) {
         val dataNode = response.get("data")
         if (dataNode != null) {
@@ -106,6 +104,4 @@ class DocGeneratorMessageConsumer(
             processService.startProcess(context, variables)
         }
     }
-
-
 }
