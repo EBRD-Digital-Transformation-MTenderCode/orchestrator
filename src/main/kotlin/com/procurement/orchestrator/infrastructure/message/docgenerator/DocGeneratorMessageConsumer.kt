@@ -77,27 +77,22 @@ class DocGeneratorMessageConsumer(
         fail.logging(logger)
         when (fail) {
             is Fail.Incident -> {
-                runBlocking {
-                    val bpeIncident = createIncident(fail, message)
-                    incidentNotificatorClient.send(bpeIncident)
-                        .doOnSuccess {
-                            if (fail is Fail.Incident.Bus.Consumer)
-                                ack.acknowledge()
-
-                            // Used for incident thrown by API V1
-                            if (fail is Fail.Incident.Bpe)
-                                ack.acknowledge()
-                        }
-                        .doOnFail { notificationFail -> notificationFail.logging(logger) }
-                }
+                val bpeIncident = createIncident(fail, message)
+                runBlocking { incidentNotificatorClient.send(bpeIncident) }
+                    .doOnSuccess {
+                        if (fail is Fail.Incident.Bus.Consumer)
+                            ack.acknowledge()
+                        // Used for incident thrown by API V1
+                        if (fail is Fail.Incident.Bpe)
+                            ack.acknowledge()
+                    }
+                    .doOnFail { notificationFail -> notificationFail.logging(logger) }
             }
             is Fail.Error -> {
-                runBlocking {
-                    val bpeIncident = createIncident(fail, message)
-                    incidentNotificatorClient.send(bpeIncident)
-                        .doOnSuccess { ack.acknowledge() }
-                        .doOnFail { notificationFail -> notificationFail.logging(logger) }
-                }
+                val bpeIncident = createIncident(fail, message)
+                runBlocking { incidentNotificatorClient.send(bpeIncident) }
+                    .doOnSuccess { ack.acknowledge() }
+                    .doOnFail { notificationFail -> notificationFail.logging(logger) }
             }
         }
     }
