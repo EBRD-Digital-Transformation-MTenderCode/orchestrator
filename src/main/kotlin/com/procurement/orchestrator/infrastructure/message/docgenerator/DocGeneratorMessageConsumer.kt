@@ -68,7 +68,7 @@ class DocGeneratorMessageConsumer(
             }
             ack.acknowledge()
         } catch (e: Exception) {
-            val incident = Fail.Incident.Bpe(description = "${e.message}", exception = e)
+            val incident = Fail.Incident.Bpe(description = e.message ?: "Error while processing message from document generator", exception = e)
             handleFail(incident, message, ack)
         }
     }
