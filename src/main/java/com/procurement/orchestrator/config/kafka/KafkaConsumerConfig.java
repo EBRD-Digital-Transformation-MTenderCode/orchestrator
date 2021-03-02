@@ -90,7 +90,8 @@ public class KafkaConsumerConfig {
                                                                    final RequestService requestService,
                                                                    final Transform transform,
                                                                    final ProcessLauncher processLauncher,
-                                                                   final NotificatorClient<Incident> incidentNotificatorClient) {
-        return new DocGeneratorMessageConsumer(processService, requestService, transform, processLauncher, incidentNotificatorClient);
+                                                                   final NotificatorClient<Incident> incidentNotificatorClient,
+                                                                   final Logger logger) {
+        return new DocGeneratorMessageConsumer(processService, requestService, transform, processLauncher, incidentNotificatorClient, logger);
     }
 }
