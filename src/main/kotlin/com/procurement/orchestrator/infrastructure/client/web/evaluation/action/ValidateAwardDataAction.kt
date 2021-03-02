@@ -29,7 +29,10 @@ abstract class ValidateAwardDataAction : ProceduralAction<ValidateAwardDataActio
         @param:JsonProperty("ocid") @field:JsonProperty("ocid") val ocid: Ocid,
         @param:JsonProperty("tender") @field:JsonProperty("tender") val tender: Tender,
         @param:JsonProperty("awards") @field:JsonProperty("awards") val awards: List<Award>,
-        @param:JsonProperty("operationType") @field:JsonProperty("operationType") val operationType: OperationTypeProcess
+        @param:JsonProperty("operationType") @field:JsonProperty("operationType") val operationType: OperationTypeProcess,
+
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        @param:JsonProperty("mdm") @field:JsonProperty("mdm") val mdm: Mdm?
     ) {
         data class Tender(
             @param:JsonProperty("lots") @field:JsonProperty("lots") val lots: List<Lot>
@@ -225,8 +228,12 @@ abstract class ValidateAwardDataAction : ProceduralAction<ValidateAwardDataActio
 
                         data class Document(
                             @param:JsonProperty("id") @field:JsonProperty("id") val id: DocumentId,
-                            @param:JsonProperty("documentType") @field:JsonProperty("documentType") val documentType: DocumentType,
-                            @param:JsonProperty("title") @field:JsonProperty("title") val title: String,
+
+                            @JsonInclude(JsonInclude.Include.NON_NULL)
+                            @param:JsonProperty("documentType") @field:JsonProperty("documentType") val documentType: DocumentType?,
+
+                            @JsonInclude(JsonInclude.Include.NON_NULL)
+                            @param:JsonProperty("title") @field:JsonProperty("title") val title: String?,
 
                             @JsonInclude(JsonInclude.Include.NON_NULL)
                             @param:JsonProperty("description") @field:JsonProperty("description") val description: String?
@@ -402,12 +409,24 @@ abstract class ValidateAwardDataAction : ProceduralAction<ValidateAwardDataActio
 
             data class Document(
                 @param:JsonProperty("id") @field:JsonProperty("id") val id: DocumentId,
-                @param:JsonProperty("title") @field:JsonProperty("title") val title: String,
+
+                @JsonInclude(JsonInclude.Include.NON_NULL)
+                @param:JsonProperty("title") @field:JsonProperty("title") val title: String?,
 
                 @JsonInclude(JsonInclude.Include.NON_NULL)
                 @param:JsonProperty("description") @field:JsonProperty("description") val description: String?,
 
-                @param:JsonProperty("documentType") @field:JsonProperty("documentType") val documentType: DocumentType
+                @JsonInclude(JsonInclude.Include.NON_NULL)
+                @param:JsonProperty("documentType") @field:JsonProperty("documentType") val documentType: DocumentType?
+            )
+        }
+
+        data class Mdm(
+            @param:JsonProperty("registrationSchemes") @field:JsonProperty("registrationSchemes") val registrationSchemes: List<RegistrationScheme>
+        ) {
+            data class RegistrationScheme(
+                @param:JsonProperty("country") @field:JsonProperty("country") val country: String,
+                @param:JsonProperty("schemes") @field:JsonProperty("schemes") val schemes: List<String>
             )
         }
     }

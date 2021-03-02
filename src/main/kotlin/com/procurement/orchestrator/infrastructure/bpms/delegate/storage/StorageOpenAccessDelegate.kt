@@ -33,6 +33,7 @@ import com.procurement.orchestrator.domain.functional.validate
 import com.procurement.orchestrator.domain.model.amendment.Amendment
 import com.procurement.orchestrator.domain.model.amendment.Amendments
 import com.procurement.orchestrator.domain.model.award.Awards
+import com.procurement.orchestrator.domain.model.contract.Contracts
 import com.procurement.orchestrator.domain.model.document.Document
 import com.procurement.orchestrator.domain.model.document.DocumentId
 import com.procurement.orchestrator.domain.model.document.Documents
@@ -71,6 +72,7 @@ class StorageOpenAccessDelegate(
     companion object {
         private const val TENDER_ATTRIBUTE_NAME = "tender"
         private const val AWARDS_ATTRIBUTE_NAME = "awards"
+        private const val CONTRACTS_ATTRIBUTE_NAME = "contracts"
         private const val QUALIFICATIONS_ATTRIBUTE_NAME = "qualifications"
         private const val SUBMISSIONS_ATTRIBUTE_NAME = "submissions"
         private const val PARTIES_ATTRIBUTE_NAME = "parties"
@@ -115,6 +117,7 @@ class StorageOpenAccessDelegate(
             context.qualifications,
             context.submissions,
             context.parties,
+            context.contracts,
             parameters
         )
             .orForwardFail { fail -> return fail }
@@ -148,6 +151,7 @@ class StorageOpenAccessDelegate(
         val qualifications = context.qualifications
         val submissions = context.submissions
         val parties = context.parties
+        val contracts = context.contracts
 
         validateData(
             data = data,
@@ -156,6 +160,7 @@ class StorageOpenAccessDelegate(
             qualifications = qualifications,
             submissions = submissions,
             parties = parties,
+            contracts = contracts,
             parameters = parameters
         ).doOnError { return MaybeFail.fail(it) }
 
@@ -172,6 +177,9 @@ class StorageOpenAccessDelegate(
         updateParties(parties, entities, documentsByIds, context)
             .doOnFail { return MaybeFail.fail(it) }
 
+        updateContracts(contracts, entities, documentsByIds, context)
+            .doOnFail { return MaybeFail.fail(it) }
+
         return MaybeFail.none()
     }
 
@@ -181,11 +189,12 @@ class StorageOpenAccessDelegate(
         qualifications: Qualifications,
         submissions: Submissions?,
         parties: Parties,
+        contracts: Contracts,
         parameters: Parameters,
         data: OpenAccessAction.Result
     ): ValidationResult<Fail.Incident> {
 
-        val contextDocumentIds = getAllDocuments(tender, awards, qualifications, submissions, parties, parameters)
+        val contextDocumentIds = getAllDocuments(tender, awards, qualifications, submissions, parties, contracts, parameters)
             .orReturnFail { return ValidationResult.error(it) }
 
         data.map { it.id }
@@ -735,12 +744,36 @@ class StorageOpenAccessDelegate(
             .asSuccess()
     }
 
+    private fun getContractsDocumentsIds(
+        contracts: Contracts, entities: Map<EntityKey, EntityValue>
+    ): Result<List<DocumentId>, Fail.Incident> =
+        when (entities[EntityKey.CONTRACT]) {
+            EntityValue.OPTIONAL -> getContractsDocumentIdsOptional(contracts)
+            EntityValue.REQUIRED -> getContractsDocumentsIdsRequired(contracts)
+            null -> emptyList<DocumentId>().asSuccess()
+        }
+
+
+    private fun getContractsDocumentIdsOptional(contracts: Contracts): Result<List<DocumentId>, Fail.Incident> =
+        contracts
+            .flatMap { contract -> contract.documents }
+            .map { document -> document.id }
+            .asSuccess()
+
+    private fun getContractsDocumentsIdsRequired(contracts: Contracts): Result<List<DocumentId>, Fail.Incident> =
+        contracts
+            .getIfNotEmpty(name = CONTRACTS_ATTRIBUTE_NAME).orForwardFail { return it }
+            .flatMap { contract -> contract.getDocumentsIfNotEmpty().orForwardFail { return it } }
+            .map { document -> document.id }
+            .asSuccess()
+
     private fun getAllDocuments(
         tender: Tender?,
         awards: Awards,
         qualifications: Qualifications,
         submissions: Submissions?,
         parties: Parties,
+        contracts: Contracts,
         parameters: Parameters
     ): Result<List<DocumentId>, Fail.Incident> {
         val entities = parameters.entities
@@ -772,6 +805,9 @@ class StorageOpenAccessDelegate(
         val awardSuppliersDocuments: List<DocumentId> = getAwardsSuppliersDocumentsIds(awards, entities)
             .orForwardFail { fail -> return fail }
 
+        val contractsDocuments: List<DocumentId> = getContractsDocumentsIds(contracts, entities)
+            .orForwardFail { fail -> return fail }
+
         return amendmentDocuments
             .asSequence()
             .plus(tenderDocuments)
@@ -782,6 +818,7 @@ class StorageOpenAccessDelegate(
             .plus(partiesDocuments)
             .plus(awardDocuments)
             .plus(awardSuppliersDocuments)
+            .plus(contractsDocuments)
             .toList()
             .asSuccess()
     }
@@ -888,6 +925,43 @@ class StorageOpenAccessDelegate(
         return MaybeFail.none()
     }
 
+    private fun updateContracts(
+        contracts: Contracts,
+        entities: Map<EntityKey, EntityValue>,
+        documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document>,
+        context: CamundaGlobalContext
+    ): MaybeFail<Fail.Incident> {
+        val contractsWithUpdatedDocuments: Contracts = if (EntityKey.CONTRACT in entities)
+            contracts
+                .updateDocuments(documentsByIds)
+                .orReturnFail { return MaybeFail.fail(it) }
+        else
+            contracts
+
+        context.contracts = contractsWithUpdatedDocuments
+
+        return MaybeFail.none()
+    }
+
+    private fun Contracts.updateDocuments(documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document>): Result<Contracts, Fail.Incident.Bpms> {
+        val updatedContracts = this.map { contract ->
+            val updatedDocuments = contract.documents
+                .map { document ->
+                    documentsByIds[document.id]
+                        ?.let { document.copy(datePublished = it.datePublished, url = it.uri) }
+                        ?: return failure(
+                            Fail.Incident.Bpms.Context.UnConsistency.Update(
+                                name = "document",
+                                path = "contracts[id:${contract.id}]",
+                                id = document.id.toString()
+                            )
+                        )
+                }
+            contract.copy(documents = Documents(updatedDocuments))
+        }
+        return success(Contracts(updatedContracts))
+    }
+
     class Parameters(
         val entities: Map<EntityKey, EntityValue>
     )
@@ -898,6 +972,7 @@ class StorageOpenAccessDelegate(
         AWARD("award"),
         AWARD_REQUIREMENT_RESPONSE("award.requirementResponse"),
         AWARD_SUPPLIER("award.supplier"),
+        CONTRACT("contract"),
         TENDER("tender"),
         QUALIFICATION_REQUIREMENT_RESPONSE("qualification.requirementResponse"),
         QUALIFICATION("qualification"),

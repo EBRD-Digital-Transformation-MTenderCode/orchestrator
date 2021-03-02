@@ -3,10 +3,5 @@
   "ocid": "ocds-b3wdp1-MD-1580458690892-EV-1580458791896",
   "pmd": "CF",
   "country": "string",
-  "operationType": "issuingFrameworkContract",
-  "contracts": [
-    {
-      "id": "contract-id"
-    }
-  ]
+  "operationType": "completeSourcing"
 }

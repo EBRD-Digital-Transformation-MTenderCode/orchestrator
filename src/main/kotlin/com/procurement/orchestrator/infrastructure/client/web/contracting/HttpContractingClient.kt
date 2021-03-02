@@ -6,6 +6,7 @@ import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.WebClient
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.AddGeneratedDocumentToContractAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.AddSupplierReferencesInFCAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CancelFrameworkContractAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckContractStateAction
@@ -70,6 +71,15 @@ class HttpContractingClient(private val webClient: WebClient, properties: Compon
         url = url,
         command = ContractingCommands.AddSupplierReferencesInFC.build(id = id, params = params),
         target = ContractingCommands.AddSupplierReferencesInFC.target
+    )
+
+    override suspend fun addGeneratedDocumentToContract(
+        id: CommandId,
+        params: AddGeneratedDocumentToContractAction.Params
+    ): Result<Reply<AddGeneratedDocumentToContractAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = ContractingCommands.AddGeneratedDocumentToContract.build(id = id, params = params),
+        target = ContractingCommands.AddGeneratedDocumentToContract.target
     )
 
     override suspend fun setStateForContracts(

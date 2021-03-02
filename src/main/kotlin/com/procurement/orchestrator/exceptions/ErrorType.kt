@@ -21,5 +21,6 @@ enum class ErrorType constructor(val code: String, val message: String) {
     CONTRACT_NOT_FOUND("00.18", "Contract is not found."),
     INVALID_PMD("00.19", "Invalid pmd."),
     INVALID_REQUIREMENT_VALUE("00.20", "Invalid requirement value."),
-    IS_EMPTY("00.21", "List of items is empty.");
+    IS_EMPTY("00.21", "List of items is empty."),
+    INVALID_ATTRIBUTE_VALUE("00.22", "Invalid attribute value.");
 }

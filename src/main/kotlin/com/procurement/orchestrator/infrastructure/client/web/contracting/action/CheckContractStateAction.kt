@@ -6,6 +6,7 @@ import com.procurement.orchestrator.application.service.ProceduralAction
 import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
 import com.procurement.orchestrator.domain.model.ProcurementMethodDetails
+import com.procurement.orchestrator.domain.model.contract.ContractId
 import com.procurement.orchestrator.infrastructure.model.Version
 
 abstract class CheckContractStateAction : ProceduralAction<CheckContractStateAction.Params> {
@@ -18,6 +19,11 @@ abstract class CheckContractStateAction : ProceduralAction<CheckContractStateAct
         @field:JsonProperty("ocid") @param:JsonProperty("ocid") val ocid: Ocid,
         @field:JsonProperty("pmd") @param:JsonProperty("pmd") val pmd: ProcurementMethodDetails,
         @field:JsonProperty("country") @param:JsonProperty("country") val country: String,
-        @field:JsonProperty("operationType") @param:JsonProperty("operationType") val operationType: OperationTypeProcess
-    )
+        @field:JsonProperty("operationType") @param:JsonProperty("operationType") val operationType: OperationTypeProcess,
+        @field:JsonProperty("contracts") @param:JsonProperty("contracts") val contracts: List<Contract>
+    ) {
+        data class Contract(
+            @field:JsonProperty("id") @param:JsonProperty("id") val id: ContractId
+        )
+    }
 }

@@ -72,7 +72,9 @@ abstract class CheckPersonesStructureAction : ProceduralAction<CheckPersonesStru
                 )
 
                 data class Document(
-                    @field:JsonProperty("documentType") @param:JsonProperty("documentType") val documentType: DocumentType,
+                    @JsonInclude(JsonInclude.Include.NON_NULL)
+                    @field:JsonProperty("documentType") @param:JsonProperty("documentType") val documentType: DocumentType?,
+
                     @field:JsonProperty("id") @param:JsonProperty("id") val id: DocumentId,
 
                     @JsonInclude(JsonInclude.Include.NON_NULL)

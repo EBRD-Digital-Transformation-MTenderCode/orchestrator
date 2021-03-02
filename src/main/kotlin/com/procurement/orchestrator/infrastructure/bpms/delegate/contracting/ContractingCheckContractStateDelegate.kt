@@ -6,15 +6,13 @@ import com.procurement.orchestrator.application.model.context.CamundaGlobalConte
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
-import com.procurement.orchestrator.domain.functional.MaybeFail
-import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
-import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckContractStateAction
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckContractStateAction.Params
 import org.springframework.stereotype.Component
 
 @Component
@@ -43,19 +41,14 @@ class ContractingCheckContractStateDelegate(
 
         return contractingClient.checkContractState(
             id = commandId,
-            params = CheckContractStateAction.Params(
+            params = Params(
                 cpid = processInfo.cpid!!,
                 ocid = processInfo.ocid!!,
                 country = requestInfo.country,
                 pmd = processInfo.pmd,
-                operationType = processInfo.operationType
+                operationType = processInfo.operationType,
+                contracts = context.contracts.map { Params.Contract(id = it.id) }
             )
         )
     }
-
-    override fun updateGlobalContext(
-        context: CamundaGlobalContext,
-        parameters: Unit,
-        result: Option<Unit>
-    ): MaybeFail<Fail.Incident.Bpmn> = MaybeFail.none()
 }
