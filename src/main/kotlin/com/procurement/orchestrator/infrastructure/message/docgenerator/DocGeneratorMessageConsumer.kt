@@ -91,16 +91,27 @@ class DocGeneratorMessageConsumer(
             }
             is Fail.Error -> {
                 LOG.error("Error while processing the message from the Document-Generator ($message).", exception)
+                runBlocking {
+                    val bpeIncident = createIncident(fail, message)
+                    incidentNotificatorClient.send(bpeIncident).doOnFail { notificationFail ->
+                        LOG.error("Error while sending message to incident notifier ($notificationFail).", exception)
+                    }
+                }
                 ack.acknowledge()
             }
         }
     }
 
-    private fun createIncident(incident: Fail.Incident, message: String): Incident {
+    private fun createIncident(fail: Fail, message: String): Incident {
+        val level = if (fail is Fail.Incident)
+            fail.level.key
+        else
+            Fail.Incident.Level.ERROR.key
+
         return  Incident(
             id = UUID.randomUUID().toString(),
             date = nowDefaultUTC().format(),
-            level = incident.level.key,
+            level = level,
             service = GlobalProperties.service
                 .let { service ->
                     Incident.Service(
@@ -111,8 +122,8 @@ class DocGeneratorMessageConsumer(
                 },
             details = listOf(
                 Incident.Detail(
-                    code = incident.code,
-                    description = incident.description,
+                    code = fail.code,
+                    description = fail.description,
                     metadata = message
                 )
             )

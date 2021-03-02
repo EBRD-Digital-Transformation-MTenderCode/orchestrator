@@ -221,7 +221,7 @@ class ProcessLauncherImpl(
         return MaybeFail.none()
     }
 
-    private fun loadContext(event: DocumentGenerated): Result<LatestProcessContext, Fail> {
+    private fun loadContext(event: DocumentGenerated): Result<LatestProcessContext, Fail.Incident> {
         val latestProcessContext = when (event.ocid.stage) {
             Stage.FE,
             Stage.EV,
