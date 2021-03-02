@@ -13,14 +13,11 @@ import com.procurement.orchestrator.domain.commands.DocGeneratorCommandType.DOCU
 import com.procurement.orchestrator.domain.extension.date.format
 import com.procurement.orchestrator.domain.extension.date.nowDefaultUTC
 import com.procurement.orchestrator.domain.fail.Fail
-import com.procurement.orchestrator.domain.fail.error.BpeErrors
-import com.procurement.orchestrator.domain.fail.error.RequestErrors
+import com.procurement.orchestrator.domain.fail.error.DataValidationErrors
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
 import com.procurement.orchestrator.domain.model.document.DocumentInitiator
-import com.procurement.orchestrator.exceptions.ErrorException
-import com.procurement.orchestrator.exceptions.ErrorType
 import com.procurement.orchestrator.infrastructure.configuration.property.GlobalProperties
 import com.procurement.orchestrator.service.ProcessService
 import com.procurement.orchestrator.service.RequestService
@@ -49,7 +46,7 @@ class DocGeneratorMessageConsumer(
         try {
             LOG.info("Received a message from the Document-Generator ($message).")
             val response: JsonNode = transform.tryParse(message)
-                .mapError { RequestErrors.Payload.Parsing(payload = message, exception = it.exception) }
+                .mapError { Fail.Incident.Bus.Consumer(description = "Cannot parse message", exception = it.exception) }
                 .orReturnFail { fail ->
                     handleFail(fail, message, ack)
                     return
@@ -67,7 +64,7 @@ class DocGeneratorMessageConsumer(
                     }
                 }
             } else {
-                val error = BpeErrors.Process(description = "Error from document generator.")
+                val error = Fail.Incident.Bus.Consumer(description = "Error from document generator.")
                 handleFail(error, message, ack)
                 return
             }
@@ -84,11 +81,14 @@ class DocGeneratorMessageConsumer(
             is Fail.Incident -> {
                 LOG.error("Error while processing the message from the Document-Generator ($message).", exception)
                 runBlocking {
-                    val bpeIncident = createIncident(fail)
+                    val bpeIncident = createIncident(fail, message)
                     incidentNotificatorClient.send(bpeIncident).doOnFail { notificationFail ->
                         LOG.error("Error while sending message to incident notifier ($notificationFail).", exception)
                     }
                 }
+
+                if (fail is Fail.Incident.Bus.Consumer)
+                    ack.acknowledge()
             }
             is Fail.Error -> {
                 LOG.error("Error while processing the message from the Document-Generator ($message).", exception)
@@ -97,7 +97,7 @@ class DocGeneratorMessageConsumer(
         }
     }
 
-    private fun createIncident(incident: Fail.Incident): Incident {
+    private fun createIncident(incident: Fail.Incident, message: String): Incident {
         return  Incident(
             id = UUID.randomUUID().toString(),
             date = nowDefaultUTC().format(),
@@ -113,7 +113,8 @@ class DocGeneratorMessageConsumer(
             details = listOf(
                 Incident.Detail(
                     code = incident.code,
-                    description = incident.description
+                    description = incident.description,
+                    metadata = message
                 )
             )
         )
@@ -125,16 +126,23 @@ class DocGeneratorMessageConsumer(
         val dataNode = response.get("data")
         val ocid = dataNode.get("ocid").asText()
         val parsedOcid = Ocid.SingleStage.tryCreateOrNull(ocid)
-            ?: throw ErrorException(
-                error = ErrorType.INVALID_ATTRIBUTE_VALUE,
-                message = "Invalid ocid"
+            ?: return MaybeFail.fail(
+                DataValidationErrors.DataMismatchToPattern(
+                    name = "ocid",
+                    pattern = Ocid.SingleStage.pattern,
+                    actualValue = ocid
+                )
             )
         val parsedSingleStageOcid = parsedOcid as Ocid.SingleStage
 
-        val parsedCpid = Cpid.tryCreateOrNull(dataNode.get("cpid").asText())
-            ?: throw ErrorException(
-                error = ErrorType.INVALID_ATTRIBUTE_VALUE,
-                message = "Invalid cpid"
+        val cpid = dataNode.get("cpid").asText()
+        val parsedCpid = Cpid.tryCreateOrNull(cpid)
+            ?: return MaybeFail.fail(
+                DataValidationErrors.DataMismatchToPattern(
+                    name = "cpid",
+                    pattern = Cpid.pattern,
+                    actualValue = cpid
+                )
             )
 
         val documentInitiator = DocumentInitiator.creator(dataNode.get("documentInitiator").asText())
