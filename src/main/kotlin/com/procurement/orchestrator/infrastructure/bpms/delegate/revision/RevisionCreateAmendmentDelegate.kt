@@ -63,6 +63,7 @@ class RevisionCreateAmendmentDelegate(
                 .id
                 .toString()
 
+            OperationTypeProcess.ADD_GENERATED_DOCUMENT,
             OperationTypeProcess.APPLY_QUALIFICATION_PROTOCOL,
             OperationTypeProcess.COMPLETE_QUALIFICATION,
             OperationTypeProcess.COMPLETE_SOURCING,

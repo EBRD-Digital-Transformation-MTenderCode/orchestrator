@@ -10,11 +10,14 @@ import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.model.contract.Contract
 import com.procurement.orchestrator.domain.model.contract.ContractId
 import com.procurement.orchestrator.domain.model.contract.Contracts
+import com.procurement.orchestrator.domain.model.document.Document
+import com.procurement.orchestrator.domain.model.document.DocumentId
+import com.procurement.orchestrator.domain.model.document.Documents
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import org.springframework.stereotype.Component
 
 @Component
-class BpeInitializeIssuingFrameworkContractProcessDelegate(
+class BpeInitializeAddGeneratedDocumentToContractProcessDelegate(
     val logger: Logger,
     transform: Transform,
     operationStepRepository: OperationStepRepository,
@@ -26,8 +29,8 @@ class BpeInitializeIssuingFrameworkContractProcessDelegate(
         globalContext: CamundaGlobalContext
     ): MaybeFail<Fail> {
 
-        val payload: IssuingFrameworkContract.Request.Payload =
-            parsePayload(camundaContext.request.payload, IssuingFrameworkContract.Request.Payload::class.java)
+        val payload: AddGeneratedDocumentToContract.Request.Payload =
+            parsePayload(camundaContext.request.payload, AddGeneratedDocumentToContract.Request.Payload::class.java)
                 .orReturnFail { return MaybeFail.fail(it) }
 
         val contractId = ContractId.create(camundaContext.request.id!!)
@@ -36,7 +39,9 @@ class BpeInitializeIssuingFrameworkContractProcessDelegate(
             listOf(
                 Contract(
                     id = contractId,
-                    internalId = payload.contract?.internalId
+                    documents = payload.documents
+                        .map { Document(id = DocumentId.create(it.id)) }
+                        .let { Documents(it) }
                 )
             )
         )

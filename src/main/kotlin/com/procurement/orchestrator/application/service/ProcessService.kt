@@ -1,6 +1,7 @@
 package com.procurement.orchestrator.application.service
 
 import com.procurement.orchestrator.application.model.OperationId
+import com.procurement.orchestrator.application.model.Owner
 import com.procurement.orchestrator.application.model.Phase
 import com.procurement.orchestrator.application.model.Stage
 import com.procurement.orchestrator.application.model.process.LatestProcessContext
@@ -137,6 +138,12 @@ class ProcessServiceImpl(
             }
             ?: return failure(Fail.Incident.Bpe(description = "The old process context does not contain the 'pmd' attribute."))
 
+        val owner = this.owner
+            .let { value ->
+                Owner.tryCreateOrNull(value)
+                    ?: return failure(Fail.Incident.Bpe(description = "The old process context contain unknown value '$value' of the 'owner' attribute."))
+            }
+
         val isAuction = this.isAuction
         val mainProcurementCategory = this.mainProcurementCategory
         val awardCriteria = this.awardCriteria
@@ -155,7 +162,8 @@ class ProcessServiceImpl(
             pmd = pmd,
             isAuction = isAuction,
             mainProcurementCategory = mainProcurementCategory,
-            awardCriteria = awardCriteria
+            awardCriteria = awardCriteria,
+            owner = owner
         ).asSuccess()
     }
 }

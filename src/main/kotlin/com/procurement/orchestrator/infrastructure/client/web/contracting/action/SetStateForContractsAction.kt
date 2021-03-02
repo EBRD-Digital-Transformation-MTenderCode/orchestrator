@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.infrastructure.client.web.contracting.action
 
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.procurement.orchestrator.application.model.process.OperationTypeProcess
 import com.procurement.orchestrator.application.service.FunctionalAction
@@ -25,7 +26,12 @@ abstract class SetStateForContractsAction : FunctionalAction<SetStateForContract
         @field:JsonProperty("pmd") @param:JsonProperty("pmd") val pmd: ProcurementMethodDetails,
         @field:JsonProperty("country") @param:JsonProperty("country") val country: String,
         @field:JsonProperty("operationType") @param:JsonProperty("operationType") val operationType: OperationTypeProcess,
-        @field:JsonProperty("tender") @param:JsonProperty("tender") val tender: Tender
+
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        @field:JsonProperty("tender") @param:JsonProperty("tender") val tender: Tender?,
+
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        @field:JsonProperty("contracts") @param:JsonProperty("contracts") val contracts: List<Contract>?
     ){
         data class Tender(
             @field:JsonProperty("lots") @param:JsonProperty("lots") val lots: List<Lot>
@@ -34,6 +40,10 @@ abstract class SetStateForContractsAction : FunctionalAction<SetStateForContract
                 @field:JsonProperty("id") @param:JsonProperty("id") val id: LotId
             )
         }
+
+        data class Contract(
+            @field:JsonProperty("id") @param:JsonProperty("id") val id: ContractId
+        )
     }
 
     data class Result(
