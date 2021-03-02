@@ -134,6 +134,7 @@ class DocGeneratorMessageConsumer(
 
     private fun startAddingGeneratedDocument(response: JsonNode): MaybeFail<Fail> {
         val dataNode = response.get("data")
+            ?: return MaybeFail.fail(Fail.Incident.Bus.Consumer(description = "Missing 'data' in message."))
 
         val ocid = dataNode.get("ocid")?.asText()
             ?: return MaybeFail.fail(Fail.Incident.Bus.Consumer(description = "Missing 'ocid' in message."))
@@ -156,8 +157,14 @@ class DocGeneratorMessageConsumer(
                 )
             )
 
-        val documentInitiator = DocumentInitiator.creator(dataNode.get("documentInitiator").asText())
-        val objectId = dataNode.get("objectId").asText()
+        val documentInitiatorNode = dataNode.get("documentInitiator")?.asText()
+            ?: return MaybeFail.fail(Fail.Incident.Bus.Consumer(description = "Missing 'documentInitiator' in message."))
+
+        val documentInitiator = DocumentInitiator.orNull(documentInitiatorNode)
+            ?: return MaybeFail.fail(Fail.Incident.Bus.Consumer(description = "Unknown value of 'documentInitiator' attribute. Actual value: $documentInitiatorNode"))
+
+        val objectId = dataNode.get("objectId")?.asText()
+            ?: return MaybeFail.fail(Fail.Incident.Bus.Consumer(description = "Missing 'objectId' in message."))
 
         val event = DocumentGenerated(
             cpid = parsedCpid,
