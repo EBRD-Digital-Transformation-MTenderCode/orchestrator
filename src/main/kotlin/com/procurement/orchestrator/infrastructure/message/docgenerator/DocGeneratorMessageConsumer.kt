@@ -13,7 +13,6 @@ import com.procurement.orchestrator.domain.commands.DocGeneratorCommandType.DOCU
 import com.procurement.orchestrator.domain.extension.date.format
 import com.procurement.orchestrator.domain.extension.date.nowDefaultUTC
 import com.procurement.orchestrator.domain.fail.Fail
-import com.procurement.orchestrator.domain.fail.error.DataValidationErrors
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
@@ -127,10 +126,8 @@ class DocGeneratorMessageConsumer(
         val ocid = dataNode.get("ocid").asText()
         val parsedOcid = Ocid.SingleStage.tryCreateOrNull(ocid)
             ?: return MaybeFail.fail(
-                DataValidationErrors.DataMismatchToPattern(
-                    name = "ocid",
-                    pattern = Ocid.SingleStage.pattern,
-                    actualValue = ocid
+                Fail.Incident.Bus.Consumer(
+                    description = "Cannot parse 'ocid'. Actual value: '$ocid'. Pattern: '${Ocid.SingleStage.pattern}'"
                 )
             )
         val parsedSingleStageOcid = parsedOcid as Ocid.SingleStage
@@ -138,10 +135,8 @@ class DocGeneratorMessageConsumer(
         val cpid = dataNode.get("cpid").asText()
         val parsedCpid = Cpid.tryCreateOrNull(cpid)
             ?: return MaybeFail.fail(
-                DataValidationErrors.DataMismatchToPattern(
-                    name = "cpid",
-                    pattern = Cpid.pattern,
-                    actualValue = cpid
+                Fail.Incident.Bus.Consumer(
+                    description = "Cannot parse 'cpid'. Actual value: '$cpid'. Pattern: '${Cpid.pattern}'"
                 )
             )
 
