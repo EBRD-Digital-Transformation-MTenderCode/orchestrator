@@ -10,8 +10,6 @@ import java.util.Map;
 
 public enum DocGeneratorCommandType {
 
-//    CONTRACT_FINALIZATION("contractFinalization"),
-//    DOCUMENT_GENERATED("documentGenerated"),
     GENERATE("generateACDoc"),
     GENERATE_DOCUMENT("generateDocument");
 
