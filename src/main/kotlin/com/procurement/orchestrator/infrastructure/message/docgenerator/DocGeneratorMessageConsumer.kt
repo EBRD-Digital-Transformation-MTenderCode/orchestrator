@@ -134,7 +134,10 @@ class DocGeneratorMessageConsumer(
 
     private fun startAddingGeneratedDocument(response: JsonNode): MaybeFail<Fail> {
         val dataNode = response.get("data")
-        val ocid = dataNode.get("ocid").asText()
+
+        val ocid = dataNode.get("ocid")?.asText()
+            ?: return MaybeFail.fail(Fail.Incident.Bus.Consumer(description = "Missing 'ocid' in message."))
+
         val parsedOcid = Ocid.SingleStage.tryCreateOrNull(ocid)
             ?: return MaybeFail.fail(
                 Fail.Incident.Bus.Consumer(
@@ -143,7 +146,9 @@ class DocGeneratorMessageConsumer(
             )
         val parsedSingleStageOcid = parsedOcid as Ocid.SingleStage
 
-        val cpid = dataNode.get("cpid").asText()
+        val cpid = dataNode.get("cpid")?.asText()
+            ?: return MaybeFail.fail(Fail.Incident.Bus.Consumer(description = "Missing 'cpid' in message."))
+
         val parsedCpid = Cpid.tryCreateOrNull(cpid)
             ?: return MaybeFail.fail(
                 Fail.Incident.Bus.Consumer(
