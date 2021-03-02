@@ -13,6 +13,7 @@ import com.procurement.orchestrator.domain.commands.DocGeneratorCommandType.DOCU
 import com.procurement.orchestrator.domain.extension.date.format
 import com.procurement.orchestrator.domain.extension.date.nowDefaultUTC
 import com.procurement.orchestrator.domain.fail.Fail
+import com.procurement.orchestrator.domain.fail.error.BpeErrors
 import com.procurement.orchestrator.domain.fail.error.RequestErrors
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.model.Cpid
@@ -60,17 +61,15 @@ class DocGeneratorMessageConsumer(
                     DOCUMENT_GENERATED -> startAddingGeneratedDocument(response).doOnFail { fail -> handleFail(fail, message, ack) }
 
                     else -> {
-                        val uuid: String = if (response.has("id"))
-                            response.get("id").asText()
-                        else
-                            UUIDs.timeBased().toString()
-
-                        requestService.saveRequest(uuid, uuid, null, response.get("data"))
+                        val fail = Fail.Incident.Bus.Consumer(description = "Unknown command from document generator.")
+                        handleFail(fail, message, ack)
+                        return
                     }
                 }
             } else {
-                val uuid: String = UUIDs.timeBased().toString()
-                requestService.saveRequest(uuid, uuid, null, response.get("errors"))
+                val error = BpeErrors.Process(description = "Error from document generator.")
+                handleFail(error, message, ack)
+                return
             }
             ack.acknowledge()
         } catch (e: Exception) {
