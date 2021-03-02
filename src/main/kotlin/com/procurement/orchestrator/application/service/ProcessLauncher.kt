@@ -214,7 +214,7 @@ class ProcessLauncherImpl(
         when (event) {
             is DocumentGenerated -> {
                 val prevProcessContext = loadContext(event).orReturnFail { return MaybeFail.fail(it) }
-                startAddingGeneratedDocument(event, prevProcessContext)
+                startAddingGeneratedDocument(event, prevProcessContext).doOnFail { return MaybeFail.fail(it) }
             }
         }
 
