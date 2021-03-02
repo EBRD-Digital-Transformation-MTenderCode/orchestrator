@@ -104,14 +104,14 @@ class DocGeneratorMessageConsumer(
 
     private fun createIncident(fail: Fail, message: String): Incident {
         val level = if (fail is Fail.Incident)
-            fail.level.key
+            fail.level
         else
-            Fail.Incident.Level.ERROR.key
+            Fail.Incident.Level.ERROR
 
         return  Incident(
             id = UUID.randomUUID().toString(),
             date = nowDefaultUTC().format(),
-            level = level,
+            level = level.key,
             service = GlobalProperties.service
                 .let { service ->
                     Incident.Service(
