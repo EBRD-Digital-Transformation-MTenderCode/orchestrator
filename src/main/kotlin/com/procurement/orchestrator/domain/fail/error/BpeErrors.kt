@@ -10,6 +10,8 @@ sealed class BpeErrors(prefix: String, number: String, override val description:
         logger.error(message = message)
     }
 
+    override val exception: Exception? = null
+
     class ImpossibleOperation(description: String) : BpeErrors(prefix = "SR-", number = "2", description = description)
 
     class Process(description: String) : BpeErrors(prefix = "VR-", number = "16", description = description)

@@ -6,6 +6,8 @@ import com.procurement.orchestrator.domain.fail.Fail
 sealed class DomainErrors(numberError: String, override val description: String) :
     Fail.Error(prefix = "DE-", number = numberError) {
 
+    override val exception: Exception? = null
+
     override fun logging(logger: Logger) {
         logger.error(message)
     }
