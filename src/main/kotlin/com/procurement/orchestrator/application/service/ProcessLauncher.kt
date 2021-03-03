@@ -214,14 +214,14 @@ class ProcessLauncherImpl(
         when (event) {
             is DocumentGenerated -> {
                 val prevProcessContext = loadContext(event).orReturnFail { return MaybeFail.fail(it) }
-                startAddingGeneratedDocument(event, prevProcessContext)
+                startAddingGeneratedDocument(event, prevProcessContext).doOnFail { return MaybeFail.fail(it) }
             }
         }
 
         return MaybeFail.none()
     }
 
-    private fun loadContext(event: DocumentGenerated): Result<LatestProcessContext, Fail> {
+    private fun loadContext(event: DocumentGenerated): Result<LatestProcessContext, Fail.Incident> {
         val latestProcessContext = when (event.ocid.stage) {
             Stage.FE,
             Stage.EV,

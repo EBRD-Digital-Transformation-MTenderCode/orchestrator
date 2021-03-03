@@ -2,6 +2,7 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.bpe
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.procurement.orchestrator.application.CommandId
+import com.procurement.orchestrator.application.model.OperationId
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
@@ -62,6 +63,7 @@ class BpeSendMessageToDocGeneratorDelegate(
 
         val processInfo = context.processInfo
         val requestInfo = context.requestInfo
+        val operationId = requestInfo.operationId
 
         val objectId = defineObjectId(context, parameters.location)
 
@@ -78,15 +80,15 @@ class BpeSendMessageToDocGeneratorDelegate(
         )
         val serializedData = transform.tryToJsonNode(data)
             .orForwardFail { fail -> return fail }
-        sendToDocGenerator(serializedData)
+        sendToDocGenerator(serializedData, operationId)
             .orForwardFail { fail -> return fail }
 
         return success(Reply.None)
     }
 
-    private fun sendToDocGenerator(serializedData: JsonNode): Result<Unit, Fail.Incident.Bus.Producer> {
+    private fun sendToDocGenerator(serializedData: JsonNode, operationId: OperationId): Result<Unit, Fail.Incident.Bus.Producer> {
         val commandMessage = CommandMessage(
-            "",
+            operationId.toString(),
             DocGeneratorCommandType.GENERATE_DOCUMENT,
             null,
             serializedData,

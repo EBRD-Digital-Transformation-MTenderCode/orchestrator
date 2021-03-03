@@ -6,6 +6,7 @@ import com.procurement.orchestrator.domain.fail.Fail
 sealed class DataValidationErrors(number: String, val name: String, override val description: String) :
     Fail.Error(prefix = "DR-", number = number) {
 
+    override val exception: Exception? = null
 
     override fun logging(logger: Logger) {
         logger.error(message = message, mdc = mapOf(ATTRIBUTE_NAME_KEY to name))

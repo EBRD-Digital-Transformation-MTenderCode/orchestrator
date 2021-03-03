@@ -1,5 +1,7 @@
 package com.procurement.orchestrator.config.kafka;
 
+import com.procurement.orchestrator.application.client.NotificatorClient;
+import com.procurement.orchestrator.application.model.context.members.Incident;
 import com.procurement.orchestrator.application.service.Logger;
 import com.procurement.orchestrator.application.service.ProcessLauncher;
 import com.procurement.orchestrator.application.service.Transform;
@@ -78,8 +80,9 @@ public class KafkaConsumerConfig {
                                                                  final RequestService requestService,
                                                                  final Transform transform,
                                                                  final ProcessLauncher processLauncher,
+                                                                 final NotificatorClient<Incident> incidentNotificatorClient,
                                                                  final Logger logger) {
-        return new ChronographMessageConsumer(processService, requestService, transform, processLauncher, logger);
+        return new ChronographMessageConsumer(processService, requestService, transform, processLauncher, incidentNotificatorClient, logger);
     }
 
     @Bean
@@ -87,7 +90,8 @@ public class KafkaConsumerConfig {
                                                                    final RequestService requestService,
                                                                    final Transform transform,
                                                                    final ProcessLauncher processLauncher,
+                                                                   final NotificatorClient<Incident> incidentNotificatorClient,
                                                                    final Logger logger) {
-        return new DocGeneratorMessageConsumer(processService, requestService, transform, processLauncher);
+        return new DocGeneratorMessageConsumer(processService, requestService, transform, processLauncher, incidentNotificatorClient, logger);
     }
 }

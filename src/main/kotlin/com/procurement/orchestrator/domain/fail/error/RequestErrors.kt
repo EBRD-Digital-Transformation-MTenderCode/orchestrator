@@ -12,6 +12,8 @@ sealed class RequestErrors(number: String, override val description: String) :
         class Repeated(description: String = "This is a repeated request.") :
             Common(number = "1", description = description) {
 
+            override val exception: Exception? = null
+
             override fun logging(logger: Logger) {
                 logger.error(message = message)
             }
@@ -21,7 +23,7 @@ sealed class RequestErrors(number: String, override val description: String) :
             name: String,
             expectedFormat: String,
             actualValue: String,
-            val exception: Exception? = null
+            override val exception: Exception? = null
         ) : Common(
             number = "2",
             description = "Data format mismatch of '$name'. Expected data format: '$expectedFormat', actual value: '$actualValue'."
@@ -41,13 +43,15 @@ sealed class RequestErrors(number: String, override val description: String) :
         }
 
         class MissingRequiredHeader(name: String) :
-            Header(number = "1", description = "Missing required header '$name'.", name = name)
+            Header(number = "1", description = "Missing required header '$name'.", name = name) {
+            override val exception: Exception? = null
+        }
 
         class DataTypeMismatch(
             name: String,
             expectedType: String,
             actualType: String,
-            val exception: Exception? = null
+            override val exception: Exception? = null
         ) : Header(
             number = "2",
             description = "Data type mismatch of header '$name'. Expected data type: '$expectedType', actual data type: '$actualType'.",
@@ -59,13 +63,15 @@ sealed class RequestErrors(number: String, override val description: String) :
         }
 
         class InvalidValue(name: String, description: String) :
-            Header(number = "3", description = description, name = name)
+            Header(number = "3", description = description, name = name) {
+            override val exception: Exception? = null
+        }
 
         class DataFormatMismatch(
             name: String,
             expectedFormat: String,
             actualValue: String,
-            val exception: Exception? = null
+            override val exception: Exception? = null
         ) : Header(
             number = "4",
             description = "Data format mismatch of header '$name'. Expected data format: '$expectedFormat', actual value: '$actualValue'.",
@@ -80,6 +86,8 @@ sealed class RequestErrors(number: String, override val description: String) :
 
     sealed class QueryParameter(number: String, val name: String, description: String) :
         RequestErrors(number = "3.$number", description = description) {
+
+        override val exception: Exception? = null
 
         override fun logging(logger: Logger) {
             logger.error(message = message, mdc = mapOf(REQUEST_QUERY_PARAMETER_NAME to name))
@@ -114,12 +122,14 @@ sealed class RequestErrors(number: String, override val description: String) :
             logger.error(message = message)
         }
 
+        override val exception: Exception? = null
+
         class Missing : Payload(number = "1", description = "Missing payload.")
 
         class Parsing(
             description: String = "An error of parsing payload.",
             val payload: String,
-            val exception: Exception
+            override val exception: Exception
         ) : Payload(number = "2", description = description) {
 
             override fun logging(logger: Logger) {
