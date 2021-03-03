@@ -19,46 +19,46 @@
       <rule id="DecisionRule_0wqwziu">
         <description>The type of entity to add the document to</description>
         <inputEntry id="UnaryTests_1n15u11">
-          <text>issuingFrameworkContract</text>
+          <text>'issuingFrameworkContract'</text>
         </inputEntry>
         <inputEntry id="UnaryTests_0ak7xnu">
-          <text>OF</text>
+          <text>'OF'</text>
         </inputEntry>
         <outputEntry id="LiteralExpression_1836zum">
-          <text>contract</text>
+          <text>'contract'</text>
         </outputEntry>
       </rule>
       <rule id="DecisionRule_02dh1bn">
         <inputEntry id="UnaryTests_1a6e85v">
-          <text>issuingFrameworkContract</text>
+          <text>'issuingFrameworkContract'</text>
         </inputEntry>
         <inputEntry id="UnaryTests_1naodwt">
-          <text>CF</text>
+          <text>'CF'</text>
         </inputEntry>
         <outputEntry id="LiteralExpression_1aa53l1">
-          <text>contract</text>
+          <text>'contract'</text>
         </outputEntry>
       </rule>
       <rule id="DecisionRule_0zhyxtl">
         <inputEntry id="UnaryTests_12uukos">
-          <text>issuingFrameworkContract</text>
+          <text>'issuingFrameworkContract'</text>
         </inputEntry>
         <inputEntry id="UnaryTests_13zupal">
-          <text>TEST_OF</text>
+          <text>'TEST_OF'</text>
         </inputEntry>
         <outputEntry id="LiteralExpression_0p8bjm8">
-          <text>contract</text>
+          <text>'contract'</text>
         </outputEntry>
       </rule>
       <rule id="DecisionRule_0aphd7o">
         <inputEntry id="UnaryTests_0ybczl2">
-          <text>issuingFrameworkContract</text>
+          <text>'issuingFrameworkContract'</text>
         </inputEntry>
         <inputEntry id="UnaryTests_1rxjpvk">
-          <text>TEST_CF</text>
+          <text>'TEST_CF'</text>
         </inputEntry>
         <outputEntry id="LiteralExpression_0f0ty6b">
-          <text>contract</text>
+          <text>'contract'</text>
         </outputEntry>
       </rule>
       <rule id="DecisionRule_0l9uzpo">
