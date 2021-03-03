@@ -35,6 +35,7 @@ enum class DocumentType(@JsonValue override val key: String) : EnumElementProvid
     ILLUSTRATION("illustration"),
     MARKET_STUDIES("marketStudies"),
     NEEDS_ASSESSMENT("needsAssessment"),
+    NOTICE("notice"),
     PROCUREMENT_PLAN("procurementPlan"),
     PROJECT_PLAN("projectPlan"),
     REGULATORY_DOCUMENT("regulatoryDocument"),
@@ -47,9 +48,10 @@ enum class DocumentType(@JsonValue override val key: String) : EnumElementProvid
     WINNING_BID("winningBid"),
     X_COMMERCIAL_OFFER("x_commercialOffer"),
     X_ELIGIBILITY_DOCUMENTS("x_eligibilityDocuments"),
+    X_FRAMEWORK_PROJECT("x_frameworkProject"),
     X_QUALIFICATION_DOCUMENTS("x_qualificationDocuments"),
     X_TECHNICAL_DOCUMENTS("x_technicalDocuments"),
-    NOTICE("notice");
+    ;
 
     override fun toString(): String = key
 
