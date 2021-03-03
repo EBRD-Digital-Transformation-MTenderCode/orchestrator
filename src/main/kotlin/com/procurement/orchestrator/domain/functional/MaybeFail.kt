@@ -14,6 +14,11 @@ sealed class MaybeFail<out E> {
         if (this.isFail) block(this.error)
     }
 
+    inline fun doOnSuccess(block: () -> Unit):MaybeFail<E> {
+        if (!this.isFail) block()
+        return this
+    }
+
     fun <R> map(transform: (E) -> R): MaybeFail<R> = when (this) {
         is Fail -> Fail(transform(this.error))
         is None -> this

@@ -10,8 +10,6 @@ import java.util.Map;
 
 public enum DocGeneratorCommandType {
 
-    CONTRACT_FINALIZATION("contractFinalization"),
-    DOCUMENT_GENERATED("documentGenerated"),
     GENERATE("generateACDoc"),
     GENERATE_DOCUMENT("generateDocument");
 
@@ -20,7 +18,7 @@ public enum DocGeneratorCommandType {
 
     static {
         for (final DocGeneratorCommandType c : values()) {
-            CONSTANTS.put(c.value, c);
+            CONSTANTS.put(c.value.toUpperCase(), c);
         }
     }
 
@@ -30,7 +28,7 @@ public enum DocGeneratorCommandType {
 
     @JsonCreator
     public static DocGeneratorCommandType fromValue(final String value) {
-        final DocGeneratorCommandType constant = CONSTANTS.get(value);
+        final DocGeneratorCommandType constant = CONSTANTS.get(value.toUpperCase());
         if (constant == null) {
             throw new EnumException(DocGeneratorCommandType.class.getName(), value, Arrays.toString(values()));
         }
