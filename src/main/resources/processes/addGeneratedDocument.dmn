@@ -4,7 +4,7 @@
     <extensionElements>
       <biodi:bounds x="150" y="150" width="180" height="80" />
     </extensionElements>
-    <decisionTable id="DecisionTable_1l9iy4b">
+    <decisionTable id="DecisionTable_1l9iy4b" hitPolicy="ANY">
       <input id="Input_1" label="documentInitiator">
         <inputExpression id="InputExpression_1" typeRef="string" expressionLanguage="javascript">
           <text>processInfo.documentInitiator</text>
@@ -15,7 +15,7 @@
           <text>processInfo.pmd</text>
         </inputExpression>
       </input>
-      <output id="Output_1" typeRef="string" />
+      <output id="Output_1" name="result" typeRef="string" />
       <rule id="DecisionRule_0wqwziu">
         <description>The type of entity to add the document to</description>
         <inputEntry id="UnaryTests_1n15u11">
