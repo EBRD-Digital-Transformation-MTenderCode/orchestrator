@@ -24,6 +24,8 @@ sealed class Fail(prefix: String, number: String) {
     val message: String
         get() = "ERROR CODE: '$code', DESCRIPTION: '$description'."
 
+    abstract val exception: Exception?
+
     abstract fun logging(logger: Logger)
 
     override fun toString(): String = description
@@ -41,7 +43,7 @@ sealed class Fail(prefix: String, number: String) {
             }
         }
 
-        class Bpe(description: String, val exception: Exception? = null) :
+        class Bpe(description: String, override val exception: Exception? = null) :
             Incident(level = Level.ERROR, number = "1", description = description) {
 
             override fun logging(logger: Logger) {
@@ -51,6 +53,8 @@ sealed class Fail(prefix: String, number: String) {
 
         sealed class Bpms(number: String, description: String) :
             Incident(level = Level.ERROR, number = "2.$number", description = description) {
+
+            override val exception: Exception? = null
 
             sealed class Context(number: String, val name: String, val path: String?, description: String) :
                 Bpms(number = "1.$number", description = description) {
@@ -155,6 +159,8 @@ sealed class Fail(prefix: String, number: String) {
         sealed class Bpmn(number: String, description: String) :
             Incident(level = Level.ERROR, number = "3.$number", description = description) {
 
+            override val exception: Exception? = null
+
             sealed class Parameter(number: String, description: String) :
                 Bpmn(number = "1.$number", description = description) {
 
@@ -177,7 +183,7 @@ sealed class Fail(prefix: String, number: String) {
             }
         }
 
-        sealed class Transform(number: String, description: String, val exception: Exception) :
+        sealed class Transform(number: String, description: String, override val exception: Exception) :
             Incident(level = Level.ERROR, number = "4.$number", description = description) {
 
             override fun logging(logger: Logger) {
@@ -197,7 +203,7 @@ sealed class Fail(prefix: String, number: String) {
                 Transform(number = "4", description = description, exception = exception)
         }
 
-        class NetworkError(description: String, val exception: Exception) :
+        class NetworkError(description: String, override val exception: Exception) :
             Incident(level = Level.ERROR, number = "5", description = description) {
 
             override fun logging(logger: Logger) {
@@ -205,22 +211,24 @@ sealed class Fail(prefix: String, number: String) {
             }
         }
 
-        class BadResponse(description: String, val exception: Exception? = null, val body: String) :
+        class BadResponse(description: String, override val exception: Exception? = null, val body: String) :
             Incident(level = Level.ERROR, number = "6", description = description) {
 
             override fun logging(logger: Logger) {
-                logger.error("$message Body: '$body'.")
+                logger.error("$message Body: '$body'.", exception = exception)
             }
         }
 
         class ResponseError(description: String) :
-            Incident(level = Level.ERROR, number = "7", description = description)
+            Incident(level = Level.ERROR, number = "7", description = description) {
+                override val exception: Exception? = null
+            }
 
-        sealed class Database(number: String, description: String) :
+        sealed class Database(number: String, description: String, override val exception: Exception? = null) :
             Incident(level = Level.ERROR, number = "8.$number", description = description) {
 
-            class Access(description: String, val exception: Exception) :
-                Database(number = "1", description = description) {
+            class Access(description: String, exception: Exception) :
+                Database(number = "1", description = description, exception = exception) {
 
                 override fun logging(logger: Logger) {
                     logger.error(message = message, exception = exception)
@@ -235,7 +243,7 @@ sealed class Fail(prefix: String, number: String) {
         sealed class Bus(number: String, description: String) :
             Incident(level = Level.ERROR, number = "9.$number", description = description) {
 
-            class Producer(description: String, val exception: Exception) :
+            class Producer(description: String, override val exception: Exception) :
                 Bus(number = "1", description = description) {
 
                 override fun logging(logger: Logger) {
@@ -243,7 +251,7 @@ sealed class Fail(prefix: String, number: String) {
                 }
             }
 
-            class Consumer(description: String, val exception: Exception? = null) :
+            class Consumer(description: String, override val exception: Exception? = null) :
                 Bus(number = "2", description = description) {
 
                 override fun logging(logger: Logger) {
@@ -262,17 +270,18 @@ sealed class Fail(prefix: String, number: String) {
 
         sealed class Response(
             number: String,
-            description: String,
-            val exception: Exception? = null
+            description: String
         ) : Incident(level = Level.ERROR, number = "10.$number", description = description) {
+
+            override val exception: Exception? = null
 
             sealed class Validation(
                 number: String,
                 description: String,
-                exception: Exception? = null,
+                override val exception: Exception? = null,
                 val id: String,
                 val name: String
-            ) : Response("1.$number", description, exception) {
+            ) : Response("1.$number", description) {
 
                 class DuplicateEntity(id: String, name: String) : Validation(
                     number = "1",
