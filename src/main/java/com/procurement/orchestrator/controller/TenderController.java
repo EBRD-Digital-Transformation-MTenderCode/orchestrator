@@ -428,11 +428,12 @@ public class TenderController extends DoBaseController {
     public ResponseEntity<String> createFA(@RequestHeader("Authorization") final String authorization,
                                            @RequestHeader("X-OPERATION-ID") final String operationId,
                                            @RequestParam("country") final String country,
+                                           @RequestParam("lang") final String language,
                                            @RequestParam("pmd") final String pmd,
                                            @RequestParam(value = "testMode", defaultValue = "false") final boolean testMode,
                                            @RequestBody final JsonNode data) {
         requestService.validate(operationId, data);
-        final Context context = requestService.getContextForCreate(authorization, operationId, country, pmd, "createFA", testMode);
+        final Context context = requestService.getContextForCreate(authorization, operationId, country, language, pmd, "createFA", testMode);
         context.setEndDate(processService.getTenderPeriodEndDate(data, null));
         requestService.saveRequestAndCheckOperation(context, data);
         processService.startProcess(context, new HashMap<>());
