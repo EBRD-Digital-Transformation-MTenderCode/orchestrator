@@ -176,6 +176,7 @@ class NotifierSuccessNotificationToPlatformDelegate(
         when (operationType) {
             OperationTypeProcess.ADD_GENERATED_DOCUMENT -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.APPLY_QUALIFICATION_PROTOCOL -> "$tenderUri/$cpid/$ocid"
+            OperationTypeProcess.AWARD_CONSIDERATION -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.COMPLETE_QUALIFICATION -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.COMPLETE_SOURCING -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.CREATE_AWARD -> "$tenderUri/$cpid/$ocid"

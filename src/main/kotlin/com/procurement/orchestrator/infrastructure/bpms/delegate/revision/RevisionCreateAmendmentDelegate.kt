@@ -65,6 +65,7 @@ class RevisionCreateAmendmentDelegate(
 
             OperationTypeProcess.ADD_GENERATED_DOCUMENT,
             OperationTypeProcess.APPLY_QUALIFICATION_PROTOCOL,
+            OperationTypeProcess.AWARD_CONSIDERATION,
             OperationTypeProcess.COMPLETE_QUALIFICATION,
             OperationTypeProcess.COMPLETE_SOURCING,
             OperationTypeProcess.CREATE_AWARD,
