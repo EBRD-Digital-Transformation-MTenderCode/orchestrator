@@ -8,7 +8,7 @@ enum class OperationTypeProcess(@JsonValue override val key: String) : EnumEleme
 
     ADD_GENERATED_DOCUMENT("addGeneratedDocument"),
     APPLY_QUALIFICATION_PROTOCOL("applyQualificationProtocol"),
-    AWARD_CONSIDERATION("AwardConsideration"),
+    AWARD_CONSIDERATION("awardConsideration"),
     COMPLETE_QUALIFICATION("completeQualification"),
     COMPLETE_SOURCING("completeSourcing"),
     CREATE_AWARD("createAward"),
