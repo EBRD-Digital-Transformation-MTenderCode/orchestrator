@@ -28,8 +28,7 @@ abstract class AbstractKafkaNotificatorClient<T>(
         val value = transform.trySerialization(message)
             .orReturnFail { return MaybeFail.fail(it) }
 
-        val ctx = coroutineContext[ResultContext.Key]!!
-        ctx.request(value)
+        coroutineContext[ResultContext.Key]?.request(value)
 
         val record = ProducerRecord<String, String>(topic, value)
         return execute(record, retryInfo).asMaybeFail
