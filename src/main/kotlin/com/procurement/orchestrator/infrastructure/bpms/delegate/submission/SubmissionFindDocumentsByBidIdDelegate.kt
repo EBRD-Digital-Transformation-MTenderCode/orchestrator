@@ -3,6 +3,7 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.submission
 import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.SubmissionClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
+import com.procurement.orchestrator.application.model.context.extension.getElementIfOnlyOne
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
@@ -41,13 +42,15 @@ class SubmissionFindDocumentsByBidIdDelegate(
     ): Result<Reply<FindDocumentsByBidIdAction.Result>, Fail.Incident> {
 
         val processInfo = context.processInfo
+        val award = context.awards.getElementIfOnlyOne(name = "awards", path = "#awards")
+            .orForwardFail { return it }
 
         return submissionClient.findDocumentsByBidIds(
             id = commandId,
             params = FindDocumentsByBidIdAction.Params(
                 cpid = processInfo.cpid!!,
                 ocid = processInfo.ocid!!,
-                bids = FindDocumentsByBidIdAction.Params.Bids.fromDomain(context.bids)
+                bids = FindDocumentsByBidIdAction.Params.Bids.fromDomain(award)
             )
         )
     }

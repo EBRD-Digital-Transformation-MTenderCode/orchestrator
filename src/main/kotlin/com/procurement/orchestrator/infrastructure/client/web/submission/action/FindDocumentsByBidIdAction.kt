@@ -5,9 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.procurement.orchestrator.application.service.FunctionalAction
 import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
+import com.procurement.orchestrator.domain.model.award.Award
 import com.procurement.orchestrator.domain.model.bid.Bid
 import com.procurement.orchestrator.domain.model.bid.BidId
-import com.procurement.orchestrator.domain.model.bid.Bids
 import com.procurement.orchestrator.domain.model.document.Document
 import com.procurement.orchestrator.domain.model.document.DocumentId
 import com.procurement.orchestrator.domain.model.document.DocumentType
@@ -28,18 +28,16 @@ abstract class FindDocumentsByBidIdAction : FunctionalAction<Params, Result> {
     class Params(
         @param:JsonProperty("cpid") @field:JsonProperty("cpid") val cpid: Cpid,
         @param:JsonProperty("ocid") @field:JsonProperty("ocid") val ocid: Ocid,
-
-        @JsonInclude(JsonInclude.Include.NON_NULL)
-        @param:JsonProperty("bids") @field:JsonProperty("bids") val bids: Bids?
+        @param:JsonProperty("bids") @field:JsonProperty("bids") val bids: Bids
     ) {
         class Bids(
-            @JsonInclude(JsonInclude.Include.NON_EMPTY)
             @param:JsonProperty("details") @field:JsonProperty("details") val details: List<BidDetails>
         ) { companion object {}
 
             class BidDetails(
-                @param:JsonProperty("id") @field:JsonProperty("id") val id: BidId
-            ) { companion object{} }
+                @JsonInclude(JsonInclude.Include.NON_NULL)
+                @param:JsonProperty("id") @field:JsonProperty("id") val id: String?
+            ) { companion object {} }
         }
     }
 
@@ -74,14 +72,12 @@ abstract class FindDocumentsByBidIdAction : FunctionalAction<Params, Result> {
     }
 }
 
-fun Params.Bids.Companion.fromDomain(bids: Bids?) =
-    if (bids == null || bids.details.isEmpty())
-        null
-    else
-        Params.Bids(
-            details = bids.details
-                .map { bid -> Params.Bids.BidDetails(id = bid.id) }
+fun Params.Bids.Companion.fromDomain(award: Award) =
+    Params.Bids(
+        details = listOf(
+            Params.Bids.BidDetails(id = award.relatedBid)
         )
+    )
 
 fun Result.Bids.Detail.toDomain() =
     Bid(

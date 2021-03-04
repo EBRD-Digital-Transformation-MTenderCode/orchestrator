@@ -216,11 +216,6 @@ class SubmissionActionTest {
             fun fully() {
                 testingBindingAndMapping<FindDocumentsByBidIdAction.Params>("json/client/submission/find_documents_by_bid_ids_params_full.json")
             }
-
-            @Test
-            fun required1() {
-                testingBindingAndMapping<FindDocumentsByBidIdAction.Params>("json/client/submission/find_documents_by_bid_ids_params_required_1.json")
-            }
         }
 
         @Nested
