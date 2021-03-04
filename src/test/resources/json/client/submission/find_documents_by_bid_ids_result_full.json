@@ -1,0 +1,20 @@
+{
+  "bids": {
+    "details": [
+      {
+        "id": "d91c11a1-f19e-4b83-8ade-c4be2bf00555",
+        "documents": [
+          {
+            "id": "string",
+            "title": "string",
+            "description": "string",
+            "relatedLots": [
+              "string"
+            ],
+            "documentType": "illustration"
+          }
+        ]
+      }
+    ]
+  }
+}
