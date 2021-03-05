@@ -10,6 +10,7 @@ import com.procurement.orchestrator.infrastructure.client.web.submission.action.
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.CheckPeriodAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.CreateBidAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.DoInvitationsAction
+import com.procurement.orchestrator.infrastructure.client.web.submission.action.FindDocumentsByBidIdAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.GetBidsForPacsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.PublishInvitationsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.SetTenderPeriodAction
@@ -98,5 +99,14 @@ class HttpSubmissionClient(private val webClient: WebClient, properties: Compone
         url = url,
         command = SubmissionCommands.GetBidsForPacs.build(id = id, params = params),
         target = SubmissionCommands.GetBidsForPacs.target
+    )
+
+    override suspend fun findDocumentsByBidIds(
+        id: CommandId,
+        params: FindDocumentsByBidIdAction.Params
+    ): Result<Reply<FindDocumentsByBidIdAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = SubmissionCommands.FindDocumentsByBidId.build(id = id, params = params),
+        target = SubmissionCommands.FindDocumentsByBidId.target
     )
 }
