@@ -406,24 +406,6 @@ public class TenderController extends DoBaseController {
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
-    @RequestMapping(value = "/consideration/{cpid}/{ocid}/{awardId}", method = RequestMethod.POST)
-    public ResponseEntity<String> consideration(@RequestHeader("Authorization") final String authorization,
-                                                @RequestHeader("X-OPERATION-ID") final String operationId,
-                                                @RequestHeader("X-TOKEN") final String token,
-                                                @PathVariable("cpid") final String cpid,
-                                                @PathVariable("ocid") final String ocid,
-                                                @PathVariable("awardId") final String awardId) {
-        requestService.validate(operationId, null);
-
-        final Context context = requestService.getContextForUpdate(authorization, operationId, cpid, ocid, token, "startConsiderByAward");
-        context.setId(awardId);
-        requestService.saveRequestAndCheckOperation(context, null);
-        final Map<String, Object> variables = new HashMap<>();
-        variables.put("operationType", context.getOperationType());
-        processService.startProcess(context, variables);
-        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
-    }
-
     @RequestMapping(value = "/ap", method = RequestMethod.POST)
     public ResponseEntity<String> createFA(@RequestHeader("Authorization") final String authorization,
                                            @RequestHeader("X-OPERATION-ID") final String operationId,
