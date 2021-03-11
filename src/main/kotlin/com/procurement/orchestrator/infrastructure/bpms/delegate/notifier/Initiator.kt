@@ -23,6 +23,7 @@ enum class Initiator(@JsonValue override val key: String) : EnumElementProvider.
 fun initiator(operationType: OperationTypeProcess): Initiator = when (operationType) {
     OperationTypeProcess.ADD_GENERATED_DOCUMENT -> Initiator.BPE
     OperationTypeProcess.APPLY_QUALIFICATION_PROTOCOL -> Initiator.PLATFORM
+    OperationTypeProcess.AWARD_CONSIDERATION -> Initiator.PLATFORM
     OperationTypeProcess.COMPLETE_QUALIFICATION -> Initiator.PLATFORM
     OperationTypeProcess.COMPLETE_SOURCING -> Initiator.PLATFORM
     OperationTypeProcess.CREATE_AWARD -> Initiator.PLATFORM

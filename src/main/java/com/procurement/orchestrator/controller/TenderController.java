@@ -156,17 +156,14 @@ public class TenderController extends DoBaseController {
     public ResponseEntity<String> createPN(@RequestHeader("Authorization") final String authorization,
                                            @RequestHeader("X-OPERATION-ID") final String operationId,
                                            @RequestParam("country") final String country,
+                                           @RequestParam("lang") final String language,
                                            @RequestParam("pmd") final String pmd,
                                            @RequestParam(value = "testMode",
                                                          defaultValue = "false") final boolean testMode,
                                            @RequestBody final JsonNode data) {
         requestService.validate(operationId, data);
-        final Context context = requestService.getContextForCreate(authorization,
-                                                                   operationId,
-                                                                   country,
-                                                                   pmd,
-                                                                   "createPN",
-                                                                   testMode
+        final Context context = requestService.getContextForCreate(
+                authorization, operationId, country, language, pmd, "createPN", testMode
         );
         context.setEndDate(processService.getTenderPeriodEndDate(data, null));
         requestService.saveRequestAndCheckOperation(context, data);
@@ -409,33 +406,16 @@ public class TenderController extends DoBaseController {
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
-    @RequestMapping(value = "/consideration/{cpid}/{ocid}/{awardId}", method = RequestMethod.POST)
-    public ResponseEntity<String> consideration(@RequestHeader("Authorization") final String authorization,
-                                                @RequestHeader("X-OPERATION-ID") final String operationId,
-                                                @RequestHeader("X-TOKEN") final String token,
-                                                @PathVariable("cpid") final String cpid,
-                                                @PathVariable("ocid") final String ocid,
-                                                @PathVariable("awardId") final String awardId) {
-        requestService.validate(operationId, null);
-
-        final Context context = requestService.getContextForUpdate(authorization, operationId, cpid, ocid, token, "startConsiderByAward");
-        context.setId(awardId);
-        requestService.saveRequestAndCheckOperation(context, null);
-        final Map<String, Object> variables = new HashMap<>();
-        variables.put("operationType", context.getOperationType());
-        processService.startProcess(context, variables);
-        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
-    }
-
     @RequestMapping(value = "/ap", method = RequestMethod.POST)
     public ResponseEntity<String> createFA(@RequestHeader("Authorization") final String authorization,
                                            @RequestHeader("X-OPERATION-ID") final String operationId,
                                            @RequestParam("country") final String country,
+                                           @RequestParam("lang") final String language,
                                            @RequestParam("pmd") final String pmd,
                                            @RequestParam(value = "testMode", defaultValue = "false") final boolean testMode,
                                            @RequestBody final JsonNode data) {
         requestService.validate(operationId, data);
-        final Context context = requestService.getContextForCreate(authorization, operationId, country, pmd, "createFA", testMode);
+        final Context context = requestService.getContextForCreate(authorization, operationId, country, language, pmd, "createFA", testMode);
         context.setEndDate(processService.getTenderPeriodEndDate(data, null));
         requestService.saveRequestAndCheckOperation(context, data);
         processService.startProcess(context, new HashMap<>());

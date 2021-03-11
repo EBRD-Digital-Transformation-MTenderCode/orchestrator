@@ -34,6 +34,14 @@ public interface RequestService {
                                 String process,
                                 boolean testMode);
 
+    Context getContextForCreate(String authorization,
+                                String operationId,
+                                String country,
+                                String language,
+                                String pmd,
+                                String process,
+                                boolean testMode);
+
     Context getContextForUpdate(String authorization,
                                 String operationId,
                                 String cpid,

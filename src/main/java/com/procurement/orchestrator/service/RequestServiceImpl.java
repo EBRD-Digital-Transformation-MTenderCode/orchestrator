@@ -150,10 +150,20 @@ public class RequestServiceImpl implements RequestService {
         return entityOptional.get();
     }
 
+    public Context getContextForCreate(final String authorization,
+                                       final String operationId,
+                                       final String country,
+                                       final String pmd,
+                                       final String process,
+                                       boolean testMode) {
+        return getContextForCreate(authorization, operationId, country, lang, pmd, process, testMode);
+    }
+
     @Override
     public Context getContextForCreate(final String authorization,
                                        final String operationId,
                                        final String country,
+                                       final String language,
                                        final String pmd,
                                        final String process,
                                        boolean testMode) {
@@ -169,7 +179,7 @@ public class RequestServiceImpl implements RequestService {
         context.setOperationType(rules.getOperationType());
         context.setOwner(getOwner(authorization));
         context.setOperationId(operationId);
-        context.setLanguage(lang);
+        context.setLanguage(language);
         context.setRequestId(UUIDs.timeBased().toString());
         context.setStartDate(dateUtil.nowFormatted());
         context.setTestMode(testMode);

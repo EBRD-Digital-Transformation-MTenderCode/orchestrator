@@ -369,6 +369,7 @@ class DossierGetSubmissionsForTenderingDelegate(
             OperationTypeProcess.WITHDRAW_SUBMISSION -> PartyRoles(PartyRole.INVITED_TENDERER).asSuccess()
 
             OperationTypeProcess.ADD_GENERATED_DOCUMENT,
+            OperationTypeProcess.AWARD_CONSIDERATION,
             OperationTypeProcess.COMPLETE_SOURCING,
             OperationTypeProcess.DIVIDE_LOT,
             OperationTypeProcess.ISSUING_FRAMEWORK_CONTRACT,

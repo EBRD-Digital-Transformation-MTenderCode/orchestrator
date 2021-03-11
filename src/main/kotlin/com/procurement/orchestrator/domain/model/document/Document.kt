@@ -53,7 +53,7 @@ data class Document(
 
     override fun updateBy(src: Document) = Document(
         id = id,
-        documentType = documentType,
+        documentType = src.documentType or documentType,
         title = src.title or title,
         description = src.description or description,
         url = src.description or description,
