@@ -3,7 +3,6 @@ package com.procurement.orchestrator.controller;
 import com.datastax.driver.core.utils.UUIDs;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
-import com.procurement.orchestrator.domain.Country;
 import com.procurement.orchestrator.domain.Stage;
 import com.procurement.orchestrator.exception.OperationException;
 import com.procurement.orchestrator.service.ProcessService;
@@ -37,12 +36,13 @@ public class BudgetController extends DoBaseController {
     public ResponseEntity<String> createEI(@RequestHeader("Authorization") final String authorization,
                                            @RequestHeader("X-OPERATION-ID") final String operationId,
                                            @RequestParam("country") final String country,
+                                           @RequestParam("lang") final String lang,
                                            @RequestParam(value = "testMode", defaultValue = "false") final boolean testMode,
                                            @RequestBody final JsonNode data) {
         requestService.validate(operationId, data);
         final Context context = new Context();
         context.setOperationId(operationId);
-        context.setCountry(Country.fromValue(country.toUpperCase()).value());
+        context.setCountry(country);
         context.setLanguage(lang);
         context.setStage(Stage.EI.value());
         context.setOwner(requestService.getOwner(authorization));

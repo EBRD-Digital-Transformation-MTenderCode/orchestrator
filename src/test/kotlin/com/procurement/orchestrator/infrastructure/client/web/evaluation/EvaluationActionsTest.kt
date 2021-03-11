@@ -7,6 +7,7 @@ import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CloseAwardPeriodAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CreateAwardAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CreateUnsuccessfulAwardsAction
+import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.DoConsiderationAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.FindAwardsForProtocolAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.GetAwardByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.GetAwardStateByIdsAction
@@ -331,6 +332,26 @@ class EvaluationActionsTest {
             @Test
             fun fully() {
                 testingBindingAndMapping<FindAwardsForProtocolAction.Result>("json/client/evaluation/find_awards_for_protocol_result_full.json")
+            }
+        }
+    }
+
+    @Nested
+    inner class DoConsideration{
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<DoConsiderationAction.Params>("json/client/evaluation/do_consideration_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<DoConsiderationAction.Result>("json/client/evaluation/do_consideration_result_full.json")
             }
         }
     }

@@ -72,11 +72,20 @@ public class SubmissionGetTenderPeriodEnd implements JavaDelegate {
         }
     }
 
-    private JsonNode addTenderPeriodEnd(final JsonNode jsonData, final JsonNode responseData, final String processId) {
+    private JsonNode addTenderPeriodEnd(final JsonNode globalContextNode, final JsonNode responseData, final String processId) {
         try {
             JsonNode responseTenderPeriod = responseData.get("tender").get("tenderPeriod");
-            ((ObjectNode) jsonData.get("tender")).replace("tenderPeriod", responseTenderPeriod);
-            return jsonData;
+
+            if (globalContextNode.has("tender")){
+                ((ObjectNode) globalContextNode.get("tender")).replace("tenderPeriod", responseTenderPeriod);
+            } else {
+                ObjectNode tenderNode = jsonUtil.createObjectNode();
+                tenderNode.set("tenderPeriod", responseTenderPeriod);
+
+                ((ObjectNode) globalContextNode).set("tender", tenderNode);
+            }
+
+            return globalContextNode;
         } catch (Exception e) {
             processService.terminateProcess(processId, e.getMessage());
             return null;
