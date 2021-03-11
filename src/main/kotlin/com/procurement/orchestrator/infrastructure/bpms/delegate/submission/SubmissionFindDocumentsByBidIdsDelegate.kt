@@ -16,18 +16,18 @@ import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExterna
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
-import com.procurement.orchestrator.infrastructure.client.web.submission.action.FindDocumentsByBidIdAction
+import com.procurement.orchestrator.infrastructure.client.web.submission.action.FindDocumentsByBidIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.fromDomain
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.toDomain
 import org.springframework.stereotype.Component
 
 @Component
-class SubmissionFindDocumentsByBidIdDelegate(
+class SubmissionFindDocumentsByBidIdsDelegate(
     logger: Logger,
     private val submissionClient: SubmissionClient,
     operationStepRepository: OperationStepRepository,
     transform: Transform
-) : AbstractExternalDelegate<Unit, FindDocumentsByBidIdAction.Result>(
+) : AbstractExternalDelegate<Unit, FindDocumentsByBidIdsAction.Result>(
     logger = logger,
     transform = transform,
     operationStepRepository = operationStepRepository
@@ -39,7 +39,7 @@ class SubmissionFindDocumentsByBidIdDelegate(
         commandId: CommandId,
         context: CamundaGlobalContext,
         parameters: Unit
-    ): Result<Reply<FindDocumentsByBidIdAction.Result>, Fail.Incident> {
+    ): Result<Reply<FindDocumentsByBidIdsAction.Result>, Fail.Incident> {
 
         val processInfo = context.processInfo
         val award = context.awards.getElementIfOnlyOne(name = "awards", path = "#awards")
@@ -47,10 +47,10 @@ class SubmissionFindDocumentsByBidIdDelegate(
 
         return submissionClient.findDocumentsByBidIds(
             id = commandId,
-            params = FindDocumentsByBidIdAction.Params(
+            params = FindDocumentsByBidIdsAction.Params(
                 cpid = processInfo.cpid!!,
                 ocid = processInfo.ocid!!,
-                bids = FindDocumentsByBidIdAction.Params.Bids.fromDomain(award)
+                bids = FindDocumentsByBidIdsAction.Params.Bids.fromDomain(award)
             )
         )
     }
@@ -58,7 +58,7 @@ class SubmissionFindDocumentsByBidIdDelegate(
     override fun updateGlobalContext(
         context: CamundaGlobalContext,
         parameters: Unit,
-        result: Option<FindDocumentsByBidIdAction.Result>
+        result: Option<FindDocumentsByBidIdsAction.Result>
     ): MaybeFail<Fail.Incident> {
 
         val data = result.orNull
