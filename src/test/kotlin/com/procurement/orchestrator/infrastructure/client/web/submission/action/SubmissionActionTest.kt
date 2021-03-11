@@ -214,7 +214,7 @@ class SubmissionActionTest {
         inner class Params {
             @Test
             fun fully() {
-                testingBindingAndMapping<FindDocumentsByBidIdAction.Params>("json/client/submission/find_documents_by_bid_ids_params_full.json")
+                testingBindingAndMapping<FindDocumentsByBidIdsAction.Params>("json/client/submission/find_documents_by_bid_ids_params_full.json")
             }
         }
 
@@ -222,12 +222,12 @@ class SubmissionActionTest {
         inner class Result {
             @Test
             fun fully() {
-                testingBindingAndMapping<FindDocumentsByBidIdAction.Result>("json/client/submission/find_documents_by_bid_ids_result_full.json")
+                testingBindingAndMapping<FindDocumentsByBidIdsAction.Result>("json/client/submission/find_documents_by_bid_ids_result_full.json")
             }
 
             @Test
             fun required() {
-                testingBindingAndMapping<FindDocumentsByBidIdAction.Result>("json/client/submission/find_documents_by_bid_ids_result_required_1.json")
+                testingBindingAndMapping<FindDocumentsByBidIdsAction.Result>("json/client/submission/find_documents_by_bid_ids_result_required_1.json")
             }
         }
     }

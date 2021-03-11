@@ -15,12 +15,12 @@ import com.procurement.orchestrator.domain.model.document.Documents
 import com.procurement.orchestrator.domain.model.lot.LotId
 import com.procurement.orchestrator.domain.model.lot.RelatedLots
 import com.procurement.orchestrator.infrastructure.client.web.Target
-import com.procurement.orchestrator.infrastructure.client.web.submission.action.FindDocumentsByBidIdAction.Params
-import com.procurement.orchestrator.infrastructure.client.web.submission.action.FindDocumentsByBidIdAction.Result
+import com.procurement.orchestrator.infrastructure.client.web.submission.action.FindDocumentsByBidIdsAction.Params
+import com.procurement.orchestrator.infrastructure.client.web.submission.action.FindDocumentsByBidIdsAction.Result
 import com.procurement.orchestrator.infrastructure.model.Version
 import java.io.Serializable
 
-abstract class FindDocumentsByBidIdAction : FunctionalAction<Params, Result> {
+abstract class FindDocumentsByBidIdsAction : FunctionalAction<Params, Result> {
     override val version: Version = Version.parse("2.0.0")
     override val name: String = "findDocumentsByBidIds"
     override val target: Target<Result> = Target.single()
