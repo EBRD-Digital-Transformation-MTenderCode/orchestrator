@@ -55,6 +55,18 @@ class SubmissionActionTest {
     }
 
     @Nested
+    inner class CheckBidState {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CheckBidStateAction.Params>("json/client/submission/check_bid_state_params_full.json")
+            }
+        }
+    }
+
+    @Nested
     inner class PublishInvitations {
         @Nested
         inner class Params {
