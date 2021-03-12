@@ -202,6 +202,7 @@ class NotifierSuccessNotificationToPlatformDelegate(
             OperationTypeProcess.TENDER_OR_LOT_AMENDMENT_CANCELLATION -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.TENDER_OR_LOT_AMENDMENT_CONFIRMATION -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.UPDATE_AWARD -> "$tenderUri/$cpid/$ocid"
+            OperationTypeProcess.WITHDRAW_BID -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.WITHDRAW_PCR_PROTOCOL -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.WITHDRAW_QUALIFICATION_PROTOCOL -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.WITHDRAW_SUBMISSION -> "$tenderUri/$cpid/$ocid"

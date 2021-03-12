@@ -89,6 +89,7 @@ class RevisionCreateAmendmentDelegate(
             OperationTypeProcess.TENDER_OR_LOT_AMENDMENT_CANCELLATION,
             OperationTypeProcess.TENDER_OR_LOT_AMENDMENT_CONFIRMATION,
             OperationTypeProcess.UPDATE_AWARD,
+            OperationTypeProcess.WITHDRAW_BID,
             OperationTypeProcess.WITHDRAW_PCR_PROTOCOL,
             OperationTypeProcess.WITHDRAW_QUALIFICATION_PROTOCOL,
             OperationTypeProcess.WITHDRAW_SUBMISSION ->
