@@ -74,7 +74,7 @@ class BpeInitializeSubmitBidInPcrProcessDelegate(
             parsePayload(camundaContext.request.payload, SubmitBidInPcr.Request.Payload::class.java)
                 .orReturnFail { return MaybeFail.fail(it) }
 
-        globalContext.bids = buildBids(BidId.randomUUID(), payload)
+        globalContext.bids = buildBids(BidId.generate(), payload)
 
         return MaybeFail.none()
     }
