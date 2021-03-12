@@ -8,7 +8,6 @@ import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.fail.error.DataValidationErrors
 import com.procurement.orchestrator.domain.functional.MaybeFail
-import com.procurement.orchestrator.domain.model.award.AwardId
 import com.procurement.orchestrator.domain.model.bid.Bid
 import com.procurement.orchestrator.domain.model.bid.BidId
 import com.procurement.orchestrator.domain.model.bid.Bids
@@ -34,7 +33,7 @@ class BpeInitializeWithdrawBidProcessDelegate(
             DataValidationErrors.DataFormatMismatch(
                 name = "bidId",
                 actualValue = id,
-                expectedFormat = AwardId.pattern
+                expectedFormat = BidId.pattern
             )
         )
 
