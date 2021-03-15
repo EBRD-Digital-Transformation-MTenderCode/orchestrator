@@ -7,6 +7,7 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.WebClient
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.CheckAbsenceActiveInvitationsAction
+import com.procurement.orchestrator.infrastructure.client.web.submission.action.CheckAccessToBidAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.CheckPeriodAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.CreateBidAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.DoInvitationsAction
@@ -49,6 +50,15 @@ class HttpSubmissionClient(private val webClient: WebClient, properties: Compone
         url = url,
         command = SubmissionCommands.CheckAbsenceActiveInvitations.build(id = id, params = params)
     )
+
+    override suspend fun checkAccessToBid(
+        id: CommandId,
+        params: CheckAccessToBidAction.Params
+    ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
+        url = url,
+        command = SubmissionCommands.CheckAccessToBid.build(id = id, params = params)
+    )
+
 
     override suspend fun validateTenderPeriod(
         id: CommandId,
