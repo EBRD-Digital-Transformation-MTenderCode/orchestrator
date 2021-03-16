@@ -216,7 +216,7 @@ public class RequestServiceImpl implements RequestService {
         context.setCpid(cpid);
         context.setOcid(ocid);
         context.setToken(token);
-        context.setLanguage(lang);
+        context.setLanguage(prevContext.getLanguage());
         context.setIsAuction(prevContext.getIsAuction());
         context.setAwardCriteria(prevContext.getAwardCriteria());
         context.setRequestId(UUIDs.timeBased().toString());
