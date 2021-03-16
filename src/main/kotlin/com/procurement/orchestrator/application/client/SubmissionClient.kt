@@ -6,12 +6,14 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.CheckAbsenceActiveInvitationsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.CheckBidStateAction
+import com.procurement.orchestrator.infrastructure.client.web.submission.action.CheckAccessToBidAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.CheckPeriodAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.CreateBidAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.DoInvitationsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.FindDocumentsByBidIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.GetBidsForPacsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.PublishInvitationsAction
+import com.procurement.orchestrator.infrastructure.client.web.submission.action.SetStateForBidsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.SetTenderPeriodAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.ValidateBidDataAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.ValidateTenderPeriodAction
@@ -33,6 +35,11 @@ interface SubmissionClient {
         params: CheckAbsenceActiveInvitationsAction.Params
     ): Result<Reply<Unit>, Fail.Incident>
 
+    suspend fun checkAccessToBid(
+        id: CommandId,
+        params: CheckAccessToBidAction.Params
+    ): Result<Reply<Unit>, Fail.Incident>
+
     suspend fun validateTenderPeriod(
         id: CommandId,
         params: ValidateTenderPeriodAction.Params
@@ -47,6 +54,11 @@ interface SubmissionClient {
         id: CommandId,
         params: SetTenderPeriodAction.Params
     ): Result<Reply<SetTenderPeriodAction.Result>, Fail.Incident>
+
+    suspend fun setStateForBids(
+        id: CommandId,
+        params: SetStateForBidsAction.Params
+    ): Result<Reply<SetStateForBidsAction.Result>, Fail.Incident>
 
     suspend fun checkPeriod(id: CommandId, params: CheckPeriodAction.Params): Result<Reply<Unit>, Fail.Incident>
 

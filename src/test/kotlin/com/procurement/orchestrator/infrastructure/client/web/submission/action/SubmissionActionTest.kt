@@ -43,6 +43,18 @@ class SubmissionActionTest {
     }
 
     @Nested
+    inner class CheckAccessToBid {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CheckAccessToBidAction.Params>("json/client/submission/check_access_to_bid_params_full.json")
+            }
+        }
+    }
+
+    @Nested
     inner class ValidateTenderPeriod {
 
         @Nested
@@ -102,6 +114,27 @@ class SubmissionActionTest {
                 testingBindingAndMapping<SetTenderPeriodAction.Result>("json/client/submission/set_tender_period_result_full.json")
             }
         }
+    }
+
+    @Nested
+    inner class SetStateForBids {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun required() {
+                testingBindingAndMapping<SetStateForBidsAction.Params>("json/client/submission/set_state_for_bids_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun required() {
+                testingBindingAndMapping<SetStateForBidsAction.Result>("json/client/submission/set_state_for_bids_result_full.json")
+            }
+        }
+
     }
 
     @Nested
