@@ -8,6 +8,7 @@ import com.procurement.orchestrator.infrastructure.client.web.submission.action.
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.FindDocumentsByBidIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.GetBidsForPacsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.PublishInvitationsAction
+import com.procurement.orchestrator.infrastructure.client.web.submission.action.SetStateForBidsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.SetTenderPeriodAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.ValidateBidDataAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.ValidateTenderPeriodAction
@@ -25,6 +26,8 @@ object SubmissionCommands {
     object ValidateTenderPeriod : ValidateTenderPeriodAction()
 
     object SetTenderPeriod: SetTenderPeriodAction()
+
+    object SetStateForBids: SetStateForBidsAction()
 
     object CheckPeriod : CheckPeriodAction()
 
