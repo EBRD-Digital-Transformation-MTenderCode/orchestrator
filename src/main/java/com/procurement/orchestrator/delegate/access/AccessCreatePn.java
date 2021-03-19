@@ -95,11 +95,6 @@ public class AccessCreatePn implements JavaDelegate {
             final ObjectNode mainNode = (ObjectNode) jsonData;
             mainNode.replace("planning", responseData.get("planning"));
             mainNode.replace("tender", responseData.get("tender"));
-
-            if (responseData.has("buyer")) {
-                mainNode.set("buyer", responseData.get("buyer"));
-            }
-
             return mainNode;
         } catch (Exception e) {
             processService.terminateProcess(processId, e.getMessage());
