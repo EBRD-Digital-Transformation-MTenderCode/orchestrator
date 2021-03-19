@@ -77,9 +77,10 @@ public class AccessCreateFE implements JavaDelegate {
 
     private JsonNode replaceTender(JsonNode jsonData, JsonNode responseData, String processId) {
         try {
-            final JsonNode tender = responseData.get("tender");
-            ((ObjectNode) jsonData).replace("tender", tender);
-            return jsonData;
+            final ObjectNode globalContextNode = ((ObjectNode) jsonData);
+            globalContextNode.replace("tender", responseData.get("tender"));
+            globalContextNode.replace("parties", responseData.get("parties"));
+            return globalContextNode;
         } catch (Exception e) {
             processService.terminateProcess(processId, e.getMessage());
             return null;
