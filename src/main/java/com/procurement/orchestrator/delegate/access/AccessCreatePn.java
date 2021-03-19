@@ -80,7 +80,7 @@ public class AccessCreatePn implements JavaDelegate {
             mainNode.replace("planning", jsonData.get("planning"));
             mainNode.replace("tender", jsonData.get("tender"));
 
-            final JsonNode buyer = jsonData.get("buyers").get(0);
+            final JsonNode buyer = jsonData.get("buyer").get(0);
             mainNode.set("buyer", buyer);
 
             return mainNode;
@@ -95,11 +95,6 @@ public class AccessCreatePn implements JavaDelegate {
             final ObjectNode mainNode = (ObjectNode) jsonData;
             mainNode.replace("planning", responseData.get("planning"));
             mainNode.replace("tender", responseData.get("tender"));
-
-            if (responseData.has("buyer")) {
-                mainNode.set("buyer", responseData.get("buyer"));
-            }
-
             return mainNode;
         } catch (Exception e) {
             processService.terminateProcess(processId, e.getMessage());
