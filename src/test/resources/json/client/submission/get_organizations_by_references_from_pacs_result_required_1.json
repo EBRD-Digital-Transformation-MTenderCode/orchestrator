@@ -1,0 +1,142 @@
+{
+  "parties": [
+    {
+      "id": "string",
+      "name": "string",
+      "identifier": {
+        "id": "string",
+        "legalName": "string",
+        "scheme": "string"
+      },
+      "address": {
+        "streetAddress": "string",
+        "addressDetails": {
+          "country": {
+            "id": "string",
+            "description": "string",
+            "scheme": "string",
+            "uri": "string"
+          },
+          "region": {
+            "id": "string",
+            "description": "string",
+            "scheme": "string",
+            "uri": "string"
+          },
+          "locality": {
+            "id": "string",
+            "description": "string",
+            "scheme": "string"
+          }
+        }
+      },
+      "contactPoint": {
+        "name": "string",
+        "email": "string",
+        "telephone": "string"
+      },
+      "persones": [
+        {
+          "id": "string",
+          "title": "Mr.",
+          "name": "string",
+          "identifier": {
+            "scheme": "string",
+            "id": "string"
+          },
+          "businessFunctions": [
+            {
+              "id": "string",
+              "type": "authority",
+              "jobTitle": "string",
+              "period": {
+                "startDate": "2021-03-22T11:31:13Z"
+              },
+              "documents": [
+                {
+                  "documentType": "regulatoryDocument",
+                  "id": "string",
+                  "title": "string"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "details": {
+        "mainEconomicActivities": [
+          {
+            "id": "string",
+            "scheme": "string",
+            "description": "string"
+          }
+        ],
+        "scale": "micro",
+        "permits": [
+          {
+            "id": "string",
+            "scheme": "string",
+            "permitDetails": {
+              "issuedBy": {
+                "id": "string",
+                "name": "string"
+              },
+              "issuedThought": {
+                "id": "string",
+                "name": "string"
+              },
+              "validityPeriod": {
+                "startDate": "2021-03-22T11:31:13Z",
+                "endDate": "2021-03-22T11:31:13Z"
+              }
+            }
+          }
+        ],
+        "bankAccounts": [
+          {
+            "description": "string",
+            "bankName": "string",
+            "address": {
+              "streetAddress": "string",
+              "addressDetails": {
+                "country": {
+                  "id": "string",
+                  "description": "string",
+                  "scheme": "string",
+                  "uri": "string"
+                },
+                "region": {
+                  "id": "string",
+                  "description": "string",
+                  "scheme": "string",
+                  "uri": "string"
+                },
+                "locality": {
+                  "id": "string",
+                  "description": "string",
+                  "scheme": "string"
+                }
+              }
+            },
+            "identifier": {
+              "scheme": "UA-MFO",
+              "id": "string"
+            },
+            "accountIdentification": {
+              "scheme": "IBAN",
+              "id": "string"
+            }
+          }
+        ],
+        "legalForm": {
+          "scheme": "MD-CFOJ",
+          "id": "string",
+          "description": "string"
+        }
+      },
+      "roles": [
+        "supplier"
+      ]
+    }
+  ]
+}
