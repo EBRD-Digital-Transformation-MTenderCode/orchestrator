@@ -253,6 +253,40 @@ class SubmissionActionTest {
     }
 
     @Nested
+    inner class GetOrganizationsByReferencesFromPacs {
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetOrganizationsByReferencesFromPacsAction.Params>("json/client/submission/get_organizations_by_references_from_pacs_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetOrganizationsByReferencesFromPacsAction.Result>("json/client/submission/get_organizations_by_references_from_pacs_result_full.json")
+            }
+
+            @Test
+            fun required() {
+                testingBindingAndMapping<GetOrganizationsByReferencesFromPacsAction.Result>("json/client/submission/get_organizations_by_references_from_pacs_result_required_1.json")
+            }
+
+            @Test
+            fun required_1() {
+                testingBindingAndMapping<GetOrganizationsByReferencesFromPacsAction.Result>("json/client/submission/get_organizations_by_references_from_pacs_result_required_2.json")
+            }
+
+            @Test
+            fun required_2() {
+                testingBindingAndMapping<GetOrganizationsByReferencesFromPacsAction.Result>("json/client/submission/get_organizations_by_references_from_pacs_result_required_3.json")
+            }
+        }
+    }
+
+    @Nested
     inner class FindDocumentsByBidIds {
 
         @Nested

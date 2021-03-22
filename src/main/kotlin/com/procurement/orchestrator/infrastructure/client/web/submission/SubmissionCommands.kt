@@ -8,6 +8,7 @@ import com.procurement.orchestrator.infrastructure.client.web.submission.action.
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.DoInvitationsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.FindDocumentsByBidIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.GetBidsForPacsAction
+import com.procurement.orchestrator.infrastructure.client.web.submission.action.GetOrganizationsByReferencesFromPacsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.PublishInvitationsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.SetStateForBidsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.SetTenderPeriodAction
@@ -39,6 +40,8 @@ object SubmissionCommands {
     object CreateBid: CreateBidAction()
 
     object GetBidsForPacs: GetBidsForPacsAction()
+
+    object GetOrganizationsByReferencesFromPacs: GetOrganizationsByReferencesFromPacsAction()
 
     object FindDocumentsByBidIds: FindDocumentsByBidIdsAction()
 }

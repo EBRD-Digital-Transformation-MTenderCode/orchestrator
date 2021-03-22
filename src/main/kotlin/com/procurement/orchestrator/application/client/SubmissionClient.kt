@@ -5,13 +5,14 @@ import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.CheckAbsenceActiveInvitationsAction
-import com.procurement.orchestrator.infrastructure.client.web.submission.action.CheckBidStateAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.CheckAccessToBidAction
+import com.procurement.orchestrator.infrastructure.client.web.submission.action.CheckBidStateAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.CheckPeriodAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.CreateBidAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.DoInvitationsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.FindDocumentsByBidIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.GetBidsForPacsAction
+import com.procurement.orchestrator.infrastructure.client.web.submission.action.GetOrganizationsByReferencesFromPacsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.PublishInvitationsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.SetStateForBidsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.SetTenderPeriodAction
@@ -70,6 +71,11 @@ interface SubmissionClient {
         id: CommandId,
         params: GetBidsForPacsAction.Params
     ): Result<Reply<GetBidsForPacsAction.Result>, Fail.Incident>
+
+    suspend fun getOrganizationsByReferencesFromPacs(
+        id: CommandId,
+        params: GetOrganizationsByReferencesFromPacsAction.Params
+    ): Result<Reply<GetOrganizationsByReferencesFromPacsAction.Result>, Fail.Incident>
 
     suspend fun findDocumentsByBidIds(
         id: CommandId,
