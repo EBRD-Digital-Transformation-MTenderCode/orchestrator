@@ -1,0 +1,10 @@
+{
+  "bids": {
+    "details": [
+      {
+        "id": "string",
+        "status": "valid"
+      }
+    ]
+  }
+}
