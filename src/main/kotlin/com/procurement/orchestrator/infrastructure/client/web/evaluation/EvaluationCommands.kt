@@ -8,6 +8,7 @@ import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CreateAwardAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.CreateUnsuccessfulAwardsAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.DoConsiderationAction
+import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.FinalizeAwardsAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.FindAwardsForProtocolAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.GetAwardByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.GetAwardStateByIdsAction
@@ -44,4 +45,6 @@ object EvaluationCommands {
     object FindAwardsForProtocol: FindAwardsForProtocolAction()
 
     object DoConsideration: DoConsiderationAction()
+
+    object FinalizeAwards: FinalizeAwardsAction()
 }
