@@ -12,6 +12,7 @@ import com.procurement.orchestrator.infrastructure.client.web.submission.action.
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.CheckPeriodAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.CreateBidAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.DoInvitationsAction
+import com.procurement.orchestrator.infrastructure.client.web.submission.action.FinalizeBidsByAwardsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.FindDocumentsByBidIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.GetBidsForPacsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.GetOrganizationsByReferencesFromPacsAction
@@ -120,6 +121,15 @@ class HttpSubmissionClient(private val webClient: WebClient, properties: Compone
         url = url,
         command = SubmissionCommands.CreateBid.build(id = id, params = params),
         target = SubmissionCommands.CreateBid.target
+    )
+
+    override suspend fun finalizeBidsByAwards(
+        id: CommandId,
+        params: FinalizeBidsByAwardsAction.Params
+    ): Result<Reply<FinalizeBidsByAwardsAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = SubmissionCommands.FinalizeBidsByAwards.build(id = id, params = params),
+        target = SubmissionCommands.FinalizeBidsByAwards.target
     )
 
     override suspend fun getBidsForPacs(
