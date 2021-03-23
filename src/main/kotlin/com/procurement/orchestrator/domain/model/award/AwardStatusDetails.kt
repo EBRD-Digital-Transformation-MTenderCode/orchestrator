@@ -8,6 +8,7 @@ import com.procurement.orchestrator.domain.model.amendment.AmendmentStatus
 enum class AwardStatusDetails(@JsonValue override val key: String) : EnumElementProvider.Key {
     ACTIVE("active"),
     AWAITING("awaiting"),
+    BASED_ON_HUMAN_DECISION("basedOnHumanDecision"),
     CONSIDERATION("consideration"),
     EMPTY("empty"),
     LACK_OF_QUALIFICATIONS("lackOfQualifications"),

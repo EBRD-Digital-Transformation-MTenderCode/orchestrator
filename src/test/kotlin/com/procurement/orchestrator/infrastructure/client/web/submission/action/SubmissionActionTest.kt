@@ -224,6 +224,27 @@ class SubmissionActionTest {
     }
 
     @Nested
+    inner class FinalizeBidsByAwards {
+        @Nested
+        inner class Params {
+
+            @Test
+            fun fully() {
+                testingBindingAndMapping<FinalizeBidsByAwardsAction.Params>("json/client/submission/finalize_bids_by_awards_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+
+            @Test
+            fun fully() {
+                testingBindingAndMapping<FinalizeBidsByAwardsAction.Result>("json/client/submission/finalize_bids_by_awards_result_full.json")
+            }
+        }
+    }
+
+    @Nested
     inner class GetBidsForPacs {
         @Nested
         inner class Params {
