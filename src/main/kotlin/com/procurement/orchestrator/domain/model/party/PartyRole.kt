@@ -6,7 +6,10 @@ import com.procurement.orchestrator.domain.EnumElementProvider
 
 enum class PartyRole(@JsonValue override val key: String) : EnumElementProvider.Key {
 
+    AUTHOR("author"),
     BUYER("buyer"),
+    CANDIDATE("candidate"),
+    CLIENT("client"),
     ENQUIRER("enquirer"),
     FUNDER("funder"),
     INVITED_CANDIDATE("invitedCandidate"),
@@ -16,9 +19,7 @@ enum class PartyRole(@JsonValue override val key: String) : EnumElementProvider.
     PROCURING_ENTITY("procuringEntity"),
     REVIEW_BODY("reviewBody"),
     SUPPLIER("supplier"),
-    TENDERER("tenderer"),
-    CANDIDATE("candidate"),
-    AUTHOR("author");
+    TENDERER("tenderer");
 
     override fun toString(): String = key
 

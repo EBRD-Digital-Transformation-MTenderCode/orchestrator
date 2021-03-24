@@ -29,24 +29,6 @@ public class CancelController {
         this.jsonUtil = jsonUtil;
     }
 
-
-    @RequestMapping(value = "/bid/{cpid}/{ocid}/{id}", method = RequestMethod.POST)
-    public ResponseEntity<String> bidWithdrawn(@RequestHeader("Authorization") final String authorization,
-                                               @RequestHeader("X-OPERATION-ID") final String operationId,
-                                               @RequestHeader("X-TOKEN") final String token,
-                                               @PathVariable("cpid") final String cpid,
-                                               @PathVariable("ocid") final String ocid,
-                                               @PathVariable("id") final String id) {
-
-        requestService.validate(operationId, null);
-        Context context = requestService.getContextForUpdate(authorization, operationId, cpid, ocid, token, "bidWithdrawn");
-        context.setId(id);
-        requestService.saveRequestAndCheckOperation(context, jsonUtil.empty());
-        final Map<String, Object> variables = new HashMap<>();
-        processService.startProcess(context, variables);
-        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
-    }
-
     @RequestMapping(value = "/cn/{cpid}/{ocid}", method = RequestMethod.POST)
     public ResponseEntity<String> cnCancellation(@RequestHeader("Authorization") final String authorization,
                                                  @RequestHeader("X-OPERATION-ID") final String operationId,

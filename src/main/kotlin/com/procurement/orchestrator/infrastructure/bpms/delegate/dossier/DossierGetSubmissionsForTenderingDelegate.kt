@@ -376,8 +376,8 @@ class DossierGetSubmissionsForTenderingDelegate(
             OperationTypeProcess.PCR_PROTOCOL,
             OperationTypeProcess.SUBMIT_BID,
             OperationTypeProcess.UPDATE_AWARD,
+            OperationTypeProcess.WITHDRAW_BID,
             OperationTypeProcess.WITHDRAW_PCR_PROTOCOL ->
                 Result.failure(Fail.Incident.Bpe(description = "Operation type: '${operationType.key}' in this delegate is not implemented."))
-
         }
 }

@@ -622,6 +622,38 @@ class AccessActionsTest {
         }
     }
 
+
+    @Nested
+    inner class AddClientsToPartiesInAP {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<AddClientsToPartiesInAPAction.Params>("json/client/access/add_clients_to_parties_in_ap_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<AddClientsToPartiesInAPAction.Result>("json/client/access/add_clients_to_parties_in_ap_result_full.json")
+            }
+
+            @Test
+            fun required1() {
+                testingBindingAndMapping<AddClientsToPartiesInAPAction.Result>("json/client/access/add_clients_to_parties_in_ap_result_required_1.json")
+            }
+
+            @Test
+            fun required2() {
+                testingBindingAndMapping<AddClientsToPartiesInAPAction.Result>("json/client/access/add_clients_to_parties_in_ap_result_required_2.json")
+            }
+
+        }
+    }
+
     @Nested
     inner class GetItemsByLotIds {
 

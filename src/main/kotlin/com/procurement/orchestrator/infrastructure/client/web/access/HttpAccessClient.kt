@@ -6,6 +6,7 @@ import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.WebClient
+import com.procurement.orchestrator.infrastructure.client.web.access.action.AddClientsToPartiesInAPAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CalculateAPValueAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckAccessToTenderAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckEqualityCurrenciesAction
@@ -302,6 +303,15 @@ class HttpAccessClient(private val webClient: WebClient, properties: ComponentPr
         url = url,
         command = AccessCommands.DivideLot.build(id = id, params = params),
         target = AccessCommands.DivideLot.target
+    )
+
+    override suspend fun addClientsToPartiesInAP(
+        id: CommandId,
+        params: AddClientsToPartiesInAPAction.Params
+    ): Result<Reply<AddClientsToPartiesInAPAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = AccessCommands.AddClientsToPartiesInAP.build(id = id, params = params),
+        target = AccessCommands.AddClientsToPartiesInAP.target
     )
 
     override suspend fun getItemsByLotIdsAction(
