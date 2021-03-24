@@ -43,6 +43,18 @@ class SubmissionActionTest {
     }
 
     @Nested
+    inner class CheckAccessToBid {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CheckAccessToBidAction.Params>("json/client/submission/check_access_to_bid_params_full.json")
+            }
+        }
+    }
+
+    @Nested
     inner class ValidateTenderPeriod {
 
         @Nested
@@ -50,6 +62,18 @@ class SubmissionActionTest {
             @Test
             fun fully() {
                 testingBindingAndMapping<ValidateTenderPeriodAction.Params>("json/client/submission/validate_tender_period_full.json")
+            }
+        }
+    }
+
+    @Nested
+    inner class CheckBidState {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CheckBidStateAction.Params>("json/client/submission/check_bid_state_params_full.json")
             }
         }
     }
@@ -90,6 +114,27 @@ class SubmissionActionTest {
                 testingBindingAndMapping<SetTenderPeriodAction.Result>("json/client/submission/set_tender_period_result_full.json")
             }
         }
+    }
+
+    @Nested
+    inner class SetStateForBids {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun required() {
+                testingBindingAndMapping<SetStateForBidsAction.Params>("json/client/submission/set_state_for_bids_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun required() {
+                testingBindingAndMapping<SetStateForBidsAction.Result>("json/client/submission/set_state_for_bids_result_full.json")
+            }
+        }
+
     }
 
     @Nested
@@ -179,6 +224,27 @@ class SubmissionActionTest {
     }
 
     @Nested
+    inner class FinalizeBidsByAwards {
+        @Nested
+        inner class Params {
+
+            @Test
+            fun fully() {
+                testingBindingAndMapping<FinalizeBidsByAwardsAction.Params>("json/client/submission/finalize_bids_by_awards_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+
+            @Test
+            fun fully() {
+                testingBindingAndMapping<FinalizeBidsByAwardsAction.Result>("json/client/submission/finalize_bids_by_awards_result_full.json")
+            }
+        }
+    }
+
+    @Nested
     inner class GetBidsForPacs {
         @Nested
         inner class Params {
@@ -203,6 +269,40 @@ class SubmissionActionTest {
             @Test
             fun required_1() {
                 testingBindingAndMapping<GetBidsForPacsAction.Result>("json/client/submission/get_bids_for_pacs_result_required_2.json")
+            }
+        }
+    }
+
+    @Nested
+    inner class GetOrganizationsByReferencesFromPacs {
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetOrganizationsByReferencesFromPacsAction.Params>("json/client/submission/get_organizations_by_references_from_pacs_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetOrganizationsByReferencesFromPacsAction.Result>("json/client/submission/get_organizations_by_references_from_pacs_result_full.json")
+            }
+
+            @Test
+            fun required() {
+                testingBindingAndMapping<GetOrganizationsByReferencesFromPacsAction.Result>("json/client/submission/get_organizations_by_references_from_pacs_result_required_1.json")
+            }
+
+            @Test
+            fun required_1() {
+                testingBindingAndMapping<GetOrganizationsByReferencesFromPacsAction.Result>("json/client/submission/get_organizations_by_references_from_pacs_result_required_2.json")
+            }
+
+            @Test
+            fun required_2() {
+                testingBindingAndMapping<GetOrganizationsByReferencesFromPacsAction.Result>("json/client/submission/get_organizations_by_references_from_pacs_result_required_3.json")
             }
         }
     }

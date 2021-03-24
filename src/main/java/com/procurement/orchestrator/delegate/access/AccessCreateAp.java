@@ -93,6 +93,7 @@ public class AccessCreateAp implements JavaDelegate {
         try {
             final ObjectNode mainNode = (ObjectNode) jsonData;
             mainNode.replace("tender", responseData.get("tender"));
+            mainNode.replace("parties", responseData.get("parties"));
             return mainNode;
         } catch (Exception e) {
             processService.terminateProcess(processId, e.getMessage());

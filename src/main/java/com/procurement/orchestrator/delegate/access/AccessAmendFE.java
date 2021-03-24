@@ -65,7 +65,7 @@ public class AccessAmendFE implements JavaDelegate {
                 LOG.debug("RESPONSE AFTER PROCESSING ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(responseData));
 
             if (responseData != null) {
-                final JsonNode step = replaceTender(jsonData, responseData, processId);
+                final JsonNode step = enrichGlobalContext(jsonData, responseData, processId);
                 if (LOG.isDebugEnabled())
                     LOG.debug("STEP FOR SAVE ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(step));
 
@@ -74,11 +74,12 @@ public class AccessAmendFE implements JavaDelegate {
         }
     }
 
-    private JsonNode replaceTender(JsonNode jsonData, JsonNode responseData, String processId) {
+    private JsonNode enrichGlobalContext(JsonNode jsonData, JsonNode responseData, String processId) {
         try {
-            final JsonNode tender = responseData.get("tender");
-            ((ObjectNode) jsonData).replace("tender", tender);
-            return jsonData;
+            final ObjectNode globalContextNode = ((ObjectNode) jsonData);
+            globalContextNode.replace("tender", responseData.get("tender"));
+            globalContextNode.replace("parties", responseData.get("parties"));
+            return globalContextNode;
         } catch (Exception e) {
             processService.terminateProcess(processId, e.getMessage());
             return null;

@@ -7,8 +7,6 @@ import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
 import com.procurement.orchestrator.domain.model.lot.LotId
 import com.procurement.orchestrator.domain.model.party.Party
-import com.procurement.orchestrator.domain.model.party.PartyRole
-import com.procurement.orchestrator.domain.model.party.PartyRoles
 import com.procurement.orchestrator.infrastructure.client.web.Target
 import com.procurement.orchestrator.infrastructure.model.Version
 import java.io.Serializable
@@ -87,8 +85,7 @@ abstract class FindSupplierReferencesOfActivePacsAction : FunctionalAction<FindS
         fun toDomain(supplier: Result.Contract.Supplier): Party =
             Party(
                 id = supplier.id,
-                name = supplier.name,
-                roles = PartyRoles(PartyRole.SUPPLIER)
+                name = supplier.name
             )
     }
 

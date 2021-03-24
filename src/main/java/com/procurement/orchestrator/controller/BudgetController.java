@@ -21,7 +21,6 @@ public class BudgetController extends DoBaseController {
     private final DateUtil dateUtil;
     private final ProcessService processService;
     private final RequestService requestService;
-    private final String lang = "ro";
 
     public BudgetController(final ProcessService processService,
                             final RequestService requestService,
@@ -68,7 +67,7 @@ public class BudgetController extends DoBaseController {
         final Context context = new Context();
         final Context prevContext = requestService.getContext(cpid);
         context.setCountry(prevContext.getCountry());
-        context.setLanguage(lang);
+        context.setLanguage(prevContext.getLanguage());
         context.setOperationId(operationId);
         context.setCpid(cpid);
         context.setStage(Stage.EI.value());
@@ -94,7 +93,7 @@ public class BudgetController extends DoBaseController {
         final Context context = new Context();
         final Context prevContext = requestService.getContext(cpid);
         context.setCountry(prevContext.getCountry());
-        context.setLanguage(lang);
+        context.setLanguage(prevContext.getLanguage());
         context.setOperationId(operationId);
         context.setCpid(cpid);
         context.setStage(Stage.FS.value());
@@ -122,7 +121,7 @@ public class BudgetController extends DoBaseController {
         final Context context = new Context();
         final Context prevContext = requestService.getContext(cpid);
         context.setCountry(prevContext.getCountry());
-        context.setLanguage(lang);
+        context.setLanguage(prevContext.getLanguage());
         context.setOperationId(operationId);
         context.setCpid(cpid);
         context.setOcid(ocid);

@@ -4,6 +4,7 @@ import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
+import com.procurement.orchestrator.infrastructure.client.web.access.action.AddClientsToPartiesInAPAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CalculateAPValueAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckAccessToTenderAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckEqualityCurrenciesAction
@@ -185,6 +186,11 @@ interface AccessClient {
         id: CommandId,
         params: DivideLotAction.Params
     ): Result<Reply<DivideLotAction.Result>, Fail.Incident>
+
+    suspend fun addClientsToPartiesInAP(
+        id: CommandId,
+        params: AddClientsToPartiesInAPAction.Params
+    ): Result<Reply<AddClientsToPartiesInAPAction.Result>, Fail.Incident>
 
     suspend fun getItemsByLotIdsAction(
         id: CommandId,
