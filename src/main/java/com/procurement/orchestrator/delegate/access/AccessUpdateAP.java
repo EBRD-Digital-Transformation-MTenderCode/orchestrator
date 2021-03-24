@@ -83,6 +83,7 @@ public class AccessUpdateAP implements JavaDelegate {
         try {
             final ObjectNode mainNode = (ObjectNode) jsonData;
             mainNode.replace("tender", responseData.get("tender"));
+            mainNode.set("parties", responseData.get("parties"));
             return mainNode;
         } catch (Exception e) {
             processService.terminateProcess(processId, e.getMessage());
