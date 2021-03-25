@@ -15,7 +15,6 @@ import com.procurement.orchestrator.domain.model.address.region.RegionDetails
 import com.procurement.orchestrator.domain.model.bid.Bid
 import com.procurement.orchestrator.domain.model.bid.BidId
 import com.procurement.orchestrator.domain.model.bid.BidStatus
-import com.procurement.orchestrator.domain.model.bid.BidStatusDetails
 import com.procurement.orchestrator.domain.model.bid.Bids
 import com.procurement.orchestrator.domain.model.bid.BidsDetails
 import com.procurement.orchestrator.domain.model.document.Document
@@ -573,7 +572,6 @@ abstract class CreateBidAction : FunctionalAction<CreateBidAction.Params, Create
             data class Detail(
                 @param:JsonProperty("id") @field:JsonProperty("id") val id: BidId,
                 @param:JsonProperty("status") @field:JsonProperty("status") val status: BidStatus,
-                @param:JsonProperty("statusDetails") @field:JsonProperty("statusDetails") val statusDetails: BidStatusDetails,
                 @param:JsonProperty("date") @field:JsonProperty("date") val date: LocalDateTime,
 
                 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -939,7 +937,6 @@ fun CreateBidAction.Result.Bids.convertToDomainObject(): Bids =
         Bid(
             id = bid.id,
             status = bid.status,
-            statusDetails = bid.statusDetails,
             date = bid.date,
             value = bid.value
                 ?.let { value ->
