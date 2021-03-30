@@ -1,0 +1,81 @@
+{
+  "tender": {
+    "lots": [
+      {
+        "id": "string",
+        "internalId": "string",
+        "title": "string",
+        "description": "string",
+        "value": {
+          "currency": "string"
+        },
+        "contractPeriod": {
+          "startDate": "2021-03-30T09:48:24Z",
+          "endDate": "2021-03-30T09:48:24Z"
+        },
+        "placeOfPerformance": {
+          "description": "string",
+          "address": {
+            "streetAddress": "string",
+            "postalCode": "string",
+            "addressDetails": {
+              "country": {
+                "id": "string",
+                "description": "string",
+                "scheme": "string"
+              },
+              "region": {
+                "id": "string",
+                "description": "string",
+                "scheme": "string"
+              },
+              "locality": {
+                "id": "string",
+                "description": "string",
+                "scheme": "string"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "items": [
+      {
+        "id": "string",
+        "internalId": "string",
+        "description": "string",
+        "classification": {
+          "id": "string",
+          "scheme": "string"
+        },
+        "quantity": 12.300,
+        "unit": {
+          "id": "string"
+        },
+        "relatedLot": "string"
+      }
+    ],
+    "tenderPeriod": {
+      "endDate": "2021-03-30T09:48:24Z"
+    },
+    "electronicAuctions": {
+      "details": [
+        {
+          "id": "string",
+          "relatedLot": "string",
+          "electronicAuctionModalities": [
+            {
+              "eligibleMinimumDifference": {
+                "amount": 120.12,
+                "currency": "string"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "procurementMethodModalities": [
+      "electronicAuction"
+    ]
+  }
+}
