@@ -70,6 +70,7 @@ class RevisionCreateAmendmentDelegate(
             OperationTypeProcess.COMPLETE_SOURCING,
             OperationTypeProcess.CREATE_AWARD,
             OperationTypeProcess.CREATE_PCR,
+            OperationTypeProcess.CREATE_RFQ,
             OperationTypeProcess.CREATE_SUBMISSION,
             OperationTypeProcess.DECLARE_NON_CONFLICT_OF_INTEREST,
             OperationTypeProcess.DIVIDE_LOT,

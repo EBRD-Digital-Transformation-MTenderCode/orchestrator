@@ -28,6 +28,7 @@ fun initiator(operationType: OperationTypeProcess): Initiator = when (operationT
     OperationTypeProcess.COMPLETE_SOURCING -> Initiator.PLATFORM
     OperationTypeProcess.CREATE_AWARD -> Initiator.PLATFORM
     OperationTypeProcess.CREATE_PCR -> Initiator.PLATFORM
+    OperationTypeProcess.CREATE_RFQ -> Initiator.PLATFORM
     OperationTypeProcess.CREATE_SUBMISSION -> Initiator.PLATFORM
     OperationTypeProcess.DECLARE_NON_CONFLICT_OF_INTEREST,
     OperationTypeProcess.DIVIDE_LOT -> Initiator.PLATFORM
