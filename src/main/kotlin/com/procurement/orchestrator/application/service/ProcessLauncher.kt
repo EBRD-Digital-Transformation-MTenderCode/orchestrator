@@ -8,6 +8,7 @@ import com.procurement.orchestrator.application.model.context.CamundaGlobalConte
 import com.procurement.orchestrator.application.model.context.container.DefaultPropertyContainer
 import com.procurement.orchestrator.application.model.context.members.ProcessInfo
 import com.procurement.orchestrator.application.model.context.members.RequestInfo
+import com.procurement.orchestrator.application.model.process.AdditionalProcess
 import com.procurement.orchestrator.application.model.process.LatestProcessContext
 import com.procurement.orchestrator.application.repository.RuleRepository
 import com.procurement.orchestrator.application.service.events.DocumentGeneratorEvent
@@ -119,7 +120,14 @@ class ProcessLauncherImpl(
                             )
                         },
                     entityId = request.context.id,
-                    documentInitiator = null
+                    documentInitiator = null,
+                    additionalProcess = request.context.additionalProcess
+                        ?.let { additionalProcess ->
+                            AdditionalProcess(
+                                cpid = additionalProcess.cpid,
+                                ocid = additionalProcess.ocid
+                            )
+                        }
                 )
             }
 
@@ -196,7 +204,8 @@ class ProcessLauncherImpl(
                     awardCriteria = prevProcessContext.awardCriteria,
                     relatedProcess = null,
                     entityId = null,
-                    documentInitiator = null
+                    documentInitiator = null,
+                    additionalProcess = null
                 )
             }
 
@@ -299,7 +308,8 @@ class ProcessLauncherImpl(
                     mainProcurementCategory = null,
                     awardCriteria = null,
                     relatedProcess = null,
-                    entityId = null
+                    entityId = null,
+                    additionalProcess = null
                 )
             }
 

@@ -119,7 +119,8 @@ class CancellationServiceImpl(
                     awardCriteria = prevProcessContext.awardCriteria,
                     relatedProcess = null,
                     entityId = null,
-                    documentInitiator = null
+                    documentInitiator = null,
+                    additionalProcess = null
                 )
 
                 tender = Tender(
@@ -225,7 +226,8 @@ class CancellationServiceImpl(
                     awardCriteria = prevProcessContext.awardCriteria,
                     relatedProcess = null,
                     entityId = null,
-                    documentInitiator = null
+                    documentInitiator = null,
+                    additionalProcess = null
                 )
 
                 tender = Tender(
@@ -331,7 +333,8 @@ class CancellationServiceImpl(
                     awardCriteria = prevProcessContext.awardCriteria,
                     relatedProcess = null,
                     entityId = null,
-                    documentInitiator = null
+                    documentInitiator = null,
+                    additionalProcess = null
                 )
 
                 tender = Tender(

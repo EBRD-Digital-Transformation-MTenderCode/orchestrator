@@ -28,10 +28,19 @@ class PlatformRequest(
         @field:JsonProperty("id") @param:JsonProperty("id") val id: String? = null,
         @field:JsonProperty("uri") @param:JsonProperty("uri") val uri: String,
         @field:JsonProperty("processName") @param:JsonProperty("processName") val processName: String,
-        @field:JsonProperty("relatedProcess") @param:JsonProperty("relatedProcess") val relatedProcess: RelatedProcess? = null
+        @field:JsonProperty("relatedProcess") @param:JsonProperty("relatedProcess") val relatedProcess: RelatedProcess? = null,
+        @field:JsonProperty("additionalProcess") @param:JsonProperty("additionalProcess") val additionalProcess: AdditionalProcess? = null
     ) {
         data class RelatedProcess(
             @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid,
+
+            @JsonInclude(JsonInclude.Include.NON_NULL)
+            @field:JsonProperty("ocid") @param:JsonProperty("ocid") val ocid: Ocid? = null
+        )
+
+        data class AdditionalProcess(
+            @JsonInclude(JsonInclude.Include.NON_NULL)
+            @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid? = null,
 
             @JsonInclude(JsonInclude.Include.NON_NULL)
             @field:JsonProperty("ocid") @param:JsonProperty("ocid") val ocid: Ocid? = null
