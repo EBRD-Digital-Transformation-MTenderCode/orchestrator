@@ -76,13 +76,13 @@ class AuctionValidateAuctionsDataDelegate(
                             )
                         }
                     ),
-                    value = tender.value?.let {
-                        ValidateAuctionsDataAction.Params.Tender.Value(currency = it.currency)
+                    value = tender.value?.let { value ->
+                        ValidateAuctionsDataAction.Params.Tender.Value(currency = value.currency)
                     },
-                    lots = tender.lots.map {
+                    lots = tender.lots.map { lot ->
                         ValidateAuctionsDataAction.Params.Tender.Lot(
-                            id = it.id,
-                            value = it.value?.let { value ->
+                            id = lot.id,
+                            value = lot.value?.let { value ->
                                 ValidateAuctionsDataAction.Params.Tender.Value(
                                     currency = value.currency
                                 )
