@@ -16,6 +16,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Chec
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateCriteriaForProcuringEntityAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateRelationToOtherProcessAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateRfqAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.DivideLotAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindAuctionsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindCriteriaAction
@@ -196,4 +197,9 @@ interface AccessClient {
         id: CommandId,
         params: GetItemsByLotIdsAction.Params
     ): Result<Reply<GetItemsByLotIdsAction.Result>, Fail.Incident>
+
+    suspend fun createRfq(
+        id: CommandId,
+        params: CreateRfqAction.Params
+    ): Result<Reply<CreateRfqAction.Result>, Fail.Incident>
 }

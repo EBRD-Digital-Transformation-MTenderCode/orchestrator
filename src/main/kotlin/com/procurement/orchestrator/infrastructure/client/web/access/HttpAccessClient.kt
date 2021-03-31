@@ -18,6 +18,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Chec
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateCriteriaForProcuringEntityAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateRelationToOtherProcessAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateRfqAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.DivideLotAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindAuctionsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindCriteriaAction
@@ -321,5 +322,14 @@ class HttpAccessClient(private val webClient: WebClient, properties: ComponentPr
         url = url,
         command = AccessCommands.GetItemsByLotIds.build(id = id, params = params),
         target = AccessCommands.GetItemsByLotIds.target
+    )
+
+    override suspend fun createRfq(
+        id: CommandId,
+        params: CreateRfqAction.Params
+    ): Result<Reply<CreateRfqAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = AccessCommands.CreateRfq.build(id = id, params = params),
+        target = AccessCommands.CreateRfq.target
     )
 }
