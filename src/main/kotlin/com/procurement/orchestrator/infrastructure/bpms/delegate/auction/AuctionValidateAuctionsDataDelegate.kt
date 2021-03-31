@@ -40,6 +40,8 @@ class AuctionValidateAuctionsDataDelegate(
         parameters: Unit
     ): Result<Reply<Unit>, Fail.Incident> {
 
+        val processInfo = context.processInfo
+
         val tender = context.tryGetTender()
             .orForwardFail { fail -> return fail }
 
@@ -57,6 +59,7 @@ class AuctionValidateAuctionsDataDelegate(
         return auctionClient.validateAuctionsData(
             id = commandId,
             params = ValidateAuctionsDataAction.Params(
+                operationType = processInfo.operationType,
                 tender = ValidateAuctionsDataAction.Params.Tender(
                     electronicAuctions = ValidateAuctionsDataAction.Params.Tender.ElectronicAuctions(
                         details = tender.electronicAuctions?.details?.map { detail ->
@@ -73,8 +76,19 @@ class AuctionValidateAuctionsDataDelegate(
                             )
                         }
                     ),
-                    value = ValidateAuctionsDataAction.Params.Tender.Value(tender.value?.currency),
-                    lots = tender.lots.map { ValidateAuctionsDataAction.Params.Tender.Lot(it.id) }
+                    value = tender.value?.let {
+                        ValidateAuctionsDataAction.Params.Tender.Value(currency = it.currency)
+                    },
+                    lots = tender.lots.map {
+                        ValidateAuctionsDataAction.Params.Tender.Lot(
+                            id = it.id,
+                            value = it.value?.let { value ->
+                                ValidateAuctionsDataAction.Params.Tender.Value(
+                                    currency = value.currency
+                                )
+                            }
+                        )
+                    }
                 )
             )
         )
