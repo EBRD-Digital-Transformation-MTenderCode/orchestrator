@@ -37,6 +37,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.SetS
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateLotsDataForDivisionAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateRelatedTenderClassificationAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateRequirementResponsesAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateRfqDataAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.VerifyRequirementResponseAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
 import java.net.URL
@@ -321,5 +322,13 @@ class HttpAccessClient(private val webClient: WebClient, properties: ComponentPr
         url = url,
         command = AccessCommands.GetItemsByLotIds.build(id = id, params = params),
         target = AccessCommands.GetItemsByLotIds.target
+    )
+
+    override suspend fun validateRfqData(
+        id: CommandId,
+        params: ValidateRfqDataAction.Params
+    ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
+        url = url,
+        command = AccessCommands.ValidateRfqData.build(id = id, params = params)
     )
 }

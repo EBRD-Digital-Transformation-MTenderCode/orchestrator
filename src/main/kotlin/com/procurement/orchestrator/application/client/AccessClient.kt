@@ -35,6 +35,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.SetS
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateLotsDataForDivisionAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateRelatedTenderClassificationAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateRequirementResponsesAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateRfqDataAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.VerifyRequirementResponseAction
 
 interface AccessClient {
@@ -196,4 +197,6 @@ interface AccessClient {
         id: CommandId,
         params: GetItemsByLotIdsAction.Params
     ): Result<Reply<GetItemsByLotIdsAction.Result>, Fail.Incident>
+
+    suspend fun validateRfqData(id: CommandId, params: ValidateRfqDataAction.Params): Result<Reply<Unit>, Fail.Incident>
 }
