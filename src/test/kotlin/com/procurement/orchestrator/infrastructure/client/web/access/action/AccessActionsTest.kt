@@ -679,4 +679,21 @@ class AccessActionsTest {
 
         }
     }
+
+    @Nested
+    inner class ValidateRfqData {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<ValidateRfqDataAction.Params>("json/client/access/validate_rfq_data_params_full.json")
+            }
+
+            @Test
+            fun required1() {
+                testingBindingAndMapping<ValidateRfqDataAction.Params>("json/client/access/validate_rfq_data_params_required_1.json")
+            }
+        }
+    }
 }
