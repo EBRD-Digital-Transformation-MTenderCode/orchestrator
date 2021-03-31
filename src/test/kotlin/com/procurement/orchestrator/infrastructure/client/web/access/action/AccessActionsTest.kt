@@ -679,4 +679,40 @@ class AccessActionsTest {
 
         }
     }
+
+    @Nested
+    inner class CreateRfq {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CreateRfqAction.Params>("json/client/access/create_rfq_params_full.json")
+            }
+
+            @Test
+            fun required1() {
+                testingBindingAndMapping<CreateRfqAction.Params>("json/client/access/create_rfq_params_required_1.json")
+            }
+
+            @Test
+            fun required2() {
+                testingBindingAndMapping<CreateRfqAction.Params>("json/client/access/create_rfq_params_required_2.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CreateRfqAction.Result>("json/client/access/create_rfq_result_full.json")
+            }
+
+            @Test
+            fun required1() {
+                testingBindingAndMapping<CreateRfqAction.Result>("json/client/access/create_rfq_result_required_1.json")
+            }
+
+        }
+    }
 }
