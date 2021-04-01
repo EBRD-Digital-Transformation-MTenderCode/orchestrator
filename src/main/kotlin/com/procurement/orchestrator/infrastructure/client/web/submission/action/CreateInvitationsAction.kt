@@ -28,6 +28,8 @@ abstract class CreateInvitationsAction : FunctionalAction<CreateInvitationsActio
         @JsonInclude(JsonInclude.Include.NON_NULL)
         @param:JsonProperty("additionalOcid") @field:JsonProperty("additionalOcid") val additionalOcid: Ocid?,
 
+        @param:JsonProperty("date") @field:JsonProperty("date") val date: LocalDateTime,
+
         @param:JsonProperty("tender") @field:JsonProperty("tender") val tender: Tender
     ) {
         data class Tender(

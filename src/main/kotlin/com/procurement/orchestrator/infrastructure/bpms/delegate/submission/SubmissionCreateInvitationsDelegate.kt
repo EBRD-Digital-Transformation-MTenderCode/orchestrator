@@ -40,6 +40,7 @@ class SubmissionCreateInvitationsDelegate(
         parameters: Unit
     ): Result<Reply<CreateInvitationsAction.Result>, Fail.Incident> {
 
+        val requestInfo = context.requestInfo
         val processInfo = context.processInfo
         val additionalProcess = processInfo.additionalProcess!!
 
@@ -52,6 +53,7 @@ class SubmissionCreateInvitationsDelegate(
                 cpid = processInfo.cpid,
                 additionalCpid = additionalProcess.cpid,
                 additionalOcid = additionalProcess.ocid,
+                date = requestInfo.timestamp,
                 tender = CreateInvitationsAction.Params.Tender(
                     lots = tender.lots.map { lot ->
                         CreateInvitationsAction.Params.Tender.Lot(id = lot.id)
