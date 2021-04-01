@@ -17,7 +17,7 @@ import com.procurement.orchestrator.infrastructure.model.Version
 
 abstract class CheckItemsDataForRfqAction : ProceduralAction<CheckItemsDataForRfqAction.Params> {
     override val version: Version = Version.parse("2.0.0")
-    override val name: String = "checkLotsState"
+    override val name: String = "checkItemsDataForRfq"
 
     class Params(
         @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid,
