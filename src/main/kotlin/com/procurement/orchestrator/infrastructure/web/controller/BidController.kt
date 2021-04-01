@@ -104,6 +104,7 @@ class BidController(
         Stage.FS,
         Stage.NP,
         Stage.PN,
+        Stage.RQ,
         Stage.TP -> PROCESS_NAME_SUBMIT_BID
         Stage.PC -> PROCESS_NAME_SUBMIT_BID_IN_PCR
     }
@@ -118,6 +119,7 @@ class BidController(
             Stage.FS,
             Stage.NP,
             Stage.PN,
+            Stage.RQ,
             Stage.TP -> processLauncher.launchWithContextByCpid(request)
             Stage.PC -> processLauncher.launchWithContextByOcid(request)
         }

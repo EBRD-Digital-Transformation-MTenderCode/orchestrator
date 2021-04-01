@@ -235,6 +235,7 @@ class ProcessLauncherImpl(
             Stage.FE,
             Stage.EV,
             Stage.NP,
+            Stage.RQ,
             Stage.TP -> {
                 processService.getProcessContext(cpid = event.cpid)
                     .orForwardFail { return it }
