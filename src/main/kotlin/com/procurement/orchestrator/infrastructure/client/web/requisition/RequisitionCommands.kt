@@ -1,6 +1,7 @@
 package com.procurement.orchestrator.infrastructure.client.web.requisition
 
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.CheckAccessToTenderAction
+import com.procurement.orchestrator.infrastructure.client.web.requisition.action.CheckItemsDataForRfqAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.CheckLotsStateAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.CheckTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.CreatePcrAction
@@ -31,6 +32,8 @@ object RequisitionCommands {
     object GetTenderState : GetTenderStateAction()
 
     object CheckLotsState : CheckLotsStateAction()
+
+    object CheckItemsDataForRfq : CheckItemsDataForRfqAction()
 
     object FindProcurementMethodModalities: FindProcurementMethodModalitiesAction()
 
