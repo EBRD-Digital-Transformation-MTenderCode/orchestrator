@@ -43,6 +43,11 @@ class AuctionActionsTest {
             fun fully() {
                 testingBindingAndMapping<ValidateAuctionsDataAction.Params>("json/client/auction/validate_auctions_data_params_full.json")
             }
+
+            @Test
+            fun required1() {
+                testingBindingAndMapping<ValidateAuctionsDataAction.Params>("json/client/auction/validate_auctions_data_params_required_1.json")
+            }
         }
     }
 }

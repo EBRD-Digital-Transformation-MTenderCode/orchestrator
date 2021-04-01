@@ -111,6 +111,7 @@ class WithdrawBidController(
             Stage.FS,
             Stage.NP,
             Stage.PN,
+            Stage.RQ,
             Stage.TP -> processLauncher.launchWithContextByCpid(request)
             Stage.PC -> processLauncher.launchWithContextByOcid(request)
         }

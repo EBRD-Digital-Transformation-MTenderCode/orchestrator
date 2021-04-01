@@ -123,6 +123,7 @@ class ChronographMessageConsumer(
             Stage.FS,
             Stage.NP,
             Stage.PN,
+            Stage.RQ,
             Stage.TP -> context.cpid
 
             Stage.PC -> context.ocid

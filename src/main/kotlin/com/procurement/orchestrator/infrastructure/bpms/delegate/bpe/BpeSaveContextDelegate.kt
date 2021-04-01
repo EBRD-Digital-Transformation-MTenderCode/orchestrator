@@ -123,6 +123,7 @@ class BpeSaveContextDelegate(
             Stage.FE,
             Stage.NP,
             Stage.TP,
+            Stage.RQ,
             Stage.AC -> oldProcessContextRepository.save(cpid = processInfo.cpid!!, context = serializedContext)
                 .doOnError { return MaybeFail.fail(it) }
         }

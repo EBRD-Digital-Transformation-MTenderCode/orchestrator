@@ -32,6 +32,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.SetS
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateLotsDataForDivisionAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateRelatedTenderClassificationAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateRequirementResponsesAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateRfqDataAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.VerifyRequirementResponseAction
 
 object AccessCommands {
@@ -100,6 +101,8 @@ object AccessCommands {
     object AddClientsToPartiesInAP: AddClientsToPartiesInAPAction()
 
     object GetItemsByLotIds : GetItemsByLotIdsAction()
+
+    object ValidateRfqData : ValidateRfqDataAction()
 
     object CreateRfq : CreateRfqAction()
 }
