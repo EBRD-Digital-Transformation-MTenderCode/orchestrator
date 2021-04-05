@@ -156,6 +156,18 @@ class RequisitionActionsTest {
     }
 
     @Nested
+    inner class CheckItemsDataForRfq {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CheckItemsDataForRfqAction.Params>("json/client/requisition/check_items_data_for_rfq_params_full.json")
+            }
+        }
+    }
+
+    @Nested
     inner class FindProcurementMethodModalities {
 
         @Nested

@@ -7,6 +7,7 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.WebClient
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.CheckAccessToTenderAction
+import com.procurement.orchestrator.infrastructure.client.web.requisition.action.CheckItemsDataForRfqAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.CheckLotsStateAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.CheckTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.CreatePcrAction
@@ -87,6 +88,14 @@ class HttpRequisitionClient(private val webClient: WebClient, properties: Compon
     ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
         url = url,
         command = RequisitionCommands.CheckLotsState.build(id = id, params = params)
+    )
+
+    override suspend fun checkItemsDataForRfq(
+        id: CommandId,
+        params: CheckItemsDataForRfqAction.Params
+    ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
+        url = url,
+        command = RequisitionCommands.CheckItemsDataForRfq.build(id = id, params = params)
     )
 
     override suspend fun findProcurementMethodModalities(
