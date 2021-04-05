@@ -1,0 +1,15 @@
+{
+  "invitations": [
+    {
+      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "date": "2021-04-01T09:39:01Z",
+      "status": "pending",
+      "tenderers": [
+        {
+          "id": "string",
+          "name": "string"
+        }
+      ]
+    }
+  ]
+}
