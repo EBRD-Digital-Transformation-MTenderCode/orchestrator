@@ -17,6 +17,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Chec
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckRelationAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateCriteriaForProcuringEntityAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateRelationToContractProcessStageAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateRelationToOtherProcessAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateRfqAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.DivideLotAction
@@ -237,6 +238,15 @@ class HttpAccessClient(private val webClient: WebClient, properties: ComponentPr
         url = url,
         command = AccessCommands.CreateRelationToOtherProcess.build(id = id, params = params),
         target = AccessCommands.CreateRelationToOtherProcess.target
+    )
+
+    override suspend fun createRelationToContractProcessStage(
+        id: CommandId,
+        params: CreateRelationToContractProcessStageAction.Params
+    ): Result<Reply<CreateRelationToContractProcessStageAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = AccessCommands.CreateRelationToContractProcessStage.build(id = id, params = params),
+        target = AccessCommands.CreateRelationToContractProcessStage.target
     )
 
     override suspend fun checkRelationDelegate(

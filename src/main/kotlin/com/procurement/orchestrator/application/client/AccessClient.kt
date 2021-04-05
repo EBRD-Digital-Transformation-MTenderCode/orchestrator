@@ -15,6 +15,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Chec
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckRelationAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateCriteriaForProcuringEntityAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateRelationToContractProcessStageAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateRelationToOtherProcessAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateRfqAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.DivideLotAction
@@ -151,6 +152,11 @@ interface AccessClient {
         id: CommandId,
         params: CreateRelationToOtherProcessAction.Params
     ): Result<Reply<CreateRelationToOtherProcessAction.Result>, Fail.Incident>
+
+    suspend fun createRelationToContractProcessStage(
+        id: CommandId,
+        params: CreateRelationToContractProcessStageAction.Params
+    ): Result<Reply<CreateRelationToContractProcessStageAction.Result>, Fail.Incident>
 
     suspend fun checkRelationDelegate(
         id: CommandId,
