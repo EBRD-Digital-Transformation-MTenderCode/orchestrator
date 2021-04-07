@@ -303,8 +303,8 @@ class AccessCreateRfqDelegate(
                     }
                 )
             }.let { Items(it) },
-            electronicAuctions = tender.electronicAuctions?.updateBy(receivedElectronicAuctions) ?: receivedElectronicAuctions
-
+            electronicAuctions = tender.electronicAuctions?.updateBy(receivedElectronicAuctions)
+                    ?: receivedElectronicAuctions.takeIf { it.details.isNotEmpty() }
         )
     }
 
