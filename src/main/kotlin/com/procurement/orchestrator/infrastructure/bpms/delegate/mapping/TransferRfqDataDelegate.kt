@@ -57,7 +57,7 @@ class TransferRfqDataDelegate : DelegateVariableMapping {
         additionalProcess: AdditionalProcess
     ): ProcessInfo {
         val processCpid = processInfo.cpid!!
-        val processOcid = processInfo.ocid!!
+        val processOcid = processInfo.ocid
         val additionalProcessCpid = additionalProcess.cpid
         val additionalProcessOcid = additionalProcess.ocid
 
