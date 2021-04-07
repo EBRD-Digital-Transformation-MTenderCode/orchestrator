@@ -3,13 +3,13 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.submission
 import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.SubmissionClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
-import com.procurement.orchestrator.application.model.context.extension.tryGetTender
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
+import com.procurement.orchestrator.domain.model.lot.LotId
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
@@ -44,8 +44,7 @@ class SubmissionCreateInvitationsDelegate(
         val processInfo = context.processInfo
         val additionalProcess = processInfo.additionalProcess!!
 
-        val tender = context.tryGetTender()
-            .orForwardFail { fail -> return fail }
+        val lotId = processInfo.entityId?.let { LotId.create(it) }
 
         return submissionClient.createInvitations(
             id = commandId,
@@ -55,9 +54,9 @@ class SubmissionCreateInvitationsDelegate(
                 additionalOcid = additionalProcess.ocid,
                 date = requestInfo.timestamp,
                 tender = CreateInvitationsAction.Params.Tender(
-                    lots = tender.lots.map { lot ->
-                        CreateInvitationsAction.Params.Tender.Lot(id = lot.id)
-                    }
+                    lots = listOf(
+                        CreateInvitationsAction.Params.Tender.Lot(id = lotId)
+                    )
                 )
             )
         )
