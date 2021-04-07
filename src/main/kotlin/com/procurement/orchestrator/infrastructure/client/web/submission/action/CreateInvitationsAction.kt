@@ -36,7 +36,8 @@ abstract class CreateInvitationsAction : FunctionalAction<CreateInvitationsActio
             @param:JsonProperty("lots") @field:JsonProperty("lots") val lots: List<Lot>
         ) {
             data class Lot(
-                @param:JsonProperty("id") @field:JsonProperty("id") val id: LotId
+                @JsonInclude(JsonInclude.Include.NON_NULL)
+                @param:JsonProperty("id") @field:JsonProperty("id") val id: LotId?
             )
         }
     }
