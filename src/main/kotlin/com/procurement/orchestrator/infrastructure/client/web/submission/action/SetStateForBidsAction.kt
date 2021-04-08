@@ -10,7 +10,6 @@ import com.procurement.orchestrator.domain.model.ProcurementMethodDetails
 import com.procurement.orchestrator.domain.model.bid.Bid
 import com.procurement.orchestrator.domain.model.bid.BidId
 import com.procurement.orchestrator.domain.model.bid.BidStatus
-import com.procurement.orchestrator.domain.model.bid.BidStatusDetails
 import com.procurement.orchestrator.infrastructure.client.web.Target
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.SetStateForBidsAction.Params
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.SetStateForBidsAction.Result
@@ -50,8 +49,7 @@ abstract class SetStateForBidsAction : FunctionalAction<Params, Result> {
         ) : Serializable {
             data class Detail(
                 @field:JsonProperty("id") @param:JsonProperty("id") val id: BidId,
-                @field:JsonProperty("status") @param:JsonProperty("status") val status: BidStatus,
-                @field:JsonProperty("statusDetails") @param:JsonProperty("statusDetails") val statusDetails: BidStatusDetails
+                @field:JsonProperty("status") @param:JsonProperty("status") val status: BidStatus
             ) : Serializable
         }
     }
@@ -60,6 +58,5 @@ abstract class SetStateForBidsAction : FunctionalAction<Params, Result> {
 fun Result.Bids.Detail.toDomain(): Bid =
     Bid(
         id = this.id,
-        status = this.status,
-        statusDetails = this.statusDetails
+        status = this.status
     )

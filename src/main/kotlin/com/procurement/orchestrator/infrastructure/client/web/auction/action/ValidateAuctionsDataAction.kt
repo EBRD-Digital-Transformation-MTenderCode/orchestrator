@@ -2,6 +2,7 @@ package com.procurement.orchestrator.infrastructure.client.web.auction.action
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.procurement.orchestrator.application.model.process.OperationTypeProcess
 import com.procurement.orchestrator.application.service.ProceduralAction
 import com.procurement.orchestrator.domain.model.lot.LotId
 import com.procurement.orchestrator.infrastructure.model.Version
@@ -11,12 +12,15 @@ abstract class ValidateAuctionsDataAction : ProceduralAction<ValidateAuctionsDat
     override val name: String = "validateAuctionsData"
 
     class Params(
+        @field:JsonProperty("operationType") @param:JsonProperty("operationType") val operationType: OperationTypeProcess,
         @param:JsonProperty("tender") @field:JsonProperty("tender") val tender: Tender
     ) {
         data class Tender(
             @param:JsonProperty("electronicAuctions") @field:JsonProperty("electronicAuctions") val electronicAuctions: ElectronicAuctions,
             @param:JsonProperty("lots") @field:JsonProperty("lots") val lots: List<Lot>,
-            @param:JsonProperty("value") @field:JsonProperty("value") val value: Value
+
+            @JsonInclude(JsonInclude.Include.NON_NULL)
+            @param:JsonProperty("value") @field:JsonProperty("value") val value: Value?
         ) {
             data class ElectronicAuctions(
                 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -42,7 +46,10 @@ abstract class ValidateAuctionsDataAction : ProceduralAction<ValidateAuctionsDat
             }
 
             data class Lot(
-                @param:JsonProperty("id") @field:JsonProperty("id") val id: LotId
+                @param:JsonProperty("id") @field:JsonProperty("id") val id: LotId,
+
+                @JsonInclude(JsonInclude.Include.NON_NULL)
+                @param:JsonProperty("value") @field:JsonProperty("value") val value: Value?
             )
 
             data class Value(

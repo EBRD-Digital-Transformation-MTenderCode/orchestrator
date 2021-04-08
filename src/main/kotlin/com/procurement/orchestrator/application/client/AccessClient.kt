@@ -15,7 +15,9 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Chec
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckRelationAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateCriteriaForProcuringEntityAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateRelationToContractProcessStageAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateRelationToOtherProcessAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateRfqAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.DivideLotAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindAuctionsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindCriteriaAction
@@ -35,6 +37,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.SetS
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateLotsDataForDivisionAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateRelatedTenderClassificationAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateRequirementResponsesAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateRfqDataAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.VerifyRequirementResponseAction
 
 interface AccessClient {
@@ -150,6 +153,11 @@ interface AccessClient {
         params: CreateRelationToOtherProcessAction.Params
     ): Result<Reply<CreateRelationToOtherProcessAction.Result>, Fail.Incident>
 
+    suspend fun createRelationToContractProcessStage(
+        id: CommandId,
+        params: CreateRelationToContractProcessStageAction.Params
+    ): Result<Reply<CreateRelationToContractProcessStageAction.Result>, Fail.Incident>
+
     suspend fun checkRelationDelegate(
         id: CommandId,
         params: CheckRelationAction.Params
@@ -196,4 +204,11 @@ interface AccessClient {
         id: CommandId,
         params: GetItemsByLotIdsAction.Params
     ): Result<Reply<GetItemsByLotIdsAction.Result>, Fail.Incident>
+
+    suspend fun validateRfqData(id: CommandId, params: ValidateRfqDataAction.Params): Result<Reply<Unit>, Fail.Incident>
+
+    suspend fun createRfq(
+        id: CommandId,
+        params: CreateRfqAction.Params
+    ): Result<Reply<CreateRfqAction.Result>, Fail.Incident>
 }

@@ -371,6 +371,7 @@ class DossierGetSubmissionsForTenderingDelegate(
             OperationTypeProcess.ADD_GENERATED_DOCUMENT,
             OperationTypeProcess.AWARD_CONSIDERATION,
             OperationTypeProcess.COMPLETE_SOURCING,
+            OperationTypeProcess.CREATE_RFQ,
             OperationTypeProcess.DIVIDE_LOT,
             OperationTypeProcess.ISSUING_FRAMEWORK_CONTRACT,
             OperationTypeProcess.PCR_PROTOCOL,

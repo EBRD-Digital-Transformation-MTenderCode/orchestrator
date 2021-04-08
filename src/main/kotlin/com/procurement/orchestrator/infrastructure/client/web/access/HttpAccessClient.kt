@@ -17,7 +17,9 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Chec
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckRelationAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateCriteriaForProcuringEntityAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateRelationToContractProcessStageAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateRelationToOtherProcessAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateRfqAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.DivideLotAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindAuctionsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindCriteriaAction
@@ -37,6 +39,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.SetS
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateLotsDataForDivisionAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateRelatedTenderClassificationAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateRequirementResponsesAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateRfqDataAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.VerifyRequirementResponseAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
 import java.net.URL
@@ -237,6 +240,15 @@ class HttpAccessClient(private val webClient: WebClient, properties: ComponentPr
         target = AccessCommands.CreateRelationToOtherProcess.target
     )
 
+    override suspend fun createRelationToContractProcessStage(
+        id: CommandId,
+        params: CreateRelationToContractProcessStageAction.Params
+    ): Result<Reply<CreateRelationToContractProcessStageAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = AccessCommands.CreateRelationToContractProcessStage.build(id = id, params = params),
+        target = AccessCommands.CreateRelationToContractProcessStage.target
+    )
+
     override suspend fun checkRelationDelegate(
         id: CommandId,
         params: CheckRelationAction.Params
@@ -321,5 +333,22 @@ class HttpAccessClient(private val webClient: WebClient, properties: ComponentPr
         url = url,
         command = AccessCommands.GetItemsByLotIds.build(id = id, params = params),
         target = AccessCommands.GetItemsByLotIds.target
+    )
+
+    override suspend fun validateRfqData(
+        id: CommandId,
+        params: ValidateRfqDataAction.Params
+    ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
+        url = url,
+        command = AccessCommands.ValidateRfqData.build(id = id, params = params)
+    )
+
+    override suspend fun createRfq(
+        id: CommandId,
+        params: CreateRfqAction.Params
+    ): Result<Reply<CreateRfqAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = AccessCommands.CreateRfq.build(id = id, params = params),
+        target = AccessCommands.CreateRfq.target
     )
 }
