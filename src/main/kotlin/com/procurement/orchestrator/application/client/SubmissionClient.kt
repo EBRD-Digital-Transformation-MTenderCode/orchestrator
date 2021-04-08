@@ -9,6 +9,7 @@ import com.procurement.orchestrator.infrastructure.client.web.submission.action.
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.CheckBidStateAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.CheckPeriodAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.CreateBidAction
+import com.procurement.orchestrator.infrastructure.client.web.submission.action.CreateInvitationsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.DoInvitationsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.FinalizeBidsByAwardsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.FindDocumentsByBidIdsAction
@@ -67,6 +68,11 @@ interface SubmissionClient {
     suspend fun validateBidData(id: CommandId, params: ValidateBidDataAction.Params): Result<Reply<Unit>, Fail.Incident>
 
     suspend fun createBid(id: CommandId, params: CreateBidAction.Params): Result<Reply<CreateBidAction.Result>, Fail.Incident>
+
+    suspend fun createInvitations(
+        id: CommandId,
+        params: CreateInvitationsAction.Params
+    ): Result<Reply<CreateInvitationsAction.Result>, Fail.Incident>
 
     suspend fun finalizeBidsByAwards(id: CommandId, params: FinalizeBidsByAwardsAction.Params): Result<Reply<FinalizeBidsByAwardsAction.Result>, Fail.Incident>
 

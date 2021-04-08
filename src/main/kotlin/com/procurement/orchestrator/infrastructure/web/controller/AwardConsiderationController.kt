@@ -67,6 +67,7 @@ class AwardConsiderationController(
             Stage.FS,
             Stage.NP,
             Stage.PN,
+            Stage.RQ,
             Stage.TP -> processLauncher.launchWithContextByCpid(request)
         }
     }

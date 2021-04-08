@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.procurement.orchestrator.application.model.Phase
 import com.procurement.orchestrator.application.model.Stage
+import com.procurement.orchestrator.application.model.process.AdditionalProcess
 import com.procurement.orchestrator.application.model.process.OperationTypeProcess
 import com.procurement.orchestrator.application.model.process.ProcessDefinitionKey
 import com.procurement.orchestrator.domain.model.Cpid
@@ -42,6 +43,9 @@ data class ProcessInfo(
     @field:JsonProperty("relatedProcess") @param:JsonProperty("relatedProcess") val relatedProcess: RelatedProcess?,
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonProperty("additionalProcess") @param:JsonProperty("additionalProcess") val additionalProcess: AdditionalProcess?,
+
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonProperty("entityId") @param:JsonProperty("entityId") val entityId: String?,
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
@@ -55,4 +59,5 @@ data class ProcessInfo(
         @field:JsonInclude(JsonInclude.Include.NON_NULL)
         @field:JsonProperty("ocid") @param:JsonProperty("ocid") val ocid: Ocid?
     ) : Serializable
+
 }

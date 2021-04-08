@@ -445,6 +445,27 @@ class AccessActionsTest {
         }
     }
 
+
+    @Nested
+    inner class CreateRelationToContractProcessStage {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CreateRelationToContractProcessStageAction.Params>("json/client/access/create_relation_to_contract_process_stage_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CreateRelationToContractProcessStageAction.Result>("json/client/access/create_relation_to_contract_process_stage_result_full.json")
+            }
+        }
+    }
+
     @Nested
     inner class CheckRelation {
 
@@ -675,6 +696,59 @@ class AccessActionsTest {
             @Test
             fun required1() {
                 testingBindingAndMapping<GetItemsByLotIdsAction.Result>("json/client/access/get_items_by_lot_ids_result_required_1.json")
+            }
+
+        }
+    }
+
+    @Nested
+    inner class ValidateRfqData {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<ValidateRfqDataAction.Params>("json/client/access/validate_rfq_data_params_full.json")
+            }
+
+            @Test
+            fun required1() {
+                testingBindingAndMapping<ValidateRfqDataAction.Params>("json/client/access/validate_rfq_data_params_required_1.json")
+            }
+        }
+    }
+
+    @Nested
+    inner class CreateRfq {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CreateRfqAction.Params>("json/client/access/create_rfq_params_full.json")
+            }
+
+            @Test
+            fun required1() {
+                testingBindingAndMapping<CreateRfqAction.Params>("json/client/access/create_rfq_params_required_1.json")
+            }
+
+            @Test
+            fun required2() {
+                testingBindingAndMapping<CreateRfqAction.Params>("json/client/access/create_rfq_params_required_2.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CreateRfqAction.Result>("json/client/access/create_rfq_result_full.json")
+            }
+
+            @Test
+            fun required1() {
+                testingBindingAndMapping<CreateRfqAction.Result>("json/client/access/create_rfq_result_required_1.json")
             }
 
         }

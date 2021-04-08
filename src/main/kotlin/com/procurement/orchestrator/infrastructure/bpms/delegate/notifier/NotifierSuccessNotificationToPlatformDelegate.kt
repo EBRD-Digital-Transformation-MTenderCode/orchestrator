@@ -181,6 +181,7 @@ class NotifierSuccessNotificationToPlatformDelegate(
             OperationTypeProcess.COMPLETE_SOURCING -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.CREATE_AWARD -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.CREATE_PCR -> "$tenderUri/$cpid"
+            OperationTypeProcess.CREATE_RFQ -> "$tenderUri/$cpid"
             OperationTypeProcess.CREATE_SUBMISSION -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.DECLARE_NON_CONFLICT_OF_INTEREST -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.DIVIDE_LOT -> "$tenderUri/$cpid/$ocid"

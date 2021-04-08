@@ -11,7 +11,9 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Chec
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckRelationAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CheckTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateCriteriaForProcuringEntityAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateRelationToContractProcessStageAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateRelationToOtherProcessAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateRfqAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.DivideLotAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindAuctionsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindCriteriaAction
@@ -31,6 +33,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.SetS
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateLotsDataForDivisionAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateRelatedTenderClassificationAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateRequirementResponsesAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.ValidateRfqDataAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.VerifyRequirementResponseAction
 
 object AccessCommands {
@@ -80,6 +83,8 @@ object AccessCommands {
 
     object CreateRelationToOtherProcess : CreateRelationToOtherProcessAction()
 
+    object CreateRelationToContractProcessStage : CreateRelationToContractProcessStageAction()
+
     object CheckRelation : CheckRelationAction()
 
     object CalculateAPValue : CalculateAPValueAction()
@@ -99,4 +104,8 @@ object AccessCommands {
     object AddClientsToPartiesInAP: AddClientsToPartiesInAPAction()
 
     object GetItemsByLotIds : GetItemsByLotIdsAction()
+
+    object ValidateRfqData : ValidateRfqDataAction()
+
+    object CreateRfq : CreateRfqAction()
 }

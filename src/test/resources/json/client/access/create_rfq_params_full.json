@@ -1,0 +1,82 @@
+{
+  "date": "2021-03-31T14:14:12Z",
+  "owner": "cb7bee35-de04-436a-9f3f-1441309f3d5c",
+  "tender": {
+    "lots": [
+      {
+        "id": "string",
+        "internalId": "string",
+        "title": "string",
+        "description": "string",
+        "value": {
+          "currency": "string"
+        },
+        "contractPeriod": {
+          "startDate": "2021-03-31T14:14:12Z",
+          "endDate": "2021-03-31T14:14:12Z"
+        },
+        "placeOfPerformance": {
+          "description": "string",
+          "address": {
+            "streetAddress": "string",
+            "postalCode": "string",
+            "addressDetails": {
+              "country": {
+                "id": "string",
+                "description": "string",
+                "scheme": "string",
+                "uri": "string"
+              },
+              "region": {
+                "id": "string",
+                "description": "string",
+                "scheme": "string",
+                "uri": "string"
+              },
+              "locality": {
+                "id": "string",
+                "description": "string",
+                "scheme": "string",
+                "uri": "string"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "items": [
+      {
+        "id": "string",
+        "internalId": "string",
+        "description": "string",
+        "classification": {
+          "id": "string",
+          "scheme": "string",
+          "description": "string"
+        },
+        "quantity": 0.000,
+        "unit": {
+          "id": "string",
+          "name": "string"
+        },
+        "relatedLot": "string"
+      }
+    ],
+    "electronicAuctions": {
+      "details": [
+        {
+          "id": "string",
+          "relatedLot": "string"
+        }
+      ]
+    },
+    "procurementMethodModalities": [
+      "electronicAuction"
+    ]
+  },
+  "cpid": "ocds-b3wdp1-MD-1580458690892",
+  "relatedCpid": "ocds-b3wdp1-MD-1580458690892",
+  "relatedOcid": "ocds-b3wdp1-MD-1580458690892-EV-1580458791896",
+  "additionalCpid": "ocds-b3wdp1-MD-1580458690892",
+  "additionalOcid": "ocds-b3wdp1-MD-1580458690892-EV-1580458791896"
+}

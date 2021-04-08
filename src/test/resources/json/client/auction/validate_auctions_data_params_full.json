@@ -1,4 +1,5 @@
 {
+  "operationType": "createRfq",
   "tender": {
     "electronicAuctions": {
       "details": [
@@ -17,7 +18,10 @@
     },
     "lots": [
       {
-        "id": "string"
+        "id": "string",
+        "value": {
+          "currency": "string"
+        }
       }
     ],
     "value": {

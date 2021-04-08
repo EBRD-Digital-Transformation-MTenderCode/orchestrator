@@ -1,0 +1,25 @@
+{
+  "operationType": "createRfq",
+  "tender": {
+    "electronicAuctions": {
+      "details": [
+        {
+          "id": "string",
+          "relatedLot": "string",
+          "electronicAuctionModalities": [
+            {
+              "eligibleMinimumDifference": {
+                "currency": "string"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "lots": [
+      {
+        "id": "string"
+      }
+    ]
+  }
+}

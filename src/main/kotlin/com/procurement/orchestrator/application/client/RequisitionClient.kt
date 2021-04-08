@@ -5,6 +5,7 @@ import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.CheckAccessToTenderAction
+import com.procurement.orchestrator.infrastructure.client.web.requisition.action.CheckItemsDataForRfqAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.CheckLotsStateAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.CheckTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.requisition.action.CreatePcrAction
@@ -54,6 +55,11 @@ interface RequisitionClient {
 
 
     suspend fun checkLotsState(id: CommandId, params: CheckLotsStateAction.Params): Result<Reply<Unit>, Fail.Incident>
+
+    suspend fun checkItemsDataForRfq(
+        id: CommandId,
+        params: CheckItemsDataForRfqAction.Params
+    ): Result<Reply<Unit>, Fail.Incident>
 
     suspend fun findProcurementMethodModalities(
         id: CommandId,

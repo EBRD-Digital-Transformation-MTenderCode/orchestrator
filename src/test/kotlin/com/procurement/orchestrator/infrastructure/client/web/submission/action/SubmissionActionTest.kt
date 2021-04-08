@@ -224,6 +224,25 @@ class SubmissionActionTest {
     }
 
     @Nested
+    inner class CreateInvitations {
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CreateInvitationsAction.Params>("json/client/submission/create_invitations_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CreateInvitationsAction.Result>("json/client/submission/create_invitations_result_full.json")
+            }
+        }
+    }
+
+    @Nested
     inner class FinalizeBidsByAwards {
         @Nested
         inner class Params {
