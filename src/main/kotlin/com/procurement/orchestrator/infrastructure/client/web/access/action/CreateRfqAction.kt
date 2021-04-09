@@ -293,7 +293,10 @@ abstract class CreateRfqAction : FunctionalAction<CreateRfqAction.Params, Create
 
             data class Item(
                 @param:JsonProperty("id") @field:JsonProperty("id") val id: ItemId,
-                @param:JsonProperty("internalId") @field:JsonProperty("internalId") val internalId: String,
+
+                @JsonInclude(JsonInclude.Include.NON_NULL)
+                @param:JsonProperty("internalId") @field:JsonProperty("internalId") val internalId: String?,
+
                 @param:JsonProperty("description") @field:JsonProperty("description") val description: String,
                 @param:JsonProperty("classification") @field:JsonProperty("classification") val classification: Classification,
                 @param:JsonProperty("quantity") @field:JsonProperty("quantity") val quantity: Quantity,
