@@ -3,7 +3,6 @@ package com.procurement.orchestrator.infrastructure.client.web.submission.action
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.procurement.orchestrator.application.service.ProceduralAction
 import com.procurement.orchestrator.domain.model.Cpid
-import com.procurement.orchestrator.domain.model.Ocid
 import com.procurement.orchestrator.domain.model.bid.BidId
 import com.procurement.orchestrator.domain.model.organization.OrganizationId
 import com.procurement.orchestrator.infrastructure.model.Version
@@ -14,7 +13,6 @@ abstract class CheckExistenceOfInvitationAction : ProceduralAction<CheckExistenc
 
     class Params(
         @param:JsonProperty("cpid") @field:JsonProperty("cpid") val cpid: Cpid,
-        @param:JsonProperty("ocid") @field:JsonProperty("ocid") val ocid: Ocid,
         @param:JsonProperty("bids") @field:JsonProperty("bids") val bids: Bids
     ) {
         data class Bids(

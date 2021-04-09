@@ -45,7 +45,6 @@ class SubmissionCheckExistenceOfInvitationDelegate(
             id = commandId,
             params = CheckExistenceOfInvitationAction.Params(
                 cpid = processInfo.cpid!!,
-                ocid = processInfo.ocid!!,
                 bids = CheckExistenceOfInvitationAction.Params.Bids(
                     details = CheckExistenceOfInvitationAction.Params.Bids.Detail(
                         id = detail.id,
