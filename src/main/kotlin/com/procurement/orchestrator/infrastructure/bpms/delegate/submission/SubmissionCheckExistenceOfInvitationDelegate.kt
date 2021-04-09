@@ -3,7 +3,7 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.submission
 import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.SubmissionClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
-import com.procurement.orchestrator.application.model.context.extension.tryGetBids
+import com.procurement.orchestrator.application.model.context.extension.getBidsDetailIfOnlyOne
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
@@ -38,7 +38,7 @@ class SubmissionCheckExistenceOfInvitationDelegate(
     ): Result<Reply<Unit>, Fail.Incident> {
 
         val processInfo = context.processInfo
-        val bids = context.tryGetBids()
+        val detail = context.bids.getBidsDetailIfOnlyOne()
             .orForwardFail { fail -> return fail }
 
         return client.checkExistenceOfInvitation(
@@ -47,14 +47,12 @@ class SubmissionCheckExistenceOfInvitationDelegate(
                 cpid = processInfo.cpid!!,
                 ocid = processInfo.ocid!!,
                 bids = CheckExistenceOfInvitationAction.Params.Bids(
-                    details = bids.details.map { detail ->
-                        CheckExistenceOfInvitationAction.Params.Bids.Detail(
-                            id = detail.id,
-                            tenderers = detail.tenderers.map { tenderer ->
-                                CheckExistenceOfInvitationAction.Params.Bids.Detail.Tenderer(id = tenderer.id)
-                            }
-                        )
-                    }
+                    details = CheckExistenceOfInvitationAction.Params.Bids.Detail(
+                        id = detail.id,
+                        tenderers = detail.tenderers.map { tenderer ->
+                            CheckExistenceOfInvitationAction.Params.Bids.Detail.Tenderer(id = tenderer.id)
+                        }
+                    ).let { listOf(it) }
                 )
             )
         )
