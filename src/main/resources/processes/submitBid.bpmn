@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1fyfy4i" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.7.3">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1fyfy4i" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.5.0">
   <bpmn:collaboration id="Collaboration_0tk4a7f">
     <bpmn:participant id="Participant_1lq96n5" name="SubmitBid" processRef="submitBid" />
   </bpmn:collaboration>
@@ -91,9 +91,34 @@
       <bpmn:incoming>Flow_089sdwq</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:serviceTask id="AccessGetCurrencyTask" name="eAccess: Get Currency" camunda:asyncBefore="true" camunda:delegateExpression="${accessGetTenderCurrencyDelegate}">
-      <bpmn:incoming>Flow_09xtkq3</bpmn:incoming>
+      <bpmn:incoming>Flow_1jqzpi3</bpmn:incoming>
       <bpmn:outgoing>Flow_0yf91jh</bpmn:outgoing>
     </bpmn:serviceTask>
+    <bpmn:serviceTask id="MdmGetRegistrationSchemesTask" name="MDM: Get Registration Schemes" camunda:asyncBefore="true" camunda:delegateExpression="${mdmGetRegistrationSchemesDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="location">bid</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0yf91jh</bpmn:incoming>
+      <bpmn:outgoing>Flow_0iu0nui</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0iu0nui" sourceRef="MdmGetRegistrationSchemesTask" targetRef="SubmissionValidateBidDataTask" />
+    <bpmn:sequenceFlow id="Flow_089sdwq" sourceRef="NotifierSuccessNotificationToPlatformTask" targetRef="Event_0dckla7" />
+    <bpmn:sequenceFlow id="Flow_10t58as" sourceRef="SubmissionCreateBidTask" targetRef="NotifierSuccessNotificationToPlatformTask" />
+    <bpmn:sequenceFlow id="Flow_1m1jrcr" sourceRef="BpeCreateIdsTask" targetRef="SubmissionCreateBidTask" />
+    <bpmn:sequenceFlow id="Flow_176ab7y" sourceRef="MdmEnrichLocalityTask" targetRef="BpeCreateIdsTask" />
+    <bpmn:sequenceFlow id="Flow_1d4fjuk" sourceRef="MdmEnrichRegionTask" targetRef="MdmEnrichLocalityTask" />
+    <bpmn:sequenceFlow id="Flow_0p8x73f" sourceRef="MdmEnrichCountryTask" targetRef="MdmEnrichRegionTask" />
+    <bpmn:sequenceFlow id="Flow_0wfhbkz" sourceRef="StorageCheckRegistrationDelegate" targetRef="MdmEnrichCountryTask" />
+    <bpmn:sequenceFlow id="Flow_0yf91jh" sourceRef="AccessGetCurrencyTask" targetRef="MdmGetRegistrationSchemesTask" />
+    <bpmn:sequenceFlow id="Flow_05nd22d" sourceRef="SubmissionValidateBidDataTask" targetRef="StorageCheckRegistrationDelegate" />
+    <bpmn:sequenceFlow id="Flow_1ymxbzs" name="RQ" sourceRef="Gateway_0t4giro" targetRef="SubmissionCheckExistenceOfInvitationTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${processInfo.stage == 'RQ'}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0orzz3n" sourceRef="SubmissionCheckExistenceOfInvitationTask" targetRef="Gateway_0yejng0" />
+    <bpmn:sequenceFlow id="Flow_1550v8v" sourceRef="Gateway_0t4giro" targetRef="Gateway_0yejng0" />
+    <bpmn:sequenceFlow id="Flow_1jqzpi3" sourceRef="Gateway_0yejng0" targetRef="AccessGetCurrencyTask" />
     <bpmn:serviceTask id="BpeInitializeSubmitBidProcessTask" name="BPE: Initialize submit bid process" camunda:asyncBefore="true" camunda:delegateExpression="${bpeInitializeSubmitBidProcessDelegate}">
       <bpmn:incoming>Flow_0yb2ror</bpmn:incoming>
       <bpmn:outgoing>Flow_157s91o</bpmn:outgoing>
@@ -113,20 +138,21 @@
         </camunda:inputOutput>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1vwukb0</bpmn:incoming>
-      <bpmn:outgoing>Flow_09xtkq3</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1sq7ox0</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:startEvent id="Event_1ogxxw2">
       <bpmn:outgoing>Flow_0yb2ror</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:serviceTask id="MdmGetRegistrationSchemesTask" name="MDM: Get Registration Schemes" camunda:asyncBefore="true" camunda:delegateExpression="${mdmGetRegistrationSchemesDelegate}">
-      <bpmn:extensionElements>
-        <camunda:inputOutput>
-          <camunda:inputParameter name="location">bid</camunda:inputParameter>
-        </camunda:inputOutput>
-      </bpmn:extensionElements>
-      <bpmn:incoming>Flow_0yf91jh</bpmn:incoming>
-      <bpmn:outgoing>Flow_0iu0nui</bpmn:outgoing>
-    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Gateway_0t4giro" name="stage?" default="Flow_1550v8v">
+      <bpmn:incoming>Flow_1sq7ox0</bpmn:incoming>
+      <bpmn:outgoing>Flow_1ymxbzs</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1550v8v</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_0yb2ror" sourceRef="Event_1ogxxw2" targetRef="BpeInitializeSubmitBidProcessTask" />
+    <bpmn:sequenceFlow id="Flow_157s91o" sourceRef="BpeInitializeSubmitBidProcessTask" targetRef="SubmissionCheckPeriodTask" />
+    <bpmn:sequenceFlow id="Flow_0c0xthe" sourceRef="SubmissionCheckPeriodTask" targetRef="AccessCheckTenderStateTask" />
+    <bpmn:sequenceFlow id="Flow_1vwukb0" sourceRef="AccessCheckTenderStateTask" targetRef="AccessCheckLotsStateTask" />
+    <bpmn:sequenceFlow id="Flow_1sq7ox0" sourceRef="AccessCheckLotsStateTask" targetRef="Gateway_0t4giro" />
     <bpmn:subProcess id="SubProcess_1wmmd8j" triggeredByEvent="true">
       <bpmn:startEvent id="StartEvent_1g22k6l" name="External Incident">
         <bpmn:extensionElements>
@@ -270,24 +296,23 @@
       <bpmn:sequenceFlow id="SequenceFlow_13x0xgv" sourceRef="StartEvent_1tsq2dv" targetRef="BpeValidationErrorDescriptionModifierTask" />
       <bpmn:sequenceFlow id="SequenceFlow_1rkzsub" sourceRef="NotifierValidationErrorNotificationToPlatformTask" targetRef="EndEvent_0jdvw2u" />
     </bpmn:subProcess>
-    <bpmn:sequenceFlow id="Flow_05nd22d" sourceRef="SubmissionValidateBidDataTask" targetRef="StorageCheckRegistrationDelegate" />
-    <bpmn:sequenceFlow id="Flow_0yf91jh" sourceRef="AccessGetCurrencyTask" targetRef="MdmGetRegistrationSchemesTask" />
-    <bpmn:sequenceFlow id="Flow_0wfhbkz" sourceRef="StorageCheckRegistrationDelegate" targetRef="MdmEnrichCountryTask" />
-    <bpmn:sequenceFlow id="Flow_0p8x73f" sourceRef="MdmEnrichCountryTask" targetRef="MdmEnrichRegionTask" />
-    <bpmn:sequenceFlow id="Flow_1d4fjuk" sourceRef="MdmEnrichRegionTask" targetRef="MdmEnrichLocalityTask" />
-    <bpmn:sequenceFlow id="Flow_176ab7y" sourceRef="MdmEnrichLocalityTask" targetRef="BpeCreateIdsTask" />
-    <bpmn:sequenceFlow id="Flow_1m1jrcr" sourceRef="BpeCreateIdsTask" targetRef="SubmissionCreateBidTask" />
-    <bpmn:sequenceFlow id="Flow_10t58as" sourceRef="SubmissionCreateBidTask" targetRef="NotifierSuccessNotificationToPlatformTask" />
-    <bpmn:sequenceFlow id="Flow_089sdwq" sourceRef="NotifierSuccessNotificationToPlatformTask" targetRef="Event_0dckla7" />
-    <bpmn:sequenceFlow id="Flow_0iu0nui" sourceRef="MdmGetRegistrationSchemesTask" targetRef="SubmissionValidateBidDataTask" />
-    <bpmn:sequenceFlow id="Flow_09xtkq3" sourceRef="AccessCheckLotsStateTask" targetRef="AccessGetCurrencyTask" />
-    <bpmn:sequenceFlow id="Flow_0yb2ror" sourceRef="Event_1ogxxw2" targetRef="BpeInitializeSubmitBidProcessTask" />
-    <bpmn:sequenceFlow id="Flow_157s91o" sourceRef="BpeInitializeSubmitBidProcessTask" targetRef="SubmissionCheckPeriodTask" />
-    <bpmn:sequenceFlow id="Flow_0c0xthe" sourceRef="SubmissionCheckPeriodTask" targetRef="AccessCheckTenderStateTask" />
-    <bpmn:sequenceFlow id="Flow_1vwukb0" sourceRef="AccessCheckTenderStateTask" targetRef="AccessCheckLotsStateTask" />
+    <bpmn:serviceTask id="SubmissionCheckExistenceOfInvitationTask" name="eSubmission: Check existence of invitation" camunda:asyncBefore="true" camunda:delegateExpression="${submissionCheckExistenceOfInvitationDelegate}">
+      <bpmn:incoming>Flow_1ymxbzs</bpmn:incoming>
+      <bpmn:outgoing>Flow_0orzz3n</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Gateway_0yejng0">
+      <bpmn:incoming>Flow_0orzz3n</bpmn:incoming>
+      <bpmn:incoming>Flow_1550v8v</bpmn:incoming>
+      <bpmn:outgoing>Flow_1jqzpi3</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
     <bpmn:textAnnotation id="TextAnnotation_1p3ksrl">
       <bpmn:text>Получение валюты тендера</bpmn:text>
     </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="TextAnnotation_0clivxa">
+      <bpmn:text>Получение схем регистрации для каждой страны компании</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_03huc8v" sourceRef="AccessGetCurrencyTask" targetRef="TextAnnotation_1p3ksrl" />
+    <bpmn:association id="Association_17pc9ur" sourceRef="MdmGetRegistrationSchemesTask" targetRef="TextAnnotation_0clivxa" />
     <bpmn:textAnnotation id="TextAnnotation_093nlnt">
       <bpmn:text>Проверка, что лот активный</bpmn:text>
     </bpmn:textAnnotation>
@@ -300,15 +325,10 @@
     <bpmn:textAnnotation id="TextAnnotation_13fkla4">
       <bpmn:text>Разлаживает данные с платформы в глобальный контекст</bpmn:text>
     </bpmn:textAnnotation>
-    <bpmn:textAnnotation id="TextAnnotation_0clivxa">
-      <bpmn:text>Получение схем регистрации для каждой страны компании</bpmn:text>
-    </bpmn:textAnnotation>
-    <bpmn:association id="Association_03huc8v" sourceRef="AccessGetCurrencyTask" targetRef="TextAnnotation_1p3ksrl" />
-    <bpmn:association id="Association_0ddfoyq" sourceRef="AccessCheckLotsStateTask" targetRef="TextAnnotation_093nlnt" />
+    <bpmn:association id="Association_0ouhwcf" sourceRef="BpeInitializeSubmitBidProcessTask" targetRef="TextAnnotation_13fkla4" />
     <bpmn:association id="Association_03mfavn" sourceRef="SubmissionCheckPeriodTask" targetRef="TextAnnotation_1colkfi" />
     <bpmn:association id="Association_0i0m97r" sourceRef="AccessCheckTenderStateTask" targetRef="TextAnnotation_1opvnm5" />
-    <bpmn:association id="Association_0ouhwcf" sourceRef="BpeInitializeSubmitBidProcessTask" targetRef="TextAnnotation_13fkla4" />
-    <bpmn:association id="Association_17pc9ur" sourceRef="MdmGetRegistrationSchemesTask" targetRef="TextAnnotation_0clivxa" />
+    <bpmn:association id="Association_0ddfoyq" sourceRef="AccessCheckLotsStateTask" targetRef="TextAnnotation_093nlnt" />
   </bpmn:process>
   <bpmn:error id="Error_1ba87d3" name="Internal Incident" errorCode="InternalIncident" />
   <bpmn:error id="Error_1o6crqp" name="External Incident" errorCode="ExternalIncident" />
@@ -316,255 +336,288 @@
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0tk4a7f">
       <bpmndi:BPMNShape id="Participant_1lq96n5_di" bpmnElement="Participant_1lq96n5" isHorizontal="true">
-        <dc:Bounds x="160" y="80" width="2000" height="400" />
+        <dc:Bounds x="130" y="80" width="2320" height="430" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_1p3ksrl_di" bpmnElement="TextAnnotation_1p3ksrl">
-        <dc:Bounds x="790" y="131" width="100" height="53" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_093nlnt_di" bpmnElement="TextAnnotation_093nlnt">
-        <dc:Bounds x="663" y="131" width="95" height="53" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_1colkfi_di" bpmnElement="TextAnnotation_1colkfi">
-        <dc:Bounds x="410" y="116" width="100" height="67" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_1opvnm5_di" bpmnElement="TextAnnotation_1opvnm5">
-        <dc:Bounds x="520" y="123" width="120" height="54" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_13fkla4_di" bpmnElement="TextAnnotation_13fkla4">
-        <dc:Bounds x="266" y="109" width="100" height="81" />
+        <dc:Bounds x="1080" y="131" width="100" height="53" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_0clivxa_di" bpmnElement="TextAnnotation_0clivxa">
-        <dc:Bounds x="905" y="124" width="130" height="68" />
+        <dc:Bounds x="1195" y="124" width="130" height="68" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="Flow_05nd22d_di" bpmnElement="Flow_05nd22d">
-        <di:waypoint x="1150" y="250" />
-        <di:waypoint x="1180" y="250" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0yf91jh_di" bpmnElement="Flow_0yf91jh">
-        <di:waypoint x="890" y="250" />
-        <di:waypoint x="920" y="250" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0wfhbkz_di" bpmnElement="Flow_0wfhbkz">
-        <di:waypoint x="1280" y="250" />
+      <bpmndi:BPMNShape id="TextAnnotation_093nlnt_di" bpmnElement="TextAnnotation_093nlnt">
+        <dc:Bounds x="633" y="131" width="95" height="53" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_1colkfi_di" bpmnElement="TextAnnotation_1colkfi">
+        <dc:Bounds x="380" y="116" width="100" height="67" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_1opvnm5_di" bpmnElement="TextAnnotation_1opvnm5">
+        <dc:Bounds x="490" y="123" width="120" height="54" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_13fkla4_di" bpmnElement="TextAnnotation_13fkla4">
+        <dc:Bounds x="236" y="109" width="100" height="81" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0iu0nui_di" bpmnElement="Flow_0iu0nui">
         <di:waypoint x="1310" y="250" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0p8x73f_di" bpmnElement="Flow_0p8x73f" bioc:stroke="black" bioc:fill="white">
-        <di:waypoint x="1410" y="250" />
-        <di:waypoint x="1440" y="250" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1d4fjuk_di" bpmnElement="Flow_1d4fjuk" bioc:stroke="black" bioc:fill="white">
-        <di:waypoint x="1540" y="250" />
-        <di:waypoint x="1570" y="250" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_176ab7y_di" bpmnElement="Flow_176ab7y">
-        <di:waypoint x="1670" y="250" />
-        <di:waypoint x="1700" y="250" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1m1jrcr_di" bpmnElement="Flow_1m1jrcr">
-        <di:waypoint x="1800" y="250" />
-        <di:waypoint x="1830" y="250" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_10t58as_di" bpmnElement="Flow_10t58as">
-        <di:waypoint x="1930" y="250" />
-        <di:waypoint x="1960" y="250" />
+        <di:waypoint x="1340" y="250" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_089sdwq_di" bpmnElement="Flow_089sdwq" bioc:stroke="black" bioc:fill="white">
-        <di:waypoint x="2060" y="250" />
-        <di:waypoint x="2102" y="250" />
+        <di:waypoint x="2350" y="250" />
+        <di:waypoint x="2392" y="250" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0iu0nui_di" bpmnElement="Flow_0iu0nui">
-        <di:waypoint x="1020" y="250" />
-        <di:waypoint x="1050" y="250" />
+      <bpmndi:BPMNEdge id="Flow_10t58as_di" bpmnElement="Flow_10t58as">
+        <di:waypoint x="2220" y="250" />
+        <di:waypoint x="2250" y="250" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_09xtkq3_di" bpmnElement="Flow_09xtkq3">
-        <di:waypoint x="760" y="250" />
-        <di:waypoint x="790" y="250" />
+      <bpmndi:BPMNEdge id="Flow_1m1jrcr_di" bpmnElement="Flow_1m1jrcr">
+        <di:waypoint x="2090" y="250" />
+        <di:waypoint x="2120" y="250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_176ab7y_di" bpmnElement="Flow_176ab7y">
+        <di:waypoint x="1960" y="250" />
+        <di:waypoint x="1990" y="250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1d4fjuk_di" bpmnElement="Flow_1d4fjuk" bioc:stroke="black" bioc:fill="white">
+        <di:waypoint x="1830" y="250" />
+        <di:waypoint x="1860" y="250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0p8x73f_di" bpmnElement="Flow_0p8x73f" bioc:stroke="black" bioc:fill="white">
+        <di:waypoint x="1700" y="250" />
+        <di:waypoint x="1730" y="250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0wfhbkz_di" bpmnElement="Flow_0wfhbkz">
+        <di:waypoint x="1570" y="250" />
+        <di:waypoint x="1600" y="250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0yf91jh_di" bpmnElement="Flow_0yf91jh">
+        <di:waypoint x="1180" y="250" />
+        <di:waypoint x="1210" y="250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_05nd22d_di" bpmnElement="Flow_05nd22d">
+        <di:waypoint x="1440" y="250" />
+        <di:waypoint x="1470" y="250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ymxbzs_di" bpmnElement="Flow_1ymxbzs">
+        <di:waypoint x="815" y="250" />
+        <di:waypoint x="870" y="250" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="831" y="223" width="17" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0orzz3n_di" bpmnElement="Flow_0orzz3n">
+        <di:waypoint x="970" y="250" />
+        <di:waypoint x="1005" y="250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1550v8v_di" bpmnElement="Flow_1550v8v">
+        <di:waypoint x="790" y="275" />
+        <di:waypoint x="790" y="320" />
+        <di:waypoint x="1030" y="320" />
+        <di:waypoint x="1030" y="275" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1jqzpi3_di" bpmnElement="Flow_1jqzpi3">
+        <di:waypoint x="1055" y="250" />
+        <di:waypoint x="1080" y="250" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0yb2ror_di" bpmnElement="Flow_0yb2ror">
-        <di:waypoint x="248" y="250" />
-        <di:waypoint x="270" y="250" />
+        <di:waypoint x="218" y="250" />
+        <di:waypoint x="240" y="250" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_157s91o_di" bpmnElement="Flow_157s91o">
+        <di:waypoint x="340" y="250" />
         <di:waypoint x="370" y="250" />
-        <di:waypoint x="400" y="250" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0c0xthe_di" bpmnElement="Flow_0c0xthe">
+        <di:waypoint x="470" y="250" />
         <di:waypoint x="500" y="250" />
-        <di:waypoint x="530" y="250" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1vwukb0_di" bpmnElement="Flow_1vwukb0">
+        <di:waypoint x="600" y="250" />
         <di:waypoint x="630" y="250" />
-        <di:waypoint x="660" y="250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1sq7ox0_di" bpmnElement="Flow_1sq7ox0">
+        <di:waypoint x="730" y="250" />
+        <di:waypoint x="765" y="250" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Activity_0t89ykm_di" bpmnElement="SubmissionValidateBidDataTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="1050" y="210" width="100" height="80" />
+        <dc:Bounds x="1340" y="210" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1oyanlh_di" bpmnElement="StorageCheckRegistrationDelegate" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="1180" y="210" width="100" height="80" />
+        <dc:Bounds x="1470" y="210" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1whpb8m_di" bpmnElement="MdmEnrichCountryTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="1310" y="210" width="100" height="80" />
+        <dc:Bounds x="1600" y="210" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1pr107b_di" bpmnElement="MdmEnrichRegionTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="1440" y="210" width="100" height="80" />
+        <dc:Bounds x="1730" y="210" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_050sidv_di" bpmnElement="MdmEnrichLocalityTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="1570" y="210" width="100" height="80" />
+        <dc:Bounds x="1860" y="210" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1gbnhl5_di" bpmnElement="SubmissionCreateBidTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="1830" y="210" width="100" height="80" />
+        <dc:Bounds x="2120" y="210" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1nmyz1d_di" bpmnElement="BpeCreateIdsTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="1700" y="210" width="100" height="80" />
+        <dc:Bounds x="1990" y="210" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0bkniyv_di" bpmnElement="NotifierSuccessNotificationToPlatformTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="1960" y="210" width="100" height="80" />
+        <dc:Bounds x="2250" y="210" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0dckla7_di" bpmnElement="Event_0dckla7" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="2102" y="232" width="36" height="36" />
+        <dc:Bounds x="2392" y="232" width="36" height="36" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0rfc2ic_di" bpmnElement="AccessGetCurrencyTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="790" y="210" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0pykwul_di" bpmnElement="BpeInitializeSubmitBidProcessTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="270" y="210" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_15r1flr_di" bpmnElement="SubmissionCheckPeriodTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="400" y="210" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1q9iwa0_di" bpmnElement="AccessCheckTenderStateTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="530" y="210" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0rk479x_di" bpmnElement="AccessCheckLotsStateTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="660" y="210" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1ogxxw2_di" bpmnElement="Event_1ogxxw2">
-        <dc:Bounds x="212" y="232" width="36" height="36" />
+        <dc:Bounds x="1080" y="210" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0pr03zq_di" bpmnElement="MdmGetRegistrationSchemesTask">
-        <dc:Bounds x="920" y="210" width="100" height="80" />
+        <dc:Bounds x="1210" y="210" width="100" height="80" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0pykwul_di" bpmnElement="BpeInitializeSubmitBidProcessTask" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="240" y="210" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_15r1flr_di" bpmnElement="SubmissionCheckPeriodTask" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="370" y="210" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1q9iwa0_di" bpmnElement="AccessCheckTenderStateTask" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="500" y="210" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0rk479x_di" bpmnElement="AccessCheckLotsStateTask" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="630" y="210" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1ogxxw2_di" bpmnElement="Event_1ogxxw2">
+        <dc:Bounds x="182" y="232" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0t4giro_di" bpmnElement="Gateway_0t4giro" isMarkerVisible="true">
+        <dc:Bounds x="765" y="225" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="774" y="203" width="34" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1orbcvj_di" bpmnElement="SubmissionCheckExistenceOfInvitationTask" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="870" y="210" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0yejng0_di" bpmnElement="Gateway_0yejng0" isMarkerVisible="true">
+        <dc:Bounds x="1005" y="225" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_03huc8v_di" bpmnElement="Association_03huc8v">
+        <di:waypoint x="1130" y="210" />
+        <di:waypoint x="1130" y="184" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_17pc9ur_di" bpmnElement="Association_17pc9ur">
+        <di:waypoint x="1260" y="210" />
+        <di:waypoint x="1260" y="192" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0ouhwcf_di" bpmnElement="Association_0ouhwcf">
+        <di:waypoint x="289" y="210" />
+        <di:waypoint x="288" y="190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_03mfavn_di" bpmnElement="Association_03mfavn">
+        <di:waypoint x="420" y="210" />
+        <di:waypoint x="420" y="183" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0i0m97r_di" bpmnElement="Association_0i0m97r">
+        <di:waypoint x="550" y="210" />
+        <di:waypoint x="550" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0ddfoyq_di" bpmnElement="Association_0ddfoyq">
+        <di:waypoint x="679" y="210" />
+        <di:waypoint x="679" y="184" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="SubProcess_1wmmd8j_di" bpmnElement="SubProcess_1wmmd8j" isExpanded="true">
-        <dc:Bounds x="1000" y="320" width="440" height="140" />
+        <dc:Bounds x="1110" y="342" width="440" height="140" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1yf3zm3_di" bpmnElement="SequenceFlow_1yf3zm3">
-        <di:waypoint x="1075" y="391" />
-        <di:waypoint x="1110" y="391" />
+        <di:waypoint x="1185" y="413" />
+        <di:waypoint x="1220" y="413" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0szsd9n_di" bpmnElement="SequenceFlow_0szsd9n">
-        <di:waypoint x="1350" y="391" />
-        <di:waypoint x="1382" y="391" />
+        <di:waypoint x="1460" y="413" />
+        <di:waypoint x="1492" y="413" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_09sttfu_di" bpmnElement="SequenceFlow_09sttfu">
-        <di:waypoint x="1210" y="391" />
-        <di:waypoint x="1250" y="391" />
+        <di:waypoint x="1320" y="413" />
+        <di:waypoint x="1360" y="413" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="StartEvent_1g22k6l_di" bpmnElement="StartEvent_1g22k6l" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
-        <dc:Bounds x="1039" y="373" width="36" height="36" />
+        <dc:Bounds x="1149" y="395" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1020" y="416" width="83" height="14" />
+          <dc:Bounds x="1130" y="438" width="83" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_1hkyank_di" bpmnElement="RecoveryAfterExternalIncidentTask">
-        <dc:Bounds x="1250" y="351" width="100" height="80" />
+        <dc:Bounds x="1360" y="373" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="EndEvent_0v03kov_di" bpmnElement="EndEvent_0v03kov">
-        <dc:Bounds x="1382" y="373" width="36" height="36" />
+        <dc:Bounds x="1492" y="395" width="36" height="36" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="UserTask_13tt3jb_di" bpmnElement="FixExternalIncidentTask">
-        <dc:Bounds x="1110" y="351" width="100" height="80" />
+        <dc:Bounds x="1220" y="373" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="SubProcess_1w3xcla_di" bpmnElement="SubProcess_1w3xcla" isExpanded="true">
-        <dc:Bounds x="350" y="320" width="610" height="140" />
+        <dc:Bounds x="460" y="342" width="610" height="140" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0b7e3cd_di" bpmnElement="SequenceFlow_0b7e3cd">
-        <di:waypoint x="428" y="389" />
-        <di:waypoint x="470" y="389" />
+        <di:waypoint x="538" y="411" />
+        <di:waypoint x="580" y="411" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1cctwea_di" bpmnElement="SequenceFlow_1cctwea">
-        <di:waypoint x="850" y="389" />
-        <di:waypoint x="892" y="389" />
+        <di:waypoint x="960" y="411" />
+        <di:waypoint x="1002" y="411" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1cwyrj4_di" bpmnElement="SequenceFlow_1cwyrj4">
-        <di:waypoint x="570" y="389" />
-        <di:waypoint x="610" y="389" />
+        <di:waypoint x="680" y="411" />
+        <di:waypoint x="720" y="411" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_06c6pht_di" bpmnElement="SequenceFlow_06c6pht">
-        <di:waypoint x="710" y="389" />
-        <di:waypoint x="750" y="389" />
+        <di:waypoint x="820" y="411" />
+        <di:waypoint x="860" y="411" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="StartEvent_0w91vyo_di" bpmnElement="StartEvent_0w91vyo" bioc:stroke="rgb(142, 36, 170)" bioc:fill="rgb(225, 190, 231)">
-        <dc:Bounds x="392" y="371" width="36" height="36" />
+        <dc:Bounds x="502" y="393" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="371" y="414" width="80" height="14" />
+          <dc:Bounds x="481" y="436" width="80" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_12agrtf_di" bpmnElement="RecoveryAfterInternalIncidentTask">
-        <dc:Bounds x="750" y="349" width="100" height="80" />
+        <dc:Bounds x="860" y="371" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="EndEvent_0u0diwq_di" bpmnElement="EndEvent_0u0diwq">
-        <dc:Bounds x="892" y="371" width="36" height="36" />
+        <dc:Bounds x="1002" y="393" width="36" height="36" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_1ckq1fz_di" bpmnElement="NotifierBpeIncidentTask">
-        <dc:Bounds x="470" y="349" width="100" height="80" />
+        <dc:Bounds x="580" y="371" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="UserTask_02y6m6s_di" bpmnElement="FixInternalIncidentTask">
-        <dc:Bounds x="610" y="349" width="100" height="80" />
+        <dc:Bounds x="720" y="371" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="SubProcess_0u1ola3_di" bpmnElement="SubProcess_0u1ola3" isExpanded="true">
-        <dc:Bounds x="1480" y="320" width="440" height="140" />
+        <dc:Bounds x="1590" y="342" width="440" height="140" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1rkzsub_di" bpmnElement="SequenceFlow_1rkzsub">
-        <di:waypoint x="1830" y="388" />
-        <di:waypoint x="1862" y="388" />
+        <di:waypoint x="1940" y="410" />
+        <di:waypoint x="1972" y="410" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_13x0xgv_di" bpmnElement="SequenceFlow_13x0xgv">
-        <di:waypoint x="1556" y="388" />
-        <di:waypoint x="1590" y="388" />
+        <di:waypoint x="1666" y="410" />
+        <di:waypoint x="1700" y="410" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_19seako_di" bpmnElement="SequenceFlow_19seako">
-        <di:waypoint x="1690" y="388" />
-        <di:waypoint x="1730" y="388" />
+        <di:waypoint x="1800" y="410" />
+        <di:waypoint x="1840" y="410" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="EndEvent_0jdvw2u_di" bpmnElement="EndEvent_0jdvw2u">
-        <dc:Bounds x="1862" y="370" width="36" height="36" />
+        <dc:Bounds x="1972" y="392" width="36" height="36" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="StartEvent_1tsq2dv_di" bpmnElement="StartEvent_1tsq2dv" bioc:stroke="rgb(251, 140, 0)" bioc:fill="rgb(255, 224, 178)">
-        <dc:Bounds x="1520" y="370" width="36" height="36" />
+        <dc:Bounds x="1630" y="392" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1496" y="413" width="84" height="14" />
+          <dc:Bounds x="1606" y="435" width="84" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_12q2l4e_di" bpmnElement="BpeValidationErrorDescriptionModifierTask">
-        <dc:Bounds x="1590" y="348" width="100" height="80" />
+        <dc:Bounds x="1700" y="370" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_0x5mfg2_di" bpmnElement="NotifierValidationErrorNotificationToPlatformTask">
-        <dc:Bounds x="1730" y="348" width="100" height="80" />
+        <dc:Bounds x="1840" y="370" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="Association_03huc8v_di" bpmnElement="Association_03huc8v">
-        <di:waypoint x="840" y="210" />
-        <di:waypoint x="840" y="184" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Association_0ouhwcf_di" bpmnElement="Association_0ouhwcf">
-        <di:waypoint x="319" y="210" />
-        <di:waypoint x="318" y="190" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Association_03mfavn_di" bpmnElement="Association_03mfavn">
-        <di:waypoint x="450" y="210" />
-        <di:waypoint x="450" y="183" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Association_0i0m97r_di" bpmnElement="Association_0i0m97r">
-        <di:waypoint x="580" y="210" />
-        <di:waypoint x="580" y="180" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Association_0ddfoyq_di" bpmnElement="Association_0ddfoyq">
-        <di:waypoint x="709" y="210" />
-        <di:waypoint x="709" y="184" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Association_17pc9ur_di" bpmnElement="Association_17pc9ur">
-        <di:waypoint x="970" y="210" />
-        <di:waypoint x="970" y="192" />
-      </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn:definitions>
