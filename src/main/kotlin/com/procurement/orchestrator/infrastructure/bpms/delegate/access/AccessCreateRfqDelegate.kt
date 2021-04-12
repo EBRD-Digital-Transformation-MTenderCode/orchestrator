@@ -328,7 +328,7 @@ class AccessCreateRfqDelegate(
         val details = outcomes[platformId] ?: Outcomes.Details()
 
         val newOutcomes = result
-            .let { rq -> Outcomes.Details.RequestQuotation(id = rq.ocid, token = null) }
+            .let { rq -> Outcomes.Details.RequestQuotation(id = rq.ocid) }
 
         val updatedDetails = details.copy(rq = listOf(newOutcomes))
         outcomes[platformId] = updatedDetails

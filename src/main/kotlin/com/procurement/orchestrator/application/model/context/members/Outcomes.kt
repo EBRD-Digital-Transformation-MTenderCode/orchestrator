@@ -89,10 +89,7 @@ class Outcomes(values: MutableMap<PlatformId, Details> = mutableMapOf()) :
         ) : Serializable
 
         data class RequestQuotation(
-            @field:JsonProperty("id") @param:JsonProperty("id") val id: Ocid,
-
-            @JsonInclude(JsonInclude.Include.NON_NULL)
-            @field:JsonProperty("token") @param:JsonProperty("token") val token: Token?
+            @field:JsonProperty("id") @param:JsonProperty("id") val id: Ocid
         ) : Serializable
     }
 }
