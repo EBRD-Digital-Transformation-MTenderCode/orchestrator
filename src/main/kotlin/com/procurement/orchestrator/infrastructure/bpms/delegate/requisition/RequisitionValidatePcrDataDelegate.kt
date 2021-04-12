@@ -229,6 +229,13 @@ class RequisitionValidatePcrDataDelegate(
                         relatedLots = document.relatedLots.toList()
                     )
                 },
-            mainProcurementCategory = tender.mainProcurementCategory
+            mainProcurementCategory = tender.mainProcurementCategory,
+            electronicAuctions = tender.electronicAuctions?.let { electronicAuctions ->
+                ValidatePcrDataAction.Params.Tender.ElectronicAuctions(
+                    details = electronicAuctions.details.map { detail ->
+                        ValidatePcrDataAction.Params.Tender.ElectronicAuctions.Detail(detail.id)
+                    }
+                )
+            }
         )
 }

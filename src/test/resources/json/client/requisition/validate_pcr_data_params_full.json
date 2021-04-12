@@ -141,7 +141,14 @@
     ],
     "awardCriteria": "priceOnly",
     "awardCriteriaDetails": "automated",
-    "mainProcurementCategory": "goods"
+    "mainProcurementCategory": "goods",
+    "electronicAuctions": {
+      "details": [
+        {
+          "id": "string"
+        }
+      ]
+    }
   },
   "pmd": "CF",
   "country": "string",
