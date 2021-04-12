@@ -1,0 +1,15 @@
+{
+  "cpid": "ocds-b3wdp1-MD-1580458690892",
+  "bids": {
+    "details": [
+      {
+        "id": "string",
+        "tenderers": [
+          {
+            "id": "string"
+          }
+        ]
+      }
+    ]
+  }
+}
