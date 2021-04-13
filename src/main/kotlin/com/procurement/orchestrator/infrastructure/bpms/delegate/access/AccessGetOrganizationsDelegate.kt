@@ -101,7 +101,7 @@ class AccessGetOrganizationsDelegate(
                 Fail.Incident.Response.Empty(service = ExternalServiceName.ACCESS, action = AccessCommands.GetOrganizations)
             )
 
-        val party = buildParty(data, parameters)
+        val party = buildParty(data)
         context.parties = Parties(party.asList())
 
         return MaybeFail.none()
@@ -109,7 +109,7 @@ class AccessGetOrganizationsDelegate(
 
     class Parameters(val role: PartyRole)
 
-    private fun buildParty(data: GetOrganizationsAction.Result, parameters: Parameters) = Party(
+    private fun buildParty(data: GetOrganizationsAction.Result) = Party(
         id = data.id,
         name = data.name,
         roles = PartyRoles(),
