@@ -220,6 +220,8 @@ class AccessCreateRfqDelegate(
             date = receivedTender.date,
             awardCriteria = receivedTender.awardCriteria,
             awardCriteriaDetails = receivedTender.awardCriteriaDetails,
+            value = receivedTender.value
+                .let { value -> Value(currency = value.currency) },
             lots = receivedTender.lots.map { lot ->
                 Lot(
                     id = lot.id,
@@ -306,7 +308,7 @@ class AccessCreateRfqDelegate(
                 )
             }.let { Items(it) },
             electronicAuctions = tender.electronicAuctions?.updateBy(receivedElectronicAuctions)
-                    ?: receivedElectronicAuctions.takeIf { it.details.isNotEmpty() }
+                ?: receivedElectronicAuctions.takeIf { it.details.isNotEmpty() }
         )
     }
 

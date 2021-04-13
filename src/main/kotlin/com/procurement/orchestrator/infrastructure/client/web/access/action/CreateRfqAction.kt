@@ -218,8 +218,14 @@ abstract class CreateRfqAction : FunctionalAction<CreateRfqAction.Params, Create
             @param:JsonProperty("procurementMethodModalities") @field:JsonProperty("procurementMethodModalities") val procurementMethodModalities: List<String>?,
 
             @param:JsonProperty("awardCriteria") @field:JsonProperty("awardCriteria") val awardCriteria: AwardCriteria,
-            @param:JsonProperty("awardCriteriaDetails") @field:JsonProperty("awardCriteriaDetails") val awardCriteriaDetails: AwardCriteriaDetails
+            @param:JsonProperty("awardCriteriaDetails") @field:JsonProperty("awardCriteriaDetails") val awardCriteriaDetails: AwardCriteriaDetails,
+            @param:JsonProperty("value") @field:JsonProperty("value") val value: Value
         ) : Serializable {
+
+            data class Value(
+                @param:JsonProperty("currency") @field:JsonProperty("currency") val currency: String
+            )
+
             data class Lot(
                 @param:JsonProperty("id") @field:JsonProperty("id") val id: LotId,
 
