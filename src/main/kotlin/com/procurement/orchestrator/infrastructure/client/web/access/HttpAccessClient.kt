@@ -28,7 +28,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.GetI
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotStateByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotsValueAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetMainProcurementCategoryAction
-import com.procurement.orchestrator.infrastructure.client.web.access.action.GetOrganizationAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.GetOrganizationsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetQualificationCriteriaAndMethodAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetTenderCurrencyAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetTenderStateAction
@@ -128,13 +128,13 @@ class HttpAccessClient(private val webClient: WebClient, properties: ComponentPr
         target = AccessCommands.SetStateForLots.target
     )
 
-    override suspend fun getOrganization(
+    override suspend fun getOrganizations(
         id: CommandId,
-        params: GetOrganizationAction.Params
-    ): Result<Reply<GetOrganizationAction.Result>, Fail.Incident> = webClient.call(
+        params: GetOrganizationsAction.Params
+    ): Result<Reply<GetOrganizationsAction.Result>, Fail.Incident> = webClient.call(
         url = url,
-        command = AccessCommands.GetOrganization.build(id = id, params = params),
-        target = AccessCommands.GetOrganization.target
+        command = AccessCommands.GetOrganizations.build(id = id, params = params),
+        target = AccessCommands.GetOrganizations.target
     )
 
     override suspend fun createCriteriaForProcuringEntity(

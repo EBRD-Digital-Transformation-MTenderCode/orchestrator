@@ -38,17 +38,17 @@ import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContai
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.access.AccessCommands
-import com.procurement.orchestrator.infrastructure.client.web.access.action.GetOrganizationAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.GetOrganizationsAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ExternalServiceName
 import org.springframework.stereotype.Component
 
 @Component
-class AccessGetOrganizationDelegate(
+class AccessGetOrganizationsDelegate(
     logger: Logger,
     private val accessClient: AccessClient,
     operationStepRepository: OperationStepRepository,
     transform: Transform
-) : AbstractExternalDelegate<AccessGetOrganizationDelegate.Parameters, GetOrganizationAction.Result>(
+) : AbstractExternalDelegate<AccessGetOrganizationsDelegate.Parameters, GetOrganizationsAction.Result>(
     logger = logger,
     transform = transform,
     operationStepRepository = operationStepRepository
@@ -77,12 +77,12 @@ class AccessGetOrganizationDelegate(
         commandId: CommandId,
         context: CamundaGlobalContext,
         parameters: Parameters
-    ): Result<Reply<GetOrganizationAction.Result>, Fail.Incident> {
+    ): Result<Reply<GetOrganizationsAction.Result>, Fail.Incident> {
 
         val processInfo = context.processInfo
-        return accessClient.getOrganization(
+        return accessClient.getOrganizations(
             id = commandId,
-            params = GetOrganizationAction.Params(
+            params = GetOrganizationsAction.Params(
                 cpid = processInfo.cpid!!,
                 ocid = processInfo.ocid!!,
                 role = parameters.role
@@ -93,12 +93,12 @@ class AccessGetOrganizationDelegate(
     override fun updateGlobalContext(
         context: CamundaGlobalContext,
         parameters: Parameters,
-        result: Option<GetOrganizationAction.Result>
+        result: Option<GetOrganizationsAction.Result>
     ): MaybeFail<Fail.Incident> {
 
         val data = result.orNull
             ?: return MaybeFail.fail(
-                Fail.Incident.Response.Empty(service = ExternalServiceName.ACCESS, action = AccessCommands.GetOrganization)
+                Fail.Incident.Response.Empty(service = ExternalServiceName.ACCESS, action = AccessCommands.GetOrganizations)
             )
 
         val party = buildParty(data, parameters)
@@ -109,7 +109,7 @@ class AccessGetOrganizationDelegate(
 
     class Parameters(val role: PartyRole)
 
-    private fun buildParty(data: GetOrganizationAction.Result, parameters: Parameters) = Party(
+    private fun buildParty(data: GetOrganizationsAction.Result, parameters: Parameters) = Party(
         id = data.id,
         name = data.name,
         roles = PartyRoles(),
