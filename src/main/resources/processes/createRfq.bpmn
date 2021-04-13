@@ -21,6 +21,11 @@
       <bpmn:outgoing>Flow_0w5lhkc</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="AccessCheckRelationWithAdditionalProcessTask" name="eAccess:&#10;Check relation with additional process" camunda:asyncBefore="true" camunda:delegateExpression="${accessCheckRelationWithAdditionalProcessDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="existenceRelation">true</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
       <bpmn:incoming>Flow_0w5lhkc</bpmn:incoming>
       <bpmn:outgoing>Flow_0ifoavt</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -611,9 +616,6 @@
       <bpmndi:BPMNShape id="Activity_1uh2xxi_di" bpmnElement="AccessCreateRfqTask" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="1960" y="230" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1267shx_di" bpmnElement="SubmissionCreateInvitationsTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="2090" y="230" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_05jsb57_di" bpmnElement="Activity_05jsb57" isExpanded="true">
         <dc:Bounds x="1630" y="412" width="440" height="140" />
       </bpmndi:BPMNShape>
@@ -710,6 +712,9 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_18trv1v_di" bpmnElement="NotifierValidationErrorNotificationToPlatformTask">
         <dc:Bounds x="2360" y="440" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1267shx_di" bpmnElement="SubmissionCreateInvitationsTask" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="2090" y="230" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_1s6myqv_di" bpmnElement="TextAnnotation_1s6myqv">
         <dc:Bounds x="3030" y="160" width="99.98924268502583" height="53.35628227194492" />
