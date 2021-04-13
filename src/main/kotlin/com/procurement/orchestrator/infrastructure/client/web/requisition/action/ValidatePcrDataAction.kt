@@ -17,6 +17,7 @@ import com.procurement.orchestrator.domain.model.tender.AwardCriteria
 import com.procurement.orchestrator.domain.model.tender.AwardCriteriaDetails
 import com.procurement.orchestrator.domain.model.tender.ProcurementCategory
 import com.procurement.orchestrator.domain.model.tender.ProcurementMethodModality
+import com.procurement.orchestrator.domain.model.tender.auction.AuctionId
 import com.procurement.orchestrator.domain.model.tender.conversion.ConversionId
 import com.procurement.orchestrator.domain.model.tender.conversion.ConversionsRelatesTo
 import com.procurement.orchestrator.domain.model.tender.conversion.coefficient.CoefficientRate
@@ -85,8 +86,10 @@ abstract class ValidatePcrDataAction : ProceduralAction<ValidatePcrDataAction.Pa
             @field:JsonProperty("conversions") @param:JsonProperty("conversions") val conversions: List<Conversion>?,
 
             @JsonInclude(JsonInclude.Include.NON_NULL)
-            @field:JsonProperty("mainProcurementCategory") @param:JsonProperty("mainProcurementCategory") val mainProcurementCategory: ProcurementCategory?
+            @field:JsonProperty("mainProcurementCategory") @param:JsonProperty("mainProcurementCategory") val mainProcurementCategory: ProcurementCategory?,
 
+            @JsonInclude(JsonInclude.Include.NON_NULL)
+            @field:JsonProperty("electronicAuctions") @param:JsonProperty("electronicAuctions") val electronicAuctions: ElectronicAuctions?
         ) {
 
             data class Classification(
@@ -294,6 +297,14 @@ abstract class ValidatePcrDataAction : ProceduralAction<ValidatePcrDataAction.Pa
                 @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
                 @field:JsonProperty("relatedLots") @param:JsonProperty("relatedLots") val relatedLots: List<LotId>?
             )
+
+            data class ElectronicAuctions(
+                @field:JsonProperty("details") @param:JsonProperty("details") val details: List<Detail>
+            ) {
+                data class Detail(
+                    @field:JsonProperty("id") @param:JsonProperty("id") val id: AuctionId
+                )
+            }
         }
 
         data class Mdm(
