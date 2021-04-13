@@ -63,6 +63,8 @@ public class BpeAnalyzeProcurementMethod implements JavaDelegate {
             case TEST_SV:
             case MV:
             case TEST_MV:
+            case RFQ:
+            case TEST_RFQ:
             case RT:
             case TEST_RT:
             case GPA:
