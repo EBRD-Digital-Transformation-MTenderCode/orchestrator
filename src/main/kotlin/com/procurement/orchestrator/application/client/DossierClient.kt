@@ -6,6 +6,7 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.CheckAccessToSubmissionAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.CheckPeriodAction
+import com.procurement.orchestrator.infrastructure.client.web.dossier.action.CheckPresenceCandidateInOneSubmissionAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.CreateSubmissionAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.FinalizeSubmissionsAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.FindSubmissionsAction
@@ -90,4 +91,9 @@ interface DossierClient {
         id: CommandId,
         params: GetSubmissionsForTenderingAction.Params
     ): Result<Reply<GetSubmissionsForTenderingAction.Result>, Fail.Incident>
+
+    suspend fun checkPresenceCandidateInOneSubmission(
+        id: CommandId,
+        params: CheckPresenceCandidateInOneSubmissionAction.Params
+    ): Result<Reply<Unit>, Fail.Incident>
 }
