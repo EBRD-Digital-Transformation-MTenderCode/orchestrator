@@ -16,9 +16,9 @@ import com.procurement.orchestrator.infrastructure.model.Version
 import java.io.Serializable
 import java.time.LocalDateTime
 
-abstract class GetOrganizationAction : FunctionalAction<GetOrganizationAction.Params, GetOrganizationAction.Result> {
+abstract class GetOrganizationsAction : FunctionalAction<GetOrganizationsAction.Params, GetOrganizationsAction.Result> {
     override val version: Version = Version.parse("2.0.0")
-    override val name: String = "getOrganization"
+    override val name: String = "getOrganizations"
     override val target: Target<Result> = Target.single()
 
     class Params(
