@@ -62,7 +62,7 @@ public class AccessCreateFE implements JavaDelegate {
 
             final JsonNode responseData = processService.processResponse(response, context, processId, taskId, commandMessage);
             if (responseData != null) {
-                final JsonNode step = replaceTender(jsonData, responseData, processId);
+                final JsonNode step = updateJsonData(jsonData, responseData, processId);
                 if (LOG.isDebugEnabled())
                     LOG.debug("STEP FOR SAVE (" + context.getOperationId() + "): '" + jsonUtil.toJsonOrEmpty(step) + "'.");
 
@@ -75,11 +75,12 @@ public class AccessCreateFE implements JavaDelegate {
         }
     }
 
-    private JsonNode replaceTender(JsonNode jsonData, JsonNode responseData, String processId) {
+    private JsonNode updateJsonData(JsonNode jsonData, JsonNode responseData, String processId) {
         try {
             final ObjectNode globalContextNode = ((ObjectNode) jsonData);
             globalContextNode.replace("tender", responseData.get("tender"));
             globalContextNode.replace("parties", responseData.get("parties"));
+            globalContextNode.replace("relatedProcess", responseData.get("relatedProcess"));
             return globalContextNode;
         } catch (Exception e) {
             processService.terminateProcess(processId, e.getMessage());
