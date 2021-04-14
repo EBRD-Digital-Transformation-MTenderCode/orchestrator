@@ -67,11 +67,14 @@ class AuctionValidateAuctionsDataDelegate(
                                 id = detail.id.toString(),
                                 relatedLot = detail.relatedLot,
                                 electronicAuctionModalities = detail.electronicAuctionModalities.map { modality ->
-                                    ValidateAuctionsDataAction.Params.Tender.ElectronicAuctions.Detail.ElectronicAuctionModality(
-                                        ValidateAuctionsDataAction.Params.Tender.ElectronicAuctions.Detail.ElectronicAuctionModality.EligibleMinimumDifference(
-                                            currency = modality.eligibleMinimumDifference?.currency
+                                    modality.eligibleMinimumDifference.let { eligibleMinimumDifference ->
+                                        ValidateAuctionsDataAction.Params.Tender.ElectronicAuctions.Detail.ElectronicAuctionModality(
+                                            ValidateAuctionsDataAction.Params.Tender.ElectronicAuctions.Detail.ElectronicAuctionModality.EligibleMinimumDifference(
+                                                currency = eligibleMinimumDifference?.currency,
+                                                amount = eligibleMinimumDifference?.amount
+                                            )
                                         )
-                                    )
+                                    }
                                 }
                             )
                         }

@@ -9,7 +9,8 @@
           "electronicAuctionModalities": [
             {
               "eligibleMinimumDifference": {
-                "currency": "string"
+                "currency": "string",
+                "amount": 0.00
               }
             }
           ]
