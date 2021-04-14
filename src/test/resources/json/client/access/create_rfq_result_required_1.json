@@ -6,6 +6,9 @@
     "status": "active",
     "statusDetails": "tendering",
     "date": "2021-03-31T15:23:39Z",
+    "value": {
+      "currency": "string"
+    },
     "lots": [
       {
         "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
