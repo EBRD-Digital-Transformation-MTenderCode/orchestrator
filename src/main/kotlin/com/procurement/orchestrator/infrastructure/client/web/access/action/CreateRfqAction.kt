@@ -224,7 +224,7 @@ abstract class CreateRfqAction : FunctionalAction<CreateRfqAction.Params, Create
 
             data class Value(
                 @param:JsonProperty("currency") @field:JsonProperty("currency") val currency: String
-            )
+            ): Serializable
 
             data class Lot(
                 @param:JsonProperty("id") @field:JsonProperty("id") val id: LotId,
