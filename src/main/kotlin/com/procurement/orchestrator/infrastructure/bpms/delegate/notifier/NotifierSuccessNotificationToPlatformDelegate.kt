@@ -169,6 +169,12 @@ class NotifierSuccessNotificationToPlatformDelegate(
                     id = contract.id,
                     token = contract.token
                 )
+            },
+        rq = details.rq
+            .map { rq ->
+                PlatformNotification.Outcomes.RequestQuotation(
+                    id = rq.id
+                )
             }
     )
 
