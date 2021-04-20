@@ -22,6 +22,8 @@ object CreateRfqRequest {
         ) {
 
             data class Tender(
+                @field:JsonProperty("title") @param:JsonProperty("title") val title: String,
+                @field:JsonProperty("description") @param:JsonProperty("description") val description: String,
                 @field:JsonProperty("lots") @param:JsonProperty("lots") val lots: List<Lot>,
                 @field:JsonProperty("items") @param:JsonProperty("items") val items: List<Item>,
                 @field:JsonProperty("tenderPeriod") @param:JsonProperty("tenderPeriod") val tenderPeriod: TenderPeriod,
