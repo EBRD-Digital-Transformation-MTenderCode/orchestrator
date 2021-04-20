@@ -2,6 +2,8 @@
   "date": "2021-03-31T14:14:12Z",
   "owner": "cb7bee35-de04-436a-9f3f-1441309f3d5c",
   "tender": {
+    "title": "string",
+    "description": "string",
     "lots": [
       {
         "id": "string",
