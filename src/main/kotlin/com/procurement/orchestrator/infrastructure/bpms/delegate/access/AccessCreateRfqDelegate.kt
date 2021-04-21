@@ -76,6 +76,8 @@ class AccessCreateRfqDelegate(
                 date = requestInfo.timestamp,
                 owner = requestInfo.owner,
                 tender = CreateRfqAction.Params.Tender(
+                    title = tender.title,
+                    description = tender.description,
                     lots = tender.lots.map { lot ->
                         CreateRfqAction.Params.Tender.Lot(
                             id = lot.id,
@@ -308,7 +310,9 @@ class AccessCreateRfqDelegate(
                 )
             }.let { Items(it) },
             electronicAuctions = tender.electronicAuctions?.updateBy(receivedElectronicAuctions)
-                ?: receivedElectronicAuctions.takeIf { it.details.isNotEmpty() }
+                ?: receivedElectronicAuctions.takeIf { it.details.isNotEmpty() },
+            title = receivedTender.title,
+            description = receivedTender.description
         )
     }
 

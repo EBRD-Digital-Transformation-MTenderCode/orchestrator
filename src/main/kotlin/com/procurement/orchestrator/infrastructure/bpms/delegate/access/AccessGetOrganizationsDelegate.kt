@@ -32,7 +32,6 @@ import com.procurement.orchestrator.domain.model.party.PartyRoles
 import com.procurement.orchestrator.domain.model.period.Period
 import com.procurement.orchestrator.domain.model.person.Person
 import com.procurement.orchestrator.domain.model.person.Persons
-import com.procurement.orchestrator.domain.util.extension.asList
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
@@ -101,20 +100,20 @@ class AccessGetOrganizationsDelegate(
                 Fail.Incident.Response.Empty(service = ExternalServiceName.ACCESS, action = AccessCommands.GetOrganizations)
             )
 
-        val party = buildParty(data)
-        context.parties = Parties(party.asList())
+        val receivedParties = data.parties.map { buildParty(it) }
+        context.parties = Parties(receivedParties)
 
         return MaybeFail.none()
     }
 
     class Parameters(val role: PartyRole)
 
-    private fun buildParty(data: GetOrganizationsAction.Result) = Party(
-        id = data.id,
-        name = data.name,
+    private fun buildParty(party: GetOrganizationsAction.Result.Party) = Party(
+        id = party.id,
+        name = party.name,
         roles = PartyRoles(),
         details = null,
-        address = data.address
+        address = party.address
             .let { address ->
                 Address(
                     streetAddress = address.streetAddress,
@@ -153,7 +152,7 @@ class AccessGetOrganizationsDelegate(
                         }
                 )
             },
-        identifier = data.identifier
+        identifier = party.identifier
             .let { identifier ->
                 Identifier(
                     id = identifier.id,
@@ -163,7 +162,7 @@ class AccessGetOrganizationsDelegate(
                 )
             },
         additionalIdentifiers = Identifiers(
-            data.additionalIdentifiers
+            party.additionalIdentifiers
                 ?.map { additionalIdentifier ->
                     Identifier(
                         id = additionalIdentifier.id,
@@ -174,7 +173,7 @@ class AccessGetOrganizationsDelegate(
                 }
                 .orEmpty()
         ),
-        contactPoint = data.contactPoint
+        contactPoint = party.contactPoint
             .let { contactPoint ->
                 ContactPoint(
                     name = contactPoint.name,
@@ -185,7 +184,7 @@ class AccessGetOrganizationsDelegate(
                 )
             },
         persons = Persons(
-            data.persons
+            party.persons
                 ?.map { person ->
                     Person(
                         id = person.id,

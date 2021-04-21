@@ -42,6 +42,13 @@ abstract class CreateRfqAction : FunctionalAction<CreateRfqAction.Params, Create
         @param:JsonProperty("additionalOcid") @field:JsonProperty("additionalOcid") val additionalOcid: Ocid
     ) {
         data class Tender(
+            @JsonInclude(JsonInclude.Include.NON_NULL)
+            @param:JsonProperty("title") @field:JsonProperty("title") val title: String?,
+
+            @JsonInclude(JsonInclude.Include.NON_NULL)
+            @param:JsonProperty("description") @field:JsonProperty("description") val description: String?,
+
+
             @param:JsonProperty("lots") @field:JsonProperty("lots") val lots: List<Lot>,
             @param:JsonProperty("items") @field:JsonProperty("items") val items: List<Item>,
 
@@ -205,6 +212,8 @@ abstract class CreateRfqAction : FunctionalAction<CreateRfqAction.Params, Create
     ) : Serializable {
         data class Tender(
             @param:JsonProperty("id") @field:JsonProperty("id") val id: TenderId,
+            @param:JsonProperty("title") @field:JsonProperty("title") val title: String,
+            @param:JsonProperty("description") @field:JsonProperty("description") val description: String,
             @param:JsonProperty("status") @field:JsonProperty("status") val status: TenderStatus,
             @param:JsonProperty("statusDetails") @field:JsonProperty("statusDetails") val statusDetails: TenderStatusDetails,
             @param:JsonProperty("date") @field:JsonProperty("date") val date: LocalDateTime,

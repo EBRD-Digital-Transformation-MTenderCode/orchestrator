@@ -80,7 +80,7 @@ public class AccessCreateFE implements JavaDelegate {
             final ObjectNode globalContextNode = ((ObjectNode) jsonData);
             globalContextNode.replace("tender", responseData.get("tender"));
             globalContextNode.replace("parties", responseData.get("parties"));
-            globalContextNode.replace("relatedProcess", responseData.get("relatedProcess"));
+            globalContextNode.replace("relatedProcesses", responseData.get("relatedProcesses"));
             return globalContextNode;
         } catch (Exception e) {
             processService.terminateProcess(processId, e.getMessage());

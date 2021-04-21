@@ -50,6 +50,8 @@ class AccessValidateRfqDataDelegate(
                 relatedCpid = processInfo.relatedProcess!!.cpid,
                 relatedOcid = processInfo.relatedProcess.ocid!!,
                 tender = ValidateRfqDataAction.Params.Tender(
+                    title = tender.title,
+                    description = tender.description,
                     lots = tender.lots.map { lot ->
                         ValidateRfqDataAction.Params.Tender.Lot(
                             id = lot.id,

@@ -91,7 +91,10 @@ object PlatformNotification {
         @field:JsonProperty("bids") @param:JsonProperty("bids") val bids: List<Bid> = emptyList(),
 
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
-        @field:JsonProperty("contracts") @param:JsonProperty("contracts") val contracts: List<Contract> = emptyList()
+        @field:JsonProperty("contracts") @param:JsonProperty("contracts") val contracts: List<Contract> = emptyList(),
+
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        @field:JsonProperty("rq") @param:JsonProperty("rq") val rq: List<RequestQuotation> = emptyList()
     ) {
 
         class Amendment(
@@ -133,6 +136,10 @@ object PlatformNotification {
 
             @JsonInclude(JsonInclude.Include.NON_NULL)
             @field:JsonProperty("X-TOKEN") @param:JsonProperty("X-TOKEN") val token: Token?
+        )
+
+        data class RequestQuotation(
+            @field:JsonProperty("id") @param:JsonProperty("id") val id: Ocid
         )
 
     }
