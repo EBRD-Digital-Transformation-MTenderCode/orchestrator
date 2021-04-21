@@ -22,6 +22,7 @@ public enum Stage {
     PN("PN"),
     PQ("PQ"),
     PS("PS"),
+    RQ("RQ"),
     TP("TP");
 
     private static final Map<String, Stage> CONSTANTS = new HashMap<>();
