@@ -1168,8 +1168,8 @@ class StorageOpenAccessDelegate(
     sealed class DelegateIncident(description: String) : Fail.Incident.DelegateRule(description) {
         override val exception: Exception? = null
 
-        class DocumentsMissing(path: String) : DelegateIncident("Error: 'FR.DEL-0.5.10.2' - A part of the path is missing, path: '$path'.")
+        class DocumentsMissing(path: String) : DelegateIncident("Error: 'FR.DEL-0.5.10.2' - Documents is missing, path: '$path'.")
 
-        class PathMissing(path: String) : DelegateIncident("Error: 'FR.DEL-0.5.10.4' Documents is missing, path: '$path'.")
+        class PathMissing(path: String) : DelegateIncident("Error: 'FR.DEL-0.5.10.4' - A part of the path is missing, path: '$path'.")
     }
 }
