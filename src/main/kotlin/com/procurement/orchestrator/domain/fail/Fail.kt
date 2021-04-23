@@ -154,6 +154,9 @@ sealed class Fail(prefix: String, number: String) {
                         name = name
                     )
             }
+
+            abstract class DelegateRule(description: String) :
+                Bpms(number = "2", description = description)
         }
 
         sealed class Bpmn(number: String, description: String) :
@@ -259,9 +262,6 @@ sealed class Fail(prefix: String, number: String) {
                 }
             }
         }
-
-        abstract class DelegateRule(description: String) :
-            Incident(level = Level.ERROR, number = "10", description = description)
 
         enum class Level(override val key: String) : EnumElementProvider.Key {
             ERROR("error"),
