@@ -702,6 +702,28 @@ class AccessActionsTest {
     }
 
     @Nested
+    inner class GetBuyersOwners {
+
+        @Nested
+        inner class Params {
+
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetBuyersOwnersAction.Params>("json/client/access/ge_buyers_owners_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetBuyersOwnersAction.Result>("json/client/access/get_buyers_owners_result_full.json")
+            }
+        }
+    }
+
+    @Nested
     inner class ValidateRfqData {
 
         @Nested
