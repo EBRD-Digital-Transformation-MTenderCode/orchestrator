@@ -245,6 +245,7 @@ public class RequestServiceImpl implements RequestService {
             case PN:
             case PQ:
             case PS:
+            case RQ:
             case TP:
             case PIN:
                 id = cpid;

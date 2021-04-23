@@ -43,10 +43,7 @@ abstract class CheckItemsDataForRfqAction : ProceduralAction<CheckItemsDataForRf
                 @field:JsonProperty("quantity") @param:JsonProperty("quantity") val quantity: Quantity?,
 
                 @JsonInclude(JsonInclude.Include.NON_NULL)
-                @field:JsonProperty("unit") @param:JsonProperty("unit") val unit: Unit?,
-
-                @JsonInclude(JsonInclude.Include.NON_NULL)
-                @field:JsonProperty("relatedLot") @param:JsonProperty("relatedLot") val relatedLot: LotId?
+                @field:JsonProperty("unit") @param:JsonProperty("unit") val unit: Unit?
             ) {
                 data class Unit(
                     @field:JsonProperty("id") @param:JsonProperty("id") val id: String
@@ -75,8 +72,7 @@ private fun Item.toParams() =
         id = id,
         classification = classification?.toParams(),
         quantity = quantity,
-        unit = unit?.toParams(),
-        relatedLot = relatedLot
+        unit = unit?.toParams()
     )
 
 private fun Classification.toParams() =

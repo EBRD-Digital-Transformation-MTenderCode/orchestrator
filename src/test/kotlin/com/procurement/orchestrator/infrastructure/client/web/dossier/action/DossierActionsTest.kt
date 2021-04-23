@@ -284,7 +284,6 @@ class DossierActionsTest {
         }
     }
 
-
     @Nested
     inner class GetSubmissionsForTendering {
         @Nested
@@ -315,6 +314,17 @@ class DossierActionsTest {
             @Test
             fun required3() {
                 testingBindingAndMapping<GetSubmissionsForTenderingAction.Result>("json/client/dossier/get_submission_for_tendering_result_required_3.json")
+            }
+        }
+    }
+
+    @Nested
+    inner class CheckPresenceCandidateInOneSubmission {
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CheckPresenceCandidateInOneSubmissionAction.Params>("json/client/dossier/check_presence_candidate_in_one_submission_params_full.json")
             }
         }
     }

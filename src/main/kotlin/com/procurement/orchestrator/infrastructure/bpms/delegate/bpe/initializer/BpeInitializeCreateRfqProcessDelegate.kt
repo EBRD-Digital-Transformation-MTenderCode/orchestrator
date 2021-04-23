@@ -58,6 +58,8 @@ class BpeInitializeCreateRfqProcessDelegate(
 
     private fun initializeTender(tender: CreateRfqRequest.Request.Payload.Tender): Tender =
         Tender(
+            title = tender.title,
+            description = tender.description,
             lots = initializeLots(tender.lots),
             items = initializeItems(tender.items),
             tenderPeriod = initializeTenderPeriod(tender.tenderPeriod),
@@ -159,6 +161,7 @@ class BpeInitializeCreateRfqProcessDelegate(
                                     .map { modality ->
                                         ElectronicAuctionModality(
                                             eligibleMinimumDifference = Value(
+                                                amount = modality.eligibleMinimumDifference.amount,
                                                 currency = modality.eligibleMinimumDifference.currency
                                             )
                                         )

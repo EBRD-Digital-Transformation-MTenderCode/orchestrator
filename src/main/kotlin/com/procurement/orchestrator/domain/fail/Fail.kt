@@ -154,6 +154,9 @@ sealed class Fail(prefix: String, number: String) {
                         name = name
                     )
             }
+
+            abstract class DelegateRule(description: String) :
+                Bpms(number = "2", description = description)
         }
 
         sealed class Bpmn(number: String, description: String) :

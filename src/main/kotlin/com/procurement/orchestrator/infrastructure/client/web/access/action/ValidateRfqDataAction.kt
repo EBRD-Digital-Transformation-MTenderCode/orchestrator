@@ -23,6 +23,12 @@ abstract class ValidateRfqDataAction : ProceduralAction<ValidateRfqDataAction.Pa
         @param:JsonProperty("relatedOcid") @field:JsonProperty("relatedOcid") val relatedOcid: Ocid
     ) {
         data class Tender(
+            @JsonInclude(JsonInclude.Include.NON_NULL)
+            @param:JsonProperty("title") @field:JsonProperty("title") val title: String?,
+
+            @JsonInclude(JsonInclude.Include.NON_NULL)
+            @param:JsonProperty("description") @field:JsonProperty("description") val description: String?,
+
             @param:JsonProperty("lots") @field:JsonProperty("lots") val lots: List<Lot>,
             @param:JsonProperty("items") @field:JsonProperty("items") val items: List<Item>,
 

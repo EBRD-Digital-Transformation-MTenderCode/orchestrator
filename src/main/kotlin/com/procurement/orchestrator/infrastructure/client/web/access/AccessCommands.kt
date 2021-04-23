@@ -22,7 +22,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.GetI
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotStateByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotsValueAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetMainProcurementCategoryAction
-import com.procurement.orchestrator.infrastructure.client.web.access.action.GetOrganizationAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.GetOrganizationsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetQualificationCriteriaAndMethodAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetTenderCurrencyAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetTenderStateAction
@@ -59,7 +59,7 @@ object AccessCommands {
 
     object SetStateForLots : SetStateForLotsAction()
 
-    object GetOrganization : GetOrganizationAction()
+    object GetOrganizations : GetOrganizationsAction()
 
     object CreateCriteriaForProcuringEntity : CreateCriteriaForProcuringEntityAction()
 

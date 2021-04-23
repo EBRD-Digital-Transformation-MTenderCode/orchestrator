@@ -7,6 +7,7 @@ import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.CheckAbsenceActiveInvitationsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.CheckAccessToBidAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.CheckBidStateAction
+import com.procurement.orchestrator.infrastructure.client.web.submission.action.CheckExistenceOfInvitationAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.CheckPeriodAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.CreateBidAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.CreateInvitationsAction
@@ -90,4 +91,9 @@ interface SubmissionClient {
         id: CommandId,
         params: FindDocumentsByBidIdsAction.Params
     ): Result<Reply<FindDocumentsByBidIdsAction.Result>, Fail.Incident>
+
+    suspend fun checkExistenceOfInvitation(
+        id: CommandId,
+        params: CheckExistenceOfInvitationAction.Params
+    ): Result<Reply<Unit>, Fail.Incident>
 }

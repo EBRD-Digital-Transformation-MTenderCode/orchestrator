@@ -112,6 +112,7 @@ public class MessageConsumer {
             case PN:
             case PQ:
             case PS:
+            case RQ:
             case TP:
                 id = data.get("cpid").asText();
                 break;
@@ -137,6 +138,7 @@ public class MessageConsumer {
             case PN:
             case PQ:
             case PS:
+            case RQ:
             case TP:
                 processName = "auctionPeriodEnd";
                 break;

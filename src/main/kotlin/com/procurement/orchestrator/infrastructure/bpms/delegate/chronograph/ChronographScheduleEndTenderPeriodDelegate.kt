@@ -65,7 +65,7 @@ class ChronographScheduleEndTenderPeriodDelegate(
             .setPhase(PHASE_TENDERING)
             .setTimeStamp(launchTime.toMilliseconds())
             .setProcessType(PROCESS_TYPE_TENDER_PERIOD_END)
-            .setIsAuction(processInfo.isAuction)
+            .setIsAuction(false)
             .setOwner(requestInfo.owner.toString())
             .build()
 

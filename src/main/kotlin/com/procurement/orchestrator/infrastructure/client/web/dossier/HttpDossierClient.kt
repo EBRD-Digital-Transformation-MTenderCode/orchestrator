@@ -8,6 +8,7 @@ import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.WebClient
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.CheckAccessToSubmissionAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.CheckPeriodAction
+import com.procurement.orchestrator.infrastructure.client.web.dossier.action.CheckPresenceCandidateInOneSubmissionAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.CreateSubmissionAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.FinalizeSubmissionsAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.FindSubmissionsAction
@@ -148,5 +149,13 @@ class HttpDossierClient(private val webClient: WebClient, properties: ComponentP
         url = url,
         command = DossierCommands.GetSubmissionsForTendering.build(id = id, params = params),
         target = DossierCommands.GetSubmissionsForTendering.target
+    )
+
+    override suspend fun checkPresenceCandidateInOneSubmission(
+        id: CommandId,
+        params: CheckPresenceCandidateInOneSubmissionAction.Params
+    ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
+        url = url,
+        command = DossierCommands.CheckPresenceCandidateInOneSubmission.build(id = id, params = params)
     )
 }

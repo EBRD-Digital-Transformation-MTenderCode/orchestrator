@@ -2,6 +2,7 @@ package com.procurement.orchestrator.infrastructure.client.web.dossier
 
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.CheckAccessToSubmissionAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.CheckPeriodAction
+import com.procurement.orchestrator.infrastructure.client.web.dossier.action.CheckPresenceCandidateInOneSubmissionAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.CreateSubmissionAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.FinalizeSubmissionsAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.FindSubmissionsAction
@@ -44,4 +45,6 @@ object DossierCommands {
     object GetSubmissionCandidateReferencesByQualificationIds : GetSubmissionCandidateReferencesByQualificationIdsAction()
 
     object GetSubmissionsForTendering : GetSubmissionsForTenderingAction()
+
+    object CheckPresenceCandidateInOneSubmission: CheckPresenceCandidateInOneSubmissionAction()
 }

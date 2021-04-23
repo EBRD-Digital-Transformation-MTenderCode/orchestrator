@@ -42,6 +42,13 @@ abstract class CreateRfqAction : FunctionalAction<CreateRfqAction.Params, Create
         @param:JsonProperty("additionalOcid") @field:JsonProperty("additionalOcid") val additionalOcid: Ocid
     ) {
         data class Tender(
+            @JsonInclude(JsonInclude.Include.NON_NULL)
+            @param:JsonProperty("title") @field:JsonProperty("title") val title: String?,
+
+            @JsonInclude(JsonInclude.Include.NON_NULL)
+            @param:JsonProperty("description") @field:JsonProperty("description") val description: String?,
+
+
             @param:JsonProperty("lots") @field:JsonProperty("lots") val lots: List<Lot>,
             @param:JsonProperty("items") @field:JsonProperty("items") val items: List<Item>,
 
@@ -205,6 +212,8 @@ abstract class CreateRfqAction : FunctionalAction<CreateRfqAction.Params, Create
     ) : Serializable {
         data class Tender(
             @param:JsonProperty("id") @field:JsonProperty("id") val id: TenderId,
+            @param:JsonProperty("title") @field:JsonProperty("title") val title: String,
+            @param:JsonProperty("description") @field:JsonProperty("description") val description: String,
             @param:JsonProperty("status") @field:JsonProperty("status") val status: TenderStatus,
             @param:JsonProperty("statusDetails") @field:JsonProperty("statusDetails") val statusDetails: TenderStatusDetails,
             @param:JsonProperty("date") @field:JsonProperty("date") val date: LocalDateTime,
@@ -218,8 +227,14 @@ abstract class CreateRfqAction : FunctionalAction<CreateRfqAction.Params, Create
             @param:JsonProperty("procurementMethodModalities") @field:JsonProperty("procurementMethodModalities") val procurementMethodModalities: List<String>?,
 
             @param:JsonProperty("awardCriteria") @field:JsonProperty("awardCriteria") val awardCriteria: AwardCriteria,
-            @param:JsonProperty("awardCriteriaDetails") @field:JsonProperty("awardCriteriaDetails") val awardCriteriaDetails: AwardCriteriaDetails
+            @param:JsonProperty("awardCriteriaDetails") @field:JsonProperty("awardCriteriaDetails") val awardCriteriaDetails: AwardCriteriaDetails,
+            @param:JsonProperty("value") @field:JsonProperty("value") val value: Value
         ) : Serializable {
+
+            data class Value(
+                @param:JsonProperty("currency") @field:JsonProperty("currency") val currency: String
+            ): Serializable
+
             data class Lot(
                 @param:JsonProperty("id") @field:JsonProperty("id") val id: LotId,
 
@@ -293,7 +308,10 @@ abstract class CreateRfqAction : FunctionalAction<CreateRfqAction.Params, Create
 
             data class Item(
                 @param:JsonProperty("id") @field:JsonProperty("id") val id: ItemId,
-                @param:JsonProperty("internalId") @field:JsonProperty("internalId") val internalId: String,
+
+                @JsonInclude(JsonInclude.Include.NON_NULL)
+                @param:JsonProperty("internalId") @field:JsonProperty("internalId") val internalId: String?,
+
                 @param:JsonProperty("description") @field:JsonProperty("description") val description: String,
                 @param:JsonProperty("classification") @field:JsonProperty("classification") val classification: Classification,
                 @param:JsonProperty("quantity") @field:JsonProperty("quantity") val quantity: Quantity,
