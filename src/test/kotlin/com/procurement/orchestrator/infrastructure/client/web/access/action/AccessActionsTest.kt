@@ -188,12 +188,12 @@ class AccessActionsTest {
     }
 
     @Nested
-    inner class GetOrganization {
+    inner class GetOrganizations {
         @Nested
         inner class Params {
             @Test
             fun fully() {
-                testingBindingAndMapping<GetOrganizationAction.Params>("json/client/access/get_organization_params_full.json")
+                testingBindingAndMapping<GetOrganizationsAction.Params>("json/client/access/get_organizations_params_full.json")
             }
         }
 
@@ -201,22 +201,22 @@ class AccessActionsTest {
         inner class Result {
             @Test
             fun fully() {
-                testingBindingAndMapping<GetOrganizationAction.Result>("json/client/access/get_organization_result_full.json")
+                testingBindingAndMapping<GetOrganizationsAction.Result>("json/client/access/get_organizations_result_full.json")
             }
 
             @Test
             fun required_1() {
-                testingBindingAndMapping<GetOrganizationAction.Result>("json/client/access/get_organization_result_required_1.json")
+                testingBindingAndMapping<GetOrganizationsAction.Result>("json/client/access/get_organizations_result_required_1.json")
             }
 
             @Test
             fun required_2() {
-                testingBindingAndMapping<GetOrganizationAction.Result>("json/client/access/get_organization_result_required_2.json")
+                testingBindingAndMapping<GetOrganizationsAction.Result>("json/client/access/get_organizations_result_required_2.json")
             }
 
             @Test
             fun required_3() {
-                testingBindingAndMapping<GetOrganizationAction.Result>("json/client/access/get_organization_result_required_3.json")
+                testingBindingAndMapping<GetOrganizationsAction.Result>("json/client/access/get_organizations_result_required_3.json")
             }
         }
     }

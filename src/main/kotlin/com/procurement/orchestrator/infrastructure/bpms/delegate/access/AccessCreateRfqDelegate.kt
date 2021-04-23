@@ -4,6 +4,7 @@ import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.AccessClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
 import com.procurement.orchestrator.application.model.context.extension.tryGetTender
+import com.procurement.orchestrator.application.model.context.members.Outcomes
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
@@ -75,6 +76,8 @@ class AccessCreateRfqDelegate(
                 date = requestInfo.timestamp,
                 owner = requestInfo.owner,
                 tender = CreateRfqAction.Params.Tender(
+                    title = tender.title,
+                    description = tender.description,
                     lots = tender.lots.map { lot ->
                         CreateRfqAction.Params.Tender.Lot(
                             id = lot.id,
@@ -202,6 +205,7 @@ class AccessCreateRfqDelegate(
         val updatedTender = getUpdatedTender(data, tender, receivedElectronicAuctions)
 
         context.tender = updatedTender
+        context.outcomes = createOutcomes(context, data)
 
         return MaybeFail.none()
     }
@@ -218,6 +222,8 @@ class AccessCreateRfqDelegate(
             date = receivedTender.date,
             awardCriteria = receivedTender.awardCriteria,
             awardCriteriaDetails = receivedTender.awardCriteriaDetails,
+            value = receivedTender.value
+                .let { value -> Value(currency = value.currency) },
             lots = receivedTender.lots.map { lot ->
                 Lot(
                     id = lot.id,
@@ -304,7 +310,9 @@ class AccessCreateRfqDelegate(
                 )
             }.let { Items(it) },
             electronicAuctions = tender.electronicAuctions?.updateBy(receivedElectronicAuctions)
-                    ?: receivedElectronicAuctions.takeIf { it.details.isNotEmpty() }
+                ?: receivedElectronicAuctions.takeIf { it.details.isNotEmpty() },
+            title = receivedTender.title,
+            description = receivedTender.description
         )
     }
 
@@ -316,6 +324,22 @@ class AccessCreateRfqDelegate(
             scheme = scheme,
             uri = uri
         )
+
+    private fun createOutcomes(
+        context: CamundaGlobalContext,
+        result: CreateRfqAction.Result
+    ): Outcomes {
+        val platformId = context.requestInfo.platformId
+        val outcomes = context.outcomes ?: Outcomes()
+        val details = outcomes[platformId] ?: Outcomes.Details()
+
+        val newOutcomes = result
+            .let { rq -> Outcomes.Details.RequestQuotation(id = rq.ocid) }
+
+        val updatedDetails = details.copy(rq = listOf(newOutcomes))
+        outcomes[platformId] = updatedDetails
+        return outcomes
+    }
 }
 
 

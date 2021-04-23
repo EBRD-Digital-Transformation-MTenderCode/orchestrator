@@ -3,21 +3,6 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.storage
 import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.StorageClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
-import com.procurement.orchestrator.application.model.context.extension.getAmendmentsIfNotEmpty
-import com.procurement.orchestrator.application.model.context.extension.getAwardBusinessFunctionsIfNotEmpty
-import com.procurement.orchestrator.application.model.context.extension.getAwardDocumentsIfNotEmpty
-import com.procurement.orchestrator.application.model.context.extension.getBidsDetailIfNotEmpty
-import com.procurement.orchestrator.application.model.context.extension.getBusinessFunctionsIfNotEmpty
-import com.procurement.orchestrator.application.model.context.extension.getDocumentIfNotEmpty
-import com.procurement.orchestrator.application.model.context.extension.getDocumentsIfNotEmpty
-import com.procurement.orchestrator.application.model.context.extension.getElementIfOnlyOne
-import com.procurement.orchestrator.application.model.context.extension.getIfNotEmpty
-import com.procurement.orchestrator.application.model.context.extension.getPersonesIfNotEmpty
-import com.procurement.orchestrator.application.model.context.extension.getQualificationBusinessFunctionsIfNotEmpty
-import com.procurement.orchestrator.application.model.context.extension.getQualificationDocumentsIfNotEmpty
-import com.procurement.orchestrator.application.model.context.extension.getRequirementResponseIfOnlyOne
-import com.procurement.orchestrator.application.model.context.extension.getResponder
-import com.procurement.orchestrator.application.model.context.extension.getSuppliersIfNotEmpty
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.EnumElementProvider
@@ -74,12 +59,6 @@ class StorageOpenAccessDelegate(
     operationStepRepository = operationStepRepository
 ) {
     companion object {
-        private const val TENDER_ATTRIBUTE_NAME = "tender"
-        private const val AWARDS_ATTRIBUTE_NAME = "awards"
-        private const val CONTRACTS_ATTRIBUTE_NAME = "contracts"
-        private const val QUALIFICATIONS_ATTRIBUTE_NAME = "qualifications"
-        private const val SUBMISSIONS_ATTRIBUTE_NAME = "submissions"
-        private const val PARTIES_ATTRIBUTE_NAME = "parties"
         private const val DOCUMENT_ID_PATH = "document.id"
     }
 
@@ -205,8 +184,9 @@ class StorageOpenAccessDelegate(
         data: OpenAccessAction.Result
     ): ValidationResult<Fail.Incident> {
 
-        val contextDocumentIds = getAllDocuments(tender, awards, qualifications, submissions, parties, contracts, bids, parameters)
-            .orReturnFail { return ValidationResult.error(it) }
+        val contextDocumentIds =
+            getAllDocuments(tender, awards, qualifications, submissions, parties, contracts, bids, parameters)
+                .orReturnFail { return ValidationResult.error(it) }
 
         data.map { it.id }
             .validate(duplicatesRule(DOCUMENT_ID_PATH))
@@ -494,24 +474,26 @@ class StorageOpenAccessDelegate(
 
     private fun getTenderDocumentsIdsRequired(tender: Tender?): Result<List<DocumentId>, Fail.Incident> {
         if (tender == null)
-            return failure(Fail.Incident.Bpms.Context.Missing(name = TENDER_ATTRIBUTE_NAME))
+            return failure(DelegateIncident.PathMissing(path = "tender"))
 
-        return tender.getDocumentsIfNotEmpty()
-            .orForwardFail { fail -> return fail }
-            .map { document -> document.id }
+        val documents = tender.documents
+        if (documents.isEmpty())
+            return failure(DelegateIncident.DocumentsMissing(path = "tender"))
+
+        return documents.map { document -> document.id }
             .asSuccess()
     }
 
-    private fun getAmendmentDocumentsIds(
+    private fun getTenderAmendmentDocumentsIds(
         tender: Tender?, entities: Map<EntityKey, EntityValue>
     ): Result<List<DocumentId>, Fail.Incident> =
         when (entities[EntityKey.AMENDMENT]) {
-            EntityValue.OPTIONAL -> getAmendmentDocumentsIdsOptional(tender)
-            EntityValue.REQUIRED -> getAmendmentDocumentsIdsRequired(tender)
+            EntityValue.OPTIONAL -> getTenderAmendmentDocumentsIdsOptional(tender)
+            EntityValue.REQUIRED -> getTenderAmendmentDocumentsIdsRequired(tender)
             null -> emptyList<DocumentId>().asSuccess()
         }
 
-    private fun getAmendmentDocumentsIdsOptional(tender: Tender?): Result<List<DocumentId>, Fail.Incident> =
+    private fun getTenderAmendmentDocumentsIdsOptional(tender: Tender?): Result<List<DocumentId>, Fail.Incident> =
         tender?.amendments
             ?.asSequence()
             ?.flatMap { amendment -> amendment.documents.asSequence() }
@@ -520,30 +502,114 @@ class StorageOpenAccessDelegate(
             .orEmpty()
             .asSuccess()
 
-    private fun getAmendmentDocumentsIdsRequired(tender: Tender?): Result<List<DocumentId>, Fail.Incident> {
+    private fun getTenderAmendmentDocumentsIdsRequired(tender: Tender?): Result<List<DocumentId>, Fail.Incident> {
         if (tender == null)
-            return failure(Fail.Incident.Bpms.Context.Missing(name = TENDER_ATTRIBUTE_NAME))
+            return failure(DelegateIncident.PathMissing(path = "tender"))
 
-        return tender.getAmendmentsIfNotEmpty()
-            .orForwardFail { fail -> return fail }
+        val amendments = tender.amendments
+        if (amendments.isEmpty())
+            return failure(DelegateIncident.PathMissing(path = "tender.amendments"))
+
+        return amendments
             .flatMap { amendment ->
-                amendment.getDocumentsIfNotEmpty()
-                    .orForwardFail { fail -> return fail }
+                val documents = amendment.documents
+                if (documents.isEmpty())
+                    return failure(DelegateIncident.DocumentsMissing(path = "tender.amendments"))
+
+                documents.map { document -> document.id }
             }
-            .map { document -> document.id }
             .asSuccess()
     }
 
-    private fun getAwardRequirementResponseDocumentsIds(
+    private fun getAwardsDocumentsIds(
         awards: Awards, entities: Map<EntityKey, EntityValue>
     ): Result<List<DocumentId>, Fail.Incident> =
-        when (entities[EntityKey.AWARD_REQUIREMENT_RESPONSE]) {
-            EntityValue.OPTIONAL -> getAwardRequirementRsDocumentsIdsOptional(awards)
-            EntityValue.REQUIRED -> getAwardRequirementRsDocumentsIdsRequired(awards)
+        when (entities[EntityKey.AWARD]) {
+            EntityValue.OPTIONAL -> getAwardsDocumentsIdsOptional(awards)
+            EntityValue.REQUIRED -> getAwardsDocumentsIdsRequired(awards)
             null -> emptyList<DocumentId>().asSuccess()
         }
 
-    private fun getAwardRequirementRsDocumentsIdsOptional(awards: Awards): Result<List<DocumentId>, Fail.Incident> =
+    private fun getAwardsDocumentsIdsOptional(awards: Awards): Result<List<DocumentId>, Fail.Incident> =
+        awards.flatMap { award -> award.documents }
+            .map { document -> document.id }
+            .asSuccess()
+
+    private fun getAwardsDocumentsIdsRequired(awards: Awards): Result<List<DocumentId>, Fail.Incident> {
+        if (awards.isEmpty())
+            return failure(DelegateIncident.PathMissing(path = "awards"))
+
+        return awards
+            .flatMap { award ->
+                val documents = award.documents
+                if (documents.isEmpty())
+                    return failure(DelegateIncident.DocumentsMissing(path = "awards.documents"))
+
+                documents.map { document -> document.id }
+            }
+            .asSuccess()
+    }
+
+    private fun getAwardsSuppliersDocumentsIds(
+        awards: Awards, entities: Map<EntityKey, EntityValue>
+    ): Result<List<DocumentId>, Fail.Incident> =
+        when (entities[EntityKey.AWARD_SUPPLIER]) {
+            EntityValue.OPTIONAL -> getAwardsSuppliersDocumentIdsOptional(awards)
+            EntityValue.REQUIRED -> getAwardsSuppliersDocumentsIdsRequired(awards)
+            null -> emptyList<DocumentId>().asSuccess()
+        }
+
+    private fun getAwardsSuppliersDocumentIdsOptional(awards: Awards): Result<List<DocumentId>, Fail.Incident> =
+        awards.flatMap { award -> award.suppliers }
+            .flatMap { supplier -> supplier.persons }
+            .flatMap { person -> person.businessFunctions }
+            .flatMap { businessFunction -> businessFunction.documents }
+            .map { document -> document.id }
+            .asSuccess()
+
+    private fun getAwardsSuppliersDocumentsIdsRequired(awards: Awards): Result<List<DocumentId>, Fail.Incident> {
+        if (awards.isEmpty())
+            return failure(DelegateIncident.PathMissing(path = "awards"))
+
+        return awards
+            .flatMap { award ->
+                val suppliers = award.suppliers
+                if (suppliers.isEmpty())
+                    return failure(DelegateIncident.PathMissing(path = "awards.suppliers"))
+
+                suppliers.flatMap { supplier ->
+                    val persons = supplier.persons
+                    if (persons.isEmpty())
+                        return failure(DelegateIncident.PathMissing(path = "awards.suppliers.persons"))
+
+                    persons.flatMap { person ->
+                        val businessFunctions = person.businessFunctions
+                        if (businessFunctions.isEmpty())
+                            return failure(DelegateIncident.PathMissing(path = "awards.suppliers.persons.businessFunctions"))
+
+                        businessFunctions.flatMap { businessFunction ->
+                            val documents = businessFunction.documents
+                            if (documents.isEmpty())
+                                return failure(DelegateIncident.DocumentsMissing(path = "awards.suppliers.persons.businessFunctions"))
+
+                            documents.map { document -> document.id }
+                        }
+                    }
+                }
+            }
+            .asSuccess()
+    }
+
+    private fun getAwardRqRsDocumentsIds(
+        awards: Awards, entities: Map<EntityKey, EntityValue>
+    ): Result<List<DocumentId>, Fail.Incident> =
+        when (entities[EntityKey.AWARD_REQUIREMENT_RESPONSE]) {
+            EntityValue.OPTIONAL -> getAwardRqRsDocumentsIdsOptional(awards)
+            EntityValue.REQUIRED -> getAwardRqRsDocumentsIdsRequired(awards)
+            null -> emptyList<DocumentId>().asSuccess()
+        }
+
+    private fun getAwardRqRsDocumentsIdsOptional(awards: Awards): Result<List<DocumentId>, Fail.Incident> =
         awards.asSequence()
             .map { award ->
                 award.requirementResponses.getOrNull(0)
@@ -558,61 +624,35 @@ class StorageOpenAccessDelegate(
             .toList()
             .asSuccess()
 
-    private fun getAwardRequirementRsDocumentsIdsRequired(awards: Awards): Result<List<DocumentId>, Fail.Incident> =
-        awards.getIfNotEmpty(name = AWARDS_ATTRIBUTE_NAME)
-            .orForwardFail { fail -> return fail }
+    private fun getAwardRqRsDocumentsIdsRequired(awards: Awards): Result<List<DocumentId>, Fail.Incident> {
+        if (awards.isEmpty())
+            failure(DelegateIncident.PathMissing(path = "awards"))
+
+        return awards
             .flatMap { award ->
-                award.getRequirementResponseIfOnlyOne()
-                    .orForwardFail { fail -> return fail }
-                    .getResponder()
-                    .orForwardFail { fail -> return fail }
-                    .getAwardBusinessFunctionsIfNotEmpty()
-                    .orForwardFail { fail -> return fail }
-                    .flatMap { businessFunction ->
-                        businessFunction.getAwardDocumentsIfNotEmpty()
-                            .orForwardFail { fail -> return fail }
+                val requirementResponses = award.requirementResponses
+                if (requirementResponses.isEmpty())
+                    return failure(DelegateIncident.PathMissing(path = "awards.requirementResponses"))
+
+                requirementResponses.flatMap { response ->
+                    val responder = response.responder
+                        ?: return failure(DelegateIncident.PathMissing(path = "awards.requirementResponses.responder"))
+
+                    val businessFunctions = responder.businessFunctions
+                    if (businessFunctions.isEmpty())
+                        return failure(DelegateIncident.PathMissing(path = "awards.requirementResponses.responder.businessFunctions"))
+
+                    businessFunctions.flatMap { businessFunction ->
+                        val documents = businessFunction.documents
+                        if (documents.isEmpty())
+                            return failure(DelegateIncident.DocumentsMissing(path = "awards.requirementResponses.responder.businessFunctions"))
+
+                        documents.map { document -> document.id }
                     }
+                }
             }
-            .map { document -> document.id }
             .asSuccess()
-
-    private fun getQualificationReqRsDocumentsIds(
-        qualifications: Qualifications,
-        entities: Map<EntityKey, EntityValue>
-    ): Result<List<DocumentId>, Fail.Incident> =
-        when (entities[EntityKey.QUALIFICATION_REQUIREMENT_RESPONSE]) {
-            EntityValue.OPTIONAL -> getQualificationReqRsDocumentsIdsOptional(qualifications)
-            EntityValue.REQUIRED -> getQualificationReqRsDocumentsIdsRequired(qualifications)
-            null -> emptyList<DocumentId>().asSuccess()
-        }
-
-    private fun getQualificationReqRsDocumentsIdsOptional(qualifications: Qualifications): Result<List<DocumentId>, Fail.Incident> =
-        qualifications
-            .asSequence()
-            .flatMap { qualification -> qualification.requirementResponses.asSequence() }
-            .flatMap { requirementResponse -> requirementResponse.responder?.businessFunctions?.asSequence() ?: emptySequence() }
-            .flatMap { businessFunction -> businessFunction.documents.asSequence() }
-            .map { document -> document.id }
-            .toList()
-            .asSuccess()
-
-    private fun getQualificationReqRsDocumentsIdsRequired(qualifications: Qualifications): Result<List<DocumentId>, Fail.Incident> =
-        qualifications
-            .getElementIfOnlyOne(name = QUALIFICATIONS_ATTRIBUTE_NAME)
-            .orForwardFail { fail -> return fail }
-            .getRequirementResponseIfOnlyOne()
-            .orForwardFail { fail -> return fail }
-            .getResponder()
-            .orForwardFail { fail -> return fail }
-            .getQualificationBusinessFunctionsIfNotEmpty()
-            .orForwardFail { fail -> return fail }
-            .flatMap { businessFunction ->
-                businessFunction.getQualificationDocumentsIfNotEmpty()
-                    .orForwardFail { fail -> return fail }
-            }
-            .map { document -> document.id }
-            .toList()
-            .asSuccess()
+    }
 
     private fun getSubmissionsDocumentsIds(
         submissions: Submissions?,
@@ -625,19 +665,153 @@ class StorageOpenAccessDelegate(
         }
 
     private fun getSubmissionsDocumentsIdsOptional(submissions: Submissions?): Result<List<DocumentId>, Fail.Incident> =
-        submissions?.details?.get(0)
-            ?.documents
-            ?.map { document -> document.id }
+        submissions
+            ?.details
+            ?.flatMap { submission ->
+                submission.documents
+                    .map { document -> document.id }
+            }
             .orEmpty()
             .asSuccess()
 
-    private fun getSubmissionsDocumentsIdsRequired(submissions: Submissions?): Result<List<DocumentId>, Fail.Incident> =
-        submissions?.details.orEmpty()
-            .getElementIfOnlyOne(name = SUBMISSIONS_ATTRIBUTE_NAME)
-            .orForwardFail { fail -> return fail }
-            .documents
+    private fun getSubmissionsDocumentsIdsRequired(submissions: Submissions?): Result<List<DocumentId>, Fail.Incident> {
+        if (submissions == null)
+            return failure(DelegateIncident.PathMissing(path = "submissions"))
+
+        val details = submissions.details
+        if (details.isEmpty())
+            return failure(DelegateIncident.PathMissing(path = "submissions.details"))
+
+        return details
+            .flatMap { submission ->
+                val documents = submission.documents
+                if (documents.isEmpty())
+                    return failure(DelegateIncident.DocumentsMissing(path = "submissions.details"))
+
+                documents.map { document -> document.id }
+            }
+            .asSuccess()
+    }
+
+    private fun getQualificationDocumentsIds(
+        qualifications: Qualifications,
+        entities: Map<EntityKey, EntityValue>
+    ): Result<List<DocumentId>, Fail.Incident> =
+        when (entities[EntityKey.QUALIFICATION]) {
+            EntityValue.OPTIONAL -> getQualificationDocumentsIdsOptional(qualifications)
+            EntityValue.REQUIRED -> getQualificationDocumentsIdsRequired(qualifications)
+            null -> emptyList<DocumentId>().asSuccess()
+        }
+
+    private fun getQualificationDocumentsIdsOptional(qualifications: Qualifications): Result<List<DocumentId>, Fail.Incident> =
+        qualifications
+            .flatMap { qualification ->
+                qualification.documents
+                    .map { document -> document.id }
+            }
+            .asSuccess()
+
+    private fun getQualificationDocumentsIdsRequired(qualifications: Qualifications): Result<List<DocumentId>, Fail.Incident> {
+        if (qualifications.isEmpty())
+            return failure(DelegateIncident.PathMissing(path = "qualifications"))
+
+        return qualifications
+            .flatMap { qualification ->
+                val documents = qualification.documents
+                if (documents.isEmpty())
+                    return failure(DelegateIncident.DocumentsMissing(path = "qualifications"))
+
+                documents.map { document -> document.id }
+            }
+            .asSuccess()
+    }
+
+    private fun getQualificationRqRsDocumentsIds(
+        qualifications: Qualifications,
+        entities: Map<EntityKey, EntityValue>
+    ): Result<List<DocumentId>, Fail.Incident> =
+        when (entities[EntityKey.QUALIFICATION_REQUIREMENT_RESPONSE]) {
+            EntityValue.OPTIONAL -> getQualificationRqRsDocumentsIdsOptional(qualifications)
+            EntityValue.REQUIRED -> getQualificationRqRsDocumentsIdsRequired(qualifications)
+            null -> emptyList<DocumentId>().asSuccess()
+        }
+
+    private fun getQualificationRqRsDocumentsIdsOptional(qualifications: Qualifications): Result<List<DocumentId>, Fail.Incident> =
+        qualifications
+            .asSequence()
+            .flatMap { qualification -> qualification.requirementResponses.asSequence() }
+            .flatMap { requirementResponse ->
+                requirementResponse.responder?.businessFunctions?.asSequence() ?: emptySequence()
+            }
+            .flatMap { businessFunction -> businessFunction.documents.asSequence() }
+            .map { document -> document.id }
+            .toList()
+            .asSuccess()
+
+    private fun getQualificationRqRsDocumentsIdsRequired(qualifications: Qualifications): Result<List<DocumentId>, Fail.Incident> {
+
+        if (qualifications.isEmpty())
+            return failure(DelegateIncident.PathMissing(path = "qualifications"))
+
+        return qualifications
+            .flatMap { qualification ->
+                val requirementResponses = qualification.requirementResponses
+                if (requirementResponses.isEmpty())
+                    return failure(DelegateIncident.PathMissing(path = "qualifications.requirementResponses"))
+
+                requirementResponses.flatMap { response ->
+                    val responder = response.responder
+                        ?: return failure(DelegateIncident.PathMissing(path = "qualifications.requirementResponses.responder"))
+
+                    val businessFunctions = responder.businessFunctions
+                    if (businessFunctions.isEmpty())
+                        return failure(DelegateIncident.PathMissing(path = "qualifications.requirementResponses.responder.businessFunctions"))
+
+                    businessFunctions.flatMap { businessFunction ->
+                        val documents = businessFunction.documents
+                        if (documents.isEmpty())
+                            return failure(DelegateIncident.DocumentsMissing(path = "qualifications.requirementResponses.responder.businessFunctions"))
+
+                        documents.map { document -> document.id }
+                    }
+                }
+            }
+            .asSuccess()
+    }
+
+    private fun getBidsDocumentsIds(
+        bids: Bids?, entities: Map<EntityKey, EntityValue>
+    ): Result<List<DocumentId>, Fail.Incident> =
+        when (entities[EntityKey.BID]) {
+            EntityValue.OPTIONAL -> getBidsDocumentsIdsOptional(bids)
+            EntityValue.REQUIRED -> getBidsDocumentsIdsRequired(bids)
+            null -> emptyList<DocumentId>().asSuccess()
+        }
+
+    private fun getBidsDocumentsIdsOptional(bids: Bids?): Result<List<DocumentId>, Fail.Incident> =
+        bids?.details.orEmpty()
+            .flatMap { contract -> contract.documents }
             .map { document -> document.id }
             .asSuccess()
+
+    private fun getBidsDocumentsIdsRequired(bids: Bids?): Result<List<DocumentId>, Fail.Incident> {
+        if (bids == null)
+            return failure(DelegateIncident.PathMissing(path = "bids"))
+
+        val details = bids.details
+        if (details.isEmpty())
+            return failure(DelegateIncident.PathMissing(path = "bids.details"))
+
+        return details
+            .flatMap { bid ->
+                val documents = bid.documents
+                if (documents.isEmpty())
+                    return failure(DelegateIncident.DocumentsMissing(path = "bids.details"))
+
+                documents.map { document -> document.id }
+            }
+            .asSuccess()
+    }
 
     private fun getPartiesDocumentsIds(
         parties: Parties,
@@ -658,100 +832,30 @@ class StorageOpenAccessDelegate(
             .toList()
             .asSuccess()
 
-    private fun getPartiesDocumentsIdsRequired(parties: Parties): Result<List<DocumentId>, Fail.Incident> =
-        parties
-            .getIfNotEmpty(name = PARTIES_ATTRIBUTE_NAME)
-            .orForwardFail { fail -> return fail }
-            .asSequence()
-            .flatMap { party -> party.persons.asSequence() }
-            .flatMap { person -> person.businessFunctions.asSequence() }
-            .flatMap { businessFunction -> businessFunction.documents.asSequence() }
-            .map { document -> document.id }
-            .toList()
-            .asSuccess()
+    private fun getPartiesDocumentsIdsRequired(parties: Parties): Result<List<DocumentId>, Fail.Incident> {
+        if (parties.isEmpty())
+            return failure(DelegateIncident.PathMissing(path = "parties"))
 
-    private fun getQualificationDocumentsIds(
-        qualifications: Qualifications,
-        entities: Map<EntityKey, EntityValue>
-    ): Result<List<DocumentId>, Fail.Incident> =
-        when (entities[EntityKey.QUALIFICATION]) {
-            EntityValue.OPTIONAL -> getQualificationDocumentsIdsOptional(qualifications)
-            EntityValue.REQUIRED -> getQualificationDocumentsIdsRequired(qualifications)
-            null -> emptyList<DocumentId>().asSuccess()
-        }
+        return parties
+            .flatMap { party ->
+                val persons = party.persons
+                if (persons.isEmpty())
+                    return failure(DelegateIncident.PathMissing(path = "parties.persons"))
 
-    private fun getQualificationDocumentsIdsOptional(qualifications: Qualifications): Result<List<DocumentId>, Fail.Incident> =
-        qualifications
-            .getOrNull(0)
-            ?.documents
-            ?.map { document -> document.id }
-            .orEmpty()
-            .asSuccess()
+                persons.flatMap { person ->
+                    val businessFunctions = person.businessFunctions
+                    if (businessFunctions.isEmpty())
+                        return failure(DelegateIncident.PathMissing(path = "parties.persons.businessFunctions"))
 
-    private fun getQualificationDocumentsIdsRequired(qualifications: Qualifications): Result<List<DocumentId>, Fail.Incident> =
-        qualifications
-            .getElementIfOnlyOne(name = QUALIFICATIONS_ATTRIBUTE_NAME)
-            .orForwardFail { fail -> return fail }
-            .getDocumentsIfNotEmpty()
-            .orForwardFail { fail -> return fail }
-            .map { document -> document.id }
-            .toList()
-            .asSuccess()
+                    businessFunctions.flatMap { businessFunction ->
+                        val documents = businessFunction.documents
+                        if (documents.isEmpty())
+                            return failure(DelegateIncident.DocumentsMissing(path = "parties.persons.businessFunctions"))
 
-    private fun getAwardsDocumentsIds(
-        awards: Awards, entities: Map<EntityKey, EntityValue>
-    ): Result<List<DocumentId>, Fail.Incident> =
-        when (entities[EntityKey.AWARD]) {
-            EntityValue.OPTIONAL -> getAwardsDocumentsIdsOptional(awards)
-            EntityValue.REQUIRED -> getAwardsDocumentsIdsRequired(awards)
-            null -> emptyList<DocumentId>().asSuccess()
-        }
-
-    private fun getAwardsDocumentsIdsOptional(awards: Awards): Result<List<DocumentId>, Fail.Incident> =
-        awards.flatMap { award -> award.documents }
-            .map { document -> document.id }
-            .asSuccess()
-
-    private fun getAwardsDocumentsIdsRequired(awards: Awards): Result<List<DocumentId>, Fail.Incident> =
-        awards.getIfNotEmpty(name = AWARDS_ATTRIBUTE_NAME).orForwardFail { return it }
-            .flatMap { award -> award.getDocumentsIfNotEmpty().orForwardFail { return it } }
-            .map { document -> document.id }
-            .asSuccess()
-
-    private fun getAwardsSuppliersDocumentsIds(
-        awards: Awards, entities: Map<EntityKey, EntityValue>
-    ): Result<List<DocumentId>, Fail.Incident> =
-        when (entities[EntityKey.AWARD_SUPPLIER]) {
-            EntityValue.OPTIONAL -> getAwardsSuppliersDocumentIdsOptional(awards)
-            EntityValue.REQUIRED -> getAwardsSuppliersDocumentsIdsRequired(awards)
-            null -> emptyList<DocumentId>().asSuccess()
-        }
-
-    private fun getAwardsSuppliersDocumentIdsOptional(awards: Awards): Result<List<DocumentId>, Fail.Incident> =
-        awards.flatMap { award -> award.suppliers }
-            .flatMap { supplier -> supplier.persons }
-            .flatMap { person -> person.businessFunctions }
-            .flatMap { businessFunction -> businessFunction.documents }
-            .map { document -> document.id }
-            .asSuccess()
-
-    private fun getAwardsSuppliersDocumentsIdsRequired(awards: Awards): Result<List<DocumentId>, Fail.Incident> {
-        val businessFunctionsPath = "awards.suppliers.persones"
-        val documentsPath = "$businessFunctionsPath.businessFunctions"
-
-        return awards.getIfNotEmpty(name = AWARDS_ATTRIBUTE_NAME)
-            .orForwardFail { return it }
-            .flatMap { award -> award.getSuppliersIfNotEmpty().orForwardFail { return it } }
-            .flatMap { supplier -> supplier.getPersonesIfNotEmpty().orForwardFail { return it } }
-            .flatMap { person ->
-                person.getBusinessFunctionsIfNotEmpty(businessFunctionsPath)
-                    .orForwardFail { return it }
+                        documents.map { document -> document.id }
+                    }
+                }
             }
-            .flatMap { businessFunction ->
-                businessFunction.getDocumentsIfNotEmpty(documentsPath)
-                    .orForwardFail { return it }
-            }
-            .map { document -> document.id }
             .asSuccess()
     }
 
@@ -770,34 +874,20 @@ class StorageOpenAccessDelegate(
             .map { document -> document.id }
             .asSuccess()
 
-    private fun getContractsDocumentsIdsRequired(contracts: Contracts): Result<List<DocumentId>, Fail.Incident> =
-        contracts
-            .getIfNotEmpty(name = CONTRACTS_ATTRIBUTE_NAME).orForwardFail { return it }
-            .flatMap { contract -> contract.getDocumentsIfNotEmpty().orForwardFail { return it } }
-            .map { document -> document.id }
-            .asSuccess()
+    private fun getContractsDocumentsIdsRequired(contracts: Contracts): Result<List<DocumentId>, Fail.Incident> {
+        if (contracts.isEmpty())
+            return failure(DelegateIncident.PathMissing(path = "contracts"))
 
-    private fun getBidsDocumentsIds(
-        bids: Bids?, entities: Map<EntityKey, EntityValue>
-    ): Result<List<DocumentId>, Fail.Incident> =
-        when (entities[EntityKey.BID]) {
-            EntityValue.OPTIONAL -> getBidsDocumentsIdsOptional(bids)
-            EntityValue.REQUIRED -> getBidsDocumentsIdsRequired(bids)
-            null -> emptyList<DocumentId>().asSuccess()
-        }
+        return contracts
+            .flatMap { award ->
+                val documents = award.documents
+                if (documents.isEmpty())
+                    return failure(DelegateIncident.DocumentsMissing(path = "contracts.documents"))
 
-    private fun getBidsDocumentsIdsOptional(bids: Bids?): Result<List<DocumentId>, Fail.Incident> =
-        bids?.details.orEmpty()
-            .flatMap { contract -> contract.documents }
-            .map { document -> document.id }
+                documents.map { document -> document.id }
+            }
             .asSuccess()
-
-    private fun getBidsDocumentsIdsRequired(bids: Bids?): Result<List<DocumentId>, Fail.Incident> =
-        bids
-            .getBidsDetailIfNotEmpty().orForwardFail { return it }
-            .flatMap { bid -> bid.getDocumentIfNotEmpty().orForwardFail { return it } }
-            .map { document -> document.id }
-            .asSuccess()
+    }
 
     private fun getAllDocuments(
         tender: Tender?,
@@ -811,19 +901,19 @@ class StorageOpenAccessDelegate(
     ): Result<List<DocumentId>, Fail.Incident> {
         val entities = parameters.entities
 
-        val amendmentDocuments: List<DocumentId> = getAmendmentDocumentsIds(tender, entities)
+        val amendmentDocuments: List<DocumentId> = getTenderAmendmentDocumentsIds(tender, entities)
             .orForwardFail { fail -> return fail }
 
         val tenderDocuments: List<DocumentId> = getTenderDocumentsIds(tender, entities)
             .orForwardFail { fail -> return fail }
 
-        val awardRequirementResponseDocuments = getAwardRequirementResponseDocumentsIds(awards, entities)
+        val awardRequirementResponseDocuments = getAwardRqRsDocumentsIds(awards, entities)
             .orForwardFail { fail -> return fail }
 
         val qualificationDocuments: List<DocumentId> = getQualificationDocumentsIds(qualifications, entities)
             .orForwardFail { fail -> return fail }
 
-        val qualificationReqRsDocuments: List<DocumentId> = getQualificationReqRsDocumentsIds(qualifications, entities)
+        val qualificationReqRsDocuments: List<DocumentId> = getQualificationRqRsDocumentsIds(qualifications, entities)
             .orForwardFail { fail -> return fail }
 
         val submissionsDocuments: List<DocumentId> = getSubmissionsDocumentsIds(submissions, entities)
@@ -911,11 +1001,12 @@ class StorageOpenAccessDelegate(
         documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document>,
         context: CamundaGlobalContext
     ): MaybeFail<Fail.Incident> {
-        val qualificationsWithUpdatedReqRsDocuments: Qualifications = if (EntityKey.QUALIFICATION_REQUIREMENT_RESPONSE in entities)
-            qualifications.updateReqRsDocuments(documentsByIds)
-                .orReturnFail { return MaybeFail.fail(it) }
-        else
-            qualifications
+        val qualificationsWithUpdatedReqRsDocuments: Qualifications =
+            if (EntityKey.QUALIFICATION_REQUIREMENT_RESPONSE in entities)
+                qualifications.updateReqRsDocuments(documentsByIds)
+                    .orReturnFail { return MaybeFail.fail(it) }
+            else
+                qualifications
 
         val qualificationsWithAllDocumentsUpdated: Qualifications = if (EntityKey.QUALIFICATION in entities)
             qualificationsWithUpdatedReqRsDocuments.updateDocuments(documentsByIds)
@@ -1051,11 +1142,12 @@ class StorageOpenAccessDelegate(
         AWARD_SUPPLIER("award.supplier"),
         BID("bid"),
         CONTRACT("contract"),
-        TENDER("tender"),
-        QUALIFICATION_REQUIREMENT_RESPONSE("qualification.requirementResponse"),
+        PARTIES("parties"),
         QUALIFICATION("qualification"),
+        QUALIFICATION_REQUIREMENT_RESPONSE("qualification.requirementResponse"),
         SUBMISSION("submission"),
-        PARTIES("parties");
+        TENDER("tender"),
+        ;
 
         override fun toString(): String = key
 
@@ -1064,11 +1156,22 @@ class StorageOpenAccessDelegate(
 
     enum class EntityValue(override val key: String) : EnumElementProvider.Key {
 
+        OPTIONAL("optional"),
         REQUIRED("required"),
-        OPTIONAL("optional");
+        ;
 
         override fun toString(): String = key
 
         companion object : EnumElementProvider<EntityValue>(info = info())
+    }
+
+    sealed class DelegateIncident(description: String) : Fail.Incident.Bpms.DelegateRule(description) {
+        override val exception: Exception? = null
+
+        class DocumentsMissing(path: String) :
+            DelegateIncident("Error: 'FR.DEL-0.5.10.2' - Documents is missing, path: '$path'.")
+
+        class PathMissing(path: String) :
+            DelegateIncident("Error: 'FR.DEL-0.5.10.4' - A part of the path is missing, path: '$path'.")
     }
 }

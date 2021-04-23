@@ -195,6 +195,7 @@ public class OperationServiceImpl implements OperationService {
             case PN:
             case PQ:
             case PS:
+            case RQ:
             case TP:
                 contextEntity.setCpId(context.getCpid());
                 break;

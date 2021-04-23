@@ -9,6 +9,7 @@ import com.procurement.orchestrator.infrastructure.client.web.WebClient
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.CheckAbsenceActiveInvitationsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.CheckAccessToBidAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.CheckBidStateAction
+import com.procurement.orchestrator.infrastructure.client.web.submission.action.CheckExistenceOfInvitationAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.CheckPeriodAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.CreateBidAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.CreateInvitationsAction
@@ -167,5 +168,13 @@ class HttpSubmissionClient(private val webClient: WebClient, properties: Compone
         url = url,
         command = SubmissionCommands.FindDocumentsByBidIds.build(id = id, params = params),
         target = SubmissionCommands.FindDocumentsByBidIds.target
+    )
+
+    override suspend fun checkExistenceOfInvitation(
+        id: CommandId,
+        params: CheckExistenceOfInvitationAction.Params
+    ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
+        url = url,
+        command = SubmissionCommands.CheckExistenceOfInvitation.build(id = id, params = params)
     )
 }

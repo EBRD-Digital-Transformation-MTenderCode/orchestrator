@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.procurement.orchestrator.application.model.process.OperationTypeProcess
 import com.procurement.orchestrator.application.service.ProceduralAction
 import com.procurement.orchestrator.domain.model.lot.LotId
+import com.procurement.orchestrator.domain.model.measure.Amount
 import com.procurement.orchestrator.infrastructure.model.Version
 
 abstract class ValidateAuctionsDataAction : ProceduralAction<ValidateAuctionsDataAction.Params> {
@@ -39,7 +40,10 @@ abstract class ValidateAuctionsDataAction : ProceduralAction<ValidateAuctionsDat
                     ) {
                         data class EligibleMinimumDifference(
                             @JsonInclude(JsonInclude.Include.NON_NULL)
-                            @param:JsonProperty("currency") @field:JsonProperty("currency") val currency: String?
+                            @param:JsonProperty("currency") @field:JsonProperty("currency") val currency: String?,
+
+                            @JsonInclude(JsonInclude.Include.NON_NULL)
+                            @param:JsonProperty("amount") @field:JsonProperty("amount") val amount: Amount?
                         )
                     }
                 }

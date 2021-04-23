@@ -32,23 +32,22 @@ import com.procurement.orchestrator.domain.model.party.PartyRoles
 import com.procurement.orchestrator.domain.model.period.Period
 import com.procurement.orchestrator.domain.model.person.Person
 import com.procurement.orchestrator.domain.model.person.Persons
-import com.procurement.orchestrator.domain.util.extension.asList
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.access.AccessCommands
-import com.procurement.orchestrator.infrastructure.client.web.access.action.GetOrganizationAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.GetOrganizationsAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ExternalServiceName
 import org.springframework.stereotype.Component
 
 @Component
-class AccessGetOrganizationDelegate(
+class AccessGetOrganizationsDelegate(
     logger: Logger,
     private val accessClient: AccessClient,
     operationStepRepository: OperationStepRepository,
     transform: Transform
-) : AbstractExternalDelegate<AccessGetOrganizationDelegate.Parameters, GetOrganizationAction.Result>(
+) : AbstractExternalDelegate<AccessGetOrganizationsDelegate.Parameters, GetOrganizationsAction.Result>(
     logger = logger,
     transform = transform,
     operationStepRepository = operationStepRepository
@@ -77,12 +76,12 @@ class AccessGetOrganizationDelegate(
         commandId: CommandId,
         context: CamundaGlobalContext,
         parameters: Parameters
-    ): Result<Reply<GetOrganizationAction.Result>, Fail.Incident> {
+    ): Result<Reply<GetOrganizationsAction.Result>, Fail.Incident> {
 
         val processInfo = context.processInfo
-        return accessClient.getOrganization(
+        return accessClient.getOrganizations(
             id = commandId,
-            params = GetOrganizationAction.Params(
+            params = GetOrganizationsAction.Params(
                 cpid = processInfo.cpid!!,
                 ocid = processInfo.ocid!!,
                 role = parameters.role
@@ -93,28 +92,28 @@ class AccessGetOrganizationDelegate(
     override fun updateGlobalContext(
         context: CamundaGlobalContext,
         parameters: Parameters,
-        result: Option<GetOrganizationAction.Result>
+        result: Option<GetOrganizationsAction.Result>
     ): MaybeFail<Fail.Incident> {
 
         val data = result.orNull
             ?: return MaybeFail.fail(
-                Fail.Incident.Response.Empty(service = ExternalServiceName.ACCESS, action = AccessCommands.GetOrganization)
+                Fail.Incident.Response.Empty(service = ExternalServiceName.ACCESS, action = AccessCommands.GetOrganizations)
             )
 
-        val party = buildParty(data, parameters)
-        context.parties = Parties(party.asList())
+        val receivedParties = data.parties.map { buildParty(it) }
+        context.parties = Parties(receivedParties)
 
         return MaybeFail.none()
     }
 
     class Parameters(val role: PartyRole)
 
-    private fun buildParty(data: GetOrganizationAction.Result, parameters: Parameters) = Party(
-        id = data.id,
-        name = data.name,
+    private fun buildParty(party: GetOrganizationsAction.Result.Party) = Party(
+        id = party.id,
+        name = party.name,
         roles = PartyRoles(),
         details = null,
-        address = data.address
+        address = party.address
             .let { address ->
                 Address(
                     streetAddress = address.streetAddress,
@@ -153,7 +152,7 @@ class AccessGetOrganizationDelegate(
                         }
                 )
             },
-        identifier = data.identifier
+        identifier = party.identifier
             .let { identifier ->
                 Identifier(
                     id = identifier.id,
@@ -163,7 +162,7 @@ class AccessGetOrganizationDelegate(
                 )
             },
         additionalIdentifiers = Identifiers(
-            data.additionalIdentifiers
+            party.additionalIdentifiers
                 ?.map { additionalIdentifier ->
                     Identifier(
                         id = additionalIdentifier.id,
@@ -174,7 +173,7 @@ class AccessGetOrganizationDelegate(
                 }
                 .orEmpty()
         ),
-        contactPoint = data.contactPoint
+        contactPoint = party.contactPoint
             .let { contactPoint ->
                 ContactPoint(
                     name = contactPoint.name,
@@ -185,7 +184,7 @@ class AccessGetOrganizationDelegate(
                 )
             },
         persons = Persons(
-            data.persons
+            party.persons
                 ?.map { person ->
                     Person(
                         id = person.id,

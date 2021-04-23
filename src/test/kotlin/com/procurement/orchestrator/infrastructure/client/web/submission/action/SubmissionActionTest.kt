@@ -350,4 +350,16 @@ class SubmissionActionTest {
             }
         }
     }
+
+    @Nested
+    inner class CheckExistenceOfInvitation {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CheckExistenceOfInvitationAction.Params>("json/client/submission/check_existence_of_invitation_params_full.json")
+            }
+        }
+    }
 }

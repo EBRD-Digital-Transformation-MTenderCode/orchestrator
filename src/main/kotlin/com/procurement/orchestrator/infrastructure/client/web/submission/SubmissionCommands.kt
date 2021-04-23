@@ -3,6 +3,7 @@ package com.procurement.orchestrator.infrastructure.client.web.submission
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.CheckAbsenceActiveInvitationsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.CheckAccessToBidAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.CheckBidStateAction
+import com.procurement.orchestrator.infrastructure.client.web.submission.action.CheckExistenceOfInvitationAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.CheckPeriodAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.CreateBidAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.CreateInvitationsAction
@@ -50,4 +51,6 @@ object SubmissionCommands {
     object GetOrganizationsByReferencesFromPacs: GetOrganizationsByReferencesFromPacsAction()
 
     object FindDocumentsByBidIds: FindDocumentsByBidIdsAction()
+
+    object CheckExistenceOfInvitation: CheckExistenceOfInvitationAction()
 }
