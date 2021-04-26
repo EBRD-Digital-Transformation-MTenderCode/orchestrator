@@ -236,4 +236,25 @@ class ContractingActionsTest {
         }
     }
 
+    @Nested
+    inner class ValidateConfirmationResponseData{
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<ValidateConfirmationResponseDataAction.Params>("json/client/contracting/validate_confirmation_response_data_params_fully.json")
+            }
+
+            @Test
+            fun required_1() {
+                testingBindingAndMapping<ValidateConfirmationResponseDataAction.Params>("json/client/contracting/validate_confirmation_response_data_params_required_1.json")
+            }
+
+            @Test
+            fun required_2() {
+                testingBindingAndMapping<ValidateConfirmationResponseDataAction.Params>("json/client/contracting/validate_confirmation_response_data_params_required_2.json")
+            }
+        }
+    }
+
 }
