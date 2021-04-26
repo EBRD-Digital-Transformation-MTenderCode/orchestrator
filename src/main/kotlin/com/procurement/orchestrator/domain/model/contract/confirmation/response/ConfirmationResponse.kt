@@ -12,11 +12,7 @@ data class ConfirmationResponse(
     @field:JsonProperty("id") @param:JsonProperty("id") val id: ConfirmationResponseId,
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
-    @field:JsonProperty("value") @param:JsonProperty("value") val value: ConfirmationResponseValue? = null,
-
-    //TODO null and type
-    @field:JsonInclude(JsonInclude.Include.NON_NULL)
-    @field:JsonProperty("request") @param:JsonProperty("request") val request: String? = null,
+    @field:JsonProperty("value") @param:JsonProperty("value") val value: String? = null,
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @param:JsonProperty("requestGroup") @field:JsonProperty("requestGroup") val requestGroup: String? = null,
@@ -38,8 +34,7 @@ data class ConfirmationResponse(
 
     override fun updateBy(src: ConfirmationResponse) = ConfirmationResponse(
         id = id,
-        value = value updateBy src.value,
-        request = src.request or request,
+        value = src.value or value,
         type = src.type or type,
         requestGroup = src.requestGroup or requestGroup,
         relatedPerson = relatedPerson updateBy src.relatedPerson
