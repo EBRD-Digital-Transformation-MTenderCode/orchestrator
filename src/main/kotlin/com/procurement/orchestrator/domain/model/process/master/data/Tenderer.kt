@@ -1,16 +1,17 @@
-package com.procurement.orchestrator.domain.model.mdm
+package com.procurement.orchestrator.domain.model.process.master.data
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.procurement.orchestrator.application.model.Owner
 import com.procurement.orchestrator.domain.model.ComplexObject
 import com.procurement.orchestrator.domain.model.or
 import java.io.Serializable
 
-data class Candidate(
+data class Tenderer(
     @get:JsonProperty("organizations") @param:JsonProperty("organizations") val organizations: Organizations,
-    @get:JsonProperty("owner") @param:JsonProperty("owner") val owner: String
-) : ComplexObject<Candidate>, Serializable {
+    @get:JsonProperty("owner") @param:JsonProperty("owner") val owner: Owner
+) : ComplexObject<Tenderer>, Serializable {
 
-    override fun updateBy(src: Candidate) = Candidate(
+    override fun updateBy(src: Tenderer) = Tenderer(
         owner = src.owner or owner,
         organizations = organizations updateBy src.organizations
     )

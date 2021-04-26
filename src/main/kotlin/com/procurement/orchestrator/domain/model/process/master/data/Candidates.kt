@@ -1,4 +1,4 @@
-package com.procurement.orchestrator.domain.model.mdm
+package com.procurement.orchestrator.domain.model.process.master.data
 
 import com.procurement.orchestrator.domain.model.ComplexObjects
 import java.io.Serializable

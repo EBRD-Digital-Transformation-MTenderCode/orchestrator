@@ -15,8 +15,8 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.domain.model.award.Awards
 import com.procurement.orchestrator.domain.model.bid.Bids
-import com.procurement.orchestrator.domain.model.mdm.Mdm
-import com.procurement.orchestrator.domain.model.mdm.ProcessMasterData
+import com.procurement.orchestrator.domain.model.process.master.data.Mdm
+import com.procurement.orchestrator.domain.model.process.master.data.ProcessMasterData
 import com.procurement.orchestrator.domain.model.scheme.RegistrationScheme
 import com.procurement.orchestrator.domain.model.scheme.RegistrationSchemes
 import com.procurement.orchestrator.domain.model.scheme.Schemes
