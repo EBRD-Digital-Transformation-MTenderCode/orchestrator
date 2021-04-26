@@ -17,6 +17,7 @@ import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.model.contract.Contracts
+import com.procurement.orchestrator.domain.model.contract.confirmation.request.ConfirmationRequest
 import com.procurement.orchestrator.domain.model.contract.confirmation.request.ConfirmationRequests
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
@@ -164,25 +165,24 @@ class ContractingCreateConfirmationRequestsDelegate(
             .copy(confirmationRequests = receivedRequests)
             .let { Contracts(it) }
 
-
-        context.contracts = updatedContracts
         context.outcomes = createOutcomes(context, receivedRequests.first())
+        context.contracts = updatedContracts
 
         return MaybeFail.none()
     }
 
     private fun createOutcomes(
         context: CamundaGlobalContext,
-        confirmationRequests: CreateConfirmationRequestsAction.Result.Contract.ConfirmationRequest
+        confirmationRequest: ConfirmationRequest
     ): Outcomes {
-        val platformId = confirmationRequests.requestGroups.first().owner
+        val platformId = confirmationRequest.requestGroups.first().owner
         val outcomes = context.outcomes ?: Outcomes()
         val details = outcomes[platformId] ?: Outcomes.Details()
 
-        val newOutcomes = confirmationRequests.requestGroups
+        val newOutcomes = confirmationRequest.requestGroups
             .map { requestGroup -> Outcomes.Details.RequestGroup(id = requestGroup.id, token = requestGroup.token) }
 
-        val updatedDetails = details.copy(contracts = newOutcomes)
+        val updatedDetails = details.copy(requestGroups = newOutcomes)
         outcomes[platformId] = updatedDetails
         return outcomes
     }
