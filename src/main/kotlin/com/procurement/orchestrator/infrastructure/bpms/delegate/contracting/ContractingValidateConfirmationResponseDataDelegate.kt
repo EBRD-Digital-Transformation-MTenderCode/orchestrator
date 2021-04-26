@@ -46,10 +46,46 @@ class ContractingValidateConfirmationResponseDataDelegate(
                 contracts = context.contracts.map { contract ->
                     ValidateConfirmationResponseDataAction.Params.Contract(
                         id = contract.id,
-                        confirmationResponses = contract.confirmationRequests.map { confirmationRequest ->
+                        confirmationResponses = contract.confirmationResponses.map { confirmationResponse ->
                             ValidateConfirmationResponseDataAction.Params.Contract.ConfirmationResponse(
-                                id = confirmationRequest.id,
-                                requestGroup = confirmationRequest.requestGroups
+                                id = confirmationResponse.id,
+                                requestGroup = confirmationResponse.requestGroup,
+                                type = confirmationResponse.type,
+                                value = confirmationResponse.value,
+                                relatedPerson = confirmationResponse.relatedPerson
+                                    ?.let { person ->
+                                        ValidateConfirmationResponseDataAction.Params.Contract.ConfirmationResponse.RelatedPerson(
+                                            title = person.title,
+                                            id = person.id,
+                                            name = person.name,
+                                            identifier = person.identifier?.let { identifier ->
+                                                ValidateConfirmationResponseDataAction.Params.Contract.ConfirmationResponse.RelatedPerson.Identifier(
+                                                    scheme = identifier.scheme,
+                                                    id = identifier.id,
+                                                    uri = identifier.uri
+                                                )
+                                            },
+                                            businessFunctions = person.businessFunctions.map { businessFunction ->
+                                                ValidateConfirmationResponseDataAction.Params.Contract.ConfirmationResponse.RelatedPerson.BusinessFunction(
+                                                    type = businessFunction.type,
+                                                    period = businessFunction.period?.let { period ->
+                                                        ValidateConfirmationResponseDataAction.Params.Contract.ConfirmationResponse.RelatedPerson.BusinessFunction.Period(
+                                                            period.startDate
+                                                        )
+                                                    },
+                                                    documents = businessFunction.documents.map { document ->
+                                                        ValidateConfirmationResponseDataAction.Params.Contract.ConfirmationResponse.RelatedPerson.BusinessFunction.Document(
+                                                            id = document.id,
+                                                            title = document.title,
+                                                            description = document.description,
+                                                            documentType = document.documentType
+                                                        )
+                                                    },
+                                                    jobTitle = businessFunction.jobTitle
+                                                )
+                                            }
+                                        )
+                                    }
                             )
                         }
                     )
