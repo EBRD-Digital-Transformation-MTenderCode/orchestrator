@@ -50,7 +50,8 @@ abstract class CreateConfirmationRequestsAction : FunctionalAction<CreateConfirm
         }
 
         data class Access(
-            @param:JsonProperty("buyers") @field:JsonProperty("buyers") val buyers: List<Buyer>,
+            @JsonInclude(JsonInclude.Include.NON_EMPTY)
+            @param:JsonProperty("buyers") @field:JsonProperty("buyers") val buyers: List<Buyer>?,
 
             @JsonInclude(JsonInclude.Include.NON_NULL)
             @param:JsonProperty("procuringEntity") @field:JsonProperty("procuringEntity") val procuringEntity: ProcuringEntity?
