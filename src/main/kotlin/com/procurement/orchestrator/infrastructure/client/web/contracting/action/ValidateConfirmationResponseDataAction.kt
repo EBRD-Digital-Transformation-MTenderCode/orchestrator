@@ -6,6 +6,7 @@ import com.procurement.orchestrator.application.service.ProceduralAction
 import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
 import com.procurement.orchestrator.domain.model.contract.ContractId
+import com.procurement.orchestrator.domain.model.contract.confirmation.response.ConfirmationResponseType
 import com.procurement.orchestrator.domain.model.document.DocumentId
 import com.procurement.orchestrator.domain.model.document.DocumentType
 import com.procurement.orchestrator.domain.model.organization.person.BusinessFunctionType
@@ -29,15 +30,29 @@ abstract class ValidateConfirmationResponseDataAction : ProceduralAction<Validat
         ) {
             data class ConfirmationResponse(
                 @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
-                @param:JsonProperty("requestGroup") @field:JsonProperty("requestGroup") val requestGroup: String,
-                @param:JsonProperty("type") @field:JsonProperty("type") val type: String,
-                @param:JsonProperty("value") @field:JsonProperty("value") val value: String,
-                @param:JsonProperty("relatedPerson") @field:JsonProperty("relatedPerson") val relatedPerson: RelatedPerson
+
+                @JsonInclude(JsonInclude.Include.NON_NULL)
+                @param:JsonProperty("requestGroup") @field:JsonProperty("requestGroup") val requestGroup: String?,
+
+                @JsonInclude(JsonInclude.Include.NON_NULL)
+                @param:JsonProperty("type") @field:JsonProperty("type") val type: ConfirmationResponseType?,
+
+                @JsonInclude(JsonInclude.Include.NON_NULL)
+                @param:JsonProperty("value") @field:JsonProperty("value") val value: String?,
+
+                @JsonInclude(JsonInclude.Include.NON_NULL)
+                @param:JsonProperty("relatedPerson") @field:JsonProperty("relatedPerson") val relatedPerson: RelatedPerson?
             ) {
                 data class RelatedPerson(
-                    @param:JsonProperty("title") @field:JsonProperty("title") val title: String,
-                    @param:JsonProperty("name") @field:JsonProperty("name") val name: String,
-                    @param:JsonProperty("identifier") @field:JsonProperty("identifier") val identifier: Identifier,
+                    @JsonInclude(JsonInclude.Include.NON_NULL)
+                    @param:JsonProperty("title") @field:JsonProperty("title") val title: String?,
+
+                    @JsonInclude(JsonInclude.Include.NON_NULL)
+                    @param:JsonProperty("name") @field:JsonProperty("name") val name: String?,
+
+                    @JsonInclude(JsonInclude.Include.NON_NULL)
+                    @param:JsonProperty("identifier") @field:JsonProperty("identifier") val identifier: Identifier?,
+
                     @param:JsonProperty("businessFunctions") @field:JsonProperty("businessFunctions") val businessFunctions: List<BusinessFunction>,
                     @param:JsonProperty("id") @field:JsonProperty("id") val id: PersonId
                 ) {
@@ -50,21 +65,31 @@ abstract class ValidateConfirmationResponseDataAction : ProceduralAction<Validat
                     )
 
                     data class BusinessFunction(
-                        @param:JsonProperty("type") @field:JsonProperty("type") val type: BusinessFunctionType,
-                        @param:JsonProperty("jobTitle") @field:JsonProperty("jobTitle") val jobTitle: String,
-                        @param:JsonProperty("period") @field:JsonProperty("period") val period: Period,
+                        @JsonInclude(JsonInclude.Include.NON_NULL)
+                        @param:JsonProperty("type") @field:JsonProperty("type") val type: BusinessFunctionType?,
+
+                        @JsonInclude(JsonInclude.Include.NON_NULL)
+                        @param:JsonProperty("jobTitle") @field:JsonProperty("jobTitle") val jobTitle: String?,
+
+                        @JsonInclude(JsonInclude.Include.NON_NULL)
+                        @param:JsonProperty("period") @field:JsonProperty("period") val period: Period?,
 
                         @JsonInclude(JsonInclude.Include.NON_EMPTY)
                         @param:JsonProperty("documents") @field:JsonProperty("documents") val documents: List<Document>?
                     ) {
                         data class Period(
-                            @param:JsonProperty("startDate") @field:JsonProperty("startDate") val startDate: LocalDateTime
+                            @JsonInclude(JsonInclude.Include.NON_NULL)
+                            @param:JsonProperty("startDate") @field:JsonProperty("startDate") val startDate: LocalDateTime?
                         )
 
                         data class Document(
                             @param:JsonProperty("id") @field:JsonProperty("id") val id: DocumentId,
-                            @param:JsonProperty("documentType") @field:JsonProperty("documentType") val documentType: DocumentType,
-                            @param:JsonProperty("title") @field:JsonProperty("title") val title: String,
+
+                            @JsonInclude(JsonInclude.Include.NON_NULL)
+                            @param:JsonProperty("documentType") @field:JsonProperty("documentType") val documentType: DocumentType?,
+
+                            @JsonInclude(JsonInclude.Include.NON_NULL)
+                            @param:JsonProperty("title") @field:JsonProperty("title") val title: String?,
 
                             @JsonInclude(JsonInclude.Include.NON_NULL)
                             @param:JsonProperty("description") @field:JsonProperty("description") val description: String?
