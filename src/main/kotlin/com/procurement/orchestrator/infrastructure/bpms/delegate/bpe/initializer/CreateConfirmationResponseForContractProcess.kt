@@ -3,7 +3,6 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.bpe.initialize
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.procurement.orchestrator.domain.model.contract.confirmation.response.ConfirmationResponseType
-import com.procurement.orchestrator.domain.model.contract.confirmation.response.ConfirmationResponseValue
 import com.procurement.orchestrator.domain.model.document.DocumentId
 import com.procurement.orchestrator.domain.model.document.DocumentType
 import com.procurement.orchestrator.domain.model.organization.person.BusinessFunctionId
@@ -19,7 +18,7 @@ object CreateConfirmationResponseForContractProcess {
             data class ConfirmationResponse(
                 @param:JsonProperty("requestGroup") @field:JsonProperty("requestGroup") val requestGroup: String,
                 @param:JsonProperty("type") @field:JsonProperty("type") val type: ConfirmationResponseType,
-                @param:JsonProperty("value") @field:JsonProperty("value") val value: ConfirmationResponseValue,
+                @param:JsonProperty("value") @field:JsonProperty("value") val value: String,
                 @param:JsonProperty("relatedPerson") @field:JsonProperty("relatedPerson") val relatedPerson: RelatedPerson
             ) {
                 data class RelatedPerson(
