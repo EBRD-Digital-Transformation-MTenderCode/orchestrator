@@ -14,6 +14,7 @@ import com.procurement.orchestrator.infrastructure.client.web.contracting.action
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.FindCANIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.FindSupplierReferencesOfActivePacsAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.SetStateForContractsAction
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.ValidateConfirmationResponseDataAction
 
 interface ContractingClient {
 
@@ -65,5 +66,10 @@ interface ContractingClient {
     suspend fun checkExistenceSupplierReferencesInFC(
         id: CommandId,
         params: CheckExistenceSupplierReferencesInFCAction.Params
+    ): Result<Reply<Unit>, Fail.Incident>
+
+    suspend fun validateConfirmationResponseData(
+        id: CommandId,
+        params: ValidateConfirmationResponseDataAction.Params
     ): Result<Reply<Unit>, Fail.Incident>
 }
