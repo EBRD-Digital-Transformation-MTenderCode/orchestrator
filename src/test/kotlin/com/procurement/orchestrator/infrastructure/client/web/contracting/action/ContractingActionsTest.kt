@@ -237,6 +237,26 @@ class ContractingActionsTest {
     }
 
     @Nested
+    inner class GetContractState{
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetContractStateAction.Params>("json/client/contracting/get_contract_state_params_fully.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetContractStateAction.Result>("json/client/contracting/get_contract_state_result_fully.json")
+            }
+        }
+    }
+
+    @Nested
     inner class CreateConfirmationRequests {
 
         @Nested
