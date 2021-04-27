@@ -12,8 +12,8 @@ import com.procurement.orchestrator.domain.model.bid.Bids
 import com.procurement.orchestrator.domain.model.contract.Contracts
 import com.procurement.orchestrator.domain.model.contract.RelatedProcesses
 import com.procurement.orchestrator.domain.model.invitation.Invitations
-import com.procurement.orchestrator.domain.model.masterdata.ProcessMasterData
 import com.procurement.orchestrator.domain.model.party.Parties
+import com.procurement.orchestrator.domain.model.process.master.data.ProcessMasterData
 import com.procurement.orchestrator.domain.model.qualification.PreQualification
 import com.procurement.orchestrator.domain.model.qualification.Qualifications
 import com.procurement.orchestrator.domain.model.submission.Submissions

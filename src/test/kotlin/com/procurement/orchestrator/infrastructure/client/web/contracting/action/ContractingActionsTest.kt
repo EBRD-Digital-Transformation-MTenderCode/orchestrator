@@ -257,6 +257,36 @@ class ContractingActionsTest {
     }
 
     @Nested
+    inner class CreateConfirmationRequests {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CreateConfirmationRequestsAction.Params>("json/client/contracting/create_confirmation_requests_params_fully.json")
+            }
+
+            @Test
+            fun required_1() {
+                testingBindingAndMapping<CreateConfirmationRequestsAction.Params>("json/client/contracting/create_confirmation_requests_params_required_1.json")
+            }
+
+            @Test
+            fun required_2() {
+                testingBindingAndMapping<CreateConfirmationRequestsAction.Params>("json/client/contracting/create_confirmation_requests_params_required_2.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CreateConfirmationRequestsAction.Result>("json/client/contracting/create_confirmation_requests_result_fully.json")
+            }
+        }
+    }
+
+    @Nested
     inner class ValidateConfirmationResponseData{
         @Nested
         inner class Params {
