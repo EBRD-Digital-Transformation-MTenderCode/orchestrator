@@ -75,7 +75,7 @@ class BpeSendMessageToDocGeneratorDelegate(
             operationId = requestInfo.operationId,
             startDate = requestInfo.timestamp,
             pmd = processInfo.pmd,
-            documentInitiator = processInfo.operationType,
+            processInitiator = processInfo.operationType,
             objectId = objectId
         )
         val serializedData = transform.tryToJsonNode(data)
