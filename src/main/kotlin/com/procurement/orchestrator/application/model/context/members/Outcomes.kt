@@ -39,7 +39,10 @@ class Outcomes(values: MutableMap<PlatformId, Details> = mutableMapOf()) :
         @field:JsonProperty("contracts") @param:JsonProperty("contracts") val contracts: List<Contract> = emptyList(),
 
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
-        @field:JsonProperty("rq") @param:JsonProperty("rq") val rq: List<RequestQuotation> = emptyList()
+        @field:JsonProperty("rq") @param:JsonProperty("rq") val rq: List<RequestQuotation> = emptyList(),
+
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        @field:JsonProperty("requestGroups") @param:JsonProperty("requestGroups") val requestGroups: List<RequestGroup> = emptyList()
 
     ) : Serializable {
 
@@ -90,6 +93,11 @@ class Outcomes(values: MutableMap<PlatformId, Details> = mutableMapOf()) :
 
         data class RequestQuotation(
             @field:JsonProperty("id") @param:JsonProperty("id") val id: Ocid
+        ) : Serializable
+
+        data class RequestGroup(
+            @field:JsonProperty("id") @param:JsonProperty("id") val id: String,
+            @field:JsonProperty("token") @param:JsonProperty("token") val token: Token
         ) : Serializable
     }
 }
