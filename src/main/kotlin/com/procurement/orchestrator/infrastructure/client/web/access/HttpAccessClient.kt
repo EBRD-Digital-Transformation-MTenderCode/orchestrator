@@ -34,6 +34,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.GetQ
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetTenderCurrencyAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.OutsourcingPnAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.PersonesProcessingAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ResponderProcessingAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForLotsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForTenderAction
@@ -360,5 +361,14 @@ class HttpAccessClient(private val webClient: WebClient, properties: ComponentPr
         url = url,
         command = AccessCommands.CreateRfq.build(id = id, params = params),
         target = AccessCommands.CreateRfq.target
+    )
+
+    override suspend fun personesProcessing(
+        id: CommandId,
+        params: PersonesProcessingAction.Params
+    ): Result<Reply<PersonesProcessingAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = AccessCommands.PersonesProcessing.build(id = id, params = params),
+        target = AccessCommands.PersonesProcessing.target
     )
 }
