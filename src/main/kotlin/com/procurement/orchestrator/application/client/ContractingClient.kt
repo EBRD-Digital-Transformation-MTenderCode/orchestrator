@@ -13,6 +13,7 @@ import com.procurement.orchestrator.infrastructure.client.web.contracting.action
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.DoPacsAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.FindCANIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.FindSupplierReferencesOfActivePacsAction
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.GetContractStateAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.SetStateForContractsAction
 
 interface ContractingClient {
@@ -66,4 +67,9 @@ interface ContractingClient {
         id: CommandId,
         params: CheckExistenceSupplierReferencesInFCAction.Params
     ): Result<Reply<Unit>, Fail.Incident>
+
+    suspend fun getContractState(
+        id: CommandId,
+        params: GetContractStateAction.Params
+    ): Result<Reply<GetContractStateAction.Result>, Fail.Incident>
 }
