@@ -9,9 +9,9 @@ import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
-import com.procurement.orchestrator.domain.model.masterdata.ProcessMasterData
-import com.procurement.orchestrator.domain.model.masterdata.access.Access
-import com.procurement.orchestrator.domain.model.masterdata.access.Buyers
+import com.procurement.orchestrator.domain.model.process.master.data.Access
+import com.procurement.orchestrator.domain.model.process.master.data.Buyers
+import com.procurement.orchestrator.domain.model.process.master.data.ProcessMasterData
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
