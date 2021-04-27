@@ -286,4 +286,24 @@ class ContractingActionsTest {
         }
     }
 
+    @Nested
+    inner class GetOrganizationIdAndSourceOfRequestGroup {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetOrganizationIdAndSourceOfRequestGroupAction.Params>("json/client/contracting/get_request_group_by_confirmation_response_params_fully.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetOrganizationIdAndSourceOfRequestGroupAction.Result>("json/client/contracting/get_request_group_by_confirmation_response_result_fully.json")
+            }
+        }
+    }
+
 }
