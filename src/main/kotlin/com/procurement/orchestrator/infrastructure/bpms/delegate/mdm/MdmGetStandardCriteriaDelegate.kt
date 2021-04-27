@@ -12,8 +12,8 @@ import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.asSuccess
-import com.procurement.orchestrator.domain.model.mdm.Mdm
-import com.procurement.orchestrator.domain.model.mdm.ProcessMasterData
+import com.procurement.orchestrator.domain.model.masterdata.ProcessMasterData
+import com.procurement.orchestrator.domain.model.masterdata.mdm.Mdm
 import com.procurement.orchestrator.domain.model.tender.Tender
 import com.procurement.orchestrator.domain.model.tender.criteria.Criteria
 import com.procurement.orchestrator.domain.model.tender.criteria.Criterion

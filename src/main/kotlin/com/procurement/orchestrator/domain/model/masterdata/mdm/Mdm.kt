@@ -1,4 +1,4 @@
-package com.procurement.orchestrator.domain.model.mdm
+package com.procurement.orchestrator.domain.model.masterdata.mdm
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
