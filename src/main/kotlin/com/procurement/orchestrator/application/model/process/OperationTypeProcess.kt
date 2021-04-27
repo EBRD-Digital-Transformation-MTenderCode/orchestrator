@@ -12,6 +12,8 @@ enum class OperationTypeProcess(@JsonValue override val key: String) : EnumEleme
     COMPLETE_QUALIFICATION("completeQualification"),
     COMPLETE_SOURCING("completeSourcing"),
     CREATE_AWARD("createAward"),
+    CREATE_CONFIRMATION_RESPONSE_BY_BUYER("createConfirmationResponseByBuyer"),
+    CREATE_CONFIRMATION_RESPONSE_BY_INVITED_CANDIDATE("createConfirmationResponseByInvitedCandidate"),
     CREATE_PCR("createPcr"),
     CREATE_RFQ("createRfq"),
     CREATE_SUBMISSION("createSubmission"),
