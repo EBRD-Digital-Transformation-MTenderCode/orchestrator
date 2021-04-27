@@ -775,4 +775,46 @@ class AccessActionsTest {
 
         }
     }
+
+    @Nested
+    inner class PersonesProcessing {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<PersonesProcessingAction.Params>("json/client/access/persones_processing_params_full.json")
+            }
+
+            @Test
+            fun required1() {
+                testingBindingAndMapping<PersonesProcessingAction.Params>("json/client/access/persones_processing_params_required_1.json")
+            }
+
+            @Test
+            fun required2() {
+                testingBindingAndMapping<PersonesProcessingAction.Params>("json/client/access/persones_processing_params_required_2.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<PersonesProcessingAction.Result>("json/client/access/persones_processing_result_full.json")
+            }
+
+            @Test
+            fun required1() {
+                testingBindingAndMapping<PersonesProcessingAction.Result>("json/client/access/persones_processing_result_required_1.json")
+            }
+
+
+            @Test
+            fun required2() {
+                testingBindingAndMapping<PersonesProcessingAction.Result>("json/client/access/persones_processing_result_required_2.json")
+            }
+
+        }
+    }
 }
