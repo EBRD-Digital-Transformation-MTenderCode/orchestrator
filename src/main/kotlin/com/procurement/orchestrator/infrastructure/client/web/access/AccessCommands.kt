@@ -28,6 +28,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.GetQ
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetTenderCurrencyAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.OutsourcingPnAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.PersonesProcessingAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ResponderProcessingAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForLotsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForTenderAction
@@ -111,4 +112,6 @@ object AccessCommands {
     object ValidateRfqData : ValidateRfqDataAction()
 
     object CreateRfq : CreateRfqAction()
+
+    object PersonesProcessing : PersonesProcessingAction()
 }
