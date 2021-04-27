@@ -10,7 +10,7 @@ import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
-import com.procurement.orchestrator.domain.model.mdm.ProcessMasterData
+import com.procurement.orchestrator.domain.model.masterdata.ProcessMasterData
 import com.procurement.orchestrator.domain.model.tender.Tender
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer

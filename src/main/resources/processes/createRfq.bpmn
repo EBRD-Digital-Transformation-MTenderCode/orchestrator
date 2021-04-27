@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_16sa2up" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.5.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_16sa2up" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.7.0">
   <bpmn:collaboration id="Collaboration_0qvx23r">
     <bpmn:participant id="Participant_151lbdk" name="CreateRfq" processRef="createRfq" />
     <bpmn:group id="Group_1hwtum7" categoryValueRef="CategoryValue_0tpez54" />
@@ -30,6 +30,9 @@
       <bpmn:outgoing>Flow_0ifoavt</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:callActivity id="SubCompareDataWithPcrTask" name="Compare data with PCR" camunda:asyncBefore="true" calledElement="subCompareDataWithPcr" camunda:variableMappingDelegateExpression="${transferRfqDataDelegate}">
+      <bpmn:extensionElements>
+        <camunda:out source="errors" target="errors" />
+      </bpmn:extensionElements>
       <bpmn:incoming>Flow_0ifoavt</bpmn:incoming>
       <bpmn:outgoing>Flow_1tbkmm3</bpmn:outgoing>
     </bpmn:callActivity>

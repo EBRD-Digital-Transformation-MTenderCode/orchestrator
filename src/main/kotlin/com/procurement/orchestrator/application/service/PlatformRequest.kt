@@ -6,6 +6,7 @@ import com.procurement.orchestrator.application.model.OperationId
 import com.procurement.orchestrator.application.model.Owner
 import com.procurement.orchestrator.application.model.PlatformId
 import com.procurement.orchestrator.application.model.Token
+import com.procurement.orchestrator.application.model.process.OperationTypeProcess
 import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
 
@@ -29,7 +30,8 @@ class PlatformRequest(
         @field:JsonProperty("uri") @param:JsonProperty("uri") val uri: String,
         @field:JsonProperty("processName") @param:JsonProperty("processName") val processName: String,
         @field:JsonProperty("relatedProcess") @param:JsonProperty("relatedProcess") val relatedProcess: RelatedProcess? = null,
-        @field:JsonProperty("additionalProcess") @param:JsonProperty("additionalProcess") val additionalProcess: AdditionalProcess? = null
+        @field:JsonProperty("additionalProcess") @param:JsonProperty("additionalProcess") val additionalProcess: AdditionalProcess? = null,
+        @field:JsonProperty("operationType") @param:JsonProperty("operationType") val operationType: OperationTypeProcess? = null
     ) {
         data class RelatedProcess(
             @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid,

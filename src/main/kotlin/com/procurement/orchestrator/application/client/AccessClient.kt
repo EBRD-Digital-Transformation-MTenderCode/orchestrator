@@ -22,6 +22,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Divi
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindAuctionsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindCriteriaAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindLotIdsAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.GetBuyersOwnersAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetItemsByLotIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotStateByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotsValueAction
@@ -204,6 +205,11 @@ interface AccessClient {
         id: CommandId,
         params: GetItemsByLotIdsAction.Params
     ): Result<Reply<GetItemsByLotIdsAction.Result>, Fail.Incident>
+
+    suspend fun getBuyersOwners(
+        id: CommandId,
+        params: GetBuyersOwnersAction.Params
+    ): Result<Reply<GetBuyersOwnersAction.Result>, Fail.Incident>
 
     suspend fun validateRfqData(id: CommandId, params: ValidateRfqDataAction.Params): Result<Reply<Unit>, Fail.Incident>
 

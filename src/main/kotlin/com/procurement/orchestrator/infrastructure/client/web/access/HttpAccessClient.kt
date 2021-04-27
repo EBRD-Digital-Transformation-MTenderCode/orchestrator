@@ -24,6 +24,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Divi
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindAuctionsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindCriteriaAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindLotIdsAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.GetBuyersOwnersAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetItemsByLotIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotStateByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotsValueAction
@@ -333,6 +334,15 @@ class HttpAccessClient(private val webClient: WebClient, properties: ComponentPr
         url = url,
         command = AccessCommands.GetItemsByLotIds.build(id = id, params = params),
         target = AccessCommands.GetItemsByLotIds.target
+    )
+
+    override suspend fun getBuyersOwners(
+        id: CommandId,
+        params: GetBuyersOwnersAction.Params
+    ): Result<Reply<GetBuyersOwnersAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = AccessCommands.GetBuyersOwners.build(id = id, params = params),
+        target = AccessCommands.GetBuyersOwners.target
     )
 
     override suspend fun validateRfqData(

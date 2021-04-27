@@ -104,7 +104,7 @@ class ProcessLauncherImpl(
                     ocid = request.context.ocid,
                     cpid = request.context.cpid,
                     pmd = pmd,
-                    operationType = rule.operationType,
+                    operationType = request.context.operationType ?: rule.operationType,
                     stage = rule.stageTo,
                     prevStage = prevStage,
                     processDefinitionKey = processDefinitionKey,
