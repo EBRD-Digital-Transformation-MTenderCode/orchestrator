@@ -6,6 +6,7 @@ import com.procurement.orchestrator.application.service.ProceduralAction
 import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
 import com.procurement.orchestrator.domain.model.contract.ContractId
+import com.procurement.orchestrator.domain.model.contract.confirmation.response.ConfirmationResponseId
 import com.procurement.orchestrator.domain.model.contract.confirmation.response.ConfirmationResponseType
 import com.procurement.orchestrator.domain.model.document.DocumentId
 import com.procurement.orchestrator.domain.model.document.DocumentType
@@ -29,7 +30,7 @@ abstract class ValidateConfirmationResponseDataAction : ProceduralAction<Validat
             @param:JsonProperty("confirmationResponses") @field:JsonProperty("confirmationResponses") val confirmationResponses: List<ConfirmationResponse>
         ) {
             data class ConfirmationResponse(
-                @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
+                @param:JsonProperty("id") @field:JsonProperty("id") val id: ConfirmationResponseId,
 
                 @JsonInclude(JsonInclude.Include.NON_NULL)
                 @param:JsonProperty("requestGroup") @field:JsonProperty("requestGroup") val requestGroup: String?,
