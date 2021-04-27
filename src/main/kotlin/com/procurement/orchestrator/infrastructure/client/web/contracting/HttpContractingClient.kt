@@ -17,6 +17,7 @@ import com.procurement.orchestrator.infrastructure.client.web.contracting.action
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.FindCANIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.FindSupplierReferencesOfActivePacsAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.GetContractStateAction
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.GetOrganizationIdAndSourceOfRequestGroupAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.SetStateForContractsAction
 import com.procurement.orchestrator.infrastructure.configuration.property.ComponentProperties
 import java.net.URL
@@ -125,5 +126,14 @@ class HttpContractingClient(private val webClient: WebClient, properties: Compon
         url = url,
         command = ContractingCommands.CreateConfirmationRequests.build(id = id, params = params),
         target = ContractingCommands.CreateConfirmationRequests.target
+    )
+
+    override suspend fun getOrganizationIdAndSourceOfRequestGroup(
+        id: CommandId,
+        params: GetOrganizationIdAndSourceOfRequestGroupAction.Params
+    ): Result<Reply<GetOrganizationIdAndSourceOfRequestGroupAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = ContractingCommands.GetOrganizationIdAndSourceOfRequestGroup.build(id = id, params = params),
+        target = ContractingCommands.GetOrganizationIdAndSourceOfRequestGroup.target
     )
 }
