@@ -12,6 +12,7 @@ import com.procurement.orchestrator.infrastructure.client.web.contracting.action
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.FindSupplierReferencesOfActivePacsAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.GetContractStateAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.SetStateForContractsAction
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.ValidateConfirmationResponseDataAction
 
 object ContractingCommands {
 
@@ -38,4 +39,6 @@ object ContractingCommands {
     object GetContractState : GetContractStateAction()
 
     object CreateConfirmationRequests : CreateConfirmationRequestsAction()
+
+    object ValidateConfirmationResponseData: ValidateConfirmationResponseDataAction()
 }

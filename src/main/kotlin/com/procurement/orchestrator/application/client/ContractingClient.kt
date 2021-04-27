@@ -16,6 +16,7 @@ import com.procurement.orchestrator.infrastructure.client.web.contracting.action
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.FindSupplierReferencesOfActivePacsAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.GetContractStateAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.SetStateForContractsAction
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.ValidateConfirmationResponseDataAction
 
 interface ContractingClient {
 
@@ -78,4 +79,9 @@ interface ContractingClient {
         id: CommandId,
         params: CreateConfirmationRequestsAction.Params
     ): Result<Reply<CreateConfirmationRequestsAction.Result>, Fail.Incident>
+
+    suspend fun validateConfirmationResponseData(
+        id: CommandId,
+        params: ValidateConfirmationResponseDataAction.Params
+    ): Result<Reply<Unit>, Fail.Incident>
 }
