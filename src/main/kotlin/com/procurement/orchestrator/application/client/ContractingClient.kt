@@ -15,6 +15,7 @@ import com.procurement.orchestrator.infrastructure.client.web.contracting.action
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.FindCANIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.FindSupplierReferencesOfActivePacsAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.GetContractStateAction
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.GetOrganizationIdAndSourceOfRequestGroupAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.SetStateForContractsAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.ValidateConfirmationResponseDataAction
 
@@ -84,4 +85,9 @@ interface ContractingClient {
         id: CommandId,
         params: ValidateConfirmationResponseDataAction.Params
     ): Result<Reply<Unit>, Fail.Incident>
+
+    suspend fun getOrganizationIdAndSourceOfRequestGroup(
+        id: CommandId,
+        params: GetOrganizationIdAndSourceOfRequestGroupAction.Params
+    ): Result<Reply<GetOrganizationIdAndSourceOfRequestGroupAction.Result>, Fail.Incident>
 }
