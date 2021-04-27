@@ -15,7 +15,7 @@ import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
 import com.procurement.orchestrator.domain.model.award.Award
-import com.procurement.orchestrator.domain.model.masterdata.mdm.Mdm
+import com.procurement.orchestrator.domain.model.process.master.data.Mdm
 import com.procurement.orchestrator.domain.model.tender.Tender
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
