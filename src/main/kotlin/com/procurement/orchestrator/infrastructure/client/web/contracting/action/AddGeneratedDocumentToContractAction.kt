@@ -27,7 +27,7 @@ abstract class AddGeneratedDocumentToContractAction : FunctionalAction<AddGenera
         @param:JsonProperty("ocid") @field:JsonProperty("ocid") val ocid: Ocid,
 
         @JsonInclude(JsonInclude.Include.NON_NULL)
-        @param:JsonProperty("documentInitiator") @field:JsonProperty("documentInitiator") val documentInitiator: ProcessInitiator?,
+        @param:JsonProperty("processInitiator") @field:JsonProperty("processInitiator") val processInitiator: ProcessInitiator?,
 
         @param:JsonProperty("contracts") @field:JsonProperty("contracts") val contracts: List<Contract>
     ) {

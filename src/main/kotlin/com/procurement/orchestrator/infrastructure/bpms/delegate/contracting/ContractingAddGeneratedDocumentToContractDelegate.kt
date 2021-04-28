@@ -50,7 +50,7 @@ class ContractingAddGeneratedDocumentToContractDelegate(
             params = AddGeneratedDocumentToContractAction.Params(
                 cpid = processInfo.cpid!!,
                 ocid = processInfo.ocid!!,
-                documentInitiator = processInfo.processInitiator,
+                processInitiator = processInfo.processInitiator,
                 contracts = context.contracts.map { contract -> contract.toRequest() }
             )
         )
