@@ -120,7 +120,7 @@ class ProcessLauncherImpl(
                             )
                         },
                     entityId = request.context.id,
-                    documentInitiator = null,
+                    processInitiator = null,
                     additionalProcess = request.context.additionalProcess
                         ?.let { additionalProcess ->
                             AdditionalProcess(
@@ -204,7 +204,7 @@ class ProcessLauncherImpl(
                     awardCriteria = prevProcessContext.awardCriteria,
                     relatedProcess = null,
                     entityId = null,
-                    documentInitiator = null,
+                    processInitiator = null,
                     additionalProcess = null
                 )
             }
@@ -304,7 +304,7 @@ class ProcessLauncherImpl(
                     pmd = pmd,
                     ocid = event.ocid,
                     cpid = event.cpid,
-                    documentInitiator = event.documentInitiator,
+                    processInitiator = event.processInitiator,
                     isAuction = prevProcessContext.isAuction,
                     mainProcurementCategory = null,
                     awardCriteria = null,

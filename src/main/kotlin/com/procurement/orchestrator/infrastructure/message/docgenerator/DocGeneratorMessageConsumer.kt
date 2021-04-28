@@ -15,7 +15,7 @@ import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
-import com.procurement.orchestrator.domain.model.document.DocumentInitiator
+import com.procurement.orchestrator.domain.model.document.ProcessInitiator
 import com.procurement.orchestrator.infrastructure.configuration.property.GlobalProperties
 import com.procurement.orchestrator.infrastructure.message.docgenerator.DocumentGeneratorEvent.CONTRACT_FINALIZATION
 import com.procurement.orchestrator.infrastructure.message.docgenerator.DocumentGeneratorEvent.DOCUMENT_GENERATED
@@ -27,7 +27,6 @@ import org.springframework.kafka.support.Acknowledgment
 import org.springframework.kafka.support.KafkaHeaders
 import org.springframework.messaging.handler.annotation.Header
 import java.util.*
-import kotlin.collections.LinkedHashMap
 
 class DocGeneratorMessageConsumer(
     private val processService: ProcessService,
@@ -152,11 +151,11 @@ class DocGeneratorMessageConsumer(
                 )
             )
 
-        val documentInitiatorNode = dataNode.get("documentInitiator")?.asText()
-            ?: return MaybeFail.fail(Fail.Incident.Bus.Consumer(description = "Missing 'documentInitiator' in message."))
+        val processInitiatorNode = dataNode.get("processInitiator")?.asText()
+            ?: return MaybeFail.fail(Fail.Incident.Bus.Consumer(description = "Missing 'processInitiator' in message."))
 
-        val documentInitiator = DocumentInitiator.orNull(documentInitiatorNode)
-            ?: return MaybeFail.fail(Fail.Incident.Bus.Consumer(description = "Unknown value of 'documentInitiator' attribute. Actual value: $documentInitiatorNode"))
+        val processInitiator = ProcessInitiator.orNull(processInitiatorNode)
+            ?: return MaybeFail.fail(Fail.Incident.Bus.Consumer(description = "Unknown value of 'processInitiator' attribute. Actual value: $processInitiatorNode"))
 
         val objectId = dataNode.get("objectId")?.asText()
             ?: return MaybeFail.fail(Fail.Incident.Bus.Consumer(description = "Missing 'objectId' in message."))
@@ -164,7 +163,7 @@ class DocGeneratorMessageConsumer(
         val event = DocumentGenerated(
             cpid = parsedCpid,
             ocid = parsedSingleStageOcid,
-            documentInitiator = documentInitiator,
+            processInitiator = processInitiator,
             processName = "addGeneratedDocument",
             objectId = objectId,
             data = dataNode
