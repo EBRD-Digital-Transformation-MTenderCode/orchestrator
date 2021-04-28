@@ -20,7 +20,7 @@ import java.io.Serializable
 abstract class CreateConfirmationRequestsAction : FunctionalAction<CreateConfirmationRequestsAction.Params, CreateConfirmationRequestsAction.Result> {
 
     override val version: Version = Version.parse("2.0.0")
-    override val name: String = "contractingCreateConfirmationRequests"
+    override val name: String = "createConfirmationRequests"
     override val target: Target<Result> = Target.single()
 
     data class Params(
