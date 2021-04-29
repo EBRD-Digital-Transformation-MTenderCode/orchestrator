@@ -175,6 +175,13 @@ class NotifierSuccessNotificationToPlatformDelegate(
                 PlatformNotification.Outcomes.RequestQuotation(
                     id = rq.id
                 )
+            },
+        requests = details.requests
+            .map { request ->
+                PlatformNotification.Outcomes.Request(
+                    id = request.id,
+                    token = request.token
+                )
             }
     )
 

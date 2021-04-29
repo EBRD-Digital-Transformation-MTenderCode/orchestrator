@@ -180,9 +180,9 @@ class ContractingCreateConfirmationRequestsDelegate(
         val details = outcomes[platformId] ?: Outcomes.Details()
 
         val newOutcomes = confirmationRequest.requestGroups
-            .map { requestGroup -> Outcomes.Details.RequestGroup(id = requestGroup.id, token = requestGroup.token) }
+            .map { requestGroup -> Outcomes.Details.Request(id = requestGroup.id, token = requestGroup.token) }
 
-        val updatedDetails = details.copy(requestGroups = newOutcomes)
+        val updatedDetails = details.copy(requests = newOutcomes)
         outcomes[platformId] = updatedDetails
         return outcomes
     }
