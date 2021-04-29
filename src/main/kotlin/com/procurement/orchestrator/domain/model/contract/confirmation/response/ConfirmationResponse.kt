@@ -9,18 +9,18 @@ import com.procurement.orchestrator.domain.model.updateBy
 import java.io.Serializable
 
 data class ConfirmationResponse(
-    @field:JsonProperty("id") @param:JsonProperty("id") val id: ConfirmationResponseId,
+        @field:JsonProperty("id") @param:JsonProperty("id") val id: ConfirmationResponseId,
 
-    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+        @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonProperty("value") @param:JsonProperty("value") val value: String? = null,
 
-    @field:JsonInclude(JsonInclude.Include.NON_NULL)
-    @param:JsonProperty("requestGroup") @field:JsonProperty("requestGroup") val requestGroup: String? = null,
+        @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @param:JsonProperty("requestId") @field:JsonProperty("requestId") val requestId: String? = null,
 
-    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+        @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @param:JsonProperty("type") @field:JsonProperty("type") val type: ConfirmationResponseType? = null,
 
-    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+        @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @param:JsonProperty("relatedPerson") @field:JsonProperty("relatedPerson") val relatedPerson: Person? = null
 ) : IdentifiableObject<ConfirmationResponse>, Serializable {
 
@@ -36,7 +36,7 @@ data class ConfirmationResponse(
         id = id,
         value = src.value or value,
         type = src.type or type,
-        requestGroup = src.requestGroup or requestGroup,
+        requestId = src.requestId or requestId,
         relatedPerson = relatedPerson updateBy src.relatedPerson
     )
 }
