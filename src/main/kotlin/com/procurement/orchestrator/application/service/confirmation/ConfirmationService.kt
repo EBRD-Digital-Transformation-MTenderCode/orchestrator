@@ -104,7 +104,7 @@ class ConfirmationServiceImpl(
                     awardCriteria = prevProcessContext.awardCriteria,
                     relatedProcess = null,
                     entityId = null,
-                    documentInitiator = null,
+                    processInitiator = null,
                     additionalProcess = null
                 )
 

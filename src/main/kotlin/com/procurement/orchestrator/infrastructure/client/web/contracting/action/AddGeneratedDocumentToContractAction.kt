@@ -7,9 +7,9 @@ import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
 import com.procurement.orchestrator.domain.model.contract.ContractId
 import com.procurement.orchestrator.domain.model.document.DocumentId
-import com.procurement.orchestrator.domain.model.document.DocumentInitiator
 import com.procurement.orchestrator.domain.model.document.DocumentType
 import com.procurement.orchestrator.domain.model.document.Documents
+import com.procurement.orchestrator.domain.model.document.ProcessInitiator
 import com.procurement.orchestrator.infrastructure.client.web.Target
 import com.procurement.orchestrator.infrastructure.model.Version
 import java.io.Serializable
@@ -27,7 +27,7 @@ abstract class AddGeneratedDocumentToContractAction : FunctionalAction<AddGenera
         @param:JsonProperty("ocid") @field:JsonProperty("ocid") val ocid: Ocid,
 
         @JsonInclude(JsonInclude.Include.NON_NULL)
-        @param:JsonProperty("processInitiator") @field:JsonProperty("processInitiator") val processInitiator: DocumentInitiator?,
+        @param:JsonProperty("processInitiator") @field:JsonProperty("processInitiator") val processInitiator: ProcessInitiator?,
 
         @param:JsonProperty("contracts") @field:JsonProperty("contracts") val contracts: List<Contract>
     ) {
