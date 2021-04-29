@@ -13,8 +13,10 @@ import com.procurement.orchestrator.domain.model.award.AwardId
 import com.procurement.orchestrator.domain.model.bid.BidId
 import com.procurement.orchestrator.domain.model.contract.ContractId
 import com.procurement.orchestrator.domain.model.contract.confirmation.request.RequestGroupId
+import com.procurement.orchestrator.domain.model.contract.confirmation.response.ConfirmationResponseId
 import com.procurement.orchestrator.domain.model.qualification.QualificationId
 import com.procurement.orchestrator.domain.model.submission.SubmissionId
+import java.io.Serializable
 import java.time.LocalDateTime
 
 object PlatformNotification {
@@ -99,7 +101,10 @@ object PlatformNotification {
         @field:JsonProperty("rq") @param:JsonProperty("rq") val rq: List<RequestQuotation> = emptyList(),
 
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
-        @field:JsonProperty("requests") @param:JsonProperty("requests") val requests: List<Request> = emptyList()
+        @field:JsonProperty("requests") @param:JsonProperty("requests") val requests: List<Request> = emptyList(),
+
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        @field:JsonProperty("confirmationResponses") @param:JsonProperty("confirmationResponses") val confirmationResponses: List<ConfirmationResponse> = emptyList()
     ) {
 
         class Amendment(
@@ -150,6 +155,10 @@ object PlatformNotification {
         data class Request(
             @field:JsonProperty("id") @param:JsonProperty("id") val id: RequestGroupId,
             @field:JsonProperty("token") @param:JsonProperty("token") val token: Token
+        )
+
+        data class ConfirmationResponse(
+            @field:JsonProperty("id") @param:JsonProperty("id") val id: ConfirmationResponseId
         )
     }
 }
