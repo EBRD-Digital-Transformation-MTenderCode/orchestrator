@@ -175,11 +175,11 @@ class ContractingCreateConfirmationRequestsDelegate(
         context: CamundaGlobalContext,
         confirmationRequest: ConfirmationRequest
     ): Outcomes {
-        val platformId = confirmationRequest.requestGroups.first().owner
+        val platformId = confirmationRequest.requests.first().owner
         val outcomes = context.outcomes ?: Outcomes()
         val details = outcomes[platformId] ?: Outcomes.Details()
 
-        val newOutcomes = confirmationRequest.requestGroups
+        val newOutcomes = confirmationRequest.requests
             .map { requestGroup -> Outcomes.Details.Request(id = requestGroup.id, token = requestGroup.token) }
 
         val updatedDetails = details.copy(requests = newOutcomes)
