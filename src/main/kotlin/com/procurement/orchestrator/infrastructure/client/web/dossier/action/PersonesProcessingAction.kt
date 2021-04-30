@@ -114,7 +114,9 @@ abstract class PersonesProcessingAction : FunctionalAction<PersonesProcessingAct
                 @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
                 @param:JsonProperty("legalName") @field:JsonProperty("legalName") val legalName: String,
                 @param:JsonProperty("scheme") @field:JsonProperty("scheme") val scheme: String,
-                @param:JsonProperty("uri") @field:JsonProperty("uri") val uri: String
+
+                @JsonInclude(JsonInclude.Include.NON_NULL)
+                @param:JsonProperty("uri") @field:JsonProperty("uri") val uri: String?
             ) : Serializable
 
             data class Address(
