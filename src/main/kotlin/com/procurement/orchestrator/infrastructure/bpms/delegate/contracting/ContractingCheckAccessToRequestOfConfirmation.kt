@@ -3,6 +3,8 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.contracting
 import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.ContractingClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
+import com.procurement.orchestrator.application.model.context.extension.getConfirmationResponseIfOnlyOne
+import com.procurement.orchestrator.application.model.context.extension.getContractIfOnlyOne
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
@@ -37,7 +39,22 @@ class ContractingCheckAccessToRequestOfConfirmation(
 
         val processInfo = context.processInfo
         val requestInfo = context.requestInfo
-
+        val contract = context.getContractIfOnlyOne()
+            .orForwardFail { return it }
+            .let { contract ->
+                Params.Contract(
+                    id = contract.id,
+                    confirmationResponses = contract.getConfirmationResponseIfOnlyOne()
+                        .orForwardFail { return it }
+                        .let { confirmationResponse ->
+                            Params.Contract.ConfirmationResponse(
+                                id = confirmationResponse.id,
+                                requestId = confirmationResponse.requestId
+                            )
+                        }
+                        .let { listOf(it) }
+                )
+            }
         return contractingClient.checkAccessToRequestOfConfirmation(
             id = commandId,
             params = Params(
@@ -45,17 +62,7 @@ class ContractingCheckAccessToRequestOfConfirmation(
                 ocid = processInfo.ocid!!,
                 token = requestInfo.token!!,
                 owner = requestInfo.owner,
-                contracts = context.contracts.map { contract ->
-                    Params.Contract(
-                        id = contract.id,
-                        confirmationResponses = contract.confirmationResponses.map { confirmationResponse ->
-                            Params.Contract.ConfirmationResponse(
-                                id = confirmationResponse.id,
-                                requestId = confirmationResponse.requestGroup
-                            )
-                        }
-                    )
-                }
+                contracts = listOf(contract)
             )
         )
     }
