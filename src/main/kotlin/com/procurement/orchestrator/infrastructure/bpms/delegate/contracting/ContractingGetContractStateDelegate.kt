@@ -41,12 +41,18 @@ class ContractingGetContractStateDelegate(
     ): Result<Reply<GetContractStateAction.Result>, Fail.Incident> {
 
         val processInfo = context.processInfo
+        val contract = context.contracts.first()
 
         return contractingClient.getContractState(
             id = commandId,
             params = GetContractStateAction.Params(
                 cpid = processInfo.cpid!!,
-                ocid = processInfo.ocid!!
+                ocid = processInfo.ocid!!,
+                contracts = listOf(
+                    GetContractStateAction.Params.Contract(
+                        id = contract.id
+                    )
+                )
             )
         )
     }
@@ -69,7 +75,7 @@ class ContractingGetContractStateDelegate(
             .map { GetContractStateAction.ResponseConverter.Contract.toDomain(it) }
             .let { Contracts(it) }
 
-        context.contracts = receivedContracts
+        context.contracts = context.contracts updateBy receivedContracts
 
         return MaybeFail.none()
     }
