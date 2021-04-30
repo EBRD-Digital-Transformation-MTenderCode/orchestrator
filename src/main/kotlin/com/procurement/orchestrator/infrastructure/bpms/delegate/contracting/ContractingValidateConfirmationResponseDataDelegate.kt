@@ -49,7 +49,7 @@ class ContractingValidateConfirmationResponseDataDelegate(
                         confirmationResponses = contract.confirmationResponses.map { confirmationResponse ->
                             ValidateConfirmationResponseDataAction.Params.Contract.ConfirmationResponse(
                                 id = confirmationResponse.id,
-                                requestGroup = confirmationResponse.requestGroup,
+                                requestGroup = confirmationResponse.requestId,
                                 type = confirmationResponse.type,
                                 value = confirmationResponse.value,
                                 relatedPerson = confirmationResponse.relatedPerson
