@@ -1,0 +1,17 @@
+{
+  "cpid": "ocds-b3wdp1-MD-1580458690892",
+  "ocid": "ocds-b3wdp1-MD-1580458690892-EV-1580458791896",
+  "token": "07523742-7c96-4084-9982-ace78ab59173",
+  "owner": "159e9200-f75e-48d7-8fd1-3503af29c210",
+  "contracts": [
+    {
+      "id": "string",
+      "confirmationResponses": [
+        {
+          "id": "string",
+          "requestId": "string"
+        }
+      ]
+    }
+  ]
+}
