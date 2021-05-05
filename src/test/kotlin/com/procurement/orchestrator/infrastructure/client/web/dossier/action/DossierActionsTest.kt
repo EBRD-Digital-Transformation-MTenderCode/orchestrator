@@ -328,4 +328,43 @@ class DossierActionsTest {
             }
         }
     }
+
+    @Nested
+    inner class DossierPersonesProcessing {
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<PersonesProcessingAction.Params>("json/client/dossier/persones_processing_params_full.json")
+            }
+
+            @Test
+            fun required_1() {
+                testingBindingAndMapping<PersonesProcessingAction.Params>("json/client/dossier/persones_processing_params_required_1.json")
+            }
+
+            @Test
+            fun required_2() {
+                testingBindingAndMapping<PersonesProcessingAction.Params>("json/client/dossier/persones_processing_params_required_2.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<PersonesProcessingAction.Result>("json/client/dossier/persones_processing_result_full.json")
+            }
+
+            @Test
+            fun required1() {
+                testingBindingAndMapping<PersonesProcessingAction.Result>("json/client/dossier/persones_processing_result_required_1.json")
+            }
+
+            @Test
+            fun required2() {
+                testingBindingAndMapping<PersonesProcessingAction.Result>("json/client/dossier/persones_processing_result_required_2.json")
+            }
+        }
+    }
 }
