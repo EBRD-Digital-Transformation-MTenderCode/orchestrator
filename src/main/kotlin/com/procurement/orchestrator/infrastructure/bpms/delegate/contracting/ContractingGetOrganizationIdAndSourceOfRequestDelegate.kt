@@ -28,7 +28,7 @@ import com.procurement.orchestrator.infrastructure.configuration.property.Extern
 import org.springframework.stereotype.Component
 
 @Component
-class ContractingGetOrganizationIdAndSourceOfRequestGroupDelegate(
+class ContractingGetOrganizationIdAndSourceOfRequestDelegate(
     logger: Logger,
     private val contractingClient: ContractingClient,
     operationStepRepository: OperationStepRepository,
@@ -62,7 +62,7 @@ class ContractingGetOrganizationIdAndSourceOfRequestGroupDelegate(
                     confirmationResponses = contract.confirmationResponses.map { confirmationResponse ->
                         GetOrganizationIdAndSourceOfRequestGroupAction.Params.Contract.ConfirmationResponse(
                             id = confirmationResponse.id,
-                            requestGroup = confirmationResponse.requestId
+                            requestId = confirmationResponse.requestId
                         )
                     }
                 ).let { listOf(it) }
@@ -89,7 +89,7 @@ class ContractingGetOrganizationIdAndSourceOfRequestGroupDelegate(
         val updatedContract = getUpdatedContract(confirmationRequest, context)
             .orForwardFail { return it.asMaybeFail }
 
-        val organizationId = confirmationRequest.requestGroups.first().relatedOrganization.id
+        val organizationId = confirmationRequest.requests.first().relatedOrganization.id
         val parties = Parties(listOf(Party(id = organizationId)))
 
         context.parties = parties

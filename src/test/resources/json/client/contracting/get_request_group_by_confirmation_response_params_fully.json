@@ -7,7 +7,7 @@
       "confirmationResponses": [
         {
           "id": "string",
-          "requestGroup": "string"
+          "requestId": "string"
         }
       ]
     }

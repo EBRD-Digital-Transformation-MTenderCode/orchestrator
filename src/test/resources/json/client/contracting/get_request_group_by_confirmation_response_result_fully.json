@@ -8,7 +8,7 @@
           "relatesTo": "document",
           "relatedItem": "string",
           "source": "buyer",
-          "requestGroups": [
+          "requests": [
             {
               "id": "string",
               "relatedOrganization": {
