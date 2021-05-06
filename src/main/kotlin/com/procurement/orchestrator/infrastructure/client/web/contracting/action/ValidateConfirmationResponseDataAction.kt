@@ -33,7 +33,7 @@ abstract class ValidateConfirmationResponseDataAction : ProceduralAction<Validat
                 @param:JsonProperty("id") @field:JsonProperty("id") val id: ConfirmationResponseId,
 
                 @JsonInclude(JsonInclude.Include.NON_NULL)
-                @param:JsonProperty("requestGroup") @field:JsonProperty("requestGroup") val requestGroup: String?,
+                @param:JsonProperty("requestId") @field:JsonProperty("requestId") val requestId: String?,
 
                 @JsonInclude(JsonInclude.Include.NON_NULL)
                 @param:JsonProperty("type") @field:JsonProperty("type") val type: ConfirmationResponseType?,
