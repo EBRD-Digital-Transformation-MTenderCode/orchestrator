@@ -101,23 +101,27 @@ abstract class CreateConfirmationRequestsAction : FunctionalAction<CreateConfirm
     data class Result(
         @param:JsonProperty("contracts") @field:JsonProperty("contracts") val contracts: List<Contract>
     ) : Serializable {
+
         data class Contract(
             @param:JsonProperty("confirmationRequests") @field:JsonProperty("confirmationRequests") val confirmationRequests: List<ConfirmationRequest>
         ) : Serializable {
+
             data class ConfirmationRequest(
                 @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
                 @param:JsonProperty("type") @field:JsonProperty("type") val type: String,
                 @param:JsonProperty("relatesTo") @field:JsonProperty("relatesTo") val relatesTo: String,
                 @param:JsonProperty("relatedItem") @field:JsonProperty("relatedItem") val relatedItem: String,
                 @param:JsonProperty("source") @field:JsonProperty("source") val source: String,
-                @param:JsonProperty("requestGroups") @field:JsonProperty("requestGroups") val requestGroups: List<RequestGroup>
+                @param:JsonProperty("requests") @field:JsonProperty("requests") val requests: List<Request>
             ) : Serializable {
-                data class RequestGroup(
+
+                data class Request(
                     @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
                     @param:JsonProperty("relatedOrganization") @field:JsonProperty("relatedOrganization") val relatedOrganization: RelatedOrganization,
                     @param:JsonProperty("owner") @field:JsonProperty("owner") val owner: Owner,
                     @param:JsonProperty("token") @field:JsonProperty("token") val token: Token
                 ) : Serializable {
+
                     data class RelatedOrganization(
                         @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
                         @param:JsonProperty("name") @field:JsonProperty("name") val name: String
@@ -137,7 +141,7 @@ abstract class CreateConfirmationRequestsAction : FunctionalAction<CreateConfirm
                     relatesTo = relatesTo,
                     relatedItem = relatedItem,
                     source = source,
-                    requestGroups = requestGroups.map { requestGroup ->
+                    requests = requests.map { requestGroup ->
                         RequestGroup(
                             id = requestGroup.id,
                             relatedOrganization = requestGroup.relatedOrganization.let { relatedOrganization ->

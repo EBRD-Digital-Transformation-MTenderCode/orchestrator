@@ -6,6 +6,7 @@ import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.WebClient
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckAccessToRequestOfConfirmationAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.AddGeneratedDocumentToContractAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.AddSupplierReferencesInFCAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CancelFrameworkContractAction
@@ -145,4 +146,12 @@ class HttpContractingClient(private val webClient: WebClient, properties: Compon
         command = ContractingCommands.GetOrganizationIdAndSourceOfRequestGroup.build(id = id, params = params),
         target = ContractingCommands.GetOrganizationIdAndSourceOfRequestGroup.target
     )
+
+    override suspend fun checkAccessToRequestOfConfirmation(
+            id: CommandId,
+            params: CheckAccessToRequestOfConfirmationAction.Params
+    ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
+                url = url,
+                command = ContractingCommands.CheckAccessToRequestOfConfirmation.build(id = id, params = params)
+        )
 }

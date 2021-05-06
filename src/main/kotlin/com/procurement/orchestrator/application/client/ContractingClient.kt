@@ -4,6 +4,7 @@ import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckAccessToRequestOfConfirmationAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.AddGeneratedDocumentToContractAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.AddSupplierReferencesInFCAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CancelFrameworkContractAction
@@ -90,4 +91,9 @@ interface ContractingClient {
         id: CommandId,
         params: GetOrganizationIdAndSourceOfRequestGroupAction.Params
     ): Result<Reply<GetOrganizationIdAndSourceOfRequestGroupAction.Result>, Fail.Incident>
+
+    suspend fun checkAccessToRequestOfConfirmation(
+            id: CommandId,
+            params: CheckAccessToRequestOfConfirmationAction.Params
+    ): Result<Reply<Unit>, Fail.Incident>
 }

@@ -182,6 +182,12 @@ class NotifierSuccessNotificationToPlatformDelegate(
                     id = request.id,
                     token = request.token
                 )
+            },
+        confirmationResponses = details.confirmationResponses
+            .map { confirmationResponse ->
+                PlatformNotification.Outcomes.ConfirmationResponse(
+                    id = confirmationResponse.id
+                )
             }
     )
 

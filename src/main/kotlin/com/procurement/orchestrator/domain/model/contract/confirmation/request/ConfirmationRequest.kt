@@ -33,7 +33,7 @@ data class ConfirmationRequest(
     @field:JsonProperty("source") @param:JsonProperty("source") val source: String? = null,
 
     @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
-    @field:JsonProperty("requestGroups") @param:JsonProperty("requestGroups") val requestGroups: RequestGroups = RequestGroups()
+    @field:JsonProperty("requests") @param:JsonProperty("requests") val requests: RequestGroups = RequestGroups()
 ) : IdentifiableObject<ConfirmationRequest>, Serializable {
 
     override fun equals(other: Any?): Boolean = if (this === other)
@@ -52,6 +52,6 @@ data class ConfirmationRequest(
         relatesTo = src.relatesTo or relatesTo,
         relatedItem = src.relatedItem or relatedItem,
         source = src.source or source,
-        requestGroups = requestGroups updateBy src.requestGroups
+        requests = requests updateBy src.requests
     )
 }

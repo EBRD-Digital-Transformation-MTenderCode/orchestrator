@@ -62,7 +62,7 @@ class ContractingGetOrganizationIdAndSourceOfRequestGroupDelegate(
                     confirmationResponses = contract.confirmationResponses.map { confirmationResponse ->
                         GetOrganizationIdAndSourceOfRequestGroupAction.Params.Contract.ConfirmationResponse(
                             id = confirmationResponse.id,
-                            requestGroup = confirmationResponse.requestGroup
+                            requestGroup = confirmationResponse.requestId
                         )
                     }
                 ).let { listOf(it) }

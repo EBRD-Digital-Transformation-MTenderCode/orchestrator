@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.infrastructure.client.web.contracting
 
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckAccessToRequestOfConfirmationAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.AddGeneratedDocumentToContractAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.AddSupplierReferencesInFCAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CancelFrameworkContractAction
@@ -44,4 +45,6 @@ object ContractingCommands {
     object ValidateConfirmationResponseData: ValidateConfirmationResponseDataAction()
 
     object GetOrganizationIdAndSourceOfRequestGroup: GetOrganizationIdAndSourceOfRequestGroupAction()
+
+    object CheckAccessToRequestOfConfirmation: CheckAccessToRequestOfConfirmationAction()
 }
