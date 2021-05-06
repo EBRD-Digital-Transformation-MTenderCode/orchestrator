@@ -149,7 +149,7 @@ object PlatformNotification {
 
         data class Request(
             @field:JsonProperty("id") @param:JsonProperty("id") val id: RequestGroupId,
-            @field:JsonProperty("token") @param:JsonProperty("token") val token: Token
+            @field:JsonProperty("X-TOKEN") @param:JsonProperty("X-TOKEN") val token: Token
         )
     }
 }
