@@ -30,7 +30,7 @@ abstract class GetOrganizationIdAndSourceOfRequestGroupAction : FunctionalAction
                 @param:JsonProperty("id") @field:JsonProperty("id") val id: ConfirmationResponseId,
 
                 @JsonInclude(JsonInclude.Include.NON_NULL)
-                @param:JsonProperty("requestGroup") @field:JsonProperty("requestGroup") val requestGroup: String?
+                @param:JsonProperty("requestId") @field:JsonProperty("requestId") val requestId: String?
             )
         }
     }
@@ -47,7 +47,7 @@ abstract class GetOrganizationIdAndSourceOfRequestGroupAction : FunctionalAction
                 @param:JsonProperty("relatesTo") @field:JsonProperty("relatesTo") val relatesTo: String,
                 @param:JsonProperty("relatedItem") @field:JsonProperty("relatedItem") val relatedItem: String,
                 @param:JsonProperty("source") @field:JsonProperty("source") val source: String,
-                @param:JsonProperty("requestGroups") @field:JsonProperty("requestGroups") val requestGroups: List<RequestGroup>
+                @param:JsonProperty("requests") @field:JsonProperty("requests") val requests: List<RequestGroup>
             ) : Serializable {
                 data class RequestGroup(
                     @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
