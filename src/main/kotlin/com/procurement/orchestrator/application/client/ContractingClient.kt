@@ -11,6 +11,7 @@ import com.procurement.orchestrator.infrastructure.client.web.contracting.action
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckContractStateAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckExistenceSupplierReferencesInFCAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreateConfirmationRequestsAction
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreateConfirmationResponseAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreateFrameworkContractAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.DoPacsAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.FindCANIdsAction
@@ -96,4 +97,9 @@ interface ContractingClient {
             id: CommandId,
             params: CheckAccessToRequestOfConfirmationAction.Params
     ): Result<Reply<Unit>, Fail.Incident>
+
+    suspend fun createConfirmationResponse(
+        id: CommandId,
+        params: CreateConfirmationResponseAction.Params
+    ): Result<Reply<CreateConfirmationResponseAction.Result>, Fail.Incident>
 }

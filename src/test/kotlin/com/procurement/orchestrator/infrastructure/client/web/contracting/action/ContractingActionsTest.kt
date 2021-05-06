@@ -336,4 +336,43 @@ class ContractingActionsTest {
             }
         }
     }
+
+    @Nested
+    inner class CreateConfirmationResponse {
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CreateConfirmationResponseAction.Params>("json/client/contracting/create_confirmation_response_request_fully.json")
+            }
+
+            @Test
+            fun required_1() {
+                testingBindingAndMapping<CreateConfirmationResponseAction.Params>("json/client/contracting/create_confirmation_response_request_required_1.json")
+            }
+
+            @Test
+            fun required_2() {
+                testingBindingAndMapping<CreateConfirmationResponseAction.Params>("json/client/contracting/create_confirmation_response_request_required_2.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CreateConfirmationResponseAction.Result>("json/client/contracting/create_confirmation_response_result_full.json")
+            }
+
+            @Test
+            fun required_1() {
+                testingBindingAndMapping<CreateConfirmationResponseAction.Result>("json/client/contracting/create_confirmation_response_result_required_1.json")
+            }
+
+            @Test
+            fun required_2() {
+                testingBindingAndMapping<CreateConfirmationResponseAction.Result>("json/client/contracting/create_confirmation_response_result_required_2.json")
+            }
+        }
+    }
 }

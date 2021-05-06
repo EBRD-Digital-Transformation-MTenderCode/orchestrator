@@ -7,6 +7,7 @@ import com.procurement.orchestrator.infrastructure.client.web.contracting.action
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckContractStateAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckExistenceSupplierReferencesInFCAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreateConfirmationRequestsAction
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreateConfirmationResponseAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreateFrameworkContractAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.DoPacsAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.FindCANIdsAction
@@ -47,4 +48,6 @@ object ContractingCommands {
     object GetOrganizationIdAndSourceOfRequestGroup: GetOrganizationIdAndSourceOfRequestGroupAction()
 
     object CheckAccessToRequestOfConfirmation: CheckAccessToRequestOfConfirmationAction()
+
+    object CreateConfirmationResponse: CreateConfirmationResponseAction()
 }

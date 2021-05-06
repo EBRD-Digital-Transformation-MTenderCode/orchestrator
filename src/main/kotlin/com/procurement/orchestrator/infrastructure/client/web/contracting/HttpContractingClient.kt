@@ -13,6 +13,7 @@ import com.procurement.orchestrator.infrastructure.client.web.contracting.action
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckContractStateAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckExistenceSupplierReferencesInFCAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreateConfirmationRequestsAction
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreateConfirmationResponseAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreateFrameworkContractAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.DoPacsAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.FindCANIdsAction
@@ -148,10 +149,19 @@ class HttpContractingClient(private val webClient: WebClient, properties: Compon
     )
 
     override suspend fun checkAccessToRequestOfConfirmation(
-            id: CommandId,
-            params: CheckAccessToRequestOfConfirmationAction.Params
+        id: CommandId,
+        params: CheckAccessToRequestOfConfirmationAction.Params
     ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
-                url = url,
-                command = ContractingCommands.CheckAccessToRequestOfConfirmation.build(id = id, params = params)
-        )
+        url = url,
+        command = ContractingCommands.CheckAccessToRequestOfConfirmation.build(id = id, params = params)
+    )
+
+    override suspend fun createConfirmationResponse(
+        id: CommandId,
+        params: CreateConfirmationResponseAction.Params
+    ): Result<Reply<CreateConfirmationResponseAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = ContractingCommands.CreateConfirmationResponse.build(id = id, params = params),
+        target = ContractingCommands.CreateConfirmationResponse.target
+    )
 }
