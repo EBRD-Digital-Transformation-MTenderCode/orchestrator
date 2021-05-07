@@ -18,7 +18,7 @@
       </rule>
       <rule id="DecisionRule_0qf3b4x">
         <inputEntry id="UnaryTests_06cnlhd">
-          <text>'issuingFrameworkContract'</text>
+          <text>'nextStepAfterBuyersConfirmation'</text>
         </inputEntry>
         <outputEntry id="LiteralExpression_1s7hmdq">
           <text>'contracting'</text>
@@ -26,17 +26,9 @@
       </rule>
       <rule id="DecisionRule_157vbi7">
         <inputEntry id="UnaryTests_0p8bf20">
-          <text>'issuingFrameworkContract'</text>
+          <text>'nextStepAfterInvitedCandidatesConfirmation'</text>
         </inputEntry>
         <outputEntry id="LiteralExpression_0vqnj2a">
-          <text>'contracting'</text>
-        </outputEntry>
-      </rule>
-      <rule id="DecisionRule_06xkjj6">
-        <inputEntry id="UnaryTests_14pk45y">
-          <text>'issuingFrameworkContract'</text>
-        </inputEntry>
-        <outputEntry id="LiteralExpression_1xtiwia">
           <text>'contracting'</text>
         </outputEntry>
       </rule>
