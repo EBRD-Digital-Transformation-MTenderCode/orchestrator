@@ -34,7 +34,7 @@
           <text>'pending'</text>
         </inputEntry>
         <inputEntry id="UnaryTests_0hxpgmq">
-          <text>'issuing'</text>
+          <text>'issued'</text>
         </inputEntry>
         <outputEntry id="LiteralExpression_1hbr020">
           <text>'buyer'</text>
@@ -51,7 +51,7 @@
           <text>'pending'</text>
         </inputEntry>
         <inputEntry id="UnaryTests_04voeds">
-          <text>'issuing'</text>
+          <text>'issued'</text>
         </inputEntry>
         <outputEntry id="LiteralExpression_1s7hmdq">
           <text>'buyer'</text>
@@ -68,7 +68,7 @@
           <text>'pending'</text>
         </inputEntry>
         <inputEntry id="UnaryTests_11878tg">
-          <text>'issuing'</text>
+          <text>'issued'</text>
         </inputEntry>
         <outputEntry id="LiteralExpression_0vqnj2a">
           <text>'buyer'</text>
@@ -85,10 +85,78 @@
           <text>'pending'</text>
         </inputEntry>
         <inputEntry id="UnaryTests_1r81u30">
-          <text>'issuing'</text>
+          <text>'issued'</text>
         </inputEntry>
         <outputEntry id="LiteralExpression_1xtiwia">
           <text>'buyer'</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_075ve9i">
+        <inputEntry id="UnaryTests_01u6g1h">
+          <text>'nextStepAfterBuyersConfirmation'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_18oyp59">
+          <text>'OF'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1mgeoga">
+          <text>'pending'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1prlilp">
+          <text>'signed'</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0jxt5zg">
+          <text>'invitedTenderer'</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1ly309w">
+        <inputEntry id="UnaryTests_0t5ewpt">
+          <text>'nextStepAfterBuyersConfirmation'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_04ofegx">
+          <text>'CF'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0un7poj">
+          <text>'pending'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_096wvr8">
+          <text>'signed'</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0hc3ld0">
+          <text>'invitedTenderer'</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_17vhl2r">
+        <inputEntry id="UnaryTests_0hgbcno">
+          <text>'nextStepAfterBuyersConfirmation'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_08wi7nq">
+          <text>'TEST_OF'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1kobuiy">
+          <text>'pending'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ke05ls">
+          <text>'signed'</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1qoy18q">
+          <text>'invitedTenderer'</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0msebsd">
+        <inputEntry id="UnaryTests_00egr06">
+          <text>'nextStepAfterBuyersConfirmation'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1gonnq4">
+          <text>'TEST_CF'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0d2qwpv">
+          <text>'pending'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_048lthq">
+          <text>'signed'</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0wwl99p">
+          <text>'invitedTenderer'</text>
         </outputEntry>
       </rule>
     </decisionTable>
