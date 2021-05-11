@@ -4,7 +4,7 @@
     <bpmn:participant id="Participant_1x1y9l3" name="SubCreateConfirmationRequests" processRef="subCreateConfirmationRequests" />
     <bpmn:group id="Group_0mxkmev" categoryValueRef="CategoryValue_09n0562" />
   </bpmn:collaboration>
-  <bpmn:process id="subCreateConfirmationRequests" name="subCreateConfirmationRequests" isExecutable="true" camunda:versionTag="1.4">
+  <bpmn:process id="subCreateConfirmationRequests" name="subCreateConfirmationRequests" isExecutable="true" camunda:versionTag="1.41">
     <bpmn:sequenceFlow id="SequenceFlow_1xt9p13" sourceRef="SubmissionGetSuppliersOwnersTask" targetRef="ContractingCreateConfirmationRequestsForSupplierTask" />
     <bpmn:sequenceFlow id="SequenceFlow_1q3gxaa" sourceRef="ContractingGetContractStateTask" targetRef="Gateway_0yjjfa6" />
     <bpmn:sequenceFlow id="Flow_17lizyl" sourceRef="AccessGetBuyersOwnersTask" targetRef="ContractingCreateConfirmationRequestsForBuyerTask" />
@@ -63,6 +63,7 @@
       <bpmn:outgoing>Flow_0x30uj5</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="BpeAddUpdateRecordTaskInQueueTask" name="BPE:&#10;Add update record task to queue" camunda:asyncBefore="true" camunda:delegateExpression="${bpeAddUpdateRecordTaskInQueueDelegate}">
+      <bpmn:incoming>Flow_0c6ighx</bpmn:incoming>
       <bpmn:outgoing>Flow_1ivtn1v</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:endEvent id="Event_0cixolr">
@@ -243,6 +244,7 @@
     <bpmn:exclusiveGateway id="Gateway_13r4ktj">
       <bpmn:incoming>Flow_1afix6w</bpmn:incoming>
       <bpmn:incoming>Flow_0dck6m0</bpmn:incoming>
+      <bpmn:outgoing>Flow_0c6ighx</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:exclusiveGateway id="Gateway_09tmlfn">
       <bpmn:incoming>Flow_1llmmdu</bpmn:incoming>
@@ -278,6 +280,7 @@
       <bpmn:incoming>Flow_17lizyl</bpmn:incoming>
       <bpmn:outgoing>Flow_0dck6m0</bpmn:outgoing>
     </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0c6ighx" sourceRef="Gateway_13r4ktj" targetRef="BpeAddUpdateRecordTaskInQueueTask" />
     <bpmn:association id="Association_1xddnwg" sourceRef="ContractingFindContractDocumentIdTask" targetRef="TextAnnotation_0zwodzl" />
     <bpmn:association id="Association_0squd3w" sourceRef="StartEvent_1" targetRef="TextAnnotation_0q3g2jv" />
     <bpmn:association id="Association_05loz0y" sourceRef="SubCreateConfirmationRequestsSelectServiceTask" targetRef="TextAnnotation_0hvz20a" />
@@ -449,6 +452,10 @@
         <di:waypoint x="1440" y="620" />
         <di:waypoint x="1440" y="545" />
       </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0c6ighx_di" bpmnElement="Flow_0c6ighx">
+        <di:waypoint x="1465" y="272" />
+        <di:waypoint x="1510" y="272" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Activity_0ald65e_di" bpmnElement="ContractingFindContractDocumentIdTask" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="1140" y="370" width="100" height="80" />
       </bpmndi:BPMNShape>
@@ -523,6 +530,9 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_13r4ktj_di" bpmnElement="Gateway_13r4ktj" isMarkerVisible="true">
         <dc:Bounds x="1415" y="247" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1398" y="217" width="84" height="14" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_09tmlfn_di" bpmnElement="Gateway_09tmlfn" isMarkerVisible="true">
         <dc:Bounds x="1415" y="495" width="50" height="50" />
