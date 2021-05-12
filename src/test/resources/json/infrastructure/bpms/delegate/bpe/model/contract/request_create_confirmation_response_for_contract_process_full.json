@@ -1,6 +1,6 @@
 {
   "confirmationResponse": {
-    "requestGroup": "string",
+    "requestId": "string",
     "type": "document",
     "value": "string",
     "relatedPerson": {

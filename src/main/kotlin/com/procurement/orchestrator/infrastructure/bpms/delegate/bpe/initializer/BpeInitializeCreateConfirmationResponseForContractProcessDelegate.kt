@@ -53,7 +53,7 @@ class BpeInitializeCreateConfirmationResponseForContractProcessDelegate(
                     confirmationResponses = payload.confirmationResponse.let { confirmationResponse ->
                         ConfirmationResponse(
                             id = ConfirmationResponseId.generate(),
-                            requestId = confirmationResponse.requestGroup,
+                            requestId = confirmationResponse.requestId,
                             type = confirmationResponse.type,
                             value = confirmationResponse.value,
                             relatedPerson = confirmationResponse.relatedPerson.let { relatedPerson ->
