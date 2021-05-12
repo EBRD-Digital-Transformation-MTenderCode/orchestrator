@@ -1108,14 +1108,11 @@ class StorageOpenAccessDelegate(
         documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document>,
         context: CamundaGlobalContext
     ): MaybeFail<Fail.Incident> {
-        val contractsWithUpdatedDocuments: Contracts = if (EntityKey.CONTRACT in entities)
+        if (EntityKey.CONTRACT in entities)
             contracts
                 .updateDocuments(documentsByIds)
                 .orReturnFail { return MaybeFail.fail(it) }
-        else
-            contracts
-
-        context.contracts = contractsWithUpdatedDocuments
+                .also { updatedContracts -> context.contracts = updatedContracts }
 
         return MaybeFail.none()
     }
@@ -1145,28 +1142,24 @@ class StorageOpenAccessDelegate(
         documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document>,
         context: CamundaGlobalContext
     ): MaybeFail<Fail.Incident> {
-        val contractsWithUpdatedConfirmationResponseDocuments: Contracts =
-            if (EntityKey.CONTRACT_CONFIRMATION_RESPONSE in entities)
-                contracts
-                    .map { contract ->
-                        val updatedConfirmationResponses = contract.confirmationResponses
-                            .map {  confirmationResponse ->
-                                val updatedRelatedPerson = confirmationResponse.relatedPerson
-                                    ?.let { person ->
-                                        val updatedBusinessFunctions = person.businessFunctions
-                                            .updateDocuments(documentsByIds)
-                                            .orReturnFail { return MaybeFail.fail(it) }
-                                        person.copy(businessFunctions = updatedBusinessFunctions)
-                                    }
-                                confirmationResponse.copy(relatedPerson = updatedRelatedPerson)
-                            }
-                        contract.copy(confirmationResponses = ConfirmationResponses(updatedConfirmationResponses))
-                    }
-                    .let { Contracts(it) }
-            else
-                contracts
-
-        context.contracts = contractsWithUpdatedConfirmationResponseDocuments
+        if (EntityKey.CONTRACT_CONFIRMATION_RESPONSE in entities)
+            contracts
+                .map { contract ->
+                    val updatedConfirmationResponses = contract.confirmationResponses
+                        .map { confirmationResponse ->
+                            val updatedRelatedPerson = confirmationResponse.relatedPerson
+                                ?.let { person ->
+                                    val updatedBusinessFunctions = person.businessFunctions
+                                        .updateDocuments(documentsByIds)
+                                        .orReturnFail { return MaybeFail.fail(it) }
+                                    person.copy(businessFunctions = updatedBusinessFunctions)
+                                }
+                            confirmationResponse.copy(relatedPerson = updatedRelatedPerson)
+                        }
+                    contract.copy(confirmationResponses = ConfirmationResponses(updatedConfirmationResponses))
+                }
+                .let { Contracts(it) }
+                .also { updatedContracts -> context.contracts = updatedContracts }
 
         return MaybeFail.none()
     }
