@@ -16,7 +16,7 @@ object CreateConfirmationResponseForContractProcess {
             @param:JsonProperty("confirmationResponse") @field:JsonProperty("confirmationResponse") val confirmationResponse: ConfirmationResponse
         ) {
             data class ConfirmationResponse(
-                @param:JsonProperty("requestGroup") @field:JsonProperty("requestGroup") val requestGroup: String,
+                @param:JsonProperty("requestId") @field:JsonProperty("requestId") val requestId: String,
                 @param:JsonProperty("type") @field:JsonProperty("type") val type: ConfirmationResponseType,
                 @param:JsonProperty("value") @field:JsonProperty("value") val value: String,
                 @param:JsonProperty("relatedPerson") @field:JsonProperty("relatedPerson") val relatedPerson: RelatedPerson
