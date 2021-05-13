@@ -7,7 +7,7 @@
     <bpmn:participant id="Participant_0oezubl" name="CreateConfirmationResponse" processRef="createConfirmationResponse" />
     <bpmn:group id="Group_0bfi8ia" categoryValueRef="CategoryValue_192ohkj" />
   </bpmn:collaboration>
-  <bpmn:process id="createConfirmationResponse" name="createConfirmationResponse" isExecutable="true" camunda:versionTag="1.2">
+  <bpmn:process id="createConfirmationResponse" name="createConfirmationResponse" isExecutable="true" camunda:versionTag="1.31">
     <bpmn:startEvent id="StartEvent_1">
       <bpmn:outgoing>Flow_00jha39</bpmn:outgoing>
     </bpmn:startEvent>
@@ -35,8 +35,8 @@
       <bpmn:outgoing>Flow_1cv5izg</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="Flow_1cv5izg" sourceRef="AccessCheckTenderStateTask" targetRef="Gateway_0dfdixj" />
-    <bpmn:sequenceFlow id="Flow_0uvmq5t" sourceRef="Activity_12ux030" targetRef="Gateway_0dfdixj" />
-    <bpmn:sequenceFlow id="Flow_1c5g9ep" sourceRef="Gateway_0w89606" targetRef="Activity_12ux030">
+    <bpmn:sequenceFlow id="Flow_0uvmq5t" sourceRef="RequisitionCheckTenderStateTask" targetRef="Gateway_0dfdixj" />
+    <bpmn:sequenceFlow id="Flow_1c5g9ep" sourceRef="Gateway_0w89606" targetRef="RequisitionCheckTenderStateTask">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${processInfo.stage == 'PC'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_0gp2n8l" name="PC" sourceRef="Gateway_0w89606" targetRef="AccessCheckTenderStateTask" />
@@ -48,7 +48,7 @@
       <bpmn:incoming>Flow_14swneo</bpmn:incoming>
       <bpmn:outgoing>Flow_10refum</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:exclusiveGateway id="Gateway_1q9zmrk" name="source of Requirement&#10;Request?" default="Flow_1og9bnb">
+    <bpmn:exclusiveGateway id="Gateway_1q9zmrk" name="source of Requirement&#10;Request?">
       <bpmn:incoming>Flow_0kqcjiw</bpmn:incoming>
       <bpmn:outgoing>Flow_1v1i2j9</bpmn:outgoing>
       <bpmn:outgoing>Flow_0a9sr7r</bpmn:outgoing>
@@ -56,10 +56,10 @@
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="Flow_0kqcjiw" sourceRef="ContractingGetOrganizationIdAndSourceOfRequestTask" targetRef="Gateway_1q9zmrk" />
     <bpmn:sequenceFlow id="Flow_1v1i2j9" name="buyer" sourceRef="Gateway_1q9zmrk" targetRef="AccessPersonesProcessingTask">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${contracts[0].requirementRequests[0].source == 'buyer'}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${contracts[0].confirmationRequests[0].source == 'buyer'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_0a9sr7r" name="invited&#10;Candidate" sourceRef="Gateway_1q9zmrk" targetRef="DossierPersonesProcessingTask">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${contracts[0].requirementRequests[0].source == 'invitedCandidate'}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${contracts[0].confirmationRequests[0].source == 'invitedCandidate'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_1stbumc" sourceRef="ContractingValidateConfirmationResponseDataTask" targetRef="StorageCheckRegistrationTask" />
     <bpmn:sequenceFlow id="Flow_17t1ew6" sourceRef="StorageCheckRegistrationTask" targetRef="ContractingGetOrganizationIdAndSourceOfRequestTask" />
@@ -130,8 +130,10 @@
       <bpmn:incoming>Flow_03ib5vg</bpmn:incoming>
       <bpmn:outgoing>Flow_14ifeub</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="Flow_1og9bnb" name="other" sourceRef="Gateway_1q9zmrk" targetRef="Activity_1dm2v85" />
-    <bpmn:sequenceFlow id="Flow_18htned" sourceRef="Activity_1dm2v85" targetRef="Gateway_01hncll" />
+    <bpmn:sequenceFlow id="Flow_1og9bnb" name="tenderer" sourceRef="Gateway_1q9zmrk" targetRef="SubmissionPersonesProcessingTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${contracts[0].confirmationRequests[0].source == 'tenderer'}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_18htned" sourceRef="SubmissionPersonesProcessingTask" targetRef="Gateway_01hncll" />
     <bpmn:serviceTask id="AccessPersonesProcessingTask" name="eAccess: Persones processing" camunda:asyncBefore="true" camunda:delegateExpression="${accessPersonesProcessingDelegate}">
       <bpmn:extensionElements>
         <camunda:inputOutput>
@@ -150,7 +152,7 @@
       <bpmn:incoming>Flow_0a9sr7r</bpmn:incoming>
       <bpmn:outgoing>Flow_0qoorap</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="Activity_1dm2v85" name="eSubmission: Persones processing" camunda:asyncBefore="true" camunda:delegateExpression="${testDelegate}">
+    <bpmn:serviceTask id="SubmissionPersonesProcessingTask" name="eSubmission: Persones processing" camunda:asyncBefore="true" camunda:delegateExpression="${submissionPersonesProcessingDelegate}">
       <bpmn:incoming>Flow_1og9bnb</bpmn:incoming>
       <bpmn:outgoing>Flow_18htned</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -297,7 +299,7 @@
       <bpmn:sequenceFlow id="Flow_077g80j" sourceRef="Event_1r8ihwm" targetRef="BpeValidationErrorDescriptionModifierTask" />
       <bpmn:sequenceFlow id="Flow_0lec4xn" sourceRef="NotifierValidationErrorNotificationToPlatformTask" targetRef="Event_0qlqmue" />
     </bpmn:subProcess>
-    <bpmn:serviceTask id="Activity_12ux030" name="eRequistion:&#10;Check tender state" camunda:asyncBefore="true" camunda:delegateExpression="${testDelegate}">
+    <bpmn:serviceTask id="RequisitionCheckTenderStateTask" name="eRequistion:&#10;Check tender state" camunda:asyncBefore="true" camunda:delegateExpression="${requisitionCheckTenderStateDelegate}">
       <bpmn:incoming>Flow_1c5g9ep</bpmn:incoming>
       <bpmn:outgoing>Flow_0uvmq5t</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -305,9 +307,6 @@
       <bpmn:text>разложение данных респонса для контракта</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:association id="Association_0koapj6" sourceRef="BpeInitializeCreateConfirmationResponseForContractProcessTask" targetRef="TextAnnotation_0c0ux90" />
-    <bpmn:textAnnotation id="TextAnnotation_06uoer1">
-      <bpmn:text>тут будет DMN по сущности из контролера и stage,но нужно добавить параметр в контекст</bpmn:text>
-    </bpmn:textAnnotation>
     <bpmn:textAnnotation id="TextAnnotation_0lpkya7">
       <bpmn:text>Проверка состояния контракта для одной роли</bpmn:text>
     </bpmn:textAnnotation>
@@ -320,6 +319,9 @@
       <bpmn:text>обработка персоны организации с ролью buyer</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:association id="Association_0qamx3u" sourceRef="AccessPersonesProcessingTask" targetRef="TextAnnotation_1beioch" />
+    <bpmn:textAnnotation id="TextAnnotation_06uoer1">
+      <bpmn:text>тут будет DMN по сущности из контролера и stage</bpmn:text>
+    </bpmn:textAnnotation>
   </bpmn:process>
   <bpmn:error id="Error_1n26h7v" name="External Incident" errorCode="ExternalIncident" />
   <bpmn:error id="Error_03v5hir" name="Internal Incident" errorCode="InternalIncident" />
@@ -339,7 +341,7 @@
         <di:waypoint x="1520" y="450" />
         <di:waypoint x="1600" y="450" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1556" y="423" width="27" height="14" />
+          <dc:Bounds x="1549" y="423" width="42" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0fzkckh_di" bpmnElement="Flow_0fzkckh">
@@ -511,7 +513,7 @@
       <bpmndi:BPMNShape id="Activity_1t0pkbr_di" bpmnElement="DossierPersonesProcessingTask" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="1600" y="300" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1c2edwp_di" bpmnElement="Activity_1dm2v85" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
+      <bpmndi:BPMNShape id="Activity_1c2edwp_di" bpmnElement="SubmissionPersonesProcessingTask" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="1600" y="410" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1rvkp06_di" bpmnElement="Activity_1rvkp06" isExpanded="true">
@@ -611,14 +613,11 @@
       <bpmndi:BPMNShape id="Activity_1pazny8_di" bpmnElement="NotifierValidationErrorNotificationToPlatformTask">
         <dc:Bounds x="1910" y="560" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0rwocgw_di" bpmnElement="Activity_12ux030" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
+      <bpmndi:BPMNShape id="Activity_0rwocgw_di" bpmnElement="RequisitionCheckTenderStateTask" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="618" y="410" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_0c0ux90_di" bpmnElement="TextAnnotation_0c0ux90">
         <dc:Bounds x="410" y="213" width="100" height="68" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_06uoer1_di" bpmnElement="TextAnnotation_06uoer1" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
-        <dc:Bounds x="270" y="230" width="140" height="82" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_0lpkya7_di" bpmnElement="TextAnnotation_0lpkya7">
         <dc:Bounds x="830" y="220" width="100" height="68" />
@@ -628,6 +627,9 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_1beioch_di" bpmnElement="TextAnnotation_1beioch">
         <dc:Bounds x="1600" y="110" width="100" height="68" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_06uoer1_di" bpmnElement="TextAnnotation_06uoer1" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
+        <dc:Bounds x="270" y="260" width="140" height="54" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Association_0koapj6_di" bpmnElement="Association_0koapj6">
         <di:waypoint x="460" y="300" />
