@@ -18,7 +18,7 @@ import com.procurement.orchestrator.infrastructure.client.web.contracting.action
 import org.springframework.stereotype.Component
 
 @Component
-class ContractingCheckAccessToRequestOfConfirmation(
+class ContractingCheckAccessToRequestOfConfirmationDelegate(
     logger: Logger,
     private val contractingClient: ContractingClient,
     operationStepRepository: OperationStepRepository,
