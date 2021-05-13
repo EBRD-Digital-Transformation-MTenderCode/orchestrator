@@ -1155,8 +1155,8 @@ class StorageOpenAccessDelegate(
                 }
                 .let { Contracts(it) }
                 .asSuccess()
-    else
-        this.asSuccess()
+        else
+            this.asSuccess()
 
 
     private fun BusinessFunctions.updateDocuments(documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document>): Result<BusinessFunctions, Fail.Incident.Bpms> {
