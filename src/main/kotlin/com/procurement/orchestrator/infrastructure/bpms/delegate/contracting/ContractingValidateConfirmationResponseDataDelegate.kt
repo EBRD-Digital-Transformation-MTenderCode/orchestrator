@@ -67,6 +67,7 @@ class ContractingValidateConfirmationResponseDataDelegate(
                                             },
                                             businessFunctions = person.businessFunctions.map { businessFunction ->
                                                 ValidateConfirmationResponseDataAction.Params.Contract.ConfirmationResponse.RelatedPerson.BusinessFunction(
+                                                    id = businessFunction.id,
                                                     type = businessFunction.type,
                                                     period = businessFunction.period?.let { period ->
                                                         ValidateConfirmationResponseDataAction.Params.Contract.ConfirmationResponse.RelatedPerson.BusinessFunction.Period(

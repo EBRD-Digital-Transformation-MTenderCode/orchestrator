@@ -10,6 +10,7 @@ import com.procurement.orchestrator.domain.model.contract.confirmation.response.
 import com.procurement.orchestrator.domain.model.contract.confirmation.response.ConfirmationResponseType
 import com.procurement.orchestrator.domain.model.document.DocumentId
 import com.procurement.orchestrator.domain.model.document.DocumentType
+import com.procurement.orchestrator.domain.model.organization.person.BusinessFunctionId
 import com.procurement.orchestrator.domain.model.organization.person.BusinessFunctionType
 import com.procurement.orchestrator.domain.model.person.PersonId
 import com.procurement.orchestrator.infrastructure.model.Version
@@ -66,6 +67,8 @@ abstract class ValidateConfirmationResponseDataAction : ProceduralAction<Validat
                     )
 
                     data class BusinessFunction(
+                        @param:JsonProperty("id") @field:JsonProperty("id") val id: BusinessFunctionId,
+
                         @JsonInclude(JsonInclude.Include.NON_NULL)
                         @param:JsonProperty("type") @field:JsonProperty("type") val type: BusinessFunctionType?,
 
