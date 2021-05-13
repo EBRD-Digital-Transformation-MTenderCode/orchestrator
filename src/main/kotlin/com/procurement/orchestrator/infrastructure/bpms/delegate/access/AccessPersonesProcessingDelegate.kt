@@ -3,6 +3,8 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.access
 import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.AccessClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
+import com.procurement.orchestrator.application.model.context.extension.getConfirmationResponseIfOnlyOne
+import com.procurement.orchestrator.application.model.context.extension.getContractIfOnlyOne
 import com.procurement.orchestrator.application.model.context.extension.getPartyIfOnlyOne
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
@@ -79,6 +81,12 @@ class AccessPersonesProcessingDelegate(
     ): Result<Reply<PersonesProcessingAction.Result>, Fail.Incident> {
 
         val processInfo = context.processInfo
+        val person = context.getContractIfOnlyOne()
+            .orForwardFail { return it }
+            .getConfirmationResponseIfOnlyOne()
+            .orForwardFail { return it }
+            .relatedPerson!!
+
         val party = context.getPartyIfOnlyOne()
             .orForwardFail { return it }
 
@@ -91,38 +99,36 @@ class AccessPersonesProcessingDelegate(
                 parties = listOf(
                     PersonesProcessingAction.Params.Party(
                         id = party.id,
-                        persones = party.persons.map { person ->
-                            PersonesProcessingAction.Params.Party.Persone(
-                                id = person.id,
-                                title = person.title,
-                                name = person.name,
-                                identifier = person.identifier?.let { identifier ->
-                                    PersonesProcessingAction.Params.Party.Persone.Identifier(
-                                        id = identifier.id,
-                                        uri = identifier.uri,
-                                        scheme = identifier.scheme
-                                    )
-                                },
-                                businessFunctions = person.businessFunctions.map { businessFunction ->
-                                    PersonesProcessingAction.Params.Party.Persone.BusinessFunction(
-                                        id = businessFunction.id,
-                                        jobTitle = businessFunction.jobTitle,
-                                        type = businessFunction.type,
-                                        period = businessFunction.period?.let { period ->
-                                            PersonesProcessingAction.Params.Party.Persone.BusinessFunction.Period(period.startDate)
-                                        },
-                                        documents = businessFunction.documents.map { document ->
-                                            PersonesProcessingAction.Params.Party.Persone.BusinessFunction.Document(
-                                                id = document.id,
-                                                title = document.title,
-                                                documentType = document.documentType,
-                                                description = document.description
-                                            )
-                                        }
-                                    )
-                                }
-                            )
-                        }
+                        persones = PersonesProcessingAction.Params.Party.Persone(
+                            id = person.id,
+                            title = person.title,
+                            name = person.name,
+                            identifier = person.identifier?.let { identifier ->
+                                PersonesProcessingAction.Params.Party.Persone.Identifier(
+                                    id = identifier.id,
+                                    uri = identifier.uri,
+                                    scheme = identifier.scheme
+                                )
+                            },
+                            businessFunctions = person.businessFunctions.map { businessFunction ->
+                                PersonesProcessingAction.Params.Party.Persone.BusinessFunction(
+                                    id = businessFunction.id,
+                                    jobTitle = businessFunction.jobTitle,
+                                    type = businessFunction.type,
+                                    period = businessFunction.period?.let { period ->
+                                        PersonesProcessingAction.Params.Party.Persone.BusinessFunction.Period(period.startDate)
+                                    },
+                                    documents = businessFunction.documents.map { document ->
+                                        PersonesProcessingAction.Params.Party.Persone.BusinessFunction.Document(
+                                            id = document.id,
+                                            title = document.title,
+                                            documentType = document.documentType,
+                                            description = document.description
+                                        )
+                                    }
+                                )
+                            }
+                        ).let { listOf(it) }
                     ))
             )
         )
