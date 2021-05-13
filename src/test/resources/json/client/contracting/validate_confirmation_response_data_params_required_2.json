@@ -19,6 +19,7 @@
             },
             "businessFunctions": [
               {
+                "id": "string",
                 "type": "authority",
                 "jobTitle": "string",
                 "period": {
