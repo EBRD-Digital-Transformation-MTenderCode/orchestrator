@@ -14,7 +14,7 @@ import java.io.Serializable
 abstract class GetOrganizationIdAndSourceOfRequestGroupAction : FunctionalAction<GetOrganizationIdAndSourceOfRequestGroupAction.Params, GetOrganizationIdAndSourceOfRequestGroupAction.Result> {
 
     override val version: Version = Version.parse("2.0.0")
-    override val name: String = "getRequestGroupByConfirmationResponse"
+    override val name: String = "getRequestByConfirmationResponse"
     override val target: Target<Result> = Target.single()
 
     data class Params(
