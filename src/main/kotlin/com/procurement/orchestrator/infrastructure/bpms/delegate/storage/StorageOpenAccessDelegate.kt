@@ -164,11 +164,11 @@ class StorageOpenAccessDelegate(
         updateParties(parties, entities, documentsByIds, context)
             .doOnFail { return MaybeFail.fail(it) }
 
-        updateContracts(contracts, entities, documentsByIds, context)
-            .doOnFail { return MaybeFail.fail(it) }
+        val updatedContracts = contracts
+            .updateContracts(entities, documentsByIds).orReturnFail { return MaybeFail.fail(it) }
+            .updateContractsConfirmationResponse(entities, documentsByIds).orReturnFail { return MaybeFail.fail(it) }
 
-        updateContractsConfirmationResponse(contracts, entities, documentsByIds, context)
-            .doOnFail { return MaybeFail.fail(it) }
+        context.contracts = updatedContracts
 
         updateBids(bids, entities, documentsByIds, context)
             .doOnFail { return MaybeFail.fail(it) }
@@ -1102,20 +1102,17 @@ class StorageOpenAccessDelegate(
         return MaybeFail.none()
     }
 
-    private fun updateContracts(
-        contracts: Contracts,
+    private fun Contracts.updateContracts(
         entities: Map<EntityKey, EntityValue>,
-        documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document>,
-        context: CamundaGlobalContext
-    ): MaybeFail<Fail.Incident> {
+        documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document>
+    ): Result<Contracts, Fail.Incident> =
         if (EntityKey.CONTRACT in entities)
-            contracts
+            this
                 .updateDocuments(documentsByIds)
-                .orReturnFail { return MaybeFail.fail(it) }
-                .also { updatedContracts -> context.contracts = updatedContracts }
-
-        return MaybeFail.none()
-    }
+                .orForwardFail { return it }
+                .asSuccess()
+        else
+            this.asSuccess()
 
     private fun Contracts.updateDocuments(documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document>): Result<Contracts, Fail.Incident.Bpms> {
         val updatedContracts = this.map { contract ->
@@ -1136,14 +1133,12 @@ class StorageOpenAccessDelegate(
         return success(Contracts(updatedContracts))
     }
 
-    private fun updateContractsConfirmationResponse(
-        contracts: Contracts,
+    private fun Contracts.updateContractsConfirmationResponse(
         entities: Map<EntityKey, EntityValue>,
-        documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document>,
-        context: CamundaGlobalContext
-    ): MaybeFail<Fail.Incident> {
+        documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document>
+    ): Result<Contracts, Fail.Incident> =
         if (EntityKey.CONTRACT_CONFIRMATION_RESPONSE in entities)
-            contracts
+            this
                 .map { contract ->
                     val updatedConfirmationResponses = contract.confirmationResponses
                         .map { confirmationResponse ->
@@ -1151,7 +1146,7 @@ class StorageOpenAccessDelegate(
                                 ?.let { person ->
                                     val updatedBusinessFunctions = person.businessFunctions
                                         .updateDocuments(documentsByIds)
-                                        .orReturnFail { return MaybeFail.fail(it) }
+                                        .orForwardFail { return it }
                                     person.copy(businessFunctions = updatedBusinessFunctions)
                                 }
                             confirmationResponse.copy(relatedPerson = updatedRelatedPerson)
@@ -1159,10 +1154,10 @@ class StorageOpenAccessDelegate(
                     contract.copy(confirmationResponses = ConfirmationResponses(updatedConfirmationResponses))
                 }
                 .let { Contracts(it) }
-                .also { updatedContracts -> context.contracts = updatedContracts }
+                .asSuccess()
+    else
+        this.asSuccess()
 
-        return MaybeFail.none()
-    }
 
     private fun BusinessFunctions.updateDocuments(documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document>): Result<BusinessFunctions, Fail.Incident.Bpms> {
         val updatedBusinesFunctions = this.map { businessFunction ->
