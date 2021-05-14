@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0hbeg19" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.5.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0hbeg19" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.7.0">
   <bpmn:collaboration id="Collaboration_1qm69gv">
     <bpmn:participant id="Participant_1is2a26" name="AddGeneratedDocument" processRef="addGeneratedDocument" />
     <bpmn:group id="Group_1run064" categoryValueRef="CategoryValue_1224a69" />
   </bpmn:collaboration>
-  <bpmn:process id="addGeneratedDocument" name="addGeneratedDocument" isExecutable="true">
+  <bpmn:process id="addGeneratedDocument" name="addGeneratedDocument" isExecutable="true" camunda:versionTag="1.1">
     <bpmn:subProcess id="Activity_0g0wsam" triggeredByEvent="true">
       <bpmn:userTask id="FixExternalIncidentTask" name="Fix external incident" camunda:formKey="embedded:/INCIDENT_FORM.html">
         <bpmn:extensionElements>
@@ -170,11 +170,20 @@
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="Flow_0vhxc6l" sourceRef="BpeInitializeAddGeneratedDocumentToContractProcessTask" targetRef="ContractingAddGeneratedDocumentToContractTask" />
     <bpmn:sequenceFlow id="Flow_15bkpcs" sourceRef="ContractingAddGeneratedDocumentToContractTask" targetRef="StorageOpenAccessTask" />
-    <bpmn:sequenceFlow id="Flow_02yjmb5" sourceRef="StorageOpenAccessTask" targetRef="BpeAddUpdateRecordTaskInQueueTask" />
+    <bpmn:sequenceFlow id="Flow_02yjmb5" sourceRef="StorageOpenAccessTask" targetRef="SubCreateConfirmationRequestsTask" />
     <bpmn:serviceTask id="ContractingAddGeneratedDocumentToContractTask" name="eContracting: Add generated document to contract" camunda:asyncBefore="true" camunda:delegateExpression="${contractingAddGeneratedDocumentToContractDelegate}">
       <bpmn:incoming>Flow_0vhxc6l</bpmn:incoming>
       <bpmn:outgoing>Flow_15bkpcs</bpmn:outgoing>
     </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1slklru" sourceRef="StartEvent_1" targetRef="BpeInitializeAddGeneratedDocumentToContractProcessTask" />
+    <bpmn:callActivity id="SubCreateConfirmationRequestsTask" name="Create confirmation requests" camunda:asyncBefore="true" calledElement="subCreateConfirmationRequests" camunda:variableMappingDelegateExpression="${transferContractsDelegate}">
+      <bpmn:extensionElements>
+        <camunda:out source="errors" target="errors" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_02yjmb5</bpmn:incoming>
+      <bpmn:outgoing>Flow_06i241u</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:sequenceFlow id="Flow_06i241u" sourceRef="SubCreateConfirmationRequestsTask" targetRef="BpeAddUpdateRecordTaskInQueueTask" />
     <bpmn:endEvent id="Event_1x4gl36">
       <bpmn:incoming>Flow_10k8cue</bpmn:incoming>
     </bpmn:endEvent>
@@ -187,13 +196,12 @@
       <bpmn:outgoing>Flow_0qa0lkr</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="BpeAddUpdateRecordTaskInQueueTask" name="BPE:&#10;Add update record task to queue" camunda:asyncBefore="true" camunda:delegateExpression="${bpeAddUpdateRecordTaskInQueueDelegate}">
-      <bpmn:incoming>Flow_02yjmb5</bpmn:incoming>
+      <bpmn:incoming>Flow_06i241u</bpmn:incoming>
       <bpmn:outgoing>Flow_00nggy2</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="Flow_10k8cue" sourceRef="NotifierSuccessNotificationToPlatformTask" targetRef="Event_1x4gl36" />
     <bpmn:sequenceFlow id="Flow_0qa0lkr" sourceRef="NoticeTask" targetRef="NotifierSuccessNotificationToPlatformTask" />
     <bpmn:sequenceFlow id="Flow_00nggy2" sourceRef="BpeAddUpdateRecordTaskInQueueTask" targetRef="NoticeTask" />
-    <bpmn:sequenceFlow id="Flow_1slklru" sourceRef="StartEvent_1" targetRef="BpeInitializeAddGeneratedDocumentToContractProcessTask" />
     <bpmn:textAnnotation id="TextAnnotation_0vpkkzg">
       <bpmn:text>Выбор пути, в зависимости от процесса, что инициировал создание документа 
 (временно убрали DMN)</bpmn:text>
@@ -210,12 +218,13 @@
       <bpmn:text>doc в outcomes?</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:association id="Association_0q4zuts" sourceRef="ContractingAddGeneratedDocumentToContractTask" targetRef="TextAnnotation_17p14il" />
-    <bpmn:textAnnotation id="TextAnnotation_0r5048v">
-      <bpmn:text>generate ConfirmationRequest in future</bpmn:text>
-    </bpmn:textAnnotation>
     <bpmn:textAnnotation id="TextAnnotation_186f5a3">
       <bpmn:text>Изменить состояние FC?</bpmn:text>
     </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="TextAnnotation_06kxgrb">
+      <bpmn:text>создание ConfRequests для документа (пока только контракта)</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_05jelnk" sourceRef="SubCreateConfirmationRequestsTask" targetRef="TextAnnotation_06kxgrb" />
   </bpmn:process>
   <bpmn:category id="Category_1nc53ly">
     <bpmn:categoryValue id="CategoryValue_1224a69" value="ending" />
@@ -226,23 +235,31 @@
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1qm69gv">
       <bpmndi:BPMNShape id="Participant_1is2a26_di" bpmnElement="Participant_1is2a26" isHorizontal="true">
-        <dc:Bounds x="160" y="110" width="1680" height="440" />
+        <dc:Bounds x="160" y="110" width="1650" height="440" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_00nggy2_di" bpmnElement="Flow_00nggy2">
-        <di:waypoint x="1270" y="270" />
-        <di:waypoint x="1310" y="270" />
+        <di:waypoint x="1260" y="270" />
+        <di:waypoint x="1300" y="270" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0qa0lkr_di" bpmnElement="Flow_0qa0lkr">
-        <di:waypoint x="1410" y="270" />
-        <di:waypoint x="1450" y="270" />
+        <di:waypoint x="1400" y="270" />
+        <di:waypoint x="1440" y="270" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_10k8cue_di" bpmnElement="Flow_10k8cue">
-        <di:waypoint x="1550" y="270" />
-        <di:waypoint x="1582" y="270" />
+        <di:waypoint x="1540" y="270" />
+        <di:waypoint x="1572" y="270" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_06i241u_di" bpmnElement="Flow_06i241u">
+        <di:waypoint x="1120" y="270" />
+        <di:waypoint x="1160" y="270" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1slklru_di" bpmnElement="Flow_1slklru">
+        <di:waypoint x="378" y="270" />
+        <di:waypoint x="600" y="270" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_02yjmb5_di" bpmnElement="Flow_02yjmb5">
         <di:waypoint x="980" y="270" />
-        <di:waypoint x="1170" y="270" />
+        <di:waypoint x="1020" y="270" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_15bkpcs_di" bpmnElement="Flow_15bkpcs">
         <di:waypoint x="840" y="270" />
@@ -251,10 +268,6 @@
       <bpmndi:BPMNEdge id="Flow_0vhxc6l_di" bpmnElement="Flow_0vhxc6l">
         <di:waypoint x="700" y="270" />
         <di:waypoint x="740" y="270" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1slklru_di" bpmnElement="Flow_1slklru">
-        <di:waypoint x="378" y="270" />
-        <di:waypoint x="600" y="270" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Activity_0g0wsam_di" bpmnElement="Activity_0g0wsam" isExpanded="true">
         <dc:Bounds x="862" y="362" width="440" height="140" />
@@ -365,17 +378,20 @@
       <bpmndi:BPMNShape id="Activity_1u915wd_di" bpmnElement="ContractingAddGeneratedDocumentToContractTask" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="740" y="230" width="100" height="80" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0l9az49_di" bpmnElement="SubCreateConfirmationRequestsTask" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="1020" y="230" width="100" height="80" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_1x4gl36_di" bpmnElement="Event_1x4gl36">
-        <dc:Bounds x="1582" y="252" width="36" height="36" />
+        <dc:Bounds x="1572" y="252" width="36" height="36" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0hqv03l_di" bpmnElement="NotifierSuccessNotificationToPlatformTask">
-        <dc:Bounds x="1450" y="230" width="100" height="80" />
+        <dc:Bounds x="1440" y="230" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0lgrnx4_di" bpmnElement="NoticeTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="1310" y="230" width="100" height="80" />
+        <dc:Bounds x="1300" y="230" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1o9fkcd_di" bpmnElement="BpeAddUpdateRecordTaskInQueueTask">
-        <dc:Bounds x="1170" y="230" width="100" height="80" />
+        <dc:Bounds x="1160" y="230" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_0vpkkzg_di" bpmnElement="TextAnnotation_0vpkkzg" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
         <dc:Bounds x="390" y="152" width="160" height="82" />
@@ -389,11 +405,11 @@
       <bpmndi:BPMNShape id="TextAnnotation_17p14il_di" bpmnElement="TextAnnotation_17p14il" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
         <dc:Bounds x="740" y="320" width="100" height="40" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_0r5048v_di" bpmnElement="TextAnnotation_0r5048v" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
-        <dc:Bounds x="1010" y="140" width="120" height="54" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_186f5a3_di" bpmnElement="TextAnnotation_186f5a3" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
-        <dc:Bounds x="1010" y="210" width="119.99784853700517" height="39.586919104991395" />
+        <dc:Bounds x="870" y="320" width="120" height="40" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_06kxgrb_di" bpmnElement="TextAnnotation_06kxgrb">
+        <dc:Bounds x="1010" y="142" width="120" height="70" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Association_0mvimlv_di" bpmnElement="Association_0mvimlv">
         <di:waypoint x="650" y="230" />
@@ -407,10 +423,14 @@
         <di:waypoint x="789" y="310" />
         <di:waypoint x="789" y="320" />
       </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_05jelnk_di" bpmnElement="Association_05jelnk">
+        <di:waypoint x="1066" y="230" />
+        <di:waypoint x="1065" y="212" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Group_1run064_di" bpmnElement="Group_1run064">
-        <dc:Bounds x="1150" y="187" width="485" height="153" />
+        <dc:Bounds x="1140" y="187" width="485" height="153" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1383" y="194" width="34" height="14" />
+          <dc:Bounds x="1373" y="194" width="34" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>

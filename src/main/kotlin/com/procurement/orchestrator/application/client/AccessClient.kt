@@ -22,6 +22,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Divi
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindAuctionsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindCriteriaAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindLotIdsAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.GetBuyersOwnersAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetItemsByLotIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotStateByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotsValueAction
@@ -31,6 +32,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.GetQ
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetTenderCurrencyAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetTenderStateAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.OutsourcingPnAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.PersonesProcessingAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.ResponderProcessingAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForLotsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.SetStateForTenderAction
@@ -205,10 +207,20 @@ interface AccessClient {
         params: GetItemsByLotIdsAction.Params
     ): Result<Reply<GetItemsByLotIdsAction.Result>, Fail.Incident>
 
+    suspend fun getBuyersOwners(
+        id: CommandId,
+        params: GetBuyersOwnersAction.Params
+    ): Result<Reply<GetBuyersOwnersAction.Result>, Fail.Incident>
+
     suspend fun validateRfqData(id: CommandId, params: ValidateRfqDataAction.Params): Result<Reply<Unit>, Fail.Incident>
 
     suspend fun createRfq(
         id: CommandId,
         params: CreateRfqAction.Params
     ): Result<Reply<CreateRfqAction.Result>, Fail.Incident>
+
+    suspend fun personesProcessing(
+        id: CommandId,
+        params: PersonesProcessingAction.Params
+    ): Result<Reply<PersonesProcessingAction.Result>, Fail.Incident>
 }

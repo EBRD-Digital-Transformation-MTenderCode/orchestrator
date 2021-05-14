@@ -175,6 +175,19 @@ class NotifierSuccessNotificationToPlatformDelegate(
                 PlatformNotification.Outcomes.RequestQuotation(
                     id = rq.id
                 )
+            },
+        requests = details.requests
+            .map { request ->
+                PlatformNotification.Outcomes.Request(
+                    id = request.id,
+                    token = request.token
+                )
+            },
+        confirmationResponses = details.confirmationResponses
+            .map { confirmationResponse ->
+                PlatformNotification.Outcomes.ConfirmationResponse(
+                    id = confirmationResponse.id
+                )
             }
     )
 
@@ -186,6 +199,8 @@ class NotifierSuccessNotificationToPlatformDelegate(
             OperationTypeProcess.COMPLETE_QUALIFICATION -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.COMPLETE_SOURCING -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.CREATE_AWARD -> "$tenderUri/$cpid/$ocid"
+            OperationTypeProcess.CREATE_CONFIRMATION_RESPONSE_BY_BUYER -> "$tenderUri/$cpid/$ocid"
+            OperationTypeProcess.CREATE_CONFIRMATION_RESPONSE_BY_INVITED_CANDIDATE -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.CREATE_PCR -> "$tenderUri/$cpid"
             OperationTypeProcess.CREATE_RFQ -> "$tenderUri/$cpid"
             OperationTypeProcess.CREATE_SUBMISSION -> "$tenderUri/$cpid/$ocid"

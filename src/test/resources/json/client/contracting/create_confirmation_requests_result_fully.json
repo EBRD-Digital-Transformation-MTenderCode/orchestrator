@@ -1,0 +1,26 @@
+{
+  "contracts": [
+    {
+      "confirmationRequests": [
+        {
+          "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+          "type": "digitalSignature",
+          "relatesTo": "document",
+          "relatedItem": "string",
+          "source": "buyer",
+          "requests": [
+            {
+              "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+              "relatedOrganization": {
+                "id": "string",
+                "name": "string"
+              },
+              "owner": "8703ea0e-d1b6-496e-8526-6b0893b09f0e",
+              "token": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

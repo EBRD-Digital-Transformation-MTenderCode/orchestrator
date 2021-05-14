@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" id="Definitions_02zll03" name="DRD" namespace="http://camunda.org/schema/1.0/dmn">
+  <decision id="subCreateConfirmationRequestsSelectFlow" name="subCreateConfirmationRequestsSelectFlow">
+    <decisionTable id="decisionTable_1">
+      <input id="input_1" label="processtInitiator">
+        <inputExpression id="inputExpression_1" typeRef="string" expressionLanguage="JavaScript">
+          <text>processInfo.processInitiator</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0vcizvz" label="pmd">
+        <inputExpression id="LiteralExpression_0fqrf12" typeRef="string" expressionLanguage="JavaScript">
+          <text>processInfo.pmd</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_102kd9b" label="contracts[0].status">
+        <inputExpression id="LiteralExpression_1c64cae" typeRef="string" expressionLanguage="JavaScript">
+          <text>contracts[0].status</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_08zhf1i" label="contracts[0].statusDetails">
+        <inputExpression id="LiteralExpression_1sn3oby" typeRef="string" expressionLanguage="JavaScript">
+          <text>contracts[0].statusDetails</text>
+        </inputExpression>
+      </input>
+      <output id="output_1" name="flow" typeRef="string" />
+      <rule id="DecisionRule_1bjxn8s">
+        <inputEntry id="UnaryTests_0ocwt9j">
+          <text>'issuingFrameworkContract'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_00iqbia">
+          <text>'OF'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1vn7l05">
+          <text>'pending'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0hxpgmq">
+          <text>'issued'</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1hbr020">
+          <text>'buyer'</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0qf3b4x">
+        <inputEntry id="UnaryTests_06cnlhd">
+          <text>'issuingFrameworkContract'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1u9l0ju">
+          <text>'CF'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0hm59ja">
+          <text>'pending'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_04voeds">
+          <text>'issued'</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1s7hmdq">
+          <text>'buyer'</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_157vbi7">
+        <inputEntry id="UnaryTests_0p8bf20">
+          <text>'issuingFrameworkContract'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1t41w85">
+          <text>'TEST_OF'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ciai88">
+          <text>'pending'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_11878tg">
+          <text>'issued'</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0vqnj2a">
+          <text>'buyer'</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_06xkjj6">
+        <inputEntry id="UnaryTests_14pk45y">
+          <text>'issuingFrameworkContract'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ciqvww">
+          <text>'TEST_CF'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0sbva3r">
+          <text>'pending'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1r81u30">
+          <text>'issued'</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1xtiwia">
+          <text>'buyer'</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_075ve9i">
+        <inputEntry id="UnaryTests_01u6g1h">
+          <text>'nextStepAfterBuyersConfirmation'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_18oyp59">
+          <text>'OF'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1mgeoga">
+          <text>'pending'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1prlilp">
+          <text>'signed'</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0jxt5zg">
+          <text>'invitedTenderer'</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1ly309w">
+        <inputEntry id="UnaryTests_0t5ewpt">
+          <text>'nextStepAfterBuyersConfirmation'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_04ofegx">
+          <text>'CF'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0un7poj">
+          <text>'pending'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_096wvr8">
+          <text>'signed'</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0hc3ld0">
+          <text>'invitedTenderer'</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_17vhl2r">
+        <inputEntry id="UnaryTests_0hgbcno">
+          <text>'nextStepAfterBuyersConfirmation'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_08wi7nq">
+          <text>'TEST_OF'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1kobuiy">
+          <text>'pending'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ke05ls">
+          <text>'signed'</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1qoy18q">
+          <text>'invitedTenderer'</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0msebsd">
+        <inputEntry id="UnaryTests_00egr06">
+          <text>'nextStepAfterBuyersConfirmation'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1gonnq4">
+          <text>'TEST_CF'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0d2qwpv">
+          <text>'pending'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_048lthq">
+          <text>'signed'</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0wwl99p">
+          <text>'invitedTenderer'</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+</definitions>

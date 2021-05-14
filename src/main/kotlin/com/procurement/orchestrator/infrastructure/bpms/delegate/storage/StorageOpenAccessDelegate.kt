@@ -23,6 +23,7 @@ import com.procurement.orchestrator.domain.model.award.Awards
 import com.procurement.orchestrator.domain.model.bid.Bids
 import com.procurement.orchestrator.domain.model.bid.BidsDetails
 import com.procurement.orchestrator.domain.model.contract.Contracts
+import com.procurement.orchestrator.domain.model.contract.confirmation.response.ConfirmationResponses
 import com.procurement.orchestrator.domain.model.document.Document
 import com.procurement.orchestrator.domain.model.document.DocumentId
 import com.procurement.orchestrator.domain.model.document.Documents
@@ -163,8 +164,11 @@ class StorageOpenAccessDelegate(
         updateParties(parties, entities, documentsByIds, context)
             .doOnFail { return MaybeFail.fail(it) }
 
-        updateContracts(contracts, entities, documentsByIds, context)
-            .doOnFail { return MaybeFail.fail(it) }
+        val updatedContracts = contracts
+            .updateContracts(entities, documentsByIds).orReturnFail { return MaybeFail.fail(it) }
+            .updateContractsConfirmationResponse(entities, documentsByIds).orReturnFail { return MaybeFail.fail(it) }
+
+        context.contracts = updatedContracts
 
         updateBids(bids, entities, documentsByIds, context)
             .doOnFail { return MaybeFail.fail(it) }
@@ -889,6 +893,47 @@ class StorageOpenAccessDelegate(
             .asSuccess()
     }
 
+    private fun getContractsConfirmationResponseDocumentsIds(
+        contracts: Contracts, entities: Map<EntityKey, EntityValue>
+    ): Result<List<DocumentId>, Fail.Incident> =
+        when (entities[EntityKey.CONTRACT_CONFIRMATION_RESPONSE]) {
+            EntityValue.OPTIONAL -> getContractsConfirmationResponseDocumentsIdsOptional(contracts)
+            EntityValue.REQUIRED -> getContractsConfirmationResponseDocumentsIdsRequired(contracts)
+            null -> emptyList<DocumentId>().asSuccess()
+        }
+
+    private fun getContractsConfirmationResponseDocumentsIdsOptional(contracts: Contracts): Result<List<DocumentId>, Fail.Incident> =
+        contracts
+            .flatMap { contract -> contract.confirmationResponses }
+            .flatMap { it.relatedPerson?.businessFunctions.orEmpty() }
+            .flatMap { it.documents }
+            .map { it.id }
+            .asSuccess()
+
+    private fun getContractsConfirmationResponseDocumentsIdsRequired(contracts: Contracts): Result<List<DocumentId>, Fail.Incident> {
+        if (contracts.isEmpty())
+            return failure(DelegateIncident.PathMissing(path = "contracts"))
+
+        val confirmationResponses = contracts.flatMap { contract -> contract.confirmationResponses }
+        if (confirmationResponses.isEmpty())
+            return failure(DelegateIncident.PathMissing(path = "contracts.confirmationResponses"))
+
+        val businessFunctions = confirmationResponses
+            .flatMap { confirmationResponse ->
+                confirmationResponse.relatedPerson?.businessFunctions
+                    ?: return failure(DelegateIncident.PathMissing(path = "contracts.confirmationResponses.relatedPerson"))
+            }
+        if (businessFunctions.isEmpty())
+            return failure(DelegateIncident.PathMissing(path = "contracts.confirmationResponses.relatedPerson.businessFunctions"))
+
+        val documents = businessFunctions.flatMap { it.documents }
+        if (documents.isEmpty())
+            return failure(DelegateIncident.DocumentsMissing(path = "contracts.confirmationResponses.relatedPerson.businessFunctions.documents"))
+
+        return documents.map { document -> document.id }
+            .asSuccess()
+    }
+
     private fun getAllDocuments(
         tender: Tender?,
         awards: Awards,
@@ -934,6 +979,9 @@ class StorageOpenAccessDelegate(
         val bidsDocuments: List<DocumentId> = getBidsDocumentsIds(bids, entities)
             .orForwardFail { fail -> return fail }
 
+        val contractsConfirmationResponseDocuments: List<DocumentId> = getContractsConfirmationResponseDocumentsIds(contracts, entities)
+            .orForwardFail { fail -> return fail }
+
         return amendmentDocuments
             .asSequence()
             .plus(tenderDocuments)
@@ -946,6 +994,7 @@ class StorageOpenAccessDelegate(
             .plus(awardSuppliersDocuments)
             .plus(contractsDocuments)
             .plus(bidsDocuments)
+            .plus(contractsConfirmationResponseDocuments)
             .toList()
             .asSuccess()
     }
@@ -1053,23 +1102,17 @@ class StorageOpenAccessDelegate(
         return MaybeFail.none()
     }
 
-    private fun updateContracts(
-        contracts: Contracts,
+    private fun Contracts.updateContracts(
         entities: Map<EntityKey, EntityValue>,
-        documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document>,
-        context: CamundaGlobalContext
-    ): MaybeFail<Fail.Incident> {
-        val contractsWithUpdatedDocuments: Contracts = if (EntityKey.CONTRACT in entities)
-            contracts
+        documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document>
+    ): Result<Contracts, Fail.Incident> =
+        if (EntityKey.CONTRACT in entities)
+            this
                 .updateDocuments(documentsByIds)
-                .orReturnFail { return MaybeFail.fail(it) }
+                .orForwardFail { return it }
+                .asSuccess()
         else
-            contracts
-
-        context.contracts = contractsWithUpdatedDocuments
-
-        return MaybeFail.none()
-    }
+            this.asSuccess()
 
     private fun Contracts.updateDocuments(documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document>): Result<Contracts, Fail.Incident.Bpms> {
         val updatedContracts = this.map { contract ->
@@ -1088,6 +1131,51 @@ class StorageOpenAccessDelegate(
             contract.copy(documents = Documents(updatedDocuments))
         }
         return success(Contracts(updatedContracts))
+    }
+
+    private fun Contracts.updateContractsConfirmationResponse(
+        entities: Map<EntityKey, EntityValue>,
+        documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document>
+    ): Result<Contracts, Fail.Incident> =
+        if (EntityKey.CONTRACT_CONFIRMATION_RESPONSE in entities)
+            this
+                .map { contract ->
+                    val updatedConfirmationResponses = contract.confirmationResponses
+                        .map { confirmationResponse ->
+                            val updatedRelatedPerson = confirmationResponse.relatedPerson
+                                ?.let { person ->
+                                    val updatedBusinessFunctions = person.businessFunctions
+                                        .updateDocuments(documentsByIds)
+                                        .orForwardFail { return it }
+                                    person.copy(businessFunctions = updatedBusinessFunctions)
+                                }
+                            confirmationResponse.copy(relatedPerson = updatedRelatedPerson)
+                        }
+                    contract.copy(confirmationResponses = ConfirmationResponses(updatedConfirmationResponses))
+                }
+                .let { Contracts(it) }
+                .asSuccess()
+        else
+            this.asSuccess()
+
+
+    private fun BusinessFunctions.updateDocuments(documentsByIds: Map<DocumentId, OpenAccessAction.Result.Document>): Result<BusinessFunctions, Fail.Incident.Bpms> {
+        val updatedBusinesFunctions = this.map { businessFunction ->
+            val updatedDocuments = businessFunction.documents
+                .map { document ->
+                    documentsByIds[document.id]
+                        ?.let { document.copy(datePublished = it.datePublished, url = it.uri) }
+                        ?: return failure(
+                            Fail.Incident.Bpms.Context.UnConsistency.Update(
+                                name = "document",
+                                path = "contracts[id:${businessFunction.id}]",
+                                id = document.id.toString()
+                            )
+                        )
+                }
+            businessFunction.copy(documents = Documents(updatedDocuments))
+        }
+        return success(BusinessFunctions(updatedBusinesFunctions))
     }
 
     private fun updateBids(
@@ -1142,6 +1230,7 @@ class StorageOpenAccessDelegate(
         AWARD_SUPPLIER("award.supplier"),
         BID("bid"),
         CONTRACT("contract"),
+        CONTRACT_CONFIRMATION_RESPONSE("contract.confirmationResponse"),
         PARTIES("parties"),
         QUALIFICATION("qualification"),
         QUALIFICATION_REQUIREMENT_RESPONSE("qualification.requirementResponse"),

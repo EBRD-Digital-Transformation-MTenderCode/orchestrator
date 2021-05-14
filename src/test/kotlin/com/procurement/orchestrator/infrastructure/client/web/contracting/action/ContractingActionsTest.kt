@@ -23,9 +23,9 @@ class ContractingActionsTest {
         }
 
         @Nested
-        inner class Result{
+        inner class Result {
             @Test
-            fun fully(){
+            fun fully() {
                 testingBindingAndMapping<FindCANIdsAction.Result>("json/client/contracting/find_can_ids_result.json")
             }
         }
@@ -43,19 +43,19 @@ class ContractingActionsTest {
         }
 
         @Nested
-        inner class Result{
+        inner class Result {
             @Test
-            fun fully(){
+            fun fully() {
                 testingBindingAndMapping<FindSupplierReferencesOfActivePacsAction.Result>("json/client/contracting/find_supplier_references_of_active_pacs_result_full.json")
             }
 
             @Test
-            fun required1(){
+            fun required1() {
                 testingBindingAndMapping<FindSupplierReferencesOfActivePacsAction.Result>("json/client/contracting/find_supplier_references_of_active_pacs_result_required_1.json")
             }
 
             @Test
-            fun required2(){
+            fun required2() {
                 testingBindingAndMapping<FindSupplierReferencesOfActivePacsAction.Result>("json/client/contracting/find_supplier_references_of_active_pacs_result_required_2.json")
             }
         }
@@ -73,9 +73,9 @@ class ContractingActionsTest {
         }
 
         @Nested
-        inner class Result{
+        inner class Result {
             @Test
-            fun fully(){
+            fun fully() {
                 testingBindingAndMapping<CreateFrameworkContractAction.Result>("json/client/contracting/do/create_framework_contract_result_full.json")
             }
         }
@@ -93,9 +93,9 @@ class ContractingActionsTest {
         }
 
         @Nested
-        inner class Result{
+        inner class Result {
             @Test
-            fun fully(){
+            fun fully() {
                 testingBindingAndMapping<CancelFrameworkContractAction.Result>("json/client/contracting/cancel/cancel_framework_contract_result_full.json")
             }
         }
@@ -128,19 +128,19 @@ class ContractingActionsTest {
         }
 
         @Nested
-        inner class Result{
+        inner class Result {
             @Test
-            fun fully(){
+            fun fully() {
                 testingBindingAndMapping<DoPacsAction.Result>("json/client/contracting/do_pacs_result_full.json")
             }
 
             @Test
-            fun required1(){
+            fun required1() {
                 testingBindingAndMapping<DoPacsAction.Result>("json/client/contracting/do_pacs_result_required_1.json")
             }
 
             @Test
-            fun required2(){
+            fun required2() {
                 testingBindingAndMapping<DoPacsAction.Result>("json/client/contracting/do_pacs_result_required_2.json")
             }
         }
@@ -158,9 +158,9 @@ class ContractingActionsTest {
         }
 
         @Nested
-        inner class Result{
+        inner class Result {
             @Test
-            fun fully(){
+            fun fully() {
                 testingBindingAndMapping<AddSupplierReferencesInFCAction.Result>("json/client/contracting/add_supplier_references_in_fc_result_fully.json")
             }
         }
@@ -178,9 +178,9 @@ class ContractingActionsTest {
         }
 
         @Nested
-        inner class Result{
+        inner class Result {
             @Test
-            fun fully(){
+            fun fully() {
                 testingBindingAndMapping<AddGeneratedDocumentToContractAction.Result>("json/client/contracting/add_generated_document_to_contract_result_fully.json")
             }
         }
@@ -203,12 +203,11 @@ class ContractingActionsTest {
         }
 
         @Nested
-        inner class Result{
+        inner class Result {
             @Test
-            fun fully(){
+            fun fully() {
                 testingBindingAndMapping<SetStateForContractsAction.Result>("json/client/contracting/set_state_for_contracts_result_fully.json")
             }
-
         }
     }
 
@@ -236,4 +235,144 @@ class ContractingActionsTest {
         }
     }
 
+    @Nested
+    inner class GetContractState {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetContractStateAction.Params>("json/client/contracting/get_contract_state_params_fully.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetContractStateAction.Result>("json/client/contracting/get_contract_state_result_fully.json")
+            }
+        }
+    }
+
+    @Nested
+    inner class CreateConfirmationRequests {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CreateConfirmationRequestsAction.Params>("json/client/contracting/create_confirmation_requests_params_fully.json")
+            }
+
+            @Test
+            fun required_1() {
+                testingBindingAndMapping<CreateConfirmationRequestsAction.Params>("json/client/contracting/create_confirmation_requests_params_required_1.json")
+            }
+
+            @Test
+            fun required_2() {
+                testingBindingAndMapping<CreateConfirmationRequestsAction.Params>("json/client/contracting/create_confirmation_requests_params_required_2.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CreateConfirmationRequestsAction.Result>("json/client/contracting/create_confirmation_requests_result_fully.json")
+            }
+        }
+    }
+
+    @Nested
+    inner class ValidateConfirmationResponseData {
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<ValidateConfirmationResponseDataAction.Params>("json/client/contracting/validate_confirmation_response_data_params_fully.json")
+            }
+
+            @Test
+            fun required_1() {
+                testingBindingAndMapping<ValidateConfirmationResponseDataAction.Params>("json/client/contracting/validate_confirmation_response_data_params_required_1.json")
+            }
+
+            @Test
+            fun required_2() {
+                testingBindingAndMapping<ValidateConfirmationResponseDataAction.Params>("json/client/contracting/validate_confirmation_response_data_params_required_2.json")
+            }
+        }
+    }
+
+    @Nested
+    inner class GetOrganizationIdAndSourceOfRequestGroup {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetOrganizationIdAndSourceOfRequestGroupAction.Params>("json/client/contracting/get_request_group_by_confirmation_response_params_fully.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetOrganizationIdAndSourceOfRequestGroupAction.Result>("json/client/contracting/get_request_group_by_confirmation_response_result_fully.json")
+            }
+        }
+    }
+
+    @Nested
+    inner class CheckAccessToRequestOfConfirmation {
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CheckAccessToRequestOfConfirmationAction.Params>("json/client/contracting/check_access_to_request_of_confirmation_fully.json")
+            }
+        }
+    }
+
+    @Nested
+    inner class CreateConfirmationResponse {
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CreateConfirmationResponseAction.Params>("json/client/contracting/create_confirmation_response_request_fully.json")
+            }
+
+            @Test
+            fun required_1() {
+                testingBindingAndMapping<CreateConfirmationResponseAction.Params>("json/client/contracting/create_confirmation_response_request_required_1.json")
+            }
+
+            @Test
+            fun required_2() {
+                testingBindingAndMapping<CreateConfirmationResponseAction.Params>("json/client/contracting/create_confirmation_response_request_required_2.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CreateConfirmationResponseAction.Result>("json/client/contracting/create_confirmation_response_result_full.json")
+            }
+
+            @Test
+            fun required_1() {
+                testingBindingAndMapping<CreateConfirmationResponseAction.Result>("json/client/contracting/create_confirmation_response_result_required_1.json")
+            }
+
+            @Test
+            fun required_2() {
+                testingBindingAndMapping<CreateConfirmationResponseAction.Result>("json/client/contracting/create_confirmation_response_result_required_2.json")
+            }
+        }
+    }
 }
