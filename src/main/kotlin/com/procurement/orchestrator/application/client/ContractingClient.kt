@@ -4,16 +4,22 @@ import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckAccessToRequestOfConfirmationAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.AddGeneratedDocumentToContractAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.AddSupplierReferencesInFCAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CancelFrameworkContractAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckContractStateAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckExistenceSupplierReferencesInFCAction
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreateConfirmationRequestsAction
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreateConfirmationResponseAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreateFrameworkContractAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.DoPacsAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.FindCANIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.FindSupplierReferencesOfActivePacsAction
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.GetContractStateAction
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.GetOrganizationIdAndSourceOfRequestGroupAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.SetStateForContractsAction
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.ValidateConfirmationResponseDataAction
 
 interface ContractingClient {
 
@@ -66,4 +72,34 @@ interface ContractingClient {
         id: CommandId,
         params: CheckExistenceSupplierReferencesInFCAction.Params
     ): Result<Reply<Unit>, Fail.Incident>
+
+    suspend fun getContractState(
+        id: CommandId,
+        params: GetContractStateAction.Params
+    ): Result<Reply<GetContractStateAction.Result>, Fail.Incident>
+
+    suspend fun createConfirmationRequests(
+        id: CommandId,
+        params: CreateConfirmationRequestsAction.Params
+    ): Result<Reply<CreateConfirmationRequestsAction.Result>, Fail.Incident>
+
+    suspend fun validateConfirmationResponseData(
+        id: CommandId,
+        params: ValidateConfirmationResponseDataAction.Params
+    ): Result<Reply<Unit>, Fail.Incident>
+
+    suspend fun getOrganizationIdAndSourceOfRequestGroup(
+        id: CommandId,
+        params: GetOrganizationIdAndSourceOfRequestGroupAction.Params
+    ): Result<Reply<GetOrganizationIdAndSourceOfRequestGroupAction.Result>, Fail.Incident>
+
+    suspend fun checkAccessToRequestOfConfirmation(
+            id: CommandId,
+            params: CheckAccessToRequestOfConfirmationAction.Params
+    ): Result<Reply<Unit>, Fail.Incident>
+
+    suspend fun createConfirmationResponse(
+        id: CommandId,
+        params: CreateConfirmationResponseAction.Params
+    ): Result<Reply<CreateConfirmationResponseAction.Result>, Fail.Incident>
 }

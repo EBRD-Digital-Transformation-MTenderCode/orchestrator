@@ -6,13 +6,17 @@ import com.procurement.orchestrator.application.model.OperationId
 import com.procurement.orchestrator.application.model.PlatformId
 import com.procurement.orchestrator.application.model.ResponseId
 import com.procurement.orchestrator.application.model.Token
+import com.procurement.orchestrator.application.model.context.members.Outcomes
 import com.procurement.orchestrator.domain.model.Ocid
 import com.procurement.orchestrator.domain.model.amendment.AmendmentId
 import com.procurement.orchestrator.domain.model.award.AwardId
 import com.procurement.orchestrator.domain.model.bid.BidId
 import com.procurement.orchestrator.domain.model.contract.ContractId
+import com.procurement.orchestrator.domain.model.contract.confirmation.request.RequestGroupId
+import com.procurement.orchestrator.domain.model.contract.confirmation.response.ConfirmationResponseId
 import com.procurement.orchestrator.domain.model.qualification.QualificationId
 import com.procurement.orchestrator.domain.model.submission.SubmissionId
+import java.io.Serializable
 import java.time.LocalDateTime
 
 object PlatformNotification {
@@ -94,7 +98,13 @@ object PlatformNotification {
         @field:JsonProperty("contracts") @param:JsonProperty("contracts") val contracts: List<Contract> = emptyList(),
 
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
-        @field:JsonProperty("rq") @param:JsonProperty("rq") val rq: List<RequestQuotation> = emptyList()
+        @field:JsonProperty("rq") @param:JsonProperty("rq") val rq: List<RequestQuotation> = emptyList(),
+
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        @field:JsonProperty("requests") @param:JsonProperty("requests") val requests: List<Request> = emptyList(),
+
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        @field:JsonProperty("confirmationResponses") @param:JsonProperty("confirmationResponses") val confirmationResponses: List<ConfirmationResponse> = emptyList()
     ) {
 
         class Amendment(
@@ -142,5 +152,13 @@ object PlatformNotification {
             @field:JsonProperty("id") @param:JsonProperty("id") val id: Ocid
         )
 
+        data class Request(
+            @field:JsonProperty("id") @param:JsonProperty("id") val id: RequestGroupId,
+            @field:JsonProperty("X-TOKEN") @param:JsonProperty("X-TOKEN") val token: Token
+        )
+
+        data class ConfirmationResponse(
+            @field:JsonProperty("id") @param:JsonProperty("id") val id: ConfirmationResponseId
+        )
     }
 }

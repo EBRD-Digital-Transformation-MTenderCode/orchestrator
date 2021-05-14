@@ -10,6 +10,10 @@ import com.procurement.orchestrator.application.model.context.extension.getAward
 import com.procurement.orchestrator.application.model.context.extension.getBidsDetailIfOnlyOne
 import com.procurement.orchestrator.application.model.context.extension.getBusinessFunctionsIfNotEmpty
 import com.procurement.orchestrator.application.model.context.extension.getCandidatesIfNotEmpty
+import com.procurement.orchestrator.application.model.context.extension.getConfirmationResponseIfOnlyOne
+import com.procurement.orchestrator.application.model.context.extension.getConfirmationResponsesIfNotEmpty
+import com.procurement.orchestrator.application.model.context.extension.getContractIfNotEmpty
+import com.procurement.orchestrator.application.model.context.extension.getContractIfOnlyOne
 import com.procurement.orchestrator.application.model.context.extension.getDetailsIfNotEmpty
 import com.procurement.orchestrator.application.model.context.extension.getDetailsIfOnlyOne
 import com.procurement.orchestrator.application.model.context.extension.getDocumentsIfNotEmpty
@@ -130,6 +134,9 @@ class StorageCheckRegistrationDelegate(
         val awardSuppliersDocuments: List<DocumentId> = getAwardsSuppliersDocumentsIds(context, entities)
             .orForwardFail { fail -> return fail }
 
+        val contractConfirmationResponseDocuments: List<DocumentId> = getContractConfirmationResponseDocuments(context, entities)
+            .orForwardFail { fail -> return fail }
+
         val documentIds: List<DocumentId> = tenderDocuments.asSequence()
             .plus(amendmentDocuments)
             .plus(awardRequirementResponseDocuments)
@@ -140,7 +147,9 @@ class StorageCheckRegistrationDelegate(
             .plus(bidsDocuments)
             .plus(bidTenderersDocuments)
             .plus(awardDocuments)
-            .plus(awardSuppliersDocuments).toList()
+            .plus(awardSuppliersDocuments)
+            .plus(contractConfirmationResponseDocuments)
+            .toList()
 
         if (documentIds.isEmpty())
             return success(Reply.None)
@@ -497,6 +506,40 @@ class StorageCheckRegistrationDelegate(
             .asSuccess()
     }
 
+    private fun getContractConfirmationResponseDocuments(
+        context: CamundaGlobalContext, entities: Map<EntityKey, EntityValue>
+    ): Result<List<DocumentId>, Fail.Incident> =
+        when (entities[EntityKey.CONTRACT_CONFIRMATION_RESPONSE]) {
+            EntityValue.OPTIONAL -> getContractConfirmationResponseDocumentsIdsOptional(context)
+            EntityValue.REQUIRED -> getContractConfirmationResponseDocumentsIdsRequired(context)
+            null -> emptyList<DocumentId>().asSuccess()
+        }
+
+    private fun getContractConfirmationResponseDocumentsIdsOptional(context: CamundaGlobalContext): Result<List<DocumentId>, Fail.Incident> =
+        context
+            .getContractIfOnlyOne().orForwardFail { return it }
+            .getConfirmationResponseIfOnlyOne().orForwardFail { return it }
+            .relatedPerson
+            ?.businessFunctions.orEmpty()
+            .flatMap { businessFunction -> businessFunction.documents }
+            .map { document -> document.id }
+            .asSuccess()
+
+    private fun getContractConfirmationResponseDocumentsIdsRequired(context: CamundaGlobalContext): Result<List<DocumentId>, Fail.Incident> {
+        val relatedPersonPath = "contracts.confirmationResponses.relatedPerson"
+
+        val relatedPerson = context
+            .getContractIfNotEmpty().orForwardFail { return it }.first()
+            .getConfirmationResponsesIfNotEmpty().orForwardFail { return it }.first()
+            .relatedPerson
+            ?: return Fail.Incident.Bpms.Context.Missing(name = relatedPersonPath).asFailure()
+
+        return relatedPerson.businessFunctions
+            .flatMap { businessFunction -> businessFunction.documents }
+            .map { document -> document.id }
+            .asSuccess()
+    }
+
     class Parameters(
         val entities: Map<EntityKey, EntityValue>
     )
@@ -509,6 +552,7 @@ class StorageCheckRegistrationDelegate(
         AWARD_SUPPLIER("award.supplier"),
         BID("bid"),
         BID_TENDERER("bid.tenderer"),
+        CONTRACT_CONFIRMATION_RESPONSE("contract.confirmationResponse"),
         QUALIFICATION("qualification"),
         QUALIFICATION_REQUIREMENT_RESPONSE("qualification.requirementResponse"),
         SUBMISSION("submission"),

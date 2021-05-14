@@ -702,6 +702,28 @@ class AccessActionsTest {
     }
 
     @Nested
+    inner class GetBuyersOwners {
+
+        @Nested
+        inner class Params {
+
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetBuyersOwnersAction.Params>("json/client/access/ge_buyers_owners_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetBuyersOwnersAction.Result>("json/client/access/get_buyers_owners_result_full.json")
+            }
+        }
+    }
+
+    @Nested
     inner class ValidateRfqData {
 
         @Nested
@@ -749,6 +771,48 @@ class AccessActionsTest {
             @Test
             fun required1() {
                 testingBindingAndMapping<CreateRfqAction.Result>("json/client/access/create_rfq_result_required_1.json")
+            }
+
+        }
+    }
+
+    @Nested
+    inner class PersonesProcessing {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<PersonesProcessingAction.Params>("json/client/access/persones_processing_params_full.json")
+            }
+
+            @Test
+            fun required1() {
+                testingBindingAndMapping<PersonesProcessingAction.Params>("json/client/access/persones_processing_params_required_1.json")
+            }
+
+            @Test
+            fun required2() {
+                testingBindingAndMapping<PersonesProcessingAction.Params>("json/client/access/persones_processing_params_required_2.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<PersonesProcessingAction.Result>("json/client/access/persones_processing_result_full.json")
+            }
+
+            @Test
+            fun required1() {
+                testingBindingAndMapping<PersonesProcessingAction.Result>("json/client/access/persones_processing_result_required_1.json")
+            }
+
+
+            @Test
+            fun required2() {
+                testingBindingAndMapping<PersonesProcessingAction.Result>("json/client/access/persones_processing_result_required_2.json")
             }
 
         }

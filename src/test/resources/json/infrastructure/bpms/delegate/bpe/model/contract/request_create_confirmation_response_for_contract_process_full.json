@@ -1,0 +1,34 @@
+{
+  "confirmationResponse": {
+    "requestId": "string",
+    "type": "document",
+    "value": "string",
+    "relatedPerson": {
+      "title": "Mr.",
+      "name": "string",
+      "identifier": {
+        "scheme": "string",
+        "id": "string",
+        "uri": "string"
+      },
+      "businessFunctions": [
+        {
+          "id": "string",
+          "type": "authority",
+          "jobTitle": "string",
+          "period": {
+            "startDate": "2021-04-26T12:40:38Z"
+          },
+          "documents": [
+            {
+              "id": "string",
+              "documentType": "regulatoryDocument",
+              "title": "string",
+              "description": "string"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

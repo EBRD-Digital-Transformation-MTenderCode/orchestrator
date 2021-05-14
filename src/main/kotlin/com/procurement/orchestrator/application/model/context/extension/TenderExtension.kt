@@ -10,7 +10,7 @@ import com.procurement.orchestrator.domain.model.document.Document
 import com.procurement.orchestrator.domain.model.enquiry.Enquiry
 import com.procurement.orchestrator.domain.model.item.Item
 import com.procurement.orchestrator.domain.model.lot.Lot
-import com.procurement.orchestrator.domain.model.mdm.ProcessMasterData
+import com.procurement.orchestrator.domain.model.process.master.data.ProcessMasterData
 import com.procurement.orchestrator.domain.model.tender.Tender
 import com.procurement.orchestrator.domain.model.tender.auction.ElectronicAuctions
 import com.procurement.orchestrator.domain.model.tender.target.Target

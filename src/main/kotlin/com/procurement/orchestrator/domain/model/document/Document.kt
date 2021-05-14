@@ -56,7 +56,7 @@ data class Document(
         documentType = src.documentType or documentType,
         title = src.title or title,
         description = src.description or description,
-        url = src.description or description,
+        url = src.url or url,
         datePublished = src.datePublished or datePublished,
         dateModified = src.dateModified or dateModified,
         format = src.format or format,

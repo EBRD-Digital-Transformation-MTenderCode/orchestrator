@@ -51,6 +51,7 @@ class AccessCheckRelationWithAdditionalProcessDelegate(
                 cpid = relatedProcess.cpid,
                 ocid = relatedProcess.ocid!!,
                 relatedCpid = additionalProcess.cpid,
+                relatedOcid = null,
                 operationType = processInfo.operationType,
                 existenceRelation = parameters.relationExists
             )

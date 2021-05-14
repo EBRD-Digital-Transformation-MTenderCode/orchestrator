@@ -17,6 +17,7 @@ import com.procurement.orchestrator.infrastructure.client.web.dossier.action.Get
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetSubmissionPeriodEndDateAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetSubmissionStateByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetSubmissionsForTenderingAction
+import com.procurement.orchestrator.infrastructure.client.web.dossier.action.PersonesProcessingAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.SetStateForSubmissionAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.ValidateRequirementResponseAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.ValidateSubmissionAction
@@ -157,5 +158,14 @@ class HttpDossierClient(private val webClient: WebClient, properties: ComponentP
     ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
         url = url,
         command = DossierCommands.CheckPresenceCandidateInOneSubmission.build(id = id, params = params)
+    )
+
+    override suspend fun personesProcessing(
+        id: CommandId,
+        params: PersonesProcessingAction.Params
+    ): Result<Reply<PersonesProcessingAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = DossierCommands.PersonesProcessing.build(id = id, params = params),
+        target = DossierCommands.PersonesProcessing.target
     )
 }
