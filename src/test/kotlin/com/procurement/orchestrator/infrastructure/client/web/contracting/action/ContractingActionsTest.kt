@@ -375,4 +375,15 @@ class ContractingActionsTest {
             }
         }
     }
+
+    @Nested
+    inner class CheckAccessToContract {
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CheckAccessToContractAction.Params>("json/client/contracting/check_access_to_contract.json")
+            }
+        }
+    }
 }
