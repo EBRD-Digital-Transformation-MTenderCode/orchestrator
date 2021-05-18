@@ -6,10 +6,10 @@ import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.WebClient
-import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckAccessToRequestOfConfirmationAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.AddGeneratedDocumentToContractAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.AddSupplierReferencesInFCAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CancelFrameworkContractAction
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckAccessToRequestOfConfirmationAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckContractStateAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckExistenceSupplierReferencesInFCAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreateConfirmationRequestsAction
@@ -17,6 +17,7 @@ import com.procurement.orchestrator.infrastructure.client.web.contracting.action
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreateFrameworkContractAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.DoPacsAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.FindCANIdsAction
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.FindContractDocumentIdAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.FindSupplierReferencesOfActivePacsAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.GetContractStateAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.GetOrganizationIdAndSourceOfRequestGroupAction
@@ -45,6 +46,13 @@ class HttpContractingClient(private val webClient: WebClient, properties: Compon
         url = url,
         command = ContractingCommands.FindSupplierReferencesOfActivePacs.build(id = id, params = params),
         target = ContractingCommands.FindSupplierReferencesOfActivePacs.target
+    )
+
+    override suspend fun findContractDocumentId(id: CommandId, params: FindContractDocumentIdAction.Params):
+        Result<Reply<FindContractDocumentIdAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = ContractingCommands.FindContractDocumentId.build(id = id, params = params),
+        target = ContractingCommands.FindContractDocumentId.target
     )
 
     override suspend fun createFrameworkContract(id: CommandId, params: CreateFrameworkContractAction.Params):
