@@ -22,6 +22,16 @@ abstract class GetInvitedCandidatesOwnersAction :
     )
 
     class Result(
-        @field:JsonProperty("candidates") @param:JsonProperty("candidates") val candidates: Candidates = Candidates()
-    ) : Serializable
+        @field:JsonProperty("candidates") @param:JsonProperty("candidates") val candidates: List<Candidate>
+    ) : Serializable {
+        data class Candidate(
+            @field:JsonProperty("owner") @param:JsonProperty("owner") val owner: String,
+            @field:JsonProperty("organizations") @param:JsonProperty("organizations") val organizations: List<Organization>
+        ) : Serializable{
+            data class Organization(
+                @field:JsonProperty("id") @param:JsonProperty("id") val id: String,
+                @field:JsonProperty("name") @param:JsonProperty("name") val name: String
+            ) : Serializable
+        }
+    }
 }

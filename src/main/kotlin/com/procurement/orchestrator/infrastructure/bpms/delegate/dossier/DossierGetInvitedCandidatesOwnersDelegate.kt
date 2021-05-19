@@ -10,6 +10,8 @@ import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
+import com.procurement.orchestrator.domain.model.process.master.data.Candidate
+import com.procurement.orchestrator.domain.model.process.master.data.Candidates
 import com.procurement.orchestrator.domain.model.process.master.data.Dossier
 import com.procurement.orchestrator.domain.model.process.master.data.ProcessMasterData
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
@@ -66,7 +68,7 @@ class DossierGetInvitedCandidatesOwnersDelegate(
             )
         val candidates = data.candidates
 
-        context.processMasterData = ProcessMasterData(dossier = Dossier(candidates = candidates))
+        context.processMasterData = ProcessMasterData(dossier = Dossier(candidates = candidates as Candidates))
 
         return MaybeFail.none()
     }
