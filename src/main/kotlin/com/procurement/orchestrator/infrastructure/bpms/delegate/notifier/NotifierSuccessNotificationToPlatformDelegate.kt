@@ -201,6 +201,7 @@ class NotifierSuccessNotificationToPlatformDelegate(
             OperationTypeProcess.CREATE_AWARD -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.CREATE_CONFIRMATION_RESPONSE_BY_BUYER -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.CREATE_CONFIRMATION_RESPONSE_BY_INVITED_CANDIDATE -> "$tenderUri/$cpid/$ocid"
+            OperationTypeProcess.CREATE_CONFIRMATION_RESPONSE_BY_SUPPLIER -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.CREATE_PCR -> "$tenderUri/$cpid"
             OperationTypeProcess.CREATE_RFQ -> "$tenderUri/$cpid"
             OperationTypeProcess.CREATE_SUBMISSION -> "$tenderUri/$cpid/$ocid"
