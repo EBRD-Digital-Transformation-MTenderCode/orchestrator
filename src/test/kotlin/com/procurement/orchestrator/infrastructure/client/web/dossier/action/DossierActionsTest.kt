@@ -367,4 +367,25 @@ class DossierActionsTest {
             }
         }
     }
+
+    @Nested
+    inner class GetInvitedCandidatesOwners {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetInvitedCandidatesOwnersAction.Params>("json/client/dossier/get_invited_candidates_owners_params_fully.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetInvitedCandidatesOwnersAction.Result>("json/client/dossier/get_invited_candidates_owners_result_full.json")
+            }
+        }
+    }
 }
