@@ -13,6 +13,8 @@ import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.model.process.master.data.Candidate
 import com.procurement.orchestrator.domain.model.process.master.data.Candidates
 import com.procurement.orchestrator.domain.model.process.master.data.Dossier
+import com.procurement.orchestrator.domain.model.process.master.data.Organization
+import com.procurement.orchestrator.domain.model.process.master.data.Organizations
 import com.procurement.orchestrator.domain.model.process.master.data.ProcessMasterData
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
@@ -67,8 +69,19 @@ class DossierGetInvitedCandidatesOwnersDelegate(
                 )
             )
         val candidates = data.candidates
+            .map { candidate ->
+                Candidate(
+                    organizations = candidate.organizations
+                        .map { organization ->
+                            Organization(id = organization.id, name = organization.name)
+                        }
+                        .let { Organizations(it) },
+                    owner = candidate.owner
+                )
+            }
+            .let { Candidates(it) }
 
-        context.processMasterData = ProcessMasterData(dossier = Dossier(candidates = candidates as Candidates))
+        context.processMasterData = ProcessMasterData(dossier = Dossier(candidates = candidates))
 
         return MaybeFail.none()
     }
