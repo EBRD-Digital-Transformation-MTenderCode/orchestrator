@@ -161,21 +161,21 @@ class ContractingDoPacsDelegate(
             .let { Contracts(it) }
 
         context.contracts = receivedContracts
-        context.outcomes = createOutcomes(context, receivedContracts)
+        context.outcomes = createOutcomes(context, data)
 
         return MaybeFail.none()
     }
 
     private fun createOutcomes(
         context: CamundaGlobalContext,
-        contracts: Contracts
+        result: DoPacsAction.Result
     ): Outcomes {
         val platformId = context.requestInfo.platformId
         val outcomes = context.outcomes ?: Outcomes()
         val details = outcomes[platformId] ?: Outcomes.Details()
 
-        val newOutcomes = contracts
-            .map { contract -> Outcomes.Details.Contract(id = contract.id, token = null) }
+        val newOutcomes = result.contracts
+            .map { contract -> Outcomes.Details.Contract(id = contract.id, token = contract.token) }
 
         val updatedDetails = details.copy(contracts = newOutcomes)
         outcomes[platformId] = updatedDetails
