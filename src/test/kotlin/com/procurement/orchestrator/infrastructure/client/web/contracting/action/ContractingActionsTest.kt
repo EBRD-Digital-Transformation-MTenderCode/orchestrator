@@ -62,6 +62,26 @@ class ContractingActionsTest {
     }
 
     @Nested
+    inner class FindContractDocumentId {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<FindContractDocumentIdAction.Params>("json/client/contracting/find_contract_document_id_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<FindContractDocumentIdAction.Result>("json/client/contracting/find_contract_document_id_result_full.json")
+            }
+        }
+    }
+
+    @Nested
     inner class CreateContract {
 
         @Nested
