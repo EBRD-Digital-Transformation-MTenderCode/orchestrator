@@ -29,23 +29,24 @@ import org.springframework.web.bind.annotation.RestController
 import javax.servlet.http.HttpServletRequest
 
 @RestController
-class CreateConfirmationResponseController(
+class NextConfirmationStepController(
     private val logger: Logger,
     private val processLauncher: ProcessLauncher
 ) {
 
     companion object {
-        private const val PROCESS_NAME = "createConfirmationResponse"
+        private const val PROCESS_NAME = "nextConfirmationStep"
     }
 
-    @PostMapping("/do/confirmation/{entity}/{cpid}/{ocid}/{entityId}")
-    fun createConfirmationResponse(
+    @PostMapping("/complete/confirmationStage/{entity}/{cpid}/{ocid}/{entityId}")
+    fun startNextConfirmationStep(
         servlet: HttpServletRequest,
         @PathVariable cpid: String,
         @PathVariable ocid: String,
+        @PathVariable entity: String,
         @PathVariable entityId: String,
         @RequestParam("role") role: String
-    ): ResponseEntity<String> = perform(servlet = servlet, cpid = cpid, ocid = ocid, entityId = entityId, role = role)
+    ): ResponseEntity<String> = perform(servlet = servlet, cpid = cpid, ocid = ocid, entityType = entity, entityId = entityId, role = role)
         .also { fail -> fail.logging(logger) }
         .buildResponse()
         .also { response ->
@@ -57,10 +58,11 @@ class CreateConfirmationResponseController(
         servlet: HttpServletRequest,
         cpid: String,
         ocid: String,
+        entityType: String,
         entityId: String,
         role: String
     ): MaybeFail<Fail> {
-        val request: PlatformRequest = buildRequest(servlet = servlet, cpid = cpid, ocid = ocid, entityId = entityId, role = role)
+        val request: PlatformRequest = buildRequest(servlet = servlet, cpid = cpid, ocid = ocid, entityType = entityType, entityId = entityId, role = role)
             .orReturnFail { return MaybeFail.fail(it) }
             .also { request ->
                 if (logger.isDebugEnabled)
@@ -73,6 +75,7 @@ class CreateConfirmationResponseController(
         servlet: HttpServletRequest,
         cpid: String,
         ocid: String,
+        entityType: String,
         entityId: String,
         role: String
     ): Result<PlatformRequest, RequestErrors> {
@@ -105,6 +108,7 @@ class CreateConfirmationResponseController(
                 cpid = verifiedCpid,
                 ocid = verifiedOcid,
                 id = entityId,
+                entityType = entityType,
                 token = token,
                 owner = platformId,
                 uri = servlet.requestURI,
@@ -120,9 +124,9 @@ class CreateConfirmationResponseController(
             .orForwardFail { fail -> return fail }
 
         return when (parsedRole) {
-            Role.BUYER -> OperationTypeProcess.CREATE_CONFIRMATION_RESPONSE_BY_BUYER
-            Role.INVITED_CANDIDATE -> OperationTypeProcess.CREATE_CONFIRMATION_RESPONSE_BY_INVITED_CANDIDATE
-            Role.SUPPLIER -> OperationTypeProcess.CREATE_CONFIRMATION_RESPONSE_BY_SUPPLIER
+            Role.BUYER -> OperationTypeProcess.NEXT_STEP_AFTER_BUYERS_CONFIRMATION
+            Role.INVITED_CANDIDATE -> OperationTypeProcess.NEXT_STEP_AFTER_INVITED_CANDIDATES_CONFIRMATION
+            Role.SUPPLIER -> OperationTypeProcess.NEXT_STEP_AFTER_SUPPLIERS_CONFIRMATION
         }.asSuccess()
     }
 

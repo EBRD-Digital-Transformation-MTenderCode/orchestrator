@@ -12,6 +12,7 @@ import com.procurement.orchestrator.infrastructure.client.web.dossier.action.Che
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.CreateSubmissionAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.FinalizeSubmissionsAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.FindSubmissionsAction
+import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetInvitedCandidatesOwnersAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetOrganizationsAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetSubmissionCandidateReferencesByQualificationIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetSubmissionPeriodEndDateAction
@@ -167,5 +168,14 @@ class HttpDossierClient(private val webClient: WebClient, properties: ComponentP
         url = url,
         command = DossierCommands.PersonesProcessing.build(id = id, params = params),
         target = DossierCommands.PersonesProcessing.target
+    )
+
+    override suspend fun getInvitedCandidatesOwners(
+        id: CommandId,
+        params: GetInvitedCandidatesOwnersAction.Params
+    ): Result<Reply<GetInvitedCandidatesOwnersAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = DossierCommands.GetInvitedCandidatesOwners.build(id = id, params = params),
+        target = DossierCommands.GetInvitedCandidatesOwners.target
     )
 }
