@@ -18,6 +18,7 @@ import com.procurement.orchestrator.infrastructure.client.web.submission.action.
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.FindDocumentsByBidIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.GetBidsForPacsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.GetOrganizationsByReferencesFromPacsAction
+import com.procurement.orchestrator.infrastructure.client.web.submission.action.GetSuppliersOwnersAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.PublishInvitationsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.SetStateForBidsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.SetTenderPeriodAction
@@ -150,6 +151,15 @@ class HttpSubmissionClient(private val webClient: WebClient, properties: Compone
         url = url,
         command = SubmissionCommands.GetBidsForPacs.build(id = id, params = params),
         target = SubmissionCommands.GetBidsForPacs.target
+    )
+
+    override suspend fun getSuppliersOwners(
+        id: CommandId,
+        params: GetSuppliersOwnersAction.Params
+    ): Result<Reply<GetSuppliersOwnersAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = SubmissionCommands.GetSuppliersOwners.build(id = id, params = params),
+        target = SubmissionCommands.GetSuppliersOwners.target
     )
 
     override suspend fun getOrganizationsByReferencesFromPacs(

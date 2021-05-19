@@ -16,6 +16,7 @@ import com.procurement.orchestrator.infrastructure.client.web.submission.action.
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.FindDocumentsByBidIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.GetBidsForPacsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.GetOrganizationsByReferencesFromPacsAction
+import com.procurement.orchestrator.infrastructure.client.web.submission.action.GetSuppliersOwnersAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.PublishInvitationsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.SetStateForBidsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.SetTenderPeriodAction
@@ -81,6 +82,11 @@ interface SubmissionClient {
         id: CommandId,
         params: GetBidsForPacsAction.Params
     ): Result<Reply<GetBidsForPacsAction.Result>, Fail.Incident>
+
+    suspend fun getSuppliersOwners(
+        id: CommandId,
+        params: GetSuppliersOwnersAction.Params
+    ): Result<Reply<GetSuppliersOwnersAction.Result>, Fail.Incident>
 
     suspend fun getOrganizationsByReferencesFromPacs(
         id: CommandId,
