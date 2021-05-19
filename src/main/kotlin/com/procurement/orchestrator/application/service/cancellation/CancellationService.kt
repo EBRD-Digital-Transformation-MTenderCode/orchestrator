@@ -118,6 +118,7 @@ class CancellationServiceImpl(
                     mainProcurementCategory = prevProcessContext.mainProcurementCategory,
                     awardCriteria = prevProcessContext.awardCriteria,
                     relatedProcess = null,
+                    entityType = null,
                     entityId = null,
                     processInitiator = null,
                     additionalProcess = null
@@ -225,6 +226,7 @@ class CancellationServiceImpl(
                     mainProcurementCategory = prevProcessContext.mainProcurementCategory,
                     awardCriteria = prevProcessContext.awardCriteria,
                     relatedProcess = null,
+                    entityType = null,
                     entityId = null,
                     processInitiator = null,
                     additionalProcess = null
@@ -332,6 +334,7 @@ class CancellationServiceImpl(
                     mainProcurementCategory = prevProcessContext.mainProcurementCategory,
                     awardCriteria = prevProcessContext.awardCriteria,
                     relatedProcess = null,
+                    entityType = null,
                     entityId = null,
                     processInitiator = null,
                     additionalProcess = null

@@ -12,6 +12,7 @@ import com.procurement.orchestrator.infrastructure.client.web.contracting.action
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckAccessToRequestOfConfirmationAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckContractStateAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckExistenceSupplierReferencesInFCAction
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckAccessToContractAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreateConfirmationRequestsAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreateConfirmationResponseAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreateFrameworkContractAction
@@ -171,5 +172,16 @@ class HttpContractingClient(private val webClient: WebClient, properties: Compon
         url = url,
         command = ContractingCommands.CreateConfirmationResponse.build(id = id, params = params),
         target = ContractingCommands.CreateConfirmationResponse.target
+    )
+
+    override suspend fun checkAccessToContract(
+        id: CommandId,
+        params: CheckAccessToContractAction.Params
+    ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
+        url = url,
+        command = ContractingCommands.CheckAccessToContract.build(
+            id = id,
+            params = params
+        )
     )
 }
