@@ -381,4 +381,44 @@ class SubmissionActionTest {
             }
         }
     }
+
+    @Nested
+    inner class PersonesProcessing {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<PersonesProcessingAction.Params>("json/client/submission/persones_processing_params_fully.json")
+            }
+
+            @Test
+            fun required1() {
+                testingBindingAndMapping<PersonesProcessingAction.Params>("json/client/submission/persones_processing_params_required1.json")
+            }
+
+            @Test
+            fun required2() {
+                testingBindingAndMapping<PersonesProcessingAction.Params>("json/client/submission/persones_processing_params_required2.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<PersonesProcessingAction.Result>("json/client/submission/persones_processing_result_full.json")
+            }
+
+            @Test
+            fun required() {
+                testingBindingAndMapping<PersonesProcessingAction.Result>("json/client/submission/persones_processing_result_required1.json")
+            }
+
+            @Test
+            fun required1() {
+                testingBindingAndMapping<PersonesProcessingAction.Result>("json/client/submission/persones_processing_result_required2.json")
+            }
+        }
+    }
 }

@@ -17,6 +17,7 @@ import com.procurement.orchestrator.infrastructure.client.web.submission.action.
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.GetBidsForPacsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.GetOrganizationsByReferencesFromPacsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.GetSuppliersOwnersAction
+import com.procurement.orchestrator.infrastructure.client.web.submission.action.PersonesProcessingAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.PublishInvitationsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.SetStateForBidsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.SetTenderPeriodAction
@@ -102,4 +103,9 @@ interface SubmissionClient {
         id: CommandId,
         params: CheckExistenceOfInvitationAction.Params
     ): Result<Reply<Unit>, Fail.Incident>
+
+    suspend fun personesProcessing(
+        id: CommandId,
+        params: PersonesProcessingAction.Params
+    ): Result<Reply<PersonesProcessingAction.Result>, Fail.Incident>
 }
