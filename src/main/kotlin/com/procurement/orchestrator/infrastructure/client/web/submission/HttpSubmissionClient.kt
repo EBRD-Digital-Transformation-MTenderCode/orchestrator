@@ -18,6 +18,7 @@ import com.procurement.orchestrator.infrastructure.client.web.submission.action.
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.FindDocumentsByBidIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.GetBidsForPacsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.GetOrganizationsByReferencesFromPacsAction
+import com.procurement.orchestrator.infrastructure.client.web.submission.action.PersonesProcessingAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.PublishInvitationsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.SetStateForBidsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.SetTenderPeriodAction
@@ -176,5 +177,14 @@ class HttpSubmissionClient(private val webClient: WebClient, properties: Compone
     ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
         url = url,
         command = SubmissionCommands.CheckExistenceOfInvitation.build(id = id, params = params)
+    )
+
+    override suspend fun personesProcessing(
+        id: CommandId,
+        params: PersonesProcessingAction.Params
+    ): Result<Reply<PersonesProcessingAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = SubmissionCommands.PersonesProcessing.build(id = id, params = params),
+        target = SubmissionCommands.PersonesProcessing.target
     )
 }
