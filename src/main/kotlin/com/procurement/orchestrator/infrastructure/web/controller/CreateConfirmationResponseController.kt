@@ -122,6 +122,7 @@ class CreateConfirmationResponseController(
         return when (parsedRole) {
             Role.BUYER -> OperationTypeProcess.CREATE_CONFIRMATION_RESPONSE_BY_BUYER
             Role.INVITED_CANDIDATE -> OperationTypeProcess.CREATE_CONFIRMATION_RESPONSE_BY_INVITED_CANDIDATE
+            Role.SUPPLIER -> OperationTypeProcess.CREATE_CONFIRMATION_RESPONSE_BY_SUPPLIER
         }.asSuccess()
     }
 
@@ -136,7 +137,8 @@ class CreateConfirmationResponseController(
 
     enum class Role(@JsonValue override val key: String) : EnumElementProvider.Key {
         BUYER("buyer"),
-        INVITED_CANDIDATE("invitedCandidate");
+        INVITED_CANDIDATE("invitedCandidate"),
+        SUPPLIER("supplier");
 
         override fun toString(): String = key
 
