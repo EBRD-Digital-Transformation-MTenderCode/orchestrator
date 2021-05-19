@@ -293,6 +293,25 @@ class SubmissionActionTest {
     }
 
     @Nested
+    inner class GetSuppliersOwners {
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetSuppliersOwnersAction.Params>("json/client/submission/get_suppliers_owners_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetSuppliersOwnersAction.Result>("json/client/submission/get_suppliers_owners_result_full.json")
+            }
+        }
+    }
+
+    @Nested
     inner class GetOrganizationsByReferencesFromPacs {
         @Nested
         inner class Params {

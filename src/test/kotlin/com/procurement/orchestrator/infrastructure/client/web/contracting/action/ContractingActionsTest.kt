@@ -394,6 +394,18 @@ class ContractingActionsTest {
                 testingBindingAndMapping<CreateConfirmationResponseAction.Result>("json/client/contracting/create_confirmation_response_result_required_2.json")
             }
         }
+
+        @Nested
+        inner class CheckExistenceOfConfirmationResponses {
+
+            @Nested
+            inner class Params {
+                @Test
+                fun fully() {
+                    testingBindingAndMapping<CheckExistenceOfConfirmationResponsesAction.Params>("json/client/contracting/check_existence_of_confirmation_responses_params_fully.json")
+                }
+            }
+        }
     }
 
     @Nested

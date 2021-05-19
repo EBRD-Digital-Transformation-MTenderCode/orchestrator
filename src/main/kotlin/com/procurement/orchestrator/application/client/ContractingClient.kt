@@ -9,6 +9,7 @@ import com.procurement.orchestrator.infrastructure.client.web.contracting.action
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CancelFrameworkContractAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckAccessToRequestOfConfirmationAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckContractStateAction
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckExistenceOfConfirmationResponsesAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckExistenceSupplierReferencesInFCAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckAccessToContractAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreateConfirmationRequestsAction
@@ -113,5 +114,10 @@ interface ContractingClient {
     suspend fun checkAccessToContract(
         id: CommandId,
         params: CheckAccessToContractAction.Params
+    ): Result<Reply<Unit>, Fail.Incident>
+
+    suspend fun checkExistenceOfConfirmationResponses(
+        id: CommandId,
+        params: CheckExistenceOfConfirmationResponsesAction.Params
     ): Result<Reply<Unit>, Fail.Incident>
 }
