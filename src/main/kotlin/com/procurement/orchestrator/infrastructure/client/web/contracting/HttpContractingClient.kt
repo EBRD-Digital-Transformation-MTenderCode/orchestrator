@@ -11,6 +11,7 @@ import com.procurement.orchestrator.infrastructure.client.web.contracting.action
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CancelFrameworkContractAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckAccessToRequestOfConfirmationAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckContractStateAction
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckExistenceOfConfirmationResponsesAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckExistenceSupplierReferencesInFCAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckAccessToContractAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreateConfirmationRequestsAction
@@ -183,5 +184,13 @@ class HttpContractingClient(private val webClient: WebClient, properties: Compon
             id = id,
             params = params
         )
+    )
+
+    override suspend fun checkExistenceOfConfirmationResponses(
+        id: CommandId,
+        params: CheckExistenceOfConfirmationResponsesAction.Params
+    ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
+        url = url,
+        command = ContractingCommands.CheckExistenceOfConfirmationResponses.build(id = id, params = params)
     )
 }

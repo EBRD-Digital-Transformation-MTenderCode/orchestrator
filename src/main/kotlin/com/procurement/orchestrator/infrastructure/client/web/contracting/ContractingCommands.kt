@@ -6,6 +6,7 @@ import com.procurement.orchestrator.infrastructure.client.web.contracting.action
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckAccessToContractAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckAccessToRequestOfConfirmationAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckContractStateAction
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckExistenceOfConfirmationResponsesAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckExistenceSupplierReferencesInFCAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreateConfirmationRequestsAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreateConfirmationResponseAction
@@ -56,4 +57,6 @@ object ContractingCommands {
     object CreateConfirmationResponse: CreateConfirmationResponseAction()
 
     object CheckAccessToContract: CheckAccessToContractAction()
+
+    object CheckExistenceOfConfirmationResponses: CheckExistenceOfConfirmationResponsesAction()
 }
