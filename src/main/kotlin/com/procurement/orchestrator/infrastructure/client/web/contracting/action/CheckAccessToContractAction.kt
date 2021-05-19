@@ -12,7 +12,7 @@ import com.procurement.orchestrator.infrastructure.model.Version
 abstract class CheckAccessToContractAction : ProceduralAction<CheckAccessToContractAction.Params> {
 
     override val version: Version = Version.parse("2.0.0")
-    override val name: String = "checkAccessToContractAction"
+    override val name: String = "checkAccessToContract"
 
     data class Params(
         @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid,
