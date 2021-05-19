@@ -22,6 +22,7 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.functional.asFailure
 import com.procurement.orchestrator.domain.functional.asSuccess
+import com.procurement.orchestrator.domain.model.document.ProcessInitiator
 import com.procurement.orchestrator.infrastructure.bpms.repository.RequestRecord
 import com.procurement.orchestrator.infrastructure.bpms.repository.RequestRepository
 
@@ -86,6 +87,8 @@ class ProcessLauncherImpl(
                 )
             )
 
+        val operationType = request.context.operationType ?: rule.operationType
+
         val propertyContainer = DefaultPropertyContainer()
         CamundaGlobalContext(propertyContainer)
             .apply {
@@ -104,7 +107,7 @@ class ProcessLauncherImpl(
                     ocid = request.context.ocid,
                     cpid = request.context.cpid,
                     pmd = pmd,
-                    operationType = request.context.operationType ?: rule.operationType,
+                    operationType = operationType,
                     stage = rule.stageTo,
                     prevStage = prevStage,
                     processDefinitionKey = processDefinitionKey,
@@ -119,8 +122,9 @@ class ProcessLauncherImpl(
                                 ocid = relatedProcess.ocid
                             )
                         },
+                    entityType = request.context.entityType,
                     entityId = request.context.id,
-                    processInitiator = null,
+                    processInitiator = ProcessInitiator.tryCreate(operationType.key),
                     additionalProcess = request.context.additionalProcess
                         ?.let { additionalProcess ->
                             AdditionalProcess(
@@ -203,6 +207,7 @@ class ProcessLauncherImpl(
                     mainProcurementCategory = prevProcessContext.mainProcurementCategory,
                     awardCriteria = prevProcessContext.awardCriteria,
                     relatedProcess = null,
+                    entityType = null,
                     entityId = null,
                     processInitiator = null,
                     additionalProcess = null
@@ -309,6 +314,7 @@ class ProcessLauncherImpl(
                     mainProcurementCategory = null,
                     awardCriteria = null,
                     relatedProcess = null,
+                    entityType = null,
                     entityId = null,
                     additionalProcess = null
                 )
