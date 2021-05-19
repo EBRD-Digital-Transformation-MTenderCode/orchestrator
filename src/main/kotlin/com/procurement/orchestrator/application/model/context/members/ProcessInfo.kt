@@ -46,6 +46,9 @@ data class ProcessInfo(
     @field:JsonProperty("additionalProcess") @param:JsonProperty("additionalProcess") val additionalProcess: AdditionalProcess?,
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonProperty("entityType") @param:JsonProperty("entityType") val entityType: String?,
+
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonProperty("entityId") @param:JsonProperty("entityId") val entityId: String?,
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)

@@ -103,6 +103,7 @@ class ConfirmationServiceImpl(
                     mainProcurementCategory = prevProcessContext.mainProcurementCategory,
                     awardCriteria = prevProcessContext.awardCriteria,
                     relatedProcess = null,
+                    entityType = null,
                     entityId = null,
                     processInitiator = null,
                     additionalProcess = null

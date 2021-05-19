@@ -6,6 +6,7 @@ import com.procurement.orchestrator.infrastructure.client.web.dossier.action.Che
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.CreateSubmissionAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.FinalizeSubmissionsAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.FindSubmissionsAction
+import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetInvitedCandidatesOwnersAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetOrganizationsAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetSubmissionCandidateReferencesByQualificationIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetSubmissionPeriodEndDateAction
@@ -50,4 +51,6 @@ object DossierCommands {
     object CheckPresenceCandidateInOneSubmission: CheckPresenceCandidateInOneSubmissionAction()
 
     object PersonesProcessing : PersonesProcessingAction()
+
+    object GetInvitedCandidatesOwners : GetInvitedCandidatesOwnersAction()
 }

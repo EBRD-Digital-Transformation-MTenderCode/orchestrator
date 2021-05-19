@@ -27,6 +27,7 @@ class PlatformRequest(
         @field:JsonProperty("token") @param:JsonProperty("token") val token: Token? = null,
         @field:JsonProperty("owner") @param:JsonProperty("owner") val owner: Owner,
         @field:JsonProperty("id") @param:JsonProperty("id") val id: String? = null,
+        @field:JsonProperty("entityType") @param:JsonProperty("entityType") val entityType: String? = null,
         @field:JsonProperty("uri") @param:JsonProperty("uri") val uri: String,
         @field:JsonProperty("processName") @param:JsonProperty("processName") val processName: String,
         @field:JsonProperty("relatedProcess") @param:JsonProperty("relatedProcess") val relatedProcess: RelatedProcess? = null,
