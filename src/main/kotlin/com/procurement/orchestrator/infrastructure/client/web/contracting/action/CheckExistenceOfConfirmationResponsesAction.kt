@@ -9,11 +9,10 @@ import com.procurement.orchestrator.domain.model.ProcurementMethodDetails
 import com.procurement.orchestrator.domain.model.contract.ContractId
 import com.procurement.orchestrator.infrastructure.model.Version
 
-abstract class CheckExistenceOfConfirmationResponsesAction :
-    ProceduralAction<CheckExistenceOfConfirmationResponsesAction.Params> {
+abstract class CheckExistenceOfConfirmationResponsesAction : ProceduralAction<CheckExistenceOfConfirmationResponsesAction.Params> {
 
     override val version: Version = Version.parse("2.0.0")
-    override val name: String = "checkExistenceOfConfirmationResponsesAction"
+    override val name: String = "checkExistenceOfConfirmationResponses"
 
     data class Params(
         @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid,
