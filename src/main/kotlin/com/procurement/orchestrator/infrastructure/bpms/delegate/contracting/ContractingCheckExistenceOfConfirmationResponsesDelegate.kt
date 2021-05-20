@@ -17,7 +17,7 @@ import com.procurement.orchestrator.infrastructure.client.web.contracting.action
 import org.springframework.stereotype.Component
 
 @Component
-class CheckExistenceOfConfirmationResponsesDelegate(
+class ContractingCheckExistenceOfConfirmationResponsesDelegate(
     logger: Logger,
     private val contractingClient: ContractingClient,
     operationStepRepository: OperationStepRepository,
