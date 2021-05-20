@@ -74,11 +74,9 @@ class ContractingGetSuppliersIdsByContractDelegate(
                 )
             )
 
-        val organizationIds = data.contracts.map { it.id }
-
-        val parties = organizationIds.map { id ->
-            Party(id = id)
-        }.let { Parties(it) }
+        val parties = data.contracts
+            .map { contract -> Party(id = contract.id) }
+            .let { Parties(it) }
 
         context.parties = parties
 
