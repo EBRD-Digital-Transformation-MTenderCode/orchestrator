@@ -7,7 +7,7 @@
     <bpmn:participant id="Participant_0oezubl" name="CreateConfirmationResponse" processRef="createConfirmationResponse" />
     <bpmn:group id="Group_0bfi8ia" categoryValueRef="CategoryValue_192ohkj" />
   </bpmn:collaboration>
-  <bpmn:process id="createConfirmationResponse" name="createConfirmationResponse" isExecutable="true" camunda:versionTag="1.31">
+  <bpmn:process id="createConfirmationResponse" name="createConfirmationResponse" isExecutable="true" camunda:versionTag="1.3">
     <bpmn:startEvent id="StartEvent_1">
       <bpmn:outgoing>Flow_00jha39</bpmn:outgoing>
     </bpmn:startEvent>
@@ -56,10 +56,10 @@
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="Flow_0kqcjiw" sourceRef="ContractingGetOrganizationIdAndSourceOfRequestTask" targetRef="Gateway_1q9zmrk" />
     <bpmn:sequenceFlow id="Flow_1v1i2j9" name="buyer" sourceRef="Gateway_1q9zmrk" targetRef="AccessPersonesProcessingTask">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${contracts[0].confirmationRequests[0].source == 'buyer'}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${contracts[0].requirementRequests[0].source == 'buyer'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_0a9sr7r" name="invited&#10;Candidate" sourceRef="Gateway_1q9zmrk" targetRef="DossierPersonesProcessingTask">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${contracts[0].confirmationRequests[0].source == 'invitedCandidate'}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${contracts[0].requirementRequests[0].source == 'invitedCandidate'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_1stbumc" sourceRef="ContractingValidateConfirmationResponseDataTask" targetRef="StorageCheckRegistrationTask" />
     <bpmn:sequenceFlow id="Flow_17t1ew6" sourceRef="StorageCheckRegistrationTask" targetRef="ContractingGetOrganizationIdAndSourceOfRequestTask" />
@@ -131,7 +131,7 @@
       <bpmn:outgoing>Flow_14ifeub</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="Flow_1og9bnb" name="tenderer" sourceRef="Gateway_1q9zmrk" targetRef="SubmissionPersonesProcessingTask">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${contracts[0].confirmationRequests[0].source == 'tenderer'}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${contracts[0].requirementRequests[0].source == 'tenderer'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_18htned" sourceRef="SubmissionPersonesProcessingTask" targetRef="Gateway_01hncll" />
     <bpmn:serviceTask id="AccessPersonesProcessingTask" name="eAccess: Persones processing" camunda:asyncBefore="true" camunda:delegateExpression="${accessPersonesProcessingDelegate}">
@@ -330,6 +330,9 @@
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0f52w8v">
       <bpmndi:BPMNShape id="Participant_0oezubl_di" bpmnElement="Participant_0oezubl" isHorizontal="true">
         <dc:Bounds x="160" y="90" width="2408" height="610" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_06uoer1_di" bpmnElement="TextAnnotation_06uoer1" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
+        <dc:Bounds x="270" y="260" width="140" height="54" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_18htned_di" bpmnElement="Flow_18htned">
         <di:waypoint x="1700" y="450" />
@@ -627,9 +630,6 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_1beioch_di" bpmnElement="TextAnnotation_1beioch">
         <dc:Bounds x="1600" y="110" width="100" height="68" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_06uoer1_di" bpmnElement="TextAnnotation_06uoer1" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
-        <dc:Bounds x="270" y="260" width="140" height="54" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Association_0koapj6_di" bpmnElement="Association_0koapj6">
         <di:waypoint x="460" y="300" />
