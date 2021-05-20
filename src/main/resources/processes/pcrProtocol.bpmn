@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_0xsldts" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.5.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_0xsldts" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.7.0">
   <bpmn:category id="Category_1wjipfh">
     <bpmn:categoryValue id="CategoryValue_06tq8ke" value="ending" />
   </bpmn:category>
@@ -7,7 +7,7 @@
     <bpmn:participant id="Participant_0npm4qx" name="PcrProtocol " processRef="pcrProtocol" />
     <bpmn:group id="Group_0h476mm" categoryValueRef="CategoryValue_06tq8ke" />
   </bpmn:collaboration>
-  <bpmn:process id="pcrProtocol" name="pcrProtocol " isExecutable="true">
+  <bpmn:process id="pcrProtocol" name="pcrProtocol " isExecutable="true" camunda:versionTag="1.1">
     <bpmn:serviceTask id="EvaluationCheckAwardsStateTask" name="eEvaluation:&#10;Check awards state" camunda:asyncBefore="true" camunda:delegateExpression="${evaluationCheckAwardsStateDelegate}">
       <bpmn:incoming>Flow_1xcrpo6</bpmn:incoming>
       <bpmn:outgoing>Flow_0z7618e</bpmn:outgoing>
@@ -57,6 +57,45 @@
     <bpmn:sequenceFlow id="Flow_0xh28tv" sourceRef="BpeInitializePcrProtocolProcessTask" targetRef="RequisitionCheckAccessToTenderTask" />
     <bpmn:sequenceFlow id="Flow_0vc6cna" sourceRef="RequisitionCheckAccessToTenderTask" targetRef="RequisitionCheckTenderStateTask" />
     <bpmn:sequenceFlow id="Flow_1fqt4ld" sourceRef="RequisitionCheckTenderStateTask" targetRef="RequisitionCheckLotsStateTask" />
+    <bpmn:sequenceFlow id="Flow_0anm0jm" sourceRef="ContractingDoPacsTask" targetRef="Gateway_0ac07gn" />
+    <bpmn:sequenceFlow id="Flow_0mb13gt" sourceRef="SubmissionGetBidsForPacsTask" targetRef="ContractingDoPacsTask" />
+    <bpmn:serviceTask id="SubmissionGetBidsForPacsTask" name="eSubmission: Get bids for PACs" camunda:asyncBefore="true" camunda:delegateExpression="${submissionGetBidsForPacsDelegate}">
+      <bpmn:incoming>Flow_1mugw5z</bpmn:incoming>
+      <bpmn:outgoing>Flow_0mb13gt</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="ContractingDoPacsTask" name="eContracting:&#10;Do PACs" camunda:asyncBefore="true" camunda:delegateExpression="${contractingDoPacsDelegate}">
+      <bpmn:incoming>Flow_0mb13gt</bpmn:incoming>
+      <bpmn:outgoing>Flow_0anm0jm</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0h3etow" sourceRef="SubProcessCreateConfirmationRequestsForEachPac" targetRef="Gateway_1r7cxv9" />
+    <bpmn:subProcess id="SubProcessCreateConfirmationRequestsForEachPac" name="Create confiramation requests for each PAC" camunda:asyncBefore="true">
+      <bpmn:incoming>Flow_1qz1isx</bpmn:incoming>
+      <bpmn:outgoing>Flow_0h3etow</bpmn:outgoing>
+      <bpmn:multiInstanceLoopCharacteristics isSequential="true" camunda:collection="${contracts}" camunda:elementVariable="contract" />
+      <bpmn:startEvent id="Event_1x7ybwl">
+        <bpmn:outgoing>Flow_0ajieut</bpmn:outgoing>
+      </bpmn:startEvent>
+      <bpmn:callActivity id="Activity_0b0wq7m" name="Create confirmation requests" camunda:asyncBefore="true" calledElement="subCreateConfirmationRequests" camunda:variableMappingDelegateExpression="${transferContractDelegate}">
+        <bpmn:extensionElements>
+          <camunda:out source="errors" target="errors" />
+        </bpmn:extensionElements>
+        <bpmn:incoming>Flow_0ajieut</bpmn:incoming>
+        <bpmn:outgoing>Flow_1tot82b</bpmn:outgoing>
+      </bpmn:callActivity>
+      <bpmn:sequenceFlow id="Flow_0ajieut" sourceRef="Event_1x7ybwl" targetRef="Activity_0b0wq7m" />
+      <bpmn:endEvent id="Event_0jsu5ar">
+        <bpmn:incoming>Flow_1tot82b</bpmn:incoming>
+      </bpmn:endEvent>
+      <bpmn:sequenceFlow id="Flow_1tot82b" sourceRef="Activity_0b0wq7m" targetRef="Event_0jsu5ar" />
+    </bpmn:subProcess>
+    <bpmn:exclusiveGateway id="Gateway_0ac07gn" name="есть PACs?" default="Flow_0k4zezl">
+      <bpmn:incoming>Flow_0anm0jm</bpmn:incoming>
+      <bpmn:outgoing>Flow_1qz1isx</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0k4zezl</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_1qz1isx" name="да&#10;(result != null)" sourceRef="Gateway_0ac07gn" targetRef="SubProcessCreateConfirmationRequestsForEachPac">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${result != null}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
     <bpmn:endEvent id="Event_0dw83f0">
       <bpmn:incoming>Flow_0tcrwru</bpmn:incoming>
     </bpmn:endEvent>
@@ -76,19 +115,20 @@
       <bpmn:extensionElements>
         <camunda:out source="errors" target="errors" />
       </bpmn:extensionElements>
-      <bpmn:incoming>Flow_0anm0jm</bpmn:incoming>
+      <bpmn:incoming>Flow_17oiequ</bpmn:incoming>
       <bpmn:outgoing>Flow_0me68s0</bpmn:outgoing>
     </bpmn:callActivity>
-    <bpmn:sequenceFlow id="Flow_0anm0jm" sourceRef="ContractingDoPacsTask" targetRef="SubModifyLotsTask" />
     <bpmn:sequenceFlow id="Flow_0tcrwru" sourceRef="NotifierSuccessNotificationToPlatformTask" targetRef="Event_0dw83f0" />
     <bpmn:sequenceFlow id="Flow_1qrrah1" sourceRef="NoticeTask" targetRef="NotifierSuccessNotificationToPlatformTask" />
     <bpmn:sequenceFlow id="Flow_0h7qt2s" sourceRef="BpeAddUpdateRecordTaskInQueueTask" targetRef="NoticeTask" />
     <bpmn:sequenceFlow id="Flow_0me68s0" sourceRef="SubModifyLotsTask" targetRef="BpeAddUpdateRecordTaskInQueueTask" />
-    <bpmn:sequenceFlow id="Flow_0mb13gt" sourceRef="SubmissionGetBidsForPacsTask" targetRef="ContractingDoPacsTask" />
-    <bpmn:serviceTask id="SubmissionGetBidsForPacsTask" name="eSubmission: Get bids for PACs" camunda:asyncBefore="true" camunda:delegateExpression="${submissionGetBidsForPacsDelegate}">
-      <bpmn:incoming>Flow_1mugw5z</bpmn:incoming>
-      <bpmn:outgoing>Flow_0mb13gt</bpmn:outgoing>
-    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Gateway_1r7cxv9">
+      <bpmn:incoming>Flow_0h3etow</bpmn:incoming>
+      <bpmn:incoming>Flow_0k4zezl</bpmn:incoming>
+      <bpmn:outgoing>Flow_17oiequ</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_17oiequ" sourceRef="Gateway_1r7cxv9" targetRef="SubModifyLotsTask" />
+    <bpmn:sequenceFlow id="Flow_0k4zezl" name="нет" sourceRef="Gateway_0ac07gn" targetRef="Gateway_1r7cxv9" />
     <bpmn:subProcess id="Activity_1tt5vgr" triggeredByEvent="true">
       <bpmn:userTask id="FixExternalIncidentTask" name="Fix external incident" camunda:formKey="embedded:/INCIDENT_FORM.html">
         <bpmn:extensionElements>
@@ -232,10 +272,6 @@
       <bpmn:sequenceFlow id="Flow_03djb1w" sourceRef="Event_00ziik4" targetRef="BpeValidationErrorDescriptionModifierTask" />
       <bpmn:sequenceFlow id="Flow_0sh35dr" sourceRef="BpeValidationErrorDescriptionModifierTask" targetRef="NotifierValidationErrorNotificationToPlatformTask" />
     </bpmn:subProcess>
-    <bpmn:serviceTask id="ContractingDoPacsTask" name="eContracting:&#10;Do PACs" camunda:asyncBefore="true" camunda:delegateExpression="${contractingDoPacsDelegate}">
-      <bpmn:incoming>Flow_0mb13gt</bpmn:incoming>
-      <bpmn:outgoing>Flow_0anm0jm</bpmn:outgoing>
-    </bpmn:serviceTask>
     <bpmn:textAnnotation id="TextAnnotation_1fztkuv">
       <bpmn:text>Проверка доступа к PCR
 ( owner&amp;token)</bpmn:text>
@@ -244,7 +280,7 @@
       <bpmn:text>Проверка состояния тендера</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:textAnnotation id="TextAnnotation_12511mp">
-      <bpmn:text>Проверка, что оценены все awards и есть 1 active?</bpmn:text>
+      <bpmn:text>Проверка, что оценены все awards</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:textAnnotation id="TextAnnotation_0zm7fp8">
       <bpmn:text>проверка валидности состояния лота</bpmn:text>
@@ -257,10 +293,6 @@
     <bpmn:association id="Association_1146wnm" sourceRef="EvaluationCheckAwardsStateTask" targetRef="TextAnnotation_12511mp" />
     <bpmn:association id="Association_1es6um5" sourceRef="RequisitionCheckLotsStateTask" targetRef="TextAnnotation_0zm7fp8" />
     <bpmn:association id="Association_0617jw5" sourceRef="EvaluationFindAwardsForProtocolTask" targetRef="TextAnnotation_0b1nx77" />
-    <bpmn:textAnnotation id="TextAnnotation_0n80pgn">
-      <bpmn:text>lot.status.details =&gt; awarded</bpmn:text>
-    </bpmn:textAnnotation>
-    <bpmn:association id="Association_1m7k5ir" sourceRef="SubModifyLotsTask" targetRef="TextAnnotation_0n80pgn" />
     <bpmn:textAnnotation id="TextAnnotation_1ce7lid">
       <bpmn:text>Получение requirementResponses для формирования agreedMetrics</bpmn:text>
     </bpmn:textAnnotation>
@@ -273,6 +305,10 @@
       <bpmn:text>поиск критериев и таргетов</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:association id="Association_1asco1s" sourceRef="RequistionFindCriteriaAndTargetsForPacsTask" targetRef="TextAnnotation_0tf2p7c" />
+    <bpmn:textAnnotation id="TextAnnotation_0n80pgn">
+      <bpmn:text>lot.status.details =&gt; awarded</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1m7k5ir" sourceRef="SubModifyLotsTask" targetRef="TextAnnotation_0n80pgn" />
   </bpmn:process>
   <bpmn:error id="Error_0hqc4us" name="External Incident" errorCode="ExternalIncident" />
   <bpmn:error id="Error_1wzy89c" name="Internal Incident" errorCode="InternalIncident" />
@@ -280,31 +316,29 @@
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1sai705">
       <bpmndi:BPMNShape id="Participant_0npm4qx_di" bpmnElement="Participant_0npm4qx" isHorizontal="true">
-        <dc:Bounds x="160" y="90" width="1968" height="400" />
+        <dc:Bounds x="180" y="90" width="2550" height="460" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0n80pgn_di" bpmnElement="TextAnnotation_0n80pgn">
+        <dc:Bounds x="2100" y="126" width="100" height="40" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1qz1isx_di" bpmnElement="Flow_1qz1isx">
+        <di:waypoint x="1535" y="230" />
+        <di:waypoint x="1620" y="230" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1546" y="196" width="68" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0h3etow_di" bpmnElement="Flow_0h3etow">
+        <di:waypoint x="1970" y="230" />
+        <di:waypoint x="2005" y="230" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0mb13gt_di" bpmnElement="Flow_0mb13gt">
         <di:waypoint x="1320" y="230" />
         <di:waypoint x="1350" y="230" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0me68s0_di" bpmnElement="Flow_0me68s0">
-        <di:waypoint x="1580" y="230" />
-        <di:waypoint x="1610" y="230" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0h7qt2s_di" bpmnElement="Flow_0h7qt2s">
-        <di:waypoint x="1710" y="230" />
-        <di:waypoint x="1750" y="230" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1qrrah1_di" bpmnElement="Flow_1qrrah1">
-        <di:waypoint x="1850" y="230" />
-        <di:waypoint x="1890" y="230" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0tcrwru_di" bpmnElement="Flow_0tcrwru">
-        <di:waypoint x="1990" y="230" />
-        <di:waypoint x="2022" y="230" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0anm0jm_di" bpmnElement="Flow_0anm0jm">
         <di:waypoint x="1450" y="230" />
-        <di:waypoint x="1480" y="230" />
+        <di:waypoint x="1485" y="230" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1fqt4ld_di" bpmnElement="Flow_1fqt4ld">
         <di:waypoint x="670" y="230" />
@@ -338,6 +372,35 @@
         <di:waypoint x="800" y="230" />
         <di:waypoint x="830" y="230" />
       </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0tcrwru_di" bpmnElement="Flow_0tcrwru">
+        <di:waypoint x="2610" y="230" />
+        <di:waypoint x="2642" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1qrrah1_di" bpmnElement="Flow_1qrrah1">
+        <di:waypoint x="2470" y="230" />
+        <di:waypoint x="2510" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0h7qt2s_di" bpmnElement="Flow_0h7qt2s">
+        <di:waypoint x="2330" y="230" />
+        <di:waypoint x="2370" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0me68s0_di" bpmnElement="Flow_0me68s0">
+        <di:waypoint x="2200" y="230" />
+        <di:waypoint x="2230" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_17oiequ_di" bpmnElement="Flow_17oiequ">
+        <di:waypoint x="2055" y="230" />
+        <di:waypoint x="2100" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0k4zezl_di" bpmnElement="Flow_0k4zezl">
+        <di:waypoint x="1510" y="255" />
+        <di:waypoint x="1510" y="350" />
+        <di:waypoint x="2030" y="350" />
+        <di:waypoint x="2030" y="255" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1571" y="332" width="18" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Activity_0dw5f8f_di" bpmnElement="EvaluationCheckAwardsStateTask" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="830" y="190" width="100" height="80" />
       </bpmndi:BPMNShape>
@@ -362,123 +425,55 @@
       <bpmndi:BPMNShape id="Activity_0kgry9l_di" bpmnElement="RequisitionCheckTenderStateTask" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="570" y="190" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_0dw83f0_di" bpmnElement="Event_0dw83f0">
-        <dc:Bounds x="2022" y="212" width="36" height="36" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0a0cwbm_di" bpmnElement="NotifierSuccessNotificationToPlatformTask">
-        <dc:Bounds x="1890" y="190" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0i09wqy_di" bpmnElement="NoticeTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="1750" y="190" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0mluf8p_di" bpmnElement="BpeAddUpdateRecordTaskInQueueTask">
-        <dc:Bounds x="1610" y="190" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_05pftyw_di" bpmnElement="SubModifyLotsTask" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="1480" y="190" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1o85l3x_di" bpmnElement="SubmissionGetBidsForPacsTask" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="1220" y="190" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1tt5vgr_di" bpmnElement="Activity_1tt5vgr" isExpanded="true">
-        <dc:Bounds x="1000" y="320" width="440" height="140" />
+      <bpmndi:BPMNShape id="Event_0dw83f0_di" bpmnElement="Event_0dw83f0">
+        <dc:Bounds x="2642" y="212" width="36" height="36" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="Flow_1x1skad_di" bpmnElement="Flow_1x1skad">
-        <di:waypoint x="1210" y="391" />
-        <di:waypoint x="1250" y="391" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0ozm6jv_di" bpmnElement="Flow_0ozm6jv">
-        <di:waypoint x="1350" y="391" />
-        <di:waypoint x="1382" y="391" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0t7senf_di" bpmnElement="Flow_0t7senf">
-        <di:waypoint x="1075" y="391" />
-        <di:waypoint x="1110" y="391" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="Activity_1jkp75o_di" bpmnElement="FixExternalIncidentTask">
-        <dc:Bounds x="1110" y="351" width="100" height="80" />
+      <bpmndi:BPMNShape id="Activity_0a0cwbm_di" bpmnElement="NotifierSuccessNotificationToPlatformTask">
+        <dc:Bounds x="2510" y="190" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_0egdnzn_di" bpmnElement="Event_0egdnzn">
-        <dc:Bounds x="1382" y="373" width="36" height="36" />
+      <bpmndi:BPMNShape id="Activity_0i09wqy_di" bpmnElement="NoticeTask" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="2370" y="190" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_07ekmvl_di" bpmnElement="RecoveryAfterExternalIncidentTask">
-        <dc:Bounds x="1250" y="351" width="100" height="80" />
+      <bpmndi:BPMNShape id="Activity_0mluf8p_di" bpmnElement="BpeAddUpdateRecordTaskInQueueTask">
+        <dc:Bounds x="2230" y="190" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_0ci393w_di" bpmnElement="Event_0ci393w" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
-        <dc:Bounds x="1039" y="373" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1019" y="416" width="83" height="14" />
-        </bpmndi:BPMNLabel>
+      <bpmndi:BPMNShape id="Activity_05pftyw_di" bpmnElement="SubModifyLotsTask" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="2100" y="190" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0r2g85c_di" bpmnElement="Activity_0r2g85c" isExpanded="true" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="350" y="320" width="610" height="140" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="Flow_1jtety2_di" bpmnElement="Flow_1jtety2">
-        <di:waypoint x="710" y="389" />
-        <di:waypoint x="750" y="389" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0vfubsr_di" bpmnElement="Flow_0vfubsr">
-        <di:waypoint x="570" y="389" />
-        <di:waypoint x="610" y="389" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1oqsxqg_di" bpmnElement="Flow_1oqsxqg">
-        <di:waypoint x="850" y="389" />
-        <di:waypoint x="892" y="389" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_11vo9co_di" bpmnElement="Flow_11vo9co">
-        <di:waypoint x="428" y="389" />
-        <di:waypoint x="470" y="389" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="Activity_0dcnnuh_di" bpmnElement="FixInternalIncidentTask">
-        <dc:Bounds x="610" y="349" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0rtlwff_di" bpmnElement="NotifierBpeIncidentTask">
-        <dc:Bounds x="470" y="349" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1qvyte6_di" bpmnElement="Event_1qvyte6">
-        <dc:Bounds x="892" y="371" width="36" height="36" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_033dul1_di" bpmnElement="RecoveryAfterInternalIncidentTask">
-        <dc:Bounds x="750" y="349" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_0g49z02_di" bpmnElement="Event_0g49z02" bioc:stroke="rgb(142, 36, 170)" bioc:fill="rgb(225, 190, 231)">
-        <dc:Bounds x="392" y="371" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="371" y="414" width="80" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0tstl56_di" bpmnElement="Activity_0tstl56" isExpanded="true">
-        <dc:Bounds x="1480" y="320" width="440" height="140" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="Flow_0sh35dr_di" bpmnElement="Flow_0sh35dr">
-        <di:waypoint x="1690" y="388" />
-        <di:waypoint x="1730" y="388" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_03djb1w_di" bpmnElement="Flow_03djb1w">
-        <di:waypoint x="1556" y="388" />
-        <di:waypoint x="1590" y="388" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1mxaj23_di" bpmnElement="Flow_1mxaj23">
-        <di:waypoint x="1830" y="388" />
-        <di:waypoint x="1862" y="388" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="Activity_1aiv4vd_di" bpmnElement="NotifierValidationErrorNotificationToPlatformTask">
-        <dc:Bounds x="1730" y="348" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1y6v54r_di" bpmnElement="BpeValidationErrorDescriptionModifierTask">
-        <dc:Bounds x="1590" y="348" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_00ziik4_di" bpmnElement="Event_00ziik4" bioc:stroke="rgb(251, 140, 0)" bioc:fill="rgb(255, 224, 178)">
-        <dc:Bounds x="1520" y="370" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1496" y="413" width="84" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1t1xccg_di" bpmnElement="Event_1t1xccg">
-        <dc:Bounds x="1862" y="370" width="36" height="36" />
+      <bpmndi:BPMNShape id="Gateway_1r7cxv9_di" bpmnElement="Gateway_1r7cxv9" isMarkerVisible="true">
+        <dc:Bounds x="2005" y="205" width="50" height="50" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_006wno7_di" bpmnElement="ContractingDoPacsTask" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="1350" y="190" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_13k42r0_di" bpmnElement="SubProcessCreateConfirmationRequestsForEachPac" isExpanded="true" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="1620" y="130" width="350" height="200" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1tot82b_di" bpmnElement="Flow_1tot82b">
+        <di:waypoint x="1850" y="230" />
+        <di:waypoint x="1912" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ajieut_di" bpmnElement="Flow_0ajieut">
+        <di:waypoint x="1698" y="230" />
+        <di:waypoint x="1750" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Event_1x7ybwl_di" bpmnElement="Event_1x7ybwl">
+        <dc:Bounds x="1662" y="212" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0b0wq7m_di" bpmnElement="Activity_0b0wq7m" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="1750" y="190" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0jsu5ar_di" bpmnElement="Event_0jsu5ar">
+        <dc:Bounds x="1912" y="212" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0ac07gn_di" bpmnElement="Gateway_0ac07gn" isMarkerVisible="true" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="1485" y="205" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1480" y="181" width="59" height="14" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_1fztkuv_di" bpmnElement="TextAnnotation_1fztkuv">
         <dc:Bounds x="440" y="111" width="100" height="55" />
@@ -487,16 +482,13 @@
         <dc:Bounds x="570" y="111" width="100" height="54" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_12511mp_di" bpmnElement="TextAnnotation_12511mp">
-        <dc:Bounds x="830" y="111" width="100" height="69" />
+        <dc:Bounds x="830" y="111" width="100" height="54" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_0zm7fp8_di" bpmnElement="TextAnnotation_0zm7fp8">
         <dc:Bounds x="700" y="112" width="100" height="53" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_0b1nx77_di" bpmnElement="TextAnnotation_0b1nx77">
         <dc:Bounds x="960" y="119" width="110" height="47" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_0n80pgn_di" bpmnElement="TextAnnotation_0n80pgn">
-        <dc:Bounds x="1480" y="126" width="100" height="40" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_1ce7lid_di" bpmnElement="TextAnnotation_1ce7lid">
         <dc:Bounds x="1197" y="105" width="144.9924218251436" height="68.28334396936822" />
@@ -517,7 +509,7 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Association_1146wnm_di" bpmnElement="Association_1146wnm">
         <di:waypoint x="880" y="190" />
-        <di:waypoint x="880" y="180" />
+        <di:waypoint x="880" y="165" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Association_1es6um5_di" bpmnElement="Association_1es6um5">
         <di:waypoint x="750" y="190" />
@@ -526,10 +518,6 @@
       <bpmndi:BPMNEdge id="Association_0617jw5_di" bpmnElement="Association_0617jw5">
         <di:waypoint x="1010" y="190" />
         <di:waypoint x="1010" y="166" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Association_1m7k5ir_di" bpmnElement="Association_1m7k5ir">
-        <di:waypoint x="1530" y="190" />
-        <di:waypoint x="1530" y="166" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Association_0mm1xgn_di" bpmnElement="Association_0mm1xgn">
         <di:waypoint x="1262" y="190" />
@@ -543,10 +531,111 @@
         <di:waypoint x="1140" y="190" />
         <di:waypoint x="1140" y="172" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="Group_0h476mm_di" bpmnElement="Group_0h476mm">
-        <dc:Bounds x="1590" y="147" width="485" height="153" />
+      <bpmndi:BPMNEdge id="Association_1m7k5ir_di" bpmnElement="Association_1m7k5ir">
+        <di:waypoint x="2150" y="190" />
+        <di:waypoint x="2150" y="166" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Activity_1tt5vgr_di" bpmnElement="Activity_1tt5vgr" isExpanded="true">
+        <dc:Bounds x="1210" y="380" width="440" height="140" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1x1skad_di" bpmnElement="Flow_1x1skad">
+        <di:waypoint x="1420" y="451" />
+        <di:waypoint x="1460" y="451" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ozm6jv_di" bpmnElement="Flow_0ozm6jv">
+        <di:waypoint x="1560" y="451" />
+        <di:waypoint x="1592" y="451" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0t7senf_di" bpmnElement="Flow_0t7senf">
+        <di:waypoint x="1285" y="451" />
+        <di:waypoint x="1320" y="451" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Activity_1jkp75o_di" bpmnElement="FixExternalIncidentTask">
+        <dc:Bounds x="1320" y="411" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0egdnzn_di" bpmnElement="Event_0egdnzn">
+        <dc:Bounds x="1592" y="433" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_07ekmvl_di" bpmnElement="RecoveryAfterExternalIncidentTask">
+        <dc:Bounds x="1460" y="411" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0ci393w_di" bpmnElement="Event_0ci393w" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
+        <dc:Bounds x="1249" y="433" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1823" y="154" width="34" height="14" />
+          <dc:Bounds x="1229" y="476" width="83" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0r2g85c_di" bpmnElement="Activity_0r2g85c" isExpanded="true" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="550" y="380" width="610" height="140" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1jtety2_di" bpmnElement="Flow_1jtety2">
+        <di:waypoint x="910" y="449" />
+        <di:waypoint x="950" y="449" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0vfubsr_di" bpmnElement="Flow_0vfubsr">
+        <di:waypoint x="770" y="449" />
+        <di:waypoint x="810" y="449" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1oqsxqg_di" bpmnElement="Flow_1oqsxqg">
+        <di:waypoint x="1050" y="449" />
+        <di:waypoint x="1092" y="449" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_11vo9co_di" bpmnElement="Flow_11vo9co">
+        <di:waypoint x="628" y="449" />
+        <di:waypoint x="670" y="449" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Activity_0dcnnuh_di" bpmnElement="FixInternalIncidentTask">
+        <dc:Bounds x="810" y="409" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0rtlwff_di" bpmnElement="NotifierBpeIncidentTask">
+        <dc:Bounds x="670" y="409" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1qvyte6_di" bpmnElement="Event_1qvyte6">
+        <dc:Bounds x="1092" y="431" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_033dul1_di" bpmnElement="RecoveryAfterInternalIncidentTask">
+        <dc:Bounds x="950" y="409" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0g49z02_di" bpmnElement="Event_0g49z02" bioc:stroke="rgb(142, 36, 170)" bioc:fill="rgb(225, 190, 231)">
+        <dc:Bounds x="592" y="431" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="571" y="474" width="80" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0tstl56_di" bpmnElement="Activity_0tstl56" isExpanded="true">
+        <dc:Bounds x="1740" y="380" width="440" height="140" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0sh35dr_di" bpmnElement="Flow_0sh35dr">
+        <di:waypoint x="1950" y="448" />
+        <di:waypoint x="1990" y="448" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_03djb1w_di" bpmnElement="Flow_03djb1w">
+        <di:waypoint x="1816" y="448" />
+        <di:waypoint x="1850" y="448" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1mxaj23_di" bpmnElement="Flow_1mxaj23">
+        <di:waypoint x="2090" y="448" />
+        <di:waypoint x="2122" y="448" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Activity_1aiv4vd_di" bpmnElement="NotifierValidationErrorNotificationToPlatformTask">
+        <dc:Bounds x="1990" y="408" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1y6v54r_di" bpmnElement="BpeValidationErrorDescriptionModifierTask">
+        <dc:Bounds x="1850" y="408" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_00ziik4_di" bpmnElement="Event_00ziik4" bioc:stroke="rgb(251, 140, 0)" bioc:fill="rgb(255, 224, 178)">
+        <dc:Bounds x="1780" y="430" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1756" y="473" width="84" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1t1xccg_di" bpmnElement="Event_1t1xccg">
+        <dc:Bounds x="2122" y="430" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Group_0h476mm_di" bpmnElement="Group_0h476mm">
+        <dc:Bounds x="2210" y="147" width="485" height="153" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2443" y="154" width="34" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
