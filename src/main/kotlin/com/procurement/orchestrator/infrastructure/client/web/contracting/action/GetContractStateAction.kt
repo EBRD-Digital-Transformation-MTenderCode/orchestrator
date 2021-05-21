@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.infrastructure.client.web.contracting.action
 
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.procurement.orchestrator.application.service.FunctionalAction
 import com.procurement.orchestrator.domain.model.Cpid
@@ -33,7 +34,9 @@ abstract class GetContractStateAction : FunctionalAction<GetContractStateAction.
         data class Contact(
             @field:JsonProperty("id") @param:JsonProperty("id") val id: ContractId,
             @field:JsonProperty("status") @param:JsonProperty("status") val status: String,
-            @field:JsonProperty("statusDetails") @param:JsonProperty("statusDetails") val statusDetails: String
+
+            @field:JsonInclude(JsonInclude.Include.NON_NULL)
+            @field:JsonProperty("statusDetails") @param:JsonProperty("statusDetails") val statusDetails: String?
         ) : Serializable
     }
 
