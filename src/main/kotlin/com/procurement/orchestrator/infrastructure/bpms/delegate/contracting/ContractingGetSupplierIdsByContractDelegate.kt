@@ -24,7 +24,7 @@ import com.procurement.orchestrator.infrastructure.configuration.property.Extern
 import org.springframework.stereotype.Component
 
 @Component
-class ContractingGetSuppliersIdsByContractDelegate(
+class ContractingGetSupplierIdsByContractDelegate(
     logger: Logger,
     private val contractingClient: ContractingClient,
     operationStepRepository: OperationStepRepository,
