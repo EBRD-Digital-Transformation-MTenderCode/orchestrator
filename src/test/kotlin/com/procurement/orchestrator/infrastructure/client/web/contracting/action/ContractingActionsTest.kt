@@ -272,6 +272,11 @@ class ContractingActionsTest {
             fun fully() {
                 testingBindingAndMapping<GetContractStateAction.Result>("json/client/contracting/get_contract_state_result_fully.json")
             }
+
+            @Test
+            fun required1() {
+                testingBindingAndMapping<GetContractStateAction.Result>("json/client/contracting/get_contract_state_result_required_1.json")
+            }
         }
     }
 
