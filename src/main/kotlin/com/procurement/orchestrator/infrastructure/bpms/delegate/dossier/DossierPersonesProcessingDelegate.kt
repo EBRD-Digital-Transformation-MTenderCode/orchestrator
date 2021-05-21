@@ -168,7 +168,7 @@ class DossierPersonesProcessingDelegate(
                 scheme = identifier.scheme
             ),
             additionalIdentifiers = additionalIdentifiers
-                .map { additionalIdentifier ->
+                ?.map { additionalIdentifier ->
                     Identifier(
                         id = additionalIdentifier.id,
                         scheme = additionalIdentifier.scheme,
@@ -176,7 +176,9 @@ class DossierPersonesProcessingDelegate(
                         uri = additionalIdentifier.uri
                     )
 
-                }.let { Identifiers(it) },
+                }
+                .orEmpty()
+                .let { Identifiers(it) },
             address = address
                 .let { address ->
                     Address(
