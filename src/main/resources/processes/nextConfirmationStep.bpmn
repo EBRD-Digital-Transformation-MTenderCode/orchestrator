@@ -4,7 +4,7 @@
     <bpmn:participant id="Participant_0vlk727" name="NextConfirmationStep" processRef="nextConfirmationStep" />
     <bpmn:group id="Group_00rsucl" categoryValueRef="CategoryValue_0lua9pc" />
   </bpmn:collaboration>
-  <bpmn:process id="nextConfirmationStep" name="nextConfirmationStep" isExecutable="true" camunda:versionTag="1.31">
+  <bpmn:process id="nextConfirmationStep" name="nextConfirmationStep" isExecutable="true" camunda:versionTag="1.32">
     <bpmn:exclusiveGateway id="Gateway_1q0d53a" name="entityType?" default="Flow_1ma6yc0">
       <bpmn:incoming>Flow_05dq6dn</bpmn:incoming>
       <bpmn:outgoing>Flow_0s929k9</bpmn:outgoing>
@@ -64,16 +64,12 @@
     <bpmn:serviceTask id="BpeAddUpdateRecordTaskInQueueTask" name="BPE:&#10;Add update record task to queue" camunda:asyncBefore="true" camunda:delegateExpression="${bpeAddUpdateRecordTaskInQueueDelegate}">
       <bpmn:incoming>Flow_0fadyr4</bpmn:incoming>
       <bpmn:outgoing>Flow_10zi47y</bpmn:outgoing>
-      <bpmn:outgoing>Flow_1bqt3k5</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="NoticeTask" name="eNotice:&#10;UpdateRecord" camunda:asyncBefore="true" camunda:delegateExpression="${noticeDelegate}">
       <bpmn:incoming>Flow_10zi47y</bpmn:incoming>
-      <bpmn:incoming>Flow_1bqt3k5</bpmn:incoming>
-      <bpmn:outgoing>Flow_0gsjlfa</bpmn:outgoing>
       <bpmn:outgoing>Flow_1jh60v1</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="NotifierSuccessNotificationToPlatformTask" name="iNotifier Kafka:&#10;Success Notification To Platform" camunda:asyncBefore="true" camunda:delegateExpression="${notifierSuccessNotificationToPlatformDelegate}">
-      <bpmn:incoming>Flow_0gsjlfa</bpmn:incoming>
       <bpmn:incoming>Flow_1jh60v1</bpmn:incoming>
       <bpmn:outgoing>Flow_14eyojv</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -96,8 +92,6 @@
     <bpmn:sequenceFlow id="Flow_0fadyr4" sourceRef="SubCreateConfirmationRequestsTask" targetRef="BpeAddUpdateRecordTaskInQueueTask" />
     <bpmn:sequenceFlow id="Flow_14eyojv" sourceRef="NotifierSuccessNotificationToPlatformTask" targetRef="Event_0jlnrnr" />
     <bpmn:sequenceFlow id="Flow_10zi47y" sourceRef="BpeAddUpdateRecordTaskInQueueTask" targetRef="NoticeTask" />
-    <bpmn:sequenceFlow id="Flow_1bqt3k5" sourceRef="BpeAddUpdateRecordTaskInQueueTask" targetRef="NoticeTask" />
-    <bpmn:sequenceFlow id="Flow_0gsjlfa" sourceRef="NoticeTask" targetRef="NotifierSuccessNotificationToPlatformTask" />
     <bpmn:sequenceFlow id="Flow_1jh60v1" sourceRef="NoticeTask" targetRef="NotifierSuccessNotificationToPlatformTask" />
     <bpmn:subProcess id="Activity_0yxaj5h" triggeredByEvent="true">
       <bpmn:startEvent id="Event_1712h1w" name="External Incident">
@@ -291,17 +285,21 @@
       <bpmndi:BPMNShape id="Participant_0vlk727_di" bpmnElement="Participant_0vlk727" isHorizontal="true">
         <dc:Bounds x="160" y="80" width="1880" height="594" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1ma6yc0_di" bpmnElement="Flow_1ma6yc0">
+        <di:waypoint x="310" y="315" />
+        <di:waypoint x="310" y="420" />
+        <di:waypoint x="400" y="420" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="346" y="393" width="27" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0fr1jmd_di" bpmnElement="Flow_0fr1jmd">
+        <di:waypoint x="500" y="420" />
+        <di:waypoint x="542" y="420" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1jh60v1_di" bpmnElement="Flow_1jh60v1">
         <di:waypoint x="1770" y="290" />
         <di:waypoint x="1810" y="290" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0gsjlfa_di" bpmnElement="Flow_0gsjlfa">
-        <di:waypoint x="1770" y="290" />
-        <di:waypoint x="1810" y="290" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1bqt3k5_di" bpmnElement="Flow_1bqt3k5">
-        <di:waypoint x="1630" y="290" />
-        <di:waypoint x="1670" y="290" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_10zi47y_di" bpmnElement="Flow_10zi47y">
         <di:waypoint x="1630" y="290" />
@@ -376,18 +374,6 @@
           <dc:Bounds x="253" y="222" width="29" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0fr1jmd_di" bpmnElement="Flow_0fr1jmd">
-        <di:waypoint x="500" y="420" />
-        <di:waypoint x="542" y="420" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1ma6yc0_di" bpmnElement="Flow_1ma6yc0">
-        <di:waypoint x="310" y="315" />
-        <di:waypoint x="310" y="420" />
-        <di:waypoint x="400" y="420" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="346" y="393" width="27" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Gateway_1q0d53a_di" bpmnElement="Gateway_1q0d53a" isMarkerVisible="true">
         <dc:Bounds x="285" y="265" width="50" height="50" />
         <bpmndi:BPMNLabel>
@@ -445,61 +431,6 @@
       <bpmndi:BPMNShape id="Activity_1je637j_di" bpmnElement="NotifierSuccessNotificationToPlatformTask">
         <dc:Bounds x="1810" y="250" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_1s0k87f_di" bpmnElement="TextAnnotation_1s0k87f">
-        <dc:Bounds x="400" y="170" width="100" height="54" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_1jrt5r8_di" bpmnElement="TextAnnotation_1jrt5r8">
-        <dc:Bounds x="600" y="100" width="140" height="50" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_1rxlb9u_di" bpmnElement="TextAnnotation_1rxlb9u">
-        <dc:Bounds x="830" y="175" width="100" height="53" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_0qqkfpe_di" bpmnElement="TextAnnotation_0qqkfpe">
-        <dc:Bounds x="950" y="170" width="160" height="54" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_0izg5qv_di" bpmnElement="TextAnnotation_0izg5qv">
-        <dc:Bounds x="1100" y="165" width="120" height="63" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_0oknfro_di" bpmnElement="TextAnnotation_0oknfro">
-        <dc:Bounds x="1370" y="155" width="120" height="70" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_1jdipsk_di" bpmnElement="TextAnnotation_1jdipsk">
-        <dc:Bounds x="1250" y="156" width="100" height="81" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1ejskc9_di" bpmnElement="Event_1ejskc9">
-        <dc:Bounds x="542" y="402" width="36" height="36" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1nfqiya_di" bpmnElement="TestTask" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
-        <dc:Bounds x="400" y="380" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="Association_0rfd21k_di" bpmnElement="Association_0rfd21k">
-        <di:waypoint x="450" y="250" />
-        <di:waypoint x="450" y="224" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Association_0ppeczq_di" bpmnElement="Association_0ppeczq">
-        <di:waypoint x="670" y="170" />
-        <di:waypoint x="670" y="150" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Association_0tcv2ow_di" bpmnElement="Association_0tcv2ow">
-        <di:waypoint x="880" y="250" />
-        <di:waypoint x="880" y="228" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Association_05vd9ye_di" bpmnElement="Association_05vd9ye">
-        <di:waypoint x="1016" y="250" />
-        <di:waypoint x="1013" y="224" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Association_17tycs9_di" bpmnElement="Association_17tycs9">
-        <di:waypoint x="1156" y="250" />
-        <di:waypoint x="1154" y="228" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Association_01uyy6a_di" bpmnElement="Association_01uyy6a">
-        <di:waypoint x="1432" y="250" />
-        <di:waypoint x="1429" y="225" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Association_1gvt5zl_di" bpmnElement="Association_1gvt5zl">
-        <di:waypoint x="1300" y="250" />
-        <di:waypoint x="1300" y="237" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Activity_0yxaj5h_di" bpmnElement="Activity_0yxaj5h" isExpanded="true">
         <dc:Bounds x="1010" y="506" width="440" height="140" />
       </bpmndi:BPMNShape>
@@ -597,6 +528,61 @@
       <bpmndi:BPMNShape id="Event_16ye0n4_di" bpmnElement="Event_16ye0n4">
         <dc:Bounds x="1872" y="556" width="36" height="36" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1ejskc9_di" bpmnElement="Event_1ejskc9">
+        <dc:Bounds x="542" y="402" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1nfqiya_di" bpmnElement="TestTask" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
+        <dc:Bounds x="400" y="380" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_1s0k87f_di" bpmnElement="TextAnnotation_1s0k87f">
+        <dc:Bounds x="400" y="170" width="100" height="54" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_1jrt5r8_di" bpmnElement="TextAnnotation_1jrt5r8">
+        <dc:Bounds x="600" y="100" width="140" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_1rxlb9u_di" bpmnElement="TextAnnotation_1rxlb9u">
+        <dc:Bounds x="830" y="175" width="100" height="53" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0qqkfpe_di" bpmnElement="TextAnnotation_0qqkfpe">
+        <dc:Bounds x="950" y="170" width="160" height="54" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0izg5qv_di" bpmnElement="TextAnnotation_0izg5qv">
+        <dc:Bounds x="1100" y="165" width="120" height="63" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0oknfro_di" bpmnElement="TextAnnotation_0oknfro">
+        <dc:Bounds x="1370" y="155" width="120" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_1jdipsk_di" bpmnElement="TextAnnotation_1jdipsk">
+        <dc:Bounds x="1250" y="156" width="100" height="81" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_0rfd21k_di" bpmnElement="Association_0rfd21k">
+        <di:waypoint x="450" y="250" />
+        <di:waypoint x="450" y="224" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0ppeczq_di" bpmnElement="Association_0ppeczq">
+        <di:waypoint x="670" y="170" />
+        <di:waypoint x="670" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0tcv2ow_di" bpmnElement="Association_0tcv2ow">
+        <di:waypoint x="880" y="250" />
+        <di:waypoint x="880" y="228" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_05vd9ye_di" bpmnElement="Association_05vd9ye">
+        <di:waypoint x="1016" y="250" />
+        <di:waypoint x="1013" y="224" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_17tycs9_di" bpmnElement="Association_17tycs9">
+        <di:waypoint x="1156" y="250" />
+        <di:waypoint x="1154" y="228" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_01uyy6a_di" bpmnElement="Association_01uyy6a">
+        <di:waypoint x="1432" y="250" />
+        <di:waypoint x="1429" y="225" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_1gvt5zl_di" bpmnElement="Association_1gvt5zl">
+        <di:waypoint x="1300" y="250" />
+        <di:waypoint x="1300" y="237" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Group_00rsucl_di" bpmnElement="Group_00rsucl">
         <dc:Bounds x="1510" y="207" width="485" height="153" />
         <bpmndi:BPMNLabel>

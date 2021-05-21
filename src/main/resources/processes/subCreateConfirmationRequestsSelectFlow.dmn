@@ -215,7 +215,7 @@
           <text>'nextStepAfterInvitedCandidatesConfirmation'</text>
         </inputEntry>
         <inputEntry id="UnaryTests_1nle56b">
-          <text>'OF'</text>
+          <text>'TEST_CF'</text>
         </inputEntry>
         <inputEntry id="UnaryTests_1awudd5">
           <text>'pending'</text>
