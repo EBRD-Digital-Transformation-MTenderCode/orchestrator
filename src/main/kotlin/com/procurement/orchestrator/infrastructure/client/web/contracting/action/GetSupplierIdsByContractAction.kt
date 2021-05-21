@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
 import com.procurement.orchestrator.domain.model.contract.ContractId
+import java.io.Serializable
 
 abstract class GetSupplierIdsByContractAction :
     FunctionalAction<GetSupplierIdsByContractAction.Params, GetSupplierIdsByContractAction.Result> {
@@ -27,14 +28,14 @@ abstract class GetSupplierIdsByContractAction :
 
     data class Result(
         @param:JsonProperty("contracts") @field:JsonProperty("contracts") val contracts: List<Contract>
-    ) {
+    ) : Serializable {
         data class Contract(
             @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
             @param:JsonProperty("suppliers") @field:JsonProperty("suppliers") val suppliers: List<Supplier>
-        ) {
+        ) : Serializable {
             data class Supplier(
                 @param:JsonProperty("id") @field:JsonProperty("id") val id: String
-            )
+            ) : Serializable
         }
     }
 }
