@@ -10,6 +10,7 @@ enum class ProcessInitiator(@JsonValue override val key: String) : EnumElementPr
     NEXT_STEP_AFTER_BUYERS_CONFIRMATION("nextStepAfterBuyersConfirmation"),
     NEXT_STEP_AFTER_INVITED_CANDIDATES_CONFIRMATION("nextStepAfterInvitedCandidatesConfirmation"),
     NEXT_STEP_AFTER_SUPPLIERS_CONFIRMATION("nextStepAfterSuppliersConfirmation"),
+    PCR_PROTOCOL("pcrProtocol"),
     ;
 
     override fun toString(): String = key
