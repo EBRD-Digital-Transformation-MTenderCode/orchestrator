@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="Definitions_02zll03" name="DRD" namespace="http://camunda.org/schema/1.0/dmn">
-  <decision id="subCreateConfirmationRequestsSelectFlow" name="subCreateConfirmationRequestsSelectFlow" camunda:versionTag="1.01">
+  <decision id="subCreateConfirmationRequestsSelectFlow" name="subCreateConfirmationRequestsSelectFlow" camunda:versionTag="1.02">
     <decisionTable id="decisionTable_1">
       <input id="input_1" label="processtInitiator">
         <inputExpression id="inputExpression_1" typeRef="string" expressionLanguage="JavaScript">
@@ -241,7 +241,7 @@
           <text></text>
         </inputEntry>
         <outputEntry id="LiteralExpression_1dlg8tx">
-          <text>'supplier'</text>
+          <text>'none'</text>
         </outputEntry>
       </rule>
       <rule id="DecisionRule_0fhtfge">
@@ -258,7 +258,7 @@
           <text></text>
         </inputEntry>
         <outputEntry id="LiteralExpression_0o3y1th">
-          <text>'supplier'</text>
+          <text>'none'</text>
         </outputEntry>
       </rule>
       <rule id="DecisionRule_0al8ddy">
@@ -275,7 +275,7 @@
           <text></text>
         </inputEntry>
         <outputEntry id="LiteralExpression_1l8fz46">
-          <text>'supplier'</text>
+          <text>'none'</text>
         </outputEntry>
       </rule>
       <rule id="DecisionRule_1lturqt">
@@ -292,6 +292,74 @@
           <text></text>
         </inputEntry>
         <outputEntry id="LiteralExpression_0j0qz3k">
+          <text>'none'</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0hr9qv9">
+        <inputEntry id="UnaryTests_1wsnbr6">
+          <text>'pcrProtocol'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1gbs4j1">
+          <text>'OF'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0xihxeg">
+          <text>'pending'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0zo3np3">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0btbvbt">
+          <text>'supplier'</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0iowe7e">
+        <inputEntry id="UnaryTests_0fb6xqm">
+          <text>'pcrProtocol'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0wrgpwv">
+          <text>'CF'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_02pmig7">
+          <text>'pending'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_16o0ngq">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1s88788">
+          <text>'supplier'</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0dacyr7">
+        <inputEntry id="UnaryTests_0sz4ygf">
+          <text>'pcrProtocol'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_098li2a">
+          <text>'TEST_OF'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_014zoo9">
+          <text>'pending'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0j3pkh4">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0set6m3">
+          <text>'supplier'</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_011oeth">
+        <inputEntry id="UnaryTests_1dn1gkd">
+          <text>'pcrProtocol'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_00ow4je">
+          <text>'TEST_CF'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0pcv6zx">
+          <text>'pending'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1bx0z10">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_10g8yx9">
           <text>'supplier'</text>
         </outputEntry>
       </rule>
