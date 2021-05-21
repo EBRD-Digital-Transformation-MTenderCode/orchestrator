@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonValue
 import com.procurement.orchestrator.application.model.OperationId
 import com.procurement.orchestrator.application.model.PlatformId
+import com.procurement.orchestrator.application.model.Stage
 import com.procurement.orchestrator.application.model.Token
 import com.procurement.orchestrator.application.model.process.OperationTypeProcess
 import com.procurement.orchestrator.application.service.Logger
@@ -16,6 +17,7 @@ import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.asFailure
 import com.procurement.orchestrator.domain.functional.asSuccess
+import com.procurement.orchestrator.domain.model.Ocid
 import com.procurement.orchestrator.infrastructure.extension.http.getOperationId
 import com.procurement.orchestrator.infrastructure.extension.http.getPlatformId
 import com.procurement.orchestrator.infrastructure.extension.http.getToken
@@ -67,7 +69,23 @@ class NextConfirmationStepController(
                 if (logger.isDebugEnabled)
                     logger.debug("Request: platform '${request.platformId}', operation-id '${request.operationId}', uri '${servlet.requestURI}', payload '${request.payload}'.")
             }
-        return processLauncher.launchWithContextByCpid(request)
+
+        val singleStageOcid = request.context.ocid as Ocid.SingleStage
+
+        return when (singleStageOcid.stage) {
+            Stage.PC -> processLauncher.launchWithContextByOcid(request)
+
+            Stage.AC,
+            Stage.AP,
+            Stage.EI,
+            Stage.EV,
+            Stage.FE,
+            Stage.FS,
+            Stage.NP,
+            Stage.PN,
+            Stage.RQ,
+            Stage.TP -> processLauncher.launchWithContextByCpid(request)
+        }
     }
 
     private fun buildRequest(
