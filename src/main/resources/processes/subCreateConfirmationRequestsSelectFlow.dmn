@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" id="Definitions_02zll03" name="DRD" namespace="http://camunda.org/schema/1.0/dmn">
-  <decision id="subCreateConfirmationRequestsSelectFlow" name="subCreateConfirmationRequestsSelectFlow">
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="Definitions_02zll03" name="DRD" namespace="http://camunda.org/schema/1.0/dmn">
+  <decision id="subCreateConfirmationRequestsSelectFlow" name="subCreateConfirmationRequestsSelectFlow" camunda:versionTag="1.02">
     <decisionTable id="decisionTable_1">
       <input id="input_1" label="processtInitiator">
         <inputExpression id="inputExpression_1" typeRef="string" expressionLanguage="JavaScript">
@@ -102,7 +102,7 @@
           <text>'pending'</text>
         </inputEntry>
         <inputEntry id="UnaryTests_1prlilp">
-          <text>'signed'</text>
+          <text>'approved'</text>
         </inputEntry>
         <outputEntry id="LiteralExpression_0jxt5zg">
           <text>'invitedTenderer'</text>
@@ -119,7 +119,7 @@
           <text>'pending'</text>
         </inputEntry>
         <inputEntry id="UnaryTests_096wvr8">
-          <text>'signed'</text>
+          <text>'approved'</text>
         </inputEntry>
         <outputEntry id="LiteralExpression_0hc3ld0">
           <text>'invitedTenderer'</text>
@@ -136,7 +136,7 @@
           <text>'pending'</text>
         </inputEntry>
         <inputEntry id="UnaryTests_0ke05ls">
-          <text>'signed'</text>
+          <text>'approved'</text>
         </inputEntry>
         <outputEntry id="LiteralExpression_1qoy18q">
           <text>'invitedTenderer'</text>
@@ -153,10 +153,214 @@
           <text>'pending'</text>
         </inputEntry>
         <inputEntry id="UnaryTests_048lthq">
-          <text>'signed'</text>
+          <text>'approved'</text>
         </inputEntry>
         <outputEntry id="LiteralExpression_0wwl99p">
           <text>'invitedTenderer'</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0y5ai6s">
+        <inputEntry id="UnaryTests_1ksueqc">
+          <text>'nextStepAfterInvitedCandidatesConfirmation'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0o0gnxe">
+          <text>'OF'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_07ht33f">
+          <text>'pending'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0yrvdqv">
+          <text>'signed'</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1ygsky6">
+          <text>'none'</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_18wk75m">
+        <inputEntry id="UnaryTests_0zjgiai">
+          <text>'nextStepAfterInvitedCandidatesConfirmation'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_19grf74">
+          <text>'CF'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1bf5mif">
+          <text>'pending'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_102l5c4">
+          <text>'signed'</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1uh1rw9">
+          <text>'none'</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0o79n2q">
+        <inputEntry id="UnaryTests_1ll3hy6">
+          <text>'nextStepAfterInvitedCandidatesConfirmation'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0qx5k8t">
+          <text>'TEST_OF'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0sqj901">
+          <text>'pending'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1sb61n8">
+          <text>'signed'</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0gv5ie2">
+          <text>'none'</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_002xzoc">
+        <inputEntry id="UnaryTests_042uhei">
+          <text>'nextStepAfterInvitedCandidatesConfirmation'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1nle56b">
+          <text>'TEST_CF'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1awudd5">
+          <text>'pending'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0gupk9r">
+          <text>'signed'</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0rq2e9k">
+          <text>'none'</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0z9b511">
+        <inputEntry id="UnaryTests_0t3rtx9">
+          <text>'nextStepAfterSuppliersConfirmation'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_03n30mf">
+          <text>'OF'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0euz87m">
+          <text>'pending'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1dedmz6">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1dlg8tx">
+          <text>'none'</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0fhtfge">
+        <inputEntry id="UnaryTests_1d0izvj">
+          <text>'nextStepAfterSuppliersConfirmation'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0zzxnev">
+          <text>'CF'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1xx77nv">
+          <text>'pending'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0xvqanh">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0o3y1th">
+          <text>'none'</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0al8ddy">
+        <inputEntry id="UnaryTests_0fe2ohz">
+          <text>'nextStepAfterSuppliersConfirmation'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0o6w4vs">
+          <text>'TEST_OF'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1vq7u2n">
+          <text>'pending'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1blux7b">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1l8fz46">
+          <text>'none'</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1lturqt">
+        <inputEntry id="UnaryTests_01lhf9j">
+          <text>'nextStepAfterSuppliersConfirmation'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1j52a0j">
+          <text>'TEST_CF'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1sykyic">
+          <text>'pending'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0uoebvy">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0j0qz3k">
+          <text>'none'</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0hr9qv9">
+        <inputEntry id="UnaryTests_1wsnbr6">
+          <text>'pcrProtocol'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1gbs4j1">
+          <text>'OF'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0xihxeg">
+          <text>'pending'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0zo3np3">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0btbvbt">
+          <text>'supplier'</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0iowe7e">
+        <inputEntry id="UnaryTests_0fb6xqm">
+          <text>'pcrProtocol'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0wrgpwv">
+          <text>'CF'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_02pmig7">
+          <text>'pending'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_16o0ngq">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1s88788">
+          <text>'supplier'</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0dacyr7">
+        <inputEntry id="UnaryTests_0sz4ygf">
+          <text>'pcrProtocol'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_098li2a">
+          <text>'TEST_OF'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_014zoo9">
+          <text>'pending'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0j3pkh4">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0set6m3">
+          <text>'supplier'</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_011oeth">
+        <inputEntry id="UnaryTests_1dn1gkd">
+          <text>'pcrProtocol'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_00ow4je">
+          <text>'TEST_CF'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0pcv6zx">
+          <text>'pending'</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1bx0z10">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_10g8yx9">
+          <text>'supplier'</text>
         </outputEntry>
       </rule>
     </decisionTable>

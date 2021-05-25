@@ -8,13 +8,6 @@
         "legalName": "string",
         "scheme": "string"
       },
-      "additionalIdentifiers": [
-        {
-          "id": "string",
-          "legalName": "string",
-          "scheme": "string"
-        }
-      ],
       "address": {
         "streetAddress": "string",
         "addressDetails": {

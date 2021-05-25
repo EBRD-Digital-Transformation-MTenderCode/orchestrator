@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" id="Definitions_02zll03" name="DRD" namespace="http://camunda.org/schema/1.0/dmn">
-  <decision id="subCreateConfirmationRequestsSelectService" name="subCreateConfirmationRequestsSelectService">
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="Definitions_02zll03" name="DRD" namespace="http://camunda.org/schema/1.0/dmn">
+  <decision id="subCreateConfirmationRequestsSelectService" name="subCreateConfirmationRequestsSelectService" camunda:versionTag="1.02">
     <decisionTable id="decisionTable_1">
       <input id="input_1" label="processInitiator">
         <inputExpression id="inputExpression_1" typeRef="string" expressionLanguage="JavaScript">
@@ -29,6 +29,22 @@
           <text>'nextStepAfterInvitedCandidatesConfirmation'</text>
         </inputEntry>
         <outputEntry id="LiteralExpression_0vqnj2a">
+          <text>'contracting'</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0lj50pm">
+        <inputEntry id="UnaryTests_0bfzdan">
+          <text>'nextStepAfterSuppliersConfirmation'</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_015wldy">
+          <text>'contracting'</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0yq5bfs">
+        <inputEntry id="UnaryTests_0481ayn">
+          <text>'pcrProtocol'</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1wobd0g">
           <text>'contracting'</text>
         </outputEntry>
       </rule>

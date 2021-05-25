@@ -10,6 +10,7 @@ import com.procurement.orchestrator.infrastructure.client.web.dossier.action.Che
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.CreateSubmissionAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.FinalizeSubmissionsAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.FindSubmissionsAction
+import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetInvitedCandidatesOwnersAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetOrganizationsAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetSubmissionCandidateReferencesByQualificationIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.dossier.action.GetSubmissionPeriodEndDateAction
@@ -102,4 +103,9 @@ interface DossierClient {
         id: CommandId,
         params: PersonesProcessingAction.Params
     ): Result<Reply<PersonesProcessingAction.Result>, Fail.Incident>
+
+    suspend fun getInvitedCandidatesOwners(
+        id: CommandId,
+        params: GetInvitedCandidatesOwnersAction.Params
+    ): Result<Reply<GetInvitedCandidatesOwnersAction.Result>, Fail.Incident>
 }

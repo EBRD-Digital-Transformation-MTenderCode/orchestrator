@@ -62,6 +62,26 @@ class ContractingActionsTest {
     }
 
     @Nested
+    inner class FindContractDocumentId {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<FindContractDocumentIdAction.Params>("json/client/contracting/find_contract_document_id_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<FindContractDocumentIdAction.Result>("json/client/contracting/find_contract_document_id_result_full.json")
+            }
+        }
+    }
+
+    @Nested
     inner class CreateContract {
 
         @Nested
@@ -252,6 +272,11 @@ class ContractingActionsTest {
             fun fully() {
                 testingBindingAndMapping<GetContractStateAction.Result>("json/client/contracting/get_contract_state_result_fully.json")
             }
+
+            @Test
+            fun required1() {
+                testingBindingAndMapping<GetContractStateAction.Result>("json/client/contracting/get_contract_state_result_required_1.json")
+            }
         }
     }
 
@@ -372,6 +397,48 @@ class ContractingActionsTest {
             @Test
             fun required_2() {
                 testingBindingAndMapping<CreateConfirmationResponseAction.Result>("json/client/contracting/create_confirmation_response_result_required_2.json")
+            }
+        }
+
+        @Nested
+        inner class CheckExistenceOfConfirmationResponses {
+
+            @Nested
+            inner class Params {
+                @Test
+                fun fully() {
+                    testingBindingAndMapping<CheckExistenceOfConfirmationResponsesAction.Params>("json/client/contracting/check_existence_of_confirmation_responses_params_fully.json")
+                }
+            }
+        }
+    }
+
+    @Nested
+    inner class CheckAccessToContract {
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CheckAccessToContractAction.Params>("json/client/contracting/check_access_to_contract.json")
+            }
+        }
+    }
+
+    @Nested
+    inner class GetSupplierIdsByContract {
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetSupplierIdsByContractAction.Params>("json/client/contracting/get_suppliers_ids_by_contract_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetSupplierIdsByContractAction.Result>("json/client/contracting/get_suppliers_ids_by_contract_result_full.json")
             }
         }
     }
