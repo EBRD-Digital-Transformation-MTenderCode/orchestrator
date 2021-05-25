@@ -29,6 +29,7 @@ fun initiator(operationType: OperationTypeProcess): Initiator = when (operationT
     OperationTypeProcess.CREATE_AWARD -> Initiator.PLATFORM
     OperationTypeProcess.CREATE_CONFIRMATION_RESPONSE_BY_BUYER -> Initiator.PLATFORM
     OperationTypeProcess.CREATE_CONFIRMATION_RESPONSE_BY_INVITED_CANDIDATE -> Initiator.PLATFORM
+    OperationTypeProcess.CREATE_CONFIRMATION_RESPONSE_BY_SUPPLIER -> Initiator.PLATFORM
     OperationTypeProcess.CREATE_PCR -> Initiator.PLATFORM
     OperationTypeProcess.CREATE_RFQ -> Initiator.PLATFORM
     OperationTypeProcess.CREATE_SUBMISSION -> Initiator.PLATFORM
@@ -36,6 +37,9 @@ fun initiator(operationType: OperationTypeProcess): Initiator = when (operationT
     OperationTypeProcess.DIVIDE_LOT -> Initiator.PLATFORM
     OperationTypeProcess.ISSUING_FRAMEWORK_CONTRACT -> Initiator.PLATFORM
     OperationTypeProcess.LOT_CANCELLATION -> Initiator.PLATFORM
+    OperationTypeProcess.NEXT_STEP_AFTER_BUYERS_CONFIRMATION -> Initiator.PLATFORM
+    OperationTypeProcess.NEXT_STEP_AFTER_INVITED_CANDIDATES_CONFIRMATION -> Initiator.PLATFORM
+    OperationTypeProcess.NEXT_STEP_AFTER_SUPPLIERS_CONFIRMATION -> Initiator.PLATFORM
     OperationTypeProcess.OUTSOURCING_PN -> Initiator.PLATFORM
     OperationTypeProcess.PCR_PROTOCOL -> Initiator.PLATFORM
     OperationTypeProcess.QUALIFICATION -> Initiator.PLATFORM

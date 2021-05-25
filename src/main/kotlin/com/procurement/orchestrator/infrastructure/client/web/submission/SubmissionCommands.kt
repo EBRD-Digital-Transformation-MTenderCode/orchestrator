@@ -12,6 +12,8 @@ import com.procurement.orchestrator.infrastructure.client.web.submission.action.
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.FindDocumentsByBidIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.GetBidsForPacsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.GetOrganizationsByReferencesFromPacsAction
+import com.procurement.orchestrator.infrastructure.client.web.submission.action.GetSuppliersOwnersAction
+import com.procurement.orchestrator.infrastructure.client.web.submission.action.PersonesProcessingAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.PublishInvitationsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.SetStateForBidsAction
 import com.procurement.orchestrator.infrastructure.client.web.submission.action.SetTenderPeriodAction
@@ -48,9 +50,13 @@ object SubmissionCommands {
 
     object GetBidsForPacs: GetBidsForPacsAction()
 
+    object GetSuppliersOwners: GetSuppliersOwnersAction()
+
     object GetOrganizationsByReferencesFromPacs: GetOrganizationsByReferencesFromPacsAction()
 
     object FindDocumentsByBidIds: FindDocumentsByBidIdsAction()
 
     object CheckExistenceOfInvitation: CheckExistenceOfInvitationAction()
+
+    object PersonesProcessing: PersonesProcessingAction()
 }

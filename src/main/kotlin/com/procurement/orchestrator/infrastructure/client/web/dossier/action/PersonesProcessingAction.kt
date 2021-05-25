@@ -96,7 +96,10 @@ abstract class PersonesProcessingAction : FunctionalAction<PersonesProcessingAct
             @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
             @param:JsonProperty("name") @field:JsonProperty("name") val name: String,
             @param:JsonProperty("identifier") @field:JsonProperty("identifier") val identifier: Identifier,
-            @param:JsonProperty("additionalIdentifiers") @field:JsonProperty("additionalIdentifiers") val additionalIdentifiers: List<AdditionalIdentifier>,
+
+            @JsonInclude(JsonInclude.Include.NON_EMPTY)
+            @param:JsonProperty("additionalIdentifiers") @field:JsonProperty("additionalIdentifiers") val additionalIdentifiers: List<AdditionalIdentifier>?,
+
             @param:JsonProperty("address") @field:JsonProperty("address") val address: Address,
             @param:JsonProperty("contactPoint") @field:JsonProperty("contactPoint") val contactPoint: ContactPoint,
             @param:JsonProperty("persones") @field:JsonProperty("persones") val persones: List<Persone>
