@@ -7,6 +7,7 @@ import com.procurement.orchestrator.domain.EnumElementProvider
 enum class OperationTypeProcess(@JsonValue override val key: String) : EnumElementProvider.Key {
 
     ADD_GENERATED_DOCUMENT("addGeneratedDocument"),
+    APPLY_CONFIRMATIONS("applyConfirmations"),
     APPLY_QUALIFICATION_PROTOCOL("applyQualificationProtocol"),
     AWARD_CONSIDERATION("awardConsideration"),
     COMPLETE_QUALIFICATION("completeQualification"),
