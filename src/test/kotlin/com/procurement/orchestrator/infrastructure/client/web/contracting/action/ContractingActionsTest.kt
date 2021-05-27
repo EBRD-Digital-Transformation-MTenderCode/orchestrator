@@ -281,6 +281,26 @@ class ContractingActionsTest {
     }
 
     @Nested
+    inner class GetAwardIdByPac {
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetAwardIdByPacAction.Params>("json/client/contracting/get_award_id_by_pac_params_fully.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetAwardIdByPacAction.Result>("json/client/contracting/get_award_id_by_pac_result_fully.json")
+            }
+        }
+    }
+
+    @Nested
     inner class CreateConfirmationRequests {
 
         @Nested
