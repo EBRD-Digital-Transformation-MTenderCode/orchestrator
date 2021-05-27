@@ -3,7 +3,7 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.evaluation
 import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.EvaluationClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
-import com.procurement.orchestrator.application.model.context.extension.tryGetTender
+import com.procurement.orchestrator.application.model.context.extension.getContractIfNotEmpty
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
@@ -43,7 +43,7 @@ class EvaluationFinalizeAwardsDelegate(
         parameters: Unit
     ): Result<Reply<FinalizeAwardsAction.Result>, Fail.Incident> {
 
-        val tender = context.tryGetTender()
+        val contracts = context.getContractIfNotEmpty()
             .orForwardFail { fail -> return fail }
 
         val processInfo = context.processInfo
@@ -52,10 +52,12 @@ class EvaluationFinalizeAwardsDelegate(
             params = FinalizeAwardsAction.Params(
                 cpid = processInfo.cpid!!,
                 ocid = processInfo.ocid!!,
-                tender = FinalizeAwardsAction.Params.Tender(
-                    tender.lots.map { lot ->
-                        FinalizeAwardsAction.Params.Tender.Lot(lot.id)
-                    })
+                contracts = contracts.map { contract ->
+                    FinalizeAwardsAction.Params.Contract(
+                        id = contract.id,
+                        awardId = contract.awardId
+                    )
+                }
             )
         )
     }
