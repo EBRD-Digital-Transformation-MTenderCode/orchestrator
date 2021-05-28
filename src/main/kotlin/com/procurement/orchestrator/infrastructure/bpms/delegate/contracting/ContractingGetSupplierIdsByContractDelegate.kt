@@ -75,7 +75,12 @@ class ContractingGetSupplierIdsByContractDelegate(
             )
 
         val parties = data.contracts
-            .map { contract -> Party(id = contract.id) }
+            .flatMap { contract ->
+                contract.suppliers
+                    .map { supplier ->
+                        Party(id = supplier.id)
+                    }
+            }
             .let { Parties(it) }
 
         context.parties = parties
