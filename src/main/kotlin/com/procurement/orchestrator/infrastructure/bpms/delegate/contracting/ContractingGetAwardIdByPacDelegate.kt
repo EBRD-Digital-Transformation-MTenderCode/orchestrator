@@ -10,26 +10,24 @@ import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.asSuccess
-import com.procurement.orchestrator.domain.model.party.Parties
-import com.procurement.orchestrator.domain.model.party.Party
+import com.procurement.orchestrator.domain.model.contract.Contracts
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.contracting.ContractingCommands
-import com.procurement.orchestrator.infrastructure.client.web.contracting.action.GetOrganizationIdAndSourceOfRequestGroupAction
-import com.procurement.orchestrator.infrastructure.client.web.contracting.action.GetSupplierIdsByContractAction
-import com.procurement.orchestrator.infrastructure.client.web.contracting.action.GetSupplierIdsByContractAction.Params
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.GetAwardIdByPacAction
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.toDomain
 import com.procurement.orchestrator.infrastructure.configuration.property.ExternalServiceName
 import org.springframework.stereotype.Component
 
 @Component
-class ContractingGetSupplierIdsByContractDelegate(
+class ContractingGetAwardIdByPacDelegate(
     logger: Logger,
     private val contractingClient: ContractingClient,
     operationStepRepository: OperationStepRepository,
     transform: Transform
-) : AbstractExternalDelegate<Unit, GetSupplierIdsByContractAction.Result>(
+) : AbstractExternalDelegate<Unit, GetAwardIdByPacAction.Result>(
     logger = logger,
     transform = transform,
     operationStepRepository = operationStepRepository
@@ -41,21 +39,21 @@ class ContractingGetSupplierIdsByContractDelegate(
         commandId: CommandId,
         context: CamundaGlobalContext,
         parameters: Unit
-    ): Result<Reply<GetSupplierIdsByContractAction.Result>, Fail.Incident> {
+    ): Result<Reply<GetAwardIdByPacAction.Result>, Fail.Incident> {
 
         val processInfo = context.processInfo
-        val contracts = context.contracts
-            .map { contract ->
-                Params.Contract(
-                    id = contract.id
-                )
-            }
-        return contractingClient.getSuppliersIdsByContract(
+        val contract = context.contracts.first()
+
+        return contractingClient.getAwardIdByPac(
             id = commandId,
-            params = Params(
+            params = GetAwardIdByPacAction.Params(
                 cpid = processInfo.cpid!!,
                 ocid = processInfo.ocid!!,
-                contracts = contracts
+                contracts = listOf(
+                    GetAwardIdByPacAction.Params.Contract(
+                        id = contract.id
+                    )
+                )
             )
         )
     }
@@ -63,27 +61,22 @@ class ContractingGetSupplierIdsByContractDelegate(
     override fun updateGlobalContext(
         context: CamundaGlobalContext,
         parameters: Unit,
-        result: Option<GetSupplierIdsByContractAction.Result>
+        result: Option<GetAwardIdByPacAction.Result>
     ): MaybeFail<Fail.Incident> {
 
         val data = result.orNull
             ?: return MaybeFail.fail(
                 Fail.Incident.Response.Empty(
                     service = ExternalServiceName.CONTRACTING,
-                    action = ContractingCommands.GetSuppliersIdsByContract
+                    action = ContractingCommands.GetAwardIdByPac
                 )
             )
 
-        val parties = data.contracts
-            .flatMap { contract ->
-                contract.suppliers
-                    .map { supplier ->
-                        Party(id = supplier.id)
-                    }
-            }
-            .let { Parties(it) }
+        val receivedContracts = data.contracts
+            .map { it.toDomain() }
+            .let { Contracts(it) }
 
-        context.parties = parties
+        context.contracts = context.contracts updateBy receivedContracts
 
         return MaybeFail.none()
     }

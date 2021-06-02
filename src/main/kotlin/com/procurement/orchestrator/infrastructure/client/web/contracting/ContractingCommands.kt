@@ -15,6 +15,7 @@ import com.procurement.orchestrator.infrastructure.client.web.contracting.action
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.FindCANIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.FindContractDocumentIdAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.FindSupplierReferencesOfActivePacsAction
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.GetAwardIdByPacAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.GetContractStateAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.GetOrganizationIdAndSourceOfRequestGroupAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.GetSupplierIdsByContractAction
@@ -46,6 +47,8 @@ object ContractingCommands {
     object CheckExistenceSupplierReferencesInFC: CheckExistenceSupplierReferencesInFCAction()
 
     object GetContractState : GetContractStateAction()
+
+    object GetAwardIdByPac : GetAwardIdByPacAction()
 
     object CreateConfirmationRequests : CreateConfirmationRequestsAction()
 
