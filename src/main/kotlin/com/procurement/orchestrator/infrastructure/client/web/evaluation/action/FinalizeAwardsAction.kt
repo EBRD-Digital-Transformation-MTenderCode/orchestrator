@@ -1,5 +1,6 @@
 package com.procurement.orchestrator.infrastructure.client.web.evaluation.action
 
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.procurement.orchestrator.application.service.FunctionalAction
 import com.procurement.orchestrator.domain.model.Cpid
@@ -8,7 +9,7 @@ import com.procurement.orchestrator.domain.model.award.Award
 import com.procurement.orchestrator.domain.model.award.AwardId
 import com.procurement.orchestrator.domain.model.award.AwardStatus
 import com.procurement.orchestrator.domain.model.award.AwardStatusDetails
-import com.procurement.orchestrator.domain.model.lot.LotId
+import com.procurement.orchestrator.domain.model.contract.ContractId
 import com.procurement.orchestrator.infrastructure.client.web.Target
 import com.procurement.orchestrator.infrastructure.model.Version
 import java.io.Serializable
@@ -22,13 +23,14 @@ abstract class FinalizeAwardsAction :
     class Params(
         @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid,
         @field:JsonProperty("ocid") @param:JsonProperty("ocid") val ocid: Ocid,
-        @field:JsonProperty("tender") @param:JsonProperty("tender") val tender: Tender
+        @field:JsonProperty("contracts") @param:JsonProperty("contracts") val contracts: List<Contract>
     ) {
-        class Tender(
-            @field:JsonProperty("lots") @param:JsonProperty("lots") val lots: List<Lot>
-        ) {
-            class Lot(@field:JsonProperty("id") @param:JsonProperty("id") val id: LotId)
-        }
+        data class Contract(
+            @field:JsonProperty("id") @param:JsonProperty("id") val id: ContractId,
+
+            @JsonInclude(JsonInclude.Include.NON_NULL)
+            @field:JsonProperty("awardId") @param:JsonProperty("awardId") val awardId: AwardId?
+        )
     }
 
     class Result(
