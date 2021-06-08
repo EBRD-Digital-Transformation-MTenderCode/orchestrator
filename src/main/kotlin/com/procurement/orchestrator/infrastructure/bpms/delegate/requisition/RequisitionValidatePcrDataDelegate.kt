@@ -109,7 +109,7 @@ class RequisitionValidatePcrDataDelegate(
                             .map { variants ->
                                 ValidatePcrDataAction.Params.Tender.Lot.Variant(
                                     hasVariants = variants.hasVariants,
-                                    variantsDetails = variants.variantDetails
+                                    variantsDetails = variants.variantsDetails
                                 )
                             }
                     )
