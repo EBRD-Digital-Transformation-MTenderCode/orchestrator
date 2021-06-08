@@ -83,6 +83,7 @@ class NextConfirmationStepController(
             Stage.FS,
             Stage.NP,
             Stage.PN,
+            Stage.PO,
             Stage.RQ,
             Stage.TP -> processLauncher.launchWithContextByCpid(request)
         }

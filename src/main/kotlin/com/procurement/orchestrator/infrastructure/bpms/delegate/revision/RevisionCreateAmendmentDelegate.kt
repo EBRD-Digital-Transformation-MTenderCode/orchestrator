@@ -73,6 +73,7 @@ class RevisionCreateAmendmentDelegate(
             OperationTypeProcess.CREATE_CONFIRMATION_RESPONSE_BY_BUYER,
             OperationTypeProcess.CREATE_CONFIRMATION_RESPONSE_BY_INVITED_CANDIDATE,
             OperationTypeProcess.CREATE_CONFIRMATION_RESPONSE_BY_SUPPLIER,
+            OperationTypeProcess.CREATE_CONTRACT,
             OperationTypeProcess.CREATE_PCR,
             OperationTypeProcess.CREATE_RFQ,
             OperationTypeProcess.CREATE_SUBMISSION,

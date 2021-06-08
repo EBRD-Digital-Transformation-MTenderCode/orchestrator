@@ -375,6 +375,7 @@ class DossierGetSubmissionsForTenderingDelegate(
             OperationTypeProcess.CREATE_CONFIRMATION_RESPONSE_BY_BUYER,
             OperationTypeProcess.CREATE_CONFIRMATION_RESPONSE_BY_INVITED_CANDIDATE,
             OperationTypeProcess.CREATE_CONFIRMATION_RESPONSE_BY_SUPPLIER,
+            OperationTypeProcess.CREATE_CONTRACT,
             OperationTypeProcess.CREATE_RFQ,
             OperationTypeProcess.DIVIDE_LOT,
             OperationTypeProcess.ISSUING_FRAMEWORK_CONTRACT,
