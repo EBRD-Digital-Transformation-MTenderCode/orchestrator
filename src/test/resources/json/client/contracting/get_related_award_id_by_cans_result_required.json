@@ -1,0 +1,19 @@
+{
+  "contracts": [
+    {
+      "id": "94df026d-e1c0-4bb2-b339-370804c5d160",
+      "status": "pending",
+      "statusDetails": "contractProject",
+      "awardId": "string",
+      "lotId": "string",
+      "documents": [
+        {
+          "id": "string",
+          "documentType": "evaluationReports",
+          "title": "string"
+        }
+      ],
+      "date": "2021-06-08T14:21:52Z"
+    }
+  ]
+}

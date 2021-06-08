@@ -18,6 +18,7 @@ import com.procurement.orchestrator.infrastructure.client.web.contracting.action
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.GetAwardIdByPacAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.GetContractStateAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.GetOrganizationIdAndSourceOfRequestGroupAction
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.GetRelatedAwardIdByCansAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.GetSupplierIdsByContractAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.SetStateForContractsAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.ValidateConfirmationResponseDataAction
@@ -65,4 +66,6 @@ object ContractingCommands {
     object CheckExistenceOfConfirmationResponses: CheckExistenceOfConfirmationResponsesAction()
 
     object GetSuppliersIdsByContract: GetSupplierIdsByContractAction()
+
+    object GetRelatedAwardIdByCans: GetRelatedAwardIdByCansAction()
 }
