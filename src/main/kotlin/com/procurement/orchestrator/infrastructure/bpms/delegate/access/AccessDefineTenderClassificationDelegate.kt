@@ -3,6 +3,7 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.access
 import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.AccessClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
+import com.procurement.orchestrator.application.model.context.extension.tryGetTender
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
@@ -43,26 +44,27 @@ class AccessDefineTenderClassificationDelegate(
 
         val processInfo = context.processInfo
 
+        val tender = context.tryGetTender()
+            .orForwardFail { incident -> return incident }
+
         return accessClient.defineTenderClassification(
             id = commandId,
             params = DefineTenderClassificationAction.Params(
                 relatedCpid = processInfo.relatedProcess!!.cpid,
                 relatedOcid = processInfo.relatedProcess.ocid!!,
-                tender = context.tender.let { tender ->
-                    DefineTenderClassificationAction.Params.Tender(
-                        items = tender!!.items.map { item ->
-                            DefineTenderClassificationAction.Params.Tender.Item(
-                                id = item.id,
-                                classification = item.classification.let { classification ->
-                                    DefineTenderClassificationAction.Params.Tender.Item.Classification(
-                                        id = classification!!.id,
-                                        scheme = classification.scheme
-                                    )
-                                }
-                            )
-                        }
-                    )
-                }
+                tender = DefineTenderClassificationAction.Params.Tender(
+                    items = tender.items.map { item ->
+                        DefineTenderClassificationAction.Params.Tender.Item(
+                            id = item.id,
+                            classification = item.classification.let { classification ->
+                                DefineTenderClassificationAction.Params.Tender.Item.Classification(
+                                    id = classification!!.id,
+                                    scheme = classification.scheme
+                                )
+                            }
+                        )
+                    }
+                )
             )
         )
     }
@@ -72,7 +74,6 @@ class AccessDefineTenderClassificationDelegate(
         parameters: Unit,
         result: Option<DefineTenderClassificationAction.Result>
     ): MaybeFail<Fail.Incident> {
-
         val data = result.orNull
             ?: return MaybeFail.fail(
                 Fail.Incident.Response.Empty(
@@ -80,10 +81,19 @@ class AccessDefineTenderClassificationDelegate(
                     action = AccessCommands.DefineTenderClassification
                 )
             )
-        val receivedClassification = data.tender.classification
-        val receivedTender = Tender(classification = Classification(id = receivedClassification.id, scheme = receivedClassification.scheme))
 
-        context.tender = context.tender?.updateBy(receivedTender)
+        val tender = context.tryGetTender()
+            .orForwardFail { return MaybeFail.fail(it.error) }
+
+        val receivedClassification = data.tender.classification
+        val receivedTender = Tender(
+            classification = Classification(
+                id = receivedClassification.id,
+                scheme = receivedClassification.scheme
+            )
+        )
+
+        context.tender = tender updateBy receivedTender
 
         return MaybeFail.none()
     }
