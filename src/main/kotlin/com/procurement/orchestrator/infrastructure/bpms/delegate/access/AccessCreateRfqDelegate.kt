@@ -26,6 +26,7 @@ import com.procurement.orchestrator.domain.model.lot.Lot
 import com.procurement.orchestrator.domain.model.lot.Lots
 import com.procurement.orchestrator.domain.model.lot.PlaceOfPerformance
 import com.procurement.orchestrator.domain.model.period.Period
+import com.procurement.orchestrator.domain.model.tender.AdditionalProcurementCategories
 import com.procurement.orchestrator.domain.model.tender.Tender
 import com.procurement.orchestrator.domain.model.tender.auction.ElectronicAuctions
 import com.procurement.orchestrator.domain.model.tender.auction.ElectronicAuctionsDetail
@@ -171,6 +172,13 @@ class AccessCreateRfqDelegate(
                                 )
                             }
                         )
+                    },
+                    classification = tender.classification.let { classification ->
+                        CreateRfqAction.Params.Tender.Classification(
+                            id = classification!!.id,
+                            scheme = classification.scheme,
+                            description = classification.description!!
+                        )
                     }
                 )
             )
@@ -224,6 +232,17 @@ class AccessCreateRfqDelegate(
             awardCriteriaDetails = receivedTender.awardCriteriaDetails,
             value = receivedTender.value
                 .let { value -> Value(currency = value.currency) },
+            classification = receivedTender.classification.let { classification ->
+                Classification(
+                    scheme = classification.scheme,
+                    id = classification.id,
+                    description = classification.description
+                )
+            },
+            procurementMethod = receivedTender.procurementMethod,
+            procurementMethodDetails = receivedTender.procurementMethodDetails,
+            mainProcurementCategory = receivedTender.mainProcurementCategory,
+            additionalProcurementCategories = AdditionalProcurementCategories(receivedTender.additionalProcurementCategories.orEmpty()),
             lots = receivedTender.lots.map { lot ->
                 Lot(
                     id = lot.id,
