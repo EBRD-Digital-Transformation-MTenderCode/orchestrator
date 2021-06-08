@@ -80,6 +80,7 @@ class CreateConfirmationResponseController(
             Stage.FE,
             Stage.FS,
             Stage.NP,
+            Stage.PO,
             Stage.PN,
             Stage.RQ,
             Stage.TP -> processLauncher.launchWithContextByCpid(request)
