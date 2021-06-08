@@ -18,6 +18,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Crea
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateRelationToContractProcessStageAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateRelationToOtherProcessAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateRfqAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.DefineTenderClassificationAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.DivideLotAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindAuctionsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindCriteriaAction
@@ -223,4 +224,9 @@ interface AccessClient {
         id: CommandId,
         params: PersonesProcessingAction.Params
     ): Result<Reply<PersonesProcessingAction.Result>, Fail.Incident>
+
+    suspend fun defineTenderClassification(
+        id: CommandId,
+        params: DefineTenderClassificationAction.Params
+    ): Result<Reply<DefineTenderClassificationAction.Result>, Fail.Incident>
 }

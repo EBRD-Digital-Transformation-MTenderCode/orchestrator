@@ -14,6 +14,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Crea
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateRelationToContractProcessStageAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateRelationToOtherProcessAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateRfqAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.DefineTenderClassificationAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.DivideLotAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindAuctionsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindCriteriaAction
@@ -114,4 +115,6 @@ object AccessCommands {
     object CreateRfq : CreateRfqAction()
 
     object PersonesProcessing : PersonesProcessingAction()
+
+    object DefineTenderClassification : DefineTenderClassificationAction()
 }
