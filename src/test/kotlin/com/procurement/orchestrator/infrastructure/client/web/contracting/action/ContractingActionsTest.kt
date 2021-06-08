@@ -473,4 +473,27 @@ class ContractingActionsTest {
             }
         }
     }
+
+    @Nested
+    inner class GetRelatedAwardIdByCans {
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetSupplierIdsByContractAction.Params>("json/client/contracting/get_suppliers_ids_by_contract_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetSupplierIdsByContractAction.Result>("json/client/contracting/get_suppliers_ids_by_contract_result_full.json")
+            }
+            @Test
+            fun required() {
+                testingBindingAndMapping<GetSupplierIdsByContractAction.Result>("json/client/contracting/get_suppliers_ids_by_contract_result_full.json")
+            }
+        }
+    }
 }
