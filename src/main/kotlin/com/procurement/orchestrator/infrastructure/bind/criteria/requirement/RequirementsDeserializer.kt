@@ -5,7 +5,9 @@ import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.DeserializationContext
 import com.fasterxml.jackson.databind.JsonDeserializer
 import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.node.ArrayNode
+import com.fasterxml.jackson.databind.node.TextNode
 import com.procurement.orchestrator.domain.model.document.DocumentId
 import com.procurement.orchestrator.domain.model.document.DocumentReference
 import com.procurement.orchestrator.domain.model.requirement.RequirementStatus
@@ -24,6 +26,7 @@ import com.procurement.orchestrator.domain.model.tender.criteria.requirement.eli
 import com.procurement.orchestrator.exceptions.ErrorException
 import com.procurement.orchestrator.exceptions.ErrorType
 import com.procurement.orchestrator.infrastructure.bind.date.JsonDateTimeDeserializer
+import com.procurement.orchestrator.infrastructure.bind.jackson.configuration
 import java.io.IOException
 import java.math.BigDecimal
 import java.time.LocalDateTime
@@ -116,11 +119,9 @@ class RequirementsDeserializer : JsonDeserializer<Requirements>() {
                                 datatypeMismatchException()
 
                         RequirementDataType.NUMBER ->
-                            if (requirementNode.get("expectedValue").isBigDecimal
-                                || requirementNode.get("expectedValue").isBigInteger
-                            ) {
+                            if (requirementNode.get("expectedValue").isBigDecimal)
                                 ExpectedValue.of(BigDecimal(requirementNode.get("expectedValue").asText()))
-                            } else
+                            else
                                 datatypeMismatchException()
 
                         RequirementDataType.INTEGER ->
@@ -135,9 +136,8 @@ class RequirementsDeserializer : JsonDeserializer<Requirements>() {
                 isRange(requirementNode) -> {
                     when (dataType) {
                         RequirementDataType.NUMBER ->
-                            if ((requirementNode.get("minValue").isBigDecimal || requirementNode.get("minValue").isBigInteger)
-                                && (requirementNode.get("maxValue").isBigDecimal || requirementNode.get("maxValue").isBigInteger)
-                            )
+                            if (requirementNode.get("minValue").isBigDecimal
+                                && requirementNode.get("maxValue").isBigDecimal)
                                 RangeValue.of(
                                     BigDecimal(requirementNode.get("minValue").asText()),
                                     BigDecimal(requirementNode.get("maxValue").asText())
@@ -169,7 +169,7 @@ class RequirementsDeserializer : JsonDeserializer<Requirements>() {
                 isOnlyMax(requirementNode) -> {
                     when (dataType) {
                         RequirementDataType.NUMBER ->
-                            if (requirementNode.get("maxValue").isBigDecimal || requirementNode.get("maxValue").isBigInteger)
+                            if (requirementNode.get("maxValue").isBigDecimal)
                                 MaxValue.of(BigDecimal(requirementNode.get("maxValue").asText()))
                             else
                                 datatypeMismatchException()
@@ -191,7 +191,7 @@ class RequirementsDeserializer : JsonDeserializer<Requirements>() {
                 isOnlyMin(requirementNode) -> {
                     when (dataType) {
                         RequirementDataType.NUMBER ->
-                            if (requirementNode.get("minValue").isBigDecimal || requirementNode.get("minValue").isBigInteger)
+                            if (requirementNode.get("minValue").isBigDecimal)
                                 MinValue.of(BigDecimal(requirementNode.get("minValue").asText()))
                             else
                                 datatypeMismatchException()
