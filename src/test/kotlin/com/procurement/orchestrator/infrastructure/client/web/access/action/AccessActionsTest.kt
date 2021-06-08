@@ -817,4 +817,27 @@ class AccessActionsTest {
 
         }
     }
+
+    @Nested
+    inner class DefineTenderClassification {
+
+        @Nested
+        inner class Params {
+
+            @Test
+            fun fully() {
+                testingBindingAndMapping<DefineTenderClassificationAction.Params>("json/client/access/define_tender_classification_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Resut {
+
+            @Test
+            fun fully() {
+                testingBindingAndMapping<DefineTenderClassificationAction.Result>("json/client/access/define_tender_classification_result_full.json")
+            }
+        }
+
+    }
 }

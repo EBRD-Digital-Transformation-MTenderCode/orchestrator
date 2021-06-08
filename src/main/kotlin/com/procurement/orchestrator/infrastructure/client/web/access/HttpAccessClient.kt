@@ -20,6 +20,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Crea
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateRelationToContractProcessStageAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateRelationToOtherProcessAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.CreateRfqAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.DefineTenderClassificationAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.DivideLotAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindAuctionsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindCriteriaAction
@@ -370,5 +371,14 @@ class HttpAccessClient(private val webClient: WebClient, properties: ComponentPr
         url = url,
         command = AccessCommands.PersonesProcessing.build(id = id, params = params),
         target = AccessCommands.PersonesProcessing.target
+    )
+
+    override suspend fun defineTenderClassification(
+        id: CommandId,
+        params: DefineTenderClassificationAction.Params
+    ): Result<Reply<DefineTenderClassificationAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = AccessCommands.DefineTenderClassification.build(id = id, params = params),
+        target = AccessCommands.DefineTenderClassification.target
     )
 }
