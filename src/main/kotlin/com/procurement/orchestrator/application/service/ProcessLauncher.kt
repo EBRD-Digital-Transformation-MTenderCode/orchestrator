@@ -248,6 +248,7 @@ class ProcessLauncherImpl(
             }
 
             Stage.AC,
+            Stage.PO,
             Stage.PC -> {
                 processService.getProcessContext(ocid = event.ocid)
                     .orForwardFail { return it }

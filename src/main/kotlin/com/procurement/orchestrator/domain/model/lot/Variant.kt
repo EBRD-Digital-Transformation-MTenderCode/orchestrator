@@ -11,11 +11,11 @@ data class Variant(
     @get:JsonProperty("hasVariants") @param:JsonProperty("hasVariants") val hasVariants: Boolean? = null,
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
-    @field:JsonProperty("variantDetails") @param:JsonProperty("variantDetails") val variantDetails: String? = null
+    @field:JsonProperty("variantsDetails") @param:JsonProperty("variantsDetails") val variantsDetails: String? = null
 ) : ComplexObject<Variant>, Serializable {
 
     override fun updateBy(src: Variant) = Variant(
         hasVariants = src.hasVariants or hasVariants,
-        variantDetails = src.variantDetails or variantDetails
+        variantsDetails = src.variantsDetails or variantsDetails
     )
 }

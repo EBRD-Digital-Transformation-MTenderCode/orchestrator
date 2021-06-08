@@ -118,6 +118,7 @@ class BpeSaveContextDelegate(
             Stage.EI,
             Stage.FS,
             Stage.PN,
+            Stage.PO,
             Stage.AP,
             Stage.EV,
             Stage.FE,

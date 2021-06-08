@@ -464,6 +464,17 @@ class ContractingActionsTest {
     }
 
     @Nested
+    inner class CheckRelatedContractsState {
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CheckRelatedContractsStateAction.Params>("json/client/contracting/check_related_contracts_state_params_full.json")
+            }
+        }
+    }
+
+    @Nested
     inner class GetRelatedAwardIdByCans {
         @Nested
         inner class Params {
