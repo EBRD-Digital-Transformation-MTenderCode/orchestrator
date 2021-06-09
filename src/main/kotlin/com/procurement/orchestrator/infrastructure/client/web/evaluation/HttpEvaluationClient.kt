@@ -18,6 +18,7 @@ import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.FindAwardsForProtocolAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.GetAwardByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.GetAwardStateByIdsAction
+import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.GetRelatedAwardByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.StartAwardPeriodAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.UpdateAwardAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.ValidateAwardDataAction
@@ -157,5 +158,14 @@ class HttpEvaluationClient(private val webClient: WebClient, properties: Compone
         url = url,
         command = EvaluationCommands.FinalizeAwards.build(id = id, params = params),
         target = EvaluationCommands.FinalizeAwards.target
+    )
+
+    override suspend fun getRelatedAwardByIds(
+        id: CommandId,
+        params: GetRelatedAwardByIdsAction.Params
+    ): Result<Reply<GetRelatedAwardByIdsAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = EvaluationCommands.GetRelatedAwardByIds.build(id = id, params = params),
+        target = EvaluationCommands.GetRelatedAwardByIds.target
     )
 }
