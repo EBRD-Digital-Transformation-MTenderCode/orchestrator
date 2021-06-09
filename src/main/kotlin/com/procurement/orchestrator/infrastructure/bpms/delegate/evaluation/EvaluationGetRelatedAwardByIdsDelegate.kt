@@ -78,12 +78,10 @@ class EvaluationGetRelatedAwardByIdsDelegate(
                 )
             )
 
-        val receivedSuppliers = getSuppliers(data.awards)
-
         val updatedAward = data.awards
             .map { award ->
                 Award(
-                    suppliers = receivedSuppliers,
+                    suppliers = getSuppliers(award),
                     id = award.id,
                     internalId = award.internalId,
                     date = award.date,
@@ -118,15 +116,12 @@ class EvaluationGetRelatedAwardByIdsDelegate(
     }
 
     private fun getSuppliers(
-        receivedAward: List<GetRelatedAwardByIdsAction.Result.Award>
-    ): Organizations = receivedAward.flatMap {
-        it.suppliers
-            .map { supplier ->
-                Organization(
-                    name = supplier.name,
-                    id = supplier.id
-                )
-            }
+        receivedAward: GetRelatedAwardByIdsAction.Result.Award
+    ): Organizations = receivedAward.suppliers.map { supplier ->
+        Organization(
+            name = supplier.name,
+            id = supplier.id
+        )
     }
         .let { Organizations(it) }
 }
