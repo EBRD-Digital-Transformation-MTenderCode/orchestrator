@@ -1,0 +1,153 @@
+{
+  "cpid": "ocds-b3wdp1-MD-1580458690892",
+  "tender": {
+    "classification": {
+      "id": "string",
+      "scheme": "string",
+      "description": "string"
+    },
+    "procurementMethod": "TEST_OP",
+    "procurementMethodDetails": "TEST_OP",
+    "mainProcurementCategory": "goods",
+    "lots": [
+      {
+        "id": "string",
+        "title": "string",
+        "placeOfPerformance": {
+          "address": {
+            "streetAddress": "string",
+            "addressDetails": {
+              "country": {
+                "id": "string",
+                "description": "string",
+                "scheme": "string",
+                "uri": "string"
+              },
+              "region": {
+                "id": "string",
+                "description": "string",
+                "scheme": "string",
+                "uri": "string"
+              },
+              "locality": {
+                "id": "string",
+                "description": "string",
+                "scheme": "string"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "items": [
+      {
+        "id": "string",
+        "classification": {
+          "id": "string",
+          "scheme": "string",
+          "description": "string"
+        },
+        "quantity": 0.000,
+        "unit": {
+          "id": "string",
+          "name": "string"
+        },
+        "description": "string",
+        "relatedLot": "string"
+      }
+    ]
+  },
+  "awards": [
+    {
+      "id": "string",
+      "value": {
+        "amount": 0.00,
+        "currency": "string"
+      },
+      "relatedLots": [
+        "string"
+      ],
+      "suppliers": [
+        {
+          "id": "string",
+          "name": "string"
+        }
+      ]
+    }
+  ],
+  "date": "2021-06-08T16:40:35Z",
+  "pmd": "RFQ",
+  "parties": [
+    {
+      "id": "string",
+      "name": "string",
+      "identifier": {
+        "id": "string",
+        "legalName": "string",
+        "scheme": "string"
+      },
+      "address": {
+        "streetAddress": "string",
+        "postalCode": "string",
+        "addressDetails": {
+          "country": {
+            "id": "string",
+            "description": "string",
+            "scheme": "string",
+            "uri": "string"
+          },
+          "region": {
+            "id": "string",
+            "description": "string",
+            "scheme": "string",
+            "uri": "string"
+          },
+          "locality": {
+            "id": "string",
+            "description": "string",
+            "scheme": "string"
+          }
+        }
+      },
+      "contactPoint": {
+        "name": "string",
+        "email": "string",
+        "telephone": "string"
+      },
+      "persones": [
+        {
+          "title": "Mr.",
+          "id": "string",
+          "name": "string",
+          "identifier": {
+            "scheme": "string",
+            "id": "string"
+          },
+          "businessFunctions": [
+            {
+              "id": "string",
+              "type": "chairman",
+              "jobTitle": "string",
+              "period": {
+                "startDate": "2021-06-08T16:40:35Z"
+              }
+            }
+          ]
+        }
+      ],
+      "details": {
+        "mainEconomicActivities": [
+          {
+            "id": "string",
+            "scheme": "string",
+            "description": "string"
+          }
+        ],
+        "scale": "micro"
+      },
+      "roles": [
+        "supplier"
+      ]
+    }
+  ]
+}

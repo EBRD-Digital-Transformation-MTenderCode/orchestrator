@@ -82,7 +82,7 @@ class ContractingActionsTest {
     }
 
     @Nested
-    inner class CreateContract {
+    inner class CreateFrameworkContract {
 
         @Nested
         inner class Params {
@@ -496,4 +496,51 @@ class ContractingActionsTest {
             }
         }
     }
+
+    @Nested
+    inner class CreateContract {
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CreateContractAction.Params>("json/client/contracting/create_contract_params_fully.json")
+            }
+
+            @Test
+            fun required1() {
+                testingBindingAndMapping<CreateContractAction.Params>("json/client/contracting/create_contract_params_required1.json")
+            }
+
+            @Test
+            fun required2() {
+                testingBindingAndMapping<CreateContractAction.Params>("json/client/contracting/create_contract_params_required2.json")
+            }
+
+            @Test
+            fun required3() {
+                testingBindingAndMapping<CreateContractAction.Params>("json/client/contracting/create_contract_params_required3.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<CreateContractAction.Result>("json/client/contracting/create_contract_result_fully.json")
+            }
+            @Test
+            fun required1() {
+                testingBindingAndMapping<CreateContractAction.Result>("json/client/contracting/create_contract_result_required1.json")
+            }
+            @Test
+            fun required2() {
+                testingBindingAndMapping<CreateContractAction.Result>("json/client/contracting/create_contract_result_required2.json")
+            }
+            @Test
+            fun required3() {
+                testingBindingAndMapping<CreateContractAction.Result>("json/client/contracting/create_contract_result_required3.json")
+            }
+        }
+    }
+
 }

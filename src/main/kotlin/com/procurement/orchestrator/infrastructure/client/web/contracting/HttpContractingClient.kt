@@ -17,6 +17,7 @@ import com.procurement.orchestrator.infrastructure.client.web.contracting.action
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckRelatedContractsStateAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreateConfirmationRequestsAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreateConfirmationResponseAction
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreateContractAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreateFrameworkContractAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.DoPacsAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.FindCANIdsAction
@@ -231,5 +232,14 @@ class HttpContractingClient(private val webClient: WebClient, properties: Compon
         url = url,
         command = ContractingCommands.GetRelatedAwardIdByCans.build(id = id, params = params),
         target = ContractingCommands.GetRelatedAwardIdByCans.target
+    )
+
+    override suspend fun createContract(
+        id: CommandId,
+        params: CreateContractAction.Params
+    ): Result<Reply<CreateContractAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = ContractingCommands.CreateContract.build(id = id, params = params),
+        target = ContractingCommands.CreateContract.target
     )
 }

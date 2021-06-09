@@ -47,7 +47,13 @@ class Outcomes(values: MutableMap<PlatformId, Details> = mutableMapOf()) :
         @field:JsonProperty("requests") @param:JsonProperty("requests") val requests: List<Request> = emptyList(),
 
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
-        @field:JsonProperty("confirmationResponses") @param:JsonProperty("confirmationResponses") val confirmationResponses: List<ConfirmationResponse> = emptyList()
+        @field:JsonProperty("confirmationResponses") @param:JsonProperty("confirmationResponses") val confirmationResponses: List<ConfirmationResponse> = emptyList(),
+
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        @field:JsonProperty("ac") @param:JsonProperty("ac") val ac: List<AC> = emptyList(),
+
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        @field:JsonProperty("po") @param:JsonProperty("po") val po: List<PO> = emptyList()
     ) : Serializable {
 
         data class Amendment(
@@ -106,6 +112,16 @@ class Outcomes(values: MutableMap<PlatformId, Details> = mutableMapOf()) :
 
         data class ConfirmationResponse(
             @field:JsonProperty("id") @param:JsonProperty("id") val id: ConfirmationResponseId
+        ) : Serializable
+
+        data class AC(
+            @field:JsonProperty("id") @param:JsonProperty("id") val id: ContractId,
+            @field:JsonProperty("token") @param:JsonProperty("token") val token: Token
+        ) : Serializable
+
+        data class PO(
+            @field:JsonProperty("id") @param:JsonProperty("id") val id: ContractId,
+            @field:JsonProperty("token") @param:JsonProperty("token") val token: Token
         ) : Serializable
     }
 }
