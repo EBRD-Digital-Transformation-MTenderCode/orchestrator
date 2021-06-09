@@ -26,6 +26,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Find
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindCriteriaAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindLotIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetBuyersOwnersAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.GetDataForContractAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetItemsByLotIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotStateByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotsValueAction
@@ -380,5 +381,14 @@ class HttpAccessClient(private val webClient: WebClient, properties: ComponentPr
         url = url,
         command = AccessCommands.DefineTenderClassification.build(id = id, params = params),
         target = AccessCommands.DefineTenderClassification.target
+    )
+
+    override suspend fun getDataForContract(
+        id: CommandId,
+        params: GetDataForContractAction.Params
+    ): Result<Reply<GetDataForContractAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = AccessCommands.GetDataForContract.build(id = id, params = params),
+        target = AccessCommands.GetDataForContract.target
     )
 }
