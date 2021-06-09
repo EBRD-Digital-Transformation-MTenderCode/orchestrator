@@ -8,10 +8,17 @@ import com.procurement.orchestrator.domain.ProcurementMethod
 import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
 import com.procurement.orchestrator.domain.model.ProcurementMethodDetails
+import com.procurement.orchestrator.domain.model.address.Address
+import com.procurement.orchestrator.domain.model.address.AddressDetails
+import com.procurement.orchestrator.domain.model.address.country.CountryDetails
+import com.procurement.orchestrator.domain.model.address.locality.LocalityDetails
+import com.procurement.orchestrator.domain.model.address.region.RegionDetails
 import com.procurement.orchestrator.domain.model.award.Award
 import com.procurement.orchestrator.domain.model.award.AwardId
 import com.procurement.orchestrator.domain.model.award.Awards
+import com.procurement.orchestrator.domain.model.classification.Classification
 import com.procurement.orchestrator.domain.model.classification.ClassificationId
+import com.procurement.orchestrator.domain.model.classification.Classifications
 import com.procurement.orchestrator.domain.model.contract.Contract
 import com.procurement.orchestrator.domain.model.contract.ContractId
 import com.procurement.orchestrator.domain.model.contract.Contracts
@@ -21,8 +28,13 @@ import com.procurement.orchestrator.domain.model.document.Document
 import com.procurement.orchestrator.domain.model.document.DocumentId
 import com.procurement.orchestrator.domain.model.document.DocumentType
 import com.procurement.orchestrator.domain.model.document.Documents
+import com.procurement.orchestrator.domain.model.item.Item
 import com.procurement.orchestrator.domain.model.item.ItemId
+import com.procurement.orchestrator.domain.model.item.Items
+import com.procurement.orchestrator.domain.model.lot.Lot
 import com.procurement.orchestrator.domain.model.lot.LotId
+import com.procurement.orchestrator.domain.model.lot.Lots
+import com.procurement.orchestrator.domain.model.lot.PlaceOfPerformance
 import com.procurement.orchestrator.domain.model.lot.RelatedLots
 import com.procurement.orchestrator.domain.model.measure.Amount
 import com.procurement.orchestrator.domain.model.measure.Quantity
@@ -34,8 +46,11 @@ import com.procurement.orchestrator.domain.model.organization.datail.TypeOfSuppl
 import com.procurement.orchestrator.domain.model.organization.person.BusinessFunctionId
 import com.procurement.orchestrator.domain.model.organization.person.BusinessFunctionType
 import com.procurement.orchestrator.domain.model.person.PersonId
+import com.procurement.orchestrator.domain.model.tender.AdditionalProcurementCategories
 import com.procurement.orchestrator.domain.model.tender.ProcurementCategory
+import com.procurement.orchestrator.domain.model.tender.Tender
 import com.procurement.orchestrator.domain.model.tender.TenderId
+import com.procurement.orchestrator.domain.model.unit.Unit
 import com.procurement.orchestrator.domain.model.value.Value
 import com.procurement.orchestrator.infrastructure.client.web.Target
 import com.procurement.orchestrator.infrastructure.model.Version
@@ -560,7 +575,7 @@ abstract class CreateContractAction : FunctionalAction<CreateContractAction.Para
             ) : Serializable
 
             data class Item(
-                @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
+                @param:JsonProperty("id") @field:JsonProperty("id") val id: ItemId,
 
                 @JsonInclude(JsonInclude.Include.NON_NULL)
                 @param:JsonProperty("internalId") @field:JsonProperty("internalId") val internalId: String?,
@@ -568,10 +583,10 @@ abstract class CreateContractAction : FunctionalAction<CreateContractAction.Para
 
                 @JsonInclude(JsonInclude.Include.NON_EMPTY)
                 @param:JsonProperty("additionalClassifications") @field:JsonProperty("additionalClassifications") val additionalClassifications: List<AdditionalClassification>?,
-                @param:JsonProperty("quantity") @field:JsonProperty("quantity") val quantity: Int,
+                @param:JsonProperty("quantity") @field:JsonProperty("quantity") val quantity: Quantity,
                 @param:JsonProperty("unit") @field:JsonProperty("unit") val unit: Unit,
                 @param:JsonProperty("description") @field:JsonProperty("description") val description: String,
-                @param:JsonProperty("relatedLot") @field:JsonProperty("relatedLot") val relatedLot: String
+                @param:JsonProperty("relatedLot") @field:JsonProperty("relatedLot") val relatedLot: LotId
             ) : Serializable {
                 data class Classification(
                     @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
@@ -881,7 +896,38 @@ fun CreateContractAction.Result.convertToAwardObject(): Awards =
                     relatedLots = RelatedLots(document.relatedLots.orEmpty())
                 )
             }
-                .let { Documents(it) }
+                .let { Documents(it) },
+            items = award.items.map { item ->
+                Item(
+                    id = item.id,
+                    internalId = item.internalId,
+                    classification = item.classification.let { classification ->
+                        Classification(
+                            id = classification.id,
+                            scheme = classification.scheme,
+                            description = classification.description
+                        )
+                    },
+                    additionalClassifications = item.additionalClassifications?.map { additionalClassification ->
+                        Classification(
+                            id = additionalClassification.id,
+                            scheme = additionalClassification.scheme,
+                            description = additionalClassification.description
+                        )
+                    }
+                        .let { Classifications(it.orEmpty()) },
+                    quantity = item.quantity,
+                    unit = item.unit.let { unit ->
+                        Unit(
+                            id = unit.id,
+                            name = unit.name
+                        )
+                    },
+                    description = item.description,
+                    relatedLot = item.relatedLot
+                )
+            }
+                .let { Items(it) }
 
         )
     }.let { Awards(it) }
@@ -897,3 +943,67 @@ fun CreateContractAction.Result.convertToContractObject(): Contracts =
         )
     }
         .let { Contracts(it) }
+
+fun CreateContractAction.Result.converToTenderObject(): Tender =
+    tender.let { tender ->
+        Tender(
+            id = tender.id,
+            classification = Classification(
+                id = tender.classification.id,
+                description = tender.classification.description,
+                scheme = tender.classification.scheme
+            ),
+            procurementMethod = tender.procurementMethod,
+            procurementMethodDetails = tender.procurementMethodDetails,
+            mainProcurementCategory = tender.mainProcurementCategory,
+            lots = tender.lots.map { lot ->
+                Lot(
+                    id = lot.id,
+                    internalId = lot.internalId,
+                    title = lot.title,
+                    description = lot.description,
+                    placeOfPerformance = lot.placeOfPerformance.let { placeOfPerformance ->
+                        PlaceOfPerformance(
+                            address = placeOfPerformance.address.let { address ->
+                                Address(
+                                    streetAddress = address.streetAddress,
+                                    postalCode = address.postalCode,
+                                    addressDetails = address.addressDetails.let { addressDetails ->
+                                        AddressDetails(
+                                            country = addressDetails.country.let { country ->
+                                                CountryDetails(
+                                                    id = country.id,
+                                                    description = country.description,
+                                                    scheme = country.scheme
+                                                )
+                                            },
+                                            region = addressDetails.region.let { region ->
+                                                RegionDetails(
+                                                    id = region.id,
+                                                    description = region.description,
+                                                    scheme = region.scheme
+                                                )
+                                            },
+                                            locality = addressDetails.locality.let { locality ->
+                                                LocalityDetails(
+                                                    id = locality.id,
+                                                    description = locality.description,
+                                                    scheme = locality.scheme
+                                                )
+                                            }
+                                        )
+                                    }
+                                )
+                            },
+                            description = placeOfPerformance.description
+                        )
+                    }
+                )
+            }
+                .let { Lots(it) },
+            additionalProcurementCategories = tender.additionalProcurementCategories
+                ?.map { it }
+                .let { AdditionalProcurementCategories(it.orEmpty()) })
+    }
+
+

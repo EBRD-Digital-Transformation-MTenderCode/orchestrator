@@ -22,6 +22,7 @@ import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStep
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.contracting.ContractingCommands
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreateContractAction
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.converToTenderObject
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.convertToAwardObject
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.convertToContractObject
 import com.procurement.orchestrator.infrastructure.configuration.property.ExternalServiceName
@@ -398,7 +399,7 @@ class ContractingCreateContractDelegate(
             ?: return MaybeFail.fail(
                 Fail.Incident.Response.Empty(
                     ExternalServiceName.CONTRACTING,
-                    ContractingCommands.CreateConfirmationRequests
+                    ContractingCommands.CreateContract
                 )
             )
 
@@ -407,10 +408,7 @@ class ContractingCreateContractDelegate(
         val receivedRelatedProcesses = data.relatedProcesses.map { it.convert() }
         context.relatedProcesses = RelatedProcesses(receivedRelatedProcesses)
 
-        val tender = context.tryGetTender()
-            .orReturnFail { return MaybeFail.fail(it) }
-
-        context.tender = tender.copy()
+        context.tender = data.converToTenderObject()
 
         context.awards = data.convertToAwardObject()
 

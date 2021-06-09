@@ -100,7 +100,7 @@
               "description": "string"
             }
           ],
-          "quantity": 0,
+          "quantity": 0.000,
           "unit": {
             "id": "string",
             "name": "string"
