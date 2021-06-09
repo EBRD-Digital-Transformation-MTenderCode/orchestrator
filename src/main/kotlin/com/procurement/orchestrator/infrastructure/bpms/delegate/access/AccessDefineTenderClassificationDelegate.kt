@@ -12,6 +12,8 @@ import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.domain.model.classification.Classification
+import com.procurement.orchestrator.domain.model.item.Items
+import com.procurement.orchestrator.domain.model.lot.Lots
 import com.procurement.orchestrator.domain.model.tender.Tender
 import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractExternalDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
@@ -86,14 +88,14 @@ class AccessDefineTenderClassificationDelegate(
             .orForwardFail { return MaybeFail.fail(it.error) }
 
         val receivedClassification = data.tender.classification
-        val receivedTender = Tender(
+        val receivedTender = tender.copy(
             classification = Classification(
                 id = receivedClassification.id,
                 scheme = receivedClassification.scheme
             )
         )
 
-        context.tender = tender updateBy receivedTender
+        context.tender = receivedTender
 
         return MaybeFail.none()
     }
