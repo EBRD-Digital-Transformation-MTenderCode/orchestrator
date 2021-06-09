@@ -16,6 +16,7 @@ import com.procurement.orchestrator.infrastructure.client.web.contracting.action
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckRelatedContractsStateAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreateConfirmationRequestsAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreateConfirmationResponseAction
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreateContractAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreateFrameworkContractAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.DoPacsAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.FindCANIdsAction
@@ -145,4 +146,9 @@ interface ContractingClient {
         id: CommandId,
         params: GetRelatedAwardIdByCansAction.Params
     ): Result<Reply<GetRelatedAwardIdByCansAction.Result>, Fail.Incident>
+
+    suspend fun createContract(
+        id: CommandId,
+        params: CreateContractAction.Params
+    ): Result<Reply<CreateContractAction.Result>, Fail.Incident>
 }
