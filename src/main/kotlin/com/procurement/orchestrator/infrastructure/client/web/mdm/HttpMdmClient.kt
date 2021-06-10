@@ -16,6 +16,7 @@ import com.procurement.orchestrator.infrastructure.client.web.CallResponse
 import com.procurement.orchestrator.infrastructure.client.web.RestClient
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.EnrichClassificationsAction
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.EnrichCountryAction
+import com.procurement.orchestrator.infrastructure.client.web.mdm.action.EnrichGeneratedTenderClassificationAction
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.EnrichLocalityAction
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.EnrichRegionAction
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.EnrichUnitsAction
@@ -24,6 +25,7 @@ import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetCoun
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetCriteria
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetCriteriaAction
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetErrorDescriptionsAction
+import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetGeneratedTenderClassification
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetLocality
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetOrganizationSchemes
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRegion
@@ -95,7 +97,8 @@ class HttpMdmClient(
         return processGetCountryResponse(response, transform)
     }
 
-    private fun getCountryEndpoint(params: EnrichCountryAction.Params): String = "$baseUrl/addresses/countries/${params.countryId}"
+    private fun getCountryEndpoint(params: EnrichCountryAction.Params): String =
+        "$baseUrl/addresses/countries/${params.countryId}"
 
     override suspend fun enrichRegion(params: EnrichRegionAction.Params): Result<GetRegion.Result, Fail.Incident> {
 
@@ -219,7 +222,6 @@ class HttpMdmClient(
 
     private fun getOrganizationSchemesEndpoint(): String = "$baseUrl/organization/schemes"
 
-
     override suspend fun getRequirements(params: GetRequirementsAction.Params): Result<GetRequirements.Result.Success, Fail.Incident> {
 
         val httpUrl: HttpUrl = getRequirementsEndpoint()
@@ -278,6 +280,25 @@ class HttpMdmClient(
 
     private fun getUnitEndpoint(params: EnrichUnitsAction.Params): String =
         "$baseUrl/units/${params.unitId}"
+
+    override suspend fun enrichGeneratedTenderClassification(params: EnrichGeneratedTenderClassificationAction.Params): Result<GetGeneratedTenderClassification.Result, Fail.Incident> {
+        val httpUrl: HttpUrl = getGeneratedTenderClassificationEndpoint(params)
+            .toHttpUrl()
+            .newBuilder()
+            .apply {
+                addQueryParameter("lang", params.lang)
+                addQueryParameter("scheme", params.scheme)
+            }
+            .build()
+
+        val response = restClient.call(url = httpUrl)
+            .orForwardFail { error -> return error }
+
+        return processGetGeneratedTenderClassificationResponse(response, transform)
+    }
+
+    private fun getGeneratedTenderClassificationEndpoint(params: EnrichGeneratedTenderClassificationAction.Params): String =
+        "$baseUrl/classifications/${params.classificationId}"
 
     private fun processGetCountryResponse(
         response: CallResponse,
@@ -720,5 +741,51 @@ class HttpMdmClient(
 
         else -> failure(Fail.Incident.BadResponse(description = "Invalid response code.", body = response.content))
 
+    }
+
+    private fun processGetGeneratedTenderClassificationResponse(
+        response: CallResponse,
+        transform: Transform
+    ): Result<GetGeneratedTenderClassification.Result, Fail.Incident> = when (response.code) {
+        HTTP_CODE_200 -> transform
+            .tryDeserialization(
+                response.content,
+                EnrichGeneratedTenderClassificationAction.Response.Success::class.java
+            )
+            .orReturnFail { fail ->
+                return failure(
+                    Fail.Incident.BadResponse(description = fail.description, body = response.content)
+                )
+            }
+            .let { result ->
+                GetGeneratedTenderClassification.Result.Success(
+                    id = result.data.id,
+                    scheme = result.data.scheme,
+                    description = result.data.description
+                )
+            }
+            .asSuccess()
+
+        HTTP_CODE_400,
+        HTTP_CODE_404 -> transform
+            .tryDeserialization(response.content, EnrichGeneratedTenderClassificationAction.Response.Error::class.java)
+            .orForwardFail { error -> return error }
+            .let { responseError ->
+                val error = responseError.errors.first()
+                when (error.code) {
+                    GetGeneratedTenderClassification.CODE_SCHEME_NOT_FOUND ->
+                        success(GetGeneratedTenderClassification.Result.Fail.SchemeNotFound)
+                    GetGeneratedTenderClassification.CODE_ID_NOT_FOUND ->
+                        success(GetGeneratedTenderClassification.Result.Fail.IdNotFound(responseError))
+                    GetGeneratedTenderClassification.CODE_TRANSLATION_NOT_FOUND ->
+                        success(GetGeneratedTenderClassification.Result.Fail.TranslationNotFound(responseError))
+                    GetGeneratedTenderClassification.CODE_LANGUAGE_NOT_FOUND ->
+                        success(GetGeneratedTenderClassification.Result.Fail.LanguageNotFound(responseError))
+                    else ->
+                        success(GetGeneratedTenderClassification.Result.Fail.AnotherError(responseError))
+                }
+            }
+
+        else -> failure(Fail.Incident.BadResponse(description = "Invalid response code.", body = response.content))
     }
 }
