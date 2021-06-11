@@ -11,11 +11,10 @@ import com.procurement.orchestrator.domain.extension.date.format
 import com.procurement.orchestrator.domain.extension.date.nowDefaultUTC
 import com.procurement.orchestrator.domain.fail.Fail
 import com.procurement.orchestrator.domain.functional.MaybeFail
-import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.asSuccess
 import com.procurement.orchestrator.domain.model.classification.Classification
-import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractBatchRestDelegate
+import com.procurement.orchestrator.infrastructure.bpms.delegate.AbstractSingleRestDelegate
 import com.procurement.orchestrator.infrastructure.bpms.delegate.ParameterContainer
 import com.procurement.orchestrator.infrastructure.bpms.repository.OperationStepRepository
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.EnrichGeneratedTenderClassificationAction
@@ -29,7 +28,7 @@ class MdmEnrichGeneratedTenderClassificationDelegate(
     operationStepRepository: OperationStepRepository,
     transform: Transform,
     private val mdmClient: MdmClient
-) : AbstractBatchRestDelegate<Unit, EnrichGeneratedTenderClassificationAction.Params, List<Classification>>(
+) : AbstractSingleRestDelegate<Unit, Classification>(
     logger = logger,
     transform = transform,
     operationStepRepository = operationStepRepository
@@ -37,53 +36,39 @@ class MdmEnrichGeneratedTenderClassificationDelegate(
     override fun parameters(parameterContainer: ParameterContainer): Result<Unit, Fail.Incident.Bpmn.Parameter> =
         Unit.asSuccess()
 
-    override fun prepareSeq(
+    override suspend fun execute(
+        parameters: Unit,
         context: CamundaGlobalContext,
-        parameters: Unit
-    ): Result<List<EnrichGeneratedTenderClassificationAction.Params>, Fail.Incident> {
+        executionInterceptor: ExecutionInterceptor
+    ): Result<Classification, Fail.Incident> {
         val requestInfo = context.requestInfo
 
         val tender = context.tryGetTender()
             .orForwardFail { incident -> return incident }
 
-        val params = listOf(
-            EnrichGeneratedTenderClassificationAction.Params(
-                classificationId = tender.classification!!.id,
-                lang = requestInfo.language,
-                scheme = tender.classification.scheme
-            )
+        val params = EnrichGeneratedTenderClassificationAction.Params(
+            classificationId = tender.classification!!.id,
+            lang = requestInfo.language,
+            scheme = tender.classification.scheme
         )
 
-        return Result.success(params)
-    }
-
-    override suspend fun execute(
-        elements: List<EnrichGeneratedTenderClassificationAction.Params>,
-        executionInterceptor: ExecutionInterceptor
-    ): Result<List<Classification>, Fail.Incident> {
-
-        return elements
-            .map { params ->
-                mdmClient
-                    .enrichGeneratedTenderClassification(params = params)
-                    .orForwardFail { error -> return error }
-                    .let { result -> handleResult(result, executionInterceptor) }
-            }.filter { optionalResult -> optionalResult.isDefined }
-            .map { result -> result.get }
+        return mdmClient
+            .enrichGeneratedTenderClassification(params = params)
+            .orForwardFail { error -> return error }
+            .let { result -> handleResult(result, executionInterceptor) }
             .asSuccess()
     }
 
     override fun updateGlobalContext(
         context: CamundaGlobalContext,
-        parameters: Unit,
-        result: List<Classification>
+        result: Classification
     ): MaybeFail<Fail.Incident> {
 
         val tender = context.tryGetTender()
             .orReturnFail { return MaybeFail.fail(it) }
 
         val updatedTender = tender.copy(
-            classification = result.firstOrNull()
+            classification = result
         )
 
         context.tender = updatedTender
@@ -94,11 +79,14 @@ class MdmEnrichGeneratedTenderClassificationDelegate(
     private fun handleResult(
         result: GetGeneratedTenderClassification.Result,
         executionInterceptor: ExecutionInterceptor
-    ): Option<Classification> = when (result) {
-        is GetGeneratedTenderClassification.Result.Success -> Option.pure(
+    ): Classification = when (result) {
+        is GetGeneratedTenderClassification.Result.Success ->
             Classification(id = result.id, scheme = result.scheme, description = result.description)
-        )
-        is GetGeneratedTenderClassification.Result.Fail.SchemeNotFound -> Option.none()
+
+        is GetGeneratedTenderClassification.Result.Fail.SchemeNotFound -> {
+            val errors = result.details.errors.convertErrors()
+            executionInterceptor.throwError(errors = errors)
+        }
         is GetGeneratedTenderClassification.Result.Fail.IdNotFound -> {
             val errors = result.details.errors.convertErrors()
             executionInterceptor.throwError(errors = errors)

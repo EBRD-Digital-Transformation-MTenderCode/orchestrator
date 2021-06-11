@@ -774,7 +774,7 @@ class HttpMdmClient(
                 val error = responseError.errors.first()
                 when (error.code) {
                     GetGeneratedTenderClassification.CODE_SCHEME_NOT_FOUND ->
-                        success(GetGeneratedTenderClassification.Result.Fail.SchemeNotFound)
+                        success(GetGeneratedTenderClassification.Result.Fail.SchemeNotFound(responseError))
                     GetGeneratedTenderClassification.CODE_ID_NOT_FOUND ->
                         success(GetGeneratedTenderClassification.Result.Fail.IdNotFound(responseError))
                     GetGeneratedTenderClassification.CODE_TRANSLATION_NOT_FOUND ->

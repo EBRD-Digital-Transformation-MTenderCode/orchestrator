@@ -51,7 +51,7 @@ object GetGeneratedTenderClassification {
             data class TranslationNotFound(val details: EnrichGeneratedTenderClassificationAction.Response.Error) : Fail()
             data class LanguageNotFound(val details: EnrichGeneratedTenderClassificationAction.Response.Error) : Fail()
             data class AnotherError(val details: EnrichGeneratedTenderClassificationAction.Response.Error) : Fail()
-            object SchemeNotFound : Fail()
+            data class SchemeNotFound (val details: EnrichGeneratedTenderClassificationAction.Response.Error) : Fail()
         }
     }
 }
