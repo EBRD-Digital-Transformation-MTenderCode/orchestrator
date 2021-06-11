@@ -1,3 +1,5 @@
 package com.procurement.orchestrator.domain.model
 
-data class ProcurementMethodDetailsTitle(val value: String)
+import java.io.Serializable
+
+data class ProcurementMethodDetailsTitle(val value: String) : Serializable
