@@ -4,10 +4,11 @@ import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.procurement.orchestrator.application.model.Token
 import com.procurement.orchestrator.application.service.FunctionalAction
-import com.procurement.orchestrator.domain.ProcurementMethod
 import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
+import com.procurement.orchestrator.domain.model.ProcurementMethod
 import com.procurement.orchestrator.domain.model.ProcurementMethodDetails
+import com.procurement.orchestrator.domain.model.ProcurementMethodDetailsTitle
 import com.procurement.orchestrator.domain.model.address.Address
 import com.procurement.orchestrator.domain.model.address.AddressDetails
 import com.procurement.orchestrator.domain.model.address.country.CountryDetails
@@ -73,7 +74,7 @@ abstract class CreateContractAction : FunctionalAction<CreateContractAction.Para
         data class Tender(
             @param:JsonProperty("classification") @field:JsonProperty("classification") val classification: Classification,
             @param:JsonProperty("procurementMethod") @field:JsonProperty("procurementMethod") val procurementMethod: ProcurementMethod,
-            @param:JsonProperty("procurementMethodDetails") @field:JsonProperty("procurementMethodDetails") val procurementMethodDetails: ProcurementMethodDetails,
+            @param:JsonProperty("procurementMethodDetails") @field:JsonProperty("procurementMethodDetails") val procurementMethodDetails: ProcurementMethodDetailsTitle,
             @param:JsonProperty("mainProcurementCategory") @field:JsonProperty("mainProcurementCategory") val mainProcurementCategory: ProcurementCategory,
             @param:JsonProperty("lots") @field:JsonProperty("lots") val lots: List<Lot>,
             @param:JsonProperty("items") @field:JsonProperty("items") val items: List<Item>,
@@ -476,7 +477,7 @@ abstract class CreateContractAction : FunctionalAction<CreateContractAction.Para
         data class Tender(
             @param:JsonProperty("classification") @field:JsonProperty("classification") val classification: Classification,
             @param:JsonProperty("procurementMethod") @field:JsonProperty("procurementMethod") val procurementMethod: ProcurementMethod,
-            @param:JsonProperty("procurementMethodDetails") @field:JsonProperty("procurementMethodDetails") val procurementMethodDetails: ProcurementMethodDetails,
+            @param:JsonProperty("procurementMethodDetails") @field:JsonProperty("procurementMethodDetails") val procurementMethodDetails: ProcurementMethodDetailsTitle,
             @param:JsonProperty("mainProcurementCategory") @field:JsonProperty("mainProcurementCategory") val mainProcurementCategory: ProcurementCategory,
             @param:JsonProperty("lots") @field:JsonProperty("lots") val lots: List<Lot>,
 

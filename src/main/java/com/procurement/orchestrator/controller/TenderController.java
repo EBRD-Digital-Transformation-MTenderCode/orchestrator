@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.procurement.orchestrator.domain.Context;
-import com.procurement.orchestrator.domain.ProcurementMethod;
+import com.procurement.orchestrator.domain.ProcurementMethodDetails;
 import com.procurement.orchestrator.exception.OperationException;
 import com.procurement.orchestrator.service.ProcessService;
 import com.procurement.orchestrator.service.RequestService;
@@ -63,7 +63,7 @@ public class TenderController extends DoBaseController {
                                            @RequestBody final JsonNode data) {
         requestService.validate(operationId, data);
         final Context prevContext = requestService.getContext(cpid);
-        final ProcurementMethod pmd = ProcurementMethod.valueOf(prevContext.getPmd());
+        final ProcurementMethodDetails pmd = ProcurementMethodDetails.valueOf(prevContext.getPmd());
         final String processType = getUpdateCnProcessType(pmd);
         final Context context =
             requestService.getContextForUpdate(authorization, operationId, cpid, ocid, token, processType);
@@ -75,7 +75,7 @@ public class TenderController extends DoBaseController {
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }
 
-    private String getUpdateCnProcessType(final ProcurementMethod pmd) {
+    private String getUpdateCnProcessType(final ProcurementMethodDetails pmd) {
         String processType;
         switch (pmd) {
             case OT:
@@ -115,7 +115,7 @@ public class TenderController extends DoBaseController {
         return processType;
     }
 
-    private void setStartPeriod(final ProcurementMethod pmd, JsonNode data, String startDate) {
+    private void setStartPeriod(final ProcurementMethodDetails pmd, JsonNode data, String startDate) {
         switch (pmd) {
             case OT:
             case TEST_OT:
