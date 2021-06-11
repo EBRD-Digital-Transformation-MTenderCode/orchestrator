@@ -2,8 +2,8 @@ package com.procurement.orchestrator.domain.model.tender
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.procurement.orchestrator.domain.ProcurementMethod
 import com.procurement.orchestrator.domain.model.IdentifiableObject
+import com.procurement.orchestrator.domain.model.ProcurementMethod
 import com.procurement.orchestrator.domain.model.ProcurementMethodDetails
 import com.procurement.orchestrator.domain.model.amendment.Amendments
 import com.procurement.orchestrator.domain.model.classification.Classification

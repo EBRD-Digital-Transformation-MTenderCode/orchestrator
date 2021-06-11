@@ -14,7 +14,7 @@
       "scheme": "string",
       "description": "string"
     },
-    "procurementMethod": "TEST_OP",
+    "procurementMethod": "selective",
     "procurementMethodDetails": "TEST_OP",
     "mainProcurementCategory": "goods",
     "lots": [

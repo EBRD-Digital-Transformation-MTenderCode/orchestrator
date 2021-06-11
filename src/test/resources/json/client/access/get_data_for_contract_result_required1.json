@@ -54,7 +54,7 @@
         "relatedLot": "string"
       }
     ],
-    "procurementMethod": "TEST_MC",
+    "procurementMethod": "selective",
     "procurementMethodDetails": "TEST_MC"
   }
 }

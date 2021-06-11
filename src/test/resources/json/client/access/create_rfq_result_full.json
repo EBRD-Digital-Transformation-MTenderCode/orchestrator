@@ -91,7 +91,7 @@
       "scheme": "string",
       "description": "string"
     },
-    "procurementMethod": "TEST_CD",
+    "procurementMethod": "selective",
     "procurementMethodDetails": "TEST_CD",
     "mainProcurementCategory": "goods",
     "additionalProcurementCategories": [
