@@ -3,6 +3,7 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.evaluation
 import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.EvaluationClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
+import com.procurement.orchestrator.application.model.context.extension.getContractIfNotEmpty
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
@@ -50,12 +51,15 @@ class EvaluationGetRelatedAwardByIdsDelegate(
 
         val processInfo = context.processInfo
 
+        val contracts = context.getContractIfNotEmpty()
+            .orForwardFail { fail -> return fail }
+
         return evaluationClient.getRelatedAwardByIds(
             id = commandId,
             params = GetRelatedAwardByIdsAction.Params(
                 cpid = processInfo.cpid!!,
                 ocid = processInfo.ocid!!,
-                awards = context.contracts.map { contract ->
+                awards = contracts.map { contract ->
                     GetRelatedAwardByIdsAction.Params.Award(
                         id = contract.awardId!!
                     )
@@ -81,7 +85,7 @@ class EvaluationGetRelatedAwardByIdsDelegate(
         val updatedAward = data.awards
             .map { award ->
                 Award(
-                    suppliers = getSuppliers(award),
+                    suppliers = getSuppliersReference(award),
                     id = award.id,
                     internalId = award.internalId,
                     date = award.date,
@@ -115,7 +119,7 @@ class EvaluationGetRelatedAwardByIdsDelegate(
         return MaybeFail.none()
     }
 
-    private fun getSuppliers(
+    private fun getSuppliersReference(
         receivedAward: GetRelatedAwardByIdsAction.Result.Award
     ): Organizations = receivedAward.suppliers.map { supplier ->
         Organization(
