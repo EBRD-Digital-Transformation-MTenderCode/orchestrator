@@ -1,9 +1,10 @@
 package com.procurement.orchestrator.domain.model
 
 import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonValue
 import com.procurement.orchestrator.domain.EnumElementProvider
 
-enum class ProcurementMethodDetails(override val key: String) : EnumElementProvider.Key {
+enum class ProcurementMethodDetails(@JsonValue override val key: String) : EnumElementProvider.Key {
     CD("CD"),
     CF("CF"),
     DA("DA"),
@@ -38,8 +39,6 @@ enum class ProcurementMethodDetails(override val key: String) : EnumElementProvi
     TEST_RFQ("TEST_RFQ"),
     TEST_RT("TEST_RT"),
     TEST_SV("TEST_SV");
-
-    override fun toString(): String = key
 
     companion object : EnumElementProvider<ProcurementMethodDetails>(info = info()) {
 

@@ -9,6 +9,7 @@ import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
 import com.procurement.orchestrator.domain.model.ProcurementMethod
 import com.procurement.orchestrator.domain.model.ProcurementMethodDetails
+import com.procurement.orchestrator.domain.model.ProcurementMethodDetailsTitle
 import com.procurement.orchestrator.domain.model.contract.RelatedProcessScheme
 import com.procurement.orchestrator.domain.model.contract.RelatedProcessType
 import com.procurement.orchestrator.domain.model.item.ItemId
@@ -240,7 +241,7 @@ abstract class CreateRfqAction : FunctionalAction<CreateRfqAction.Params, Create
             @param:JsonProperty("value") @field:JsonProperty("value") val value: Value,
             @param:JsonProperty("classification") @field:JsonProperty("classification") val classification: Classification,
             @param:JsonProperty("procurementMethod") @field:JsonProperty("procurementMethod") val procurementMethod: ProcurementMethod,
-            @param:JsonProperty("procurementMethodDetails") @field:JsonProperty("procurementMethodDetails") val procurementMethodDetails: ProcurementMethodDetails,
+            @param:JsonProperty("procurementMethodDetails") @field:JsonProperty("procurementMethodDetails") val procurementMethodDetails: ProcurementMethodDetailsTitle,
             @param:JsonProperty("mainProcurementCategory") @field:JsonProperty("mainProcurementCategory") val mainProcurementCategory: ProcurementCategory,
 
             @JsonInclude(JsonInclude.Include.NON_EMPTY)

@@ -7,6 +7,7 @@ import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
 import com.procurement.orchestrator.domain.model.ProcurementMethod
 import com.procurement.orchestrator.domain.model.ProcurementMethodDetails
+import com.procurement.orchestrator.domain.model.ProcurementMethodDetailsTitle
 import com.procurement.orchestrator.domain.model.address.Address
 import com.procurement.orchestrator.domain.model.address.AddressDetails
 import com.procurement.orchestrator.domain.model.address.country.CountryDetails
@@ -54,7 +55,7 @@ abstract class GetDataForContractAction :
             @param:JsonProperty("lots") @field:JsonProperty("lots") val lots: List<Lot>,
             @param:JsonProperty("items") @field:JsonProperty("items") val items: List<Item>,
             @param:JsonProperty("procurementMethod") @field:JsonProperty("procurementMethod") val procurementMethod: ProcurementMethod,
-            @param:JsonProperty("procurementMethodDetails") @field:JsonProperty("procurementMethodDetails") val procurementMethodDetails: ProcurementMethodDetails,
+            @param:JsonProperty("procurementMethodDetails") @field:JsonProperty("procurementMethodDetails") val procurementMethodDetails: ProcurementMethodDetailsTitle,
 
             @JsonInclude(JsonInclude.Include.NON_EMPTY)
             @param:JsonProperty("additionalProcurementCategories") @field:JsonProperty("additionalProcurementCategories") val additionalProcurementCategories: List<ProcurementCategory>?

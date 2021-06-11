@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.procurement.orchestrator.domain.model.IdentifiableObject
 import com.procurement.orchestrator.domain.model.ProcurementMethod
 import com.procurement.orchestrator.domain.model.ProcurementMethodDetails
+import com.procurement.orchestrator.domain.model.ProcurementMethodDetailsTitle
 import com.procurement.orchestrator.domain.model.amendment.Amendments
 import com.procurement.orchestrator.domain.model.classification.Classification
 import com.procurement.orchestrator.domain.model.document.Documents
@@ -134,7 +135,7 @@ data class Tender(
     @field:JsonProperty("procurementMethod") @param:JsonProperty("procurementMethod") val procurementMethod: ProcurementMethod? = null,
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
-    @field:JsonProperty("procurementMethodDetails") @param:JsonProperty("procurementMethodDetails") val procurementMethodDetails: ProcurementMethodDetails? = null
+    @field:JsonProperty("procurementMethodDetails") @param:JsonProperty("procurementMethodDetails") val procurementMethodDetails: ProcurementMethodDetailsTitle? = null
 
 ) : IdentifiableObject<Tender>, Serializable {
 
