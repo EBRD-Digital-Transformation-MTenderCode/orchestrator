@@ -3,6 +3,7 @@ package com.procurement.orchestrator.infrastructure.bpms.delegate.access
 import com.procurement.orchestrator.application.CommandId
 import com.procurement.orchestrator.application.client.AccessClient
 import com.procurement.orchestrator.application.model.context.CamundaGlobalContext
+import com.procurement.orchestrator.application.model.context.extension.getAwardsIfNotEmpty
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.Transform
 import com.procurement.orchestrator.domain.fail.Fail
@@ -40,12 +41,15 @@ class AccessGetDataForContractDelegate(
 
         val processInfo = context.processInfo
 
+        val awards = context.getAwardsIfNotEmpty()
+            .orForwardFail { fail -> return fail }
+
         return accessClient.getDataForContract(
             id = commandId,
             params = GetDataForContractAction.Params(
                 relatedCpid = processInfo.relatedProcess!!.cpid,
                 relatedOcid = processInfo.relatedProcess.ocid!!,
-                awards = context.awards.map { award ->
+                awards = awards.map { award ->
                     GetDataForContractAction.Params.Award(
                         award.relatedLots
                     )
