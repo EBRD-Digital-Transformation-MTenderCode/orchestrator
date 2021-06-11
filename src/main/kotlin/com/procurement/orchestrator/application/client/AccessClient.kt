@@ -24,6 +24,7 @@ import com.procurement.orchestrator.infrastructure.client.web.access.action.Find
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindCriteriaAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.FindLotIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetBuyersOwnersAction
+import com.procurement.orchestrator.infrastructure.client.web.access.action.GetDataForContractAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetItemsByLotIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotStateByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetLotsValueAction
@@ -229,4 +230,9 @@ interface AccessClient {
         id: CommandId,
         params: DefineTenderClassificationAction.Params
     ): Result<Reply<DefineTenderClassificationAction.Result>, Fail.Incident>
+
+    suspend fun getDataForContract(
+        id: CommandId,
+        params: GetDataForContractAction.Params
+    ): Result<Reply<GetDataForContractAction.Result>, Fail.Incident>
 }
