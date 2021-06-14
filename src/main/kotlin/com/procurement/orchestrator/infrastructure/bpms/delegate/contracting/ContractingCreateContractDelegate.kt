@@ -12,6 +12,8 @@ import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Option
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.asSuccess
+import com.procurement.orchestrator.domain.model.Cpid
+import com.procurement.orchestrator.domain.model.Ocid
 import com.procurement.orchestrator.domain.model.ProcurementMethodDetails
 import com.procurement.orchestrator.domain.model.contract.RelatedProcess
 import com.procurement.orchestrator.domain.model.contract.RelatedProcessTypes
@@ -54,6 +56,14 @@ class ContractingCreateContractDelegate(
         val tender = context.tryGetTender()
             .orForwardFail { incident -> return incident }
 
+        val relatedProcess = context.processInfo.relatedProcess!!
+        val relatedOcid: Ocid = relatedProcess.ocid
+            ?: return Result.failure(
+                Fail.Incident.Bpms.Context.Missing(
+                    name = "relatedProcess.ocid",
+                    path = "processInfo"
+                )
+            )
 
         return contractingClient.createContract(
             id = commandId,
@@ -61,6 +71,7 @@ class ContractingCreateContractDelegate(
                 cpid = processInfo.cpid!!,
                 date = requestInfo.timestamp,
                 pmd = processInfo.pmd,
+                relatedOcid = relatedOcid,
                 tender = tender.let { tender ->
                     CreateContractAction.Params.Tender(
                         classification = tender.classification!!.let { classification ->
