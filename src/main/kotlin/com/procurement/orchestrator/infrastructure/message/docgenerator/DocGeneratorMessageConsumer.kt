@@ -175,8 +175,9 @@ class DocGeneratorMessageConsumer(
     private fun launchProcessByV1(response: JsonNode, processType: String) {
         val dataNode = response.get("data")
         if (dataNode != null) {
+            val cpid = dataNode.get("cpid").asText()
             val ocid = dataNode.get("ocid").asText()
-            val prevContext = requestService.getContext(ocid)
+            val prevContext = requestService.getContext(cpid, ocid)
             val uuid = UUIDs.timeBased().toString()
             val context = requestService.checkRulesAndProcessContext(prevContext, processType, uuid)
             requestService.saveRequestAndCheckOperation(context, dataNode)

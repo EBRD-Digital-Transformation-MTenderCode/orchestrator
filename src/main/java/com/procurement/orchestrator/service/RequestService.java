@@ -19,7 +19,9 @@ public interface RequestService {
 
     void saveRequestAndCheckOperation(Context context, JsonNode jsonData);
 
-    Context getContext(String cpId);
+    Context getContext(String id);
+
+    Context getContext(String cpid, String ocid);
 
     Rule checkAndGetRule(Context prevContext, String processType);
 
@@ -48,8 +50,6 @@ public interface RequestService {
                                 String ocid,
                                 String token,
                                 String process);
-
-    String getContextKey(String cpid, String ocid);
 
     Context getContextForContractUpdate(String authorization,
                                         String operationId,

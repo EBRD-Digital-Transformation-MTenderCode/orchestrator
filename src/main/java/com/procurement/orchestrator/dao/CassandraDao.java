@@ -32,7 +32,7 @@ public interface CassandraDao {
 
     void saveContext(ContextEntity entity);
 
-    Optional<ContextEntity> getContextByCpId(String cpId);
+    Optional<ContextEntity> loadContext(String id);
 
     Optional<TypeOfProcess> getProcess(String country,
                                        String pmd,

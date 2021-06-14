@@ -62,7 +62,7 @@ public class TenderController extends DoBaseController {
                                            @PathVariable("ocid") final String ocid,
                                            @RequestBody final JsonNode data) {
         requestService.validate(operationId, data);
-        final Context prevContext = requestService.getContext(cpid);
+        final Context prevContext = requestService.getContext(cpid, ocid);
         final ProcurementMethodDetails pmd = ProcurementMethodDetails.valueOf(prevContext.getPmd());
         final String processType = getUpdateCnProcessType(pmd);
         final Context context =
