@@ -53,7 +53,7 @@ class PcrProtocolController(
                 if (logger.isDebugEnabled)
                     logger.debug("Request: platform '${request.platformId}', operation-id '${request.operationId}', uri '${servlet.requestURI}', payload '${request.payload}'.")
             }
-        return processLauncher.launchWithContextByOcid(request)
+        return processLauncher.launch(request)
     }
 
     private fun buildRequest(

@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RestController
 import javax.servlet.http.HttpServletRequest
 
 @RestController
-@RequestMapping("/cancel/protocol")
 class QualificationCancelProtocolController(
     private val logger: Logger,
     private val processLauncher: ProcessLauncher
@@ -33,7 +32,7 @@ class QualificationCancelProtocolController(
         private const val PROCESS_NAME = "withdrawQualificationProtocol"
     }
 
-    @PostMapping("/{cpid}/{ocid}")
+    @PostMapping("/cancel/protocol/{cpid}/{ocid}")
     fun cancelProtocolQualification(
         servlet: HttpServletRequest,
         @PathVariable cpid: String,
@@ -53,7 +52,7 @@ class QualificationCancelProtocolController(
                 if (logger.isDebugEnabled)
                     logger.debug("Request: platform '${request.platformId}', operation-id '${request.operationId}', uri '${servlet.requestURI}', payload '${request.payload}'.")
             }
-        return processLauncher.launchWithContextByCpid(request)
+        return processLauncher.launch(request)
     }
 
     private fun buildRequest(

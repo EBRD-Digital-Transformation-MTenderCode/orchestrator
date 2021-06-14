@@ -50,16 +50,14 @@ class QualificationConsiderationController(
         cpid: String,
         ocid: String,
         qualificationId: String
-    ): MaybeFail<Fail> {
-        val request: PlatformRequest =
+    ): MaybeFail<Fail> =
             buildRequest(servlet = servlet, cpid = cpid, ocid = ocid, qualificationId = qualificationId)
                 .orReturnFail { return MaybeFail.fail(it) }
                 .also { request ->
                     if (logger.isDebugEnabled)
                         logger.debug("Request: platform '${request.platformId}', operation-id '${request.operationId}', uri '${servlet.requestURI}', payload '${request.payload}'.")
                 }
-        return processLauncher.launchWithContextByCpid(request)
-    }
+                .let { request -> processLauncher.launch(request) }
 
     private fun buildRequest(
         servlet: HttpServletRequest,

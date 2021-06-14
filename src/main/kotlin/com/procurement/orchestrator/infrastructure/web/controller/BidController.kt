@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RestController
 import javax.servlet.http.HttpServletRequest
 
 @RestController
-@RequestMapping("/do/bid")
 class BidController(
     private val logger: Logger,
     private val processLauncher: ProcessLauncher
@@ -35,7 +34,7 @@ class BidController(
         private const val PROCESS_NAME_SUBMIT_BID_IN_PCR = "submitBidInPcr"
     }
 
-    @PostMapping("/{cpid}/{ocid}")
+    @PostMapping("/do/bid/{cpid}/{ocid}")
     fun doBid(
         servlet: HttpServletRequest,
         @PathVariable cpid: String,
@@ -56,7 +55,7 @@ class BidController(
                 if (logger.isDebugEnabled)
                     logger.debug("Request: platform '${request.platformId}', operation-id '${request.operationId}', uri '${servlet.requestURI}', payload '${request.payload}'.")
             }
-            .let { request -> launch(request) }
+            .let { request -> processLauncher.launch(request) }
 
     private fun buildRequest(
         servlet: HttpServletRequest,
@@ -109,20 +108,4 @@ class BidController(
         Stage.TP -> PROCESS_NAME_SUBMIT_BID
         Stage.PC -> PROCESS_NAME_SUBMIT_BID_IN_PCR
     }
-
-    fun launch(request: PlatformRequest): MaybeFail<Fail> =
-        when ((request.context.ocid as Ocid.SingleStage).stage) {
-            Stage.AC,
-            Stage.AP,
-            Stage.EI,
-            Stage.EV,
-            Stage.FE,
-            Stage.FS,
-            Stage.NP,
-            Stage.PN,
-            Stage.PO,
-            Stage.RQ,
-            Stage.TP -> processLauncher.launchWithContextByCpid(request)
-            Stage.PC -> processLauncher.launchWithContextByOcid(request)
-        }
 }

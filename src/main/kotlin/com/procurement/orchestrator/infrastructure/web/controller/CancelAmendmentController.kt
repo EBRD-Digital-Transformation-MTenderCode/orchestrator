@@ -24,13 +24,12 @@ import org.springframework.web.bind.annotation.RestController
 import javax.servlet.http.HttpServletRequest
 
 @RestController
-@RequestMapping("/cancel/amendment")
 class CancelAmendmentController(
     private val logger: Logger,
     private val cancellationService: CancellationService
 ) {
 
-    @PostMapping("/{cpid}/{ocid}/{amendmentId}")
+    @PostMapping("/cancel/amendment/{cpid}/{ocid}/{amendmentId}")
     fun cancelTender(
         servlet: HttpServletRequest,
         @PathVariable cpid: String,

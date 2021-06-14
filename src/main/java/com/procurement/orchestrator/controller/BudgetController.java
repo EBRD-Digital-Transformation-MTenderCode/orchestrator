@@ -119,7 +119,7 @@ public class BudgetController extends DoBaseController {
         requestService.validate(operationId, data);
         validateOcId(cpid, ocid);
         final Context context = new Context();
-        final Context prevContext = requestService.getContext(cpid);
+        final Context prevContext = requestService.getContext(cpid, ocid);
         context.setCountry(prevContext.getCountry());
         context.setLanguage(prevContext.getLanguage());
         context.setOperationId(operationId);

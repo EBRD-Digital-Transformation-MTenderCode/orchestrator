@@ -25,13 +25,12 @@ import org.springframework.web.bind.annotation.RestController
 import javax.servlet.http.HttpServletRequest
 
 @RestController
-@RequestMapping("/cancel/lot")
 class CancelLotController(
     private val logger: Logger,
     private val cancellationService: CancellationService
 ) {
 
-    @PostMapping("/{cpid}/{ocid}/{lotId}")
+    @PostMapping("/cancel/lot/{cpid}/{ocid}/{lotId}")
     fun cancelTender(
         servlet: HttpServletRequest,
         @PathVariable cpid: String,

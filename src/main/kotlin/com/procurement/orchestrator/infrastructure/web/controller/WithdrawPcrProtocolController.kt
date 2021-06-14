@@ -45,15 +45,14 @@ class WithdrawPcrProtocolController(
                 logger.debug("Response: status '${response.statusCode}', body '${response.body}'.")
         }
 
-    private fun perform(servlet: HttpServletRequest, cpid: String, ocid: String, id: String): MaybeFail<Fail> {
-        val request: PlatformRequest = buildRequest(servlet = servlet, cpid = cpid, ocid = ocid, id = id)
+    private fun perform(servlet: HttpServletRequest, cpid: String, ocid: String, id: String): MaybeFail<Fail> =
+        buildRequest(servlet = servlet, cpid = cpid, ocid = ocid, id = id)
             .orReturnFail { return MaybeFail.fail(it) }
             .also { request ->
                 if (logger.isDebugEnabled)
                     logger.debug("Request: platform '${request.platformId}', operation-id '${request.operationId}', uri '${servlet.requestURI}', payload '${request.payload}'.")
             }
-        return processLauncher.launchWithContextByOcid(request)
-    }
+            .let { request -> processLauncher.launch(request) }
 
     private fun buildRequest(
         servlet: HttpServletRequest,
