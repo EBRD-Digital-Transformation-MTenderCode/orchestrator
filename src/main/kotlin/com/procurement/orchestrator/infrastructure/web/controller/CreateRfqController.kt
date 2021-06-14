@@ -56,15 +56,14 @@ class CreateRfqController(
         lotId: String,
         faCpid: String,
         pcrOcid: String
-    ): MaybeFail<Fail> {
-        val request: PlatformRequest = buildRequest(servlet = servlet, cpid = cpid, ocid = ocid, lotId = lotId, faCpid = faCpid, pcrOcid = pcrOcid)
+    ): MaybeFail<Fail> =
+        buildRequest(servlet = servlet, cpid = cpid, ocid = ocid, lotId = lotId, faCpid = faCpid, pcrOcid = pcrOcid)
             .orReturnFail { return MaybeFail.fail(it) }
             .also { request ->
                 if (logger.isDebugEnabled)
                     logger.debug("Request: platform '${request.platformId}', operation-id '${request.operationId}', uri '${servlet.requestURI}', payload '${request.payload}'.")
             }
-        return processLauncher.launchWithContextByCpid(request)
-    }
+            .let { request -> processLauncher.launch(request) }
 
     private fun buildRequest(
         servlet: HttpServletRequest,

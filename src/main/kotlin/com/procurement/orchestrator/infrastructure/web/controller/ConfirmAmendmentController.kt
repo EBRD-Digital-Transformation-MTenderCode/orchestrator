@@ -24,13 +24,12 @@ import org.springframework.web.bind.annotation.RestController
 import javax.servlet.http.HttpServletRequest
 
 @RestController
-@RequestMapping("/confirm/amendment")
 class ConfirmAmendmentController(
     private val logger: Logger,
     private val cancellationService: ConfirmationService
 ) {
 
-    @PostMapping("/{cpid}/{ocid}/{amendmentId}")
+    @PostMapping("/confirm/amendment/{cpid}/{ocid}/{amendmentId}")
     fun confirmAmendment(
         servlet: HttpServletRequest,
         @PathVariable cpid: String,
