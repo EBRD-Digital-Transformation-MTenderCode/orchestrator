@@ -61,6 +61,7 @@ class ContractingCreateContractDelegate(
                 cpid = processInfo.cpid!!,
                 date = requestInfo.timestamp,
                 pmd = processInfo.pmd,
+                owner = requestInfo.owner,
                 tender = tender.let { tender ->
                     CreateContractAction.Params.Tender(
                         classification = tender.classification!!.let { classification ->
