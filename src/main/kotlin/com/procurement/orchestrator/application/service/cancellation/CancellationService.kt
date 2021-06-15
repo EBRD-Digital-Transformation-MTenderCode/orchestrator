@@ -63,7 +63,8 @@ class CancellationServiceImpl(
         val payload = parsePayload<CancellationTender.Payload>(request.payload)
             .orReturnFail { return MaybeFail.fail(it) }
 
-        val prevProcessContext: LatestProcessContext = processService.getProcessContext(cpid = request.context.cpid)
+        val prevProcessContext: LatestProcessContext = processService
+            .getProcessContext(cpid = request.context.cpid, ocid = request.context.ocid)
             .orReturnFail { return MaybeFail.fail(it) }
             ?: return MaybeFail.fail(Fail.Incident.Bpe(description = "The process context by cpid '${request.context.cpid}' does not found."))
 
@@ -171,7 +172,8 @@ class CancellationServiceImpl(
         val payload = parsePayload<CancellationLot.Payload>(request.payload)
             .orReturnFail { return MaybeFail.fail(it) }
 
-        val prevProcessContext: LatestProcessContext = processService.getProcessContext(cpid = request.context.cpid)
+        val prevProcessContext: LatestProcessContext = processService
+            .getProcessContext(cpid = request.context.cpid, ocid = request.context.ocid)
             .orReturnFail { return MaybeFail.fail(it) }
             ?: return MaybeFail.fail(Fail.Incident.Bpe(description = "The process context by cpid '${request.context.cpid}' does not found."))
 
@@ -279,7 +281,8 @@ class CancellationServiceImpl(
         if (isLaunched)
             return MaybeFail.fail(RequestErrors.Common.Repeated())
 
-        val prevProcessContext: LatestProcessContext = processService.getProcessContext(cpid = request.context.cpid)
+        val prevProcessContext: LatestProcessContext = processService
+            .getProcessContext(cpid = request.context.cpid, ocid = request.context.ocid)
             .orReturnFail { return MaybeFail.fail(it) }
             ?: return MaybeFail.fail(Fail.Incident.Bpe(description = "The process context by cpid '${request.context.cpid}' does not found."))
 

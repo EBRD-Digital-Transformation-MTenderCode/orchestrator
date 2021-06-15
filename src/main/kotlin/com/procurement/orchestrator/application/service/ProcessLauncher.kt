@@ -148,7 +148,8 @@ class ProcessLauncherImpl(
         if (isLaunched)
             return MaybeFail.fail(RequestErrors.Common.Repeated())
 
-        val prevProcessContext: LatestProcessContext = processService.getProcessContext(cpid = event.cpid)
+        val prevProcessContext: LatestProcessContext = processService
+            .getProcessContext(cpid = event.cpid, ocid = event.ocid)
             .orReturnFail { return MaybeFail.fail(it) }
             ?: return MaybeFail.fail(Fail.Incident.Bpe(description = "The process context by cpid '${event.cpid}' does not found."))
 
@@ -247,16 +248,11 @@ class ProcessLauncherImpl(
                 .asFailure()
         }
 
-    private fun loadContext(cpid: Cpid, ocid: Ocid): Result<LatestProcessContext, Fail.Incident> {
-        val context = processService.getProcessContext(ocid = ocid).orForwardFail { return it }
-            ?: processService.getProcessContext(cpid = cpid).orForwardFail { return it }
-
-        return if (context != null)
-            success(context)
-        else
-            Fail.Incident.Bpe(description = "The process context by cpid '${cpid}' or ocid '${ocid}' does not found.")
+    private fun loadContext(cpid: Cpid, ocid: Ocid): Result<LatestProcessContext, Fail.Incident> =
+        processService.getProcessContext(cpid = cpid, ocid = ocid).orForwardFail { return it }
+            ?.let { context -> success(context) }
+            ?: Fail.Incident.Bpe(description = "The process context by cpid '${cpid}' or ocid '${ocid}' does not found.")
                 .asFailure()
-    }
 
     private fun startAddingGeneratedDocument(
         event: DocumentGenerated,
