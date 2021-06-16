@@ -84,6 +84,10 @@ class IssuingFrameworkContractController(
             operationId = operationId,
             platformId = platformId,
             context = PlatformRequest.Context(
+                key = PlatformRequest.Context.Key(
+                    cpid = verifiedCpid,
+                    ocid = verifiedOcid
+                ),
                 cpid = verifiedCpid,
                 ocid = verifiedOcid,
                 token = token,
