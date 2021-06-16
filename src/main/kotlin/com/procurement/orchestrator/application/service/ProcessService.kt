@@ -29,7 +29,7 @@ interface ProcessService {
         processName: String
     ): Result<ProcessDefinitionKey, Fail>
 
-    fun getProcessContext(cpid: Cpid, ocid: Ocid): Result<LatestProcessContext?, Fail.Incident>
+    fun getProcessContext(cpid: Cpid, ocid: Ocid?): Result<LatestProcessContext?, Fail.Incident>
 
     fun launchProcess(
         processDefinitionKey: ProcessDefinitionKey,
@@ -62,11 +62,10 @@ class ProcessServiceImpl(
                 )
             )
 
-    override fun getProcessContext(cpid: Cpid, ocid: Ocid): Result<LatestProcessContext?, Fail.Incident> {
-        val data = oldProcessContextRepository.load(ocid = ocid)
-            .orForwardFail { fail -> return fail }
-            ?: oldProcessContextRepository.load(cpid = cpid)
-                .orForwardFail { fail -> return fail }
+    override fun getProcessContext(cpid: Cpid, ocid: Ocid?): Result<LatestProcessContext?, Fail.Incident> {
+        val data = ocid
+            ?.let { oldProcessContextRepository.load(ocid = it).orForwardFail { fail -> return fail } }
+            ?: oldProcessContextRepository.load(cpid = cpid).orForwardFail { fail -> return fail }
 
         return data
             ?.let {

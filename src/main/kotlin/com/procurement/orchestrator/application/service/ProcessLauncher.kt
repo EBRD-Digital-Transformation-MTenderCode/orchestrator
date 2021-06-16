@@ -44,7 +44,7 @@ class ProcessLauncherImpl(
 ) : ProcessLauncher {
 
     override fun launch(request: PlatformRequest): MaybeFail<Fail> {
-        val context = loadContext(cpid = request.context.cpid!!, ocid = request.context.ocid!!)
+        val context = loadContext(cpid = request.context.key.cpid, ocid = request.context.key.ocid)
             .orReturnFail { return MaybeFail.fail(it) }
 
         return launch(request, context)
@@ -248,7 +248,7 @@ class ProcessLauncherImpl(
                 .asFailure()
         }
 
-    private fun loadContext(cpid: Cpid, ocid: Ocid): Result<LatestProcessContext, Fail.Incident> =
+    private fun loadContext(cpid: Cpid, ocid: Ocid?): Result<LatestProcessContext, Fail.Incident> =
         processService.getProcessContext(cpid = cpid, ocid = ocid).orForwardFail { return it }
             ?.let { context -> success(context) }
             ?: Fail.Incident.Bpe(description = "The process context by cpid '${cpid}' or ocid '${ocid}' does not found.")
