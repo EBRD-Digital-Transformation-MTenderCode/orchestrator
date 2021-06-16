@@ -22,7 +22,7 @@ class TransferContractsToOtherProcessDelegate : DelegateVariableMapping {
     override fun mapInputVariables(superExecution: DelegateExecution, subVariables: VariableMap) {
         val processInfo = superExecution.getVariable(VARIABLE_PROCESS_INFO) as ProcessInfo
 
-        val updatedProcessInfo = getUpdatedProcessInfo(processInfo, processInfo.relatedProcess!!)
+        val updatedProcessInfo = getUpdatedProcessInfo(processInfo)
         val updatedRequestInfo = getUpdatedRequestInfo(superExecution)
 
         val contracts = superExecution.getVariable(VARIABLE_CONTRACTS) as Contracts
@@ -42,17 +42,16 @@ class TransferContractsToOtherProcessDelegate : DelegateVariableMapping {
     }
 
     private fun getUpdatedProcessInfo(
-        processInfo: ProcessInfo,
-        relatedProcess: ProcessInfo.RelatedProcess
+        processInfo: ProcessInfo
     ): ProcessInfo {
         val processCpid = processInfo.cpid!!
         val processOcid = processInfo.ocid!!
-        val relatedProcessCpid = relatedProcess.cpid
-        val relatedProcessOcid = relatedProcess.ocid
+
+        val relatedProcess = processInfo.relatedProcess!!
 
         return processInfo.copy(
-            cpid = relatedProcessCpid,
-            ocid = relatedProcessOcid,
+            cpid = relatedProcess.cpid,
+            ocid = relatedProcess.ocid,
             relatedProcess = relatedProcess.copy(
                 cpid = processCpid,
                 ocid = processOcid
