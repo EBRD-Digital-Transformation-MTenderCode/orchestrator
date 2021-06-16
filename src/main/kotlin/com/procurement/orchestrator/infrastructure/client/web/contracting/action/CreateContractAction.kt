@@ -69,7 +69,8 @@ abstract class CreateContractAction : FunctionalAction<CreateContractAction.Para
         @param:JsonProperty("awards") @field:JsonProperty("awards") val awards: List<Award>,
         @param:JsonProperty("date") @field:JsonProperty("date") val date: LocalDateTime,
         @param:JsonProperty("pmd") @field:JsonProperty("pmd") val pmd: ProcurementMethodDetails,
-        @param:JsonProperty("parties") @field:JsonProperty("parties") val parties: List<Party>
+        @param:JsonProperty("parties") @field:JsonProperty("parties") val parties: List<Party>,
+        @param:JsonProperty("relatedOcid") @field:JsonProperty("relatedOcid") val relatedOcid: Ocid
     ) {
         data class Tender(
             @param:JsonProperty("classification") @field:JsonProperty("classification") val classification: Classification,
