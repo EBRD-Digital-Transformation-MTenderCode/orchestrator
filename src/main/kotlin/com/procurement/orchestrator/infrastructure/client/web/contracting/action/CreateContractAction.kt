@@ -2,6 +2,7 @@ package com.procurement.orchestrator.infrastructure.client.web.contracting.actio
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.procurement.orchestrator.application.model.Owner
 import com.procurement.orchestrator.application.model.Token
 import com.procurement.orchestrator.application.service.FunctionalAction
 import com.procurement.orchestrator.domain.model.Cpid
@@ -70,7 +71,8 @@ abstract class CreateContractAction : FunctionalAction<CreateContractAction.Para
         @param:JsonProperty("date") @field:JsonProperty("date") val date: LocalDateTime,
         @param:JsonProperty("pmd") @field:JsonProperty("pmd") val pmd: ProcurementMethodDetails,
         @param:JsonProperty("parties") @field:JsonProperty("parties") val parties: List<Party>,
-        @param:JsonProperty("relatedOcid") @field:JsonProperty("relatedOcid") val relatedOcid: Ocid
+        @param:JsonProperty("relatedOcid") @field:JsonProperty("relatedOcid") val relatedOcid: Ocid,
+        @param:JsonProperty("owner") @field:JsonProperty("owner") val owner: Owner
     ) {
         data class Tender(
             @param:JsonProperty("classification") @field:JsonProperty("classification") val classification: Classification,
