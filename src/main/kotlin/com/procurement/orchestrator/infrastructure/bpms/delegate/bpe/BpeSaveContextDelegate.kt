@@ -115,8 +115,7 @@ class BpeSaveContextDelegate(
         when (ocid?.stage ?: processInfo.stage) {
             Stage.PC,
             Stage.AC,
-            Stage.PO -> oldProcessContextRepository.save(ocid = processInfo.ocid!!, context = serializedContext)
-                .doOnError { return MaybeFail.fail(it) }
+            Stage.PO,
             Stage.EI,
             Stage.FS,
             Stage.PN,
@@ -125,8 +124,8 @@ class BpeSaveContextDelegate(
             Stage.FE,
             Stage.NP,
             Stage.TP,
-            Stage.RQ -> oldProcessContextRepository.save(cpid = processInfo.cpid!!, context = serializedContext)
-                .doOnError { return MaybeFail.fail(it) }
+            Stage.RQ -> oldProcessContextRepository.save(ocid = processInfo.ocid!!, context = serializedContext)
+            .doOnError { return MaybeFail.fail(it) }
         }
 
         return MaybeFail.none()
