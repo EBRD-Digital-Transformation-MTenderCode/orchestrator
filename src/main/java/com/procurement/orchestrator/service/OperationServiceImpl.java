@@ -182,29 +182,7 @@ public class OperationServiceImpl implements OperationService {
     public void saveContext(final Context context) {
         final ContextEntity contextEntity = new ContextEntity();
 
-        final Stage stage = Stage.fromValue(context.getStage());
-        switch (stage) {
-            case AC:
-            case AP:
-            case EI:
-            case EV:
-            case FE:
-            case FS:
-            case NP:
-            case PIN:
-            case PN:
-            case PQ:
-            case PS:
-            case RQ:
-            case TP:
-                contextEntity.setCpId(context.getCpid());
-                break;
-
-            case PC:
-                contextEntity.setCpId(context.getOcid());
-                break;
-        }
-
+        contextEntity.setCpId(context.getOcid());
         contextEntity.setContext(jsonUtil.toJson(context));
         cassandraDao.saveContext(contextEntity);
     }
