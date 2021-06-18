@@ -110,24 +110,8 @@ class BpeSaveContextDelegate(
         val serializedContext = transform.trySerialization(oldProcessContext)
             .orReturnFail { return MaybeFail.fail(it) }
 
-        val ocid = processInfo.ocid as? Ocid.SingleStage
-
-        when (ocid?.stage ?: processInfo.stage) {
-            Stage.PC,
-            Stage.AC,
-            Stage.PO -> oldProcessContextRepository.save(ocid = processInfo.ocid!!, context = serializedContext)
-                .doOnError { return MaybeFail.fail(it) }
-            Stage.EI,
-            Stage.FS,
-            Stage.PN,
-            Stage.AP,
-            Stage.EV,
-            Stage.FE,
-            Stage.NP,
-            Stage.TP,
-            Stage.RQ -> oldProcessContextRepository.save(cpid = processInfo.cpid!!, context = serializedContext)
-                .doOnError { return MaybeFail.fail(it) }
-        }
+        oldProcessContextRepository.save(ocid = processInfo.ocid!!, context = serializedContext)
+            .doOnError { return MaybeFail.fail(it) }
 
         return MaybeFail.none()
     }
