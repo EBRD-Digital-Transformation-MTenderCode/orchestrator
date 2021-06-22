@@ -181,8 +181,11 @@ public class OperationServiceImpl implements OperationService {
     @Override
     public void saveContext(final Context context) {
         final ContextEntity contextEntity = new ContextEntity();
-
-        contextEntity.setCpId(context.getOcid());
+        if (Objects.nonNull(context.getOcid())) {
+            contextEntity.setCpId(context.getOcid());
+        } else {
+            contextEntity.setCpId(context.getCpid());
+        }
         contextEntity.setContext(jsonUtil.toJson(context));
         cassandraDao.saveContext(contextEntity);
     }
