@@ -181,7 +181,7 @@ public class OperationServiceImpl implements OperationService {
     @Override
     public void saveContext(final Context context) {
         final ContextEntity contextEntity = new ContextEntity();
-        if (Objects.nonNull(context.getOcid())) {
+        if (context.getOcid() != null) {
             contextEntity.setCpId(context.getOcid());
         } else {
             contextEntity.setCpId(context.getCpid());
