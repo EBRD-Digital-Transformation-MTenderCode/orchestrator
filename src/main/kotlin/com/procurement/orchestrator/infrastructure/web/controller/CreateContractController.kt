@@ -87,7 +87,10 @@ class CreateContractController(
                     ocid = verifiedOcid
                 ),
                 cpid = verifiedCpid,
-                ocid = verifiedOcid,
+                relatedProcess = PlatformRequest.Context.RelatedProcess(
+                    cpid = verifiedCpid,
+                    ocid = verifiedOcid
+                ),
                 token = token,
                 owner = platformId,
                 uri = servlet.requestURI,
