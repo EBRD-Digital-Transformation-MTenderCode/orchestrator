@@ -37,16 +37,17 @@ class ContractingCheckRelatedContractsStateDelegate(
 
         val processInfo = context.processInfo
         val requestInfo = context.requestInfo
+        val contracts = context.contracts
 
         return contractingClient.checkRelatedContractsState(
             id = commandId,
             params = CheckRelatedContractsStateAction.Params(
-                cpid = processInfo.cpid!!,
-                ocid = processInfo.ocid!!,
+                cpid = processInfo.relatedProcess!!.cpid,
+                ocid = processInfo.relatedProcess.ocid!!,
                 country = requestInfo.country,
                 pmd = processInfo.pmd,
                 operationType = processInfo.operationType,
-                contracts = context.contracts.map { contract ->
+                contracts = contracts.map { contract ->
                     CheckRelatedContractsStateAction.Params.Contract(
                         id = contract.id
                     )

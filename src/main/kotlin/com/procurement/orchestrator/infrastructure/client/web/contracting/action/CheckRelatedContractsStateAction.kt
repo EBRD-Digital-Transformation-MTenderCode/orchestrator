@@ -12,7 +12,7 @@ import com.procurement.orchestrator.infrastructure.model.Version
 
 abstract class CheckRelatedContractsStateAction : ProceduralAction<CheckRelatedContractsStateAction.Params> {
     override val version: Version = Version.parse("2.0.0")
-    override val name: String = "addGeneratedDocumentToContract"
+    override val name: String = "checkContractState"
 
     class Params(
         @param:JsonProperty("cpid") @field:JsonProperty("cpid") val cpid: Cpid,
