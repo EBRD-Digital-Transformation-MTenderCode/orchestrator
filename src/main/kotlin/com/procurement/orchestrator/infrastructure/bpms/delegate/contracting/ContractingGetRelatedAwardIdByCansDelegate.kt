@@ -41,13 +41,13 @@ class ContractingGetRelatedAwardIdByCansDelegate(
         parameters: Unit
     ): Result<Reply<GetRelatedAwardIdByCansAction.Result>, Fail.Incident> {
 
-        val processInfo = context.processInfo
+        val relatedProcess = context.processInfo.relatedProcess!!
 
         return contractingClient.getRelatedAwardIdByCans(
             id = commandId,
             params = GetRelatedAwardIdByCansAction.Params(
-                cpid = processInfo.cpid!!,
-                ocid = processInfo.ocid!!,
+                cpid = relatedProcess.cpid,
+                ocid = relatedProcess.ocid!!,
                 contracts = context.contracts.map { contract ->
                     GetRelatedAwardIdByCansAction.Params.Contract(
                         id = contract.id

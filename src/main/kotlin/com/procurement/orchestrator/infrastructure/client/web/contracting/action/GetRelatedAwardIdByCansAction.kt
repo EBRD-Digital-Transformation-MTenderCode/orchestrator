@@ -14,7 +14,7 @@ import java.time.LocalDateTime
 abstract class GetRelatedAwardIdByCansAction :
     FunctionalAction<GetRelatedAwardIdByCansAction.Params, GetRelatedAwardIdByCansAction.Result> {
     override val version: Version = Version.parse("2.0.0")
-    override val name: String = "getRelatedAwardIdByCans"
+    override val name: String = "getCanByIds"
     override val target: Target<Result> = Target.single()
 
     class Params(
