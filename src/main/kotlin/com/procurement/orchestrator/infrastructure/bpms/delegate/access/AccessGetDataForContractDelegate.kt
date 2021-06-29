@@ -19,7 +19,9 @@ import com.procurement.orchestrator.infrastructure.client.web.access.AccessComma
 import com.procurement.orchestrator.infrastructure.client.web.access.action.GetDataForContractAction
 import com.procurement.orchestrator.infrastructure.client.web.access.action.toTenderObject
 import com.procurement.orchestrator.infrastructure.configuration.property.ExternalServiceName
+import org.springframework.stereotype.Component
 
+@Component
 class AccessGetDataForContractDelegate(
     logger: Logger,
     private val accessClient: AccessClient,
