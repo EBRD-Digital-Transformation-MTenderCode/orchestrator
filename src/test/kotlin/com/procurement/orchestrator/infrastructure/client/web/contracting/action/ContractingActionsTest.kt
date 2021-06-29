@@ -480,7 +480,7 @@ class ContractingActionsTest {
         inner class Params {
             @Test
             fun fully() {
-                testingBindingAndMapping<GetSupplierIdsByContractAction.Params>("json/client/contracting/get_suppliers_ids_by_contract_params_full.json")
+                testingBindingAndMapping<GetRelatedAwardIdByCansAction.Params>("json/client/contracting/get_related_award_id_by_cans_params_full.json")
             }
         }
 
@@ -488,11 +488,11 @@ class ContractingActionsTest {
         inner class Result {
             @Test
             fun fully() {
-                testingBindingAndMapping<GetSupplierIdsByContractAction.Result>("json/client/contracting/get_suppliers_ids_by_contract_result_full.json")
+                testingBindingAndMapping<GetRelatedAwardIdByCansAction.Result>("json/client/contracting/get_related_award_id_by_cans_result_full.json")
             }
             @Test
             fun required() {
-                testingBindingAndMapping<GetSupplierIdsByContractAction.Result>("json/client/contracting/get_suppliers_ids_by_contract_result_full.json")
+                testingBindingAndMapping<GetRelatedAwardIdByCansAction.Result>("json/client/contracting/get_related_award_id_by_cans_result_required.json")
             }
         }
     }

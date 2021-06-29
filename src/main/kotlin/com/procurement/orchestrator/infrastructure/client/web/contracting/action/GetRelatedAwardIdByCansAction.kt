@@ -36,7 +36,9 @@ abstract class GetRelatedAwardIdByCansAction :
             @param:JsonProperty("statusDetails") @field:JsonProperty("statusDetails") val statusDetails: String,
             @param:JsonProperty("awardId") @field:JsonProperty("awardId") val awardId: AwardId,
             @param:JsonProperty("lotId") @field:JsonProperty("lotId") val lotId: String,
-            @param:JsonProperty("documents") @field:JsonProperty("documents") val documents: List<Document>,
+
+            @JsonInclude(JsonInclude.Include.NON_EMPTY)
+            @param:JsonProperty("documents") @field:JsonProperty("documents") val documents: List<Document>?,
             @param:JsonProperty("date") @field:JsonProperty("date") val date: LocalDateTime
         ) {
             data class Document(
