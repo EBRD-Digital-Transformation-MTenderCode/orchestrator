@@ -49,7 +49,7 @@ class EvaluationGetRelatedAwardByIdsDelegate(
         parameters: Unit
     ): Result<Reply<GetRelatedAwardByIdsAction.Result>, Fail.Incident> {
 
-        val processInfo = context.processInfo
+        val relatedProcess = context.processInfo.relatedProcess!!
 
         val contracts = context.getContractIfNotEmpty()
             .orForwardFail { fail -> return fail }
@@ -57,8 +57,8 @@ class EvaluationGetRelatedAwardByIdsDelegate(
         return evaluationClient.getRelatedAwardByIds(
             id = commandId,
             params = GetRelatedAwardByIdsAction.Params(
-                cpid = processInfo.cpid!!,
-                ocid = processInfo.ocid!!,
+                cpid = relatedProcess.cpid,
+                ocid = relatedProcess.ocid!!,
                 awards = contracts.map { contract ->
                     GetRelatedAwardByIdsAction.Params.Award(
                         id = contract.awardId!!
