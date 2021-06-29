@@ -9,6 +9,7 @@ import com.procurement.orchestrator.domain.model.award.AwardId
 import com.procurement.orchestrator.domain.model.contract.ContractId
 import com.procurement.orchestrator.infrastructure.client.web.Target
 import com.procurement.orchestrator.infrastructure.model.Version
+import java.io.Serializable
 import java.time.LocalDateTime
 
 abstract class GetRelatedAwardIdByCansAction :
@@ -29,7 +30,7 @@ abstract class GetRelatedAwardIdByCansAction :
 
     class Result(
         @param:JsonProperty("contracts") @field:JsonProperty("contracts") val contracts: List<Contract>
-    ) {
+    ) : Serializable {
         data class Contract(
             @param:JsonProperty("id") @field:JsonProperty("id") val id: ContractId,
             @param:JsonProperty("status") @field:JsonProperty("status") val status: String,
@@ -40,7 +41,7 @@ abstract class GetRelatedAwardIdByCansAction :
             @JsonInclude(JsonInclude.Include.NON_EMPTY)
             @param:JsonProperty("documents") @field:JsonProperty("documents") val documents: List<Document>?,
             @param:JsonProperty("date") @field:JsonProperty("date") val date: LocalDateTime
-        ) {
+        ) : Serializable {
             data class Document(
                 @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
                 @param:JsonProperty("documentType") @field:JsonProperty("documentType") val documentType: String,
@@ -51,7 +52,7 @@ abstract class GetRelatedAwardIdByCansAction :
 
                 @JsonInclude(JsonInclude.Include.NON_EMPTY)
                 @param:JsonProperty("relatedLots") @field:JsonProperty("relatedLots") val relatedLots: List<String>?
-            )
+            ) : Serializable
         }
     }
 }
