@@ -44,8 +44,6 @@ class TransferContractsToOtherProcessDelegate : DelegateVariableMapping {
     private fun getUpdatedProcessInfo(
         processInfo: ProcessInfo
     ): ProcessInfo {
-        val processCpid = processInfo.cpid!!
-        val processOcid = processInfo.ocid!!
 
         val relatedProcess = processInfo.relatedProcess!!
 
@@ -53,8 +51,8 @@ class TransferContractsToOtherProcessDelegate : DelegateVariableMapping {
             cpid = relatedProcess.cpid,
             ocid = relatedProcess.ocid,
             relatedProcess = relatedProcess.copy(
-                cpid = processCpid,
-                ocid = processOcid
+                cpid = processInfo.cpid!!,
+                ocid = processInfo.ocid
             )
         )
     }
