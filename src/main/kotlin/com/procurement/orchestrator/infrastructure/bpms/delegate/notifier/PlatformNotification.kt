@@ -104,7 +104,13 @@ object PlatformNotification {
         @field:JsonProperty("requests") @param:JsonProperty("requests") val requests: List<Request> = emptyList(),
 
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
-        @field:JsonProperty("confirmationResponses") @param:JsonProperty("confirmationResponses") val confirmationResponses: List<ConfirmationResponse> = emptyList()
+        @field:JsonProperty("confirmationResponses") @param:JsonProperty("confirmationResponses") val confirmationResponses: List<ConfirmationResponse> = emptyList(),
+
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        @field:JsonProperty("ac") @param:JsonProperty("ac") val ac: List<AC> = emptyList(),
+
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        @field:JsonProperty("po") @param:JsonProperty("po") val po: List<PO> = emptyList()
     ) {
 
         class Amendment(
@@ -116,7 +122,7 @@ object PlatformNotification {
 
         data class Award(
             @field:JsonProperty("id") @param:JsonProperty("id") val id: AwardId,
-            
+
             @JsonInclude(JsonInclude.Include.NON_NULL)
             @field:JsonProperty("X-TOKEN") @param:JsonProperty("X-TOKEN") val token: Token? = null
         )
@@ -159,6 +165,16 @@ object PlatformNotification {
 
         data class ConfirmationResponse(
             @field:JsonProperty("id") @param:JsonProperty("id") val id: ConfirmationResponseId
+        )
+
+        data class AC(
+            @field:JsonProperty("id") @param:JsonProperty("id") val id: ContractId,
+            @field:JsonProperty("token") @param:JsonProperty("token") val token: Token
+        )
+
+        data class PO(
+            @field:JsonProperty("id") @param:JsonProperty("id") val id: ContractId,
+            @field:JsonProperty("token") @param:JsonProperty("token") val token: Token
         )
     }
 }

@@ -188,7 +188,19 @@ class NotifierSuccessNotificationToPlatformDelegate(
                 PlatformNotification.Outcomes.ConfirmationResponse(
                     id = confirmationResponse.id
                 )
-            }
+            },
+        ac = details.ac.map { ac ->
+            PlatformNotification.Outcomes.AC(
+                id = ac.id,
+                token = ac.token
+            )
+        },
+        po = details.po.map { po ->
+            PlatformNotification.Outcomes.PO(
+                id = po.id,
+                token = po.token
+            )
+        }
     )
 
     private fun generateUrl(operationType: OperationTypeProcess, cpid: Cpid, ocid: Ocid): String =
