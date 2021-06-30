@@ -450,9 +450,9 @@ class ContractingCreateContractDelegate(
 
         val updatedDetails =
             when (context.processInfo.pmd) {
-                ProcurementMethodDetails.DCO,
-                ProcurementMethodDetails.MC,
-                ProcurementMethodDetails.RFQ ->
+                ProcurementMethodDetails.DCO, ProcurementMethodDetails.TEST_DCO,
+                ProcurementMethodDetails.MC, ProcurementMethodDetails.TEST_MC,
+                ProcurementMethodDetails.RFQ, ProcurementMethodDetails.TEST_RFQ ->
                     details.copy(po = result.contracts
                         .map { contract ->
                             Outcomes.Details.PO(id = contract.id, token = result.token)
