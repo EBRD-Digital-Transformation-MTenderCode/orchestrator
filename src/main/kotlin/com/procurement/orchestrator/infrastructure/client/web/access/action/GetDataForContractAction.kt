@@ -186,21 +186,24 @@ fun GetDataForContractAction.Result.toTenderObject(): Tender =
                                                 CountryDetails(
                                                     scheme = country.scheme,
                                                     description = country.description,
-                                                    id = country.id
+                                                    id = country.id,
+                                                    uri = country.uri
                                                 )
                                             },
                                             region = addressDetails.region.let { region ->
                                                 RegionDetails(
                                                     scheme = region.scheme,
                                                     description = region.description,
-                                                    id = region.id
+                                                    id = region.id,
+                                                    uri = region.uri
                                                 )
                                             },
                                             locality = addressDetails.locality.let { locality ->
                                                 LocalityDetails(
                                                     scheme = locality.scheme,
                                                     description = locality.description,
-                                                    id = locality.id
+                                                    id = locality.id,
+                                                    uri = locality.uri
                                                 )
                                             }
                                         )
