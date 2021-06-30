@@ -29,6 +29,7 @@ import com.procurement.orchestrator.domain.model.tender.Tender
 import com.procurement.orchestrator.domain.model.unit.Unit
 import com.procurement.orchestrator.infrastructure.client.web.Target
 import com.procurement.orchestrator.infrastructure.model.Version
+import java.io.Serializable
 
 abstract class GetDataForContractAction :
     FunctionalAction<GetDataForContractAction.Params, GetDataForContractAction.Result> {
@@ -48,7 +49,7 @@ abstract class GetDataForContractAction :
 
     class Result(
         @param:JsonProperty("tender") @field:JsonProperty("tender") val tender: Tender
-    ) {
+    ) : Serializable {
         data class Tender(
             @param:JsonProperty("classification") @field:JsonProperty("classification") val classification: Classification,
             @param:JsonProperty("mainProcurementCategory") @field:JsonProperty("mainProcurementCategory") val mainProcurementCategory: ProcurementCategory,
@@ -59,12 +60,12 @@ abstract class GetDataForContractAction :
 
             @JsonInclude(JsonInclude.Include.NON_EMPTY)
             @param:JsonProperty("additionalProcurementCategories") @field:JsonProperty("additionalProcurementCategories") val additionalProcurementCategories: List<ProcurementCategory>?
-        ) {
+        ) : Serializable  {
             data class Classification(
                 @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
                 @param:JsonProperty("scheme") @field:JsonProperty("scheme") val scheme: String,
                 @param:JsonProperty("description") @field:JsonProperty("description") val description: String
-            )
+            ) : Serializable
 
             data class Lot(
                 @param:JsonProperty("id") @field:JsonProperty("id") val id: LotId,
@@ -76,37 +77,37 @@ abstract class GetDataForContractAction :
                 @JsonInclude(JsonInclude.Include.NON_NULL)
                 @param:JsonProperty("description") @field:JsonProperty("description") val description: String?,
                 @param:JsonProperty("placeOfPerformance") @field:JsonProperty("placeOfPerformance") val placeOfPerformance: PlaceOfPerformance
-            ) {
+            ) : Serializable  {
                 data class PlaceOfPerformance(
                     @JsonInclude(JsonInclude.Include.NON_NULL)
                     @param:JsonProperty("description") @field:JsonProperty("description") val description: String?,
                     @param:JsonProperty("address") @field:JsonProperty("address") val address: Address
-                ) {
+                ) : Serializable  {
                     data class Address(
                         @param:JsonProperty("streetAddress") @field:JsonProperty("streetAddress") val streetAddress: String,
 
                         @JsonInclude(JsonInclude.Include.NON_NULL)
                         @param:JsonProperty("postalCode") @field:JsonProperty("postalCode") val postalCode: String?,
                         @param:JsonProperty("addressDetails") @field:JsonProperty("addressDetails") val addressDetails: AddressDetails
-                    ) {
+                    ) : Serializable  {
                         data class AddressDetails(
                             @param:JsonProperty("country") @field:JsonProperty("country") val country: Country,
                             @param:JsonProperty("region") @field:JsonProperty("region") val region: Region,
                             @param:JsonProperty("locality") @field:JsonProperty("locality") val locality: Locality
-                        ) {
+                        ) : Serializable  {
                             data class Country(
                                 @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
                                 @param:JsonProperty("description") @field:JsonProperty("description") val description: String,
                                 @param:JsonProperty("scheme") @field:JsonProperty("scheme") val scheme: String,
                                 @param:JsonProperty("uri") @field:JsonProperty("uri") val uri: String
-                            )
+                            ) : Serializable
 
                             data class Region(
                                 @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
                                 @param:JsonProperty("description") @field:JsonProperty("description") val description: String,
                                 @param:JsonProperty("scheme") @field:JsonProperty("scheme") val scheme: String,
                                 @param:JsonProperty("uri") @field:JsonProperty("uri") val uri: String
-                            )
+                            ) : Serializable
 
                             data class Locality(
                                 @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
@@ -115,7 +116,7 @@ abstract class GetDataForContractAction :
 
                                 @JsonInclude(JsonInclude.Include.NON_NULL)
                                 @param:JsonProperty("uri") @field:JsonProperty("uri") val uri: String?
-                            )
+                            ) : Serializable
                         }
                     }
                 }
@@ -134,23 +135,23 @@ abstract class GetDataForContractAction :
                 @param:JsonProperty("unit") @field:JsonProperty("unit") val unit: Unit,
                 @param:JsonProperty("description") @field:JsonProperty("description") val description: String,
                 @param:JsonProperty("relatedLot") @field:JsonProperty("relatedLot") val relatedLot: LotId
-            ) {
+            ) : Serializable  {
                 data class Classification(
                     @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
                     @param:JsonProperty("scheme") @field:JsonProperty("scheme") val scheme: String,
                     @param:JsonProperty("description") @field:JsonProperty("description") val description: String
-                )
+                ) : Serializable
 
                 data class AdditionalClassification(
                     @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
                     @param:JsonProperty("scheme") @field:JsonProperty("scheme") val scheme: String,
                     @param:JsonProperty("description") @field:JsonProperty("description") val description: String
-                )
+                ) : Serializable
 
                 data class Unit(
                     @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
                     @param:JsonProperty("name") @field:JsonProperty("name") val name: String
-                )
+                ) : Serializable
             }
         }
     }
