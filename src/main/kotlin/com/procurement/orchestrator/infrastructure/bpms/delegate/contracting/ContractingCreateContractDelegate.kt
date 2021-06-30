@@ -375,9 +375,9 @@ class ContractingCreateContractDelegate(
                                         }
                                     )
                                 },
-                                legalForm = details.legalForm.let { legalForm ->
+                                legalForm = details.legalForm?.let { legalForm ->
                                     CreateContractAction.Params.Party.Details.LegalForm(
-                                        scheme = legalForm!!.scheme,
+                                        scheme = legalForm.scheme,
                                         id = legalForm.scheme,
                                         description = legalForm.description!!,
                                         uri = legalForm.uri
