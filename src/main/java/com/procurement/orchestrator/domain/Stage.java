@@ -20,6 +20,7 @@ public enum Stage {
     PC("PC"),
     PIN("PIN"),
     PN("PN"),
+    PO("PO"),
     PQ("PQ"),
     PS("PS"),
     RQ("RQ"),

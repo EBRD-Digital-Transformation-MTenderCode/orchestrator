@@ -12,6 +12,7 @@ import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.FindAwardsForProtocolAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.GetAwardByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.GetAwardStateByIdsAction
+import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.GetRelatedAwardByIdsAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.StartAwardPeriodAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.UpdateAwardAction
 import com.procurement.orchestrator.infrastructure.client.web.evaluation.action.ValidateAwardDataAction
@@ -373,6 +374,38 @@ class EvaluationActionsTest {
             @Test
             fun fully() {
                 testingBindingAndMapping<FinalizeAwardsAction.Result>("json/client/evaluation/finalize_awards_result_full.json")
+            }
+        }
+    }
+
+    @Nested
+    inner class GetRelatedAwardByIds{
+
+        @Nested
+        inner class Params {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetRelatedAwardByIdsAction.Params>("json/client/evaluation/get_related_award_byIds_params_fully.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetRelatedAwardByIdsAction.Result>("json/client/evaluation/get_related_award_byIds_result_fully.json")
+            }
+            @Test
+            fun required1() {
+                testingBindingAndMapping<GetRelatedAwardByIdsAction.Result>("json/client/evaluation/get_related_award_byIds_result_required1.json")
+            }
+            @Test
+            fun required2() {
+                testingBindingAndMapping<GetRelatedAwardByIdsAction.Result>("json/client/evaluation/get_related_award_byIds_result_required2.json")
+            }
+            @Test
+            fun required3() {
+                testingBindingAndMapping<GetRelatedAwardByIdsAction.Result>("json/client/evaluation/get_related_award_byIds_result_required3.json")
             }
         }
     }

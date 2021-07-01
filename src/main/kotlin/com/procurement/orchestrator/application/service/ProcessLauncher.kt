@@ -22,13 +22,16 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.Result.Companion.success
 import com.procurement.orchestrator.domain.functional.asFailure
 import com.procurement.orchestrator.domain.functional.asSuccess
+import com.procurement.orchestrator.domain.model.Cpid
+import com.procurement.orchestrator.domain.model.Ocid
 import com.procurement.orchestrator.domain.model.document.ProcessInitiator
 import com.procurement.orchestrator.infrastructure.bpms.repository.RequestRecord
 import com.procurement.orchestrator.infrastructure.bpms.repository.RequestRepository
 
 interface ProcessLauncher {
-    fun launchWithContextByCpid(request: PlatformRequest): MaybeFail<Fail>
-    fun launchWithContextByOcid(request: PlatformRequest): MaybeFail<Fail>
+    //    fun launchWithContextByCpid(request: PlatformRequest): MaybeFail<Fail>
+//    fun launchWithContextByOcid(request: PlatformRequest): MaybeFail<Fail>
+    fun launch(request: PlatformRequest): MaybeFail<Fail>
     fun launch(event: ChronographEvent): MaybeFail<Fail>
     fun launch(event: DocumentGeneratorEvent): MaybeFail<Fail>
 }
@@ -40,20 +43,11 @@ class ProcessLauncherImpl(
     private val ruleRepository: RuleRepository
 ) : ProcessLauncher {
 
-    override fun launchWithContextByCpid(request: PlatformRequest): MaybeFail<Fail> {
-        val prevProcessContext: LatestProcessContext = processService.getProcessContext(cpid = request.context.cpid!!)
+    override fun launch(request: PlatformRequest): MaybeFail<Fail> {
+        val context = loadContext(cpid = request.context.key.cpid, ocid = request.context.key.ocid)
             .orReturnFail { return MaybeFail.fail(it) }
-            ?: return MaybeFail.fail(Fail.Incident.Bpe(description = "The process context by cpid '${request.context.cpid}' does not found."))
 
-        return launch(request, prevProcessContext)
-    }
-
-    override fun launchWithContextByOcid(request: PlatformRequest): MaybeFail<Fail>{
-        val prevProcessContext: LatestProcessContext = processService.getProcessContext(ocid = request.context.ocid!!)
-            .orReturnFail { return MaybeFail.fail(it) }
-            ?: return MaybeFail.fail(Fail.Incident.Bpe(description = "The process context by ocid '${request.context.ocid}' does not found."))
-
-        return launch(request, prevProcessContext)
+        return launch(request, context)
     }
 
     private fun launch(request: PlatformRequest, prevProcessContext: LatestProcessContext): MaybeFail<Fail> {
@@ -154,7 +148,8 @@ class ProcessLauncherImpl(
         if (isLaunched)
             return MaybeFail.fail(RequestErrors.Common.Repeated())
 
-        val prevProcessContext: LatestProcessContext = processService.getProcessContext(cpid = event.cpid)
+        val prevProcessContext: LatestProcessContext = processService
+            .getProcessContext(cpid = event.cpid, ocid = event.ocid)
             .orReturnFail { return MaybeFail.fail(it) }
             ?: return MaybeFail.fail(Fail.Incident.Bpe(description = "The process context by cpid '${event.cpid}' does not found."))
 
@@ -235,35 +230,34 @@ class ProcessLauncherImpl(
         return MaybeFail.none()
     }
 
-    private fun loadContext(event: DocumentGenerated): Result<LatestProcessContext, Fail.Incident> {
-        val latestProcessContext = when (event.ocid.stage) {
-            Stage.FE,
-            Stage.EV,
-            Stage.NP,
-            Stage.RQ,
-            Stage.TP -> {
-                processService.getProcessContext(cpid = event.cpid)
-                    .orForwardFail { return it }
-                    ?: return Fail.Incident.Bpe(description = "The process context by cpid '${event.cpid}' does not found.").asFailure()
-            }
-
+    private fun loadContext(event: DocumentGenerated): Result<LatestProcessContext, Fail.Incident> =
+        when (event.ocid.stage) {
             Stage.AC,
-            Stage.PC -> {
-                processService.getProcessContext(ocid = event.ocid)
-                    .orForwardFail { return it }
-                    ?: return Fail.Incident.Bpe(description = "The process context by ocid '${event.ocid}' does not found.").asFailure()
-            }
+            Stage.EV,
+            Stage.FE,
+            Stage.NP,
+            Stage.PC,
+            Stage.PO,
+            Stage.RQ,
+            Stage.TP -> loadContext(cpid = event.cpid, ocid = event.ocid)
 
             Stage.AP,
             Stage.EI,
             Stage.FS,
-            Stage.PN -> return Fail.Incident.Bpe(description = "Process not implemented for stage '${event.ocid.stage}'").asFailure()
+            Stage.PN -> Fail.Incident.Bpe(description = "Process not implemented for stage '${event.ocid.stage}'")
+                .asFailure()
         }
 
-        return success(latestProcessContext)
-    }
+    private fun loadContext(cpid: Cpid, ocid: Ocid?): Result<LatestProcessContext, Fail.Incident> =
+        processService.getProcessContext(cpid = cpid, ocid = ocid).orForwardFail { return it }
+            ?.let { context -> success(context) }
+            ?: Fail.Incident.Bpe(description = "The process context by cpid '${cpid}' or ocid '${ocid}' does not found.")
+                .asFailure()
 
-    private fun startAddingGeneratedDocument(event: DocumentGenerated, prevProcessContext: LatestProcessContext): MaybeFail<Fail> {
+    private fun startAddingGeneratedDocument(
+        event: DocumentGenerated,
+        prevProcessContext: LatestProcessContext
+    ): MaybeFail<Fail> {
         val operationId = OperationId.generate()
         val countryId = prevProcessContext.country
         val pmd = prevProcessContext.pmd

@@ -52,15 +52,9 @@ public class MessageConsumer {
                     case END: {
                         final JsonNode data = response.get("data");
                         if (data != null) {
-                            final String tenderId = data.get("tender").get("id").asText();
-                            final boolean tenderIdIsOcid = OcidMatcher.isOcid(tenderId);
-
-                            String id;
-                            if (tenderIdIsOcid) {
-                                id = getIdByStage(data, tenderId);
-                            } else
-                                id = tenderId;
-                            Context prevContext = requestService.getContext(id);
+                            final String cpid = data.get("cpid").asText();
+                            final String ocid = data.get("tender").get("id").asText();
+                            final Context prevContext = requestService.getContext(cpid, ocid);
 
                             final Stage stage = Stage.fromValue(prevContext.getStage());
                             final String processName = getProcessName(stage);
@@ -91,33 +85,6 @@ public class MessageConsumer {
             //TODO error processing
             LOG.error("Error while processing the message from the Auction (" + message + ").", e);
         }
-    }
-
-    private String getIdByStage(JsonNode data, String tenderId) {
-        String id = null;
-        final Stage stage = Stage.fromOcid(tenderId);
-        switch (stage) {
-            case PC:
-                id = tenderId;
-                break;
-
-            case AC:
-            case AP:
-            case EI:
-            case EV:
-            case FE:
-            case FS:
-            case NP:
-            case PIN:
-            case PN:
-            case PQ:
-            case PS:
-            case RQ:
-            case TP:
-                id = data.get("cpid").asText();
-                break;
-        }
-        return id;
     }
 
     private String getProcessName(Stage stage) {
@@ -190,8 +157,9 @@ public class MessageConsumer {
     private void launchProcess(final JsonNode response, final String processType) {
         final JsonNode dataNode = response.get("data");
         if (dataNode != null) {
+            final String cpid = dataNode.get("cpid").asText();
             final String ocid = dataNode.get("ocid").asText();
-            final Context prevContext = requestService.getContext(ocid);
+            final Context prevContext = requestService.getContext(cpid, ocid);
             final String uuid = UUIDs.timeBased().toString();
             final Context context =
                     requestService.checkRulesAndProcessContext(prevContext, processType, uuid);

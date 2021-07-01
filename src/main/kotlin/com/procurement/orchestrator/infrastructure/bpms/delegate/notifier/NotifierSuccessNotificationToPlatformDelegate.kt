@@ -188,7 +188,19 @@ class NotifierSuccessNotificationToPlatformDelegate(
                 PlatformNotification.Outcomes.ConfirmationResponse(
                     id = confirmationResponse.id
                 )
-            }
+            },
+        ac = details.ac.map { ac ->
+            PlatformNotification.Outcomes.AC(
+                id = ac.id,
+                token = ac.token
+            )
+        },
+        po = details.po.map { po ->
+            PlatformNotification.Outcomes.PO(
+                id = po.id,
+                token = po.token
+            )
+        }
     )
 
     private fun generateUrl(operationType: OperationTypeProcess, cpid: Cpid, ocid: Ocid): String =
@@ -203,6 +215,7 @@ class NotifierSuccessNotificationToPlatformDelegate(
             OperationTypeProcess.CREATE_CONFIRMATION_RESPONSE_BY_BUYER -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.CREATE_CONFIRMATION_RESPONSE_BY_INVITED_CANDIDATE -> "$tenderUri/$cpid/$ocid"
             OperationTypeProcess.CREATE_CONFIRMATION_RESPONSE_BY_SUPPLIER -> "$tenderUri/$cpid/$ocid"
+            OperationTypeProcess.CREATE_CONTRACT -> "$tenderUri/$cpid"
             OperationTypeProcess.CREATE_PCR -> "$tenderUri/$cpid"
             OperationTypeProcess.CREATE_RFQ -> "$tenderUri/$cpid"
             OperationTypeProcess.CREATE_SUBMISSION -> "$tenderUri/$cpid/$ocid"

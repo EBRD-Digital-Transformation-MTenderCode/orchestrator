@@ -40,13 +40,7 @@ class ApplyConfirmationsController(
         @PathVariable ocid: String,
         @PathVariable entity: String,
         @PathVariable entityId: String
-    ): ResponseEntity<String> = perform(
-        servlet = servlet,
-        cpid = cpid,
-        ocid = ocid,
-        entityType = entity,
-        entityId = entityId
-    )
+    ): ResponseEntity<String> = perform(servlet = servlet, cpid = cpid, ocid = ocid, entityType = entity, entityId = entityId)
         .also { fail -> fail.logging(logger) }
         .buildResponse()
         .also { response ->
@@ -60,37 +54,14 @@ class ApplyConfirmationsController(
         ocid: String,
         entityType: String,
         entityId: String
-    ): MaybeFail<Fail> {
-        val request: PlatformRequest = buildRequest(
-            servlet = servlet,
-            cpid = cpid,
-            ocid = ocid,
-            entityType = entityType,
-            entityId = entityId
-        )
+    ): MaybeFail<Fail> =
+         buildRequest(servlet = servlet, cpid = cpid, ocid = ocid, entityType = entityType, entityId = entityId)
             .orReturnFail { return MaybeFail.fail(it) }
             .also { request ->
                 if (logger.isDebugEnabled)
                     logger.debug("Request: platform '${request.platformId}', operation-id '${request.operationId}', uri '${servlet.requestURI}', payload '${request.payload}'.")
             }
-
-        val singleStageOcid = request.context.ocid as Ocid.SingleStage
-
-        return when (singleStageOcid.stage) {
-            Stage.PC -> processLauncher.launchWithContextByOcid(request)
-
-            Stage.AC,
-            Stage.AP,
-            Stage.EI,
-            Stage.EV,
-            Stage.FE,
-            Stage.FS,
-            Stage.NP,
-            Stage.PN,
-            Stage.RQ,
-            Stage.TP -> processLauncher.launchWithContextByCpid(request)
-        }
-    }
+            .let { request -> processLauncher.launch(request) }
 
     private fun buildRequest(
         servlet: HttpServletRequest,
@@ -119,6 +90,10 @@ class ApplyConfirmationsController(
             operationId = operationId,
             platformId = platformId,
             context = PlatformRequest.Context(
+                key = PlatformRequest.Context.Key(
+                    cpid = verifiedCpid,
+                    ocid = verifiedOcid
+                ),
                 cpid = verifiedCpid,
                 ocid = verifiedOcid,
                 id = entityId,

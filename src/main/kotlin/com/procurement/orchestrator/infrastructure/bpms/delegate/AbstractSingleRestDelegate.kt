@@ -181,13 +181,23 @@ abstract class AbstractSingleRestDelegate<P, R : Any>(
 
 
     inner class ExecutionInterceptorImpl(val execution: DelegateExecution) : ExecutionInterceptor() {
+        override val processInstanceId: String
+            get() = execution.processInstanceId
+
         override fun throwError(errors: List<Errors.Error>): Nothing {
             execution.throwError(errors)
+        }
+
+        override fun throwIncident(incident: Incident): Nothing {
+            execution.throwingIncident(incident = incident)
         }
     }
 
     abstract class ExecutionInterceptor {
+        abstract val processInstanceId: String
+
         abstract fun throwError(errors: List<Errors.Error>): Nothing
+        abstract fun throwIncident(incident: Incident): Nothing
     }
 
 }

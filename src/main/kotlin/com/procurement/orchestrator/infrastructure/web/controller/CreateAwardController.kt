@@ -46,15 +46,14 @@ class CreateAwardController(
                 logger.debug("Response: status '${response.statusCode}', body '${response.body}'.")
         }
 
-    private fun perform(servlet: HttpServletRequest, cpid: String, ocid: String): MaybeFail<Fail> {
-        val request: PlatformRequest = buildRequest(servlet = servlet, cpid = cpid, ocid = ocid)
+    private fun perform(servlet: HttpServletRequest, cpid: String, ocid: String): MaybeFail<Fail> =
+        buildRequest(servlet = servlet, cpid = cpid, ocid = ocid)
             .orReturnFail { return MaybeFail.fail(it) }
             .also { request ->
                 if (logger.isDebugEnabled)
                     logger.debug("Request: platform '${request.platformId}', operation-id '${request.operationId}', uri '${servlet.requestURI}', payload '${request.payload}'.")
             }
-        return processLauncher.launchWithContextByCpid(request)
-    }
+            .let { request -> processLauncher.launch(request) }
 
     private fun buildRequest(
         servlet: HttpServletRequest,
@@ -87,6 +86,10 @@ class CreateAwardController(
             operationId = operationId,
             platformId = platformId,
             context = PlatformRequest.Context(
+                key = PlatformRequest.Context.Key(
+                    cpid = verifiedCpid,
+                    ocid = verifiedOcid
+                ),
                 cpid = verifiedCpid,
                 ocid = verifiedOcid,
                 id = verifiedLotId.toString(),

@@ -29,9 +29,7 @@ interface ProcessService {
         processName: String
     ): Result<ProcessDefinitionKey, Fail>
 
-    fun getProcessContext(cpid: Cpid): Result<LatestProcessContext?, Fail.Incident>
-
-    fun getProcessContext(ocid: Ocid): Result<LatestProcessContext?, Fail.Incident>
+    fun getProcessContext(cpid: Cpid, ocid: Ocid?): Result<LatestProcessContext?, Fail.Incident>
 
     fun launchProcess(
         processDefinitionKey: ProcessDefinitionKey,
@@ -64,19 +62,20 @@ class ProcessServiceImpl(
                 )
             )
 
-    override fun getProcessContext(cpid: Cpid): Result<LatestProcessContext?, Fail.Incident> =
-        loadOldProcessContext(cpid = cpid)
-            .orForwardFail { fail -> return fail }
-            ?.convert()
-            ?.orForwardFail { fail -> return fail }
-            .asSuccess()
+    override fun getProcessContext(cpid: Cpid, ocid: Ocid?): Result<LatestProcessContext?, Fail.Incident> {
+        val data = ocid
+            ?.let { oldProcessContextRepository.load(ocid = it).orForwardFail { fail -> return fail } }
+            ?: oldProcessContextRepository.load(cpid = cpid).orForwardFail { fail -> return fail }
 
-    override fun getProcessContext(ocid: Ocid): Result<LatestProcessContext?, Fail.Incident> =
-        loadOldProcessContext(ocid = ocid)
-            .orForwardFail { fail -> return fail }
-            ?.convert()
-            ?.orForwardFail { fail -> return fail }
+        return data
+            ?.let {
+                transform.tryDeserialization(it, OldProcessContext::class.java)
+                    .orForwardFail { fail -> return fail }
+                    .convert()
+                    .orForwardFail { fail -> return fail }
+            }
             .asSuccess()
+    }
 
     override fun launchProcess(
         processDefinitionKey: ProcessDefinitionKey,
@@ -88,24 +87,6 @@ class ProcessServiceImpl(
 
     override fun isLaunchedProcess(operationId: OperationId): Result<Boolean, Fail.Incident> =
         processInitializerRepository.isLaunchedProcess(operationId)
-
-    private fun loadOldProcessContext(cpid: Cpid): Result<OldProcessContext?, Fail.Incident> =
-        oldProcessContextRepository.load(cpid = cpid)
-            .orForwardFail { fail -> return fail }
-            ?.let { value ->
-                transform.tryDeserialization(value, OldProcessContext::class.java)
-                    .orForwardFail { fail -> return fail }
-            }
-            .asSuccess()
-
-    private fun loadOldProcessContext(ocid: Ocid): Result<OldProcessContext?, Fail.Incident> =
-        oldProcessContextRepository.load(ocid = ocid)
-            .orForwardFail { fail -> return fail }
-            ?.let { value ->
-                transform.tryDeserialization(value, OldProcessContext::class.java)
-                    .orForwardFail { fail -> return fail }
-            }
-            .asSuccess()
 
     private fun OldProcessContext.convert(): Result<LatestProcessContext, Fail.Incident.Bpe> {
         val cpid: Cpid = this.cpid

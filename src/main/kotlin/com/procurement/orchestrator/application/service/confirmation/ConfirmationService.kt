@@ -48,7 +48,8 @@ class ConfirmationServiceImpl(
         if (isLaunched)
             return MaybeFail.fail(RequestErrors.Common.Repeated())
 
-        val prevProcessContext: LatestProcessContext = processService.getProcessContext(cpid = request.context.cpid)
+        val prevProcessContext: LatestProcessContext = processService
+            .getProcessContext(cpid = request.context.cpid, ocid = request.context.ocid)
             .orReturnFail { return MaybeFail.fail(it) }
             ?: return MaybeFail.fail(Fail.Incident.Bpe(description = "The process context by cpid '${request.context.cpid}' does not found."))
 

@@ -68,7 +68,18 @@
       }
     ],
     "awardCriteria": "priceOnly",
-    "awardCriteriaDetails": "automated"
+    "awardCriteriaDetails": "automated",
+    "classification": {
+      "id": "string",
+      "scheme": "string",
+      "description": "string"
+    },
+    "procurementMethod": "selective",
+    "procurementMethodDetails": "TEST_CD",
+    "mainProcurementCategory": "goods",
+    "additionalProcurementCategories": [
+      "works"
+    ]
   },
   "relatedProcesses": [
     {

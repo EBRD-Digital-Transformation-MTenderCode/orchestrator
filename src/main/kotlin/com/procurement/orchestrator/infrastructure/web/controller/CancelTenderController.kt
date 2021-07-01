@@ -24,13 +24,12 @@ import org.springframework.web.bind.annotation.RestController
 import javax.servlet.http.HttpServletRequest
 
 @RestController
-@RequestMapping("/cancel/tender")
 class CancelTenderController(
     private val logger: Logger,
     private val cancellationService: CancellationService
 ) {
 
-    @PostMapping("/{cpid}/{ocid}")
+    @PostMapping("/cancel/tender/{cpid}/{ocid}")
     fun cancelTender(
         servlet: HttpServletRequest,
         @PathVariable cpid: String,

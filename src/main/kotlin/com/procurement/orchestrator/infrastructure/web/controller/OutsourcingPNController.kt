@@ -57,7 +57,7 @@ class OutsourcingPNController(
                 if (logger.isDebugEnabled)
                     logger.debug("Request: platform '${request.platformId}', operation-id '${request.operationId}', uri '${servlet.requestURI}', payload '${request.payload}'.")
             }
-        return processLauncher.launchWithContextByCpid(request)
+        return processLauncher.launch(request)
     }
 
     private fun buildRequest(
@@ -91,6 +91,10 @@ class OutsourcingPNController(
             operationId = operationId,
             platformId = platformId,
             context = PlatformRequest.Context(
+                key = PlatformRequest.Context.Key(
+                    cpid = verifiedCpid,
+                    ocid = verifiedOcid
+                ),
                 cpid = verifiedCpid,
                 ocid = verifiedOcid,
                 token = token,

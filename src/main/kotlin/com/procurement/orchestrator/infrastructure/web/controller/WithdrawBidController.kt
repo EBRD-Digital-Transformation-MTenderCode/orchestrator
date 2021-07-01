@@ -2,7 +2,6 @@ package com.procurement.orchestrator.infrastructure.web.controller
 
 import com.procurement.orchestrator.application.model.OperationId
 import com.procurement.orchestrator.application.model.PlatformId
-import com.procurement.orchestrator.application.model.Stage
 import com.procurement.orchestrator.application.model.Token
 import com.procurement.orchestrator.application.service.Logger
 import com.procurement.orchestrator.application.service.PlatformRequest
@@ -12,7 +11,6 @@ import com.procurement.orchestrator.domain.fail.error.RequestErrors
 import com.procurement.orchestrator.domain.functional.MaybeFail
 import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.domain.functional.asSuccess
-import com.procurement.orchestrator.domain.model.Ocid
 import com.procurement.orchestrator.infrastructure.extension.http.getOperationId
 import com.procurement.orchestrator.infrastructure.extension.http.getPlatformId
 import com.procurement.orchestrator.infrastructure.extension.http.getToken
@@ -52,16 +50,14 @@ class WithdrawBidController(
         cpid: String,
         ocid: String,
         id: String
-    ): MaybeFail<Fail> {
-        val request: PlatformRequest =
-            buildRequest(servlet = servlet, cpid = cpid, ocid = ocid, id = id)
-                .orReturnFail { return MaybeFail.fail(it) }
-                .also { request ->
-                    if (logger.isDebugEnabled)
-                        logger.debug("Request: platform '${request.platformId}', operation-id '${request.operationId}', uri '${servlet.requestURI}', payload '${request.payload}'.")
-                }
-        return launch(request)
-    }
+    ): MaybeFail<Fail> =
+        buildRequest(servlet = servlet, cpid = cpid, ocid = ocid, id = id)
+            .orReturnFail { return MaybeFail.fail(it) }
+            .also { request ->
+                if (logger.isDebugEnabled)
+                    logger.debug("Request: platform '${request.platformId}', operation-id '${request.operationId}', uri '${servlet.requestURI}', payload '${request.payload}'.")
+            }
+            .let { request -> processLauncher.launch(request) }
 
     private fun buildRequest(
         servlet: HttpServletRequest,
@@ -89,6 +85,10 @@ class WithdrawBidController(
             operationId = operationId,
             platformId = platformId,
             context = PlatformRequest.Context(
+                key = PlatformRequest.Context.Key(
+                    cpid = verifiedCpid,
+                    ocid = verifiedOcid
+                ),
                 cpid = verifiedCpid,
                 ocid = verifiedOcid,
                 token = token,
@@ -100,19 +100,4 @@ class WithdrawBidController(
             payload = ""
         ).asSuccess()
     }
-
-    fun launch(request: PlatformRequest): MaybeFail<Fail> =
-        when ((request.context.ocid as Ocid.SingleStage).stage) {
-            Stage.AC,
-            Stage.AP,
-            Stage.EI,
-            Stage.EV,
-            Stage.FE,
-            Stage.FS,
-            Stage.NP,
-            Stage.PN,
-            Stage.RQ,
-            Stage.TP -> processLauncher.launchWithContextByCpid(request)
-            Stage.PC -> processLauncher.launchWithContextByOcid(request)
-        }
 }

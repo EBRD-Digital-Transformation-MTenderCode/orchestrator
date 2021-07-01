@@ -445,7 +445,6 @@ class AccessActionsTest {
         }
     }
 
-
     @Nested
     inner class CreateRelationToContractProcessStage {
 
@@ -530,7 +529,6 @@ class AccessActionsTest {
         }
     }
 
-
     @Nested
     inner class CheckLotsState {
 
@@ -588,7 +586,6 @@ class AccessActionsTest {
                 testingBindingAndMapping<ValidateLotsDataForDivisionAction.Params>("json/client/access/validate_lots_data_params_required_3.json")
             }
         }
-
     }
 
     @Nested
@@ -615,7 +612,6 @@ class AccessActionsTest {
             fun required3() {
                 testingBindingAndMapping<DivideLotAction.Params>("json/client/access/divide_lot_params_required_3.json")
             }
-
         }
 
         @Nested
@@ -639,10 +635,8 @@ class AccessActionsTest {
             fun required3() {
                 testingBindingAndMapping<DivideLotAction.Result>("json/client/access/divide_lot_result_required_3.json")
             }
-
         }
     }
-
 
     @Nested
     inner class AddClientsToPartiesInAP {
@@ -671,7 +665,6 @@ class AccessActionsTest {
             fun required2() {
                 testingBindingAndMapping<AddClientsToPartiesInAPAction.Result>("json/client/access/add_clients_to_parties_in_ap_result_required_2.json")
             }
-
         }
     }
 
@@ -697,7 +690,6 @@ class AccessActionsTest {
             fun required1() {
                 testingBindingAndMapping<GetItemsByLotIdsAction.Result>("json/client/access/get_items_by_lot_ids_result_required_1.json")
             }
-
         }
     }
 
@@ -772,7 +764,6 @@ class AccessActionsTest {
             fun required1() {
                 testingBindingAndMapping<CreateRfqAction.Result>("json/client/access/create_rfq_result_required_1.json")
             }
-
         }
     }
 
@@ -809,12 +800,59 @@ class AccessActionsTest {
                 testingBindingAndMapping<PersonesProcessingAction.Result>("json/client/access/persones_processing_result_required_1.json")
             }
 
-
             @Test
             fun required2() {
                 testingBindingAndMapping<PersonesProcessingAction.Result>("json/client/access/persones_processing_result_required_2.json")
             }
+        }
+    }
 
+    @Nested
+    inner class DefineTenderClassification {
+
+        @Nested
+        inner class Params {
+
+            @Test
+            fun fully() {
+                testingBindingAndMapping<DefineTenderClassificationAction.Params>("json/client/access/define_tender_classification_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Resut {
+
+            @Test
+            fun fully() {
+                testingBindingAndMapping<DefineTenderClassificationAction.Result>("json/client/access/define_tender_classification_result_full.json")
+            }
+        }
+    }
+
+    @Nested
+    inner class GetDataForContract {
+
+        @Nested
+        inner class Params {
+
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetDataForContractAction.Params>("json/client/access/get_data_for_contract_params_full.json")
+            }
+        }
+
+        @Nested
+        inner class Result {
+
+            @Test
+            fun fully() {
+                testingBindingAndMapping<GetDataForContractAction.Result>("json/client/access/get_data_for_contract_result_full.json")
+            }
+
+            @Test
+            fun required1() {
+                testingBindingAndMapping<GetDataForContractAction.Result>("json/client/access/get_data_for_contract_result_required1.json")
+            }
         }
     }
 }

@@ -8,8 +8,10 @@ import com.procurement.orchestrator.infrastructure.client.web.contracting.action
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckContractStateAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckExistenceOfConfirmationResponsesAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckExistenceSupplierReferencesInFCAction
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckRelatedContractsStateAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreateConfirmationRequestsAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreateConfirmationResponseAction
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreateContractAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreateFrameworkContractAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.DoPacsAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.FindCANIdsAction
@@ -18,6 +20,7 @@ import com.procurement.orchestrator.infrastructure.client.web.contracting.action
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.GetAwardIdByPacAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.GetContractStateAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.GetOrganizationIdAndSourceOfRequestGroupAction
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.GetRelatedAwardIdByCansAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.GetSupplierIdsByContractAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.SetStateForContractsAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.ValidateConfirmationResponseDataAction
@@ -65,4 +68,10 @@ object ContractingCommands {
     object CheckExistenceOfConfirmationResponses: CheckExistenceOfConfirmationResponsesAction()
 
     object GetSuppliersIdsByContract: GetSupplierIdsByContractAction()
+
+    object CheckRelatedContractState: CheckRelatedContractsStateAction()
+
+    object GetRelatedAwardIdByCans: GetRelatedAwardIdByCansAction()
+
+    object CreateContract: CreateContractAction()
 }

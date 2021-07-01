@@ -1,6 +1,6 @@
 package com.procurement.orchestrator.domain;
 
-public enum ProcurementMethod {
+public enum ProcurementMethodDetails {
     CD,
     CF,
     DA,

@@ -149,7 +149,7 @@ class BpeInitializeCreatePreAwardCatalogRequestProcessDelegate(
                         .map { variant ->
                             Variant(
                                 hasVariants = variant.hasVariants,
-                                variantDetails = variant.variantsDetails
+                                variantsDetails = variant.variantsDetails
                             )
                         }
                         .let { Variants(it) },

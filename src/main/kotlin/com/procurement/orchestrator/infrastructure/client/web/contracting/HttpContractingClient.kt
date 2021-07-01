@@ -14,8 +14,10 @@ import com.procurement.orchestrator.infrastructure.client.web.contracting.action
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckContractStateAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckExistenceOfConfirmationResponsesAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckExistenceSupplierReferencesInFCAction
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CheckRelatedContractsStateAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreateConfirmationRequestsAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreateConfirmationResponseAction
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreateContractAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.CreateFrameworkContractAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.DoPacsAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.FindCANIdsAction
@@ -24,6 +26,7 @@ import com.procurement.orchestrator.infrastructure.client.web.contracting.action
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.GetAwardIdByPacAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.GetContractStateAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.GetOrganizationIdAndSourceOfRequestGroupAction
+import com.procurement.orchestrator.infrastructure.client.web.contracting.action.GetRelatedAwardIdByCansAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.GetSupplierIdsByContractAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.SetStateForContractsAction
 import com.procurement.orchestrator.infrastructure.client.web.contracting.action.ValidateConfirmationResponseDataAction
@@ -212,5 +215,31 @@ class HttpContractingClient(private val webClient: WebClient, properties: Compon
         url = url,
         command = ContractingCommands.GetSuppliersIdsByContract.build(id = id, params = params),
         target = ContractingCommands.GetSuppliersIdsByContract.target
+    )
+
+    override suspend fun checkRelatedContractsState(
+        id: CommandId,
+        params: CheckRelatedContractsStateAction.Params
+    ): Result<Reply<Unit>, Fail.Incident> = webClient.call(
+        url = url,
+        command = ContractingCommands.CheckRelatedContractState.build(id = id, params = params)
+    )
+
+    override suspend fun getRelatedAwardIdByCans(
+        id: CommandId,
+        params: GetRelatedAwardIdByCansAction.Params
+    ): Result<Reply<GetRelatedAwardIdByCansAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = ContractingCommands.GetRelatedAwardIdByCans.build(id = id, params = params),
+        target = ContractingCommands.GetRelatedAwardIdByCans.target
+    )
+
+    override suspend fun createContract(
+        id: CommandId,
+        params: CreateContractAction.Params
+    ): Result<Reply<CreateContractAction.Result>, Fail.Incident> = webClient.call(
+        url = url,
+        command = ContractingCommands.CreateContract.build(id = id, params = params),
+        target = ContractingCommands.CreateContract.target
     )
 }

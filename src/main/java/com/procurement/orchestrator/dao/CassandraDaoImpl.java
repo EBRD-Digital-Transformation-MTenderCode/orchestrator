@@ -203,11 +203,11 @@ public class CassandraDaoImpl implements CassandraDao {
     }
 
     @Override
-    public Optional<ContextEntity> getContextByCpId(final String cpId) {
+    public Optional<ContextEntity> loadContext(final String id) {
         final Statement query = select()
                 .all()
                 .from(CONTEXT_TABLE)
-                .where(eq(CPID, cpId))
+                .where(eq(CPID, id))
                 .limit(1);
 
         final ResultSet rows = session.execute(query);

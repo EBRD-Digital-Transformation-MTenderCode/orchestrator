@@ -13,6 +13,7 @@ import com.procurement.orchestrator.infrastructure.bind.measure.amount.AmountMod
 import com.procurement.orchestrator.infrastructure.bind.measure.money.MoneyModule
 import com.procurement.orchestrator.infrastructure.bind.measure.quantity.QuantityModule
 import com.procurement.orchestrator.infrastructure.bind.measure.scoring.ScoringModule
+import com.procurement.orchestrator.infrastructure.bind.tender.procurementMethodDetails.ProcurementMethodDetailsTitleModule
 
 fun ObjectMapper.configuration() {
 
@@ -26,6 +27,7 @@ fun ObjectMapper.configuration() {
     this.registerModule(CoefficientRateModule())
     this.registerModule(RequirementsModule())
     this.registerModule(RequirementValueModule())
+    this.registerModule(ProcurementMethodDetailsTitleModule())
 
     this.configure(DeserializationFeature.USE_BIG_INTEGER_FOR_INTS, true)
     this.configure(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS, true)

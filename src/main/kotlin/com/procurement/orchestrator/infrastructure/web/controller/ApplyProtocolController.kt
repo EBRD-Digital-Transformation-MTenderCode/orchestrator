@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RestController
 import javax.servlet.http.HttpServletRequest
 
 @RestController
-@RequestMapping("/apply/protocol")
 class ApplyProtocolController(
     private val logger: Logger,
     private val processLauncher: ProcessLauncher
@@ -33,7 +32,7 @@ class ApplyProtocolController(
         private const val PROCESS_NAME = "applyQualificationProtocol"
     }
 
-    @PostMapping("/{cpid}/{ocid}")
+    @PostMapping("/apply/protocol/{cpid}/{ocid}")
     fun doQualificationProtocol(
         servlet: HttpServletRequest,
         @PathVariable cpid: String,
@@ -53,7 +52,7 @@ class ApplyProtocolController(
                 if (logger.isDebugEnabled)
                     logger.debug("Request: platform '${request.platformId}', operation-id '${request.operationId}', uri '${servlet.requestURI}', payload '${request.payload}'.")
             }
-        return processLauncher.launchWithContextByCpid(request)
+        return processLauncher.launch(request)
     }
 
     private fun buildRequest(
@@ -81,6 +80,10 @@ class ApplyProtocolController(
             operationId = operationId,
             platformId = platformId,
             context = PlatformRequest.Context(
+                key = PlatformRequest.Context.Key(
+                    cpid = verifiedCpid,
+                    ocid = verifiedOcid
+                ),
                 cpid = verifiedCpid,
                 ocid = verifiedOcid,
                 token = token,

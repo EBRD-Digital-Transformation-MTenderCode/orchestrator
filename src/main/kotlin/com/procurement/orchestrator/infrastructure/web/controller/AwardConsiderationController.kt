@@ -54,22 +54,8 @@ class AwardConsiderationController(
                 if (logger.isDebugEnabled)
                     logger.debug("Request: platform '${request.platformId}', operation-id '${request.operationId}', uri '${servlet.requestURI}', payload '${request.payload}'.")
             }
-        val singleStageOcid = request.context.ocid as Ocid.SingleStage
 
-        return when (singleStageOcid.stage) {
-            Stage.PC -> processLauncher.launchWithContextByOcid(request)
-
-            Stage.AC,
-            Stage.AP,
-            Stage.EI,
-            Stage.EV,
-            Stage.FE,
-            Stage.FS,
-            Stage.NP,
-            Stage.PN,
-            Stage.RQ,
-            Stage.TP -> processLauncher.launchWithContextByCpid(request)
-        }
+        return processLauncher.launch(request)
     }
 
     private fun buildRequest(
@@ -98,6 +84,10 @@ class AwardConsiderationController(
             operationId = operationId,
             platformId = platformId,
             context = PlatformRequest.Context(
+                key = PlatformRequest.Context.Key(
+                    cpid = verifiedCpid,
+                    ocid = verifiedOcid
+                ),
                 cpid = verifiedCpid,
                 ocid = verifiedOcid,
                 id = awardId,

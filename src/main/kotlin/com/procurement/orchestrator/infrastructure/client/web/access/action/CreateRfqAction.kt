@@ -7,6 +7,9 @@ import com.procurement.orchestrator.application.model.Token
 import com.procurement.orchestrator.application.service.FunctionalAction
 import com.procurement.orchestrator.domain.model.Cpid
 import com.procurement.orchestrator.domain.model.Ocid
+import com.procurement.orchestrator.domain.model.ProcurementMethod
+import com.procurement.orchestrator.domain.model.ProcurementMethodDetails
+import com.procurement.orchestrator.domain.model.ProcurementMethodDetailsTitle
 import com.procurement.orchestrator.domain.model.contract.RelatedProcessScheme
 import com.procurement.orchestrator.domain.model.contract.RelatedProcessType
 import com.procurement.orchestrator.domain.model.item.ItemId
@@ -16,6 +19,7 @@ import com.procurement.orchestrator.domain.model.lot.LotStatusDetails
 import com.procurement.orchestrator.domain.model.measure.Quantity
 import com.procurement.orchestrator.domain.model.tender.AwardCriteria
 import com.procurement.orchestrator.domain.model.tender.AwardCriteriaDetails
+import com.procurement.orchestrator.domain.model.tender.ProcurementCategory
 import com.procurement.orchestrator.domain.model.tender.ProcurementMethodModality
 import com.procurement.orchestrator.domain.model.tender.TenderId
 import com.procurement.orchestrator.domain.model.tender.TenderStatus
@@ -56,7 +60,8 @@ abstract class CreateRfqAction : FunctionalAction<CreateRfqAction.Params, Create
             @param:JsonProperty("electronicAuctions") @field:JsonProperty("electronicAuctions") val electronicAuctions: ElectronicAuctions?,
 
             @JsonInclude(JsonInclude.Include.NON_EMPTY)
-            @param:JsonProperty("procurementMethodModalities") @field:JsonProperty("procurementMethodModalities") val procurementMethodModalities: List<ProcurementMethodModality>?
+            @param:JsonProperty("procurementMethodModalities") @field:JsonProperty("procurementMethodModalities") val procurementMethodModalities: List<ProcurementMethodModality>?,
+            @param:JsonProperty("classification") @field:JsonProperty("classification") val classification: Classification
         ) {
             data class Lot(
                 @param:JsonProperty("id") @field:JsonProperty("id") val id: LotId,
@@ -201,6 +206,11 @@ abstract class CreateRfqAction : FunctionalAction<CreateRfqAction.Params, Create
                     @param:JsonProperty("relatedLot") @field:JsonProperty("relatedLot") val relatedLot: LotId?
                 )
             }
+            data class Classification(
+                @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
+                @param:JsonProperty("scheme") @field:JsonProperty("scheme") val scheme: String,
+                @param:JsonProperty("description") @field:JsonProperty("description") val description: String
+            )
         }
     }
 
@@ -228,7 +238,14 @@ abstract class CreateRfqAction : FunctionalAction<CreateRfqAction.Params, Create
 
             @param:JsonProperty("awardCriteria") @field:JsonProperty("awardCriteria") val awardCriteria: AwardCriteria,
             @param:JsonProperty("awardCriteriaDetails") @field:JsonProperty("awardCriteriaDetails") val awardCriteriaDetails: AwardCriteriaDetails,
-            @param:JsonProperty("value") @field:JsonProperty("value") val value: Value
+            @param:JsonProperty("value") @field:JsonProperty("value") val value: Value,
+            @param:JsonProperty("classification") @field:JsonProperty("classification") val classification: Classification,
+            @param:JsonProperty("procurementMethod") @field:JsonProperty("procurementMethod") val procurementMethod: ProcurementMethod,
+            @param:JsonProperty("procurementMethodDetails") @field:JsonProperty("procurementMethodDetails") val procurementMethodDetails: ProcurementMethodDetailsTitle,
+            @param:JsonProperty("mainProcurementCategory") @field:JsonProperty("mainProcurementCategory") val mainProcurementCategory: ProcurementCategory,
+
+            @JsonInclude(JsonInclude.Include.NON_EMPTY)
+            @param:JsonProperty("additionalProcurementCategories") @field:JsonProperty("additionalProcurementCategories") val additionalProcurementCategories: List<ProcurementCategory>?
         ) : Serializable {
 
             data class Value(
@@ -338,6 +355,11 @@ abstract class CreateRfqAction : FunctionalAction<CreateRfqAction.Params, Create
                     @param:JsonProperty("relatedLot") @field:JsonProperty("relatedLot") val relatedLot: LotId
                 ) : Serializable
             }
+            data class Classification(
+                @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
+                @param:JsonProperty("scheme") @field:JsonProperty("scheme") val scheme: String,
+                @param:JsonProperty("description") @field:JsonProperty("description") val description: String
+            ) : Serializable
         }
 
         data class RelatedProcess(

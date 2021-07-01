@@ -108,12 +108,29 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
-    public Context getContext(final String cpId) {
-        final Optional<ContextEntity> entityOptional = cassandraDao.getContextByCpId(cpId);
-        if (!entityOptional.isPresent()) throw new OperationException("Context not found.");
-        return jsonUtil.toObject(Context.class, entityOptional.get().getContext());
+    public Context getContext(final String id) {
+        Objects.requireNonNull(id, "Id is null.");
+        final ContextEntity entity = cassandraDao.loadContext(id)
+                .orElseThrow(() -> new OperationException("Context by id '" + id + "' not found."));
+        return jsonUtil.toObject(Context.class, entity.getContext());
     }
 
+    @Override
+    public Context getContext(final String cpid, final String ocid) {
+        if (ocid != null) {
+            final Optional<ContextEntity> byOcid = cassandraDao.loadContext(ocid);
+            if (byOcid.isPresent())
+                return jsonUtil.toObject(Context.class, byOcid.get().getContext());
+        }
+
+        if (cpid != null) {
+            final Optional<ContextEntity> byCpid = cassandraDao.loadContext(cpid);
+            if (byCpid.isPresent())
+                return jsonUtil.toObject(Context.class, byCpid.get().getContext());
+        }
+
+        throw new OperationException("Context by cpid '" + cpid + "' or by ocid '" + ocid + "' not found.");
+    }
 
     @Override
     public Rule checkAndGetRule(final Context prevContext, final String processType) {
@@ -199,7 +216,7 @@ public class RequestServiceImpl implements RequestService {
         Objects.requireNonNull(ocid);
         Objects.requireNonNull(process);
 
-        final Context prevContext = getContext(getContextKey(cpid, ocid));
+        final Context prevContext = getContext(cpid, ocid);
         validateOcId(cpid, ocid, prevContext);
         final String processType = getProcessType(prevContext.getCountry(), prevContext.getPmd(), process);
         final Rule rule = checkAndGetRule(prevContext, processType);
@@ -224,7 +241,7 @@ public class RequestServiceImpl implements RequestService {
         return context;
     }
 
-    @Override
+/*    @Override
     public String getContextKey(@NotNull final String cpid, @NotNull final String ocid){
         Objects.requireNonNull(cpid);
         Objects.requireNonNull(ocid);
@@ -252,7 +269,7 @@ public class RequestServiceImpl implements RequestService {
                 break;
         }
         return id;
-    }
+    }*/
 
     @Override
     public Context getContextForContractUpdate(final String authorization,
@@ -261,7 +278,7 @@ public class RequestServiceImpl implements RequestService {
                                                final String ocid,
                                                final String token,
                                                final String process) {
-        final Context prevContext = getContext(ocid);
+        final Context prevContext = getContext(cpid, ocid);
         if (ocid != null) validateContractOcId(cpid, ocid, prevContext);
         final String processType = getProcessType(prevContext.getCountry(), prevContext.getPmd(), process);
         final Rule rule = checkAndGetRule(prevContext, processType);

@@ -36,14 +36,18 @@ class AccessCheckExistenceFADelegate(
         commandId: CommandId,
         context: CamundaGlobalContext,
         parameters: Unit
-    ): Result<Reply<Unit>, Fail.Incident> =
+    ): Result<Reply<Unit>, Fail.Incident> {
 
-        accessClient.checkExistenceFa(
+        val relatedProcess = context.processInfo.relatedProcess!!
+
+        return accessClient.checkExistenceFa(
             id = commandId,
             params = CheckExistenceFaAction.Params(
-                cpid = context.processInfo.relatedProcess!!.cpid
+                cpid = relatedProcess.cpid,
+                ocid = relatedProcess.ocid!!
             )
         )
+    }
 
     override fun updateGlobalContext(
         context: CamundaGlobalContext,

@@ -6,6 +6,7 @@ import com.procurement.orchestrator.domain.functional.Result
 import com.procurement.orchestrator.infrastructure.client.reply.Reply
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.EnrichClassificationsAction
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.EnrichCountryAction
+import com.procurement.orchestrator.infrastructure.client.web.mdm.action.EnrichGeneratedTenderClassificationAction
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.EnrichLocalityAction
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.EnrichRegionAction
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.EnrichUnitsAction
@@ -14,6 +15,7 @@ import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetCoun
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetCriteria
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetCriteriaAction
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetErrorDescriptionsAction
+import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetGeneratedTenderClassification
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetLocality
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetOrganizationSchemes
 import com.procurement.orchestrator.infrastructure.client.web.mdm.action.GetRegion
@@ -53,4 +55,5 @@ interface MdmClient {
 
     suspend fun enrichUnits(params: EnrichUnitsAction.Params): Result<GetUnit.Result, Fail.Incident>
 
+    suspend fun enrichGeneratedTenderClassification(params: EnrichGeneratedTenderClassificationAction.Params): Result<GetGeneratedTenderClassification.Result, Fail.Incident>
 }

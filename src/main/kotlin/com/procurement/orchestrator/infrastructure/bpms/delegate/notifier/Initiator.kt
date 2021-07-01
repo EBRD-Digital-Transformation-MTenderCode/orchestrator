@@ -31,6 +31,7 @@ fun initiator(operationType: OperationTypeProcess): Initiator = when (operationT
     OperationTypeProcess.CREATE_CONFIRMATION_RESPONSE_BY_BUYER -> Initiator.PLATFORM
     OperationTypeProcess.CREATE_CONFIRMATION_RESPONSE_BY_INVITED_CANDIDATE -> Initiator.PLATFORM
     OperationTypeProcess.CREATE_CONFIRMATION_RESPONSE_BY_SUPPLIER -> Initiator.PLATFORM
+    OperationTypeProcess.CREATE_CONTRACT -> Initiator.PLATFORM
     OperationTypeProcess.CREATE_PCR -> Initiator.PLATFORM
     OperationTypeProcess.CREATE_RFQ -> Initiator.PLATFORM
     OperationTypeProcess.CREATE_SUBMISSION -> Initiator.PLATFORM

@@ -18,6 +18,8 @@ class PlatformRequest(
 ) {
 
     class Context(
+        @field:JsonProperty("key") @param:JsonProperty("key") val key: Key,
+
         @JsonInclude(JsonInclude.Include.NON_NULL)
         @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid? = null,
 
@@ -34,6 +36,14 @@ class PlatformRequest(
         @field:JsonProperty("additionalProcess") @param:JsonProperty("additionalProcess") val additionalProcess: AdditionalProcess? = null,
         @field:JsonProperty("operationType") @param:JsonProperty("operationType") val operationType: OperationTypeProcess? = null
     ) {
+
+        data class Key(
+            @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid,
+
+            @JsonInclude(JsonInclude.Include.NON_NULL)
+            @field:JsonProperty("ocid") @param:JsonProperty("ocid") val ocid: Ocid?
+        )
+
         data class RelatedProcess(
             @field:JsonProperty("cpid") @param:JsonProperty("cpid") val cpid: Cpid,
 

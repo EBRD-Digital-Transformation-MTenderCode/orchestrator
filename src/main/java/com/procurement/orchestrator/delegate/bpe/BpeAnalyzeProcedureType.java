@@ -1,7 +1,7 @@
 package com.procurement.orchestrator.delegate.bpe;
 
 import com.procurement.orchestrator.domain.Context;
-import com.procurement.orchestrator.domain.ProcurementMethod;
+import com.procurement.orchestrator.domain.ProcurementMethodDetails;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.service.OperationService;
 import com.procurement.orchestrator.service.ProcessService;
@@ -55,7 +55,7 @@ public class BpeAnalyzeProcedureType implements JavaDelegate {
     }
 
     private Optional<Boolean> isTokenCheck(final String pmdName) {
-        final ProcurementMethod pmd = ProcurementMethod.valueOf(pmdName);
+        final ProcurementMethodDetails pmd = ProcurementMethodDetails.valueOf(pmdName);
         switch (pmd) {
             case OT:
             case TEST_OT:

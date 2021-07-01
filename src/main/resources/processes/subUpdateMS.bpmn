@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1160zez" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.5.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1160zez" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.7.0">
   <bpmn:collaboration id="Collaboration_1vc50jq">
     <bpmn:participant id="Participant_1494evk" name="SubUpdateMS" processRef="subUpdateMS" />
   </bpmn:collaboration>
@@ -215,8 +215,8 @@
     <bpmn:sequenceFlow id="SequenceFlow_19o3ozy" sourceRef="ExclusiveGateway_10h4q6q" targetRef="BpeAddUpdateRecordTaskInQueueTask" />
     <bpmn:sequenceFlow id="SequenceFlow_0v23d60" sourceRef="BpeAddUpdateRecordTaskInQueueTask" targetRef="EndEvent_146uthz" />
     <bpmn:sequenceFlow id="Flow_0essnz7" sourceRef="storageOpenAccessDelegate" targetRef="ExclusiveGateway_1eapp1e" />
-    <bpmn:sequenceFlow id="Flow_17ohi9b" name="createRfq" sourceRef="ExclusiveGateway_1pbk6lp" targetRef="AccessCreateRelationToContractProcessStageTask">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${processInfo.operationType == 'CREATE_RFQ'}</bpmn:conditionExpression>
+    <bpmn:sequenceFlow id="Flow_17ohi9b" name="createRfq&#10;&#10;createContract" sourceRef="ExclusiveGateway_1pbk6lp" targetRef="AccessCreateRelationToContractProcessStageTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${processInfo.operationType == 'CREATE_RFQ' || processInfo.operationType == 'CREATE_CONTRACT'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_06d8hag" sourceRef="Gateway_1pq832m" targetRef="ExclusiveGateway_10h4q6q" />
     <bpmn:sequenceFlow id="Flow_03uodjt" sourceRef="AccessCreateRelationToContractProcessStageTask" targetRef="Gateway_1pq832m" />
@@ -253,7 +253,7 @@
         <di:waypoint x="480" y="560" />
         <di:waypoint x="600" y="560" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="496" y="533" width="48" height="14" />
+          <dc:Bounds x="493" y="540" width="74" height="40" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0essnz7_di" bpmnElement="Flow_0essnz7">

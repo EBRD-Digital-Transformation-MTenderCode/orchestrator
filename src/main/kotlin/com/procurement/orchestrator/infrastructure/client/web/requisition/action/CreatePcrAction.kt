@@ -693,7 +693,7 @@ abstract class CreatePcrAction : FunctionalAction<CreatePcrAction.Params, Create
             private fun Result.Tender.Lot.Variant.convert(): Variant =
                 Variant(
                     hasVariants = this.hasVariants,
-                    variantDetails = this.variantsDetails
+                    variantsDetails = this.variantsDetails
                 )
         }
 
@@ -848,7 +848,7 @@ abstract class CreatePcrAction : FunctionalAction<CreatePcrAction.Params, Create
                                 .map { variants ->
                                     Params.Tender.Lot.Variant(
                                         hasVariants = variants.hasVariants,
-                                        variantsDetails = variants.variantDetails
+                                        variantsDetails = variants.variantsDetails
                                     )
                                 }
                         )

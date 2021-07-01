@@ -5,7 +5,6 @@ import com.procurement.orchestrator.application.model.OperationId
 import com.procurement.orchestrator.application.model.Owner
 import com.procurement.orchestrator.application.model.PlatformId
 import com.procurement.orchestrator.application.model.RequestId
-import com.procurement.orchestrator.application.model.Stage
 import com.procurement.orchestrator.application.model.context.members.Incident
 import com.procurement.orchestrator.application.service.ChronographEvent
 import com.procurement.orchestrator.application.service.Logger
@@ -82,11 +81,8 @@ class ChronographMessageConsumer(
     private fun processingOld(data: ChronographMessage.Data): MaybeFail<Fail> {
         val contextChronograph = transform.tryDeserialization(data.metadata, Context::class.java)
             .orReturnFail { return MaybeFail.fail(it) }
-
-        val id = getIdForLoadingContext(context = contextChronograph, metadata = data.metadata)
+        val prevContext: Context = loadContext(context = contextChronograph, metadata = data.metadata)
             .orReturnFail { return MaybeFail.fail(it) }
-
-        val prevContext: Context = requestService.getContext(id)
         val context = requestService.checkRulesAndProcessContext(
             prevContext,
             contextChronograph.processType,
@@ -103,32 +99,16 @@ class ChronographMessageConsumer(
         return MaybeFail.none()
     }
 
-    fun getIdForLoadingContext(context: Context, metadata: String): Result<String, Fail> {
-        if (context.ocid == null)
-            return context.cpid.asSuccess()
-
-        val stage = Ocid.SingleStage.tryCreateOrNull(context.ocid)
-            ?.let { (it as Ocid.SingleStage).stage }
-            ?: return Fail.Incident.Bus.Consumer(
-                description = "Error of parsing ocid '${context.ocid}'. Metadata: $metadata",
-                exception = IllegalStateException()
+    fun loadContext(context: Context, metadata: String): Result<Context, Fail> =
+        try {
+            requestService.getContext(context.cpid, context.ocid).asSuccess()
+        } catch (expected: Exception) {
+            Fail.Incident.Bus.Consumer(
+                description = "Error of load context by ocid '${context.ocid}' or cpid '${context.cpid}'. Metadata: $metadata",
+                exception = expected
             ).asFailure()
+        }
 
-        return when (stage) {
-            Stage.AC,
-            Stage.AP,
-            Stage.EI,
-            Stage.EV,
-            Stage.FE,
-            Stage.FS,
-            Stage.NP,
-            Stage.PN,
-            Stage.RQ,
-            Stage.TP -> context.cpid
-
-            Stage.PC -> context.ocid
-        }.asSuccess()
-    }
 
     private fun processingNew(data: ChronographMessage.Data): MaybeFail<Fail> {
         val payload = transform.tryDeserialization(data.metadata, ChronographMessage.Metadata::class.java)

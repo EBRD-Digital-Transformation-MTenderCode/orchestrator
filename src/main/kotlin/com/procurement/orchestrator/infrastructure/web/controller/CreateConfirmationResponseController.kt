@@ -61,30 +61,14 @@ class CreateConfirmationResponseController(
         ocid: String,
         entityId: String,
         role: String
-    ): MaybeFail<Fail> {
-        val request: PlatformRequest = buildRequest(servlet = servlet, cpid = cpid, ocid = ocid, entityId = entityId, role = role)
+    ): MaybeFail<Fail> =
+        buildRequest(servlet = servlet, cpid = cpid, ocid = ocid, entityId = entityId, role = role)
             .orReturnFail { return MaybeFail.fail(it) }
             .also { request ->
                 if (logger.isDebugEnabled)
                     logger.debug("Request: platform '${request.platformId}', operation-id '${request.operationId}', uri '${servlet.requestURI}', payload '${request.payload}'.")
             }
-        val singleStageOcid = request.context.ocid as Ocid.SingleStage
-
-        return when (singleStageOcid.stage) {
-            Stage.PC -> processLauncher.launchWithContextByOcid(request)
-
-            Stage.AC,
-            Stage.AP,
-            Stage.EI,
-            Stage.EV,
-            Stage.FE,
-            Stage.FS,
-            Stage.NP,
-            Stage.PN,
-            Stage.RQ,
-            Stage.TP -> processLauncher.launchWithContextByCpid(request)
-        }
-    }
+            .let { request -> processLauncher.launch(request) }
 
     private fun buildRequest(
         servlet: HttpServletRequest,
@@ -119,6 +103,10 @@ class CreateConfirmationResponseController(
             operationId = operationId,
             platformId = platformId,
             context = PlatformRequest.Context(
+                key = PlatformRequest.Context.Key(
+                    cpid = verifiedCpid,
+                    ocid = verifiedOcid
+                ),
                 cpid = verifiedCpid,
                 ocid = verifiedOcid,
                 id = entityId,
