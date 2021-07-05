@@ -964,62 +964,75 @@ fun CreateContractAction.Result.convertToContractObject(): Contracts =
     }
         .let { Contracts(it) }
 
-fun CreateContractAction.Result.converToTenderObject(): Tender =
-    tender.let { tender ->
+fun CreateContractAction.Result.converToTenderObject(): Tender = tender
+    .let { tender ->
         Tender(
             id = tender.id,
-            classification = Classification(
-                id = tender.classification.id,
-                description = tender.classification.description,
-                scheme = tender.classification.scheme
-            ),
+            classification = tender.classification
+                .let { classification ->
+                    Classification(
+                        id = classification.id,
+                        description = classification.description,
+                        scheme = classification.scheme
+                    )
+                },
             procurementMethod = tender.procurementMethod,
             procurementMethodDetails = tender.procurementMethodDetails,
             mainProcurementCategory = tender.mainProcurementCategory,
-            lots = tender.lots.map { lot ->
-                Lot(
-                    id = lot.id,
-                    internalId = lot.internalId,
-                    title = lot.title,
-                    description = lot.description,
-                    placeOfPerformance = lot.placeOfPerformance.let { placeOfPerformance ->
-                        PlaceOfPerformance(
-                            address = placeOfPerformance.address.let { address ->
-                                Address(
-                                    streetAddress = address.streetAddress,
-                                    postalCode = address.postalCode,
-                                    addressDetails = address.addressDetails.let { addressDetails ->
-                                        AddressDetails(
-                                            country = addressDetails.country.let { country ->
-                                                CountryDetails(
-                                                    id = country.id,
-                                                    description = country.description,
-                                                    scheme = country.scheme
-                                                )
-                                            },
-                                            region = addressDetails.region.let { region ->
-                                                RegionDetails(
-                                                    id = region.id,
-                                                    description = region.description,
-                                                    scheme = region.scheme
-                                                )
-                                            },
-                                            locality = addressDetails.locality.let { locality ->
-                                                LocalityDetails(
-                                                    id = locality.id,
-                                                    description = locality.description,
-                                                    scheme = locality.scheme
-                                                )
-                                            }
-                                        )
-                                    }
+            lots = tender.lots
+                .map { lot ->
+                    Lot(
+                        id = lot.id,
+                        internalId = lot.internalId,
+                        title = lot.title,
+                        description = lot.description,
+                        placeOfPerformance = lot.placeOfPerformance
+                            .let { placeOfPerformance ->
+                                PlaceOfPerformance(
+                                    address = placeOfPerformance.address
+                                        .let { address ->
+                                            Address(
+                                                streetAddress = address.streetAddress,
+                                                postalCode = address.postalCode,
+                                                addressDetails = address.addressDetails
+                                                    .let { addressDetails ->
+                                                        AddressDetails(
+                                                            country = addressDetails.country
+                                                                .let { country ->
+                                                                    CountryDetails(
+                                                                        id = country.id,
+                                                                        description = country.description,
+                                                                        scheme = country.scheme,
+                                                                        uri = country.uri
+                                                                    )
+                                                                },
+                                                            region = addressDetails.region
+                                                                .let { region ->
+                                                                    RegionDetails(
+                                                                        id = region.id,
+                                                                        description = region.description,
+                                                                        scheme = region.scheme,
+                                                                        uri = region.uri
+                                                                    )
+                                                                },
+                                                            locality = addressDetails.locality
+                                                                .let { locality ->
+                                                                    LocalityDetails(
+                                                                        id = locality.id,
+                                                                        description = locality.description,
+                                                                        scheme = locality.scheme,
+                                                                        uri = locality.uri
+                                                                    )
+                                                                }
+                                                        )
+                                                    }
+                                            )
+                                        },
+                                    description = placeOfPerformance.description
                                 )
-                            },
-                            description = placeOfPerformance.description
-                        )
-                    }
-                )
-            }
+                            }
+                    )
+                }
                 .let { Lots(it) },
             additionalProcurementCategories = tender.additionalProcurementCategories
                 ?.map { it }
