@@ -556,7 +556,10 @@ abstract class CreateContractAction : FunctionalAction<CreateContractAction.Para
             @param:JsonProperty("value") @field:JsonProperty("value") val value: Value,
             @param:JsonProperty("relatedLots") @field:JsonProperty("relatedLots") val relatedLots: List<LotId>,
             @param:JsonProperty("suppliers") @field:JsonProperty("suppliers") val suppliers: List<Supplier>,
-            @param:JsonProperty("documents") @field:JsonProperty("documents") val documents: List<Document>,
+
+            @JsonInclude(JsonInclude.Include.NON_EMPTY)
+            @param:JsonProperty("documents") @field:JsonProperty("documents") val documents: List<Document>?,
+
             @param:JsonProperty("items") @field:JsonProperty("items") val items: List<Item>
         ) : Serializable {
             data class Value(
@@ -877,67 +880,77 @@ abstract class CreateContractAction : FunctionalAction<CreateContractAction.Para
 }
 
 fun CreateContractAction.Result.convertToAwardObject(): Awards =
-    awards.map { award ->
-        Award(
-            id = award.id,
-            value = award.value.let { value ->
-                Value(
-                    amount = value.amount,
-                    currency = value.currency
-                )
-            },
-            relatedLots = RelatedLots(award.relatedLots),
-            suppliers = award.suppliers.map { supplier ->
-                Organization(
-                    id = supplier.id,
-                    name = supplier.name
-                )
-            }
-                .let { Organizations(it) },
-            documents = award.documents.map { document ->
-                Document(
-                    id = document.id,
-                    documentType = document.documentType,
-                    title = document.title,
-                    description = document.description,
-                    relatedLots = RelatedLots(document.relatedLots.orEmpty())
-                )
-            }
-                .let { Documents(it) },
-            items = award.items.map { item ->
-                Item(
-                    id = item.id,
-                    internalId = item.internalId,
-                    classification = item.classification.let { classification ->
-                        Classification(
-                            id = classification.id,
-                            scheme = classification.scheme,
-                            description = classification.description
+    awards
+        .map { award ->
+            Award(
+                id = award.id,
+                value = award.value
+                    .let { value ->
+                        Value(
+                            amount = value.amount,
+                            currency = value.currency
                         )
                     },
-                    additionalClassifications = item.additionalClassifications?.map { additionalClassification ->
-                        Classification(
-                            id = additionalClassification.id,
-                            scheme = additionalClassification.scheme,
-                            description = additionalClassification.description
+                relatedLots = RelatedLots(award.relatedLots),
+                suppliers = award.suppliers
+                    .map { supplier ->
+                        Organization(
+                            id = supplier.id,
+                            name = supplier.name
                         )
                     }
-                        .let { Classifications(it.orEmpty()) },
-                    quantity = item.quantity,
-                    unit = item.unit.let { unit ->
-                        Unit(
-                            id = unit.id,
-                            name = unit.name
+                    .let { Organizations(it) },
+                documents = award.documents
+                    ?.map { document ->
+                        Document(
+                            id = document.id,
+                            documentType = document.documentType,
+                            title = document.title,
+                            description = document.description,
+                            relatedLots = RelatedLots(document.relatedLots.orEmpty())
                         )
-                    },
-                    description = item.description,
-                    relatedLot = item.relatedLot
-                )
-            }
-                .let { Items(it) }
+                    }
+                    .orEmpty()
+                    .let { Documents(it) },
+                items = award.items
+                    .map { item ->
+                        Item(
+                            id = item.id,
+                            internalId = item.internalId,
+                            classification = item.classification
+                                .let { classification ->
+                                    Classification(
+                                        id = classification.id,
+                                        scheme = classification.scheme,
+                                        description = classification.description
+                                    )
+                                },
+                            additionalClassifications = item.additionalClassifications
+                                ?.map { additionalClassification ->
+                                    Classification(
+                                        id = additionalClassification.id,
+                                        scheme = additionalClassification.scheme,
+                                        description = additionalClassification.description
+                                    )
+                                }
+                                .let { Classifications(it.orEmpty()) },
+                            quantity = item.quantity,
+                            unit = item.unit
+                                .let { unit ->
+                                    Unit(
+                                        id = unit.id,
+                                        name = unit.name
+                                    )
+                                },
+                            description = item.description,
+                            relatedLot = item.relatedLot
+                        )
+                    }
+                    .let { Items(it) }
 
-        )
-    }.let { Awards(it) }
+            )
+        }
+        .let { Awards(it) }
 
 fun CreateContractAction.Result.convertToContractObject(): Contracts =
     contracts.map { contract ->
